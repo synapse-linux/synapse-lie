@@ -10,9 +10,11 @@ reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 The C worker, bounded admission, reactive flow and HTTP nonstream/SSE path are
 implemented. The optional HIP executable now **links actual pinned Gufo code**;
 it is no longer just an adapter object. CPU and synthetic-transport checks pass.
-**No LIE model has been loaded or run on the GPU.** The DS4 coordination ACK on
-`.157` was still absent at 2026-09-30 18:13 UTC. A linked executable and synthetic
-frames do not establish a working original-weight inference build.
+**No LIE model has been loaded or run on the GPU.** Two operator-authorized target
+attempts on 2026-09-30 were refused before model open by busy DS4 leases; at 18:53
+UTC DS4 was running a GPU benchmark. See [the smoke record](docs/T0-SMOKE.md).
+A linked executable and synthetic frames do not establish working original-weight
+inference.
 
 Without a configured model, readiness remains 503, models is empty and chat is
 503. No production fake-output switch exists. A separate `test-synthetic-server`

@@ -5,6 +5,20 @@ Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on `.1
 Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 This increment starts at `79625ce`. No workflow or independent review is claimed.
 
+## Latest target admission — 2026-09-30 18:53 UTC
+
+Following the operator's explicit go-ahead after the idle-node inspection,
+`tools/smoke-model.py` and the unchanged `t0-linked-r4` binary were staged under
+private LIE run directories on `.157`. Two attempts at 18:49 and 18:51 refused
+admission on a busy DS4 download lock, exit 1, **before any LIE model open**.
+No target model/DSO smoke or inference was performed. At 18:53 a DS4 `native-perf`
+warm-up was using the GPU at 98%, with download/qualification/shared locks held.
+Do not enter between its benchmark phases. No background retry is scheduled.
+
+See [T0-SMOKE.md](T0-SMOKE.md) for the exact operator-window scope, predeclared
+requests, observations and preserved `t0-model-smoke-r1/r2` receipts. Staging a
+private test binary is not a service installation or a working-model result.
+
 ## Policy and actual status
 
 The user permits embedded Gufo for T0, followed by requirement-driven T1/T2

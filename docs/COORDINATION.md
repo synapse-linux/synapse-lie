@@ -27,6 +27,17 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
+## Latest one-shot admission
+
+After the operator confirmed DS4 was coding and authorized proceeding following
+an idle-node check, a bounded one-shot test was attempted using all known legacy
+and shared leases. This did not create an ACK on behalf of DS4 or grant a permanent
+admission exception. Both 18:49/18:51 UTC attempts were refused before model open.
+At 18:53 UTC DS4 `native-perf` was actively benchmarking and its supervisor held
+the download, qualification and shared LIE/DS4 locks. ACK/register remained absent.
+See [T0-SMOKE.md](T0-SMOKE.md). Do not opportunistically enter between benchmark
+jobs: an actual campaign-window handover is needed before another attempt.
+
 ## Shared protocol: proposed, not acknowledged
 
 Remote proposal created exclusively:
