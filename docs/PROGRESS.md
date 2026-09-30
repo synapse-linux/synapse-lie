@@ -217,7 +217,10 @@ hardware or SSH alone is not authorization. See COORDINATION.md.
    a falsifiable internal-reactive change. Completed PP/TG, concurrency and serving
    improvements remain separate; no benefit has been measured yet.
 5. T1/T2 refactoring, native C2/4/8, tool continuity, complete RAM/SSD state and
-   MTP remain separate gates; CUDA follows qualified AMD work.
+   MTP remain separate gates; CUDA follows qualified AMD work. SSD save/restore is
+   a required **optional, default-off** feature with explicit enable, private
+   directory and quota controls; RAM prefix reuse must work independently. The
+   clarified [state contract](STATE.md) is design only, not a working CLI flag.
 
 Do not reintroduce the historical assistant-imposed 32 GiB reserve as a user
 requirement, call the DS4 300K stop an OOM, or import DS4's benchmarks/quality into

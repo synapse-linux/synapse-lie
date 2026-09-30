@@ -21,6 +21,12 @@ weights. No GPU execution is yet qualified. Two active slots mean interleaved
 single-row execution, not native batching or measured memory capacity. No
 synthetic provider is selectable in the production binary.
 
+Planned state-cache controls (not accepted CLI options today): in-memory prefix
+reuse independently of SSD; explicit SSD save/restore opt-in, **off by default**,
+with configurable private directory and disk quota separate from the RAM budget.
+Disabled persistence performs no store I/O and never silently spills to disk.
+See [STATE.md](../docs/STATE.md#optional-ssd-persistence--required-feature-explicit-opt-in).
+
 Future private paths (not created or populated by current server):
 
 - model input: read-only paths in `models-157.inventory.json`;
