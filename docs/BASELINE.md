@@ -42,9 +42,9 @@ Unsloth `Qwen3.8-Flash-Next-GGUF` revision
 | ...-00004-of-00004.gguf | 12087983520 |
 | mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf | 2786568256 |
 
-All are present. SHA-256s already qualified by the inherited download/performance
-receipts are recorded, not recomputed; size/dev/inode/mtime/ctime still match the
-sealed receipt for all five. Shard 1 is GGUF v3 metadata-only (zero tensors),
+At the initial inventory all were present. SHA-256s qualified by inherited
+receipts are recorded, not recomputed; size/dev/inode/mtime/ctime matched the
+sealed receipt for all five at that check. A fresh preflight is still required. Shard 1 is GGUF v3 metadata-only (zero tensors),
 not an empty or missing model. Architecture `qwen4exp`, tokenizer gpt2/qwen35,
 248320 entries; exact length-prefixed vocabulary hash
 `b7f4906b5bf6a845baf3f41fdcdcd70f0f2f234eb702aabb830ce1536604e5d6`.
@@ -90,8 +90,10 @@ fetched into this project's `.deps`. Archive SHA256
 The pristine reference source is unmodified. Gufo's release CMake owns **only
 this comparator build**, not the LIE backend build. Register compiler/flags and
 loaded DSOs, and keep comparator binaries in a content-addressed test-owned
-directory. The experimental adapter object check is NOT that baseline build,
-nor a runnable transitional or owned LIE engine. See [BACKEND.md](BACKEND.md).
+directory. The experimental adapter object check is NOT that baseline build.
+The separate optional LIE executable now links real Gufo libraries from a LIE-owned
+Qwen-only source subset; that no-model link/smoke result is neither this pristine
+baseline nor working original-weight inference. See [BACKEND.md](BACKEND.md).
 
 After shared lease/admission, first verify upstream with the first original
 shard, AR, context4096, one session, no MTP/vision, greedy/thinking-off, known

@@ -73,6 +73,13 @@ def independent_prometheus(text):
 
 
 def main():
+    build = json.loads(subprocess.check_output([SERVER, '--build-info'], text=True, timeout=5))
+    assert build['hardware_qualified'] is False and build['ownership'] in ('none', 'delegated')
+    assert re.fullmatch('[A-Za-z0-9_.-]+', build['build_id'])
+    if build['ownership'] == 'delegated':
+        assert build['source_pin'] == 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e'
+    else: assert build['source_pin'] == 'none'
+    print('No-model build identity:', build)
     api, management = available_port(), available_port()
     while api == management: management = available_port()
     with tempfile.TemporaryDirectory(prefix='synapse-lie-http-') as temporary:
@@ -99,7 +106,10 @@ def main():
                 assert response[0] == 503 and 'backend_unavailable' in response[2] and 'event-stream' not in response[1]['Content-Type']
             for endpoint in ('/actuator/health', '/actuator/health/readiness'):
                 assert request(management, endpoint)[0] == 503
-            assert request(management, '/actuator/info')[0] == 200
+            info = request(management, '/actuator/info'); assert info[0] == 200
+            info = json.loads(info[2])
+            assert info['build_id'] == build['build_id'] and info['inference_verified'] is False
+            assert info['backend'] is None
             assert json.loads(request(management, '/actuator/llm')[2])['throughput'] is None
             assert 'No inference backend connected' in request(management, '/monitor')[2]
             path = '/actuator/metrics/http.server.requests'

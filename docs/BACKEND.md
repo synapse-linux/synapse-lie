@@ -37,7 +37,9 @@ is allowed inside the transitional engine and the eventual numerical layer.
 
 Select and disclose the engine explicitly. Once serving exists, report engine
 identity, source/build pin, capabilities and ownership (delegated/partial/owned)
-in diagnostics and receipts. These diagnostics are not implemented yet. Never
+in diagnostics and receipts. T0 now reports provider/source pin/build label,
+ownership and unsupported capabilities; hardware qualification stays false.
+`--build-info` inspects the compiled provider without opening a model. Never
 silently fall back from a failing owned executor to Gufo or CPU forward. Runtime
 failure after mutation is not permission to retry through the other engine.
 
@@ -149,12 +151,13 @@ implied by permission to use an embedded adapter.
 
 ## Current implementation status
 
-`adapters/gufo.cpp` and `include/lie/executor.h` are experimental and **compile-
-checked only**. They may now be evolved into the opt-in transitional implementation;
-they are not yet linked into the server or hardware-qualified. The optional
-`LIE_GUFO_HEADER_CHECK` target requires `LIE_GUFO_ADAPTER_OPT_IN`; it remains an
-object-only check, not a runtime switch or an inference executable.
+The experimental ABI 2 adapter now links under `LIE_GUFO_RUNTIME`, using verified
+private Qwen-only upstream archives. Worker/flow/HTTP/nonstream/SSE binding and
+pinned chat preparation are implemented. `LIE_GUFO_HEADER_CHECK` remains a
+separate object-only check guarded by `LIE_GUFO_ADAPTER_OPT_IN`.
 
-The C control plane, metrics, monitor and `lie_flow` are implemented and CPU-tested.
-No linked inference, owned model/session/executor, numerical port or GPU result
-is established by this plan. v0.1 and deployment remain unqualified.
+CPU tests exercise the real C serving path with a separate synthetic provider;
+no-model smoke also checks the HIP-linked executable. No LIE GPU/model execution,
+owned model/session/executor, numerical port or performance result is established.
+Real C1 T0 acceptance remains behind the DS4 lease and numerical/transport gates.
+Neither v0.1 nor deployment is qualified; see PROGRESS.md for receipts.

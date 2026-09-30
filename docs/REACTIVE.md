@@ -10,9 +10,10 @@ also needs bounded admission, feedback, isolation and lifecycle ownership.
 
 The first implemented component is `include/lie/flow.h` + `src/flow.c`, a C17
 per-sequence subscription/flow-control primitive. It has CPU tests with real
-threads, finite storage and Linux eventfd wakeups. It is **not connected to
-an inference executor, the scheduler or HTTP/SSE yet**. The server still returns
-503 for chat. The publisher obeys [LIE-owned contracts](BACKEND.md); an explicit
+threads, finite storage and Linux eventfd wakeups. It is now connected to the
+C worker and HTTP/SSE path, with a linked opt-in Gufo provider. End-to-end CPU
+checks use a separate synthetic provider; **no real model/GPU run is qualified**.
+No-model startup still returns 503 for chat. The publisher obeys [LIE-owned contracts](BACKEND.md); an explicit
 embedded Gufo adapter is permitted initially, followed by requirement-driven
 refactoring toward owned execution. It is not claimed as reimplementation.
 
@@ -22,7 +23,7 @@ resource ownership. Credits are **confirmed tokens**, whereas one data signal
 may contain a chunk of several tokens; this is deliberately not the formal
 Reactive Streams item-count protocol. No reactive wrapper per tensor/kernel.
 
-## End-to-end topology — target, not a working inference graph
+## End-to-end topology — T0 binding implemented; real-model gate open
 
 ```text
 HTTP admission -> bounded preparation queue -> device-owner scheduler
@@ -44,16 +45,16 @@ Management -> snapshots/counters (never waits for model forward or disk restore)
   owned execution implementation, publishing only completed, confirmed output.
   GPU submission is not completion. Drafted MTP tokens never enter the output
   stream before verification. No callback invokes more inference inline.
-- **Subscriber:** one ordered output owner for a sequence. Nonstream JSON will
-  also consume this flow, but must reserve a bounded aggregation buffer; it must
-  not become an unbounded sink that hides backpressure.
+- **Subscriber:** one ordered output owner. Nonstream JSON consumes the same
+  flow into a preallocated bounded aggregation buffer, not an unbounded sink.
 - **Subscription:** sequence-local token demand, bounded byte storage, dispatch
   tickets, cancellation and a single terminal outcome. No global hot multicast
   stream and no replay buffer pretending to be recurrent/KV state persistence.
 - **Scheduling boundary:** one LIE device-owner scheduler, not one GPU thread
   per request or a second upstream serving scheduler. The transitional engine is
   disclosed and isolated, not hidden or claimed to be the owned numerical layer.
-  CPU preparation and disk I/O use separate bounded work/completion queues.
+  T0 performs bounded rendering/tokenization on that worker too, a known limit.
+  Separate preparation/disk workers remain future work, not implemented queues.
 - **Transport boundary:** libuv write completion returns a buffer loan and can
   replenish demand. This means acceptance by the local transport, **not** proof
   that the remote client consumed the bytes. TCP backpressure/socket buffers
@@ -85,9 +86,9 @@ Wakeups coalesce: the state/queue is authoritative, not notification counts.
 Each direction has one drain owner. **Drain first, then inspect/process level
 state until blocked/closed.** Release emits a fresh output wake too, so a consumer
 that previously stopped on a borrowed frame cannot lose a pending terminal or
-queued chunk. The future HTTP binding can watch output with `uv_poll_t`; the
-worker waits on work/control readiness. No periodic busy-wait loop is required.
-These libuv/scheduler bindings themselves are not implemented yet.
+queued chunk. HTTP now watches output with `uv_poll_t`; the worker waits on
+work/control readiness with poll. No periodic token busy-wait is used. The
+250 ms HTTP timer enforces deadlines and samples counters, not decode readiness.
 
 ### Storage and demand invariant
 
@@ -147,19 +148,41 @@ scheduler must still implement fairness and per-row completion handling; the
 component test with a blocked stream and a progressing peer is **not** a native
 GPU batching or end-to-end slow-client qualification.
 
-## Remaining integration obligations
+## T0 binding and remaining obligations
 
-- Bound HTTP admission, preparation, scheduler/control and disk queues. Refuse
-  overload explicitly (API contract to define before enabling inference), not
-  through an unbounded `onBackpressureBuffer`. Never drop normal confirmed output.
+T0 admits eight jobs, with one active sequence by default or two explicitly
+configured interleaved single-row sequences. Eight 256-byte slots and initial
+eight-token credit window per job. SSE retains a loan until write completion,
+then releases it and explicitly replenishes token demand. Nonstream reserves
+its aggregate sink before admission. Unknown/unsupported requests fail; overflow
+is 429. No fake provider is linked into the production executable.
+
+Worker and transport job references are independent. Cancellation calls only
+the backend's atomic latch under a short gate; the worker detaches its sequence
+under the same gate before destruction. Blocking backend calls run outside the
+gate. Prefix preparation/prefill are pinned by the worker reference; decode also
+has a flow reservation. A flow terminal alone is not proof all worker cleanup
+has completed. Network write/poll retirement and the worker reference jointly
+control destruction. See HTTP.md/ABI.md for error and shutdown semantics.
+
+With max-active=1 a blocked active request retains the sole session slot; queued
+peers wait for completion/cancellation/deadline. The CPU peer-progress tests use
+max-active=2. This is a bounded policy, not qualified native concurrency, optimal
+fairness or adaptive memory admission. Completed generation can later be abandoned
+by transport; those are distinct outcomes.
+
+Remaining work:
+- Measured aggregate model/state/workspace admission and separate CPU/disk queues.
+  Never hide overload in an unbounded buffer or drop normal confirmed output.
 - Dispatch C1 promptly, then use real shared batch APIs with fair per-sequence
   budgets. Suspend an output-blocked sequence without stalling peers. Adapt
   concurrency/prefill/MTP budgets within measured capacity, not by spawning more
   device owners. Elasticity on one GPU is bounded admission/budget adaptation,
   not a claim of hardware scaling or instantaneous kernel preemption.
-- Bridge the selected execution implementation's cancellation and flow cancellation.
-  Flow stop does not itself cancel device work or free a sequence. CPU/storage failures and nonmutating admission
-  refusal are distinct from a backend failure that poisons the shared model.
+- Qualify the implemented cancellation bridge on the real device. Flow stop does
+  not preempt GPU work or free its state. Keep nonmutating refusals separate from
+  model-poisoning failure; loaded-runtime failure requires quiescence before
+  retirement, or process exit if quiescence cannot be established.
 - Preserve tool-call ordering and logical continuation. A completed output turn
   can retain a session waiting for a tool result; the continuation is a new
   subscription at a verified state frontier, not a dangling SSE stream or a
@@ -167,8 +190,8 @@ GPU batching or end-to-end slow-client qualification.
 - SSD work returns immutable completion messages. Only the device owner may
   apply a verified restore. Never perform filesystem I/O under the flow mutex or
   restore model state from a client/disk callback. See [STATE.md](STATE.md).
-- Wire live queue occupancy, credits, output-pause duration and cancellation
-  retirement latency into observability. `published_tokens` here counts chunks
+- Queue/active counts and executor outcome counters are now wired. Add credits,
+  output-pause duration and cancellation retirement latency measurements. `published_tokens` here counts chunks
   accepted into the flow (including later abandoned queued data), **not** GPU
   generated-token or remote-delivery metrics. Do not export invented live values.
 - Qualify real SSE ordering/UTF-8, fragmented writes, disconnect races, terminal
@@ -195,5 +218,9 @@ normal/empty completion, invalid demand, stale/foreign tickets, cancellation
 before dispatch and during work, full-buffer stop, first-error retention, safe
 retirement, independent peers, FD cleanup, and 4,000 ordered synthetic frames
 between real threads woken by eventfd. These are **CPU flow-control tests**.
-They do not validate token generation, SSE, GPU kernels, scheduler fairness,
-SSD restore or performance. See [PROGRESS.md](PROGRESS.md) for verification runs.
+They do not validate token generation or GPU kernels. `test_worker.c` and
+`test_serving.py` additionally exercise the actual worker/libuv binding with a
+synthetic provider: overload, stalled-peer progress with two active slots, actual
+TCP backpressure, UTF-8, terminal/error ordering, disconnect/deadline, in-flight
+lifetime and shutdown. No fixture establishes real-model correctness, GPU
+fairness, SSD restore or performance. See [PROGRESS.md](PROGRESS.md).

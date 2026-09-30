@@ -13,8 +13,10 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | libuv | 1.52.1 | MIT and component notices; event loop/network lifecycle |
 | llhttp | 9.3.1 | MIT; HTTP/1 parser |
 | json-c | 0.19 | MIT; JSON serialization/parsing |
-| libcurl | 8.21.0 | curl license; monitor HTTP client only |
-| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; pinned reference/source and permitted opt-in transitional adapter (currently compile-only) |
+| libcurl | 8.21.0 | curl license; monitor and optional upstream image-helper link dependency (images not exposed) |
+| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; opt-in HIP-linked transitional Model/Session adapter, no hardware execution yet |
+| ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
+| ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |
 
 Libraries are already installed system dependencies, not vendored/repackaged.
 Build receipts record compiler/pkg-config versions. A distributable package will
@@ -43,6 +45,27 @@ owned backend. Numerical ports need per-component provenance, retained notices
 and tests; none is implemented yet. Keep the pristine reference separate from
 instrumented/forked experiments and ports. First-party ownership of orchestration
 does not relicense numerical code or make embedded Model/Session a reimplementation.
+
+## Private Qwen-only build scope
+
+`cmake/gufo-runtime` is a LIE-owned build recipe over the unchanged upstream
+source, using the original `qwen38_flash_next` target and its numerical compile
+flags/dialects/wave-size settings. Selected core/tokenizer/template/sampling and
+coupled HIP/vision helper units complete its link closure. CPU model-forward
+reference targets are not built or linked. No source/kernel is patched or copied.
+
+This is not the complete upstream release build: that configure failed on a
+missing rocWMMA dependency (`gufo-host-r1`). The selected Qwen units do not use
+rocWMMA, so the subset requires their actual dependencies, not a fabricated
+include path. The first subset link exposed missing upstream argmax/sample and
+curl dependencies (`t0-linked-r1`); these were added properly in a new build.
+Historical archives/receipts remain intact. No package/dependency was installed.
+
+`tools/build-gufo.py` uses private HOME/cache/temp, serial local compilation and
+source verification before/after. `tools/check-gufo-build.py` verifies source,
+archive identities, cache and subset recipe before explicit linking. Link/smoke
+receipts record ELF dependencies; these are not numerical or target-runtime
+qualification. A distributable package still needs its complete license/DSO audit.
 
 The first attempted codeload URL did not match the recorded GitHub API tarball
 hash and was rejected without extraction. The exact API URL then matched the

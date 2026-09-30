@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-/* Experimental transitional Gufo-backed execution ABI; compile-checked only.
+/* Experimental transitional execution ABI; linking is opt-in, qualification separate.
  * Not an autonomous LIE backend or its eventual numerical/device ABI.
  * Evolve behind LIE-owned contracts: see docs/BACKEND.md and docs/ABI.md. */
 #ifndef LIE_EXECUTOR_H
@@ -9,7 +9,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define LIE_EXECUTOR_ABI 1u
+#define LIE_EXECUTOR_ABI 2u
 typedef struct lie_model lie_model;
 typedef struct lie_sequence lie_sequence;
 typedef enum {
@@ -30,6 +30,15 @@ typedef struct {
     uint64_t weights_bytes, session_bytes, deferred_workspace_bytes;
 } lie_model_info;
 typedef struct { int32_t token; uint32_t emitted, stop, position; } lie_decode_result;
+typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT } lie_chat_role;
+typedef struct { lie_chat_role role; const char *content; size_t bytes; } lie_chat_message;
+/* Link-time selected provider, never an automatic failure fallback. */
+const char *lie_backend_name(void);
+const char *lie_backend_ownership(void);
+const char *lie_backend_source_pin(void);
+int lie_backend_is_synthetic(void);
+/* Selected composition binding; the scheduler does not select/fallback engines. */
+lie_status lie_backend_open(const char *, const lie_model_options *, lie_model **, lie_error *);
 /* Experimental blocking ABI. All operations except cancel must be called by
  * the same device worker that opened the model. No independent scheduler in
  * the adapter. C pointers/lengths are borrowed for the duration of the call.
@@ -43,6 +52,10 @@ lie_status lie_model_tokenize(lie_model *, const char *utf8, size_t bytes,
                               int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_model_token_text(lie_model *, int32_t token, char *out, size_t capacity,
                                 size_t *required, lie_error *);
+/* Bounded text-only Qwen rendering, thinking disabled; caller owns token buffer.
+ * BUFFER_SMALL reports required physical tokens without creating/mutating a session. */
+lie_status lie_model_chat_tokens(lie_model *, const lie_chat_message *, size_t count,
+                                 int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_sequence_create(lie_model *, lie_sequence **out, lie_error *);
 lie_status lie_sequence_close(lie_sequence **, lie_error *);
 /* Append-only cumulative physical token prefix. Delta <= configured chunk.

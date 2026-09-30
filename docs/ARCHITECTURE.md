@@ -6,14 +6,15 @@ session, memory and execution according to requirements and new developments.
 The earlier blanket exclusion of an in-process adapter is superseded; delegation
 must still never be presented as an autonomous backend.
 
-## Decisions implemented in increment A + independent observability slice
+## Implemented decisions through the T0 candidate
 
 1. Separate Git repository, `develop` seed and `feature/initial-runtime`.
    Source, temporary files, binaries and evidence stay here. This repository is
    not a worktree of DS4. No deployment, weight download or package installation.
 2. C17 for the runtime, registry, HTTP and monitor. libuv owns nonblocking
    listeners/lifetimes; llhttp is the maintained HTTP/1 parser rather than a new
-   parser; json-c owns JSON trees; libcurl is used only by the monitor.
+   parser; json-c owns JSON trees; libcurl is used by the monitor and is a link
+   dependency of unexposed upstream image helpers in the optional Gufo build.
    This uses installed libraries and no JVM/Python inference dependency.
 3. One registry, short mutex-protected updates/copy, serialization outside the
    mutex. Registration copies names/descriptions/tags. No callbacks into GPU or
@@ -22,25 +23,28 @@ must still never be presented as an autonomous backend.
    same loop, strictly bounded connections/request bytes and timeouts. This is
    a functioning control plane, not a promise of latency under all loads.
 5. Gufo is independently fetched from upstream, not copied from the DS4 port.
-   The C++ adapter delegates to Qwen Model/Session. It is compile-checked and
-   absent from the server today, but eligible for explicit transitional use.
-   Neither linked inference nor an owned numerical backend is implemented yet.
+   The C++ adapter delegates to Qwen Model/Session. It now links optionally into
+   the C worker/flow/HTTP path; default builds still have no numerical provider.
+   No loaded-model/GPU result or owned numerical backend is established.
 
 ## Reactive pattern: Reactor is only the transport layer
 
 The [reactive contract](REACTIVE.md) is authoritative for demand/backpressure,
 stream ordering, dispatch cancellation and buffer retirement. The new C `lie_flow`
 component implements these primitives with preallocated bounded storage and two
-coalesced eventfd directions. Its tests use CPU frames and actual threads. It is
-not yet a connected inference graph or part of the HTTP server.
+coalesced eventfd directions. Worker and HTTP bindings now use them. CPU tests
+exercise real threads and sockets with a separate synthetic provider; actual
+GPU/model correctness remains an independent open gate.
 
 The target is publisher -> bounded subscription -> output subscriber, with
 credits/releases flowing back to the device-owner scheduler and cancellation on
 a separate control path. No inference or disk wait on the network loop, no queue
 that grows to hide a slow client, no token dropping during normal generation,
-no one-thread-per-agent execution, no unbounded operator chain. Resource admission,
-fair shared scheduling, state persistence and live metric wiring still need
-integration; libuv alone does not satisfy those reactive properties.
+no one-thread-per-agent execution, no unbounded operator chain. T0 bounds eight
+admissions and one or two active single-row sequences, without native batching.
+SSE write completion returns demand; disconnect latches cancellation with pinned
+lifetimes. Measured memory admission, advanced fairness, persistence and broader
+inference instrumentation remain open; libuv alone is not those properties.
 
 A separate [pure-inference investigation](INFERENCE-REACTIVE.md) evaluates whether
 readiness/dependency-driven execution can reduce GPU idle gaps, overly broad
@@ -62,7 +66,9 @@ results must remain separate. No per-tensor callback framework is required.
   upstream code, with tested semantics and no upstream types leaking to clients.
   Evolve the LIE contracts explicitly for requirements/CUDA, not around hidden
   assumptions of the bootstrap implementation.
-- CPU workers: bounded token/template preparation; never CPU model forward.
+- Future CPU preparation workers: T0 currently renders/tokenizes on the device
+  owner, off the HTTP loop. Splitting this requires a thread-safe contract;
+  no CPU model forward.
 - Disk workers: bounded save/load jobs, immutable frontier payloads and completion
   messages to the owner. No direct GPU restore from a disk/client thread.
 - Resource manager: weights + active session state + retained prefixes + workspace
@@ -100,11 +106,11 @@ not DS4 native19 or an automatically portable future LIE state format.
   acknowledgement; this gate is not marked complete.
 - Independent part of B/E: compiled C management runtime, metric registry,
   monitor and compile-checked adapter delivered while hardware is blocked.
-- Reactive CPU slice: implemented bounded demand/stream/lifetime primitive;
-  scheduler/HTTP/executor bindings remain open.
-- Next B / T0: qualify a pinned pristine comparator under the lease, then link
-  the transitional adapter into one worker and `lie_flow`/real nonstream/SSE.
-  Establish correct original-model short AR and cancellation/backpressure first.
+- Reactive/T0 software slice: primitive and worker/HTTP/executor bindings are
+  implemented, HIP-linked and CPU/synthetic-tested. Not real-model qualification.
+- Next B / T0: under the lease, qualify the pinned pristine comparator and the
+  linked candidate on original-model short AR, nonstream/SSE and cancellation/
+  backpressure. Do not transfer synthetic results to GPU correctness.
 - C / T1: refactor one responsibility at a time against requirements and evidence;
   qualify lifecycle, admission/chunks, C1/2/4/8 and MTP on their actual paths.
   Trace and test reactive pure-inference hypotheses separately from serving gains.

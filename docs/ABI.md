@@ -1,16 +1,22 @@
-# Experimental transitional execution ABI 1
+# Experimental transitional execution ABI 2
 
 The adapter delegates to Gufo Model/Session. **This is permitted for bootstrap,
 not proof of an autonomous LIE backend.** [BACKEND.md](BACKEND.md) defines the
-subsequent requirement-driven replacement gates. It has only been compile-checked,
-not linked into the server or hardware-qualified. The eventual owned numerical
-ABI is separate and not implemented yet. Keep upstream types inside the adapter.
+subsequent requirement-driven replacement gates. It now links into the optional
+HIP server and is connected to the C worker/flow/HTTP path. It has not executed a
+real model or been hardware-qualified. The eventual owned numerical ABI remains
+separate; keep upstream types inside the adapter.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
 lengths, opaque handles and caller-owned error buffers. No C++ types are public.
 `adapters/gufo.cpp` compiles against upstream `f783fedb` only with the explicit
 `LIE_GUFO_ADAPTER_OPT_IN` definition. The following describes the experimental
-contract, not a qualified runtime. Permission to link is not evidence of linking.
+contract, not hardware qualification. `LIE_GUFO_HEADER_CHECK` remains object-only;
+`LIE_GUFO_RUNTIME` explicitly links verified private upstream archives. ABI 1
+receipts remain historical. `lie_backend_open` is the selected composition binding
+(`adapters/gufo_binding.c` for Gufo), not an implicit fallback. Provider name,
+source pin and ownership queries expose delegation; the explicit factory
+`lie_gufo_open` remains available and is not relabelled as an owned engine.
 
 ## Ownership and completion
 
@@ -22,7 +28,8 @@ contract, not a qualified runtime. Permission to link is not evidence of linking
 - Arguments are borrowed synchronously. Token/logit/text output is copied into
   caller buffers. Required size is reported on `LIE_BUFFER_SMALL`; token text
   is raw bytes, not NUL-terminated and not necessarily complete UTF-8. HTTP must
-  assemble UTF-8 without reordering tokens when this gets wired.
+  assemble UTF-8 without reordering tokens; the current HTTP path does so with
+  a shared streaming/nonstream replacement decoder.
 - Prefill takes a cumulative physical prefix, verifies the existing frontier,
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.
@@ -35,16 +42,25 @@ contract, not a qualified runtime. Permission to link is not evidence of linking
 - Cancellation is an atomic latch, not device preemption. No subsequent step is
   admitted; an already submitted step finishes and its output is suppressed.
   The caller must pin a sequence while any thread can cancel/use it, join/observe
-  completion and only then close it. The server does not exercise this yet.
+  completion and only then close it. The worker/job gate serializes latch calls
+  against sequence detachment, never holding the gate across blocking execution.
+  Synthetic tests exercise this lifetime; the actual GPU path is still untested.
 - Invalid parameters are nonmutating refusals. A backend exception/forward
   failure poisons the runtime; it cannot be retried or downgraded to a cache
-  miss. Cleanup is the only legal path. No CPU-forward fallback exists.
+  miss. Loaded-runtime failure drains HIP work before returning failure; an
+  unsuccessful drain exits the process with 70, without retry or core dump.
+  Successful operations add no new device-wide synchronization. Model loading's
+  internal cleanup remains upstream-owned. Hardware/fault qualification is open.
+  Cleanup is the only legal path. No CPU-forward fallback exists.
 
-No chat-template, tools, snapshot, MTP or native batching entry points are
-implemented in this first ABI. Raw text tokenization is not chat rendering.
-The transitional renderer may use pinned upstream implementation behind the
-adapter; an owned or selectively ported replacement must preserve the tested
-GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
+`lie_model_chat_tokens` adds bounded text-only chat preparation: 1–32 LIE role/
+content spans, at most 64 KiB total content, caller-owned physical token output.
+The adapter validates the GGUF template before model load, then invokes the pinned
+Qwen renderer/tokenizer with thinking disabled. Buffer/context refusal is before
+session mutation. Only system/user/assistant messages are exposed. Raw tokenization
+remains distinct. No tools, snapshots, MTP or native batching entry points exist.
+An owned or selectively ported renderer must preserve the applicable, separately
+qualified GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
 to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.
 
 This experimental layout is not a stability promise. Keep engine selection

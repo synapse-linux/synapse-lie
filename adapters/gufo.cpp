@@ -7,6 +7,8 @@
 #endif
 #include "lie/executor.h"
 #include "src/models/qwen38_flash_next/engine.hpp"
+#include "src/models/qwen/chat_template.hpp"
+#include "src/core/gguf_reader.hpp"
 #include <algorithm>
 #include <atomic>
 #include <cstdio>
@@ -16,6 +18,7 @@
 #include <memory>
 #include <thread>
 
+extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
 namespace qfn = gufo::models::qwen38_flash_next;
 struct Runtime {
     std::shared_ptr<qfn::Model> model;
@@ -45,19 +48,26 @@ template<class F> lie_status guarded(const std::shared_ptr<Runtime> &r, lie_erro
     auto status = owner(r, e); if (status != LIE_OK) return status;
     if (e) e->message[0] = 0;
     try { return f(); }
-    catch (const std::exception &ex) { r->failed = true; return error(e, LIE_BACKEND_FAILED, ex.what()); }
-    catch (...) { r->failed = true; return error(e, LIE_BACKEND_FAILED, "unknown backend exception"); }
+    catch (const std::exception &ex) { r->failed = true; lie_gufo_quiesce_or_exit(); return error(e, LIE_BACKEND_FAILED, ex.what()); }
+    catch (...) { r->failed = true; lie_gufo_quiesce_or_exit(); return error(e, LIE_BACKEND_FAILED, "unknown backend exception"); }
 }
 lie_status failed(const std::shared_ptr<Runtime> &r, lie_error *e, const std::string &message) noexcept {
-    r->failed = true; return error(e, LIE_BACKEND_FAILED, message.c_str());
+    r->failed = true; lie_gufo_quiesce_or_exit(); return error(e, LIE_BACKEND_FAILED, message.c_str());
 }
 }
+extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
+extern "C" int lie_backend_is_synthetic(void) { return 0; }
 extern "C" lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
     if (!path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
         !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
         return error(e, LIE_INVALID, "invalid model options/output handle");
     try {
+        std::string template_error;
+        auto metadata = gufo::core::GgufReader::OpenFile(path, &template_error);
+        if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
+            return error(e, LIE_INVALID, template_error.c_str());
+        metadata.reset(); // Validation before GPU admission; no model forward on CPU.
         auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens;
         qfn::ModelOptions options;
         options.max_context = o->context_tokens;
@@ -107,6 +117,35 @@ extern "C" lie_status lie_model_token_text(lie_model *m, int32_t token, char *ou
         if (text.size() > capacity) return error(e, LIE_BUFFER_SMALL, "text buffer too small");
         if (!text.empty()) std::memcpy(out, text.data(), text.size());
         return LIE_OK; // Raw token bytes, no NUL terminator or assumed UTF-8 boundary.
+    });
+}
+extern "C" lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages, size_t count,
+    int32_t *out, size_t capacity, size_t *required, lie_error *e) {
+    if (!m || !messages || !count || count > 32 || !required || (!out && capacity))
+        return error(e, LIE_INVALID, "invalid chat messages/output");
+    return guarded(m->runtime, e, [&] {
+        std::vector<gufo::tokenization::ChatMessage> chat;
+        size_t total = 0;
+        for (size_t i = 0; i < count; ++i) {
+            const auto &msg = messages[i];
+            if (!msg.content || msg.bytes > 65536 - total || msg.role < LIE_CHAT_SYSTEM || msg.role > LIE_CHAT_ASSISTANT)
+                return error(e, LIE_INVALID, "invalid/bounded chat content");
+            total += msg.bytes;
+            auto role = msg.role == LIE_CHAT_SYSTEM ? gufo::tokenization::ChatRole::kSystem :
+                        msg.role == LIE_CHAT_USER ? gufo::tokenization::ChatRole::kUser : gufo::tokenization::ChatRole::kAssistant;
+            chat.emplace_back(role, std::string(msg.content, msg.bytes));
+        }
+        gufo::tokenization::ChatTemplateOptions options;
+        options.enable_thinking = false;
+        options.max_output_bytes = 1024 * 1024;
+        std::string message;
+        auto tokens = gufo::tokenization::QwenChatTemplate::RenderAndTokenize(
+            m->runtime->model->tokenizer(), chat, options, &message);
+        if (!tokens) return error(e, LIE_INVALID, message.c_str());
+        *required = tokens->size();
+        if (tokens->size() > capacity) return error(e, LIE_BUFFER_SMALL, "chat token buffer too small");
+        if (!tokens->empty()) std::copy(tokens->begin(), tokens->end(), out);
+        return LIE_OK;
     });
 }
 extern "C" lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_error *e) {

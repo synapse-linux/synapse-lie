@@ -1,103 +1,149 @@
-# HTTP and monitor contract — development increment
+# HTTP / SSE and monitor contract — T0 candidate
+
+The optional real provider is linked, not hardware-qualified. CPU transport tests
+use a separate, clearly labelled synthetic executable. No model is configured by
+default and no synthetic provider can be selected in `synapse-lie-server`.
 
 ## Management listener
 
-| Route | Current behavior |
+| Route | Behavior |
 |---|---|
-| GET /actuator | `_links` discovery, relative hrefs and templated flag |
-| GET /actuator/health | 503 `OUT_OF_SERVICE`, model `UNKNOWN`/`NOT_LOADED` |
-| GET /actuator/health/liveness | 200 `UP` while the event loop is serving |
-| GET /actuator/health/readiness | 503, same unavailable executor state |
-| GET /actuator/info | application/version/process-instance ID, backend null, inference_verified false |
-| GET /actuator/metrics | metric names |
-| GET /actuator/metrics/{name} | detail and repeatable `tag` AND filters |
+| GET /actuator | Relative `_links` discovery and templated flag |
+| GET /actuator/health | 200 `UP` after model/executor open, otherwise 503 `OUT_OF_SERVICE` |
+| GET /actuator/health/liveness | 200 `UP` while event loop is serving |
+| GET /actuator/health/readiness | Same model lifecycle readiness, independent of GPU busyness |
+| GET /actuator/info | Application/version/instance/build label; selected backend metadata or null; inference_verified false |
+| GET /actuator/metrics | Metric names |
+| GET /actuator/metrics/{name} | Detail with repeatable `tag` AND filters |
 | GET /actuator/prometheus | Prometheus text 0.0.4 |
-| GET /actuator/llm | versioned summary; unavailable scheduler/memory/cache/speculation/latency/throughput are null |
-| GET /monitor | embedded development HTML/CSS/JS, loopback same-origin fetch, no CDN |
+| GET /actuator/llm | Ready/backend/scheduler snapshots; unsupported measurements remain null |
+| GET /monitor | Embedded en_US development page, no CDN |
 
-Readiness will eventually reflect lifecycle/model health, not change simply
-because the GPU is busy. No probe inference or global device synchronization
-occurs on a health/scrape request. There is currently no loaded backend at all.
+Backend metadata identifies engine, source pin, build label and ownership
+(`delegated`, `none`, or test-only `synthetic-test-fixture`). Unsupported native
+batching, tools, MTP and snapshot restore are explicit. `hardware_qualified:false`
+and `inference_verified:false` are not changed merely because a request succeeded.
+Readiness is operational model/executor open, not a quality certificate. No probe
+inference, device synchronization or filesystem scan occurs in a health/scrape.
+The model loads on the worker; loading/failed/unconfigured instances stay unready.
 
-Normal Actuator responses use the v3 vendor Content-Type. Protocol errors use
-`application/json` with `error.code` and `error.message`. There is no content
-negotiation; even an OpenMetrics Accept does not make the server emit OpenMetrics.
-Responses include Content-Length, Connection: close, no-store, nosniff and a
-restrictive CSP. A `.txt` Content-Disposition workaround from Spring is not
-implemented; metric names are not filesystem paths. No host-derived absolute
-URLs are generated. Unknown routes: 404; unsupported management method: 405.
+Actuator responses use v3 vendor Content-Type. Errors use `application/json`,
+`error.code` and `error.message`. No content negotiation/OpenMetrics claim.
+Ordinary responses include Content-Length, Connection: close, no-store, nosniff
+and CSP. Unknown routes: 404; unsupported management method: 405. No host-derived
+absolute URLs or `.txt` Content-Disposition workaround.
 
-Initial transport subset: IPv4 HTTP/1, one request per connection, no pipelining,
-upgrade, TLS, compression, authentication or keepalive. llhttp handles framing,
-including refusing ambiguous lengths; request bodies/headers/wire bytes are
-bounded. Limits: 64 concurrent connections, 16KiB header field/value bytes,
-64KiB body, 2047-byte target, 1MiB response, 5s total connection deadline.
-Closing on deadline or disconnect frees memory only through libuv completion
-callbacks; there is no GPU work to cancel in the current server.
+## Transport and resource bounds
+
+IPv4 HTTP/1, one request per connection. No keepalive, pipelining, upgrade, TLS,
+compression or authentication. llhttp validates framing, including ambiguous
+lengths. Trailing input in the completing buffer is refused before admission;
+later input cancels the existing request, never admits a second one. A peer EOF is
+cancellation, so write-half-close request semantics are not supported.
+
+- 64 connections; 16 KiB header field/value bytes, 64 KiB body, 2047-byte target;
+  additional total-wire bound, including chunking overhead.
+- At most 1 MiB per response/write buffer. Eight admitted jobs (queued plus
+  executing); overflow 429. One active sequence by default, optionally two.
+- Eight 256-byte token slots per flow. The pinned vocabulary's documented maximum
+  rendered entry is 128 bytes; the larger slot is checked before publication.
+  UTF-8 expansion and JSON/SSE writes are independently bounded.
+- One outstanding uv_write per connection. Request 16 KiB socket send buffer
+  (kernel actual size/overhead is platform-defined); local write completion is
+  not remote consumption. Nonstream aggregate bound is 393224 bytes, independent
+  of socket capacity. Retired jobs/output remain bounded by live connections.
+- Five-second accept-to-close deadline for control/incomplete requests. Admitted
+  inference uses accept-to-close `--request-timeout-ms`, default 120000,
+  configurable 100–1800000 ms, checked on a 250 ms loop tick. It includes queue,
+  preparation and output time. Deadline closes the connection and cancels work;
+  it does not preempt a kernel or promise a final error response.
+
+These are application bounds, not measured RSS/GPU budgets. Model state and
+workspace remain delegated and need target measurements. No fixed 32 GiB reserve.
 
 ## API listener
 
-- `GET /v1/models`: `{"object":"list","data":[]}`.
-- `POST /v1/chat/completions`: 503 `backend_unavailable`, before starting SSE.
-  Framing/body-size validation works; model-specific JSON validation, generation,
-  normal chat output, SSE, tool calls and multi-turn continuation are NOT wired.
-- Management routes are not available here, nor model routes on management.
+`GET /v1/models` returns an empty list until ready, then the configured model ID.
+Management routes do not exist here; model routes do not exist on management.
+Without a ready backend, framed chat requests return 503 `backend_unavailable`,
+not a fabricated completion or an SSE header.
 
-Do not advertise OpenAI-compatible inference based on these two reserved routes.
-When real streaming is implemented, post-header failures must become a defined
-SSE error terminal event; no unconfirmed speculative token may be emitted.
+Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
 
-The required feedback is not simply `uv_write` callbacks: a per-sequence
-subscription must reserve both token demand and bounded output storage before
-new decode dispatch; write completion retires a buffer loan and may grant more
-credits. Disconnect/deadline cancellation bypasses data capacity, while in-flight
-work and writes retain their storage until completion. `lie_flow` now implements
-the CPU primitive, **not this HTTP/SSE binding**. See [REACTIVE.md](REACTIVE.md)
-for ordering, cancellation races, terminal signals and remaining qualification.
+```json
+{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Reply briefly."}],"temperature":0,"max_tokens":32,"stream":true,"stream_options":{"include_usage":true},"chat_template_kwargs":{"enable_thinking":false}}
+```
+
+- Required exact configured `model`; 1–32 messages with only `role` and string
+  `content`. Roles: `system`, `user`, `assistant`; valid UTF-8, no embedded NUL.
+- `max_tokens`: integer 1–512, default 128. Physical rendered prompt plus output
+  budget must fit configured context (128–32768, default 4096). No silent
+  truncation. Template/tokenization/context refusal precedes forward.
+- `temperature`: omitted or numeric zero only. Optional nonnegative integer
+  `seed` is accepted but unused by greedy sampling. No stochastic/penalty controls.
+- `stream`: boolean, default false. `stream_options` may contain only boolean
+  `include_usage` and only for a streaming request.
+- `chat_template_kwargs` may contain only `enable_thinking:false`; thinking is
+  disabled even when omitted. Rendering/tokenization uses the pinned upstream
+  Qwen implementation inside the adapter, after GGUF template validation.
+- Unknown fields, tools, images, arbitrary stops, logprobs, alternative output
+  controls and unsupported sampling are errors, not ignored options.
+
+Malformed/unsupported requests are 400; bounded overload is 429. Preparation
+failures are 400 `invalid_request`; backend failures before headers are 503
+`inference_failed` with a diagnostic message. This is an OpenAI-shaped subset,
+not blanket compatibility. Each request creates a fresh session. Supplying prior
+messages re-prefills history; it is not retained tool/session/prefix continuity.
+
+### Output and cancellation
+
+Nonstream returns `chat.completion`, one assistant message, `stop`/`length` and
+usage. SSE uses close-delimited `text/event-stream`, an initial role delta,
+ordered content deltas, a finish delta, optional usage-only chunk (`choices:[]`),
+then exactly one `data: [DONE]`. No enqueue-only/speculative output is exposed.
+`system_fingerprint` names the provider, including `NOT-INFERENCE` in fixtures.
+
+Token byte boundaries need not be UTF-8 boundaries. One streaming decoder retains
+up to three pending bytes and applies replacement decoding to invalid/incomplete
+sequences, including at length/EOS. Nonstream uses the same decoder. Output byte
+normalization is not a numerical oracle; model tokens/frontiers require separate
+qualification. Usage counts physical prompt tokens and executor-confirmed emitted
+tokens; the provider's un-emitted stop token is not an emitted output token.
+
+After headers, backend errors are an SSE JSON error followed by `[DONE]`, **not**
+a successful finish reason or fabricated usage. Already submitted bytes cannot
+be revoked. Disconnect/deadline closes output, latches flow and executor
+cancellation, and retires existing work and writes. No completion is sent to the
+disconnected client. Cancellation is a latch, not HIP preemption.
+
+The worker owns blocking model calls. Cancellation's atomic backend latch is
+protected against concurrent sequence destruction by a short job gate. Worker
+and transport references are independent; poll close and write callbacks retire
+before the consumer reference is released. The worker drains/closes sequences
+before dropping its reference. SIGINT/SIGTERM waits for owned work retirement.
+An undrainable loaded-runtime GPU failure terminates the process with exit 70;
+no retry/fallback/core dump. That hardware error path remains unqualified.
 
 ## Standalone monitor
 
-Uses libcurl and json-c, no Prometheus service or Python runtime. Default URL
-`http://127.0.0.1:19880`; timeouts and response/depth limits apply. It fetches
-Actuator discovery/info/readiness, metric names and every registered detail, then
-Prometheus. Vendor JSON/type, required metric shape, statistics and readiness
-are validated. Transport errors, missing data and invalid export are not zero.
+C libcurl/json-c monitor; default `http://127.0.0.1:19880`. It validates discovery,
+info/readiness, metric details and Prometheus, with response/depth/time bounds.
 
-- `check`: one validated snapshot. Exit 0 means contract valid, not model ready.
-  `--require-ready` produces exit 3 for a healthy control plane without a model.
-- `watch`: bounded acquisition (`--duration`, `--interval`) and terminal rows,
-  with a 32-entry in-memory history; no terminal framework required.
-- `record`: same acquisition, JSONL snapshots with schema, source, instance,
-  UTC record time, monotonic time, elapsed time and delta status. `--output`
-  requires a new file; existing logs are never overwritten. fflush per record,
-  not power-loss durability. It records metrics, not prompts or credentials.
-- `check --file snapshot.json`: validate one recorded object offline.
+- `check`: exit 0 means contract valid, not hardware qualified. `--require-ready`
+  exits 3 when readiness is unavailable.
+- `watch`: bounded duration/interval, 32-sample history, deterministic English.
+- `record`: exclusive new JSONL file, schema/source/instance/UTC/monotonic times
+  and delta status; no prompts. fflush is not power-loss durability.
+- `check --file snapshot.json`: one recorded object, not a complete JSONL stream.
 
-Exit 1: transport/format/contract failure. Exit 2: usage. Exit 3: requested
-readiness unavailable. Partial JSONL is retained on error. A complete sample
-can take several bounded HTTP timeouts; duration is not a hard interrupt of an
-already running scrape. Ctrl-C uses normal process termination; history is not
-persistent unless recorded. CLI is fixed US English; numeric locale is C.
+Exit 1 is transport/contract failure; 2 usage; 3 required readiness unavailable.
+Partial logs are retained. A scrape may take multiple bounded HTTP timeouts;
+duration does not interrupt an in-progress scrape. Endpoint reads are not atomic;
+a lifecycle transition can require a retry, not reinterpretation as zero.
 
-Confirmed-token rate is delta cumulative tokens / monotonic sample interval.
-First sample, instance change, uptime regression, token counter decrease or
-series/label/bucket-layout change produces null / `n/d` rather than a spike.
-An unchanged counter after two valid samples is genuinely zero. No percentile
-or generic rate for every metric is computed yet. Polling different endpoints
-is not atomic; a readiness transition detected as inconsistent requires retry.
-The current runtime has no such transition because inference is unavailable.
-
-## Independent export checks
-
-The C monitor parser is independent of the exporter: bounded names/label grammar,
-escaping, duplicate series, finite values, cumulative histogram order, required
-series, +Inf/count and sum presence. It is a **restricted contract validator**,
-not a complete Prometheus parser or PromQL evaluator (e.g. full HELP/TYPE family
-semantics are not yet checked). CPU integration tests also use a separate Python
-stdlib parser. If installed, tests invoke `promtool check metrics` on the actual
-scrape. promtool was absent in the initial environment: that independent official
-check is recorded as NOT_INSTALLED, not passed. No dependency was installed.
-
-The embedded page is an en_US development fallback with 30 snapshots, not a
-finished/localized dashboard; unavailable inference values remain null. The
-workspace's 64-locale graphical release gate is still open.
+Rate is cumulative-confirmed-token delta / monotonic interval. First sample,
+instance/uptime/counter regression or layout change produces null / `n/d`. An
+unchanged counter after valid samples is zero. Percentiles are not implemented.
+The C and independent Python Prometheus subset parsers are checked; promtool
+was absent, so official validation is not claimed. No service is installed.
+The diagnostics page is not a finished 64-locale release GUI.

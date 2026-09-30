@@ -36,8 +36,10 @@ Proposed shared lock: `/tmp/synapse-lie-ds4-gpu.lock` (flock, nonblocking).
 Proposed append-only register: `/tmp/synapse-lie-ds4-coordination/runs.jsonl`.
 DS4 acknowledgement file: `/tmp/synapse-lie-ds4-coordination/ds4-ack.json`, to be
 written by the DS4 owner, not forged by this agent. It must identify the adopted
-runner/revision and lock path. There is no acknowledgement as of the initial
-check. Merely creating/acquiring a new lock would NOT protect against DS4.
+runner/revision and lock path. No acknowledgement was present at the initial
+check or the **2026-09-30T18:13:29Z** read-only recheck recorded in
+`evidence/t0-coordination-readonly-r3.json` (also absent at the preceding 17:23 check). This is a dated observation, not a
+future availability assertion. Creating/acquiring our own lock is not consensus.
 
 Existing DS4 runner uses, in order:
 1. `$W/download-gufo-native/download.lock`
@@ -67,4 +69,6 @@ budgets with the operator, never interpret a policy stop as OOM/capacity proof.
 **Hardware and heavy-I/O tests remain blocked until this coordination is
 confirmed.** CPU tests are on .155. Remote reconnaissance reads small receipts,
 sysfs/proc and bounded GGUF metadata only (about 33 MB), not tensor payloads.
-No inference was launched on either host by this fork.
+No inference was launched on either host by this fork. Local `.155` serial HIP
+source compilation/linking and no-model/synthetic tests are recorded separately;
+no remote GPU build or model execution is implied by their success.

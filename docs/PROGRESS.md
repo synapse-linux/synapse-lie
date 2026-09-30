@@ -1,111 +1,128 @@
-# Resumption note — CPU control plane and reactive flow primitive
+# Resumption — linked T0 candidate, hardware gate still open
 
-Owner: synapse-lie fork. The original agent continues DS4 independently.
-Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on .155.
+Owner: synapse-lie fork; DS4 remains the other agent's project.
+Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on `.155`.
 Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
-No multi-agent workflow is active inside this fork. No independent review claimed.
+This increment starts at `79625ce`. No workflow or independent review is claimed.
 
-## Authoritative backend evolution policy
+## Policy and actual status
 
-The user permits an initial in-process Gufo adapter, followed by refactoring
-against the other requirements and new developments. `docs/BACKEND.md` defines
-T0 bootstrap, T1 responsibility-by-responsibility replacement and T2 owned-backend
-exit criteria. This supersedes the earlier blanket exclusion, not the autonomy
-goal. Disclose delegated versus owned behavior; do not let the prototype narrow
-the requirements. Neither linked inference nor an autonomous backend exists yet.
+The user permits embedded Gufo for T0, followed by requirement-driven T1/T2
+refactoring toward an autonomous C backend. The older reference-only prohibition
+is superseded, not the autonomy goal. See BACKEND.md and INFERENCE-REACTIVE.md.
 
-Also investigate reactive execution inside pure inference, not only HTTP or
-concurrency. `docs/INFERENCE-REACTIVE.md` separates hypotheses about critical-path
-waits, dispatch, overlap and buffer liveness from measured results. No such GPU
-experiment or speedup has occurred; C1 PP/TG and serving/concurrency are distinct.
+**An actual HIP-linked executable now exists. No LIE GPU/model execution has
+occurred.** The code path is no longer merely an adapter object: C HTTP/SSE,
+worker, bounded queues, flow control and provider binding are connected. A
+separate synthetic executor tests that path without pretending to run a model.
+The original-weight first-working-build acceptance gate is therefore still open.
 
-## Delivered scope
+## Implemented in this increment
 
-- Target/account/hardware/OS/toolchain/storage/service/port inventory, model
-  metadata and existing receipt identities captured read-only. All five original
-  Gufo file stat identities match the inherited sealed receipt; no full rehash.
-- Dedicated upstream Gufo source pin and full regular-file SHA manifest. No
-  DS4 source/binary/cache import, edits, deployment or dependency installation.
-- C17 libuv/llhttp management runtime and separate API listener. Explicit empty
-  models/unavailable chat, not fake inference. Health/info/discovery, Actuator
-  metric names/details/filters, Prometheus and a small embedded diagnostics page.
-- Thread-safe bounded C Counter/Gauge/Timer registry: copied ownership,
-  conflict/collision refusal, cumulative histogram buckets, time-window MAX,
-  coherent snapshots and finite-value/UTF-8 validation.
-- C monitor check/watch/record, offline single-record fixtures, bounded 32-sample
-  history, monotonic deltas and reset/layout detection. No Prometheus service.
-- Experimental C ABI + C++ Model/Session adapter: compile-check against actual
-  upstream headers, now eligible for explicit transitional integration. It is
-  not linked or hardware-qualified; worker/cancellation/poisoning behavior remains
-  unverified on a real model. An explicit opt-in definition guards compilation.
-- C reactive flow component (`include/lie/flow.h`, `src/flow.c`): demand credits,
-  bounded preallocated buffers, dispatch gate, ordered output, loan ownership,
-  out-of-band cancellation/error and eventfd work/output wakeups. Component only;
-  no HTTP, scheduler or inference-executor binding. Contract in `docs/REACTIVE.md`.
-- ABI, persistence design, ownership, metric/HTTP/reactive contracts, provenance,
-  coordination and baseline plans documented.
+- `src/worker.c`: one pthread device owner, eight bounded admissions, one active
+  sequence by default or two explicitly configured interleaved single-row
+  sequences. Round-based chunk/step scheduling; never native batching by claim.
+- Independent worker and consumer references keep jobs alive after disconnect.
+  Short metadata gates protect publication and cancellation-latch versus
+  sequence detachment. No GPU wait is held under these gates or on the HTTP loop.
+- Eight token slots per job, 256 bytes each. Decode reserves/begins before work;
+  SSE releases/replenishes credits only after uv_write completion. Nonstream
+  reserves a bounded aggregate sink. Active admission is not a measured RAM fit.
+- Text request validation and copied ownership; pinned Qwen renderer, thinking
+  disabled, context admission before session creation/forward, greedy AR only.
+  Streaming UTF-8 replacement decoding is independent of token boundaries.
+- Real nonstream JSON and SSE formatting, usage/finish/error terminals, queue
+  refusal, disconnect, request deadline and shutdown lifetime handling.
+- ABI 2 adds chat preparation and provider metadata/selection. Gufo types remain
+  inside the adapter. The neutral worker opens the selected composition binding;
+  `lie_gufo_open` remains explicitly Gufo, not renamed into an ownership claim.
+- For loaded-runtime backend failure, adapter drains device work before returning
+  failure/allowing retirement. Undrainable device failure exits 70 without retry
+  or core dump. This exceptional hardware path is compile/link checked, not GPU
+  fault-tested. Successful calls have no added device-wide barrier.
+- Diagnostics disclose engine, source pin, build label, delegated/synthetic/none
+  ownership and unsupported capabilities. `--build-info` opens no model.
+  Hardware qualification is false. Worker counters are not remote-delivery ACKs.
+- Opt-in `LIE_GUFO_RUNTIME`; real libraries from independently fetched upstream.
+  A LIE-owned Qwen-only CMake scope uses the upstream model target and unchanged
+  source. It is not the full upstream release build. No numerical port exists.
 
-## Verification authority
+No tools, native batching, MTP, vision, prefix reuse, RAM/SSD restore or CUDA is
+exposed. Unknown memory/latency/throughput/cache metrics remain null. Default
+no-model startup still has readiness 503, empty models and chat 503. The synthetic
+provider is only in test executables and reports `NOT-INFERENCE`.
 
-`tools/verify.py backend-evolution-r1` writes actual per-command exit codes, source
-hashes, logs and output binary hashes under `evidence/backend-evolution-r1/`. Read its
-`result.json` for the outcome; do not infer a pass from a plan or build target.
-It runs GCC and Clang debug builds, ASan/UBSan tests, the C17 ABI layout test,
-opt-in Gufo object compilation and all 1019 source-file identity checks. Earlier
-`cpu-closure-r1`, `cpu-closure-r2`, `reactive-closure-r1` and `backend-scope-r1`
-passed and remain historical evidence. The old reference-only refusal is retained
-in `backend-reference-refusal-r1`; it records the policy/guard of that revision.
-The new unmarked-compilation refusal is recorded in `adapter-opt-in-refusal-r1`.
-Neither guard/compile check nor the CPU suites establish working inference,
-pure-inference reactive speed, or an owned backend.
+## Preserved build/verification evidence
 
-Five test suites are CPU only: reactive flow, registry, independent monitor
-parser/rates, C ABI layout, actual loopback HTTP + monitor. Reactive tests cover
-credits/refunds/saturation, allocation/ordinal bounds, FIFO, stale/foreign tickets,
-full-buffer cancellation, dispatch races, retained loans, terminal ordering,
-peer isolation and FD cleanup, including 4,000 synthetic frames across threads.
-No synthetic frame is presented as model output. The other suites cover
-registration/tag collisions, aggregation/filtering, MAX expiry, histogram
-count/sum/Inf, concurrent updates,
-malformed/truncated scrape input, HTTP framing/bounds, slow/concurrent clients,
-shutdown callbacks, offline corruption, not-ready exit and no log overwrite.
-They do NOT prove GPU inference, real SSE token ordering, model cancellation,
-native batching, state restore or quality. promtool is absent; internal C and
-independent Python subset validators ran, not the official tool.
+All paths below are local `evidence/` directories; labels are occupied. Receipts
+record actual process exit codes, logs and source/binary identities.
 
-## Next implementation / separate hardware gate
+| Label | Observed result / scope |
+|---|---|
+| `gufo-host-r1` | Full upstream configure failed, exit 1: missing rocWMMA header. No install or fake header. |
+| `gufo-qwen-host-r1` | Qwen subset archives built, no execution. |
+| `t0-runtime-r1` | Eight CPU/synthetic suites passed with GCC, Clang, ASan/UBSan; Gufo header object passed. Before final cancellation/error refinements. |
+| `t0-linked-r1` | Link failed, exit 1: omitted upstream sample/argmax translation unit and curl link dependency. Failure preserved. |
+| `gufo-qwen-host-r2` | New private subset build includes real upstream sampling unit and curl dependency; original source unchanged. |
+| `t0-linked-r2` | Real HIP adapter linked; eight CPU/synthetic suites and no-model smoke passed. No weight/model/GPU execution. Before final refinements. |
 
-Next: the T0 vertical slice, not a mandatory big-bang backend rewrite. Prepare
-one device-owner worker, bounded queues, the adapter binding and real renderer/
-HTTP path; retain truthful unavailable status until the model actually works.
-CPU fixtures remain synthetic. Subsequent refactoring and pure-inference tests
-follow `docs/BACKEND.md` and `docs/INFERENCE-REACTIVE.md`.
+`t0-runtime-r2` passed all eight suites in GCC/Clang/ASan/UBSan at
+18:11:53–18:12:10 UTC, including the final binding/error/lifetime refinements.
+`t0-linked-r3` passed real linking, `--build-info`, no-model and synthetic tests at
+18:12:19–18:12:26 UTC, with no model access/GPU execution. Its binary SHA256 is
+`b7b42150d070bf91915d2859ce66b71fed2d386f4a7f12682d5e1736309fd1d6`.
 
-For real model/reference runs, hardware access was verified; coordination was
-outstanding at the last recorded check:
-`/tmp/synapse-lie-ds4-coordination/synapse-lie-proposal-r1.json` is present on .157,
-DS4 acknowledgement was absent at the recorded 2026-09-30T12:23:32Z check.
-These local changes do not re-check or assume live GPU availability.
-Confirm adoption of a shared lease and register (or explicitly agree to the
-existing DS4 protocol) before any GPU run, full hash scan or heavy I/O. No process was stopped for admission.
+Following this evidence/coordination documentation update, final closure labels
+are **`t0-runtime-r3`** and **`t0-linked-r4`**. Their `result.json` and the delivery
+receipt, not this planned
+label or a build target, establish success and exact source identity. Fresh
+label-owned build directories preserve earlier artifacts. Local link verification
+masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
+never supplies `--model` to the real server.
 
-Under the agreed lease:
-1. Build a private immutable upstream Gufo comparator with recorded host runtime;
-   verify a real AR request on the original UD-Q4_K_XL shards. Reference only.
-2. Link/qualify the explicitly transitional adapter through LIE's worker/contracts,
-   then real nonstream/SSE, cancellation/backpressure and event-based metrics.
-3. Trace the pure-inference critical path separately from benchmark timing; test
-   one reactive hypothesis at a time against matched completed work and numerics.
-4. Refactor toward owned execution according to requirements and evidence; qualify
-   C1 before C2/4/8, tool continuation, complete state and MTP. Do not transfer
-   results between transitional/owned paths or call serial loops native batching.
+Eight suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`, `metrics`,
+`monitor-parser`, `executor-c-layout`, `http-monitor`, `http-synthetic`.
+The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
+checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,
+UTF-8 split/invalid bytes, JSON/SSE equivalence, deadline, poison, error terminal,
+FD cleanup and shutdown. They are not GPU/numerical/quality evidence. ASan/UBSan
+covers first-party CPU paths and the fixture, not the unexecuted GPU kernels.
+No TSan, independent review or promtool pass is claimed.
 
-## Real limitations
+Earlier `cpu-closure-r1/r2`, `reactive-closure-r1`, `backend-scope-r1`,
+`backend-evolution-r1`, guard refusals and their delivery receipts remain historical
+and unchanged. The old policy/guard result is not reinterpreted retrospectively.
 
-v0.1 is NOT ready. No autonomous model loader/backend, loaded model or active inference scheduler,
-normal chat generation, token SSE, tool continuation, MTP, RAM prefix reuse,
-SSD state writer/reader or CUDA. The state document is a design, not a parser.
-GUI is an en_US development fallback; full localization/release work remains.
-Registry bounds and network limits are explicit initial implementation limits;
-inference memory/sequence budgets must be measured, not copied from them.
-No speedup/quality/300K fit claim. Historical DS4 results retain their own scope.
+## Coordination: last live check
+
+At **2026-09-30T18:13:29Z**, SSH `.155 -> .157` succeeded and
+`/tmp/synapse-lie-ds4-coordination/ds4-ack.json` was absent. Evidence:
+`t0-coordination-readonly-r3.json`. Earlier checks at 16:25 and 17:23 also lacked ACK.
+No remote build, model hash/conversion, model run or new remote service was started.
+No DS4 file, cache, service, profile, model or qualified artifact was changed.
+
+Idle hardware or acquiring our own new lock would not be consensus. The DS4
+owner must acknowledge adoption/runner/lock ordering, then a shared lease and
+execution register must cover a fresh preflight and each admitted run. See
+COORDINATION.md. Access to SSH alone is not that authorization.
+
+## Next authorized work after the hardware gate
+
+1. Fresh identity/memory/storage preflight; stat the original five read-only files
+   against inventory, without assuming old values are live or rehashing weights.
+2. Private serial target build and independently pinned pristine comparator;
+   record compiler, flags, source, binary and runtime dependency identities.
+   Local workspace visibility on `.157` must not be assumed.
+3. Original-weight C1 short-context AR: validate physical prompt IDs, completed
+   frontiers and output against the reference, then nonstream/SSE equivalence,
+   UTF-8, cancellation, backpressure and quiescent retirement. Define settings
+   and oracle before execution. No rollout.
+4. Only with a correct baseline, collect separate pure-inference traces and test
+   a falsifiable internal-reactive change. Completed PP/TG, concurrency and serving
+   improvements remain separate; no benefit has been measured yet.
+5. T1/T2 refactoring, native C2/4/8, tool continuity, complete RAM/SSD state and
+   MTP remain separate gates; CUDA follows qualified AMD work.
+
+Do not reintroduce the historical assistant-imposed 32 GiB reserve as a user
+requirement, call the DS4 300K stop an OOM, or import DS4's benchmarks/quality into
+LIE. The monitor/UI is still development en_US; v0.1 is not release-ready.

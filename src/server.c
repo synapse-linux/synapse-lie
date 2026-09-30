@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/metrics.h"
+#include "lie/worker.h"
+#include "lie/wire.h"
 #include <json-c/json.h>
 #include <llhttp.h>
 #include <uv.h>
@@ -10,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
+#include <poll.h>
 
 #define JSON_TYPE "application/vnd.spring-boot.actuator.v3+json"
 #define PROM_TYPE "text/plain; version=0.0.4; charset=utf-8"
@@ -18,6 +22,8 @@
 #define MAX_HEADERS (16 * 1024)
 #define MAX_CONNECTIONS 64
 #define TIMEOUT_NS UINT64_C(5000000000)
+#define INFERENCE_TIMEOUT_NS UINT64_C(120000000000)
+#define MAX_TEXT (LIE_CHAT_MAX_OUTPUT * LIE_CHAT_TOKEN_BYTES * 3 + 8)
 
 typedef struct server server;
 typedef struct connection connection;
@@ -30,8 +36,18 @@ struct connection {
     connection *next;
     char url[2048]; size_t url_size, headers_size, body_size, wire_size;
     uint64_t started;
-    char *response;
-    bool management, responded;
+    char *response, *body, *text;
+    size_t body_capacity, text_bytes;
+    bool management, responded, input_done, closing, writing, streaming, include_usage;
+    unsigned handles;
+    enum { WRITE_FINAL, WRITE_STREAM, WRITE_STREAM_END } write_kind;
+    uv_poll_t output_poll;
+    bool poll_initialized, loan;
+    lie_flow_event event;
+    lie_job *job;
+    lie_utf8_decoder utf8;
+    char request_id[96];
+    int64_t created;
 };
 struct server {
     uv_loop_t loop;
@@ -46,8 +62,17 @@ struct server {
     lie_meter uptime, ready, connections_meter, rejected, tokens, http[3][3];
     uint64_t started;
     char instance[64];
+    const char *model_id;
+    lie_worker *worker;
+    uv_poll_t worker_poll;
+    bool worker_poll_initialized;
+    uint64_t request_counter, generated_seen, inference_timeout_ns;
+    unsigned max_active;
+    lie_meter rejected_capacity, rejected_invalid;
 };
 static void close_connection(connection *c);
+static void pump_job(connection *c);
+static void closed(uv_handle_t *h);
 static char *json_text(json_object *j) {
     char *s = strdup(json_object_to_json_string_ext(j, JSON_C_TO_STRING_PLAIN));
     json_object_put(j); return s;
@@ -57,41 +82,162 @@ static const char *reason(int code) {
         case 200: return "OK"; case 400: return "Bad Request";
         case 404: return "Not Found"; case 405: return "Method Not Allowed";
         case 413: return "Content Too Large"; case 431: return "Request Header Fields Too Large";
+        case 429: return "Too Many Requests";
         case 500: return "Internal Server Error"; case 503: return "Service Unavailable";
         default: return "Error";
     }
 }
+static void release_loan(connection *c) {
+    if (!c->loan) return;
+    lie_flow *flow=lie_job_flow(c->job);
+    if (lie_flow_release(flow,c->event.ticket)!=LIE_FLOW_OK) abort();
+    if (!c->closing) (void)lie_flow_request(flow,c->event.tokens);
+    c->loan=false;
+}
 static void wrote(uv_write_t *w, int status) {
-    (void)status;
-    connection *c = w->data; free(c->response); c->response = NULL; close_connection(c);
+    connection *c=w->data;
+    free(c->response); c->response=NULL; c->writing=false;
+    if (status<0) close_connection(c);
+    release_loan(c);
+    if (c->write_kind!=WRITE_STREAM) close_connection(c);
+    else if (!c->closing) pump_job(c);
+}
+static void record_response(connection *c, int code) {
+    size_t method=c->parser.method==HTTP_GET?0:c->parser.method==HTTP_POST?1:2;
+    size_t status=code<400?0:code<500?1:2;
+    (void)lie_timer_record(c->owner->metrics,c->owner->http[method][status],
+                          (double)(lie_monotonic_ns()-c->started)/1e9);
+}
+static void queue_write(connection *c, char *owned, size_t bytes, int kind) {
+    if (!owned || c->closing || c->writing || bytes>MAX_RESPONSE) {
+        free(owned); close_connection(c); release_loan(c); return;
+    }
+    c->response=owned; c->write_kind=kind; c->writing=true; c->write.data=c;
+    uv_buf_t b=uv_buf_init(c->response,(unsigned)bytes);
+    if (uv_write(&c->write,(uv_stream_t *)&c->tcp,&b,1,wrote)) {
+        free(c->response); c->response=NULL; c->writing=false;
+        close_connection(c); release_loan(c);
+    }
 }
 static void respond(connection *c, int code, const char *type, const char *body) {
     if (c->responded || uv_is_closing((uv_handle_t *)&c->tcp)) return;
     c->responded = true; uv_read_stop((uv_stream_t *)&c->tcp);
     if (!body || strlen(body) > MAX_RESPONSE) { code = 500; type = "application/json"; body = "{\"error\":\"response_unavailable\"}"; }
     size_t length = strlen(body), cap = length + 512;
-    c->response = malloc(cap);
-    if (!c->response) { close_connection(c); return; }
-    int h = snprintf(c->response, cap,
+    char *response = malloc(cap);
+    if (!response) { close_connection(c); return; }
+    int h = snprintf(response, cap,
         "HTTP/1.1 %d %s\r\nContent-Type: %s\r\nContent-Length: %zu\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nContent-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'\r\n\r\n",
         code, reason(code), type, length);
-    if (h < 0 || (size_t)h >= cap || length >= cap - (size_t)h) { free(c->response); c->response = NULL; close_connection(c); return; }
-    memcpy(c->response + h, body, length);
-    size_t method = c->parser.method == HTTP_GET ? 0 : c->parser.method == HTTP_POST ? 1 : 2;
-    size_t status = code < 400 ? 0 : code < 500 ? 1 : 2;
-    (void)lie_timer_record(c->owner->metrics, c->owner->http[method][status],
-                           (double)(lie_monotonic_ns() - c->started) / 1e9);
-    uv_buf_t b = uv_buf_init(c->response, (unsigned)((size_t)h + length));
-    c->write.data = c;
-    int rc = uv_write(&c->write, (uv_stream_t *)&c->tcp, &b, 1, wrote);
-    if (rc) { free(c->response); c->response = NULL; close_connection(c); }
+    if (h < 0 || (size_t)h >= cap || length >= cap - (size_t)h) { free(response); close_connection(c); return; }
+    memcpy(response + h, body, length);
+    record_response(c,code);
+    queue_write(c,response,(size_t)h+length,WRITE_FINAL);
 }
-static void error_response(connection *c, int code, const char *message) {
-    json_object *j = json_object_new_object(), *e = json_object_new_object();
-    json_object_object_add(e, "code", json_object_new_string(message));
-    json_object_object_add(e, "message", json_object_new_string(reason(code)));
-    json_object_object_add(j, "error", e);
-    char *body = json_text(j); respond(c, code, "application/json", body); free(body);
+static void error_detail(connection *c, int code, const char *key, const char *message) {
+    json_object *j=json_object_new_object(), *e=json_object_new_object();
+    json_object_object_add(e,"code",json_object_new_string(key));
+    json_object_object_add(e,"message",json_object_new_string(message));
+    json_object_object_add(j,"error",e);
+    char *body=json_text(j); respond(c,code,"application/json",body); free(body);
+}
+static void error_response(connection *c, int code, const char *key) { error_detail(c,code,key,reason(code)); }
+static void job_error(connection *c, const lie_job_info *info) {
+    bool invalid=info->finish==LIE_FINISH_INVALID;
+    error_detail(c,invalid?400:503,invalid?"invalid_request":"inference_failed",
+                 info->error[0]?info->error:"inference_failed");
+}
+static bool backend_ready(server *s) {
+    if (!s->worker || s->stopping) return false;
+    lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+    return info.state==LIE_READY;
+}
+static void output_event(uv_poll_t *poll, int status, int events) {
+    connection *c=poll->data;
+    if (status<0 || !(events&UV_READABLE)) { close_connection(c); return; }
+    (void)lie_flow_drain(lie_job_flow(c->job),LIE_FLOW_OUTPUT_READY);
+    pump_job(c);
+}
+static void pump_job(connection *c) {
+    if (c->closing || c->writing || !c->job) return;
+    lie_job_info info; lie_job_snapshot(c->job,&info);
+    if (!c->responded && info.retired && (info.finish==LIE_FINISH_BACKEND || info.finish==LIE_FINISH_INVALID)) {
+        job_error(c,&info); return;
+    }
+    if (c->streaming && !c->responded && info.prepared) {
+        const char *header="HTTP/1.1 200 OK\r\nContent-Type: text/event-stream; charset=utf-8\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nX-Accel-Buffering: no\r\n\r\n";
+        char *intro=lie_wire_chunk(c->request_id,c->owner->model_id,c->created,"",0,true);
+        if (!intro) { close_connection(c); return; }
+        size_t n=strlen(header)+strlen(intro); char *body=malloc(n+1);
+        if (body) snprintf(body,n+1,"%s%s",header,intro);
+        free(intro); c->responded=true; record_response(c,200);
+        queue_write(c,body,n,WRITE_STREAM); return;
+    }
+    if (c->streaming && !c->responded) return;
+    for (;;) {
+        lie_flow_status status=lie_flow_next(lie_job_flow(c->job),&c->event);
+        if (status==LIE_FLOW_WOULD_BLOCK || status==LIE_FLOW_CLOSED) return;
+        if (status!=LIE_FLOW_OK) { close_connection(c); return; }
+        char text[LIE_CHAT_TOKEN_BYTES*3+8]; size_t bytes=0;
+        bool terminal=c->event.end!=LIE_FLOW_ACTIVE;
+        if (terminal) {
+            lie_job_snapshot(c->job,&info);
+            if (c->event.end==LIE_FLOW_CANCELLED) info.finish=LIE_FINISH_CANCEL;
+            else if (c->event.end==LIE_FLOW_ERROR && info.finish!=LIE_FINISH_INVALID) info.finish=LIE_FINISH_BACKEND;
+        } else c->loan=true;
+        if (!lie_utf8_feed(&c->utf8,(const char *)c->event.data,terminal?0:c->event.bytes,
+                           terminal,text,sizeof(text),&bytes)) { close_connection(c); release_loan(c); return; }
+        if (!c->streaming) {
+            if (bytes>MAX_TEXT-c->text_bytes) { close_connection(c); release_loan(c); return; }
+            memcpy(c->text+c->text_bytes,text,bytes); c->text_bytes+=bytes;
+            if (!terminal) { release_loan(c); continue; }
+            if (info.finish!=LIE_FINISH_STOP && info.finish!=LIE_FINISH_LENGTH) {
+                job_error(c,&info); return;
+            }
+            char *response=lie_wire_completion(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,&info);
+            respond(c,200,"application/json",response); free(response); return;
+        }
+        if (!terminal) {
+            if (!bytes) { release_loan(c); continue; }
+            char *chunk=lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false);
+            queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM); return;
+        }
+        char *tail=bytes?lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false):strdup("");
+        char *end=lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,c->include_usage);
+        if (!tail || !end) { free(tail); free(end); close_connection(c); return; }
+        size_t n=strlen(tail)+strlen(end); char *body=malloc(n+1);
+        if (body) snprintf(body,n+1,"%s%s",tail,end);
+        free(tail); free(end); queue_write(c,body,n,WRITE_STREAM_END); return;
+    }
+}
+static void submit_chat(connection *c) {
+    server *s=c->owner;
+    if (!backend_ready(s)) {
+        lie_counter_add(s->metrics,s->rejected,1); error_response(c,503,"backend_unavailable"); return;
+    }
+    lie_chat_request request; char error[256];
+    if (!lie_chat_parse(c->body,c->body_size,s->model_id,&request,error)) {
+        lie_counter_add(s->metrics,s->rejected_invalid,1);
+        error_response(c,400,error); return;
+    }
+    c->streaming=request.stream; c->include_usage=request.include_usage;
+    if (!c->streaming) {
+        c->text=malloc(MAX_TEXT);
+        if (!c->text) { lie_chat_free(&request); error_response(c,500,"allocation_failed"); return; }
+    }
+    int result=lie_worker_submit(s->worker,&request,&c->job); lie_chat_free(&request);
+    if (result) {
+        lie_counter_add(s->metrics,result==2?s->rejected_capacity:s->rejected,1);
+        error_response(c,result==2?429:503,result==2?"queue_full":"backend_unavailable"); return;
+    }
+    snprintf(c->request_id,sizeof(c->request_id),"chatcmpl-%s-%llu",s->instance,(unsigned long long)++s->request_counter);
+    c->created=(int64_t)time(NULL);
+    if (uv_poll_init(&s->loop,&c->output_poll,lie_flow_fd(lie_job_flow(c->job),LIE_FLOW_OUTPUT_READY))) {
+        close_connection(c); return;
+    }
+    c->output_poll.data=c; c->poll_initialized=true; ++c->handles;
+    if (uv_poll_start(&c->output_poll,UV_READABLE,output_event)) { close_connection(c); return; }
+    pump_job(c);
 }
 static int hex(char c) {
     if (c >= '0' && c <= '9') return c - '0';
@@ -140,21 +286,82 @@ static char *discovery(void) {
 static const char PAGE[] =
     "<!doctype html><html lang=en-US><meta charset=utf-8><title>Synapse LIE</title>"
     "<style>body{font:16px monospace;background:#171b24;color:#d8e6ef;margin:2em}pre{white-space:pre-wrap}</style>"
-    "<h1>Synapse LIE: development diagnostics</h1><p>No inference backend connected. Unknown is not zero.</p>"
+    "<h1>Synapse LIE: development diagnostics</h1><p id=status>No inference backend connected. Unknown is not zero.</p>"
     "<pre id=view>Connecting...</pre><script>const history=[];async function poll(){try{"
     "const r=await fetch('/actuator/llm');if(!r.ok)throw Error('HTTP '+r.status);const s=await r.json();"
+    "document.getElementById('status').textContent=s.ready?'Model loaded. See engine ownership and capability limits below.':'No inference backend connected. Unknown is not zero.';"
     "history.push({at:new Date().toISOString(),state:s});if(history.length>30)history.shift();"
     "document.getElementById('view').textContent=JSON.stringify(history[history.length-1],null,2);"
     "}catch(e){document.getElementById('view').textContent='Unavailable: '+e.message;}setTimeout(poll,2000);}poll();</script></html>";
+static const char *worker_state(lie_worker_state state) {
+    switch (state) {
+        case LIE_LOADING:return "LOADING"; case LIE_READY:return "READY";
+        case LIE_FAILED:return "FAILED"; case LIE_STOPPING:return "STOPPING";
+        case LIE_STOPPED:return "STOPPED";
+    }
+    return "UNKNOWN";
+}
+static json_object *backend_json(server *s) {
+    if (!s->worker) return NULL;
+    lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+    json_object *b=json_object_new_object();
+    json_object_object_add(b,"engine",json_object_new_string(lie_backend_name()));
+    json_object_object_add(b,"source_pin",json_object_new_string(lie_backend_source_pin()));
+    json_object_object_add(b,"build_id",json_object_new_string(LIE_BUILD_ID));
+    json_object_object_add(b,"ownership",json_object_new_string(lie_backend_ownership()));
+    json_object_object_add(b,"state",json_object_new_string(worker_state(info.state)));
+    json_object_object_add(b,"model",json_object_new_string(s->model_id));
+    json_object_object_add(b,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
+    json_object_object_add(b,"hardware_qualified",json_object_new_boolean(false));
+    json_object_object_add(b,"native_batching",json_object_new_boolean(false));
+    json_object_object_add(b,"tools",json_object_new_boolean(false));
+    json_object_object_add(b,"mtp",json_object_new_boolean(false));
+    json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
+    json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
+    return b;
+}
+static char *llm_json(server *s) {
+    json_object *j=json_object_new_object();
+    json_object_object_add(j,"schema",json_object_new_string("synapse-lie.llm.v1"));
+    json_object_object_add(j,"ready",json_object_new_boolean(backend_ready(s)));
+    json_object_object_add(j,"backend",backend_json(s));
+    json_object *scheduler=NULL;
+    if (s->worker) {
+        lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+        scheduler=json_object_new_object();
+        json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-interleaved-single-row"));
+        json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
+        json_object_object_add(scheduler,"active",json_object_new_int(info.active));
+        json_object_object_add(scheduler,"max_active",json_object_new_int(s->max_active));
+        json_object_object_add(scheduler,"admission_capacity",json_object_new_int(LIE_WORKER_JOBS));
+        json_object_object_add(scheduler,"generated_tokens",json_object_new_uint64(info.generated_tokens));
+        json_object_object_add(scheduler,"completed",json_object_new_uint64(info.completed_requests));
+        json_object_object_add(scheduler,"cancelled",json_object_new_uint64(info.cancelled_requests));
+        json_object_object_add(scheduler,"failed",json_object_new_uint64(info.failed_requests));
+    }
+    json_object_object_add(j,"scheduler",scheduler);
+    const char *unknown[]={"memory","cache","speculation","throughput","latency"};
+    for (size_t i=0;i<sizeof(unknown)/sizeof(*unknown);++i) json_object_object_add(j,unknown[i],NULL);
+    return json_text(j);
+}
 static void route(connection *c) {
     server *s = c->owner; char *query = strchr(c->url, '?'); if (query) *query++ = 0;
     if (!c->management) {
         if (!strcmp(c->url, "/v1/models") && c->parser.method == HTTP_GET && !query) {
-            respond(c, 200, "application/json", "{\"object\":\"list\",\"data\":[]}"); return;
+            json_object *j=json_object_new_object(), *data=json_object_new_array();
+            json_object_object_add(j,"object",json_object_new_string("list"));
+            if (backend_ready(s)) {
+                json_object *m=json_object_new_object();
+                json_object_object_add(m,"id",json_object_new_string(s->model_id));
+                json_object_object_add(m,"object",json_object_new_string("model"));
+                json_object_object_add(m,"owned_by",json_object_new_string(lie_backend_name()));
+                json_object_array_add(data,m);
+            }
+            json_object_object_add(j,"data",data); char *body=json_text(j);
+            respond(c,200,"application/json",body); free(body); return;
         }
         if (!strcmp(c->url, "/v1/chat/completions") && c->parser.method == HTTP_POST && !query) {
-            (void)lie_counter_add(s->metrics, s->rejected, 1);
-            error_response(c, 503, "backend_unavailable"); return;
+            submit_chat(c); return;
         }
         error_response(c, 404, "not_found"); return;
     }
@@ -175,17 +382,19 @@ static void route(connection *c) {
         else if (!strcmp(c->url, "/actuator/health/liveness")) {
             respond(c, 200, JSON_TYPE, "{\"status\":\"UP\"}"); return;
         } else if (!strcmp(c->url, "/actuator/health") || !strcmp(c->url, "/actuator/health/readiness")) {
-            respond(c, 503, JSON_TYPE, "{\"status\":\"OUT_OF_SERVICE\",\"components\":{\"model\":{\"status\":\"UNKNOWN\",\"details\":{\"state\":\"NOT_LOADED\"}}}}"); return;
+            bool ready=backend_ready(s);
+            respond(c,ready?200:503,JSON_TYPE,ready?"{\"status\":\"UP\"}":"{\"status\":\"OUT_OF_SERVICE\"}"); return;
         } else if (!strcmp(c->url, "/actuator/info")) {
             json_object *j = json_object_new_object();
             json_object_object_add(j, "application", json_object_new_string("synapse-lie"));
             json_object_object_add(j, "version", json_object_new_string("0.1.0-dev"));
+            json_object_object_add(j, "build_id", json_object_new_string(LIE_BUILD_ID));
             json_object_object_add(j, "instance", json_object_new_string(s->instance));
-            json_object_object_add(j, "backend", NULL);
+            json_object_object_add(j, "backend", backend_json(s));
             json_object_object_add(j, "inference_verified", json_object_new_boolean(false));
             body = json_text(j);
         } else if (!strcmp(c->url, "/actuator/llm")) {
-            respond(c, 200, JSON_TYPE, "{\"schema\":\"synapse-lie.llm.v1\",\"ready\":false,\"backend\":null,\"scheduler\":null,\"memory\":null,\"cache\":null,\"speculation\":null,\"throughput\":null,\"latency\":null}"); return;
+            body=llm_json(s);
         } else { error_response(c, 404, "not_found"); return; }
     }
     respond(c, 200, JSON_TYPE, body); free(body);
@@ -206,59 +415,115 @@ static int on_headers(llhttp_t *p) {
     return 0;
 }
 static int on_body(llhttp_t *p, const char *data, size_t n) {
-    (void)data; connection *c = p->data; c->body_size += n;
-    if (c->body_size > MAX_BODY) { error_response(c, 413, "body_too_large"); return HPE_USER; } return 0;
+    connection *c=p->data;
+    if (n>MAX_BODY-c->body_size) { error_response(c,413,"body_too_large"); return HPE_USER; }
+    size_t needed=c->body_size+n+1;
+    if (needed>c->body_capacity) {
+        size_t cap=c->body_capacity?c->body_capacity:4096;
+        while (cap<needed) cap*=2;
+        if (cap>MAX_BODY+1) cap=MAX_BODY+1;
+        char *body=realloc(c->body,cap);
+        if (!body) { error_response(c,500,"allocation_failed"); return HPE_USER; }
+        c->body=body; c->body_capacity=cap;
+    }
+    memcpy(c->body+c->body_size,data,n); c->body_size+=n; c->body[c->body_size]=0; return 0;
 }
-static int complete(llhttp_t *p) { route(p->data); return HPE_PAUSED; }
+static int complete(llhttp_t *p) {
+    connection *c=p->data; c->input_done=true; return HPE_PAUSED;
+}
 static void alloc_buffer(uv_handle_t *h, size_t suggested, uv_buf_t *b) {
     (void)h; (void)suggested; b->base = malloc(8192); b->len = b->base ? 8192 : 0;
 }
 static void read_data(uv_stream_t *stream, ssize_t n, const uv_buf_t *b) {
     connection *c = stream->data;
     if (n > 0) {
+        if (c->input_done) { free(b->base); close_connection(c); return; }
         c->wire_size += (size_t)n;
         if (c->wire_size > MAX_BODY + MAX_HEADERS + 2048) error_response(c, 413, "request_too_large");
         else {
             llhttp_errno_t e = llhttp_execute(&c->parser, b->base, (size_t)n);
             if (e != HPE_OK && e != HPE_PAUSED && !c->responded) error_response(c, 400, "invalid_http");
+            else if (e==HPE_PAUSED && c->input_done && !c->responded) {
+                const char *end=llhttp_get_error_pos(&c->parser);
+                if (end && end<b->base+n) error_response(c,400,"pipelining_unsupported");
+                else route(c);
+            }
         }
     } else if (n < 0) close_connection(c);
     free(b->base);
 }
 static void closed(uv_handle_t *h) {
-    connection *c = h->data; server *s = c->owner;
-    connection **p = &s->connections;
-    while (*p && *p != c) p = &(*p)->next;
-    if (*p) *p = c->next;
-    --s->active; (void)lie_gauge_set(s->metrics, s->connections_meter, (double)s->active); free(c);
+    connection *c=h->data; server *s=c->owner;
+    if (--c->handles) return;
+    if (c->writing || c->loan) abort();
+    if (c->job) lie_job_release(c->job);
+    connection **p=&s->connections;
+    while (*p && *p!=c) p=&(*p)->next;
+    if (*p) *p=c->next;
+    --s->active; (void)lie_gauge_set(s->metrics,s->connections_meter,(double)s->active);
+    free(c->body); free(c->text); free(c);
 }
-static void close_connection(connection *c) { if (!uv_is_closing((uv_handle_t *)&c->tcp)) uv_close((uv_handle_t *)&c->tcp, closed); }
+static void close_connection(connection *c) {
+    if (c->closing) return;
+    c->closing=true;
+    if (c->job) lie_job_cancel(c->job);
+    uv_read_stop((uv_stream_t *)&c->tcp);
+    if (c->poll_initialized) {
+        uv_poll_stop(&c->output_poll); uv_close((uv_handle_t *)&c->output_poll,closed);
+    }
+    uv_close((uv_handle_t *)&c->tcp,closed);
+    if (!c->writing) release_loan(c);
+}
 static void accepted(uv_stream_t *stream, int status) {
     if (status < 0) return;
     listener *l = stream->data; server *s = l->owner;
     connection *c = calloc(1, sizeof(*c)); if (!c) return;
     if (uv_tcp_init(&s->loop, &c->tcp)) { free(c); return; }
-    c->owner = s; c->management = l->management; c->started = lie_monotonic_ns(); c->tcp.data = c;
+    c->owner = s; c->management = l->management; c->started = lie_monotonic_ns(); c->tcp.data = c; c->handles=1;
     c->next = s->connections; s->connections = c; ++s->active;
     if (uv_accept(stream, (uv_stream_t *)&c->tcp) || s->active > MAX_CONNECTIONS) { close_connection(c); return; }
     (void)lie_gauge_set(s->metrics, s->connections_meter, (double)s->active);
+    int send_bytes=16384; (void)uv_send_buffer_size((uv_handle_t *)&c->tcp,&send_bytes);
+    (void)uv_tcp_nodelay(&c->tcp,1);
     llhttp_init(&c->parser, HTTP_REQUEST, &s->settings); c->parser.data = c;
     if (uv_read_start((uv_stream_t *)&c->tcp, alloc_buffer, read_data)) close_connection(c);
 }
 static void tick(uv_timer_t *timer) {
     server *s = timer->data; uint64_t time = lie_monotonic_ns();
     (void)lie_gauge_set(s->metrics, s->uptime, (double)(time - s->started) / 1e9);
-    for (connection *c = s->connections; c; c = c->next) if (time - c->started >= TIMEOUT_NS) close_connection(c);
+    (void)lie_gauge_set(s->metrics,s->ready,backend_ready(s)?1:0);
+    if (s->worker) {
+        lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+        if (info.generated_tokens>s->generated_seen) {
+            (void)lie_counter_add(s->metrics,s->tokens,(double)(info.generated_tokens-s->generated_seen));
+            s->generated_seen=info.generated_tokens;
+        }
+    }
+    for (connection *c=s->connections;c;c=c->next)
+        if (time-c->started >= (c->job?s->inference_timeout_ns:TIMEOUT_NS)) close_connection(c);
+}
+static void worker_event(uv_poll_t *poll, int status, int events) {
+    (void)events; server *s=poll->data;
+    if (status<0) abort();
+    lie_worker_drain(s->worker);
+    for (connection *c=s->connections;c;c=c->next) if (c->job) pump_job(c);
+    lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+    (void)lie_gauge_set(s->metrics,s->ready,backend_ready(s)?1:0);
+    if (s->stopping && info.state==LIE_STOPPED && !uv_is_closing((uv_handle_t *)poll)) {
+        uv_poll_stop(poll); uv_close((uv_handle_t *)poll,NULL);
+    }
 }
 static void close_handle(uv_handle_t *handle, void *data) {
-    (void)data;
+    server *s=data;
+    if (s && s->worker_poll_initialized && handle==(uv_handle_t *)&s->worker_poll) return;
     if (!uv_is_closing(handle)) uv_close(handle, NULL);
 }
 static void shutdown_server(uv_signal_t *signal, int number) {
     (void)number; server *s = signal->data; if (s->stopping) return;
     s->stopping = true;
+    if (s->worker) lie_worker_stop(s->worker);
     for (connection *c = s->connections; c; c = c->next) close_connection(c);
-    uv_walk(&s->loop, close_handle, NULL);
+    uv_walk(&s->loop, close_handle, s);
 }
 static bool init_metrics(server *s) {
     lie_metric_spec spec = {"runtime.uptime", "Runtime uptime", "seconds", LIE_GAUGE, NULL, 0};
@@ -270,6 +535,10 @@ static bool init_metrics(server *s) {
     spec = (lie_metric_spec){"llm.requests.rejected", "Requests refused before inference", NULL, LIE_COUNTER, NULL, 0};
     lie_tag tag = {"reason", "backend_unavailable"};
     if (lie_metrics_register(s->metrics, &spec, &tag, 1, &s->rejected)) return false;
+    tag.value="queue_full";
+    if (lie_metrics_register(s->metrics,&spec,&tag,1,&s->rejected_capacity)) return false;
+    tag.value="invalid_request";
+    if (lie_metrics_register(s->metrics,&spec,&tag,1,&s->rejected_invalid)) return false;
     spec = (lie_metric_spec){"llm.tokens.generated", "Confirmed generated tokens", "tokens", LIE_COUNTER, NULL, 0};
     if (lie_metrics_register(s->metrics, &spec, NULL, 0, &s->tokens)) return false;
     double buckets[] = {.001, .01, .1, 1, 5};
@@ -289,24 +558,48 @@ static int start_listener(server *s, listener *l, const char *host, int port, bo
     rc = uv_tcp_bind(&l->tcp, (const struct sockaddr *)&address, 0); if (rc) return rc;
     return uv_listen((uv_stream_t *)&l->tcp, MAX_CONNECTIONS, accepted);
 }
-static int port_number(const char *s) {
+static int number(const char *s, int maximum) {
     char *end; errno = 0; long value = strtol(s, &end, 10);
-    return errno || !*s || *end || value < 1 || value > 65535 ? -1 : (int)value;
+    return errno || !*s || *end || value < 1 || value > maximum ? -1 : (int)value;
 }
+static int port_number(const char *s) { return number(s,65535); }
 int main(int argc, char **argv) {
     setlocale(LC_ALL, "C"); int port = 19879, management_port = 19880;
     const char *host = "127.0.0.1", *management_host = "127.0.0.1";
+    const char *model_id=lie_backend_is_synthetic()?"cpu-test-fixture":"qwen3.8-flash-next";
+    lie_worker_options options={NULL,4096,2048,1};
+    int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
-        if (!strcmp(argv[i], "--help")) { puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\nDevelopment management runtime only. No inference backend connected."); return 0; }
+        if (!strcmp(argv[i],"--build-info")) {
+            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false}\n",
+                   LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership());
+            return 0;
+        }
+        if (!strcmp(argv[i], "--help")) {
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1|2] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. No tools, native batching, MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            return 0;
+        }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
         if (!strcmp(argv[i], "--port")) port = port_number(argv[++i]);
         else if (!strcmp(argv[i], "--management-port")) management_port = port_number(argv[++i]);
         else if (!strcmp(argv[i], "--host")) host = argv[++i];
         else if (!strcmp(argv[i], "--management-host")) management_host = argv[++i];
+        else if (!strcmp(argv[i], "--model")) options.model_path=argv[++i];
+        else if (!strcmp(argv[i], "--model-id")) model_id=argv[++i];
+        else if (!strcmp(argv[i], "--context")) options.context=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(argv[i], "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(argv[i], "--max-active")) options.max_active=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
         else { fputs("Unknown option\n", stderr); return 2; }
     }
     if (port < 0 || management_port < 0 || (port == management_port && !strcmp(host, management_host))) { fputs("Invalid listener configuration\n", stderr); return 2; }
-    server s = {0}; s.started = lie_monotonic_ns();
+    if (options.context<128 || options.context>32768 || options.chunk<1 || options.chunk>2048 ||
+        options.max_active<1 || options.max_active>2 || timeout_ms<100 || !*model_id || strlen(model_id)>128 ||
+        !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
+        fputs("Invalid model configuration\n",stderr); return 2;
+    }
+    server s = {0}; s.started = lie_monotonic_ns(); s.model_id=model_id; s.max_active=options.max_active;
+    s.inference_timeout_ns=(uint64_t)timeout_ms*1000000;
     snprintf(s.instance, sizeof(s.instance), "%ld-%llu", (long)getpid(), (unsigned long long)s.started);
     s.metrics = lie_metrics_create(NULL, NULL);
     if (!s.metrics || !init_metrics(&s) || uv_loop_init(&s.loop)) { lie_metrics_destroy(s.metrics); return 1; }
@@ -319,7 +612,32 @@ int main(int argc, char **argv) {
     uv_timer_init(&s.loop, &s.timer); s.timer.data = &s; uv_timer_start(&s.timer, tick, 0, 250);
     uv_signal_init(&s.loop, &s.interrupt); s.interrupt.data = &s; uv_signal_start(&s.interrupt, shutdown_server, SIGINT);
     uv_signal_init(&s.loop, &s.terminate); s.terminate.data = &s; uv_signal_start(&s.terminate, shutdown_server, SIGTERM);
-    printf("API http://%s:%d management http://%s:%d backend=unavailable\n", host, port, management_host, management_port); fflush(stdout);
-    uv_run(&s.loop, UV_RUN_DEFAULT); rc = uv_loop_close(&s.loop); lie_metrics_destroy(s.metrics);
+    if (options.model_path) {
+        s.worker=lie_worker_create(&options);
+        rc=s.worker?uv_poll_init(&s.loop,&s.worker_poll,lie_worker_fd(s.worker)):UV_ENOMEM;
+        if (!rc) {
+            s.worker_poll_initialized=true; s.worker_poll.data=&s;
+            rc=uv_poll_start(&s.worker_poll,UV_READABLE,worker_event);
+        }
+        if (rc) {
+            fprintf(stderr,"Worker startup failed: %s\n",uv_strerror(rc));
+            if (s.worker) lie_worker_stop(s.worker);
+            uv_walk(&s.loop,close_handle,NULL); uv_run(&s.loop,UV_RUN_DEFAULT);
+            if (s.worker) {
+                for (;;) {
+                    lie_worker_info info; lie_worker_snapshot(s.worker,&info); if (info.state==LIE_STOPPED) break;
+                    struct pollfd fd={lie_worker_fd(s.worker),POLLIN,0};
+                    (void)poll(&fd,1,-1); lie_worker_drain(s.worker);
+                }
+                lie_worker_destroy(s.worker);
+            }
+            uv_loop_close(&s.loop); lie_metrics_destroy(s.metrics); return 1;
+        }
+    }
+    printf("API http://%s:%d management http://%s:%d backend=%s\n", host, port, management_host, management_port,
+           s.worker?lie_backend_name():"unavailable"); fflush(stdout);
+    uv_run(&s.loop, UV_RUN_DEFAULT); rc = uv_loop_close(&s.loop);
+    if (s.worker) lie_worker_destroy(s.worker);
+    lie_metrics_destroy(s.metrics);
     return rc ? 1 : 0;
 }

@@ -30,6 +30,23 @@ identity manifests needed for development are separately versioned.
   compiler status/diagnostic retained. Superseded reference-only receipts remain
   unchanged, not retroactively reinterpreted under the new policy.
 
+- `gufo-host-r1/`: complete upstream CMake configuration failed on missing
+  rocWMMA; exit 1 retained, no dependency installed.
+- `gufo-qwen-host-r{1,2}/`: private, serial, local HIP archive builds over unchanged
+  source; Qwen-only scope, not upstream release binaries or inference. r2 adds
+  the real upstream sample unit missing from the initial link closure.
+- `t0-runtime-r1/`: first eight-suite GCC/Clang/ASan/UBSan CPU/synthetic pass.
+- `t0-linked-r1/`: link failure (upstream argmax/sample unit and curl dependency),
+  with exit 1 preserved. No stub was substituted for the missing functionality.
+- `t0-linked-r2/`: actual HIP-linked executable, no-model smoke and synthetic
+  transport checks; no weights or GPU work. Before final refinements.
+- `t0-runtime-r2/`, `t0-linked-r3/`: refined runtime CPU/synthetic/link checks
+  passed 18:11–18:12 UTC; source/binary/build-info identities retained. No model run.
+- `t0-runtime-r3/`, `t0-linked-r4/`: final closure labels after documentation update;
+  inspect actual result/command exits/input/binary hashes, never infer pass from names.
+- `t0-coordination-readonly-r{2,3}.json`: 17:23/18:13 UTC rechecks, DS4 ACK absent;
+  no GPU work.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus
