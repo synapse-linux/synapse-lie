@@ -46,6 +46,24 @@ identity manifests needed for development are separately versioned.
   inspect actual result/command exits/input/binary hashes, never infer pass from names.
 - `t0-coordination-readonly-r{2,3}.json`: 17:23/18:13 UTC rechecks, DS4 ACK absent;
   no GPU work.
+- `t0-model-smoke-r1/r2/`: original-model admissions refused on a DS4 lease,
+  before model open; historical operator window, not a model-load failure.
+- `t0-node-activity-r2/`: fresh 20:01 UTC read-only probe after operator handover.
+- `t0-model-smoke-r3/`: all leases/target DSO preflight passed; runner module-name
+  collision failed immediately after child launch. No inference observed; helper
+  exit 1/child exit -15, retained unchanged.
+- `t0-smoke-http-red-r1/`, `t0-smoke-http-green-r1/`: focused synthetic HTTP
+  regression reproduces the name collision, then passes four cases after alias fix.
+- `t0-smoke-runner-fix-r1/`: nine-suite GCC/Clang/ASan/UBSan/header verification;
+  no model execution during this CPU verification.
+- `t0-smoke-closure-r1/`: final runner/documentation CPU-only closure; actual
+  commands/exits and final input hashes are authoritative.
+- `t0-model-smoke-r4/`: actual original-weight GPU serving smoke at 20:07 UTC;
+  six JSON/SSE requests, exact predeclared outputs, consistent usage/accounting,
+  clean exit and unchanged binary/model identities. Not pristine numerical,
+  broad quality, concurrency, cancellation-in-flight or performance qualification.
+  `remote-results/result.json`, `process-exit.json` and `assessment.json` define
+  scope; one-second whole-device/system samples are not exact LIE peak accounting.
 
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.

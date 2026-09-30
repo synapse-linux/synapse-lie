@@ -5,16 +5,19 @@ Primarily C17, initially targeting Qwen3.8 Flash Next on AMD Strix Halo. An
 refactored toward LIE-owned model/session/memory/execution. Delegation is not
 reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 
-## Current build: linked T0 candidate, real-model qualification blocked
+## Current build: original-weight T0 HTTP/SSE smoke passed
 
 The C worker, bounded admission, reactive flow and HTTP nonstream/SSE path are
-implemented. The optional HIP executable now **links actual pinned Gufo code**;
-it is no longer just an adapter object. CPU and synthetic-transport checks pass.
-**No LIE model has been loaded or run on the GPU.** Two operator-authorized target
-attempts on 2026-09-30 were refused before model open by busy DS4 leases; at 18:53
-UTC DS4 was running a GPU benchmark. See [the smoke record](docs/T0-SMOKE.md).
-A linked executable and synthetic frames do not establish working original-weight
-inference.
+implemented. The optional HIP executable **links actual pinned Gufo code**.
+On 2026-09-30 at 20:07 UTC, after a fresh operator handover and lease acquisition,
+`t0-model-smoke-r4` ran the original UD-Q4_K_XL model on Strix Halo: all six
+predeclared JSON/SSE requests passed, with identical content/usage/finish per
+pair and clean shutdown. This is **LIE serving with embedded Gufo**, not an owned
+numerical backend or full numerical/quality/performance qualification.
+
+Earlier lock refusals and a subsequent runner defect are preserved, not erased
+by this success. The runner fix has a CPU-only regression test.
+See [the exact smoke scope and record](docs/T0-SMOKE.md).
 
 Without a configured model, readiness remains 503, models is empty and chat is
 503. No production fake-output switch exists. A separate `test-synthetic-server`
@@ -59,8 +62,9 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Eight suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
-C ABI layout, HTTP/monitor and HTTP/SSE with the separate synthetic executor.
+Nine suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor, and
+CPU-only smoke-runner HTTP regression.
 They cover bounded overload, stalled consumers, peer progress, disconnect,
 in-flight cancellation, poison, error terminals and shutdown. They do not
 qualify real model output, numerical equivalence, native batching, GPU faults,

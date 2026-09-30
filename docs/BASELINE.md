@@ -92,8 +92,11 @@ this comparator build**, not the LIE backend build. Register compiler/flags and
 loaded DSOs, and keep comparator binaries in a content-addressed test-owned
 directory. The experimental adapter object check is NOT that baseline build.
 The separate optional LIE executable now links real Gufo libraries from a LIE-owned
-Qwen-only source subset; that no-model link/smoke result is neither this pristine
-baseline nor working original-weight inference. See [BACKEND.md](BACKEND.md).
+Qwen-only source subset; its no-model link verification was neither this pristine
+baseline nor original-weight inference. A later, separately leased run
+(`t0-model-smoke-r4`) passed bounded original-weight HTTP/SSE smoke. That new result
+still does not close this independent physical-token/frontier/logit comparison.
+See [BACKEND.md](BACKEND.md).
 
 After shared lease/admission, first verify upstream with the first original
 shard, AR, context4096, one session, no MTP/vision, greedy/thinking-off, known

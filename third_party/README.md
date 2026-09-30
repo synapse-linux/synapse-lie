@@ -14,7 +14,7 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | llhttp | 9.3.1 | MIT; HTTP/1 parser |
 | json-c | 0.19 | MIT; JSON serialization/parsing |
 | libcurl | 8.21.0 | curl license; monitor and optional upstream image-helper link dependency (images not exposed) |
-| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; opt-in HIP-linked transitional Model/Session adapter, no hardware execution yet |
+| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; opt-in HIP-linked transitional Model/Session adapter; bounded original-weight smoke passed, numerical qualification open |
 | ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
 | ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |
 

@@ -3,8 +3,9 @@
 The adapter delegates to Gufo Model/Session. **This is permitted for bootstrap,
 not proof of an autonomous LIE backend.** [BACKEND.md](BACKEND.md) defines the
 subsequent requirement-driven replacement gates. It now links into the optional
-HIP server and is connected to the C worker/flow/HTTP path. It has not executed a
-real model or been hardware-qualified. The eventual owned numerical ABI remains
+HIP server and is connected to the C worker/flow/HTTP path. A bounded original-weight
+C1 HTTP/SSE smoke passed on Strix Halo (`t0-model-smoke-r4`); full numerical and
+hardware qualification remain open. The eventual owned numerical ABI remains
 separate; keep upstream types inside the adapter.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
@@ -44,7 +45,7 @@ source pin and ownership queries expose delegation; the explicit factory
   The caller must pin a sequence while any thread can cancel/use it, join/observe
   completion and only then close it. The worker/job gate serializes latch calls
   against sequence detachment, never holding the gate across blocking execution.
-  Synthetic tests exercise this lifetime; the actual GPU path is still untested.
+  Synthetic tests exercise this lifetime; GPU cancellation-in-flight is still untested.
 - Invalid parameters are nonmutating refusals. A backend exception/forward
   failure poisons the runtime; it cannot be retried or downgraded to a cache
   miss. Loaded-runtime failure drains HIP work before returning failure; an

@@ -27,16 +27,25 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest one-shot admission
+## Latest operator window
 
-After the operator confirmed DS4 was coding and authorized proceeding following
-an idle-node check, a bounded one-shot test was attempted using all known legacy
-and shared leases. This did not create an ACK on behalf of DS4 or grant a permanent
-admission exception. Both 18:49/18:51 UTC attempts were refused before model open.
-At 18:53 UTC DS4 `native-perf` was actively benchmarking and its supervisor held
-the download, qualification and shared LIE/DS4 locks. ACK/register remained absent.
-See [T0-SMOKE.md](T0-SMOKE.md). Do not opportunistically enter between benchmark
-jobs: an actual campaign-window handover is needed before another attempt.
+The 18:49/18:51 UTC attempts were refused before model open, and DS4 was actively
+benchmarking at 18:53. Those receipts remain unchanged. At 20:01 UTC the operator
+explicitly handed the machines back for LIE development: “ok per ora riprendi lo
+sviluppo lie che le macchine sono libere”. A fresh read-only probe found no KFD or
+observable inference/model clients and no known lease holders.
+
+Both new attempts acquired pipeline/download/qualification/shared locks in that
+order, nonblockingly. `t0-model-smoke-r3` passed DSO preflight but failed immediately
+after child launch on a runner defect; `t0-model-smoke-r4`, with its regression-tested
+fix, passed the original-weight C1 HTTP/SSE smoke and exited cleanly at 20:07:42 UTC.
+The shared register has actual start/end records. Leases were retained through
+cleanup and released afterwards. No permanent listener remains.
+
+The operator handover is not an ACK or permanent shared-runner adoption; no
+`ds4-ack.json` was forged. See [T0-SMOKE.md](T0-SMOKE.md). Never opportunistically
+enter gaps between another owner's benchmark jobs; fresh work still needs an
+actual available campaign window and the same admission controls.
 
 ## Shared protocol: proposed, not acknowledged
 
@@ -77,9 +86,11 @@ before refusing. Desktop activity and noncooperating clients must be accounted
 for. Avoid a fixed assistant-invented RAM floor; choose explicit measured job
 budgets with the operator, never interpret a policy stop as OOM/capacity proof.
 
-**Hardware and heavy-I/O tests remain blocked until this coordination is
-confirmed.** CPU tests are on .155. Remote reconnaissance reads small receipts,
-sysfs/proc and bounded GGUF metadata only (about 33 MB), not tensor payloads.
-No inference was launched on either host by this fork. Local `.155` serial HIP
-source compilation/linking and no-model/synthetic tests are recorded separately;
-no remote GPU build or model execution is implied by their success.
+**Further hardware/heavy-I/O work requires current coordination and admission;
+the completed operator window is not a standing lease.** CPU tests are on .155.
+Read-only reconnaissance reads small receipts/sysfs/proc and bounded metadata,
+not tensor payloads. The separately authorized r4 model run did read original
+weights and execute HIP on .157; it passed a bounded serving smoke, not a numerical
+or performance qualification. Local compilation/no-model/synthetic receipts retain
+their original scope. No remote compilation, dependency installation or model
+conversion was performed.

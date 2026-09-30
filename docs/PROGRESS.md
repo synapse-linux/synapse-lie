@@ -1,11 +1,31 @@
-# Resumption — linked T0 candidate, hardware gate still open
+# Resumption — original-weight T0 serving smoke passed, numerical gate open
 
 Owner: synapse-lie fork; DS4 remains the other agent's project.
 Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on `.155`.
 Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
-This increment starts at `79625ce`. No workflow or independent review is claimed.
+The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
+at `b7de609`. No workflow or independent review is claimed.
 
-## Latest target admission — 2026-09-30 18:53 UTC
+## Latest target result — 2026-09-30 20:07 UTC
+
+A fresh operator handover (machines free, resume LIE) and read-only observation
+preceded successful acquisition of all four existing leases. `t0-model-smoke-r3`
+passed target binary/DSO preflight but hit a Python runner name collision directly
+after server launch; no inference was observed, helper exit 1/child exit -15.
+That failure is retained. `http_client` now avoids the collision, with four
+CPU-only HTTP regression cases added as the ninth CTest suite. Focused RED/GREEN
+and GCC/Clang/ASan/UBSan/header checks passed (`t0-smoke-runner-fix-r1`).
+
+`t0-model-smoke-r4` then passed **all six original-weight requests**: READY, 4 and
+`caffè 🙂`, each nonstream and SSE with identical content/usage/stop, one DONE,
+clean retirement and server/helper exit 0. Totals: six completed requests, ten
+emitted tokens, zero failed/cancelled. No foreign GPU clients were observed;
+KFD was empty after shutdown, and binary/model identities were unchanged.
+Executed build remains `t0-linked-r4`; no C/C++ runtime source changed.
+See [T0-SMOKE.md](T0-SMOKE.md) and its exact receipts. No pristine numerical,
+broad quality, concurrency, cancellation-in-flight or performance qualification follows.
+
+## Previous target admissions — 2026-09-30 18:53 UTC
 
 Following the operator's explicit go-ahead after the idle-node inspection,
 `tools/smoke-model.py` and the unchanged `t0-linked-r4` binary were staged under
@@ -25,11 +45,11 @@ The user permits embedded Gufo for T0, followed by requirement-driven T1/T2
 refactoring toward an autonomous C backend. The older reference-only prohibition
 is superseded, not the autonomy goal. See BACKEND.md and INFERENCE-REACTIVE.md.
 
-**An actual HIP-linked executable now exists. No LIE GPU/model execution has
-occurred.** The code path is no longer merely an adapter object: C HTTP/SSE,
-worker, bounded queues, flow control and provider binding are connected. A
-separate synthetic executor tests that path without pretending to run a model.
-The original-weight first-working-build acceptance gate is therefore still open.
+**The HIP-linked executable has now performed bounded original-weight GPU
+inference through C HTTP/SSE, worker, flow and provider binding.** The first real
+serving smoke passed, while the complete T0 acceptance gate (including pristine
+numerical comparison and real cancellation/backpressure) remains open. Separate
+synthetic tests are still distinct from this actual-model evidence.
 
 ## Implemented in this increment
 
@@ -86,46 +106,49 @@ record actual process exit codes, logs and source/binary identities.
 18:12:19–18:12:26 UTC, with no model access/GPU execution. Its binary SHA256 is
 `b7b42150d070bf91915d2859ce66b71fed2d386f4a7f12682d5e1736309fd1d6`.
 
-Following this evidence/coordination documentation update, final closure labels
-are **`t0-runtime-r3`** and **`t0-linked-r4`**. Their `result.json` and the delivery
-receipt, not this planned
-label or a build target, establish success and exact source identity. Fresh
-label-owned build directories preserve earlier artifacts. Local link verification
+The runtime closure labels are **`t0-runtime-r3`** and **`t0-linked-r4`**.
+The resumed runner/documentation closure is **`t0-smoke-closure-r1`** (CPU only).
+Their `result.json` and delivery receipts, not a label or build target, establish
+success and exact source identity. Label-owned build directories preserve earlier artifacts. Local link verification
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Eight suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`, `metrics`,
-`monitor-parser`, `executor-c-layout`, `http-monitor`, `http-synthetic`.
+Nine current suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`,
+`metrics`, `monitor-parser`, `executor-c-layout`, `http-monitor`, `http-synthetic`,
+`model-smoke-helper`. The last suite tests only the Python supervisor's HTTP client
+against an ephemeral synthetic server, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,
 UTF-8 split/invalid bytes, JSON/SSE equivalence, deadline, poison, error terminal,
 FD cleanup and shutdown. They are not GPU/numerical/quality evidence. ASan/UBSan
-covers first-party CPU paths and the fixture, not the unexecuted GPU kernels.
+covers first-party CPU paths and the fixture, not the GPU kernels.
 No TSan, independent review or promtool pass is claimed.
 
 Earlier `cpu-closure-r1/r2`, `reactive-closure-r1`, `backend-scope-r1`,
 `backend-evolution-r1`, guard refusals and their delivery receipts remain historical
 and unchanged. The old policy/guard result is not reinterpreted retrospectively.
 
-## Coordination: last live check
+## Coordination: resumed window
 
-At **2026-09-30T18:13:29Z**, SSH `.155 -> .157` succeeded and
-`/tmp/synapse-lie-ds4-coordination/ds4-ack.json` was absent. Evidence:
-`t0-coordination-readonly-r3.json`. Earlier checks at 16:25 and 17:23 also lacked ACK.
-No remote build, model hash/conversion, model run or new remote service was started.
-No DS4 file, cache, service, profile, model or qualified artifact was changed.
+The 20:01 UTC observation (`t0-node-activity-r2`) followed the operator's fresh
+handover. No DS4 ACK was present; none was written for its owner. Both r3 and r4
+held pipeline/download/qualification/shared leases, with actual start/end records.
+The successful r4 exited at 20:07:42 UTC and released its leases. No foreign
+process, DS4 source/build/cache/service/profile, model or qualified artifact was
+modified. No deployment or background retry is left running.
 
-Idle hardware or acquiring our own new lock would not be consensus. The DS4
-owner must acknowledge adoption/runner/lock ordering, then a shared lease and
-execution register must cover a fresh preflight and each admitted run. See
-COORDINATION.md. Access to SSH alone is not that authorization.
+This operator window is not permanent shared-runner adoption. Further GPU work
+requires a current handover/lease, fresh preflight and register entries; idle
+hardware or SSH alone is not authorization. See COORDINATION.md.
 
-## Next authorized work after the hardware gate
+## Next work under a fresh admitted run
 
 1. Fresh identity/memory/storage preflight; stat the original five read-only files
    against inventory, without assuming old values are live or rehashing weights.
-2. Private serial target build and independently pinned pristine comparator;
-   record compiler, flags, source, binary and runtime dependency identities.
+2. Build a private independently pinned pristine comparator; retain compiler,
+   flags, source, binary and target DSO identities. Prefer local serial compilation;
+   remote GPU compilation needs separate coordination. Full upstream configure's
+   missing rocWMMA dependency remains a blocker, not permission to install it.
    Local workspace visibility on `.157` must not be assumed.
 3. Original-weight C1 short-context AR: validate physical prompt IDs, completed
    frontiers and output against the reference, then nonstream/SSE equivalence,

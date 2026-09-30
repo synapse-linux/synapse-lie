@@ -7,7 +7,7 @@ The manifest is a run record, not reusable authorization for a future run.
 import datetime
 import fcntl
 import hashlib
-import http.client
+import http.client as http_client
 import json
 import os
 from pathlib import Path
@@ -55,7 +55,7 @@ def model_stat(record):
     return {'path':record['path'],**actual,'historical_sha256':record['historical_sha256'],'full_hash_recomputed':False}
 
 def http(port,path,body=None,timeout=120):
-    c=http.client.HTTPConnection('127.0.0.1',port,timeout=timeout)
+    c=http_client.HTTPConnection('127.0.0.1',port,timeout=timeout)
     try:
         c.request('GET' if body is None else 'POST',path,body,{} if body is None else {'Content-Type':'application/json'})
         r=c.getresponse(); payload=r.read(1024*1024+1)
@@ -204,7 +204,7 @@ def main():
                     obj=json.loads(state['body']); result['last_loading_state']=obj
                     if obj['backend']['state']=='FAILED': raise RuntimeError('model load failed: '+str(obj['backend']['error']))
                     if obj['ready']: break
-            except (OSError,http.client.HTTPException): pass
+            except (OSError,http_client.HTTPException): pass
             if time.monotonic()>deadline: raise RuntimeError('model loading deadline')
             if time.monotonic()-announced>10:
                 save(); print(now(),'waiting for model readiness',flush=True); announced=time.monotonic()

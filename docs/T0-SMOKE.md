@@ -57,7 +57,7 @@ or release qualification. In particular it is not the pristine comparator gate:
 physical token/frontier/full finite-logit comparison still needs its separately
 specified harness. No serving or pure-inference speedup follows from wall times.
 
-## Observed admission outcomes — no model execution
+## Earlier admission outcomes — r1/r2, no model execution
 
 - `t0-model-smoke-r1`, 18:49:35 UTC: exclusive outer pipeline lock acquired, then
   download lock returned EAGAIN. Exit 1; `model_attempted:false`. A foreign KFD
@@ -79,6 +79,68 @@ specified harness. No serving or pure-inference speedup follows from wall times.
   No further retry or background waiter is scheduled. Resume only after a real
   handover of the campaign window; ACK/register remained absent at 18:53:55 UTC.
 
-The portable binary is staged only under the two private LIE run directories,
-not installed as a service. Its target DSO compatibility and real-model behavior
-remain untested because both admissions failed before no-model binary preflight.
+At the end of r1/r2, the portable binary was staged only under private LIE run
+directories, not installed as a service. Target DSO compatibility and real-model
+behavior were then untested because both admissions failed before binary preflight.
+
+## Resumed operator window — 2026-09-30 20:01–20:07 UTC
+
+The operator explicitly said **“ok per ora riprendi lo sviluppo lie che le
+macchine sono libere”**. This is a fresh development/test handover, not reuse of
+the old authorization or an ACK written for the DS4 owner. The new read-only
+`t0-node-activity-r2` probe observed GPU busy 0% in five samples, no KFD clients,
+no observable inference candidates/model handles/HIP mappings and no holder of
+the known leases. Permission-denied observations remain recorded; this is not
+proof of global exclusivity. Each new run still acquired all four existing locks
+nonblockingly and retained them through cleanup.
+
+### r3 — runner defect, preserved failure
+
+`t0-model-smoke-r3` acquired all leases and passed `--build-info`, ELF/DSO checks
+and original-model stat admission. At 20:03:53 UTC it launched the owned server,
+then immediately failed because the Python function `http` shadowed the imported
+`http.client` module. The child exited -15 during cleanup; the server log was
+empty, no readiness or generated output was observed, and the supervisor exited 1.
+This is a runner failure, not evidence of model-load failure or OOM.
+
+The module now has the explicit alias `http_client`. The CPU-only regression in
+`tests/test_smoke_model.py` reproduced the error before the fix, then passed GET,
+UTF-8 POST, non-200 status preservation and response-size refusal after the fix.
+It is the ninth CTest suite, `model-smoke-helper`. No runtime C/C++ source or
+model oracle changed. `t0-smoke-http-red-r1`, `t0-smoke-http-green-r1` and
+`t0-smoke-runner-fix-r1` preserve the focused and GCC/Clang/ASan/UBSan results.
+
+### r4 — bounded original-weight HTTP/SSE smoke PASS
+
+A new exclusive directory/manifest used the corrected helper, the same original
+weights and the same predeclared requests. The real server became ready at
+20:07:40.366 UTC and retired cleanly at 20:07:42.302 UTC.
+
+| Case | Exact content | Reported prompt tokens | Emitted tokens | Finish | JSON/SSE |
+|---|---|---:|---:|---|---|
+| ready | `READY` | 25 | 1 | stop | identical |
+| arithmetic | `4` | 31 | 1 | stop | identical |
+| unicode | `caffè 🙂` | 24 | 3 | stop | identical |
+
+Worker totals: six completed requests, ten emitted tokens, zero failed/cancelled,
+zero queued/active after retirement. Each stream had exactly one DONE. Both server
+and helper exited 0. No foreign GPU clients were observed; KFD was empty before
+and after. All five original model stat identities and the binary hash remained
+unchanged. The MTP sidecar was only stat-checked, not used. No package installation,
+model conversion, foreign-process termination, tuning or permanent service occurred.
+
+Executed binary: `build/t0-linked-r4/synapse-lie-server`, SHA256
+`22e0023465e67f860081fe32c2280bb64673339532b74bbd5bac0f97324d3fbc`.
+Corrected runner SHA256:
+`99dd271d638a90ed139fc10b816ed891184523da3b646aafc4c42b8f90456464`.
+Authoritative result: `evidence/t0-model-smoke-r4/remote-results/result.json`;
+assessment, process exit, DSO hashes, server log and 24 one-second telemetry samples
+are retained alongside it. The shared register contains actual start/end records;
+no DS4 ACK was fabricated.
+
+This closes the **first real-model serving smoke**, not the complete T0 acceptance
+gate. Physical-token/frontier/full-logit comparison against a separately qualified
+pristine reference, real cancellation/backpressure/concurrency, broader quality,
+capacity and performance remain open. Whole-device GTT and system MemAvailable
+samples are not exact LIE allocation/peak accounting. `hardware_qualified` and
+`inference_verified` diagnostics remain false; this smoke does not redefine them.

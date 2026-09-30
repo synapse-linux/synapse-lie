@@ -1,8 +1,10 @@
 # HTTP / SSE and monitor contract — T0 candidate
 
-The optional real provider is linked, not hardware-qualified. CPU transport tests
-use a separate, clearly labelled synthetic executable. No model is configured by
-default and no synthetic provider can be selected in `synapse-lie-server`.
+The optional real provider is linked. A separately leased original-weight C1
+JSON/SSE smoke passed (`t0-model-smoke-r4`), but full numerical/hardware qualification
+remains open. CPU transport tests use a separate, clearly labelled synthetic
+executable. No model is configured by default and no synthetic provider can be
+selected in `synapse-lie-server`.
 
 ## Management listener
 

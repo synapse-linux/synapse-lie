@@ -106,11 +106,12 @@ not DS4 native19 or an automatically portable future LIE state format.
   acknowledgement; this gate is not marked complete.
 - Independent part of B/E: compiled C management runtime, metric registry,
   monitor and compile-checked adapter delivered while hardware is blocked.
-- Reactive/T0 software slice: primitive and worker/HTTP/executor bindings are
-  implemented, HIP-linked and CPU/synthetic-tested. Not real-model qualification.
-- Next B / T0: under the lease, qualify the pinned pristine comparator and the
-  linked candidate on original-model short AR, nonstream/SSE and cancellation/
-  backpressure. Do not transfer synthetic results to GPU correctness.
+- Reactive/T0 slice: primitive and worker/HTTP/executor bindings are implemented,
+  HIP-linked and CPU/synthetic-tested. A separately leased original-weight C1
+  JSON/SSE smoke passed in `t0-model-smoke-r4`; this is not full T0 qualification.
+- Next B / T0: under a fresh admitted run, qualify the pinned pristine comparator
+  and physical-token/frontier/logit equivalence, then real cancellation/backpressure.
+  Do not transfer synthetic results to GPU correctness.
 - C / T1: refactor one responsibility at a time against requirements and evidence;
   qualify lifecycle, admission/chunks, C1/2/4/8 and MTP on their actual paths.
   Trace and test reactive pure-inference hypotheses separately from serving gains.

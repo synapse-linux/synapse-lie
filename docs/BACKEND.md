@@ -118,7 +118,7 @@ then test bounded changes to dependencies/synchronization, dispatch, overlap or
 buffer liveness. C1 PP/TG, concurrent throughput and HTTP responsiveness have
 separate evidence gates. This may motivate a T1 extraction from the synchronous
 upstream executor; it is not proof that an outer callback speeds up forward.
-No performance gain or GPU experiment is currently established.
+No pure-inference performance gain or controlled optimization experiment is established.
 
 ## New requirements and upstream evolution
 
@@ -157,7 +157,10 @@ pinned chat preparation are implemented. `LIE_GUFO_HEADER_CHECK` remains a
 separate object-only check guarded by `LIE_GUFO_ADAPTER_OPT_IN`.
 
 CPU tests exercise the real C serving path with a separate synthetic provider;
-no-model smoke also checks the HIP-linked executable. No LIE GPU/model execution,
-owned model/session/executor, numerical port or performance result is established.
-Real C1 T0 acceptance remains behind the DS4 lease and numerical/transport gates.
-Neither v0.1 nor deployment is qualified; see PROGRESS.md for receipts.
+no-model smoke also checks the HIP-linked executable. The separately leased
+`t0-model-smoke-r4` passed six original-weight C1 JSON/SSE requests with clean
+retirement on Strix Halo. This establishes bounded real serving with embedded
+Gufo, not pristine numerical equivalence, broad quality, an owned executor,
+a numerical port or performance. Full T0 acceptance still needs its numerical
+and real cancellation/backpressure gates. Neither v0.1 nor deployment is qualified;
+see PROGRESS.md for receipts.
