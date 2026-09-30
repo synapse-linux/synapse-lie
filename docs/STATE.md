@@ -15,19 +15,26 @@ bytes/UTF-8 remainder, stop matcher/parser, tool-call state and turn metadata.
 Predictor/controller state must be saved or reconstructed by a specified replay.
 No exact resume claim if any of these are omitted.
 
-Qwen Flash Next is hybrid. Gufo `SessionSnapshot` stores tokens, last logits,
-attention caches, recurrent state, draft block/history and the speculative
-length controller. Its external `SamplerState` is not magically included. The
-inspected payload version is 14. It is not compatible with DS4 native19 just
-because weights or token counts match.
+Qwen Flash Next is hybrid. LIE must own and capture its token history, logits,
+attention KV, recurrent/SSM and convolution state, positions and, when supported,
+MTP carry/history/rollback and controller state. Sampling/RNG must be included
+explicitly for resumable sessions. No snapshot wrapper around upstream Session
+objects substitutes for this backend ownership; see [BACKEND.md](BACKEND.md).
+
+The inspected Gufo `SessionSnapshot` and external `SamplerState` illustrate the
+coverage requirements, but its payload version 14 is only reference information.
+Neither Gufo v14 nor DS4 native19 is a LIE state format or an implicitly accepted
+restore payload, even with identical weights or token counts.
 
 ## Proposed on-disk framing (must be frozen and tested before writer code)
 
 Little-endian envelope with magic, envelope version, fixed header length,
 kind, total length, metadata length, token count, payload length and checksum
-algorithm. Bounded canonical metadata and LE int32 token array precede the
-opaque backend payload. SHA-256 covers the declared metadata + tokens + payload;
-lengths and identity must validate before backend admission.
+algorithm. Bounded canonical metadata and LE int32 token array precede a
+LIE-owned versioned payload with an explicit component/layout schema. It may be
+opaque to HTTP/storage transport, but not an undocumented upstream snapshot blob.
+SHA-256 covers the declared metadata + tokens + payload; lengths, component
+coverage and identity must validate before LIE restore admission.
 
 Compatibility identity must cover full weight/shard identities and quantization,
 model config, tokenizer vocabulary/normalization, actual template/reasoning mode,

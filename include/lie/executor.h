@@ -1,4 +1,6 @@
 /* SPDX-License-Identifier: MIT */
+/* Historical reference-only Gufo interoperability ABI, NOT the production LIE
+ * backend or its numerical/device ABI. See docs/BACKEND.md and docs/ABI.md. */
 #ifndef LIE_EXECUTOR_H
 #define LIE_EXECUTOR_H
 #include <stddef.h>

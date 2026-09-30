@@ -18,6 +18,11 @@ identity manifests needed for development are separately versioned.
   adapter header check, source/provenance and binary hashes. Inspect result.json
   before claiming success. Reactive tests are synthetic byte-frame/lifetime
   checks, not HTTP/SSE inference or GPU scheduling tests.
+- `backend-scope-r1/`: CPU suite and guarded reference-only object compilation
+  after the autonomous-backend scope correction; not backend implementation.
+- `backend-reference-refusal-r1/`: unmarked adapter compilation must fail with
+  the explicit reference-only diagnostic; original compiler status is retained.
+  The earlier adapter receipts are historical, not reimplementation evidence.
 
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.

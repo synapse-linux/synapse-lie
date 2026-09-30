@@ -1,13 +1,17 @@
 # synapse-lie — Local Inference Engine
 
-C17 local serving runtime under development, initially targeting Qwen3.8 Flash
-Next on AMD Strix Halo. One resident model/device per future inference instance.
+Primarily C17 local inference engine under development, initially targeting Qwen3.8
+Flash Next on AMD Strix Halo. LIE must own its model loader, sessions, memory and
+executor, selectively porting useful Gufo numerical kernels. **Not a Gufo proxy,
+launcher or frontend over Gufo Model/Session**, even in-process behind a C ABI.
+See the authoritative [backend ownership contract](docs/BACKEND.md).
 
 **Current increment: working CPU management/observability runtime, not an LLM
 server yet.** No model is loaded. Readiness is 503, `/v1/models` is empty and chat
 requests return an explicit 503; there are no synthetic completions. The
-experimental Gufo C ABI adapter compiles against pinned upstream headers but is
-not linked into the server or hardware-qualified. **v0.1 is not ready.**
+reference-only Gufo interoperability adapter compiles against pinned headers but
+is not linked into the server, hardware-qualified or the planned production
+backend. The autonomous LIE backend is not implemented. **v0.1 is not ready.**
 
 ## Reactive pattern
 
@@ -25,7 +29,7 @@ pinned in-flight/transport loans and out-of-band terminal signals. Linux eventfd
 provides coalesced wakeups; there is no polling-for-tokens loop. A slow stream
 exhausts its own capacity instead of creating an unbounded output queue.
 
-**The component is CPU-tested but not wired into HTTP, a scheduler or Gufo.**
+**The component is CPU-tested but not wired into HTTP or an inference executor.**
 libuv currently supplies the network Reactor, not reactive inference. No Project
 Reactor/JVM dependency or Reactive Streams certification is claimed. The concrete
 contract, feedback loop and remaining integration are in [REACTIVE.md](docs/REACTIVE.md).
@@ -76,7 +80,7 @@ network handles; no service is installed. Listener hosts are independently
 configurable; **keep the defaults on loopback**. No authentication or TLS is
 implemented by the server, so do not expose management publicly.
 
-## Experimental Gufo boundary
+## Reference-only Gufo interoperability experiment
 
 ```sh
 python3 tools/fetch-gufo.py  # Explicit ~5.5 MB upstream source fetch, no weights
@@ -87,13 +91,15 @@ cmake --build build/adapter-check --target lie_gufo_header_check -j2
 The fetch verifies the exact archive hash and retains upstream notices. It
 refuses an existing destination. This target is deliberately named **header
 check**: an object with unresolved Gufo symbols is not a runnable backend.
-It preserves upstream Model/Session/ROCm calls; no numerical kernels are rewritten.
+It delegates to upstream Model/Session and is retained as a reference experiment,
+**not to be linked into production**. No numerical kernel port is implemented yet.
 
 ## Contracts and next work
 
+- [Autonomous backend ownership and reimplementation gates](docs/BACKEND.md)
 - [Architecture/ownership and increment plan](docs/ARCHITECTURE.md)
 - [Reactive pattern, implemented C flow and integration obligations](docs/REACTIVE.md)
-- [Experimental C ABI](docs/ABI.md)
+- [Reference-only experimental ABI; not the production backend](docs/ABI.md)
 - [Actuator/Micrometer subset and metric meanings](docs/METRICS.md)
 - [HTTP and monitor](docs/HTTP.md)
 - [State persistence design, not implemented](docs/STATE.md)
@@ -102,7 +108,9 @@ It preserves upstream Model/Session/ROCm calls; no numerical kernels are rewritt
 - [Resumption/progress note](docs/PROGRESS.md)
 - [Source/dependency provenance](third_party/README.md)
 
-Next gate: independent pinned Gufo build and a real original-model AR request
-under the agreed .157 lease, followed by linking the adapter into a dedicated
-executor worker and wiring real HTTP/SSE. Native batching, tool-aware turns,
-MTP, RAM/SSD snapshots, inference histograms and CUDA remain later increments.
+Next implementation: the LIE C GGUF/model loader and tensor contracts, then
+owned state/device storage and selectively ported numerical operations toward a
+real AR executor. Build pristine Gufo only as an isolated reference under the
+agreed .157 lease. Wire HTTP/SSE to **LIE's own executor**, not the legacy adapter.
+Native batching, tool-aware turns, MTP, RAM/SSD snapshots and CUDA follow their
+own correctness gates. The previous embedded-Gufo integration plan is superseded.

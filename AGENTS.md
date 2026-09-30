@@ -8,8 +8,15 @@ SPDX markers. Use Git Flow (`feature/*` from `develop`); no implicit publication
 - Do not import project code/artifacts from the sibling CachyOS workspace.
   Official upstream Gufo source is fetched independently at the recorded pin.
   Read-only historical DS4 qualification data is reference evidence, not code.
-- Core/network/scheduling/resource accounting/metrics are C17. Isolate C++/HIP
-  behind `include/lie/executor.h`; no CPU model-forward substitution.
+- Implement an autonomous LIE backend, not a Gufo proxy or in-process wrapper.
+  LIE owns loading/binding, model execution, sessions, memory, batching and state.
+  Do not delegate whole-model work to Gufo Model/Session/Executor/DeviceModel.
+  `docs/BACKEND.md` supersedes the earlier embedded-adapter plan.
+- Core/network/model execution/scheduling/resource accounting/metrics are C17.
+  Selectively port useful Gufo numerical kernels/helpers, retaining provenance
+  and licenses, behind a narrow C numerical/device ABI; no CPU model forward.
+  The existing `include/lie/executor.h` and `adapters/gufo.cpp` are reference-only
+  experiments, not the production backend ABI or an integration shortcut.
 - No GPU run, heavyweight model hash, model conversion or remote GPU build until
   the coordinated ownership/lease protocol in `docs/COORDINATION.md` is satisfied.
   No foreign process termination, deployment, dependency installation or tuning.

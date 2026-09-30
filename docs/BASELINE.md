@@ -87,16 +87,19 @@ such arbitrary memory claim or default floor.
 Source pin: upstream Gufo `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, independently
 fetched into this project's `.deps`. Archive SHA256
 `4b61a3f23e5ab51f7c95d6a7b6d2d82c8f7976e39f9566196f75323ab5eb2110`.
-No numerical source modifications. Gufo's release CMake owns the numerical build;
-register compiler/flags and loaded DSOs, and keep comparator binaries in a
-content-addressed test-owned directory after the build. The experimental LIE
-object check is NOT that baseline build.
+The pristine reference source is unmodified. Gufo's release CMake owns **only
+this comparator build**, not the LIE backend build. Register compiler/flags and
+loaded DSOs, and keep comparator binaries in a content-addressed test-owned
+directory. The reference-only interoperability object check is NOT that baseline
+build, nor an implementation of the LIE backend. See [BACKEND.md](BACKEND.md).
 
 After shared lease/admission, first verify upstream with the first original
 shard, AR, context4096, one session, no MTP/vision, greedy/thinking-off, known
 literal prompt and bounded output. Record physical rendered input IDs/template,
 output IDs/logits if available and completed GPU execution. Only then compare
-a linked LIE executor with the same exact physical workload/configuration.
+LIE's reimplemented executor with the same exact physical workload/configuration.
+The candidate must execute its own model graph/state and selected ported numerical
+operations, not call the reference Model/Session through a facade.
 Example upstream server command to verify against the pinned CLI before use:
 
 ```sh

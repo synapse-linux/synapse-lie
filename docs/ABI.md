@@ -1,10 +1,17 @@
-# Experimental executor ABI 1
+# Historical reference-only Gufo interoperability ABI 1
+
+**Not the production LIE backend or numerical ABI.** The adapter delegates to
+Gufo Model/Session, which does not satisfy the autonomous-backend requirement.
+The earlier plan to connect it to serving is superseded by [BACKEND.md](BACKEND.md).
+It remains an optional reference-only compile experiment, never linked into the
+server or hardware-qualified. The new owned backend/operation ABI is not yet
+implemented; its boundary must not expose a renamed upstream whole-model engine.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
 lengths, opaque handles and caller-owned error buffers. No C++ types are public.
-`adapters/gufo.cpp` compiles against upstream `f783fedb`; linking, real model
-loading and runtime lifetime guarantees still require hardware qualification.
-The adapter is NOT connected to `synapse-lie-server` yet.
+`adapters/gufo.cpp` compiles against upstream `f783fedb` only with the explicit
+reference build definition. The following describes this experiment, not a
+qualified production runtime.
 
 ## Ownership and completion
 
@@ -36,9 +43,12 @@ The adapter is NOT connected to `synapse-lie-server` yet.
 
 No chat-template, tools, snapshot, MTP or native batching entry points are
 implemented in this first ABI. Raw text tokenization is not chat rendering.
-The next integration must use Gufo's bounded Qwen renderer, validate the GGUF
-artifact template, and preserve reasoning/tool semantics rather than fabricate
-ChatML or normalize input to gain cache hits.
+LIE's future tokenizer/chat renderer must be independently implemented or
+selectively source-ported with provenance and tests, validate the GGUF artifact
+template, and preserve reasoning/tool semantics. It must not delegate rendering
+or model execution through the reference Model object, fabricate ChatML, or
+normalize input to gain cache hits.
 
-This is a developmental ABI, not a stability promise across v0.1 increments.
-Changing public layout/semantics requires an ABI bump and renewed tests.
+This historical experimental layout is not a production stability promise.
+Do not silently repurpose these Gufo-backed symbols as an owned implementation;
+introduce and qualify the actual numerical/device boundary with its own contract.

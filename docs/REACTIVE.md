@@ -11,7 +11,9 @@ also needs bounded admission, feedback, isolation and lifecycle ownership.
 The first implemented component is `include/lie/flow.h` + `src/flow.c`, a C17
 per-sequence subscription/flow-control primitive. It has CPU tests with real
 threads, finite storage and Linux eventfd wakeups. It is **not connected to
-Gufo, the scheduler or HTTP/SSE yet**. The server still returns 503 for chat.
+an inference executor, the scheduler or HTTP/SSE yet**. The server still returns
+503 for chat. The publisher must be the [LIE-owned backend](BACKEND.md), not a
+Gufo service or an embedded Model/Session wrapper.
 
 This is not Project Reactor, Rx, a JVM dependency or a Reactive Streams TCK
 compliance claim. It adopts demand, serial signals, cancellation and bounded
@@ -37,7 +39,8 @@ Disk worker <-> bounded snapshot jobs/completion messages <-> device owner
 Management -> snapshots/counters (never waits for model forward or disk restore)
 ```
 
-- **Publisher:** device-owner worker, publishing only completed, confirmed output.
+- **Publisher:** LIE's device-owner worker and reimplemented C executor,
+  publishing only completed, confirmed output.
   GPU submission is not completion. Drafted MTP tokens never enter the output
   stream before verification. No callback invokes more inference inline.
 - **Subscriber:** one ordered output owner for a sequence. Nonstream JSON will
@@ -47,7 +50,7 @@ Management -> snapshots/counters (never waits for model forward or disk restore)
   tickets, cancellation and a single terminal outcome. No global hot multicast
   stream and no replay buffer pretending to be recurrent/KV state persistence.
 - **Scheduling boundary:** one device-owner scheduler, not one GPU thread per
-  request and not a second serving scheduler hidden behind the C adapter.
+  request and not an upstream engine hidden behind the numerical C boundary.
   CPU preparation and disk I/O use separate bounded work/completion queues.
 - **Transport boundary:** libuv write completion returns a buffer loan and can
   replenish demand. This means acceptance by the local transport, **not** proof
@@ -152,8 +155,8 @@ GPU batching or end-to-end slow-client qualification.
   concurrency/prefill/MTP budgets within measured capacity, not by spawning more
   device owners. Elasticity on one GPU is bounded admission/budget adaptation,
   not a claim of hardware scaling or instantaneous kernel preemption.
-- Bridge executor cancellation and flow cancellation. Flow stop does not itself
-  cancel Gufo or free a sequence. CPU/storage failures and nonmutating admission
+- Bridge the owned LIE executor's cancellation and flow cancellation. Flow stop
+  does not itself cancel device work or free a LIE sequence. CPU/storage failures and nonmutating admission
   refusal are distinct from a backend failure that poisons the shared model.
 - Preserve tool-call ordering and logical continuation. A completed output turn
   can retain a session waiting for a tool result; the continuation is a new
@@ -167,7 +170,7 @@ GPU batching or end-to-end slow-client qualification.
   accepted into the flow (including later abandoned queued data), **not** GPU
   generated-token or remote-delivery metrics. Do not export invented live values.
 - Qualify real SSE ordering/UTF-8, fragmented writes, disconnect races, terminal
-  behavior, fairness and bounded RAM with the linked original-weight executor.
+  behavior, fairness and bounded RAM with LIE's own original-weight executor.
   Component tests do not close this gate or the DS4 hardware lease gate.
 
 ## Current evidence boundary
