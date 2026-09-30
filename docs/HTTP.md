@@ -137,7 +137,7 @@ successful returns and unexpected executor/text failures mark the worker FAILED,
 fail admitted peers and refuse subsequent requests. No retry or fallback; failed
 frontiers cannot create usage/timing success or advance generated-token counters.
 Cancellation remains nonpoisoning. See [T0-LIFECYCLE.md](T0-LIFECYCLE.md) for the
-synthetic fault coverage and the separate, not-yet-run target protocol.
+synthetic fault coverage and the separate original-weight target lifecycle run.
 
 After headers, backend errors are an SSE JSON error followed by `[DONE]`, **not**
 a successful finish reason or fabricated usage. Already submitted bytes cannot
@@ -197,7 +197,9 @@ prefill tokens currently equal the full physical prompt count.
 
 This increment is tested with CPU executor/clock fixtures (including chunk sums,
 EOS, queue/credit exclusion, in-flight cancellation, faults, zero resolution and
-clock errors/overflow), not yet measured on the GPU. `/actuator/llm` aggregate
+clock errors/overflow). `t0-model-lifecycle-r1` additionally validates counts,
+finite durations/rates and JSON/SSE placement on the original-weight GPU path.
+That short lifecycle run is not a throughput benchmark. `/actuator/llm` aggregate
 throughput/latency remains null; per-request values are not a percentile histogram.
 See [the benchmark direction](BENCHMARKING.md).
 

@@ -27,7 +27,18 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Fresh operator window — lifecycle qualification preparation
+## Latest completed run — lifecycle qualification
+
+The 22:42 UTC operator handover admitted `t0-model-lifecycle-r1` at 23:01 UTC.
+All four existing locks were acquired in order, without waiting or recreating
+DS4 files. Start/end records are present. The original-weight HTTP/SSE lifecycle
+protocol passed; server/helper exit 0, no foreign GPU client observed, binary and
+five model stat identities unchanged, KFD empty after retirement. At 23:05:36 UTC
+all owned PIDs were absent and known leases had no holders (`postflight.json`).
+No permanent deployment, wait/retry, GPU tuning or DS4 modification was performed.
+The completed one-shot window is not permanent authorization for later runs.
+
+## Operator window — lifecycle qualification
 
 At **2026-09-30 22:42 UTC**, the operator stated `hai a disposizione gpu`.
 `t0-lifecycle-activity-r2` then observed GPU busy 0%, empty KFD, no inference/model
@@ -35,7 +46,8 @@ handles and no holders of the four known leases. `ds4-ack.json` remains absent.
 This is a fresh one-shot handover, not a formal DS4 ACK or a permanent lease.
 All four existing locks must still be acquired nonblocking, with ordinary
 preflight, run registration, foreign-client checks and owned cleanup. No new
-model inference has been performed at the point of this source receipt.
+model inference had occurred at the source receipt; the separate result above
+records the later actual run.
 
 ## Earlier read-only observation — lifecycle preparation
 

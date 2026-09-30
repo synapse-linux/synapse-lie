@@ -50,7 +50,10 @@ source pin and ownership queries expose delegation; the explicit factory
   The caller must pin a sequence while any thread can cancel/use it, join/observe
   completion and only then close it. The worker/job gate serializes latch calls
   against sequence detachment, never holding the gate across blocking execution.
-  Synthetic tests exercise this lifetime; GPU cancellation-in-flight is still untested.
+  Synthetic tests exercise deterministic lifetime edges. The original-weight
+  `t0-model-lifecycle-r1` run also observed cancellation during prefill/decode
+  owner dispatch, suppressed further publication and safely retired/reused the
+  runtime. It does not prove GPU-kernel preemption or qualify GPU failure paths.
 - Invalid parameters are nonmutating refusals. A backend exception/forward
   failure poisons the runtime; it cannot be retried or downgraded to a cache
   miss. Loaded-runtime failure drains HIP work before returning failure; an

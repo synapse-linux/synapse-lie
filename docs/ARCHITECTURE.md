@@ -25,7 +25,9 @@ must still never be presented as an autonomous backend.
 5. Gufo is independently fetched from upstream, not copied from the DS4 port.
    The C++ adapter delegates to Qwen Model/Session. It now links optionally into
    the C worker/flow/HTTP path; default builds still have no numerical provider.
-   No loaded-model/GPU result or owned numerical backend is established.
+   Scoped original-weight smoke, C1 baseline and HTTP lifecycle GPU results are
+   now recorded. No owned numerical backend or full independent numerical/
+   hardware qualification is established.
 
 ## Reactive pattern: Reactor is only the transport layer
 
@@ -33,8 +35,9 @@ The [reactive contract](REACTIVE.md) is authoritative for demand/backpressure,
 stream ordering, dispatch cancellation and buffer retirement. The new C `lie_flow`
 component implements these primitives with preallocated bounded storage and two
 coalesced eventfd directions. Worker and HTTP bindings now use them. CPU tests
-exercise real threads and sockets with a separate synthetic provider; actual
-GPU/model correctness remains an independent open gate.
+exercise real threads and sockets with a separate synthetic provider; the
+separate original-weight lifecycle run also exercises real cancellation and
+pressure/isolation. Full independent GPU/model correctness remains an open gate.
 
 The target is publisher -> bounded subscription -> output subscriber, with
 credits/releases flowing back to the device-owner scheduler and cancellation on
@@ -102,15 +105,18 @@ not DS4 native19 or an automatically portable future LIE state format.
 ## Increment plan and departure from requested order
 
 - A: inventory, isolated source, provenance, model metadata and inherited baseline
-  identities recorded. Fresh pristine baseline verification waits for DS4 lease
-  acknowledgement; this gate is not marked complete.
+  identities recorded. Fresh pristine baseline verification still needs a private
+  comparator and admitted run. Completed operator windows are not permanent lease
+  acknowledgement; this numerical gate is not marked complete.
 - Independent part of B/E: compiled C management runtime, metric registry,
   monitor and compile-checked adapter delivered while hardware is blocked.
 - Reactive/T0 slice: primitive and worker/HTTP/executor bindings are implemented,
   HIP-linked and CPU/synthetic-tested. A separately leased original-weight C1
-  JSON/SSE smoke passed in `t0-model-smoke-r4`; this is not full T0 qualification.
+  JSON/SSE smoke passed in `t0-model-smoke-r4`; `t0-model-lifecycle-r1` later passes
+  actual dispatch cancellation, slow-client pressure, peer isolation and recovery.
+  These are not full T0 qualification.
 - Next B / T0: under a fresh admitted run, qualify the pinned pristine comparator
-  and physical-token/frontier/logit equivalence, then real cancellation/backpressure.
+  and physical-token/frontier/logit equivalence; GPU failure gates remain open.
   Do not transfer synthetic results to GPU correctness.
 - C / T1: refactor one responsibility at a time against requirements and evidence;
   qualify lifecycle, admission/chunks, C1/2/4/8 and MTP on their actual paths.

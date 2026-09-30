@@ -6,7 +6,30 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Latest source increment — executor guards and lifecycle protocol
+## Latest GPU result — original-weight lifecycle passed
+
+`t0-model-lifecycle-r1`, **23:01:13–23:01:44 UTC**, used source `efcb7fb` and the
+HIP-linked `t0-lifecycle-linked-r1` server. All four actual leases, DSO/model/
+binary preflight, start/end registration and owned shutdown passed. It is
+`MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION`.
+
+Six JSON/SSE cases preserve READY/4/caffè 🙂, usage and EOS, with valid per-request
+PP/TG timings and one timing finish per SSE. Additional cases observed first
+cancellation in prefill/decode dispatch, clean retirement, an unread TCP client
+stalled at 65 generated tokens for at least 0.511 s, an unaffected arithmetic peer
+and matching post-cancellation recovery. Final: **9 completed, 3 cancelled,
+0 failed, 79 generated**, no queued/active/blocked jobs; 12 prefill and 89 decode
+calls all returned. Server/helper exit 0; binary and five model stat identities
+unchanged; no full weight hash. No foreign client observed, KFD empty after exit.
+At 23:05:36 UTC, owned processes were absent and all known leases had no holders.
+
+All 228 lifecycle events, raw responses and 29 telemetry samples are retained;
+offline audit exit 0. This is a scoped real-model server result, **not** kernel
+preemption, native batching, independent numerical equivalence, capacity testing
+or a fresh performance baseline. Neither RAM prefix reuse nor SSD is implemented.
+Details/identities: [T0-LIFECYCLE.md](T0-LIFECYCLE.md). No deployment or retry left.
+
+## Source increment — executor guards and lifecycle protocol
 
 A fresh read-only target check at **22:09 UTC** observed an active DS4 Q4 benchmark
 campaign, KFD activity and all four leases occupied, including the enclosing
@@ -30,8 +53,8 @@ lease-gated supervisor validates JSON/SSE timings, disconnects during observed
 prefill/decode dispatch, sustained TCP backpressure, matching fresh/interleaved
 peer responses and clean recovery/accounting. Missed windows are INCONCLUSIVE;
 all observations and failures are retained. Hash/settings gates precede model
-launch. CPU synthetic coverage passes; **the real-model suite has not run**.
-Protocol and exact boundaries: [T0-LIFECYCLE.md](T0-LIFECYCLE.md).
+launch. CPU synthetic coverage passes; the subsequent real-model result is
+recorded separately above. Protocol and exact boundaries: [T0-LIFECYCLE.md](T0-LIFECYCLE.md).
 
 The default-off optional SSD requirement is retained in commit `7f6a32`, with
 RAM reuse independent of persistence. Neither prefix reuse nor SSD is implemented
@@ -82,7 +105,9 @@ Test-only link-time clock wrapping
 covers completed counts, queue/credit exclusion, in-flight cancellation, EOS,
 clock failure/regression/overflow and zero-resolution division. No model access
 or GPU execution; previous measured binaries/baselines remain unchanged. This
-source increment does not yet have a new original-weight GPU smoke/performance run.
+source-only increment had no new GPU run at its commit. The later lifecycle
+run above exercises these timings on the GPU; a new performance baseline remains
+unmeasured.
 
 ## Latest target result — C1 baseline, 2026-09-30 20:52 UTC
 
@@ -256,9 +281,10 @@ hardware or SSH alone is not authorization. See COORDINATION.md.
    missing rocWMMA dependency remains a blocker, not permission to install it.
    Local workspace visibility on `.157` must not be assumed.
 3. Original-weight C1 short-context AR: validate physical prompt IDs, completed
-   frontiers and output against the reference, then nonstream/SSE equivalence,
-   UTF-8, cancellation, backpressure and quiescent retirement. Define settings
-   and oracle before execution. No rollout.
+   frontiers and output against the independent reference. Bounded HTTP/SSE,
+   UTF-8, cancellation, pressure/isolation and retirement now pass in the lifecycle
+   run above; this does not replace the numerical comparator or GPU failure gates.
+   Define any extended protocol and oracle before execution. No rollout.
 4. Only with a correct baseline, collect separate pure-inference traces and test
    a falsifiable internal-reactive change. Completed PP/TG, concurrency and serving
    improvements remain separate; no benefit has been measured yet.

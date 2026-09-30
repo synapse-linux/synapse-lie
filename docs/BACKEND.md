@@ -163,6 +163,8 @@ retirement on Strix Halo. This establishes bounded real serving with embedded
 Gufo, not pristine numerical equivalence, broad quality or an owned executor.
 A later C1 direct-ABI baseline (`t0-c1-perf-r2`) measures completed PP/TG with
 repeatable finite frontiers, but no independent comparison or reactive gain;
-see [C1-BASELINE.md](C1-BASELINE.md). Full T0 acceptance still needs its numerical
-and real cancellation/backpressure gates. Neither v0.1 nor deployment is qualified;
-see PROGRESS.md for receipts.
+see [C1-BASELINE.md](C1-BASELINE.md). The later `t0-model-lifecycle-r1` original-
+weight run passes bounded real prefill/decode cancellation, TCP backpressure,
+peer isolation/recovery and JSON/SSE timings. Full T0 acceptance still needs its
+independent numerical and GPU failure gates; this is not native batching or
+preemption. Neither v0.1 nor deployment is qualified; see PROGRESS.md for receipts.

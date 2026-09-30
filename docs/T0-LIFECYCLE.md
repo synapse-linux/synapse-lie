@@ -1,11 +1,51 @@
-# T0 serving lifecycle qualification — prepared, target run pending
+# T0 serving lifecycle — original-weight GPU protocol passed
 
-This increment hardens the C server and prepares a bounded, lease-gated HTTP
-protocol. CPU fixture passes are **NOT model inference**, independent numerical
-qualification, native batching or performance evidence. The previous successful
-GPU smoke/baseline used earlier binaries and remains historical.
+This increment hardens the C server and executes a bounded, lease-gated HTTP
+protocol. CPU fixtures remain **NOT model inference**. A separate original-weight
+GPU run now passes the lifecycle cases below; it is not independent numerical
+qualification, native batching or a performance benchmark. Earlier smoke/C1
+baseline records used different binaries and remain historical.
 
-## Current admission observation
+## Actual result — 2026-09-30 23:01 UTC
+
+`evidence/t0-model-lifecycle-r1/`, state
+`MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION`:
+
+- Source `efcb7fbdd707962f3c0ed19b98fa5d96ceee2590`; build `t0-lifecycle-linked-r1`,
+  SHA256 `f71dbe74f95415bbfe1880a2de1804b73adc3ea24eaab371a6308eaaf8b5db0a`.
+- Four actual leases acquired, start/end registered; helper 23:01:13–23:01:44,
+  model ready 23:01:37.356773 UTC. No foreign GPU client observed.
+- Six JSON/SSE requests preserve `READY` (25 input / 1 output), `4` (31 / 1), and
+  `caffè 🙂` (24 / 3), same content/usage/stop per pair. All timing counts/rates
+  valid; exactly one SSE timing finish and DONE. These SSE cases use
+  `include_usage:true`; without-usage coverage remains a separate CPU test.
+- Disconnect during observed prefill: no output; one started/returned prefill;
+  first-cancel observation increments once and the job retires.
+- Disconnect during observed decode: one output confirmed, two calls returned;
+  one first-cancel observation, then quiescent retirement/reuse. No kernel
+  preemption is claimed.
+- The unread SSE socket stalls at **65 generated tokens**, below budget 512.
+  Five further snapshots show unchanged generation/decode admission over
+  **0.511 s**. The concurrent arithmetic peer still matches its fresh reference;
+  closing the stalled socket retires it, and the recovery peer matches again.
+- Final counters: **9 completed, 3 cancelled, 0 failed; 79 generated**. No queued,
+  active or blocked jobs; all 12 prefill / 89 decode dispatches returned.
+- Server/helper exit 0; binary and all five model stat identities unchanged;
+  no new full model hash. KFD empty after retirement. At 23:05:36 UTC all three
+  owned processes were absent and known leases had no holders. No daemon remains.
+
+All 228 lifecycle records, six raw responses and 29 whole-system/device telemetry
+samples are retained. Sampling is not a precise LIE memory peak/capacity result.
+`audit.py` rechecks the preserved evidence offline; it performs no new inference.
+No cases were retried or discarded. No settings/model/DS4 service was changed.
+
+| Artifact | SHA256 |
+|---|---|
+| manifest.json | `2429a2b3be173e9543e07e6bcdd177068aaa8f8183cba075316d6c941cef13a3` |
+| remote-results/result.json | `c67428d1b2c5379f98ca732dbed5b7337437d8ac5e4578a1c0b16dee77244ba5` |
+| remote-results/lifecycle.jsonl | `845f85875b9e41af75caa450031ebaef591d02fe9f22f1c00a6e7c96401f7d04` |
+
+## Admission history
 
 At **2026-09-30 22:09 UTC**, a read-only target probe observed a DS4 benchmark
 campaign (`native-perf`, Q4 model mapped), a KFD client and all four known leases
@@ -13,16 +53,16 @@ held. The pipeline lease belonged to the enclosing campaign. The shared lease
 was held too; no formal acknowledgement file was present. See
 `evidence/t0-lifecycle-activity-r1/{receipt,probe}.json`.
 
-No LIE GPU run, model read, target build, lock acquisition or staging was attempted.
-No foreign process was signalled. There is no background retry/waiter; do not enter
+No LIE GPU run, model read, target build, lock acquisition or staging was attempted
+in that occupied window. No foreign process was signalled. There is no background retry/waiter; do not enter
 between that campaign's jobs. A future run needs a fresh handover and the full
 [coordination protocol](COORDINATION.md). This observation is dated, not a live
 availability assertion.
 
 A fresh operator window at **22:42 UTC** (`hai a disposizione gpu`) was followed
 by read-only probe `t0-lifecycle-activity-r2`: GPU idle, KFD empty, no inference or
-model handles, no holders of the known leases. A one-shot attempt may now be
-prepared, still conditional on all lease/admission gates. No ACK is fabricated
+model handles, no holders of the known leases. The later one-shot attempt used
+that handover and passed all lease/admission gates. No ACK is fabricated
 and no permanent exclusivity inferred.
 
 ## Server changes
@@ -92,10 +132,9 @@ request is retried. A missed dispatch/pressure window or early completion is
 all snapshots, partial SSE frames and decisions remain in `results/lifecycle.jsonl`.
 The supervisor still retains process exits, full cleanup and identity postflight.
 
-A future successful overall state is
-`MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION`; it is **not recorded for
-this increment**. Per-request timing here validates a contract, not a throughput
-baseline. Same-backend peer repeatability is not a pristine numerical comparator.
+The successful state recorded above is
+`MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION`.
+Per-request timing here validates a contract, not a throughput baseline. Same-backend peer repeatability is not a pristine numerical comparator.
 GPU error injection, complete T0 numerical qualification, prefix reuse, SSD
 persistence, native batching and MTP remain separate gates.
 

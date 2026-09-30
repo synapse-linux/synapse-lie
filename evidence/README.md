@@ -111,6 +111,15 @@ identity manifests needed for development are separately versioned.
   model access/GPU execution false; source inputs unchanged during verification.
 - `t0-lifecycle-activity-r2/`: fresh 22:42 UTC operator window, read-only idle/KFD/
   known-lock observation. No model execution or admission granted by the probe.
+- `t0-lifecycle-source-r1/`: local source commit `efcb7fb`, compiled-source identity
+  against the HIP-linked artifact and final CPU closure; no GPU run in this receipt.
+- `t0-model-lifecycle-r1/`: actual original-weight GPU JSON/SSE timing, prefill/
+  decode dispatch cancellation, TCP pressure/isolation/recovery, 23:01 UTC. Nine
+  completed / three cancelled / zero failed; clean exit/stat identities, 228
+  lifecycle records and 29 telemetry samples. All raw observations retained,
+  hash-verified collection and offline audit exit 0. Not independent numerical,
+  performance, kernel-preemption or native-batching qualification. Later read-only
+  postflight confirms owned PIDs absent, known leases free and KFD empty.
 
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.

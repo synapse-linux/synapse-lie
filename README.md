@@ -5,7 +5,7 @@ Primarily C17, initially targeting Qwen3.8 Flash Next on AMD Strix Halo. An
 refactored toward LIE-owned model/session/memory/execution. Delegation is not
 reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 
-## Current build: original-weight T0 HTTP/SSE smoke passed
+## Current build: original-weight HTTP/SSE lifecycle tests passed
 
 The C worker, bounded admission, reactive flow and HTTP nonstream/SSE path are
 implemented. The optional HIP executable **links actual pinned Gufo code**.
@@ -31,8 +31,8 @@ This is embedded-provider throughput, not a reactive gain or independent compari
 
 New server source adds C per-request [PP/TG timings](docs/HTTP.md#per-request-executor-timings)
 in JSON/SSE: completed synchronous executor-call wall time, excluding queue/credit
-waits and HTTP delivery. This increment is CPU-fixture verified, not part of the
-previously measured GPU binary. The definitive `synapse-lie-bench` is planned in
+waits and HTTP delivery. CPU clock fixtures and the new original-weight lifecycle
+run verify this contract; it is not a new throughput baseline. The definitive `synapse-lie-bench` is planned in
 C17; Python is intermediate tooling only. [Methodology and prerequisites](docs/BENCHMARKING.md)
 keep Gufo's cached-prefix/MTP/concurrency experiments distinct from the existing
 fresh-session baseline. The full benchmark tool is not implemented yet.
@@ -41,9 +41,11 @@ The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and
 exposes dispatch/credit-stall diagnostics. The [T0 lifecycle protocol](docs/T0-LIFECYCLE.md)
 exercises prefill/decode cancellation, a stalled SSE client, peer isolation and
-recovery. Its real TCP **CPU fixture** passes. After the initial DS4 contention,
-a fresh 22:42 UTC operator window permits preparing the still-pending GPU run,
-subject to the full nonblocking lease/admission protocol.
+recovery. Both its synthetic CPU checks and the separately admitted original-
+weight **GPU run** (`t0-model-lifecycle-r1`, 23:01 UTC) pass. Final counters are
+9 completed / 3 cancelled / 0 failed, no active/queued/blocked jobs, clean exit and
+unchanged binary/model stat identities. This does not establish native batching,
+GPU-kernel preemption, independent numerical equivalence or a reactive speedup.
 
 ## Reactive path
 
@@ -58,8 +60,9 @@ Eight admitted jobs; one active sequence by default, optionally two interleaved
 single-row sequences. This is **not native GPU batching**. Each flow has eight
 preallocated 256-byte token slots. SSE keeps a loan until its write callback;
 nonstream drains into a bounded aggregation buffer. Wakeups use eventfd/poll and
-libuv, not periodic token polling. Backpressure/UTF-8/cancellation/lifetimes are
-exercised with the real C serving path and synthetic CPU data, not GPU kernels.
+libuv, not periodic token polling. CPU fixtures exercise deterministic failure/
+lifetime edges; the separately leased GPU lifecycle run covers bounded real-
+model UTF-8, cancellation, slow-client pressure, peer progress and retirement.
 
 [REACTIVE.md](docs/REACTIVE.md) specifies ownership and remaining gates. Reactive
 scheduling **inside pure inference** is a separate [investigation](docs/INFERENCE-REACTIVE.md):
@@ -76,7 +79,7 @@ Nothing is installed by the build.
 
 ```sh
 cmake -S . -B build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build/debug -j2
+cmake --build build/debug -j1
 ctest --test-dir build/debug --output-on-failure
 
 # After fetching the pinned source below (header check also needs C++20):

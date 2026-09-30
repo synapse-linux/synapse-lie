@@ -17,8 +17,9 @@ publish a model or readiness. Failed/unconfigured models remain unavailable.
 
 Actual model startup requires the shared lease and a fresh target preflight;
 use private HOME/XDG_CACHE_HOME/runtime directories and the original read-only
-weights. No GPU execution is yet qualified. Two active slots mean interleaved
-single-row execution, not native batching or measured memory capacity. No
+weights. Scoped original-weight smoke/C1/lifecycle runs are recorded, not full
+numerical/hardware qualification. Two active slots mean interleaved single-row
+execution, not native batching or measured memory capacity. No
 synthetic provider is selectable in the production binary.
 
 Planned state-cache controls (not accepted CLI options today): in-memory prefix

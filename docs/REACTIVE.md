@@ -12,7 +12,10 @@ The first implemented component is `include/lie/flow.h` + `src/flow.c`, a C17
 per-sequence subscription/flow-control primitive. It has CPU tests with real
 threads, finite storage and Linux eventfd wakeups. It is now connected to the
 C worker and HTTP/SSE path, with a linked opt-in Gufo provider. End-to-end CPU
-checks use a separate synthetic provider; **no real model/GPU run is qualified**.
+checks use a separate synthetic provider. Separately, the original-weight
+`t0-model-lifecycle-r1` GPU run passes bounded HTTP/SSE, dispatch cancellation,
+TCP backpressure, peer isolation and retirement. This is **not full numerical/
+hardware qualification**, native batching or a reactive performance gain.
 No-model startup still returns 503 for chat. The publisher obeys [LIE-owned contracts](BACKEND.md); an explicit
 embedded Gufo adapter is permitted initially, followed by requirement-driven
 refactoring toward owned execution. It is not claimed as reimplementation.
@@ -146,7 +149,9 @@ forward, truncate data or label proposals as confirmed tokens.
 This primitive isolates streams' demand, slots and outcomes. The dedicated
 scheduler must still implement fairness and per-row completion handling; the
 component test with a blocked stream and a progressing peer is **not** a native
-GPU batching or end-to-end slow-client qualification.
+GPU batching or end-to-end slow-client qualification. The distinct real-model
+slow-client evidence is documented in [T0-LIFECYCLE.md](T0-LIFECYCLE.md), not
+inferred from these component tests.
 
 ## T0 binding and remaining obligations
 
