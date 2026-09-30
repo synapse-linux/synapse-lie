@@ -55,7 +55,10 @@ def main():
         run(['cmake','--build',build,'--parallel','1'])
         binary=build/'synapse-lie-server'
         run(['readelf','-d',binary]); run(['ldd',binary]); run([binary,'--help']); run([binary,'--build-info'])
+        bench=build/'lie-executor-bench'
+        run([bench,'--build-info']); run(['ldd',bench])
         run(['ctest','--test-dir',build,'--output-on-failure','-V'])
+        result['benchmark_binary_sha256']=sha(bench)
         result['binary_sha256']=sha(binary)
         result['gufo_receipt_sha256']=sha(gufo/'BUILD-RECEIPT.json')
         result['inputs_unchanged']=before==module.inputs()
