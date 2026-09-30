@@ -42,6 +42,15 @@ fix, passed the original-weight C1 HTTP/SSE smoke and exited cleanly at 20:07:42
 The shared register has actual start/end records. Leases were retained through
 cleanup and released afterwards. No permanent listener remains.
 
+The later explicit request to measure prefill/decode authorized another bounded
+run. `t0-c1-perf-r1` failed on unavailable optional power metadata before model
+launch. After a CPU-tested metadata fix, `t0-c1-perf-r2` acquired the same leases,
+recorded start/end and completed the C1 baseline at 20:52:07 UTC, child/helper exit 0.
+No foreign GPU client was observed and KFD was empty after retirement. The known
+model stat identities and staged hashes were unchanged; no power setting was
+modified. Missing `pp_power_profile_mode` is recorded as unavailable, not invented.
+See [C1-BASELINE.md](C1-BASELINE.md). Neither attempt is permanent admission approval.
+
 The operator handover is not an ACK or permanent shared-runner adoption; no
 `ds4-ack.json` was forged. See [T0-SMOKE.md](T0-SMOKE.md). Never opportunistically
 enter gaps between another owner's benchmark jobs; fresh work still needs an
@@ -91,6 +100,7 @@ the completed operator window is not a standing lease.** CPU tests are on .155.
 Read-only reconnaissance reads small receipts/sysfs/proc and bounded metadata,
 not tensor payloads. The separately authorized r4 model run did read original
 weights and execute HIP on .157; it passed a bounded serving smoke, not a numerical
-or performance qualification. Local compilation/no-model/synthetic receipts retain
-their original scope. No remote compilation, dependency installation or model
-conversion was performed.
+or performance qualification. The later separately admitted C1 measurement is
+an embedded-provider timing baseline, not an independent numerical or speedup
+qualification. Local compilation/no-model/synthetic receipts retain their original
+scope. No remote compilation, dependency installation or model conversion occurred.

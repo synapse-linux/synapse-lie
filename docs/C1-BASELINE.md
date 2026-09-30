@@ -90,3 +90,55 @@ output. Python summary tests refuse incomplete/inconsistent/nonfinite measuremen
 These CPU fixtures are explicitly NOT-INFERENCE; their timings are not GPU evidence.
 The benchmark witness hashing uses the already installed OpenSSL Crypto library;
 CPU benchmark tests need its development headers too. No dependency is installed.
+
+## Observed result — 2026-09-30 20:50–20:52 UTC
+
+Run `t0-c1-perf-r2`, Strix Halo `.157`, original UD-Q4_K_XL. Medians and ranges
+below exclude the three warmups; all nine measured samples are retained.
+Every sample emitted exactly 128 tokens (no early EOS). Context/chunk were fixed
+at 9216/2048; sessions were fresh, not restored prefixes.
+
+| Actual prompt tokens | PP median tok/s | PP min–max | TG median tok/s | TG min–max |
+|---:|---:|---:|---:|---:|
+| 502 | 988.68 | 983.70–996.65 | 26.851 | 26.844–26.852 |
+| 2042 | 1642.65 | 1642.03–1648.98 | 26.049 | 26.037–26.054 |
+| 8191 | 1607.13 | 1596.16–1613.55 | 25.965 | 25.796–25.965 |
+
+Median completed PP durations were 0.507749 / 1.243112 / 5.096658 seconds;
+TG128 durations were 4.766985 / 4.913743 / 4.929760 seconds. These are direct
+executor intervals, not server TTFT or total wall time including model load.
+Full vocabulary frontiers were finite and byte-identical to warmup at PP/TG
+boundaries; output IDs and positions also matched. This remains a **single-backend
+repeatability check**, not a pristine reference or general quality test.
+
+The benchmark child and helper exited 0. All original model stat identities and
+staged artifact hashes were unchanged; KFD was empty after retirement, with no
+foreign GPU client observed. The run retained all four leases through cleanup.
+107 one-second samples describe whole-device/system memory, not exact allocation
+peaks. Existing CPU governor was `powersave`, EPP `balance_performance`, GPU DPM
+`auto`; none was changed. `pp_power_profile_mode` was unavailable (ENOENT), recorded
+as null/error rather than guessed. These are the existing machine conditions,
+not a tuned maximum-throughput configuration.
+
+The first attempt, `t0-c1-perf-r1`, acquired the leases and passed DSO checks but
+failed **before model launch** on that missing optional sysfs attribute, exit 1.
+It is preserved. A CPU regression reproduced the error before adding explicit
+unavailable telemetry; `t0-perf-power-red-r1/green-r1` and `t0-perf-cpu-r3` record
+the fix. Neither workload, timing boundary nor numerical/admission oracle changed.
+There was no discarded GPU timing run.
+
+Sources: benchmark commit `cbb06fc`, supervisor correction `7f85ef8`.
+Build `t0-perf-linked-r1` uses Debug first-party C/adapter code and the existing
+RelWithDebInfo HIP archives; its receipt records all compiler/link commands.
+Benchmark binary SHA256:
+`594ef2f21281c456618ecbcd3cb877861eb65ac5b2b33327f8ba2756cd5220a2`.
+Authoritative raw samples, physical/output IDs, frontier hashes, manifest,
+DSOs/settings, process exits and telemetry are in
+`evidence/t0-c1-perf-r2/remote-results/`; the locally recomputed `assessment.json`
+matches the supervisor summary. Raw measurement SHA256 is in `result.json`.
+
+This establishes the first **completed-work C1 baseline through the LIE ABI**.
+It does not establish a reactive gain, native batching, an owned numerical engine,
+HTTP throughput, a matched comparison with DS4/published Gufo, or long-context
+performance. The independent comparator and real cancellation/backpressure gates
+remain open.

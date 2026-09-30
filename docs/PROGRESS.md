@@ -1,4 +1,4 @@
-# Resumption — original-weight T0 serving smoke passed, numerical gate open
+# Resumption — original-weight serving smoke and C1 baseline, numerical gate open
 
 Owner: synapse-lie fork; DS4 remains the other agent's project.
 Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on `.155`.
@@ -6,7 +6,31 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Latest target result — 2026-09-30 20:07 UTC
+## Latest target result — C1 baseline, 2026-09-30 20:52 UTC
+
+The user's explicit prefill/decode request produced a new C17 direct-executor
+harness and leased supervisor, without changing the adapter or numerical sources.
+`t0-c1-perf-r2` completed one warmup and three measured fresh-session runs for each
+actual prompt size 502/2042/8191, all TG128, common context9216/chunk2048. Median
+PP: **988.68 / 1642.65 / 1607.13 tok/s**. Median TG: **26.851 / 26.049 / 25.965 tok/s**.
+Full finite PP/TG frontier logits and outputs matched warmup exactly. All nine
+measured samples are retained; no profile/tuning/HTTP or outlier removal.
+
+Child/helper exit 0, original stats and artifact hashes unchanged, no foreign GPU
+client observed, KFD empty after retirement. Existing governor `powersave`, EPP
+`balance_performance`, GPU DPM `auto` were retained. This is a C1 embedded-provider
+baseline, not independent numerical qualification or a reactive speedup. Exact
+scope, ranges and all conditions: [C1-BASELINE.md](C1-BASELINE.md).
+
+`t0-c1-perf-r1` had failed before model launch on an absent optional sysfs power
+attribute, not a GPU/model error. Its failure and the focused CPU RED/GREEN are
+preserved; unavailable telemetry is now explicit null/error. No workload or
+admission control was weakened. Code commits `cbb06fc` (harness) and `7f85ef8`
+(supervisor fix); ten CPU suites pass, including eleven benchmark contract cases,
+with GCC/Clang/ASan/UBSan (`t0-perf-cpu-r3`). HIP/no-model receipt:
+`t0-perf-linked-r1`; final documentation/source CPU closure: `t0-perf-closure-r1`.
+
+## Previous target result — serving smoke, 2026-09-30 20:07 UTC
 
 A fresh operator handover (machines free, resume LIE) and read-only observation
 preceded successful acquisition of all four existing leases. `t0-model-smoke-r3`
@@ -113,10 +137,10 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Nine current suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`,
+Ten current suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`,
 `metrics`, `monitor-parser`, `executor-c-layout`, `http-monitor`, `http-synthetic`,
-`model-smoke-helper`. The last suite tests only the Python supervisor's HTTP client
-against an ephemeral synthetic server, never GPU/model execution.
+`model-smoke-helper`, `executor-bench-contract`. The last two use synthetic
+HTTP/executor fixtures only, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,
 UTF-8 split/invalid bytes, JSON/SSE equivalence, deadline, poison, error terminal,
@@ -133,9 +157,11 @@ and unchanged. The old policy/guard result is not reinterpreted retrospectively.
 The 20:01 UTC observation (`t0-node-activity-r2`) followed the operator's fresh
 handover. No DS4 ACK was present; none was written for its owner. Both r3 and r4
 held pipeline/download/qualification/shared leases, with actual start/end records.
-The successful r4 exited at 20:07:42 UTC and released its leases. No foreign
-process, DS4 source/build/cache/service/profile, model or qualified artifact was
-modified. No deployment or background retry is left running.
+The successful serving r4 exited at 20:07:42 UTC and released its leases.
+A later explicit measurement request admitted `t0-c1-perf-r2`, with its own
+start/end records and clean exit at 20:52:07 UTC. No foreign process, DS4
+source/build/cache/service/profile, model or qualified artifact was modified.
+No deployment or background retry is left running.
 
 This operator window is not permanent shared-runner adoption. Further GPU work
 requires a current handover/lease, fresh preflight and register entries; idle

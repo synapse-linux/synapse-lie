@@ -22,7 +22,12 @@ See [the exact smoke scope and record](docs/T0-SMOKE.md).
 Without a configured model, readiness remains 503, models is empty and chat is
 503. No production fake-output switch exists. A separate `test-synthetic-server`
 is visibly labelled `cpu-test-fixture-NOT-INFERENCE` and is never model evidence.
-**v0.1, hardware performance and deployment remain unqualified.**
+A scoped [C1 executor baseline](docs/C1-BASELINE.md) is now measured: at actual
+prompts 502 / 2042 / 8191 tokens, median PP is 988.68 / 1642.65 / 1607.13 tok/s,
+and TG128 is 26.851 / 26.049 / 25.965 tok/s. Three measured repetitions per size,
+context 9216, chunk 2048, fresh sessions, original UD-Q4_K_XL, no HTTP or tuning.
+This is embedded-provider throughput, not a reactive gain or independent comparison.
+**v0.1, full numerical/hardware qualification and deployment remain open.**
 
 ## Reactive path
 
@@ -50,6 +55,7 @@ or Reactive Streams TCK claim.
 
 Installed dependencies: Linux, C17 compiler, CMake, pkg-config, libuv, llhttp,
 json-c, libcurl, Threads and libm. Python is development/test tooling only.
+CPU benchmark tests additionally need installed OpenSSL Crypto development headers.
 Nothing is installed by the build.
 
 ```sh
@@ -62,9 +68,9 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Nine suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
-C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor, and
-CPU-only smoke-runner HTTP regression.
+Ten suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
+CPU-only smoke-runner HTTP regression and the executor benchmark contract.
 They cover bounded overload, stalled consumers, peer progress, disconnect,
 in-flight cancellation, poison, error terminals and shutdown. They do not
 qualify real model output, numerical equivalence, native batching, GPU faults,
@@ -92,6 +98,9 @@ failures, hashes and logs are retained. Verification masks GPU visibility, uses
 private HOME/cache directories, and starts only no-model or synthetic tests.
 No weights, kernel execution, remote build or dependency installation occurs.
 The independent `LIE_GUFO_HEADER_CHECK` option still builds only an object.
+The optional HIP build also provides `lie-executor-bench`; its real-model use is
+lease-gated by `tools/bench-model.py` and the [C1 protocol](docs/C1-BASELINE.md).
+The separate `test-synthetic-bench` is NOT-INFERENCE.
 
 After the coordinated lease, fresh preflight and private runtime setup—not as
 part of the local verification—an original-weight candidate can be started with:

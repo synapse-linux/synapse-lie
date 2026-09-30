@@ -3,7 +3,9 @@
 The user asks whether reactive execution can improve **model inference itself**,
 not only networking, multi-agent scheduling or responsiveness. This is a separate
 experimental track feeding the requirement-driven [backend evolution](BACKEND.md).
-No GPU experiment, profiler trace or speedup is established by this document.
+A first direct-ABI C1 timing baseline is recorded separately in
+[C1-BASELINE.md](C1-BASELINE.md). No internal-reactive optimization experiment,
+profiler trace or speedup is established.
 
 ## Three different questions
 

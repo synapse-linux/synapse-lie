@@ -65,6 +65,21 @@ identity manifests needed for development are separately versioned.
   `remote-results/result.json`, `process-exit.json` and `assessment.json` define
   scope; one-second whole-device/system samples are not exact LIE peak accounting.
 
+- `t0-perf-activity-r1/`: read-only idle-node observation before C1 preparation.
+- `t0-perf-cpu-r1/r2/r3/`: CPU-only benchmark contract, compiler/sanitizer/header
+  closures; r3 includes explicit unavailable optional power metadata.
+- `t0-perf-linked-r1/`: actual HIP-linked benchmark, build-info/DSOs and CPU tests;
+  no model during this local build verification.
+- `t0-c1-perf-r1/`: leases/DSO preflight passed but absent optional sysfs attribute
+  aborted before model launch; failure preserved, no discarded GPU timings.
+- `t0-perf-power-red-r1/green-r1/`: missing metadata regression before/after fix.
+- `t0-c1-perf-r2/`: completed C1 PP/TG baseline, three warmups plus nine measured
+  samples, physical/output IDs and finite/repeatable frontier hashes. See
+  `docs/C1-BASELINE.md` for timing scopes and limits; not a reactive speedup,
+  pristine comparison, HTTP-throughput or owned numerical-backend claim.
+- `t0-perf-closure-r1/`: final source/documentation CPU closure, separate from
+  actual hardware samples and from earlier unchanged receipts.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus
