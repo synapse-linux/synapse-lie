@@ -1,0 +1,204 @@
+{
+  "schema": "synapse-lie.model-inventory.v1",
+  "captured_at": "2026-09-30T11:42:52.812703+00:00",
+  "host": "paperboy@192.168.5.157",
+  "full_weight_hashes_recomputed": false,
+  "historical_receipt_sha256": "6cd0ca8519c8d06b8eb017f4f617fbf3987f922455784b54b1211fcfd6c1463f",
+  "files": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "historical_sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+      "historical_receipt": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/native-perf-closure-r1/result.json",
+      "same_stat_as_historical_receipt": true,
+      "metadata_read_bytes": 10946618,
+      "tensor_count": 0,
+      "selected_metadata": {
+        "general.architecture": {
+          "bytes": 8,
+          "sha256": "8d236bb636f87a4f2046f5784286333af910f0ae287cf19fe3684e1ea6800234",
+          "text": "qwen4exp"
+        },
+        "general.name": {
+          "bytes": 18,
+          "sha256": "050de5a75aec4f276f51694516dcf63a81ba4cf1abc5c00a8a7984cb26ec7dbc",
+          "text": "Qwen3.8 Flash Next"
+        },
+        "tokenizer.ggml.model": {
+          "bytes": 4,
+          "sha256": "238f51b7c7c924fa3fe77ce7d0b214a05408df5b1ec84f9e614462017c42b005",
+          "text": "gpt2"
+        },
+        "tokenizer.ggml.pre": {
+          "bytes": 6,
+          "sha256": "6c1f3f50de961f2194d38019e275796dc75edc412c6486def2ee75281d1ac218",
+          "text": "qwen35"
+        },
+        "tokenizer.ggml.tokens": {
+          "element_type": 8,
+          "count": 248320,
+          "length_prefixed_sha256": "b7f4906b5bf6a845baf3f41fdcdcd70f0f2f234eb702aabb830ce1536604e5d6"
+        },
+        "tokenizer.chat_template": {
+          "bytes": 9993,
+          "sha256": "12827f24b742ea4e80cdc12dbcf9622227056b9f797252a3149263d4f9aaadce"
+        },
+        "general.file_type": 15
+      }
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "historical_sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+      "historical_receipt": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/native-perf-closure-r1/result.json",
+      "same_stat_as_historical_receipt": true
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "historical_sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+      "historical_receipt": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/native-perf-closure-r1/result.json",
+      "same_stat_as_historical_receipt": true
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "historical_sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+      "historical_receipt": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/native-perf-closure-r1/result.json",
+      "same_stat_as_historical_receipt": true
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467,
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "historical_sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6",
+      "historical_receipt": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/native-perf-closure-r1/result.json",
+      "same_stat_as_historical_receipt": true,
+      "metadata_read_bytes": 10944543,
+      "tensor_count": 32,
+      "selected_metadata": {
+        "general.architecture": {
+          "bytes": 8,
+          "sha256": "8d236bb636f87a4f2046f5784286333af910f0ae287cf19fe3684e1ea6800234",
+          "text": "qwen4exp"
+        },
+        "general.name": {
+          "bytes": 8,
+          "sha256": "8e3bce37224a00180f7e907023e7b17e4acc06c71ee8c02eff7250e0654a0285",
+          "text": "Ckpt_Q38"
+        },
+        "tokenizer.ggml.model": {
+          "bytes": 4,
+          "sha256": "238f51b7c7c924fa3fe77ce7d0b214a05408df5b1ec84f9e614462017c42b005",
+          "text": "gpt2"
+        },
+        "tokenizer.ggml.pre": {
+          "bytes": 6,
+          "sha256": "6c1f3f50de961f2194d38019e275796dc75edc412c6486def2ee75281d1ac218",
+          "text": "qwen35"
+        },
+        "tokenizer.ggml.tokens": {
+          "element_type": 8,
+          "count": 248320,
+          "length_prefixed_sha256": "b7f4906b5bf6a845baf3f41fdcdcd70f0f2f234eb702aabb830ce1536604e5d6"
+        },
+        "tokenizer.chat_template": {
+          "bytes": 8952,
+          "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+        },
+        "general.file_type": 7
+      }
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314,
+      "historical_sha256": "b1b93fa69aca5f187b0fb813aca8f3ec1beb5cf8cf0bd38cf041b93e0b6ccac9",
+      "historical_source": "inherited DS4 protected-model inventory; not rehashed by LIE",
+      "revision": "d600fe1a43d2e1cdcadb85144ce3142f66f9eefe",
+      "metadata_read_bytes": 10945596,
+      "tensor_count": 1256,
+      "selected_metadata": {
+        "general.architecture": {
+          "bytes": 8,
+          "sha256": "8d236bb636f87a4f2046f5784286333af910f0ae287cf19fe3684e1ea6800234",
+          "text": "qwen4exp"
+        },
+        "general.name": {
+          "bytes": 63,
+          "sha256": "6b19851242a3db5354a18f07b3c0d18bb2862ff89614b08103bee9b310dad0b2",
+          "text": "Qwen3.8 Flash Next IQ2_XXS imatrix trunk, padded Q2_K down, MTP"
+        },
+        "tokenizer.ggml.model": {
+          "bytes": 4,
+          "sha256": "238f51b7c7c924fa3fe77ce7d0b214a05408df5b1ec84f9e614462017c42b005",
+          "text": "gpt2"
+        },
+        "tokenizer.ggml.pre": {
+          "bytes": 6,
+          "sha256": "6c1f3f50de961f2194d38019e275796dc75edc412c6486def2ee75281d1ac218",
+          "text": "qwen35"
+        },
+        "tokenizer.ggml.tokens": {
+          "element_type": 8,
+          "count": 248320,
+          "length_prefixed_sha256": "b7f4906b5bf6a845baf3f41fdcdcd70f0f2f234eb702aabb830ce1536604e5d6"
+        },
+        "tokenizer.chat_template": {
+          "bytes": 8952,
+          "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+        },
+        "general.file_type": 19
+      }
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "bytes": 177280286720,
+      "device": 52,
+      "inode": 3116346,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412,
+      "historical_sha256": "680944460a8cbe93ba8b6d7b6107213ffb7e22320bd913000e563ca0a0f25a8a",
+      "historical_source": "inherited DS4 protected-model inventory; not rehashed by LIE",
+      "revision": "d600fe1a43d2e1cdcadb85144ce3142f66f9eefe"
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+      "bytes": 616703104,
+      "device": 52,
+      "inode": 3116447,
+      "mtime_ns": 1790231603650000000,
+      "ctime_ns": 1790258579655360284,
+      "historical_sha256": "b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad",
+      "historical_source": "inherited DS4 protected-model inventory; not rehashed by LIE",
+      "revision": "01534bc2e1877d5de995b73d247d4459d273e688"
+    }
+  ]
+}

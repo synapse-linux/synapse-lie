@@ -1,0 +1,119 @@
+# Actuator / Micrometer-inspired contract v1 (implemented subset)
+
+This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
+implementation. The official Actuator reference and Micrometer timer source
+were retrieved; URLs, hashes and timestamps are in local evidence. Default
+management listener: `127.0.0.1:19880`.
+
+## Registry
+
+Types: Counter (nonnegative increments), Gauge (explicit sampled value), Timer
+(nonnegative finite seconds). Logical names use lower-case letters/digits,
+underscores/dots; labels use lower-case letters/digits/underscores. `le` and
+`__*` are reserved. Descriptions, units and tags are copied and owned. Values
+are controlled at instrumentation sites, never prompt/request/conversation IDs.
+Capacity is 32 metric families / 128 series / 4 tags / 12 finite histogram
+bounds, explicit compile-time safety limits, not inference concurrency limits.
+
+A metric name fixes its type, description, unit, tag-key set and histogram
+configuration. Registration with reordered tag pairs returns the same series
+handle; conflicting metadata/key sets or Prometheus name/suffix collisions are
+refused. Families/series have registry lifetime; no stale handles from eviction.
+Registration, updates and snapshots are mutex-protected. Shutdown must join all
+registry users before destruction. JSON/export serialization runs on a detached
+copy, not under the mutex. No GPU call or hardware query occurs in a scrape.
+
+Counters/counts and finite bounds accumulate since process start; no per-request
+reset. Counter growth beyond exact double integer range is refused. Invalid,
+negative or nonfinite updates do not change the series. Timer sum overflow is
+refused. Gauge aggregation overflow returns an error, not invalid JSON.
+
+Timer MAX: three rotating 60-second buckets on the monotonic clock, maximum of
+all nonexpired buckets. A recorded maximum lives between 120 and 180 seconds
+according to its position in the rotation; after 180 seconds without new
+observations it is zero. This is the declared Micrometer-style expiry=60s,
+bufferLength=3 bounded maximum, not lifetime MAX and not an exact rolling
+180-second event log. Count, sum and histogram buckets do NOT expire with MAX.
+
+## Actuator JSON
+
+`GET /actuator/metrics` -> `{"names":[...]}`.
+
+`GET /actuator/metrics/{name}?tag=backend:hip&tag=model:qwen` uses AND filters.
+URL-encoded colon and values are accepted. Duplicate keys/malformed filters are
+400. Unknown metric or no matching series is 404. Only repeated `tag` parameters
+are accepted. The result contains `name`, `description`, `baseUnit` (null if
+unset), `measurements` and `availableTags`. Filtered keys are omitted from
+availableTags; remaining values come only from matching series.
+
+- Gauge: `VALUE`, sum of selected series.
+- Counter: `COUNT`, sum of selected series.
+- Timer: `COUNT` and `TOTAL_TIME` summed; `MAX` is the maximum of selected maxima,
+  not their sum. Timer baseUnit is `seconds`.
+
+JSON is `application/vnd.spring-boot.actuator.v3+json`. It does not contain
+histogram buckets or invented p95 values. Header behavior is documented in
+HTTP.md; no blanket Actuator compatibility claim.
+
+## Prometheus mapping
+
+Replace dots with underscores. Timer adds `_seconds`; bytes/seconds units add
+that suffix to other types unless already present. Other units remain metadata.
+Counter adds `_total`. Timer count/sum/max/bucket namespaces are reserved against
+other meters, even when buckets are disabled.
+
+Examples:
+
+| Logical name/type | Prometheus series |
+|---|---|
+| llm.tokens.generated / Counter | llm_tokens_generated_total |
+| llm.requests.active / Gauge (future) | llm_requests_active |
+| llm.request.duration / Timer (future) | llm_request_duration_seconds_count, _sum, _max, _bucket |
+
+Counter/Gauge have HELP/TYPE plus samples. Timer with bounds has TYPE histogram,
+cumulative `_bucket{le="..."}` including `+Inf == _count`, `_count`, `_sum` and
+separate TYPE gauge `_max`. Without bounds it uses TYPE summary for count/sum
+(no quantiles) and a separate max gauge. Labels escape `\\`, quote and newline;
+HELP text escapes backslash/newline. No exemplar/timestamp/OpenMetrics claim.
+Content-Type is exactly `text/plain; version=0.0.4; charset=utf-8`.
+
+## Instrumentation actually wired now
+
+| Name | Type/unit | Tags | Update point |
+|---|---|---|---|
+| runtime.uptime | Gauge/seconds | none | 250ms CPU loop tick, monotonic since start |
+| runtime.ready | Gauge/dimensionless | none | 0: no model/executor in this increment |
+| http.connections.active | Gauge/connections | none | accepted TCP connection / completed close callback |
+| http.server.requests | Timer/seconds | method=GET,POST,OTHER; status=2xx,4xx,5xx | from TCP accept until response enqueue (NOT network write completion); bounds .001,.01,.1,1,5,+Inf |
+| llm.requests.rejected | Counter/requests | reason=backend_unavailable | a framed chat request refused before inference |
+| llm.tokens.generated | Counter/tokens | none | zero because this process never produces tokens |
+
+A scrape's own HTTP timer is updated after its snapshot; different endpoint
+responses are not a cross-request atomic transaction. Incomplete/time-expired
+connections do not enter the response timer. These are truthful, deliberately
+limited metrics, not substitutes for inference latencies.
+
+## Required inference instrumentation (pending, not emitted as fake zero)
+
+At admission: accepted/rejected counters, active/queued gauges, input tokens.
+On worker start: queue duration. TTFT starts at full HTTP request admission,
+including tokenization and queue time, ends at first confirmed token ready for
+output. Separately measure first actual SSE write and inter-emission gaps.
+A speculative step may emit multiple tokens; SSE spacing is not per-token time.
+
+On completed steps: prefill/decode durations and processed tokens, executor step
+and batch-size distributions; on terminal outcome: request duration/completion,
+cancellation and deadlines exactly once. Separate drafted/accepted tokens and
+cycles/cost; AR is the reference. Zero/one-token requests produce no invalid
+inter-token division.
+
+On backend allocation/accounting snapshots: weights, active state, retained
+prefixes, workspace, MTP/rollback and I/O buffers (shared RAM, no double count).
+On cache/store events: hit/miss by RAM/SSD, eviction, failed/incompatible restore,
+read/write bytes, save/restore duration and occupancy/budget. On queues/network:
+backpressure, output bytes, paused rows and disk queue depth.
+
+Add these meters only with real update sites. Future percentile estimates must
+use interval histogram deltas with a documented window and bucket interpolation;
+no p95 is implemented or claimed today. Instrumentation overhead has not been
+benchmarked on inference.
