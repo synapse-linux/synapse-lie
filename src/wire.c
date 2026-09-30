@@ -21,6 +21,23 @@ static json_object *usage(const lie_job_info *i) {
     json_object_object_add(u,"total_tokens",json_object_new_int64((uint64_t)i->prompt_tokens+i->output_tokens));
     return u;
 }
+static json_object *timings(const lie_job_info *i) {
+    json_object *t=json_object_new_object();
+    json_object_object_add(t,"schema",json_object_new_string("synapse-lie.request-timings.v1"));
+    json_object_object_add(t,"scope",json_object_new_string("synchronous_executor_calls"));
+    json_object_object_add(t,"valid",json_object_new_boolean(i->timing_valid));
+    json_object_object_add(t,"prefill_tokens",json_object_new_int64(i->prefill_tokens));
+    json_object_object_add(t,"decode_tokens",json_object_new_int64(i->output_tokens));
+    json_object_object_add(t,"prefill_calls",json_object_new_int64(i->prefill_calls));
+    json_object_object_add(t,"decode_calls",json_object_new_int64(i->decode_calls));
+    json_object_object_add(t,"prefill_ms",i->timing_valid?json_object_new_double((double)i->prefill_ns/1e6):NULL);
+    json_object_object_add(t,"decode_ms",i->timing_valid?json_object_new_double((double)i->decode_ns/1e6):NULL);
+    json_object_object_add(t,"prefill_tokens_per_second",i->timing_valid && i->prefill_ns?
+                           json_object_new_double((double)i->prefill_tokens*1e9/(double)i->prefill_ns):NULL);
+    json_object_object_add(t,"decode_tokens_per_second",i->timing_valid && i->decode_ns?
+                           json_object_new_double((double)i->output_tokens*1e9/(double)i->decode_ns):NULL);
+    return t;
+}
 static void choice(json_object *o, const char *key, json_object *value, const char *finish) {
     json_object *array=json_object_new_array(), *c=json_object_new_object();
     json_object_object_add(c,"index",json_object_new_int(0));
@@ -41,7 +58,8 @@ char *lie_wire_completion(const char *id, const char *model, int64_t created,
     json_object_object_add(m,"role",json_object_new_string("assistant"));
     json_object_object_add(m,"content",json_object_new_string_len(content,(int)bytes));
     choice(o,"message",m,i->finish==LIE_FINISH_STOP?"stop":"length");
-    json_object_object_add(o,"usage",usage(i)); return serialize(o,false);
+    json_object_object_add(o,"usage",usage(i));
+    json_object_object_add(o,"lie_timings",timings(i)); return serialize(o,false);
 }
 char *lie_wire_chunk(const char *id, const char *model, int64_t created,
                      const char *content, size_t bytes, bool role) {
@@ -58,7 +76,10 @@ char *lie_wire_end(const char *id, const char *model, int64_t created,
         json_object_object_add(e,"code",json_object_new_string(i->finish==LIE_FINISH_CANCEL?"cancelled":"inference_failed"));
         json_object_object_add(e,"message",json_object_new_string(i->error));
         json_object_object_add(o,"error",e);
-    } else choice(o,"delta",json_object_new_object(),i->finish==LIE_FINISH_STOP?"stop":"length");
+    } else {
+        choice(o,"delta",json_object_new_object(),i->finish==LIE_FINISH_STOP?"stop":"length");
+        json_object_object_add(o,"lie_timings",timings(i));
+    }
     char *first=serialize(o,true), *second=NULL;
     if (with_usage && (i->finish==LIE_FINISH_STOP || i->finish==LIE_FINISH_LENGTH)) {
         o=base(id,model,created,true);

@@ -79,7 +79,7 @@ def main():
         result['inputs_unchanged'] = before == inputs()
         if not result['inputs_unchanged']: raise RuntimeError('source changed during verification')
         result['binaries'] = {str(p.relative_to(ROOT)):sha(p) for directory in ('debug','clang','sanitize')
-                              for name in ('synapse-lie-server','synapse-lie-monitor','test-flow','test-metrics','test-prometheus','test-executor-abi','test-chat','test-worker','test-synthetic-server','test-synthetic-bench')
+                              for name in ('synapse-lie-server','synapse-lie-monitor','test-flow','test-metrics','test-prometheus','test-executor-abi','test-chat','test-worker','test-worker-timings','test-synthetic-server','test-synthetic-bench')
                               if (p := base / directory / name).is_file()}
         result['transitional_adapter_permitted'] = True
         result['inference_adapter_linked'] = False

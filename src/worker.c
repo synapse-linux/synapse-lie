@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/eventfd.h>
+#include <time.h>
 #include <unistd.h>
 
 struct lie_job {
@@ -34,6 +35,27 @@ struct lie_worker {
     int wake, notice;
     lie_model *model;
 };
+static bool clock_ns(uint64_t *out) {
+    struct timespec t;
+    if (clock_gettime(CLOCK_MONOTONIC,&t) || t.tv_sec<0 || t.tv_nsec<0 ||
+        t.tv_nsec>=1000000000 || (uint64_t)t.tv_sec>(UINT64_MAX-(uint64_t)t.tv_nsec)/1000000000)
+        return false;
+    *out=(uint64_t)t.tv_sec*1000000000+(uint64_t)t.tv_nsec; return true;
+}
+static void record_call(lie_job *j, bool prefill, bool started_ok, uint64_t started,
+                        unsigned completed_input) {
+    /* Read before taking the metadata gate: gate, token rendering, flow credit
+     * stalls and other sessions are not part of these executor-call durations. */
+    uint64_t ended=0; bool ended_ok=clock_ns(&ended);
+    pthread_mutex_lock(&j->gate);
+    uint64_t *total=prefill?&j->info.prefill_ns:&j->info.decode_ns;
+    if (!started_ok || !ended_ok || ended<started || ended-started>UINT64_MAX-*total)
+        j->info.timing_valid=false;
+    else *total+=ended-started;
+    if (prefill) { ++j->info.prefill_calls; j->info.prefill_tokens+=completed_input; }
+    else ++j->info.decode_calls;
+    pthread_mutex_unlock(&j->gate);
+}
 static void signal_fd(int fd) {
     uint64_t one=1; ssize_t n;
     do { n=write(fd,&one,sizeof(one)); } while (n<0 && errno==EINTR);
@@ -137,7 +159,9 @@ static bool step(lie_worker *w, size_t index) {
     if (atomic_load(&j->cancel)) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
     if (j->fed<j->tokens) {
         size_t add=j->tokens-j->fed; if (add>w->options.chunk) add=w->options.chunk;
+        uint64_t started=0; bool started_ok=clock_ns(&started);
         lie_status rc=lie_sequence_prefill(j->sequence,j->prompt,j->fed+add,&error);
+        record_call(j,true,started_ok,started,rc==LIE_OK?(unsigned)add:0);
         if (rc!=LIE_OK) {
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);
@@ -155,7 +179,9 @@ static bool step(lie_worker *w, size_t index) {
         finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
     }
     lie_decode_result result={0};
+    uint64_t started=0; bool started_ok=clock_ns(&started);
     lie_status rc=lie_sequence_decode(j->sequence,&result,&error);
+    record_call(j,false,started_ok,started,0);
     size_t bytes=0;
     if (rc==LIE_OK && result.emitted) rc=lie_model_token_text(w->model,result.token,
                        (char *)reservation.data,reservation.capacity,&bytes,&error);
@@ -258,6 +284,7 @@ int lie_worker_submit(lie_worker *w, lie_chat_request *request, lie_job **out) {
     if (lie_flow_create(&options,&j->flow)!=LIE_FLOW_OK) { free(j); return 3; }
     if (pthread_mutex_init(&j->gate,NULL)) { (void)lie_flow_cancel(j->flow); (void)lie_flow_destroy(&j->flow); free(j); return 3; }
     atomic_init(&j->refs,2); atomic_init(&j->cancel,false); j->owner=w;
+    j->info.timing_valid=true;
     (void)lie_flow_request(j->flow,LIE_OUTPUT_SLOTS);
     pthread_mutex_lock(&w->gate);
     int result=0; size_t index=0;

@@ -40,20 +40,36 @@ int main(void) {
         assert(lie_utf8_feed(&d,raw+split,sizeof(raw)-1-split,true,out+a,sizeof(out)-a,&b));
         assert(a+b==strlen(expected) && !memcmp(out,expected,a+b));
     }
-    lie_job_info info={.prompt_tokens=9,.output_tokens=8,.finish=LIE_FINISH_STOP};
+    lie_job_info info={.prompt_tokens=9,.output_tokens=8,.finish=LIE_FINISH_STOP,
+        .timing_valid=true,.prefill_tokens=9,.prefill_calls=2,.decode_calls=9,
+        .prefill_ns=2000000,.decode_ns=4000000};
     char *wire=lie_wire_completion("id","m",12,"\"\n€",5,&info);
     assert(wire); json_object *j=json_tokener_parse(wire), *v, *u;
     assert(j && json_object_object_get_ex(j,"usage",&u));
     assert(json_object_object_get_ex(u,"total_tokens",&v) && json_object_get_int(v)==17);
+    assert(json_object_object_get_ex(j,"lie_timings",&u));
+    assert(json_object_object_get_ex(u,"prefill_ms",&v) && json_object_get_double(v)==2.0);
+    assert(json_object_object_get_ex(u,"decode_ms",&v) && json_object_get_double(v)==4.0);
+    assert(json_object_object_get_ex(u,"prefill_tokens_per_second",&v) && json_object_get_double(v)==4500.0);
+    assert(json_object_object_get_ex(u,"decode_tokens_per_second",&v) && json_object_get_double(v)==2000.0);
     json_object_put(j); free(wire);
-    wire=lie_wire_end("id","m",12,&info,true); assert(wire);
-    assert(strstr(wire,"\"choices\":[]") && strstr(wire,"data: [DONE]\n\n")); free(wire);
+    for (unsigned with_usage=0;with_usage<2;++with_usage) {
+        wire=lie_wire_end("id","m",12,&info,with_usage); assert(wire);
+        assert((strstr(wire,"\"choices\":[]")!=NULL)==(with_usage!=0));
+        const char *timing=strstr(wire,"\"lie_timings\"");
+        assert(timing && !strstr(timing+1,"\"lie_timings\"") && strstr(wire,"data: [DONE]\n\n")); free(wire);
+    }
+    wire=lie_wire_chunk("id","m",12,"x",1,false); assert(wire && !strstr(wire,"lie_timings")); free(wire);
     info.finish=LIE_FINISH_NONE;
     assert(!lie_wire_completion("id","m",12,"",0,&info));
     wire=lie_wire_end("id","m",12,&info,true);
-    assert(wire && strstr(wire,"\"error\"") && !strstr(wire,"finish_reason") && !strstr(wire,"\"usage\"")); free(wire);
+    assert(wire && strstr(wire,"\"error\"") && !strstr(wire,"finish_reason") && !strstr(wire,"\"usage\"") && !strstr(wire,"lie_timings")); free(wire);
     info.finish=LIE_FINISH_BACKEND; strcpy(info.error,"test failure");
     wire=lie_wire_end("id","m",12,&info,false);
-    assert(wire && strstr(wire,"test failure") && !strstr(wire,"finish_reason")); free(wire);
+    assert(wire && strstr(wire,"test failure") && !strstr(wire,"finish_reason") && !strstr(wire,"lie_timings")); free(wire);
+    info.finish=LIE_FINISH_CANCEL;
+    assert(!lie_wire_completion("id","m",12,"",0,&info));
+    wire=lie_wire_end("id","m",12,&info,true);
+    assert(wire && strstr(wire,"cancelled") && !strstr(wire,"lie_timings") && !strstr(wire,"\"usage\"")); free(wire);
     puts("chat parser, UTF-8 boundaries and wire fixtures: PASS (not inference)"); return 0;
 }

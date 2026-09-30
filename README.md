@@ -29,6 +29,14 @@ context 9216, chunk 2048, fresh sessions, original UD-Q4_K_XL, no HTTP or tuning
 This is embedded-provider throughput, not a reactive gain or independent comparison.
 **v0.1, full numerical/hardware qualification and deployment remain open.**
 
+New server source adds C per-request [PP/TG timings](docs/HTTP.md#per-request-executor-timings)
+in JSON/SSE: completed synchronous executor-call wall time, excluding queue/credit
+waits and HTTP delivery. This increment is CPU-fixture verified, not part of the
+previously measured GPU binary. The definitive `synapse-lie-bench` is planned in
+C17; Python is intermediate tooling only. [Methodology and prerequisites](docs/BENCHMARKING.md)
+keep Gufo's cached-prefix/MTP/concurrency experiments distinct from the existing
+fresh-session baseline. The full benchmark tool is not implemented yet.
+
 ## Reactive path
 
 ```text
@@ -68,9 +76,10 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Ten suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Eleven suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
-CPU-only smoke-runner HTTP regression and the executor benchmark contract.
+CPU-only smoke-runner HTTP regression, the executor benchmark contract and
+per-request completed-call timing with a test-only deterministic clock.
 They cover bounded overload, stalled consumers, peer progress, disconnect,
 in-flight cancellation, poison, error terminals and shutdown. They do not
 qualify real model output, numerical equivalence, native batching, GPU faults,

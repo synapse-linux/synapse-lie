@@ -64,6 +64,14 @@ An owned or selectively ported renderer must preserve the applicable, separately
 qualified GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
 to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.
 
+The server worker now measures `lie_sequence_prefill`/`lie_sequence_decode`
+call wall time using `CLOCK_MONOTONIC`, retaining the completed-work semantics.
+No additional device synchronization or executor ABI/version change is made.
+Timing fields are internal worker snapshots, not additional fields in executor
+ABI 2. The versioned JSON/SSE extension and invalid-clock/null rules are in
+[HTTP.md](HTTP.md#per-request-executor-timings). They do not measure HTTP latency
+or establish GPU performance qualification.
+
 This experimental layout is not a stability promise. Keep engine selection
 (e.g. `lie_gufo_open`) at the composition/binding boundary; neutral runtime clients
 must not assume Gufo ownership/layout. Introduce capability/versioned changes for

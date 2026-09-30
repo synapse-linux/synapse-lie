@@ -80,6 +80,20 @@ identity manifests needed for development are separately versioned.
 - `t0-perf-closure-r1/`: final source/documentation CPU closure, separate from
   actual hardware samples and from earlier unchanged receipts.
 
+- `gufo-bench-method-r1/`: independently fetched upstream documentation, recipe,
+  model identities and methodology source at `fd1710b5`, plus license/notices;
+  retrieval timestamps/HTTP status/hashes. Research only, no script execution.
+- `t0-request-timings-red-r1/`: new HTTP assertion on the prior CPU fixture binary
+  fails with missing `lie_timings`, actual exit 1. No GPU/model activity.
+- `t0-request-timings-green-r1/`: initial eleven-suite compiler/sanitizer/header
+  verification of C per-request timing and deterministic clock tests.
+- `t0-request-timings-closure-r1/`: final CPU closure including partial-prefill
+  failure and zero-output-rate cases; actual logs/exits/input hashes define pass.
+  Timing metadata does not imply GPU throughput measurement or Gufo-suite parity.
+- `t0-request-timings-linked-r1/`: new private HIP adapter link, build-info,
+  no-model/synthetic tests, with GPU visibility masked. Model access and GPU
+  execution are false; source inputs unchanged and binary identities retained.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus

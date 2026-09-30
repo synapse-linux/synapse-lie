@@ -126,6 +126,52 @@ before dropping its reference. SIGINT/SIGTERM waits for owned work retirement.
 An undrainable loaded-runtime GPU failure terminates the process with exit 70;
 no retry/fallback/core dump. That hardware error path remains unqualified.
 
+### Per-request executor timings
+
+Successful JSON completions include a top-level `lie_timings` object. SSE includes
+it **once on the successful finish delta**, independent of `include_usage`; the
+optional usage-only chunk remains unchanged. Content/role chunks, error terminals,
+cancelled requests and pre-admission failures do not carry successful timings.
+The extension does not change `usage`, content, finish reasons or the single DONE.
+
+Schema `synapse-lie.request-timings.v1`, scope `synchronous_executor_calls`:
+
+| Field | Meaning |
+|---|---|
+| `valid` | False if a monotonic-clock read fails, is malformed/regresses within a call, or accumulated nanoseconds overflow |
+| `prefill_tokens` | Successfully completed physical input deltas, not repeatedly counted cumulative prefixes |
+| `decode_tokens` | Confirmed emitted tokens, equal to completion usage on success |
+| `prefill_calls`, `decode_calls` | Returned synchronous executor calls; decode includes un-emitted EOS detection |
+| `prefill_ms`, `decode_ms` | Sum of `CLOCK_MONOTONIC` wall intervals around the respective executor calls |
+| `prefill_tokens_per_second`, `decode_tokens_per_second` | Corresponding tokens divided by measured time; null when duration is zero or invalid |
+
+On invalid timing, **both** durations and rates are null, not fabricated zero or
+client-time substitutes; counts remain known. This telemetry failure alone does
+not poison inference or trigger a retry. Zero emitted tokens with positive valid
+decode duration has rate zero, and the EOS detection call remains in the time.
+
+Calls include required provider synchronization, sampling and transfers. No new
+GPU barrier is added. The sums exclude rendering/tokenization, session creation/
+retirement, token-text decoding, metadata/flow handling, queueing, other jobs,
+credit/backpressure waits and HTTP writes. Tiny clock/call-boundary overhead is
+unavoidable. These are **not GPU kernel time, whole-request latency, TTFT, cohort
+throughput or a remote-delivery measurement**. A slow client can extend request
+latency without directly adding its waiting time to these rates; external CPU/GPU
+contention during a call still affects its wall time.
+
+The worker publishes timings and output accounting before the flow can publish
+a successful terminal. Partial worker snapshots can contain completed work only;
+in-flight work is not counted until the call returns. On failure/cancellation,
+internal call counts may include the failed/cancelled return, but no successful
+HTTP timing/usage record is produced. No prefix cache exists: completed successful
+prefill tokens currently equal the full physical prompt count.
+
+This increment is tested with CPU executor/clock fixtures (including chunk sums,
+EOS, queue/credit exclusion, in-flight cancellation, faults, zero resolution and
+clock errors/overflow), not yet measured on the GPU. `/actuator/llm` aggregate
+throughput/latency remains null; per-request values are not a percentile histogram.
+See [the benchmark direction](BENCHMARKING.md).
+
 ## Standalone monitor
 
 C libcurl/json-c monitor; default `http://127.0.0.1:19880`. It validates discovery,

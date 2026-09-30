@@ -29,6 +29,14 @@ typedef struct {
     unsigned prompt_tokens, output_tokens;
     lie_job_finish finish;
     bool prepared, retired;
+    /* Sum of wall durations around synchronous executor calls, not phase span
+     * or GPU-only time. Calls count returns (including EOS/error/cancellation);
+     * prefill_tokens counts only successfully completed physical input deltas.
+     * Failure/regression/overflow of the monotonic clock latches invalid.
+     * Timing and token counts are published before the flow terminal. */
+    bool timing_valid;
+    unsigned prefill_tokens, prefill_calls, decode_calls;
+    uint64_t prefill_ns, decode_ns;
     char error[256];
 } lie_job_info;
 

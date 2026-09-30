@@ -4,6 +4,7 @@
 import concurrent.futures
 import http.client
 import json
+import math
 import socket
 import subprocess
 import sys
@@ -37,6 +38,20 @@ def eventually(fn,seconds=4):
         if time.monotonic()>end: raise AssertionError('condition deadline')
         time.sleep(.01)
 
+def timings(value,usage):
+    t=value['lie_timings']
+    assert t['schema']=='synapse-lie.request-timings.v1'
+    assert t['scope']=='synchronous_executor_calls' and t['valid'] is True
+    assert t['prefill_tokens']==usage['prompt_tokens']==4 and t['prefill_calls']==1
+    assert t['decode_tokens']==usage['completion_tokens']
+    assert t['decode_calls'] in (t['decode_tokens'],t['decode_tokens']+1)
+    for phase in ('prefill','decode'):
+        ms=t[phase+'_ms']; rate=t[phase+'_tokens_per_second']
+        assert math.isfinite(ms) and ms>=0
+        if ms==0: assert rate is None
+        else: assert math.isclose(rate,t[phase+'_tokens']*1000/ms,rel_tol=1e-12,abs_tol=1e-12)
+    return t
+
 def events(text):
     lines=text.split('\n\n'); assert lines[-1]==''
     assert lines[-2]=='data: [DONE]' and text.count('data: [DONE]')==1
@@ -47,6 +62,9 @@ def events(text):
     assert data[0]['choices'][0]['delta']['role']=='assistant'
     finish=[x['choices'][0]['finish_reason'] for x in data if x.get('choices') and x['choices'][0]['finish_reason'] is not None]
     assert len(finish)==1
+    terminal=[x for x in data if 'lie_timings' in x]; assert len(terminal)==1
+    assert terminal[0]['choices'][0]['finish_reason'] in ('stop','length')
+    timings(terminal[0],data[-1]['usage'])
     return ''.join(x['choices'][0]['delta'].get('content','') for x in data if x.get('choices')),data[-1]['usage'],finish[0]
 
 def slow(p):
@@ -77,12 +95,21 @@ def main():
                 for text,tokens in [('normal',128),('normal',3),('EMPTY',128)]:
                     status,_,body=chat(a,payload(text,False,tokens)); assert status==200,body
                     full=json.loads(body); assert 'NOT-INFERENCE' in full['system_fingerprint']
+                    t=timings(full,full['usage'])
+                    assert t['decode_calls']==(1 if text=='EMPTY' else 3 if tokens==3 else 9)
                     status,headers,body=chat(a,payload(text,True,tokens)); assert status==200 and 'text/event-stream' in headers['Content-Type']
                     content,usage,finish=events(body)
                     assert content==full['choices'][0]['message']['content']
                     assert usage==full['usage'] and finish==full['choices'][0]['finish_reason']
                     if text=='normal' and tokens==128: assert content=='fixture: 🙂"\\\n��',repr(content)
                     if text=='EMPTY': assert usage['completion_tokens']==0 and content==''
+                # Timings accompany the finish, even when usage was not requested.
+                obj=payload('normal',True,3); obj.pop('stream_options')
+                status,_,body=chat(a,obj); assert status==200
+                data=[json.loads(x[6:]) for x in body.split('\n\n') if x.startswith('data: {')]
+                assert not any('usage' in x for x in data)
+                assert sum('lie_timings' in x for x in data)==1
+                timings(data[-1],{'prompt_tokens':4,'completion_tokens':3})
                 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
                     results=list(pool.map(lambda i:chat(a,payload('normal',bool(i%2),8)),range(16)))
                 assert all(r[0]==200 for r in results)
@@ -120,7 +147,7 @@ def main():
                 eventually(lambda:len(list(Path(f'/proc/{proc.pid}/fd').iterdir()))<=baseline_fds+2)
                 # Poison is terminal for this runtime, not a fallback/retry.
                 status,_,body=chat(a,payload('FAULT')); assert status==503,body
-                assert json.loads(body)['error']['code']=='inference_failed',body
+                assert json.loads(body)['error']['code']=='inference_failed' and 'lie_timings' not in body,body
                 assert request(m,'/actuator/health/readiness')[0]==503
                 assert json.loads(request(a,'/v1/models')[2])['data']==[]
                 assert chat(a,payload())[0]==503
@@ -151,6 +178,7 @@ def main():
                 if status==200:
                     assert 'event-stream' in headers['Content-Type'] and '"error"' in body
                     assert body.endswith('data: [DONE]\n\n') and '"finish_reason":"length"' not in body and '"finish_reason":"stop"' not in body
+                    assert 'lie_timings' not in body and '"usage"' not in body
                 else: assert status==503 and json.loads(body)['error']['code']=='inference_failed',body
             finally:
                 if proc.poll() is None: proc.terminate()

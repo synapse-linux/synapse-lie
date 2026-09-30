@@ -47,7 +47,7 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     owner(m); assert(count && !m->failed);
     const char *text=messages[count-1].content;
     int mode=!strcmp(text,"FAULT")?2:!strcmp(text,"LONG-A")?3:!strcmp(text,"LONG-B")?4:
-             !strcmp(text,"EMPTY")?6:!strcmp(text,"LONG")?1:0;
+             !strcmp(text,"EMPTY")?6:!strcmp(text,"PREFILL-FAULT")?7:!strcmp(text,"LONG")?1:0;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_context_bound");
     out[0]=mode; out[1]=out[2]=out[3]=10; return LIE_OK;
@@ -74,8 +74,10 @@ lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     (void)e; owner((*s)->model); --(*s)->model->sequences; free(*s); *s=NULL; return LIE_OK;
 }
 lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {
-    (void)e; owner(s->model); assert(!s->model->failed && count>s->position && count-s->position<=s->model->chunk);
-    s->mode=tokens[0]; s->position=(unsigned)count; return LIE_OK;
+    owner(s->model); assert(!s->model->failed && count>s->position && count-s->position<=s->model->chunk);
+    s->mode=tokens[0];
+    if (s->mode==7 && count>2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_prefill_failure"); }
+    s->position=(unsigned)count; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
     owner(s->model); assert(!s->model->failed); barrier();

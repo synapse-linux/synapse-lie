@@ -6,6 +6,38 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
+## Latest source increment — request timing, no new GPU run
+
+User direction: definitive `synapse-lie-bench` in C17; Python may serve intermediate
+development/graphs while server functionality takes priority. Pinned Gufo method
+review: `fd1710b5fd090880722e0681a868df2006595c73`, separate from the unchanged
+provider pin. [BENCHMARKING.md](BENCHMARKING.md) records exact experiment semantics
+and current gaps. No upstream benchmark script was run; the complete named tool
+is not implemented. Antirez Q2/Q4 discovery remains unqualified and separate;
+the previously written `tools/gguf-layout.py` is still an untested draft.
+
+C worker snapshots and JSON/SSE now expose versioned per-request PP/TG executor-
+call timing. Physical input deltas are counted once; EOS detection consumes time
+but not an output token. Queue, other-session and credit stalls are not phase
+compute time. Invalid clocks latch null duration/rates without retrying inference.
+Timing/accounting precedes terminal publication; failure/cancellation cannot
+produce a successful timing record. No numerical/adapter/executor ABI changes,
+new GPU barriers, prefix reuse, MTP, native batching or aggregate latency metrics.
+
+The HTTP regression failed against the prior qualified CPU fixture binary with
+`KeyError: 'lie_timings'` (`t0-request-timings-red-r1`, exit 1). Initial eleven-suite
+GCC/Clang/ASan/UBSan/header verification passed (`t0-request-timings-green-r1`).
+Final eleven-suite GCC/Clang/ASan/UBSan/header closure passed, additionally checking
+partial prefill failure and zero-output rates (`t0-request-timings-closure-r1`).
+The new private `t0-request-timings-linked-r1` also passed HIP adapter linking,
+build-info, no-model and all synthetic tests, with GPU visibility masked.
+Server SHA256: `cf6da02e33b6f8c840bbd5693daf9ec74d8cbb2b287e9cead4f9857f194a16f5`.
+Test-only link-time clock wrapping
+covers completed counts, queue/credit exclusion, in-flight cancellation, EOS,
+clock failure/regression/overflow and zero-resolution division. No model access
+or GPU execution; previous measured binaries/baselines remain unchanged. This
+source increment does not yet have a new original-weight GPU smoke/performance run.
+
 ## Latest target result — C1 baseline, 2026-09-30 20:52 UTC
 
 The user's explicit prefill/decode request produced a new C17 direct-executor
@@ -137,10 +169,11 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Ten current suites: `chat-parser-wire`, `worker-synthetic`, `reactive-flow`,
-`metrics`, `monitor-parser`, `executor-c-layout`, `http-monitor`, `http-synthetic`,
-`model-smoke-helper`, `executor-bench-contract`. The last two use synthetic
-HTTP/executor fixtures only, never GPU/model execution.
+Eleven current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
+`reactive-flow`, `metrics`, `monitor-parser`, `executor-c-layout`, `http-monitor`,
+`http-synthetic`, `model-smoke-helper`, `executor-bench-contract`. The timing,
+smoke-helper and benchmark contracts use CPU clock/HTTP/executor fixtures only,
+never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,
 UTF-8 split/invalid bytes, JSON/SSE equivalence, deadline, poison, error terminal,
