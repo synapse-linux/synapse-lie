@@ -47,6 +47,14 @@ Do not advertise OpenAI-compatible inference based on these two reserved routes.
 When real streaming is implemented, post-header failures must become a defined
 SSE error terminal event; no unconfirmed speculative token may be emitted.
 
+The required feedback is not simply `uv_write` callbacks: a per-sequence
+subscription must reserve both token demand and bounded output storage before
+new decode dispatch; write completion retires a buffer loan and may grant more
+credits. Disconnect/deadline cancellation bypasses data capacity, while in-flight
+work and writes retain their storage until completion. `lie_flow` now implements
+the CPU primitive, **not this HTTP/SSE binding**. See [REACTIVE.md](REACTIVE.md)
+for ordering, cancellation races, terminal signals and remaining qualification.
+
 ## Standalone monitor
 
 Uses libcurl and json-c, no Prometheus service or Python runtime. Default URL

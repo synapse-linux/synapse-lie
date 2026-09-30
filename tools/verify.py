@@ -65,9 +65,9 @@ def main():
         result['inputs_unchanged'] = before == inputs()
         if not result['inputs_unchanged']: raise RuntimeError('source changed during verification')
         result['binaries'] = {str(p.relative_to(ROOT)):sha(p) for directory in ('debug','clang','sanitize')
-                              for name in ('synapse-lie-server','synapse-lie-monitor','test-metrics','test-prometheus','test-executor-abi')
+                              for name in ('synapse-lie-server','synapse-lie-monitor','test-flow','test-metrics','test-prometheus','test-executor-abi')
                               if (p := ROOT / 'build' / directory / name).is_file()}
-        result['state'] = 'CPU_CONTROL_PLANE_PASS_ADAPTER_COMPILED_NOT_LINKED_NOT_INFERENCE'
+        result['state'] = 'CPU_CONTROL_PLANE_AND_REACTIVE_FLOW_PASS_ADAPTER_COMPILED_NOT_LINKED_NOT_INFERENCE'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex); raise
     finally:

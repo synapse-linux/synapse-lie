@@ -13,6 +13,11 @@ identity manifests needed for development are separately versioned.
 - `cpu-closure-r{1,2}/{result,inputs-before}.json`, numbered logs: verification
   commands and actual exit codes, GCC/Clang/sanitizer/adapter checks. r2 follows
   the final portable semantic-comparison review; r1 is preserved.
+- `reactive-initial-r1/`: first focused CPU flow build/test, commands and exits.
+- `reactive-closure-r1/`: all five CPU suites with GCC/Clang and ASan/UBSan,
+  adapter header check, source/provenance and binary hashes. Inspect result.json
+  before claiming success. Reactive tests are synthetic byte-frame/lifetime
+  checks, not HTTP/SSE inference or GPU scheduling tests.
 
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.

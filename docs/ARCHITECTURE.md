@@ -19,6 +19,22 @@
    The C++ adapter delegates to Qwen Model/Session. It is compile-checked only,
    intentionally absent from the current server executable.
 
+## Reactive pattern: Reactor is only the transport layer
+
+The [reactive contract](REACTIVE.md) is authoritative for demand/backpressure,
+stream ordering, dispatch cancellation and buffer retirement. The new C `lie_flow`
+component implements these primitives with preallocated bounded storage and two
+coalesced eventfd directions. Its tests use CPU frames and actual threads. It is
+not yet a connected inference graph or part of the HTTP server.
+
+The target is publisher -> bounded subscription -> output subscriber, with
+credits/releases flowing back to the device-owner scheduler and cancellation on
+a separate control path. No inference or disk wait on the network loop, no queue
+that grows to hide a slow client, no token dropping during normal generation,
+no one-thread-per-agent execution, no unbounded operator chain. Resource admission,
+fair shared scheduling, state persistence and live metric wiring still need
+integration; libuv alone does not satisfy those reactive properties.
+
 ## Target execution architecture (not all implemented)
 
 - HTTP loop: admission parsing, request ownership, ordered output and disconnect
@@ -65,8 +81,10 @@ DS4 port's modified native19 envelope.
   acknowledgement; this gate is not marked complete.
 - Independent part of B/E: compiled C management runtime, metric registry,
   monitor and compile-checked adapter delivered while hardware is blocked.
+- Reactive CPU slice: implemented bounded demand/stream/lifetime primitive;
+  scheduler/HTTP/executor bindings remain open.
 - Next B: build/link Gufo independently; original-model AR frontier/token check;
-  then a dedicated worker with real nonstream/SSE chat and bounded output.
+  then a dedicated worker with real nonstream/SSE chat wired through `lie_flow`.
 - C: scheduler lifecycle, admission/cancel/chunks; C1/2/4/8 native batching when
   memory allows, then qualified MTP and load/acceptance-aware windows.
 - D: RAM prefix snapshots then SSD atomic persistence/restart and failure tests.

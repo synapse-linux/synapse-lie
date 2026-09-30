@@ -9,9 +9,30 @@ requests return an explicit 503; there are no synthetic completions. The
 experimental Gufo C ABI adapter compiles against pinned upstream headers but is
 not linked into the server or hardware-qualified. **v0.1 is not ready.**
 
+## Reactive pattern
+
+The intended inference path is **demand-driven**, not just asynchronous I/O:
+
+```text
+subscriber demand -> device-owner scheduler -> confirmed output -> bounded stream -> SSE writer
+        ^                                                                            |
+        +---------------- credits / buffer release / cancellation ------------------+
+```
+
+`lie_flow` is the first implemented C component: per-sequence token credits,
+preallocated bounded byte buffers, an explicit dispatch/cancel gate, FIFO output,
+pinned in-flight/transport loans and out-of-band terminal signals. Linux eventfd
+provides coalesced wakeups; there is no polling-for-tokens loop. A slow stream
+exhausts its own capacity instead of creating an unbounded output queue.
+
+**The component is CPU-tested but not wired into HTTP, a scheduler or Gufo.**
+libuv currently supplies the network Reactor, not reactive inference. No Project
+Reactor/JVM dependency or Reactive Streams certification is claimed. The concrete
+contract, feedback loop and remaining integration are in [REACTIVE.md](docs/REACTIVE.md).
+
 ## Build and verify
 
-Existing development packages: C17 compiler, CMake, pkg-config, libuv, llhttp,
+Existing development packages: Linux, C17 compiler, CMake, pkg-config, libuv, llhttp,
 json-c and libcurl. Threads and libm are system dependencies. Python is used only
 by the tests/source audit, never the server or monitor. Nothing is installed by
 the build. Versions/provenance are in `third_party/README.md`.
@@ -29,8 +50,11 @@ ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
 
 CPU tests cover registry identities/collisions, filters/aggregation, rotating
 MAX, cumulative buckets, escaping, concurrent updates, parsing, real HTTP
-framing/limits/slow clients, shutdown lifetimes and all monitor modes. No test
-above proves inference, GPU batching, quality, snapshot restore or GPU memory fit.
+framing/limits/slow clients, shutdown lifetimes and all monitor modes. The reactive
+flow suite tests credits, bounded storage, dispatch/cancel races, ordered synthetic
+frames, loans, peer isolation and eventfd wakeups between real threads. No test
+above proves inference, GPU batching, SSE token delivery, quality, snapshot restore
+or GPU memory fit.
 
 ## Run the management increment
 
@@ -68,6 +92,7 @@ It preserves upstream Model/Session/ROCm calls; no numerical kernels are rewritt
 ## Contracts and next work
 
 - [Architecture/ownership and increment plan](docs/ARCHITECTURE.md)
+- [Reactive pattern, implemented C flow and integration obligations](docs/REACTIVE.md)
 - [Experimental C ABI](docs/ABI.md)
 - [Actuator/Micrometer subset and metric meanings](docs/METRICS.md)
 - [HTTP and monitor](docs/HTTP.md)
