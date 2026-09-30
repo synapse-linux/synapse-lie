@@ -1,17 +1,16 @@
-# Historical reference-only Gufo interoperability ABI 1
+# Experimental transitional execution ABI 1
 
-**Not the production LIE backend or numerical ABI.** The adapter delegates to
-Gufo Model/Session, which does not satisfy the autonomous-backend requirement.
-The earlier plan to connect it to serving is superseded by [BACKEND.md](BACKEND.md).
-It remains an optional reference-only compile experiment, never linked into the
-server or hardware-qualified. The new owned backend/operation ABI is not yet
-implemented; its boundary must not expose a renamed upstream whole-model engine.
+The adapter delegates to Gufo Model/Session. **This is permitted for bootstrap,
+not proof of an autonomous LIE backend.** [BACKEND.md](BACKEND.md) defines the
+subsequent requirement-driven replacement gates. It has only been compile-checked,
+not linked into the server or hardware-qualified. The eventual owned numerical
+ABI is separate and not implemented yet. Keep upstream types inside the adapter.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
 lengths, opaque handles and caller-owned error buffers. No C++ types are public.
 `adapters/gufo.cpp` compiles against upstream `f783fedb` only with the explicit
-reference build definition. The following describes this experiment, not a
-qualified production runtime.
+`LIE_GUFO_ADAPTER_OPT_IN` definition. The following describes the experimental
+contract, not a qualified runtime. Permission to link is not evidence of linking.
 
 ## Ownership and completion
 
@@ -43,12 +42,15 @@ qualified production runtime.
 
 No chat-template, tools, snapshot, MTP or native batching entry points are
 implemented in this first ABI. Raw text tokenization is not chat rendering.
-LIE's future tokenizer/chat renderer must be independently implemented or
-selectively source-ported with provenance and tests, validate the GGUF artifact
-template, and preserve reasoning/tool semantics. It must not delegate rendering
-or model execution through the reference Model object, fabricate ChatML, or
-normalize input to gain cache hits.
+The transitional renderer may use pinned upstream implementation behind the
+adapter; an owned or selectively ported replacement must preserve the tested
+GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
+to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.
 
-This historical experimental layout is not a production stability promise.
-Do not silently repurpose these Gufo-backed symbols as an owned implementation;
-introduce and qualify the actual numerical/device boundary with its own contract.
+This experimental layout is not a stability promise. Keep engine selection
+(e.g. `lie_gufo_open`) at the composition/binding boundary; neutral runtime clients
+must not assume Gufo ownership/layout. Introduce capability/versioned changes for
+batching, state and later owned implementations; never relabel delegation.
+If reactive inference motivates an asynchronous ABI, add explicit submitted versus
+completed outcomes, tickets and retained lifetimes. Do not change `LIE_OK` from
+completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](INFERENCE-REACTIVE.md).

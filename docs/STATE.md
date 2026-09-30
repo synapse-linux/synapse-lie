@@ -18,23 +18,28 @@ No exact resume claim if any of these are omitted.
 Qwen Flash Next is hybrid. LIE must own and capture its token history, logits,
 attention KV, recurrent/SSM and convolution state, positions and, when supported,
 MTP carry/history/rollback and controller state. Sampling/RNG must be included
-explicitly for resumable sessions. No snapshot wrapper around upstream Session
-objects substitutes for this backend ownership; see [BACKEND.md](BACKEND.md).
+explicitly for resumable sessions. The transitional adapter may initially capture
+Gufo state, but it must be identified as delegated, complete and build/version-
+qualified; it does not establish owned backend state. See [BACKEND.md](BACKEND.md).
 
 The inspected Gufo `SessionSnapshot` and external `SamplerState` illustrate the
-coverage requirements, but its payload version 14 is only reference information.
-Neither Gufo v14 nor DS4 native19 is a LIE state format or an implicitly accepted
-restore payload, even with identical weights or token counts.
+coverage requirements. A transitional Gufo v14 payload would need explicit engine,
+version and compatibility admission plus the extra continuation state. Neither
+it nor DS4 native19 is an implicitly accepted future owned-LIE restore payload,
+even with identical weights/token counts. No capture/restore is implemented yet.
 
 ## Proposed on-disk framing (must be frozen and tested before writer code)
 
 Little-endian envelope with magic, envelope version, fixed header length,
 kind, total length, metadata length, token count, payload length and checksum
-algorithm. Bounded canonical metadata and LE int32 token array precede a
-LIE-owned versioned payload with an explicit component/layout schema. It may be
-opaque to HTTP/storage transport, but not an undocumented upstream snapshot blob.
-SHA-256 covers the declared metadata + tokens + payload; lengths, component
-coverage and identity must validate before LIE restore admission.
+algorithm. Bounded canonical metadata and LE int32 token array precede an
+engine-tagged, versioned payload with an explicit component/layout contract.
+During transition it may be a documented Gufo-specific encoding; the eventual
+owned encoding needs its own identity/qualification, not reinterpretation of
+upstream bytes. Unsupported cross-engine state is refused before mutation, unless
+an explicit versioned migration is implemented and qualified. SHA-256 covers the
+declared metadata + tokens + payload; lengths, coverage and identity must validate
+before restore admission.
 
 Compatibility identity must cover full weight/shard identities and quantization,
 model config, tokenizer vocabulary/normalization, actual template/reasoning mode,

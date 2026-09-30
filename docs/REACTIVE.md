@@ -12,8 +12,9 @@ The first implemented component is `include/lie/flow.h` + `src/flow.c`, a C17
 per-sequence subscription/flow-control primitive. It has CPU tests with real
 threads, finite storage and Linux eventfd wakeups. It is **not connected to
 an inference executor, the scheduler or HTTP/SSE yet**. The server still returns
-503 for chat. The publisher must be the [LIE-owned backend](BACKEND.md), not a
-Gufo service or an embedded Model/Session wrapper.
+503 for chat. The publisher obeys [LIE-owned contracts](BACKEND.md); an explicit
+embedded Gufo adapter is permitted initially, followed by requirement-driven
+refactoring toward owned execution. It is not claimed as reimplementation.
 
 This is not Project Reactor, Rx, a JVM dependency or a Reactive Streams TCK
 compliance claim. It adopts demand, serial signals, cancellation and bounded
@@ -39,8 +40,8 @@ Disk worker <-> bounded snapshot jobs/completion messages <-> device owner
 Management -> snapshots/counters (never waits for model forward or disk restore)
 ```
 
-- **Publisher:** LIE's device-owner worker and reimplemented C executor,
-  publishing only completed, confirmed output.
+- **Publisher:** LIE's device-owner worker with an explicit transitional or
+  owned execution implementation, publishing only completed, confirmed output.
   GPU submission is not completion. Drafted MTP tokens never enter the output
   stream before verification. No callback invokes more inference inline.
 - **Subscriber:** one ordered output owner for a sequence. Nonstream JSON will
@@ -49,8 +50,9 @@ Management -> snapshots/counters (never waits for model forward or disk restore)
 - **Subscription:** sequence-local token demand, bounded byte storage, dispatch
   tickets, cancellation and a single terminal outcome. No global hot multicast
   stream and no replay buffer pretending to be recurrent/KV state persistence.
-- **Scheduling boundary:** one device-owner scheduler, not one GPU thread per
-  request and not an upstream engine hidden behind the numerical C boundary.
+- **Scheduling boundary:** one LIE device-owner scheduler, not one GPU thread
+  per request or a second upstream serving scheduler. The transitional engine is
+  disclosed and isolated, not hidden or claimed to be the owned numerical layer.
   CPU preparation and disk I/O use separate bounded work/completion queues.
 - **Transport boundary:** libuv write completion returns a buffer loan and can
   replenish demand. This means acceptance by the local transport, **not** proof
@@ -155,8 +157,8 @@ GPU batching or end-to-end slow-client qualification.
   concurrency/prefill/MTP budgets within measured capacity, not by spawning more
   device owners. Elasticity on one GPU is bounded admission/budget adaptation,
   not a claim of hardware scaling or instantaneous kernel preemption.
-- Bridge the owned LIE executor's cancellation and flow cancellation. Flow stop
-  does not itself cancel device work or free a LIE sequence. CPU/storage failures and nonmutating admission
+- Bridge the selected execution implementation's cancellation and flow cancellation.
+  Flow stop does not itself cancel device work or free a sequence. CPU/storage failures and nonmutating admission
   refusal are distinct from a backend failure that poisons the shared model.
 - Preserve tool-call ordering and logical continuation. A completed output turn
   can retain a session waiting for a tool result; the continuation is a new
@@ -170,8 +172,20 @@ GPU batching or end-to-end slow-client qualification.
   accepted into the flow (including later abandoned queued data), **not** GPU
   generated-token or remote-delivery metrics. Do not export invented live values.
 - Qualify real SSE ordering/UTF-8, fragmented writes, disconnect races, terminal
-  behavior, fairness and bounded RAM with LIE's own original-weight executor.
+  behavior, fairness and bounded RAM with each selected original-weight execution
+  path. Record transitional versus owned results; do not transfer qualification
+  automatically between them.
   Component tests do not close this gate or the DS4 hardware lease gate.
+
+## Reactive inside the numerical executor
+
+The requirement also includes investigating pure-inference benefits, not only
+output backpressure. [INFERENCE-REACTIVE.md](INFERENCE-REACTIVE.md) defines trace-
+driven hypotheses about dependency waits, launch gaps, overlap and buffer liveness,
+with separate C1 PP/TG, concurrency and serving measurements. Moving a blocking
+forward to a worker, or adding callbacks, does not establish a faster forward.
+An inner scheduler must preserve autoregressive/recurrent dependencies and avoid
+per-tensor event overhead. No GPU experiment or improvement is claimed yet.
 
 ## Current evidence boundary
 

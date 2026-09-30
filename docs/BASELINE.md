@@ -90,16 +90,18 @@ fetched into this project's `.deps`. Archive SHA256
 The pristine reference source is unmodified. Gufo's release CMake owns **only
 this comparator build**, not the LIE backend build. Register compiler/flags and
 loaded DSOs, and keep comparator binaries in a content-addressed test-owned
-directory. The reference-only interoperability object check is NOT that baseline
-build, nor an implementation of the LIE backend. See [BACKEND.md](BACKEND.md).
+directory. The experimental adapter object check is NOT that baseline build,
+nor a runnable transitional or owned LIE engine. See [BACKEND.md](BACKEND.md).
 
 After shared lease/admission, first verify upstream with the first original
 shard, AR, context4096, one session, no MTP/vision, greedy/thinking-off, known
 literal prompt and bounded output. Record physical rendered input IDs/template,
 output IDs/logits if available and completed GPU execution. Only then compare
-LIE's reimplemented executor with the same exact physical workload/configuration.
-The candidate must execute its own model graph/state and selected ported numerical
-operations, not call the reference Model/Session through a facade.
+the selected LIE execution path with the same physical workload/configuration.
+The initial candidate may delegate to an explicitly identified embedded Gufo;
+that qualifies the integration, not independently reimplemented model execution.
+Later owned slices require fresh comparisons rather than inheriting the wrapper's
+results. Keep pristine reference, transitional integration and owned path distinct.
 Example upstream server command to verify against the pinned CLI before use:
 
 ```sh
@@ -115,6 +117,10 @@ confirmed tokens / common wall window, not summed per-request rates. Record TTFT
 queue/request duration, per-token vs SSE-group spacing and all relevant memory.
 Warmups excluded; fixed paired order and enough repeats for observed variance;
 no silent outlier removal. Serial fallback is not shared GPU batching.
+
+Pure-inference reactive changes need the separate scope and trace/timing gates in
+[INFERENCE-REACTIVE.md](INFERENCE-REACTIVE.md). Measure C1 completed PP/TG without
+HTTP separately from concurrency/serving effects; no GPU gains are established.
 
 Gufo's published “128K” PP is roughly pp2048 AFTER a cached prefix, unlike the
 historical full fresh pp131072 above. Published rates are neither acceptance

@@ -23,6 +23,12 @@ identity manifests needed for development are separately versioned.
 - `backend-reference-refusal-r1/`: unmarked adapter compilation must fail with
   the explicit reference-only diagnostic; original compiler status is retained.
   The earlier adapter receipts are historical, not reimplementation evidence.
+- `backend-evolution-r1/`: CPU suites and adapter header check after permitting
+  explicit transitional integration and adding the pure-inference investigation
+  plan. Not an inference implementation or benchmark.
+- `adapter-opt-in-refusal-r1/`: current guard rejects unmarked compilation; raw
+  compiler status/diagnostic retained. Superseded reference-only receipts remain
+  unchanged, not retroactively reinterpreted under the new policy.
 
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.

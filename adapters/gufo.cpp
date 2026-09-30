@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-// Reference-only interop experiment; NOT the autonomous LIE backend.
-// This delegates whole-model work and must never be linked into production.
+// Opt-in transitional adapter; NOT the autonomous LIE backend.
+// Whole-model delegation is permitted for bootstrap, then refactored by contract.
 // First-party boundary over the unmodified pinned upstream API; no kernels copied.
-#ifndef LIE_REFERENCE_ADAPTER_ONLY
-#error "Gufo wrapper is reference-only; implement the LIE backend (docs/BACKEND.md)"
+#ifndef LIE_GUFO_ADAPTER_OPT_IN
+#error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
 #include "src/models/qwen38_flash_next/engine.hpp"

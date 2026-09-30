@@ -1,9 +1,10 @@
 # Architecture and ownership
 
-**Authoritative scope:** [BACKEND.md](BACKEND.md). LIE reimplements the backend,
-including C loading/binding, model execution, session state and memory ownership.
-Gufo is a numerical source/reference, not an upstream engine to wrap. The prior
-plan to link its Model/Session adapter into serving is explicitly superseded.
+**Authoritative evolution policy:** [BACKEND.md](BACKEND.md). An explicit embedded
+Gufo adapter is permitted for bootstrap, then refactored toward LIE-owned model,
+session, memory and execution according to requirements and new developments.
+The earlier blanket exclusion of an in-process adapter is superseded; delegation
+must still never be presented as an autonomous backend.
 
 ## Decisions implemented in increment A + independent observability slice
 
@@ -21,9 +22,9 @@ plan to link its Model/Session adapter into serving is explicitly superseded.
    same loop, strictly bounded connections/request bytes and timeouts. This is
    a functioning control plane, not a promise of latency under all loads.
 5. Gufo is independently fetched from upstream, not copied from the DS4 port.
-   The C++ adapter delegates to Qwen Model/Session. It is a reference-only,
-   compile-checked experiment, absent from the server and excluded from the
-   production roadmap. No owned LIE numerical backend has been implemented.
+   The C++ adapter delegates to Qwen Model/Session. It is compile-checked and
+   absent from the server today, but eligible for explicit transitional use.
+   Neither linked inference nor an owned numerical backend is implemented yet.
 
 ## Reactive pattern: Reactor is only the transport layer
 
@@ -41,17 +42,26 @@ no one-thread-per-agent execution, no unbounded operator chain. Resource admissi
 fair shared scheduling, state persistence and live metric wiring still need
 integration; libuv alone does not satisfy those reactive properties.
 
+A separate [pure-inference investigation](INFERENCE-REACTIVE.md) evaluates whether
+readiness/dependency-driven execution can reduce GPU idle gaps, overly broad
+synchronization, launch overhead or conservative buffer lifetimes. These are
+hypotheses, not benefits guaranteed by the architecture. Moving a synchronous
+forward into a worker is not itself a faster forward; C1, concurrency and HTTP
+results must remain separate. No per-tensor callback framework is required.
+
 ## Target execution architecture (not all implemented)
 
 - HTTP loop: admission parsing, request ownership, ordered output and disconnect
   events. It never launches model inference. Bound all queues and output bytes.
-- One device-owner worker: the only scheduler and owner of LIE's mutable
-  model/session state. Its C executor owns the layer graph and invokes selected,
-  source-ported numerical operations through a narrow C device/kernel boundary.
-  Completed steps run here, never on the network loop. No embedded Gufo engine
-  or competing serving scheduler. Qwen token/template behavior belongs to LIE;
-  it is not obtained through a delegated Gufo Model. A later CUDA numerical
-  implementation must leave HTTP, the registry and state contracts unchanged.
+- One device-owner worker: the only LIE admission/scheduling authority for
+  mutable execution. Initially it may invoke pinned Gufo Model/Session through
+  the isolated transitional adapter, never a second Gufo serving scheduler.
+  Subsequent slices move model/state/layer-graph ownership into LIE C code and
+  invoke selected numerical operations through a narrow device/kernel ABI.
+  Work never blocks the network loop. Qwen rendering may initially be adapted
+  upstream code, with tested semantics and no upstream types leaking to clients.
+  Evolve the LIE contracts explicitly for requirements/CUDA, not around hidden
+  assumptions of the bootstrap implementation.
 - CPU workers: bounded token/template preparation; never CPU model forward.
 - Disk workers: bounded save/load jobs, immutable frontier payloads and completion
   messages to the owner. No direct GPU restore from a disk/client thread.
@@ -77,10 +87,11 @@ kernel preemption. No such scheduling performance is claimed by this increment.
 At Gufo `f783fedb`, Qwen's Model owns resident weights and an Executor, and
 sessions carry independent history/state. `EvaluateBatch` and `DecodeBatch`
 exist, with per-row `BatchOutcome`; a failed call can contain completed peers.
-The reference-only adapter exposes **one row** and no MTP. These upstream APIs
-are inspected as behavioral references, not production integration points. LIE
-must implement native batching in its own executor before a batching claim.
-Upstream payload version is **14**, not DS4 native19 and not a LIE state format.
+The experimental adapter currently exposes **one row** and no MTP. Native Gufo
+batching may be exposed in the transitional phase only after actual integration
+and per-row/lifetime qualification; a loop over single-row calls is not batching.
+Owned batching follows the replacement gates. Upstream payload version is **14**,
+not DS4 native19 or an automatically portable future LIE state format.
 
 ## Increment plan and departure from requested order
 
@@ -91,12 +102,14 @@ Upstream payload version is **14**, not DS4 native19 and not a LIE state format.
   monitor and compile-checked adapter delivered while hardware is blocked.
 - Reactive CPU slice: implemented bounded demand/stream/lifetime primitive;
   scheduler/HTTP/executor bindings remain open.
-- Next B, corrected: implement LIE's C GGUF/binding and state/executor slices,
-  selectively port numerical kernels, then qualify original-model short AR
-  against an independent pristine Gufo comparator. Do not link the old adapter.
-- C: connect the owned executor to `lie_flow` and real nonstream/SSE; qualify
-  lifecycle, admission/cancel/chunks, C1/2/4/8 native batching when memory allows,
-  then MTP and load/acceptance-aware windows.
+- Next B / T0: qualify a pinned pristine comparator under the lease, then link
+  the transitional adapter into one worker and `lie_flow`/real nonstream/SSE.
+  Establish correct original-model short AR and cancellation/backpressure first.
+- C / T1: refactor one responsibility at a time against requirements and evidence;
+  qualify lifecycle, admission/chunks, C1/2/4/8 and MTP on their actual paths.
+  Trace and test reactive pure-inference hypotheses separately from serving gains.
+  T2 removes whole-engine delegation from the qualified owned path; no big-bang
+  rewrite or permanent-wrapper claim is implied.
 - D: RAM prefix snapshots then SSD atomic persistence/restart and failure tests.
 - E remainder: actual inference metric wiring, streaming/backpressure metrics,
   percentiles, broader monitor/UI and instrumentation overhead measurements.

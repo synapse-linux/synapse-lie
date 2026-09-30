@@ -1,100 +1,160 @@
-# Owned inference backend — authoritative scope correction
+# Backend evolution — bootstrap, then requirement-driven refactoring
 
-Synapse LIE must **implement its own inference backend**, primarily in C. It is
-not an HTTP/IPC proxy, a launcher for Gufo, or a new serving frontend whose model
-execution is delegated to Gufo's Model/Session/Executor/DeviceModel objects.
-Linking those objects in-process behind a C ABI would still be delegation, not
-the requested reimplementation. This supersedes the earlier embedded-adapter
-integration plan; historical source and qualification receipts are preserved.
+The destination is **an autonomous Synapse LIE inference backend**, primarily in
+C. The user also permits an initial embedded Gufo adapter to establish real
+inference before completing that reimplementation. This supersedes the previous
+blanket exclusion of an in-process adapter, not the owned-backend objective.
+Historical source, failed checks and qualification receipts remain unchanged.
 
-## Ownership boundary
+A C ABI over Gufo Model/Session is still delegation, not reimplementation. It is
+acceptable as an **explicit transitional implementation**, not something to
+rename and claim as an owned backend. Do not require a big-bang rewrite before
+learning from real workloads; do not let the prototype define the final limits.
+
+## Two implementations behind LIE-owned contracts
 
 ```text
-LIE HTTP/SSE and management
-             |
-LIE demand-driven scheduler / resource admission
-             |
-LIE C model + session + executor + state management
-             |
-small numerical/device C ABI
-             |
-selected, source-ported HIP kernels and numerical helpers -> GPU
+LIE HTTP/SSE, management, reactive admission and device-owner scheduling
+                                  |
+                         LIE execution contracts
+                                  |
+        +-------------------------+---------------------------+
+        |                                                     |
+T0: explicit in-process Gufo adapter              T1/T2: progressively owned
+    pinned Model/Session operations                  LIE model/session/executor
+    delegated, temporary                             + numerical/device C ABI
+        |                                                     |
+        +--------------------------- GPU ---------------------+
 
-Gufo upstream -> isolated reference tests only; never a production request hop
+Pristine Gufo comparator: separate test artifact, never the claimed LIE result
 ```
 
-| Responsibility | Required owner / implementation |
+Start with in-process integration, not another HTTP service/process hop. Keep
+Gufo types/includes and upstream lifecycle assumptions inside the adapter.
+Frontend, scheduler, metrics and storage clients consume LIE-owned contracts,
+not upstream types. Core/network/scheduling/resource policy remain C17. C++/HIP
+is allowed inside the transitional engine and the eventual numerical layer.
+
+Select and disclose the engine explicitly. Once serving exists, report engine
+identity, source/build pin, capabilities and ownership (delegated/partial/owned)
+in diagnostics and receipts. These diagnostics are not implemented yet. Never
+silently fall back from a failing owned executor to Gufo or CPU forward. Runtime
+failure after mutation is not permission to retry through the other engine.
+
+## Requirements drive the contract, not the adapter
+
+| Requirement | Required contract / acceptance gate |
 |---|---|
-| GGUF discovery, parsing, shard/tensor validation and binding | LIE C loader, reusing the original read-only weight files without conversion |
-| Model topology and layer execution order | LIE C model/executor, not a call to upstream whole-model forward |
-| Physical token positions, attention KV, recurrent/SSM/convolution state | LIE-owned session storage and explicit frontiers |
-| Weight residency, scratch, per-session allocations and transfer staging | LIE resource/memory planner; narrow device allocation/transfer calls may use HIP |
-| Prefill, decode, native batching, admission and completion | LIE executor/scheduler; real shared GPU operations, not a serial-loop batching claim |
-| Tokenization, chat rendering, sampling/RNG, stop/tool transitions | LIE-owned behavior, independently implemented or selectively ported with provenance and tests; no delegation to an upstream Model object |
-| MTP proposals, verification, acceptance and rollback | LIE execution/state lifecycle with selectively ported numerical operations |
-| Prefix reuse, complete hybrid-state snapshot and SSD persistence | LIE-owned format, identities, capture/restore and I/O lifecycle |
-| Numerical primitives, GEMM/quantization, attention, recurrent and MoE kernels | Selectively port useful upstream source behind the numerical C ABI, preserving representation/arithmetic until verified |
-| HTTP/SSE, reactive credits/cancellation, Actuator and monitor | Existing/new LIE C components; never forward chat to a Gufo service |
+| Reactive HTTP/SSE | Bounded admission and output, demand/credit feedback, ordered confirmed tokens, out-of-band cancellation, retirement after in-flight work and writes complete |
+| Concurrent agents | One device owner, isolated session/sampler state, fair decode/prefill, measured memory admission; no native batching claim for a serial loop |
+| Tool continuation | Explicit turn/wait/resume states and preserved token/template semantics; no retry/replay of external side effects |
+| Prefix and SSD state | Complete hybrid frontier plus applicable RNG/MTP/continuation state; exact identity/version, pure pre-admission refusal and qualified future continuation after restart |
+| Observability | LIE event/accounting definitions, honest unavailable values, completed-work timing; do not equate upstream counters with LIE semantics without checking |
+| Portability and evolution | No upstream types outside the adapter; versioned execution/state contracts, capability negotiation/refusal and regression tests when behavior changes |
 
-C++/HIP is permitted where useful for numerical kernels and device-library
-integration. It must not hide a complete upstream engine/session implementation
-behind renamed opaque handles. The C ABI is a language and device boundary,
-not evidence that backend ownership has changed.
+The bootstrap need not implement every row at once. Unsupported capabilities
+must remain explicit. It cannot relax a requirement, invent a metric or emulate
+inference to make the transitional engine appear feature-complete.
 
-## Reuse and provenance
+## Bootstrap and refactoring gates
 
-Reimplementation does not mean unnecessarily rewriting verified GPU mathematics.
-Port the useful Gufo numerical path into this project's own source/build, with
-per-component source pin/path/hash, license/notice, local changes and an operator
-contract. Keep the independently fetched pristine `.deps/gufo-f783fedb` tree
-immutable as a reference. Do not import the other agent's DS4 fork/artifacts.
-No numerical source port is claimed as implemented by this document.
+### T0 — obtain a real, bounded vertical slice
 
-A copied whole Model/Session/Executor renamed as LIE is not this separation.
-Separate scheduling, storage, model topology and lifecycle from reusable kernels;
-LIE's own executor must invoke the ported operations and own their state.
-No hidden upstream service, subprocess, runtime fallback or CPU model forward.
-Retain third-party notices rather than relabel imported code as first-party MIT.
+- Agree the DS4 lease before any GPU/heavy-I/O work. Build a pinned, isolated
+  pristine comparator; use the original existing read-only model weights.
+- Audit the experimental adapter's ownership/completion semantics, link it into
+  one device-owner worker, connect bounded work queues and `lie_flow`, and add
+  the real model-specific renderer. Object compilation is not this integration.
+- Qualify short-context C1 AR first: physical input IDs, completed frontier/output,
+  HTTP nonstream/SSE equivalence, UTF-8/terminal ordering, cancellation, client
+  backpressure and lifetime safety. Declare matching settings/oracles beforehand.
+- Keep readiness false until the real model/executor is usable. Record the result
+  as **LIE serving with embedded Gufo**, not an autonomous LIE numerical backend.
 
-## Status of the existing adapter
+### T1 — replace a responsibility at a time
 
-`adapters/gufo.cpp` delegates to upstream Model/Session. It is therefore a
-**reference-only interoperability experiment**, not the LIE backend or a
-production integration candidate. It has only been compile-checked, never linked
-into the server or qualified with real inference. Its header-check target remains
-optional and requires the reference-only build definition. Its experimental
-`include/lie/executor.h` ABI is historical, not the new numerical ABI.
+Use observed requirements, behavior and measurements to choose the next slice,
+not an arbitrary rewrite order. Candidate slices include C GGUF/binding, memory
+and scratch ownership, session/frontier state, batch execution, model graph,
+sampling/MTP, and snapshot capture/restore. Useful Gufo kernels and numerical
+helpers can be source-ported rather than rewritten without a reason.
 
-The existing control plane, metrics, monitor and `lie_flow` remain useful.
-**No autonomous LIE model loader, session engine or GPU executor exists yet.**
-Changing documentation or excluding the wrapper does not implement one.
+For each slice, record the motivating requirement/limitation, current owner,
+proposed contract, acceptance tests and the delegation to remove. Keep the prior
+qualified implementation as a test reference. Validate the new slice against it
+and pristine upstream as appropriate, then the whole path under the original
+weights. Retain failures; do not quietly weaken an oracle after a mismatch.
 
-## Next implementation slices and gates
+A refactor is complete only when the replacement owns the stated responsibility,
+passes its acceptance/whole-path regressions, and the corresponding old delegation
+is removed from that selected execution path. CPU tests alone cannot close GPU,
+SSE, batching, persistence or performance gates. No automatic rollback/retry of
+already mutating inference; selecting an older qualified build is a separate,
+explicit operation, not deployment permission.
 
-1. **C GGUF/model loader and explicit tensor contracts.** Start with the original
-   Qwen Flash Next shard set, metadata-only first shard, tensor types/shapes,
-   offsets/alignment, overflow/range validation and model binding. Bounded CPU
-   fixtures and malformed-input tests first. Metadata acceptance is not loading
-   the full model or executing inference; heavy real-file I/O remains leased.
-2. **Owned device/state storage plus one numerical slice.** Define and implement
-   the narrow C device/operation boundary needed by that slice; port selected HIP
-   source with provenance. Qualify shapes/types, completion, cancellation lifetime,
-   representation and numerical error before building on it. No unused universal
-   backend abstraction or placeholder whole-model `forward` implementation.
-3. **Owned short-context AR executor.** Extend the proven operations to the full
-   model graph. LIE owns per-layer state, prefill/decode and logits. Under the
-   shared lease, compare physical inputs, operator/frontier outputs and generated
-   tokens with an independently built pristine Gufo reference. Declare tolerances
-   and matching execution settings before comparing; retain failures.
-4. **Wire the LIE executor into the reactive HTTP path.** One device owner,
-   bounded queues and `lie_flow` credits/retirement, real chat rendering and
-   nonstream/SSE. Establish C1 end-to-end before native C2/4/8 and fairness claims.
-5. **Complete continuity and optimization.** Tool continuations, RAM prefix
-   reuse, full-state SSD/restart, native batching and MTP each require dedicated
-   ownership/correctness gates; measure performance only on qualified paths.
-   CUDA/DGX Spark follows the AMD backend, through the same LIE-owned contracts.
+### T2 — qualify the owned backend, keep evolving
 
-An independent upstream build is a comparator gate, not permission to bypass
-these steps by serving requests through it. GPU/heavy-I/O work still requires
-DS4 coordination; this scope correction does not change leases, weights,
-operational profiles, installation or deployment permissions.
+The target ownership remains LIE loading/binding, model topology and layer order,
+sessions and hybrid state, memory/scratch, prefill/decode/native batching,
+sampling/MTP, and prefix/SSD lifecycle. Numerical/device calls cross a narrow C
+ABI. LIE's own executor invokes the operations; an opaque upstream Model/Session
+object or a renamed whole engine does not count as reaching this stage.
+
+Exit criteria for the transitional whole-engine dependency: these responsibilities
+are implemented and qualified on the owned path; its build/request path does not
+require Gufo Model/Session/Executor/DeviceModel; selected kernel reuse has traceable
+provenance. HTTP/observability clients still use the LIE contract, or an explicitly
+versioned migration, rather than needing a rewrite for each backend replacement.
+The old adapter may remain test-only. This is an ownership/behavior gate, not a
+claim that all third-party numerical code must disappear.
+
+## Reactive pure-inference investigation
+
+Evaluate reactive execution inside the executor as well as serving, following
+[INFERENCE-REACTIVE.md](INFERENCE-REACTIVE.md). Trace actual critical-path stalls,
+then test bounded changes to dependencies/synchronization, dispatch, overlap or
+buffer liveness. C1 PP/TG, concurrent throughput and HTTP responsiveness have
+separate evidence gates. This may motivate a T1 extraction from the synchronous
+upstream executor; it is not proof that an outer callback speeds up forward.
+No performance gain or GPU experiment is currently established.
+
+## New requirements and upstream evolution
+
+Changes to agent workloads, model families, quantization, kernels/toolchains,
+hardware or upstream Gufo should trigger a bounded review: what requirement or
+measured bottleneck changes, what contract/state identity is affected, and which
+regressions are needed? Pin and evaluate upstream changes; do not blindly track
+moving `main` or inherit its benchmark/quality claims. Keep the pristine reference
+and locally ported code separate. Adopt improvements selectively, with renewed
+numerical, lifetime, concurrency, restore and performance evidence as applicable.
+
+Do not freeze the prototype ABI around Gufo internals or build a universal unused
+abstraction. Change contracts explicitly when real requirements justify it;
+record unsupported cases and state-format incompatibility instead of concealing
+them through fallback. CUDA/DGX Spark follows qualified AMD work through the
+same LIE-owned contract principles.
+
+## State formats and provenance
+
+A transitional snapshot may contain a Gufo-specific payload only if its schema
+and identity clearly identify that engine/build and all additional continuation
+state is accounted for. It is not an owned LIE state format and is not implicitly
+loadable by the future owned executor. Refuse incompatible state, or provide an
+explicitly versioned and qualified migration; do not reinterpret opaque bytes.
+
+Fetch/reference Gufo independently, not through the DS4 fork. Preserve notices,
+licenses, pins and per-component source/hash/change records for numerical ports.
+No weight conversion, dependency installation or operational deployment is
+implied by permission to use an embedded adapter.
+
+## Current implementation status
+
+`adapters/gufo.cpp` and `include/lie/executor.h` are experimental and **compile-
+checked only**. They may now be evolved into the opt-in transitional implementation;
+they are not yet linked into the server or hardware-qualified. The optional
+`LIE_GUFO_HEADER_CHECK` target requires `LIE_GUFO_ADAPTER_OPT_IN`; it remains an
+object-only check, not a runtime switch or an inference executable.
+
+The C control plane, metrics, monitor and `lie_flow` are implemented and CPU-tested.
+No linked inference, owned model/session/executor, numerical port or GPU result
+is established by this plan. v0.1 and deployment remain unqualified.

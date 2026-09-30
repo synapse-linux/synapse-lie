@@ -8,15 +8,20 @@ SPDX markers. Use Git Flow (`feature/*` from `develop`); no implicit publication
 - Do not import project code/artifacts from the sibling CachyOS workspace.
   Official upstream Gufo source is fetched independently at the recorded pin.
   Read-only historical DS4 qualification data is reference evidence, not code.
-- Implement an autonomous LIE backend, not a Gufo proxy or in-process wrapper.
-  LIE owns loading/binding, model execution, sessions, memory, batching and state.
-  Do not delegate whole-model work to Gufo Model/Session/Executor/DeviceModel.
-  `docs/BACKEND.md` supersedes the earlier embedded-adapter plan.
-- Core/network/model execution/scheduling/resource accounting/metrics are C17.
-  Selectively port useful Gufo numerical kernels/helpers, retaining provenance
-  and licenses, behind a narrow C numerical/device ABI; no CPU model forward.
-  The existing `include/lie/executor.h` and `adapters/gufo.cpp` are reference-only
-  experiments, not the production backend ABI or an integration shortcut.
+- Target an autonomous LIE backend. An explicit opt-in in-process Gufo adapter
+  is permitted for the initial working slice, then refactored against the other
+  requirements and new developments. Do not call delegation reimplementation.
+  Keep upstream types inside the adapter; LIE owns the contracts, reactive
+  scheduling/resource policy and observability. `docs/BACKEND.md` defines the
+  stages, replacement acceptance gates and eventual ownership of model/state.
+- Core/network/scheduling/resource accounting/metrics and the eventual owned
+  model executor are C17. C++/HIP is allowed inside the transitional engine and
+  selected numerical ports, with provenance/licenses; no CPU model forward.
+  `include/lie/executor.h` and `adapters/gufo.cpp` are compile-checked only today;
+  permission to evolve/link them is not evidence of working inference.
+- Investigate reactive scheduling inside pure inference as a separate measured
+  hypothesis (docs/INFERENCE-REACTIVE.md). C1 PP/TG gains, concurrency gains and
+  serving responsiveness are distinct; more callbacks/threads imply no speedup.
 - No GPU run, heavyweight model hash, model conversion or remote GPU build until
   the coordinated ownership/lease protocol in `docs/COORDINATION.md` is satisfied.
   No foreign process termination, deployment, dependency installation or tuning.

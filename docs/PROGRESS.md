@@ -5,13 +5,19 @@ Repository: `/home/paperboy/workspace/projects/synapse-linux/synapse-lie` on .15
 Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 No multi-agent workflow is active inside this fork. No independent review claimed.
 
-## Authoritative backend scope correction
+## Authoritative backend evolution policy
 
-LIE must reimplement its own backend, not proxy or embed Gufo Model/Session.
-See `docs/BACKEND.md`: LIE owns loading, model graph, session/state, memory and
-executor; selectively port useful numerical kernels with provenance. The earlier
-plan to link the Gufo adapter into serving is superseded. That adapter is retained
-only as a guarded reference experiment. No autonomous LIE backend exists yet.
+The user permits an initial in-process Gufo adapter, followed by refactoring
+against the other requirements and new developments. `docs/BACKEND.md` defines
+T0 bootstrap, T1 responsibility-by-responsibility replacement and T2 owned-backend
+exit criteria. This supersedes the earlier blanket exclusion, not the autonomy
+goal. Disclose delegated versus owned behavior; do not let the prototype narrow
+the requirements. Neither linked inference nor an autonomous backend exists yet.
+
+Also investigate reactive execution inside pure inference, not only HTTP or
+concurrency. `docs/INFERENCE-REACTIVE.md` separates hypotheses about critical-path
+waits, dispatch, overlap and buffer liveness from measured results. No such GPU
+experiment or speedup has occurred; C1 PP/TG and serving/concurrency are distinct.
 
 ## Delivered scope
 
@@ -28,10 +34,10 @@ only as a guarded reference experiment. No autonomous LIE backend exists yet.
   coherent snapshots and finite-value/UTF-8 validation.
 - C monitor check/watch/record, offline single-record fixtures, bounded 32-sample
   history, monotonic deltas and reset/layout detection. No Prometheus service.
-- Historical C ABI + C++ Model/Session adapter: reference-only compile experiment
-  against actual upstream headers, not the production backend/integration path.
-  Its worker/cancellation/poisoning behavior has not been hardware-qualified.
-  The explicit reference-only build definition prevents unmarked compilation.
+- Experimental C ABI + C++ Model/Session adapter: compile-check against actual
+  upstream headers, now eligible for explicit transitional integration. It is
+  not linked or hardware-qualified; worker/cancellation/poisoning behavior remains
+  unverified on a real model. An explicit opt-in definition guards compilation.
 - C reactive flow component (`include/lie/flow.h`, `src/flow.c`): demand credits,
   bounded preallocated buffers, dispatch gate, ordered output, loan ownership,
   out-of-band cancellation/error and eventfd work/output wakeups. Component only;
@@ -41,17 +47,17 @@ only as a guarded reference experiment. No autonomous LIE backend exists yet.
 
 ## Verification authority
 
-`tools/verify.py backend-scope-r1` writes actual per-command exit codes, source
-hashes, logs and output binary hashes under `evidence/backend-scope-r1/`. Read its
+`tools/verify.py backend-evolution-r1` writes actual per-command exit codes, source
+hashes, logs and output binary hashes under `evidence/backend-evolution-r1/`. Read its
 `result.json` for the outcome; do not infer a pass from a plan or build target.
 It runs GCC and Clang debug builds, ASan/UBSan tests, the C17 ABI layout test,
-reference-only Gufo object compilation and all 1019 source-file identity checks.
-Earlier full `cpu-closure-r1`, `cpu-closure-r2` and `reactive-closure-r1` passed and
-remain in `evidence/`. r2 includes the portable metric-definition comparison;
-the reactive run adds `test-flow`. The new scope run checks the reference-only
-compile guard's admitted target. None proves an autonomous backend or GPU run.
-The forbidden unmarked compilation is separately checked in
-`evidence/backend-reference-refusal-r1/` with its actual compiler exit/diagnostic.
+opt-in Gufo object compilation and all 1019 source-file identity checks. Earlier
+`cpu-closure-r1`, `cpu-closure-r2`, `reactive-closure-r1` and `backend-scope-r1`
+passed and remain historical evidence. The old reference-only refusal is retained
+in `backend-reference-refusal-r1`; it records the policy/guard of that revision.
+The new unmarked-compilation refusal is recorded in `adapter-opt-in-refusal-r1`.
+Neither guard/compile check nor the CPU suites establish working inference,
+pure-inference reactive speed, or an owned backend.
 
 Five test suites are CPU only: reactive flow, registry, independent monitor
 parser/rates, C ABI layout, actual loopback HTTP + monitor. Reactive tests cover
@@ -69,27 +75,30 @@ independent Python subset validators ran, not the official tool.
 
 ## Next implementation / separate hardware gate
 
-The next implementation is the LIE C GGUF/model loader and tensor contracts,
-with bounded CPU fixtures, not linking the reference adapter. This work does
-not require GPU access. Follow the slices in `docs/BACKEND.md`.
+Next: the T0 vertical slice, not a mandatory big-bang backend rewrite. Prepare
+one device-owner worker, bounded queues, the adapter binding and real renderer/
+HTTP path; retain truthful unavailable status until the model actually works.
+CPU fixtures remain synthetic. Subsequent refactoring and pure-inference tests
+follow `docs/BACKEND.md` and `docs/INFERENCE-REACTIVE.md`.
 
-For the numerical port/reference runs, hardware access works. Coordination, not credentials, is missing:
+For real model/reference runs, hardware access was verified; coordination was
+outstanding at the last recorded check:
 `/tmp/synapse-lie-ds4-coordination/synapse-lie-proposal-r1.json` is present on .157,
 DS4 acknowledgement was absent at the recorded 2026-09-30T12:23:32Z check.
-The local reactive increment does not re-check or assume live GPU availability.
+These local changes do not re-check or assume live GPU availability.
 Confirm adoption of a shared lease and register (or explicitly agree to the
 existing DS4 protocol) before any GPU run, full hash scan or heavy I/O. No process was stopped for admission.
 
 Under the agreed lease:
 1. Build a private immutable upstream Gufo comparator with recorded host runtime;
    verify a real AR request on the original UD-Q4_K_XL shards. Reference only.
-2. Implement LIE's owned device/state storage and source-ported numerical slices;
-   qualify operators, then its short-context C AR executor against the reference.
-   Do not obtain a quick working server by embedding Gufo Model/Session instead.
-3. Wire that executor into the device-owner worker, bounded queues and `lie_flow`
-   eventfds/credits/cancellation, then real rendering, nonstream/SSE and metrics.
-4. Qualify C1 before native C2/4/8, tool continuation, complete RAM/SSD state and
-   MTP, with separate gates. No fake memory metrics or serial-loop batching claim.
+2. Link/qualify the explicitly transitional adapter through LIE's worker/contracts,
+   then real nonstream/SSE, cancellation/backpressure and event-based metrics.
+3. Trace the pure-inference critical path separately from benchmark timing; test
+   one reactive hypothesis at a time against matched completed work and numerics.
+4. Refactor toward owned execution according to requirements and evidence; qualify
+   C1 before C2/4/8, tool continuation, complete state and MTP. Do not transfer
+   results between transitional/owned paths or call serial loops native batching.
 
 ## Real limitations
 

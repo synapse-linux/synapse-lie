@@ -14,7 +14,7 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | llhttp | 9.3.1 | MIT; HTTP/1 parser |
 | json-c | 0.19 | MIT; JSON serialization/parsing |
 | libcurl | 8.21.0 | curl license; monitor HTTP client only |
-| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; reference-only interop/source, not a delegated production engine |
+| Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; pinned reference/source and permitted opt-in transitional adapter (currently compile-only) |
 
 Libraries are already installed system dependencies, not vendored/repackaged.
 Build receipts record compiler/pkg-config versions. A distributable package will
@@ -37,11 +37,12 @@ redistributing Gufo components, their full upstream `licenses/` notices. Those
 notices cover the llama.cpp/ggml, DS4, AMD, Qwen template and other ancestry;
 Gufo's MIT license does not replace third-party terms. This repository's own
 adapter currently uses upstream headers/API; it does not copy/rewrite kernels.
-It is a reference-only experiment, not the production integration path. The
-[owned backend contract](../docs/BACKEND.md) permits selective numerical source
-ports with per-component provenance, retained notices and tests. No such port
-is implemented yet; first-party ownership of orchestration does not relicense
-numerical code or make embedding upstream Model/Session a reimplementation.
+The [backend evolution contract](../docs/BACKEND.md) now permits an explicit
+embedded adapter for bootstrap, then requirement-driven refactoring toward an
+owned backend. Numerical ports need per-component provenance, retained notices
+and tests; none is implemented yet. Keep the pristine reference separate from
+instrumented/forked experiments and ports. First-party ownership of orchestration
+does not relicense numerical code or make embedded Model/Session a reimplementation.
 
 The first attempted codeload URL did not match the recorded GitHub API tarball
 hash and was rejected without extraction. The exact API URL then matched the

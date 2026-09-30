@@ -1,17 +1,18 @@
 # synapse-lie — Local Inference Engine
 
 Primarily C17 local inference engine under development, initially targeting Qwen3.8
-Flash Next on AMD Strix Halo. LIE must own its model loader, sessions, memory and
-executor, selectively porting useful Gufo numerical kernels. **Not a Gufo proxy,
-launcher or frontend over Gufo Model/Session**, even in-process behind a C ABI.
-See the authoritative [backend ownership contract](docs/BACKEND.md).
+Flash Next on AMD Strix Halo. **An explicit embedded Gufo adapter is permitted for
+bootstrap**, then refactored toward LIE-owned model/session/memory/execution in
+response to the requirements and new developments. Delegation is not an owned
+backend; it must remain identified and replaceable. See the authoritative
+[backend evolution contract](docs/BACKEND.md).
 
 **Current increment: working CPU management/observability runtime, not an LLM
 server yet.** No model is loaded. Readiness is 503, `/v1/models` is empty and chat
 requests return an explicit 503; there are no synthetic completions. The
-reference-only Gufo interoperability adapter compiles against pinned headers but
-is not linked into the server, hardware-qualified or the planned production
-backend. The autonomous LIE backend is not implemented. **v0.1 is not ready.**
+experimental Gufo adapter compiles against pinned headers but is not linked or
+hardware-qualified yet. It is a candidate for the transitional slice, not an
+autonomous LIE backend. **v0.1 is not ready.**
 
 ## Reactive pattern
 
@@ -33,6 +34,12 @@ exhausts its own capacity instead of creating an unbounded output queue.
 libuv currently supplies the network Reactor, not reactive inference. No Project
 Reactor/JVM dependency or Reactive Streams certification is claimed. The concrete
 contract, feedback loop and remaining integration are in [REACTIVE.md](docs/REACTIVE.md).
+
+Reactive scheduling **inside pure inference** is also a separate investigation:
+precise dependencies, fewer unnecessary waits, bounded overlap and buffer-lifetime
+management might help, but could add overhead. [INFERENCE-REACTIVE.md](docs/INFERENCE-REACTIVE.md)
+separates C1 PP/TG, concurrent inference and serving experiments. No speed gain
+has been measured or claimed.
 
 ## Build and verify
 
@@ -80,7 +87,7 @@ network handles; no service is installed. Listener hosts are independently
 configurable; **keep the defaults on loopback**. No authentication or TLS is
 implemented by the server, so do not expose management publicly.
 
-## Reference-only Gufo interoperability experiment
+## Opt-in transitional Gufo adapter — header check only
 
 ```sh
 python3 tools/fetch-gufo.py  # Explicit ~5.5 MB upstream source fetch, no weights
@@ -91,15 +98,18 @@ cmake --build build/adapter-check --target lie_gufo_header_check -j2
 The fetch verifies the exact archive hash and retains upstream notices. It
 refuses an existing destination. This target is deliberately named **header
 check**: an object with unresolved Gufo symbols is not a runnable backend.
-It delegates to upstream Model/Session and is retained as a reference experiment,
-**not to be linked into production**. No numerical kernel port is implemented yet.
+It delegates to upstream Model/Session. Explicit transitional linking is permitted,
+but is not implemented by this option; real execution still needs the worker,
+reactive/HTTP binding and hardware qualification. No numerical kernel port exists
+here yet. The adapter is to be replaced incrementally, not called an owned engine.
 
 ## Contracts and next work
 
-- [Autonomous backend ownership and reimplementation gates](docs/BACKEND.md)
+- [Bootstrap, owned-backend evolution and refactoring gates](docs/BACKEND.md)
 - [Architecture/ownership and increment plan](docs/ARCHITECTURE.md)
 - [Reactive pattern, implemented C flow and integration obligations](docs/REACTIVE.md)
-- [Reference-only experimental ABI; not the production backend](docs/ABI.md)
+- [Reactive pure-inference hypotheses and measurement plan](docs/INFERENCE-REACTIVE.md)
+- [Experimental transitional execution ABI](docs/ABI.md)
 - [Actuator/Micrometer subset and metric meanings](docs/METRICS.md)
 - [HTTP and monitor](docs/HTTP.md)
 - [State persistence design, not implemented](docs/STATE.md)
@@ -108,9 +118,11 @@ It delegates to upstream Model/Session and is retained as a reference experiment
 - [Resumption/progress note](docs/PROGRESS.md)
 - [Source/dependency provenance](third_party/README.md)
 
-Next implementation: the LIE C GGUF/model loader and tensor contracts, then
-owned state/device storage and selectively ported numerical operations toward a
-real AR executor. Build pristine Gufo only as an isolated reference under the
-agreed .157 lease. Wire HTTP/SSE to **LIE's own executor**, not the legacy adapter.
-Native batching, tool-aware turns, MTP, RAM/SSD snapshots and CUDA follow their
-own correctness gates. The previous embedded-Gufo integration plan is superseded.
+Next implementation: a real short-context AR vertical slice using the opt-in
+adapter, one device-owner worker and the LIE reactive/HTTP contracts. GPU work
+requires the agreed .157 lease and an independent pristine comparator. Then
+refactor responsibilities against requirements and measured limitations, including
+pure-inference reactive experiments. Native batching, tool-aware turns, full
+RAM/SSD state, MTP and CUDA each retain separate correctness gates. No big-bang
+rewrite is required before bootstrap, and no permanent-wrapper shortcut closes
+the owned-backend objective.

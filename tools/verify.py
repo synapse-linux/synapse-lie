@@ -67,9 +67,11 @@ def main():
         result['binaries'] = {str(p.relative_to(ROOT)):sha(p) for directory in ('debug','clang','sanitize')
                               for name in ('synapse-lie-server','synapse-lie-monitor','test-flow','test-metrics','test-prometheus','test-executor-abi')
                               if (p := ROOT / 'build' / directory / name).is_file()}
-        result['reference_interop_only'] = True
+        result['transitional_adapter_permitted'] = True
+        result['inference_adapter_linked'] = False
         result['autonomous_inference_backend_implemented'] = False
-        result['state'] = 'CPU_CONTROL_PLANE_AND_REACTIVE_FLOW_PASS_REFERENCE_INTEROP_ONLY_NO_INFERENCE_BACKEND'
+        result['reactive_pure_inference_measured'] = False
+        result['state'] = 'CPU_CONTROL_PLANE_AND_REACTIVE_FLOW_PASS_ADAPTER_HEADER_CHECK_ONLY_NOT_INFERENCE'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex); raise
     finally:
