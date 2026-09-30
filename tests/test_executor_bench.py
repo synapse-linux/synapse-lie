@@ -104,6 +104,16 @@ class BenchmarkContract(unittest.TestCase):
         with self.assertRaises(ValueError):
             BENCH['summarize'](original[:-1])
 
+    def test_optional_power_attribute_is_recorded_as_unavailable(self):
+        with tempfile.TemporaryDirectory(prefix='lie-power-test-') as tmp:
+            present, absent = Path(tmp) / 'governor', Path(tmp) / 'missing'
+            present.write_text('powersave\n')
+            observed = BENCH['read_power_settings']([present, absent])
+            self.assertEqual(observed[str(present)], {'value': 'powersave', 'error': None})
+            self.assertIsNone(observed[str(absent)]['value'])
+            self.assertEqual(observed[str(absent)]['error']['errno'], 2)
+            self.assertFalse(absent.exists())
+
     def test_build_info_opens_no_model(self):
         p = subprocess.run([BINARY, '--build-info'], capture_output=True, text=True, timeout=10)
         self.assertEqual(p.returncode, 0)

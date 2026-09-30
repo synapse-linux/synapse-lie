@@ -21,6 +21,17 @@ H = runpy.run_path(str(Path(__file__).with_name('smoke-model.py')))
 now, sha, ticks = (H[x] for x in ('now', 'sha', 'ticks'))
 
 
+def read_power_settings(paths):
+    observed = {}
+    for p in paths:
+        try:
+            observed[str(p)] = {'value': p.read_text().strip(), 'error': None}
+        except OSError as ex:
+            # Optional telemetry, not an admission control. Never invent a value.
+            observed[str(p)] = {'value': None, 'error': {'type': type(ex).__name__, 'errno': ex.errno}}
+    return observed
+
+
 def summarize(data):
     if data[-1] != {'event': 'complete', 'exit_code': 0}:
         raise ValueError('incomplete benchmark')
@@ -177,12 +188,10 @@ def main():
                 if not str(p).startswith(('/usr/', '/opt/rocm/')):
                     raise RuntimeError('unapproved DSO path')
                 r['dsos'][str(p)] = sha(p)
-        r['power_settings'] = {}
         paths = list(Path('/sys/devices/system/cpu/cpufreq').glob('policy*/*'))
         paths += [Path('/sys/class/drm/card1/device') / x for x in ('power_dpm_force_performance_level', 'pp_power_profile_mode')]
-        for p in paths:
-            if p.name in ('scaling_governor', 'energy_performance_preference', 'power_dpm_force_performance_level', 'pp_power_profile_mode'):
-                r['power_settings'][str(p)] = p.read_text().strip()
+        r['power_settings'] = read_power_settings(p for p in paths if p.name in (
+            'scaling_governor', 'energy_performance_preference', 'power_dpm_force_performance_level', 'pp_power_profile_mode'))
         if interrupted or H['kfd']():
             raise RuntimeError('admission interrupted or foreign client appeared')
         r['argv'] = [str(binary), '--model', m['models'][0]['path'], '--output', str(out / 'measurements.jsonl')]
