@@ -23,6 +23,8 @@ struct lie_job {
     lie_sequence *sequence; /* worker only */
     int32_t *prompt;
     size_t tokens, fed;
+    uint32_t position; /* Last validated completed frontier; worker only. */
+    bool output_blocked; /* Worker-owned, aggregate snapshot under owner gate. */
 };
 struct lie_worker {
     pthread_t thread;
@@ -34,7 +36,25 @@ struct lie_worker {
     lie_job *jobs[LIE_WORKER_JOBS];
     int wake, notice;
     lie_model *model;
+    lie_job *dispatch; /* Pinned worker job, protected by owner gate. */
 };
+static void set_output_blocked(lie_worker *w, lie_job *j, bool value) {
+    if (j->output_blocked==value) return;
+    j->output_blocked=value;
+    pthread_mutex_lock(&w->gate);
+    if (value) ++w->info.output_blocked;
+    else --w->info.output_blocked;
+    pthread_mutex_unlock(&w->gate);
+}
+static void begin_call(lie_worker *w, lie_job *j, bool prefill) {
+    pthread_mutex_lock(&w->gate);
+    if (w->dispatch) abort();
+    w->dispatch=j;
+    w->info.executor_phase=prefill?LIE_EXECUTOR_PREFILL:LIE_EXECUTOR_DECODE;
+    if (prefill) ++w->info.prefill_started;
+    else ++w->info.decode_started;
+    pthread_mutex_unlock(&w->gate);
+}
 static bool clock_ns(uint64_t *out) {
     struct timespec t;
     if (clock_gettime(CLOCK_MONOTONIC,&t) || t.tv_sec<0 || t.tv_nsec<0 ||
@@ -55,6 +75,13 @@ static void record_call(lie_job *j, bool prefill, bool started_ok, uint64_t star
     if (prefill) { ++j->info.prefill_calls; j->info.prefill_tokens+=completed_input; }
     else ++j->info.decode_calls;
     pthread_mutex_unlock(&j->gate);
+    lie_worker *w=j->owner;
+    pthread_mutex_lock(&w->gate);
+    if (w->dispatch!=j) abort();
+    if (prefill) ++w->info.prefill_returned;
+    else ++w->info.decode_returned;
+    w->dispatch=NULL; w->info.executor_phase=LIE_EXECUTOR_IDLE;
+    pthread_mutex_unlock(&w->gate);
 }
 static void signal_fd(int fd) {
     uint64_t one=1; ssize_t n;
@@ -86,6 +113,7 @@ static void publish_outcome(lie_job *j, lie_job_finish finish, const char *messa
 }
 static void finish_job(lie_worker *w, size_t index, lie_job_finish finish, const char *message) {
     lie_job *j=w->jobs[index]; lie_error error={0};
+    set_output_blocked(w,j,false);
     /* Detach under the cancellation gate. An external latch call cannot race
      * sequence destruction; no backend work runs while holding this gate. */
     pthread_mutex_lock(&j->gate);
@@ -159,18 +187,23 @@ static bool step(lie_worker *w, size_t index) {
     if (atomic_load(&j->cancel)) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
     if (j->fed<j->tokens) {
         size_t add=j->tokens-j->fed; if (add>w->options.chunk) add=w->options.chunk;
+        begin_call(w,j,true);
         uint64_t started=0; bool started_ok=clock_ns(&started);
         lie_status rc=lie_sequence_prefill(j->sequence,j->prompt,j->fed+add,&error);
         record_call(j,true,started_ok,started,rc==LIE_OK?(unsigned)add:0);
         if (rc!=LIE_OK) {
-            if (rc==LIE_BACKEND_FAILED) poison(w,&error);
+            if (rc!=LIE_CANCELLED) {
+                if (!error.message[0]) snprintf(error.message,sizeof(error.message),"executor_prefill_failed");
+                poison(w,&error);
+            }
             finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);
-        } else j->fed+=add;
+        } else { j->fed+=add; j->position=(uint32_t)j->fed; }
         return true;
     }
     lie_flow_reservation reservation;
     lie_flow_status flow=lie_flow_reserve(j->flow,1,&reservation);
-    if (flow==LIE_FLOW_WOULD_BLOCK) return false;
+    if (flow==LIE_FLOW_WOULD_BLOCK) { set_output_blocked(w,j,true); return false; }
+    set_output_blocked(w,j,false);
     if (flow==LIE_FLOW_CLOSED) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
     if (flow!=LIE_FLOW_OK) abort();
     if (lie_flow_begin(j->flow,reservation.ticket)!=LIE_FLOW_OK) {
@@ -179,24 +212,39 @@ static bool step(lie_worker *w, size_t index) {
         finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
     }
     lie_decode_result result={0};
+    begin_call(w,j,false);
     uint64_t started=0; bool started_ok=clock_ns(&started);
     lie_status rc=lie_sequence_decode(j->sequence,&result,&error);
     record_call(j,false,started_ok,started,0);
-    size_t bytes=0;
-    if (rc==LIE_OK && result.emitted) rc=lie_model_token_text(w->model,result.token,
-                       (char *)reservation.data,reservation.capacity,&bytes,&error);
     if (rc==LIE_CANCELLED) {
         publish_outcome(j,LIE_FINISH_CANCEL,"cancelled");
         (void)lie_flow_cancel(j->flow);
         (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_CANCEL);
         finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
     }
-    if (rc!=LIE_OK || result.emitted>1 || (!result.emitted && !result.stop)) {
-        if (rc==LIE_BACKEND_FAILED) poison(w,&error);
-        publish_outcome(j,LIE_FINISH_BACKEND,error.message[0]?error.message:"invalid_decode_result");
-        (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_BACKEND);
-        finish_job(w,index,LIE_FINISH_BACKEND,error.message[0]?error.message:"invalid_decode_result"); return true;
+    /* Validate the completed frontier before token lookup, accounting or flow
+     * publication. A corrupt successful return is a provider contract failure,
+     * not a recoverable per-request error or permission to dispatch its peer. */
+    if (rc==LIE_OK && (result.emitted>1 || result.stop>1 || (!result.emitted && !result.stop) ||
+        result.position!=(uint64_t)j->position+result.emitted || result.position>w->options.context ||
+        (result.emitted && (result.token<0 || (uint32_t)result.token>=wi.model.vocab_tokens)))) {
+        snprintf(error.message,sizeof(error.message),"invalid_decode_frontier"); rc=LIE_BACKEND_FAILED;
     }
+    size_t bytes=0;
+    if (rc==LIE_OK && result.emitted) {
+        rc=lie_model_token_text(w->model,result.token,(char *)reservation.data,reservation.capacity,&bytes,&error);
+        if (rc==LIE_OK && bytes>reservation.capacity) {
+            snprintf(error.message,sizeof(error.message),"invalid_token_text_size"); rc=LIE_BACKEND_FAILED;
+        }
+    }
+    if (rc!=LIE_OK) {
+        if (!error.message[0]) snprintf(error.message,sizeof(error.message),"executor_decode_failed");
+        poison(w,&error);
+        publish_outcome(j,LIE_FINISH_BACKEND,error.message);
+        (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_BACKEND);
+        finish_job(w,index,LIE_FINISH_BACKEND,error.message); return true;
+    }
+    j->position=result.position;
     pthread_mutex_lock(&j->gate); j->info.output_tokens+=result.emitted;
     unsigned generated=j->info.output_tokens;
     bool end=result.stop || generated>=j->request.max_tokens;
@@ -307,10 +355,22 @@ lie_flow *lie_job_flow(lie_job *j) { return j->flow; }
 void lie_job_cancel(lie_job *j) {
     lie_flow_state state; (void)lie_flow_snapshot(j->flow,&state);
     if (state.terminal_observed) return; /* Normal transport close is not cancellation. */
-    atomic_store(&j->cancel,true);
+    bool first=!atomic_exchange(&j->cancel,true);
     pthread_mutex_lock(&j->gate);
     if (j->sequence) lie_sequence_cancel(j->sequence); /* ABI latch only, no wait. */
     pthread_mutex_unlock(&j->gate);
-    (void)lie_flow_cancel(j->flow); signal_fd(j->owner->wake);
+    /* Never nest metadata gates or wait for provider completion. This records
+     * first cancellation observed within the owner dispatch interval, not HIP
+     * submission, kernel preemption or every possible cancellation race. */
+    lie_worker *w=j->owner;
+    if (first) {
+        pthread_mutex_lock(&w->gate);
+        if (w->dispatch==j) {
+            if (w->info.executor_phase==LIE_EXECUTOR_PREFILL) ++w->info.cancel_during_prefill;
+            else if (w->info.executor_phase==LIE_EXECUTOR_DECODE) ++w->info.cancel_during_decode;
+        }
+        pthread_mutex_unlock(&w->gate);
+    }
+    (void)lie_flow_cancel(j->flow); signal_fd(w->wake);
 }
 void lie_job_release(lie_job *j) { lie_job_cancel(j); job_drop(j); }

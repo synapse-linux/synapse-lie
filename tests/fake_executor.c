@@ -15,14 +15,29 @@ struct lie_sequence { lie_model *model; unsigned position, step; int mode; atomi
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
-void fake_barrier_arm(void) { pthread_mutex_lock(&gate); held=true; entered=false; pthread_mutex_unlock(&gate); }
+static fake_phase held_phase;
+static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls;
+enum { BAD_POSITION=20, BAD_EMITTED, BAD_STOP, NO_PROGRESS, BAD_EOS_POSITION,
+       NEGATIVE_TOKEN, LARGE_TOKEN, DECODE_REFUSAL, PREFILL_REFUSAL, TEXT_REFUSAL, TEXT_SIZE };
+void fake_barrier_arm_phase(fake_phase phase) {
+    pthread_mutex_lock(&gate); held=true; entered=false; held_phase=phase; pthread_mutex_unlock(&gate);
+}
+void fake_barrier_arm(void) { fake_barrier_arm_phase(FAKE_DECODE); }
 void fake_barrier_wait(void) { pthread_mutex_lock(&gate); while (!entered) pthread_cond_wait(&condition,&gate); pthread_mutex_unlock(&gate); }
 void fake_barrier_release(void) { pthread_mutex_lock(&gate); held=false; pthread_cond_broadcast(&condition); pthread_mutex_unlock(&gate); }
-static void barrier(void) {
+void fake_calls_reset(void) {
+    atomic_store(&prefill_calls,0); atomic_store(&decode_calls,0); atomic_store(&text_calls,0);
+    atomic_store(&create_calls,0); atomic_store(&close_calls,0);
+}
+fake_calls fake_calls_snapshot(void) {
+    return (fake_calls){atomic_load(&prefill_calls),atomic_load(&decode_calls),atomic_load(&text_calls),
+                       atomic_load(&create_calls),atomic_load(&close_calls)};
+}
+static void barrier(fake_phase phase) {
     pthread_mutex_lock(&gate);
-    if (held) { entered=true; pthread_cond_broadcast(&condition); while (held) pthread_cond_wait(&condition,&gate); }
+    if (held && held_phase==phase) { entered=true; pthread_cond_broadcast(&condition); while (held) pthread_cond_wait(&condition,&gate); }
     pthread_mutex_unlock(&gate);
-    struct timespec delay={0,1000000}; nanosleep(&delay,NULL);
+    if (phase==FAKE_DECODE) { struct timespec delay={0,1000000}; nanosleep(&delay,NULL); }
 }
 static void owner(lie_model *m) { assert(m && pthread_equal(m->owner,pthread_self())); }
 static lie_status error(lie_error *e, lie_status code, const char *message) {
@@ -47,7 +62,11 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     owner(m); assert(count && !m->failed);
     const char *text=messages[count-1].content;
     int mode=!strcmp(text,"FAULT")?2:!strcmp(text,"LONG-A")?3:!strcmp(text,"LONG-B")?4:
-             !strcmp(text,"EMPTY")?6:!strcmp(text,"PREFILL-FAULT")?7:!strcmp(text,"LONG")?1:0;
+             !strcmp(text,"EMPTY")?6:!strcmp(text,"PREFILL-FAULT")?7:!strcmp(text,"SLOW-PREFILL")?8:
+             !strcmp(text,"SLOW-DECODE")?9:!strcmp(text,"LONG")?1:0;
+    const char *faults[]={"BAD-POSITION","BAD-EMITTED","BAD-STOP","NO-PROGRESS","BAD-EOS-POSITION",
+        "NEGATIVE-TOKEN","LARGE-TOKEN","DECODE-REFUSAL","PREFILL-REFUSAL","TEXT-REFUSAL","TEXT-SIZE"};
+    for (unsigned i=0;i<sizeof(faults)/sizeof(*faults);++i) if (!strcmp(text,faults[i])) mode=BAD_POSITION+(int)i;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_context_bound");
     out[0]=mode; out[1]=out[2]=out[3]=10; return LIE_OK;
@@ -56,7 +75,12 @@ lie_status lie_model_tokenize(lie_model *m, const char *s, size_t n, int32_t *ou
     (void)s; (void)n; (void)out; (void)cap; (void)needed; owner(m); return error(e,LIE_UNSUPPORTED,"fixture_has_no_tokenizer");
 }
 lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t capacity, size_t *required, lie_error *e) {
-    owner(m); assert(!m->failed);
+    owner(m); assert(!m->failed); atomic_fetch_add(&text_calls,1);
+    if (token==1010 || token==1011) {
+        *required=capacity+1;
+        if (token==1010) { out[0]='X'; return LIE_OK; } /* Invalid claimed size, not an actual overrun. */
+        return error(e,LIE_BUFFER_SMALL,"synthetic_text_refusal");
+    }
     const char *pieces[]={"fixture:"," ","\xf0","\x9f\x99","\x82","\"\\\n","\xff","\xe2"};
     if (token>=1000) {
         *required=256; if (capacity<256) return error(e,LIE_BUFFER_SMALL,"fixture_piece_bound");
@@ -67,20 +91,29 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
     memcpy(out,pieces[token],*required); return LIE_OK;
 }
 lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_error *e) {
-    (void)e; owner(m); assert(!m->failed); lie_sequence *s=calloc(1,sizeof(*s)); assert(s);
+    (void)e; owner(m); assert(!m->failed); atomic_fetch_add(&create_calls,1);
+    lie_sequence *s=calloc(1,sizeof(*s)); assert(s);
     s->model=m; atomic_init(&s->cancelled,false); ++m->sequences; *out=s; return LIE_OK;
 }
 lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
-    (void)e; owner((*s)->model); --(*s)->model->sequences; free(*s); *s=NULL; return LIE_OK;
+    (void)e; owner((*s)->model); atomic_fetch_add(&close_calls,1);
+    --(*s)->model->sequences; free(*s); *s=NULL; return LIE_OK;
 }
 lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {
     owner(s->model); assert(!s->model->failed && count>s->position && count-s->position<=s->model->chunk);
+    atomic_fetch_add(&prefill_calls,1); barrier(FAKE_PREFILL);
+    if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     s->mode=tokens[0];
+    if (s->mode==8) { struct timespec t={0,500000000}; nanosleep(&t,NULL); }
+    if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
+    if (s->mode==PREFILL_REFUSAL) return error(e,LIE_INVALID,"synthetic_prefill_refusal");
     if (s->mode==7 && count>2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_prefill_failure"); }
     s->position=(unsigned)count; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
-    owner(s->model); assert(!s->model->failed); barrier();
+    owner(s->model); assert(!s->model->failed); atomic_fetch_add(&decode_calls,1); barrier(FAKE_DECODE);
+    if (s->mode==9) { struct timespec t={0,50000000}; nanosleep(&t,NULL); }
+    if (s->mode==DECODE_REFUSAL) return error(e,LIE_INVALID,"synthetic_decode_refusal");
     if (s->mode==2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_mutating_failure"); }
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     bool done=s->mode==6 || (s->mode==0 && s->step==8);
@@ -88,6 +121,17 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     if (!done) {
         out->token=s->mode==0?(int)s->step:s->mode==3?1001:s->mode==4?1002:1000;
         out->emitted=1; out->position=++s->position; ++s->step;
+    }
+    switch (s->mode) {
+        case BAD_POSITION: ++out->position; break;
+        case BAD_EMITTED: out->emitted=2; ++out->position; break;
+        case BAD_STOP: out->stop=2; break;
+        case NO_PROGRESS: out->emitted=out->stop=0; --out->position; break;
+        case BAD_EOS_POSITION: out->emitted=0; out->stop=1; break;
+        case NEGATIVE_TOKEN: out->token=-1; break;
+        case LARGE_TOKEN: out->token=2048; break;
+        case TEXT_REFUSAL: out->token=1011; break;
+        case TEXT_SIZE: out->token=1010; break;
     }
     return LIE_OK;
 }

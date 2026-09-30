@@ -94,6 +94,24 @@ identity manifests needed for development are separately versioned.
   no-model/synthetic tests, with GPU visibility masked. Model access and GPU
   execution are false; source inputs unchanged and binary identities retained.
 
+- `ssd-option-contract-r1/`: documentation-only commit making default-off,
+  explicit SSD persistence independent of RAM reuse; no storage implementation.
+- `t0-lifecycle-activity-r1/`: 22:09 UTC read-only target observation of active DS4
+  benchmark and four held leases. No LIE model/lock/GPU attempt or retry follows.
+- `t0-worker-frontier-red-r1/`: synthetic invalid-position result escaped the old
+  worker; assertion failure exit -6 (no core dump), retained as RED evidence.
+- `t0-worker-frontier-green-r1/`: twelve-suite GCC/Clang/ASan/UBSan/header pass for
+  executor guards, dispatch/blocked diagnostics and controlled cancellation.
+- `t0-lifecycle-helper-r1/`: initial thirteen-suite CPU pass including the new
+  HTTP lifecycle library against the separate synthetic TCP server. Not GPU
+  inference, a real-model lifecycle result or a benchmark/performance claim.
+- `t0-lifecycle-closure-r1/r2/`: final thirteen-suite compiler/sanitizer/header
+  passes, including metadata, missed-window and helper identity refusal checks.
+- `t0-lifecycle-linked-r1/`: masked HIP link/build-info/no-model and synthetic pass;
+  model access/GPU execution false; source inputs unchanged during verification.
+- `t0-lifecycle-activity-r2/`: fresh 22:42 UTC operator window, read-only idle/KFD/
+  known-lock observation. No model execution or admission granted by the probe.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus

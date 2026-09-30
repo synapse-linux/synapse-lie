@@ -6,7 +6,53 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Latest source increment — request timing, no new GPU run
+## Latest source increment — executor guards and lifecycle protocol
+
+A fresh read-only target check at **22:09 UTC** observed an active DS4 Q4 benchmark
+campaign, KFD activity and all four leases occupied, including the enclosing
+pipeline lease. No formal ACK was present. Receipt: `t0-lifecycle-activity-r1`.
+No LIE GPU attempt, staging, lock acquisition, heavyweight I/O or foreign process
+intervention followed; no background wait/retry. This is a dated observation,
+not permission to enter gaps in that campaign.
+
+The C worker now validates returned positions, token/count/stop ranges and text
+sizes before publication. Unexpected provider errors or malformed successful
+returns fail the runtime and its peers without retry, rather than allowing
+uncertain state to remain ready. Controlled CPU fixtures expose the old invalid-
+position bug (RED runtime exit -6, `t0-worker-frontier-red-r1`), then test thirteen
+fault modes and prefill/decode cancellation with consumer release before return.
+Dispatch counters/phase and output-credit stalls are now visible via management;
+these are owner intervals, not proof of GPU-kernel preemption.
+
+`tools/serving_checks.py` is intermediate Python qualification tooling, not the
+planned C17 benchmark. The explicit `http-lifecycle-v1` suite in the existing
+lease-gated supervisor validates JSON/SSE timings, disconnects during observed
+prefill/decode dispatch, sustained TCP backpressure, matching fresh/interleaved
+peer responses and clean recovery/accounting. Missed windows are INCONCLUSIVE;
+all observations and failures are retained. Hash/settings gates precede model
+launch. CPU synthetic coverage passes; **the real-model suite has not run**.
+Protocol and exact boundaries: [T0-LIFECYCLE.md](T0-LIFECYCLE.md).
+
+The default-off optional SSD requirement is retained in commit `7f6a32`, with
+RAM reuse independent of persistence. Neither prefix reuse nor SSD is implemented
+by this server-hardening increment. Antirez Q2/Q4 and the independent pristine
+numerical comparator remain open; the GGUF inspector remains an untested draft.
+
+Initial local receipts: `t0-worker-frontier-green-r1` (twelve suites) and
+`t0-lifecycle-helper-r1` (initial thirteen suites), GCC/Clang/ASan/UBSan/header only.
+Final CPU closures `t0-lifecycle-closure-r1/r2` pass all thirteen suites;
+`t0-lifecycle-linked-r1` links HIP and passes masked/no-model/synthetic checks.
+Server SHA256: `f71dbe74f95415bbfe1880a2de1804b73adc3ea24eaab371a6308eaaf8b5db0a`.
+The second CPU closure additionally covers exact-verified-byte helper loading.
+All of these remain separate from GPU qualification.
+
+At **22:42 UTC**, the operator supplied a new GPU window (`hai a disposizione
+gpu`). A fresh read-only probe `t0-lifecycle-activity-r2` observed empty KFD,
+GPU busy 0%, no inference/model handles and no holders of the four known leases.
+No formal ACK was present. This permits preparing a one-shot attempt, not bypassing
+nonblocking lease acquisition/admission or claiming global exclusivity.
+
+## Previous source increment — request timing, no new GPU run
 
 User direction: definitive `synapse-lie-bench` in C17; Python may serve intermediate
 development/graphs while server functionality takes priority. Pinned Gufo method
@@ -169,11 +215,11 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Eleven current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
-`reactive-flow`, `metrics`, `monitor-parser`, `executor-c-layout`, `http-monitor`,
-`http-synthetic`, `model-smoke-helper`, `executor-bench-contract`. The timing,
-smoke-helper and benchmark contracts use CPU clock/HTTP/executor fixtures only,
-never GPU/model execution.
+Thirteen current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
+`worker-executor-contract`, `reactive-flow`, `metrics`, `monitor-parser`,
+`executor-c-layout`, `http-monitor`, `http-synthetic`, `model-smoke-helper`,
+`serving-lifecycle-helper`, `executor-bench-contract`. All contract/helper checks
+use CPU clock/HTTP/executor fixtures only, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,
 UTF-8 split/invalid bytes, JSON/SSE equivalence, deadline, poison, error terminal,

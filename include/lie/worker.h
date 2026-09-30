@@ -10,6 +10,8 @@
 typedef struct lie_worker lie_worker;
 typedef struct lie_job lie_job;
 typedef enum { LIE_LOADING, LIE_READY, LIE_FAILED, LIE_STOPPING, LIE_STOPPED } lie_worker_state;
+/* Owner dispatch interval, not proof that a GPU kernel is running. */
+typedef enum { LIE_EXECUTOR_IDLE, LIE_EXECUTOR_PREFILL, LIE_EXECUTOR_DECODE } lie_executor_phase;
 typedef enum { LIE_FINISH_NONE, LIE_FINISH_STOP, LIE_FINISH_LENGTH, LIE_FINISH_CANCEL,
                LIE_FINISH_INVALID, LIE_FINISH_BACKEND } lie_job_finish;
 typedef struct {
@@ -18,7 +20,10 @@ typedef struct {
 } lie_worker_options;
 typedef struct {
     lie_worker_state state;
-    unsigned queued, active;
+    unsigned queued, active, output_blocked;
+    lie_executor_phase executor_phase;
+    uint64_t prefill_started, prefill_returned, decode_started, decode_returned;
+    uint64_t cancel_during_prefill, cancel_during_decode;
     /* Executor outcomes, not client receipt. Later transport abandonment may
      * cancel a completed flow without changing a retired generation outcome. */
     uint64_t generated_tokens, completed_requests, cancelled_requests, failed_requests;

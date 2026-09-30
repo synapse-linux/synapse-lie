@@ -27,7 +27,28 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest operator window
+## Fresh operator window — lifecycle qualification preparation
+
+At **2026-09-30 22:42 UTC**, the operator stated `hai a disposizione gpu`.
+`t0-lifecycle-activity-r2` then observed GPU busy 0%, empty KFD, no inference/model
+handles and no holders of the four known leases. `ds4-ack.json` remains absent.
+This is a fresh one-shot handover, not a formal DS4 ACK or a permanent lease.
+All four existing locks must still be acquired nonblocking, with ordinary
+preflight, run registration, foreign-client checks and owned cleanup. No new
+model inference has been performed at the point of this source receipt.
+
+## Earlier read-only observation — lifecycle preparation
+
+At **2026-09-30 22:09 UTC**, `t0-lifecycle-activity-r1` observed an active DS4 Q4
+benchmark campaign, one KFD client and all four known leases held. The enclosing
+pipeline lease remained held independently of the per-job leases. No formal
+`ds4-ack.json` was present, despite observed use of the shared lock. No LIE GPU
+run/staging, model payload read, lock acquisition or foreign process signal was
+attempted. No background wait/retry is scheduled; do not enter campaign gaps.
+The new server lifecycle suite is prepared and CPU-tested only. This observation
+does not extend the historical operator window below.
+
+## Historical operator window
 
 The 18:49/18:51 UTC attempts were refused before model open, and DS4 was actively
 benchmarking at 18:53. Those receipts remain unchanged. At 20:01 UTC the operator

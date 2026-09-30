@@ -90,7 +90,13 @@ def main():
                 info=json.loads(request(m,'/actuator/info')[2]); assert info['backend']['synthetic'] and not info['inference_verified']
                 assert not info['backend']['hardware_qualified'] and info['backend']['ownership']=='synthetic-test-fixture'
                 assert json.loads(request(a,'/v1/models')[2])['data'][0]['id']==MODEL
-                def state(): return json.loads(request(m,'/actuator/llm')[2])['scheduler']
+                def state():
+                    s=json.loads(request(m,'/actuator/llm')[2])['scheduler']; e=s['executor']
+                    assert e['scope']=='owner_dispatch_intervals' and e['phase'] in ('none','prefill','decode')
+                    assert e['prefill_started']-e['prefill_returned']==(e['phase']=='prefill')
+                    assert e['decode_started']-e['decode_returned']==(e['phase']=='decode')
+                    assert 0<=s['output_blocked']<=s['active']<=2
+                    return s
                 baseline_fds=len(list(Path(f'/proc/{proc.pid}/fd').iterdir()))
                 for text,tokens in [('normal',128),('normal',3),('EMPTY',128)]:
                     status,_,body=chat(a,payload(text,False,tokens)); assert status==200,body
@@ -131,6 +137,7 @@ def main():
                 eventually(lambda:state()['active']==1); time.sleep(.25)
                 one=state()['generated_tokens']; time.sleep(.15); two=state()['generated_tokens']
                 assert before<one==two<before+512,(before,one,two)
+                assert state()['output_blocked']==1 and state()['executor']['phase']=='none'
                 start=time.monotonic(); assert request(m,'/actuator/health/liveness')[0]==200
                 assert chat(a,payload())[0]==200 and time.monotonic()-start<1
                 held.close(); clients.remove(held); eventually(lambda:state()['active']==0)
@@ -169,17 +176,22 @@ def main():
                 if held: held.close()
                 if proc.poll() is None: proc.kill(); proc.wait()
                 print(log_path.read_text())
-        # Streaming failure cannot be rendered as a successful length/stop terminal.
-        with log_path.open('ab') as log:
+        # Backend and successful-but-malformed returns must both fail closed.
+        for fault in ('FAULT','BAD-POSITION','TEXT-SIZE'):
+          with log_path.open('ab') as log:
             proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:'],stdout=log,stderr=log)
             try:
                 eventually(ready)
-                status,headers,body=chat(a,payload('FAULT',True))
+                status,headers,body=chat(a,payload(fault,True))
                 if status==200:
                     assert 'event-stream' in headers['Content-Type'] and '"error"' in body
                     assert body.endswith('data: [DONE]\n\n') and '"finish_reason":"length"' not in body and '"finish_reason":"stop"' not in body
                     assert 'lie_timings' not in body and '"usage"' not in body
                 else: assert status==503 and json.loads(body)['error']['code']=='inference_failed',body
+                eventually(lambda:request(m,'/actuator/health/readiness')[0]==503)
+                assert chat(a,payload())[0]==503
+                eventually(lambda:state()['failed']==1)
+                s=state(); assert s['generated_tokens']==0 and s['failed']==1
             finally:
                 if proc.poll() is None: proc.terminate()
                 try: proc.wait(timeout=6)

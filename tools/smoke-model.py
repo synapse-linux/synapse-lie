@@ -14,10 +14,12 @@ from pathlib import Path
 import resource
 import signal
 import socket
+import stat
 import subprocess
 import sys
 import threading
 import time
+import types
 
 
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -80,17 +82,48 @@ def sse(text):
     return {'content':''.join(x['choices'][0]['delta'].get('content','') for x in data if x.get('choices')),
             'finish':finish[0],'usage':data[-1]['usage']}
 
+def validate_lifecycle_settings(manifest):
+    expected={'context':4096,'prefill_chunk':2048,'max_active':2,'temperature':0,
+              'thinking':False,'mtp':False,'vision':False}
+    actual=manifest.get('request_settings',{})
+    if actual!=expected or any(type(actual[k]) is not type(v) for k,v in expected.items()):
+        raise RuntimeError('lifecycle settings mismatch')
+
+
+def load_serving_checks(run, expected_sha256):
+    helper=Path(run)/'serving_checks.py'
+    try:
+        fd=os.open(helper,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW|os.O_NONBLOCK)
+        with os.fdopen(fd,'rb') as f:
+            if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+                raise RuntimeError('serving checks identity mismatch')
+            data=f.read(65537)
+    except OSError as ex:
+        raise RuntimeError('serving checks identity mismatch') from ex
+    if len(data)>65536 or hashlib.sha256(data).hexdigest()!=expected_sha256:
+        raise RuntimeError('serving checks identity mismatch')
+    # Execute the exact bytes just verified, not a second pathname read or a
+    # timestamp-based bytecode cache. First-party pinned helper, no model I/O.
+    module=types.ModuleType('lie_serving_checks'); module.__file__=str(helper)
+    exec(compile(data,str(helper),'exec'),module.__dict__)
+    if getattr(module,'SCHEMA',None)!='synapse-lie.serving-checks.v1' or not callable(getattr(module,'run',None)):
+        raise RuntimeError('serving checks contract mismatch')
+    return module
+
+
 def main():
     if len(sys.argv)!=2: raise SystemExit('Usage: smoke-model.py PRIVATE-RUN-DIRECTORY')
     run=Path(sys.argv[1]).resolve(); manifest=json.loads((run/'manifest.json').read_text())
     if manifest['authorization']['kind']!='operator-one-shot-window' or not manifest['authorization']['gpu_test_authorized']:
         raise SystemExit('Explicit current operator authorization required')
+    suite=manifest.get('suite','http-smoke-v1')
+    if suite not in ('http-smoke-v1','http-lifecycle-v1'): raise SystemExit('Unsupported serving qualification suite')
     out=run/'results'; out.mkdir()  # Refuse replays/overwrites, including previous failures.
     result={'state':'PREFLIGHT','started_at':now(),'manifest_sha256':sha(run/'manifest.json'),
             'runner_sha256':sha(Path(__file__)),'supervisor_pid':os.getpid(),'supervisor_start_ticks':ticks(os.getpid()),
             'authorization':manifest['authorization'],'ds4_ack_claimed':False,'model_attempted':False,
             'model_inference_observed':False,'numerical_qualification':False,'performance_qualification':False,
-            'commands':[],'tests':[],'locks':[]}
+            'suite':suite,'commands':[],'tests':[],'locks':[]}
     locks=[]; proc=None; stop_watch=threading.Event(); watch=None; abort=threading.Event(); registered=False
     resource.setrlimit(resource.RLIMIT_CORE,(0,0))
     def save():
@@ -119,6 +152,8 @@ def main():
         if p.returncode: raise RuntimeError('command failed: '+str(argv))
         return p.stdout
     try:
+        if result['runner_sha256']!=manifest['runner_sha256']: raise RuntimeError('runner identity mismatch')
+        if suite=='http-lifecycle-v1': validate_lifecycle_settings(manifest)
         # Existing files only; no rewriting, deleting, or forging another owner's lock.
         # Nonblocking acquisition never waits in a conflicting lock order.
         for name in manifest['lock_order']:
@@ -171,7 +206,11 @@ def main():
             with socket.socket() as sock: sock.bind(('127.0.0.1',port))
         if kfd(): raise RuntimeError('foreign KFD client appeared during preflight')
         check()
-        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','4096','--prefill-chunk','2048','--max-active','1','--request-timeout-ms','120000','--port','19879','--management-port','19880']
+        checks=None
+        if suite=='http-lifecycle-v1':
+            checks=load_serving_checks(run,manifest['serving_checks_sha256'])
+            result['serving_checks_sha256']=manifest['serving_checks_sha256']
+        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port','19879','--management-port','19880']
         register('start'); registered=True
         result['model_attempted']=True; stage('MODEL_LOADING')
         with (out/'server.log').open('xb') as log:
@@ -231,6 +270,15 @@ def main():
                     if obj.get('system_fingerprint')!='gufo-embedded-f783fedb': raise RuntimeError('completion provider')
                     parsed={'content':obj['choices'][0]['message']['content'],'finish':obj['choices'][0]['finish_reason'],'usage':obj['usage']}
                 row['parsed']=parsed; pair.append(parsed)
+                if checks:
+                    if streaming:
+                        frames=[json.loads(f[6:]) for f in response['body'].split('\n\n') if f.startswith('data: {')]
+                        final=[f for f in frames if 'lie_timings' in f]
+                        if len(final)!=1 or not final[0].get('choices') or final[0]['choices'][0]['finish_reason'] not in ('stop','length'):
+                            raise RuntimeError('SSE timing terminal contract')
+                        row['timings']=final[0]['lie_timings']
+                    else: row['timings']=obj['lie_timings']
+                    checks.validate_timings(parsed['usage'],row['timings'])
                 if parsed['usage']['completion_tokens']<=0 or parsed['finish'] not in ('stop','length'): raise RuntimeError('no valid generated completion')
                 result['model_inference_observed']=True; save()
                 if parsed['content'].strip()!=case['expected']: raise RuntimeError('predeclared smoke text mismatch: '+repr(parsed['content']))
@@ -247,6 +295,17 @@ def main():
         expected=sum(row['parsed']['usage']['completion_tokens'] for row in result['tests'])
         if scheduler['completed']!=len(manifest['cases'])*2 or scheduler['failed'] or scheduler['cancelled'] or scheduler['generated_tokens']!=expected:
             raise RuntimeError('unexpected worker accounting / foreign request')
+        if checks:
+            stage('MODEL_HTTP_LIFECYCLE_RUNNING')
+            with (out/'lifecycle.jsonl').open('x') as log:
+                def record(event):
+                    log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
+                try:
+                    result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
+                except checks.Inconclusive:
+                    result['lifecycle_status']='INCONCLUSIVE'; raise
+            result['lifecycle_status']='PASS'
+            result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
         stage('SMOKE_PASSED_AWAITING_SHUTDOWN')
     except BaseException as ex:
         result['error']=repr(ex); stage('FAILED')
@@ -267,13 +326,14 @@ def main():
             result['binary_unchanged']=sha(run/'synapse-lie-server')==manifest['binary_sha256']
             result['postflight_kfd']=sorted(kfd()); result['postflight_gpu']=gpu(); result['postflight_memory']=memory()
             if not result['binary_unchanged'] or (proc is not None and proc.pid in result['postflight_kfd']): raise RuntimeError('retirement/identity failure')
-            if result['state']=='SMOKE_PASSED_AWAITING_SHUTDOWN': result['state']='MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
+            if result['state']=='SMOKE_PASSED_AWAITING_SHUTDOWN':
+                result['state']='MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-lifecycle-v1' else 'MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
         except Exception as ex:
             result['state']='FAILED'; result['closure_error']=repr(ex)
         result['finished_at']=now(); save()
         if registered: register('end')
         for fd in reversed(locks): os.close(fd)
     print(json.dumps({k:result[k] for k in ('state','model_attempted','model_inference_observed','finished_at')},indent=2),flush=True)
-    return 0 if result['state']=='MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION' else 1
+    return 0 if result['state'] in ('MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION') else 1
 
 if __name__=='__main__': raise SystemExit(main())

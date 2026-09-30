@@ -35,8 +35,13 @@ source pin and ownership queries expose delegation; the explicit factory
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.
 - Decode is greedy AR, one confirmed token maximum, per-sequence SamplerState.
-  No shared RNG/sampling state. Stop and output count are separate. MTP and
-  native multirow submission are deliberately not advertised in this adapter.
+  No shared RNG/sampling state. Stop and output count are separate, each 0 or 1;
+  a successful return either emits or stops. Position is the previous completed
+  position plus emitted count, including un-emitted EOS (no position advance).
+  Emitted tokens must be within the model vocabulary. The worker checks these
+  invariants before token lookup/publication and fails closed on a contract
+  violation. Reported token-text size must fit its caller buffer. MTP and native
+  multirow submission are deliberately not advertised in this adapter.
 - The inspected upstream Forward completes `hipStreamSynchronize` before
   returning host logits. This is a synchronous completion API, not enqueue.
   It must run off the HTTP loop. There is no exported async ticket/poll API yet.

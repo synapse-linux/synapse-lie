@@ -64,9 +64,11 @@ int main(void) {
     assert(lie_worker_submit(w,&extra,&rejected)==2 && !rejected && extra.count==1); lie_chat_free(&extra);
     lie_worker_info info={0};
     for (unsigned i=0;i<3000;++i) {
-        lie_worker_snapshot(w,&info); if (info.generated_tokens==16) break; pause_short();
+        lie_worker_snapshot(w,&info); if (info.generated_tokens==16 && info.output_blocked==2) break; pause_short();
     }
-    assert(info.active==2 && info.queued==6 && info.generated_tokens==16);
+    assert(info.active==2 && info.queued==6 && info.generated_tokens==16 && info.output_blocked==2);
+    assert(info.executor_phase==LIE_EXECUTOR_IDLE && info.prefill_started==info.prefill_returned &&
+           info.decode_started==info.decode_returned);
     for (unsigned i=0;i<10;++i) pause_short();
     lie_worker_snapshot(w,&info); assert(info.generated_tokens==16); /* no demand, no dispatch */
     lie_flow_event a=next(jobs[0]), b=next(jobs[1]);
@@ -79,7 +81,7 @@ int main(void) {
     assert(lie_flow_release(lie_job_flow(jobs[0]),a.ticket)==LIE_FLOW_OK);
     for (unsigned i=0;i<LIE_WORKER_JOBS;++i) lie_job_release(jobs[i]);
     for (unsigned i=0;i<3000;++i) { lie_worker_snapshot(w,&info); if (!info.active && !info.queued && info.cancelled_requests==8) break; pause_short(); }
-    assert(!info.active && !info.queued && info.cancelled_requests==8);
+    assert(!info.active && !info.queued && !info.output_blocked && info.cancelled_requests==8);
     assert(consume(submit(w,"normal",128))==8);
     assert(consume(submit(w,"normal",3))==3);
     assert(consume(submit(w,"EMPTY",128))==0);

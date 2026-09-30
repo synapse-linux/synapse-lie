@@ -3,10 +3,12 @@
 """CPU-only regression for the original-model runner's HTTP transport.
 No model, GPU, SSH, manifest, admission lock or runner main() is executed.
 """
+import hashlib
 import http.server
 from pathlib import Path
 import runpy
 import threading
+import tempfile
 import unittest
 
 SMOKE = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'tools/smoke-model.py'))
@@ -69,6 +71,39 @@ class SmokeHttpTest(unittest.TestCase):
     def test_response_bound(self):
         with self.assertRaisesRegex(RuntimeError, 'response bound'):
             SMOKE['http'](self.port, '/oversized', timeout=2)
+
+
+class ServingIdentityTest(unittest.TestCase):
+    def test_lifecycle_settings_are_explicit_and_matched(self):
+        settings={'context':4096,'prefill_chunk':2048,'max_active':2,'temperature':0,
+                  'thinking':False,'mtp':False,'vision':False}
+        SMOKE['validate_lifecycle_settings']({'request_settings':settings})
+        for bad in ({},dict(settings,max_active=1),dict(settings,context=8192),
+                    dict(settings,mtp=True),dict(settings,thinking=0),dict(settings,unknown=1)):
+            with self.assertRaisesRegex(RuntimeError,'settings mismatch'):
+                SMOKE['validate_lifecycle_settings']({'request_settings':bad})
+
+    def test_valid_pinned_helper_has_no_execution_on_import(self):
+        source=Path(__file__).resolve().parents[1]/'tools/serving_checks.py'
+        with tempfile.TemporaryDirectory(prefix='lie-checks-identity-') as d:
+            data=source.read_bytes(); (Path(d)/'serving_checks.py').write_bytes(data)
+            module=SMOKE['load_serving_checks'](d,hashlib.sha256(data).hexdigest())
+            self.assertEqual(module.SCHEMA,'synapse-lie.serving-checks.v1')
+
+    def test_drift_refused_before_import(self):
+        with tempfile.TemporaryDirectory(prefix='lie-checks-identity-') as d:
+            (Path(d)/'serving_checks.py').write_text('raise AssertionError("must not execute")\n')
+            with self.assertRaisesRegex(RuntimeError,'identity mismatch'):
+                SMOKE['load_serving_checks'](d,'0'*64)
+
+    def test_missing_or_symlink_refused(self):
+        source=Path(__file__).resolve().parents[1]/'tools/serving_checks.py'
+        with tempfile.TemporaryDirectory(prefix='lie-checks-identity-') as d:
+            with self.assertRaisesRegex(RuntimeError,'identity mismatch'):
+                SMOKE['load_serving_checks'](d,'0'*64)
+            (Path(d)/'serving_checks.py').symlink_to(source)
+            with self.assertRaisesRegex(RuntimeError,'identity mismatch'):
+                SMOKE['load_serving_checks'](d,hashlib.sha256(source.read_bytes()).hexdigest())
 
 
 if __name__ == '__main__':

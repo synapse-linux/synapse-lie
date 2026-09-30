@@ -37,6 +37,14 @@ C17; Python is intermediate tooling only. [Methodology and prerequisites](docs/B
 keep Gufo's cached-prefix/MTP/concurrency experiments distinct from the existing
 fresh-session baseline. The full benchmark tool is not implemented yet.
 
+The server now also validates returned executor frontiers and token-text bounds
+before publication, fails closed across peers on provider contract errors, and
+exposes dispatch/credit-stall diagnostics. The [T0 lifecycle protocol](docs/T0-LIFECYCLE.md)
+exercises prefill/decode cancellation, a stalled SSE client, peer isolation and
+recovery. Its real TCP **CPU fixture** passes. After the initial DS4 contention,
+a fresh 22:42 UTC operator window permits preparing the still-pending GPU run,
+subject to the full nonblocking lease/admission protocol.
+
 ## Reactive path
 
 ```text
@@ -76,10 +84,11 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Eleven suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Thirteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
-CPU-only smoke-runner HTTP regression, the executor benchmark contract and
-per-request completed-call timing with a test-only deterministic clock.
+CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
+per-request completed-call timing with a test-only deterministic clock,
+executor failure/dispatch contracts and the HTTP lifecycle checker.
 They cover bounded overload, stalled consumers, peer progress, disconnect,
 in-flight cancellation, poison, error terminals and shutdown. They do not
 qualify real model output, numerical equivalence, native batching, GPU faults,

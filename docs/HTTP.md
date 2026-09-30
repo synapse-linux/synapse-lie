@@ -29,6 +29,24 @@ Readiness is operational model/executor open, not a quality certificate. No prob
 inference, device synchronization or filesystem scan occurs in a health/scrape.
 The model loads on the worker; loading/failed/unconfigured instances stay unready.
 
+`scheduler.executor` has scope `owner_dispatch_intervals`: `phase` is `none`,
+`prefill` or `decode`, with cumulative `prefill_started/returned` and
+`decode_started/returned` counters. Each pair differs by zero or one; only one
+pair may be outstanding because there is one device owner. These counters count
+ABI dispatch/returns, including cancelled/failed returns, not useful tokens.
+`none` does not exclude preparation, token rendering or retirement work.
+`cancel_during_prefill/decode` counts a job's first cancellation observed while
+that job is still in the respective dispatch interval; repeat cancellation is not
+counted again. An interval includes small boundary bookkeeping and is not proof
+of actual HIP kernel execution or preemption; racing cancellations can fall
+outside this observation. These are diagnostic counters, not a GPU event trace.
+
+`scheduler.output_blocked` counts active jobs the worker last observed unable to
+reserve output credit/capacity. It is cleared when the worker resumes or retires
+the job. It is bounded by `active`, and is not a queue, remote consumption or
+instantaneous TCP-window measurement. Counter/phase/occupancy fields come from a
+single worker snapshot; overall readiness/backend objects remain separate reads.
+
 Actuator responses use v3 vendor Content-Type. Errors use `application/json`,
 `error.code` and `error.message`. No content negotiation/OpenMetrics claim.
 Ordinary responses include Content-Length, Connection: close, no-store, nosniff
@@ -112,6 +130,15 @@ normalization is not a numerical oracle; model tokens/frontiers require separate
 qualification. Usage counts physical prompt tokens and executor-confirmed emitted
 tokens; the provider's un-emitted stop token is not an emitted output token.
 
+Before token lookup/publication, the C worker validates emitted/stop ranges,
+progress, vocabulary and exact completed position (`previous + emitted`, also
+for un-emitted EOS). A reported text length must fit the reserved slot. Invalid
+successful returns and unexpected executor/text failures mark the worker FAILED,
+fail admitted peers and refuse subsequent requests. No retry or fallback; failed
+frontiers cannot create usage/timing success or advance generated-token counters.
+Cancellation remains nonpoisoning. See [T0-LIFECYCLE.md](T0-LIFECYCLE.md) for the
+synthetic fault coverage and the separate, not-yet-run target protocol.
+
 After headers, backend errors are an SSE JSON error followed by `[DONE]`, **not**
 a successful finish reason or fabricated usage. Already submitted bytes cannot
 be revoked. Disconnect/deadline closes output, latches flow and executor
@@ -121,8 +148,10 @@ disconnected client. Cancellation is a latch, not HIP preemption.
 The worker owns blocking model calls. Cancellation's atomic backend latch is
 protected against concurrent sequence destruction by a short job gate. Worker
 and transport references are independent; poll close and write callbacks retire
-before the consumer reference is released. The worker drains/closes sequences
-before dropping its reference. SIGINT/SIGTERM waits for owned work retirement.
+before the consumer reference is released. A cancelled output flow can become
+terminal before a prefill call returns; that terminal is not a sequence-retirement
+ACK. The worker reference still pins the job/session and its storage, and the
+worker drains/closes sequences before dropping its reference. SIGINT/SIGTERM waits for owned work retirement.
 An undrainable loaded-runtime GPU failure terminates the process with exit 70;
 no retry/fallback/core dump. That hardware error path remains unqualified.
 

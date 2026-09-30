@@ -320,6 +320,19 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
 }
+static json_object *executor_json(const lie_worker_info *i) {
+    json_object *o=json_object_new_object();
+    json_object_object_add(o,"scope",json_object_new_string("owner_dispatch_intervals"));
+    json_object_object_add(o,"phase",json_object_new_string(i->executor_phase==LIE_EXECUTOR_PREFILL?"prefill":
+                                                         i->executor_phase==LIE_EXECUTOR_DECODE?"decode":"none"));
+    json_object_object_add(o,"prefill_started",json_object_new_uint64(i->prefill_started));
+    json_object_object_add(o,"prefill_returned",json_object_new_uint64(i->prefill_returned));
+    json_object_object_add(o,"decode_started",json_object_new_uint64(i->decode_started));
+    json_object_object_add(o,"decode_returned",json_object_new_uint64(i->decode_returned));
+    json_object_object_add(o,"cancel_during_prefill",json_object_new_uint64(i->cancel_during_prefill));
+    json_object_object_add(o,"cancel_during_decode",json_object_new_uint64(i->cancel_during_decode));
+    return o;
+}
 static char *llm_json(server *s) {
     json_object *j=json_object_new_object();
     json_object_object_add(j,"schema",json_object_new_string("synapse-lie.llm.v1"));
@@ -332,6 +345,8 @@ static char *llm_json(server *s) {
         json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-interleaved-single-row"));
         json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
         json_object_object_add(scheduler,"active",json_object_new_int(info.active));
+        json_object_object_add(scheduler,"output_blocked",json_object_new_int(info.output_blocked));
+        json_object_object_add(scheduler,"executor",executor_json(&info));
         json_object_object_add(scheduler,"max_active",json_object_new_int(s->max_active));
         json_object_object_add(scheduler,"admission_capacity",json_object_new_int(LIE_WORKER_JOBS));
         json_object_object_add(scheduler,"generated_tokens",json_object_new_uint64(info.generated_tokens));
