@@ -60,7 +60,9 @@ concurrency suite, with optional SVG/PNG and CSV/JSON exports. Python handles
 lease supervision and graph generation. See [usage and scope](docs/CONTEXT-COMPARISON.md)
 and [methodology/prerequisites](docs/BENCHMARKING.md). The executable also has full-prompt `fresh` and a separate Python HTTP client
 harness (`--suite http`), including exact corpus replay and multi-turn timing.
-Cache/MTP execution, cold-file loading and exact allocation peaks remain open.
+The [full-prefill/HTTP result](docs/FULL-PREFILL-HTTP-RESULT.md) reaches 258794
+physical prompt tokens and records a real 100K follow-up. Cache/MTP execution,
+cold-file loading and exact allocation peaks remain open.
 
 **The Q2 experiment has been withdrawn at the owner's request.** Its active
 source, recipes, build helpers and tests are removed; rollback commit `ffca17e`
@@ -135,15 +137,16 @@ cmake -S . -B build/new-cpu-label -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLIE_SANITI
 cmake --build build/new-cpu-label -j1
 env HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1 \
   ctest --test-dir build/new-cpu-label --output-on-failure
-# Source identity for this increment is Git + diff, not a new source-hash inventory.
+# The .157 qualification capsules retain explicit source SHA-256 inventories.
 ```
 
-Fifteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Twenty-one CPU suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
 executor failure/dispatch contracts, the HTTP lifecycle checker, native tool
-protocol and HTTP tool round trips. A sixteenth CPU formatter test is available
+protocol and HTTP tool round trips, Responses, shared inference dispatch,
+256K admission and direct/HTTP benchmark accounting. An additional formatter test is available
 in the linked Gufo build; the installed-Pi integration check is separate.
 The withdrawn Q2 tests remain only in Git history and local evidence.
 The active tests cover bounded overload, stalled consumers, peer progress, disconnect,

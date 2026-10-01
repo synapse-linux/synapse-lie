@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "event": "identity",
+    "schema": "synapse-lie.http-bench.v1",
+    "url": "http://192.168.5.157:8000/v1",
+    "model": "qwen3.8-flash-next",
+    "server_label": "LIE http256-r1 / UD-Q4_K_XL / AR / no cache",
+    "cache_policy": "off",
+    "warmups": 0,
+    "repetitions": 1,
+    "preset": "conversation",
+    "request_options": {},
+    "scope": "HTTP client harness; no model open, server control, tool execution or implicit cache reset"
+  },
+  "cases": [
+    {
+      "case": "conversation-100000",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        99995
+      ],
+      "output_tokens": [
+        1
+      ],
+      "request_hashes": [
+        "6c92baae09fa1081840816a5bab8993e46ecbba8bb87e2421cf91179f551f6d6"
+      ],
+      "output_hashes": [
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4"
+      ],
+      "full_output_budget": false,
+      "wall_seconds": {
+        "mean": 69.75757406209596,
+        "median": 69.75757406209596,
+        "min": 69.75757406209596,
+        "max": 69.75757406209596
+      },
+      "first_output_seconds": {
+        "mean": 69.75748037407175,
+        "median": 69.75748037407175,
+        "min": 69.75748037407175,
+        "max": 69.75748037407175
+      },
+      "prompt_over_wall_tps": {
+        "mean": 1433.4644136418456,
+        "median": 1433.4644136418456,
+        "min": 1433.4644136418456,
+        "max": 1433.4644136418456
+      },
+      "output_over_wall_tps": {
+        "mean": 0.01433536090446368,
+        "median": 0.01433536090446368,
+        "min": 0.01433536090446368,
+        "max": 0.01433536090446368
+      }
+    },
+    {
+      "case": "conversation-100000",
+      "turn": 1,
+      "samples": 1,
+      "prompt_tokens": [
+        100419
+      ],
+      "output_tokens": [
+        1
+      ],
+      "request_hashes": [
+        "ebceacd1dba058441b7a4cd777086e03504401ea37c4ab97f17befdfed0455f0"
+      ],
+      "output_hashes": [
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4"
+      ],
+      "full_output_budget": false,
+      "wall_seconds": {
+        "mean": 71.78942575189285,
+        "median": 71.78942575189285,
+        "min": 71.78942575189285,
+        "max": 71.78942575189285
+      },
+      "first_output_seconds": {
+        "mean": 71.78932999400422,
+        "median": 71.78932999400422,
+        "min": 71.78932999400422,
+        "max": 71.78932999400422
+      },
+      "prompt_over_wall_tps": {
+        "mean": 1398.799321045583,
+        "median": 1398.799321045583,
+        "min": 1398.799321045583,
+        "max": 1398.799321045583
+      },
+      "output_over_wall_tps": {
+        "mean": 0.013929628068847358,
+        "median": 0.013929628068847358,
+        "min": 0.013929628068847358,
+        "max": 0.013929628068847358
+      }
+    }
+  ]
+}

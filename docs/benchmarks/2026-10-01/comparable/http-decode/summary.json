@@ -1,0 +1,445 @@
+{
+  "identity": {
+    "event": "identity",
+    "schema": "synapse-lie.http-bench.v1",
+    "url": "http://192.168.5.157:8000/v1",
+    "model": "qwen3.8-flash-next",
+    "server_label": "LIE http256-r1 / UD-Q4_K_XL / AR / no cache",
+    "cache_policy": "off",
+    "warmups": 0,
+    "repetitions": 1,
+    "preset": "decode",
+    "request_options": {},
+    "scope": "HTTP client harness; no model open, server control, tool execution or implicit cache reset"
+  },
+  "cases": [
+    {
+      "case": "analysis",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        29
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "94e4a109b37fdae4e86f78c5cb6a1e4fd04ed6e0f7d236f287406b7868a0239c"
+      ],
+      "output_hashes": [
+        "863ab24cca13514f37461530c8c688ce72a6f910074fcb6ded866c6d02a79b58"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.899177276995033,
+        "median": 9.899177276995033,
+        "min": 9.899177276995033,
+        "max": 9.899177276995033
+      },
+      "first_output_seconds": {
+        "mean": 0.3438650988973677,
+        "median": 0.3438650988973677,
+        "min": 0.3438650988973677,
+        "max": 0.3438650988973677
+      },
+      "prompt_over_wall_tps": {
+        "mean": 2.929536383532992,
+        "median": 2.929536383532992,
+        "min": 2.929536383532992,
+        "max": 2.929536383532992
+      },
+      "output_over_wall_tps": {
+        "mean": 25.860734971877445,
+        "median": 25.860734971877445,
+        "min": 25.860734971877445,
+        "max": 25.860734971877445
+      }
+    },
+    {
+      "case": "chat",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        32
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "71ac49568840ee1b710961a67d1e161d3b87d018bb9eca99d149d3acbf0d9b64"
+      ],
+      "output_hashes": [
+        "347c8b6149df8dbb73a86b52769249483de3538d46f926372b29c65e05bc6634"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.849571047816426,
+        "median": 9.849571047816426,
+        "min": 9.849571047816426,
+        "max": 9.849571047816426
+      },
+      "first_output_seconds": {
+        "mean": 0.3425776718650013,
+        "median": 0.3425776718650013,
+        "min": 0.3425776718650013,
+        "max": 0.3425776718650013
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.248872447810218,
+        "median": 3.248872447810218,
+        "min": 3.248872447810218,
+        "max": 3.248872447810218
+      },
+      "output_over_wall_tps": {
+        "mean": 25.990979582481742,
+        "median": 25.990979582481742,
+        "min": 25.990979582481742,
+        "max": 25.990979582481742
+      }
+    },
+    {
+      "case": "code",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        34
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "3f11b813cbe1579158fae03ceeebef3291924457064e41d20f2cad913c28687c"
+      ],
+      "output_hashes": [
+        "ff0ce9a338400f0adf7000d85e87b3804441f06cb4be5bc3a587f92050fdf4d0"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.892581589985639,
+        "median": 9.892581589985639,
+        "min": 9.892581589985639,
+        "max": 9.892581589985639
+      },
+      "first_output_seconds": {
+        "mean": 0.38700204505585134,
+        "median": 0.38700204505585134,
+        "min": 0.38700204505585134,
+        "max": 0.38700204505585134
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.436918835667582,
+        "median": 3.436918835667582,
+        "min": 3.436918835667582,
+        "max": 3.436918835667582
+      },
+      "output_over_wall_tps": {
+        "mean": 25.877977115614737,
+        "median": 25.877977115614737,
+        "min": 25.877977115614737,
+        "max": 25.877977115614737
+      }
+    },
+    {
+      "case": "debug",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        38
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "2b8d2aad4ef867a7135e646fd1ab89c3889d2e1e6a47a81bb022c4768af3522c"
+      ],
+      "output_hashes": [
+        "004d45fb4900092629599d5f21f1d02e7cb8cedda8b644d47be8921c058c7d43"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.947036854922771,
+        "median": 9.947036854922771,
+        "min": 9.947036854922771,
+        "max": 9.947036854922771
+      },
+      "first_output_seconds": {
+        "mean": 0.3641344839707017,
+        "median": 0.3641344839707017,
+        "min": 0.3641344839707017,
+        "max": 0.3641344839707017
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.820233156288535,
+        "median": 3.820233156288535,
+        "min": 3.820233156288535,
+        "max": 3.820233156288535
+      },
+      "output_over_wall_tps": {
+        "mean": 25.736307579206972,
+        "median": 25.736307579206972,
+        "min": 25.736307579206972,
+        "max": 25.736307579206972
+      }
+    },
+    {
+      "case": "proof",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        37
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "4174bf3ea59e73fe8b9e33cb53455f708fda227289830a636f87a22a1f7cfaee"
+      ],
+      "output_hashes": [
+        "7627b44ccc73bb4392eafb2161c086c67b94f5c0d279782424689826e8b5fb01"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.902839477173984,
+        "median": 9.902839477173984,
+        "min": 9.902839477173984,
+        "max": 9.902839477173984
+      },
+      "first_output_seconds": {
+        "mean": 0.34864919004030526,
+        "median": 0.34864919004030526,
+        "min": 0.34864919004030526,
+        "max": 0.34864919004030526
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.736302106611431,
+        "median": 3.736302106611431,
+        "min": 3.736302106611431,
+        "max": 3.736302106611431
+      },
+      "output_over_wall_tps": {
+        "mean": 25.851171332230443,
+        "median": 25.851171332230443,
+        "min": 25.851171332230443,
+        "max": 25.851171332230443
+      }
+    },
+    {
+      "case": "prose",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        32
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "79c4bb69ae694bc4c72dec90bb5787fff06b1f99602b4d80a08c0922258879c0"
+      ],
+      "output_hashes": [
+        "82453139a71d21faa5caf3116ccfdcd33af3eec92e372cc8e7473b5f8cda2bde"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.885501357959583,
+        "median": 9.885501357959583,
+        "min": 9.885501357959583,
+        "max": 9.885501357959583
+      },
+      "first_output_seconds": {
+        "mean": 0.3651074629742652,
+        "median": 0.3651074629742652,
+        "min": 0.3651074629742652,
+        "max": 0.3651074629742652
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.2370639425621364,
+        "median": 3.2370639425621364,
+        "min": 3.2370639425621364,
+        "max": 3.2370639425621364
+      },
+      "output_over_wall_tps": {
+        "mean": 25.89651154049709,
+        "median": 25.89651154049709,
+        "min": 25.89651154049709,
+        "max": 25.89651154049709
+      }
+    },
+    {
+      "case": "review",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        33
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "3ea8167f1920eb8db0f05892fb00294989dd982c8762308209eb299a7af897c4"
+      ],
+      "output_hashes": [
+        "698d5248cf3f05fc323f3ff344613a2c112296dfdf35162aee375a6db498f90d"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.8626790009439,
+        "median": 9.8626790009439,
+        "min": 9.8626790009439,
+        "max": 9.8626790009439
+      },
+      "first_output_seconds": {
+        "mean": 0.34548447909764946,
+        "median": 0.34548447909764946,
+        "min": 0.34548447909764946,
+        "max": 0.34548447909764946
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.3459468767909573,
+        "median": 3.3459468767909573,
+        "min": 3.3459468767909573,
+        "max": 3.3459468767909573
+      },
+      "output_over_wall_tps": {
+        "mean": 25.95643637752985,
+        "median": 25.95643637752985,
+        "min": 25.95643637752985,
+        "max": 25.95643637752985
+      }
+    },
+    {
+      "case": "structured",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        38
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "7106d436a6679a16e155d4235dc9d4c09d070d612b4842e8ff0cfc7397e86e3f"
+      ],
+      "output_hashes": [
+        "1d6962be7802bcb0a7b5e0071a7b0f91671fb37c97aba328a8a8156e54b628ff"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.86414840305224,
+        "median": 9.86414840305224,
+        "min": 9.86414840305224,
+        "max": 9.86414840305224
+      },
+      "first_output_seconds": {
+        "mean": 0.3563249669969082,
+        "median": 0.3563249669969082,
+        "min": 0.3563249669969082,
+        "max": 0.3563249669969082
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.8523345804734395,
+        "median": 3.8523345804734395,
+        "min": 3.8523345804734395,
+        "max": 3.8523345804734395
+      },
+      "output_over_wall_tps": {
+        "mean": 25.95256980529475,
+        "median": 25.95256980529475,
+        "min": 25.95256980529475,
+        "max": 25.95256980529475
+      }
+    },
+    {
+      "case": "tool-dialogue",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        45
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "3a969a59b53b994213426a494dd5c3c3079352ad2e3c47ff945153a1f2cd43f6"
+      ],
+      "output_hashes": [
+        "f77585a7f3992018575872bb445d4cccad0b4970b113c180d4a6851188cda08e"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.91808964498341,
+        "median": 9.91808964498341,
+        "min": 9.91808964498341,
+        "max": 9.91808964498341
+      },
+      "first_output_seconds": {
+        "mean": 0.3768138438463211,
+        "median": 0.3768138438463211,
+        "min": 0.3768138438463211,
+        "max": 0.3768138438463211
+      },
+      "prompt_over_wall_tps": {
+        "mean": 4.537164071990525,
+        "median": 4.537164071990525,
+        "min": 4.537164071990525,
+        "max": 4.537164071990525
+      },
+      "output_over_wall_tps": {
+        "mean": 25.81142227621277,
+        "median": 25.81142227621277,
+        "min": 25.81142227621277,
+        "max": 25.81142227621277
+      }
+    },
+    {
+      "case": "translation",
+      "turn": 0,
+      "samples": 1,
+      "prompt_tokens": [
+        36
+      ],
+      "output_tokens": [
+        256
+      ],
+      "request_hashes": [
+        "8801394868de9bf0c188a2e95306f13851ec89fef831b44e78218edb74f25dff"
+      ],
+      "output_hashes": [
+        "6cecf5237ecd8d6ed957f81fbb738b6a864bfb32bac47fd545ad7c27e1e9c056"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 9.889793258160353,
+        "median": 9.889793258160353,
+        "min": 9.889793258160353,
+        "max": 9.889793258160353
+      },
+      "first_output_seconds": {
+        "mean": 0.3514179920312017,
+        "median": 0.3514179920312017,
+        "min": 0.3514179920312017,
+        "max": 0.3514179920312017
+      },
+      "prompt_over_wall_tps": {
+        "mean": 3.6401165383609375,
+        "median": 3.6401165383609375,
+        "min": 3.6401165383609375,
+        "max": 3.6401165383609375
+      },
+      "output_over_wall_tps": {
+        "mean": 25.885273161677777,
+        "median": 25.885273161677777,
+        "min": 25.885273161677777,
+        "max": 25.885273161677777
+      }
+    }
+  ],
+  "shape_macro_average": {
+    "metric": "actual output tokens / complete HTTP wall, averaged equally over independently authored shapes",
+    "mean": 25.881938374262358,
+    "min_shape_mean": 25.736307579206972,
+    "max_shape_mean": 25.990979582481742,
+    "cases": 10,
+    "all_full_output_budget": true
+  }
+}

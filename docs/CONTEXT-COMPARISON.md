@@ -175,6 +175,10 @@ and cache declarations; output equality/full budgets are reported separately.
 A cache-on repeated request is **not cold prefill**, and its full prompt divided
 by wall time must not be quoted as compute throughput.
 
+The built-in `tool-dialogue` shape is a textual configuration task, not an
+executed tool round trip; static real tool histories use `--requests` and real
+client execution is tested separately with Pi.
+
 The built-in corpus is LIE-authored, not a copy or claim to reproduce another
 project's exact prompts. Supply the same licensed corpus to both endpoints for a
 matched comparison and record checkpoint/quantization, engine version, thinking,

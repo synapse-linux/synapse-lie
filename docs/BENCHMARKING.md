@@ -3,7 +3,9 @@
 The **`synapse-lie-bench` executable is C17**, like the server. A simplified
 direct-executor AR implementation is now available; see
 [CLI, graph exports and exact deviations](CONTEXT-COMPARISON.md).
-The full HTTP/cached-conversation/MTP suite below remains incomplete.
+Full-prefill and an explicit Python HTTP client mode are available, including
+actual conversation replay. Cached-conversation/MTP execution below remains
+incomplete; a benchmark client cannot supply absent server capabilities.
 Python is permitted for intermediate development, supervision,
 analysis and graph generation; it is not a replacement production server or
 model executor. The existing `lie-executor-bench` is already C17, but implements
@@ -14,7 +16,7 @@ in place.
 Priority is server functionality and truthful measurement boundaries. The new
 [per-request timings](HTTP.md#per-request-executor-timings) are implemented in C;
 no kernel, adapter or executor ABI change is needed. They are a prerequisite for
-HTTP benchmarking, not evidence that the whole benchmark can already run.
+HTTP benchmarking, distinct from client wall/first-output measurements.
 
 ## Antirez model requirement
 
@@ -47,7 +49,7 @@ imported into the server. No sibling project code or artifacts were imported.
 
 | Reference experiment | Meaning / required semantics | Current LIE gap |
 |---|---|---|
-| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | Direct physical-prefix measurements through 128K exist; HTTP prefix caching remains absent, with context limit 32768 and 1 MiB request limit; exact reference corpus/calibration not reproduced |
+| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | Direct physical-prefix measurements through 128K exist; HTTP prefix caching remains absent; context now reaches 262144 with an 8 MiB request limit; exact reference corpus/calibration not reproduced |
 | Single MTP | Same depth sweep; mixed and repetitive workloads; PP is the maximum per engine/depth across these workloads, including predictor catch-up | MTP not exposed |
 | Multi AR/MTP | C1/2/4/6/8, context 4096 per user, all sessions prefilled before measured TG128; **sum of individual decode rates**, not cohort tokens divided by cohort wall time | Native AR batching is implemented for 1/2/4/6/8; the direct benchmark uses common-window aggregate throughput, not the reference HTTP/cache protocol or rate aggregation; MTP absent |
 | Loading | Cold target/sidecar files to HTTP readiness, C1/MTP/context 262144 | No equivalent cold-load experiment; never drop global caches or alter another service implicitly |
@@ -76,7 +78,7 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
 - Native concurrency, MTP and longer contexts require implementation and numerical/
   lifecycle/capacity qualification before their rows can be filled. The measured
   direct AR scope is in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md);
-  it does not establish HTTP 128K or MTP. Unsupported, not-run and failed remain
+  HTTP near-256K capacity and Pi tools have their own [receipt](HTTP-256K-PI.md); MTP remains absent. Unsupported, not-run and failed remain
   distinct from measured zero.
 - Separate graphs for fresh full prefill, cached-prefix incremental prefill,
   decode, concurrency, load and memory. Reference-published values and locally
@@ -88,3 +90,5 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
 - All GPU runs retain the [coordination lease](COORDINATION.md), exclusive evidence
   directories, private runtime settings and no implicit install/tuning/deployment.
   CPU fixtures, compilation and generated charts are not inference evidence.
+
+Full-prompt and served measurements are recorded in [FULL-PREFILL-HTTP-RESULT.md](FULL-PREFILL-HTTP-RESULT.md). Their cold-context averages must not be substituted for the earlier incremental-prefix protocol.

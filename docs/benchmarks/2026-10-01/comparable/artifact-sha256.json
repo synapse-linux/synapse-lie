@@ -1,0 +1,23 @@
+{
+  "receipt.json": "b3e1c765bf1e6c36ec199c1a0661ac296884db5e611d4d117b5afeaf84819352",
+  "fresh/summary.json": "59670f9e5a2dceb7622327cfbc0d96f81b203f282468e0d2b2a3366cbe005769",
+  "fresh/summary.csv": "ab245989ef531d3ff9e84535e3a78f25370e694eee2d93cf55afce54ec67a8a7",
+  "fresh/benchmark.svg": "fb2ce118eeeb170f06af93c707fc35c10291705a06c946962b96728ef56e8970",
+  "fresh/benchmark.png": "6583edac8788a1dc2878584d376f4944da63032f66e6f95aae60a02af46d32f1",
+  "fresh/samples.csv": "4067f23a82e3aa564f530a15528039139dbea2f5326a7308c596a8daa02c12f1",
+  "http-prefill/summary.json": "15b2f7005a02d2484f5de716bd77585ba5c92e5ce0343a353f39c458a2fd5ece",
+  "http-prefill/summary.csv": "37981dd812b4b48ee2031dd7883898534305126a10ff4101ec3f0781c29f98bc",
+  "http-prefill/benchmark.svg": "54afbb7ba1fa3d46387237f0c951bf6e0ce9a21d66efef6c1fdec8c18c188cec",
+  "http-prefill/benchmark.png": "215f1d35a2786986278ab959be0f7ddf248e32631a43eebba9ec3f9f243b9ff4",
+  "http-prefill/samples.csv": "dcfeca39f40596e29fdf0058ab0cba2c3837709c1c61bf26e4152b8105706178",
+  "http-decode/summary.json": "acdd46b942faf6b7f474e50704749eb4f501a3be692d7483fc336d6865967243",
+  "http-decode/summary.csv": "a9160eaa9089301827cec23088629abbacec516973932428e73f543cf6f664aa",
+  "http-decode/benchmark.svg": "2dd117ed824dda74526684a1cb2d8beb88e0b38e5a7b4bdc157c59eb5ae537e5",
+  "http-decode/benchmark.png": "a64a28fec555b6e384b0c748e5c3abd824acafe563fc92c394d248513d0863ac",
+  "http-decode/samples.csv": "616eb852a42f8264f406edf109593e1566e9df51e7d49e838b0171f02f968a46",
+  "http-conversation/summary.json": "8e2aa46a2959008024d4e69a0d06a7c27709df11135b3bd85dc64f20cc54280d",
+  "http-conversation/summary.csv": "f069117352bbac1cc87220765207121b58758c7fcacbfe9ef644dd2a15cf755f",
+  "http-conversation/benchmark.svg": "c7c167361c333bf2bddd963990b2055eba90392d96250f1a959e6291455802c0",
+  "http-conversation/benchmark.png": "4c8f1d0c642d1a553f6b3ee486b60c0927c969c13227f5e72bc8fe2598e2e9d2",
+  "http-conversation/samples.csv": "53e6173c50b379abc9b81161c29f960295ddbf7f76449536047937dd0cab1905"
+}

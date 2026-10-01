@@ -1,0 +1,162 @@
+{
+  "source_commit": "fe061d8",
+  "server_source_commit": "9725832",
+  "state": {
+    "state": "PASS",
+    "started_at": "2026-10-01T21:57:54.140943+00:00",
+    "pid": 2226681,
+    "start_ticks": 145726840,
+    "runs": [
+      {
+        "arm": "fresh",
+        "pid": 2226684,
+        "start_ticks": 145726863,
+        "started_at": "2026-10-01T21:57:54.344233+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-01T22:10:32.079431+00:00"
+      },
+      {
+        "arm": "http",
+        "pid": 2230364,
+        "start_ticks": 145802650,
+        "started_at": "2026-10-01T22:10:32.217665+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-01T22:19:05.710588+00:00"
+      }
+    ],
+    "comparisons": {},
+    "current_arm": "http",
+    "finished_at": "2026-10-01T22:19:05.714176+00:00"
+  },
+  "postflight": {
+    "at": "2026-10-01T22:19:05.714359+00:00",
+    "owned_pids": {
+      "2226684": false,
+      "2226697": false,
+      "2230364": false,
+      "2230379": false
+    },
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  },
+  "archive_sha256": "2deb239bdda8ec9123a1f18e5a7fe3256f7cf671388319fc0de4948ce128effe",
+  "collection_sha256": "221608fb7d9b46b3418ff487f68161777b4868d77b2aada7ff4bb4decbc1c7a5",
+  "files": {
+    "serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "run-bench.py": "8bb486aa31c03e2e88cd3a634ab1878efc1dc5681a5661ab991e3bfc89bbeb76",
+    "bench-report.py": "047c1203d4a41cd6d542547b3b32506241819fcd070853e345512c80ffb87d3b",
+    "bench-http.py": "c82b4e01c092c258374a463c9eb323290a6164b4a3c0fbd2cdaf447cd41435f7",
+    "smoke-model.py": "5c4ba66bdaf2046b1679fcfed39460bb023e5d033b10cfd519817b7b9da38bb4",
+    "context-checks.py": "5b0abad196486fbce8dee5ea9bc6399c84a0bb87c9ef1ef75f56a387bf873723",
+    "drive.py": "1bb7216217587f7cfccd13b81677d506a56a0500abbbc68a60c5c259efb29fa9",
+    "suite-manifest.json": "3678ad59c77e398c4fda9b62dfbb8c2904999d92b85e39f48910e6f9c8ce321c",
+    "controller.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "state.json": "9155f2b6d41f4cb2572763cfa181b1c46589b10a239d7ca7243ddd4050d55858",
+    "postflight.json": "3709559bfacfc01b89aa4da99a74895807ad0cf3c29ec7ded9b020009e1359f7",
+    "fresh/manifest.json": "2f9e93c735a1b437398666cfc4da3ebc5042f7d3a454dd1a6b134aab8ef72987",
+    "fresh/supervisor.log": "b1598883c2c7f4bb250de9d460fdcd8b091a84eaa7a4f969d4a85635fd70ca9a",
+    "fresh/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fresh/results/stderr.log": "f5773cdd9f5a5d0e014364d5d2c098646f3132ba8d74088fcc601651abfdb1f4",
+    "fresh/results/telemetry.jsonl": "45533f2ff2f34de5d36364d8ee671dc28c83e9f647588255e67c689463ddd8ab",
+    "fresh/results/measurements.jsonl": "68878a26a9b3832f3a91cd69237aba7c19fc27e2786f68e5de9d59251785a765",
+    "fresh/results/result.json": "b1598883c2c7f4bb250de9d460fdcd8b091a84eaa7a4f969d4a85635fd70ca9a",
+    "http/manifest.json": "b2510a4de7252090fbc22fd26a5f4147f3d8412388ae12ba3757876f5102397f",
+    "http/supervisor.log": "10d28e4111011032776059a6fefc322208c05bd61e75c1002166c3ec2383e4d9",
+    "http/results/server.log": "27ee81678954589a6c95921c3f6dced887e51bd6e72c153a7b3e1c28316601ac",
+    "http/results/telemetry.jsonl": "442032a920c696d373eb61a0794b2be469ec1fc26fc7fff10b10aef67c8c1567",
+    "http/results/prefill.log": "8edbc4d23b1eb7d267039aa24f12048a65b77421d2b56820a83825356a97e3d9",
+    "http/results/prefill.jsonl": "3bb767ef4b5da75342a7e034fef9bad52beb5d92e1f54204ce4d1c999122aa3a",
+    "http/results/prefill-corpus.jsonl": "feef60de8cbd617d90960a2e6160d1b86ceb80191b625c4ddec388a5a6793182",
+    "http/results/http-bench-status.json": "ed9e5fc16043dd40b1e3e4164f2c19ca615a1b77b9a916cd939f4cd5c3f77253",
+    "http/results/decode.log": "40065c677413edfd61612e7130cb979e8965d6458971b09adf3791f6b6888154",
+    "http/results/decode.jsonl": "bbe053ba0788ea133de137ed8d90352f40564bbdc3c0428c4ffae228860d4294",
+    "http/results/decode-corpus.jsonl": "ed7af2f5e43d9fd907f4a176b8011afabb24568a8edcfa51e84c8890596910af",
+    "http/results/conversation.log": "8e2aa46a2959008024d4e69a0d06a7c27709df11135b3bd85dc64f20cc54280d",
+    "http/results/conversation.jsonl": "7021fc9fc911e8a3ede6f417324c9879e108bdf3e61d09f0d835ad0e5244b7fe",
+    "http/results/conversation-corpus.jsonl": "7d41eb1096da9de54a69cdc7c3a2d3200c060a7bef614475cad35725b42a7387",
+    "http/results/result.json": "410e5ce6316016848beb895c374ebababbb4814949675122521324efc1af9605"
+  },
+  "local_process_retirement": {
+    "controller": {
+      "chunk_id": "6b3800",
+      "wall_time_seconds": 1.066020775,
+      "exit_code": 1,
+      "original_token_count": 13,
+      "output": "scp: /proc/2226681/stat: No such file or directory\r\n"
+    },
+    "clients": [
+      {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "3ae8db",
+          "wall_time_seconds": 0.859839865,
+          "exit_code": 1,
+          "original_token_count": 13,
+          "output": "scp: /proc/2230578/stat: No such file or directory\r\n"
+        }
+      },
+      {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "6e97f7",
+          "wall_time_seconds": 0.859290912,
+          "exit_code": 1,
+          "original_token_count": 13,
+          "output": "scp: /proc/2231763/stat: No such file or directory\r\n"
+        }
+      },
+      {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "f8d90f",
+          "wall_time_seconds": 0.859382434,
+          "exit_code": 1,
+          "original_token_count": 13,
+          "output": "scp: /proc/2232185/stat: No such file or directory\r\n"
+        }
+      }
+    ],
+    "meaning": "SCP exit 1 with ENOENT confirms these owned /proc entries are absent; this is expected cleanup evidence."
+  },
+  "local_collection_verification": {
+    "verified_files": 33,
+    "all_collection_hashes_match": true,
+    "campaign_state": "PASS",
+    "postflight_checked": true,
+    "archive_sha256": "2deb239bdda8ec9123a1f18e5a7fe3256f7cf671388319fc0de4948ce128effe"
+  },
+  "report_generator": {
+    "path": "run/summarize-comparable.py",
+    "sha256": "385b0ecb7222e962e266e38a6723a75e411d875b8105f530220caea2e3e5d61b",
+    "notes": "Offline report adds cross-shape mean and orders HTTP prefill by physical count. Production benchmark code is unchanged from CPU/GPU qualification."
+  }
+}

@@ -1,5 +1,22 @@
 # Isolated OpenAI reactive API increment
 
+## Full-prefill and HTTP campaign completed
+
+`reactive-suite-r5` on `.157` passed 21:57:54–22:19:05 UTC, 2026-10-01.
+Twelve direct samples (six sizes, n=2, no discarded warm-up) reach 258794
+physical prompt tokens with TG128; each point preserves exact repeat output
+and full PP/TG frontiers. Median full PP is 1531.83 at 8192, 1457.88 at 32768,
+1354.82 at 131072 and 1270.51 at 258794 tok/s; corresponding TG at the last two
+points is 24.73/23.89 tok/s. All actual outputs have 128 tokens.
+HTTP adds six full-prefill observations, ten 256-token shape observations
+(mean 25.88 output/complete-wall tok/s) and a two-turn 100K conversation.
+The latter takes 69.76/71.79s, confirming full-history re-prefill without cache.
+Three calibration requests per applicable HTTP preset stay outside averages.
+All helper/model/client exits 0; controller/children absent, KFD empty, four
+unchanged leases free. Thirty-three collected files match their hashes.
+[Full values, times, plots and limits](FULL-PREFILL-HTTP-RESULT.md).
+
+
 ## HTTP 256K and direct Pi acceptance — completed with retained harness failures
 
 Server and worker now admit context through 262144 total tokens, with a dedicated

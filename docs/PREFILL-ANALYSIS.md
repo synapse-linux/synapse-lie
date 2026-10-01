@@ -61,3 +61,11 @@ A long prefill and an already-ready decode still compete for the one device
 owner. Neither network callbacks nor more host threads remove this competition.
 Moving the prefill/decode boundary is a serving-latency tradeoff requiring its
 own measurements, independently of the successful homogeneous batch throughput.
+
+## Measured follow-up cost
+
+The completed [HTTP campaign](FULL-PREFILL-HTTP-RESULT.md) now confirms the missing
+cache cost on actual traffic: 99995 prompt tokens take 69.76s; the next turn
+with 100419 tokens takes 71.79s and processes all of them again. The added
+physical prompt length is only 424 tokens. This is one two-turn observation,
+not a twenty-turn latency distribution or a performance prediction for a future cache.

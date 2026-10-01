@@ -1,0 +1,155 @@
+{
+  "identity": {
+    "event": "identity",
+    "schema": "synapse-lie.http-bench.v1",
+    "url": "http://192.168.5.157:8000/v1",
+    "model": "qwen3.8-flash-next",
+    "server_label": "LIE http256-r1 / UD-Q4_K_XL / AR / no cache",
+    "cache_policy": "off",
+    "warmups": 0,
+    "repetitions": 2,
+    "preset": "prefill",
+    "request_options": {},
+    "scope": "HTTP client harness; no model open, server control, tool execution or implicit cache reset"
+  },
+  "cases": [
+    {
+      "case": "prefill-8192",
+      "turn": 0,
+      "samples": 2,
+      "prompt_tokens": [
+        8183,
+        8183
+      ],
+      "output_tokens": [
+        1,
+        1
+      ],
+      "request_hashes": [
+        "b4993c64556f46112d33604caa47afa02dafaf882b14e886740e853067ccc157",
+        "b4993c64556f46112d33604caa47afa02dafaf882b14e886740e853067ccc157"
+      ],
+      "output_hashes": [
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4",
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 5.4152211335022,
+        "median": 5.4152211335022,
+        "min": 5.374253373825923,
+        "max": 5.456188893178478
+      },
+      "first_output_seconds": {
+        "mean": 5.415125706000254,
+        "median": 5.415125706000254,
+        "min": 5.374157005921006,
+        "max": 5.456094406079501
+      },
+      "prompt_over_wall_tps": {
+        "mean": 1511.1974504194914,
+        "median": 1511.1974504194914,
+        "min": 1499.7647919100966,
+        "max": 1522.6301089288863
+      },
+      "output_over_wall_tps": {
+        "mean": 0.1846752352950619,
+        "median": 0.1846752352950619,
+        "min": 0.18327811217280907,
+        "max": 0.18607235841731473
+      }
+    },
+    {
+      "case": "prefill-32768",
+      "turn": 0,
+      "samples": 2,
+      "prompt_tokens": [
+        32759,
+        32759
+      ],
+      "output_tokens": [
+        1,
+        1
+      ],
+      "request_hashes": [
+        "6d4d1fcb5d0f58bc6970c42a7419935fdf3fddc5239cf2ceb535eaefda06ad5f",
+        "6d4d1fcb5d0f58bc6970c42a7419935fdf3fddc5239cf2ceb535eaefda06ad5f"
+      ],
+      "output_hashes": [
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4",
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 22.045267228386365,
+        "median": 22.045267228386365,
+        "min": 22.02342008589767,
+        "max": 22.06711437087506
+      },
+      "first_output_seconds": {
+        "mean": 22.045176691492088,
+        "median": 22.045176691492088,
+        "min": 22.02332654898055,
+        "max": 22.067026834003627
+      },
+      "prompt_over_wall_tps": {
+        "mean": 1485.9893433577327,
+        "median": 1485.9893433577327,
+        "min": 1484.5167088650458,
+        "max": 1487.4619778504193
+      },
+      "output_over_wall_tps": {
+        "mean": 0.045361254719549826,
+        "median": 0.045361254719549826,
+        "min": 0.04531630113449879,
+        "max": 0.045406208304600855
+      }
+    },
+    {
+      "case": "prefill-131072",
+      "turn": 0,
+      "samples": 2,
+      "prompt_tokens": [
+        131063,
+        131063
+      ],
+      "output_tokens": [
+        1,
+        1
+      ],
+      "request_hashes": [
+        "930f7e097f0a71c43e87a5996e373cfed360ff8afc70643007426d6ee4ee6ba4",
+        "930f7e097f0a71c43e87a5996e373cfed360ff8afc70643007426d6ee4ee6ba4"
+      ],
+      "output_hashes": [
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4",
+        "8decdfc7db287d3d02d59eba94e0be15aba0c4e8f7366c75c42ba2de200b90f4"
+      ],
+      "full_output_budget": true,
+      "wall_seconds": {
+        "mean": 94.26447109784931,
+        "median": 94.26447109784931,
+        "min": 93.98227510182187,
+        "max": 94.54666709387675
+      },
+      "first_output_seconds": {
+        "mean": 94.26438325992785,
+        "median": 94.26438325992785,
+        "min": 93.98218330391683,
+        "max": 94.54658321593888
+      },
+      "prompt_over_wall_tps": {
+        "mean": 1390.387842551379,
+        "median": 1390.387842551379,
+        "min": 1386.2254908453374,
+        "max": 1394.5501942574203
+      },
+      "output_over_wall_tps": {
+        "mean": 0.010608545833312062,
+        "median": 0.010608545833312062,
+        "min": 0.010576787429292306,
+        "max": 0.010640304237331819
+      }
+    }
+  ]
+}

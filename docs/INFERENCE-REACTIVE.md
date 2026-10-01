@@ -220,3 +220,8 @@ prefill/decode fairness policy or different chunk size. Operator-level profiling
 is separately needed before changing internal synchronization or scratch reuse.
 Prefix cache, MTP, PP batching and asynchronous forwards remain distinct missing
 features; none is supplied by the current reactive dispatcher.
+
+The later [full-prefill/HTTP campaign](FULL-PREFILL-HTTP-RESULT.md) supplies
+absolute serving timings, but no before/after HTTP scheduler comparison. Its
+100K follow-up still re-prefills the entire history (71.79s): the implemented
+ready-row flow does not confer state-cache reuse.
