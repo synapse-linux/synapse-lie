@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // LIE-owned launch/workspace integration over pinned Gufo/llama.cpp MMQ
-// helpers. Numerical helpers retain their upstream licenses, notices and
-// arithmetic.
+// helpers. Numerical helpers retain upstream licenses/notices. The guarded
+// vecdotq.hpp overlay fixes fractional-eighth truncation in IQ2 vector dots.
 #include "mmq/qfn_mmq_prelude.h"
 #include "q2_routed.h"
 namespace qfn_mmq {

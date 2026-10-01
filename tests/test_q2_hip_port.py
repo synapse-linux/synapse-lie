@@ -6,10 +6,12 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import q2_port as host
 import q2_hip_port as hip
+import q2_test_grid as grid
 
 class HipPort(unittest.TestCase):
     def setUp(self):
@@ -72,12 +74,69 @@ class HipPort(unittest.TestCase):
         h = json.loads(host.RECIPE.read_text())
         self.assertFalse(r['runtime_link_allowed'])
         self.assertEqual(r['host_recipe_sha256'], host.sha(host.RECIPE.read_bytes()))
-        self.assertEqual(len(r['files']), 6)
+        self.assertEqual(len(r['files']), 8)
         self.assertTrue(set(r['files']).isdisjoint(h['files']))
         for name, item in r['files'].items():
             self.assertEqual(item['before_sha256'], m['files'][name])
         self.assertEqual(len(r['owned_files']), 3)
         for item in r['owned_files'].values():
             self.assertEqual(item['sha256'], host.sha((ROOT / item['path']).read_bytes()))
+
+    def test_codebook_generator_hash_geometry_and_exclusive_output(self):
+        values = ['0x0808080808080808'] * 256
+        values[2] = '0x0808080808081919'
+        data = ('GGML_TABLE_BEGIN(uint64_t, iq2xxs_grid, 256)\n' +
+                ',\n'.join(values) + ',\nGGML_TABLE_END()').encode()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / 'source' / grid.TABLE
+            source.parent.mkdir(parents=True)
+            source.write_bytes(data)
+            (root / 'third_party').mkdir()
+            manifest = root / 'third_party/gufo-source.json'
+            with patch.object(grid, 'ROOT', root):
+                manifest.write_text(json.dumps({'files': {grid.TABLE: host.sha(data)}}))
+                output = root / 'oracle.inc'
+                self.assertEqual(grid.generate(root / 'source', output), host.sha(data))
+                self.assertEqual(output.read_text().count('ULL,'), 256)
+                with self.assertRaises(FileExistsError):
+                    grid.generate(root / 'source', output)
+                source.write_bytes(data + b'drift')
+                with self.assertRaisesRegex(ValueError, 'source drift'):
+                    grid.generate(root / 'source', root / 'other.inc')
+                bad = data.replace(b'1919', b'1918')
+                source.write_bytes(bad)
+                manifest.write_text(json.dumps({'files': {grid.TABLE: host.sha(bad)}}))
+                with self.assertRaisesRegex(ValueError, 'goldens mismatch'):
+                    grid.generate(root / 'source', root / 'other.inc')
+                bad = data.replace(b'0x0808080808080808,', b'0x0808080808080008,', 1)
+                source.write_bytes(bad)
+                manifest.write_text(json.dumps({'files': {grid.TABLE: host.sha(bad)}}))
+                with self.assertRaises(ValueError):
+                    grid.generate(root / 'source', root / 'other.inc')
+
+    def test_q2_mma_products_use_existing_fp32_capacity(self):
+        r = json.loads(hip.RECIPE.read_text())
+        edits = r['files']['src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp']['edits']
+        self.assertEqual(len(edits), 4)
+        for entry in edits[:2]:
+            self.assertIn('make_float2(base_dm.x*', entry['new'])
+            self.assertIn('reinterpret_cast<float2 *>', entry['new'])
+            self.assertIn('#else\n#ifdef FAST_FP16_AVAILABLE', entry['new'])
+        self.assertIn('reinterpret_cast<const float2 *>', edits[2]['new'])
+        pitch = 2 * 32 + 32 + 4
+        self.assertEqual(pitch % 2, 0)
+        self.assertLessEqual(2 * 32 + 2 * 16, pitch)
+
+    def test_iq2_fractional_scale_fix_is_scoped(self):
+        r = json.loads(hip.RECIPE.read_text())
+        edits = r['files']['src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp']['edits']
+        self.assertEqual(len(edits), 1)
+        self.assertIn('sumi = sumi * ls / 8;', edits[0]['old'])
+        self.assertIn('float(sumi * ls) * 0.125f', edits[0]['new'])
+        self.assertNotIn('sumi * ls / 8', edits[0]['new'])
+        self.assertLess(32 * 43 * 128 * 31, 2**24)
+        self.assertEqual(3175 / 8 / 1024, 0.3875732421875)
+        self.assertEqual((3175 // 8) / 1024, 0.38671875)
 
 if __name__ == '__main__': unittest.main()

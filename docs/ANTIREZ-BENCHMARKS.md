@@ -10,8 +10,10 @@ The user selected **Q2 first**. The subsequent [host compatibility
 slice](Q2-COMPATIBILITY.md) implements the private reader/configuration/binder
 changes and binds the actual saved Q2 header without accessible tensor values.
 It is not linked into the production provider. A subsequent [HIP routing
-candidate](Q2-HIP.md) passes 64 limited synthetic GPU operator cases, but has not
-loaded/executed the model. GPU PP/TG remain blocked pending full-format/model
+candidate](Q2-HIP.md), with [two arithmetic corrections](Q2-EXTENDED.md), passes
+24 extended + 64 original synthetic controls; it has not loaded/executed the
+model. The extended report includes a manifest metadata erratum. GPU PP/TG
+remain blocked pending full-format/model
 qualification and memory admission.
 The original pristine-provider gaps below are retained with their scope.
 

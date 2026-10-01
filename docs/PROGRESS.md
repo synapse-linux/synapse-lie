@@ -6,7 +6,32 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Q2 initial GPU operators — 64/64 pass, model admission still closed
+## Q2 extended operators — two fixes, 24 + 64 controls pass
+
+The renewed GPU window exposed two genuine arithmetic losses: IQ2 vector
+integer division discarded fractional eighths; Q2 MMA rounded scale/minimum
+products back to half. Both RED failures and raw outputs are retained. The
+private, hash-guarded fixes preserve the original tolerance, bounds, workspace
+allocation and production refusal.
+
+`q2-operator-extended-green-r3` passes **24/24** (15 IQ2, 9 Q2), including all IQ2
+grid entries, varied weight half mantissas, 640/2560 output widths, last expert
+511, requested tile widths 16–80, capacity extremes and workspace reuse.
+The offline audit checks **1,725,239 raw outputs**, zero mismatches, maximum
+absolute error **3.0517578125e-5**. `q2-operator-legacy-green-r1` additionally
+passes the **64 original grid-zero controls** on the corrected candidate.
+These are operator fixtures, not original-UD model regression or model inference.
+
+A stale source-receipt SHA field in three cloned manifests is explicitly retained
+and documented, with additive verified build/source bindings; the audit is not
+an unqualified manifest-consistency PASS. See [Q2-EXTENDED.md](Q2-EXTENDED.md).
+At 08:14:28 UTC the four GPU attempts' process identities were retired, KFD empty
+and all four unchanged leases free. No model payload, benchmark, deployment,
+remote build, tuning or DS4 change occurred. Executor integration, arbitrary
+activations, memory admission and independent full-model numerics still block
+Q2 model loading; antirez and updated-server PP/TG remain NOT RUN.
+
+## Earlier Q2 initial GPU operators — 64/64 pass, model admission still closed
 
 After the fresh `hai la finestra libera` handover, `.157` passed the fixed
 `q2-operator-gpu-r1` synthetic suite at **2026-10-01 07:03:42–07:03:46 UTC**

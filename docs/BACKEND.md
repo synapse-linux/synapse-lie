@@ -160,10 +160,12 @@ numerical kernel has been ported by this host increment. Runtime linkage and
 Q2 device upload remain refused until the GPU routes/admission are implemented
 and qualified. Header-derived binding tests are not model inference evidence.
 The [subsequent HIP candidate](Q2-HIP.md) now implements/compiles the new routed
-paths with C17 workspace planning and direct quantized padding. Its initial
-64 synthetic GPU operator cases pass; full-format/model qualification and memory
-admission remain open. Its numerical helpers are still delegated
-upstream code, not an autonomous LIE model-forward implementation.
+paths with C17 workspace planning and direct quantized padding. After two scoped
+arithmetic corrections, [24 extended + 64 original operator controls](Q2-EXTENDED.md)
+pass; the report retains both RED failures and a manifest metadata erratum.
+Full-format/model qualification and memory admission remain open. Its numerical
+helpers are delegated upstream code with explicit private corrections, not an
+autonomous LIE model-forward implementation.
 
 ## Current implementation status
 

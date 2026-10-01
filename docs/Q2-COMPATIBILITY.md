@@ -2,7 +2,8 @@
 
 Status: **host storage/configuration/binding implemented and CPU-validated**.
 A subsequent [private HIP candidate](Q2-HIP.md) now implements the routed paths
-and passes 64 limited synthetic GPU cases. Full-format/model qualification,
+and, after [two arithmetic corrections](Q2-EXTENDED.md), passes 24 extended + 64
+original synthetic controls (see the reported metadata erratum). Full-format/model qualification,
 memory admission and benchmarks remain **not run**. The production
 provider and original qualified binaries remain unchanged. Q2 is **not yet a
 runnable LIE inference model** and has no PP/TG benchmark result.
@@ -131,9 +132,10 @@ ID, source pin or original qualified receipt is relabeled as this experiment.
 The [subsequent HIP candidate](Q2-HIP.md) implements vector/tiled/grouped routes,
 reserved scratch and direct **quantized padding 640→768** without an extra FP32
 row copy. It reuses pinned upstream numerical helpers. Compilation and host
-contracts alone do not prove GPU execution. The subsequent 64-case GPU run
-passes only the documented initial operator subset; broader format/shape,
-tail/lifetime and full-model qualification remain required.
+contracts alone do not prove GPU execution. The initial 64-case run and the
+later [extended checks](Q2-EXTENDED.md) exercise documented operator subsets;
+arbitrary activation/field combinations, executor lifetime and full-model
+qualification remain required.
 
 Keep original-UD paths and `kTailMargin` safety intact. Then qualify tiny kernel
 oracles, full-model frontiers and numerical behavior against a separately pinned

@@ -4,6 +4,39 @@ Generated evidence is retained here but excluded from publication by default
 (private machine paths and environment observations). Source/provenance/model
 identity manifests needed for development are separately versioned.
 
+## Extended Q2 operator increment
+
+- `q2-extended-probe-red-r1/r2/`: missing-cstdint generated-header compile
+  failure, then corrected driver linked to the immutable r5 MMQ archive.
+  `q2-extended-fix-r1/` retains source/tool snapshots and the old recipe.
+- `q2-operator-activity-r2/r3/r4/`: read-only renewed-window observations,
+  not GPU admission on their own.
+- `q2-operator-extended-red-r1/`: IQ2 fractional-eighth mismatch, exit 1,
+  raw expected/actual arrays; original archive unchanged, no model attempt.
+- `q2-extended-linked-r1/r2/`: fresh serial masked builds after IQ2 correction
+  and then Q2 MMA FP32-product correction. `q2-extended-mmq-diagnosis-r1/`
+  retains the offline reproduction and exact proposed edits.
+- `q2-operator-extended-green-r1/`: local helper-test function-name typo before
+  staging/GPU; retained, not a numerical run.
+- `q2-operator-extended-green-r2/`: five cases pass, then Q2 tiled mismatch;
+  all raw outputs retained. `q2-operator-extended-green-r3/`: **24/24 PASS**,
+  70 raw F32 arrays, 65 telemetry records, child/supervisor 0.
+- `q2-operator-legacy-green-r1/`: **64/64** original grid-zero controls after
+  both corrections; six telemetry samples, no full raw output arrays.
+- `q2-extended-closure-r1/`: remote hash verification, raw-array checks,
+  retired identities/KFD/free unchanged leases and offline audit. Three
+  manifests inherited a stale `source_receipt_sha256`; per-run additive
+  `source-binding-addendum.json` verifies actual bindings without editing
+  the old manifests. The audit state explicitly retains this metadata defect.
+- `q2-extended-cpu-r1/r2/`: 17 default compiler/sanitizer/header suites pass;
+  r2 includes the 11 HIP source/tool cases. `q2-extended-driver-closure-r1/`
+  validates hardened immutable-archive driver preparation, CPU-only, not a new
+  GPU-qualified binary. Neither result qualifies model inference.
+
+See [extended scope and remaining gates](../docs/Q2-EXTENDED.md).
+
+## Earlier evidence
+
 - `inventory-157-r1.json`: read-only hardware/metadata/receipt inventory; script
   `tools/inventory.py`. No GPU probe, no tensor payload hash.
 - `coordination-check-r1.txt`: dated isolation/service/lease/binary-stat probe.

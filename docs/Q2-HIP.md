@@ -1,9 +1,14 @@
-# Q2 routed HIP candidate — initial GPU operators pass, model still blocked
+# Q2 routed HIP candidate — extended operators pass, model still blocked
 
 This continues the [host compatibility slice](Q2-COMPATIBILITY.md). The private
 candidate implements routed IQ2_XXS gate/up and padded Q2_K down dispatch.
 On **2026-10-01**, the first fixed synthetic GPU suite passed **64/64 cases** on
 `.157`, after fresh operator handover and all four nonblocking leases.
+The [extended increment](Q2-EXTENDED.md) then exposed and corrected two arithmetic
+losses: IQ2 integer truncation and Q2 MMA half-product rounding. The corrected
+candidate passes **24 extended + 64 original controls**, with raw extended arrays
+and a disclosed source-receipt manifest metadata defect. See that report for
+coverage, failures and provenance; none of these runs is a model benchmark.
 **Full-format/model numerical qualification, model memory fit and PP/TG remain
 NOT RUN.** Model admission remains closed; the production provider is unchanged.
 
@@ -18,7 +23,8 @@ NOT RUN.** Model admission remains closed; the production provider is unchanged.
 - `q2_routed.hip` selects vector/tiled projection on the host. Inside the dot
   products, quantization type is a **template specialization**, not per-element
   string/format discovery. The existing bounds and ragged-store checks remain.
-- IQ2 gate/up uses the existing paired/fused vector arithmetic, grouped for 2–8
+- IQ2 gate/up uses paired/fused vector arithmetic with the scoped fractional-
+  eighth correction described below, grouped for 2–8
   inputs. Wider/prefill work shares one gathered quantization between two tiled
   projections, followed by the existing SwiGLU. Q2 down has vector and tiled
   entries. Prefill keeps the existing `prefill_phase` choice, including one-row
@@ -62,10 +68,11 @@ must be valid expert indices or negative; this is not a public untrusted-ID API.
 
 ## Provenance and build isolation
 
-`host-edits.json` still changes six pinned upstream files; this increment only
-reformatted two host changes. `hip-edits.json` adds changes to **six disjoint
-files**: executor header/implementation, model CMake, MMVQ dispatch, quantizer and
-ID-map entry. Three first-party files are added to the generated tree:
+`host-edits.json` still changes six pinned upstream files and is unchanged by
+these numerical fixes. `hip-edits.json` changes **eight disjoint files**:
+executor header/implementation, model CMake, MMVQ dispatch, quantizer, ID-map entry,
+and now `vecdotq.hpp` / `mmq.hpp` for the two scoped arithmetic corrections.
+Three first-party files are added to the generated tree:
 `q2_plan.h`, `q2_routed.h`, `q2_routed.hip`. All original licenses/notices remain.
 
 The numerical dot/tile helpers come from independently acquired Gufo
@@ -87,13 +94,18 @@ python3 -B tools/build-q2-hip.py q2-hip-candidate-example-r1
 ```
 
 This builds private archives and test executables, never a production server.
-The helper runs only `--contract-only` and `--cpu-oracle`, not the GPU test mode.
+The helper runs only `--contract-only`, `--cpu-oracle` and `--list-extended`,
+not either GPU test mode.
 Both the source receipt's `runtime_link_allowed=false` and the existing model
 upload refusal remain. Removing the refusal is **not** a qualification step.
 
-## Evidence and remaining gates
+## Initial implementation and GPU evidence
 
-| Gate | Current result |
+The following records describe the initial slice, not the corrected candidate's
+full history. See [extended evidence and remaining gates](Q2-EXTENDED.md) for
+current results and the manifest metadata erratum.
+
+| Gate | Recorded result |
 | --- | --- |
 | C17 geometry/capacity RED | `q2-route-plan-red-r1`: successful compile, assertion exit -6 preserved |
 | CPU runtime/contracts | `q2-route-cpu-r1/r2`: 17 default suites, GCC/Clang/ASan/UBSan/header checks pass; r2 closes the final inputs |
@@ -110,13 +122,14 @@ upload refusal remain. Removing the refusal is **not** a qualification step.
 The shared formatting script runs directly with installed tools; no Nix download,
 installation, full upstream release build or independent review is claimed.
 
-`tests/q2_operator_probe.cpp` executed **64 GPU cases**: vector/tiled, IQ2 paired
+The initial `tests/q2_operator_probe.cpp` executed **64 GPU cases**: vector/tiled, IQ2 paired
 and fused/grouped gate/up, Q2 physical down, rows 1/2/3/8/9/32/33, odd output rows
 3/17, shared/different/duplicate/inactive routing, dirty scratch, exact logical
 input allocations, output guards and quantized zero padding. Its independent
 scalar expression uses synthetic power-of-two inputs/scales; IQ2 deliberately
 covers only **grid code zero** with varied sign/scale fields. Tiled cases request
-width 16; other tile widths and full production shapes remain to be covered.
+width 16; other tile widths and production output shapes were not covered by
+that first run.
 CPU goldens and the GPU suite passed. The fixed absolute/relative error bound is
 `0.0002 + 0.00004 * abs(reference)`, recorded before GPU execution. This remains
 an initial operator check, not all-codebook or independent full-model parity.
@@ -147,12 +160,12 @@ kernel timing**). It executed the unchanged `q2-route-linked-r5` probe from sour
   claims. No formal DS4 ACK or standing lease is inferred.
 
 Only the direct operator boundary was exercised, not full `Executor`/`RowScratch`
-integration. Actual 640/2560 output-row production shapes, full tiles, last-expert
-boundaries, 512-expert routing, non-power-of-two activations/scales, other IQ2 grid
-codes/tile widths, capacity extremes and matched UD regression remain gates.
+integration. The later [extended suite](Q2-EXTENDED.md) covers the codebook,
+640/2560 output widths, last expert, selected tile/capacity boundaries and
+workspace reuse. It does not close arbitrary activation/field combinations,
+model reload, full executor integration or matched original-UD regression.
 
-Next: broaden codebook/shape/reload checks and matched original-UD regression,
-with new coordinated admission for further GPU work. Before any Q2 model load,
+Further GPU work requires new coordinated admission. Before any Q2 model load,
 finish role-aware PLE/weights/staging/workspace/context admission and an independent
 format-specific reference. Then qualify full-model frontiers and measure the
 separate [fresh PP/TG and HTTP lanes](ANTIREZ-BENCHMARKS.md). No cache work or

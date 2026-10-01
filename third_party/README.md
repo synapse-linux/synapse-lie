@@ -65,13 +65,17 @@ MIT runtime code does not relicense model/configuration assets or authorize rele
 No model values were fetched, converted or redistributed.
 
 The subsequent [Q2 HIP candidate](../docs/Q2-HIP.md) adds a separately hashed
-six-file overlay and three first-party boundary files. It instantiates the
-existing licensed Gufo/llama.cpp MMQ IQ2/Q2 numerical helpers; first-party work
+eight-file overlay and three first-party boundary files. It instantiates the
+licensed Gufo/llama.cpp MMQ IQ2/Q2 helpers, with scoped IQ2 fractional-eighth and
+Q2 MMA FP32-product corrections documented in [extended evidence](../docs/Q2-EXTENDED.md).
+The test codebook generator retains the pinned MMQ table's MIT attribution.
+Other first-party work
 covers routing, reserved workspace, source geometry and zero-safe quantization
 specializations. No sibling code/artifact or independent antirez numeric code
 was imported. The helpers and their notices retain upstream provenance. This is
-not a standalone C17 model engine. The initial 64 synthetic GPU operator cases
-pass, but do not establish full-format or model qualification.
+not a standalone C17 model engine. The corrected candidate passes 24 extended
+and 64 original operator controls, with the reported manifest metadata erratum;
+these do not establish full-format or model qualification.
 
 ## Private Qwen-only build scope
 

@@ -20,13 +20,14 @@ The old runtime verifier must refuse this variant, and its device upload also
 contains a pre-allocation Q2 refusal. Do not disable those safeguards to imply
 that host acceptance implements a GPU route.
 
-`hip-edits.json` now layers six further exact changes plus `q2_plan.h`,
+`hip-edits.json` now layers eight further exact file changes plus `q2_plan.h`,
 `q2_routed.h` and `q2_routed.hip` over that host variant. The private candidate
 implements vector/tiled/grouped IQ2/Q2 dispatch, direct quantized padding and
-reserved scratch. It compiles with the MMQ target's flags and passes the initial
-64 synthetic GPU cases. **Full-format/model qualification remains open and
-production model admission is refused**. Host-recipe changes in this
-increment are formatting only. The original Gufo arithmetic helpers are reused;
-this is not an autonomous numerical engine.
+reserved scratch. It compiles with the MMQ target's flags. The corrected candidate
+passes 24 extended and 64 original synthetic controls. Two scoped helper fixes
+preserve IQ2 fractional eighths and Q2 MMA FP32 scale/minimum products; the host
+recipe is unchanged. See [raw evidence and metadata erratum](../../docs/Q2-EXTENDED.md).
+**Full-format/model qualification remains open and production model admission
+is refused**. These licensed Gufo helpers are not an autonomous numerical engine.
 
 [Host proof](../../docs/Q2-COMPATIBILITY.md) · [HIP implementation, tests and gates](../../docs/Q2-HIP.md).

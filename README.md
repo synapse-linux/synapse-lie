@@ -45,9 +45,10 @@ See [the format-specific gate and protocol](docs/ANTIREZ-BENCHMARKS.md).
 [Q2 host compatibility](docs/Q2-COMPATIBILITY.md) binds the saved actual header's
 48 AR layers with tensor values inaccessible. The [private HIP candidate](docs/Q2-HIP.md)
 now compiles routed IQ2/Q2 dispatch with reserved scratch and direct quantized
-padding. Its first **64 synthetic GPU operator cases pass**; full-format/model
-qualification, memory fit and benchmarks remain **not run**. Production model
-admission stays closed.
+padding. After two arithmetic corrections, **24 extended + 64 original synthetic
+controls pass**; see [coverage, raw evidence and the metadata erratum](docs/Q2-EXTENDED.md).
+Full-format/model qualification, memory fit and benchmarks remain **not run**.
+Production model admission stays closed.
 
 The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and

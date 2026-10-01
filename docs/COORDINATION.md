@@ -27,7 +27,26 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest completed run — initial Q2 synthetic GPU operators
+## Latest completed window — extended Q2 operators and corrections
+
+The operator renewed the window with `ok procedi, hai la finestra GPU libera
+quindi prima completi prima riesci a testare`. Read-only checks are retained in
+`q2-operator-activity-r2/r3/r4`. Four distinct one-shot GPU runs each acquired the
+four existing EX|NB leases and performed current in-lease preflight. Two exposed
+arithmetic failures; subsequent corrected source passed **24 extended + 64
+original controls**. No unchanged failing binary was retried automatically.
+
+The final runs completed at **08:07:34.989080** and **08:09:45.979849 UTC** on
+2026-10-01. Postflight at **08:14:28.029966 UTC** confirms all four attempts'
+owned identities absent, empty KFD and unchanged/free lease files. Collections
+are hash-verified; start/end register and telemetry are retained. There is no
+model access, performance measurement, remote build/install, permanent service,
+waiter, tuning or DS4 change. Desktop/observer limitations still apply; formal
+ACK was absent, and no universal exclusivity or standing authorization is claimed.
+See [Q2-EXTENDED.md](Q2-EXTENDED.md), including the explicitly retained stale
+source-receipt manifest field and additive source-binding evidence.
+
+## Earlier completed run — initial Q2 synthetic GPU operators
 
 On **2026-10-01**, the operator supplied a fresh window: `hai la finestra libera`.
 The **06:57:06–06:57:10 UTC** read-only check found empty KFD, no observed

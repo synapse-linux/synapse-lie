@@ -29,6 +29,7 @@ def main():
             raise SystemExit('symlink build/evidence path')
         p.mkdir()
     inputs = ['tools/build-q2-hip.py', 'tools/q2_port.py', 'tools/q2_hip_port.py',
+              'tools/q2_test_grid.py',
               'cmake/q2-hip/CMakeLists.txt', 'cmake/gufo-runtime/CMakeLists.txt',
               'tests/q2_route_probe.cpp', 'tests/q2_operator_probe.cpp', 'tests/test_q2_plan.c',
               'third_party/gufo-source.json']
@@ -76,6 +77,8 @@ def main():
         run(['cmake', '--build', build / 'hip', '-j1'], timeout=900)
         run([build / 'hip/q2-route-probe', '--contract-only'], timeout=20)
         run([build / 'hip/q2-operator-probe', '--cpu-oracle'], timeout=20)
+        run([build / 'hip/q2-operator-probe', '--list-extended'], timeout=20)
+        r['oracle_grid_header_sha256'] = sha(build / 'hip/q2_iq2_grid.inc')
         r['source_unchanged'] = all(sha(build / 'source' / p) == h
                                      for p, h in r['source']['files'].items())
         manifest = json.loads((ROOT / 'third_party/gufo-source.json').read_text())

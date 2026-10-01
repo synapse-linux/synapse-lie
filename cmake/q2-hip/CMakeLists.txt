@@ -15,6 +15,11 @@ add_subdirectory(../gufo-runtime provider)
 add_executable(q2-route-probe ../../tests/q2_route_probe.cpp)
 target_compile_options(q2-route-probe PRIVATE -UNDEBUG -Wall -Wextra -Werror)
 target_link_libraries(q2-route-probe PRIVATE gufo_qwen38_flash_next)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+execute_process(COMMAND ${Python3_EXECUTABLE} -B
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../tools/q2_test_grid.py ${GUFO_SOURCE}
+  ${CMAKE_CURRENT_BINARY_DIR}/q2_iq2_grid.inc COMMAND_ERROR_IS_FATAL ANY)
 add_executable(q2-operator-probe ../../tests/q2_operator_probe.cpp)
+target_include_directories(q2-operator-probe PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(q2-operator-probe PRIVATE -UNDEBUG -Wall -Wextra -Werror)
 target_link_libraries(q2-operator-probe PRIVATE gufo_qwen38_flash_next)

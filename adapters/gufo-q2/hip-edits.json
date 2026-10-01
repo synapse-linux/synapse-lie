@@ -4,6 +4,38 @@
   "host_recipe_sha256": "04a8526e7efdfffd728e334619fefb30772f09db1b0fa532fb5917ad38bc7891",
   "runtime_link_allowed": false,
   "files": {
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp": {
+      "before_sha256": "71dbb504c71310dfb2b155bb95ca1dab47a6afdb0a6bc507411247618d673d97",
+      "after_sha256": "c42a84ca8c50b836364926c61da03cb9f9df9be4baf09905a986e38a445272fe",
+      "edits": [
+        {
+          "old": "#ifdef FAST_FP16_AVAILABLE\n        const half2 x_dm_ik = __hmul2(bxi->dm, make_half2(sc_m & 0x0F, sc_m >> 4));\n#else\n        const float2 bxi_dmf = __half22float2(bxi->dm);\n        const half2 x_dm_ik = make_half2(bxi_dmf.x*(sc_m & 0x0F), bxi_dmf.y*(sc_m >> 4));\n#endif // FAST_FP16_AVAILABLE\n\n#if defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)\n        x_dm[i*MMQ_MMA_TILE_X_K_Q2_K + kqsx] = x_dm_ik;\n#else\n        x_dm[i*(MMQ_TILE_NE_K + 1)   + kqsx] = x_dm_ik;\n#endif // defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)",
+          "new": "#if defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)\n        // LIE: keep d*scale and dmin*min in FP32, not rounded back to half.\n        // Sixteen float2 pairs fit the existing 32-word DM region per row.\n        const float2 base_dm = __half22float2(bxi->dm);\n        reinterpret_cast<float2 *>(x_dm + i*MMQ_MMA_TILE_X_K_Q2_K)[kqsx] =\n            make_float2(base_dm.x*(sc_m & 0x0F), base_dm.y*(sc_m >> 4));\n#else\n#ifdef FAST_FP16_AVAILABLE\n        const half2 x_dm_ik = __hmul2(bxi->dm, make_half2(sc_m & 0x0F, sc_m >> 4));\n#else\n        const float2 bxi_dmf = __half22float2(bxi->dm);\n        const half2 x_dm_ik = make_half2(bxi_dmf.x*(sc_m & 0x0F), bxi_dmf.y*(sc_m >> 4));\n#endif // FAST_FP16_AVAILABLE\n        x_dm[i*(MMQ_TILE_NE_K + 1)   + kqsx] = x_dm_ik;\n#endif // defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)"
+        },
+        {
+          "old": "#ifdef FAST_FP16_AVAILABLE\n        const half2 x_dm_ik = __hmul2(dm, make_half2(sc_m & 0x0F, sc_m >> 4));\n#else\n        const float2 bxi_dmf = __half22float2(dm);\n        const half2 x_dm_ik = make_half2(bxi_dmf.x*(sc_m & 0x0F), bxi_dmf.y*(sc_m >> 4));\n#endif // FAST_FP16_AVAILABLE\n\n#if defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)\n        x_dm[i*MMQ_MMA_TILE_X_K_Q2_K + kqsx] = x_dm_ik;\n#else\n        x_dm[i*(MMQ_TILE_NE_K + 1)   + kqsx] = x_dm_ik;\n#endif // defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)",
+          "new": "#if defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)\n        // LIE: keep d*scale and dmin*min in FP32, not rounded back to half.\n        // Sixteen float2 pairs fit the existing 32-word DM region per row.\n        const float2 base_dm = __half22float2(dm);\n        reinterpret_cast<float2 *>(x_dm + i*MMQ_MMA_TILE_X_K_Q2_K)[kqsx] =\n            make_float2(base_dm.x*(sc_m & 0x0F), base_dm.y*(sc_m >> 4));\n#else\n#ifdef FAST_FP16_AVAILABLE\n        const half2 x_dm_ik = __hmul2(dm, make_half2(sc_m & 0x0F, sc_m >> 4));\n#else\n        const float2 bxi_dmf = __half22float2(dm);\n        const half2 x_dm_ik = make_half2(bxi_dmf.x*(sc_m & 0x0F), bxi_dmf.y*(sc_m >> 4));\n#endif // FAST_FP16_AVAILABLE\n        x_dm[i*(MMQ_TILE_NE_K + 1)   + kqsx] = x_dm_ik;\n#endif // defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)"
+        },
+        {
+          "old": "                    const float2 dm = __half22float2(x_dm[i*MMQ_MMA_TILE_X_K_Q2_K + k0/4]);",
+          "new": "                    const float2 dm = reinterpret_cast<const float2 *>(x_dm + i*MMQ_MMA_TILE_X_K_Q2_K)[k0/4];"
+        },
+        {
+          "old": "static_assert(MMQ_MMA_TILE_X_K_Q2_K % 8 == 4, \"Wrong padding.\");",
+          "new": "static_assert(MMQ_MMA_TILE_X_K_Q2_K % 8 == 4, \"Wrong padding.\");\n// LIE Q2 MMA: unchanged row pitch/alignment, enough space for FP32 pairs.\nstatic_assert(MMQ_ITER_K == 256 && MMQ_TILE_NE_K == 32 && QR2_K == 4);\nstatic_assert(2*MMQ_TILE_NE_K + 2*(MMQ_ITER_K/(4*QR2_K)) <= MMQ_MMA_TILE_X_K_Q2_K);"
+        }
+      ]
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp": {
+      "before_sha256": "ee6c011bff45a4b382628454aee6b2428d63bb8d4a4fd56a3f0f3b79ffaedad0",
+      "after_sha256": "9479090b1efc0521f25e36ab8b206977d4a38f4872e5838c2a7a653c421cacc8",
+      "edits": [
+        {
+          "old": "    sumi = sumi * ls / 8;           // (sumi * scale + sumi / 2) / 4\n    const float d = __half2float(bq2->d) * __low2float(bq8_1[iqs/2].ds);\n    return d * sumi;",
+          "new": "    // LIE: preserve the fractional eighth for grid magnitudes 25 and 43.\n    // |sumi * ls| <= 32 * 43 * 128 * 31 < 2^24, exactly representable.\n    const float scaled_sumi = float(sumi * ls) * 0.125f;\n    const float d = __half2float(bq2->d) * __low2float(bq8_1[iqs/2].ds);\n    return d * scaled_sumi;"
+        }
+      ]
+    },
     "src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": {
       "before_sha256": "762fc42f7a11ff4d1eb7dd5adf0cbe7e2ab619130c9a89556b93cfff3af955ea",
       "after_sha256": "c45c9136382f86302094666fe0271df43e72009c0fc7a304cfc08f16f8804188",
@@ -120,7 +152,7 @@
     },
     "src/models/qwen38_flash_next/kernels/rocm/q2_routed.hip": {
       "path": "adapters/gufo-q2/q2_routed.hip",
-      "sha256": "8124413a98ada5fb51f3ed240bb1f00dc1ccf35f3d446777f19c9e46f29bf2e6"
+      "sha256": "1d912bbd91bb894c2fad70dec2de20d827bdc66be9002e0c7ca0f7f26e0237de"
     }
   }
 }
