@@ -27,7 +27,27 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest completed window — extended Q2 operators and corrections
+## Latest completed window — first real Q2 model test
+
+The operator explicitly said `autorizzo il test GPU` and then dedicated the
+machine to the model. The isolated test removed its proposed cumulative HIP cap
+and fixed 32 GiB reserve; the production UD gate was not weakened. Read-only
+observation at 10:00 UTC found empty KFD/no model handles, with no formal DS4 ACK.
+It was not used as standing admission: the actual run reacquired all four
+existing EX|NB leases with expected identities and current in-lease preflight.
+
+`q2-model-first-gpu-r1` ran **2026-10-01 10:14:42.109474–10:15:04.074987 UTC**,
+child/supervisor exit 0: actual Q2 load, correct arithmetic/counting output and
+finite frontiers. Two fresh-session PP/TG samples are retained, not a matched
+benchmark. Artifacts and model stat identity stayed unchanged. At **10:18:10.344270
+UTC**, both owned PID/start identities were retired, KFD empty and all four
+unchanged lease files free. Start/end register and 20 telemetry samples are kept.
+Desktop/denied-FD limits remain; no universal exclusivity is claimed. No permanent
+service, waiter, retry, installation, remote build, tuning or DS4 modification.
+See [the model-test report](Q2-FIRST-MODEL.md). This one-shot window is complete,
+not permanent authorization for more GPU work.
+
+## Earlier completed window — extended Q2 operators and corrections
 
 The operator renewed the window with `ok procedi, hai la finestra GPU libera
 quindi prima completi prima riesci a testare`. Read-only checks are retained in

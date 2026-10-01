@@ -2,19 +2,21 @@
 
 **Required:** benchmark the actual antirez Q2 and Q4 artifacts, including **full
 fresh prefill** and decode. UD-Q4_K_XL results are not substitute measurements.
-Status: **NOT RUN — backend format gaps confirmed before GPU model loading**.
-No rate, speedup, regression bound or memory-fit result exists for these files in
-LIE yet. This work takes priority over claiming any cache-related speedup.
+Status: **first Q2 model smoke passed; full matched benchmarks NOT RUN**.
+The [first real Q2 test](Q2-FIRST-MODEL.md) measured preliminary **368.18 PP /
+19.79 TG tok/s** at 458 physical input / 128 output tokens, without benchmark
+warmup/repetitions. No speedup, regression bound or general memory-fit qualification
+exists. Q4 remains NOT RUN. Matched testing takes priority over cache-related claims.
 
 The user selected **Q2 first**. The subsequent [host compatibility
 slice](Q2-COMPATIBILITY.md) implements the private reader/configuration/binder
 changes and binds the actual saved Q2 header without accessible tensor values.
 It is not linked into the production provider. A subsequent [HIP routing
 candidate](Q2-HIP.md), with [two arithmetic corrections](Q2-EXTENDED.md), passes
-24 extended + 64 original synthetic controls; it has not loaded/executed the
-model. The extended report includes a manifest metadata erratum. GPU PP/TG
-remain blocked pending full-format/model
-qualification and memory admission.
+24 extended + 64 original synthetic controls. The extended report includes a
+manifest metadata erratum. The later separately admitted model smoke exercised
+the actual Q2 executor, with dedicated-machine accounting and direct-I/O-only
+PLE reads; it is not the full performance protocol below.
 The original pristine-provider gaps below are retained with their scope.
 
 ## Actual files, read-only layout observation

@@ -6,7 +6,31 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Q2 preflight change closed — local build/tests only
+## First real Q2 model test passed — matched performance still open
+
+`q2-model-first-gpu-r1` completed at **2026-10-01 10:15:04 UTC** on `.157`.
+The actual antirez Q2 loaded in **11.638 s**, answered exactly `4`, and generated
+128 tokens counting from 1 through 46, with finite checked frontier logits.
+The second fresh session had **458 physical prompt tokens**, **368.18 PP tok/s**
+and **19.79 TG tok/s**. No benchmark warmup/repetitions or matched comparison:
+these results do not prove preserved performance versus the historical UD ~26.
+
+Only an isolated test overlay/executable was enabled. Production upload/link
+refusals are unchanged. After the operator dedicated the machine to the model,
+the proposed 53.5 GB cumulative allocation cap and 32 GiB reserve were removed
+before execution. PLE stays disk-addressed with direct-I/O-only test readers;
+reported/cumulative bytes are not an independent resident peak. No CPU forward.
+
+Actual binary: `q2-model-first-relink-r1`, using unchanged HIP archives from
+`q2-model-first-build-r2`. Both retain Git base `c0d6c6d` plus their source diffs;
+no source-SHA inventory was added. All four leases, current preflight and start/end
+registration were used; child/supervisor exited 0 and model stat/artifacts stayed
+unchanged. At **10:18:10 UTC** both identities were retired, KFD empty and the four
+unchanged leases free. No pending GPU job or standing authorization remains.
+See [scope, timings and evidence](Q2-FIRST-MODEL.md). Next is matched UD/Q2
+performance and independent quality, not another synthetic-only model verdict.
+
+## Earlier Q2 preflight change closed — local build/tests only
 
 The private `Executor::Create` now validates the entire Q2 descriptor profile
 before construction or HIP calls. All gate/up/down expert counts and nonempty
@@ -21,8 +45,8 @@ source identity uses base commit `82df5dd` plus `source.patch`. Earlier RED logs
 remain in `q2-admission-dev-r1`. Closure is deliberately limited to the existing
 change: no additional memory subsystem or qualification campaign was started.
 
-Q2 model loading and PP/TG are still **NOT RUN**; executor/model integration and
-necessary memory admission remain unfinished. The previous 24+64 GPU results
+At that preflight closure, Q2 model loading and PP/TG were **NOT RUN**;
+executor/model integration and necessary memory admission remained unfinished. The previous 24+64 GPU results
 belong to their recorded binaries, not this newly compiled candidate. No remote
 work, GPU run, model access, DS4 change or publication occurred in this closure.
 Details: [Q2-HIP.md](Q2-HIP.md#latest-source-closure--executor-profile-preflight).

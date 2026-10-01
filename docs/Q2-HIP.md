@@ -1,4 +1,9 @@
-# Q2 routed HIP candidate — extended operators pass, model still blocked
+# Q2 routed HIP candidate — operator/preflight records
+
+**Subsequent result:** the [first real Q2 model smoke](Q2-FIRST-MODEL.md) passed
+on GPU, with preliminary PP/TG measurements. Production admission and matched
+performance/quality qualification remain open. The records below describe the
+earlier operator and preflight increments; their original scope is unchanged.
 
 This continues the [host compatibility slice](Q2-COMPATIBILITY.md). The private
 candidate implements routed IQ2_XXS gate/up and padded Q2_K down dispatch.
@@ -9,8 +14,9 @@ losses: IQ2 integer truncation and Q2 MMA half-product rounding. The corrected
 candidate passes **24 extended + 64 original controls**, with raw extended arrays
 and a disclosed source-receipt manifest metadata defect. See that report for
 coverage, failures and provenance; none of these runs is a model benchmark.
-**Full-format/model numerical qualification, model memory fit and PP/TG remain
-NOT RUN.** Model admission remains closed; the production provider is unchanged.
+**At this operator increment**, full-format/model numerical qualification,
+model memory fit and PP/TG were NOT RUN. Production admission remains closed;
+the later isolated model test does not enable the production provider.
 
 ## Latest source closure — executor profile preflight
 

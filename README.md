@@ -40,18 +40,21 @@ fresh-session baseline. The full benchmark tool is not implemented yet.
 **Antirez Q2/Q4 require their own full-prefill and decode benchmarks.** Actual
 read-only layout inspection and a pinned CPU reader probe identify currently
 unsupported formats/roles (MXFP4, IQ2_XXS/Q2_K, padded down input and F16 HC inject).
-Those measurements are **not run**, not zero or replaced by the UD baseline.
+The full matched benchmarks are **not run**, not zero or replaced by the UD baseline.
 See [the format-specific gate and protocol](docs/ANTIREZ-BENCHMARKS.md).
 [Q2 host compatibility](docs/Q2-COMPATIBILITY.md) binds the saved actual header's
 48 AR layers with tensor values inaccessible. The [private HIP candidate](docs/Q2-HIP.md)
 now compiles routed IQ2/Q2 dispatch with reserved scratch and direct quantized
 padding. After two arithmetic corrections, **24 extended + 64 original synthetic
 controls pass**; see [coverage, raw evidence and the metadata erratum](docs/Q2-EXTENDED.md).
-Full-format/model qualification, memory fit and benchmarks remain **not run**.
-Production model admission stays closed. The subsequent
-[executor preflight closure](docs/Q2-HIP.md#latest-source-closure--executor-profile-preflight)
-validates all Q2 descriptors before HIP calls; its local build and 17 CPU suites
-pass, but full executor/model integration remains unfinished.
+After the [executor preflight closure](docs/Q2-HIP.md#latest-source-closure--executor-profile-preflight),
+the [first real Q2 model test](docs/Q2-FIRST-MODEL.md) **passed on GPU**: exact `4`,
+then 128 tokens counting from 1 through 46, all checked frontiers finite. At 458
+physical input tokens it measured **368.18 PP / 19.79 TG tok/s**, without benchmark
+warmup or repetitions. The operator-selected dedicated-machine run had no fixed
+HIP allocation cap or 32 GiB reserve. Independent numerical parity, matched
+benchmarks and general memory fit remain open. Production model admission stays
+closed; only the isolated test executable ran. Q4 remains untested.
 
 The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and
@@ -103,12 +106,13 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Seventeen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Nineteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
 executor failure/dispatch contracts, the HTTP lifecycle checker and bounded GGUF
-layout inspection, guarded Q2 host/HIP source preparation and C17 route planning.
+layout inspection, guarded Q2 host/HIP source preparation, C17 route planning,
+and the isolated model-test accounting/result contracts.
 Eight separate optional
 C++ cases validate the private Q2 host binder. Storage recognition/binding is not
 model execution or end-to-end quantization support.

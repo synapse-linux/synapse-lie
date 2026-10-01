@@ -4,6 +4,31 @@ Generated evidence is retained here but excluded from publication by default
 (private machine paths and environment observations). Source/provenance/model
 identity manifests needed for development are separately versioned.
 
+## First real Q2 model test
+
+- `q2-model-first-build-r1/`: source preparation refused a nonexistent host-receipt
+  filename; no compilation/GPU/model attempt. Failure is preserved.
+- `q2-model-first-build-r2/`: serial masked provider/test build, saved-header plan
+  and host checks pass. Its proposed capped test executable was NOT GPU-run.
+- `q2-model-first-relink-r1/`: C test/accounting and guard rebuilt against sealed
+  r2 provider archives after the operator dedicated the machine. No artificial
+  allocation cap or fixed RAM reserve. GCC/Clang/ASan-UBSan accounting, header-plan,
+  result/admission and existing benchmark checks pass. Git base/diff retained.
+- `q2-model-test-activity-r1/`: read-only 10:00 UTC observation; not admission.
+- `q2-model-first-gpu-r1/`: the relinked executable loads actual antirez Q2,
+  answers `4` and counts 1 through 46 in 128 tokens, finite checked frontiers.
+  Preliminary PP/TG: 368.18/19.79 tok/s at 458 input tokens, not matched/warmed
+  performance qualification. Manifest, selected build receipts/diffs, staging,
+  stdout/stderr, raw measurements and 20 telemetry samples retained. Exit 0;
+  model stat/artifacts unchanged. Retirement at 10:18:10 UTC confirms both
+  identities gone, empty KFD and all four unchanged leases free.
+- `q2-model-first-close-r1/`: all **19 default CTest suites** pass under GCC,
+  Clang and GCC ASan/UBSan, with serial masked builds and captured exit codes.
+  This local closure is separate from the model run; source identity is Git+diff.
+
+See [exact scope and timings](../docs/Q2-FIRST-MODEL.md). Production remains closed;
+Q4, independent quality and matched performance/regression remain unqualified.
+
 ## Q2 executor preflight closure
 
 - `q2-admission-dev-r1/`: existing baseline pass, source-placement contract RED

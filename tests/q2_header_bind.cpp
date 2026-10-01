@@ -14,6 +14,12 @@
 #include <iostream>
 #include <stdexcept>
 
+#ifdef LIE_Q2_MODEL_TEST_PLAN
+#include "q2_model_memory.h"
+int lie_q2_model_plan_from_reader(const gufo::core::GgufReader&,
+                                 lie_q2_test_memory*, std::string*);
+#endif
+
 namespace q = gufo::models::qwen38_flash_next;
 using gufo::core::GgmlType;
 static void require(bool ok, const std::string &why) {
@@ -116,6 +122,19 @@ int main(int argc, char **argv) {
     require(weights->ple_table.type == GgmlType::kBF16 &&
                 weights->ple_table.SizeBytes() == 102400491520ull,
             "actual PLE view");
+#ifdef LIE_Q2_MODEL_TEST_PLAN
+    lie_q2_test_memory plan{};
+    require(lie_q2_model_plan_from_reader(*reader, &plan, &error) != 0,
+            "first-test memory plan refused saved header: " + error);
+    require(!lie_q2_test_memory_active(), "planning must not enable allocation");
+    std::cout << "{\"state\":\"Q2_SAVED_HEADER_TEST_PLAN_NOT_RESIDENT_FIT\","
+              << "\"ple_addressed\":" << plan.ple_addressed
+              << ",\"weight_upper\":" << plan.weight_upper
+              << ",\"allocation_limit\":" << plan.allocation_limit
+              << ",\"host_allowance\":" << plan.host_allowance
+              << ",\"system_reserve\":" << plan.system_reserve
+              << ",\"required_available\":" << plan.required_available << "}\n";
+#endif
     // Reader/weights are destroyed before Mapping. No model forward exists
     // here.
     std::cout << "{\"state\":\"ACTUAL_Q2_HEADER_BINDING_PASS_NOT_MODEL_LOAD_OR_"
