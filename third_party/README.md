@@ -1,8 +1,8 @@
 # Provenance and dependency boundaries
 
 First-party runtime, tools, tests, ABI and adapter: independently written for
-synapse-lie, MIT (`../LICENSE`). No DS4/CachyOS project sources, recipes, configs
-or binaries were imported. Read-only inventory/qualification observations are
+synapse-lie, MIT (`../LICENSE`). No sibling DS4/CachyOS project sources, recipes,
+configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only
 under their publisher's terms. A C API wrapper does not relicense its dependencies.
 
@@ -75,7 +75,13 @@ expected archive. That refusal was not worked around by relaxing the hash.
 
 - DS4: inherited stable reference `c05cd8e2bd35047196d95709f89d0ea2aff96df2`;
   modified port numerical baseline `982bffea86fd5568759a420c4808c5b2123161c8`.
-  Cache/session/conversation lessons only. The DS4 agent owns integration there.
+  Cache/session/conversation lessons; the DS4 agent owns integration there.
+  For the [antirez model format gate](../docs/ANTIREZ-BENCHMARKS.md), LICENSE,
+  `ds4.c` and `ds4.h` at c05cd8e2 were independently retrieved from official
+  `raw.githubusercontent.com/antirez/ds4/` into ignored local evidence, with URL,
+  HTTP status and SHA256 receipts. Only storage facts (MXFP4 id 39, 32 elements /
+  17 bytes) were used in the inspector; no numerical code/decoder or build recipe
+  is imported into LIE. Upstream MIT authors/notices remain with the sources.
 - vLLM README inspected at `72e7874fa669617fd20c716e08cb486032f542c1`:
   continuous batching/chunked prefill/prefix cache are design references. Paged
   attention alone is not a serialization solution for recurrent Qwen state.

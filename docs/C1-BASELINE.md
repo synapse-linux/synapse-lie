@@ -140,5 +140,8 @@ matches the supervisor summary. Raw measurement SHA256 is in `result.json`.
 This establishes the first **completed-work C1 baseline through the LIE ABI**.
 It does not establish a reactive gain, native batching, an owned numerical engine,
 HTTP throughput, a matched comparison with DS4/published Gufo, or long-context
-performance. The independent comparator and real cancellation/backpressure gates
-remain open.
+performance. The independent numerical comparator remains open. The later original-weight
+[HTTP lifecycle run](T0-LIFECYCLE.md) exercises bounded cancellation/backpressure,
+not a new performance baseline. Antirez Q2/Q4 require the separate
+[format-specific prefill/decode gate](ANTIREZ-BENCHMARKS.md); none of these UD
+measurements establishes their performance.

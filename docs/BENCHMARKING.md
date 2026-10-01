@@ -13,6 +13,16 @@ Priority is server functionality and truthful measurement boundaries. The new
 no kernel, adapter or executor ABI change is needed. They are a prerequisite for
 HTTP benchmarking, not evidence that the whole benchmark can already run.
 
+## Antirez model requirement
+
+Full fresh **prefill and decode** are explicitly required for the actual antirez
+Q2/Q4 files. The [format-specific gate](ANTIREZ-BENCHMARKS.md) records their real
+layouts, current reader/binder/PP/TG blockers and the matched per-format protocol.
+The existing C17 executor harness measures both PP and TG, but cannot benchmark
+an unsupported model; a separate HTTP lane must exercise the updated worker.
+No UD-Q4_K_XL row, filename-only quantization label or historical DS4 result can
+be used as an antirez LIE measurement. Blocked/not-run entries are not zero.
+
 ## Pinned reference methodology
 
 Reference: Gufo's [Qwen3.8 Flash-Next BENCHMARKS.md](https://github.com/gufo-org/gufo/blob/fd1710b5fd090880722e0681a868df2006595c73/docs/models/qwen3.8-flash-next/BENCHMARKS.md),

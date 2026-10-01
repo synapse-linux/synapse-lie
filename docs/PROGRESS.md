@@ -6,6 +6,39 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
+## Antirez prefill/decode benchmark — format admission work
+
+The operator explicitly requires **full prefill and decode benchmarks for the
+antirez model**, not substituted UD-Q4_K_XL numbers. Both protected Q2/Q4 files
+were inspected read-only at 2026-10-01 03:35/03:42 UTC, bounded to 24 MiB of
+metadata/descriptors per file. All inherited stat identities match; no tensor
+payload, model load, GPU execution, weight hash/conversion or DS4 modification.
+
+Concrete layout: Q2 has 96 IQ2_XXS AR gate/up tensors and 48 Q2_K down tensors
+with physical input 768 versus logical 640. Q4 has Q4_K gate/up and MXFP4 down,
+not uniform Q4_0. Both carry one predictor layer and a 102400491520-byte BF16
+PLE table; file size is not a measured all-resident GPU budget. MXFP4 geometry was
+identified from independently fetched official upstream source, not a sibling
+project import. Initial unknown-type observations are preserved.
+
+The pristine pinned Gufo reader rejects MXFP4 in a CPU in-memory fixture probe;
+it occurs in both actual files. Binder restrictions (including F16 HC inject),
+padded geometry and routed PP/TG dispatch need additional implementation and
+qualification. **Antirez LIE PP/TG remains NOT RUN / blocked**, not zero and not
+inherited from a DS4 run. No GPU attempt was made against a known parser blocker.
+The [per-format benchmark gate](ANTIREZ-BENCHMARKS.md) specifies full fresh PP
+512/2048/8192 targets and TG128, C1 direct-ABI and separate HTTP/server lanes,
+matched references, numerical/admission gates and all-sample retention.
+
+The formerly untested `tools/gguf-layout.py` draft now has fifteen synthetic
+storage/parser tests and a registered CTest suite. RED reproduced invalid bool/
+alignment acceptance and FIFO blocking; the corrected reader is bounded,
+regular-file-only, identity checked and explicit about incomplete unknown-type
+geometry. `antirez-layout-green-r1/r2`: fourteen suites pass GCC/Clang/ASan/UBSan
+and Gufo header checks. These are not inference. Native provider/server numerics
+and the C17 executor benchmark were not changed by this discovery increment.
+RAM prefix reuse and optional/default-off SSD persistence remain unimplemented.
+
 ## Latest GPU result — original-weight lifecycle passed
 
 `t0-model-lifecycle-r1`, **23:01:13–23:01:44 UTC**, used source `efcb7fb` and the
@@ -59,7 +92,8 @@ recorded separately above. Protocol and exact boundaries: [T0-LIFECYCLE.md](T0-L
 The default-off optional SSD requirement is retained in commit `7f6a32`, with
 RAM reuse independent of persistence. Neither prefix reuse nor SSD is implemented
 by this server-hardening increment. Antirez Q2/Q4 and the independent pristine
-numerical comparator remain open; the GGUF inspector remains an untested draft.
+numerical comparator remain open. The GGUF inspector was an untested draft at
+this lifecycle source commit; its later validation is recorded above.
 
 Initial local receipts: `t0-worker-frontier-green-r1` (twelve suites) and
 `t0-lifecycle-helper-r1` (initial thirteen suites), GCC/Clang/ASan/UBSan/header only.
@@ -240,10 +274,11 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Thirteen current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
+Fourteen current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
 `worker-executor-contract`, `reactive-flow`, `metrics`, `monitor-parser`,
 `executor-c-layout`, `http-monitor`, `http-synthetic`, `model-smoke-helper`,
-`serving-lifecycle-helper`, `executor-bench-contract`. All contract/helper checks
+`serving-lifecycle-helper`, `executor-bench-contract`, `gguf-layout-contract`.
+All contract/helper checks
 use CPU clock/HTTP/executor fixtures only, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,

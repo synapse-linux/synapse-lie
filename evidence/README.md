@@ -121,6 +121,23 @@ identity manifests needed for development are separately versioned.
   performance, kernel-preemption or native-batching qualification. Later read-only
   postflight confirms owned PIDs absent, known leases free and KFD empty.
 
+- `antirez-layout-red-r1/`: draft inspector CPU regressions (invalid bool/alignment
+  accepted, FIFO blocks), exit 1. Draft source and failure logs preserved.
+- `antirez-layout-green-r1/r2/`: fourteen-suite compiler/sanitizer/header passes;
+  final GGUF suite contains fifteen synthetic cases. NOT-INFERENCE.
+- `antirez-layout-readonly-r1/r2/`: protected antirez Q2/Q4 bounded metadata/layout
+  observations on .157, stat identities unchanged, no tensor payload/HIP/model
+  execution. Initial type 39 unknown; final storage-only MXFP4 geometry validated
+  without changing either header identity. This is not runtime format support.
+- `antirez-format-reference-r1/`: official upstream antirez/ds4 c05cd8e2 LICENSE,
+  ds4.c and ds4.h acquired independently by URL/hash; static format facts only,
+  no source from the sibling project and no model/kernels executed or imported.
+- `antirez-reader-refusal-r1/`: actual pristine Gufo f783fedb storage parser tested
+  with generated memory images: Q8_0/Q2_K/Q4_K/IQ2_XXS recognized, MXFP4 refused.
+  CPU-only, no HIP linkage/real model; source/compiler/hash/exit logs retained.
+- `antirez-bench-admission-r1/`: offline closure hashes, unchanged verified code,
+  exact per-format blockers and null PP/TG results; no GPU admission/model attempt.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus
