@@ -6,6 +6,33 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
+## Q2 compatibility started — private host path passes, GPU path remains closed
+
+The requested Q2-first implementation now has a private, hash-guarded
+transitional provider variant: IQ2_XXS/Q2_K storage and binding, F16 HC inject,
+physical 768/logical 640 down-input separation, and MXFP4 descriptor recognition
+for the unused stored predictor. No `.deps`, model or qualified build was changed.
+This extends delegated Gufo; it is not an autonomous LIE C17 model executor.
+
+A full actual-header-derived binder test uncovered another concrete blocker:
+missing `rope.dimension_sections`. The failure is preserved. A narrowly identified
+text-AR Q2 rule uses canonical [11,11,10,0] sections from the independently fetched
+official pinned Qwen config, without replacing malformed explicit metadata or
+editing weights. Source/configuration licenses and identities remain separate.
+
+The same actual **11025350 header bytes / 1256 descriptors** now bind all **48 AR
+layers** through `ModelWeights::Bind` with GCC and Clang. Declared payload regions
+are PROT_NONE in an anonymous virtual view: no weight values or model forward.
+Eight synthetic host contract cases also pass GCC/Clang/ASan/UBSan; the source
+materializer has seven contract tests. The original source remains pristine.
+
+**This is not yet GPU Q2 compatibility, full-model loading, numerical
+qualification or a benchmark.** Runtime linkage is expressly forbidden for this
+host variant and device upload has a pre-allocation Q2 refusal. Next: routed
+IQ2/Q2 PP/TG dispatch, zero-padded activation rows/scratch/tails, role-aware memory
+admission and leased GPU numerical/model/performance qualification. See
+[Q2-COMPATIBILITY.md](Q2-COMPATIBILITY.md). Cache work stays behind this path.
+
 ## Antirez prefill/decode benchmark — format admission work
 
 The operator explicitly requires **full prefill and decode benchmarks for the
@@ -274,11 +301,12 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Fourteen current suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
+Fifteen current default CPU suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
 `worker-executor-contract`, `reactive-flow`, `metrics`, `monitor-parser`,
 `executor-c-layout`, `http-monitor`, `http-synthetic`, `model-smoke-helper`,
-`serving-lifecycle-helper`, `executor-bench-contract`, `gguf-layout-contract`.
-All contract/helper checks
+`serving-lifecycle-helper`, `executor-bench-contract`, `gguf-layout-contract`,
+`q2-source-contract`. The eight Q2 host C++ cases are a separate optional suite,
+not part of the linked production provider. All contract/helper checks
 use CPU clock/HTTP/executor fixtures only, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread
 checks, context refusal, queue saturation, a stalled peer, real TCP backpressure,

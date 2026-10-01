@@ -138,6 +138,34 @@ identity manifests needed for development are separately versioned.
 - `antirez-bench-admission-r1/`: offline closure hashes, unchanged verified code,
   exact per-format blockers and null PP/TG results; no GPU admission/model attempt.
 
+- `q2-host-red-r1/`: pristine source compiles; six of seven synthetic host CTest
+  cases fail (MXFP4, IQ2/Q2 binding, padded shape, F16 inject), legacy control passes.
+- `q2-port-authoring-r1/`: initial exact-byte recipe authoring inputs/exit retained;
+  later config rule is in the versioned recipe, not rewritten historical output.
+- `q2-host-source-r1` (build-only): initial private host variant, not runtime-ready.
+- `q2-host-green-r1/r2/`: initial seven-case host binding/compiler/sanitizer checks.
+- `q2-header-readonly-r1/`: exact 11025350-byte protected Q2 header capture;
+  unchanged historical header/stat identity, no payload/hash/GPU operation.
+- `q2-header-binding-r1/`: actual-header-derived bind fails on omitted mRoPE
+  section metadata, exit 1; no tensor values/model forward were present.
+- `q2-config-reference-r1/`: pinned official Qwen config and Qwen Community License
+  1.0, URL/status/SHA256; canonical mRoPE parameter facts, no code execution/import.
+- `q2-host-green-r3/`: fixture compilation warning promoted to error, preserved.
+- `q2-host-green-r4/`: eight host CTest cases pass GCC/Clang/ASan/UBSan, plus source
+  contracts/production-source refusal; no HIP/model execution.
+- `q2-host-green-r5/`: final eight-case host compiler/sanitizer checks; seven source
+  tests no longer depend on the optional upstream checkout during default CTest.
+- `q2-host-closure-r1/`: all fifteen default CPU suites/compiler/sanitizer checks
+  and original adapter header check, serial builds, unchanged source inputs.
+- `q2-header-binding-r2/`: GCC and Clang bind all 48 AR layers from the actual saved
+  header in a payload-PROT_NONE anonymous view. NOT-MODEL-LOAD / NOT-INFERENCE;
+  virtual reservation is not physical capacity or memory-fit evidence.
+- `q2-host-delivery-r1/`: reviewed six-file port diff and source/closure hashes;
+  r4/r5 provider bytes identical, actual-header observations remain attributed
+  to r4 binaries. Original qualified server hash unchanged. Earlier RED and
+  warning-failure fixture sources were reconstructed with exact agreement to
+  their previously recorded hashes, explicitly labeled as later recovery.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus

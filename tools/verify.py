@@ -61,7 +61,7 @@ def main():
             build = str(base/name)
             run(['cmake', '-S', str(ROOT), '-B', build, '-G', 'Ninja', '-DCMAKE_BUILD_TYPE=Debug',
                  '-DLIE_GUFO_RUNTIME=OFF','-DLIE_BUILD_ID='+label+'-'+name,*options])
-            run(['cmake', '--build', build, '-j2'])
+            run(['cmake', '--build', build, '-j1'])
             env = dict(os.environ, ASAN_OPTIONS='detect_leaks=1:halt_on_error=1', UBSAN_OPTIONS='halt_on_error=1')
             run(['ctest', '--test-dir', build, '--output-on-failure', '-V'], env)
         source = ROOT / '.deps/gufo-f783fedb'
@@ -72,7 +72,7 @@ def main():
         result['gufo_regular_files_verified'] = len(manifest['files'])
         build = str(base/'adapter-check')
         run(['cmake', '-S', str(ROOT), '-B', build, '-G', 'Ninja', '-DCMAKE_BUILD_TYPE=Debug', '-DLIE_GUFO_HEADER_CHECK=ON'])
-        run(['cmake', '--build', build, '--target', 'lie_gufo_header_check', '-j2'])
+        run(['cmake', '--build', build, '--target', 'lie_gufo_header_check', '-j1'])
         run(['git', 'diff', '--check'])
         run(['git', 'diff', '--cached', '--check'])
         result['promtool_available'] = bool(__import__('shutil').which('promtool'))

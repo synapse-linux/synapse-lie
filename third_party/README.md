@@ -46,6 +46,24 @@ and tests; none is implemented yet. Keep the pristine reference separate from
 instrumented/forked experiments and ports. First-party ownership of orchestration
 does not relicense numerical code or make embedded Model/Session a reimplementation.
 
+## Private Q2 host variant
+
+`adapters/gufo-q2/host-edits.json` contains first-party, exact hash-guarded edits
+against six existing Gufo files, materialized only in a fresh private build source
+tree. The source copier retains all upstream files/licenses/notices. This modifies
+storage/configuration/binding and adds an explicit device-upload refusal; it does
+not import or reimplement the GPU kernels/model forward. Pristine `.deps` and the
+original archives stay unchanged. The variant is not accepted by the production
+link checker; [Q2 host scope](../docs/Q2-COMPATIBILITY.md) is not GPU support.
+
+Official `Qwen/Qwen3.8-Flash-Next` configuration at
+`de4b8e4d43b917e7706784d8bb445c9af86a3540` and its **Qwen Community License 1.0**
+were independently fetched into ignored evidence to resolve missing mRoPE section
+metadata. Only architectural parameter facts are used, not model-forward code.
+The assets retain their separate license (including commercial-service conditions);
+MIT runtime code does not relicense model/configuration assets or authorize release.
+No model values were fetched, converted or redistributed.
+
 ## Private Qwen-only build scope
 
 `cmake/gufo-runtime` is a LIE-owned build recipe over the unchanged upstream

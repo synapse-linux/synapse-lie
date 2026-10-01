@@ -6,6 +6,12 @@ Status: **NOT RUN — backend format gaps confirmed before GPU model loading**.
 No rate, speedup, regression bound or memory-fit result exists for these files in
 LIE yet. This work takes priority over claiming any cache-related speedup.
 
+The user selected **Q2 first**. The subsequent [host compatibility
+slice](Q2-COMPATIBILITY.md) implements the private reader/configuration/binder
+changes and binds the actual saved Q2 header without accessible tensor values.
+It is not linked into the production provider, and GPU PP/TG remain blocked.
+The original pristine-provider gaps below are retained with their scope.
+
 ## Actual files, read-only layout observation
 
 On 2026-10-01, `tools/gguf-layout.py` read only metadata/tensor descriptors on

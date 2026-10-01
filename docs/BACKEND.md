@@ -149,6 +149,17 @@ licenses, pins and per-component source/hash/change records for numerical ports.
 No weight conversion, dependency installation or operational deployment is
 implied by permission to use an embedded adapter.
 
+## Q2-driven transitional extension
+
+The Q2 requirement now has a [private host compatibility slice](Q2-COMPATIBILITY.md)
+over six pinned Gufo files. It interprets actual Q2 storage/configuration and
+binding while preserving physical/logical down-input dimensions. This is an
+extension of the delegated implementation, not a C17-owned loader or numerical
+engine. Pristine sources and qualified artifacts remain untouched, and no
+numerical kernel has been ported by this host increment. Runtime linkage and
+Q2 device upload remain refused until the GPU routes/admission are implemented
+and qualified. Header-derived binding tests are not model inference evidence.
+
 ## Current implementation status
 
 The experimental ABI 2 adapter now links under `LIE_GUFO_RUNTIME`, using verified
