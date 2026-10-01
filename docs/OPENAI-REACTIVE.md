@@ -47,7 +47,8 @@ through the transport callback even though a separately bounded final text
 projection is retained for the terminal response. Tool-enabled streams consume
 into the existing bounded complete-turn validator.
 
-Each request body is at most 1 MiB. A final text projection remains bounded by
+Each request body is at most 8 MiB, with at most 1024 messages. Context admission
+is capped at 262144 physical prompt-plus-reserved-output tokens. A final text projection remains bounded by
 MAX_TEXT; each encoded network write remains bounded by MAX_RESPONSE (32 MiB). These are
 application bounds, not GPU-memory measurements or proof of remote consumption.
 Cancellation, deadlines and shutdown use the existing pinned job/flow lifetime;

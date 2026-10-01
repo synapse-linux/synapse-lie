@@ -25,7 +25,7 @@ A capability's presence is separate from qualification of its current binary.
 | Native grouped model decode | Adapter has batch and speculative-batch APIs; bounded tests | Present: shared C readiness/credit dispatcher, native AR batches through eight rows; direct GPU comparison at C1/2/4/6/8 and original-weight HTTP C2 checks |
 | Live prefix reuse | Present | Missing; every request re-prefills complete input |
 | Hybrid-state snapshots/disk restart | Present; validated identity/frontiers and bounded restart evidence | Missing |
-| Long AR context/YaRN | Historical bounded AR/frontier evidence through 128K | Direct AR measurements with physical prefix 131072 plus 2048 new tokens; exact serial/batch scheduling comparisons. HTTP remains capped at 32768; no independent long-context numerical oracle |
+| Long AR context/YaRN | Historical bounded AR/frontier evidence through 128K | Direct AR measurements with physical prefix 131072 plus 2048 new tokens; exact serial/batch scheduling comparisons. HTTP Chat/Responses verified at 262075 physical prompt tokens, capacity 262144; no independent long-context numerical oracle |
 | Adapted IQ2/Q2/MXFP4 kernels | DS4-specific changes and numerical/performance receipts | Not adopted or qualified; upstream pin is independently fetched |
 | Strict JSON/JSON Schema grammar | Explicitly unavailable through DS4 ABI | Missing |
 | Durable previous_response_id/conversations | Explicitly rejected by inspected Responses parser | Missing/rejected |
@@ -40,7 +40,7 @@ comparison was performed.
 No claim that DS4 has the entire OpenAI API is justified by its current frontend.
 
 The main parity gaps are stop/sampling extensions, reasoning, live prefix/state
-reuse and persistent hybrid snapshots, vision, MTP, HTTP long context and
+reuse and persistent hybrid snapshots, vision, MTP and
 independent numerical qualification. Legacy Completions is an additional OpenAI route gap.
 Anthropic compatibility is independent of the user's OpenAI requirement.
 

@@ -1,0 +1,165 @@
+{
+  "state": "PASS",
+  "endpoint": "http://192.168.5.157:8000/v1",
+  "transport": "direct LAN HTTP; no tunnel",
+  "client_version": "0.87.1",
+  "started_at": "2026-10-01T21:52:17.773643+00:00",
+  "finished_at": "2026-10-01T21:52:41.796130+00:00",
+  "exit_code": 0,
+  "wall_seconds": 24.0214578602463,
+  "fixture_before": "status=pending\nnonce=5542e0a60d3d00047f186970\n",
+  "expected_after": "status=verified\nnonce=5542e0a60d3d00047f186970\n",
+  "fixture_after": "status=verified\nnonce=5542e0a60d3d00047f186970\n",
+  "tool_events": [
+    {
+      "type": "tool_execution_end",
+      "toolCallId": "call-chatcmpl-2224776-1456880169744952-7-0",
+      "toolName": "read",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "status=pending\nnonce=5542e0a60d3d00047f186970\n"
+          }
+        ]
+      },
+      "isError": false
+    },
+    {
+      "type": "tool_execution_end",
+      "toolCallId": "call-chatcmpl-2224776-1456880169744952-8-0",
+      "toolName": "edit",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully replaced 1 block(s) in /home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/pi-http-r3/fixture/verification.txt."
+          }
+        ],
+        "details": {
+          "diff": "-1 status=pending\n+1 status=verified\n 2 nonce=5542e0a60d3d00047f186970",
+          "patch": "--- /home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/pi-http-r3/fixture/verification.txt\n+++ /home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/pi-http-r3/fixture/verification.txt\n@@ -1,2 +1,2 @@\n-status=pending\n+status=verified\n nonce=5542e0a60d3d00047f186970\n",
+          "firstChangedLine": 1
+        }
+      },
+      "isError": false
+    },
+    {
+      "type": "tool_execution_end",
+      "toolCallId": "call-chatcmpl-2224776-1456880169744952-9-0",
+      "toolName": "read",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "status=verified\nnonce=5542e0a60d3d00047f186970\n"
+          }
+        ]
+      },
+      "isError": false
+    }
+  ],
+  "usage": [
+    {
+      "input": 4505,
+      "output": 54,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 4559,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    {
+      "input": 4607,
+      "output": 87,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 4694,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    {
+      "input": 4751,
+      "output": 54,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 4805,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    {
+      "input": 4853,
+      "output": 27,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 4880,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    }
+  ],
+  "trace_sha256": "5939acd8172ad734a31c68e3ae1cf4bfeef74d24226817f9e5123830cc1c820f",
+  "script_sha256": "eac5ac3ca71a4158634e7d50925d1430c8dd315d10ad1a3144de40b56e5bce65",
+  "r4_postflight": {
+    "at": "2026-10-01T21:52:56.363670+00:00",
+    "owned_pids": {
+      "2224759": false,
+      "2224776": false
+    },
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  },
+  "campaign_note": "Pi PASS independently verified; campaign FAILED after Pi due to supervisor reading SCP marker while upload incomplete; no HTTP benchmark ran in r4."
+}

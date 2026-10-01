@@ -64,7 +64,7 @@ source pin and ownership queries expose delegation; the explicit factory
 
 `lie_model_chat_tokens` retains its ABI-2 signature/layout and now delegates to
 the additive `lie_model_chat_tokens_ex` entry point. The latter takes a borrowed
-`lie_chat_template`: up to 128 message spans with optional tool details, typed
+`lie_chat_template`: up to 1024 message spans with optional tool details, typed
 argument values, up to 128 declarations and a required-call flag. No executor
 struct layout/version change or numerical operation is introduced; older binaries
 without the new symbol cannot be linked as the new adapter. The `LIE_CHAT_TOOL`
@@ -73,7 +73,7 @@ role is appended; developer messages map to leading system messages in C.
 The C17 parser owns normalized JSON and copied message content. Ownership moves
 to the worker until retirement; the UI has a deep, independent schema copy, not
 cross-thread json-c refcounts. Adapter translation bounds aggregate spans/strings
-to 4 MiB; HTTP requests have a separate 1 MiB cap. The native renderer applies its
+to 32 MiB (four times the body bound); HTTP requests have a separate 8 MiB cap. The native renderer applies its
 context-derived output bound (at least 1 MiB). The adapter validates the GGUF
 template before model load, then invokes the pinned Qwen renderer/tokenizer with
 thinking disabled, structured calls/results and real tool declarations. Buffer/

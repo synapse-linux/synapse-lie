@@ -1,6 +1,6 @@
 # Isolated OpenAI reactive API increment
 
-## HTTP 256K source increment — GPU/Pi validation pending
+## HTTP 256K and direct Pi acceptance — completed with retained harness failures
 
 Server and worker now admit context through 262144 total tokens, with a dedicated
 context CLI parser rather than the 16-bit port parser. HTTP/parser body bounds
@@ -10,9 +10,13 @@ Pi profile advertises the same limits and a 630-second provider timeout.
 `reactive-cpu-r4` on `.157` passed 20/20 debug and 20/20 ASan/UBSan, all six
 command exits 0. New fixtures cover >1MiB Chat/Responses, exact byte/message
 bounds, 256K chunk accounting and rejection before forward. These are CPU fixtures.
-A new HIP-linked `http256-r1` server build passes; original-weight 256K HTTP and
-real Pi read/edit/read validation remain pending. Pi/Node are absent on `.157`;
-the installed client can use a loopback SSH tunnel to the target GPU server.
+The HIP-linked `http256-r1` server now passes original-weight Chat/Responses at
+262075 prompt tokens. Pi 0.87.1 on `.155` passed real read/edit/read over direct
+HTTP `.157:8000` in 24.02 s, without a tunnel. Pi/Node remain absent on `.157`.
+The firewall-blocked 19879 attempt and a later SCP-marker collection race are
+retained as failed campaigns despite their separately passed capacity/Pi checks.
+Both servers retired with exit 0, empty KFD and four unchanged free leases.
+See [HTTP-256K-PI.md](HTTP-256K-PI.md) for exact evidence and limits.
 
 
 ## Reactive inference GPU comparison passed and persistent checkpoint
@@ -657,3 +661,15 @@ Raw source hashes/receipts: `evidence/bench-comparable-cpu-r1/`. The subsequent 
 profile port-only edit selects 8000 at the user's request. The full-prefill and
 HTTP benchmark GPU qualification follows these CPU checks, not implied by them.
 Detailed reactive attribution is in `docs/INFERENCE-REACTIVE.md`.
+
+## Reactive and long-prefill audit
+
+`docs/INFERENCE-REACTIVE.md` maps reactor, flow credits, worker, shared inference
+dispatcher and synchronous adapter boundaries to code and actual evidence.
+The C8 4.11x result is attributed to ready-row dispatch plus native batching;
+C1 stays within 0.35%, PP remains sequential and no matched HTTP tail-latency
+improvement is claimed. `docs/PREFILL-ANALYSIS.md` records actual pinned-source
+candidates, including causal block scoring and repeated host prefix scans,
+without claiming a profile or implementing speculative optimizations. The
+user-requested external comparison research is retained privately in
+`evidence/prefill-research-r1/`; public product documentation stays independent.

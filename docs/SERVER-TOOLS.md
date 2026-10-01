@@ -9,8 +9,9 @@ LIE-owned structured data into the **existing pinned Qwen template**; it does no
 modify model weights or numerical kernels. Gufo remains a delegated engine.
 
 Tools are **executed by the client**, with that client's permissions. Nothing in
-the server spawns a shell, reads a requested tool path or loads tool code. Use a
-trusted local client and loopback listeners; the dummy Pi key is not authentication.
+the server spawns a shell, reads a requested tool path or loads tool code. The explicit development profile uses the operator-selected LAN listener
+192.168.5.157:8000; the dummy Pi key is not authentication. Management stays
+on loopback.
 
 ## Verified now, and what remains
 
@@ -25,24 +26,21 @@ trusted local client and loopback listeners; the dummy Pi key is not authenticat
   actual built-in `read`, its file result returned to the server, final reply.
   Separate synthetic executor; no custom extension or global Pi changes.
 
-The first Pi fixture (`server-tools-pi-cpu-r1`) failed: a 4096 context equals the
-installed Pi SDK's 4096-token safety margin, forcing `max_tokens:1` before the
-prompt estimate. Only `<` was generated, not a tool call. The failed trace is
-retained. Server/client context now matches at **32768**; Pi itself is unchanged.
-
-**Not yet verified:** Unsloth generating usable tool calls, a real read/edit/read
-session, memory at 32768 context, updated serving behavior or matched performance.
-The earlier original-model smoke/lifecycle/PP-TG records are historical evidence,
-not tests of this new executable. A fresh [coordinated window](COORDINATION.md) is
-required before the model run. No remote staging, deployment or permanent listener
-was performed. The rejected client draft is archived, not active source.
+The earlier synthetic Pi fixture failure remains historical evidence. The current
+profile advertises 262144 total context, 8 MiB requests and a 2048 output budget.
+Original-weight Chat JSON and Responses SSE now pass at 262075 prompt tokens.
+Installed Pi 0.87.1 has completed the real read/edit/read cycle over direct LAN
+HTTP on `.157:8000`: four model turns, three successful tools, exact file/nonce
+verification, 24.02 seconds. No custom Pi provider extension or dependency install.
+The 19879 attempt failed at the firewall before inference; its evidence is kept.
+See [HTTP 256K and Pi qualification](HTTP-256K-PI.md) for scope and receipts.
 
 ## Exact functional limits
 
-[HTTP.md](HTTP.md) is the wire contract. Requests are at most 1 MiB / 128 messages;
+[HTTP.md](HTTP.md) is the wire contract. Requests are at most 8 MiB / 1024 messages;
 output is at most 4096 tokens, and **physical prompt plus requested output must fit
-context**. No silent truncation, stochastic sampling, reasoning, vision, native
-batching, MTP, prefix reuse or SSD session storage. Tool history is re-prefilled.
+context**. No silent truncation. Per-sequence sampling and native AR decode batching are
+implemented; reasoning, vision, MTP, prefix reuse and SSD session storage are not. Tool history is re-prefilled.
 No constrained sampling/full JSON-Schema guarantee; `strict:true` is refused.
 
 Tool-enabled responses buffer the complete turn after the SSE role header.
@@ -63,10 +61,10 @@ generation; they do not poison an otherwise healthy numerical executor.
 The checked-in examples are:
 
 - `config/pi-unsloth.models.json`: normal compatible endpoint, text-only Unsloth,
-  context 32768, default output budget 2048 (server ceiling 4096).
+  context 262144, default output budget 2048 (server ceiling 4096).
 - `config/pi-unsloth.settings.json`: only this provider/model, thinking off,
   no packages, auto compaction disabled for the initial session, no agent/provider
-  retries. Provider timeout 330 seconds allows the server's 300-second deadline.
+  retries. Provider timeout 630 seconds allows the server's 600-second deadline.
 
 Create an **exclusive private profile**, never overwrite the user's Pi files:
 
@@ -96,22 +94,17 @@ On the target, the new server's child command under an admitted supervisor is:
 ```sh
 # AFTER current admission, verified staging and private HOME/cache setup.
 # MODEL is the original read-only Unsloth first shard, not an antirez Q2 file.
-build/server-tools-linked-r2/synapse-lie-server --model "$MODEL" \
-  --context 32768 --prefill-chunk 2048 --max-active 1 \
-  --host 127.0.0.1 --port 19879 \
+build/http256-r1/synapse-lie-server --model "$MODEL" \
+  --context 262144 --prefill-chunk 2048 --max-active 1 \
+  --host 192.168.5.157 --port 8000 \
   --management-host 127.0.0.1 --management-port 19880 \
-  --request-timeout-ms 300000
+  --request-timeout-ms 600000
 ```
 
-The path above currently identifies a **local build**, not an installed .157
-binary. Do not run an old text-only build under the new profile or expose the
-unauthenticated service on the LAN. For a .155 client and .157 loopback server,
-a foreground SSH tunnel may forward the chosen free client port to target
-`127.0.0.1:19879`; update `baseUrl` if the local port differs. No tunnel was opened
-by this change. End an admitted run by stopping only its supervised server and
-waiting for retirement before releasing leases; stop Pi/the owned tunnel normally.
-
-Next acceptance is one bounded real-Unsloth session in a disposable directory:
-read an unpredictable file value, make a requested edit, read back the changed
-file, and check tool events plus final contents. Stop at the first failure; no
-fallback, unrelated optimization campaign or synthetic substitute for that verdict.
+The command is a supervised child recipe, not a permanent deployment. The
+qualified server binary and run manifest are retained under LIE-owned `.157`
+`run/reactive-suite-r4/http/`; a new model run still requires fresh lease admission.
+Pi connects directly to `http://192.168.5.157:8000/v1`; no tunnel is needed.
+Port 8000 was already allowed by the existing firewall, which was not modified.
+End a run by stopping only its supervised server and waiting for retirement
+before releasing leases. No permanent listener is promised by a completed test.

@@ -22,8 +22,9 @@ OpenAI provider has completed a real `read` tool round trip against the syntheti
 CPU test server**, without a custom extension. The linked Gufo build and CPU
 template checks pass. On this isolated branch, the original-weight HIP run now
 passes a native function call/result and Responses JSON/SSE; see
-[the exact GPU scope and cleanup](docs/OPENAI-GPU.md). Pi's actual GPU CLI round
-trip remains separate.
+[the exact GPU scope and cleanup](docs/OPENAI-GPU.md). Pi 0.87.1 also passes real read/edit/read against this GPU model over direct
+HTTP on `.157:8000`; [HTTP 256K and Pi evidence](docs/HTTP-256K-PI.md) separates
+that tool test from the successful 262075-token capacity requests.
 See [server tools, limits and the normal Pi profile](docs/SERVER-TOOLS.md).
 
 The original-weight records below precede the tool extension.
@@ -57,8 +58,9 @@ run verify this contract; it is not a new throughput baseline. The C17
 `synapse-lie-bench` now implements a simplified direct-executor AR depth and
 concurrency suite, with optional SVG/PNG and CSV/JSON exports. Python handles
 lease supervision and graph generation. See [usage and scope](docs/CONTEXT-COMPARISON.md)
-and [methodology/prerequisites](docs/BENCHMARKING.md). The full HTTP/cache/MTP,
-cold-load and exact-peak suite remains open.
+and [methodology/prerequisites](docs/BENCHMARKING.md). The executable also has full-prompt `fresh` and a separate Python HTTP client
+harness (`--suite http`), including exact corpus replay and multi-turn timing.
+Cache/MTP execution, cold-file loading and exact allocation peaks remain open.
 
 **The Q2 experiment has been withdrawn at the owner's request.** Its active
 source, recipes, build helpers and tests are removed; rollback commit `ffca17e`
@@ -111,7 +113,9 @@ the serial path (**4.11×**); C1 decode medians stay within 0.35% through occupi
 128K. Physical inputs, outputs and full PP/TG frontier hashes agree. See
 [complete PP/TG tables, graphs and limits](docs/REACTIVE-INFERENCE-RESULT.md).
 This measures concurrent batching; numerical kernels remain unchanged and no
-new HTTP latency improvement is claimed. No JVM, Project Reactor
+new HTTP latency improvement is claimed. The [implementation audit](docs/INFERENCE-REACTIVE.md#implementation-audit-how-far-the-reactive-flow-reaches)
+records exactly where the flow stops; [prefill analysis](docs/PREFILL-ANALYSIS.md)
+separates cold long prompts from cache-dependent follow-ups. No JVM, Project Reactor
 or Reactive Streams TCK claim.
 
 ## CPU build and verification
@@ -207,7 +211,8 @@ A build label locates evidence; it is not self-attestation.
 The server accepts text `system/developer/user/assistant/tool` messages, OpenAI
 function tools, per-sequence sampling (greedy by default), thinking off, 1–4096 output tokens and physical
 context-budget validation. The [Pi profile](config/pi-unsloth.models.json) requires
-`--context 32768`; do not point it at the 4096-context example above. Unsupported
+`--context 262144` and direct LAN port 8000; use the supervised recipe in
+[SERVER-TOOLS.md](docs/SERVER-TOOLS.md) rather than the small-context example above. Unsupported
 controls/images are explicit errors. See [HTTP.md](docs/HTTP.md) for the subset.
 
 ## Management and monitor
