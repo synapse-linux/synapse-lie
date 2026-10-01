@@ -90,14 +90,6 @@ def main():
     m = json.loads((run / 'manifest.json').read_text())
     if m['authorization']['kind'] != 'operator-one-shot-window' or not m['authorization']['gpu_test_authorized']:
         raise SystemExit('Fresh operator authorization required')
-    q2_test = m.get('suite') == 'q2-first-model-test-v1'
-    if q2_test:
-        import q2_model_checks
-        q2_model_checks.admission(m)
-    elif m.get('suite', 'c1-baseline-v1') != 'c1-baseline-v1':
-        raise SystemExit('Unsupported model test suite')
-    success_state = ('Q2_FIRST_MODEL_SMOKE_PASS_COLD_SAMPLES_NOT_MATCHED_BENCHMARK' if q2_test else
-                     'C1_COMPLETED_PP_TG_BASELINE_MEASURED_NOT_PRISTINE_QUALIFICATION')
     out = run / 'results'
     out.mkdir()
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
@@ -149,10 +141,7 @@ def main():
     try:
         for name in m['lock_order']:
             p = Path(name)
-            flags = os.O_RDONLY | os.O_CLOEXEC
-            if q2_test:
-                flags |= os.O_NOFOLLOW | os.O_NONBLOCK
-            fd = os.open(p, flags)
+            fd = os.open(p, os.O_RDONLY | os.O_CLOEXEC)
             try:
                 fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BaseException:
@@ -162,8 +151,6 @@ def main():
             s, live = os.fstat(fd), p.stat()
             if (s.st_dev, s.st_ino) != (live.st_dev, live.st_ino):
                 raise RuntimeError('lock identity race')
-            if q2_test and (name, s.st_dev, s.st_ino) != q2_model_checks.LOCKS[len(locks)-1]:
-                raise RuntimeError('Q2 test lock identity mismatch')
             r['locks'].append({'path': name, 'device': s.st_dev, 'inode': s.st_ino})
         r['models_before'] = [H['model_stat'](x) for x in m['models']]
         r['preflight_memory'] = H['memory']()
@@ -172,14 +159,10 @@ def main():
         r['preflight_dri'] = {'pids': sorted(baseline_dri), 'permission_denied': denied}
         if r['preflight_kfd']:
             raise RuntimeError('foreign KFD client before launch')
-        if q2_test:
-            if r['preflight_memory']['MemAvailable'] < q2_model_checks.MEMORY['required_available']:
-                raise RuntimeError('available RAM below Q2 weight estimate; not an OOM')
-        else:
-            trunk = sum(x['bytes'] for x in m['models'] if '/mtp-' not in x['path'])
-            if r['preflight_memory']['MemAvailable'] <= trunk:
-                raise RuntimeError('available RAM below trunk-size estimate, not OOM/fit evidence')
-        binary = run / ('q2-model-first-test' if q2_test else 'lie-executor-bench')
+        trunk = sum(x['bytes'] for x in m['models'] if '/mtp-' not in x['path'])
+        if r['preflight_memory']['MemAvailable'] <= trunk:
+            raise RuntimeError('available RAM below trunk-size estimate, not OOM/fit evidence')
+        binary = run / 'lie-executor-bench'
         for name, expected in m['files'].items():
             if sha(run / name) != expected:
                 raise RuntimeError('staged file identity mismatch: ' + name)
@@ -190,17 +173,9 @@ def main():
             env[key] = str(p)
         env.update(LC_ALL='C', LD_BIND_NOW='1', ROCR_VISIBLE_DEVICES='0', HIP_VISIBLE_DEVICES='0')
         masked = dict(env, ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
-        raw_info = command([str(binary), '--build-info'], masked)
-        info = raw_info.strip() if q2_test else json.loads(raw_info)
-        if info != m['build_info'] or (not q2_test and (info['synthetic'] or info['ownership'] != 'delegated')):
+        info = json.loads(command([str(binary), '--build-info'], masked))
+        if info != m['build_info'] or info['synthetic'] or info['ownership'] != 'delegated':
             raise RuntimeError('provider/build identity mismatch')
-        if q2_test:
-            build_receipt = json.loads((run / 'build-receipt.json').read_text())
-            if (build_receipt['state'] != 'Q2_FIRST_MODEL_TEST_BUILT_HOST_PLAN_PASS_GPU_NOT_RUN' or
-                build_receipt['source_commit'] != m['source_commit'] or
-                build_receipt['test_binary_sha256'] != sha(binary) or
-                build_receipt['runtime_link_allowed'] is not False):
-                raise RuntimeError('Q2 selected binary/build/source binding mismatch')
         command(['uname', '-srmo'], masked)
         command(['readelf', '-d', str(binary)], masked)
         linked = command(['ldd', str(binary)], masked)
@@ -234,8 +209,7 @@ def main():
                 kfd = H['kfd']()
                 drm, denied = H['dri_clients']()
                 foreign = (kfd - {child.pid}) | (drm - baseline_dri - {child.pid})
-                mem = H['memory']()
-                log.write(json.dumps({'at': now(), 'memory': mem, 'gpu': H['gpu'](),
+                log.write(json.dumps({'at': now(), 'memory': H['memory'](), 'gpu': H['gpu'](),
                                       'kfd': sorted(kfd), 'dri': sorted(drm), 'dri_permission_denied': denied}) + '\n')
                 log.flush()
                 if foreign:
@@ -248,9 +222,9 @@ def main():
         if child.returncode:
             raise RuntimeError('benchmark failed; see retained measurements/stderr')
         data = [json.loads(x) for x in (out / 'measurements.jsonl').read_text().splitlines()]
-        r['summary'] = q2_model_checks.summarize(data) if q2_test else summarize(data)
+        r['summary'] = summarize(data)
         r['measurements_sha256'] = sha(out / 'measurements.jsonl')
-        r['state'] = success_state
+        r['state'] = 'C1_COMPLETED_PP_TG_BASELINE_MEASURED_NOT_PRISTINE_QUALIFICATION'
     except BaseException as ex:
         r['state'], r['error'] = 'FAILED', repr(ex)
     finally:
@@ -281,7 +255,7 @@ def main():
             for fd in reversed(locks):
                 os.close(fd)
     print(json.dumps(r, indent=2), flush=True)
-    return 0 if r['state'] == success_state else 1
+    return 0 if r['state'] == 'C1_COMPLETED_PP_TG_BASELINE_MEASURED_NOT_PRISTINE_QUALIFICATION' else 1
 
 
 if __name__ == '__main__':

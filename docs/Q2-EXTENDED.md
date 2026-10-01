@@ -1,5 +1,9 @@
 # Extended Q2 operator checks — two arithmetic corrections, 88 controls pass
 
+> Archived experiment. The owner withdrew this port; its active source/tools
+> were removed. Commands below are historical, not current instructions.
+> See [the replacement plan](REPLAN.md); recover source from Git `a208760`.
+
 On 2026-10-01 the operator renewed the GPU window. All GPU attempts below used
 four existing EX|NB leases, fresh in-lease preflight, the private LIE supervisor,
 fixed order/tolerance, recorded exits and retirement. There was **no model

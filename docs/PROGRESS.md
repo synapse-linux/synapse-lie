@@ -6,7 +6,19 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## First real Q2 model test passed — matched performance still open
+## Current direction — Q2 withdrawn; operate Unsloth with Pi
+
+The owner requested cancellation/replanning of the Q2 work, then prioritized
+making the current Unsloth-backed runtime usable from Pi. Active implementation
+was restored to **`4307486`**, removing Q2 overlays, fixtures and build helpers.
+C17 runtime/server and the original UD adapter are retained unchanged. Historical
+reports/evidence and qualified builds are preserved, not active Q2 support.
+The [replacement plan](REPLAN.md) puts Pi tool operation first and any future Q2
+reference measurement before another port. No new GPU result is implied by rollback.
+
+The sections below are dated records of the now-withdrawn experiment.
+
+## Historical first real Q2 model test — matched performance never established
 
 `q2-model-first-gpu-r1` completed at **2026-10-01 10:15:04 UTC** on `.157`.
 The actual antirez Q2 loaded in **11.638 s**, answered exactly `4`, and generated

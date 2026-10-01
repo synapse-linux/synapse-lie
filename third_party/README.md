@@ -46,7 +46,11 @@ and tests; none is implemented yet. Keep the pristine reference separate from
 instrumented/forked experiments and ports. First-party ownership of orchestration
 does not relicense numerical code or make embedded Model/Session a reimplementation.
 
-## Private Q2 host variant
+## Archived private Q2 experiment
+
+The owner withdrew this experiment. Active overlays/tools are removed; the
+following provenance applies to preserved historical evidence and build artifacts,
+not to current source or runtime support. See [the new plan](../docs/REPLAN.md).
 
 `adapters/gufo-q2/host-edits.json` contains first-party, exact hash-guarded edits
 against six existing Gufo files, materialized only in a fresh private build source

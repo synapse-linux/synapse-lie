@@ -1,5 +1,9 @@
 # First real antirez Q2 test — passed, performance qualification open
 
+> Archived experiment. The owner withdrew this port; its active source/tools
+> were removed. Commands below are historical, not current instructions.
+> See [the replacement plan](REPLAN.md); recover source from Git `a208760`.
+
 On **2026-10-01 10:14:42–10:15:04 UTC** (supervisor scope),
 `q2-model-first-gpu-r1` loaded the actual `Qwen3.8-Flash-Next-Q2.gguf` on `.157`
 and completed two fresh-session requests through the LIE synchronous executor

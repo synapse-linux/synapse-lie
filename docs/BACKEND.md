@@ -149,23 +149,14 @@ licenses, pins and per-component source/hash/change records for numerical ports.
 No weight conversion, dependency installation or operational deployment is
 implied by permission to use an embedded adapter.
 
-## Q2-driven transitional extension
+## Q2 experiment withdrawn
 
-The Q2 requirement now has a [private host compatibility slice](Q2-COMPATIBILITY.md)
-over six pinned Gufo files. It interprets actual Q2 storage/configuration and
-binding while preserving physical/logical down-input dimensions. This is an
-extension of the delegated implementation, not a C17-owned loader or numerical
-engine. Pristine sources and qualified artifacts remain untouched, and no
-numerical kernel has been ported by this host increment. Runtime linkage and
-Q2 device upload remain refused until the GPU routes/admission are implemented
-and qualified. Header-derived binding tests are not model inference evidence.
-The [subsequent HIP candidate](Q2-HIP.md) now implements/compiles the new routed
-paths with C17 workspace planning and direct quantized padding. After two scoped
-arithmetic corrections, [24 extended + 64 original operator controls](Q2-EXTENDED.md)
-pass; the report retains both RED failures and a manifest metadata erratum.
-Full-format/model qualification and memory admission remain open. Its numerical
-helpers are delegated upstream code with explicit private corrections, not an
-autonomous LIE model-forward implementation.
+The owner canceled the Q2 extension. Active code/build/tests are restored to
+`4307486`; historical reports and evidence remain archived. Gufo is not assumed
+to be the basis of another Q2 attempt. The [replacement plan](REPLAN.md) requires
+a working native Q2 reference and an early matched comparison before more porting.
+The immediate delivery is the existing Unsloth runtime with Pi. This change does
+not cancel the C17 ownership objective or claim it has already been achieved.
 
 ## Current implementation status
 

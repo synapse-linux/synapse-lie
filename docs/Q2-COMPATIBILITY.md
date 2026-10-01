@@ -1,5 +1,9 @@
 # Antirez Q2 compatibility — first host slice
 
+> Archived experiment. The owner withdrew this port; its active source/tools
+> were removed. Commands below are historical, not current instructions.
+> See [the replacement plan](REPLAN.md); recover source from Git `a208760`.
+
 Status: **host storage/configuration/binding implemented and CPU-validated**.
 A subsequent [private HIP candidate](Q2-HIP.md) now implements the routed paths
 and, after [two arithmetic corrections](Q2-EXTENDED.md), passes 24 extended + 64

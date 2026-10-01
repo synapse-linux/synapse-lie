@@ -1,5 +1,9 @@
 # Antirez Qwen3.8 Flash Next — prefill and decode benchmark gate
 
+> Historical investigation/protocol. The Q2 port was withdrawn; its tools are
+> removed. Format observations and requirements remain evidence, not current
+> implementation. The active sequence is in [the replacement plan](REPLAN.md).
+
 **Required:** benchmark the actual antirez Q2 and Q4 artifacts, including **full
 fresh prefill** and decode. UD-Q4_K_XL results are not substitute measurements.
 Status: **first Q2 model smoke passed; full matched benchmarks NOT RUN**.

@@ -4,6 +4,15 @@ Generated evidence is retained here but excluded from publication by default
 (private machine paths and environment observations). Source/provenance/model
 identity manifests needed for development are separately versioned.
 
+## Q2 rollback and replacement direction
+
+`q2-rollback-r1/` records restoration of implementation to `4307486`: 37 active
+source/build/test paths restored or removed, runtime/server/adapter unchanged.
+Git history, reports, local evidence and qualified archives are not deleted.
+`q2-replan-r1/` records planning inspection. Current priority is Unsloth with Pi;
+Q2 is deferred under [the replacement plan](../docs/REPLAN.md).
+The Q2 entries below are archives of the withdrawn experiment.
+
 ## First real Q2 model test
 
 - `q2-model-first-build-r1/`: source preparation refused a nonexistent host-receipt

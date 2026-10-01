@@ -1,5 +1,9 @@
 # Q2 routed HIP candidate — operator/preflight records
 
+> Archived experiment. The owner withdrew this port; its active source/tools
+> were removed. Commands below are historical, not current instructions.
+> See [the replacement plan](REPLAN.md); recover source from Git `a208760`.
+
 **Subsequent result:** the [first real Q2 model smoke](Q2-FIRST-MODEL.md) passed
 on GPU, with preliminary PP/TG measurements. Production admission and matched
 performance/quality qualification remain open. The records below describe the
