@@ -158,5 +158,10 @@
     "path": "run/summarize-comparable.py",
     "sha256": "385b0ecb7222e962e266e38a6723a75e411d875b8105f530220caea2e3e5d61b",
     "notes": "Offline report adds cross-shape mean and orders HTTP prefill by physical count. Production benchmark code is unchanged from CPU/GPU qualification."
+  },
+  "report_postprocessing": {
+    "csv": "CRLF normalized to LF; cell values unchanged.",
+    "svg": "Trailing line whitespace removed; SVG geometry unchanged.",
+    "raw_measurements": "Unchanged; original generated export bytes retained in run/comparable-original-exports."
   }
 }
