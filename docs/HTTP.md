@@ -1,9 +1,10 @@
-# HTTP / SSE and monitor contract — T0 candidate
+# HTTP / SSE and monitor contract — native function tools
 
 The optional real provider is linked. A separately leased original-weight C1
 JSON/SSE smoke passed (`t0-model-smoke-r4`), but full numerical/hardware qualification
-remains open. CPU transport tests use a separate, clearly labelled synthetic
-executable. No model is configured by default and no synthetic provider can be
+remains open. The later native tool extension is CPU/Pi-protocol tested and
+HIP-linked, not yet exercised with the actual model. CPU transport tests use a
+separate, clearly labelled synthetic executable. No model is configured by default and no synthetic provider can be
 selected in `synapse-lie-server`.
 
 ## Management listener
@@ -23,7 +24,9 @@ selected in `synapse-lie-server`.
 
 Backend metadata identifies engine, source pin, build label and ownership
 (`delegated`, `none`, or test-only `synthetic-test-fixture`). Unsupported native
-batching, tools, MTP and snapshot restore are explicit. `hardware_qualified:false`
+batching, MTP and snapshot restore are explicit. `tools:true` denotes protocol
+support, not model quality or server-side tool execution. `tool_streaming` is
+`buffered-complete-turn`; context/output/request/message limits are reported. `hardware_qualified:false`
 and `inference_verified:false` are not changed merely because a request succeeded.
 Readiness is operational model/executor open, not a quality certificate. No probe
 inference, device synchronization or filesystem scan occurs in a health/scrape.
@@ -61,19 +64,20 @@ lengths. Trailing input in the completing buffer is refused before admission;
 later input cancels the existing request, never admits a second one. A peer EOF is
 cancellation, so write-half-close request semantics are not supported.
 
-- 64 connections; 16 KiB header field/value bytes, 64 KiB body, 2047-byte target;
+- 64 connections; 16 KiB header field/value bytes, 1 MiB body, 2047-byte target;
   additional total-wire bound, including chunking overhead.
-- At most 1 MiB per response/write buffer. Eight admitted jobs (queued plus
-  executing); overflow 429. One active sequence by default, optionally two.
+- At most 18,878,512 bytes per response/write buffer (bounded UTF-8/JSON
+  expansion), not a preallocated resident allowance. Eight admitted jobs (queued
+  plus executing); overflow 429. One active sequence by default, optionally two.
 - Eight 256-byte token slots per flow. The pinned vocabulary's documented maximum
   rendered entry is 128 bytes; the larger slot is checked before publication.
   UTF-8 expansion and JSON/SSE writes are independently bounded.
 - One outstanding uv_write per connection. Request 16 KiB socket send buffer
   (kernel actual size/overhead is platform-defined); local write completion is
-  not remote consumption. Nonstream aggregate bound is 393224 bytes, independent
-  of socket capacity. Retired jobs/output remain bounded by live connections.
+  not remote consumption. Nonstream/tool-enabled aggregate bound is 3,145,736
+  bytes, independent of socket capacity. Retired jobs/output remain bounded by live connections.
 - Five-second accept-to-close deadline for control/incomplete requests. Admitted
-  inference uses accept-to-close `--request-timeout-ms`, default 120000,
+  inference uses accept-to-close `--request-timeout-ms`, default 300000,
   configurable 100–1800000 ms, checked on a 250 ms loop tick. It includes queue,
   preparation and output time. Deadline closes the connection and cancels work;
   it does not preempt a kernel or promise a final error response.
@@ -94,9 +98,13 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
 {"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Reply briefly."}],"temperature":0,"max_tokens":32,"stream":true,"stream_options":{"include_usage":true},"chat_template_kwargs":{"enable_thinking":false}}
 ```
 
-- Required exact configured `model`; 1–32 messages with only `role` and string
-  `content`. Roles: `system`, `user`, `assistant`; valid UTF-8, no embedded NUL.
-- `max_tokens`: integer 1–512, default 128. Physical rendered prompt plus output
+- Required exact configured `model`; 1–128 messages. Roles: leading
+  `system`/`developer`, `user`, `assistant`, `tool`. Content is a string or a
+  nonempty array of text parts (joined with newlines); valid UTF-8, no NUL. No
+  image parts. A real user message must exist. Assistant content may be null
+  when carrying tool calls. Message `name` is optional and validated.
+- `max_tokens`: integer 1–4096, default 128. `max_completion_tokens` is an alias;
+  sending both is refused. `store:false` is accepted; `store:true` is refused. Physical rendered prompt plus output
   budget must fit configured context (128–32768, default 4096). No silent
   truncation. Template/tokenization/context refusal precedes forward.
 - `temperature`: omitted or numeric zero only. Optional nonnegative integer
@@ -106,22 +114,56 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
 - `chat_template_kwargs` may contain only `enable_thinking:false`; thinking is
   disabled even when omitted. Rendering/tokenization uses the pinned upstream
   Qwen implementation inside the adapter, after GGUF template validation.
-- Unknown fields, tools, images, arbitrary stops, logprobs, alternative output
-  controls and unsupported sampling are errors, not ignored options.
+- `tools`: up to 128 OpenAI `type:function` definitions with name, optional
+  description and object parameter schema. No server-side execution. Explicit
+  `strict:true` is refused: no constrained-sampling or full JSON-Schema guarantee.
+- `tool_choice`: `auto` (default), `none`, `required`, or a named function object.
+  Named choice renders only the selected declaration; required/named turns must
+  actually generate a valid call. `parallel_tool_calls:false` rejects multiple
+  generated calls rather than executing a partial set.
+- Assistant `tool_calls` carry nonempty unique IDs, `type:function`, function
+  name and JSON-object arguments encoded as a string. Tool messages must match
+  unresolved IDs (and name if supplied); all calls require results before the
+  next non-tool message. Orphan, duplicate, missing and mismatched results are
+  refused before forward. Up to 16 calls per turn, 128 IDs in history and 128
+  parameters per call. Names match `[A-Za-z_][A-Za-z0-9_.-]{0,127}`; IDs are at
+  most 128 UTF-8 bytes. Reserved Qwen argument delimiters are refused.
+- Unknown fields, custom/non-function tools, images, arbitrary stops, logprobs
+  and unsupported sampling are errors, not ignored options.
 
 Malformed/unsupported requests are 400; bounded overload is 429. Preparation
 failures are 400 `invalid_request`; backend failures before headers are 503
 `inference_failed` with a diagnostic message. This is an OpenAI-shaped subset,
 not blanket compatibility. Each request creates a fresh session. Supplying prior
-messages re-prefills history; it is not retained tool/session/prefix continuity.
+messages re-prefills history; structured tool continuation is supported, but it
+is not retained session/prefix state.
 
 ### Output and cancellation
 
-Nonstream returns `chat.completion`, one assistant message, `stop`/`length` and
-usage. SSE uses close-delimited `text/event-stream`, an initial role delta,
+Nonstream returns `chat.completion`, one assistant message, `stop`/`length` or
+`tool_calls` and usage. SSE uses close-delimited `text/event-stream`, an initial role delta,
 ordered content deltas, a finish delta, optional usage-only chunk (`choices:[]`),
 then exactly one `data: [DONE]`. No enqueue-only/speculative output is exposed.
 `system_fingerprint` names the provider, including `NOT-INFERENCE` in fixtures.
+
+When tools are declared (including choice `none`), **the entire response is
+buffered** after the initial SSE role. Native Qwen calls are parsed/validated in
+C17 before any executable tool delta is published. A valid response contains
+`tool_calls` with stable ID, function name and JSON-string arguments; SSE adds
+consecutive zero-based indices. String values preserve significant whitespace;
+other typed arguments use JSON. Basic type/required/additional-property checks
+are enforced, but the client must validate its full tool schema. Valid calls
+finish with `tool_calls`; partial/malformed, unlisted or disabled calls and
+budget-truncated call turns fail with JSON 502 `invalid_tool_output`, or an SSE
+error/DONE after headers, never success/usage/tool deltas. No parser repair or
+retry. Ordinary text with no recognized call can still finish `length`.
+
+Tool-enabled turns return flow credit as their bounded aggregation buffer is
+filled, not as individual network tokens drain. This is not argument-level
+streaming or the old text-stream backpressure profile. Model generation may be
+complete even when subsequent protocol validation fails. Those failures increment
+`llm.responses.tool_errors`; they do not poison a numerically healthy executor.
+All tools are executed by the requesting client, never by this server.
 
 Token byte boundaries need not be UTF-8 boundaries. One streaming decoder retains
 up to three pending bytes and applies replacement decoding to invalid/incomplete

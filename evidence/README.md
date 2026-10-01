@@ -4,6 +4,29 @@ Generated evidence is retained here but excluded from publication by default
 (private machine paths and environment observations). Source/provenance/model
 identity manifests needed for development are separately versioned.
 
+## Native C17 server tools and ordinary Pi integration
+
+- `server-tools-red-r1`: real C HTTP fixture initially refuses `tools` with 400.
+- `server-tools-dev-r1`–`r5`: retained compilation/test development outcomes;
+  r5 has 15 ASan/UBSan CPU suites passing. Includes the signed-count compile fix,
+  malformed new test data and monitor counter-schema regression/fix.
+- `server-tools-final-cpu-r1`: final Git-base/patch binding and 15 ASan/UBSan CPU
+  suites, including nested nonfinite JSON, buffered-tool cancellation and error counts.
+- `server-tools-linked-r1/r2`: serial, GPU-masked links against unchanged original
+  `gufo-qwen-host-r2` archives, build-info and 16 CPU suites including Qwen template.
+  r2 is the final candidate; earlier tested artifacts remain untouched.
+- `server-tools-pi-cpu-r1`: failed native-Pi fixture; 4096 context minus Pi's 4096
+  safety margin clamps output to one token. No tool executes. Trace/diagnosis kept.
+- `server-tools-pi-cpu-r2/r3/r4`: standard Pi OpenAI provider, actual Pi `read` and
+  correlated follow-up against synthetic C executor; private temporary profile,
+  no extension/cloud/GPU. r4 uses the final build and checked-in profile settings;
+  all owned processes retire.
+- `pi-client-bridge-rejected-r1`: unexecuted client-side draft rejected by owner,
+  removed from active source. No Pi global files changed.
+
+These records are not a real-Unsloth tool, performance or memory qualification.
+See [the server-tool status](../docs/SERVER-TOOLS.md).
+
 ## Q2 rollback and replacement direction
 
 `q2-rollback-r1/` records restoration of implementation to `4307486`: 37 active

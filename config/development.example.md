@@ -11,9 +11,14 @@ build/debug/synapse-lie-server \
 This default build/start has no loaded model. The opt-in HIP build now accepts
 `--model FIRST-SHARD.gguf`, `--model-id ID`, `--context N` (128–32768, default 4096),
 `--prefill-chunk N` (1–2048), `--max-active 1|2` (default 1), and
-`--request-timeout-ms N` (100–1800000, default 120000). `--build-info` opens no model.
+`--request-timeout-ms N` (100–1800000, default 300000). `--build-info` opens no model.
 Model loading occurs on the single owner worker; merely setting a path does not
 publish a model or readiness. Failed/unconfigured models remain unavailable.
+
+The separate [ordinary Pi model profile](pi-unsloth.models.json) expects the
+native OpenAI tool API and **`--context 32768`**, not the default 4096. It is not
+a custom provider extension or a global Pi installation. See
+[setup, limits and current test scope](../docs/SERVER-TOOLS.md).
 
 Actual model startup requires the shared lease and a fresh target preflight;
 use private HOME/XDG_CACHE_HOME/runtime directories and the original read-only

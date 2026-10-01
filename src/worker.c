@@ -161,7 +161,16 @@ static bool step(lie_worker *w, size_t index) {
         if (wi.active>=w->options.max_active) return false;
         j->prompt=malloc((size_t)w->options.context*sizeof(*j->prompt));
         if (!j->prompt) { finish_job(w,index,LIE_FINISH_BACKEND,"allocation_failed"); return true; }
-        lie_status rc=lie_model_chat_tokens(w->model,j->request.messages,j->request.count,
+        lie_chat_request *r=&j->request;
+        const lie_chat_tool *tools=r->tools;
+        size_t tool_count=r->tool_choice==LIE_TOOLS_NONE?0:r->tool_count;
+        if (r->tool_choice==LIE_TOOLS_NAMED) {
+            size_t k=0; while (k<r->tool_count && strcmp(r->tools[k].name,r->named_tool)) ++k;
+            if (k==r->tool_count) { finish_job(w,index,LIE_FINISH_INVALID,"invalid_tool_choice"); return true; }
+            tools=&r->tools[k]; tool_count=1;
+        }
+        const lie_chat_template input={r->messages,r->details,r->count,tools,tool_count,r->tool_choice>=LIE_TOOLS_REQUIRED};
+        lie_status rc=lie_model_chat_tokens_ex(w->model,&input,
                          j->prompt,w->options.context,&j->tokens,&error);
         if (rc!=LIE_OK || !j->tokens || j->tokens>w->options.context ||
             j->request.max_tokens>w->options.context-j->tokens) {

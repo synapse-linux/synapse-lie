@@ -68,16 +68,16 @@ char *lie_wire_chunk(const char *id, const char *model, int64_t created,
     json_object_object_add(d,"content",json_object_new_string_len(content,(int)bytes));
     choice(o,"delta",d,NULL); return serialize(o,true);
 }
-char *lie_wire_end(const char *id, const char *model, int64_t created,
-                   const lie_job_info *i, bool with_usage) {
+static char *end_reason(const char *id, const char *model, int64_t created,
+                        const lie_job_info *i, bool with_usage, const char *finish) {
     json_object *o=base(id,model,created,true);
     if (i->finish!=LIE_FINISH_STOP && i->finish!=LIE_FINISH_LENGTH) {
         json_object *e=json_object_new_object();
-        json_object_object_add(e,"code",json_object_new_string(i->finish==LIE_FINISH_CANCEL?"cancelled":"inference_failed"));
+        json_object_object_add(e,"code",json_object_new_string(i->finish==LIE_FINISH_CANCEL?"cancelled":i->finish==LIE_FINISH_INVALID?"invalid_tool_output":"inference_failed"));
         json_object_object_add(e,"message",json_object_new_string(i->error));
         json_object_object_add(o,"error",e);
     } else {
-        choice(o,"delta",json_object_new_object(),i->finish==LIE_FINISH_STOP?"stop":"length");
+        choice(o,"delta",json_object_new_object(),finish?finish:i->finish==LIE_FINISH_STOP?"stop":"length");
         json_object_object_add(o,"lie_timings",timings(i));
     }
     char *first=serialize(o,true), *second=NULL;
@@ -91,4 +91,34 @@ char *lie_wire_end(const char *id, const char *model, int64_t created,
     char *result=malloc(n);
     if (result) snprintf(result,n,"%s%sdata: [DONE]\n\n",first,second?second:"");
     free(first); free(second); return result;
+}
+char *lie_wire_end(const char *id, const char *model, int64_t created,
+                   const lie_job_info *i, bool with_usage) {
+    return end_reason(id,model,created,i,with_usage,NULL);
+}
+char *lie_wire_message(const char *id, const char *model, int64_t created,
+                       json_object *message, const lie_job_info *i, bool stream, bool with_usage) {
+    if (i->finish!=LIE_FINISH_STOP && i->finish!=LIE_FINISH_LENGTH) return NULL;
+    json_object *calls=NULL;
+    bool tools=json_object_object_get_ex(message,"tool_calls",&calls) && json_object_array_length(calls)>0;
+    if (tools && i->finish!=LIE_FINISH_STOP) return NULL;
+    const char *finish=tools?"tool_calls":i->finish==LIE_FINISH_STOP?"stop":"length";
+    json_object *o=base(id,model,created,stream);
+    if (!stream) {
+        choice(o,"message",json_object_get(message),finish);
+        json_object_object_add(o,"usage",usage(i)); json_object_object_add(o,"lie_timings",timings(i));
+        return serialize(o,false);
+    }
+    json_object *delta=NULL;
+    if (json_object_deep_copy(message,&delta,NULL)) { json_object_put(o); return NULL; }
+    json_object_object_del(delta,"role");
+    if (json_object_object_get_ex(delta,"tool_calls",&calls))
+        for (size_t k=0;k<json_object_array_length(calls);++k)
+            json_object_object_add(json_object_array_get_idx(calls,k),"index",json_object_new_int64((int64_t)k));
+    choice(o,"delta",delta,NULL);
+    char *first=serialize(o,true), *end=end_reason(id,model,created,i,with_usage,finish);
+    if (!first || !end) { free(first); free(end); return NULL; }
+    size_t n=strlen(first)+strlen(end)+1; char *result=malloc(n);
+    if (result) snprintf(result,n,"%s%s",first,end);
+    free(first); free(end); return result;
 }

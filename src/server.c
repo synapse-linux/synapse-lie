@@ -2,6 +2,7 @@
 #include "lie/metrics.h"
 #include "lie/worker.h"
 #include "lie/wire.h"
+#include "lie/tools.h"
 #include <json-c/json.h>
 #include <llhttp.h>
 #include <uv.h>
@@ -17,12 +18,12 @@
 
 #define JSON_TYPE "application/vnd.spring-boot.actuator.v3+json"
 #define PROM_TYPE "text/plain; version=0.0.4; charset=utf-8"
-#define MAX_RESPONSE (1024 * 1024)
-#define MAX_BODY (64 * 1024)
+#define MAX_RESPONSE (6u * MAX_TEXT + 4096u)
+#define MAX_BODY LIE_CHAT_BODY_BYTES
 #define MAX_HEADERS (16 * 1024)
 #define MAX_CONNECTIONS 64
 #define TIMEOUT_NS UINT64_C(5000000000)
-#define INFERENCE_TIMEOUT_NS UINT64_C(120000000000)
+#define INFERENCE_TIMEOUT_NS UINT64_C(300000000000)
 #define MAX_TEXT (LIE_CHAT_MAX_OUTPUT * LIE_CHAT_TOKEN_BYTES * 3 + 8)
 
 typedef struct server server;
@@ -46,6 +47,8 @@ struct connection {
     lie_flow_event event;
     lie_job *job;
     lie_utf8_decoder utf8;
+    bool parse_tools;
+    lie_tool_policy tools;
     char request_id[96];
     int64_t created;
 };
@@ -68,7 +71,7 @@ struct server {
     bool worker_poll_initialized;
     uint64_t request_counter, generated_seen, inference_timeout_ns;
     unsigned max_active;
-    lie_meter rejected_capacity, rejected_invalid;
+    lie_meter rejected_capacity, rejected_invalid, tool_errors;
 };
 static void close_connection(connection *c);
 static void pump_job(connection *c);
@@ -83,7 +86,8 @@ static const char *reason(int code) {
         case 404: return "Not Found"; case 405: return "Method Not Allowed";
         case 413: return "Content Too Large"; case 431: return "Request Header Fields Too Large";
         case 429: return "Too Many Requests";
-        case 500: return "Internal Server Error"; case 503: return "Service Unavailable";
+        case 500: return "Internal Server Error"; case 502: return "Bad Gateway";
+        case 503: return "Service Unavailable";
         default: return "Error";
     }
 }
@@ -187,10 +191,35 @@ static void pump_job(connection *c) {
         } else c->loan=true;
         if (!lie_utf8_feed(&c->utf8,(const char *)c->event.data,terminal?0:c->event.bytes,
                            terminal,text,sizeof(text),&bytes)) { close_connection(c); release_loan(c); return; }
-        if (!c->streaming) {
+        if (!c->streaming || c->parse_tools) {
             if (bytes>MAX_TEXT-c->text_bytes) { close_connection(c); release_loan(c); return; }
             memcpy(c->text+c->text_bytes,text,bytes); c->text_bytes+=bytes;
             if (!terminal) { release_loan(c); continue; }
+            if (c->parse_tools) {
+                json_object *message=NULL; char error[256]={0};
+                bool finished=info.finish==LIE_FINISH_STOP || info.finish==LIE_FINISH_LENGTH;
+                bool valid=finished && lie_tool_reply(&c->tools,c->text,c->text_bytes,
+                              info.finish==LIE_FINISH_STOP,c->request_id,&message,error);
+                if (!valid) {
+                    if (finished) {
+                        (void)lie_counter_add(c->owner->metrics,c->owner->tool_errors,1);
+                        info.finish=LIE_FINISH_INVALID; snprintf(info.error,sizeof(info.error),"%s",error);
+                    }
+                    if (!c->streaming) {
+                        if (finished) error_detail(c,502,"invalid_tool_output",info.error);
+                        else job_error(c,&info);
+                    } else {
+                        char *end=lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,false);
+                        queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
+                    }
+                    return;
+                }
+                char *response=lie_wire_message(c->request_id,c->owner->model_id,c->created,message,&info,c->streaming,c->include_usage);
+                json_object_put(message);
+                if (c->streaming) queue_write(c,response,response?strlen(response):0,WRITE_STREAM_END);
+                else { respond(c,200,"application/json",response); free(response); }
+                return;
+            }
             if (info.finish!=LIE_FINISH_STOP && info.finish!=LIE_FINISH_LENGTH) {
                 job_error(c,&info); return;
             }
@@ -221,7 +250,11 @@ static void submit_chat(connection *c) {
         error_response(c,400,error); return;
     }
     c->streaming=request.stream; c->include_usage=request.include_usage;
-    if (!c->streaming) {
+    c->parse_tools=request.tool_count!=0 || request.tool_choice!=LIE_TOOLS_AUTO;
+    if (c->parse_tools && !lie_tool_policy_copy(&request,&c->tools)) {
+        lie_chat_free(&request); error_response(c,500,"allocation_failed"); return;
+    }
+    if (!c->streaming || c->parse_tools) {
         c->text=malloc(MAX_TEXT);
         if (!c->text) { lie_chat_free(&request); error_response(c,500,"allocation_failed"); return; }
     }
@@ -314,7 +347,12 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     json_object_object_add(b,"hardware_qualified",json_object_new_boolean(false));
     json_object_object_add(b,"native_batching",json_object_new_boolean(false));
-    json_object_object_add(b,"tools",json_object_new_boolean(false));
+    json_object_object_add(b,"tools",json_object_new_boolean(true));
+    json_object_object_add(b,"tool_streaming",json_object_new_string("buffered-complete-turn"));
+    json_object_object_add(b,"context_tokens",json_object_new_int64(info.model.context_tokens));
+    json_object_object_add(b,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
+    json_object_object_add(b,"max_request_bytes",json_object_new_int64(LIE_CHAT_BODY_BYTES));
+    json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
     json_object_object_add(b,"mtp",json_object_new_boolean(false));
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
@@ -476,6 +514,7 @@ static void closed(uv_handle_t *h) {
     while (*p && *p!=c) p=&(*p)->next;
     if (*p) *p=c->next;
     --s->active; (void)lie_gauge_set(s->metrics,s->connections_meter,(double)s->active);
+    lie_tool_policy_free(&c->tools);
     free(c->body); free(c->text); free(c);
 }
 static void close_connection(connection *c) {
@@ -554,6 +593,8 @@ static bool init_metrics(server *s) {
     if (lie_metrics_register(s->metrics,&spec,&tag,1,&s->rejected_capacity)) return false;
     tag.value="invalid_request";
     if (lie_metrics_register(s->metrics,&spec,&tag,1,&s->rejected_invalid)) return false;
+    spec = (lie_metric_spec){"llm.responses.tool_errors", "Completed model outputs rejected by tool protocol validation", NULL, LIE_COUNTER, NULL, 0};
+    if (lie_metrics_register(s->metrics,&spec,NULL,0,&s->tool_errors)) return false;
     spec = (lie_metric_spec){"llm.tokens.generated", "Confirmed generated tokens", "tokens", LIE_COUNTER, NULL, 0};
     if (lie_metrics_register(s->metrics, &spec, NULL, 0, &s->tokens)) return false;
     double buckets[] = {.001, .01, .1, 1, 5};
@@ -591,7 +632,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1|2] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. No tools, native batching, MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1|2] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. OpenAI function tools (execution by client). No native batching, MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }

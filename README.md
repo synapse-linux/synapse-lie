@@ -5,7 +5,17 @@ Primarily C17, initially targeting Qwen3.8 Flash Next on AMD Strix Halo. An
 refactored toward LIE-owned model/session/memory/execution. Delegation is not
 reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 
-## Current build: original-weight HTTP/SSE lifecycle tests passed
+## Current implementation: native tool API, real-model recheck pending
+
+The C17 server now accepts OpenAI function tools, assistant calls and correlated
+tool results, returning structured calls in JSON/SSE. The existing Qwen formatter
+is used through the adapter; numerical kernels are unchanged. **Pi's standard
+OpenAI provider has completed a real `read` tool round trip against the synthetic
+CPU test server**, without a custom extension. The linked Gufo build and CPU
+template checks pass; **Unsloth tool use on this new build has not run yet**.
+See [server tools, limits and the normal Pi profile](docs/SERVER-TOOLS.md).
+
+The original-weight records below precede the tool extension.
 
 The C worker, bounded admission, reactive flow and HTTP nonstream/SSE path are
 implemented. The optional HIP executable **links actual pinned Gufo code**.
@@ -38,8 +48,8 @@ keep Gufo's cached-prefix/MTP/concurrency experiments distinct from the existing
 fresh-session baseline. The full benchmark tool is not implemented yet.
 
 **The Q2 experiment has been withdrawn at the owner's request.** Its active
-source, recipes, build helpers and tests are removed; implementation is restored
-to the original-Unsloth baseline `4307486`. The C17 server/runtime, original Gufo
+source, recipes, build helpers and tests are removed; rollback commit `ffca17e`
+restored the original-Unsloth baseline `4307486`, before the new server tool work. The C17 server/runtime, original Gufo
 adapter and UD measurements are retained. Git history, reports and local evidence
 remain as an archive, not current build instructions or Q2 support.
 
@@ -69,8 +79,10 @@ disconnect / deadline -> flow stop + executor cancellation latch -> safe retirem
 
 Eight admitted jobs; one active sequence by default, optionally two interleaved
 single-row sequences. This is **not native GPU batching**. Each flow has eight
-preallocated 256-byte token slots. SSE keeps a loan until its write callback;
-nonstream drains into a bounded aggregation buffer. Wakeups use eventfd/poll and
+preallocated 256-byte token slots. Text-only SSE keeps a loan until its write
+callback; nonstream and tool-enabled turns drain into bounded aggregation buffers.
+Tool-enabled SSE publishes the validated complete message before its finish,
+usage and DONE; it is not incremental argument streaming. Wakeups use eventfd/poll and
 libuv, not periodic token polling. CPU fixtures exercise deterministic failure/
 lifetime edges; the separately leased GPU lifecycle run covers bounded real-
 model UTF-8, cancellation, slow-client pressure, peer progress and retirement.
@@ -93,18 +105,23 @@ cmake -S . -B build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/debug -j1
 ctest --test-dir build/debug --output-on-failure
 
-# After fetching the pinned source below (header check also needs C++20):
-# exclusive evidence/build directories; GCC, Clang, ASan/UBSan and header check.
-python3 -B tools/verify.py new-cpu-label
+# Use a fresh build label; local serial sanitizer check, no model:
+cmake -S . -B build/new-cpu-label -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLIE_SANITIZERS=ON
+cmake --build build/new-cpu-label -j1
+env HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1 \
+  ctest --test-dir build/new-cpu-label --output-on-failure
+# Source identity for this increment is Git + diff, not a new source-hash inventory.
 ```
 
-Thirteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Fifteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
-executor failure/dispatch contracts and the HTTP lifecycle checker.
-The withdrawn Q2 tests are retained only in Git history and local evidence.
-They cover bounded overload, stalled consumers, peer progress, disconnect,
+executor failure/dispatch contracts, the HTTP lifecycle checker, native tool
+protocol and HTTP tool round trips. A sixteenth CPU formatter test is available
+in the linked Gufo build; the installed-Pi integration check is separate.
+The withdrawn Q2 tests remain only in Git history and local evidence.
+The active tests cover bounded overload, stalled consumers, peer progress, disconnect,
 in-flight cancellation, poison, error terminals and shutdown. They do not
 qualify real model output, numerical equivalence, native batching, GPU faults,
 state restore, memory fit or performance. No TSan/independent review claim.
@@ -152,9 +169,11 @@ certificate. `--build-info` never opens a model. Diagnostics disclose source pin
 build label, delegated ownership, capabilities and `hardware_qualified:false`.
 A build label locates evidence; it is not self-attestation.
 
-T0 accepts text `system/user/assistant` messages, greedy sampling, thinking off,
-1–512 output tokens and context-budget validation. Unsupported controls/tools
-are explicit errors, not ignored. See [HTTP.md](docs/HTTP.md) for the exact subset.
+The server accepts text `system/developer/user/assistant/tool` messages, OpenAI
+function tools, greedy sampling, thinking off, 1–4096 output tokens and physical
+context-budget validation. The [Pi profile](config/pi-unsloth.models.json) requires
+`--context 32768`; do not point it at the 4096-context example above. Unsupported
+controls/images are explicit errors. See [HTTP.md](docs/HTTP.md) for the subset.
 
 ## Management and monitor
 
@@ -181,5 +200,6 @@ No service, deployment, merge or publication is implied.
 [DS4 coordination](docs/COORDINATION.md)
 
 Next: lease-gated pristine comparison and original-model C1 AR qualification,
-then requirement-driven T1/T2 replacement. Tool continuation, RAM/SSD state,
-native batching, MTP and CUDA retain separate implementation/qualification gates.
+then requirement-driven T1/T2 replacement. The immediate next gate is a coordinated
+real-Unsloth Pi tool session. RAM/SSD state, native batching, MTP and CUDA retain
+separate implementation/qualification gates; replayed tool history is not prefix reuse.

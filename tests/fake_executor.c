@@ -17,6 +17,16 @@ static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
 static fake_phase held_phase;
 static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls;
+static const char *tool_outputs[]={
+    "Reading.\n<tool_call>\n<function=read>\n<parameter=path>\n  caffè 🙂.txt  \n</parameter>\n<parameter=offset>\n3\n</parameter>\n<parameter=options>\n{\"raw\":true}\n</parameter>\n</function>\n</tool_call>",
+    "<tool_call>\n<function=read>\n<parameter=path>\nincomplete",
+    "<tool_call>\n<function=unknown>\n</function>\n</tool_call>",
+    "<tool_call>\n<function=read>\n<parameter=path>a</parameter>\n<parameter=path>b</parameter>\n</function>\n</tool_call>",
+    "<tool_call>\n<function=read>\n<parameter=path>x</parameter>\n<parameter=offset>three</parameter>\n</function>\n</tool_call>",
+    "Tool result received.",
+    "<tool_call>\n<function=read>\n<parameter=path>\nlie-pi-fixture.txt\n</parameter>\n</function>\n</tool_call>",
+    "CPU fixture tool result received."
+};
 enum { BAD_POSITION=20, BAD_EMITTED, BAD_STOP, NO_PROGRESS, BAD_EOS_POSITION,
        NEGATIVE_TOKEN, LARGE_TOKEN, DECODE_REFUSAL, PREFILL_REFUSAL, TEXT_REFUSAL, TEXT_SIZE };
 void fake_barrier_arm_phase(fake_phase phase) {
@@ -67,9 +77,27 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     const char *faults[]={"BAD-POSITION","BAD-EMITTED","BAD-STOP","NO-PROGRESS","BAD-EOS-POSITION",
         "NEGATIVE-TOKEN","LARGE-TOKEN","DECODE-REFUSAL","PREFILL-REFUSAL","TEXT-REFUSAL","TEXT-SIZE"};
     for (unsigned i=0;i<sizeof(faults)/sizeof(*faults);++i) if (!strcmp(text,faults[i])) mode=BAD_POSITION+(int)i;
+    const char *tool_modes[]={"TOOL","TOOL-TRUNCATED","TOOL-UNKNOWN","TOOL-DUPLICATE","TOOL-JSON-BAD","TOOL-RESULT","PI-SYNTHETIC-READ"};
+    for (size_t i=0;i<sizeof(tool_modes)/sizeof(*tool_modes);++i) if (!strcmp(text,tool_modes[i])) mode=100+(int)i;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_context_bound");
     out[0]=mode; out[1]=out[2]=out[3]=10; return LIE_OK;
+}
+lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *t, int32_t *out, size_t cap, size_t *needed, lie_error *e) {
+    owner(m); assert(t && t->count && t->count<=LIE_CHAT_MAX_MESSAGES && t->tool_count<=LIE_CHAT_MAX_TOOLS);
+    if (t->messages[t->count-1].role==LIE_CHAT_TOOL) {
+        assert(t->details && t->details[t->count-1].tool_call_id && t->count>=3);
+        assert(t->details[t->count-2].call_count==1);
+        assert(!strcmp(t->details[t->count-2].calls[0].id,t->details[t->count-1].tool_call_id));
+        const char *path=t->details[t->count-2].calls[0].arguments[0].value;
+        if (!strcmp(path,"lie-pi-fixture.txt")) {
+            assert(strstr(t->messages[t->count-1].content,"LIE-PI-FIXTURE-CONTENT"));
+            *needed=4; if (cap<4) return LIE_BUFFER_SMALL;
+            out[0]=107; out[1]=out[2]=out[3]=10; return LIE_OK;
+        }
+        assert(!strcmp(path,"  caffè 🙂.txt  "));
+    }
+    return lie_model_chat_tokens(m,t->messages,t->count,out,cap,needed,e);
 }
 lie_status lie_model_tokenize(lie_model *m, const char *s, size_t n, int32_t *out, size_t cap, size_t *needed, lie_error *e) {
     (void)s; (void)n; (void)out; (void)cap; (void)needed; owner(m); return error(e,LIE_UNSUPPORTED,"fixture_has_no_tokenizer");
@@ -80,6 +108,10 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
         *required=capacity+1;
         if (token==1010) { out[0]='X'; return LIE_OK; } /* Invalid claimed size, not an actual overrun. */
         return error(e,LIE_BUFFER_SMALL,"synthetic_text_refusal");
+    }
+    if (token>=128 && token<384) {
+        *required=1; if (!capacity) return error(e,LIE_BUFFER_SMALL,"fixture_byte_bound");
+        out[0]=(char)(token-128); return LIE_OK;
     }
     const char *pieces[]={"fixture:"," ","\xf0","\x9f\x99","\x82","\"\\\n","\xff","\xe2"};
     if (token>=1000) {
@@ -116,6 +148,13 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     if (s->mode==DECODE_REFUSAL) return error(e,LIE_INVALID,"synthetic_decode_refusal");
     if (s->mode==2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_mutating_failure"); }
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
+    if (s->mode>=100 && s->mode<=107) {
+        const char *text=tool_outputs[s->mode-100];
+        bool done=s->step==strlen(text);
+        *out=(lie_decode_result){.stop=done,.position=s->position};
+        if (!done) { out->token=128+(unsigned char)text[s->step++]; out->emitted=1; out->position=++s->position; }
+        return LIE_OK;
+    }
     bool done=s->mode==6 || (s->mode==0 && s->step==8);
     *out=(lie_decode_result){.stop=done,.position=s->position};
     if (!done) {

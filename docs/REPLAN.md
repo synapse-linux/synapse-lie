@@ -15,9 +15,11 @@ Use the existing original-weight UD-Q4_K_XL executable, without Q2 modifications
 or new numerical work. Make a separate local Pi profile, prove an actual tool
 call/result/follow-up, and provide start/use/stop commands. No text-only demo
 masquerading as a coding agent. Preserve the main Pi configuration and DS4.
-The current text-only HTTP contract may need a client-side protocol bridge;
-prefer that bounded change over reopening the engine. Expose real limitations.
-Success means a usable session and observed tool execution, not configuration alone.
+The owner explicitly requires completing the server, not a Pi-specific protocol
+bridge. Implement OpenAI tool messages/calls/results in the C17 server and use
+the existing Qwen template inside the adapter, without numerical changes. Pi must
+use ordinary compatible-endpoint configuration. Expose real limitations. Success
+means a usable session and observed tool execution, not configuration alone.
 
 ## 2. Deferred Q2 restart: reference first
 

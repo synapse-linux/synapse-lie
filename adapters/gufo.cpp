@@ -6,6 +6,7 @@
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
+#include "gufo_chat.hpp"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
 #include "src/core/gguf_reader.hpp"
@@ -121,26 +122,23 @@ extern "C" lie_status lie_model_token_text(lie_model *m, int32_t token, char *ou
 }
 extern "C" lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages, size_t count,
     int32_t *out, size_t capacity, size_t *required, lie_error *e) {
-    if (!m || !messages || !count || count > 32 || !required || (!out && capacity))
-        return error(e, LIE_INVALID, "invalid chat messages/output");
-    return guarded(m->runtime, e, [&] {
-        std::vector<gufo::tokenization::ChatMessage> chat;
-        size_t total = 0;
-        for (size_t i = 0; i < count; ++i) {
-            const auto &msg = messages[i];
-            if (!msg.content || msg.bytes > 65536 - total || msg.role < LIE_CHAT_SYSTEM || msg.role > LIE_CHAT_ASSISTANT)
-                return error(e, LIE_INVALID, "invalid/bounded chat content");
-            total += msg.bytes;
-            auto role = msg.role == LIE_CHAT_SYSTEM ? gufo::tokenization::ChatRole::kSystem :
-                        msg.role == LIE_CHAT_USER ? gufo::tokenization::ChatRole::kUser : gufo::tokenization::ChatRole::kAssistant;
-            chat.emplace_back(role, std::string(msg.content, msg.bytes));
-        }
+    const lie_chat_template input{messages,nullptr,count,nullptr,0,0};
+    return lie_model_chat_tokens_ex(m,&input,out,capacity,required,e);
+}
+extern "C" lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *input,
+    int32_t *out, size_t capacity, size_t *required, lie_error *e) {
+    if (!m || !input || !required || (!out && capacity))
+        return error(e,LIE_INVALID,"invalid chat template/output");
+    return guarded(m->runtime,e,[&] {
+        auto chat=lie_gufo::translate_chat(*input);
+        if (!chat) return error(e,LIE_INVALID,"invalid/bounded chat template");
         gufo::tokenization::ChatTemplateOptions options;
         options.enable_thinking = false;
-        options.max_output_bytes = 1024 * 1024;
+        options.require_tool_call = input->require_tool_call!=0;
+        options.max_output_bytes = gufo::tokenization::RenderedPromptBoundBytes(m->runtime->model->MaxContext());
         std::string message;
         auto tokens = gufo::tokenization::QwenChatTemplate::RenderAndTokenize(
-            m->runtime->model->tokenizer(), chat, options, &message);
+            m->runtime->model->tokenizer(), chat->messages, chat->tools, options, &message);
         if (!tokens) return error(e, LIE_INVALID, message.c_str());
         *required = tokens->size();
         if (tokens->size() > capacity) return error(e, LIE_BUFFER_SMALL, "chat token buffer too small");

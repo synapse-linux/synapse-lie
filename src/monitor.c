@@ -128,7 +128,7 @@ static bool verify(json_object *bundle, lie_scrape *scrape, char *error, size_t 
         json_object *a = field(detail, "measurements", json_type_array), *tags = field(detail, "availableTags", json_type_array);
         if (!a || !tags || json_object_array_length(tags) > 4) goto fail;
         size_t count = json_object_array_length(a);
-        bool timer = !strcmp(name, "http.server.requests"), counter = !strcmp(name, "llm.tokens.generated") || !strcmp(name, "llm.requests.rejected");
+        bool timer = !strcmp(name, "http.server.requests"), counter = !strcmp(name, "llm.tokens.generated") || !strcmp(name, "llm.requests.rejected") || !strcmp(name, "llm.responses.tool_errors");
         if (count != (timer ? 3U : 1U)) goto fail;
         const char *statistics[] = {timer || counter ? "COUNT" : "VALUE", "TOTAL_TIME", "MAX"};
         for (size_t k = 0; k < count; ++k) {

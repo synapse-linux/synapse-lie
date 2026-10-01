@@ -87,6 +87,7 @@ Content-Type is exactly `text/plain; version=0.0.4; charset=utf-8`.
 | http.server.requests | Timer/seconds | method=GET,POST,OTHER; status=2xx,4xx,5xx | from TCP accept until response enqueue (NOT network write completion); bounds .001,.01,.1,1,5,+Inf |
 | llm.requests.rejected | Counter/requests | reason=backend_unavailable,queue_full,invalid_request | framed request refused at HTTP admission |
 | llm.tokens.generated | Counter/tokens | none | worker's successful bounded decode/text results, sampled into registry on the 250ms loop tick; zero without model |
+| llm.responses.tool_errors | Counter/responses | none | completed generation rejected by C17 tool-output validation; no request/tool-name labels |
 
 A scrape's own HTTP timer is updated after its snapshot; different endpoint
 responses are not a cross-request atomic transaction. Incomplete/time-expired
@@ -99,11 +100,16 @@ The worker summary reports queued/active and completed/cancelled/failed generati
 outcomes. These are not client receipt counters: transport may abandon queued
 output after generation completed. Confirmed-token count can include later
 abandoned queued output; executor-suppressed late cancellation is not counted,
-nor is un-emitted EOS. This is not a GPU compute-work or client-delivery meter.
+nor is un-emitted EOS. Tool protocol validation occurs after generation:
+`completed` can therefore coexist with an increment in `llm.responses.tool_errors`.
+Such protocol failures suppress successful HTTP usage/timings/tool deltas, but
+do not poison the executor or erase work already completed. This is not a GPU
+compute-work or client-delivery meter.
 
 Synthetic test executables have explicitly synthetic provider identity and may
 exercise these counters. Their values never constitute inference throughput.
-No real-model LIE counter/timing observation has been produced yet.
+Original-weight observations are retained in [T0-LIFECYCLE.md](T0-LIFECYCLE.md);
+the later tool extension has no new real-model measurement yet.
 
 ## Required inference instrumentation (pending, not emitted as fake zero)
 

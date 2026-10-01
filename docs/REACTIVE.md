@@ -20,6 +20,10 @@ No-model startup still returns 503 for chat. The publisher obeys [LIE-owned cont
 embedded Gufo adapter is permitted initially, followed by requirement-driven
 refactoring toward owned execution. It is not claimed as reimplementation.
 
+The later [native tool extension](SERVER-TOOLS.md) uses the same worker/flow but
+buffers complete tool-enabled turns before publishing parsed calls. Its CPU
+protocol tests do not inherit the older real-model slow-client qualification.
+
 This is not Project Reactor, Rx, a JVM dependency or a Reactive Streams TCK
 compliance claim. It adopts demand, serial signals, cancellation and bounded
 resource ownership. Credits are **confirmed tokens**, whereas one data signal
@@ -48,8 +52,10 @@ Management -> snapshots/counters (never waits for model forward or disk restore)
   owned execution implementation, publishing only completed, confirmed output.
   GPU submission is not completion. Drafted MTP tokens never enter the output
   stream before verification. No callback invokes more inference inline.
-- **Subscriber:** one ordered output owner. Nonstream JSON consumes the same
-  flow into a preallocated bounded aggregation buffer, not an unbounded sink.
+- **Subscriber:** one ordered output owner. Nonstream JSON and tool-enabled
+  turns consume the same flow into a preallocated bounded aggregation buffer,
+  not an unbounded sink. Their demand is replenished on aggregation, unlike
+  ordinary text SSE's write-callback-driven demand.
 - **Subscription:** sequence-local token demand, bounded byte storage, dispatch
   tickets, cancellation and a single terminal outcome. No global hot multicast
   stream and no replay buffer pretending to be recurrent/KV state persistence.
@@ -157,9 +163,9 @@ inferred from these component tests.
 
 T0 admits eight jobs, with one active sequence by default or two explicitly
 configured interleaved single-row sequences. Eight 256-byte slots and initial
-eight-token credit window per job. SSE retains a loan until write completion,
-then releases it and explicitly replenishes token demand. Nonstream reserves
-its aggregate sink before admission. Unknown/unsupported requests fail; overflow
+eight-token credit window per job. Ordinary text SSE retains a loan until write
+completion, then releases it and explicitly replenishes token demand. Nonstream
+and tool-enabled turns reserve a bounded aggregate sink before admission. Unknown/unsupported requests fail; overflow
 is 429. No fake provider is linked into the production executable.
 
 Worker and transport job references are independent. Cancellation calls only
@@ -188,8 +194,9 @@ Remaining work:
   not preempt GPU work or free its state. Keep nonmutating refusals separate from
   model-poisoning failure; loaded-runtime failure requires quiescence before
   retirement, or process exit if quiescence cannot be established.
-- Preserve tool-call ordering and logical continuation. A completed output turn
-  can retain a session waiting for a tool result; the continuation is a new
+- Structured tool ordering/ID correlation is implemented with full history
+  re-prefill. Retained-state continuation is still future work: a completed
+  output turn could retain a session waiting for a tool result; it needs a new
   subscription at a verified state frontier, not a dangling SSE stream or a
   blind replay/retry of previous side effects.
 - SSD work returns immutable completion messages. Only the device owner may

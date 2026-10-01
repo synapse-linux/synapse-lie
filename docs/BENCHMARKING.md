@@ -17,7 +17,10 @@ HTTP benchmarking, not evidence that the whole benchmark can already run.
 
 Full fresh **prefill and decode** are explicitly required for the actual antirez
 Q2/Q4 files. The [format-specific gate](ANTIREZ-BENCHMARKS.md) records their real
-layouts, current reader/binder/PP/TG blockers and the matched per-format protocol.
+layouts and historical reader/binder/PP/TG investigation. The Q2 port is now
+withdrawn; [the replacement plan](REPLAN.md) requires a working native Q2 reference
+before another implementation. Current priority is native server tools with Unsloth,
+not resuming the archived port.
 The existing C17 executor harness measures both PP and TG, but cannot benchmark
 an unsupported model; a separate HTTP lane must exercise the updated worker.
 No UD-Q4_K_XL row, filename-only quantization label or historical DS4 result can
@@ -41,7 +44,7 @@ imported into the server. No sibling project code or artifacts were imported.
 
 | Reference experiment | Meaning / required semantics | Current LIE gap |
 |---|---|---|
-| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | No prefix reuse; HTTP context limit 32768 and 64 KiB body/content limits; exact ordered corpus/calibration not reproduced |
+| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | No prefix reuse; HTTP context limit 32768 and 1 MiB request limit; exact ordered corpus/calibration not reproduced |
 | Single MTP | Same depth sweep; mixed and repetitive workloads; PP is the maximum per engine/depth across these workloads, including predictor catch-up | MTP not exposed |
 | Multi AR/MTP | C1/2/4/6/8, context 4096 per user, all sessions prefilled before measured TG128; **sum of individual decode rates**, not cohort tokens divided by cohort wall time | At most two interleaved single-row sequences, no equivalent prefill/cache cohort protocol or native batching; MTP absent |
 | Loading | Cold target/sidecar files to HTTP readiness, C1/MTP/context 262144 | No equivalent cold-load experiment; never drop global caches or alter another service implicitly |

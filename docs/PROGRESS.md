@@ -16,7 +16,38 @@ reports/evidence and qualified builds are preserved, not active Q2 support.
 The [replacement plan](REPLAN.md) puts Pi tool operation first and any future Q2
 reference measurement before another port. No new GPU result is implied by rollback.
 
-The sections below are dated records of the now-withdrawn experiment.
+Rollback is committed as **`ffca17e`**. A proportional baseline check passed 13
+CPU suites with ASan/UBSan. A deferred Q2-restart task is in the Synapse backlog;
+that capture does not authorize another port or GPU run.
+
+## Server tools — implemented; native Pi CPU round trip passed
+
+The owner rejected a Pi-specific bridge and required completion of the server.
+The unexecuted client draft was withdrawn into `pi-client-bridge-rejected-r1`;
+no global Pi configuration was changed. New C17 input/output parsing supports
+OpenAI tool declarations, structured calls, correlated results, tool choices,
+JSON/SSE results and bounded complete-turn validation. The original native Qwen
+template is used through an additive C ABI entry point. No numerical kernels,
+weights, source dependency or DS4 artifact changed.
+
+`server-tools-final-cpu-r1`: **15 CPU suites pass with ASan/UBSan**, including
+nested nonfinite-value rejection and buffered-tool cancellation/error accounting.
+The new production candidate `build/server-tools-linked-r2/synapse-lie-server` links unchanged pinned
+provider archives; **16 CPU suites pass**, including the actual Qwen formatter.
+All compilation/tests are serial/local and GPU-masked. `server-tools-pi-cpu-r4`
+proves the installed Pi's **standard OpenAI provider** consumed a structured call,
+executed its real `read`, returned the file content and received a final reply
+from the synthetic server. It is not model inference. The earlier Pi fixture
+failed because 4096 context equaled Pi's fixed safety margin, reducing the output
+budget to one token; raw trace/exit and diagnosis remain. The normal profile now
+uses matching server/client context 32768, without changing Pi itself.
+
+The actual Unsloth tool session, 32768-context memory/correctness and updated
+serving/PP/TG behavior remain untested. No model/GPU run, remote staging, permanent
+listener or new lease was started. Current coordination is required before that
+next gate. [Exact scope and setup](SERVER-TOOLS.md).
+
+The Q2 sections below are dated records of the now-withdrawn experiment.
 
 ## Historical first real Q2 model test — matched performance never established
 

@@ -119,7 +119,7 @@ def main():
                 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
                     results=list(pool.map(lambda i:chat(a,payload('normal',bool(i%2),8)),range(16)))
                 assert all(r[0]==200 for r in results)
-                for field,value in [('tools',[]),('temperature',.5),('max_tokens',513),('stream',1),('model','not-loaded')]:
+                for field,value in [('tools',{}),('temperature',.5),('max_tokens',4097),('stream',1),('model','not-loaded')]:
                     obj=payload(); obj[field]=value; assert chat(a,obj)[0]==400
                 obj=payload(); obj['messages']=[{'role':'user','content':'\0'}]; assert chat(a,obj)[0]==400
                 assert request(a,'/v1/chat/completions',b'{bad')[0]==400

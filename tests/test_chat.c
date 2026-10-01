@@ -22,10 +22,11 @@ int main(void) {
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"tool\",\"content\":\"x\"}]}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"\\u0000\"}]}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":[]}]}");
-    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"tools\":[]}");
+    const char *empty_tools="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"tools\":[]}";
+    assert(lie_chat_parse(empty_tools,strlen(empty_tools),"m",&r,error)); lie_chat_free(&r);
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.1}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"stream\":1}");
-    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":513}");
+    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":4097}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":0}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}]}{} ");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"\xff\"}]}");

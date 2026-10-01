@@ -62,12 +62,24 @@ source pin and ownership queries expose delegation; the explicit factory
   internal cleanup remains upstream-owned. Hardware/fault qualification is open.
   Cleanup is the only legal path. No CPU-forward fallback exists.
 
-`lie_model_chat_tokens` adds bounded text-only chat preparation: 1–32 LIE role/
-content spans, at most 64 KiB total content, caller-owned physical token output.
-The adapter validates the GGUF template before model load, then invokes the pinned
-Qwen renderer/tokenizer with thinking disabled. Buffer/context refusal is before
-session mutation. Only system/user/assistant messages are exposed. Raw tokenization
-remains distinct. No tools, snapshots, MTP or native batching entry points exist.
+`lie_model_chat_tokens` retains its ABI-2 signature/layout and now delegates to
+the additive `lie_model_chat_tokens_ex` entry point. The latter takes a borrowed
+`lie_chat_template`: up to 128 message spans with optional tool details, typed
+argument values, up to 128 declarations and a required-call flag. No executor
+struct layout/version change or numerical operation is introduced; older binaries
+without the new symbol cannot be linked as the new adapter. The `LIE_CHAT_TOOL`
+role is appended; developer messages map to leading system messages in C.
+
+The C17 parser owns normalized JSON and copied message content. Ownership moves
+to the worker until retirement; the UI has a deep, independent schema copy, not
+cross-thread json-c refcounts. Adapter translation bounds aggregate spans/strings
+to 4 MiB; HTTP requests have a separate 1 MiB cap. The native renderer applies its
+context-derived output bound (at least 1 MiB). The adapter validates the GGUF
+template before model load, then invokes the pinned Qwen renderer/tokenizer with
+thinking disabled, structured calls/results and real tool declarations. Buffer/
+physical-context refusal precedes session mutation. Plain formatting remains
+byte-identical in the CPU formatter test. Raw tokenization remains distinct.
+No tool code executes here. Snapshots, MTP and native batching remain absent.
 An owned or selectively ported renderer must preserve the applicable, separately
 qualified GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
 to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.

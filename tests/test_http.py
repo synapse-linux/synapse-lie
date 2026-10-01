@@ -97,7 +97,7 @@ def main():
                 time.sleep(.02)
             status, headers, text = request(management, '/actuator/metrics')
             assert status == 200 and headers['Content-Type'] == 'application/vnd.spring-boot.actuator.v3+json'
-            names = json.loads(text)['names']; assert len(names) == 6
+            names = json.loads(text)['names']; assert len(names) == 7 and 'llm.responses.tool_errors' in names
             assert request(api, '/actuator')[0] == 404
             assert request(management, '/v1/models')[0] == 404
             assert json.loads(request(api, '/v1/models')[2])['data'] == []
@@ -121,7 +121,7 @@ def main():
             for query in ('?tag=method:GET&tag=method:POST', '?bad=x', '?tag=%00x:y', '?tag=method:%GG', '?tag=method:GET&'):
                 assert request(management, path + query)[0] == 400, query
             assert request(management, path, 'POST', '{}')[0] == 405
-            assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 70000\r\n\r\n').startswith(b'HTTP/1.1 413')
+            assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1048577\r\n\r\n').startswith(b'HTTP/1.1 413')
             assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 2\r\nContent-Length: 3\r\n\r\n{}x').startswith(b'HTTP/1.1 400')
             assert raw(management, b'GET /actuator HTTP/1.1\r\nHost: x\r\nX: ' + b'a' * 18000 + b'\r\n\r\n').startswith(b'HTTP/1.1 431')
             # Slow incomplete clients cannot block management. Close is network cancellation only.

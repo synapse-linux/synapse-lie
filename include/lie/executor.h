@@ -30,8 +30,38 @@ typedef struct {
     uint64_t weights_bytes, session_bytes, deferred_workspace_bytes;
 } lie_model_info;
 typedef struct { int32_t token; uint32_t emitted, stop, position; } lie_decode_result;
-typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT } lie_chat_role;
+typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT, LIE_CHAT_TOOL } lie_chat_role;
 typedef struct { lie_chat_role role; const char *content; size_t bytes; } lie_chat_message;
+#define LIE_CHAT_BODY_BYTES (1024u * 1024u)
+#define LIE_CHAT_MAX_MESSAGES 128u
+#define LIE_CHAT_MAX_TOOLS 128u
+#define LIE_CHAT_MAX_CALLS 16u
+#define LIE_CHAT_MAX_ARGUMENTS 128u
+/* Additive text-template entry point; existing ABI-2 structs/layouts unchanged.
+ * Strings are NUL-terminated, pointers borrowed until the completed call returns.
+ * No upstream types or executable tool callbacks cross this interface. */
+typedef struct { const char *name, *value; uint32_t is_string; } lie_tool_argument;
+typedef struct {
+    const char *id, *name;
+    const lie_tool_argument *arguments;
+    size_t argument_count;
+} lie_tool_call;
+typedef struct {
+    const char *tool_call_id, *name;
+    const lie_tool_call *calls;
+    size_t call_count;
+} lie_chat_details;
+typedef struct {
+    const char *name, *description, *parameters_json, *definition_json;
+} lie_chat_tool;
+typedef struct {
+    const lie_chat_message *messages;
+    const lie_chat_details *details; /* Optional for ordinary text-only history. */
+    size_t count;
+    const lie_chat_tool *tools;
+    size_t tool_count;
+    uint32_t require_tool_call;
+} lie_chat_template;
 /* Link-time selected provider, never an automatic failure fallback. */
 const char *lie_backend_name(void);
 const char *lie_backend_ownership(void);
@@ -56,6 +86,8 @@ lie_status lie_model_token_text(lie_model *, int32_t token, char *out, size_t ca
  * BUFFER_SMALL reports required physical tokens without creating/mutating a session. */
 lie_status lie_model_chat_tokens(lie_model *, const lie_chat_message *, size_t count,
                                  int32_t *out, size_t capacity, size_t *required, lie_error *);
+lie_status lie_model_chat_tokens_ex(lie_model *, const lie_chat_template *,
+                                    int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_sequence_create(lie_model *, lie_sequence **out, lie_error *);
 lie_status lie_sequence_close(lie_sequence **, lie_error *);
 /* Append-only cumulative physical token prefix. Delta <= configured chunk.

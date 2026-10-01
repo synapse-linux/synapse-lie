@@ -46,6 +46,16 @@ and tests; none is implemented yet. Keep the pristine reference separate from
 instrumented/forked experiments and ports. First-party ownership of orchestration
 does not relicense numerical code or make embedded Model/Session a reimplementation.
 
+## Native server tools
+
+`src/chat_tools.c` and `src/tools.c` are first-party C17 protocol code, not copied
+from DS4 or Gufo's serving frontend. `adapters/gufo_chat.hpp` translates LIE data
+into the existing independently fetched Qwen template API at `f783fedb`; no new
+ChatML/tool prompt or numerical implementation is substituted. Upstream template
+provenance/notices remain applicable. Pi is an optional external client, using its
+standard OpenAI provider and normal JSON configuration; no extension or Pi source
+is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualification.
+
 ## Archived private Q2 experiment
 
 The owner withdrew this experiment. Active overlays/tools are removed; the

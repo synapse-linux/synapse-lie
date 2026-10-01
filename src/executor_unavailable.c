@@ -18,6 +18,7 @@ lie_status lie_model_close(lie_model **m UNUSED, lie_error *e) { return unavaila
 lie_status lie_model_tokenize(lie_model *m UNUSED, const char *s UNUSED, size_t n UNUSED, int32_t *t UNUSED, size_t c UNUSED, size_t *r UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_model_token_text(lie_model *m UNUSED, int32_t t UNUSED, char *s UNUSED, size_t c UNUSED, size_t *r UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_model_chat_tokens(lie_model *m UNUSED, const lie_chat_message *s UNUSED, size_t n UNUSED, int32_t *t UNUSED, size_t c UNUSED, size_t *r UNUSED, lie_error *e) { return unavailable(e); }
+lie_status lie_model_chat_tokens_ex(lie_model *m UNUSED, const lie_chat_template *s UNUSED, int32_t *t UNUSED, size_t c UNUSED, size_t *r UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_create(lie_model *m UNUSED, lie_sequence **s UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_close(lie_sequence **s UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_prefill(lie_sequence *s UNUSED, const int32_t *t UNUSED, size_t n UNUSED, lie_error *e) { return unavailable(e); }
