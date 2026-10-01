@@ -12,6 +12,31 @@ coverage, failures and provenance; none of these runs is a model benchmark.
 **Full-format/model numerical qualification, model memory fit and PP/TG remain
 NOT RUN.** Model admission remains closed; the production provider is unchanged.
 
+## Latest source closure — executor profile preflight
+
+The 2026-10-01 local increment moves Q2 descriptor validation to the start of
+`Executor::Create`, before construction and any HIP call. It checks every
+layer's gate/up/down type, dimensions, nonempty storage and expert count against
+the planned ID domain, plus layer count, capacity and MTP refusal. IQ2/Q2 in any
+of the three roles triggers validation; an up-only mixed profile cannot bypass
+it. Legacy profiles still allocate no Q2 workspace. Routing arithmetic,
+`RowScratch`, the weight tail margin and production upload/link refusals are
+unchanged.
+
+`q2-admission-linked-r1` passes serial masked HIP build/link, formatting and
+host checks. `q2-admission-close-r1` passes all 17 default CTest suites with GCC,
+Clang and ASan/UBSan, including 720 single-field descriptor rejection fixtures
+and 12 HIP source/tool tests. Source identity for this closure is Git base
+`82df5dd` plus the retained diff, not another per-file source hash inventory.
+The earlier source-contract RED and missing-profile-API compile RED are kept in
+`q2-admission-dev-r1`; neither was a GPU arithmetic failure.
+
+**This closes the preflight change, not Q2 model support.** The newly built
+binary has not run on GPU and does not inherit the older 24+64 results as its
+own. Full executor/`RowScratch` execution, memory admission and real-model
+validation remain open. No memory-planner implementation, new GPU run, model
+load or benchmark was added in this closure.
+
 ## Hot-path structure
 
 - `q2_plan.h` is C17-compatible, bounded geometry/workspace planning. It accepts

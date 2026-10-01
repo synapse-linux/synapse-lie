@@ -114,11 +114,15 @@
     },
     "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
       "before_sha256": "b186b9c41f7c8c05d309b7bdde3b3e06afa09fd86b6c452fa9ad40c97b9a47d4",
-      "after_sha256": "6df1e9524571a971a267b521c1b253786e9845020e06c47f33427c6e3a7bb424",
+      "after_sha256": "1385b17a5857a32fceecf8c4047958fa103e13010a970b7998248e6fad1afe47",
       "edits": [
         {
+          "old": "  std::unique_ptr<Executor> e(new Executor());\n",
+          "new": "  // LIE: reject the complete Q2 profile before construction or any HIP call.\n  // In particular, the workspace ID domain must match every weight tensor.\n  const bool q2_profile = std::any_of(\n      model.layers().begin(), model.layers().end(), [](const DeviceLayer& l) {\n        return lie_q2_type(static_cast<int>(l.ffn_gate_exps.type)) ||\n               lie_q2_type(static_cast<int>(l.ffn_up_exps.type)) ||\n               lie_q2_type(static_cast<int>(l.ffn_down_exps.type));\n      });\n  lie_q2_plan plan{};\n  if (q2_profile) {\n    const Config& c = model.config();\n    std::array<lie_q2_layer, LIE_Q2_MAX_LAYERS> descriptors{};\n    if (model.layers().size() > descriptors.size()) {\n      AssignError(error_msg, \"unsupported Q2 layer count\");\n      return nullptr;\n    }\n    const auto view = [](const DeviceTensor& t) {\n      return lie_q2_tensor{static_cast<int>(t.type), t.cols, t.rows, t.experts,\n                           !t.empty()};\n    };\n    for (std::size_t i = 0; i < model.layers().size(); ++i) {\n      const auto& l = model.layers()[i];\n      descriptors[i] = {view(l.ffn_gate_exps), view(l.ffn_up_exps),\n                        view(l.ffn_down_exps)};\n    }\n    if (lie_q2_profile_make(std::max<std::uint32_t>(1, options.max_batch),\n                            c.hidden_size, c.expert_ff, c.num_experts,\n                            c.num_experts_used, c.num_layers, model.has_mtp(),\n                            descriptors.data(), model.layers().size(),\n                            &plan) != LIE_Q2_PROFILE_VALID) {\n      AssignError(error_msg, \"mixed or invalid Q2 routed profile\");\n      return nullptr;\n    }\n  }\n  std::unique_ptr<Executor> e(new Executor());\n  e->q2_workspace_.plan = plan;\n"
+        },
+        {
           "old": "        Alloc<std::int32_t>(a, 3 * RoutedTileCapacity(slots, c), error_msg);\n  }\n",
-          "new": "        Alloc<std::int32_t>(a, 3 * RoutedTileCapacity(slots, c), error_msg);\n  }\n  // Resolve and reserve the Q2 profile once; existing formats allocate nothing\n  // extra. The upload qualification guard remains closed in this candidate.\n  const bool q2_profile = std::any_of(\n      model.layers().begin(), model.layers().end(), [](const DeviceLayer& l) {\n        return l.ffn_gate_exps.type == GgmlType::kIQ2_XXS ||\n               l.ffn_down_exps.type == GgmlType::kQ2_K;\n      });\n  if (q2_profile) {\n    if (model.has_mtp() || c.hidden_size != 2560 || c.expert_ff != 640 ||\n        !lie_q2_plan_make(static_cast<uint32_t>(T), c.num_experts,\n                          c.num_experts_used, &e->q2_workspace_.plan)) {\n      AssignError(error_msg, \"unsupported Q2 workspace profile\");\n      return nullptr;\n    }\n    for (const auto& l : model.layers()) {\n      if (l.ffn_gate_exps.type != GgmlType::kIQ2_XXS ||\n          l.ffn_up_exps.type != GgmlType::kIQ2_XXS ||\n          l.ffn_down_exps.type != GgmlType::kQ2_K ||\n          l.ffn_gate_exps.cols != 2560 || l.ffn_gate_exps.rows != 640 ||\n          l.ffn_up_exps.cols != 2560 || l.ffn_up_exps.rows != 640 ||\n          l.ffn_down_exps.cols != 768 || l.ffn_down_exps.rows != 2560) {\n        AssignError(error_msg, \"mixed or invalid Q2 routed profile\");\n        return nullptr;\n      }\n    }\n    e->q2_workspace_.storage =\n        Alloc<std::uint8_t>(a, e->q2_workspace_.plan.total_bytes, error_msg);\n    if (lie_q2_workspace_prepare(&e->q2_workspace_) != 0) {\n      AssignError(error_msg, \"Q2 workspace preparation failed\");\n      return nullptr;\n    }\n  }\n"
+          "new": "        Alloc<std::int32_t>(a, 3 * RoutedTileCapacity(slots, c), error_msg);\n  }\n  // Reserve the already validated plan once for this owner/stream.\n  // The upload qualification guard remains closed in this candidate.\n  if (q2_profile) {\n    e->q2_workspace_.storage =\n        Alloc<std::uint8_t>(a, e->q2_workspace_.plan.total_bytes, error_msg);\n    if (lie_q2_workspace_prepare(&e->q2_workspace_) != 0) {\n      AssignError(error_msg, \"Q2 workspace preparation failed\");\n      return nullptr;\n    }\n  }\n"
         },
         {
           "old": "  int rc = -1;\n  if (!tiled) {\n    rc = qfn_mmq_moe_vec(static_cast<int>(w.type), w.data, x, ids, out, M, K, T,\n",
@@ -144,7 +148,7 @@
   "owned_files": {
     "src/models/qwen38_flash_next/kernels/rocm/q2_plan.h": {
       "path": "adapters/gufo-q2/q2_plan.h",
-      "sha256": "38cec5e1f0ef1efd781c4a0210d74d94adc15b0a84b931d01b958d91ca85abdb"
+      "sha256": "6220a9acbf08cf63e691e4d98312113f331288cafa8524faaa57a206caa6b56b"
     },
     "src/models/qwen38_flash_next/kernels/rocm/q2_routed.h": {
       "path": "adapters/gufo-q2/q2_routed.h",

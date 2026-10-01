@@ -48,7 +48,10 @@ now compiles routed IQ2/Q2 dispatch with reserved scratch and direct quantized
 padding. After two arithmetic corrections, **24 extended + 64 original synthetic
 controls pass**; see [coverage, raw evidence and the metadata erratum](docs/Q2-EXTENDED.md).
 Full-format/model qualification, memory fit and benchmarks remain **not run**.
-Production model admission stays closed.
+Production model admission stays closed. The subsequent
+[executor preflight closure](docs/Q2-HIP.md#latest-source-closure--executor-profile-preflight)
+validates all Q2 descriptors before HIP calls; its local build and 17 CPU suites
+pass, but full executor/model integration remains unfinished.
 
 The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and

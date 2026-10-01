@@ -4,6 +4,20 @@ Generated evidence is retained here but excluded from publication by default
 (private machine paths and environment observations). Source/provenance/model
 identity manifests needed for development are separately versioned.
 
+## Q2 executor preflight closure
+
+- `q2-admission-dev-r1/`: existing baseline pass, source-placement contract RED
+  and missing-profile-API compile RED, followed by focused host GREEN checks.
+  No GPU execution or model access.
+- `q2-admission-linked-r1/`: fresh serial masked HIP build/link, formatting and
+  host checks pass. This is not a GPU-qualified replacement for the previous
+  operator binaries.
+- `q2-admission-close-r1/`: all 17 default CTest suites pass with GCC, Clang and
+  ASan/UBSan. `result.json` records actual commands/exits and the Git base commit;
+  `source.patch` identifies the tested changes without rehashing all sources.
+  Documentation-only closure edits follow those tests. No new memory planner,
+  model run or benchmark is claimed.
+
 ## Extended Q2 operator increment
 
 - `q2-extended-probe-red-r1/r2/`: missing-cstdint generated-header compile

@@ -79,4 +79,59 @@ static inline int lie_q2_plan_make(uint32_t tokens, uint32_t experts,
   out->total_bytes = end;
   return 1;
 }
+/* Host-only descriptor preflight; no pointers to weight payloads or HIP calls.
+   NONE delegates unchanged legacy validation. VALID only plans this private
+   workspace: it does not authorize upload, runtime linkage or a model run. */
+enum {
+  LIE_Q2_PROFILE_INVALID = -1,
+  LIE_Q2_PROFILE_NONE = 0,
+  LIE_Q2_PROFILE_VALID = 1,
+  LIE_Q2_MAX_LAYERS = 48
+};
+typedef struct {
+  int type;
+  uint32_t cols, rows, experts;
+  int present;
+} lie_q2_tensor;
+typedef struct {
+  lie_q2_tensor gate, up, down;
+} lie_q2_layer;
+static inline int lie_q2_type(int type) {
+  return type == LIE_IQ2_XXS || type == LIE_Q2_K;
+}
+static inline int lie_q2_tensor_matches(lie_q2_tensor t, int type,
+                                        uint32_t cols, uint32_t rows,
+                                        uint32_t experts) {
+  return t.type == type && t.cols == cols && t.rows == rows &&
+         t.experts == experts && t.present == 1;
+}
+static inline int lie_q2_profile_make(uint32_t tokens, uint32_t hidden,
+                                      uint32_t ff, uint32_t experts,
+                                      uint32_t used, uint32_t trunk_layers,
+                                      int has_mtp, const lie_q2_layer* layers,
+                                      size_t count, lie_q2_plan* out) {
+  if (!out)
+    return LIE_Q2_PROFILE_INVALID;
+  const lie_q2_plan empty = {0, 0, 0, 0, {0}, {0}, 0};
+  *out = empty;
+  if (count > LIE_Q2_MAX_LAYERS || (!layers && count))
+    return LIE_Q2_PROFILE_INVALID;
+  int any = 0;
+  for (size_t i = 0; i < count; ++i)
+    any |= lie_q2_type(layers[i].gate.type) || lie_q2_type(layers[i].up.type) ||
+           lie_q2_type(layers[i].down.type);
+  if (!any)
+    return LIE_Q2_PROFILE_NONE;
+  if (has_mtp != 0 || hidden != 2560 || ff != 640 || count != trunk_layers)
+    return LIE_Q2_PROFILE_INVALID;
+  for (size_t i = 0; i < count; ++i) {
+    if (!lie_q2_tensor_matches(layers[i].gate, LIE_IQ2_XXS, 2560, 640,
+                               experts) ||
+        !lie_q2_tensor_matches(layers[i].up, LIE_IQ2_XXS, 2560, 640, experts) ||
+        !lie_q2_tensor_matches(layers[i].down, LIE_Q2_K, 768, 2560, experts))
+      return LIE_Q2_PROFILE_INVALID;
+  }
+  return lie_q2_plan_make(tokens, experts, used, out) ? LIE_Q2_PROFILE_VALID
+                                                      : LIE_Q2_PROFILE_INVALID;
+}
 #endif

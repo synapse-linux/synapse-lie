@@ -82,6 +82,28 @@ class HipPort(unittest.TestCase):
         for item in r['owned_files'].values():
             self.assertEqual(item['sha256'], host.sha((ROOT / item['path']).read_bytes()))
 
+    def test_executor_profile_is_checked_before_construction_or_hip(self):
+        r = json.loads(hip.RECIPE.read_text())
+        entries = r['files']['src/models/qwen38_flash_next/kernels/rocm/executor.cpp']['edits']
+        early = [e['new'] for e in entries if 'lie_q2_profile_make(' in e['new']
+                 and 'std::unique_ptr<Executor> e(new Executor());' in e['old']]
+        self.assertEqual(len(early), 1, 'profile must precede construction/first HIP call')
+        text = early[0]
+        self.assertLess(text.index('lie_q2_profile_make('),
+                        text.index('std::unique_ptr<Executor> e(new Executor());'))
+        for role in ('gate', 'up', 'down'):
+            self.assertIn('lie_q2_type(static_cast<int>(l.ffn_' + role + '_exps.type))', text)
+        self.assertIn('t.experts', text)
+        self.assertIn('!t.empty()', text)
+        self.assertIn('c.num_layers', text)
+        self.assertIn('model.has_mtp()', text)
+        self.assertIn('model.layers().size() > descriptors.size()', text)
+        self.assertNotIn('hipMalloc', text)
+        reserves = [e['new'] for e in entries if 'lie_q2_workspace_prepare(' in e['new']]
+        self.assertEqual(len(reserves), 1)
+        self.assertNotIn('lie_q2_plan_make(', reserves[0])
+        self.assertNotIn('lie_q2_profile_make(', reserves[0])
+
     def test_codebook_generator_hash_geometry_and_exclusive_output(self):
         values = ['0x0808080808080808'] * 256
         values[2] = '0x0808080808081919'

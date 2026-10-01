@@ -6,6 +6,27 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
+## Q2 preflight change closed — local build/tests only
+
+The private `Executor::Create` now validates the entire Q2 descriptor profile
+before construction or HIP calls. All gate/up/down expert counts and nonempty
+storage must match, alongside geometry, layer count and workspace capacity;
+up-only mixed formats are also detected. The C17 planner has 720 single-field
+rejection fixtures. No kernel arithmetic, `RowScratch`, upload refusal or
+production provider change is included.
+
+`q2-admission-linked-r1`: serial masked HIP build/link and host checks pass.
+`q2-admission-close-r1`: all 17 CTest suites pass under GCC, Clang and ASan/UBSan;
+source identity uses base commit `82df5dd` plus `source.patch`. Earlier RED logs
+remain in `q2-admission-dev-r1`. Closure is deliberately limited to the existing
+change: no additional memory subsystem or qualification campaign was started.
+
+Q2 model loading and PP/TG are still **NOT RUN**; executor/model integration and
+necessary memory admission remain unfinished. The previous 24+64 GPU results
+belong to their recorded binaries, not this newly compiled candidate. No remote
+work, GPU run, model access, DS4 change or publication occurred in this closure.
+Details: [Q2-HIP.md](Q2-HIP.md#latest-source-closure--executor-profile-preflight).
+
 ## Q2 extended operators — two fixes, 24 + 64 controls pass
 
 The renewed GPU window exposed two genuine arithmetic losses: IQ2 vector
