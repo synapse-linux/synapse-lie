@@ -17,6 +17,7 @@
 #include <exception>
 #include <limits>
 #include <memory>
+#include <cmath>
 #include <thread>
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
@@ -33,7 +34,7 @@ struct lie_sequence {
     std::unique_ptr<qfn::Session> session;
     gufo::sampling::SamplerState sampler;
     std::atomic<bool> cancelled{false};
-    bool stopped{false};
+    bool stopped{false}, sampling_started{false};
 };
 namespace {
 lie_status error(lie_error *e, lie_status s, const char *message) noexcept {
@@ -157,6 +158,22 @@ extern "C" lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_
         *out = result.release(); return LIE_OK;
     });
 }
+extern "C" lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
+    if (!s || !o) return error(e,LIE_INVALID,"invalid generation controls");
+    auto rc=owner(s->runtime,e); if (rc!=LIE_OK) return rc;
+    if (o->abi_version!=LIE_GENERATION_ABI || o->struct_bytes!=sizeof(*o) || s->session->Position() ||
+        !std::isfinite(o->temperature) || o->temperature<0 || o->temperature>2 ||
+        !std::isfinite(o->top_p) || o->top_p<=0 || o->top_p>1 ||
+        !std::isfinite(o->frequency_penalty) || std::abs(o->frequency_penalty)>2 ||
+        !std::isfinite(o->presence_penalty) || std::abs(o->presence_penalty)>2 || o->seed < -1)
+        return error(e,LIE_INVALID,"invalid generation controls or started sequence");
+    try {
+        gufo::sampling::SamplingConfig c;
+        c.temperature=static_cast<float>(o->temperature); c.top_p=static_cast<float>(o->top_p);
+        c.frequency_penalty=static_cast<float>(o->frequency_penalty); c.presence_penalty=static_cast<float>(o->presence_penalty);
+        c.seed=o->seed; s->sampler=gufo::sampling::SamplerState(c); return LIE_OK;
+    } catch (const std::exception &ex) { return error(e,LIE_INVALID,ex.what()); }
+}
 extern "C" lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     if (!s || !*s) return error(e, LIE_INVALID, "invalid sequence handle");
     auto status = owner((*s)->runtime, e, true); if (status != LIE_OK) return status;
@@ -184,6 +201,9 @@ extern "C" lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *ou
         if (s->cancelled.load()) return error(e, LIE_CANCELLED, "cancelled before submission");
         if (s->stopped || !s->session->Position() || s->session->Position() >= s->session->ContextSize())
             return error(e, LIE_INVALID, "decode frontier unavailable/full/stopped");
+        if (!s->sampling_started) { const auto tokens=s->session->Tokens();
+            std::vector<gufo::sampling::TokenId> history(tokens.begin(),tokens.end());
+            s->sampler.ResetHistory(history); s->sampling_started=true; }
         qfn::Session::DecodeResult result; std::string message;
         if (!s->session->DecodeStep(1, s->sampler, &result, &message, true)) return failed(s->runtime, e, message);
         if (s->cancelled.load()) return error(e, LIE_CANCELLED, "cancelled after completed decode; output suppressed");

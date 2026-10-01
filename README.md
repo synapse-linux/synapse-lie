@@ -5,14 +5,25 @@ Primarily C17, initially targeting Qwen3.8 Flash Next on AMD Strix Halo. An
 refactored toward LIE-owned model/session/memory/execution. Delegation is not
 reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 
-## Current implementation: native tool API, real-model recheck pending
+## Current implementation: reactive OpenAI text/function API
+
+The isolated `feature/openai-reactive-api` increment adds stateless Responses
+JSON/typed SSE and per-sequence sampling to the same C demand-driven worker/flow.
+See [API surface, reactive ownership and explicit limits](docs/OPENAI-REACTIVE.md).
+It is not complete OpenAI platform coverage. Tests run on `.157`; CPU fixtures
+and original-weight HIP evidence remain separate.
+
+## Native tool API baseline
 
 The C17 server now accepts OpenAI function tools, assistant calls and correlated
 tool results, returning structured calls in JSON/SSE. The existing Qwen formatter
 is used through the adapter; numerical kernels are unchanged. **Pi's standard
 OpenAI provider has completed a real `read` tool round trip against the synthetic
 CPU test server**, without a custom extension. The linked Gufo build and CPU
-template checks pass; **Unsloth tool use on this new build has not run yet**.
+template checks pass. On this isolated branch, the original-weight HIP run now
+passes a native function call/result and Responses JSON/SSE; see
+[the exact GPU scope and cleanup](docs/OPENAI-GPU.md). Pi's actual GPU CLI round
+trip remains separate.
 See [server tools, limits and the normal Pi profile](docs/SERVER-TOOLS.md).
 
 The original-weight records below precede the tool extension.
@@ -170,7 +181,7 @@ build label, delegated ownership, capabilities and `hardware_qualified:false`.
 A build label locates evidence; it is not self-attestation.
 
 The server accepts text `system/developer/user/assistant/tool` messages, OpenAI
-function tools, greedy sampling, thinking off, 1–4096 output tokens and physical
+function tools, per-sequence sampling (greedy by default), thinking off, 1–4096 output tokens and physical
 context-budget validation. The [Pi profile](config/pi-unsloth.models.json) requires
 `--context 32768`; do not point it at the 4096-context example above. Unsupported
 controls/images are explicit errors. See [HTTP.md](docs/HTTP.md) for the subset.

@@ -135,3 +135,9 @@ Add these meters only with real update sites. Future percentile estimates must
 use interval histogram deltas with a documented window and bucket interpolation;
 no p95 is implemented or claimed today. Instrumentation overhead has not been
 benchmarked on inference.
+
+Responses uses the same admission/invalid-request counters, tool-output error
+counter, worker generation and retirement counters as Chat Completions. Wire
+text deltas/done projections are not additional generated tokens. Sampling
+options configure per-sequence draw state; they do not redefine physical token
+usage or executor-call timing. No modality or reactive-speedup meter is invented.

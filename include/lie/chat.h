@@ -16,6 +16,7 @@ typedef struct {
     lie_chat_tool tools[LIE_CHAT_MAX_TOOLS];
     size_t count, tool_count;
     unsigned max_tokens;
+    lie_generation_options generation;
     bool stream, include_usage, parallel_tools;
     lie_tool_choice tool_choice;
     const char *named_tool;

@@ -25,3 +25,5 @@ lie_status lie_sequence_prefill(lie_sequence *s UNUSED, const int32_t *t UNUSED,
 lie_status lie_sequence_decode(lie_sequence *s UNUSED, lie_decode_result *r UNUSED, lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_logits(lie_sequence *s UNUSED, float *o UNUSED, size_t c UNUSED, size_t *r UNUSED, lie_error *e) { return unavailable(e); }
 void lie_sequence_cancel(lie_sequence *s UNUSED) { }
+
+lie_status lie_sequence_configure(lie_sequence *s UNUSED,const lie_generation_options *o UNUSED,lie_error *e) { return unavailable(e); }

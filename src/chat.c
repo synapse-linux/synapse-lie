@@ -75,6 +75,7 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
                     lie_chat_request *out, char error[256]) {
     if (!out || !error) return false;
     memset(out, 0, sizeof(*out)); out->max_tokens = 128;
+    out->generation=(lie_generation_options){.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(lie_generation_options),.top_p=1,.seed=-1};
     const char *why = "invalid_json"; json_object *root = NULL;
     if (!model_id) goto fail;
     bool valid=false; root=lie_json_parse(body,bytes,&valid);
@@ -86,17 +87,25 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
             strcmp(name,"stream") && strcmp(name,"temperature") && strcmp(name,"seed") &&
             strcmp(name,"stream_options") && strcmp(name,"chat_template_kwargs") &&
             strcmp(name,"tools") && strcmp(name,"tool_choice") && strcmp(name,"parallel_tool_calls") &&
-            strcmp(name,"max_completion_tokens") && strcmp(name,"store")) goto fail;
+            strcmp(name,"max_completion_tokens") && strcmp(name,"store") && strcmp(name,"top_p") && strcmp(name,"frequency_penalty") && strcmp(name,"presence_penalty")) goto fail;
     }
     json_object *v;
     why = "unknown_model";
     if (!json_object_object_get_ex(root,"model",&v) || !literal(v,model_id)) goto fail;
-    why = "unsupported_sampling";
-    if (json_object_object_get_ex(root,"temperature",&v) &&
-        ((!json_object_is_type(v,json_type_double) && !json_object_is_type(v,json_type_int)) ||
-         !isfinite(json_object_get_double(v)) || json_object_get_double(v)!=0)) goto fail;
-    if (json_object_object_get_ex(root,"seed",&v) &&
-        (!json_object_is_type(v,json_type_int) || json_object_get_int64(v)<0)) goto fail;
+    why = "invalid_sampling";
+    const char *keys[]={"temperature","top_p","frequency_penalty","presence_penalty"};
+    double *values[]={&out->generation.temperature,&out->generation.top_p,&out->generation.frequency_penalty,&out->generation.presence_penalty};
+    const double lo[]={0,0,-2,-2}, hi[]={2,1,2,2};
+    for (size_t i=0;i<4;++i) if (json_object_object_get_ex(root,keys[i],&v)) {
+        if ((!json_object_is_type(v,json_type_double) && !json_object_is_type(v,json_type_int)) || !isfinite(json_object_get_double(v))) goto fail;
+        double x=json_object_get_double(v);
+        if (x<lo[i] || x>hi[i] || (i==1 && x==0)) goto fail;
+        *values[i]=x;
+    }
+    if (json_object_object_get_ex(root,"seed",&v)) {
+        if (!json_object_is_type(v,json_type_int) || json_object_get_int64(v)<0) goto fail;
+        out->generation.seed=json_object_get_int64(v);
+    }
     why = "storage_not_supported";
     if (json_object_object_get_ex(root,"store",&v) &&
         (!json_object_is_type(v,json_type_boolean) || json_object_get_boolean(v))) goto fail;

@@ -232,3 +232,51 @@ def run(api_port, management_port, model, provider, record, check, profile=None)
     finally:
         for s in reversed(sockets):
             s.close()
+
+
+def run_openai(api_port, management_port, model, record, check):
+    """Additional original-weight API cases; caller already owns GPU admission.
+    Protocol, seeded sampling and a native function round trip, not benchmarks.
+    """
+    def exchange(path, body):
+        check()
+        c=http.client.HTTPConnection('127.0.0.1',api_port,timeout=120)
+        try:
+            c.request('POST',path,json.dumps(body),{'Content-Type':'application/json'})
+            r=c.getresponse(); text=r.read().decode('utf-8')
+            record({'case':'openai','path':path,'request':body,'status':r.status,'body':text})
+            if r.status!=200: raise RuntimeError('OpenAI case refused: '+text)
+            return text
+        finally: c.close()
+    q={'model':model,'input':'Reply with exactly READY and nothing else.','max_output_tokens':32,'store':False}
+    full=json.loads(exchange('/v1/responses',q))
+    if full['status']!='completed' or full['output'][0]['content'][0]['text'].strip()!='READY':
+        raise RuntimeError('Responses original-weight content mismatch')
+    stream=exchange('/v1/responses',dict(q,stream=True))
+    events=[]
+    for frame in stream.strip().split('\n\n'):
+        rows=frame.splitlines(); item=json.loads(rows[1][6:])
+        if rows[0]!='event: '+item['type'] or item['sequence_number']!=len(events): raise RuntimeError('Responses SSE ordering')
+        events.append(item)
+    text=''.join(i['delta'] for i in events if i['type']=='response.output_text.delta')
+    if text.strip()!='READY' or events[-1]['type']!='response.completed' or '[DONE]' in stream:
+        raise RuntimeError('Responses SSE terminal/content mismatch')
+    sample={'model':model,'messages':[{'role':'user','content':'Write one short sentence about mountains.'}],
+            'max_tokens':32,'temperature':.7,'top_p':.9,'frequency_penalty':.2,'presence_penalty':.1,'seed':42}
+    pair=[json.loads(exchange('/v1/chat/completions',sample)) for _ in range(2)]
+    if pair[0]['choices']!=pair[1]['choices'] or pair[0]['usage']!=pair[1]['usage']:
+        raise RuntimeError('fresh-session seeded sampling mismatch')
+    tool={'type':'function','function':{'name':'read','description':'Read a named text file.',
+          'parameters':{'type':'object','properties':{'path':{'type':'string'}},'required':['path'],'additionalProperties':False}}}
+    q={'model':model,'messages':[{'role':'user','content':'Call read with path lie-gpu-fixture.txt. Do not answer in text; use the function.'}],
+       'tools':[tool],'tool_choice':{'type':'function','function':{'name':'read'}},'parallel_tool_calls':False,'max_tokens':128}
+    reply=json.loads(exchange('/v1/chat/completions',q))
+    message=reply['choices'][0]['message']; calls=message.get('tool_calls') or []
+    if reply['choices'][0]['finish_reason']!='tool_calls' or len(calls)!=1 or calls[0]['function']['name']!='read' or json.loads(calls[0]['function']['arguments'])!={'path':'lie-gpu-fixture.txt'}:
+        raise RuntimeError('original-weight native function call mismatch')
+    q['messages'] += [message,{'role':'tool','tool_call_id':calls[0]['id'],'content':'File content: LIE-GPU-TOOL-OK. Reply with this exact marker and nothing else.'}]
+    q['tool_choice']='none'
+    final=json.loads(exchange('/v1/chat/completions',q))
+    if final['choices'][0]['message']['content'].strip()!='LIE-GPU-TOOL-OK':
+        raise RuntimeError('original-weight native function result mismatch')
+    return {'state':'PASS','responses_json_sse':True,'seeded_sampling':True,'native_tool_roundtrip':True,'independent_numerical_qualification':False}

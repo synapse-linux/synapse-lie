@@ -107,8 +107,10 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
   sending both is refused. `store:false` is accepted; `store:true` is refused. Physical rendered prompt plus output
   budget must fit configured context (128–32768, default 4096). No silent
   truncation. Template/tokenization/context refusal precedes forward.
-- `temperature`: omitted or numeric zero only. Optional nonnegative integer
-  `seed` is accepted but unused by greedy sampling. No stochastic/penalty controls.
+- `temperature`: omitted defaults to greedy zero; numeric 0–2 selects the
+  per-sequence sampler. `top_p` defaults to 1 and accepts >0–1. Frequency and
+  presence penalties accept −2–2. Optional nonnegative `seed` initializes the
+  per-sequence draw state; omission selects provider entropy for stochastic draws.
 - `stream`: boolean, default false. `stream_options` may contain only boolean
   `include_usage` and only for a streaming request.
 - `chat_template_kwargs` may contain only `enable_thinking:false`; thinking is
@@ -128,8 +130,10 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
   refused before forward. Up to 16 calls per turn, 128 IDs in history and 128
   parameters per call. Names match `[A-Za-z_][A-Za-z0-9_.-]{0,127}`; IDs are at
   most 128 UTF-8 bytes. Reserved Qwen argument delimiters are refused.
+- Temperature 0–2, top_p >0–1, frequency/presence penalties −2–2 and
+  nonnegative seed configure the per-sequence sampler.
 - Unknown fields, custom/non-function tools, images, arbitrary stops, logprobs
-  and unsupported sampling are errors, not ignored options.
+  and invalid/unsupported sampling are errors, not ignored options.
 
 Malformed/unsupported requests are 400; bounded overload is 429. Preparation
 failures are 400 `invalid_request`; backend failures before headers are 503
@@ -268,3 +272,7 @@ unchanged counter after valid samples is zero. Percentiles are not implemented.
 The C and independent Python Prometheus subset parsers are checked; promtool
 was absent, so official validation is not claimed. No service is installed.
 The diagnostics page is not a finished 64-locale release GUI.
+
+Stateless `/v1/responses` text/functions use the same reactive worker/flow;
+see [Responses events and current limits](OPENAI-REACTIVE.md). Encoded network
+writes are bounded to 32 MiB, including repeated final Responses projections.

@@ -34,7 +34,7 @@ source pin and ownership queries expose delegation; the explicit factory
 - Prefill takes a cumulative physical prefix, verifies the existing frontier,
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.
-- Decode is greedy AR, one confirmed token maximum, per-sequence SamplerState.
+- Decode is AR (greedy by default), one confirmed token maximum, per-sequence SamplerState.
   No shared RNG/sampling state. Stop and output count are separate, each 0 or 1;
   a successful return either emits or stops. Position is the previous completed
   position plus emitted count, including un-emitted EOS (no position advance).
@@ -99,3 +99,16 @@ batching, state and later owned implementations; never relabel delegation.
 If reactive inference motivates an asynchronous ABI, add explicit submitted versus
 completed outcomes, tickets and retained lifetimes. Do not change `LIE_OK` from
 completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](INFERENCE-REACTIVE.md).
+
+## Additive generation configuration
+
+`lie_generation_options` has its own ABI 1 version and exact struct size.
+`lie_sequence_configure` runs on the model owner before prefill; a started
+sequence or invalid/nonfinite/range-invalid option is refused. Existing ABI-2
+model/message layouts are unchanged. Parsed requests own their scalar controls;
+there are no upstream types. Temperature, top_p, frequency/presence penalties
+and seed bind a per-sequence sampler. Its penalty history is initialized from
+the entire completed prompt immediately before first decode, not the first
+prefill chunk. Ordinary benchmark callers may retain the default greedy sampler
+without calling the additive entry point. Invalid configuration closes only the
+new sequence; backend/close failure still poisons the runtime.

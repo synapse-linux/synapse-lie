@@ -72,7 +72,7 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     owner(m); assert(count && !m->failed);
     const char *text=messages[count-1].content;
     int mode=!strcmp(text,"FAULT")?2:!strcmp(text,"LONG-A")?3:!strcmp(text,"LONG-B")?4:
-             !strcmp(text,"EMPTY")?6:!strcmp(text,"PREFILL-FAULT")?7:!strcmp(text,"SLOW-PREFILL")?8:
+             !strcmp(text,"CONTROL")?10:!strcmp(text,"EMPTY")?6:!strcmp(text,"PREFILL-FAULT")?7:!strcmp(text,"SLOW-PREFILL")?8:
              !strcmp(text,"SLOW-DECODE")?9:!strcmp(text,"LONG")?1:0;
     const char *faults[]={"BAD-POSITION","BAD-EMITTED","BAD-STOP","NO-PROGRESS","BAD-EOS-POSITION",
         "NEGATIVE-TOKEN","LARGE-TOKEN","DECODE-REFUSAL","PREFILL-REFUSAL","TEXT-REFUSAL","TEXT-SIZE"};
@@ -116,7 +116,7 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
     const char *pieces[]={"fixture:"," ","\xf0","\x9f\x99","\x82","\"\\\n","\xff","\xe2"};
     if (token>=1000) {
         *required=256; if (capacity<256) return error(e,LIE_BUFFER_SMALL,"fixture_piece_bound");
-        memset(out,token==1001?'A':token==1002?'B':'Z',256); return LIE_OK;
+        memset(out,token==1003?1:token==1001?'A':token==1002?'B':'Z',256); return LIE_OK;
     }
     assert(token>=0 && token<8); *required=strlen(pieces[token]);
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_piece_bound");
@@ -158,7 +158,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     bool done=s->mode==6 || (s->mode==0 && s->step==8);
     *out=(lie_decode_result){.stop=done,.position=s->position};
     if (!done) {
-        out->token=s->mode==0?(int)s->step:s->mode==3?1001:s->mode==4?1002:1000;
+        out->token=s->mode==0?(int)s->step:s->mode==3?1001:s->mode==4?1002:s->mode==10?1003:1000;
         out->emitted=1; out->position=++s->position; ++s->step;
     }
     switch (s->mode) {
@@ -178,3 +178,10 @@ lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, siz
     (void)out; (void)capacity; (void)required; owner(s->model); return error(e,LIE_UNSUPPORTED,"fixture_has_no_logits");
 }
 void lie_sequence_cancel(lie_sequence *s) { atomic_store(&s->cancelled,true); }
+
+lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
+    (void)e; owner(s->model); assert(!s->position);
+    /* Internal synthetic submissions historically use an all-zero request. */
+    assert(!o->abi_version || (o->abi_version==LIE_GENERATION_ABI && o->struct_bytes==sizeof(*o)));
+    return LIE_OK;
+}

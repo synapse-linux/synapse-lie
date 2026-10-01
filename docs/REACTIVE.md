@@ -30,6 +30,11 @@ resource ownership. Credits are **confirmed tokens**, whereas one data signal
 may contain a chunk of several tokens; this is deliberately not the formal
 Reactive Streams item-count protocol. No reactive wrapper per tensor/kernel.
 
+The Responses API uses this same subscription and transport boundary, including
+write-completion-driven demand for text SSE. Its final response projection is
+bounded separately; typed protocol events do not dispatch inference directly.
+See [the OpenAI surface and remaining limits](OPENAI-REACTIVE.md).
+
 ## End-to-end topology — T0 binding implemented; real-model gate open
 
 ```text

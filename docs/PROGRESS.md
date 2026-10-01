@@ -1,3 +1,26 @@
+# Isolated OpenAI reactive API increment
+
+Worktree `/tmp/synapse-lie-pi-tools`, branch `feature/openai-reactive-api`, created
+from `develop`, then fast-forwarded to the existing native-tools base `e3d0c7a`.
+The original worktree remains untouched; no merge, push or deployment.
+
+User direction: general OpenAI functionality, compatible clients through their
+ordinary protocol; C reactive execution, tests on `.157` with GPU. New Responses
+normalization/wire and sequence sampling build on the typed native tool API and
+existing bounded flow. General API coverage remains incomplete; see
+[the exact capability matrix](OPENAI-REACTIVE.md).
+
+Remote `openai-reactive-cpu-r3`: all 16 CTest suites pass in debug and with
+ASan/UBSan. Local HIP link succeeds against the pinned LIE-owned upstream build.
+The earlier compile type mismatch (`int32` prompt versus upstream unsigned
+sampler history) and its actual exit code are retained under
+`evidence/openai-reactive-build-r2`; the adapter now explicitly copies the typed
+history. Original-weight GPU runs `openai-reactive-gpu-r2/r3` passed lifecycle, Responses
+JSON/SSE, seeded sampling and a native function round trip. Final server/helper
+exits are 0; all four unchanged leases are free and KFD empty at postflight.
+See [the precise result and limits](OPENAI-GPU.md).
+These statements do not qualify independent numerics, performance or deployment.
+
 # Resumption — original-weight serving smoke and C1 baseline, numerical gate open
 
 Owner: synapse-lie fork; DS4 remains the other agent's project.

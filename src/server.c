@@ -3,6 +3,7 @@
 #include "lie/worker.h"
 #include "lie/wire.h"
 #include "lie/tools.h"
+#include "lie/responses.h"
 #include <json-c/json.h>
 #include <llhttp.h>
 #include <uv.h>
@@ -18,7 +19,7 @@
 
 #define JSON_TYPE "application/vnd.spring-boot.actuator.v3+json"
 #define PROM_TYPE "text/plain; version=0.0.4; charset=utf-8"
-#define MAX_RESPONSE (6u * MAX_TEXT + 4096u)
+#define MAX_RESPONSE (32u * 1024u * 1024u) /* Bounded Responses done events + final projection. */
 #define MAX_BODY LIE_CHAT_BODY_BYTES
 #define MAX_HEADERS (16 * 1024)
 #define MAX_CONNECTIONS 64
@@ -47,7 +48,8 @@ struct connection {
     lie_flow_event event;
     lie_job *job;
     lie_utf8_decoder utf8;
-    bool parse_tools;
+    bool parse_tools, responses;
+    uint64_t response_sequence;
     lie_tool_policy tools;
     char request_id[96];
     int64_t created;
@@ -140,6 +142,8 @@ static void respond(connection *c, int code, const char *type, const char *body)
 }
 static void error_detail(connection *c, int code, const char *key, const char *message) {
     json_object *j=json_object_new_object(), *e=json_object_new_object();
+    json_object_object_add(e,"type",json_object_new_string(code>=500?"server_error":"invalid_request_error"));
+    json_object_object_add(e,"param",NULL);
     json_object_object_add(e,"code",json_object_new_string(key));
     json_object_object_add(e,"message",json_object_new_string(message));
     json_object_object_add(j,"error",e);
@@ -170,7 +174,7 @@ static void pump_job(connection *c) {
     }
     if (c->streaming && !c->responded && info.prepared) {
         const char *header="HTTP/1.1 200 OK\r\nContent-Type: text/event-stream; charset=utf-8\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nX-Accel-Buffering: no\r\n\r\n";
-        char *intro=lie_wire_chunk(c->request_id,c->owner->model_id,c->created,"",0,true);
+        char *intro=c->responses?lie_response_begin(c->request_id,c->owner->model_id,c->created,&c->response_sequence,!c->parse_tools):lie_wire_chunk(c->request_id,c->owner->model_id,c->created,"",0,true);
         if (!intro) { close_connection(c); return; }
         size_t n=strlen(header)+strlen(intro); char *body=malloc(n+1);
         if (body) snprintf(body,n+1,"%s%s",header,intro);
@@ -191,10 +195,16 @@ static void pump_job(connection *c) {
         } else c->loan=true;
         if (!lie_utf8_feed(&c->utf8,(const char *)c->event.data,terminal?0:c->event.bytes,
                            terminal,text,sizeof(text),&bytes)) { close_connection(c); release_loan(c); return; }
-        if (!c->streaming || c->parse_tools) {
+        if (!c->streaming || c->parse_tools || c->responses) {
             if (bytes>MAX_TEXT-c->text_bytes) { close_connection(c); release_loan(c); return; }
             memcpy(c->text+c->text_bytes,text,bytes); c->text_bytes+=bytes;
-            if (!terminal) { release_loan(c); continue; }
+            if (!terminal) {
+                if (c->responses && c->streaming && !c->parse_tools && bytes) {
+                    char *chunk=lie_response_delta(c->request_id,text,bytes,&c->response_sequence);
+                    queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM); return;
+                }
+                release_loan(c); continue;
+            }
             if (c->parse_tools) {
                 json_object *message=NULL; char error[256]={0};
                 bool finished=info.finish==LIE_FINISH_STOP || info.finish==LIE_FINISH_LENGTH;
@@ -209,21 +219,42 @@ static void pump_job(connection *c) {
                         if (finished) error_detail(c,502,"invalid_tool_output",info.error);
                         else job_error(c,&info);
                     } else {
-                        char *end=lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,false);
+                        char *end=c->responses?lie_response_end(c->request_id,c->owner->model_id,c->created,"",0,NULL,&info,&c->response_sequence,false):lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,false);
                         queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
                     }
                     return;
                 }
-                char *response=lie_wire_message(c->request_id,c->owner->model_id,c->created,message,&info,c->streaming,c->include_usage);
+                json_object *content=NULL,*calls=NULL;
+                (void)json_object_object_get_ex(message,"content",&content);
+                (void)json_object_object_get_ex(message,"tool_calls",&calls);
+                const char *prose=content?json_object_get_string(content):"";
+                size_t length=content?(size_t)json_object_get_string_len(content):0;
+                char *response=c->responses?(c->streaming?
+                    lie_response_end(c->request_id,c->owner->model_id,c->created,prose,length,calls,&info,&c->response_sequence,false):
+                    json_text(lie_response_object(c->request_id,c->owner->model_id,c->created,prose,length,calls,&info))):
+                    lie_wire_message(c->request_id,c->owner->model_id,c->created,message,&info,c->streaming,c->include_usage);
                 json_object_put(message);
                 if (c->streaming) queue_write(c,response,response?strlen(response):0,WRITE_STREAM_END);
                 else { respond(c,200,"application/json",response); free(response); }
                 return;
             }
             if (info.finish!=LIE_FINISH_STOP && info.finish!=LIE_FINISH_LENGTH) {
-                job_error(c,&info); return;
+                if (c->responses && c->streaming) {
+                    char *end=lie_response_end(c->request_id,c->owner->model_id,c->created,"",0,NULL,&info,&c->response_sequence,false);
+                    queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
+                } else job_error(c,&info);
+                return;
             }
-            char *response=lie_wire_completion(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,&info);
+            if (c->responses && c->streaming) {
+                char *tail=bytes?lie_response_delta(c->request_id,text,bytes,&c->response_sequence):strdup("");
+                char *end=lie_response_end(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,NULL,&info,&c->response_sequence,true);
+                if (!tail || !end) { free(tail); free(end); close_connection(c); return; }
+                size_t n=strlen(tail)+strlen(end); char *body=malloc(n+1);
+                if (body) snprintf(body,n+1,"%s%s",tail,end);
+                free(tail); free(end); queue_write(c,body,n,WRITE_STREAM_END); return;
+            }
+            char *response=c->responses?json_text(lie_response_object(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,NULL,&info)):
+                lie_wire_completion(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,&info);
             respond(c,200,"application/json",response); free(response); return;
         }
         if (!terminal) {
@@ -245,7 +276,7 @@ static void submit_chat(connection *c) {
         lie_counter_add(s->metrics,s->rejected,1); error_response(c,503,"backend_unavailable"); return;
     }
     lie_chat_request request; char error[256];
-    if (!lie_chat_parse(c->body,c->body_size,s->model_id,&request,error)) {
+    if (!(c->responses?lie_responses_parse(c->body,c->body_size,s->model_id,&request,error):lie_chat_parse(c->body,c->body_size,s->model_id,&request,error))) {
         lie_counter_add(s->metrics,s->rejected_invalid,1);
         error_response(c,400,error); return;
     }
@@ -254,7 +285,7 @@ static void submit_chat(connection *c) {
     if (c->parse_tools && !lie_tool_policy_copy(&request,&c->tools)) {
         lie_chat_free(&request); error_response(c,500,"allocation_failed"); return;
     }
-    if (!c->streaming || c->parse_tools) {
+    if (!c->streaming || c->parse_tools || c->responses) {
         c->text=malloc(MAX_TEXT);
         if (!c->text) { lie_chat_free(&request); error_response(c,500,"allocation_failed"); return; }
     }
@@ -263,7 +294,7 @@ static void submit_chat(connection *c) {
         lie_counter_add(s->metrics,result==2?s->rejected_capacity:s->rejected,1);
         error_response(c,result==2?429:503,result==2?"queue_full":"backend_unavailable"); return;
     }
-    snprintf(c->request_id,sizeof(c->request_id),"chatcmpl-%s-%llu",s->instance,(unsigned long long)++s->request_counter);
+    snprintf(c->request_id,sizeof(c->request_id),"%s%s-%llu",c->responses?"resp_":"chatcmpl-",s->instance,(unsigned long long)++s->request_counter);
     c->created=(int64_t)time(NULL);
     if (uv_poll_init(&s->loop,&c->output_poll,lie_flow_fd(lie_job_flow(c->job),LIE_FLOW_OUTPUT_READY))) {
         close_connection(c); return;
@@ -415,6 +446,9 @@ static void route(connection *c) {
         }
         if (!strcmp(c->url, "/v1/chat/completions") && c->parser.method == HTTP_POST && !query) {
             submit_chat(c); return;
+        }
+        if (!strcmp(c->url,"/v1/responses") && c->parser.method==HTTP_POST && !query) {
+            c->responses=true; submit_chat(c); return;
         }
         error_response(c, 404, "not_found"); return;
     }

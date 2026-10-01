@@ -304,6 +304,8 @@ def main():
                     result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
                 except checks.Inconclusive:
                     result['lifecycle_status']='INCONCLUSIVE'; raise
+                if manifest.get('openai_checks'):
+                    result['openai']=checks.run_openai(19879,19880,'qwen3.8-flash-next',record,check)
             result['lifecycle_status']='PASS'
             result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
         stage('SMOKE_PASSED_AWAITING_SHUTDOWN')

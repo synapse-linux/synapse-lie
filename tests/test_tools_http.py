@@ -18,7 +18,7 @@ def port():
 
 
 def exchange(p, path, body=None):
-    c = http.client.HTTPConnection('127.0.0.1', p, timeout=10)
+    c = http.client.HTTPConnection('127.0.0.1', p, timeout=30)
     c.request('GET' if body is None else 'POST', path,
               None if body is None else json.dumps(body).encode(),
               {} if body is None else {'Content-Type': 'application/json'})

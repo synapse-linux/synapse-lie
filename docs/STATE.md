@@ -107,3 +107,12 @@ atomic-write failure phases, interrupted workers, quota/eviction races and incom
 template, context, dtype and payload versions. Benchmark restore wall time,
 transfer and avoided prefill against recomputation; SSD is not assumed faster.
 Active-state paging and weight streaming are explicitly outside this version.
+
+## Responses request state
+
+Stateless Responses requests normalize into the same owned chat history, job
+and flow. No new recurrent-state store or parallel model scheduler is created.
+The UI independently retains the tool policy; the worker owns parsed input.
+A text stream may hold a bounded final response projection while its current
+flow loan stays pinned through write completion. Typed response terminals do
+not change the dispatch frontier, accounting or cancellation ownership.

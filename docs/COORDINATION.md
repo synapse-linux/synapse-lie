@@ -201,3 +201,16 @@ or performance qualification. The later separately admitted C1 measurement is
 an embedded-provider timing baseline, not an independent numerical or speedup
 qualification. Local compilation/no-model/synthetic receipts retain their original
 scope. No remote compilation, dependency installation or model conversion occurred.
+
+## Isolated OpenAI reactive window completed
+
+The user requested GPU tests on `.157` and an isolated worktree/feature branch.
+`openai-reactive-gpu-r2` and final `r3` acquired all four existing leases EX|NB
+in the established order, with fresh in-lease preflight, start/end register and
+observed process ownership. Final r3 completed at 2026-10-01T13:52:14 UTC; server/
+helper exit 0. Postflight at 13:54:02 UTC found empty KFD, owned PIDs absent and
+unchanged/free locks. No formal DS4 ACK or standing lease is implied.
+See [the original-weight protocol evidence](OPENAI-GPU.md). Source and results
+remain in the isolated branch; concurrent original-worktree records are not
+rewritten by this increment. CPU parser/lifetime/sanitizer checks also ran on
+`.157`, with GPU visibility explicitly disabled only for synthetic fixtures.

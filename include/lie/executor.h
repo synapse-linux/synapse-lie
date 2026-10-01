@@ -62,6 +62,15 @@ typedef struct {
     size_t tool_count;
     uint32_t require_tool_call;
 } lie_chat_template;
+/* Additive generation controls; default initialization is greedy. The caller
+ * supplies ABI/version size; configuration occurs before any prefill/dispatch. */
+#define LIE_GENERATION_ABI 1u
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    double temperature, top_p, frequency_penalty, presence_penalty;
+    int64_t seed; /* -1 = provider entropy; nonnegative = reproducible draw seed. */
+} lie_generation_options;
+lie_status lie_sequence_configure(lie_sequence *,const lie_generation_options *,lie_error *);
 /* Link-time selected provider, never an automatic failure fallback. */
 const char *lie_backend_name(void);
 const char *lie_backend_ownership(void);
@@ -93,7 +102,7 @@ lie_status lie_sequence_close(lie_sequence **, lie_error *);
 /* Append-only cumulative physical token prefix. Delta <= configured chunk.
  * Prefix mismatch/refusal occurs before GPU submission; no arbitrary truncate. */
 lie_status lie_sequence_prefill(lie_sequence *, const int32_t *prefix, size_t tokens, lie_error *);
-/* AR only, greedy, one confirmed token maximum. Sampling state is per sequence. */
+/* AR only, one confirmed token maximum. Sampling state is per sequence. */
 lie_status lie_sequence_decode(lie_sequence *, lie_decode_result *, lie_error *);
 lie_status lie_sequence_logits(lie_sequence *, float *out, size_t capacity, size_t *required, lie_error *);
 /* Thread-safe latch only; no GPU preemption. In-flight work completes; its

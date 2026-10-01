@@ -14,6 +14,12 @@ static void rejects(const char *body) {
 }
 int main(void) {
     lie_chat_request r; char error[256];
+    const char *sampling="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.7,\"top_p\":0.8,\"frequency_penalty\":-1,\"presence_penalty\":1.5,\"seed\":42}";
+    lie_chat_request controls; char controls_error[256];
+    assert(lie_chat_parse(sampling,strlen(sampling),"m",&controls,controls_error));
+    assert(controls.generation.temperature==0.7 && controls.generation.top_p==0.8 && controls.generation.seed==42);
+    assert(controls.generation.frequency_penalty==-1 && controls.generation.presence_penalty==1.5);
+    lie_chat_free(&controls);
     const char *valid="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"hello €\"}],\"temperature\":0,\"seed\":3,\"stream\":true,\"stream_options\":{\"include_usage\":true},\"chat_template_kwargs\":{\"enable_thinking\":false}}";
     assert(lie_chat_parse(valid,strlen(valid),"m",&r,error));
     assert(r.count==1 && r.max_tokens==128 && r.stream && r.include_usage);
@@ -24,7 +30,7 @@ int main(void) {
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":[]}]}");
     const char *empty_tools="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"tools\":[]}";
     assert(lie_chat_parse(empty_tools,strlen(empty_tools),"m",&r,error)); lie_chat_free(&r);
-    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.1}");
+    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":2.1}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"stream\":1}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":4097}");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":0}");

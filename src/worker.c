@@ -185,6 +185,14 @@ static bool step(lie_worker *w, size_t index) {
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,LIE_FINISH_BACKEND,error.message); return true;
         }
+        rc=lie_sequence_configure(sequence,&j->request.generation,&error);
+        if (rc!=LIE_OK) {
+            lie_error close_error={0};
+            lie_status closed=lie_sequence_close(&sequence,&close_error);
+            if (closed!=LIE_OK || rc==LIE_BACKEND_FAILED) poison(w,closed!=LIE_OK?&close_error:&error);
+            finish_job(w,index,rc==LIE_BACKEND_FAILED || closed!=LIE_OK?LIE_FINISH_BACKEND:LIE_FINISH_INVALID,error.message);
+            return true;
+        }
         pthread_mutex_lock(&w->gate); --w->info.queued; ++w->info.active; pthread_mutex_unlock(&w->gate);
         pthread_mutex_lock(&j->gate);
         j->sequence=sequence;
