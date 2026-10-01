@@ -6,7 +6,29 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
-## Q2 HIP routing implemented privately — compiled, not GPU-qualified
+## Q2 initial GPU operators — 64/64 pass, model admission still closed
+
+After the fresh `hai la finestra libera` handover, `.157` passed the fixed
+`q2-operator-gpu-r1` synthetic suite at **2026-10-01 07:03:42–07:03:46 UTC**
+(supervisor scope, not timing/throughput). All four existing leases were held
+nonblockingly. The unchanged r5 probe from `dc5ef28` completed 36 IQ2 and 28 Q2
+cases with maximum reported absolute errors 4.76837158e-7 and 0 respectively,
+within the predeclared tolerance. Padding/output guards pass; no retries.
+
+Raw case records, empty stderr, nine telemetry samples and start/end registration
+are retained and pass offline audit. Child/supervisor exit 0, binary/DSOs/power
+settings unchanged; owned PIDs absent/KFD empty at 07:04:44, known leases free at
+07:07:03 UTC. Desktop clients/denied FD observations remain visibility limits,
+not proof of universal exclusivity. No model access, remote build, deployment,
+install, tuning or DS4 changes. Full GPU output arrays were not emitted.
+
+**Scope is limited:** grid-zero IQ2, synthetic power-of-two scales/activations,
+small ragged output shapes and tiled width 16. Full codebook/shape qualification,
+Executor/RowScratch integration, matched UD regression, role-aware memory
+admission and independent full-model parity remain. Model upload/runtime gates
+stay closed; antirez and new-server PP/TG remain not run. See [Q2-HIP.md](Q2-HIP.md).
+
+## Earlier Q2 HIP implementation — compiled, before the GPU run
 
 The private candidate now routes IQ2_XXS gate/up (vector, paired/grouped and
 prefill tiled) and Q2_K down (vector/tiled). Logical 640-float rows are read with
@@ -26,12 +48,11 @@ all final hashes, production refusal and saved-header GCC/Clang binding again.
 Its earlier diff-rendering error on an unchanged binary fixture is retained.
 All original sources/builds remain intact.
 
-**No Q2 GPU operator or model run, numerical model parity, memory-fit result or
-performance measurement yet.** The 64-case synthetic GPU probe is prepared;
-its scalar expression covers Q2 affine blocks and IQ2 grid-zero sign/scale cases,
-not every IQ2 codebook entry. Runtime admission remains expressly disabled.
-Next is a freshly coordinated/leased operator run, broader format/shape checks,
-then full-model memory admission/reference qualification and PP/TG. See
+At this implementation receipt, GPU work was still **not run**. The later
+64-case run above advances only the initial operator gate; its scalar expression
+covers Q2 affine blocks and IQ2 grid-zero sign/scale cases, not the full codebook.
+Runtime admission remains disabled pending broader format/shape checks,
+full-model memory admission/reference qualification and PP/TG. See
 [Q2-HIP.md](Q2-HIP.md). No reactive speedup or cache capability is claimed.
 
 ## Q2 compatibility started — private host path passes, GPU path remains closed

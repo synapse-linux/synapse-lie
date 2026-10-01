@@ -70,7 +70,8 @@ existing licensed Gufo/llama.cpp MMQ IQ2/Q2 numerical helpers; first-party work
 covers routing, reserved workspace, source geometry and zero-safe quantization
 specializations. No sibling code/artifact or independent antirez numeric code
 was imported. The helpers and their notices retain upstream provenance. This is
-not a standalone C17 model engine, and compiled operators are not GPU-qualified.
+not a standalone C17 model engine. The initial 64 synthetic GPU operator cases
+pass, but do not establish full-format or model qualification.
 
 ## Private Qwen-only build scope
 

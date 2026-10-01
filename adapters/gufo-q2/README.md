@@ -23,8 +23,9 @@ that host acceptance implements a GPU route.
 `hip-edits.json` now layers six further exact changes plus `q2_plan.h`,
 `q2_routed.h` and `q2_routed.hip` over that host variant. The private candidate
 implements vector/tiled/grouped IQ2/Q2 dispatch, direct quantized padding and
-reserved scratch. It compiles with the MMQ target's flags but remains **unqualified
-on GPU and refused for production model admission**. Host-recipe changes in this
+reserved scratch. It compiles with the MMQ target's flags and passes the initial
+64 synthetic GPU cases. **Full-format/model qualification remains open and
+production model admission is refused**. Host-recipe changes in this
 increment are formatting only. The original Gufo arithmetic helpers are reused;
 this is not an autonomous numerical engine.
 

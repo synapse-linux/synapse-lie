@@ -27,7 +27,32 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest completed run — lifecycle qualification
+## Latest completed run — initial Q2 synthetic GPU operators
+
+On **2026-10-01**, the operator supplied a fresh window: `hai la finestra libera`.
+The **06:57:06–06:57:10 UTC** read-only check found empty KFD, no observed
+inference/model handles or known lease holders, GPU busy 0%, and six existing
+desktop DRI clients. The formal DS4 ACK remained absent. No campaign gap was
+entered; no waiter/retry was installed.
+
+`q2-operator-gpu-r1` acquired all four existing locks in the documented order,
+EX|NB with FD/path/expected identity checks. It ran at **07:03:42.563098–
+07:03:46.073077 UTC** (supervisor scope). The unchanged `q2-route-linked-r5`
+synthetic probe passed **64/64**, child/supervisor exit 0, with start/end register
+records. No model load/payload, benchmark, remote build/install, deployment,
+GPU tuning or DS4 modification occurred. See [Q2-HIP.md](Q2-HIP.md) for the narrow
+numerical coverage; production model admission remains closed.
+
+No new foreign GPU client was observed in nine telemetry samples. The desktop
+baseline and 463 denied FD observations preclude universal exclusivity claims.
+Binary/DSOs/power settings stayed unchanged. At **07:04:44 UTC** both owned
+process identities were absent and KFD was empty; at **07:07:03 UTC** all four
+unchanged lease files had no holders. Exact case/telemetry/exit evidence and the
+offline audit are retained in `evidence/q2-operator-gpu-r1/`. There is no permanent
+listener, pending run or active LIE lease. This completed window is not standing
+authorization for later GPU work.
+
+## Previous original-weight run — lifecycle qualification
 
 The 22:42 UTC operator handover admitted `t0-model-lifecycle-r1` at 23:01 UTC.
 All four existing locks were acquired in order, without waiting or recreating

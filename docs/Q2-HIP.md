@@ -1,10 +1,11 @@
-# Q2 routed HIP candidate — compiled, not GPU-qualified
+# Q2 routed HIP candidate — initial GPU operators pass, model still blocked
 
 This continues the [host compatibility slice](Q2-COMPATIBILITY.md). The private
-candidate now implements routed IQ2_XXS gate/up and padded Q2_K down dispatch.
-**No GPU operator/model execution, numerical model qualification, memory-fit
-measurement or PP/TG benchmark has run for this candidate.** Model admission
-remains closed, and the production server/provider is unchanged.
+candidate implements routed IQ2_XXS gate/up and padded Q2_K down dispatch.
+On **2026-10-01**, the first fixed synthetic GPU suite passed **64/64 cases** on
+`.157`, after fresh operator handover and all four nonblocking leases.
+**Full-format/model numerical qualification, model memory fit and PP/TG remain
+NOT RUN.** Model admission remains closed; the production provider is unchanged.
 
 ## Hot-path structure
 
@@ -35,7 +36,8 @@ kernel. `RowScratch` still advances the logical gate/up rows correctly.
 The new tiled Q2/IQ2 quantizer specializations explicitly handle a zero maximum:
 zero values, scales and sums, rather than computing `0 * infinity`. Nonzero
 arithmetic and the original formats' default quantizer specializations are
-unchanged. GPU byte/numerical checks are prepared, **not yet passed**.
+unchanged. The initial GPU suite passes Q2 padding-byte checks, zero-row
+arithmetic and output guards; this does not cover every input/production shape.
 
 ### Reserved scratch and lifetime
 
@@ -102,25 +104,55 @@ upload refusal remain. Removing the refusal is **not** a qualification step.
 | Candidate builds | `q2-route-linked-r4/r5`: shared upstream formatting script PASS with installed clang-format, HIP compile/link and masked host refusal/scalar-golden checks PASS; r5 also ensures one-row operator fixtures are nonzero |
 | Host binding regression | `q2-route-host-r1`: eight C++ cases on GCC/Clang/ASan/UBSan after host-only formatting changes |
 | Delivery | `q2-route-delivery-r2`: final hashes/1022 files/production refusal and saved-header GCC/Clang binding checked; original qualified server unchanged. The preceding audit's binary-fixture UTF-8 diff-rendering failure is retained as r1, not a kernel failure |
-| GPU operators / real Q2 / performance | **NOT RUN**, not zero throughput and not an OOM/fit result |
+| Initial GPU operators | `q2-operator-gpu-r1`: **64/64 PASS**, child/supervisor exit 0, fixed scalar tolerance unchanged |
+| Real Q2 / full-format numerics / performance | **NOT RUN**, not zero throughput and not an OOM/fit result |
 
 The shared formatting script runs directly with installed tools; no Nix download,
 installation, full upstream release build or independent review is claimed.
 
-`tests/q2_operator_probe.cpp` prepares **64 GPU cases**: vector/tiled, IQ2 paired
+`tests/q2_operator_probe.cpp` executed **64 GPU cases**: vector/tiled, IQ2 paired
 and fused/grouped gate/up, Q2 physical down, rows 1/2/3/8/9/32/33, odd output rows
 3/17, shared/different/duplicate/inactive routing, dirty scratch, exact logical
 input allocations, output guards and quantized zero padding. Its independent
 scalar expression uses synthetic power-of-two inputs/scales; IQ2 deliberately
 covers only **grid code zero** with varied sign/scale fields. Tiled cases request
 width 16; other tile widths and full production shapes remain to be covered.
-CPU scalar goldens passed; the GPU mode has **not** run. The fixed absolute/relative error bound is
-`0.0002 + 0.00004 * abs(reference)`, recorded before any GPU execution. This is
+CPU goldens and the GPU suite passed. The fixed absolute/relative error bound is
+`0.0002 + 0.00004 * abs(reference)`, recorded before GPU execution. This remains
 an initial operator check, not all-codebook or independent full-model parity.
 
-Next: obtain current coordination/leases and run that bounded synthetic GPU
-suite, retain failures without opportunistic retries, then broaden codebook/
-shape/reload checks and matched original-UD regression. Before any Q2 model load,
+### First GPU receipt
+
+`evidence/q2-operator-gpu-r1/` records the one-shot window at
+**07:03:42.563098–07:03:46.073077 UTC** (supervisor/preflight/cleanup scope, **not
+kernel timing**). It executed the unchanged `q2-route-linked-r5` probe from source
+`dc5ef288c18be0cff4b9c4a8adc81bebe327b013`, SHA-256
+`9fbde249089d2be33ff4a37831895ab7a401d4832aa33c26e026ebf076831e7e`.
+
+- IQ2: **36 cases**, largest reported absolute error **4.76837158e-7**.
+- Q2: **28 cases**, largest reported absolute error **0** on these deliberately
+  exactly quantizable fixtures; this is not a claim of lossless Q2 weights.
+- All output canaries/Q2 quantized padding checks passed. The case calls wait
+  for completed stream work before copying/comparing output, not just enqueue.
+- No retries, fallback, failed cases, weight access, model load, remote build,
+  dependency install, tuning, server request or DS4 modification.
+- All 130 stdout lines (64 begin/pass pairs plus CPU/final markers), empty stderr,
+  nine telemetry records, exact binary/helper/DSO identities, start/end register
+  and actual exit codes are retained. **Full raw GPU output arrays were not
+  emitted**; sources deterministically describe the fixtures. The offline audit
+  passes without rerunning GPU work.
+- Binary/DSOs/power settings unchanged. Owned processes absent and KFD empty at
+  07:04:44 UTC; four unchanged lock identities had no holders at 07:07:03 UTC.
+  Existing desktop clients and 463 denied FD observations limit exclusivity
+  claims. No formal DS4 ACK or standing lease is inferred.
+
+Only the direct operator boundary was exercised, not full `Executor`/`RowScratch`
+integration. Actual 640/2560 output-row production shapes, full tiles, last-expert
+boundaries, 512-expert routing, non-power-of-two activations/scales, other IQ2 grid
+codes/tile widths, capacity extremes and matched UD regression remain gates.
+
+Next: broaden codebook/shape/reload checks and matched original-UD regression,
+with new coordinated admission for further GPU work. Before any Q2 model load,
 finish role-aware PLE/weights/staging/workspace/context admission and an independent
 format-specific reference. Then qualify full-model frontiers and measure the
 separate [fresh PP/TG and HTTP lanes](ANTIREZ-BENCHMARKS.md). No cache work or

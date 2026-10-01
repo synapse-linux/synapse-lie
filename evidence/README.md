@@ -188,6 +188,19 @@ identity manifests needed for development are separately versioned.
   checked, combined source diff, expected production refusal and saved-header
   GCC/Clang binding; qualified original server unchanged, no GPU/model run.
 
+- `q2-operator-activity-r1/`: fresh-window read-only `.157` observations at
+  2026-10-01 06:57 UTC; empty KFD, no observed inference/model handles/known lease
+  holders. No GPU launch or lease acquisition in this reconnaissance.
+- `q2-operator-gpu-r1/`: four EX|NB leases, unchanged r5 binary, **64/64 synthetic
+  GPU operator cases PASS**, actual child/supervisor exit 0 and start/end register.
+  IQ2 36 cases max absolute error 4.76837158e-7; Q2 28 cases max error 0 on the
+  fixed power-of-two fixtures. All raw case records/empty stderr/nine telemetry
+  samples and identities retained; full GPU result arrays were not emitted.
+  Offline audit PASS, PIDs retired/KFD empty/leases free, binary/DSOs/settings
+  unchanged. No retry/model load/full-format qualification/performance claim.
+  Desktop/permission limitations retained. This receipt does not reopen model
+  admission or authorize another GPU run.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus

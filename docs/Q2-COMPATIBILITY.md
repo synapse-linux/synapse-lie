@@ -1,8 +1,9 @@
 # Antirez Q2 compatibility — first host slice
 
 Status: **host storage/configuration/binding implemented and CPU-validated**.
-A subsequent [private HIP candidate](Q2-HIP.md) now implements and compiles the
-routed paths, but GPU execution/numerical qualification have **not run**. The production
+A subsequent [private HIP candidate](Q2-HIP.md) now implements the routed paths
+and passes 64 limited synthetic GPU cases. Full-format/model qualification,
+memory admission and benchmarks remain **not run**. The production
 provider and original qualified binaries remain unchanged. Q2 is **not yet a
 runnable LIE inference model** and has no PP/TG benchmark result.
 
@@ -130,8 +131,9 @@ ID, source pin or original qualified receipt is relabeled as this experiment.
 The [subsequent HIP candidate](Q2-HIP.md) implements vector/tiled/grouped routes,
 reserved scratch and direct **quantized padding 640→768** without an extra FP32
 row copy. It reuses pinned upstream numerical helpers. Compilation and host
-contracts do not prove that these routes execute correctly on the GPU; operator,
-tail/lifetime and full-model qualification are still required.
+contracts alone do not prove GPU execution. The subsequent 64-case GPU run
+passes only the documented initial operator subset; broader format/shape,
+tail/lifetime and full-model qualification remain required.
 
 Keep original-UD paths and `kTailMargin` safety intact. Then qualify tiny kernel
 oracles, full-model frontiers and numerical behavior against a separately pinned
