@@ -20,6 +20,10 @@ class Handler(http.server.BaseHTTPRequestHandler):
         body=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
         self.server.requests.append(body)
         prompt=32+sum(m.get('content','').count(MODULE['PAD'])*13 for m in body['messages'])
+        for message in body['messages']:
+            for line in message.get('content','').splitlines():
+                fields=line.split()
+                if len(fields)==8 and all(len(x)==3 and x.isascii() and x.isdigit() for x in fields): prompt+=16
         prompt+=len(body['messages'])-1
         self.send_response(200);self.send_header('Content-Type','text/event-stream');self.end_headers()
         rows=[{'choices':[{'index':0,'delta':{'role':'assistant'},'finish_reason':None}]},
@@ -48,6 +52,48 @@ class HttpBench(unittest.TestCase):
             self.assertAlmostEqual(row['prompt_over_wall_tps'],row['usage']['prompt_tokens']/row['wall_seconds'])
             self.assertLessEqual(row['first_output_seconds'],row['wall_seconds'])
         self.assertEqual(len((self.root/'corpus.jsonl').read_text().splitlines()),2)
+    def test_long_context_actual_counts_seed_and_replay(self):
+        corpus=self.root/'long.jsonl'
+        p=self.command('--preset','long-context','--sizes','258794,1004581',
+                       '--context-capacity','1048576','--rope-scaling','yarn4',
+                       '--corpus-seed','77','--repetitions','1','--export-requests',str(corpus))
+        self.assertEqual(p.returncode,0,p.stderr+p.stdout)
+        rows=[json.loads(x) for x in (self.root/'out.jsonl').read_text().splitlines()]
+        self.assertEqual(rows[0]['timeout_seconds'],3600)
+        self.assertEqual(rows[0]['rope_scaling_declared'],'yarn4')
+        self.assertEqual([r['lines'] for r in rows if r['event']=='calibration'],[8,16,32])
+        samples=[r for r in rows if r['event']=='sample']
+        self.assertEqual(len(samples),2)
+        for row,target in zip(samples,[258794,1004581]):
+            self.assertEqual(row['target_prompt_tokens'],target)
+            self.assertLess(target-row['usage']['prompt_tokens'],16)
+            self.assertLessEqual(row['usage']['prompt_tokens'],target)
+            self.assertEqual(row['request']['max_tokens'],64)
+            self.assertFalse(row['full_output_budget'])
+            lines=row['request']['messages'][0]['content'].splitlines()[1:-2]
+            self.assertEqual(len(lines),row['corpus']['records'])
+            self.assertEqual(len(set(lines)),len(lines))
+        self.assertEqual(MODULE['varied_records'](32,77),MODULE['varied_records'](32,77))
+        self.assertNotEqual(MODULE['varied_records'](32,77),MODULE['varied_records'](32,78))
+        (self.root/'out.jsonl').rename(self.root/'first.jsonl')
+        p=self.command('--requests',str(corpus),'--repetitions','1',
+                       '--context-capacity','1048576','--rope-scaling','yarn4')
+        self.assertEqual(p.returncode,0,p.stderr+p.stdout)
+        replay=[json.loads(x) for x in (self.root/'out.jsonl').read_text().splitlines()]
+        self.assertEqual([r['request_sha256'] for r in replay if r['event']=='sample'],[r['request_sha256'] for r in samples])
+        mismatch=self.root/'mismatch.jsonl'
+        replay[0]['rope_scaling_declared']='native'
+        mismatch.write_text(''.join(json.dumps(r)+'\n' for r in replay))
+        with self.assertRaisesRegex(ValueError,'context/RoPE'):
+            MODULE['export'](MODULE['summarize'](rows),self.root/'charts',mismatch)
+    def test_long_context_requires_declarations_and_output_room(self):
+        for args in [[],['--context-capacity','1048576'],
+                     ['--context-capacity','262144','--rope-scaling','native'],
+                     ['--context-capacity','1048576','--rope-scaling','yarn4','--sizes','1048576']]:
+            p=self.command('--preset','long-context',*args)
+            self.assertEqual(p.returncode,2,p.stderr+p.stdout)
+            self.assertFalse(self.server.requests)
+            self.assertFalse((self.root/'out.jsonl').exists())
     def test_actual_assistant_history_followup_and_short_eos(self):
         corpus=self.root/'corpus.jsonl';corpus.write_text(json.dumps({'id':'dialogue','body':{'messages':[{'role':'user','content':'one'}],'max_tokens':32},'followups':['two']})+'\n')
         p=self.command('--requests',str(corpus));self.assertEqual(p.returncode,0,p.stderr+p.stdout)

@@ -63,6 +63,9 @@ harness (`--suite http`), including exact corpus replay and multi-turn timing.
 The [full-prefill/HTTP result](docs/FULL-PREFILL-HTTP-RESULT.md) reaches 258794
 physical prompt tokens and records a real 100K follow-up. Cache/MTP execution,
 cold-file loading and exact allocation peaks remain open.
+The [test coverage and 1M gate](docs/TEST-COVERAGE-LONG-CONTEXT.md) list the remaining
+work. A dedicated HTTP `long-context` preset prepares reproducible 256K/512K/768K/1M
+workloads; the current LIE provider still supports native 256K only.
 
 **The Q2 experiment has been withdrawn at the owner's request.** Its active
 source, recipes, build helpers and tests are removed; rollback commit `ffca17e`

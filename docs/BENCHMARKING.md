@@ -6,6 +6,9 @@ direct-executor AR implementation is now available; see
 Full-prefill and an explicit Python HTTP client mode are available, including
 actual conversation replay. Cached-conversation/MTP execution below remains
 incomplete; a benchmark client cannot supply absent server capabilities.
+The [test closure matrix and 1M gate](TEST-COVERAGE-LONG-CONTEXT.md) distinguish
+missing repetitions/protocols from missing engine features and describe the
+extended-context client preset without claiming 1M LIE execution.
 Python is permitted for intermediate development, supervision,
 analysis and graph generation; it is not a replacement production server or
 model executor. The existing `lie-executor-bench` is already C17, but implements

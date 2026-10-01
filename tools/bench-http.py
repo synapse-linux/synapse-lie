@@ -28,6 +28,15 @@ SHAPES = {
     'review': 'Review a design that retries every failed database transaction forever; propose bounded recovery.',
     'tool-dialogue': 'After reading a configuration with timeout=20 and retries=3, explain a careful change to timeout=30 and its verification.'}
 
+def varied_records(lines, seed):
+    """Original deterministic numeric corpus; not a natural-language quality test."""
+    records = []
+    for i in range(lines):
+        data = hashlib.sha256(f'lie-long-context-v1:{seed}:{i}'.encode()).digest()
+        records.append(' '.join(f'{int.from_bytes(data[j:j+3], "big") % 1000:03d}'
+                                for j in range(0, 24, 3)) + '\n')
+    return ''.join(records)
+
 def encoded(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':')).encode()
 
@@ -95,23 +104,34 @@ def measured_cases(args, emit):
         return cases
     if args.preset == 'decode':
         return [{'id': name, 'body': {'messages': [{'role': 'user', 'content': prompt + ' Give a substantial detailed answer.'}], 'max_tokens': args.tg}} for name, prompt in SHAPES.items()]
+    long_context = args.preset == 'long-context'
     def messages(lines):
+        if long_context:
+            return [{'role': 'user', 'content': 'Read the following numeric records.\n' +
+                     varied_records(lines, args.corpus_seed) +
+                     '\nExplain a detailed validation procedure for these records, including duplicate detection and range checks.'}]
         return [{'role': 'user', 'content': 'Read these maintenance notes.\n' + PAD*lines + '\nReply with exactly READY.'}]
     counts = []
-    for n in (0, 8, 16):
+    probes = (8, 16, 32) if long_context else (0, 8, 16)
+    for n in probes:
         body = make_body(args, {'messages': messages(n), 'max_tokens': 1})
         row = request(args.url, body, args.timeout)
         emit({'event': 'calibration', 'lines': n, **row}); counts.append(row['usage']['prompt_tokens'])
-    p0, p8, p16 = counts
-    if p8 <= p0 or p16-p8 != p8-p0 or (p8-p0) % 8: raise ValueError('nonlinear prompt calibration; supply explicit --requests')
-    unit = (p8-p0)//8
+    step = counts[1]-counts[0]
+    if step <= 0 or step % 8: raise ValueError('nonlinear prompt calibration; supply explicit --requests')
+    unit = step//8
+    p0 = counts[0]-probes[0]*unit
+    if counts[2] != p0+probes[2]*unit: raise ValueError('nonlinear prompt calibration; supply explicit --requests')
     sizes = [100000] if args.preset == 'conversation' else args.sizes
     cases = []
     for target in sizes:
         if target <= p0: raise ValueError('target below rendered template size')
         n = (target-p0)//unit
         case = {'id': f'{args.preset}-{target}', 'target_prompt_tokens': target, 'expected_prompt_tokens': p0+n*unit,
-                'body': {'messages': messages(n), 'max_tokens': 1 if args.preset == 'prefill' else 32}}
+                'body': {'messages': messages(n), 'max_tokens': args.tg if long_context else 1 if args.preset == 'prefill' else 32}}
+        if long_context:
+            case['corpus'] = {'generator': 'lie-long-context-v1', 'seed': args.corpus_seed,
+                              'records': n, 'kind': 'varied numeric text; not a retrieval or quality test'}
         if args.preset == 'conversation':
             case['followups'] = ['Additional maintenance notes:\n' + PAD*max(1,400//unit) + f'\nConfirm update {i+1} with exactly READY.' for i in range(args.turns-1)]
         cases.append(case)
@@ -150,6 +170,8 @@ def export(summary, directory, compare=None):
     if compare:
         ref=summarize([json.loads(x) for x in Path(compare).read_text().splitlines()]);summary['reference']=ref
         if summary['identity']['cache_policy']!=ref['identity']['cache_policy']: raise ValueError('comparison cache policy mismatch')
+        for field in ('context_capacity_declared', 'rope_scaling_declared'):
+            if summary['identity'].get(field)!=ref['identity'].get(field): raise ValueError('comparison context/RoPE declaration mismatch')
         other={(r['case'],r['turn']):r for r in ref['cases']}
         if len(other)!=len(summary['cases']): raise ValueError('comparison point mismatch')
         checks=[]
@@ -180,23 +202,38 @@ def main(argv=None):
     p.add_argument('--url',required=True,help='Base URL ending in /v1')
     p.add_argument('--model',required=True);p.add_argument('--output',required=True)
     p.add_argument('--server-label',required=True,help='Server version/checkpoint/configuration identity, recorded without verification')
-    group=p.add_mutually_exclusive_group(required=True);group.add_argument('--requests');group.add_argument('--preset',choices=['prefill','decode','conversation'])
-    p.add_argument('--sizes',default='8192,32768,131072,258794');p.add_argument('--tg',type=int,default=256)
+    group=p.add_mutually_exclusive_group(required=True);group.add_argument('--requests');group.add_argument('--preset',choices=['prefill','decode','conversation','long-context'])
+    p.add_argument('--sizes',help='Prompt targets; long-context defaults to 258794,524288,786432,1004581')
+    p.add_argument('--tg',type=int,help='Output budget: long-context 64, decode 256; prefill always 1')
+    p.add_argument('--context-capacity',type=int,help='Operator-declared total prompt/output capacity; required for long-context')
+    p.add_argument('--rope-scaling',choices=['unknown','native','yarn2','yarn4'],default='unknown',help='Operator declaration, never a server setting; required for long-context')
+    p.add_argument('--corpus-seed',type=int,default=0,help='Deterministic long-context corpus seed, independent of sampling')
     p.add_argument('--turns',type=int,default=20);p.add_argument('--repetitions',type=int,default=3);p.add_argument('--warmups',type=int,default=0)
     p.add_argument('--cache-policy',choices=['off','on','unknown'],required=True,help='Operator declaration; this client does not toggle server cache')
     p.add_argument('--request-options',help='JSON object for explicit server-supported sampling/drafter options')
     p.add_argument('--export-requests',help='Exclusive corpus export for exact replay on another server')
-    p.add_argument('--graphs');p.add_argument('--compare');p.add_argument('--timeout',type=float,default=630)
+    p.add_argument('--graphs');p.add_argument('--compare');p.add_argument('--timeout',type=float,help='HTTP socket timeout in seconds: long-context 3600, otherwise 630')
     args=p.parse_args(argv)
+    long_context = args.preset == 'long-context'
+    if args.sizes is None: args.sizes = '258794,524288,786432,1004581' if long_context else '8192,32768,131072,258794'
+    if args.tg is None: args.tg = 64 if long_context else 256
+    if args.timeout is None: args.timeout = 3600 if long_context else 630
     try:args.sizes=[int(x) for x in args.sizes.split(',')]
     except ValueError:p.error('sizes must be integers')
     if not 1<=args.repetitions<=100 or not 0<=args.warmups<=10 or not 1<=args.turns<=100 or not 1<=args.tg<=65536 or not math.isfinite(args.timeout) or not 0<args.timeout<=7200 or not args.sizes or len(args.sizes)>32 or any(not 128<=x<=1048576 for x in args.sizes) or (args.compare and not args.graphs):p.error('invalid workload bounds')
+    if not 0 <= args.corpus_seed < 2**64 or (args.context_capacity is not None and not 128 <= args.context_capacity <= 1048576): p.error('invalid corpus seed or context capacity')
+    if long_context and (args.context_capacity is None or args.rope_scaling == 'unknown' or args.cache_policy != 'off'): p.error('long-context requires --context-capacity, --rope-scaling and --cache-policy off; declarations do not enable server support')
+    if long_context and any(n+args.tg > args.context_capacity for n in args.sizes): p.error('prompt target plus output budget exceeds declared context capacity')
     args.options=json.loads(Path(args.request_options).read_text()) if args.request_options else {}
     if not isinstance(args.options,dict):p.error('request options must be an object')
     rows=[]
     with open(args.output,'x') as f:
         def emit(row):rows.append(row);f.write(json.dumps(row,separators=(',',':'))+'\n');f.flush()
-        emit({'event':'identity','schema':SCHEMA,'url':args.url,'model':args.model,'server_label':args.server_label,'cache_policy':args.cache_policy,'warmups':args.warmups,'repetitions':args.repetitions,'preset':args.preset,'request_options':args.options,'scope':'HTTP client harness; no model open, server control, tool execution or implicit cache reset'})
+        emit({'event':'identity','schema':SCHEMA,'url':args.url,'model':args.model,'server_label':args.server_label,'cache_policy':args.cache_policy,'warmups':args.warmups,'repetitions':args.repetitions,'preset':args.preset,'request_options':args.options,
+              'context_capacity_declared':args.context_capacity,'rope_scaling_declared':args.rope_scaling,
+              'timeout_seconds':args.timeout,'target_prompt_tokens':args.sizes if not args.requests else None,
+              'corpus_seed':args.corpus_seed if long_context else None,
+              'scope':'HTTP client harness; no model open, server control, tool execution or implicit cache reset'})
         try:
             cases=measured_cases(args,emit)
             if len({c['id'] for c in cases})!=len(cases):raise ValueError('duplicate case IDs')
@@ -210,8 +247,11 @@ def main(argv=None):
                     for turn in range(1+len(case.get('followups',[]))):
                         row=request(args.url,body,args.timeout)
                         # Preserve the actual failed observation before checking the calibration oracle.
-                        emit({'event':'sample','case':case['id'],'turn':turn,'rep':rep,'warmup':rep<args.warmups,**row})
+                        emit({'event':'sample','case':case['id'],'turn':turn,'rep':rep,'warmup':rep<args.warmups,
+                              'target_prompt_tokens':case.get('target_prompt_tokens') if turn==0 else None,
+                              'corpus':case.get('corpus'),**row})
                         if turn==0 and 'expected_prompt_tokens' in case and row['usage']['prompt_tokens']!=case['expected_prompt_tokens']:raise ValueError('physical prompt calibration changed')
+                        if args.context_capacity is not None and row['usage']['prompt_tokens']+body['max_tokens'] > args.context_capacity: raise ValueError('actual prompt plus output budget exceeds declared context capacity')
                         if turn<len(case.get('followups',[])):
                             if row['assistant'].get('tool_calls'):raise ValueError('automatic tool execution unsupported; supply a static dialogue corpus')
                             body=copy.deepcopy(body);body['messages'] += [row['assistant'],{'role':'user','content':case['followups'][turn]}]

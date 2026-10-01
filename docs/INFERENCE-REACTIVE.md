@@ -185,6 +185,11 @@ not an experiment isolating the cost/benefit of callbacks alone.
 At C8, the older direct upstream observation was 107.03 tok/s. Its agreement with
 107.15 is consistent with removing the missing-batch bottleneck, but that older
 single observation was from another session and is not a new matched comparison.
+It is not evidence that LIE reactive scheduling outperforms native Gufo. C8 means
+eight concurrent sequences sharing one GPU-owner worker, not eight CPU forward
+threads. A native-batch control and mixed-arrival latency measurements are still
+needed to isolate reactive-specific value; see the
+[test closure matrix](TEST-COVERAGE-LONG-CONTEXT.md#isolating-reactive-value-from-native-batching).
 At C1, the largest observed median difference through occupied 128K is below
 0.35%. This is evidence of no material regression under the predeclared 5% gate,
 not statistical equivalence or faster single-sequence mathematics.

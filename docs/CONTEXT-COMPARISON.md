@@ -115,6 +115,12 @@ suffix-prefill protocol. Fresh debug and sanitizer validation precedes GPU runs.
 
 ## Full-prefill and HTTP workloads (additional modes)
 
+The [closure matrix and 1M prerequisites](TEST-COVERAGE-LONG-CONTEXT.md) enumerate
+the remaining benchmark and quality tests. The HTTP client also has an explicit
+`--preset long-context` with varied reproducible records, capacity/RoPE identity,
+64-output and one-hour socket-timeout defaults. LIE inference remains capped at
+native 262144 until the provider/scaling/memory/quality gates pass.
+
 `--suite fresh --sizes 1500,8000,8192,32768,131072,258794` times the **entire**
 physical prompt from an empty sequence, at capacity 262144, followed by TG128.
 The provider still completes chunks of 2048; this is one end-to-end prefill

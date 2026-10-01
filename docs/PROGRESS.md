@@ -1,5 +1,26 @@
 # Isolated OpenAI reactive API increment
 
+## Extended-context benchmark client and closure audit — 2026-10-02
+
+The new HTTP `long-context` preset supplies varied deterministic numeric records
+at 258794/524288/786432/1004581 prompt targets, output64, physical-count checks,
+corpus export/replay, graphs and an hour socket timeout. Capacity and RoPE are
+recorded operator declarations; they do not enable backend support. Comparisons
+reject different declarations. Current LIE inference remains native 262144;
+the pinned provider lacks YaRN and rejects greater capacities in two layers.
+No new GPU run, model access, provider change or host tuning occurred.
+
+Fresh `.157` fixtures in `reactive-cpu-r6` pass **21/21 debug and 21/21 ASan/UBSan**,
+all six commands exit 0. The client contract includes a synthetic million-token
+usage case, exact corpus replay, output-room rejection and scaling mismatch.
+[CPU receipt](benchmarks/2026-10-02/long-context-cpu-receipt.json).
+These are wire/accounting fixtures, not real million-token inference.
+
+The [closure matrix](TEST-COVERAGE-LONG-CONTEXT.md) lists missing repetitions,
+HTTP/cache protocols, MTP/quality/vision/loading/memory tests and the real 1M
+implementation gates. It also explicitly distinguishes the measured 4.11x gain
+over scalar interleaving from the unproven benefit over existing native batching.
+
 ## Full-prefill and HTTP campaign completed
 
 `reactive-suite-r5` on `.157` passed 21:57:54–22:19:05 UTC, 2026-10-01.
