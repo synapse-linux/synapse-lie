@@ -643,3 +643,17 @@ hardware or SSH alone is not authorization. See COORDINATION.md.
 Do not reintroduce the historical assistant-imposed 32 GiB reserve as a user
 requirement, call the DS4 300K stop an OOM, or import DS4's benchmarks/quality into
 LIE. The monitor/UI is still development en_US; v0.1 is not release-ready.
+
+## Full-prompt and served benchmark increment — 2026-10-01
+
+Added C17 `fresh` suite at capacity 262144, all-new PP sizes through 258794 and
+actual TG128; report comparison keys/graphs now distinguish full prompt sizes.
+Added `synapse-lie-bench --suite http`, an explicitly separate Python client
+harness with calibrated full-prefill, ten original prompt shapes, actual
+multi-turn history, exact corpus export/replay, usage/TTFT/wall timings and plots.
+No server/cache/MTP configuration or tool execution is performed by this client.
+`.157` `reactive-cpu-r5`: 21/21 debug and 21/21 ASan/UBSan; six command exits 0.
+Raw source hashes/receipts: `evidence/bench-comparable-cpu-r1/`. The subsequent Pi
+profile port-only edit selects 8000 at the user's request. The full-prefill and
+HTTP benchmark GPU qualification follows these CPU checks, not implied by them.
+Detailed reactive attribution is in `docs/INFERENCE-REACTIVE.md`.

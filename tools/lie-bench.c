@@ -45,7 +45,7 @@ static bool list(const char *s,unsigned maximum,unsigned *values,unsigned *count
     }
     free(copy);return ok&&*count>0;
 }
-struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count;};
+struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
 static int graphs(const struct config *c) {
     char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
     if(n<0)return 3;
@@ -66,7 +66,8 @@ static json_object *identity(const struct config *c) {
     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
-    str(j,"scope","simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
+    str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
+    num(j,"prefill_chunk",2048);
     str(j,"unsupported","MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle");
 #ifdef LIE_BENCH_REFERENCE
     str(j,"execution","upstream-native-batch");
@@ -179,7 +180,7 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     for(unsigned step=0;step<c->tg;++step){bool active=false;
         lie_decode_result decoded[MAX_USERS]={0};
 #ifndef LIE_BENCH_REFERENCE
-        if(reactive&&(interrupted||!reactive_step(seq,flows,users,vocab,!strcmp(c->suite,"multi")?4096:!strcmp(c->suite,"memory")?133121:133760,p->n,counts,stopped,decoded,&stats,e)))goto done;
+        if(reactive&&(interrupted||!reactive_step(seq,flows,users,vocab,c->context,p->n,counts,stopped,decoded,&stats,e)))goto done;
 #endif
         for(unsigned i=0;i<handles;++i){if(stopped[i])continue;active=true;lie_decode_result d={0};
             lie_status rc=LIE_OK;
@@ -216,11 +217,26 @@ done:
     for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
     free(output);free(logits);return ok;
 }
+/* HTTP is an explicitly separate Python client harness, like the plot exporter.
+ * It opens no model/device and never starts or reconfigures a server. */
+static int http_harness(int argc,char **argv,int suite_index) {
+    char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
+    if(n<0)return 3;
+    script[n]=0;char *slash=strrchr(script,'/');if(!slash)return 3;
+    size_t prefix=(size_t)(slash-script)+1;
+    if(prefix+strlen("synapse-lie-bench-http.py")>=sizeof(script))return 3;
+    strcpy(script+prefix,"synapse-lie-bench-http.py");
+    char **args=calloc((size_t)argc+2,sizeof(*args));if(!args)return 3;
+    unsigned at=0;args[at++]="python3";args[at++]=script;
+    for(int i=1;i<argc;++i)if(i!=suite_index&&i!=suite_index+1)args[at++]=argv[i];
+    execvp(args[0],args);perror("HTTP benchmark harness");free(args);return 3;
+}
 int main(int argc,char **argv) {
+    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"http"))return http_harness(argc,argv,i);
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
-    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5};
+    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nHTTP: --suite http --help (separate Python client harness, requires a running authorized server).\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
         if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];
@@ -234,6 +250,7 @@ int main(int argc,char **argv) {
 #endif
         }
         else if(!strcmp(key,"--depths")){if(!list(value,131072,c.depths,&c.depth_count))goto usage;}
+        else if(!strcmp(key,"--sizes")){if(!list(value,MAX_CONTEXT,c.sizes,&c.size_count))goto usage;for(unsigned k=0;k<c.size_count;++k)if(c.sizes[k]<128)goto usage;}
         else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
         else if(!strcmp(key,"--pp")){if(!integer(value,8192,&c.pp)||!c.pp)goto usage;}
         else if(!strcmp(key,"--tg")){if(!integer(value,MAX_OUTPUT,&c.tg)||!c.tg)goto usage;}
@@ -241,24 +258,26 @@ int main(int argc,char **argv) {
         else if(!strcmp(key,"--repetitions")){if(!integer(value,100,&c.repetitions)||!c.repetitions)goto usage;}
         else goto usage;
     }
-    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")))goto usage;
+    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")))goto usage;
+    if(!strcmp(c.suite,"fresh"))for(unsigned k=0;k<c.size_count;++k)if((uint64_t)c.sizes[k]+c.tg>MAX_CONTEXT)goto usage;
     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL))return 1;
     int fd=open(c.output,O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0){perror("exclusive output");return 1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);return 1;}
     lie_model *m=NULL;lie_model_info info={0};lie_error e={{0}};int code=1;
     if(!emit(f,identity(&c)))goto done;
-    unsigned points=!strcmp(c.suite,"multi")?c.user_count:!strcmp(c.suite,"memory")?2:!strcmp(c.suite,"loading")?1:c.depth_count;
+    unsigned points=!strcmp(c.suite,"fresh")?c.size_count:!strcmp(c.suite,"multi")?c.user_count:!strcmp(c.suite,"memory")?2:!strcmp(c.suite,"loading")?1:c.depth_count;
     for(unsigned point=0;point<points;++point){unsigned depth=!strcmp(c.suite,"single")?c.depths[point]:!strcmp(c.suite,"memory")&&point?16384:0;
-        unsigned pp=!strcmp(c.suite,"memory")&&point?4096:c.pp;unsigned users=!strcmp(c.suite,"multi")?c.users[point]:1;
-        unsigned context=!strcmp(c.suite,"multi")?4096:!strcmp(c.suite,"loading")?262144:!strcmp(c.suite,"memory")?133121:133760;
-        if((uint64_t)depth+pp+c.tg>=context){snprintf(e.message,sizeof(e.message),"workload exceeds context capacity");goto done;}
+        unsigned pp=!strcmp(c.suite,"fresh")?c.sizes[point]:!strcmp(c.suite,"memory")&&point?4096:c.pp;unsigned users=!strcmp(c.suite,"multi")?c.users[point]:1;
+        unsigned context=!strcmp(c.suite,"fresh")?MAX_CONTEXT:!strcmp(c.suite,"multi")?4096:!strcmp(c.suite,"loading")?262144:!strcmp(c.suite,"memory")?133121:133760;
+        c.context=context;
+        if((uint64_t)depth+pp+c.tg>context){snprintf(e.message,sizeof(e.message),"workload exceeds context capacity");goto done;}
         if(!m&&!open_model(&c,context,users,&m,&info,f,&e))goto done;
         if(strcmp(c.suite,"loading")){
             struct prompt p={0};struct witness w={.ids=calloc(c.tg,sizeof(int32_t))};bool ok=w.ids&&make_prompt(m,depth+pp,context,&p,&e)&&p.n>depth;
-            if(ok){char digest[65];ok=hash(p.ids,p.n*sizeof(*p.ids),digest);json_object *j=event("input");num(j,"point",point);num(j,"depth",depth);num(j,"users",users);num(j,"context_capacity",context);num(j,"prompt_tokens",(int64_t)p.n);str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(p.ids,p.n));ok=ok&&emit(f,j);}
+            if(ok){char digest[65];ok=hash(p.ids,p.n*sizeof(*p.ids),digest);json_object *j=event("input");num(j,"point",point);num(j,"depth",depth);num(j,"users",users);num(j,"target_prompt_tokens",depth+pp);num(j,"context_capacity",context);num(j,"prompt_tokens",(int64_t)p.n);str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(p.ids,p.n));ok=ok&&emit(f,j);}
             for(unsigned rep=0;ok&&rep<c.warmups+c.repetitions;++rep)ok=sample(m,&p,depth,users,point,rep,rep<c.warmups,&c,info.vocab_tokens,&w,f,&e);
             free(p.ids);free(w.ids);if(!ok)goto done;
         }
-        if(strcmp(c.suite,"single")&&lie_model_close(&m,&e)!=LIE_OK)goto done;
+        if(strcmp(c.suite,"single")&&strcmp(c.suite,"fresh")&&lie_model_close(&m,&e)!=LIE_OK)goto done;
         if(interrupted)goto done;
     }
     code=0;

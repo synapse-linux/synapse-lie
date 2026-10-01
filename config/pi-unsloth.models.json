@@ -1,9 +1,9 @@
 {
   "providers": {
     "synapse-lie": {
-      "baseUrl": "http://127.0.0.1:19879/v1",
+      "baseUrl": "http://192.168.5.157:8000/v1",
       "api": "openai-completions",
-      "apiKey": "local-loopback-not-a-secret",
+      "apiKey": "local-development-not-a-secret",
       "models": [
         {
           "id": "qwen3.8-flash-next",

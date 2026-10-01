@@ -146,7 +146,77 @@ hypothesis above, not evidence of faster single-sequence numerical kernels.
 The completed `reactive-suite-r2` comparison on `.157` now provides that evidence:
 three measured repetitions per point, exact physical/output IDs and PP/TG frontier
 hashes across arms, 4.11× C8 aggregate decode and C1 median differences within
-0.34% through occupied 128K. Production HTTP also observes native batch dispatch
+0.35% through occupied 128K. Production HTTP also observes native batch dispatch
 with seeded per-sequence output equality. Prefill remains sequential; no internal
 kernel/graph or HTTP latency speedup is inferred. Full timings, variability and
 retirement receipts are in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+
+## Implementation audit: how far the reactive flow reaches
+
+The implemented flow reaches **selection and execution of ready decode rows**,
+inside pure inference as well as the HTTP worker. It does not yet reach the
+operator dependency graph inside a forward. Spring-style responsibilities are
+implemented in C17; there is no Spring/JVM runtime or Reactive Streams TCK claim.
+
+| Layer | Implemented mechanism | Established benefit / remaining measurement |
+|---|---|---|
+| HTTP reactor (`src/server.c`) | libuv callbacks, bounded admission, write completion and disconnect notifications | Network handling remains independent of synchronous model calls; correctness/lifecycle tested. No matched p99/TTFT speedup measured. |
+| Flow ownership (`src/flow.c`) | Explicit demand, eight bounded token loans per job, cancellation and completion | A slow consumer bounds outstanding storage and cannot expose a cancelled token. Correctness/resource property, not faster arithmetic. |
+| Worker (`src/worker.c`, `step`, `decode_ready`, `work`) | One device owner; eventfd/poll wakeups; completed prefill chunks; ready-row collection | Avoids periodic token polling. Backpressured rows are excluded from decode selection. Prefill calls are still sequential. |
+| Inference dispatcher (`src/inference.c`) | Reserve output credit before execution; zero rows do no work, one uses scalar decode immediately, multiple use native batch up to eight | Both production serving and direct benchmark use this code. No peer-collection timer penalizes an isolated request. |
+| Adapter (`adapters/gufo.cpp`) | Per-sequence state/sampling; `lie_sequences_decode` invokes upstream `DecodeBatch`; complete and validate outcomes before publication | Enables the measured aggregate throughput gain. Numerical code is the unchanged pinned engine; LIE does not own those kernels yet. |
+| Inside a forward | Synchronous provider operations and upstream synchronization | No tensor readiness graph, asynchronous ABI, HIP-event lifetime graph, kernel preemption, new fusion or overlapping independent forwards has been implemented. |
+
+### What improved in the measured experiment
+
+`reactive-suite-r2` retained one warm-up and three measurements for every point.
+Its serial arm uses scalar interleaving; its reactive arm combines the C dispatcher,
+flow reservations **and native GPU batching**. Therefore this is a combined change,
+not an experiment isolating the cost/benefit of callbacks alone.
+
+| Concurrent sequences | Serial TG, aggregate tok/s | Ready/batch TG, aggregate tok/s | Ratio |
+|---:|---:|---:|---:|
+| 1 | 26.05 | 26.02 | 1.00 |
+| 2 | 26.06 | 45.67 | 1.75 |
+| 4 | 26.07 | 69.17 | 2.65 |
+| 6 | 26.06 | 94.76 | 3.64 |
+| 8 | 26.08 | 107.15 | 4.11 |
+
+At C8, the older direct upstream observation was 107.03 tok/s. Its agreement with
+107.15 is consistent with removing the missing-batch bottleneck, but that older
+single observation was from another session and is not a new matched comparison.
+At C1, the largest observed median difference through occupied 128K is below
+0.35%. This is evidence of no material regression under the predeclared 5% gate,
+not statistical equivalence or faster single-sequence mathematics.
+
+Prefill does **not** improve in these measurements. Multi-user PP medians are
+0.34–1.87% lower in the ready/batch arm; it still executes each prefill serially.
+The arms ran in order, not randomly interleaved, so temperature/clock drift and
+other session effects cannot be separated from scheduler overhead by these data.
+All physical inputs, output IDs and full PP/final-TG frontier hashes match.
+
+### Important limits of that evidence
+
+The direct benchmark starts decode after all homogeneous prompts are prefilled.
+It does not measure arrivals, short/long prompt interference, the HTTP queue,
+slow receivers or prompt-cache reuse. The real HTTP pair established native batch
+activity and per-sequence seeded output equality, but both prompts happened to
+be 32 tokens. Unequal positions have deterministic CPU coverage, not a distinct
+original-weight mixed-position GPU qualification in that campaign.
+
+The worker processes up to one prefill chunk for each admitted active job before
+collecting decode rows on a loop iteration. Several long prompts can consequently
+delay already-ready decode by several 2048-token synchronous calls. Reactivity is
+at **completed chunk/decode boundaries**, not GPU-kernel preemption. Cancellation
+suppresses publication and retires state after the current call completes.
+Tool-enabled turns additionally buffer a full valid tool message before emitting
+its arguments, so their observed first output differs from ordinary text SSE.
+Per-request batch durations overlap; summing them is not total GPU elapsed time.
+
+The next useful experiment is mixed short/long arrivals with a slow consumer:
+record queue delay, p50/p95/p99 first output and inter-token gaps, batch occupancy,
+credit stalls and time spent in prefill. Only that evidence can justify a new
+prefill/decode fairness policy or different chunk size. Operator-level profiling
+is separately needed before changing internal synchronization or scratch reuse.
+Prefix cache, MTP, PP batching and asynchronous forwards remain distinct missing
+features; none is supplied by the current reactive dispatcher.

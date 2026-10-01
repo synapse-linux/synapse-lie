@@ -33,6 +33,19 @@ class SimplifiedBenchmark(unittest.TestCase):
             self.assertEqual(r['output_tokens_per_user'],128)
         self.assertEqual(result['configurations'][-1]['depth'],131072)
 
+    def test_fresh_full_prompt_counts_and_comparison_keys(self):
+        result,rows=self.run_case('--suite','fresh','--sizes','8192,32768,131072,258794','--tg','16','--warmups','0')
+        self.assertEqual(len(REPORT['compare'](result,result)),4)
+        for r in [x for x in rows if x['event']=='sample']:
+            self.assertEqual(r['depth'],0)
+            self.assertEqual(r['cache_tokens'],0)
+            self.assertEqual(r['prefill_tokens_per_user'],r['prompt_tokens'])
+        self.assertGreater(result['configurations'][-1]['prompt_tokens'],258760)
+        self.assertEqual(result['configurations'][-1]['context_capacity'],262144)
+        for sizes in ['262144','0','131072,131072']:
+            p=subprocess.run([BINARY,'--model',':fixture:','--output','unused.jsonl','--suite','fresh','--sizes',sizes],capture_output=True,text=True,timeout=5)
+            self.assertEqual(p.returncode,2,p.stderr)
+
     def test_reactive_dispatch_counters(self):
         result,rows=self.run_case('--suite','multi','--users','1,2,4,6,8','--tg','8')
         self.assertEqual(result['identity']['execution'],'LIE-reactive-ready-batch')

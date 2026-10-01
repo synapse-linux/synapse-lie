@@ -73,10 +73,10 @@ def compare(a,b):
         raise ValueError('cannot compare CPU fixtures with model inference')
     if a['identity']['suite']!=b['identity']['suite'] or a['identity']['output_limit']!=b['identity']['output_limit']:
         raise ValueError('comparison suite/output mismatch')
-    other={(r['depth'],r['users']):r for r in b['configurations']}
+    other={(r['depth'],r['users'],r['prompt_tokens']):r for r in b['configurations']}
     comparisons=[]
     for r in a['configurations']:
-        q=other.get((r['depth'],r['users']))
+        q=other.get((r['depth'],r['users'],r['prompt_tokens']))
         if q is None:raise ValueError('comparison point missing')
         if (r['context_capacity'],r['physical_ids_sha256'])!=(q['context_capacity'],q['physical_ids_sha256']):
             raise ValueError('comparison capacity/physical prompt mismatch')
@@ -111,15 +111,15 @@ def export(result,out,label,reference=None,reference_label='Gufo reference'):
     else:
         fig,axes=plt.subplots(1,2,figsize=(11,4),layout='constrained')
         for name,data in [(label,result)]+([(reference_label,reference)] if reference else []):
-            rows=data['configurations'];x=[r['users'] if suite=='multi' else r['depth'] for r in rows]
+            rows=data['configurations'];x=[r['users'] if suite=='multi' else r['prompt_tokens'] if suite=='fresh' else r['depth'] for r in rows]
             for ax,key,title in [(axes[0],'prefill_tps','Aggregate new prefill tokens/s'),(axes[1],'decode_tps','Aggregate confirmed decode tokens/s')]:
                 values=[r[key] for r in rows];y=[v['median'] for v in values]
                 ax.errorbar(x,y,yerr=[[v['median']-v['min'] for v in values],[v['max']-v['median'] for v in values]],marker='o',capsize=4,label=name)
-                ax.set_ylabel(title);ax.set_xlabel('Users' if suite=='multi' else 'Reused physical prefix tokens');ax.grid(alpha=.25);ax.legend()
+                ax.set_ylabel(title);ax.set_xlabel('Users' if suite=='multi' else 'Full physical prompt tokens' if suite=='fresh' else 'Reused physical prefix tokens');ax.grid(alpha=.25);ax.legend()
                 for xx,yy,r in zip(x,y,rows):
                     if not r['full_output_budget']:ax.annotate('early EOS',(xx,yy),fontsize=8)
         scope='CPU fixture — NOT-INFERENCE' if result['identity']['synthetic'] else 'Simplified direct GPU executor'
-        pp='2048 / 4096' if suite=='memory' else str(result['identity']['pp_target'])
+        pp='full prompt' if suite=='fresh' else '2048 / 4096' if suite=='memory' else str(result['identity']['pp_target'])
         capacities=','.join(str(n) for n in sorted({r['context_capacity'] for r in result['configurations']}))
         fig.suptitle(f'{scope} — {suite}, AR, greedy, capacity {capacities}\nPP {pp} / TG {result["identity"]["output_limit"]} · n={result["identity"]["repetitions"]} · median and observed min/max · no HTTP')
     fig.savefig(out/'benchmark.svg');fig.savefig(out/'benchmark.png',dpi=160);plt.close(fig)
