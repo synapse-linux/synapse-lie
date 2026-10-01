@@ -166,6 +166,28 @@ identity manifests needed for development are separately versioned.
   warning-failure fixture sources were reconstructed with exact agreement to
   their previously recorded hashes, explicitly labeled as later recovery.
 
+- `q2-route-plan-red-r1/`: C17 layout/capacity fixture compiles, assertion exits -6;
+  exact RED fixture/header and actual exits retained, NOT-INFERENCE.
+- `q2-route-authoring-r1/r2/`: exact HIP overlay generation; first attempt refuses
+  a nonexistent pragma anchor, second succeeds. No pristine/in-place build edits.
+- `q2-route-linked-r1/`: build failure from omitted C++ chrono pre-include; fixed
+  by retaining the established local build flag, not patching upstream headers.
+- `q2-route-linked-r2/r3/`: private HIP links/masked host checks, no GPU/model work.
+- `q2-route-format-r1/r2/`: shared format script pristine PASS/candidate failure;
+  checked formatting-only recipe regeneration, previous recipes retained.
+- `q2-route-linked-r4/r5/`: shared format script PASS, MMQ-target C++17/gfx1151/NO_VMM
+  build/link, masked host refusals/scalar fixture goldens; GPU cases NOT RUN.
+  Final r5 also checks nonzero one-row operator fixtures.
+- `q2-route-host-r1/`: all eight host compiler/sanitizer cases after format-only
+  host recipe changes; no model payload or GPU operation.
+- `q2-route-cpu-r1/r2/`: seventeen default CPU suites across GCC/Clang/ASan/UBSan
+  and the original adapter header check; r2 covers final inputs.
+- `q2-route-delivery-r1/`: audit error decoding an unchanged binary fixture for
+  the text diff; preceding formatting/header/refusal exits preserved, no PASS.
+- `q2-route-delivery-r2/`: corrected audit, 1022 source files/final inputs/artifacts
+  checked, combined source diff, expected production refusal and saved-header
+  GCC/Clang binding; qualified original server unchanged, no GPU/model run.
+
 The first codeload archive attempt was refused for identity mismatch before
 extraction (raw first response was not saved); the pinned API tarball matched.
 Live Prometheus/Micrometer doc fetches returned 403 and the first Prometheus

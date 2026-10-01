@@ -41,27 +41,23 @@
     },
     "src/models/qwen38_flash_next/weights.cpp": {
       "before_sha256": "0e3bfdb36cdc09e5f7515f96d8efed315d54235e69523e963c5fc8b1c63f3d72",
-      "after_sha256": "8b227bf916bb81c7b50ca2081c0e8aea2317747c54ed0c4ab99229c6b795d4d4",
+      "after_sha256": "f5e4a59f217f2207ab6cca79917a003f9e80fdbac8f49ada05e79bc5de443feb",
       "edits": [
         {
-          "old": "    case GgmlType::kQ4_K:\n      return {256, 144};",
-          "new": "    case GgmlType::kIQ2_XXS:\n      return {256, 66};\n    case GgmlType::kQ2_K:\n      return {256, 84};\n    case GgmlType::kQ4_K:\n      return {256, 144};"
+          "old": "      return {32, 18};\n    case GgmlType::kQ4_K:\n",
+          "new": "      return {32, 18};\n    case GgmlType::kIQ2_XXS:\n      return {256, 66};\n    case GgmlType::kQ2_K:\n      return {256, 84};\n    case GgmlType::kQ4_K:\n"
         },
         {
-          "old": "                     {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16});",
-          "new": "                     {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16,\n                      GgmlType::kF16});"
+          "old": "    if (with_inject) {\n      m.inject = Get(prefix + \"_inject.weight\", hc_dim, c.hc_count, 1,\n                     {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16});\n    }\n    return m;\n  }\n",
+          "new": "    if (with_inject) {\n      m.inject = Get(\n          prefix + \"_inject.weight\", hc_dim, c.hc_count, 1,\n          {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16, GgmlType::kF16});\n    }\n    return m;\n  }\n\n  // LIE Q2 host port: logical activation width stays in Config::expert_ff.\n  // TensorRef::cols/RowBytes/Expert remain PHYSICAL storage geometry. A later\n  // HIP route must zero-pad activations; shrinking the weight stride is wrong.\n  TensorRef RoutedDown(const std::string& name, const Config& c, bool nextn) {\n    const auto* info = reader.FindTensor(name);\n    const auto* logical_meta =\n        reader.FindMetadata(\"ds4.qwen4.down.logical_input\");\n    const auto* physical_meta =\n        reader.FindMetadata(\"ds4.qwen4.down.physical_input\");\n    const bool annotated = !nextn && (logical_meta || physical_meta);\n    const bool q2 = info && info->type == GgmlType::kQ2_K;\n    if (annotated || q2) {\n      const auto logical =\n          reader.GetMetadataUint32(\"ds4.qwen4.down.logical_input\");\n      const auto physical =\n          reader.GetMetadataUint32(\"ds4.qwen4.down.physical_input\");\n      if (nextn || !logical_meta || !physical_meta ||\n          logical_meta->type != core::GgufValueType::kUint32 ||\n          physical_meta->type != core::GgufValueType::kUint32 || !logical ||\n          !physical || *logical != c.expert_ff || *logical != 640 ||\n          *physical != 768) {\n        Fail(\"invalid or missing Q2 down padding metadata: \" + name);\n        return {};\n      }\n      if (!q2) {\n        Fail(\"Q2 down padding format mismatch: \" + name);\n        return {};\n      }\n      return Get(name, *physical, c.hidden_size, c.num_experts,\n                 {GgmlType::kQ2_K});\n    }\n    // Do not broaden MXFP4/MTP or arbitrary padded layouts by recognition\n    // alone.\n    return Get(name, c.expert_ff, c.hidden_size, c.num_experts,\n               {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                GgmlType::kQ5_1, GgmlType::kQ8_0});\n  }\n"
         },
         {
-          "old": "    const auto experts = {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                          GgmlType::kQ5_1, GgmlType::kQ8_0};",
-          "new": "    const auto experts = {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                          GgmlType::kQ5_1, GgmlType::kQ8_0, GgmlType::kIQ2_XXS};"
+          "old": "    const auto experts = {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                          GgmlType::kQ5_1, GgmlType::kQ8_0};\n\n",
+          "new": "    const auto experts = {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                          GgmlType::kQ5_1, GgmlType::kQ8_0, GgmlType::kIQ2_XXS};\n\n"
         },
         {
-          "old": "    l.ffn_down_exps = Get(p + \"ffn_down_exps.weight\", c.expert_ff, hidden,\n                          c.num_experts, experts);",
-          "new": "    l.ffn_down_exps = RoutedDown(p + \"ffn_down_exps.weight\", c, nextn);"
-        },
-        {
-          "old": "  LayerWeights Layer(const Config& c, std::uint32_t il, bool linear, bool ple,\n",
-          "new": "  // LIE Q2 host port: logical activation width stays in Config::expert_ff.\n  // TensorRef::cols/RowBytes/Expert remain PHYSICAL storage geometry. A later\n  // HIP route must zero-pad activations; shrinking the weight stride is wrong.\n  TensorRef RoutedDown(const std::string& name, const Config& c, bool nextn) {\n    const auto* info = reader.FindTensor(name);\n    const auto* logical_meta = reader.FindMetadata(\"ds4.qwen4.down.logical_input\");\n    const auto* physical_meta = reader.FindMetadata(\"ds4.qwen4.down.physical_input\");\n    const bool annotated = !nextn && (logical_meta || physical_meta);\n    const bool q2 = info && info->type == GgmlType::kQ2_K;\n    if (annotated || q2) {\n      const auto logical = reader.GetMetadataUint32(\"ds4.qwen4.down.logical_input\");\n      const auto physical = reader.GetMetadataUint32(\"ds4.qwen4.down.physical_input\");\n      if (nextn || !logical_meta || !physical_meta ||\n          logical_meta->type != core::GgufValueType::kUint32 ||\n          physical_meta->type != core::GgufValueType::kUint32 ||\n          !logical || !physical || *logical != c.expert_ff ||\n          *logical != 640 || *physical != 768) {\n        Fail(\"invalid or missing Q2 down padding metadata: \" + name);\n        return {};\n      }\n      if (!q2) {\n        Fail(\"Q2 down padding format mismatch: \" + name);\n        return {};\n      }\n      return Get(name, *physical, c.hidden_size, c.num_experts,\n                 {GgmlType::kQ2_K});\n    }\n    // Do not broaden MXFP4/MTP or arbitrary padded layouts by recognition alone.\n    return Get(name, c.expert_ff, c.hidden_size, c.num_experts,\n               {GgmlType::kQ4_K, GgmlType::kQ5_K, GgmlType::kQ6_K,\n                GgmlType::kQ5_1, GgmlType::kQ8_0});\n  }\n\n  LayerWeights Layer(const Config& c, std::uint32_t il, bool linear, bool ple,\n"
+          "old": "                        c.num_experts, experts);\n    l.ffn_down_exps = Get(p + \"ffn_down_exps.weight\", c.expert_ff, hidden,\n                          c.num_experts, experts);\n    l.shexp_gate_inp =\n",
+          "new": "                        c.num_experts, experts);\n    l.ffn_down_exps = RoutedDown(p + \"ffn_down_exps.weight\", c, nextn);\n    l.shexp_gate_inp =\n"
         }
       ]
     },
@@ -77,11 +73,11 @@
     },
     "src/models/qwen38_flash_next/kernels/rocm/device_model.cpp": {
       "before_sha256": "e5e134a58ed5af8096836cefd92c95a0e2bfa2b2f4a7cd36330dc2cf25621bd8",
-      "after_sha256": "2dcd107b3d30fc4e4bbc04d820817ca0d81083cff73fabd72040fb6a452ec7a0",
+      "after_sha256": "be1afa0011d825a96febf88070a3c9cdac4792faa180b43f815d8feb281d9c58",
       "edits": [
         {
-          "old": "  const auto supported = [&](const TensorRef& t) {\n    if (t.type != core::GgmlType::kQ6_K)",
-          "new": "  const auto supported = [&](const TensorRef& t) {\n    // The host-only LIE Q2 port must fail BEFORE allocating device weights.\n    // Recognition/binding is not a padded-activation PP/TG implementation.\n    if (t.type == core::GgmlType::kIQ2_XXS || t.type == core::GgmlType::kQ2_K) {\n      if (error_msg != nullptr)\n        *error_msg = \"LIE Q2 HIP execution is not implemented: \" + std::string(t.name);\n      return false;\n    }\n    if (t.type != core::GgmlType::kQ6_K)"
+          "old": "  const auto supported = [&](const TensorRef& t) {\n    if (t.type != core::GgmlType::kQ6_K)\n",
+          "new": "  const auto supported = [&](const TensorRef& t) {\n    // The host-only LIE Q2 port must fail BEFORE allocating device weights.\n    // Recognition/binding is not a padded-activation PP/TG implementation.\n    if (t.type == core::GgmlType::kIQ2_XXS || t.type == core::GgmlType::kQ2_K) {\n      if (error_msg != nullptr)\n        *error_msg =\n            \"LIE Q2 HIP execution is not implemented: \" + std::string(t.name);\n      return false;\n    }\n    if (t.type != core::GgmlType::kQ6_K)\n"
         }
       ]
     }

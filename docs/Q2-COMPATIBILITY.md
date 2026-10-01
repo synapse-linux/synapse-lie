@@ -1,7 +1,8 @@
 # Antirez Q2 compatibility — first host slice
 
-Status: **host storage/configuration/binding implemented and CPU-validated in a
-private source variant; GPU execution NOT implemented/qualified**. The production
+Status: **host storage/configuration/binding implemented and CPU-validated**.
+A subsequent [private HIP candidate](Q2-HIP.md) now implements and compiles the
+routed paths, but GPU execution/numerical qualification have **not run**. The production
 provider and original qualified binaries remain unchanged. Q2 is **not yet a
 runnable LIE inference model** and has no PP/TG benchmark result.
 
@@ -126,11 +127,11 @@ ID, source pin or original qualified receipt is relabeled as this experiment.
 
 ## Next implementation gate
 
-The Q2 GPU path still needs IQ2_XXS/Q2_K vector and tiled/grouped dispatch,
-correct per-row **zero-padded activations 640→768** without corrupting following
-rows, scratch sizing/lifetimes, routed gate/up/down and all PP/TG tail paths.
-Relevant numerical helpers already exist in the pinned upstream MMQ headers;
-that is not evidence that the Qwen route invokes them correctly.
+The [subsequent HIP candidate](Q2-HIP.md) implements vector/tiled/grouped routes,
+reserved scratch and direct **quantized padding 640→768** without an extra FP32
+row copy. It reuses pinned upstream numerical helpers. Compilation and host
+contracts do not prove that these routes execute correctly on the GPU; operator,
+tail/lifetime and full-model qualification are still required.
 
 Keep original-UD paths and `kTailMargin` safety intact. Then qualify tiny kernel
 oracles, full-model frontiers and numerical behavior against a separately pinned

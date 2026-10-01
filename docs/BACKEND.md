@@ -159,6 +159,10 @@ engine. Pristine sources and qualified artifacts remain untouched, and no
 numerical kernel has been ported by this host increment. Runtime linkage and
 Q2 device upload remain refused until the GPU routes/admission are implemented
 and qualified. Header-derived binding tests are not model inference evidence.
+The [subsequent HIP candidate](Q2-HIP.md) now implements/compiles the new routed
+paths with C17 workspace planning and direct quantized padding; actual GPU and
+model qualification remain not run. Its numerical helpers are still delegated
+upstream code, not an autonomous LIE model-forward implementation.
 
 ## Current implementation status
 

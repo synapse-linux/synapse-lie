@@ -42,9 +42,11 @@ read-only layout inspection and a pinned CPU reader probe identify currently
 unsupported formats/roles (MXFP4, IQ2_XXS/Q2_K, padded down input and F16 HC inject).
 Those measurements are **not run**, not zero or replaced by the UD baseline.
 See [the format-specific gate and protocol](docs/ANTIREZ-BENCHMARKS.md).
-[Q2 compatibility has started](docs/Q2-COMPATIBILITY.md): a private host variant
-binds the actual Q2 header's 48 AR layers, with tensor values inaccessible. It is
-not yet GPU-ready or enabled in the production provider.
+[Q2 host compatibility](docs/Q2-COMPATIBILITY.md) binds the saved actual header's
+48 AR layers with tensor values inaccessible. The [private HIP candidate](docs/Q2-HIP.md)
+now compiles routed IQ2/Q2 dispatch with reserved scratch and direct quantized
+padding. GPU/operator/model qualification and benchmarks remain **not run**;
+production model admission stays closed.
 
 The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and
@@ -96,12 +98,13 @@ ctest --test-dir build/debug --output-on-failure
 python3 -B tools/verify.py new-cpu-label
 ```
 
-Fifteen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Seventeen suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
 executor failure/dispatch contracts, the HTTP lifecycle checker and bounded GGUF
-layout inspection and guarded Q2 source preparation. Eight separate optional
+layout inspection, guarded Q2 host/HIP source preparation and C17 route planning.
+Eight separate optional
 C++ cases validate the private Q2 host binder. Storage recognition/binding is not
 model execution or end-to-end quantization support.
 They cover bounded overload, stalled consumers, peer progress, disconnect,

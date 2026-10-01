@@ -64,6 +64,14 @@ The assets retain their separate license (including commercial-service condition
 MIT runtime code does not relicense model/configuration assets or authorize release.
 No model values were fetched, converted or redistributed.
 
+The subsequent [Q2 HIP candidate](../docs/Q2-HIP.md) adds a separately hashed
+six-file overlay and three first-party boundary files. It instantiates the
+existing licensed Gufo/llama.cpp MMQ IQ2/Q2 numerical helpers; first-party work
+covers routing, reserved workspace, source geometry and zero-safe quantization
+specializations. No sibling code/artifact or independent antirez numeric code
+was imported. The helpers and their notices retain upstream provenance. This is
+not a standalone C17 model engine, and compiled operators are not GPU-qualified.
+
 ## Private Qwen-only build scope
 
 `cmake/gufo-runtime` is a LIE-owned build recipe over the unchanged upstream

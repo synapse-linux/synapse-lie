@@ -6,6 +6,34 @@ Branch: `feature/initial-runtime`, from `develop` seed `ce3ce59`.
 The runtime increment starts at `79625ce`; the resumed smoke/runner fix starts
 at `b7de609`. No workflow or independent review is claimed.
 
+## Q2 HIP routing implemented privately — compiled, not GPU-qualified
+
+The private candidate now routes IQ2_XXS gate/up (vector, paired/grouped and
+prefill tiled) and Q2_K down (vector/tiled). Logical 640-float rows are read with
+stride 640 directly into zero-padded quantized storage, while weight stride
+remains physical 768. No additional FP32 padded copy/kernel is introduced.
+C17 planning reserves one executor-owned workspace for quantization, ID maps,
+rank/count and grouped-vector scratch; the new projections do not grow a pool
+or global ID-map allocation during forward. Shape/format choices stay on the
+host, with specialized dot-product kernels and necessary GPU tail guards.
+
+`q2-route-linked-r5` passes HIP compile/link, the shared upstream formatting
+script and masked host refusal/scalar-golden checks. The MMQ TU retains the
+upstream C++17/gfx1151/NO_VMM flags. The host recipe received formatting-only
+changes; eight host cases still pass all compiler/sanitizer variants.
+Seventeen default CPU suites pass in `q2-route-cpu-r2`. Delivery audit r2 checks
+all final hashes, production refusal and saved-header GCC/Clang binding again.
+Its earlier diff-rendering error on an unchanged binary fixture is retained.
+All original sources/builds remain intact.
+
+**No Q2 GPU operator or model run, numerical model parity, memory-fit result or
+performance measurement yet.** The 64-case synthetic GPU probe is prepared;
+its scalar expression covers Q2 affine blocks and IQ2 grid-zero sign/scale cases,
+not every IQ2 codebook entry. Runtime admission remains expressly disabled.
+Next is a freshly coordinated/leased operator run, broader format/shape checks,
+then full-model memory admission/reference qualification and PP/TG. See
+[Q2-HIP.md](Q2-HIP.md). No reactive speedup or cache capability is claimed.
+
 ## Q2 compatibility started — private host path passes, GPU path remains closed
 
 The requested Q2-first implementation now has a private, hash-guarded
@@ -28,9 +56,9 @@ materializer has seven contract tests. The original source remains pristine.
 
 **This is not yet GPU Q2 compatibility, full-model loading, numerical
 qualification or a benchmark.** Runtime linkage is expressly forbidden for this
-host variant and device upload has a pre-allocation Q2 refusal. Next: routed
-IQ2/Q2 PP/TG dispatch, zero-padded activation rows/scratch/tails, role-aware memory
-admission and leased GPU numerical/model/performance qualification. See
+host variant and device upload has a pre-allocation Q2 refusal. The subsequent
+HIP candidate above implements the routing/padding; GPU qualification,
+role-aware memory admission and numerical/model/performance gates remain. See
 [Q2-COMPATIBILITY.md](Q2-COMPATIBILITY.md). Cache work stays behind this path.
 
 ## Antirez prefill/decode benchmark — format admission work
@@ -301,11 +329,12 @@ success and exact source identity. Label-owned build directories preserve earlie
 masks GPU visibility, isolates HOME/cache/temp, records ELF dependencies and
 never supplies `--model` to the real server.
 
-Fifteen current default CPU suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
+Seventeen current default CPU suites: `chat-parser-wire`, `worker-synthetic`, `worker-timing-contract`,
 `worker-executor-contract`, `reactive-flow`, `metrics`, `monitor-parser`,
 `executor-c-layout`, `http-monitor`, `http-synthetic`, `model-smoke-helper`,
 `serving-lifecycle-helper`, `executor-bench-contract`, `gguf-layout-contract`,
-`q2-source-contract`. The eight Q2 host C++ cases are a separate optional suite,
+`q2-source-contract`, `q2-route-plan`, `q2-hip-source-contract`.
+The eight Q2 host C++ cases are a separate optional suite,
 not part of the linked production provider. All contract/helper checks
 use CPU clock/HTTP/executor fixtures only, never GPU/model execution.
 The synthetic suites exercise in-flight cancellation with a barrier, owner-thread

@@ -9,7 +9,9 @@ LIE yet. This work takes priority over claiming any cache-related speedup.
 The user selected **Q2 first**. The subsequent [host compatibility
 slice](Q2-COMPATIBILITY.md) implements the private reader/configuration/binder
 changes and binds the actual saved Q2 header without accessible tensor values.
-It is not linked into the production provider, and GPU PP/TG remain blocked.
+It is not linked into the production provider. A subsequent [HIP routing
+candidate](Q2-HIP.md) compiles but has not executed GPU operators or the model;
+GPU PP/TG remain blocked pending qualification/admission.
 The original pristine-provider gaps below are retained with their scope.
 
 ## Actual files, read-only layout observation
