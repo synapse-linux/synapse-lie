@@ -1,0 +1,73 @@
+{
+  "primary": {
+    "identity": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "openai-reactive-api-r3",
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "synthetic": false,
+      "suite": "loading",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 1,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "LIE-serial-interleaved"
+    },
+    "source": "/tmp/synapse-lie-pi-tools/evidence/bench-suite-r2/lie-loading/results/measurements.jsonl",
+    "source_sha256": "4c0575cb9dbd8f0ebef916a3b54cf0458c16654e7ca36982fc5c2dee71417762",
+    "configurations": [],
+    "loading": [
+      {
+        "event": "model_loaded",
+        "context_capacity": 262144,
+        "users": 1,
+        "model_load_ns": 20473138835,
+        "resident_bytes_estimate": 82384141824,
+        "session_bytes_estimate": 6786984980,
+        "loading_scope": "model load in existing OS cache conditions; excludes HTTP readiness, not cold-file loading"
+      }
+    ]
+  },
+  "reference": {
+    "identity": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "openai-reactive-api-r3",
+      "engine": "gufo-direct-c1-reference",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "synthetic": false,
+      "suite": "loading",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 1,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "upstream-native-batch"
+    },
+    "source": "/tmp/synapse-lie-pi-tools/evidence/bench-suite-r2/gufo-loading/results/measurements.jsonl",
+    "source_sha256": "3f9a3eec80a07b716e53bdf48410210cf820019be4a140515e67357f3064e354",
+    "configurations": [],
+    "loading": [
+      {
+        "event": "model_loaded",
+        "context_capacity": 262144,
+        "users": 1,
+        "model_load_ns": 20369738920,
+        "resident_bytes_estimate": 82384141824,
+        "session_bytes_estimate": 6786984980,
+        "loading_scope": "model load in existing OS cache conditions; excludes HTTP readiness, not cold-file loading"
+      }
+    ]
+  },
+  "comparison": []
+}

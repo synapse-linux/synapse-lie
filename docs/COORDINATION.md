@@ -214,3 +214,39 @@ See [the original-weight protocol evidence](OPENAI-GPU.md). Source and results
 remain in the isolated branch; concurrent original-worktree records are not
 rewritten by this increment. CPU parser/lifetime/sanitizer checks also ran on
 `.157`, with GPU visibility explicitly disabled only for synthetic fixtures.
+
+## Performance operator window — 2026-10-01
+
+The explicit performance request and resume admitted two separate one-shot GPU
+runs, `performance-executor-r1` and `performance-http-r1`, each with fresh
+pipeline/download/qualification/shared nonblocking locks, in-lease preflight,
+model stat/DSO checks, and start/end registration. No formal DS4 ACK, standing
+lease, installation, tuning or deployment is claimed.
+
+Direct benchmark retired at 15:27:59 UTC. HTTP retired at 15:43:41 UTC;
+postflight at 15:45:00 UTC verified unchanged/free identities for all four locks,
+owned supervisor/helper/server/observer PIDs absent, KFD empty, binary and model
+stat identities unchanged. The supplementary observer only read sysfs/proc and
+has a separate source hash and exit receipt. Results and limitations are in
+[PERFORMANCE-RESULT.md](PERFORMANCE-RESULT.md). Further GPU work needs a new
+admitted window; this is not permanent shared-runner adoption.
+
+## Simplified Gufo-style campaign — 2026-10-01
+
+The explicit request for Gufo-style comparisons through 128K and a reusable
+benchmark authorized one-shot `bench-suite-r1/r2` arms. Each obtained all four
+existing nonblocking leases afresh and retained stat/DSO/client checks and
+owned cleanup. Single LIE/Gufo depth arms passed; r1 retains its FAILED root
+from a small-context rendering-bound calibration failure before any multi sample.
+After the bounded-calibration fix passed fresh 18/18 debug and sanitizer suites,
+r2 ran only missing multi/memory/loading arms and completed PASS at 17:53:48 UTC.
+Every helper/child exit is 0. No DS4 artifacts, processes or services changed.
+
+R1 final postflight at 17:37:09 UTC observed unchanged/free lease paths, all
+owned PIDs absent and KFD empty. R2 helper receipts retain unchanged model/file
+identities and empty postflight KFD lists; a final read-only SCP observation
+shows no holders of the known four lease identities and all thirteen owned
+PIDs absent. Final r2 lock-path stat was not independently rechecked. Missing
+proc files produce expected SCP exit 1, retained in the retirement receipt.
+No persistent lease, tuning, package installation, foreign termination,
+deployment or publication. See [BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md).

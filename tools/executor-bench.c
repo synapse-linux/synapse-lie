@@ -58,7 +58,7 @@ static json_object *identity(void) {
     text(j,"scope","C1 embedded-provider baseline; not pristine numerical qualification or speedup");
     return j;
 }
-struct prompt { int32_t ids[CONTEXT]; size_t n; };
+struct prompt { int32_t ids[CONTEXT]; size_t n; unsigned padding_lines; };
 static lie_status render(lie_model *m,unsigned lines,struct prompt *p,lie_error *e) {
     static const char lead[]="Reference material follows. Ignore it for the counting task.\n";
     static const char pad[]="The quick brown fox jumps over the lazy dog.\n";
@@ -67,6 +67,7 @@ static lie_status render(lie_model *m,unsigned lines,struct prompt *p,lie_error 
     memcpy(content,lead,sizeof(lead)-1); at+=sizeof(lead)-1;
     for (unsigned i=0;i<lines;++i) { memcpy(content+at,pad,sizeof(pad)-1); at+=sizeof(pad)-1; }
     memcpy(content+at,tail,sizeof(tail)-1); at+=sizeof(tail)-1;
+    p->padding_lines=lines;
     lie_chat_message msg={LIE_CHAT_USER,content,at};
     return lie_model_chat_tokens(m,&msg,1,p->ids,CONTEXT,&p->n,e);
 }
@@ -166,6 +167,7 @@ int main(int argc,char **argv) {
         witnesses[i].tg=malloc((size_t)info.vocab_tokens*sizeof(float));
         if (!witnesses[i].pp || !witnesses[i].tg) goto done;
         json_object *j=event("input"); number(j,"profile",i); number(j,"target",targets[i]);
+        number(j,"padding_lines",prompts[i].padding_lines);
         number(j,"prompt_tokens",(int64_t)prompts[i].n); number(j,"vocab",info.vocab_tokens);
         text(j,"fixture","synthetic reference padding plus pinned thinking-off chat template and counting task");
         json_object_object_add(j,"physical_ids",tokens(prompts[i].ids,prompts[i].n));

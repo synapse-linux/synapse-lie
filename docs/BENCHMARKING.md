@@ -1,7 +1,10 @@
 # Benchmark direction and server prerequisites
 
-The definitive **`synapse-lie-bench` is to be C17**, like the server. It is not
-implemented yet. Python is permitted for intermediate development, supervision,
+The **`synapse-lie-bench` executable is C17**, like the server. A simplified
+direct-executor AR implementation is now available; see
+[CLI, graph exports and exact deviations](CONTEXT-COMPARISON.md).
+The full HTTP/cached-conversation/MTP suite below remains incomplete.
+Python is permitted for intermediate development, supervision,
 analysis and graph generation; it is not a replacement production server or
 model executor. The existing `lie-executor-bench` is already C17, but implements
 only the separate [fresh-session C1 baseline](C1-BASELINE.md), not the full suite

@@ -117,7 +117,7 @@ def main():
     if manifest['authorization']['kind']!='operator-one-shot-window' or not manifest['authorization']['gpu_test_authorized']:
         raise SystemExit('Explicit current operator authorization required')
     suite=manifest.get('suite','http-smoke-v1')
-    if suite not in ('http-smoke-v1','http-lifecycle-v1'): raise SystemExit('Unsupported serving qualification suite')
+    if suite not in ('http-smoke-v1','http-lifecycle-v1','http-performance-v1'): raise SystemExit('Unsupported serving qualification suite')
     out=run/'results'; out.mkdir()  # Refuse replays/overwrites, including previous failures.
     result={'state':'PREFLIGHT','started_at':now(),'manifest_sha256':sha(run/'manifest.json'),
             'runner_sha256':sha(Path(__file__)),'supervisor_pid':os.getpid(),'supervisor_start_ticks':ticks(os.getpid()),
@@ -154,6 +154,9 @@ def main():
     try:
         if result['runner_sha256']!=manifest['runner_sha256']: raise RuntimeError('runner identity mismatch')
         if suite=='http-lifecycle-v1': validate_lifecycle_settings(manifest)
+        if suite=='http-performance-v1':
+            expected={'context':9216,'prefill_chunk':2048,'max_active':2,'temperature':0,'thinking':False,'mtp':False,'vision':False}
+            if manifest.get('request_settings')!=expected: raise RuntimeError('performance settings mismatch')
         # Existing files only; no rewriting, deleting, or forging another owner's lock.
         # Nonblocking acquisition never waits in a conflicting lock order.
         for name in manifest['lock_order']:
@@ -207,10 +210,10 @@ def main():
         if kfd(): raise RuntimeError('foreign KFD client appeared during preflight')
         check()
         checks=None
-        if suite=='http-lifecycle-v1':
+        if suite in ('http-lifecycle-v1','http-performance-v1'):
             checks=load_serving_checks(run,manifest['serving_checks_sha256'])
             result['serving_checks_sha256']=manifest['serving_checks_sha256']
-        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port','19879','--management-port','19880']
+        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','9216' if suite=='http-performance-v1' else '4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port','19879','--management-port','19880']
         register('start'); registered=True
         result['model_attempted']=True; stage('MODEL_LOADING')
         with (out/'server.log').open('xb') as log:
@@ -295,7 +298,7 @@ def main():
         expected=sum(row['parsed']['usage']['completion_tokens'] for row in result['tests'])
         if scheduler['completed']!=len(manifest['cases'])*2 or scheduler['failed'] or scheduler['cancelled'] or scheduler['generated_tokens']!=expected:
             raise RuntimeError('unexpected worker accounting / foreign request')
-        if checks:
+        if checks and suite!='http-performance-v1':
             stage('MODEL_HTTP_LIFECYCLE_RUNNING')
             with (out/'lifecycle.jsonl').open('x') as log:
                 def record(event):
@@ -306,6 +309,18 @@ def main():
                     result['lifecycle_status']='INCONCLUSIVE'; raise
                 if manifest.get('openai_checks'):
                     result['openai']=checks.run_openai(19879,19880,'qwen3.8-flash-next',record,check)
+            result['lifecycle_status']='PASS'
+            result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
+        if suite=='http-performance-v1':
+            stage('MODEL_HTTP_PERFORMANCE_RUNNING')
+            with (out/'performance.jsonl').open('x') as log:
+                def record(event):
+                    log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
+                result['performance']=checks.run_performance(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check,manifest['performance_profile'])
+            with (out/'lifecycle.jsonl').open('x') as log:
+                def record(event):
+                    log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
+                result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
             result['lifecycle_status']='PASS'
             result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
         stage('SMOKE_PASSED_AWAITING_SHUTDOWN')
@@ -329,13 +344,13 @@ def main():
             result['postflight_kfd']=sorted(kfd()); result['postflight_gpu']=gpu(); result['postflight_memory']=memory()
             if not result['binary_unchanged'] or (proc is not None and proc.pid in result['postflight_kfd']): raise RuntimeError('retirement/identity failure')
             if result['state']=='SMOKE_PASSED_AWAITING_SHUTDOWN':
-                result['state']='MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-lifecycle-v1' else 'MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
+                result['state']='MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON' if suite=='http-performance-v1' else 'MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-lifecycle-v1' else 'MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
         except Exception as ex:
             result['state']='FAILED'; result['closure_error']=repr(ex)
         result['finished_at']=now(); save()
         if registered: register('end')
         for fd in reversed(locks): os.close(fd)
     print(json.dumps({k:result[k] for k in ('state','model_attempted','model_inference_observed','finished_at')},indent=2),flush=True)
-    return 0 if result['state'] in ('MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION') else 1
+    return 0 if result['state'] in ('MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON') else 1
 
 if __name__=='__main__': raise SystemExit(main())

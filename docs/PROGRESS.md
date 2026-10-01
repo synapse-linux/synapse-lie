@@ -1,5 +1,50 @@
 # Isolated OpenAI reactive API increment
 
+## Simplified 128K and concurrency comparison
+
+The reusable C17 `synapse-lie-bench` implements AR depth, concurrency, loading
+and memory-estimate suites, JSONL evidence and optional SVG/PNG/CSV/JSON exports.
+On `.157`, matched original-weight direct-executor single runs passed all eight
+depths through physical prefix 131072 (133120 total prompt tokens). At that depth
+LIE TG is 24.67 token/s versus direct Gufo 24.71; all physical/output IDs and full
+frontier hashes match. Matched concurrency 1/2/4/6/8 passed: at eight users LIE
+aggregates 26.07 versus native Gufo batch 107.03 token/s. The production adapter
+uses single-row decode; native batching remains a runtime implementation gap.
+
+Fresh CPU fixtures passed 18/18 debug and 18/18 ASan/UBSan, including the
+small-context calibration regression and graph exports. The initial suite retains
+its FAILED root and actual exit 1 before any multi sample; the corrected follow-up
+ran only missing arms and completed PASS (all six helper/child exits 0).
+Final owned PIDs are absent and no known lease holder is observed. These are
+simplified direct AR measurements, not HTTP
+128K/cache support, MTP or independent numerical qualification. See
+[BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md) and
+[CONTEXT-COMPARISON.md](CONTEXT-COMPARISON.md).
+
+## Current-runtime performance and DS4 coverage
+
+The `.157` GPU performance matrix passed on 2026-10-01: nine direct C1
+measurements, 110 measured HTTP requests plus 22 warm-ups across 16 configurations,
+24-client admission burst (8 completed, 16 capacity refusals), and the real-model
+cancellation/backpressure/isolation suite. CPU fixtures passed 17/17 in debug
+and 17/17 with ASan/UBSan on `.157`. Runtime binary remains the earlier API-qualified
+`213c91e` build; harness changes add measured clients and prompt metadata.
+All four leases were free/unchanged and owned processes absent at final postflight;
+KFD was empty. No deployment or publication.
+
+Direct PP medians are 999.65 / 1648.11 / 1608.97 token/s for physical prompt
+counts 502 / 2042 / 8191; TG medians 26.87 / 26.07 / 25.98 token/s. C2 serving
+roughly doubles request latency with similar aggregate throughput: no reactive
+inference speedup is demonstrated. Full timings, sampled resources and limitations
+are in [PERFORMANCE-RESULT.md](PERFORMANCE-RESULT.md).
+
+[DS4-COVERAGE.md](DS4-COVERAGE.md) records the read-only comparison. Coverage is
+not equivalent: vision, MTP, native batching, prefix/snapshot state, extended
+sampling and long-context qualification remain among LIE's missing capabilities.
+Neither API completeness nor DS4 historical numerical qualification is inherited.
+
+## API implementation
+
 Worktree `/tmp/synapse-lie-pi-tools`, branch `feature/openai-reactive-api`, created
 from `develop`, then fast-forwarded to the existing native-tools base `e3d0c7a`.
 The original worktree remains untouched; no merge, push or deployment.

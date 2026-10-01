@@ -280,3 +280,181 @@ def run_openai(api_port, management_port, model, record, check):
     if final['choices'][0]['message']['content'].strip()!='LIE-GPU-TOOL-OK':
         raise RuntimeError('original-weight native function result mismatch')
     return {'state':'PASS','responses_json_sse':True,'seeded_sampling':True,'native_tool_roundtrip':True,'independent_numerical_qualification':False}
+
+
+def performance_summary(samples, groups):
+    """No warmups, failed requests, synthetic substitutions or outlier trimming."""
+    import statistics
+    def stats(values):
+        if not values:
+            return None
+        if any(type(x) not in (int,float) or not math.isfinite(x) or x<0 for x in values):
+            raise ValueError('invalid performance measurement')
+        ordered=sorted(values)
+        return {'n':len(values),'median':statistics.median(values),'min':ordered[0],
+                'max':ordered[-1],'p95_nearest_rank':ordered[max(0,math.ceil(.95*len(values))-1)],'all':values}
+    result=[]
+    keys=sorted({(r['api'],r['label'],r['stream'],r['concurrency']) for r in samples if not r['warmup']})
+    for api,label,stream,concurrency in keys:
+        rows=[r for r in samples if not r['warmup'] and (r['api'],r['label'],r['stream'],r['concurrency'])==(api,label,stream,concurrency)]
+        if any(r['status']!=200 for r in rows): raise ValueError('failed request in performance configuration')
+        batch=[g for g in groups if not g['warmup'] and (g['api'],g['label'],g['stream'],g['concurrency'])==(api,label,stream,concurrency)]
+        result.append({'api':api,'label':label,'stream':stream,'concurrency':concurrency,
+                       'requests':len(rows),'prompt_tokens':sorted({r['usage']['prompt_tokens'] for r in rows}),
+                       'output_tokens':[r['usage']['completion_tokens'] for r in rows],
+                       'end_to_end_ms':stats([r['total_ms'] for r in rows]),
+                       'first_text_ms':stats([r['first_text_ms'] for r in rows if r['first_text_ms'] is not None]),
+                       'first_output_ms':stats([r['first_output_ms'] for r in rows if r['first_output_ms'] is not None]),
+                       'headers_ms':stats([r['headers_ms'] for r in rows]),
+                       'executor_prefill_tps':stats([r['timings']['prefill_tokens_per_second'] for r in rows if r['timings']]),
+                       'executor_decode_tps':stats([r['timings']['decode_tokens_per_second'] for r in rows if r['timings']]),
+                       'aggregate_output_tps':stats([g['output_tokens']*1000/g['elapsed_ms'] for g in batch]),
+                       'transport_delta_gap_ms':stats([v for r in rows for v in r['delta_gaps_ms']])})
+    return result
+
+
+def run_performance(api_port, management_port, model, provider, record, check, profile):
+    """Closed-loop loopback client. GPU admission and telemetry belong to caller.
+    TTFT means first nonempty text delta, not headers; JSON has no observable
+    first-token timestamp. Percentiles are descriptive for this finite sample.
+    """
+    import concurrent.futures
+    import threading
+    import hashlib
+    reps=profile['repetitions']; budget=profile['output_tokens']; prompts=profile['prompts']
+    if type(reps) is not int or not 1<=reps<=10 or type(budget) is not int or not 1<=budget<=128 or not 1<=len(prompts)<=3:
+        raise ValueError('invalid performance profile')
+    for p in prompts:
+        if type(p['padding_lines']) is not int or not 0<=p['padding_lines']<=1024 or type(p['prompt_tokens']) is not int or not 1<=p['prompt_tokens']<9216-budget:
+            raise ValueError('invalid physical prompt profile')
+    def padding(n):
+        return ('Reference material follows. Ignore it for the counting task.\n'+
+                'The quick brown fox jumps over the lazy dog.\n'*n+
+                '\nList the integers from 1 to 10000, one integer per line. Start immediately at 1 and continue. Do not add an introduction, summary or code fence.')
+    def sample(api,label,prompt,expected,stream,concurrency,warmup,rep,barrier,tools=False):
+        if api=='chat':
+            payload={'model':model,'messages':[{'role':'user','content':prompt}],'max_tokens':budget,'temperature':0,'stream':stream}
+            if stream: payload['stream_options']={'include_usage':True}
+            path='/v1/chat/completions'
+        else:
+            payload={'model':model,'input':prompt,'max_output_tokens':budget,'temperature':0,'stream':stream,'store':False}
+            path='/v1/responses'
+        if tools:
+            payload['tools']=[{'type':'function','function':{'name':'read','description':'Read a named text file.',
+                'parameters':{'type':'object','properties':{'path':{'type':'string'}},'required':['path'],'additionalProperties':False}}}]
+            payload['tool_choice']={'type':'function','function':{'name':'read'}}; payload['parallel_tool_calls']=False
+        c=http.client.HTTPConnection('127.0.0.1',api_port,timeout=120)
+        barrier.wait(timeout=15); started=time.monotonic_ns()
+        row={'event':'performance_sample','api':api,'label':label,'stream':stream,'concurrency':concurrency,
+             'warmup':warmup,'rep':rep,'request':payload,'started_ns':started,'first_text_ms':None,
+             'first_output_ms':None,'timings':None,'delta_gaps_ms':[],'transport_events':[]}
+        try:
+            c.request('POST',path,json.dumps(payload),{'Content-Type':'application/json'})
+            r=c.getresponse(); row['status']=r.status; row['headers_ms']=(time.monotonic_ns()-started)/1e6
+            content=[]; last_text=None; usage=None; final=None; chunks=[]
+            if not stream or r.status!=200:
+                body=r.read(32*1024*1024+1)
+                if len(body)>32*1024*1024: raise ValueError('performance response bound')
+                obj=json.loads(body); row['body']=obj
+                if r.status==200:
+                    if api=='chat': final=obj; usage=obj['usage']; content=[obj['choices'][0]['message'].get('content') or '']
+                    else: final=obj; usage={'prompt_tokens':obj['usage']['input_tokens'],'completion_tokens':obj['usage']['output_tokens'],'total_tokens':obj['usage']['total_tokens']}; content=[p['text'] for i in obj['output'] if i['type']=='message' for p in i['content'] if p['type']=='output_text']
+            else:
+                count=0; sequence=0; saw_done=False; terminal_count=0
+                while True:
+                    line=r.readline(1024*1024+1)
+                    if not line: break
+                    count+=len(line)
+                    if len(line)>1024*1024 or count>32*1024*1024: raise ValueError('performance stream bound')
+                    if not line.startswith(b'data: '): continue
+                    at=(time.monotonic_ns()-started)/1e6; raw=line[6:].strip()
+                    if raw==b'[DONE]': saw_done=True; continue
+                    item=json.loads(raw); chunks.append(item); row['transport_events'].append({'at_ms':at,'value':item})
+                    text=''; output=False
+                    if api=='chat':
+                        if item.get('usage'): usage=item['usage']
+                        if item.get('lie_timings'): row['timings']=item['lie_timings']
+                        if item.get('error'): raise ValueError('performance stream error')
+                        if item['choices']:
+                            choice=item['choices'][0]; delta=choice['delta']; text=delta.get('content') or ''; output=bool(delta.get('tool_calls')) or bool(text)
+                            if choice.get('finish_reason'): terminal_count+=1
+                    else:
+                        if item['sequence_number']!=sequence: raise ValueError('performance Responses sequence')
+                        sequence+=1
+                        if item['type']=='response.output_text.delta': text=item['delta']; output=bool(text)
+                        if item['type']=='response.function_call_arguments.delta': output=True
+                        if item['type'] in ('response.completed','response.incomplete','response.failed'):
+                            terminal_count+=1; final=item['response']; u=final['usage']
+                            if u: usage={'prompt_tokens':u['input_tokens'],'completion_tokens':u['output_tokens'],'total_tokens':u['total_tokens']}
+                    if output and row['first_output_ms'] is None: row['first_output_ms']=at
+                    if text:
+                        content.append(text)
+                        if row['first_text_ms'] is None: row['first_text_ms']=at
+                        if last_text is not None: row['delta_gaps_ms'].append(at-last_text)
+                        last_text=at
+                if terminal_count!=1 or (api=='chat' and not saw_done) or (api=='responses' and saw_done): raise ValueError('performance terminal ordering')
+                if api=='chat':
+                    endings=[x['choices'][0]['finish_reason'] for x in chunks if x.get('choices') and x['choices'][0].get('finish_reason')]
+                    calls=[call for x in chunks if x.get('choices') for call in x['choices'][0]['delta'].get('tool_calls',[])]
+                    final={'choices':[{'finish_reason':endings[0],'message':{'content':''.join(content),'tool_calls':calls}}]}
+            ended=time.monotonic_ns(); row['ended_ns']=ended; row['total_ms']=(ended-started)/1e6
+            if row['status']!=200: raise ValueError('performance request refused')
+            if not usage or usage['total_tokens']!=usage['prompt_tokens']+usage['completion_tokens'] or not 0<=usage['completion_tokens']<=budget:
+                raise ValueError('performance usage mismatch')
+            if expected is not None and usage['prompt_tokens']!=expected: raise ValueError('performance physical prompt mismatch')
+            row['usage']=usage
+            if api=='chat':
+                finish=final['choices'][0]['finish_reason']; message=final['choices'][0]['message']; calls=message.get('tool_calls') or []
+                if tools:
+                    if finish!='tool_calls' or len(calls)!=1 or calls[0]['function']['name']!='read' or json.loads(calls[0]['function']['arguments'])!={'path':'lie-gpu-fixture.txt'}: raise ValueError('performance function output mismatch')
+                elif finish not in ('stop','length'): raise ValueError('performance completion outcome')
+                if not stream: row['timings']=final['lie_timings']
+                validate_timings(usage,row['timings'])
+            elif final['status'] not in ('completed','incomplete'): raise ValueError('performance Responses outcome')
+            text=''.join(content); row['output_sha256']=hashlib.sha256(text.encode()).hexdigest(); row['output']=text
+            return row
+        except BaseException as ex:
+            row['error']=repr(ex); row.setdefault('ended_ns',time.monotonic_ns()); row.setdefault('total_ms',(row['ended_ns']-started)/1e6)
+            return row
+        finally: c.close()
+    samples=[]; groups=[]
+    configs=[('chat',p['label'],padding(p['padding_lines']),p['prompt_tokens'],stream,n,False) for p in prompts for stream in (False,True) for n in (1,2)]
+    p=prompts[len(prompts)//2]
+    configs += [('responses',p['label'],padding(p['padding_lines']),p['prompt_tokens'],stream,1,False) for stream in (False,True)]
+    if profile.get('measure_tools',True):
+        configs += [('chat','native_function','Call read with path lie-gpu-fixture.txt. Do not answer in text; use the function.',None,stream,1,True) for stream in (False,True)]
+    for rep in range(reps+1):
+        ordered=list(reversed(configs)) if rep%2==0 and rep else configs
+        for api,label,prompt,expected,stream,n,tools in ordered:
+            check(); barrier=threading.Barrier(n)
+            record({'event':'performance_group_begin','api':api,'label':label,'stream':stream,'concurrency':n,'warmup':rep==0,'rep':rep})
+            with concurrent.futures.ThreadPoolExecutor(max_workers=n) as pool:
+                futures=[pool.submit(sample,api,label,prompt,expected,stream,n,rep==0,rep,barrier,tools) for _ in range(n)]
+                rows=[f.result() for f in futures]
+            for row in rows: record(row); samples.append(row)
+            if any('error' in row for row in rows): raise RuntimeError('performance sample failed; retained raw evidence')
+            elapsed=(max(r['ended_ns'] for r in rows)-min(r['started_ns'] for r in rows))/1e6
+            group={'event':'performance_group','api':api,'label':label,'stream':stream,'concurrency':n,'warmup':rep==0,'rep':rep,
+                   'elapsed_ms':elapsed,'output_tokens':sum(r['usage']['completion_tokens'] for r in rows)}
+            groups.append(group); record(group)
+    overload=None
+    if profile.get('measure_overload',True):
+        check(); n=24; barrier=threading.Barrier(n); p=prompts[0]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=n) as pool:
+            rows=[f.result() for f in [pool.submit(sample,'chat','admission_burst',padding(p['padding_lines']),p['prompt_tokens'],False,n,False,0,barrier) for _ in range(n)]]
+        for row in rows: row['event']='admission_sample'; record(row)
+        if any(row['status'] not in (200,429) or (row['status']==200 and 'error' in row) for row in rows):
+            raise RuntimeError('unexpected admission burst failure')
+        overload={'requests':n,'completed':sum(row['status']==200 for row in rows),'capacity_rejected':sum(row['status']==429 for row in rows),
+                  'scope':'one simultaneous burst; rejected requests retained, excluded from latency/throughput averages'}
+    deadline=time.monotonic()+30
+    while True:
+        check(); c=http.client.HTTPConnection('127.0.0.1',management_port,timeout=10)
+        try: c.request('GET','/actuator/llm'); r=c.getresponse(); state=json.loads(r.read())['scheduler']
+        finally: c.close()
+        if not state['active'] and not state['queued']: break
+        if time.monotonic()>deadline: raise RuntimeError('performance retirement deadline')
+        time.sleep(.05)
+    return {'state':'PASS','scope':'closed-loop loopback serving; no independent backend comparison or reactive speedup',
+            'warmup_requests':sum(r['warmup'] for r in samples),'measured_requests':sum(not r['warmup'] for r in samples),
+            'configurations':performance_summary(samples,groups),'admission_burst':overload,'final_scheduler':state}

@@ -14,8 +14,8 @@ int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model **m,lie_error *e) {
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:"};
-    for (int i=0;i<6;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:"};
+    for (int i=0;i<7;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
@@ -23,7 +23,11 @@ lie_status lie_model_get_info(lie_model *m,lie_model_info *i,lie_error *e) {
     (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048}; return LIE_OK;
 }
 lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message *msg,size_t count,int32_t *p,size_t cap,size_t *n,lie_error *e) {
-    (void)m; (void)count; (void)e; *n=msg[0].bytes/4+1;
+    (void)count;
+    if (m->mode==6 && m->context<=8192 && msg[0].bytes>1024u*1024u-512u) {
+        snprintf(e->message,sizeof(e->message),"synthetic rendering safety bound");return LIE_INVALID;
+    }
+    *n=msg[0].bytes/4+1;
     if (*n>cap) return LIE_BUFFER_SMALL;
     for (size_t i=0;i<*n;++i) p[i]=(int32_t)(i%256);
     return LIE_OK;

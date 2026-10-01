@@ -1,0 +1,19 @@
+{
+  "verification.json": "0102deda03da75a7fa5b4ad211cf9dae5c0f1f18e055e31d4c9fea4c5407c775",
+  "loading/benchmark.png": "81461b10b3ad80d006f36c2cb574a65d54e05c33555ad954b99d03df355c9b10",
+  "loading/benchmark.svg": "6513e8456992eb05e376bff0ba14098f386345248835b6ecfde861d49a9c517a",
+  "loading/summary.json": "532515e5f800acad8652ca81e84c2193f752483f364eb2057ddaf83d1c2d3520",
+  "loading/summary.csv": "880ae9c50b0dfea899acb96c46a8eff44e01b1c4e7ad94713628fd534c933a98",
+  "memory/benchmark.png": "04095ab7d79972ad101f85abcf23b6ca01aa969fb800b51fadfdd1e427aaf0c1",
+  "memory/benchmark.svg": "cd25707a962e40fee034eac78793e56773aeed7a5a508380d3c7fb202793e7d7",
+  "memory/summary.json": "cf8347b5018921c8c64d4c42afbc51d41f6f6e1105862a5c91fcd85854d5b5bc",
+  "memory/summary.csv": "6a880152a604f5c03ead57afadf5a002846d0944d4a0294a16ffba78e7c74491",
+  "multi/benchmark.png": "5c58abc1101696d71d97a1c340a2d66a7ae4c47034e19a3aa69fe31482d2ac5b",
+  "multi/benchmark.svg": "e80447851f0232c3dc9ca7f016a30fbd14ad9e15a767a7602bb25b1680d6aa72",
+  "multi/summary.json": "6e98da7a5437a6846c9dbb6463089034a8bff78b0173e8557242f4da87596d57",
+  "multi/summary.csv": "c664d7cace7ad5fdfa01fe8dbfb5f0e6e828c99122e409cb660c225101730bf7",
+  "single/benchmark.png": "127463a9d660d67c433800a7cee78b1a63e8c9a88fc4793ed8c3e463df083922",
+  "single/benchmark.svg": "ace48a2cfadb56968da6baa03117aa6c44632a4806f461f115fa52fe8f9c0542",
+  "single/summary.json": "4942d17ffbdfaf30a078d7a576b21e465083f97cff3c38010162f3472d75d5e0",
+  "single/summary.csv": "26ad1de6c2a567e4ef8848624c186c828c1a47d1d18353558b1f75186e56d1ae"
+}

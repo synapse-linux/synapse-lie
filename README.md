@@ -53,10 +53,12 @@ This is embedded-provider throughput, not a reactive gain or independent compari
 New server source adds C per-request [PP/TG timings](docs/HTTP.md#per-request-executor-timings)
 in JSON/SSE: completed synchronous executor-call wall time, excluding queue/credit
 waits and HTTP delivery. CPU clock fixtures and the new original-weight lifecycle
-run verify this contract; it is not a new throughput baseline. The definitive `synapse-lie-bench` is planned in
-C17; Python is intermediate tooling only. [Methodology and prerequisites](docs/BENCHMARKING.md)
-keep Gufo's cached-prefix/MTP/concurrency experiments distinct from the existing
-fresh-session baseline. The full benchmark tool is not implemented yet.
+run verify this contract; it is not a new throughput baseline. The C17
+`synapse-lie-bench` now implements a simplified direct-executor AR depth and
+concurrency suite, with optional SVG/PNG and CSV/JSON exports. Python handles
+lease supervision and graph generation. See [usage and scope](docs/CONTEXT-COMPARISON.md)
+and [methodology/prerequisites](docs/BENCHMARKING.md). The full HTTP/cache/MTP,
+cold-load and exact-peak suite remains open.
 
 **The Q2 experiment has been withdrawn at the owner's request.** Its active
 source, recipes, build helpers and tests are removed; rollback commit `ffca17e`
@@ -163,6 +165,20 @@ The optional HIP build also provides `lie-executor-bench`; its real-model use is
 lease-gated by `tools/bench-model.py` and the [C1 protocol](docs/C1-BASELINE.md).
 The separate `test-synthetic-bench` is NOT-INFERENCE.
 
+The same opt-in build provides `synapse-lie-bench` and the benchmark-only
+`synapse-lie-bench-gufo-reference`. Both use the original HIP executor; the latter
+exercises native upstream batching. On shared `.157`, real-model invocations
+run under `tools/run-bench.py` with a fresh admitted manifest and four leases.
+`synapse-lie-bench --help` opens no model. Graphs can be generated afterwards:
+
+```sh
+python3 build/openai-tools-link-r1/synapse-lie-bench-report.py single.jsonl \
+  --output charts --compare gufo-single.jsonl
+```
+
+The optional Matplotlib dependency is required only for graph export; no automatic
+installation. CPU fixture plots are visibly marked NOT-INFERENCE.
+
 After the coordinated lease, fresh preflight and private runtime setup—not as
 part of the local verification—an original-weight candidate can be started with:
 
@@ -204,6 +220,11 @@ is not GPU preemption. **Keep loopback defaults:** no TLS/authentication exists.
 No service, deployment, merge or publication is implied.
 
 ## Further contracts
+
+[GPU performance results](docs/PERFORMANCE-RESULT.md) ·
+[128K and native-batch comparison](docs/BENCHMARK-RESULTS.md) ·
+[Performance protocol](docs/PERFORMANCE-PROTOCOL.md) ·
+[DS4 coverage comparison](docs/DS4-COVERAGE.md)
 
 [Progress/evidence](docs/PROGRESS.md) · [Architecture](docs/ARCHITECTURE.md) ·
 [Execution ABI](docs/ABI.md) · [Metrics](docs/METRICS.md) ·
