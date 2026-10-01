@@ -266,3 +266,23 @@ The next campaign must use a new exclusive directory and a fresh available
 operator window, then reacquire all four leases. Empty KFD during a held
 enclosing campaign is not permission to enter its gaps. CPU fixtures continue
 with HIP/ROCR visibility disabled and no heavyweight model I/O.
+
+## Reactive inference window completed — 2026-10-01
+
+The operator explicitly renewed the available window with `la gpu è libera`.
+New exclusive campaign `reactive-suite-r2` ran 19:24:01–19:59:02 UTC, source
+checkpoint `0e2bd45`. Each of its five sequential arms independently acquired
+all four existing EX|NB leases in the established order and retained in-lease
+model stat/DSO/client checks, start/end registration and owned cleanup.
+Original-weight HTTP checks and matched serial/reactive multi/context benchmarks
+all pass, each helper and GPU child exit 0. No automatic GPU retry occurred.
+
+At 19:59:02 UTC final postflight found all ten owned helper/child processes
+absent, KFD empty and all four unchanged lease paths free. A subsequent read-only
+SCP of the controller's `/proc/2179491/stat` observed it absent (expected SCP
+exit 1, separately retained). All 43 archived files match the remote collection
+SHA-256 map. No foreign GPU client was observed; desktop clients and denied-FD
+observations still preclude universal exclusivity claims. No DS4 change, foreign
+signal, remote build, install, tuning, model conversion, deployment or publication.
+No standing lease or formal DS4 ACK is implied. See
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).

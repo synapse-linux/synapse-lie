@@ -47,11 +47,11 @@ imported into the server. No sibling project code or artifacts were imported.
 
 | Reference experiment | Meaning / required semantics | Current LIE gap |
 |---|---|---|
-| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | No prefix reuse; HTTP context limit 32768 and 1 MiB request limit; exact ordered corpus/calibration not reproduced |
+| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | Direct physical-prefix measurements through 128K exist; HTTP prefix caching remains absent, with context limit 32768 and 1 MiB request limit; exact reference corpus/calibration not reproduced |
 | Single MTP | Same depth sweep; mixed and repetitive workloads; PP is the maximum per engine/depth across these workloads, including predictor catch-up | MTP not exposed |
-| Multi AR/MTP | C1/2/4/6/8, context 4096 per user, all sessions prefilled before measured TG128; **sum of individual decode rates**, not cohort tokens divided by cohort wall time | At most two interleaved single-row sequences, no equivalent prefill/cache cohort protocol or native batching; MTP absent |
+| Multi AR/MTP | C1/2/4/6/8, context 4096 per user, all sessions prefilled before measured TG128; **sum of individual decode rates**, not cohort tokens divided by cohort wall time | Native AR batching is implemented for 1/2/4/6/8; the direct benchmark uses common-window aggregate throughput, not the reference HTTP/cache protocol or rate aggregation; MTP absent |
 | Loading | Cold target/sidecar files to HTTP readiness, C1/MTP/context 262144 | No equivalent cold-load experiment; never drop global caches or alter another service implicitly |
-| Memory | C1/AR/context 133121; d0 pp2048/tg128 and 16K prefix pp4096/tg128; peak **global HIP usage including idle memory** | No corresponding run or exact peak counter; sampled system GTT/RAM is a different metric |
+| Memory | C1/AR/context 133121; d0 pp2048/tg128 and 16K prefix pp4096/tg128; peak **global HIP usage including idle memory** | Corresponding direct workloads report upstream size estimates and sampled system/device telemetry; allocation-exact global HIP peak remains absent |
 
 The reference documents one warmed sample per point (recipe repetitions=1),
 seed=1 and depth tolerance=0.005. Calibration depends on the ordered depth sweep;
@@ -64,16 +64,20 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
 ## Implementation and acceptance boundaries
 
 - Per-request `lie_timings` sums completed synchronous executor-call wall times.
-  It excludes queue/credit stalls and other jobs' work; it is neither HTTP latency
-  nor GPU-only time. No fake queue, TTFT, cache hit, MTP or memory metrics are added
+  It excludes queue/credit stalls and HTTP delivery. A shared batch duration is
+  attributed to each participating request, so these intervals overlap and must
+  not be summed as GPU time. It is neither HTTP latency nor GPU-only time.
+  No fake queue, TTFT, cache hit, MTP or memory metrics are added
   to make an external reader accept a response. A LIE-aware intermediate reader
   must recognize the schema rather than label it Gufo/llama.cpp timing.
 - Prefix reuse requires correct physical-token/frontier identity, bounded state
   ownership, cancellation and invalidation. Chat history currently re-prefills
   from a fresh session. Do not label this cached-prefill measurement.
 - Native concurrency, MTP and longer contexts require implementation and numerical/
-  lifecycle/capacity qualification before their rows can be filled. Unsupported,
-  not-run and failed are distinct from measured zero.
+  lifecycle/capacity qualification before their rows can be filled. The measured
+  direct AR scope is in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md);
+  it does not establish HTTP 128K or MTP. Unsupported, not-run and failed remain
+  distinct from measured zero.
 - Separate graphs for fresh full prefill, cached-prefix incremental prefill,
   decode, concurrency, load and memory. Reference-published values and locally
   measured values must be visibly distinguished. The existing C1 dataset cannot

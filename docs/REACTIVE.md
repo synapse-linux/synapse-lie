@@ -16,6 +16,9 @@ checks use a separate synthetic provider. Separately, the original-weight
 `t0-model-lifecycle-r1` GPU run passes bounded HTTP/SSE, dispatch cancellation,
 TCP backpressure, peer isolation and retirement. This is **not full numerical/
 hardware qualification**, native batching or a reactive performance gain.
+The later shared inference dispatcher has separate original-weight native-batch
+checks and matched serial/reactive throughput measurements through eight users
+and occupied 128K; see [the measured scope](REACTIVE-INFERENCE-RESULT.md).
 No-model startup still returns 503 for chat. The publisher obeys [LIE-owned contracts](BACKEND.md); an explicit
 embedded Gufo adapter is permitted initially, followed by requirement-driven
 refactoring toward owned execution. It is not claimed as reimplementation.

@@ -1,0 +1,136 @@
+{
+  "state": "PASS",
+  "started_at": "2026-10-01T19:24:01.223962+00:00",
+  "pid": 2179491,
+  "start_ticks": 144803548,
+  "runs": [
+    {
+      "arm": "http",
+      "pid": 2179494,
+      "start_ticks": 144803566,
+      "started_at": "2026-10-01T19:24:01.377594+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:24:40.165076+00:00"
+    },
+    {
+      "arm": "serial-multi",
+      "pid": 2179721,
+      "start_ticks": 144807454,
+      "started_at": "2026-10-01T19:24:40.250020+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:35:04.627465+00:00"
+    },
+    {
+      "arm": "reactive-multi",
+      "pid": 2182945,
+      "start_ticks": 144869908,
+      "started_at": "2026-10-01T19:35:04.791558+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:41:05.948873+00:00"
+    },
+    {
+      "arm": "serial-single",
+      "pid": 2184971,
+      "start_ticks": 144906038,
+      "started_at": "2026-10-01T19:41:06.096096+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:50:03.753788+00:00"
+    },
+    {
+      "arm": "reactive-single",
+      "pid": 2188330,
+      "start_ticks": 144959816,
+      "started_at": "2026-10-01T19:50:03.879460+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:59:02.703337+00:00"
+    }
+  ],
+  "comparisons": {
+    "multi": [
+      {
+        "depth": 0,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 0.9989038239160316
+      },
+      {
+        "depth": 0,
+        "users": 2,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.7526629057784464
+      },
+      {
+        "depth": 0,
+        "users": 4,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 2.6535614247901944
+      },
+      {
+        "depth": 0,
+        "users": 6,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 3.635885243585418
+      },
+      {
+        "depth": 0,
+        "users": 8,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 4.1084082276777325
+      }
+    ],
+    "single": [
+      {
+        "depth": 0,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.001745465979638
+      },
+      {
+        "depth": 16384,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.0017975640070667
+      },
+      {
+        "depth": 131072,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 0.996599791761191
+      }
+    ]
+  },
+  "current_arm": "reactive-single",
+  "finished_at": "2026-10-01T19:59:02.744344+00:00"
+}

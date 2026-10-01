@@ -108,8 +108,9 @@ compute-work or client-delivery meter.
 
 Synthetic test executables have explicitly synthetic provider identity and may
 exercise these counters. Their values never constitute inference throughput.
-Original-weight observations are retained in [T0-LIFECYCLE.md](T0-LIFECYCLE.md);
-the later tool extension has no new real-model measurement yet.
+Original-weight observations are retained in [T0-LIFECYCLE.md](T0-LIFECYCLE.md),
+the later tool/Responses checks in [OPENAI-GPU.md](OPENAI-GPU.md), and the shared
+batch dispatcher measurements in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
 
 ## Required inference instrumentation (pending, not emitted as fake zero)
 

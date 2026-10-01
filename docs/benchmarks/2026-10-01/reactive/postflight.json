@@ -1,0 +1,46 @@
+{
+  "at": "2026-10-01T19:59:02.744497+00:00",
+  "owned_pids": {
+    "2179494": false,
+    "2179504": false,
+    "2179721": false,
+    "2179791": false,
+    "2182945": false,
+    "2182962": false,
+    "2184971": false,
+    "2184988": false,
+    "2188330": false,
+    "2188347": false
+  },
+  "locks": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged": true,
+      "free": true
+    }
+  ],
+  "kfd": []
+}

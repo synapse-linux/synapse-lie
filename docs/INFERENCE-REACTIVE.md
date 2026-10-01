@@ -142,3 +142,11 @@ cancellation in flight, invalid peer frontiers, all eight worker slots and
 seeded heterogeneous HTTP requests against serial results. GPU validation is
 recorded separately after fresh lease admission. This is the concurrent-inference
 hypothesis above, not evidence of faster single-sequence numerical kernels.
+
+The completed `reactive-suite-r2` comparison on `.157` now provides that evidence:
+three measured repetitions per point, exact physical/output IDs and PP/TG frontier
+hashes across arms, 4.11× C8 aggregate decode and C1 median differences within
+0.34% through occupied 128K. Production HTTP also observes native batch dispatch
+with seeded per-sequence output equality. Prefill remains sequential; no internal
+kernel/graph or HTTP latency speedup is inferred. Full timings, variability and
+retirement receipts are in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).

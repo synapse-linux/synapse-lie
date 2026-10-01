@@ -66,8 +66,9 @@ restored the original-Unsloth baseline `4307486`, before the new server tool wor
 adapter and UD measurements are retained. Git history, reports and local evidence
 remain as an archive, not current build instructions or Q2 support.
 
-**Current priority: operate the existing Unsloth model through Pi**, including a
-real tool round trip. Q2 is deferred under the [replacement plan](docs/REPLAN.md):
+**Current scope: a general OpenAI-compatible server and measured reactive
+inference**, using the existing Unsloth model. Pi uses the standard client
+protocol; no Pi-specific server interface is required. Q2 is deferred under the [replacement plan](docs/REPLAN.md):
 measure a working native Q2 reference first, then compare the smallest integration
 before undertaking another port. No performance preservation has been demonstrated.
 
@@ -104,10 +105,13 @@ model UTF-8, cancellation, slow-client pressure, peer progress and retirement.
 
 [REACTIVE.md](docs/REACTIVE.md) specifies ownership and remaining gates. Reactive
 scheduling **inside pure inference** is a separate [investigation](docs/INFERENCE-REACTIVE.md):
-the shared ready-row dispatcher is implemented, with GPU measurement currently
-blocked by occupied shared leases. See [candidate validation](docs/REACTIVE-INFERENCE-RESULT.md).
-No new C1 PP/TG, concurrency or serving speedup has been measured. Moving synchronous
-forward off the HTTP loop does not prove faster forward. No JVM, Project Reactor
+the shared ready-row dispatcher is implemented and GPU-tested on `.157`.
+At eight users, median aggregate decode is **107.15 versus 26.08 token/s** on
+the serial path (**4.11×**); C1 decode medians stay within 0.35% through occupied
+128K. Physical inputs, outputs and full PP/TG frontier hashes agree. See
+[complete PP/TG tables, graphs and limits](docs/REACTIVE-INFERENCE-RESULT.md).
+This measures concurrent batching; numerical kernels remain unchanged and no
+new HTTP latency improvement is claimed. No JVM, Project Reactor
 or Reactive Streams TCK claim.
 
 ## CPU build and verification

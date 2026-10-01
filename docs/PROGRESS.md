@@ -1,6 +1,6 @@
 # Isolated OpenAI reactive API increment
 
-## Reactive inference candidate and persistent checkpoint
+## Reactive inference GPU comparison passed and persistent checkpoint
 
 The source now lives at
 `/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api`.
@@ -17,15 +17,24 @@ explicit additive admission and per-row completed-outcome entry points carry
 no upstream types. New counters distinguish batch calls and selected rows.
 
 Final `reactive-cpu-r3` passed 19/19 debug and 19/19 ASan/UBSan on `.157`,
-including error-terminal metadata ordering; they do not qualify GPU
-numerics or performance. The first GPU attempt `reactive-suite-r1` exited 1
-at 18:51:29 UTC on 2026-10-01 because the first shared lease was occupied.
-Postflight observed all four existing leases held by another activity.
-`model_attempted=false`; no GPU child or model load occurred. There is no new
-reactive throughput result and no automatic retry into another campaign's gaps.
+including error-terminal metadata ordering; fixtures remain NOT-INFERENCE.
+After the operator renewed the free GPU window, `reactive-suite-r2` passed
+19:24:01–19:59:02 UTC on 2026-10-01 using code checkpoint `0e2bd45`.
+Original-weight HTTP lifecycle, Responses, native tools and the seeded
+heterogeneous serial/concurrent pair pass; the pair observes 32 native batches.
+Direct serial/reactive comparisons use one warm-up and three measured samples
+per point at C1/2/4/6/8 and occupied context 0/16K/128K. All physical/output IDs
+and full PP/TG frontier hashes match. C8 decode is 107.15 versus 26.08 token/s
+(4.11×); all C1 decode medians differ by at most 0.35%. Prefill remains sequential,
+and no PP gain or new HTTP speedup is claimed.
+
+All five helpers and GPU children exit 0; final postflight observes unchanged/free
+leases, absent owned processes and empty KFD. All 43 archived files and 67 bound
+source files verify. The earlier `reactive-suite-r1` refusal at 18:51:29 UTC
+(occupied pipeline lease, exit 1, no model attempt) remains preserved.
 See [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
 
-## Simplified 128K and concurrency comparison
+## Earlier simplified 128K and concurrency comparison
 
 The reusable C17 `synapse-lie-bench` implements AR depth, concurrency, loading
 and memory-estimate suites, JSONL evidence and optional SVG/PNG/CSV/JSON exports.
@@ -33,8 +42,8 @@ On `.157`, matched original-weight direct-executor single runs passed all eight
 depths through physical prefix 131072 (133120 total prompt tokens). At that depth
 LIE TG is 24.67 token/s versus direct Gufo 24.71; all physical/output IDs and full
 frontier hashes match. Matched concurrency 1/2/4/6/8 passed: at eight users LIE
-aggregates 26.07 versus native Gufo batch 107.03 token/s. The production adapter
-uses single-row decode; native batching remains a runtime implementation gap.
+aggregates 26.07 versus native Gufo batch 107.03 token/s. That measured adapter
+used single-row decode; the shared-dispatcher increment above addresses this gap.
 
 Fresh CPU fixtures passed 18/18 debug and 18/18 ASan/UBSan, including the
 small-context calibration regression and graph exports. The initial suite retains
@@ -46,7 +55,7 @@ simplified direct AR measurements, not HTTP
 [BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md) and
 [CONTEXT-COMPARISON.md](CONTEXT-COMPARISON.md).
 
-## Current-runtime performance and DS4 coverage
+## Earlier serial-runtime performance and DS4 coverage
 
 The `.157` GPU performance matrix passed on 2026-10-01: nine direct C1
 measurements, 110 measured HTTP requests plus 22 warm-ups across 16 configurations,

@@ -7,6 +7,8 @@ its independently fetched runtime pin f783fedb unchanged. Current main includes
 later quality updates, not code automatically incorporated into LIE.
 
 Measured results and comparison graphs: [BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md).
+The subsequent serial/reactive comparison with three measured repetitions is in
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
 
 ## Reusable executable
 
@@ -47,7 +49,7 @@ the coordinated ownership protocol. This is not a persistent lease or deployment
 
 `--execution reactive|serial` selects the LIE dispatch path (default reactive).
 Both use the same production adapter and confirmed outcomes. The historical
-2026-10-01 checkpoint results predate this integration and use serial dispatch.
+`ad02a01` checkpoint results predate this integration and use serial dispatch.
 
 `--depths`, `--users`, `--pp`, `--tg`, `--warmups`, `--repetitions` select smaller
 or repeated workloads. Output creation is exclusive; a preexisting file is never

@@ -155,7 +155,8 @@ The owner canceled the Q2 extension. Active code/build/tests are restored to
 `4307486`; historical reports and evidence remain archived. Gufo is not assumed
 to be the basis of another Q2 attempt. The [replacement plan](REPLAN.md) requires
 a working native Q2 reference and an early matched comparison before more porting.
-The immediate delivery is the existing Unsloth runtime with Pi. This change does
+The delivery uses the existing Unsloth runtime through a general OpenAI-compatible
+server, with Pi as an ordinary client. This change does
 not cancel the C17 ownership objective or claim it has already been achieved.
 
 ## Current implementation status
@@ -177,3 +178,12 @@ weight run passes bounded real prefill/decode cancellation, TCP backpressure,
 peer isolation/recovery and JSON/SSE timings. Full T0 acceptance still needs its
 independent numerical and GPU failure gates; this is not native batching or
 preemption. Neither v0.1 nor deployment is qualified; see PROGRESS.md for receipts.
+
+Subsequently, the shared C readiness/credit dispatcher added native AR batching
+through eight rows while retaining scalar dispatch for a single ready row.
+The matched `.157` serial/reactive campaign and production HTTP checks are in
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md): C8 aggregate TG
+improves 4.11× with exact tested frontier/output equality, while C1 remains
+within 0.35% through occupied 128K. This closes the measured concurrent-dispatch
+gap; numerical ownership, internal asynchronous forward, MTP and the independent
+quality/fault gates remain separate.

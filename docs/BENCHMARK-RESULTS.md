@@ -2,6 +2,11 @@
 
 Original-weight tests ran on `.157` in the isolated `feature/openai-reactive-api` worktree. The C17 `synapse-lie-bench` compares the production LIE adapter with a benchmark-only direct Gufo binding using the same independently fetched pinned numerical archives (`f783fedb`). This isolates executor dispatch, not independent numerical engines.
 
+These are the historical serial-adapter measurements at checkpoint `ad02a01`.
+The subsequent shared C dispatcher and native batching are tracked in
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md); the observations
+below are retained unchanged.
+
 AR, greedy, pp2048/tg128; one warm-up and **one measured sample per point**. Rates below are observed values, without confidence intervals or outlier removal. The complete protocol, differences from official Gufo measurements and CLI are in [CONTEXT-COMPARISON.md](CONTEXT-COMPARISON.md).
 
 ## Occupied context through 128K
@@ -35,7 +40,7 @@ Capacity 4096, identical physical 2048-token prompts. All sequences are prefille
 | 6 | 26.07 | 94.82 | 3.64 |
 | 8 | 26.07 | 107.03 | 4.11 |
 
-The production adapter sets `decode_concurrency = 1` and invokes one `Session::DecodeStep` per sequence. Its C worker interleaves synchronous single-row calls. The reference invokes `DecodeBatch` with independent states; upstream HIP `ForwardBatch` shares weight reads/projections across rows. This explains the measured flat LIE throughput and increasing Gufo throughput. Raising admission capacity or adding callbacks cannot substitute for a batch executor ABI with per-sequence credits, cancellation and failure semantics.
+The adapter measured here set `decode_concurrency = 1` and invoked one `Session::DecodeStep` per sequence. Its C worker interleaved synchronous single-row calls. The reference invoked `DecodeBatch` with independent states; upstream HIP `ForwardBatch` shares weight reads/projections across rows. This explains the measured flat LIE throughput and increasing Gufo throughput. The subsequent implementation adds a batch executor ABI with per-sequence credits, cancellation and failure semantics; its results are recorded separately.
 
 ![Concurrency comparison](benchmarks/2026-10-01/multi/benchmark.png)
 
