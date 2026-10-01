@@ -4,8 +4,10 @@ The user asks whether reactive execution can improve **model inference itself**,
 not only networking, multi-agent scheduling or responsiveness. This is a separate
 experimental track feeding the requirement-driven [backend evolution](BACKEND.md).
 A first direct-ABI C1 timing baseline is recorded separately in
-[C1-BASELINE.md](C1-BASELINE.md). No internal-reactive optimization experiment,
-profiler trace or speedup is established.
+[C1-BASELINE.md](C1-BASELINE.md). The C readiness/credit dispatcher now drives scalar or native batch decode
+from both worker and benchmark. Numerical kernels and their synchronization
+are unchanged; an internal-forward optimization or profiler-derived speedup
+is not established.
 
 ## Three different questions
 
@@ -128,3 +130,15 @@ checks and acceptance rules before a hardware run. The initial investigation can
 begin with a small C1 workload; concurrency and long contexts follow correctness
 and measured admission. Existing DS4 results, synthetic frames and upstream
 published performance cannot serve as measured LIE reactive-inference results.
+
+## Ready-row implementation (2026-10-01)
+
+The explicit operator request admitted the shared C inference dispatcher. It
+uses existing output reservations as readiness/resource gates and never waits
+for peers. `--execution serial` retains the prior direct benchmark path for
+matched A/B; default `reactive` records scalar/batch dispatch and selected rows.
+CPU fixtures cover zero credit, scalar fallback, different row positions,
+cancellation in flight, invalid peer frontiers, all eight worker slots and
+seeded heterogeneous HTTP requests against serial results. GPU validation is
+recorded separately after fresh lease admission. This is the concurrent-inference
+hypothesis above, not evidence of faster single-sequence numerical kernels.

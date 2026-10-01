@@ -1,6 +1,8 @@
 # OpenAI reactive original-weight run on .157
 
-Branch `feature/openai-reactive-api`; private worktree `/tmp/synapse-lie-pi-tools`.
+Branch `feature/openai-reactive-api`; worktree now at
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api`.
+Historical runs below used `/tmp/synapse-lie-pi-tools` before its verified relocation.
 The final `openai-reactive-api-r3` HIP binary ran on `192.168.5.157`, original
 UD-Q4_K_XL weights, context 4096, chunk 2048, two interleaved sequence slots,
 thinking/MTP/vision disabled. The numerical engine remains embedded upstream

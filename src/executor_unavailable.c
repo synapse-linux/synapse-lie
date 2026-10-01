@@ -27,3 +27,6 @@ lie_status lie_sequence_logits(lie_sequence *s UNUSED, float *o UNUSED, size_t c
 void lie_sequence_cancel(lie_sequence *s UNUSED) { }
 
 lie_status lie_sequence_configure(lie_sequence *s UNUSED,const lie_generation_options *o UNUSED,lie_error *e) { return unavailable(e); }
+
+lie_status lie_backend_open_batch(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,lie_model **m UNUSED,lie_error *e) { return unavailable(e); }
+lie_status lie_sequences_decode(lie_sequence *const *s UNUSED,size_t n UNUSED,lie_decode_outcome *o UNUSED,lie_error *e) { return unavailable(e); }

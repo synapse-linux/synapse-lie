@@ -36,14 +36,18 @@ the coordinated ownership protocol. This is not a persistent lease or deployment
   total is calibrated within 32 tokens; actual counts always replace nominal
   counts in rates. This measures occupied 128K, not just allocated capacity.
 - `multi`: users 1/2/4/6/8, capacity 4096, the same homogeneous prose prompt as
-  single d0. All sessions finish prefill before TG starts. LIE serially interleaves
-  one-token completed calls; common-window throughput sums confirmed tokens.
+  single d0. All sessions finish prefill before TG starts. LIE uses the shared C readiness/credit dispatcher for native decode batches;
+  `--execution serial` retains interleaved scalar calls for A/B; common-window throughput sums confirmed tokens.
   This is direct executor concurrency, not the HTTP worker admission capacity.
 - `memory`: capacity 133121, d0/pp2048 and d16384/pp4096, tg128. Reported model/
   session byte fields are upstream size estimates, **not measured peak HIP**.
   The lease supervisor separately retains sampled system/device counters.
 - `loading`: AR model load at capacity 262144, under the existing OS cache.
   This is neither cold-file load nor HTTP readiness nor MTP-sidecar loading.
+
+`--execution reactive|serial` selects the LIE dispatch path (default reactive).
+Both use the same production adapter and confirmed outcomes. The historical
+2026-10-01 checkpoint results predate this integration and use serial dispatch.
 
 `--depths`, `--users`, `--pp`, `--tg`, `--warmups`, `--repetitions` select smaller
 or repeated workloads. Output creation is exclusive; a preexisting file is never

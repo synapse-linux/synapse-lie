@@ -10,13 +10,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-struct lie_model { pthread_t owner; unsigned context, chunk, sequences; bool failed; };
+struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed; };
 struct lie_sequence { lie_model *model; unsigned position, step; int mode; atomic_bool cancelled; };
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
 static fake_phase held_phase;
-static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls;
+static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls;
 static const char *tool_outputs[]={
     "Reading.\n<tool_call>\n<function=read>\n<parameter=path>\n  caffè 🙂.txt  \n</parameter>\n<parameter=offset>\n3\n</parameter>\n<parameter=options>\n{\"raw\":true}\n</parameter>\n</function>\n</tool_call>",
     "<tool_call>\n<function=read>\n<parameter=path>\nincomplete",
@@ -37,11 +37,11 @@ void fake_barrier_wait(void) { pthread_mutex_lock(&gate); while (!entered) pthre
 void fake_barrier_release(void) { pthread_mutex_lock(&gate); held=false; pthread_cond_broadcast(&condition); pthread_mutex_unlock(&gate); }
 void fake_calls_reset(void) {
     atomic_store(&prefill_calls,0); atomic_store(&decode_calls,0); atomic_store(&text_calls,0);
-    atomic_store(&create_calls,0); atomic_store(&close_calls,0);
+    atomic_store(&batch_calls,0); atomic_store(&create_calls,0); atomic_store(&close_calls,0);
 }
 fake_calls fake_calls_snapshot(void) {
     return (fake_calls){atomic_load(&prefill_calls),atomic_load(&decode_calls),atomic_load(&text_calls),
-                       atomic_load(&create_calls),atomic_load(&close_calls)};
+                       atomic_load(&create_calls),atomic_load(&close_calls),atomic_load(&batch_calls)};
 }
 static void barrier(fake_phase phase) {
     pthread_mutex_lock(&gate);
@@ -62,10 +62,10 @@ int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
     if (strcmp(path,":fixture:") || o->abi_version!=LIE_EXECUTOR_ABI) return error(e,LIE_INVALID,"fixture_path_required");
     lie_model *m=calloc(1,sizeof(*m)); assert(m);
-    m->owner=pthread_self(); m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens; *out=m; return LIE_OK;
+    m->owner=pthread_self(); m->width=1; m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens; *out=m; return LIE_OK;
 }
 lie_status lie_model_get_info(lie_model *m, lie_model_info *out, lie_error *e) {
-    (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=1}; return LIE_OK;
+    (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=m->width}; return LIE_OK;
 }
 lie_status lie_model_close(lie_model **m, lie_error *e) { (void)e; owner(*m); assert(!(*m)->sequences); free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages, size_t count, int32_t *out, size_t capacity, size_t *required, lie_error *e) {
@@ -183,5 +183,16 @@ lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *
     (void)e; owner(s->model); assert(!s->position);
     /* Internal synthetic submissions historically use an all-zero request. */
     assert(!o->abi_version || (o->abi_version==LIE_GENERATION_ABI && o->struct_bytes==sizeof(*o)));
+    return LIE_OK;
+}
+
+lie_status lie_backend_open_batch(const char *p,const lie_model_options *o,uint32_t w,lie_model **m,lie_error *e) {
+    if(!w||w>LIE_DECODE_MAX_ROWS)return LIE_INVALID;
+    lie_status rc=lie_backend_open(p,o,m,e);if(rc==LIE_OK)(*m)->width=w;return rc;
+}
+lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outcome *o,lie_error *e) {
+    assert(n>1&&n<=s[0]->model->width);atomic_fetch_add(&batch_calls,1);
+    for(size_t i=0;i<n;++i){o[i].result=(lie_decode_result){0};o[i].status=lie_sequence_decode(s[i],&o[i].result,e);
+        if(o[i].status!=LIE_OK&&o[i].status!=LIE_CANCELLED){for(size_t j=0;j<n;++j)o[j]=(lie_decode_outcome){.status=LIE_BACKEND_FAILED};return LIE_BACKEND_FAILED;}}
     return LIE_OK;
 }

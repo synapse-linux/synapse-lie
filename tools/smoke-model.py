@@ -307,6 +307,8 @@ def main():
                     result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
                 except checks.Inconclusive:
                     result['lifecycle_status']='INCONCLUSIVE'; raise
+                if manifest.get('reactive_checks'):
+                    result['reactive']=checks.run_reactive_pair(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
                 if manifest.get('openai_checks'):
                     result['openai']=checks.run_openai(19879,19880,'qwen3.8-flash-next',record,check)
             result['lifecycle_status']='PASS'

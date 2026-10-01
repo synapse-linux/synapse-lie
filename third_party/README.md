@@ -153,3 +153,9 @@ path returned 404; the official format was then retrieved/read from
 `docs/instrumenting/exposition_formats.md`. Those failed fetches remain recorded.
 The implemented export subset has independent CPU parser checks. promtool was
 absent: its official validation remains an explicit additional gate, not PASS.
+
+The reactive-inference candidate adds a first-party C17 readiness/credit
+dispatcher and a small C++ binding to the pinned public `Session::DecodeBatch`.
+No upstream numerical source/archive or model was modified or imported from
+DS4. Native batch execution and its internal recovery remain delegated to
+Gufo at the recorded pin; this is not an owned numerical reimplementation.

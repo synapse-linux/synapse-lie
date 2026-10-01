@@ -377,7 +377,8 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"model",json_object_new_string(s->model_id));
     json_object_object_add(b,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     json_object_object_add(b,"hardware_qualified",json_object_new_boolean(false));
-    json_object_object_add(b,"native_batching",json_object_new_boolean(false));
+    json_object_object_add(b,"native_batching",json_object_new_boolean(info.model.native_batch_capacity>1));
+    json_object_object_add(b,"native_batch_capacity",json_object_new_int64(info.model.native_batch_capacity));
     json_object_object_add(b,"tools",json_object_new_boolean(true));
     json_object_object_add(b,"tool_streaming",json_object_new_string("buffered-complete-turn"));
     json_object_object_add(b,"context_tokens",json_object_new_int64(info.model.context_tokens));
@@ -398,6 +399,9 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object_object_add(o,"prefill_returned",json_object_new_uint64(i->prefill_returned));
     json_object_object_add(o,"decode_started",json_object_new_uint64(i->decode_started));
     json_object_object_add(o,"decode_returned",json_object_new_uint64(i->decode_returned));
+    json_object_object_add(o,"decode_batches",json_object_new_uint64(i->decode_batches));
+    json_object_object_add(o,"decode_batch_rows",json_object_new_uint64(i->decode_batch_rows));
+    json_object_object_add(o,"decode_single_calls",json_object_new_uint64(i->decode_single_calls));
     json_object_object_add(o,"cancel_during_prefill",json_object_new_uint64(i->cancel_during_prefill));
     json_object_object_add(o,"cancel_during_decode",json_object_new_uint64(i->cancel_during_decode));
     return o;
@@ -411,7 +415,7 @@ static char *llm_json(server *s) {
     if (s->worker) {
         lie_worker_info info; lie_worker_snapshot(s->worker,&info);
         scheduler=json_object_new_object();
-        json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-interleaved-single-row"));
+        json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-reactive-ready-batch"));
         json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
         json_object_object_add(scheduler,"active",json_object_new_int(info.active));
         json_object_object_add(scheduler,"output_blocked",json_object_new_int(info.output_blocked));
@@ -666,7 +670,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1|2] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. OpenAI function tools (execution by client). No native batching, MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. No MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -684,7 +688,7 @@ int main(int argc, char **argv) {
     }
     if (port < 0 || management_port < 0 || (port == management_port && !strcmp(host, management_host))) { fputs("Invalid listener configuration\n", stderr); return 2; }
     if (options.context<128 || options.context>32768 || options.chunk<1 || options.chunk>2048 ||
-        options.max_active<1 || options.max_active>2 || timeout_ms<100 || !*model_id || strlen(model_id)>128 ||
+        options.max_active<1 || options.max_active>LIE_DECODE_MAX_ROWS || timeout_ms<100 || !*model_id || strlen(model_id)>128 ||
         !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
         fputs("Invalid model configuration\n",stderr); return 2;
     }

@@ -79,7 +79,7 @@ template before model load, then invokes the pinned Qwen renderer/tokenizer with
 thinking disabled, structured calls/results and real tool declarations. Buffer/
 physical-context refusal precedes session mutation. Plain formatting remains
 byte-identical in the CPU formatter test. Raw tokenization remains distinct.
-No tool code executes here. Snapshots, MTP and native batching remain absent.
+No tool code executes here. Snapshots and MTP remain absent. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately
 qualified GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
 to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.
@@ -112,3 +112,30 @@ the entire completed prompt immediately before first decode, not the first
 prefill chunk. Ordinary benchmark callers may retain the default greedy sampler
 without calling the additive entry point. Invalid configuration closes only the
 new sequence; backend/close failure still poisons the runtime.
+
+## Additive completed batch contract
+
+`lie_backend_open_batch(path, options, width, ...)` explicitly admits width 1..8
+and binds upstream workspace policy before model load. The old open and all
+ABI-2 layouts retain their original meanings and width 1. Model info reports
+the admitted native batch capacity. `lie_sequences_decode` accepts unique
+sequence handles from the same model/owner and one outcome per row. Cancelled
+rows expose no tokens; cancellation is cooperative and completion-based.
+Any non-cancellation execution failure poisons the model, suppresses all outputs
+from that call, and is never retried by LIE. The pinned upstream implementation
+may internally recover an untouched row; this remains delegated behavior.
+
+`lie_inference_prepare` obtains bounded output reservations from ready rows.
+`lie_inference_run` calls scalar decode for one selected row, batch decode for
+multiple rows, and performs no work for zero rows. No waiting/coalescing timer,
+background GPU thread or per-kernel callbacks are added. All completed frontiers
+are validated before any caller can publish: token count/range, EOS and position.
+The caller retains handles and commits/aborts every reservation after completion;
+on a fatal return it must retire the model, not retry. The worker also validates
+all token-text sizes before any batch output publication.
+
+The reusable dispatcher is C17, independent of HTTP, used by both the worker
+and `synapse-lie-bench --execution reactive`. Prefill remains completed bounded
+chunks. Numerical kernels and upstream synchronization are unchanged. This
+implements reactive admission of actual batched inference work; it does not
+claim an asynchronous dependency graph inside a single model forward.

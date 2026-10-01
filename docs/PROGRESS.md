@@ -1,5 +1,30 @@
 # Isolated OpenAI reactive API increment
 
+## Reactive inference candidate and persistent checkpoint
+
+The source now lives at
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api`.
+The old `/tmp/synapse-lie-pi-tools` copy was removed only after all 1608 files
+matched and Git worktree registration was repaired across the filesystem move.
+The prior benchmark/report/graph checkpoint is `ad02a01`.
+
+The shared C17 `lie_inference` dispatcher now reserves output credit for ready
+sequences and calls scalar or native batch decode immediately. It is used by
+both the production worker and `synapse-lie-bench`; `--execution serial` keeps
+the previous direct path for A/B. Server admission supports up to eight active
+sequences, while one remains the default. ABI-2 layouts remain unchanged;
+explicit additive admission and per-row completed-outcome entry points carry
+no upstream types. New counters distinguish batch calls and selected rows.
+
+Final `reactive-cpu-r3` passed 19/19 debug and 19/19 ASan/UBSan on `.157`,
+including error-terminal metadata ordering; they do not qualify GPU
+numerics or performance. The first GPU attempt `reactive-suite-r1` exited 1
+at 18:51:29 UTC on 2026-10-01 because the first shared lease was occupied.
+Postflight observed all four existing leases held by another activity.
+`model_attempted=false`; no GPU child or model load occurred. There is no new
+reactive throughput result and no automatic retry into another campaign's gaps.
+See [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+
 ## Simplified 128K and concurrency comparison
 
 The reusable C17 `synapse-lie-bench` implements AR depth, concurrency, loading
@@ -45,9 +70,12 @@ Neither API completeness nor DS4 historical numerical qualification is inherited
 
 ## API implementation
 
-Worktree `/tmp/synapse-lie-pi-tools`, branch `feature/openai-reactive-api`, created
+Worktree `/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api`, branch `feature/openai-reactive-api`, created
 from `develop`, then fast-forwarded to the existing native-tools base `e3d0c7a`.
 The original worktree remains untouched; no merge, push or deployment.
+On 2026-10-01 the linked worktree moved out of `/tmp` at the operator request;
+all 1608 transferred files matched before removing the old copy. Benchmark
+checkpoint: `ad02a01`. Historical evidence retains its original paths.
 
 User direction: general OpenAI functionality, compatible clients through their
 ordinary protocol; C reactive execution, tests on `.157` with GPU. New Responses

@@ -16,10 +16,11 @@ static lie_worker_info wait_state(lie_worker *w, lie_worker_state state) {
     }
     assert(!"worker state deadline"); return i;
 }
-static lie_worker *start(void) {
-    fake_calls_reset(); lie_worker_options o={":fixture:",1024,2,1};
+static lie_worker *start_width(unsigned width) {
+    fake_calls_reset(); lie_worker_options o={":fixture:",1024,2,width};
     lie_worker *w=lie_worker_create(&o); assert(w); wait_state(w,LIE_READY); return w;
 }
+static lie_worker *start(void) { return start_width(1); }
 static void stop(lie_worker *w) { lie_worker_stop(w); wait_state(w,LIE_STOPPED); lie_worker_destroy(w); }
 static lie_job *submit(lie_worker *w, const char *text, unsigned max_tokens) {
     lie_chat_request r={.count=1,.max_tokens=max_tokens};
@@ -101,6 +102,15 @@ int main(void) {
         assert(c.text==(!strcmp(cases[k],"TEXT-REFUSAL") || !strcmp(cases[k],"TEXT-SIZE")?1u:0u));
         rejects_after_fault(w); lie_job_release(bad); lie_job_release(queued); stop(w);
     }
+    /* One malformed batch peer suppresses both outputs. Terminal metadata must
+     * already be visible when abort releases the in-flight flow reservation. */
+    lie_worker *w=start_width(2);fake_barrier_arm_phase(FAKE_PREFILL);
+    lie_job *a=submit(w,"normal",1);fake_barrier_wait();
+    lie_job *b=submit(w,"BAD-POSITION",1);fake_barrier_release();
+    lie_job_info ai=terminal(a,LIE_FLOW_ERROR),bi=terminal(b,LIE_FLOW_ERROR);
+    assert(ai.finish==LIE_FINISH_BACKEND&&bi.finish==LIE_FINISH_BACKEND&&!ai.output_tokens&&!bi.output_tokens);
+    lie_worker_info info=idle(w);assert(info.state==LIE_FAILED&&info.decode_batches==1&&info.decode_batch_rows==2);
+    assert(!fake_calls_snapshot().text);lie_job_release(a);lie_job_release(b);stop(w);
     cancellation(FAKE_PREFILL); cancellation(FAKE_DECODE);
     puts("executor frontier/byte guards, fail-closed peers, prefill/decode cancellation and retirement: PASS (NOT-INFERENCE)");
     return 0;

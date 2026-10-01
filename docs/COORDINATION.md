@@ -250,3 +250,19 @@ PIDs absent. Final r2 lock-path stat was not independently rechecked. Missing
 proc files produce expected SCP exit 1, retained in the retirement receipt.
 No persistent lease, tuning, package installation, foreign termination,
 deployment or publication. See [BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md).
+
+## Reactive inference admission refusal — 2026-10-01
+
+The operator requested reactive inference integration with GPU tests retained on
+`.157`. A prepared bounded campaign first checked the successful CPU capsule,
+then attempted the normal HTTP helper. At 18:51:29 UTC `reactive-suite-r1`
+failed the first EX|NB pipeline lease with EAGAIN; all four existing lease
+paths were observed unchanged and occupied. No lease was retained, no model
+was attempted, and no server/GPU child was launched. The controller/helper
+retired; the actual helper/controller exits and postflight are retained under
+`evidence/reactive-suite-r1`. No owner was interrupted or contacted.
+
+The next campaign must use a new exclusive directory and a fresh available
+operator window, then reacquire all four leases. Empty KFD during a held
+enclosing campaign is not permission to enter its gaps. CPU fixtures continue
+with HIP/ROCR visibility disabled and no heavyweight model I/O.

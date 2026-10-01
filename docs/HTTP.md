@@ -68,7 +68,9 @@ cancellation, so write-half-close request semantics are not supported.
   additional total-wire bound, including chunking overhead.
 - At most 18,878,512 bytes per response/write buffer (bounded UTF-8/JSON
   expansion), not a preallocated resident allowance. Eight admitted jobs (queued
-  plus executing); overflow 429. One active sequence by default, optionally two.
+  plus executing); overflow 429. One active sequence by default, optionally up to eight (`--max-active 1..8`).
+  Ready sequences with output credit use the shared native-batch dispatcher;
+  a lone ready sequence uses scalar decode.
 - Eight 256-byte token slots per flow. The pinned vocabulary's documented maximum
   rendered entry is 128 bytes; the larger slot is checked before publication.
   UTF-8 expansion and JSON/SSE writes are independently bounded.

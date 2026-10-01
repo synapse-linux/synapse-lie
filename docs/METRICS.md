@@ -141,3 +141,21 @@ counter, worker generation and retirement counters as Chat Completions. Wire
 text deltas/done projections are not additional generated tokens. Sampling
 options configure per-sequence draw state; they do not redefine physical token
 usage or executor-call timing. No modality or reactive-speedup meter is invented.
+
+## Reactive inference dispatch
+
+The scheduler mode is `single-owner-reactive-ready-batch`. `max_active` admits
+1..8 independent sequences; `native_batch_capacity` reports allocated adapter
+capacity. `decode_started/returned` count dispatch calls, including a shared
+batch once. `decode_batches` counts calls with more than one selected row,
+`decode_batch_rows` sums those selected rows, and `decode_single_calls` counts
+scalar calls. These are dispatch observations, not successful-token counts;
+`generated_tokens` retains validated completed output accounting. Cancellation
+during dispatch counts each affected request once, and cannot prove kernel
+preemption.
+
+Each participating request receives one completed decode call and the shared
+call duration. Per-request durations overlap; summing them is not GPU elapsed
+time or aggregate throughput. Credit stalls, prefill peers and network writes
+remain excluded. The benchmark reports aggregate confirmed tokens over a common
+wall interval, including the C inference dispatch and its flow bookkeeping.

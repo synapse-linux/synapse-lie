@@ -33,6 +33,17 @@ class SimplifiedBenchmark(unittest.TestCase):
             self.assertEqual(r['output_tokens_per_user'],128)
         self.assertEqual(result['configurations'][-1]['depth'],131072)
 
+    def test_reactive_dispatch_counters(self):
+        result,rows=self.run_case('--suite','multi','--users','1,2,4,6,8','--tg','8')
+        self.assertEqual(result['identity']['execution'],'LIE-reactive-ready-batch')
+        for row in rows:
+            if row['event']=='sample':
+                self.assertEqual(row['decode_batches'],8 if row['users']>1 else 0)
+                self.assertEqual(row['decode_batch_rows'],8*row['users'] if row['users']>1 else 0)
+                self.assertEqual(row['decode_single_calls'],8 if row['users']==1 else 0)
+        serial,_=self.run_case('--suite','multi','--users','1,2','--tg','8','--execution','serial')
+        self.assertEqual(serial['identity']['execution'],'LIE-serial-interleaved')
+
     def test_multiple_users_use_common_decode_window(self):
         result,rows=self.run_case('--suite','multi','--users','1,2,4,6,8')
         self.assertEqual([r['users'] for r in result['configurations']],[1,2,4,6,8])

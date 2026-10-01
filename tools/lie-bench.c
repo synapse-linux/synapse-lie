@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Simplified Gufo-style workloads over completed GPU executor calls. */
 #include "lie/executor.h"
+#include "lie/inference.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <float.h>
@@ -44,7 +45,7 @@ static bool list(const char *s,unsigned maximum,unsigned *values,unsigned *count
     }
     free(copy);return ok&&*count>0;
 }
-struct config {const char *model,*output,*suite,*graphs,*compare;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count;};
+struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count;};
 static int graphs(const struct config *c) {
     char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
     if(n<0)return 3;
@@ -70,7 +71,7 @@ static json_object *identity(const struct config *c) {
 #ifdef LIE_BENCH_REFERENCE
     str(j,"execution","upstream-native-batch");
 #else
-    str(j,"execution","LIE-serial-interleaved");
+    str(j,"execution",!strcmp(c->execution,"reactive")?"LIE-reactive-ready-batch":"LIE-serial-interleaved");
 #endif
     return j;
 }
@@ -84,7 +85,12 @@ static bool open_model(const struct config *c,unsigned context,unsigned users,li
     (void)users;
 #endif
     lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,2048};uint64_t begin=ns();
+#ifdef LIE_BENCH_REFERENCE
     if(lie_backend_open(c->model,&o,m,e)!=LIE_OK)return false;
+#else
+    lie_status opened=!strcmp(c->execution,"reactive")?lie_backend_open_batch(c->model,&o,users,m,e):lie_backend_open(c->model,&o,m,e);
+    if(opened!=LIE_OK)return false;
+#endif
     uint64_t elapsed=ns()-begin;
     if(lie_model_get_info(*m,info,e)!=LIE_OK||info->context_tokens!=context||!info->vocab_tokens||info->vocab_tokens>1048576)return false;
     json_object *j=event("model_loaded");num(j,"context_capacity",context);num(j,"users",users);num(j,"model_load_ns",(int64_t)elapsed);
@@ -120,9 +126,40 @@ static bool frontier(lie_sequence *s,float *out,unsigned vocab,char digest[65],l
     for(size_t i=0;i<n;++i)if(!isfinite(out[i])){snprintf(e->message,sizeof(e->message),"nonfinite frontier");return false;}
     return hash(out,n*sizeof(*out),digest);
 }
+#ifndef LIE_BENCH_REFERENCE
+struct dispatch_counts {unsigned single,batches,rows;};
+static bool reactive_step(lie_sequence **seq,lie_flow **flows,unsigned users,unsigned vocab,unsigned context,
+                          size_t prompt,const unsigned *counts,const unsigned *stopped,
+                          lie_decode_result *results,struct dispatch_counts *stats,lie_error *e) {
+    lie_inference_row rows[MAX_USERS]={0};unsigned map[MAX_USERS],n=0;
+    for(unsigned i=0;i<users;++i)if(!stopped[i]){map[n]=i;rows[n++]=(lie_inference_row){.sequence=seq[i],.flow=flows[i],.position=(uint32_t)prompt+counts[i],.context=context,.vocab=vocab};}
+    if(!n)return true;
+    lie_inference_batch batch={0};lie_status rc=lie_inference_prepare(rows,n,users,&batch,e);
+    if(rc==LIE_OK){if(batch.selected!=n)rc=LIE_INVALID;
+        else {rc=lie_inference_run(&batch,e);if(n>1){++stats->batches;stats->rows+=n;}else ++stats->single;}}
+    for(unsigned k=0;k<n;++k){lie_inference_row *row=&rows[k];unsigned i=map[k];
+        if(!row->reserved)continue;
+        if(rc!=LIE_OK||row->outcome.status!=LIE_OK){(void)lie_flow_abort(flows[i],row->reservation.ticket,1);rc=LIE_BACKEND_FAILED;continue;}
+        results[i]=row->outcome.result;
+        lie_flow_status f=lie_flow_commit(flows[i],row->reservation.ticket,0,results[i].emitted,results[i].stop);
+        if(f!=LIE_FLOW_OK){(void)lie_flow_abort(flows[i],row->reservation.ticket,1);rc=LIE_BACKEND_FAILED;continue;}
+        lie_flow_event event;
+        if(lie_flow_next(flows[i],&event)!=LIE_FLOW_OK){rc=LIE_BACKEND_FAILED;continue;}
+        if(event.end==LIE_FLOW_ACTIVE){
+            if(lie_flow_release(flows[i],event.ticket)!=LIE_FLOW_OK)rc=LIE_BACKEND_FAILED;
+            if(!results[i].stop&&lie_flow_request(flows[i],1)!=LIE_FLOW_OK)rc=LIE_BACKEND_FAILED;
+        }
+    }
+    return rc==LIE_OK;
+}
+#endif
 struct witness {char pp[65],tg[65];int32_t *ids;unsigned count,stop;bool set;};
 static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned users,unsigned point,unsigned rep,bool warmup,const struct config *c,unsigned vocab,struct witness *w,FILE *f,lie_error *e) {
     lie_sequence *seq[MAX_USERS]={0};unsigned handles=users;
+#ifndef LIE_BENCH_REFERENCE
+    lie_flow *flows[MAX_USERS]={0};struct dispatch_counts stats={0};
+    bool reactive=!strcmp(c->execution,"reactive");
+#endif
 #ifdef LIE_BENCH_REFERENCE
     handles=1;
 #endif
@@ -135,10 +172,24 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,e))goto done;
     uint64_t pp_ns=ns()-pp_begin;
     if(!frontier(seq[0],logits,vocab,pp_hash,e))goto done;
+#ifndef LIE_BENCH_REFERENCE
+    if(reactive)for(unsigned i=0;i<users;++i){lie_flow_options o={1,1,4096};if(lie_flow_create(&o,&flows[i])!=LIE_FLOW_OK||lie_flow_request(flows[i],1)!=LIE_FLOW_OK)goto done;}
+#endif
     uint64_t tg_begin=ns();
     for(unsigned step=0;step<c->tg;++step){bool active=false;
+        lie_decode_result decoded[MAX_USERS]={0};
+#ifndef LIE_BENCH_REFERENCE
+        if(reactive&&(interrupted||!reactive_step(seq,flows,users,vocab,!strcmp(c->suite,"multi")?4096:!strcmp(c->suite,"memory")?133121:133760,p->n,counts,stopped,decoded,&stats,e)))goto done;
+#endif
         for(unsigned i=0;i<handles;++i){if(stopped[i])continue;active=true;lie_decode_result d={0};
-            if(interrupted||lie_sequence_decode(seq[i],&d,e)!=LIE_OK||d.emitted>1||d.stop>1||(!d.emitted&&!d.stop)||d.position!=p->n+counts[i]+d.emitted||(d.emitted&&(d.token<0||(unsigned)d.token>=vocab)))goto done;
+            lie_status rc=LIE_OK;
+#ifndef LIE_BENCH_REFERENCE
+            if(reactive)d=decoded[i];else
+#else
+            (void)decoded;
+#endif
+            rc=lie_sequence_decode(seq[i],&d,e);
+            if(interrupted||rc!=LIE_OK||d.emitted>1||d.stop>1||(!d.emitted&&!d.stop)||d.position!=p->n+counts[i]+d.emitted||(d.emitted&&(d.token<0||(unsigned)d.token>=vocab)))goto done;
             if(d.emitted)output[(size_t)i*c->tg+counts[i]++]=d.token;
             stopped[i]=d.stop;
         }if(!active)break;
@@ -153,22 +204,35 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     num(j,"prefill_ns",(int64_t)pp_ns);num(j,"decode_ns",(int64_t)tg_ns);num(j,"stop",stopped[0]);num(j,"finite_frontiers",1);num(j,"identical_input_peers_verified",1);
     str(j,"prefill_logits_sha256",pp_hash);str(j,"decode_logits_sha256",tg_hash);json_object_object_add(j,"output_ids",ids_json(output,counts[0]));
     json_object_object_add(j,"prefill_tps",json_object_new_double((double)(p->n-depth)*users*1e9/(double)pp_ns));json_object_object_add(j,"decode_tps",json_object_new_double((double)counts[0]*users*1e9/(double)tg_ns));
+#ifndef LIE_BENCH_REFERENCE
+    if(reactive){num(j,"decode_single_calls",stats.single);num(j,"decode_batches",stats.batches);num(j,"decode_batch_rows",stats.rows);}
+#endif
     num(j,"full_output_budget",counts[0]==c->tg);ok=emit(f,j);
     fprintf(stderr,"point=%u depth=%u users=%u warmup=%u output=%u completed\n",point,depth,users,warmup,counts[0]);
 done:
+#ifndef LIE_BENCH_REFERENCE
+    for(unsigned i=0;i<users;++i)if(flows[i]){(void)lie_flow_cancel(flows[i]);if(lie_flow_destroy(&flows[i])!=LIE_FLOW_OK)ok=false;}
+#endif
     for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
     free(output);free(logits);return ok;
 }
 int main(int argc,char **argv) {
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
-    struct config c={.suite="single",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5};
+    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5};
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
         if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];
         if(!strcmp(key,"--model"))c.model=value;else if(!strcmp(key,"--output"))c.output=value;else if(!strcmp(key,"--suite"))c.suite=value;
         else if(!strcmp(key,"--graphs"))c.graphs=value;else if(!strcmp(key,"--compare"))c.compare=value;
+        else if(!strcmp(key,"--execution")){
+#ifdef LIE_BENCH_REFERENCE
+            goto usage;
+#else
+            c.execution=value;
+#endif
+        }
         else if(!strcmp(key,"--depths")){if(!list(value,131072,c.depths,&c.depth_count))goto usage;}
         else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
         else if(!strcmp(key,"--pp")){if(!integer(value,8192,&c.pp)||!c.pp)goto usage;}
@@ -177,7 +241,7 @@ int main(int argc,char **argv) {
         else if(!strcmp(key,"--repetitions")){if(!integer(value,100,&c.repetitions)||!c.repetitions)goto usage;}
         else goto usage;
     }
-    if(!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")))goto usage;
+    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")))goto usage;
     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL))return 1;
     int fd=open(c.output,O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0){perror("exclusive output");return 1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);return 1;}
     lie_model *m=NULL;lie_model_info info={0};lie_error e={{0}};int code=1;

@@ -166,8 +166,10 @@ inferred from these component tests.
 
 ## T0 binding and remaining obligations
 
-T0 admits eight jobs, with one active sequence by default or two explicitly
-configured interleaved single-row sequences. Eight 256-byte slots and initial
+The current runtime admits eight jobs, with one active sequence by default or
+up to eight explicitly configured sequences. The shared C inference dispatcher
+reserves credits for ready rows and invokes native decode batches immediately.
+One selected row retains scalar decode; zero selected rows dispatch no work. Eight 256-byte slots and initial
 eight-token credit window per job. Ordinary text SSE retains a loan until write
 completion, then releases it and explicitly replenishes token demand. Nonstream
 and tool-enabled turns reserve a bounded aggregate sink before admission. Unknown/unsupported requests fail; overflow
@@ -190,8 +192,8 @@ by transport; those are distinct outcomes.
 Remaining work:
 - Measured aggregate model/state/workspace admission and separate CPU/disk queues.
   Never hide overload in an unbounded buffer or drop normal confirmed output.
-- Dispatch C1 promptly, then use real shared batch APIs with fair per-sequence
-  budgets. Suspend an output-blocked sequence without stalling peers. Adapt
+- Qualify the implemented immediate scalar/native-batch dispatch on the GPU.
+  Output-blocked rows are excluded from selection. Further adapt
   concurrency/prefill/MTP budgets within measured capacity, not by spawning more
   device owners. Elasticity on one GPU is bounded admission/budget adaptation,
   not a claim of hardware scaling or instantaneous kernel preemption.
@@ -241,3 +243,17 @@ synthetic provider: overload, stalled-peer progress with two active slots, actua
 TCP backpressure, UTF-8, terminal/error ordering, disconnect/deadline, in-flight
 lifetime and shutdown. No fixture establishes real-model correctness, GPU
 fairness, SSD restore or performance. See [PROGRESS.md](PROGRESS.md).
+
+## Current native-batch candidate
+
+`src/inference.c` is shared by the worker and benchmark, so direct timing now
+exercises the same credit-driven decode selection. The numerical executor still
+returns completed synchronous calls; no internal kernel dependency/overlap
+optimization is implied. CPU debug and ASan/UBSan exercise real flow/worker
+lifetimes, different positions, batch cancellation, eight admitted requests,
+malformed peer suppression and seeded heterogeneous HTTP results.
+
+The first GPU attempt `reactive-suite-r1` refused admission at 18:51:29 UTC on
+2026-10-01: all four existing leases were held. No model was loaded, and no
+reactive GPU correctness/performance result exists from that attempt. The earlier
+serial LIE versus direct Gufo benchmark cannot qualify this new path.

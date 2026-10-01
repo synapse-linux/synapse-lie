@@ -16,6 +16,7 @@
 #include <cstring>
 #include <exception>
 #include <limits>
+#include <array>
 #include <memory>
 #include <cmath>
 #include <thread>
@@ -25,7 +26,7 @@ namespace qfn = gufo::models::qwen38_flash_next;
 struct Runtime {
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
-    std::uint32_t chunk{};
+    std::uint32_t chunk{}, width{1};
     bool failed{false};
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
@@ -59,8 +60,8 @@ lie_status failed(const std::shared_ptr<Runtime> &r, lie_error *e, const std::st
 }
 extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
 extern "C" int lie_backend_is_synthetic(void) { return 0; }
-extern "C" lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
-    if (!path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
+extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_options *o, uint32_t width, lie_model **out, lie_error *e) {
+    if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
         !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
         return error(e, LIE_INVALID, "invalid model options/output handle");
@@ -70,10 +71,10 @@ extern "C" lie_status lie_gufo_open(const char *path, const lie_model_options *o
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
         metadata.reset(); // Validation before GPU admission; no model forward on CPU.
-        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens;
+        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;
         qfn::ModelOptions options;
         options.max_context = o->context_tokens;
-        options.decode_concurrency = 1;
+        options.decode_concurrency = width;
         options.max_draft_tokens = 1; // No MTP sidecar and no speculative capability in this increment.
         std::string message; r->model = qfn::Model::Load(path, options, &message);
         if (!r->model) return error(e, LIE_BACKEND_FAILED, message.c_str());
@@ -82,11 +83,14 @@ extern "C" lie_status lie_gufo_open(const char *path, const lie_model_options *o
     } catch (const std::exception &ex) { return error(e, LIE_BACKEND_FAILED, ex.what()); }
       catch (...) { return error(e, LIE_BACKEND_FAILED, "unknown model load exception"); }
 }
+extern "C" lie_status lie_gufo_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
+    return lie_gufo_open_batch(path,o,1,out,e);
+}
 extern "C" lie_status lie_model_get_info(lie_model *m, lie_model_info *info, lie_error *e) {
     if (!m || !info) return error(e, LIE_INVALID, "invalid model/info");
     return guarded(m->runtime, e, [&] {
         const auto &model = m->runtime->model;
-        *info = {LIE_EXECUTOR_ABI, model->MaxContext(), model->VocabSize(), model->PrefillCapacity(), 1, 0,
+        *info = {LIE_EXECUTOR_ABI, model->MaxContext(), model->VocabSize(), model->PrefillCapacity(), m->runtime->width, 0,
                  model->ResidentBytes(), model->SessionBytes(gufo::core::SessionMode::kAutoregressive, model->MaxContext()),
                  model->DeferredScratchBytes()};
         return LIE_OK;
@@ -213,6 +217,48 @@ extern "C" lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *ou
                 result.stop ? 1u : 0u, s->session->Position()};
         return LIE_OK;
     });
+}
+extern "C" lie_status lie_sequences_decode(lie_sequence *const *rows,size_t n,lie_decode_outcome *out,lie_error *e) {
+    if(!rows||!out||!n||n>LIE_DECODE_MAX_ROWS||!rows[0])return error(e,LIE_INVALID,"invalid batch");
+    for(size_t i=0;i<n;++i)out[i]={LIE_INVALID,{}};
+    auto r=rows[0]->runtime;
+    auto status=owner(r,e);if(status!=LIE_OK)return status;
+    if(n>r->width)return error(e,LIE_INVALID,"batch exceeds admitted capacity");
+    for(size_t i=0;i<n;++i){
+        if(!rows[i]||rows[i]->runtime!=r)return error(e,LIE_INVALID,"batch model mismatch");
+        for(size_t j=0;j<i;++j)if(rows[i]==rows[j])return error(e,LIE_INVALID,"duplicate batch sequence");
+        if(!rows[i]->cancelled.load()&&(rows[i]->stopped||!rows[i]->session->IsValid()||
+           !rows[i]->session->Position()||rows[i]->session->Position()>=rows[i]->session->ContextSize()))
+            return error(e,LIE_INVALID,"batch frontier unavailable/full/stopped");
+    }
+    status=guarded(r,e,[&]{
+        std::array<qfn::Session::DecodeResult,LIE_DECODE_MAX_ROWS> results;
+        std::array<qfn::Session::BatchOutcome,LIE_DECODE_MAX_ROWS> outcomes;
+        std::array<qfn::Session::DecodeRequest,LIE_DECODE_MAX_ROWS> requests;
+        std::array<size_t,LIE_DECODE_MAX_ROWS> map{};size_t active=0;
+        for(size_t i=0;i<n;++i){
+            auto s=rows[i];out[i]={LIE_CANCELLED,{}};
+            if(s->cancelled.load())continue;
+            if(!s->sampling_started){auto ids=s->session->Tokens();
+                std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
+                s->sampler.ResetHistory(history);s->sampling_started=true;}
+            map[active]=i;requests[active]={s->session.get(),1,&s->sampler,&results[active],true,&outcomes[active]};++active;
+        }
+        std::string message;
+        if(active==1){auto &q=requests[0];
+            if(!q.session->DecodeStep(1,*q.sampler,q.result,&message,true))return failed(r,e,message);
+            outcomes[0].completed=true;
+        }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
+        for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];
+            if(!outcomes[k].completed||d.tokens.size()>1)return failed(r,e,"unconfirmed batch outcome");
+            s->stopped=d.stop;
+            if(s->cancelled.load())continue;
+            out[i]={LIE_OK,{d.tokens.empty()?-1:d.tokens.front(),static_cast<uint32_t>(d.tokens.size()),d.stop?1u:0u,s->session->Position()}};
+        }
+        return LIE_OK;
+    });
+    if(status!=LIE_OK)for(size_t i=0;i<n;++i)out[i]={status,{}};
+    return status;
 }
 extern "C" lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
     if (!s || !required || (!out && capacity)) return error(e, LIE_INVALID, "invalid logit destination");

@@ -36,7 +36,7 @@ REPORT = runpy.run_path(str(Path(__file__).with_name("bench-report.py")))
 
 
 def validate_args(args):
-    allowed={'--suite','--depths','--users','--pp','--tg','--warmups','--repetitions'}
+    allowed={'--suite','--depths','--users','--pp','--tg','--warmups','--repetitions','--execution'}
     if not isinstance(args,list) or len(args)%2 or any(type(x) is not str for x in args):
         raise ValueError('invalid declared benchmark arguments')
     keys=args[::2]

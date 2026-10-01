@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/worker.h"
+#include "lie/inference.h"
 #include <errno.h>
 #include <poll.h>
 #include <pthread.h>
@@ -24,6 +25,7 @@ struct lie_job {
     int32_t *prompt;
     size_t tokens, fed;
     uint32_t position; /* Last validated completed frontier; worker only. */
+    bool executing; /* Protected by owner gate; cancellation observation. */
     bool output_blocked; /* Worker-owned, aggregate snapshot under owner gate. */
 };
 struct lie_worker {
@@ -49,7 +51,7 @@ static void set_output_blocked(lie_worker *w, lie_job *j, bool value) {
 static void begin_call(lie_worker *w, lie_job *j, bool prefill) {
     pthread_mutex_lock(&w->gate);
     if (w->dispatch) abort();
-    w->dispatch=j;
+    w->dispatch=j; j->executing=true;
     w->info.executor_phase=prefill?LIE_EXECUTOR_PREFILL:LIE_EXECUTOR_DECODE;
     if (prefill) ++w->info.prefill_started;
     else ++w->info.decode_started;
@@ -80,7 +82,7 @@ static void record_call(lie_job *j, bool prefill, bool started_ok, uint64_t star
     if (w->dispatch!=j) abort();
     if (prefill) ++w->info.prefill_returned;
     else ++w->info.decode_returned;
-    w->dispatch=NULL; w->info.executor_phase=LIE_EXECUTOR_IDLE;
+    w->dispatch=NULL; j->executing=false; w->info.executor_phase=LIE_EXECUTOR_IDLE;
     pthread_mutex_unlock(&w->gate);
 }
 static void signal_fd(int fd) {
@@ -217,70 +219,88 @@ static bool step(lie_worker *w, size_t index) {
         } else { j->fed+=add; j->position=(uint32_t)j->fed; }
         return true;
     }
-    lie_flow_reservation reservation;
-    lie_flow_status flow=lie_flow_reserve(j->flow,1,&reservation);
-    if (flow==LIE_FLOW_WOULD_BLOCK) { set_output_blocked(w,j,true); return false; }
-    set_output_blocked(w,j,false);
-    if (flow==LIE_FLOW_CLOSED) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
-    if (flow!=LIE_FLOW_OK) abort();
-    if (lie_flow_begin(j->flow,reservation.ticket)!=LIE_FLOW_OK) {
-        publish_outcome(j,LIE_FINISH_CANCEL,"cancelled");
-        (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_CANCEL);
-        finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
-    }
-    lie_decode_result result={0};
-    begin_call(w,j,false);
-    uint64_t started=0; bool started_ok=clock_ns(&started);
-    lie_status rc=lie_sequence_decode(j->sequence,&result,&error);
-    record_call(j,false,started_ok,started,0);
-    if (rc==LIE_CANCELLED) {
-        publish_outcome(j,LIE_FINISH_CANCEL,"cancelled");
-        (void)lie_flow_cancel(j->flow);
-        (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_CANCEL);
-        finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
-    }
-    /* Validate the completed frontier before token lookup, accounting or flow
-     * publication. A corrupt successful return is a provider contract failure,
-     * not a recoverable per-request error or permission to dispatch its peer. */
-    if (rc==LIE_OK && (result.emitted>1 || result.stop>1 || (!result.emitted && !result.stop) ||
-        result.position!=(uint64_t)j->position+result.emitted || result.position>w->options.context ||
-        (result.emitted && (result.token<0 || (uint32_t)result.token>=wi.model.vocab_tokens)))) {
-        snprintf(error.message,sizeof(error.message),"invalid_decode_frontier"); rc=LIE_BACKEND_FAILED;
-    }
-    size_t bytes=0;
-    if (rc==LIE_OK && result.emitted) {
-        rc=lie_model_token_text(w->model,result.token,(char *)reservation.data,reservation.capacity,&bytes,&error);
-        if (rc==LIE_OK && bytes>reservation.capacity) {
-            snprintf(error.message,sizeof(error.message),"invalid_token_text_size"); rc=LIE_BACKEND_FAILED;
+    return false; /* Prefilled rows enter the shared inference dispatcher below. */
+}
+static bool decode_ready(lie_worker *w) {
+    lie_inference_row rows[LIE_WORKER_JOBS]={0};size_t indices[LIE_WORKER_JOBS],n=0;
+    lie_worker_info wi;lie_worker_snapshot(w,&wi);
+    if(wi.state!=LIE_READY)return false;
+    for(size_t i=0;i<LIE_WORKER_JOBS;++i){
+        pthread_mutex_lock(&w->gate);lie_job *j=w->jobs[i];pthread_mutex_unlock(&w->gate);
+        if(j&&j->sequence&&j->fed==j->tokens&&!atomic_load(&j->cancel)){
+            indices[n]=i;rows[n++]=(lie_inference_row){.sequence=j->sequence,.flow=j->flow,
+                .position=j->position,.context=w->options.context,.vocab=wi.model.vocab_tokens};
         }
     }
-    if (rc!=LIE_OK) {
-        if (!error.message[0]) snprintf(error.message,sizeof(error.message),"executor_decode_failed");
-        poison(w,&error);
-        publish_outcome(j,LIE_FINISH_BACKEND,error.message);
-        (void)lie_flow_abort(j->flow,reservation.ticket,LIE_FINISH_BACKEND);
-        finish_job(w,index,LIE_FINISH_BACKEND,error.message); return true;
+    if(!n)return false;
+    lie_inference_batch batch={0};lie_error error={0};
+    lie_status rc=lie_inference_prepare(rows,n,wi.model.native_batch_capacity,&batch,&error);
+    for(size_t i=0;i<n;++i)set_output_blocked(w,w->jobs[indices[i]],rows[i].blocked);
+    if(rc==LIE_OK&&batch.selected){
+        pthread_mutex_lock(&w->gate);
+        w->info.executor_phase=LIE_EXECUTOR_DECODE;
+        ++w->info.decode_started;
+        if(batch.selected>1){++w->info.decode_batches;w->info.decode_batch_rows+=batch.selected;}
+        else ++w->info.decode_single_calls;
+        for(size_t i=0;i<n;++i)if(rows[i].selected)w->jobs[indices[i]]->executing=true;
+        pthread_mutex_unlock(&w->gate);
+        uint64_t started=0,ended=0;bool a=clock_ns(&started);
+        rc=lie_inference_run(&batch,&error);bool b=clock_ns(&ended);
+        /* A shared call's duration is attributed to every participating row.
+         * These per-request durations overlap; never sum them as GPU elapsed. */
+        for(size_t i=0;i<n;++i)if(rows[i].selected){lie_job *j=w->jobs[indices[i]];
+            pthread_mutex_lock(&j->gate);++j->info.decode_calls;
+            if(!a||!b||ended<started||ended-started>UINT64_MAX-j->info.decode_ns)j->info.timing_valid=false;
+            else j->info.decode_ns+=ended-started;
+            pthread_mutex_unlock(&j->gate);
+        }
+        pthread_mutex_lock(&w->gate);
+        ++w->info.decode_returned;w->info.executor_phase=LIE_EXECUTOR_IDLE;
+        for(size_t i=0;i<n;++i)if(rows[i].selected)w->jobs[indices[i]]->executing=false;
+        pthread_mutex_unlock(&w->gate);
     }
-    j->position=result.position;
-    pthread_mutex_lock(&j->gate); j->info.output_tokens+=result.emitted;
-    unsigned generated=j->info.output_tokens;
-    bool end=result.stop || generated>=j->request.max_tokens;
-    /* Publish terminal metadata before flow can make its terminal observable.
-     * Worker reference still pins the job during subsequent session retirement. */
-    if (end) j->info.finish=result.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH;
-    pthread_mutex_unlock(&j->gate);
-    pthread_mutex_lock(&w->gate); w->info.generated_tokens+=result.emitted; pthread_mutex_unlock(&w->gate);
-    flow=lie_flow_commit(j->flow,reservation.ticket,bytes,result.emitted,end);
-    if (flow!=LIE_FLOW_OK && flow!=LIE_FLOW_CLOSED) abort();
-    if (flow==LIE_FLOW_CLOSED || atomic_load(&j->cancel)) finish_job(w,index,LIE_FINISH_CANCEL,"cancelled");
-    else if (end) finish_job(w,index,result.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH,NULL);
-    return true;
+    size_t bytes[LIE_WORKER_JOBS]={0};
+    /* Validate all rows before exposing any output from a shared call. */
+    for(size_t i=0;i<n&&rc==LIE_OK;++i)if(rows[i].selected&&rows[i].outcome.status==LIE_OK&&rows[i].outcome.result.emitted){
+        lie_inference_row *r=&rows[i];
+        rc=lie_model_token_text(w->model,r->outcome.result.token,(char *)r->reservation.data,r->reservation.capacity,&bytes[i],&error);
+        if(rc==LIE_OK&&bytes[i]>r->reservation.capacity){snprintf(error.message,sizeof(error.message),"invalid_token_text_size");rc=LIE_BACKEND_FAILED;}
+    }
+    if(rc!=LIE_OK){
+        if(!error.message[0])snprintf(error.message,sizeof(error.message),"executor_dispatch_failed");
+        poison(w,&error);
+    }
+    bool progress=batch.selected>0;
+    for(size_t i=0;i<n;++i){lie_inference_row *r=&rows[i];lie_job *j=w->jobs[indices[i]];
+        if(rc!=LIE_OK){
+            publish_outcome(j,LIE_FINISH_BACKEND,error.message);
+            if(r->reserved)(void)lie_flow_abort(j->flow,r->reservation.ticket,LIE_FINISH_BACKEND);
+            finish_job(w,indices[i],LIE_FINISH_BACKEND,error.message);progress=true;continue;
+        }
+        if(r->outcome.status==LIE_CANCELLED||atomic_load(&j->cancel)){
+            publish_outcome(j,LIE_FINISH_CANCEL,"cancelled");(void)lie_flow_cancel(j->flow);
+            if(r->reserved)(void)lie_flow_abort(j->flow,r->reservation.ticket,LIE_FINISH_CANCEL);
+            finish_job(w,indices[i],LIE_FINISH_CANCEL,"cancelled");progress=true;continue;
+        }
+        if(!r->selected)continue;
+        lie_decode_result d=r->outcome.result;j->position=d.position;
+        pthread_mutex_lock(&j->gate);j->info.output_tokens+=d.emitted;
+        bool end=d.stop||j->info.output_tokens>=j->request.max_tokens;
+        if(end)j->info.finish=d.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH;
+        pthread_mutex_unlock(&j->gate);
+        pthread_mutex_lock(&w->gate);w->info.generated_tokens+=d.emitted;pthread_mutex_unlock(&w->gate);
+        lie_flow_status f=lie_flow_commit(j->flow,r->reservation.ticket,bytes[i],d.emitted,end);
+        if(f!=LIE_FLOW_OK&&f!=LIE_FLOW_CLOSED)abort();
+        if(f==LIE_FLOW_CLOSED||atomic_load(&j->cancel))finish_job(w,indices[i],LIE_FINISH_CANCEL,"cancelled");
+        else if(end)finish_job(w,indices[i],d.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH,NULL);
+    }
+    return progress;
 }
 static void *work(void *arg) {
     lie_worker *w=arg; lie_error error={0};
     lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk};
     lie_model_info model={0};
-    lie_status rc=lie_backend_open(w->path,&options,&w->model,&error);
+    lie_status rc=lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
     pthread_mutex_lock(&w->gate);
     w->info.model=model;
@@ -294,6 +314,7 @@ static void *work(void *arg) {
             pthread_mutex_lock(&w->gate); bool has=w->jobs[i]!=NULL; pthread_mutex_unlock(&w->gate);
             if (has) { ++present; progress=step(w,i) || progress; }
         }
+        progress=decode_ready(w) || progress;
         if (atomic_load(&w->stop) && !present) break;
         if (progress) continue;
         struct pollfd fds[LIE_WORKER_JOBS+1]; size_t count=1;
@@ -313,7 +334,7 @@ static void *work(void *arg) {
 }
 lie_worker *lie_worker_create(const lie_worker_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>32768 ||
-        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>2) return NULL;
+        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     lie_worker *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     atomic_init(&w->stop,false);
@@ -382,7 +403,7 @@ void lie_job_cancel(lie_job *j) {
     lie_worker *w=j->owner;
     if (first) {
         pthread_mutex_lock(&w->gate);
-        if (w->dispatch==j) {
+        if (j->executing) {
             if (w->info.executor_phase==LIE_EXECUTOR_PREFILL) ++w->info.cancel_during_prefill;
             else if (w->info.executor_phase==LIE_EXECUTOR_DECODE) ++w->info.cancel_during_decode;
         }

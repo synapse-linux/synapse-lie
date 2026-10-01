@@ -40,6 +40,16 @@ def read_result(path):
                 raise ValueError('short output without EOS')
             if not r['finite_frontiers'] or not r['identical_input_peers_verified']:
                 raise ValueError('unverified frontier or peers')
+            if identity.get('execution')=='LIE-reactive-ready-batch':
+                calls=r['output_tokens_per_user']+int(bool(r['stop']))
+                # Emitted final tokens and zero-emission EOS are both allowed;
+                # the homogeneous fixture completes every peer in the same step.
+                counters=[r.get(k) for k in ('decode_single_calls','decode_batches','decode_batch_rows')]
+                if any(type(v) is not int or v<0 for v in counters):raise ValueError('invalid reactive dispatch counters')
+                single,batches,batch_rows=counters
+                if single+batches not in (r['output_tokens_per_user'],calls):raise ValueError('reactive completed dispatch count')
+                if r['users']==1 and (batches or batch_rows):raise ValueError('unexpected single-user batch')
+                if r['users']>1 and (single or batch_rows!=batches*r['users']):raise ValueError('unconfirmed batch rows')
             for key,numerator,elapsed in [('prefill_tps',r['prefill_tokens_per_user']*r['users'],r['prefill_ns']),('decode_tps',r['output_tokens'],r['decode_ns'])]:
                 if type(elapsed) is not int or elapsed<=0 or not math.isfinite(r[key]) or not math.isclose(r[key],numerator*1e9/elapsed,rel_tol=1e-12):
                     raise ValueError('invalid timing/rate')

@@ -1,0 +1,90 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-01T18:51:29.101042+00:00",
+  "manifest_sha256": "f4bbe44b7b89f80575e1d2c533d8eca12bee92e56625bc2c68acb1a3674e3f4f",
+  "runner_sha256": "91f22984ec93a8576246b27815be0e8670094824c6b87eda2e307ae13201d349",
+  "supervisor_pid": 2165725,
+  "supervisor_start_ticks": 144608335,
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "gpu_test_authorized": true,
+    "operator_message": "porta anche il reactive nella inferenza; test sulla .157 con GPU",
+    "context": "Current explicit implementation and retained testing directions. Each arm requires fresh four nonblocking leases and in-lease client/stat/DSO preflight. No formal DS4 ACK or standing lease claimed."
+  },
+  "ds4_ack_claimed": false,
+  "model_attempted": false,
+  "model_inference_observed": false,
+  "numerical_qualification": false,
+  "performance_qualification": false,
+  "suite": "http-lifecycle-v1",
+  "commands": [],
+  "tests": [],
+  "locks": [],
+  "error": "BlockingIOError(11, 'Resource temporarily unavailable')",
+  "models_after": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "historical_sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "historical_sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "historical_sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "historical_sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467,
+      "historical_sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6",
+      "full_hash_recomputed": false
+    }
+  ],
+  "binary_unchanged": true,
+  "postflight_kfd": [],
+  "postflight_gpu": {
+    "gpu_busy_percent": "1",
+    "mem_info_gtt_used": "355864576",
+    "mem_info_vram_used": "378974208"
+  },
+  "postflight_memory": {
+    "MemTotal": 134145568768,
+    "MemAvailable": 125944131584,
+    "SwapTotal": 134145372160,
+    "SwapFree": 128293937152
+  },
+  "finished_at": "2026-10-01T18:51:29.127865+00:00"
+}

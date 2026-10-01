@@ -67,6 +67,8 @@ int main(void) {
         lie_worker_snapshot(w,&info); if (info.generated_tokens==16 && info.output_blocked==2) break; pause_short();
     }
     assert(info.active==2 && info.queued==6 && info.generated_tokens==16 && info.output_blocked==2);
+    assert(info.decode_batches>0 && info.decode_batch_rows>=2*info.decode_batches);
+    assert(fake_calls_snapshot().batch>0);
     assert(info.executor_phase==LIE_EXECUTOR_IDLE && info.prefill_started==info.prefill_returned &&
            info.decode_started==info.decode_returned);
     for (unsigned i=0;i<10;++i) pause_short();
@@ -104,6 +106,17 @@ int main(void) {
     lie_worker_stop(w); lie_worker_snapshot(w,&info);
     assert(info.state==LIE_STOPPING || info.state==LIE_STOPPED);
     wait_state(w,LIE_STOPPED); lie_worker_destroy(w);
+    /* All eight admitted sequences share the native-ready dispatch. */
+    opts.max_active=8;fake_calls_reset();w=lie_worker_create(&opts);assert(w);wait_state(w,LIE_READY);
+    fake_barrier_arm_phase(FAKE_PREFILL);jobs[0]=submit(w,"LONG-A",16);fake_barrier_wait();
+    for(unsigned k=1;k<8;++k)jobs[k]=submit(w,k%2?"LONG-B":"LONG-A",16);
+    fake_barrier_release();
+    for(unsigned k=0;k<3000;++k){lie_worker_snapshot(w,&info);if(info.output_blocked==8)break;pause_short();}
+    assert(info.active==8&&!info.queued&&info.generated_tokens==64&&info.output_blocked==8);
+    assert(info.decode_batches==8&&info.decode_batch_rows==64&&!info.decode_single_calls);
+    for(unsigned k=0;k<8;++k)lie_job_release(jobs[k]);
+    for(unsigned k=0;k<3000;++k){lie_worker_snapshot(w,&info);if(!info.active&&!info.queued)break;pause_short();}
+    assert(info.cancelled_requests==8&&!info.output_blocked);stop(w);
     puts("bounded worker, backpressure, owner, in-flight cancel and poison fixtures: PASS (not inference)");
     return 0;
 }

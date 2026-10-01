@@ -27,7 +27,7 @@ def rejects(call):
 def unit():
     s = {'executor': {'scope': 'owner_dispatch_intervals', 'phase': 'none', 'prefill_started': 1, 'prefill_returned': 1,
                      'decode_started': 2, 'decode_returned': 2, 'cancel_during_prefill': 0, 'cancel_during_decode': 0},
-         'mode': 'single-owner-interleaved-single-row', 'max_active': 2, 'active': 0, 'queued': 0,
+         'mode': 'single-owner-reactive-ready-batch', 'max_active': 2, 'active': 0, 'queued': 0,
          'output_blocked': 0, 'completed': 1, 'cancelled': 0, 'failed': 0, 'generated_tokens': 2}
     checks.validate_scheduler(s)
     for key, value in [('output_blocked', 1), ('active', 3), ('queued', -1), ('completed', True), ('max_active', 1)]:
@@ -94,13 +94,15 @@ def main():
                 profile = {'peer': 'normal', 'peer_expected': 'fixture: 🙂"\\\n��', 'prefill': 'SLOW-PREFILL',
                            'decode': 'SLOW-DECODE', 'blocked': 'LONG'}
                 result = checks.run(api, management, 'cpu-test-fixture', PROVIDER, events.append, check, profile)
-                assert result['synthetic'] is True and not result['native_batching']
+                assert result['synthetic'] is True
                 assert result['final']['cancelled'] == result['final']['completed'] == 3
                 assert result['final']['failed'] == 0 and result['final']['executor']['cancel_during_prefill'] == 1
                 assert result['final']['executor']['cancel_during_decode'] >= 1
                 assert [e['case'] for e in events if e['event'] == 'case_pass'] == ['prefill_cancel', 'decode_cancel', 'backpressure_and_peer']
                 assert events[-1]['event'] == 'complete'
                 print(json.dumps(result, indent=2))
+                paired=checks.run_reactive_pair(api,management,'cpu-test-fixture',PROVIDER,events.append,check,['LONG-A','LONG-B'])
+                assert paired['state']=='PASS' and paired['batch_dispatches']>0
                 # Early EOS cannot be reinterpreted as a successful cancellation.
                 missed = []
                 try:

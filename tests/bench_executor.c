@@ -56,3 +56,11 @@ lie_status lie_sequence_logits(lie_sequence *s,float *p,size_t cap,size_t *n,lie
     if (s->m->mode==3 && s->m->runs>3) p[23]+=1.0f;
     return LIE_OK;
 }
+
+lie_status lie_backend_open_batch(const char *p,const lie_model_options *o,uint32_t w,lie_model **m,lie_error *e) {
+    if(!w||w>LIE_DECODE_MAX_ROWS)return LIE_INVALID;
+    return lie_backend_open(p,o,m,e);
+}
+lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outcome *o,lie_error *e) {
+    for(size_t i=0;i<n;++i){o[i].status=lie_sequence_decode(s[i],&o[i].result,e);if(o[i].status!=LIE_OK)return o[i].status;}return LIE_OK;
+}

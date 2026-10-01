@@ -31,7 +31,7 @@ def original_profile():
 def validate_scheduler(s):
     e = s['executor']
     if (e['scope'] != 'owner_dispatch_intervals' or e['phase'] not in ('none', 'prefill', 'decode') or
-            s['mode'] != 'single-owner-interleaved-single-row' or s['max_active'] != 2):
+            s['mode'] != 'single-owner-reactive-ready-batch' or s['max_active'] != 2):
         raise ValueError('unexpected scheduler configuration')
     for key in ('active', 'queued', 'output_blocked', 'completed', 'cancelled', 'failed', 'generated_tokens'):
         if type(s[key]) is not int or s[key] < 0:
@@ -224,7 +224,7 @@ def run(api_port, management_port, model, provider, record, check, profile=None)
             raise RuntimeError('unexpected request accounting / foreign request')
         result = {'schema': SCHEMA, 'state': 'HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_OR_PERFORMANCE_QUALIFICATION',
                   'provider': provider, 'synthetic': 'NOT-INFERENCE' in provider, 'initial': initial, 'final': final,
-                  'native_batching': False, 'gpu_kernel_preemption_proved': False}
+                  'native_batch_dispatches_observed': final['executor'].get('decode_batches',0)-initial['executor'].get('decode_batches',0), 'gpu_kernel_preemption_proved': False}
         event('complete', result=result); return result
     except BaseException as ex:
         event('failed', outcome='INCONCLUSIVE' if isinstance(ex, Inconclusive) else 'FAILED', error=repr(ex))
@@ -458,3 +458,44 @@ def run_performance(api_port, management_port, model, provider, record, check, p
     return {'state':'PASS','scope':'closed-loop loopback serving; no independent backend comparison or reactive speedup',
             'warmup_requests':sum(r['warmup'] for r in samples),'measured_requests':sum(not r['warmup'] for r in samples),
             'configurations':performance_summary(samples,groups),'admission_burst':overload,'final_scheduler':state}
+
+
+def run_reactive_pair(api_port, management_port, model, provider, record, check, prompts=None):
+    """Original request isolation through native batching; fixture caller is explicit."""
+    import concurrent.futures
+    import threading
+    prompts = prompts or [
+        'List the integers from 1 to 300, separated by spaces. Continue without explanation.',
+        'Write a long account of a team repairing a water network. Include the planning and repairs in detail.']
+    def state():
+        c=http.client.HTTPConnection('127.0.0.1',management_port,timeout=10)
+        try:
+            c.request('GET','/actuator/llm');response=c.getresponse()
+            if response.status!=200:raise RuntimeError('reactive management status')
+            return validate_scheduler(json.loads(response.read())['scheduler'])
+        finally:c.close()
+    def sample(i,barrier=None):
+        c=http.client.HTTPConnection('127.0.0.1',api_port,timeout=90)
+        try:
+            body=json.dumps({'model':model,'messages':[{'role':'user','content':prompts[i]}],
+                'max_tokens':32,'temperature':0.7,'top_p':0.9,'seed':17+i,
+                'frequency_penalty':0.2,'presence_penalty':0.1,'stream':False})
+            if barrier:barrier.wait(timeout=10)
+            c.request('POST','/v1/chat/completions',body,{'Content-Type':'application/json'})
+            response=c.getresponse();payload=response.read(LIMIT+1)
+            if response.status!=200 or len(payload)>LIMIT:raise RuntimeError('reactive request failed')
+            return validate_completion(json.loads(payload),provider)
+        finally:c.close()
+    check();before=state();reference=[sample(i) for i in range(2)]
+    barrier=threading.Barrier(2)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+        futures=[pool.submit(sample,i,barrier) for i in range(2)]
+        observed=[f.result(timeout=100) for f in futures]
+    if observed!=reference:raise RuntimeError('seeded heterogeneous batch differs from serial reference')
+    check();after=state()
+    delta=after['executor']['decode_batches']-before['executor']['decode_batches']
+    if delta<=0:raise Inconclusive('native batch dispatch was not observed')
+    if after['failed']!=before['failed'] or after['cancelled']!=before['cancelled']:raise RuntimeError('unexpected reactive outcome')
+    result={'state':'PASS','reference':reference,'concurrent':observed,'batch_dispatches':delta,
+            'seeded_sampling':True,'heterogeneous_prompts':True,'before':before,'after':after}
+    record({'event':'reactive_pair','result':result});return result

@@ -90,8 +90,10 @@ HTTP admission -> bounded queue -> one device-owner worker -> lie_flow -> SSE wr
 disconnect / deadline -> flow stop + executor cancellation latch -> safe retirement
 ```
 
-Eight admitted jobs; one active sequence by default, optionally two interleaved
-single-row sequences. This is **not native GPU batching**. Each flow has eight
+Eight admitted jobs; one active sequence by default, optionally up to eight
+with `--max-active`. The shared C inference dispatcher gathers prefilled rows
+with available output credits and invokes native decode batches immediately.
+A single ready row keeps the scalar path; no timer waits for peers. Each flow has eight
 preallocated 256-byte token slots. Text-only SSE keeps a loan until its write
 callback; nonstream and tool-enabled turns drain into bounded aggregation buffers.
 Tool-enabled SSE publishes the validated complete message before its finish,
@@ -102,7 +104,9 @@ model UTF-8, cancellation, slow-client pressure, peer progress and retirement.
 
 [REACTIVE.md](docs/REACTIVE.md) specifies ownership and remaining gates. Reactive
 scheduling **inside pure inference** is a separate [investigation](docs/INFERENCE-REACTIVE.md):
-no C1 PP/TG, concurrency or serving speedup has been measured. Moving synchronous
+the shared ready-row dispatcher is implemented, with GPU measurement currently
+blocked by occupied shared leases. See [candidate validation](docs/REACTIVE-INFERENCE-RESULT.md).
+No new C1 PP/TG, concurrency or serving speedup has been measured. Moving synchronous
 forward off the HTTP loop does not prove faster forward. No JVM, Project Reactor
 or Reactive Streams TCK claim.
 

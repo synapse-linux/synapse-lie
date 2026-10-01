@@ -3,7 +3,7 @@
 #define LIE_FAKE_EXECUTOR_H
 /* Test process only: deterministic dispatch barriers, never a model. */
 typedef enum { FAKE_PREFILL, FAKE_DECODE } fake_phase;
-typedef struct { unsigned prefill, decode, text, create, close; } fake_calls;
+typedef struct { unsigned prefill, decode, text, create, close, batch; } fake_calls;
 void fake_barrier_arm(void); /* Existing decode barrier. */
 void fake_barrier_arm_phase(fake_phase);
 void fake_barrier_wait(void);

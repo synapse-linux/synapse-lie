@@ -78,6 +78,10 @@ const char *lie_backend_source_pin(void);
 int lie_backend_is_synthetic(void);
 /* Selected composition binding; the scheduler does not select/fallback engines. */
 lie_status lie_backend_open(const char *, const lie_model_options *, lie_model **, lie_error *);
+/* Additive explicit capacity at model admission. Existing open retains width 1. */
+#define LIE_DECODE_MAX_ROWS 8u
+lie_status lie_backend_open_batch(const char *, const lie_model_options *, uint32_t,
+                                  lie_model **, lie_error *);
 /* Experimental blocking ABI. All operations except cancel must be called by
  * the same device worker that opened the model. No independent scheduler in
  * the adapter. C pointers/lengths are borrowed for the duration of the call.
@@ -104,6 +108,14 @@ lie_status lie_sequence_close(lie_sequence **, lie_error *);
 lie_status lie_sequence_prefill(lie_sequence *, const int32_t *prefix, size_t tokens, lie_error *);
 /* AR only, one confirmed token maximum. Sampling state is per sequence. */
 lie_status lie_sequence_decode(lie_sequence *, lie_decode_result *, lie_error *);
+typedef struct { lie_status status; lie_decode_result result; } lie_decode_outcome;
+/* Completed independent rows, same model/owner, unique handles, 1..admitted width.
+ * Cancelled rows have no publishable output. Any non-cancellation execution
+ * failure poisons the shared model and invalidates every output from this call.
+ * LIE never retries a failed batch. Upstream may internally recover an untouched
+ * row; this remains delegated behavior, not a LIE scheduling retry. */
+lie_status lie_sequences_decode(lie_sequence *const *, size_t,
+                                lie_decode_outcome *, lie_error *);
 lie_status lie_sequence_logits(lie_sequence *, float *out, size_t capacity, size_t *required, lie_error *);
 /* Thread-safe latch only; no GPU preemption. In-flight work completes; its
  * output is suppressed on cancellation. Lifetime must be pinned externally. */

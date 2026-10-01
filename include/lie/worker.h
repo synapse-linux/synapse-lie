@@ -23,6 +23,7 @@ typedef struct {
     unsigned queued, active, output_blocked;
     lie_executor_phase executor_phase;
     uint64_t prefill_started, prefill_returned, decode_started, decode_returned;
+    uint64_t decode_batches, decode_batch_rows, decode_single_calls;
     uint64_t cancel_during_prefill, cancel_during_decode;
     /* Executor outcomes, not client receipt. Later transport abandonment may
      * cancel a completed flow without changing a retired generation outcome. */
@@ -35,7 +36,8 @@ typedef struct {
     lie_job_finish finish;
     bool prepared, retired;
     /* Sum of wall durations around synchronous executor calls, not phase span
-     * or GPU-only time. Calls count returns (including EOS/error/cancellation);
+     * or GPU-only time. Shared batch durations overlap across requests.
+     * Calls count returns (including EOS/error/cancellation);
      * prefill_tokens counts only successfully completed physical input deltas.
      * Failure/regression/overflow of the monotonic clock latches invalid.
      * Timing and token counts are published before the flow terminal. */
