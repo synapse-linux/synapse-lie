@@ -38,7 +38,7 @@ def main():
         models = json.loads((root / 'config/pi-unsloth.models.json').read_text())
         provider = models['providers']['synapse-lie']
         provider['baseUrl'] = f'http://127.0.0.1:{a}/v1'
-        provider['models'][0].update(id='cpu-test-fixture', name='CPU fixture NOT INFERENCE', contextWindow=32768, maxTokens=512)
+        provider['models'][0].update(id='cpu-test-fixture', name='CPU fixture NOT INFERENCE', maxTokens=512)
         (agent / 'models.json').write_text(json.dumps(models))
         settings = json.loads((root / 'config/pi-unsloth.settings.json').read_text())
         settings['defaultModel'] = 'cpu-test-fixture'
@@ -49,7 +49,7 @@ def main():
                '--mode', 'json', '--provider', 'synapse-lie', '--model', 'cpu-test-fixture',
                '--thinking', 'off', '--tools', 'read', '--print', 'PI-SYNTHETIC-READ']
         with (output / 'server.log').open('xb') as log:
-            server = subprocess.Popen([str(binary), '--model', ':fixture:', '--context', '32768', '--port', str(a), '--management-port', str(m)],
+            server = subprocess.Popen([str(binary), '--model', ':fixture:', '--context', str(provider['models'][0]['contextWindow']), '--port', str(a), '--management-port', str(m)],
                                       env=env, stdout=log, stderr=log)
             try:
                 deadline = time.monotonic() + 5

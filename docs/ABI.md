@@ -139,3 +139,8 @@ and `synapse-lie-bench --execution reactive`. Prefill remains completed bounded
 chunks. Numerical kernels and upstream synchronization are unchanged. This
 implements reactive admission of actual batched inference work; it does not
 claim an asynchronous dependency graph inside a single model forward.
+
+HTTP admission now permits 262144 total tokens, an 8 MiB JSON body and 1024
+messages. These are bounded frontend limits; existing executor ABI-2 layouts
+remain unchanged. `lie_model_tokenize` uses the same 8 MiB input bound. Model
+admission and qualification remain specific to context and active sequence count.

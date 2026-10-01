@@ -103,7 +103,7 @@ extern "C" lie_status lie_model_close(lie_model **m, lie_error *e) {
 }
 extern "C" lie_status lie_model_tokenize(lie_model *m, const char *text, size_t bytes,
     int32_t *out, size_t capacity, size_t *required, lie_error *e) {
-    if (!m || !text || !required || (!out && capacity) || bytes > 1024 * 1024)
+    if (!m || !text || !required || (!out && capacity) || bytes > LIE_CHAT_BODY_BYTES)
         return error(e, LIE_INVALID, "invalid/bounded tokenizer input");
     return guarded(m->runtime, e, [&] {
         auto tokens = m->runtime->model->Tokenize(std::string_view(text, bytes));

@@ -32,8 +32,8 @@ typedef struct {
 typedef struct { int32_t token; uint32_t emitted, stop, position; } lie_decode_result;
 typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT, LIE_CHAT_TOOL } lie_chat_role;
 typedef struct { lie_chat_role role; const char *content; size_t bytes; } lie_chat_message;
-#define LIE_CHAT_BODY_BYTES (1024u * 1024u)
-#define LIE_CHAT_MAX_MESSAGES 128u
+#define LIE_CHAT_BODY_BYTES (8u * 1024u * 1024u)
+#define LIE_CHAT_MAX_MESSAGES 1024u
 #define LIE_CHAT_MAX_TOOLS 128u
 #define LIE_CHAT_MAX_CALLS 16u
 #define LIE_CHAT_MAX_ARGUMENTS 128u

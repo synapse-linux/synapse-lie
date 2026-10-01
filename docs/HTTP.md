@@ -64,7 +64,7 @@ lengths. Trailing input in the completing buffer is refused before admission;
 later input cancels the existing request, never admits a second one. A peer EOF is
 cancellation, so write-half-close request semantics are not supported.
 
-- 64 connections; 16 KiB header field/value bytes, 1 MiB body, 2047-byte target;
+- 64 connections; 16 KiB header field/value bytes, 8 MiB body, 2047-byte target;
   additional total-wire bound, including chunking overhead.
 - At most 18,878,512 bytes per response/write buffer (bounded UTF-8/JSON
   expansion), not a preallocated resident allowance. Eight admitted jobs (queued
@@ -79,7 +79,7 @@ cancellation, so write-half-close request semantics are not supported.
   not remote consumption. Nonstream/tool-enabled aggregate bound is 3,145,736
   bytes, independent of socket capacity. Retired jobs/output remain bounded by live connections.
 - Five-second accept-to-close deadline for control/incomplete requests. Admitted
-  inference uses accept-to-close `--request-timeout-ms`, default 300000,
+  inference uses accept-to-close `--request-timeout-ms`, default 600000,
   configurable 100–1800000 ms, checked on a 250 ms loop tick. It includes queue,
   preparation and output time. Deadline closes the connection and cancels work;
   it does not preempt a kernel or promise a final error response.
@@ -100,14 +100,14 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
 {"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Reply briefly."}],"temperature":0,"max_tokens":32,"stream":true,"stream_options":{"include_usage":true},"chat_template_kwargs":{"enable_thinking":false}}
 ```
 
-- Required exact configured `model`; 1–128 messages. Roles: leading
+- Required exact configured `model`; 1–1024 messages. Roles: leading
   `system`/`developer`, `user`, `assistant`, `tool`. Content is a string or a
   nonempty array of text parts (joined with newlines); valid UTF-8, no NUL. No
   image parts. A real user message must exist. Assistant content may be null
   when carrying tool calls. Message `name` is optional and validated.
 - `max_tokens`: integer 1–4096, default 128. `max_completion_tokens` is an alias;
   sending both is refused. `store:false` is accepted; `store:true` is refused. Physical rendered prompt plus output
-  budget must fit configured context (128–32768, default 4096). No silent
+  budget must fit configured context (128–262144, default 4096). No silent
   truncation. Template/tokenization/context refusal precedes forward.
 - `temperature`: omitted defaults to greedy zero; numeric 0–2 selects the
   per-sequence sampler. `top_p` defaults to 1 and accepts >0–1. Frequency and

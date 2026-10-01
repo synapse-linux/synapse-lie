@@ -10,9 +10,9 @@
           "name": "Qwen3.8 Flash Next Unsloth UD-Q4_K_XL (LIE)",
           "reasoning": false,
           "input": ["text"],
-          "contextWindow": 32768,
+          "contextWindow": 262144,
           "maxTokens": 2048,
-          "inputLimits": {"maxRequestBytes": 1048576},
+          "inputLimits": {"maxRequestBytes": 8388608},
           "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
           "compat": {
             "maxTokensField": "max_tokens",

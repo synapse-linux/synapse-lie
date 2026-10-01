@@ -1,5 +1,20 @@
 # Isolated OpenAI reactive API increment
 
+## HTTP 256K source increment — GPU/Pi validation pending
+
+Server and worker now admit context through 262144 total tokens, with a dedicated
+context CLI parser rather than the 16-bit port parser. HTTP/parser body bounds
+are 8 MiB, history bounds 1024 messages, default request deadline 600 seconds;
+physical prompt plus requested output must fit, without truncation. The isolated
+Pi profile advertises the same limits and a 630-second provider timeout.
+`reactive-cpu-r4` on `.157` passed 20/20 debug and 20/20 ASan/UBSan, all six
+command exits 0. New fixtures cover >1MiB Chat/Responses, exact byte/message
+bounds, 256K chunk accounting and rejection before forward. These are CPU fixtures.
+A new HIP-linked `http256-r1` server build passes; original-weight 256K HTTP and
+real Pi read/edit/read validation remain pending. Pi/Node are absent on `.157`;
+the installed client can use a loopback SSH tunnel to the target GPU server.
+
+
 ## Reactive inference GPU comparison passed and persistent checkpoint
 
 The source now lives at

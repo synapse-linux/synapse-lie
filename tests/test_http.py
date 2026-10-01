@@ -121,7 +121,7 @@ def main():
             for query in ('?tag=method:GET&tag=method:POST', '?bad=x', '?tag=%00x:y', '?tag=method:%GG', '?tag=method:GET&'):
                 assert request(management, path + query)[0] == 400, query
             assert request(management, path, 'POST', '{}')[0] == 405
-            assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1048577\r\n\r\n').startswith(b'HTTP/1.1 413')
+            assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 8388609\r\n\r\n').startswith(b'HTTP/1.1 413')
             assert raw(api, b'POST /v1/chat/completions HTTP/1.1\r\nHost: localhost\r\nContent-Length: 2\r\nContent-Length: 3\r\n\r\n{}x').startswith(b'HTTP/1.1 400')
             assert raw(management, b'GET /actuator HTTP/1.1\r\nHost: x\r\nX: ' + b'a' * 18000 + b'\r\n\r\n').startswith(b'HTTP/1.1 431')
             # Slow incomplete clients cannot block management. Close is network cancellation only.

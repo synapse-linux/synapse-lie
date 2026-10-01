@@ -333,7 +333,7 @@ static void *work(void *arg) {
     signal_fd(w->notice); return NULL;
 }
 lie_worker *lie_worker_create(const lie_worker_options *o) {
-    if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>32768 ||
+    if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_WORKER_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     lie_worker *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);

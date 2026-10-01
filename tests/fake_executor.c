@@ -80,8 +80,15 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     const char *tool_modes[]={"TOOL","TOOL-TRUNCATED","TOOL-UNKNOWN","TOOL-DUPLICATE","TOOL-JSON-BAD","TOOL-RESULT","PI-SYNTHETIC-READ"};
     for (size_t i=0;i<sizeof(tool_modes)/sizeof(*tool_modes);++i) if (!strcmp(text,tool_modes[i])) mode=100+(int)i;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
+    /* Synthetic physical-token count for HTTP admission/chunk boundaries.
+     * This does not tokenize text or perform model computation. */
+    if (!strncmp(text,"FIXTURE-TOKENS:",15)) {
+        char *end=NULL; unsigned long n=strtoul(text+15,&end,10);
+        assert(end && *end=='\n' && n>=4 && n<=(unsigned long)m->context+1);
+        *required=(size_t)n;
+    }
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_context_bound");
-    out[0]=mode; out[1]=out[2]=out[3]=10; return LIE_OK;
+    out[0]=mode; for (size_t i=1;i<*required;++i) out[i]=10; return LIE_OK;
 }
 lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *t, int32_t *out, size_t cap, size_t *needed, lie_error *e) {
     owner(m); assert(t && t->count && t->count<=LIE_CHAT_MAX_MESSAGES && t->tool_count<=LIE_CHAT_MAX_TOOLS);

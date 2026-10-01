@@ -6,6 +6,7 @@
 #include <stdint.h>
 #define LIE_WORKER_JOBS 8
 #define LIE_OUTPUT_SLOTS 8
+#define LIE_WORKER_MAX_CONTEXT 262144u
 
 typedef struct lie_worker lie_worker;
 typedef struct lie_job lie_job;

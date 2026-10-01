@@ -24,7 +24,7 @@
 #define MAX_HEADERS (16 * 1024)
 #define MAX_CONNECTIONS 64
 #define TIMEOUT_NS UINT64_C(5000000000)
-#define INFERENCE_TIMEOUT_NS UINT64_C(300000000000)
+#define INFERENCE_TIMEOUT_NS UINT64_C(600000000000)
 #define MAX_TEXT (LIE_CHAT_MAX_OUTPUT * LIE_CHAT_TOKEN_BYTES * 3 + 8)
 
 typedef struct server server;
@@ -670,7 +670,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context N] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only greedy AR, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. No MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. No MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -680,14 +680,14 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[i], "--management-host")) management_host = argv[++i];
         else if (!strcmp(argv[i], "--model")) options.model_path=argv[++i];
         else if (!strcmp(argv[i], "--model-id")) model_id=argv[++i];
-        else if (!strcmp(argv[i], "--context")) options.context=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(argv[i], "--context")) options.context=(uint32_t)number(argv[++i],LIE_WORKER_MAX_CONTEXT);
         else if (!strcmp(argv[i], "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
         else if (!strcmp(argv[i], "--max-active")) options.max_active=(uint32_t)port_number(argv[++i]);
         else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
         else { fputs("Unknown option\n", stderr); return 2; }
     }
     if (port < 0 || management_port < 0 || (port == management_port && !strcmp(host, management_host))) { fputs("Invalid listener configuration\n", stderr); return 2; }
-    if (options.context<128 || options.context>32768 || options.chunk<1 || options.chunk>2048 ||
+    if (options.context<128 || options.context>LIE_WORKER_MAX_CONTEXT || options.chunk<1 || options.chunk>2048 ||
         options.max_active<1 || options.max_active>LIE_DECODE_MAX_ROWS || timeout_ms<100 || !*model_id || strlen(model_id)>128 ||
         !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
         fputs("Invalid model configuration\n",stderr); return 2;
