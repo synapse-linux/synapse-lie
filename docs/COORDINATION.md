@@ -38,3 +38,19 @@ The next integer scheduling candidate is prepared locally while core owns
 state-gpu-r1. Device-only assembly analysis executes no GPU code. All new
 remote checks (including CPU fixtures) wait for the explicit handover; no
 background retry or implicit ownership of an idle gap is scheduled.
+
+Core explicitly returned the window after state-gpu-r1 finished at
+2026-10-02 04:06:08.841 UTC. Its reported fresh closure at 04:06:08.842 verified
+32 supervisor/child identities retired, KFD empty, expected four leases free,
+controller absent and no port8000 listener. Q2 acknowledged ownership for the
+integer scheduling qualification; every build/GPU arm still performs its own
+fresh admission. Core remains offline for reporting until Q2's verified release.
+
+The integer scheduling campaign finished its final operator arm at
+2026-10-02 04:20:13.819 UTC. Both candidates fail exact replay and were reverted;
+no full-model run followed. Fresh closure at 04:22:17.419 UTC verifies four
+runners absent, 15 command PID/start identities and owned groups retired, KFD
+empty and the four expected lease identities acquired EX|NB and released.
+All 150 artifacts are collected/hash verified. Core received explicit handover;
+no Q2 remote job, waiter or automatic retry remains. Evidence is retained in
+`evidence/q2-register-window-release.json` with closure command exit 0.

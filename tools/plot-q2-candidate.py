@@ -11,6 +11,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--candidate-label', default='Q2 compensated WMMA down')
+    parser.add_argument('--ud-label', default='UD original')
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -19,7 +21,7 @@ def main():
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), layout='constrained')
-    labels = {'baseline': 'Original Q2 port', 'candidate': 'Q2 compensated WMMA down', 'ud': 'UD original'}
+    labels = {'baseline': 'Original Q2 port', 'candidate': args.candidate_label, 'ud': args.ud_label}
     for axis, metric, title in zip(axes, ('prefill_tok_s', 'decode_steps_s'), ('Fresh prefill', 'Decode (127 calls)')):
         for arm, label in labels.items():
             rows = [r for r in report['measurements'] if r['arm'] == arm]

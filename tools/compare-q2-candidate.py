@@ -21,11 +21,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('baseline', 'candidate', 'ud', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--exact-frontiers', action='store_true',
+                        help='Require exact original Q2 bytes under the integer scheduling protocol')
     args = parser.parse_args()
     read = load_reader()
     runs = {name: read(getattr(args, name)) for name in ('baseline', 'candidate', 'ud')}
     baseline, candidate = runs['baseline'][0], runs['candidate'][0]
-    protocol = json.loads((Path(__file__).resolve().parents[1] / 'config/q2-down-wmma-protocol.json').read_text())
+    protocol_name = 'q2-register-protocol.json' if args.exact_frontiers else 'q2-down-wmma-protocol.json'
+    protocol = json.loads((Path(__file__).resolve().parents[1] / 'config' / protocol_name).read_text())
     report = {'scope': 'Bounded Q2 replay, not independent full-model teacher parity',
               'protocol': protocol, 'arms': {name: str(getattr(args, name)) for name in runs},
               'different_token_files': [], 'frontiers': [], 'measurements': []}
@@ -60,8 +63,14 @@ def main():
                 values = [r[metric] for r in selected]
                 row[metric] = {'min': min(values), 'median': statistics.median(values), 'max': max(values)}
             report['measurements'].append(row)
-    threshold = protocol['model_screen_gate']['saved_frontier_kl_p_to_candidate_max']
-    report['bounded_numerical_gate_pass'] = not report['different_token_files'] and all(r['kl_p_to_candidate'] <= threshold for r in report['frontiers'])
+    if args.exact_frontiers:
+        numerical_pass = all(r['exact'] for r in report['frontiers'])
+    else:
+        threshold = protocol['model_screen_gate']['saved_frontier_kl_p_to_candidate_max']
+        numerical_pass = all(r['kl_p_to_candidate'] <= threshold for r in report['frontiers'])
+    if not report['frontiers']:
+        raise ValueError('Missing model frontiers')
+    report['bounded_numerical_gate_pass'] = not report['different_token_files'] and numerical_pass
     report['relative_medians'] = {}
     def median(arm, size, metric):
         return next(r[metric]['median'] for r in report['measurements'] if r['arm'] == arm and r['prompt_tokens'] == size)

@@ -74,15 +74,27 @@ The next PP hypothesis must preserve baseline activation quantization while
 improving layout/reuse. F16 HC down/up are a separate measured decode target.
 No deployment, merge, publication or full performance acceptance occurred.
 
-## Integer scheduling candidate — qualification pending
+## Integer scheduling qualification completed — candidates rejected
 
-[Q2-REGISTER-EXPERIMENT.md](Q2-REGISTER-EXPERIMENT.md) records a static compiler
-screen of register pressure. The initial UD-style token-tile barrier helped
-some widths but increased tile16 scratch. Bounding K-loop unrolling instead
-eliminated static scratch instructions for all five selected Q2 tile widths.
-This is local assembly analysis only, not a target performance or quality pass.
-The active runtime now contains that minimal RDNA3 candidate. The same extended
-operator harness can compare it with the frozen original Q2 source; exact
-operator and model-frontier bytes are mandatory. GPU qualification waits for
-the core thread to complete its current cache campaign and explicitly release
-the coordinated window. No Q2 remote work was started during that campaign.
+[Q2-REGISTER-EXPERIMENT.md](Q2-REGISTER-EXPERIMENT.md) records the register-pressure
+investigation, static screens and target operator runs. Bounded K unrolling
+eliminates static scratch instructions in local assembly, but only 20/44 target
+operator files match the original bytes. The token barrier with original unroll
+policy and unchanged tile16 has 24/44 exact. Both pass independent operator
+limits (maximum relative RMS about 0.000164) but fail the stricter declared replay
+gate; maximum absolute change is 4.76837158203125e-7. No model profile or benchmark
+was run for either candidate. A forced-full-unroll variant was rejected earlier
+because its static scratch allocation increased.
+
+Host checks pass 6/6 Debug and 6/6 ASan/UBSan on `.157`. Four arms retain 150
+SHA-verified artifacts and actual zero command/transport exits; the separate
+acceptance failures are explicit. Runtime patch SHA 3029cd49... and all 1019 source
+files are restored exactly to the qualified original-Q2 reference. The expanded
+44-output operator harness, resource report and rejected source remain reviewable.
+Checkpoint `cfe7931` preserves the initial candidate before qualification.
+
+Fresh closure at 2026-10-02 04:22:17.419 UTC verifies four runners and 15 command
+identities/groups retired, KFD empty and four expected leases free. Core received
+the handover; no Q2 job or retry remains. The performance target is still unmet.
+A next implementation must bound register lifetimes while controlling the actual
+FP32 contraction/reduction order. The separate F16 HC decode cost remains.

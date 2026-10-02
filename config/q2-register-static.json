@@ -210,9 +210,47 @@
       "scratch_store_instructions": 0
     }
   },
-  "candidate_patch_sha256": "9c5538eb5ffa7b81140a009bed783033c6dbdaeda9801a51f9861155de1fc135",
   "command_receipts": [
     "evidence/q2-register-static-r1/commands.json",
-    "evidence/q2-register-static-r2/commands.json"
-  ]
+    "evidence/q2-register-static-r2/commands.json",
+    "evidence/q2-register-static-r3/commands.json"
+  ],
+  "forced_full_unroll_barrier": {
+    "16": {
+      "amdhsa_private_segment_fixed_size": 296,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 90,
+      "scratch_store_instructions": 55
+    },
+    "32": {
+      "amdhsa_private_segment_fixed_size": 1064,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 236,
+      "scratch_store_instructions": 212
+    },
+    "48": {
+      "amdhsa_private_segment_fixed_size": 1940,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 480,
+      "scratch_store_instructions": 454
+    },
+    "64": {
+      "amdhsa_private_segment_fixed_size": 2816,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 753,
+      "scratch_store_instructions": 720
+    },
+    "80": {
+      "amdhsa_private_segment_fixed_size": 5692,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 1226,
+      "scratch_store_instructions": 1060
+    }
+  },
+  "candidate_patch_sha256_at_bounded_k_screen": "9c5538eb5ffa7b81140a009bed783033c6dbdaeda9801a51f9861155de1fc135"
 }

@@ -1,0 +1,273 @@
+{
+  "baseline": "q2-register-reference-r1",
+  "candidate": "q2-register-operators-r1",
+  "independent_operators_pass": true,
+  "exact_replay_pass": false,
+  "exact_files": 20,
+  "files": [
+    {
+      "name": "operator-10-1-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-1-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-17-PP-normal-rows64-tile16.f32",
+      "exact": false,
+      "changed_values": 646,
+      "max_absolute_difference": 2.980232238769531e-07
+    },
+    {
+      "name": "operator-10-17-PP-normal-rows64-tile32.f32",
+      "exact": false,
+      "changed_values": 646,
+      "max_absolute_difference": 2.980232238769531e-07
+    },
+    {
+      "name": "operator-10-17-PP-normal-rows64-tile48.f32",
+      "exact": false,
+      "changed_values": 625,
+      "max_absolute_difference": 2.384185791015625e-07
+    },
+    {
+      "name": "operator-10-17-PP-normal-rows64-tile64.f32",
+      "exact": false,
+      "changed_values": 625,
+      "max_absolute_difference": 2.384185791015625e-07
+    },
+    {
+      "name": "operator-10-17-PP-normal-rows64-tile80.f32",
+      "exact": false,
+      "changed_values": 464,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-17-PP-small-rows64-tile16.f32",
+      "exact": false,
+      "changed_values": 646,
+      "max_absolute_difference": 4.6566128730773926e-09
+    },
+    {
+      "name": "operator-10-17-PP-small-rows64-tile32.f32",
+      "exact": false,
+      "changed_values": 646,
+      "max_absolute_difference": 4.6566128730773926e-09
+    },
+    {
+      "name": "operator-10-17-PP-small-rows64-tile48.f32",
+      "exact": false,
+      "changed_values": 625,
+      "max_absolute_difference": 3.725290298461914e-09
+    },
+    {
+      "name": "operator-10-17-PP-small-rows64-tile64.f32",
+      "exact": false,
+      "changed_values": 625,
+      "max_absolute_difference": 3.725290298461914e-09
+    },
+    {
+      "name": "operator-10-17-PP-small-rows64-tile80.f32",
+      "exact": false,
+      "changed_values": 464,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-3-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-3-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-33-PP-normal-rows5-tile0.f32",
+      "exact": false,
+      "changed_values": 66,
+      "max_absolute_difference": 2.384185791015625e-07
+    },
+    {
+      "name": "operator-10-33-PP-small-rows5-tile0.f32",
+      "exact": false,
+      "changed_values": 66,
+      "max_absolute_difference": 3.725290298461914e-09
+    },
+    {
+      "name": "operator-10-65-PP-normal-rows65-tile16.f32",
+      "exact": false,
+      "changed_values": 2472,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-65-PP-normal-rows65-tile32.f32",
+      "exact": false,
+      "changed_values": 2472,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-65-PP-normal-rows65-tile48.f32",
+      "exact": false,
+      "changed_values": 2436,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-65-PP-normal-rows65-tile64.f32",
+      "exact": false,
+      "changed_values": 2438,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-65-PP-normal-rows65-tile80.f32",
+      "exact": false,
+      "changed_values": 1785,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "name": "operator-10-65-PP-small-rows65-tile16.f32",
+      "exact": false,
+      "changed_values": 2472,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-65-PP-small-rows65-tile32.f32",
+      "exact": false,
+      "changed_values": 2472,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-65-PP-small-rows65-tile48.f32",
+      "exact": false,
+      "changed_values": 2436,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-65-PP-small-rows65-tile64.f32",
+      "exact": false,
+      "changed_values": 2438,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-65-PP-small-rows65-tile80.f32",
+      "exact": false,
+      "changed_values": 1785,
+      "max_absolute_difference": 7.450580596923828e-09
+    },
+    {
+      "name": "operator-10-8-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-8-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-10-9-PP-normal-rows5-tile0.f32",
+      "exact": false,
+      "changed_values": 19,
+      "max_absolute_difference": 2.384185791015625e-07
+    },
+    {
+      "name": "operator-10-9-PP-small-rows5-tile0.f32",
+      "exact": false,
+      "changed_values": 19,
+      "max_absolute_difference": 3.725290298461914e-09
+    },
+    {
+      "name": "operator-16-1-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-1-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-3-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-3-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-33-PP-normal-rows5-tile0-paired-up.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-33-PP-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-33-PP-small-rows5-tile0-paired-up.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-33-PP-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-8-TG-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-8-TG-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-9-PP-normal-rows5-tile0-paired-up.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-9-PP-normal-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-9-PP-small-rows5-tile0-paired-up.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    },
+    {
+      "name": "operator-16-9-PP-small-rows5-tile0.f32",
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_difference": 0.0
+    }
+  ]
+}
