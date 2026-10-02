@@ -1,10 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 HC up projection and F32 mixer fusion
 
-This experiment is prepared and statically compiled. Host fixtures pass on
-`.157`; **GPU correctness and performance have not been measured**. The retained
-packed checkpoint remains 1250.45 PP/22.97 TG at 2K, versus fresh UD
-1685.15/24.32. Q2/UD parity remains unmet.
+This experiment passed GPU operators and full-model timing on `.157`. The
+original-F16 up/mix fusion reaches **1287.19 prefill tokens/s and 22.95 decode
+steps/s** at C1 pp2048/tg128, compared with 1250.82/22.97 for its fresh packed
+reference. Prefill improves 2.91%; decode is unchanged within these samples.
+The fresh same-window UD control reaches 1682.77/24.30, so Q2/UD parity remains
+unmet. The separate scalar HC up vector experiment is in
+[Q2-HC-UP-VECTOR.md](Q2-HC-UP-VECTOR.md).
 
 ## Measured motivation
 
@@ -65,7 +68,7 @@ syntax pass. The [static report](../config/q2-hc-up-fused-static.json) preserves
 the current resources and earlier tile receipt. These checks run on the editing
 host without GPU execution or model access.
 
-## Qualification prepared for the next window
+## GPU qualification
 
 Seven independent synthetic GPU cases cover 96/97/129/2048 token counts,
 ordinary, tiny and alternating inputs, disabled injection and disabled half
@@ -78,11 +81,12 @@ copied back and checked unchanged.
 
 Sampled FP64 projection/sigmoid/mixing and inject oracles cover every tile and
 token/hidden boundary, with the existing HC 0.00002 RMS/error-over-peak limits.
-Numerical mismatches are reported across all cases; invalid outputs/guards stop
-the fixture. Runtime mismatches remain evidence and are not reclassified as
-false positives. As authorized by the owner, bounded performance exploration
-may continue with recorded numerical differences once memory/launch safety is
-established; promotion still requires numerical and complete-model acceptance.
+All seven GPU cases pass the independent FP64 checks. Nineteen complete mixed,
+half and inject buffers are byte-exact against the existing route, across
+13,817,136 compared values. The largest FP64 relative RMS is 7.43e-7 for mix
+and 1.20e-7 for inject, below the unchanged 2e-5 thresholds. All commands
+exit zero, 42 operator artifacts are hash verified, and the
+[operator report](../config/q2-hc-up-fused-operators.json) retains each case.
 
 `tools/analyze-q2-hc-up.py` audits all seven cases and nineteen complete buffer
 pairs after collection. It verifies artifact hashes, exact output sizes, finite
@@ -96,7 +100,7 @@ after R5 terminates and while core prepares R6. Both command exits are zero,
 two artifacts are collected/hash verified, and runner/command retirement is
 checked. This subsecond fixture opens no model and uses no GPU or C/C++ build;
 pre/post KFD observations are empty. Its [receipt](../config/q2-hc-report-host.json)
-binds the tested reader and fixture sources. GPU qualification remains pending.
+binds the tested reader and fixture sources.
 
 ```sh
 python3 tools/analyze-q2-hc-up.py evidence/q2-hc-up-operators-r1 --output config/q2-hc-up-fused-operators.json
@@ -110,8 +114,8 @@ disables GPU visibility and opens no models. It does not exercise the new HIP
 operator. Initial source-generation and local report-summary parsing failures
 are retained under `evidence/q2-hc-up-fused-*`; neither is hidden as a runtime pass.
 
-After core returns its retained R6 window, use fresh
-four-lease admission for the commands below. Nothing is queued automatically.
+The `.157` GPU jobs used fresh four-lease admission after core returned R7.
+The measured commands were:
 
 ```sh
 python3 tools/q2-remote.py hc-up-operators q2-hc-up-operators-r1 --source-variant hc-up-fused
@@ -119,10 +123,11 @@ python3 tools/q2-remote.py q2-bench2k q2-hc-up-reference-r1 --source-variant pac
 python3 tools/q2-remote.py q2-bench2k q2-hc-up-model-r1 --source-variant hc-up-fused --rebuild-mmq
 ```
 
-The model scope stays C1 pp2048/tg128, one warmup plus three fresh measured
-sessions and 15-second idle outside timing. Compare all 21 saved model files
-against the fresh packed reference and retain prior qualified-Q2 drift separately.
-Profile a retained gain separately, then refresh the UD control when assessing
-parity. Final acceptance also requires broader context/concurrency coverage;
-neither static resources nor a 2K screen proves that full goal. The existing
-98 C inclusive guard and stricter exposed hardware limits remain unchanged.
+Both model arms use C1 pp2048/tg128, one warmup plus three measured sessions,
+15-second idle outside timing and a complete MMQ rebuild. All 21 saved model
+files are byte-exact between arms; all twelve F32 frontiers and token files
+match the retained packed checkpoint, and each arm passes nine replay checks.
+The [full report](../config/q2-hc-up-fused-results.json) retains every sample,
+duration, exit code and thermal maximum. The fused arm peaked at GPU 82 C and
+CPU 92.375 C, below the unchanged 98 C inclusive Q2 guard. This isolated 2K
+screen does not establish sustained serving, long-context behavior or parity.

@@ -6,12 +6,13 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest isolated
-[packed-activation experiment](docs/Q2-PACKED-ACTIVATIONS.md) reaches **1250.45
-prefill tok/s and 22.97 decode calls/s at 2K**. It improves prefill 0.80% over
-a fresh paired-IQ2 checkpoint, with byte-exact saved logits and tokens.
-**The performance requirement is not met:** fresh UD reaches 1685.15 PP/24.32 TG;
-Q2 trails by 25.80% and 5.56%. Earlier checkpoint drift from qualified Q2 remains
-unresolved. The candidate is retained for further experiments, not promoted.
+[HC up vector experiment](docs/Q2-HC-UP-VECTOR.md) reaches **1287.12 prefill
+tokens/s and 23.21 decode steps/s at 2K**, with byte-exact synthetic buffers,
+saved model logits and tokens against the retained packed Q2 reference.
+**The performance requirement is not met:** the fresh same-window UD control
+reaches 1682.77 PP/24.30 TG; Q2 trails by 23.51% and 4.47%. Earlier checkpoint
+drift from qualified Q2 remains unresolved. This is an experimental checkpoint,
+not a promotion to the qualified runtime patch.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.
@@ -41,15 +42,16 @@ Q2 references. Fresh UD also replays all 21 retained model buffers exactly.
 include prefill/decode rates and durations. The current baseline profile points
 to remaining HC projection/epilogue and activation-conversion costs.
 
-The next [raw-F16 HC up/mix fusion](docs/Q2-HC-UP-FUSION.md) is prepared.
-It keeps F32 normalized streams, removes the intermediate gate write/read and
-emits the existing half input in the producer. Static compilation and `.157`
-host/sanitizer fixtures pass; GPU correctness and performance remain pending.
+The [raw-F16 HC up/mix fusion](docs/Q2-HC-UP-FUSION.md) passes seven GPU cases
+and 19 byte-exact complete buffers. It removes the intermediate gate write/read
+and emits the existing half input in the producer. Prefill improves 2.91% over
+the fresh packed checkpoint; decode is unchanged. The subsequent
+[scalar HC up vector kernel](docs/Q2-HC-UP-VECTOR.md) speeds up its isolated
+component 15.22% and the full-model decode 1.16% without model-logit drift.
 
-A separate [HC down prefetch candidate](docs/Q2-HC-PREFETCH.md) targets decode
-load latency while retaining the observed FMA order. Its generated code now
-overlaps next-group loads with current arithmetic; `.157` host checks pass.
-It is independent of the up fusion, and its GPU performance is still unmeasured.
+Separate [HC down prefetch variants](docs/Q2-HC-PREFETCH.md) retain exact
+synthetic outputs but are 0.44% and 7.35% slower in the rotating-weight GPU
+microbenchmark. Neither is promoted.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

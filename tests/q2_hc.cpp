@@ -114,9 +114,11 @@ static void Case(unsigned m, unsigned k, unsigned tokens, unsigned pattern) {
           "Independent F16 operator tolerance exceeded");
 }
 
-static void Bench() {
-  constexpr unsigned m = 320, k = 10240, matrices = 16, launches = 128;
-  constexpr std::size_t matrix_bytes = std::size_t(m) * k * sizeof(__half);
+static void Bench(bool up) {
+  const unsigned m = up ? 10240 : 320;
+  const unsigned k = up ? 320 : 10240;
+  constexpr unsigned matrices = 16, launches = 128;
+  const std::size_t matrix_bytes = std::size_t(m) * k * sizeof(__half);
   // Match DeviceModel::Uploader::Copy: hipMalloc and original F16 layout.
   // Rotate 100 MiB of weights, exceeding the 32 MiB cache.
   Device wd(matrix_bytes * matrices), xd(k * sizeof(float)),
@@ -174,9 +176,10 @@ static void Bench() {
 
 int main(int argc, char** argv) {
   try {
-    Require(argc == 2, "Usage: q2_hc operators|bench");
+    Require(argc == 2, "Usage: q2_hc operators|bench|bench-up");
     const std::string mode = argv[1];
-    Require(mode == "operators" || mode == "bench", "Unsupported mode");
+    Require(mode == "operators" || mode == "bench" || mode == "bench-up",
+            "Unsupported mode");
     std::cout << std::unitbuf << std::setprecision(12);
     Hip(hipSetDevice(0));
     for (unsigned pattern = 0; pattern < 3; ++pattern)
@@ -187,8 +190,8 @@ int main(int argc, char** argv) {
     Case(320, 10239, 1, 0);
     Case(10240, 320, 1, 0);
     Case(512, 2560, 1, 0);
-    if (mode == "bench")
-      Bench();
+    if (mode == "bench" || mode == "bench-up")
+      Bench(mode == "bench-up");
     std::cout << "PASS synthetic F16 HC checks; no model inference\n";
   } catch (const std::exception& ex) {
     std::cerr << ex.what() << '\n';

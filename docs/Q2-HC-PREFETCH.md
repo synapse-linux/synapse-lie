@@ -1,10 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 HC down prefetch
 
-This independent decode experiment is prepared; **GPU correctness and speed
-remain unmeasured**. It derives from the measured packed checkpoint, without
-the separately prepared HC up/mix fusion. Latest measured C1 pp2048/tg128
-remains Q2 1250.45 PP/22.97 TG versus fresh UD 1685.15/24.32. Parity is unmet.
+These independent HC down decode experiments are measured on `.157` and
+**rejected for performance**. They derive from the measured packed checkpoint,
+without HC up/mix fusion. The one-group prefetch changes the 100 MiB rotating
+microbenchmark median from 47.390 to 47.601 µs per launch; the two-group
+version reaches 51.153 µs. Both retain byte-exact synthetic output, but neither
+improves HC down. No full-model gain is claimed. Q2/UD parity remains unmet.
 
 ## Profile and arithmetic contract
 
@@ -22,8 +24,8 @@ all other shapes and prefill follow the measured baseline.
 
 The baseline compiler reassociates the source dot product into component order
 3, 1, 2, 0 on one F32 accumulator. Explicit round-to-nearest FMAs preserve that
-observed sequence in the candidate. Algebra alone is insufficient evidence:
-the planned operator and complete-model byte comparisons must confirm it.
+observed sequence in the candidate. Algebra alone was insufficient evidence;
+the complete synthetic buffers were compared after the GPU runs.
 No weights, KV data, allocation policy, C17 core or reactive scheduling change.
 
 ## Generated-code evidence
@@ -38,7 +40,8 @@ previous loads on entry; this overlaps a bounded amount of work, not all latency
 | --- | ---: | ---: | ---: | ---: |
 | Measured packed baseline | 13 | 12 | 0 | 16 |
 | Initial prefetch, eliminated by compiler | 12 | 12 | 0 | 16 |
-| Scheduled prefetch | 20 | 12 | 0 | 16 |
+| Scheduled one-group prefetch | 20 | 12 | 0 | 16 |
+| Two-group prefetch | 30 | 12 | 0 | 16 |
 
 [Static receipts](../config/q2-hc-prefetch-static.json) describe compiler
 resources, not runtime throughput. Device assembly and host-only fixture syntax
@@ -54,35 +57,35 @@ zero and seven artifacts are collected and hash verified. Runner/command
 retirement is verified. GPU visibility is disabled and no model is accessed;
 these are [host checks](../config/q2-hc-prefetch-host.json), not kernel results.
 
-## Prepared GPU measurements
+## GPU measurements and disposition
 
-Reuse the existing eleven synthetic HC cases: ordinary, tiny and alternating
-inputs for the changed scalar shape; token widths 2/3/8/9; ragged row/K controls;
-HC up and router controls. Independent FP64 dot-product limits remain 0.00002
-for relative RMS and error over peak. Check output guards, finite values and
-all eleven complete saved F32 frontiers against a fresh packed arm.
+The eleven synthetic HC cases cover ordinary, tiny and alternating inputs for
+the changed scalar shape; token widths 2/3/8/9; ragged row/K controls; HC up
+and router controls. Independent FP64 dot-product limits remain 0.00002 for
+relative RMS and error over peak. Both candidates pass all eleven cases; all
+complete F32 frontiers match the fresh packed arm byte for byte.
 
-The same fixture then rotates sixteen `hipMalloc` weight matrices, 100 MiB in
-total, beyond the 32 MiB cache. One warm rotation precedes five HIP-event samples
-of 128 launches. A component gain must survive unprofiled full-model timing:
-one warmup plus three fresh C1 pp2048/tg128 sessions, 15 seconds idle outside
-timing, full MMQ builds, exact comparison of all 21 saved buffers. Use a fresh
-UD control in the same window before making a new parity claim.
+The fixture rotates sixteen `hipMalloc` weight matrices, 100 MiB in total,
+beyond the 32 MiB cache. One warm rotation precedes five HIP-event samples of
+128 launches. The one-group candidate is 0.44% slower by median; the two-group
+candidate is 7.35% slower. The collected
+[one-group report](../config/q2-hc-prefetch-micro.json) and
+[two-group report](../config/q2-hc-prefetch2-micro.json) include every sample,
+FP64 check, exit, artifact hash and thermal observation. Neither negative
+component result was promoted to a full-model benchmark.
 
-Numerical mismatches and actual failure exits remain evidence. The user's
-performance-first authorization permits bounded timing after memory/launch
-checks; it does not convert discrepancies into false positives or permit
-promotion. Earlier qualified-Q2 drift remains a separate unresolved issue.
-
-Core retains the enclosing `.157` window. After its verified return, acquire
-all four fresh leases per arm under the existing 98 C inclusive Q2 guard:
+The two-group source and compiler assembly remain as negative evidence. Its
+CPU capsule passes 10/10 Debug and 10/10 ASan/UBSan with six zero-exit commands;
+the GPU arm also exits zero. Earlier qualified-Q2 drift remains a separate
+unresolved issue. The runs used fresh four-lease admission in the Q2 window
+under the existing 98 C inclusive guard:
 
 ```sh
 python3 tools/q2-remote.py hc-bench q2-hc-prefetch-reference-r1 --source-variant packed
 python3 tools/q2-remote.py hc-bench q2-hc-prefetch-candidate-r1 --source-variant hc-prefetch
-python3 tools/q2-remote.py q2-bench2k q2-hc-prefetch-model-base-r1 --source-variant packed --rebuild-mmq
-python3 tools/q2-remote.py q2-bench2k q2-hc-prefetch-model-r1 --source-variant hc-prefetch --rebuild-mmq
+python3 tools/q2-remote.py hc-bench q2-hc-prefetch2-candidate-r1 --source-variant hc-prefetch2
 ```
 
-No GPU job, build or automatic waiter is queued. See the
-[protocol](../config/q2-hc-prefetch-protocol.json) and [coordination ledger](COORDINATION.md).
+See the [protocol](../config/q2-hc-prefetch-protocol.json),
+[coordination ledger](COORDINATION.md) and separate
+[scalar HC up vector experiment](Q2-HC-UP-VECTOR.md).

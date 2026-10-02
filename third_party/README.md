@@ -54,11 +54,25 @@ to original F16 weights and F32 normalized streams. The numerical work and
 independent synthetic fixtures are first-party MIT; existing upstream notices
 remain intact. The prepared source reconstructs exactly from this workstream's
 packed checkpoint. No antirez engine, DS4 source or KV codec is imported.
-Runtime qualification is explicitly pending in `docs/Q2-HC-UP-FUSION.md`.
+Runtime qualification is recorded in `docs/Q2-HC-UP-FUSION.md`.
+
+That isolated fusion has since passed GPU operator and full-model replay on
+`.157`; its collected timing and identity evidence are linked from
+`docs/Q2-HC-UP-FUSION.md`. `experiments/q2-hc-up-vec.patch` and
+`experiments/q2-hc-up-vec-exact.patch` are separate first-party MIT deltas
+against the measured fusion. They vectorize original-F16 HC up scalar reads;
+the latter fixes the generated FMA order to retain exact Q2 output. Both use
+the same independent official Gufo pin and existing upstream/llama.cpp notices.
+The faster reassociating variant's numerical drift is retained as evidence in
+`docs/Q2-HC-UP-VECTOR.md`. No antirez engine, DS4 source, sibling artifact or
+external KV codec is imported.
 
 `experiments/q2-hc-prefetch.patch` independently extends this workstream's F16
 HC down kernel on the same official pin. It preserves original weight layout
 and uses AMD compiler scheduling/FMA intrinsics; no external engine or artifact
 is imported. First-party MIT source and existing upstream notices are retained.
 It derives from the measured packed source, not the pending HC up fusion.
-Static/host evidence and pending GPU qualification are in `docs/Q2-HC-PREFETCH.md`.
+Static, host and GPU evidence are in `docs/Q2-HC-PREFETCH.md`.
+`experiments/q2-hc-prefetch2.patch` is the separate two-group scheduling delta.
+Both HC down prefetch variants are measured and rejected for performance; their
+negative GPU results and complete source identity remain in that document.

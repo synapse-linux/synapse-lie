@@ -367,6 +367,39 @@ CPU capsule, to run after core's R5 return. At 11:46:48 UTC the R5 controller
 Q2 has no remote workload. This is preparation and verified waiting, not a new
 Q2 performance result or completion of the parity goal.
 
+## HC up GPU fusion and scalar vector decode — 2026-10-02
+
+After core's verified R7 return, Q2 took the coordinated `.157` window with
+fresh four-lease admission for each arm. The [HC up/mix fusion](Q2-HC-UP-FUSION.md)
+passes seven synthetic GPU cases, nineteen byte-exact complete output pairs and
+independent FP64 checks. Both full-model arms use a complete MMQ rebuild, one
+warmup plus three C1 pp2048/tg128 samples and 15 s idle outside timing. Fresh
+packed Q2 reaches 1250.823 PP/22.967 TG; fused Q2 reaches 1287.188/22.948.
+All 21 saved model files and all replay checks are exact. Prefill improves
+2.91%; decode is unchanged. [Complete evidence](../config/q2-hc-up-fused-results.json)
+retains every sample, duration and thermal observation.
+
+The independent HC down one- and two-group prefetch variants pass eleven
+byte-exact GPU operator cases, but their 100 MiB rotating-weight medians are
+47.601 and 51.153 µs versus 47.390 µs for the packed reference. They are
+0.44% and 7.35% slower and were not promoted to full-model runs. Both negative
+results, the first compile-failed HC up fixture attempt, all real exit codes
+and their logs remain in persistent `evidence/`. The
+[prefetch report](Q2-HC-PREFETCH.md) distinguishes static and runtime evidence.
+
+The packed decode trace identifies 1,455 scalar F16 HC up calls at 50.793 ms
+across fifteen decode steps. A first vector-load variant cuts the isolated
+median from 34.474 to 30.432 µs, but changes 7,350/10,240 synthetic values by
+up to 1.1921e-7 and produces decoded-logit drift after 127 steps. It is retained
+for performance evidence, not called a false numerical flag. The ordered-FMA
+variant is byte-exact on all eleven synthetic buffers and all twelve saved Q2
+model F32 frontiers; tokens and replay checks also match. It reaches 29.919 µs
+per HC up call, 1287.119 PP and 23.214 TG. Full decode improves 1.16% over
+fused Q2; prefill is unchanged within measured spread. A fresh same-window UD
+control reaches 1682.768 PP/24.301 TG. Q2 still trails 23.51% PP and 4.47% TG.
+See [full results, graph and source evidence](Q2-HC-UP-VECTOR.md). Context and
+concurrency qualification plus the Q2/UD no-regression goal remain open.
+
 ## HC reader CPU fixtures pass; core retains GPU for R6 — 2026-10-02
 
 R5 completes 9/9 at 11:57:08 UTC. Fresh observation verifies its controller and

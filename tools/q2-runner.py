@@ -31,7 +31,7 @@ def main():
     mode = sys.argv[1]
     model_mode = mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators')
+    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators')
     hc_target = 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
     if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode:
         raise SystemExit('Unsupported mode')
@@ -193,7 +193,7 @@ def main():
                 binary=build/'cmake/hip'/hc_target
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 try:
-                    run([str(binary)] + ([] if mode in ('hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators') else ['bench' if mode.endswith('-bench') else 'operators']),
+                    run([str(binary)] + ([] if mode in ('hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators') else ['bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -220,7 +220,7 @@ def main():
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
-        if mode in ('hc-bench','hc-pp-bench'): result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
+        if mode in ('hc-bench','hc-pp-bench','hc-up-bench'): result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:

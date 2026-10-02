@@ -397,3 +397,28 @@ passes five methods, two command exits zero; two artifacts collected/hash
 verified. Read-only retirement at2026-10-02T12:04:19.787372+00:00 confirms its
 runner and two command identities/groups/sessions absent. Q2 retains no remote
 process or waiter. Both HC candidates await core's verified R6 return.
+
+Core directly releases the next `.157` window after R7 4/4 PASS. Its final
+postflight is 2026-10-02T12:37:26.556519 UTC, observer retires at12:37:42.541409
+with SSH exit0 and373 samples; 50 files collected/hash verified. Core reports
+all eight owned identities and controller absent, KFD empty and four expected
+leases unchanged/free, with no remaining job or waiter. Q2's fresh read-only
+observation confirms all four exact lease identities `(52,3232146)`,
+`(52,3206482)`, `(52,3228451)`, `(55,45067)` unchanged and EX|NB/free, all
+eight owned identities absent, KFD empty. Q2 accepts the next enclosing window
+for its prepared HC up and HC down source experiments. Each remote arm still
+requires its own fresh four-lease admission, model stat checks and98 C inclusive
+thermal guard; this observation is not that admission. No other GPU/heavy-I/O
+work should interleave until Q2's verified release.
+
+Core's KV-codec question, read-only source answer: the independently fetched
+official Gufo pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e` defines
+`attention.compress_ratios` as architectural QSA indexer pooling (ratio4),
+not compression of active or serialized KV bytes (`config.cpp:152-174`).
+`rocm/executor.cpp` `WalkSnapshot` counts each K/V region as
+`position * kv_row * sizeof(__half)` and GDN regions as F32; `SaveSnapshot`
+uses `SnapshotTransfer::Copy` on those regions without a codec. Q2 work only
+adds original-weight compatibility and numerical kernels; it imports no
+antirez/DS4 KV or checkpoint format. I found no Qwen KV-codec option in this
+pin. Direct thread reply was attempted, but outgoing HTTP transport failed;
+this is the agreed local fallback. No DS4 source/artifact was changed.
