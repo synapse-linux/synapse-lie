@@ -170,7 +170,11 @@ def read_core_result(path,rows):
         raise ValueError('invalid core benchmark identity')
     users=identity['users'];reps=identity['warmups']+identity['repetitions']
     cache_policy=identity.get('cache_policy','off');cache_budget=identity.get('prefix_cache_bytes',0)
-    if cache_policy not in ('off','ram') or type(cache_budget) is not int or cache_budget<0 or (cache_policy=='ram')!=(cache_budget>0):raise ValueError('core cache declaration')
+    ram=cache_policy in ('ram','ram+ssd');ssd=cache_policy in ('ssd','ram+ssd')
+    if cache_policy not in ('off','ram','ssd','ram+ssd') or type(cache_budget) is not int or cache_budget<0 or ram!=(cache_budget>0):raise ValueError('core cache declaration')
+    for key in ('ssd_quota_bytes','ssd_staging_bytes'):
+        value=identity.get(key,0)
+        if type(value) is not int or value<0 or ssd!=(value>0):raise ValueError('core SSD declaration')
     if not 1<=users<=8 or identity['warmups']<0 or identity['repetitions']<1:
         raise ValueError('invalid core sample configuration')
     inputs=[r for r in rows if r['event']=='input']
@@ -192,6 +196,9 @@ def read_core_result(path,rows):
         for r in group:
             cached=r.get('cached_tokens',0)
             if type(cached) is not int or not 0<=cached<=p['prompt_tokens'] or (cache_policy=='off' and cached):raise ValueError('core cached token count')
+            disk=r.get('ssd_cached_tokens',0);read_ns=r.get('ssd_read_ns',0)
+            if type(disk) is not int or not 0<=disk<=cached or (not ssd and disk) or (not ram and disk!=cached):raise ValueError('core SSD reused token count')
+            if type(read_ns) is not int or read_ns<0 or (not ssd and read_ns):raise ValueError('core SSD read timing')
             if cached!=p['prompt_tokens'] and cached%identity['prefill_chunk']:raise ValueError('unaligned reused prefix')
             if r['warmup']!=sample['warmup'] or r['prompt_tokens']!=p['prompt_tokens'] or r['prefill_tokens']+cached!=p['prompt_tokens']:
                 raise ValueError('core prefill accounting')
@@ -210,8 +217,8 @@ def read_core_result(path,rows):
             if (r['output_tokens']==0 and first is not None) or (r['output_tokens']>0 and (type(first) is not int or not 0<=first<=r['total_ns'])):
                 raise ValueError('core first-token timing')
             if r['output_ids']!=jobs[0]['output_ids']:raise ValueError('core greedy output drift')
-        if cache_policy=='ram':
-            hits=sum(r.get('cached_tokens',0)>0 for r in group)
+        if ram:
+            hits=sum(r.get('cached_tokens',0)>0 and not r.get('ssd_cached_tokens',0) for r in group)
             if sample.get('cache_hits')!=hits or sample.get('cache_misses')!=users-hits or sample.get('cache_budget_bytes')!=cache_budget or not 0<=sample.get('cache_retained_bytes',-1)<=cache_budget:raise ValueError('core cache cohort accounting')
         elapsed=sample['wall_ns'];tokens=sum(r['output_tokens'] for r in group)
         if type(elapsed) is not int or elapsed<=0 or sample['output_tokens']!=tokens or not math.isfinite(sample['output_per_total_wall_tps']) or not math.isclose(sample['output_per_total_wall_tps'],tokens*1e9/elapsed,rel_tol=1e-12):
@@ -223,6 +230,9 @@ def read_core_result(path,rows):
     measured=[r for r in jobs if not r['warmup']]
     point={k:identity[k] for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','repetitions']}
     point.update(cache_policy=cache_policy,prefix_cache_bytes=cache_budget,
+        ssd_quota_bytes=identity.get('ssd_quota_bytes',0),ssd_staging_bytes=identity.get('ssd_staging_bytes',0),
+        ssd_cached_tokens=distribution([r.get('ssd_cached_tokens',0) for r in measured]),
+        ssd_read_ns=distribution([r.get('ssd_read_ns',0) for r in measured]),
         cached_tokens=distribution([r.get('cached_tokens',0) for r in measured]),
         cache_capture_ns=distribution([r.get('cache_capture_ns',0) for r in measured]),
         cache_restore_ns=distribution([r.get('cache_restore_ns',0) for r in measured]),
@@ -240,7 +250,7 @@ def compare_core(a,b):
     if a['identity']['suite']!='core' or b['identity']['suite']!='core' or a['identity']['synthetic']!=b['identity']['synthetic']:
         raise ValueError('core scope/provider-kind mismatch')
     p=a['configurations'][0];q=b['configurations'][0]
-    for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes']:
+    for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes','ssd_quota_bytes','ssd_staging_bytes']:
         if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
     equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
     denominator=q['output_per_total_wall_tps']['median']
@@ -254,11 +264,11 @@ def export_core(result,out,label,reference,reference_label):
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     series=[(label,result)]+([(reference_label,reference)] if reference else [])
     with (out/'summary.csv').open('w',newline='') as f:
-        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms'])
+        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms'])
         for name,data in series:
             r=data['configurations'][0]
             value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
-            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6)])
+            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6)])
     os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
     import matplotlib
     matplotlib.use('Agg')
@@ -273,7 +283,7 @@ def export_core(result,out,label,reference,reference_label):
         ax.set_xticks(range(len(series)),[name for name,_ in series]);ax.set_ylabel(title);ax.grid(axis='y',alpha=.25)
     scope='CPU fixture — NOT-INFERENCE' if result['identity']['synthetic'] else 'Shared reactive C core'
     r=result['configurations'][0]
-    fig.suptitle(f'{scope} · {r["users"]} users · {r["prompt_tokens"]} prompt tokens · n={r["repetitions"]}\nRAM cache: {r["cache_policy"]}; no HTTP; per-job executor calls and client wall have different scopes')
+    fig.suptitle(f'{scope} · {r["users"]} users · {r["prompt_tokens"]} prompt tokens · n={r["repetitions"]}\nCache: {r["cache_policy"]}; no HTTP; per-job executor calls and client wall have different scopes')
     fig.savefig(out/'benchmark.svg');fig.savefig(out/'benchmark.png',dpi=160);plt.close(fig)
     return summary
 

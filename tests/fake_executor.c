@@ -2,6 +2,7 @@
 /* Synthetic transport/lifetime fixture. No weights, neural computation or GPU. */
 #include "lie/executor.h"
 #include "lie/state.h"
+#include "lie/store.h"
 #include "fake_executor.h"
 #include <assert.h>
 #include <pthread.h>
@@ -63,6 +64,13 @@ const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_source_pin(void) { return "synthetic"; }
 lie_status lie_backend_open(const char *p, const lie_model_options *o, lie_model **m, lie_error *e) { return lie_gufo_open(p,o,m,e); }
 int lie_backend_is_synthetic(void) { return 1; }
+lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
+    (void)e;owner(m);memset(id,0,sizeof(*id));
+    memcpy(id->bytes,"NOT-INFERENCE-state-v1",22);
+    unsigned values[]={m->context,m->chunk,m->width};
+    for(unsigned i=0;i<3;++i)for(unsigned k=0;k<3;++k)id->bytes[22+i*3+k]=(unsigned char)(values[i]>>(8*k));
+    *domain=m->domain;return LIE_OK;
+}
 lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
     if (strcmp(path,":fixture:") || o->abi_version!=LIE_EXECUTOR_ABI) return error(e,LIE_INVALID,"fixture_path_required");
     lie_model *m=calloc(1,sizeof(*m)); assert(m);

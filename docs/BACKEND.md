@@ -209,8 +209,9 @@ neither architectural separation nor a language change guarantees a speedup.
    copies, without calling the Gufo snapshot serializer. Active device buffers
    and forward math still belong to the transitional provider. Qualify complete
    frontiers and capture/restore cost under [STATE-GPU-PROTOCOL.md](STATE-GPU-PROTOCOL.md).
-3. Add optional SSD persistence with explicit enable/path/quota and bounded
-   staging/I/O. Disabled means no store I/O. Qualify restart, corruption,
+3. Optional SSD persistence is implemented in the C core with explicit
+   enable/path/quota and bounded staging/I/O ([implementation](SSD-PREFIX.md)).
+   Disabled means no store I/O. Complete device qualification of restart, corruption,
    incompatible identities, atomic writes and eviction races. This persists
    hybrid frontiers; it does not page active KV or stream weights from SSD.
 4. Add MTP after defining verified multi-token output and resource reservations.

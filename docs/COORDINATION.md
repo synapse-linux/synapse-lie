@@ -27,6 +27,18 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
+## Local non-performance tests — user authorization update
+
+The user now permits non-performance tests on the editing Strix Halo `.155` as
+well as `.157`, and explicitly requests temperature care. New local CPU builds
+and fixtures use `tools/thermal-run.py`, at most `-j2`, continuous sensor records
+and an 85 C ceiling (or lower sensor max/critical threshold). Thermal refusal /
+termination preserves actual exits and signals only its owned child group;
+no power, frequency or fan tuning. Original-weight performance comparison stays
+on `.157` under fresh ownership/leases. This is not GPU-run or heavyweight model
+hash authorization on the editing host. The Q2 thread owns the next `.157` window
+while this thread implements and CPU-tests the C17 SSD store locally.
+
 ## Latest completed window — C17 RAM state/cache
 
 After Q2's verified release at 2026-10-02 03:14:56.579 UTC, CPU fixtures ran

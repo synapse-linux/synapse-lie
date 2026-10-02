@@ -10,13 +10,14 @@ reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 The isolated `feature/openai-reactive-api` increment adds stateless Responses
 JSON/typed SSE and per-sequence sampling to the same C demand-driven worker/flow.
 See [API surface, reactive ownership and explicit limits](docs/OPENAI-REACTIVE.md).
-It is not complete OpenAI platform coverage. Tests run on `.157`; CPU fixtures
-and original-weight HIP evidence remain separate.
+It is not complete OpenAI platform coverage. Performance tests run on `.157`; non-performance fixtures are also user-authorized
+on the editing Strix Halo, with temperature monitoring. CPU fixtures and original-weight HIP evidence remain separate.
 
 Native AR batching through eight rows and C17 cross-request RAM prefix reuse
 are implemented. RAM retention is on by default (4 GiB, allocated lazily);
 `--prefix-cache-mib 0` disables retention explicitly. Optional SSD persistence
-is off and pending, as are MTP and vision. The
+is now implemented as an explicit opt-in in the shared C core; device qualification
+is pending. MTP and vision remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 [separation assessment](docs/BACKEND.md#separation-assessment--2026-10-02) defines
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and

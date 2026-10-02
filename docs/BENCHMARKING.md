@@ -171,3 +171,15 @@ The [RAM GPU result](STATE-GPU-RESULT.md) now supplies paired core off/on measur
 through 128K, C2/C4/C8, exact component-state logits and default-on HTTP smoke.
 It does not reproduce the entire upstream HTTP/cache preparation corpus or MTP
 quality suite. All cold samples and actual reused/new token counts are retained.
+
+
+Optional SSD prefix experiments use the same core suite with explicit
+`--prefix-ssd-dir`, `--prefix-ssd-quota-mib` and `--prefix-ssd-staging-mib`.
+Policies are `off`, `ram`, `ssd` or `ram+ssd`; both SSD budgets join comparison
+keys. Separate process invocations against the same private store exercise
+restart, and `ssd_drained` confirms final pending count and durable-write counters.
+Jobs/CSV separately report SSD reused tokens, read/validation and owner upload
+timing. Full hashing/index admission belongs to load-to-READY. The GPU lease
+supervisor currently refuses these new flags pending a dedicated SSD resource
+manifest; synthetic direct CLI tests are not GPU performance evidence. See
+[the SSD qualification boundary](SSD-PREFIX.md).

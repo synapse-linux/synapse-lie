@@ -17,7 +17,7 @@ static lie_worker_info wait_state(lie_worker *w, lie_worker_state state) {
     assert(!"worker state deadline"); return i;
 }
 static lie_worker *start_width(unsigned width) {
-    fake_calls_reset(); lie_worker_options o={":fixture:",1024,2,width,0};
+    fake_calls_reset(); lie_worker_options o={":fixture:",1024,2,width,0,{0}};
     lie_worker *w=lie_worker_create(&o); assert(w); wait_state(w,LIE_READY); return w;
 }
 static lie_worker *start(void) { return start_width(1); }

@@ -1,12 +1,13 @@
-# C17 prefix state and RAM cache
+# C17 prefix state, RAM cache and optional SSD
 
 RAM prefix retention is **enabled by default**, with a lazy 4 GiB budget shared
 by consumers of each core instance. HTTP and `synapse-lie-bench --suite core`
 use the same implementation; separate processes do not share a RAM store.
 `--prefix-cache-mib N` changes the budget; `0` explicitly disables retention for fresh-work comparisons. The normal
 per-sequence KV/recurrent working state is still required when retention is off.
-Only optional SSD persistence defaults off. SSD is not implemented yet: no
-persistent-state directory is created, scanned, read or written by this cache.
+Only optional SSD persistence defaults off. With SSD disabled, no persistent-state
+directory is created, scanned, read or written. The implemented opt-in is described
+in [SSD-PREFIX.md](SSD-PREFIX.md); original-weight SSD qualification is pending.
 
 The generic C17 `lie_state` component contract owns section validation, overflow
 checks, host allocation, immutable payloads and capture/restore coordination.
@@ -59,47 +60,21 @@ Chat/Responses usage and direct bench graphs. Device qualification passes the
 [predeclared GPU protocol](STATE-GPU-PROTOCOL.md), with [full results](STATE-GPU-RESULT.md)
 through 128K and C8. CPU results remain NOT-INFERENCE.
 
-## Optional SSD persistence — required feature, explicit opt-in
+## Optional SSD persistence — explicit opt-in
 
-The user requires an optional SSD save/restore facility in addition to in-memory
-prefix reuse. The ordinary per-sequence attention KV already used by inference,
-retaining a reusable frontier across requests, and persisting that frontier across
-process restarts are distinct capabilities. RAM reuse is implemented as described above; restart persistence remains pending.
+The C17 store and version 1 component codec are implemented in the shared core.
+Enable with `--prefix-ssd-dir ABSOLUTE-DIRECTORY`, `--prefix-ssd-quota-mib N`
+and `--prefix-ssd-staging-mib N`, supported by server and `--suite core`.
+RAM remains independently enabled by default. There is no implicit disk spill.
 
-- SSD persistence is **disabled by default**. In-memory reuse must work without
-  it. Disabled means no persistent-state directory creation, scanning, reading or
-  writing; no implicit spill to disk when RAM becomes scarce.
-- Enabling the persistent store requires an explicit server option. Expose its
-  directory and disk quota, independently of the RAM-cache budget. CLI spelling
-  and config schema are not frozen yet; there is no working SSD flag today.
-- Use only a LIE-owned private directory (proposed default when enabled:
-  `$HOME/.local/state/synapse-lie/sessions`), never discover or reuse DS4 caches.
-  State is sensitive conversation-derived data; use private directory/file
-  permissions. Persistence does not imply encryption at rest.
-- Save/restore complete compatible hybrid state, not an attention-KV-only dump.
-  Restart reuse, bounded staging/I/O, atomic writes, eviction and admission retain
-  the lifecycle and validation gates below. SSD reads/writes must not block the
-  HTTP loop; no per-token disk writes or unbounded background queue.
-- Disabling persistence stops using the store; it must not implicitly delete
-  existing files. Explicit cleanup may affect only eligible LIE-owned entries,
-  never an in-flight/pinned payload or another application's state.
-- Benchmark RAM reuse, SSD restore and recomputation separately. SSD support is
-  a required capability, not a promise that restoring is always faster or that
-  active-state paging/weight streaming is supported.
-
-Required configuration semantics, with spelling to be frozen during implementation:
-
-| Control | Required behavior |
-|---|---|
-| RAM prefix budget | Enabled by default, 4 GiB; explicit byte limit; zero disables retention; eligible idle entries can be evicted before admission refusal |
-| SSD enable | Explicit opt-in, default off, independent of RAM retention |
-| SSD directory and byte quota | Private LIE-owned path, validated quota; no implicit discovery of another engine's store |
-| Capture/read staging and queue budgets | Bound resident bytes and concurrent I/O jobs; reserve space before capture/read and retain buffers until completion |
-
-The implemented C cache manager is shared by HTTP, direct benchmark and future
-chat/eval clients. SSD will consume the same C-owned components through a new
-versioned disk codec, with bounded staging and explicit identity admission.
-It must not reintroduce a backend-owned opaque serializer.
+One bounded I/O worker, one operation slot, an explicit staging reservation,
+private paths, exclusive ownership, quotas, atomic commits and full identity /
+checksum validation preserve the owner-thread restore boundary. Immutable RAM
+states use reference pinning for asynchronous writes; completed reads remain
+reserved until upload/release. Neither HTTP nor the numerical worker performs
+serving-time disk syscalls. Startup identity and index admission occur before
+READY. The [exact format, accounting, tests and remaining device gates](SSD-PREFIX.md)
+are authoritative. Active KV paging and PLE/weight streaming are separate features.
 
 ## Two distinct kinds
 
@@ -121,7 +96,8 @@ Future modality components require an explicit version and qualification. See
 
 Gufo `SessionSnapshot` and external `SamplerState` were audited as coverage
 references. Neither Gufo v14 nor DS4 native19 is an accepted LIE payload. The
-current RAM representation has no file reader or byte import API.
+version 1 C codec imports only its own validated component representation, never
+one of these opaque upstream payloads.
 
 MTP identity includes the predictor weights/configuration and arithmetic policy.
 Only verified target tokens define the reusable frontier. Draft/rollback state
@@ -138,24 +114,15 @@ image material or an explicit caller-supplied matching-input contract; persistin
 the opaque model payload alone cannot promise autonomous multimodal restart.
 Choose and qualify this contract before enabling image-state persistence.
 
-## Proposed on-disk framing (must be frozen and tested before writer code)
+## Version 1 disk framing
 
-Little-endian envelope with magic, envelope version, fixed header length,
-kind, total length, metadata length, token count, payload length and checksum
-algorithm. Bounded canonical metadata and LE int32 token array precede a
-LIE-owned, versioned component payload with an explicit layout contract. It
-needs its own stable identity and qualification, not reinterpretation of upstream
-bytes or a dump of the in-process C struct. Unsupported cross-engine state is refused before mutation, unless
-an explicit versioned migration is implemented and qualified. SHA-256 covers the
-declared metadata + tokens + payload; lengths, coverage and identity must validate
-before restore admission.
-
-Compatibility identity must cover full weight/shard identities and quantization,
-model config, tokenizer vocabulary/normalization, actual template/reasoning mode,
-physical/rotary positions and RoPE settings, context/prefill/execution policy,
-state dtype/representation, backend payload version and relevant arithmetic
-build identity. No promise of cross-HIP/CUDA, quantization, capacity or build
-portability. Model publisher terms remain separate from the state format.
+The [frozen component envelope](SSD-PREFIX.md#identity-and-version-1-framing)
+uses a 160-byte little-endian header, a bounded table of 64-byte section records,
+and the complete immutable payload. SHA-256 covers all framing and payload bytes
+with the checksum field zeroed. A separate complete model/build/execution identity
+is checked before the new live model domain is assigned. Layout validation and a
+nonmutating provider geometry check precede upload. No cross-backend portability
+or exact sampler/session continuation is claimed.
 
 ## Write/restore lifecycle
 
@@ -177,7 +144,7 @@ portability. Model publisher terms remain separate from the state format.
    checkpoint plus replay or recompute. Tool/template boundaries use processed
    tokens, not similar visible strings.
 
-## Required validation before enabling
+## Required validation before device acceptance
 
 Disabled mode with zero persistent-store I/O, RAM-only reuse independent of SSD,
 explicit enable/path/quota validation, private permissions and no deletion on

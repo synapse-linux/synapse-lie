@@ -3,6 +3,7 @@
 #define LIE_CORE_H
 #include "lie/executor.h"
 #include "lie/flow.h"
+#include "lie/store.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -49,8 +50,9 @@ typedef struct {
     const char *model_path;
     uint32_t context, chunk, max_active;
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
+    lie_store_options ssd; /* Explicit directory enables; zero defaults off. */
 } lie_core_options;
-/* RAM enabled by default; SSD is a separate, currently unsupported facility. */
+/* RAM enabled by default; independent SSD persistence is opt-in. */
 void lie_core_options_init(lie_core_options *);
 typedef struct {
     lie_core_state state;
@@ -62,6 +64,7 @@ typedef struct {
     /* Completed model output, not client delivery. */
     uint64_t generated_tokens, completed_requests, cancelled_requests, failed_requests;
     lie_prefix_cache_info cache;
+    lie_store_info ssd;
     lie_model_info model;
     char error[256];
 } lie_core_info;
@@ -76,6 +79,8 @@ typedef struct {
     uint64_t prefill_ns, decode_ns;
     unsigned cached_tokens;
     uint64_t cache_capture_ns, cache_restore_ns;
+    unsigned ssd_cached_tokens;
+    uint64_t ssd_read_ns; /* File read/validation, excludes owner GPU upload. */
     char error[256];
 } lie_job_info;
 

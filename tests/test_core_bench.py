@@ -20,6 +20,28 @@ RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.p
 
 
 class CoreBench(unittest.TestCase):
+    def test_ssd_restart_accounting(self):
+        with tempfile.TemporaryDirectory(prefix='lie-core-ssd-') as tmp:
+            root=Path(tmp);store=root/'store';results=[]
+            args=['--prefix-ssd-dir',str(store),'--prefix-ssd-quota-mib','1','--prefix-ssd-staging-mib','1']
+            for index in range(2):
+                case=root/str(index);case.mkdir()
+                p,path=self.run_case(case,*args)
+                self.assertEqual(p.returncode,0,p.stderr)
+                result=REPORT['read_result'](path);results.append(result)
+                self.assertEqual(result['identity']['cache_policy'],'ssd')
+                self.assertEqual(result['jobs'][0]['ssd_cached_tokens'],0 if index==0 else 4)
+                if index==1:self.assertEqual(result['jobs'][0]['prefill_ns'],0)
+                rows=[json.loads(line) for line in path.read_text().splitlines()]
+                drained=next(row for row in rows if row['event']=='ssd_drained')
+                self.assertEqual(drained['pending'],0)
+                self.assertEqual(drained['errors'],0)
+            self.assertEqual(results[0]['configurations'][0]['output_ids'],results[1]['configurations'][0]['output_ids'])
+            REPORT['export'](results[1],root/'graphs','SSD fixture')
+            self.assertIn('ssd_read_median_ms',(root/'graphs/summary.csv').read_text())
+            bad=copy.deepcopy(results[1]);bad['configurations'][0]['ssd_staging_bytes']*=2
+            with self.assertRaises(ValueError):REPORT['compare'](results[1],bad)
+
     def test_typed_state_clone_and_suffix(self):
         with tempfile.TemporaryDirectory(prefix='lie-state-bench-') as tmp:
             root=Path(tmp);source=root/'input.json';source.write_text(json.dumps(list(range(12))))

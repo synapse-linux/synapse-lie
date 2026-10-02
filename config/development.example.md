@@ -27,18 +27,24 @@ numerical/hardware qualification. Multiple ready active slots can use native AR 
 262144 is qualified at one active sequence, not eight simultaneous full contexts. No
 synthetic provider is selectable in the production binary.
 
-Planned state-cache controls (not accepted CLI options today): in-memory prefix
-reuse independently of SSD; explicit SSD save/restore opt-in, **off by default**,
-with configurable private directory and disk quota separate from the RAM budget.
-Disabled persistence performs no store I/O and never silently spills to disk.
-See [STATE.md](../docs/STATE.md#optional-ssd-persistence--required-feature-explicit-opt-in).
+RAM prefix reuse is enabled by default with a lazy 4 GiB budget;
+`--prefix-cache-mib 0` disables RAM retention explicitly. Optional SSD persistence
+is implemented with three explicit options:
 
-Future private paths (not created or populated by current server):
+```text
+--prefix-ssd-dir /absolute/private/lie-prefix-directory
+--prefix-ssd-quota-mib 16384
+--prefix-ssd-staging-mib 4096
+```
 
-- model input: read-only paths in `models-157.inventory.json`;
-- LIE cache: `$HOME/.local/state/synapse-lie/sessions` (never a DS4 cache);
-- build/results: this repository's `build/` and `evidence/`;
-- isolated Gufo reference listener: `127.0.0.1:19881`, only under agreed lease.
+SSD is **off by default**, independent of RAM. It creates only the named final
+private directory; parents must already exist. Disabled persistence performs no
+store I/O and never silently spills to disk. This implementation has synthetic
+CPU evidence; original-weight SSD qualification is pending. See
+[SSD-PREFIX.md](../docs/SSD-PREFIX.md) for identity, resource and lifecycle limits.
+Model inputs stay read-only, build/results stay under LIE, and a store must never
+point at another engine's cache. No directory or persistent service is installed
+by this example.
 
 Budget planning must measure actual shared RAM, model state, workspace, MTP and
 I/O. There is no invented fixed 32GiB model reserve and no implicit global

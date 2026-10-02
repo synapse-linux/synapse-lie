@@ -7,6 +7,7 @@
 #endif
 #include "lie/executor.h"
 #include "lie/state.h"
+#include "lie/store.h"
 #include "gufo_chat.hpp"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
@@ -21,11 +22,16 @@
 #include <memory>
 #include <cmath>
 #include <thread>
+#include <vector>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #ifdef LIE_GUFO_STATE_ACCESS
 #include "gufo-state/access.hpp"
 #endif
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
+extern "C" int lie_gufo_device_identity(char *,size_t) noexcept;
 namespace qfn = gufo::models::qwen38_flash_next;
 static std::atomic<uint64_t> next_state_domain{1};
 struct Runtime {
@@ -34,6 +40,9 @@ struct Runtime {
     std::uint32_t chunk{}, width{1};
     bool failed{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
+    struct StateFile { int fd;struct stat stat; };
+    std::vector<StateFile> state_files;
+    ~Runtime(){for(auto& f:state_files)::close(f.fd);}
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
 struct lie_sequence {
@@ -83,8 +92,16 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         auto metadata = gufo::core::GgufReader::OpenFile(path, &template_error);
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
-        metadata.reset(); // Validation before GPU admission; no model forward on CPU.
         auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;
+        // Retain only descriptors/stat witnesses, not a second mapped payload.
+        // No weight hashing unless the shared core explicitly admits SSD.
+        for(const auto& region:metadata->GetMappedRegions()){
+            int fd=::fcntl(region.file_descriptor,F_DUPFD_CLOEXEC,0);struct stat st{};
+            if(fd<0)return error(e,LIE_RESOURCE_LIMIT,"cannot pin model identity file");
+            if(::fstat(fd,&st)){::close(fd);return error(e,LIE_INVALID,"cannot inspect model identity file");}
+            try{r->state_files.push_back({fd,st});}catch(...){::close(fd);throw;}
+        }
+        metadata.reset(); // Validation before GPU admission; no model forward on CPU.
         qfn::ModelOptions options;
         options.max_context = o->context_tokens;
         options.decode_concurrency = width;
@@ -98,6 +115,25 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
 }
 extern "C" lie_status lie_gufo_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     return lie_gufo_open_batch(path,o,1,out,e);
+}
+extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
+    if(!m||!id||!domain)return error(e,LIE_INVALID,"invalid SSD identity output");
+    return guarded(m->runtime,e,[&]{
+        if(!lie_backend_prefix_state_supported())return error(e,LIE_UNSUPPORTED,"component state access required for SSD");
+        std::vector<int> fds;
+        for(const auto& f:m->runtime->state_files){struct stat st{};const auto& old=f.stat;
+            if(::fstat(f.fd,&st)||!st.st_nlink||st.st_dev!=old.st_dev||st.st_ino!=old.st_ino||st.st_size!=old.st_size||
+               st.st_mtim.tv_sec!=old.st_mtim.tv_sec||st.st_mtim.tv_nsec!=old.st_mtim.tv_nsec||
+               st.st_ctim.tv_sec!=old.st_ctim.tv_sec||st.st_ctim.tv_nsec!=old.st_ctim.tv_nsec)
+                return error(e,LIE_INVALID,"model files changed after load; SSD identity refused");
+            fds.push_back(f.fd);
+        }
+        char device[1024],policy[2048];if(!lie_gufo_device_identity(device,sizeof(device)))return error(e,LIE_INVALID,"SSD device identity unavailable");
+        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/qwen-ar-v1/text-only/thinking-off/context=%u/chunk=%u/width=%u/%s",
+            m->runtime->model->MaxContext(),m->runtime->chunk,m->runtime->width,device);
+        if(n<0||static_cast<size_t>(n)>=sizeof(policy))return error(e,LIE_INVALID,"SSD policy identity overflow");
+        auto rc=lie_state_identity_files(fds.data(),fds.size(),policy,id,e);if(rc==LIE_OK)*domain=m->runtime->state_domain;return rc;
+    });
 }
 extern "C" lie_status lie_model_get_info(lie_model *m, lie_model_info *info, lie_error *e) {
     if (!m || !info) return error(e, LIE_INVALID, "invalid model/info");

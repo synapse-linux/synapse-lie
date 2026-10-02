@@ -28,7 +28,8 @@ typedef struct {
     uint32_t abi_version, representation_version;
     uint32_t token_count, context_tokens, prefill_chunk, section_count;
     /* Unique live model/configuration domain. Not portable across model opens,
-     * builds, devices or processes; SSD identity requires a later contract. */
+     * builds, devices or processes; SSD must validate a separate stable identity
+     * before binding an imported checkpoint to this live domain. */
     uint64_t domain;
     uint32_t model_data[8]; /* Model-defined frontier metadata, version-qualified. */
     lie_state_section sections[LIE_STATE_MAX_SECTIONS];
@@ -53,6 +54,8 @@ lie_status lie_state_capture(lie_sequence *, const lie_state_layout *, uint64_t 
                              lie_state **out, lie_error *);
 lie_status lie_state_restore(lie_sequence *, const lie_state *, lie_error *);
 void lie_state_destroy(lie_state **);
+/* Immutable host state may be pinned by the bounded SSD worker. */
+void lie_state_retain(lie_state *);
 uint64_t lie_state_bytes(const lie_state *);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);

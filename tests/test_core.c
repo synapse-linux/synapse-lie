@@ -40,7 +40,7 @@ static unsigned consume(lie_job *j) {
     return count;
 }
 int main(void) {
-    lie_core_options options={":fixture:",1024,2,2,0};
+    lie_core_options options={":fixture:",1024,2,2,0,{0}};
     lie_core *c=lie_core_create(&options);assert(c);wait_state(c,LIE_READY);
     lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TOKENS;
     int32_t prompt[]={0,10,10,10};r.tokens=prompt;r.token_count=4;r.max_tokens=8;

@@ -14,6 +14,25 @@ static void remove_entry(lie_prefix_cache *c,unsigned i){
     c->info.retained_bytes-=bytes;--c->info.entries;lie_state_destroy(&e->state);e->age=0;
 }
 void lie_prefix_cache_clear(lie_prefix_cache *c){for(unsigned i=0;i<LIE_PREFIX_CACHE_ENTRIES;++i)remove_entry(c,i);}
+lie_state *lie_prefix_cache_find(lie_prefix_cache *c,const int32_t *tokens,size_t n){
+    for(unsigned i=0;i<LIE_PREFIX_CACHE_ENTRIES;++i){lie_state *s=c->entries[i].state;const lie_state_layout *l=lie_state_description(s);
+        if(l&&l->token_count==n&&!memcmp(lie_state_tokens(s),tokens,n*sizeof(*tokens)))return s;}
+    return NULL;
+}
+void lie_prefix_cache_insert(lie_prefix_cache *c,lie_state *state){
+    const lie_state_layout *l=lie_state_description(state);uint64_t bytes=lie_state_bytes(state);
+    if(!l||bytes>c->info.budget_bytes||lie_prefix_cache_find(c,lie_state_tokens(state),l->token_count))return;
+    unsigned slot=LIE_PREFIX_CACHE_ENTRIES;
+    for(;;){unsigned oldest=LIE_PREFIX_CACHE_ENTRIES;
+        for(unsigned i=0;i<LIE_PREFIX_CACHE_ENTRIES;++i){if(!c->entries[i].state)slot=i;
+            else if(oldest==LIE_PREFIX_CACHE_ENTRIES||c->entries[i].age<c->entries[oldest].age)oldest=i;}
+        if(slot<LIE_PREFIX_CACHE_ENTRIES&&bytes<=c->info.budget_bytes-c->info.retained_bytes)break;
+        assert(oldest<LIE_PREFIX_CACHE_ENTRIES);remove_entry(c,oldest);++c->info.evictions;
+    }
+    lie_state_retain(state);c->entries[slot]=(lie_prefix_entry){state,touch(c)};
+    c->info.retained_bytes+=bytes;++c->info.entries;
+    if(c->info.retained_bytes>c->info.peak_retained_bytes)c->info.peak_retained_bytes=c->info.retained_bytes;
+}
 lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
                                     size_t n,uint32_t chunk,unsigned *reused,lie_error *error){
     if(!c||!s||!tokens||!n||!chunk||!reused)return LIE_INVALID;

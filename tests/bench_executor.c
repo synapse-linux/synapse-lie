@@ -2,6 +2,7 @@
 /* Deterministic ABI fixture for benchmark accounting, never neural computation. */
 #include "lie/executor.h"
 #include "lie/state.h"
+#include "lie/store.h"
 #include <math.h>
 #include <stdatomic.h>
 #include <stdio.h>
@@ -14,6 +15,12 @@ const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_source_pin(void) { return "synthetic"; }
 int lie_backend_is_synthetic(void) { return 1; }
+lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
+    (void)e;memset(id,0,sizeof(*id));memcpy(id->bytes,"BENCH-SSD-v1",12);
+    unsigned values[]={m->context,m->chunk,m->width,(unsigned)m->mode};
+    for(unsigned i=0;i<4;++i)for(unsigned k=0;k<4;++k)id->bytes[16+i*4+k]=(unsigned char)(values[i]>>(8*k));
+    *domain=m->domain;return LIE_OK;
+}
 lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model **m,lie_error *e) {
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);

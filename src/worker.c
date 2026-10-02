@@ -30,6 +30,8 @@ struct lie_job {
     size_t tokens, fed;
     size_t checkpoint;
     bool cache_checked, capture_checked;
+    bool ssd_checked;
+    uint64_t ssd_ticket;
     uint32_t position; /* Last validated completed frontier; worker only. */
     bool executing; /* Protected by owner gate; cancellation observation. */
     bool output_blocked; /* Worker-owned, aggregate snapshot under owner gate. */
@@ -46,6 +48,8 @@ struct lie_core {
     int wake, notice;
     lie_model *model;
     lie_prefix_cache cache;
+    lie_store *store;
+    char *ssd_path;
     lie_job *dispatch; /* Pinned worker job, protected by owner gate. */
 };
 static void set_output_blocked(lie_core *w, lie_job *j, bool value) {
@@ -138,6 +142,7 @@ static void publish_outcome(lie_job *j, lie_job_finish finish, const char *messa
 }
 static void finish_job(lie_core *w, size_t index, lie_job_finish finish, const char *message) {
     lie_job *j=w->jobs[index]; lie_error error={0};
+    if(j->ssd_ticket)lie_store_cancel(w->store,j->ssd_ticket);
     set_output_blocked(w,j,false);
     /* Detach under the cancellation gate. An external latch call cannot race
      * sequence destruction; no backend work runs while holding this gate. */
@@ -185,6 +190,22 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_error *erro
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
     lie_status rc=restore?lie_prefix_cache_restore(&w->cache,j->sequence,j->prompt,j->tokens,w->options.chunk,&reused,error):
         lie_prefix_cache_capture(&w->cache,j->sequence,j->prompt,j->fed,error);
+    if(!restore&&rc==LIE_OK&&w->store){
+        lie_state *state=lie_prefix_cache_find(&w->cache,j->prompt,j->fed),*temporary=NULL;
+        if(!state){lie_state_layout layout;uint64_t bytes=0;
+            rc=lie_state_plan(j->sequence,&layout,&bytes,error);
+            if(rc==LIE_OK&&layout.token_count!=j->fed){rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token frontier mismatch");}
+            if(rc==LIE_OK&&lie_store_can_write(w->store,bytes)){
+                rc=lie_state_capture(j->sequence,&layout,w->options.ssd.staging_bytes,&temporary,error);
+                if(rc==LIE_RESOURCE_LIMIT)rc=LIE_OK;
+                if(temporary&&memcmp(lie_state_tokens(temporary),j->prompt,j->fed*sizeof(*j->prompt))){
+                    lie_state_destroy(&temporary);rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token contents mismatch");}
+                state=temporary;
+            }
+        }
+        if(state)(void)lie_store_write(w->store,state);
+        lie_state_destroy(&temporary);
+    }
     bool b=clock_ns(&end);
     pthread_mutex_lock(&j->gate);
     if(!a||!b||end<start)j->info.timing_valid=false;
@@ -197,6 +218,38 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_error *erro
     j->executing=false;w->dispatch=NULL;
     pthread_mutex_unlock(&w->gate);
     return rc;
+}
+static bool ssd_collect(lie_core *w){
+    lie_store_result result={0};if(!lie_store_take(w->store,&result))return false;
+    lie_job *j=NULL;
+    if(result.read){pthread_mutex_lock(&w->gate);
+        for(unsigned i=0;i<LIE_CORE_JOBS;++i)if(w->jobs[i]&&w->jobs[i]->ssd_ticket==result.ticket){j=w->jobs[i];break;}
+        pthread_mutex_unlock(&w->gate);
+    }
+    if(j){j->ssd_ticket=0;j->ssd_checked=true;
+        pthread_mutex_lock(&j->gate);j->info.ssd_read_ns=result.read_ns;pthread_mutex_unlock(&j->gate);
+    }
+    if(j&&result.state&&!atomic_load(&j->cancel)&&!atomic_load(&w->stop)){
+        lie_core_info info;lie_core_snapshot(w,&info);lie_error error={0};lie_state_layout expected;
+        const lie_state_layout *layout=lie_state_description(result.state);
+        /* Complete file validation precedes this model geometry check. Both
+         * are nonmutating; only a compatible admitted upload is fatal on error. */
+        lie_status rc=info.state==LIE_READY?lie_sequence_state_describe(j->sequence,layout,&expected,&error):LIE_INVALID;
+        if(rc==LIE_OK&&lie_state_layout_equal(layout,&expected)){
+            pthread_mutex_lock(&w->gate);w->dispatch=j;j->executing=true;w->info.executor_phase=LIE_EXECUTOR_RESTORE;pthread_mutex_unlock(&w->gate);
+            uint64_t start=0,end=0;bool a=clock_ns(&start);rc=lie_state_restore(j->sequence,result.state,&error);bool b=clock_ns(&end);
+            pthread_mutex_lock(&j->gate);
+            if(!a||!b||end<start||end-start>UINT64_MAX-j->info.cache_restore_ns)j->info.timing_valid=false;
+            else j->info.cache_restore_ns+=end-start;
+            if(rc==LIE_OK){j->fed=j->position=layout->token_count;j->info.cached_tokens=layout->token_count;
+                j->info.ssd_cached_tokens=layout->token_count;if(j->fed>=j->checkpoint)j->capture_checked=true;}
+            pthread_mutex_unlock(&j->gate);
+            pthread_mutex_lock(&w->gate);w->dispatch=NULL;j->executing=false;w->info.executor_phase=LIE_EXECUTOR_IDLE;pthread_mutex_unlock(&w->gate);
+            if(rc==LIE_OK)lie_prefix_cache_insert(&w->cache,result.state);
+            else if(rc!=LIE_CANCELLED)poison(w,&error);
+        }else if(rc!=LIE_OK&&rc!=LIE_INVALID&&rc!=LIE_UNSUPPORTED&&rc!=LIE_CANCELLED)poison(w,&error);
+    }
+    lie_store_result_release(w->store,&result);return true;
 }
 static bool step(lie_core *w, size_t index) {
     lie_job *j=w->jobs[index]; if (!j) return false;
@@ -270,6 +323,14 @@ static bool step(lie_core *w, size_t index) {
         if(j->fed>=j->checkpoint)j->capture_checked=true;
         if(atomic_load(&j->cancel)){finish_job(w,index,LIE_FINISH_CANCEL,"cancelled");return true;}
     }
+    if(w->store&&!j->ssd_checked&&!j->fed){
+        if(j->ssd_ticket)return false;
+        j->ssd_ticket=lie_store_read(w->store,j->prompt,j->tokens,w->options.chunk);
+        if(j->ssd_ticket)return true;
+        lie_store_info store;lie_store_snapshot(w->store,&store);
+        if(store.pending)return false; /* Other rows may still prefill/decode. */
+        j->ssd_checked=true; /* Allocation/budget refusal before any mutation. */
+    }
     if (j->fed<j->tokens) {
         size_t add=j->tokens-j->fed; if (add>w->options.chunk) add=w->options.chunk;
         begin_call(w,j,true);
@@ -284,7 +345,7 @@ static bool step(lie_core *w, size_t index) {
             finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);
         } else {
             j->fed+=add;j->position=(uint32_t)j->fed;
-            if(w->options.prefix_cache_bytes&&!j->capture_checked&&j->fed==j->checkpoint){
+            if((w->options.prefix_cache_bytes||w->store)&&!j->capture_checked&&j->fed==j->checkpoint){
                 j->capture_checked=true;rc=cache_step(w,j,false,&error);
                 if(rc!=LIE_OK){if(rc!=LIE_CANCELLED)poison(w,&error);
                     finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);}
@@ -377,26 +438,36 @@ static void *work(void *arg) {
     lie_model_info model={0};
     lie_status rc=lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
-    if(rc==LIE_OK&&w->options.prefix_cache_bytes&&!lie_backend_prefix_state_supported()){
-        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable RAM cache");
+    if(rc==LIE_OK&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!lie_backend_prefix_state_supported()){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable prefix caches");
     }
+    if(rc==LIE_OK&&w->options.ssd.directory){
+        lie_state_identity identity;uint64_t domain=0;
+        rc=lie_model_state_identity(w->model,&identity,&domain,&error);
+        if(rc==LIE_OK&&!atomic_load(&w->stop))rc=lie_store_open(&w->options.ssd,&identity,domain,&w->store,&error);
+    }
+    lie_store_info initial_store;lie_store_snapshot(w->store,&initial_store);
     pthread_mutex_lock(&w->gate);
     w->info.model=model;
+    w->info.ssd=initial_store;
     w->info.state=atomic_load(&w->stop)?LIE_STOPPING:rc==LIE_OK?LIE_READY:LIE_FAILED;
     if (rc!=LIE_OK) snprintf(w->info.error,sizeof(w->info.error),"%s",error.message);
     pthread_mutex_unlock(&w->gate); signal_fd(w->notice);
     for (;;) {
-        bool progress=false; size_t present=0;
+        bool progress=ssd_collect(w); size_t present=0;
         for (size_t i=0;i<LIE_CORE_JOBS;++i) {
             /* Only the worker removes slots; producer publication is under gate. */
             pthread_mutex_lock(&w->gate); bool has=w->jobs[i]!=NULL; pthread_mutex_unlock(&w->gate);
             if (has) { ++present; progress=step(w,i) || progress; }
         }
         progress=decode_ready(w) || progress;
-        if (atomic_load(&w->stop) && !present) break;
+        lie_store_info store;lie_store_snapshot(w->store,&store);
+        pthread_mutex_lock(&w->gate);w->info.ssd=store;w->info.cache=w->cache.info;pthread_mutex_unlock(&w->gate);
+        if (atomic_load(&w->stop) && !present && !store.pending) break;
         if (progress) continue;
-        struct pollfd fds[LIE_CORE_JOBS+1]; size_t count=1;
+        struct pollfd fds[LIE_CORE_JOBS+2]; size_t count=1;
         fds[0]=(struct pollfd){w->wake,POLLIN,0};
+        if(w->store)fds[count++]=(struct pollfd){lie_store_fd(w->store),POLLIN,0};
         pthread_mutex_lock(&w->gate);
         for (size_t i=0;i<LIE_CORE_JOBS;++i) if (w->jobs[i]) {
             fds[count++]=(struct pollfd){lie_flow_fd(w->jobs[i]->flow,LIE_FLOW_WORK_READY),POLLIN,0};
@@ -404,8 +475,10 @@ static void *work(void *arg) {
         pthread_mutex_unlock(&w->gate);
         int result; do { result=poll(fds,count,-1); } while (result<0 && errno==EINTR);
         if (result<0) abort();
-        for (size_t i=0;i<count;++i) if (fds[i].revents&POLLIN) drain_fd(fds[i].fd);
+        for (size_t i=0;i<count;++i) if ((fds[i].revents&POLLIN)&&fds[i].fd!=lie_store_fd(w->store)) drain_fd(fds[i].fd);
     }
+    /* Drain the bounded independent writer before reporting STOPPED. */
+    lie_store_close(&w->store);
     lie_prefix_cache_clear(&w->cache);
     if (w->model) (void)lie_model_close(&w->model,&error);
     pthread_mutex_lock(&w->gate); w->info.cache=w->cache.info;w->info.state=LIE_STOPPED; pthread_mutex_unlock(&w->gate);
@@ -419,6 +492,11 @@ lie_core *lie_core_create(const lie_core_options *o) {
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
+    if(o->ssd.directory){
+        w->ssd_path=strdup(o->ssd.directory);w->options.ssd.directory=w->ssd_path;
+        if(!w->ssd_path||*w->ssd_path!='/'||o->ssd.quota_bytes<4096||o->ssd.staging_bytes<32768||
+           o->ssd.quota_bytes>INT64_MAX||o->ssd.staging_bytes>SIZE_MAX)goto fail;
+    }else if(o->ssd.quota_bytes||o->ssd.staging_bytes)goto fail;
     lie_prefix_cache_init(&w->cache,o->prefix_cache_bytes);w->info.cache=w->cache.info;
     atomic_init(&w->stop,false);
     if (!w->path) goto fail;
@@ -430,7 +508,7 @@ lie_core *lie_core_create(const lie_core_options *o) {
 fail:
     if (w->wake>=0) close(w->wake);
     if (w->notice>=0) close(w->notice);
-    free(w->path); free(w); return NULL;
+    free(w->ssd_path);free(w->path); free(w); return NULL;
 }
 void lie_core_stop(lie_core *w) {
     atomic_store(&w->stop,true);
@@ -441,7 +519,7 @@ void lie_core_stop(lie_core *w) {
 void lie_core_destroy(lie_core *w) {
     lie_core_info info; lie_core_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
     pthread_join(w->thread,NULL); close(w->wake); close(w->notice);
-    pthread_mutex_destroy(&w->gate); free(w->path); free(w);
+    pthread_mutex_destroy(&w->gate);free(w->ssd_path); free(w->path); free(w);
 }
 int lie_core_fd(lie_core *w) { return w->notice; }
 void lie_core_drain(lie_core *w) { drain_fd(w->notice); }

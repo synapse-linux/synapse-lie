@@ -410,11 +410,20 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object_object_add(o,"cancel_during_decode",json_object_new_uint64(i->cancel_during_decode));
     return o;
 }
-static json_object *prefix_cache_json(const lie_prefix_cache_info *i) {
+static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_store_info *ssd) {
     json_object *o=json_object_new_object();
     json_object_object_add(o,"kind",json_object_new_string("ram-prefix-checkpoints"));
     json_object_object_add(o,"enabled",json_object_new_boolean(i->budget_bytes!=0));
-    json_object_object_add(o,"ssd_enabled",json_object_new_boolean(false));
+    json_object_object_add(o,"ssd_enabled",json_object_new_boolean(ssd->enabled));
+    json_object *disk=json_object_new_object();
+    json_object_object_add(disk,"enabled",json_object_new_boolean(ssd->enabled));
+#define SSD_FIELD(name) json_object_object_add(disk,#name,json_object_new_uint64(ssd->name))
+    SSD_FIELD(quota_bytes);SSD_FIELD(disk_bytes);SSD_FIELD(allocated_bytes);SSD_FIELD(staging_budget_bytes);
+    SSD_FIELD(staging_bytes);SSD_FIELD(peak_staging_bytes);SSD_FIELD(entries);SSD_FIELD(pending);
+    SSD_FIELD(lookups);SSD_FIELD(hits);SSD_FIELD(misses);SSD_FIELD(writes);SSD_FIELD(evictions);SSD_FIELD(skipped);
+    SSD_FIELD(errors);SSD_FIELD(cancelled);SSD_FIELD(read_bytes);SSD_FIELD(written_bytes);SSD_FIELD(read_ns);SSD_FIELD(write_ns);
+#undef SSD_FIELD
+    json_object_object_add(o,"ssd",disk);
     json_object_object_add(o,"accounting",json_object_new_string("owned payload and descriptors; excludes allocator/driver overhead"));
 #define CACHE_FIELD(name) json_object_object_add(o,#name,json_object_new_uint64(i->name))
     CACHE_FIELD(budget_bytes);CACHE_FIELD(retained_bytes);CACHE_FIELD(peak_retained_bytes);
@@ -431,7 +440,7 @@ static char *llm_json(server *s) {
     json_object *scheduler=NULL;
     if (s->worker) {
         lie_worker_info info; lie_worker_snapshot(s->worker,&info);
-        json_object_object_add(j,"cache",prefix_cache_json(&info.cache));
+        json_object_object_add(j,"cache",prefix_cache_json(&info.cache,&info.ssd));
         scheduler=json_object_new_object();
         json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-reactive-ready-batch"));
         json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
@@ -689,7 +698,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. No SSD, MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. SSD prefix persistence is opt-in; no MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -707,8 +716,19 @@ int main(int argc, char **argv) {
             if(mib<0){fputs("Invalid prefix cache budget\n",stderr);return 2;}
             options.prefix_cache_bytes=(uint64_t)mib*1024u*1024u;
         }
+        else if (!strcmp(argv[i], "--prefix-ssd-dir")) options.ssd.directory=argv[++i];
+        else if (!strcmp(argv[i], "--prefix-ssd-quota-mib") || !strcmp(argv[i], "--prefix-ssd-staging-mib")) {
+            bool quota=!strcmp(argv[i],"--prefix-ssd-quota-mib");int mib=number(argv[++i],1048576);
+            if(mib<0){fputs("Invalid SSD budget\n",stderr);return 2;}
+            if(quota)options.ssd.quota_bytes=(uint64_t)mib*1024u*1024u;
+            else options.ssd.staging_bytes=(uint64_t)mib*1024u*1024u;
+        }
         else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
         else { fputs("Unknown option\n", stderr); return 2; }
+    }
+    if((options.ssd.directory&&(!options.model_path||*options.ssd.directory!='/'||!options.ssd.quota_bytes||!options.ssd.staging_bytes))||
+       (!options.ssd.directory&&(options.ssd.quota_bytes||options.ssd.staging_bytes))){
+        fputs("SSD requires --model, an absolute --prefix-ssd-dir, --prefix-ssd-quota-mib and --prefix-ssd-staging-mib\n",stderr);return 2;
     }
     if (port < 0 || management_port < 0 || (port == management_port && !strcmp(host, management_host))) { fputs("Invalid listener configuration\n", stderr); return 2; }
     if (options.context<128 || options.context>LIE_WORKER_MAX_CONTEXT || options.chunk<1 || options.chunk>2048 ||

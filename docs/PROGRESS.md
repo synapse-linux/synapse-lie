@@ -1,5 +1,41 @@
 # Isolated OpenAI reactive API increment
 
+## Optional SSD prefix persistence — 2026-10-02
+
+Implemented the version 1 component codec, conservative full-file identity,
+private quota-limited store, immutable reference pins, bounded staging and one
+asynchronous I/O worker in C17. The shared core integrates disk waits through its
+existing event loop while runnable inference peers retain their flow credits.
+RAM remains default-on; SSD is opt-in with explicit directory, quota and staging
+limits. Server and direct core bench expose the same facility and separate disk /
+owner transfer timings. See [SSD-PREFIX.md](SSD-PREFIX.md).
+
+Local non-performance tests are now explicitly user-authorized. Headless R5
+passes 5/5 and full Debug R9 passes 29/29, including actual synthetic-process
+restart, HTTP/Responses and bench graphs. Raw commands, actual exits and
+per-second temperature samples are retained under `evidence/ssd-local-r*/`.
+R1 keeps its strict-compiler indentation error; R7 keeps 12 failed suites caused
+by the loopback sandbox and a selected Python without Matplotlib. R9 uses the
+already installed system Python and permitted private loopback sockets; no
+packages were installed. Thermal R4/R10/R11 refused before spawning a build at CPU
+89/89.625/91.625 C. The successful full suite's observed peak was CPU84.375/GPU61 C.
+Subsequent passive readings reached CPU92.625 C with no owned test running.
+
+At this checkpoint, final review has additionally hardened file-length/timer
+arithmetic and Release reference-count checks, expanded identity environment
+inputs and added a fixture for the
+thermal guard. Rebuild of those final changes, ASan/UBSan and the HIP adapter link
+remain pending a temperature-safe window. Original-weight SSD restart, fit and
+performance remain unqualified; no new model run or heavyweight hash occurred.
+The Q2 thread retains the coordinated `.157` window. This is a code checkpoint,
+not a completed SSD device acceptance gate. No push, deployment or DS4 mutation.
+
+A separately requested fork, **Synapse LIE — DGX Spark**, was initialized in
+`worktrees/dgx-spark`, branch `feature/dgx-spark`, at qualified checkpoint
+`07427b1`. That thread owns platform/TensorFold investigation and `.158` read-only
+inventory; this thread owns the shared SSD core. Active KV paging and PLE/weight
+streaming remain distinct from persisted hybrid prefix checkpoints.
+
 
 ## C17 component state and default RAM retention — 2026-10-02
 

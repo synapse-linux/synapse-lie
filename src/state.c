@@ -1,10 +1,11 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/state.h"
+#include "state_internal.h"
+#include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct lie_state { lie_state_layout layout; uint64_t payload_bytes; unsigned char payload[]; };
 static lie_status fail(lie_error *e, lie_status rc, const char *message) {
     if(e)snprintf(e->message,sizeof(e->message),"%s",message);
     return rc;
@@ -70,8 +71,7 @@ lie_status lie_state_capture(lie_sequence *s,const lie_state_layout *l,uint64_t 
     lie_state_layout current;uint64_t retained;
     lie_status rc=lie_state_plan(s,&current,&retained,e);if(rc!=LIE_OK)return rc;
     if(!lie_state_layout_equal(l,&current))return fail(e,LIE_INVALID,"capture frontier changed");
-    lie_state *p=malloc((size_t)retained);if(!p)return fail(e,LIE_RESOURCE_LIMIT,"prefix cache allocation failed");
-    p->layout=current;p->payload_bytes=bytes;
+    lie_state *p=lie_state_allocate(&current,budget);if(!p)return fail(e,LIE_RESOURCE_LIMIT,"prefix cache allocation failed");
     /* Only padding is cleared; touching the whole tensor payload here would
      * add a second multi-GiB memory pass before the provider's completed copy. */
     uint64_t end=0;
@@ -89,7 +89,18 @@ lie_status lie_state_restore(lie_sequence *s,const lie_state *p,lie_error *e) {
     if(!lie_state_layout_equal(&p->layout,&expected))return fail(e,LIE_INVALID,"incompatible prefix state");
     return lie_sequence_state_write(s,&p->layout,p->payload,(size_t)bytes,e);
 }
-void lie_state_destroy(lie_state **p){if(p){free(*p);*p=NULL;}}
+lie_state *lie_state_allocate(const lie_state_layout *l,uint64_t budget){
+    uint64_t bytes=0;
+    if(!lie_state_validate(l,&bytes)||bytes+sizeof(lie_state)>budget)return NULL;
+    lie_state *p=malloc(sizeof(*p)+(size_t)bytes);
+    if(p){p->layout=*l;p->payload_bytes=bytes;atomic_init(&p->refs,1);}
+    return p;
+}
+void lie_state_retain(lie_state *p){
+    assert(p);unsigned before=atomic_fetch_add(&p->refs,1);
+    if(!before||before==UINT32_MAX)abort();
+}
+void lie_state_destroy(lie_state **p){if(p&&*p){if(atomic_fetch_sub(&(*p)->refs,1)==1)free(*p);*p=NULL;}}
 uint64_t lie_state_bytes(const lie_state *p){return p?sizeof(*p)+p->payload_bytes:0;}
 const lie_state_layout *lie_state_description(const lie_state *p){return p?&p->layout:NULL;}
 const int32_t *lie_state_tokens(const lie_state *p){

@@ -267,3 +267,24 @@ freeing the parsed request after the core accepts its independent copy. The
 core and its public headers have no JSON, libuv, llhttp or socket dependency.
 `lie_flow` retains Linux eventfd/pthread dependencies; this extraction does not
 claim cross-platform portability. CPU acceptance is in [CORE-EXTRACTION.md](CORE-EXTRACTION.md).
+
+
+## Optional C17 SSD store contract
+
+`lie/store.h` owns a versioned prefix file representation and one asynchronous
+I/O operation at a time. `lie_core_options.ssd` is zero-initialized by
+`lie_core_options_init`; enabling requires an absolute directory and independent
+quota/staging limits. Recompile consumers of this experimental options struct.
+The provider identity hook is called only for explicit SSD admission, before READY.
+It supplies full bound-file identity and the current live domain; no upstream
+snapshot types enter the common store. The C core now links OpenSSL Crypto for
+SHA-256 even in the HTTP-free composition.
+
+`lie_state_retain` pins immutable host data across writer execution. A successful
+`lie_store_take` transfers the result payload, keeping its operation slot and
+staging reservation pinned. Call `lie_store_result_release` after upload or
+discard; optionally retain the state into RAM first. Release taken results before
+closing the store. Cancellation latches affect reads between bounded transfers;
+no filesystem syscall or GPU operation is forcibly preempted. Provider calls
+still run only on the device owner, and mutating failures never become misses.
+See [SSD-PREFIX.md](SSD-PREFIX.md) for framing, durability and qualification limits.

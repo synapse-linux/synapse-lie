@@ -34,6 +34,8 @@ static json_object *timings(const lie_job_info *i) {
     json_object_object_add(t,"cached_tokens",json_object_new_int64(i->cached_tokens));
     json_object_object_add(t,"cache_capture_ms",i->timing_valid?json_object_new_double((double)i->cache_capture_ns/1e6):NULL);
     json_object_object_add(t,"cache_restore_ms",i->timing_valid?json_object_new_double((double)i->cache_restore_ns/1e6):NULL);
+    json_object_object_add(t,"ssd_cached_tokens",json_object_new_int64(i->ssd_cached_tokens));
+    json_object_object_add(t,"ssd_read_ms",i->timing_valid?json_object_new_double((double)i->ssd_read_ns/1e6):NULL);
     json_object_object_add(t,"decode_tokens",json_object_new_int64(i->output_tokens));
     json_object_object_add(t,"prefill_calls",json_object_new_int64(i->prefill_calls));
     json_object_object_add(t,"decode_calls",json_object_new_int64(i->decode_calls));

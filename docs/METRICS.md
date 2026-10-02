@@ -185,7 +185,8 @@ wall interval, including the C inference dispatch and its flow bookkeeping.
 
 Core snapshots own `cache`: byte budget, retained and peak logical bytes,
 lookups, hits, misses, reused tokens, captures, evictions, skipped captures and
-entry count. `/actuator/llm` projects this object and reports `ssd_enabled:false`.
+entry count. `/actuator/llm` projects this object and reports the actual
+`ssd_enabled` flag, false by default, plus a separate `ssd` object.
 The budget covers the immutable descriptor/payload allocations, including the
 in-progress capture after pre-eviction; it excludes allocator/driver overhead,
 active sequences and model scratch. It is not total RSS or a memory-fit proof.
@@ -203,4 +204,22 @@ deduplication, eviction, allocation and completed capture. These are whole cache
 path durations, not isolated DMA bandwidth. Client total wall/TTFT includes them.
 Counters reflect actual core events, independent of HTTP. Capture/restore do not
 increment prefill/decode call counters; faults/cancellation can leave lookups
-without a successful hit or miss. No SSD timer or kernel-overlap gain is claimed.
+without a successful hit or miss. These timers do not establish kernel overlap.
+
+## Implemented optional SSD accounting
+
+`lie_core_info.ssd` and `/actuator/llm.cache.ssd` report quota, logical and
+allocated file bytes, entries, pending operation, staging cap/reservation and its
+peak, lookups, checksum-valid file hits, misses, durable writes, evictions,
+skipped writes, errors, cancelled reads and successful file bytes/read/write
+durations. Staging byte counters are **reservations**, not RSS/allocation peaks;
+reads reserve the cap and keep it through owner upload/result release. A file hit
+can still fail the provider geometry check and is distinct from actual reuse.
+
+Job `ssd_cached_tokens` is a subset of `cached_tokens`; `ssd_read_ns` (HTTP
+`ssd_read_ms`) is lookup/read/checksum time. GPU restore remains separately in
+`cache_restore_ns`, and no avoided PP is credited as executed PP throughput.
+Write completion may outlive its originating job, so write timing is store-wide.
+The bench emits `ssd_drained` after graceful shutdown and adds SSD columns to
+JSON/CSV. The precise [store contract](SSD-PREFIX.md) defines exclusions.
+Original-weight SSD performance is still unqualified.

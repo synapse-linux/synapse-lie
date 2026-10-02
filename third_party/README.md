@@ -22,6 +22,9 @@ Libraries are already installed system dependencies, not vendored/repackaged.
 Build receipts record compiler/pkg-config versions. A distributable package will
 need its normal dependency-license audit; this increment installs/publishes none.
 Python is a development/test helper, not an inference dependency.
+The new first-party C17 SSD codec/identity/store also uses installed OpenSSL
+Crypto SHA-256. No upstream snapshot codec or disk-cache code was imported;
+upstream source/archive pins are unchanged by this increment.
 
 ## Gufo source acquisition
 
