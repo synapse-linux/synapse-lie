@@ -18,14 +18,14 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'ple-cpu', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-prefetch', 'hc-prefetch2'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--rebuild-mmq', action='store_true',
                    help='Recompile all MMQ sources for bench2k; no prior archive reuse')
     args = p.parse_args()
-    if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple') and args.source_variant != 'qualified':
+    if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k') and args.source_variant != 'qualified':
         p.error('PLE diagnostics select their fixed instrumented Q2/UD source')
     if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k'):
         p.error('Full MMQ rebuild selection requires bench2k')
@@ -94,6 +94,10 @@ def main():
             source = '.deps/gufo-q2-bench-' + args.source_variant
         if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple'):
             source = '.deps/gufo-ple-' + ('ud' if args.mode == 'ud-ple' else 'q2')
+        if args.mode in ('ple-io-cpu', 'q2-ple-io', 'ud-ple-io'):
+            source = '.deps/gufo-ple-io-' + ('ud' if args.mode == 'ud-ple-io' else 'q2')
+        if args.mode in ('ple-cache-cpu', 'q2-ple-cache64k'):
+            source = '.deps/gufo-ple-cache64k'
         archive.add(ROOT / source, arcname='source')
     dest = REMOTE + args.label
     # Exclusive destination and data-only extraction. No model or foreign path.
@@ -111,7 +115,7 @@ def main():
     ])
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'rebuild_mmq': args.rebuild_mmq, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:

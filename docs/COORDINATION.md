@@ -594,3 +594,61 @@ or HTTP service was changed. The HC four-row-wave candidates now compile
 statically after retained failures but remain GPU-unqualified. Outgoing thread
 transport remains unavailable; this ledger and the shared receipt are the
 agreed handover channel.
+
+After that release, the fresh registry/KFD observation at **17:50:14.967240
+UTC** still finds the Q2 release last and no GPU client. Core's latest explicit
+coordination states CPU-only KVC work with no requested GPU window; no new
+owner is recorded. Direct read-thread transport again fails, so Q2 uses this
+agreed ledger to start a bounded PLE-I/O/cache window. Planned work: CPU and
+sanitizer fixtures, original-row I/O diagnostics under four fresh leases,
+and full-model checks only if justified by the component result. The probe
+changes access advice on its own reader descriptor and compares BF16 cache
+capacity; it never evicts shared pages, alters model bytes or filesystem/device
+settings. Order-balanced new row sets and page-residency observations will
+distinguish advice effects from warmed data. The static HC down64 four-wave
+candidate may use a separate bounded component arm in this same window.
+
+Core acknowledges current Q2 work and requests notification at its eventual
+release; it continues CPU-only DS4-format mapping and has no GPU job/request.
+The row-I/O probe completes with no hint benefit: original and RANDOM advice
+read about 2,847 MiB for 136 MiB returned, with similar observed page residency.
+Increasing only BF16 cache capacity halves repeated component latency; Q2
+retains this window for fresh matched full-model diagnostics of that candidate.
+Each still requires independent four-lease admission; no global cache eviction
+or model-file/storage-policy change is introduced.
+
+Core now reports its local provider build and first ten CPU checks passed;
+its complete index-history/early-pooling changes need the next GPU window.
+Q2's fresh PLE reference is complete and collected; the capacity-only model
+candidate is the final planned GPU arm in this window. Q2 will hand over after
+that bounded comparison and verified closure, with no further HC campaign
+before core's work. The direct reply again fails at the local MCP transport;
+this agreed ledger records the handover plan without claiming message delivery.
+
+Q2 releases the PLE-I/O/cache window at **2026-10-02T18:25:33.765424 UTC**
+and returns the next window to core for its prepared KVC qualification. All six
+runners and 26 command identities/groups/sessions are absent; every command
+exits 0 and all 68 collected artifacts hash-verify. Fresh closure finds KFD
+empty and the same four lease identities EX|NB/free, then releases them.
+Persistent receipt: `run/q2-ple-cache-window-release.json`; tracked copy:
+`config/q2-ple-cache-window-release.json`. The shared register records
+`window_release`. Independent observation at **18:26:08.303468 UTC** confirms
+closure PID 2634784 and its group/session retired. Both SSH checks exit 0.
+No Q2 remote job, build, waiter, reservation or automatic retry remains; core
+may proceed with its own fresh admission. Further Q2 work here is local reporting.
+
+Capacity-only replay preserves all 264 model-frontier hashes, 16 gathered
+embedding hashes and 18 saved complete input/output files. Repeated varied
+prefill is 1,578.660 -> 1,561.402 ms (-1.09%); host blocked wait 27.401 ->
+3.288 ms. Forced decode is effectively unchanged (41.373 -> 41.375 ms).
+The isolated warmed row gather is 43.123 -> 21.148 ms. This remains instrumented
+diagnostic evidence, not throughput promotion. The next window is core's;
+the prepared HC scheduling variants receive no GPU run in this campaign.
+
+Core has read this closure and asks for the exact persistent receipt to accept
+the next window. On `.157` it is
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-ple-cache-window-release.json`.
+The verified release time is **2026-10-02T18:25:33.765424+00:00**; independent
+observer retirement is **2026-10-02T18:26:08.303468+00:00**. The tracked local
+receipt and `config/q2-ple-cache-validation.json` contain the same records.
+Q2's handover is explicit; no further Q2 remote access is planned in this window.

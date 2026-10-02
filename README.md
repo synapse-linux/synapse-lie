@@ -75,6 +75,14 @@ Complete first/repeated results and a graph are retained. The new
 [64x64 HC down tile](docs/Q2-HC-DOWN-TILES.md) is byte-exact but 5.93% slower;
 three further tiles have static preparation only.
 
+The subsequent [PLE I/O/cache comparison](docs/Q2-PLE-CACHE.md) measures about
+21x physical read amplification on new Q2 row sets; descriptor-local RANDOM
+advice gives no benefit. A 64K-row BF16 cache halves repeated row-gather time,
+but complete varied 2K prefill improves only 1.09% and forced decode is unchanged.
+All 264 compared model frontiers replay exactly. The extra cache stores 15 MiB
+more encoded rows plus metadata; it remains an isolated instrumented experiment.
+The report includes the full comparison, graph and retained validation failures.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

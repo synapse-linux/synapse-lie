@@ -29,7 +29,7 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_not_called()
 
     def test_ple_source_is_fixed(self):
-        for mode in ('ple-cpu', 'q2-ple', 'ud-ple'):
+        for mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k'):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-moe-fused'],
                         'fixed instrumented Q2/UD source')
             self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')

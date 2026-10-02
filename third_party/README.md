@@ -106,3 +106,12 @@ bytes or quantization. Fixtures, analysis/plot tools and bounded storage observe
 are MIT. The storage observer uses the independently fetched official GGUF
 metadata helper; no CPU model execution or sibling project artifact is imported.
 Source identities, observations and limitations are in `docs/Q2-PLE-ANALYSIS.md`.
+
+`experiments/q2-ple-io-{q2,ud}.patch` extend those independently derived PLE
+diagnostics with descriptor-local access advice and a BF16 cache-budget control.
+`experiments/q2-ple-cache64k-{raw,diagnostic}.patch` isolate only the BF16 capacity
+change in the measured MoE/HC source and its instrumented equivalent. All four
+patches retain official Gufo provenance and notices; new fixtures, analysis,
+plotting and orchestration are first-party MIT. No model data is converted or
+copied, and no external engine, DS4 source or sibling artifact is imported.
+Source receipts and measured limitations are recorded in `docs/Q2-PLE-CACHE.md`.

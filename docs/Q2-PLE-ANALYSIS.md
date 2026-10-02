@@ -8,6 +8,13 @@ in a 1,355 ms prefill. Hashing the n-grams takes less than 0.08 ms. This is a
 real host row-I/O bottleneck in this observation, distinct from the remaining
 GPU kernel gap in repeated-padding benchmarks.
 
+The [follow-up I/O/cache experiment](Q2-PLE-CACHE.md) now measures approximately
+21x physical read amplification for new Q2 row sets and rejects descriptor-local
+RANDOM advice. Enlarging BF16 retention to 64K rows halves repeated row-gather
+latency, but improves complete repeated varied prefill only 1.09%; forced decode
+is unchanged and all compared outputs are exact. This narrows the next work to
+new-row storage/prefetch costs and the separate remaining GPU bottleneck.
+
 The previous C1 prompt mostly repeats `x `. It requests 32,768 rows but only
 664 distinct rows; the varied input requests 32,766 distinct rows. Consequently,
 the old warmup and repeated prompt do not characterize new-input PLE latency.

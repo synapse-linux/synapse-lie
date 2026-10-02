@@ -29,9 +29,10 @@ def now():
 
 def main():
     mode = sys.argv[1]
-    cpu_mode = mode in ('cpu', 'ple-cpu')
-    ple_mode = mode in ('q2-ple', 'ud-ple')
-    model_mode = ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
+    cpu_mode = mode in ('cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu')
+    io_mode = mode in ('q2-ple-io', 'ud-ple-io')
+    ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k')
+    model_mode = io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
     hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators')
     hc_target = 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
@@ -148,6 +149,8 @@ def main():
                 if any(actual[k]!=expected[k] for k in actual): raise RuntimeError('Model identity differs from inventory')
             result['model_hash_scope']='Stat inventory; no full payload rehash'
             result['resource_scope']='Quantized AR weights only; PLE read through upstream bounded row cache; MTP disabled; context 9216/chunk 2048'
+            if io_mode:
+                result['resource_scope']='Original PLE rows only; no model upload or forward; descriptor-local advice and bounded BF16 cache capacity; no cache eviction or file mutation'
             save()
         env = {k:v for k,v in os.environ.items() if not k.startswith(('GUFO_','DS4_','HIP_','ROCR_','HSA_','CUDA_')) and k not in ('LD_PRELOAD','LD_LIBRARY_PATH')}
         env.update(LC_ALL='C',HIP_VISIBLE_DEVICES='-1',ROCR_VISIBLE_DEVICES='-1',
@@ -174,20 +177,30 @@ def main():
                                      reference_binary_sha256=receipt['binary_sha256_after'])
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
-        profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('hip',False)]
+        profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
             run(['cmake','-S',str(ROOT),'-B',str(build),'-G','Ninja',
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
-                 '-DQ2_HIP='+('OFF' if cpu_mode else 'ON'),
+                 '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
                  '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode else '2']
-            if not cpu_mode:build_args+=['--target','q2_ple' if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
+            if not cpu_mode:build_args+=['--target','q2_ple_io' if io_mode else 'q2_ple' if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
             run(build_args,env)
             if cpu_mode:run(['ctest','--test-dir',str(build),'--output-on-failure'],env)
+            elif io_mode:
+                binary=build/'q2_ple_io'
+                result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                result['model_access']=True
+                save()
+                try:
+                    run([str(binary),model_paths[0]],env,600)
+                finally:
+                    result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                    if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
             elif mode in ('operators','operators-reference'):
                 gpu_env=dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0')
                 run([str(build/'cmake/hip/q2_operators')],gpu_env,120)
@@ -225,6 +238,7 @@ def main():
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
+        if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'
         if mode in ('hc-bench','hc-pp-bench','hc-up-bench','hc-moe-bench','hc-norm-bench'): result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)

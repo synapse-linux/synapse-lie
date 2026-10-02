@@ -21,6 +21,31 @@ losses remain explicit; this is not a formal zero-margin no-regression pass.
 Q2/UD physical prompts and generated trajectories match across these samples.
 No independent full-model Q2 teacher or general model-quality score is claimed.
 
+## PLE I/O and cache capacity — 2026-10-02
+
+The [bounded I/O comparison](Q2-PLE-CACHE.md) measures about 2,847 MiB physical
+reads for 136 MiB returned on first-position Q2 row sets, versus about 131/131
+MiB for UD. Page residency is recorded and policies are order-balanced; no
+shared cache is evicted. Descriptor-local RANDOM advice does not help and is
+rejected. The compression hypothesis now has measured read amplification,
+but a controlled compressed/uncompressed comparison remains unperformed.
+
+Increasing BF16 capacity from 16K/5 MiB to 64K/20 MiB halves repeated row-gather
+latency, 43.123 -> 21.148 ms. Complete varied 2K prefill changes only
+1,578.660 -> 1,561.402 ms (-1.09%), despite host blocked wait dropping from
+27.401 to 3.288 ms. Forced decode is unchanged. All 264 compared model-frontier
+hashes, 16 gather hashes and 18 saved complete files replay exactly. These are
+instrumented diagnostics against the experimental baseline, not a runtime
+promotion, independent quality teacher or solution to the warm GPU deficit.
+
+I/O fixtures pass 12/12 Debug and 12/12 ASan/UBSan on `.157`; the fixed-capacity
+source passes 11/11 each. Source reconstruction, changed-file formatting and
+syntax pass. Full-tree formatting exits 1 on two unchanged upstream test files
+in both bases and candidates; the actual failures remain recorded. All six
+remote arms complete with 26 command exits 0 and 68 artifacts verified. The
+window returns to core at 18:25:33 UTC; fresh KFD/lease closure and independent
+observer retirement at 18:26:08 pass. No Q2 job, waiter or retry remains.
+
 ## N-gram/PLE diagnosis and HC down probes — 2026-10-02
 
 [Direct PLE counters](Q2-PLE-ANALYSIS.md) isolate a first-access host I/O

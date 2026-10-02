@@ -1,0 +1,62 @@
+[
+  {
+    "arm": "q2",
+    "kind": "syntax",
+    "argv": [
+      "g++",
+      "-std=c++20",
+      "-fsyntax-only",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-io-q2",
+      "tests/q2_ple_io.cpp"
+    ],
+    "exit_code": 0,
+    "log": "evidence/q2-ple-io-q2-syntax-r1.log"
+  },
+  {
+    "arm": "q2",
+    "kind": "format",
+    "argv": [
+      "python3",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-io-q2/tools/ci/check-format.py"
+    ],
+    "exit_code": 0,
+    "log": "evidence/q2-ple-io-q2-format-r1.log"
+  },
+  {
+    "arm": "q2",
+    "kind": "reconstruct",
+    "exit_code": 0,
+    "files": 1021,
+    "same": true
+  },
+  {
+    "arm": "ud",
+    "kind": "syntax",
+    "argv": [
+      "g++",
+      "-std=c++20",
+      "-fsyntax-only",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-io-ud",
+      "tests/q2_ple_io.cpp"
+    ],
+    "exit_code": 0,
+    "log": "evidence/q2-ple-io-ud-syntax-r1.log"
+  },
+  {
+    "arm": "ud",
+    "kind": "format",
+    "argv": [
+      "python3",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-io-ud/tools/ci/check-format.py"
+    ],
+    "exit_code": 0,
+    "log": "evidence/q2-ple-io-ud-format-r1.log"
+  },
+  {
+    "arm": "ud",
+    "kind": "reconstruct",
+    "exit_code": 0,
+    "files": 1021,
+    "same": true
+  }
+]
