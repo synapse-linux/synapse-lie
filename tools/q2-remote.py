@@ -18,7 +18,7 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     args = p.parse_args()
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
@@ -35,14 +35,14 @@ def main():
         if rc: raise SystemExit(rc)
         with tarfile.open(archive_path) as a:
             members=a.getmembers()
-            if sum(m.size for m in members)>64000000: raise ValueError('Oversized collection')
+            if sum(m.size for m in members)>128000000: raise ValueError('Oversized collection')
             for m in members:
                 pth=Path(m.name)
                 if pth.is_absolute() or '..' in pth.parts or not (m.isdir() or m.isfile()): raise ValueError('Unsafe collection')
             a.extractall(out,filter='data')
         receipt=json.loads((out/'results/result.json').read_text())
         for name,meta in receipt.get('artifacts',{}).items():
-            if Path(name).name!=name: raise ValueError('Unsafe artifact name')
+            if Path(name).is_absolute() or '..' in Path(name).parts: raise ValueError('Unsafe artifact name')
             payload=(out/'results'/name).read_bytes()
             if len(payload)!=meta['bytes'] or hashlib.sha256(payload).hexdigest()!=meta['sha256']:
                 raise ValueError('Artifact integrity mismatch')
@@ -55,7 +55,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/analyze-q2-profile.py']:
             archive.add(ROOT / name, arcname=name)
         archive.add(ROOT / ('.deps/gufo-base' if args.mode == 'ud-base' else '.deps/gufo-q2'), arcname='source')
     dest = REMOTE + args.label

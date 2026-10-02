@@ -22,6 +22,7 @@ namespace q = gufo::models::qwen38_flash_next;
 namespace tok = gufo::tokenization;
 using Clock = std::chrono::steady_clock;
 using Exec = q::rocm::Executor;
+void Q2ProfileMarker(int phase);
 
 static void Require(bool good, const std::string &why) {
   if (!good)
@@ -96,9 +97,11 @@ SizedPrompt(const tok::QwenTokenizer &tokenizer, std::size_t target) {
 
 int main(int argc, char **argv) {
   try {
-    Require(argc == 3, "Usage: q2_model MODEL smoke|bench");
+    Require(argc == 3, "Usage: q2_model MODEL smoke|bench|profile");
     const bool bench = std::string(argv[2]) == "bench";
-    Require(bench || std::string(argv[2]) == "smoke", "Unsupported profile");
+    const bool profile = std::string(argv[2]) == "profile";
+    Require(bench || profile || std::string(argv[2]) == "smoke",
+            "Unsupported profile");
     std::cout << std::unitbuf << std::setprecision(10);
     std::string error;
     const auto load_start = Clock::now();
@@ -136,6 +139,9 @@ int main(int argc, char **argv) {
       auto session = executor->CreateSession(
           gufo::core::SessionMode::kAutoregressive, 9216, &error);
       Require(bool(session), error);
+      const bool trace = profile && label == "profile2048";
+      if (trace)
+        Q2ProfileMarker(0);
       const auto start = Clock::now();
       for (std::size_t offset = 0; offset < input.size();
            offset += options.max_batch) {
@@ -147,6 +153,8 @@ int main(int argc, char **argv) {
                 error);
       }
       const double pp = Seconds(start);
+      if (trace)
+        Q2ProfileMarker(1);
       const auto prefix = label + "-" + std::to_string(rep);
       Save<float>(prefix + "-prefill.f32", logits);
       auto next = Argmax(logits);
@@ -154,6 +162,8 @@ int main(int argc, char **argv) {
       bool eos = false;
       double tg = 0;
       int steps = 0;
+      if (trace)
+        Q2ProfileMarker(2);
       while (int(output.size()) < limit) {
         if (tokenizer->IsStopToken(next)) {
           eos = true;
@@ -172,6 +182,8 @@ int main(int argc, char **argv) {
         tg += Seconds(step);
         ++steps;
       }
+      if (trace)
+        Q2ProfileMarker(3);
       Save<float>(prefix + "-last.f32", logits);
       Save<std::uint32_t>(prefix + "-output.u32", output);
       const auto text = tokenizer->Decode(output);
@@ -208,7 +220,12 @@ int main(int argc, char **argv) {
                                 [](unsigned char x) { return x <= 32; }),
                  answer.end());
     Require(answer == "1,2,3,4,5", "Counting smoke returned unexpected output");
-    if (bench) {
+    if (profile) {
+      const auto input = SizedPrompt(*tokenizer, 2048);
+      Save<std::int32_t>("profile2048-input.i32", input);
+      sample("warm2048", input, 0, 16);
+      sample("profile2048", input, 0, 16);
+    } else if (bench) {
       std::vector<std::vector<std::int32_t>> inputs;
       for (std::size_t size : {512, 2048, 8192}) {
         const auto input = SizedPrompt(*tokenizer, size);

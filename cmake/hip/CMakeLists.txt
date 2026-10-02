@@ -49,5 +49,5 @@ target_sources(q2_host PRIVATE ${MODEL_SUPPORT})
 target_include_directories(q2_host SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_host PUBLIC ICU::uc ICU::i18n OpenSSL::Crypto
   PNG::PNG JPEG::JPEG CURL::libcurl roc::rocblas roc::hipblas roc::hipblaslt)
-add_executable(q2_model ../../tests/q2_model.cpp)
+add_executable(q2_model ../../tests/q2_model.cpp ../../tests/q2_profile_markers.hip)
 target_link_libraries(q2_model PRIVATE gufo_qwen38_flash_next)

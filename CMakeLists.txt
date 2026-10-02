@@ -17,6 +17,12 @@ if(Q2_SANITIZERS)
   add_link_options(-fsanitize=address,undefined)
 endif()
 enable_testing()
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_test(NAME q2_process COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_process_test.py)
+set_tests_properties(q2_process PROPERTIES TIMEOUT 30)
+add_test(NAME q2_profile COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_profile_test.py)
 add_library(q2_host STATIC
   ${GUFO_SOURCE}/src/core/gguf_reader.cpp
   ${GUFO_SOURCE}/src/core/quant/ggml_dequant.cpp

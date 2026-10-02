@@ -7,10 +7,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import signal
-import subprocess
+import shutil
 import sys
-import time
+
+from q2_process import supervise
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCKS = [
@@ -27,7 +27,7 @@ def now():
 
 def main():
     mode = sys.argv[1]
-    model_mode = mode in ('q2-smoke','q2-bench','ud-base','ud-patched')
+    model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-base','ud-patched')
     if mode not in ('cpu', 'hip-build', 'operators') and not model_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -84,33 +84,12 @@ def main():
         row = {'argv': argv, 'started_at': now()}; result['commands'].append(row); save()
         logfile = results/f'{len(result["commands"]):02}.log'
         with logfile.open('wb') as log:
-            child = subprocess.Popen(argv,cwd=ROOT,env=env,stdout=log,
-                                     stderr=subprocess.STDOUT,start_new_session=True)
-            row['pid'] = child.pid
-            row['start_ticks']=Path('/proc',str(child.pid),'stat').read_text().split(') ',1)[1].split()[19]
-            save()
             try:
-                deadline=time.monotonic()+limit
-                next_observation=0
-                while child.poll() is None:
-                    if time.monotonic()>deadline:
-                        row['timeout']=True;raise RuntimeError('Owned command timed out')
-                    if mode!='cpu':
-                        foreign=[pid for pid in clients() if pid!=child.pid]
-                        if foreign:
-                            row['foreign_kfd']=foreign;raise RuntimeError('Foreign KFD client during run')
-                        if time.monotonic()>=next_observation:
-                            observation(child.pid);next_observation=time.monotonic()+2
-                    time.sleep(0.5)
-                row['exit_code'] = child.returncode
+                supervise(argv,cwd=ROOT,env=env,log=log,row=row,timeout=limit,save=save,
+                          clients=clients if mode!='cpu' else lambda: (),
+                          observe=observation if mode!='cpu' else lambda pid: None)
             finally:
-                if child.poll() is None:
-                    os.killpg(child.pid,signal.SIGTERM)
-                    try: child.wait(timeout=10)
-                    except subprocess.TimeoutExpired:
-                        os.killpg(child.pid,signal.SIGKILL);child.wait()
-                row['exit_code']=child.returncode
-                save()
+                row['finished_at']=now();save()
         row['finished_at'] = now(); save()
         print(json.dumps(row),flush=True)
         print(logfile.read_text(),flush=True)
@@ -140,6 +119,11 @@ def main():
                 raise RuntimeError('Foreign model handle before build/launch')
             register('start');registered=True
         if model_mode:
+            if mode=='q2-profile':
+                profiler=shutil.which('rocprofv3')
+                if profiler is None and Path('/opt/rocm/bin/rocprofv3').is_file(): profiler='/opt/rocm/bin/rocprofv3'
+                if profiler is None: raise RuntimeError('Installed rocprofv3 unavailable; no dependency installation attempted')
+                result['profiler']=profiler
             inventory=json.loads((ROOT/'config/models-157.inventory.json').read_text())['files']
             if mode.startswith('q2-'):
                 selected=[f for f in inventory if f['path'].endswith('/Qwen3.8-Flash-Next-Q2.gguf')]
@@ -177,12 +161,20 @@ def main():
                 run(['ldd',str(binary)],env,30)
                 result['model_access']=True
                 save()
-                run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
-                    dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                if mode=='q2-profile':
+                    run([profiler,'--kernel-trace','-d',str(results/'profile'),'-o','q2','--',
+                         str(binary),model_paths[0],'profile'],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                    run(['python3',str(ROOT/'source/tools/prof/prof.py'),'show',str(results/'profile/q2_results.db'),'--json'],env,120)
+                    run(['python3',str(ROOT/'tools/analyze-q2-profile.py'),str(results/'profile/q2_results.db'),
+                         str(results/'profile-phases.json')],env,120)
+                else:
+                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
+                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                 result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
+        if mode=='q2-profile': result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:
@@ -195,7 +187,7 @@ def main():
                 result['postflight_observers']=device_observers()
                 result['postflight_locks']=[{'path':name,'device':os.stat(name).st_dev,'inode':os.stat(name).st_ino} for name in LOCKS[:len(held)]]
                 if result['postflight_locks']!=result['locks']: raise RuntimeError('Lease identity changed after run')
-            result['artifacts']={p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in results.iterdir() if p.is_file() and p.name!='result.json'}
+            result['artifacts']={str(p.relative_to(results)):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in results.rglob('*') if p.is_file() and p.name!='result.json'}
         except Exception as ex:
             result['state']='FAILED';result['postflight_error']=repr(ex)
         finally:

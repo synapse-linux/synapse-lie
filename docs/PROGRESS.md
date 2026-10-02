@@ -58,8 +58,10 @@ or its F16 intermediate/epilogue fusion. This is a dispatch fact, not measured
 attribution of the entire gap. Quantify routed math, gathers, quantization and
 synchronization before choosing a packing/layout or WMMA extension.
 
-`experiments/q2-profile.patch` preserves a 2K/16-output profiling preparation;
-it is unapplied and unqualified. Test its owned-session process handling on
-`.157` before a newly coordinated GPU trace. Current core/GPU work is not to be
-interrupted. No performance fix, cache enlargement, model conversion, deployment,
-merge or publication is claimed.
+`experiments/q2-profile.patch` preserves the original 2K/16-output profiling
+proposal. The working tree now adds bounded profiler supervision, process and
+accounting fixtures, and GPU phase markers after a shape warmup. This update
+is not yet runtime-tested. Validate the fixtures on `.157` before a newly
+coordinated GPU trace. Current core/GPU work is not to be interrupted. No
+performance fix, cache enlargement, model conversion, deployment, merge or
+publication is claimed.
