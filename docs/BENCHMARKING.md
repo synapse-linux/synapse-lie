@@ -25,10 +25,10 @@ HTTP benchmarking, distinct from client wall/first-output measurements.
 
 Full fresh **prefill and decode** are explicitly required for the actual antirez
 Q2/Q4 files. The [format-specific gate](ANTIREZ-BENCHMARKS.md) records their real
-layouts and historical reader/binder/PP/TG investigation. The Q2 port is now
-withdrawn; [the replacement plan](REPLAN.md) requires a working native Q2 reference
-before another implementation. Current priority is native server tools with Unsloth,
-not resuming the archived port.
+layouts and historical reader/binder/PP/TG investigation. The earlier Q2 port on this branch was
+withdrawn; [the historical replacement plan](REPLAN.md) requires a working native
+Q2 reference before another implementation. Later work on the separate
+`feature/antirez-compat-audit` branch is not integrated evidence here.
 The existing C17 executor harness measures both PP and TG, but cannot benchmark
 an unsupported model; a separate HTTP lane must exercise the updated worker.
 No UD-Q4_K_XL row, filename-only quantization label or historical DS4 result can
@@ -79,8 +79,10 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
   ownership, cancellation and invalidation. The shared C17 cache now restores
   matching hybrid prefixes across requests. The earlier cache-off conversation
   measurements still describe full recomputation; they are not cached timings.
-- Native concurrency, MTP and longer contexts require implementation and numerical/
-  lifecycle/capacity qualification before their rows can be filled. The measured
+- Native AR concurrency has direct GPU evidence. MTP and contexts beyond native
+  256K require implementation and numerical/lifecycle/capacity qualification
+  before their rows can be filled; the exact HTTP concurrency protocol also
+  remains a distinct benchmark gate. The measured
   direct AR scope is in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md);
   HTTP near-256K capacity and Pi tools have their own [receipt](HTTP-256K-PI.md); MTP remains absent. Unsupported, not-run and failed remain
   distinct from measured zero.

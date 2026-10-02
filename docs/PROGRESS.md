@@ -1,5 +1,19 @@
 # Isolated OpenAI reactive API increment
 
+## Owner requested transient-temperature observation — 2026-10-02
+
+R2 closes with five successful SSD state arms and a software thermal stop at
+GPU99 C on the 128K reader. R3 stops its first 8K core arm at GPU98 C; neither
+is a hardware crash, and its chunk512 alternative never launches. The owner
+clarified the dynamic-fan behavior and explicitly requested recording transient
+peaks and any performance deterioration/shutdown. An opt-in supervisor policy
+now observes CPU/GPU temperatures without the earlier software ceiling, retains
+reported hardware bounds and SSD guards, and leaves hardware settings untouched.
+Both focused CTest suites pass (15 core-bench and 2 thermal checks), all exits0,
+with ASan/UBSan fixture binaries. [Receipt](benchmarks/2026-10-02/ssd-qualification/thermal-observation.json).
+The resumed R4 protocol uses the original chunk2048 and a 1 Hz observer that
+persists received samples on the editing host. No R4 result is claimed yet.
+
 ## Documentation navigation and benchmark scope — 2026-10-02
 
 Added a documentation index and benchmark navigation by model, platform and

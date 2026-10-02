@@ -56,6 +56,17 @@ on `.157` under fresh ownership/leases. This is not GPU-run or heavyweight model
 hash authorization on the editing host. The Q2 thread owns the next `.157` window
 while this thread implements and CPU-tests the C17 SSD store locally.
 
+## Active SSD continuation — 2026-10-02
+
+Q2 explicitly reserved the next window after its two expert-kernel model arms.
+Its persistent `run/q2-expert-stack-window-release.json` records closure at
+08:33:20.974 UTC: five runners retired, no live owned commands, KFD empty and
+four expected leases verified free. A fresh read-only observation at 08:38:43
+also found KFD empty, CPU48.125/GPU46 C. The core accepted this handover and
+staged SSD R2 at 08:39 UTC with 14 remaining arms and explicit 98 C CPU/GPU,
+85 C or lower NVMe guards. Every arm still performs fresh four-lease admission.
+The earlier prepared capsule/manifest are preserved before the handover update.
+
 ## Latest completed window — first SSD restart
 
 `ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.

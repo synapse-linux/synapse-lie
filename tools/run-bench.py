@@ -38,31 +38,34 @@ def read_power_settings(paths):
 REPORT = runpy.run_path(str(Path(__file__).with_name("bench-report.py")))
 
 
-def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/cpuinfo')):
+def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/cpuinfo'), observe_cpu_gpu=False):
     if type(ceiling) not in (int,float) or not math.isfinite(ceiling) or not 30<=ceiling<=98:
         raise ValueError('invalid thermal ceiling')
-    if ceiling>85 and 'ryzen ai max+ 395' not in cpuinfo.read_text().lower():
+    if type(observe_cpu_gpu) is not bool:
+        raise ValueError('invalid thermal observation policy')
+    if (ceiling>85 or observe_cpu_gpu) and 'ryzen ai max+ 395' not in cpuinfo.read_text().lower():
         raise ValueError('raised thermal ceiling requires the qualified Strix Halo 395 host')
     rows=[]
     for device in sorted(root.glob('hwmon*')):
         name=(device/'name').read_text().strip()
         if name not in ('k10temp','coretemp','amdgpu','nvme'):continue
         for path in sorted(device.glob('temp*_input')):
-            limit=min(ceiling,85) if name=='nvme' else ceiling
+            limit=min(ceiling,85) if name=='nvme' else None if observe_cpu_gpu else ceiling
             for suffix in ('max','crit'):
                 bound=path.with_name(path.name[:-6]+'_'+suffix)
                 if bound.exists():
                     value=int(bound.read_text())/1000
-                    if 30<=value<=150:limit=min(limit,value)
+                    if 30<=value<=150:limit=value if limit is None else min(limit,value)
             value=int(path.read_text())/1000
             if not -40<=value<=150:raise ValueError('invalid temperature sensor')
-            rows.append({'name':name,'path':str(path),'value_c':value,'limit_c':limit})
+            rows.append({'name':name,'path':str(path),'value_c':value,'limit_c':limit,
+                         'policy':'hardware-bounds-only' if observe_cpu_gpu and name!='nvme' else 'operating-ceiling'})
     if not any(r['name'] in ('k10temp','coretemp') for r in rows):raise ValueError('CPU temperature unavailable')
     return rows
 
 
 def require_cool(rows):
-    if any(r['value_c']>=r['limit_c'] for r in rows):raise RuntimeError('thermal limit')
+    if any(r['limit_c'] is not None and r['value_c']>=r['limit_c'] for r in rows):raise RuntimeError('thermal limit')
 
 
 def private_directory(path):
@@ -278,7 +281,7 @@ def main():
         return p.stdout
 
     def check_thermal():
-        rows=temperatures(ceiling=m.get('thermal_limit_c',85))
+        rows=temperatures(ceiling=m.get('thermal_limit_c',85),observe_cpu_gpu=m.get('thermal_observe_cpu_gpu',False))
         r['last_temperatures']=rows
         require_cool(rows)
         return rows
@@ -368,12 +371,12 @@ def main():
                 kfd = H['kfd']()
                 drm, denied = H['dri_clients']()
                 foreign = (kfd - {child.pid}) | (drm - baseline_dri - {child.pid})
-                thermal=temperatures(ceiling=m.get('thermal_limit_c',85));r['last_temperatures']=thermal
+                thermal=temperatures(ceiling=m.get('thermal_limit_c',85),observe_cpu_gpu=m.get('thermal_observe_cpu_gpu',False));r['last_temperatures']=thermal
                 log.write(json.dumps({'at': now(), 'memory': H['memory'](), 'gpu': H['gpu'](),
                                       'kfd': sorted(kfd), 'dri': sorted(drm), 'dri_permission_denied': denied,
                                       'temperatures':thermal,'process': H['process_status'](child.pid)}) + '\n')
                 log.flush()
-                if any(t['value_c']>=t['limit_c'] for t in thermal):
+                if any(t['limit_c'] is not None and t['value_c']>=t['limit_c'] for t in thermal):
                     r['thermal_stop']=True
                     raise RuntimeError('thermal limit; retiring owned child')
                 if foreign:

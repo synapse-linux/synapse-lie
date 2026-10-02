@@ -229,11 +229,11 @@ neither architectural separation nor a language change guarantees a speedup.
    qualified kernels through the C numerical boundary until their replacement
    separately passes the complete C++-removal gate.
 
-The first feature deliverable after core extraction is **RAM prefix reuse through
-the same core in direct benchmark and HTTP**, with measured avoided prefill,
-followed by optional SSD restore. A two-turn 100K HTTP experiment
-currently re-prefills the whole history and takes 69.76/71.79s, making this a
-concrete observed limitation; it does not predict the cached result.
+The first feature deliverable after core extraction, **RAM prefix reuse through
+the same core in direct benchmark and HTTP**, is implemented and GPU-qualified.
+Optional SSD restore follows its separate qualification protocol. The historical
+two-turn 100K HTTP experiment re-prefilled the whole history and took
+69.76/71.79s; it does not measure the later cached path.
 See [full timings](FULL-PREFILL-HTTP-RESULT.md), [state contract](STATE.md),
 [future execution contracts](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
 and the [remaining qualification matrix](TEST-COVERAGE-LONG-CONTEXT.md).
@@ -276,9 +276,11 @@ licenses, pins and per-component source/hash/change records for numerical ports.
 No weight conversion, dependency installation or operational deployment is
 implied by permission to use an embedded adapter.
 
-## Q2 experiment withdrawn
+## Earlier Q2 experiment withdrawn
 
-The owner canceled the Q2 extension. Active code/build/tests are restored to
+This section records the earlier rollback on this branch. Later work in
+`feature/antirez-compat-audit` is separate and does not inherit its qualification.
+The owner canceled the earlier Q2 extension. Active code/build/tests are restored to
 `4307486`; historical reports and evidence remain archived. Gufo is not assumed
 to be the basis of another Q2 attempt. The [replacement plan](REPLAN.md) requires
 a working native Q2 reference and an early matched comparison before more porting.

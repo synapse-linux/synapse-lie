@@ -17,6 +17,62 @@ checks verify the explicit override, lower hardware limits, SSD separation and
 refusal on unrelated hosts. Q2 currently owns `.157`; preparation is local and
 launch waits for its explicit handover plus fresh four-lease admission.
 
+## Owner requested thermal observation — R4, 2026-10-02
+
+After R2/R3 software stops, the owner clarified that dynamic fans handle brief
+high-temperature peaks and requested recording temperatures when performance
+falls, errors occur or the machine shuts down. R4 explicitly sets
+`thermal_observe_cpu_gpu:true` on the verified Strix Halo 395 host. This removes
+only the assistant-selected CPU/GPU operating ceiling for this campaign;
+reported sensor max/critical bounds still apply, as do the SSD 85 C or lower
+bounds, lease/resource/identity checks and deadlines. Default helper policy is
+unchanged. No fan, clock, power, firmware or hardware protection setting changes.
+
+A read-only observation at 09:01:56 UTC found only GPU `edge` and CPU `Tctl`
+inputs, without max/critical files for those sensors. Under this explicit mode
+their software limit is therefore null; this is not a claim of an unlimited safe
+temperature or proof of firmware behavior. NVMe reports a composite max82.85 C
+and crit84.85 C, and retains its stricter composite guard. Raw readings and any
+software/hardware errors remain evidence, not an invented crash diagnosis.
+
+R4 uses the original chunk2048 profile: a new 128K state producer/reader, then
+core off/RAM/SSD producer/reader at 8K and 128K. The attempted R3 chunk512 profile
+never ran because its first 8K core control stopped at GPU98 C. R1/R2/R3 failures
+remain unchanged. The same numerical executable is reused; only supervision and
+its synthetic tests change. New helper policy passes the 15 core-bench contract
+checks plus both thermal-owned-process tests against the existing ASan build.
+
+A separate read-only 1 Hz observer records temperatures, exposed fan RPM, CPU/GPU
+clock readings, GPU load and completed benchmark events. Each received sample
+is flushed and fsynced on the editing host, preserving the last received reading
+if the target loses power. Missing fan/clock fields remain unavailable. SSH loss
+alone does not prove shutdown, and the exact failure temperature can fall between
+samples. Short peaks, sustained high readings and throughput changes are reported
+separately; no clock cap or deliberate pacing is introduced into the experiment.
+
+## R2 closure and declared R3 profiles — 2026-10-02
+
+R2 passed 8K write/read, 4K-to-8K write/read and 128K write. Its 128K reader
+stopped at GPU99 C under the explicit 98 C ceiling before completing a pair.
+At 08:51:50.704 UTC all twelve owned identities retired, KFD was empty and the
+four unchanged leases were free. All 67 collected files verify by SHA-256.
+The failed chunk-2048 reader and eight unrun core arms remain in that campaign.
+
+R3 first runs the four previously unrun 8K core off/RAM/SSD producer/reader
+arms unchanged. It then declares a separate 128K profile with **chunk 512**:
+state producer/reader followed by core off/RAM/SSD producer/reader. Context,
+physical input, output budgets, repetitions, executable, stores/budgets and
+98 C CPU/GPU and lower NVMe guards otherwise retain the declared rules below.
+Each comparison is within one chunk configuration. No deliberate pause is
+inserted into any timed interval and no hardware setting changes.
+
+Smaller chunks are an existing executor option; whether they avoid the thermal
+stop is an experimental question, not an assumed outcome. A successful chunk-512
+profile does not close the failed original chunk-2048 128K protocol or establish
+performance parity with chunk 2048. Stop at the first failed arm, preserve its
+exit and perform closure. Root retains the next coordinated window for this
+bounded continuation, with fresh four-lease admission per arm.
+
 ## Original R1 declaration (retained)
 
 This campaign follows the user's roadmap/SSD implementation and `go next`.
