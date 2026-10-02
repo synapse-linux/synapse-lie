@@ -37,6 +37,7 @@ THERMAL_OVERRIDE_QUOTE = ('la gpu arriva a 100 gradi senza problemi ed è import
                           'testare la sua capacità, non limitarsi a 85*')
 
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def kfd_group(): return Path('/dev/kfd').stat().st_gid
 def sha(path):
     with Path(path).open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
@@ -238,7 +239,7 @@ class Campaign:
         for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()
         argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
                 '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',
-                '--group-add', str(Path('/dev/kfd').stat().st_gid), '--pids-limit', '512',
+                '--group-add', str(kfd_group()), '--pids-limit', '512',
                 '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',
                 '--label', 'synapse-lie.run='+str(self.root),
                 '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',
@@ -247,6 +248,11 @@ class Campaign:
                 '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',
                 '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',
                 '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']
+        relaxed_seccomp = self.m.get('rocm10_seccomp_unconfined', False)
+        if type(relaxed_seccomp) is not bool or (relaxed_seccomp and rocm is not None):
+            raise ValueError('Seccomp override is explicit and ROCm 10 only')
+        if relaxed_seccomp:
+            argv += ['--security-opt', 'seccomp=unconfined']
         if rocm: argv += ['--mount', 'type=bind,src='+rocm+',dst=/opt/rocm,readonly']
         if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']
         argv += ['--entrypoint', command[0], image, *command[1:]]

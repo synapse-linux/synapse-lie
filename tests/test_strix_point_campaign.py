@@ -207,5 +207,25 @@ class Tests(unittest.TestCase):
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
         self.assertEqual(c.r['build_result']['exit_code'], 0)
+    def test_seccomp_override_requires_explicit_rocm10_manifest(self):
+        c = self.campaign()
+        bundle = self.base/'bundle'; bundle.mkdir()
+        (bundle/'probe').write_bytes(b'fixture')
+        c.m.update(artifacts={'probe': point.sha(bundle/'probe')},
+                   rocm10_seccomp_unconfined=True)
+        with patch.object(point, 'kfd_group', return_value=1000), \
+             patch.object(c, 'image_and_rocm', return_value=(point.IMAGE, point.ROCM)):
+            with self.assertRaisesRegex(ValueError, 'ROCm 10 only'):
+                c.run_container(['/probe'], bundle, 1)
+        c = self.campaign('rocm10')
+        c.m.update(artifacts={'probe': point.sha(bundle/'probe')},
+                   rocm10_seccomp_unconfined=True, stack='rocm10-fedora43')
+        with patch.object(point, 'kfd_group', return_value=1000), \
+             patch.object(c, 'image_and_rocm', return_value=('sha256:'+'a'*64, None)), \
+             patch.object(c, 'execute_container') as execute:
+            c.run_container(['/probe'], bundle, 1)
+        argv = execute.call_args.args[0]
+        self.assertIn('seccomp=unconfined', argv)
+        self.assertNotIn('dst=/opt/rocm,readonly', argv)
 
 if __name__ == '__main__': unittest.main()
