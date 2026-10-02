@@ -2,6 +2,18 @@
 
 ## Additional target .161 — Strix Point fork
 
+The operator explicitly raised the .161 benchmark ceiling from the prior
+conservative 85 C to 100 C to test full capacity. The earlier stop was the CPU
+Tctl sensor, not the GPU edge sensor. The target identifies as Ryzen AI 9 HX 370;
+[AMD specifies 100 C Tjmax](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).
+The new 100 C ceiling requires an exact operator-quote field in a fresh campaign
+manifest; older runs retain 85 C. Each sensor still uses any lower readable
+sysfs max/critical value; both NVMe composite sensors publish max 89.85 C.
+The one-second observer, private lease, foreign-client checks, owned stop and
+service restoration remain active. No clock, fan or power tuning is authorized.
+The full-depth retry must be a new one-shot run with fresh admission, not a
+reinterpretation of the prior failed campaign.
+
 The 2026-10-02 direct-benchmark follow-up uses only .161, not .157/.158.
 The first eight-depth `single` window ended FAILED at CPU85 C during the 8K
 warmup, with no OOM. It preserved its partial JSONL, 114 thermal observations,

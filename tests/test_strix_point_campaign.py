@@ -13,7 +13,7 @@ spec = importlib.util.spec_from_file_location('point', Path(__file__).resolve().
 point = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(point)
 
-def observation():
+def observation(*_args):
     return {'at': 'fixture', 'kfd': [], 'dri': [], 'kernel_kfd': [], 'denied_fd': 0,
             'memory': {}, 'temperatures': [{'name': 'k10temp', 'value_c': 35, 'limit_c': 85}]}
 
@@ -83,6 +83,21 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'Thermal'): c.sample()
         c.interrupted = 15
         with self.assertRaisesRegex(RuntimeError, 'Interrupted'): c.sample()
+    def test_100c_ceiling_requires_exact_operator_override(self):
+        root = self.base/'thermal'; root.mkdir()
+        (root/'manifest.json').write_text('{}')
+        manifest = {'authorization': 'fixture', 'thermal_ceiling_c': 100}
+        with self.assertRaisesRegex(ValueError, 'operator 100 C'):
+            Fixture(root, manifest)
+        manifest['thermal_override_quote'] = point.THERMAL_OVERRIDE_QUOTE
+        c = Fixture(root, manifest)
+        self.assertEqual(c.thermal_ceiling_c, 100)
+        with patch.object(point, 'observe', return_value=observation()) as read:
+            c.sample()
+            read.assert_called_once_with(100.0)
+        manifest['thermal_ceiling_c'] = 101
+        with self.assertRaisesRegex(ValueError, 'Unsupported thermal ceiling'):
+            Fixture(root, manifest)
     def test_kernel_retirement_waits_before_admission(self):
         c = self.campaign()
         before = observation()

@@ -31,6 +31,8 @@ BENCH_PROFILES = {
     'memory': ('memory', 'reactive', 1, 1, ()),
     'loading': ('loading', 'reactive', 0, 1, ()),
 }
+THERMAL_OVERRIDE_QUOTE = ('la gpu arriva a 100 gradi senza problemi ed è importante '
+                          'testare la sua capacità, non limitarsi a 85*')
 
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def sha(path):
@@ -47,7 +49,7 @@ def checked_path(value):
         raise ValueError('Path must be persistent and private to this LIE checkout')
     if path.stat().st_uid != os.getuid(): raise ValueError('Unexpected path owner')
     return path
-def observe():
+def observe(ceiling_c=85.0):
     result = {'at': now(), 'kfd': [], 'dri': [], 'denied_fd': 0, 'temperatures': [], 'memory': {}}
     # The kernel list supplements /proc when FD observations are denied.
     result['kernel_kfd'] = sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').iterdir() if p.name.isdecimal())
@@ -75,7 +77,7 @@ def observe():
         if name not in ('k10temp', 'amdgpu', 'nvme'): continue
         for path in sorted(hw.glob('temp*_input')):
             value = int(path.read_text())/1000
-            limit = 85.0
+            limit = ceiling_c
             for suffix in ('max', 'crit'):
                 bound = path.with_name(path.name[:-6]+'_'+suffix)
                 if bound.exists():
@@ -100,9 +102,16 @@ def observe():
 class Campaign:
     def __init__(self, root, manifest):
         self.root, self.m = root, manifest
+        ceiling = manifest.get('thermal_ceiling_c', 85)
+        if type(ceiling) not in (int, float) or ceiling not in (85, 100):
+            raise ValueError('Unsupported thermal ceiling')
+        if ceiling == 100 and manifest.get('thermal_override_quote') != THERMAL_OVERRIDE_QUOTE:
+            raise ValueError('Explicit operator 100 C thermal override required')
+        self.thermal_ceiling_c = float(ceiling)
         self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),
                   'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),
                   'authorization': manifest['authorization'], 'commands': [], 'container': None,
+                  'thermal_ceiling_c': self.thermal_ceiling_c,
                   'model_attempted': False,
                   'service_restore_required': False, 'exit_code': 1}
         self.lock = None
@@ -121,7 +130,7 @@ class Campaign:
         p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])
         return dict(line.split('=', 1) for line in p.stdout.splitlines())
     def sample(self, retiring=None):
-        row = observe()
+        row = observe(self.thermal_ceiling_c)
         owned = set()
         if self.cid:
             for proc in row['dri']:
@@ -146,7 +155,7 @@ class Campaign:
         return row
     def enter(self):
         self.r['service_before'] = self.service()
-        before = observe()
+        before = observe(self.thermal_ceiling_c)
         self.r['before'] = before
         self.baseline = {(p['pid'], p['start_ticks']) for p in before['dri']}
         # This serializes LIE only. Actual handover is the explicit user grant.
@@ -342,7 +351,7 @@ class Campaign:
                 self.child.kill(); self.child.wait()
         if self.child is not None:
             self.r['child_exit_code'] = self.child.returncode
-        try: self.r['postflight_before_restore'] = observe()
+        try: self.r['postflight_before_restore'] = observe(self.thermal_ceiling_c)
         except Exception as ex: failures.append(repr(ex))
         if self.r['service_restore_required']:
             try:

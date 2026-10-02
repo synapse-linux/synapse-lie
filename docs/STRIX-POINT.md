@@ -13,6 +13,12 @@ The subsequent [direct benchmark report](STRIX-POINT-BENCHMARK-RESULT.md) uses
 reference. Matched 0/4K results and paired 256K-capacity loading pass; the ordered
 eight-depth run stops at the 85 C guard during the 8K warmup, with preserved
 failure and completed cleanup. Longer performance points remain unqualified.
+The later operator instruction authorizes a **new** 100 C thermal ceiling for
+the full-depth benchmark on .161. The CPU Tctl sensor triggered the old 85 C
+stop; [AMD lists the HX 370 Tjmax as 100 C](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).
+The override is manifest-scoped and retains lower sensor max/critical limits,
+including the two NVMe composite max readings of 89.85 C. Historical 85 C
+results are not relabelled. The new campaign still requires fresh GPU admission.
 This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned

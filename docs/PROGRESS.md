@@ -2,6 +2,14 @@
 
 ## Strix Point fork — 2026-10-02
 
+The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
+The campaign supervisor requires that explicit override in the manifest and
+still applies lower published sensor limits, including NVMe max 89.85 C.
+AMD publishes 100 C Tjmax for the target HX 370 CPU; the previous run stopped
+on CPU Tctl at the conservative 85 C setting. Focused CPU campaign controls
+pass 11/11, including refusal of an unquoted or above-100 C override. The
+full GPU retry requires fresh admission and its own evidence.
+
 `synapse-lie-bench` now has supervised fixed .161 profiles for the same direct
 `single`, `fresh`, `multi`, `memory` and `loading` workload families used on
 .157; a separate direct Gufo reference arm is supported. The first full
