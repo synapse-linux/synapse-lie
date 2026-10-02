@@ -22,3 +22,13 @@ Implementation receipts:
 - `format-r1`, `reconstruction-r1`: local official format and exact patch reconstruction.
 - Each run directory retains its immutable source capsule, remote log and actual
   transport exit. Collected results include hashes, commands and scoped telemetry.
+
+Final first-stage results:
+
+- `q2-host-r2`: final four debug + four ASan/UBSan passes.
+- `q2-bench-r1`, `q2-ud-base-r1`, `q2-ud-patched-r1`: actual original-weight
+  runs, exit 0; each 52 collected artifacts verified against remote hashes.
+- `q2-comparison-r1/r2`: offline result tables and plots. R1 retains the harmless
+  Matplotlib cache-directory warning; r2 uses a task-owned persistent cache.
+- `docs/Q2-RESULTS.md`: tracked complete table and failure of the practical Q2
+  performance gate. Raw data is never replaced by the concise report.

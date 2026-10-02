@@ -175,7 +175,9 @@ int main(int argc, char **argv) {
       Save<float>(prefix + "-last.f32", logits);
       Save<std::uint32_t>(prefix + "-output.u32", output);
       const auto text = tokenizer->Decode(output);
-      std::cout << "{\"event\":\"sample\",\"label\":" << Json(label)
+      // Upstream diagnostic code changes the global stream's float precision.
+      std::cout << std::defaultfloat << std::setprecision(10)
+                << "{\"event\":\"sample\",\"label\":" << Json(label)
                 << ",\"rep\":" << rep
                 << ",\"warmup\":" << (rep == 0 ? "true" : "false")
                 << ",\"prompt_tokens\":" << input.size()

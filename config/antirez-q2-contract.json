@@ -1,6 +1,6 @@
 {
   "schema": "synapse-lie.q2-format-contract.v1",
-  "status": "runtime_patch_implemented_operator_pass_model_qualification_in_progress",
+  "status": "original_model_c1_screen_complete_performance_gate_failed",
   "audit_date": "2026-10-02",
   "scope": "original antirez Q2 weights through official Gufo; no antirez Qwen engine",
   "source_identity": {
@@ -201,7 +201,7 @@
     "mtp_execution": false,
     "new_public_abi_defined": false,
     "no_regression_ratio_target": 1.0,
-    "performance_verdict": "pending_measurements",
+    "performance_verdict": "failed_q2_vs_existing_ud_c1",
     "required_metrics": [
       "fresh_prefill_tok_s",
       "decode_tok_s"
@@ -221,5 +221,16 @@
     },
     "measured_prefill_tok_s": null,
     "measured_decode_tok_s": null
+  },
+  "current_qualification": {
+    "date": "2026-10-02",
+    "payload_read": true,
+    "model_stat_unchanged": true,
+    "full_hash_recomputed": false,
+    "semantic_smoke": true,
+    "full_model_teacher_parity": false,
+    "report": "docs/Q2-RESULTS.md",
+    "metrics": "config/q2-comparison.json",
+    "gpu_jobs_active": false
   }
 }

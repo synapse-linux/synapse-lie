@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Original Q2 compatibility — qualification in progress
+# Original Q2 compatibility — initial model screen
 
 The implementation is a reviewable patch to official Gufo `f783fedb`, in the
 isolated `feature/antirez-compat-audit` worktree. No antirez Qwen engine or
@@ -32,11 +32,13 @@ This is the transitional numerical implementation, not an owned C17 forward.
 | Run | Actual exit | Result and scope |
 |---|---:|---|
 | `q2-host-r1` | 0 | 4 debug + 4 ASan/UBSan CTests; no GPU/model forward |
+| `q2-host-r2` | 0 | Same suites pass after the legacy RoPE rule |
 | `q2-operators-r1` | 1 | Build capsule missing HIP compile definition; no GPU operator |
 | `q2-operators-r2` | 0 | Independent synthetic quantized HIP operators and F16 widening pass |
 | `q2-model-r1` | 1 | CMake HIP language scope error; no model payload |
 | `q2-model-r2` | 1 | Missing argmax link dependency; no model payload |
 | `q2-model-r3` | 1 | Executable built; original metadata refused for missing RoPE sections before upload |
+| `q2-bench-r1` | 0 | Original Q2 semantic smoke and 12 C1 samples complete |
 
 The GPU operator set covers 1/3/8/9/33 tokens, experts 0 and 511, five output
 rows (ragged tile), paired/fused IQ2 paths and Q2 down with exact 640-float input
@@ -76,5 +78,39 @@ with the same existing UD-Q4 files. `status` is read-only; `collect` saves raw
 logs, telemetry, tokens and frontier buffers. No automatic GPU retry is present.
 
 The acceptance protocol and timing scope are in [Q2-VALIDATION.md](Q2-VALIDATION.md).
-Full-model correctness, no-regression, C2/4/8, HTTP and long-context gates are
-still open. Values from absent tests must remain absent, never zero-filled.
+Full-model teacher parity, no-regression, C2/4/8, HTTP and long-context gates
+remain open; the initial practical performance gate failed. Values from absent tests must remain absent, never zero-filled.
+
+## First original-Q2 model result
+
+`q2-bench-r1` completed at 2026-10-02 01:24:00 UTC, exit 0. The original
+unchanged GGUF loaded in 11.7014 seconds. Reported resident weights were
+43,156,012,544 bytes; per-session allocated state was 376,777,748 bytes at a
+9216-token capacity. These are component allocations, not total peak RAM.
+The PLE table stayed on the upstream bounded row-I/O path; MTP was disabled.
+
+Arithmetic returned `42`; counting returned `1, 2, 3, 4, 5`. All sampled
+frontiers were finite. All four repetitions at each PP length produced identical
+input/output tokens and identical complete PP/final logit buffers byte for byte.
+This establishes bounded deterministic behavior, not an independent full-model
+quality comparison or a general accuracy score.
+
+| Physical prompt | PP min / median / max (tok/s) | TG min / median / max (decode calls/s) |
+|---:|---:|---:|
+| 512 | 546.96 / 547.20 / 548.72 | 20.75 / 20.79 / 20.80 |
+| 2048 | 606.04 / 606.29 / 607.02 | 20.38 / 20.40 / 20.40 |
+| 8192 | 559.59 / 559.89 / 560.05 | 20.36 / 20.38 / 20.39 |
+
+One retained warmup plus three measured fresh sessions per length. Each
+performance sample emitted 128 tokens with 127 subsequent decode calls; no
+EOS occurred in those samples. PP/TG use synchronized executor wall time as
+specified in the protocol. This initial Q2 log inherited upstream's two-decimal
+stream formatting: printed seconds and rates are rounded, with rates computed
+from the original clocks. Later harness logging restores ten significant digits.
+No model/kernel algorithm changes accompany that logging correction.
+
+All 52 collected artifacts match the remote SHA-256 manifest. Model stat identity
+and binary hash stayed unchanged; postflight KFD was empty and all four lease
+path identities matched preflight. Six desktop DRI clients and inaccessible
+process observations remain recorded limitations. The UD before/after control is complete in [Q2-RESULTS.md](Q2-RESULTS.md).
+Q2 is slower than UD; the performance gate is not met.

@@ -1,3 +1,4 @@
 # SPDX-License-Identifier: MIT
 # Unified-diff blank context lines are one literal space, required by patch.
 patches/*.patch whitespace=-blank-at-eol
+experiments/*.patch whitespace=-blank-at-eol

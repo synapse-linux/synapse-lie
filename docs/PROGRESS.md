@@ -1,63 +1,65 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-2026-10-02: work began on `feature/antirez-compat-audit`, from empty `develop`
-commit `ce3ce59aaa8234c2c5aeadc328fead85c5999822`, in a persistent worktree.
-The user requires official Gufo support for antirez compressions, Q2 first,
-with no performance degradation. No antirez Qwen engine is selected.
+## Current state — 2026-10-02
 
-Completed: independently pinned source audit, exact historical Q2 layout
-manifest, binding/packing/dtype/resource proposal and per-profile PP/TG
-no-regression protocol. The official Gufo HEAD examined is still missing Q2
-model wiring. A concrete down-width mismatch blocks the examined llama.cpp
-reference. Neither source inspection nor historical evidence is a fresh run.
+The original antirez Q2 GGUF executes through a minimal patch to official Gufo
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. It passes independent synthetic GPU
+operators, parser/sanitizer checks and the bounded full-model semantic/C1 screen.
+**The performance gate fails relative to existing UD-Q4:** fresh PP is 48–66%
+slower and decode 16–17% slower. The candidate is not accepted for integration.
+No 128K/256K expansion follows this failure. [Results](Q2-RESULTS.md) retain all
+values, failures, limits and plots; [implementation](Q2-IMPLEMENTATION.md) records
+the exact runtime changes.
 
-Open: establish an independently runnable exact-Q2 reference on `.157`, then
-the minimum Gufo implementation and numerical/performance qualification under
-current coordination. The inherited reference-first gate remains open; no
-withdrawn source was restored. Q4 follows Q2. Runtime source is unchanged.
+UD before/after the patch has 47/47 identical token/frontier files. Its median
+PP changes by +0.22/+0.19/+0.30%, TG by +0.02/-0.19/-0.09%. The small measured
+losses remain explicit; this is not a formal zero-margin no-regression pass.
+Q2/UD physical prompts and generated trajectories match across these samples.
+No independent full-model Q2 teacher or general model-quality score is claimed.
 
-LIE baseline `c14ef26` provides `REPLAN.md`, `ANTIREZ-BENCHMARKS.md` and the
-historical model inventory. Read-only documentation checkpoint `83d178a`
-provides the engine C17 → model family C17 → numerical C ABI separation. The
-new format contract fits that boundary without coupling to cache/session ports.
-No server branch was merged or copied into this branch.
+## Work preserved
 
-Provenance: selected files from official `gufo-org/gufo`, `ggml-org/llama.cpp`,
-and antirez's format documentation/licenses were downloaded at the exact pins
-in [the audit](ANTIREZ-Q2-AUDIT.md). Gufo's quantized HIP vendor notice records
-llama.cpp `5c0e9468378eba6bf3cc1989ff5d62fbbe4d9e3a` with MIT provenance; that
-vendored-kernel pin differs from the independently examined model-reference
-pin. Third-party source remains ignored, read-only research, not redistributed
-under a new notice. No source hashes beyond Git identities were introduced.
+Branch `feature/antirez-compat-audit` started from empty `develop`
+`ce3ce59aaa8234c2c5aeadc328fead85c5999822`. Audit checkpoint `a0c61f3` and
+implementation checkpoint `caf60eb` remain. The source is persistent in this
+worktree; the official archive plus `patches/gufo-q2.patch` reproduces all 1019
+candidate files byte-for-byte. Original licenses and vendor provenance are kept.
+No antirez Qwen engine, withdrawn patch or sibling project source/artifact was
+imported. The server/cache worktree was not merged or modified.
 
-The saved layout comes from this repository's existing
-`evidence/antirez-layout-readonly-r2/layouts.jsonl`, not imported sibling code.
-The small manifest records historical model/header identities explicitly;
-payload and full hashes were not reread/recomputed. Source-fetch failures and
-actual tool exit codes are retained in `evidence/reference-audit-r1/`.
+The user approved independent operator oracles plus existing UD control in place
+of the original pre-implementation requirement for an already runnable exact-Q2
+engine. The missing full-model comparator remains a quality limitation. Historical
+model metadata and hashes retain their original dated provenance; current runs
+check stat identity before/after without rehashing the entire model payload.
 
-Validation scope: documentation/manifest consistency and Git whitespace checks
-only. No runtime change, CTest/ASan execution, remote build, model conversion,
-GPU run, new performance sample or deployment. Implementation tests remain
-required on `.157` when implementation begins.
+## Completed verification
 
-## Authorized implementation — 2026-10-02
+- `.157` CPU: four debug and four ASan/UBSan CTests pass in both host rounds;
+  final round includes strict legacy RoPE metadata compatibility.
+- `.157` GPU: IQ2/Q2 independent synthetic operators and exhaustive finite F16
+  widening pass; maximum RMS 0.000159285 under the predeclared 0.002 threshold.
+- `.157` model: Q2 plus pristine/patched UD each complete semantic smoke and
+  12 C1 samples (one warmup + three measured per 512/2048/8192 profile).
+- 52 artifacts per model arm collected and SHA-256 verified; actual child,
+  supervisor and transport outcomes retained. Source/build failures stay visible.
+- Local repository checks: official formatting passes 486 files; exact archive
+  reconstruction and report/plot generation pass. No local inference tests.
 
-The user approved replacing the pre-implementation independent-Q2-engine gate
-with independent operator oracles and an unchanged UD control. The previous
-blocked-reference audit remains historical evidence, not the active work plan.
+All runs acquired the four existing EX|NB leases. Final Q2-workstream GPU child
+retired at 01:31:56 UTC; KFD empty, lease identities unchanged, no job or waiter
+left. The next window belongs to the coordinated core test thread.
 
-Implemented a minimal patch from the independently downloaded official base:
-MXFP4 descriptor extent, strict 640/768 binding, IQ2/Q2 quantized HIP dispatch,
-paired/fused IQ2 gate/up, zero-padding inside existing activation quantization,
-and exact load-time F16 HC widening. Fixed the directly observed integer
-truncation of IQ2 fractional eighths in the inherited vector dot formula.
-No withdrawn source or sibling engine artifacts were restored.
+## Next bounded diagnostic
 
-On `.157`, `q2-host-r1` passed four debug and four ASan/UBSan CTests.
-`q2-operators-r2` passed independent synthetic HIP checks; maximum measured
-relative RMS error was 0.000159285, under the predeclared 0.002 threshold.
-Full-model capsule qualification is in progress. Build failures and actual
-exit codes remain in local evidence. The official formatting check passes
-486 files. No performance or complete Q2 model-quality verdict yet.
+Source shows Q2 does not enter UD's specialized compacted F16 WMMA expert path
+or its F16 intermediate/epilogue fusion. This is a dispatch fact, not measured
+attribution of the entire gap. Quantify routed math, gathers, quantization and
+synchronization before choosing a packing/layout or WMMA extension.
+
+`experiments/q2-profile.patch` preserves a 2K/16-output profiling preparation;
+it is unapplied and unqualified. Test its owned-session process handling on
+`.157` before a newly coordinated GPU trace. Current core/GPU work is not to be
+interrupted. No performance fix, cache enlargement, model conversion, deployment,
+merge or publication is claimed.
