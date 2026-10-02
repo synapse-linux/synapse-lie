@@ -119,6 +119,34 @@ no limit or expected output was silently replaced. The prior HC synthetic baseli
 also fails some oracle checks, as documented in [HC prefill](Q2-HC-PREFILL.md).
 That separate baseline issue does not explain away these new model differences.
 
+### Offline probability audit
+
+The follow-up [saved-logit audit](../config/q2-logit-shift-audit.json) checks
+whether raw errors are mostly an irrelevant constant offset. At the first 2K
+frontier, paired IQ2 has raw RMSE 0.537605 and centered RMSE 0.508094; subtracting
+the mean offset removes only 10.68% of squared error. The difference therefore
+is not explained by softmax's invariance to a constant logit shift.
+
+| First 2K frontier versus qualified Q2 | Combined down | Paired IQ2 |
+| --- | ---: | ---: |
+| KL(reference || candidate) | 0.001814610 | 0.002742551 |
+| Total variation, `0.5 * sum(abs(p - q))` | 0.003152369 | 0.004114854 |
+| Maximum probability difference, percentage points | 0.234444 | 0.313803 |
+| Reference top1 probability | 98.979352% | 98.979352% |
+| Candidate top1 probability | 99.213797% | 99.293155% |
+
+These distribution changes are real, but do not by themselves establish an
+accuracy regression. All retained frontiers in these screens have a reference
+top1 probability of at least 98.979%; unchanged greedy tokens are therefore weak
+coverage for decisions with close alternatives. A later quality qualification
+needs more diverse token histories with less concentrated distributions and an
+independent teacher. Neither this audit nor the repeated counting prompt supplies
+that evidence. The user-authorized performance exploration remains valid for its
+measured workload; numerical thresholds and earlier failures are unchanged.
+
+Reproduce the offline audit with `python3 tools/analyze-q2-logits.py`. It reads
+and hashes only retained result files and performs no new model inference.
+
 ## Source, validation and reproduction
 
 The qualified `patches/gufo-q2.patch` remains unchanged. Both experimental trees

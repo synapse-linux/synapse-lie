@@ -215,3 +215,9 @@ copy, but cannot release the current core-owned window. Copy and Q2 inference
 must not overlap. Core/Strix Point should record actual copy retirement and
 handover before Q2's baseline profile. The outgoing acknowledgement was
 attempted through the already-authorized thread tool; delivery is not assumed.
+
+Fresh observation at09:15:32 UTC confirms SSD R4 is now running: core's
+128K reader supervisor PID2451574 has matching start_ticks149777812 and KFD
+child2451645 is present. Its preceding128K writer finished successfully at
+09:13:03.727 UTC. Q2 continues only local saved-evidence analysis and retains
+the prepared source without launching or queueing any remote workload.

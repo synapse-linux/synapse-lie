@@ -247,3 +247,19 @@ updated CPU guard fixtures await `.157` with the GPU checks. No new tests were
 run on the occupied remote host. Core still owns the SSD window; the next
 Q2 action after handover is a current baseline profile, followed by this
 candidate only if the measured phase costs support it. UD parity remains open.
+
+## Saved-logit diagnostic while the core owns the GPU
+
+The [offline audit](Q2-EXPERT-STACK.md#offline-probability-audit) rules out a
+pure constant-offset explanation for the paired-IQ2 model differences: at 2K,
+centering removes only 10.68% of squared logit error. Maximum probability change
+is 0.313803 percentage points, total variation 0.004114854 and KL 0.002742551.
+The reference's top1 probability is at least 98.979% at all retained frontiers;
+unchanged greedy output on these cases is weak evidence for close decisions.
+No numerical pass/failure is rewritten. This is analysis of retained F32 files,
+not additional GPU inference, performance evidence or independent teacher quality.
+
+Fresh 09:09:51 UTC observation confirms earlier SSD R2/R3 processes absent and
+KFD empty. Core has explicitly retained its enclosing window for SSD R4, so Q2
+does not enter the idle gap. Prepared runtime checks remain unexecuted; the
+performance goal is still active and unmet.
