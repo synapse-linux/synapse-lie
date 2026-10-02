@@ -40,6 +40,18 @@ retire cleanly with sampled CPU/GPU peaks below 92 C. Raw receipts, exact
 min/max and reproducible graphs are in the
 [fresh-128K bundle](benchmarks/2026-10-02/strix-point/fresh-128k/README.md).
 
+The further `.161` `fresh-256k` direct pair passes **258794 actual physical
+prompt tokens** at capacity262144, two measured repetitions per arm and 128
+generated tokens in all four samples. LIE/Gufo PP medians are 384.647/384.154
+token/s and TG medians 9.4485/9.4192 token/s; full inputs, outputs and PP/TG
+frontiers match exactly. Each original-weight campaign exits0 without OOM,
+preserves model stats, restores `llama-router.service` and frees the .161
+lease. Sampled CPU/GPU peaks stay under 92/92 C. The
+[fresh-256K bundle](benchmarks/2026-10-02/strix-point/fresh-256k/README.md)
+retains raw receipts, observed min/max, temperature/GTT plots and process
+thread snapshots. This qualifies direct inference with a near-256K prompt;
+HTTP, MTP, vision and 1M remain different gates.
+
 The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
 The campaign supervisor requires that explicit override in the manifest and
 still applies lower published sensor limits, including NVMe max 89.85 C.

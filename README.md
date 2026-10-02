@@ -75,8 +75,10 @@ frontier parity. At C8 reactive/native Gufo decode is 32.18/32.15 aggregate
 token/s versus 10.32 for serial LIE; all measured reactive C2–C8 dispatches
 use native inference batches. The paired direct fresh-prompt suite also passes
 1.5K/8K/32K/128K physical prompts at capacity 256K, with two measured samples
-per point and exact output/frontier parity. Actual near-256K prefill and HTTP
-performance remain separate gates.
+per point and exact output/frontier parity. The direct near-256K pair also passes
+with 258794 physical prompt tokens, two full 128-token outputs per arm and
+exact frontiers. Served HTTP performance remains unqualified by these direct
+benchmarks.
 See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

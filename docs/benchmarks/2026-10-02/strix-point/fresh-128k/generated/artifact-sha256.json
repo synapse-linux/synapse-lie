@@ -3,7 +3,7 @@
   "profile": "fresh-128k",
   "input_sha256": {
     "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
-    "docs/benchmarks/2026-10-02/strix-point/make-paired-report.py": "36bf6fc1058a43d147eddc42b63d9b06afda5db8f1849ba632acb4c28a2c232f",
+    "docs/benchmarks/2026-10-02/strix-point/make-paired-report.py": "5c761f0c5796ec8d15faad8c70756face9df8e096fd51f9bc849ac32fae28283",
     "docs/benchmarks/2026-10-02/strix-point/fresh-128k/input/gufo/collection.json": "694c1fd88281f423476401dfeed4e5133257e068ef4b26a31523655c28a02325",
     "docs/benchmarks/2026-10-02/strix-point/fresh-128k/input/gufo/manifest.json": "925726c63cc37fd3c9ce32cd059c13e02ede85b18317c3cf8fb55428486a69ad",
     "docs/benchmarks/2026-10-02/strix-point/fresh-128k/input/gufo/measurements.jsonl": "b1c0d1e190c3e9f253be31b80b10d7323f5b6cb44ba07202c1dc53aba6af12c9",

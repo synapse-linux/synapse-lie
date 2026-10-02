@@ -3,7 +3,7 @@
   "profile": "memory",
   "input_sha256": {
     "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
-    "docs/benchmarks/2026-10-02/strix-point/make-paired-report.py": "36bf6fc1058a43d147eddc42b63d9b06afda5db8f1849ba632acb4c28a2c232f",
+    "docs/benchmarks/2026-10-02/strix-point/make-paired-report.py": "5c761f0c5796ec8d15faad8c70756face9df8e096fd51f9bc849ac32fae28283",
     "docs/benchmarks/2026-10-02/strix-point/memory/input/gufo/collection.json": "b0b2663caad5bec30eb950a03d74d5e1a14b27051bf106e57a2191c96b282f21",
     "docs/benchmarks/2026-10-02/strix-point/memory/input/gufo/manifest.json": "9b6a9fb71b9153deaa4cbab6d6b51497c9ff814d8d4b3e756ad628f4bbc96b33",
     "docs/benchmarks/2026-10-02/strix-point/memory/input/gufo/measurements.jsonl": "8b0b258980848cc511939468b822705a4fa6e739442d2e457612c92a254f5f36",

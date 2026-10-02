@@ -25,8 +25,9 @@ through 128K under the authorized 100 C ceiling, with exact input/output and
 frontier parity. The same report keeps the earlier 85 C failed campaign and
 paired 256K-capacity model loads. Its later C1/2/4/6/8 reactive, Gufo and
 serial arms, plus paired memory-estimate workloads, also pass with exact
-frontiers. A further direct paired fresh-prefill suite passes through a full
-131072-token prompt. These supersede the relevant NOT RUN rows in the historical matrix
+frontiers. Further direct paired fresh-prefill suites pass through full
+131072-token and 258794-token physical prompts. These supersede the relevant
+NOT RUN rows in the historical matrix
 below. This original shared-core smoke report remains
 the record of the earlier nine-token test; its historical coverage statements
 above refer to that earlier test, not the later direct benchmark.

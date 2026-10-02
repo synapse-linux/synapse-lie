@@ -7,7 +7,10 @@ A first direct-ABI C1 timing baseline is recorded separately in
 [C1-BASELINE.md](C1-BASELINE.md). The C readiness/credit dispatcher now drives scalar or native batch decode
 from both worker and benchmark. Numerical kernels and their synchronization
 are unchanged; an internal-forward optimization or profiler-derived speedup
-is not established.
+is not established. The later
+[Strix Point three-arm result](STRIX-POINT-BENCHMARK-RESULT.md#concurrent-161-lie-reactive-direct-gufo-and-lie-serial)
+confirms C2–C8 native batch dispatch and a C8 decode gain over serial on
+`gfx1150`, with matched frontiers; it does not change the C1 conclusion.
 
 ## Three different questions
 

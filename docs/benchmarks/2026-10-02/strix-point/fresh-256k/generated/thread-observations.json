@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.point-thread-observations.v1",
+  "scope": "Read-only point-in-time /proc snapshots of owned benchmark GPU child processes during near-256K prefill; includes HIP/runtime helper threads, not a count of C reactive worker threads",
+  "method": "On pop@192.168.5.161, obtain container_host_pid and container_start_ticks from the run result.json; read /proc/<pid>/status Threads and count /proc/<pid>/task entries. No process signal or setting change.",
+  "observations": [
+    {
+      "at": "2026-10-02T16:04:44.521750+00:00",
+      "label": "strix-point-bench-fresh-256k-lie-100c-r1",
+      "pid": 102178,
+      "container_start_ticks": 2191234,
+      "threads_snapshot": 27,
+      "task_entries": 27
+    },
+    {
+      "at": "2026-10-02T16:14:57.377305+00:00",
+      "label": "strix-point-bench-fresh-256k-gufo-100c-r1",
+      "pid": 115861,
+      "container_start_ticks": 2334095,
+      "threads_snapshot": 27,
+      "task_entries": 27
+    }
+  ]
+}

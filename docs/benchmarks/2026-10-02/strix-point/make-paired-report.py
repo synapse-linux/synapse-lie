@@ -94,6 +94,20 @@ def main():
     assert len(pairs) == len(config['targets']) and all(
         r['eligible'] and r['tokens_equal'] and r['pp_frontier_equal'] and
         r['tg_frontier_equal'] for r in pairs)
+    thread_observations = None
+    if args.profile == 'fresh-256k':
+        thread_observations = json.loads((bundle/'input/thread-observations.json').read_text())
+        assert thread_observations['schema'] == 'synapse-lie.point-thread-observations.v1'
+        observations = thread_observations['observations']
+        assert len(observations) == 2
+        for arm, observation in zip(('lie', 'gufo'), observations):
+            result = json.loads((bundle/'input'/arm/'result.json').read_text())
+            collection = json.loads((bundle/'input'/arm/'collection.json').read_text())
+            assert observation['label'] == collection['label']
+            assert observation['pid'] == result['container_host_pid']
+            assert observation['container_start_ticks'] == result['container_start_ticks']
+            assert result['started_at'] <= observation['at'] <= result['ended_at']
+            assert observation['threads_snapshot'] == observation['task_entries'] > 0
     out = args.output
     out.mkdir(parents=True, exist_ok=False)
     os.environ['MPLCONFIGDIR'] = str((out/'matplotlib-cache').resolve())
@@ -104,25 +118,40 @@ def main():
     report.export(runs['lie'], out, 'LIE .161', runs['gufo'], 'Gufo .161')
     import matplotlib.pyplot as plt
     figure, axes = plt.subplots(1, 2, figsize=(10, 4), layout='constrained')
-    for label, arm in (('LIE .161', 'lie'), ('Gufo .161', 'gufo')):
-        records = runs[arm]['configurations']
-        x = [r['prompt_tokens'] if config['suite'] == 'fresh' else r['depth'] for r in records]
+    if len(config['targets']) == 1:
         for axis, key in ((axes[0], 'prefill_tps'), (axes[1], 'decode_tps')):
-            values = [r[key] for r in records]
-            axis.errorbar(x, [v['median'] for v in values],
-                          yerr=[[v['median']-v['min'] for v in values],
-                                [v['max']-v['median'] for v in values]],
-                          marker='o', capsize=3, label=label)
+            values = [runs[arm]['configurations'][0][key] for arm in ('lie', 'gufo')]
+            axis.bar([0, 1], [v['median'] for v in values],
+                     yerr=[[v['median']-v['min'] for v in values],
+                           [v['max']-v['median'] for v in values]],
+                     color=['tab:blue', 'tab:orange'], capsize=5)
+            axis.set_xticks([0, 1], ['LIE .161', 'Gufo .161'])
+    else:
+        for label, arm in (('LIE .161', 'lie'), ('Gufo .161', 'gufo')):
+            records = runs[arm]['configurations']
+            x = [r['prompt_tokens'] if config['suite'] == 'fresh' else r['depth']
+                 for r in records]
+            for axis, key in ((axes[0], 'prefill_tps'), (axes[1], 'decode_tps')):
+                values = [r[key] for r in records]
+                axis.errorbar(x, [v['median'] for v in values],
+                              yerr=[[v['median']-v['min'] for v in values],
+                                    [v['max']-v['median'] for v in values]],
+                              marker='o', capsize=3, label=label)
     for axis, name in ((axes[0], 'New prefill token/s'), (axes[1], 'Decode token/s')):
-        axis.set(xlabel='Full physical prompt tokens' if config['suite'] == 'fresh'
+        axis.set(xlabel='Path' if len(config['targets']) == 1 else
+                 'Full physical prompt tokens' if config['suite'] == 'fresh'
                  else 'Occupied prefix tokens', ylabel=name, ylim=(0, None))
         axis.grid(alpha=.2)
-        axis.legend()
+        if len(config['targets']) > 1:
+            axis.legend()
     figure.suptitle('Original UD on Strix Point .161 · '+args.profile+
                     ' · PP/TG direct executor rates\nExact input, output and '
                     'frontier identity; bars: observed min/max; zero-based axes')
     figure.savefig(out/'benchmark-zero.svg', metadata={'Date': None})
     figure.savefig(out/'benchmark-zero.png', dpi=160)
+    if len(config['targets']) == 1:
+        figure.savefig(out/'benchmark.svg', metadata={'Date': None})
+        figure.savefig(out/'benchmark.png', dpi=160)
     plt.close(figure)
     figure, axes = plt.subplots(1, 2, figsize=(11, 4), layout='constrained')
     for arm, label in (('lie', 'LIE'), ('gufo', 'Gufo')):
@@ -149,6 +178,8 @@ def main():
     plt.close(figure)
     (out/'resources.json').write_text(json.dumps(resources, indent=2)+'\n')
     (out/'size-estimates.json').write_text(json.dumps(estimates, indent=2)+'\n')
+    if thread_observations is not None:
+        (out/'thread-observations.json').write_text(json.dumps(thread_observations, indent=2)+'\n')
     for path in out.iterdir():
         if path.suffix in ('.svg', '.csv'):
             path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')

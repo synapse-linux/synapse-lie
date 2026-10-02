@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Strix Point UD — full eight-depth and concurrent direct benchmarks
+# Strix Point UD — complete direct GPU benchmark through 256K
 
 Date: **2026-10-02**. Target: **pop@192.168.5.161**, Radeon 890M / gfx1150.
 Original Unsloth Qwen3.8 Flash Next UD-Q4_K_XL, revision
@@ -20,7 +20,7 @@ below as a separate failed campaign. A short matched two-point test is also
 retained as historical evidence with different warmup settings.
 The C1/2/4/6/8 reactive, native Gufo and serial control arms also pass with
 three measured samples per point. Paired full-prompt fresh runs pass through
-131072 physical tokens. Both `--suite loading` arms complete at
+131072 and then 258794 physical tokens. Both `--suite loading` arms complete at
 context capacity 262144. These are the
 actual direct-benchmark tests, separate from the earlier 9-token shared-core
 smoke in [the port report](STRIX-POINT-RESULT.md).
@@ -125,6 +125,45 @@ These are direct GPU executor intervals, without HTTP or prefix-cache hits.
 The [fresh 128K bundle](benchmarks/2026-10-02/strix-point/fresh-128k/README.md)
 preserves all 20 samples, exact source/collection hashes, full summary and
 sampled temperature/GTT timelines with offline reproduction.
+
+## Actual fresh prompt near 256K
+
+The separate `fresh-256k` LIE and direct Gufo campaigns each passed two
+measured repetitions with **258794 new physical prompt tokens** at capacity
+262144, followed by **128 generated tokens**. No warmup or prefix reuse is
+included. Both arms return full outputs in both repetitions; exact physical
+input IDs, generated IDs and complete PP/TG frontier hashes match. This is
+actual long-prompt processing, beyond the earlier 256K-capacity loading check.
+
+| Arm | Fresh PP median token/s | PP observed min–max | TG median token/s | TG observed min–max |
+|---|---:|---:|---:|---:|
+| LIE .161 | 384.647 | 381.167–388.127 | 9.4485 | 9.4435–9.4535 |
+| Gufo .161 | 384.154 | 381.356–386.952 | 9.4192 | 9.3822–9.4562 |
+
+The paired PP medians differ by 0.13%, and TG by 0.31%; two sequential
+samples per arm are insufficient to rank the paths. Relative to its own
+1500-token fresh point, LIE's median full-prompt PP rate is 13.47% lower at
+258794 tokens. This average includes the faster early positions; the rate
+for a 2048-token tail after a live long prefix is a different metric.
+Model resident and session size estimates remain 82384141824 and
+6786984980 bytes. Sampled whole-device GTT peaks at 92023521280 bytes
+in each arm, not an allocation-exact model peak. CPU/GPU/NVMe maxima are
+91.875/92/69.85 C for LIE and 91.75/92/71.85 C for Gufo. The quoted
+100 C CPU/GPU guard and lower published NVMe limits remained active throughout;
+no fan, clock or power setting changed. Both campaigns close with exit0,
+unchanged model stat identities, restored service and verified free lease.
+
+One read-only `/proc` snapshot during each prefill found **27 total process
+threads** on both paths, including HIP/runtime threads. These point observations
+do not measure active C scheduler workers or establish a thread-count benefit;
+the batch counters in the C1–C8 suite address inference batching directly.
+
+![Fresh 258794-token PP and TG](benchmarks/2026-10-02/strix-point/fresh-256k/generated/benchmark-zero.svg)
+
+The [fresh 256K bundle](benchmarks/2026-10-02/strix-point/fresh-256k/README.md)
+preserves all four complete samples, collector SHA-256 receipts, exact
+frontier comparison, per-run temperature/GTT timelines, thread snapshots,
+machine-readable min/max and byte-reproducible graphics.
 
 ## Concurrent .161 LIE reactive, direct Gufo and LIE serial
 
@@ -279,8 +318,8 @@ child/supervisor pairs exit 0 with unchanged model identities, restored service,
 free lease and no cleanup failure. The sampled GTT difference is whole-device
 accounting across separate runs, not a proven provider allocation difference.
 
-These runs open the model with a 256K capacity. They **do not process a 256K
-prompt** or establish full-context numerical correctness or throughput. Both
+These loading runs open the model with a 256K capacity. They **do not process a
+256K prompt**; the separate `fresh-256k` pair above does. Both
 durations are under uncontrolled existing OS file-cache conditions, not
 cold-file or HTTP-ready measurements. The
 [loading bundle](benchmarks/2026-10-02/strix-point/loading-256k/README.md)
@@ -293,11 +332,11 @@ retains both campaigns and a reproducible plot/CSV.
 | Original-weight `lie-bench` PP2048/TG128 at occupied 0 through 128K | Complete matched LIE/Gufo eight-depth pair, exact prompts/outputs/frontiers |
 | Earlier 85 C ordered sweep | Stopped at start of 8K; preserved as failed evidence, superseded by fresh 100 C passing campaigns |
 | Full fresh prefill 1.5K/8K/32K/128K | Paired LIE/Gufo pass, two measured repetitions and exact frontiers per point |
-| Full fresh prefill near 256K | Separate workload not yet qualified on .161 |
+| Full fresh prefill of 258794 physical tokens | Paired LIE/Gufo pass, two measured repetitions, complete 128-token outputs and exact frontiers |
 | Concurrent C1/2/4/6/8 and serial/reactive comparison | Three matched arms pass, with confirmed executor batches and complete 128-token outputs |
 | Memory estimates at capacity 133121 | Paired d0/PP2048 and d16384/PP4096 pass; estimated versus sampled bytes distinguished |
 | Model loading at capacity 256K | Paired LIE/Gufo pass, one OS-cache-uncontrolled observation each |
-| Actual 256K prompt / 1M context | Not qualified; 1M exceeds current native provider/ABI support |
+| 1M context | Not qualified; current native provider/ABI and direct benchmark cap at 262144 |
 | Served HTTP :8000 and Pi agent on Point | Not exercised in these direct benchmarks |
 
 The original 85 C cutoff interrupted the first ordered sweep after about
@@ -310,5 +349,5 @@ All tests use LIE-owned persistent paths under the feature worktree and .161;
 no model data was moved back from .161, no DS4 source/evidence was changed,
 and no publication/deployment occurred. Each recorded campaign left the named
 service active and private LIE lease free. Its result is a timestamped
-observation, not a standing GPU
-window or claim that the machine remains idle later.
+observation, not a standing GPU window or claim that the machine remains idle
+later.

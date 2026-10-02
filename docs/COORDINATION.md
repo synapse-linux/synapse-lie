@@ -2,6 +2,20 @@
 
 ## Additional target .161 — Strix Point fork
 
+The `.161` direct `fresh-256k` LIE and Gufo arms retired at 16:13:38 and
+16:37:29 UTC on 2026-10-02. Each passed two independent 258794-token physical
+prompt samples with complete 128-token output. The offline paired validator
+confirms exact physical input IDs, output IDs and full PP/TG frontier hashes.
+Both source/result sets report supervisor and GPU child exit0, no OOM or cleanup
+failure, unchanged model stat identities and restored `llama-router.service`;
+fresh collection verifies all seven remote files per arm by SHA-256, owned
+processes absent and private lease free. Sampled CPU/GPU maxima stay below
+92/92 C under the quoted 100 C guard and lower sensor limits. No remote build,
+dependency installation, model conversion, hardware tuning or publication
+occurred. The [complete direct report](STRIX-POINT-BENCHMARK-RESULT.md)
+contains the actual 256K-range throughput, telemetry and limitations. This
+finished window does not imply continuing GPU ownership.
+
 The matched `.161` `fresh-128k` LIE/Gufo arms retired at 15:31:31 and
 15:48:46 UTC on 2026-10-02. Both pass two measured full-prompt samples each
 at 1500/8000/8192/32768/131072 tokens with 128-token output and exact
@@ -11,8 +25,8 @@ unchanged model stats and restored `llama-router.service`. Their sampled
 CPU/GPU peaks are below 92 C under the quoted 100 C manifest guard, with lower
 published sensor limits retained. The [direct report](STRIX-POINT-BENCHMARK-RESULT.md)
 separates this full-prompt work from earlier occupied-prefix timings. The
-near-256K prompt remains a distinct GPU workload; neither this completed
-pair nor idle observations grant a standing lease.
+near-256K prompt was a distinct GPU workload, later completed above; neither
+the 128K pair nor idle observations grant a standing lease.
 
 Three subsequent `.161` multi-user campaigns (`strix-point-bench-multi-{lie,gufo,serial}-100c-r1`)
 each passed C1/2/4/6/8 with one warmup and three measured samples per point.
