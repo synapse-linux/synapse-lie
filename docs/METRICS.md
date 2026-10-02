@@ -132,6 +132,15 @@ On cache/store events: hit/miss by RAM/SSD, eviction, failed/incompatible restor
 read/write bytes, save/restore duration and occupancy/budget. On queues/network:
 backpressure, output bytes, paused rows and disk queue depth.
 
+For prefix reuse distinguish physical prompt usage, reused frontier tokens and
+new tokens actually processed. Count avoided prefill separately from executed PP;
+cache hits must not inflate GPU prefill throughput. Record capture, serialization,
+SSD read/write and upload costs separately from lookup and HTTP total latency.
+Charge checkpoint storage, cloned active state and in-flight staging to their
+actual owners; shared allocations count once. For vision account image/pixel/
+patch work and encoder storage explicitly. None of these pending cache/modality
+meters exists merely because the numerical dependency supports the feature.
+
 Add these meters only with real update sites. Future percentile estimates must
 use interval histogram deltas with a documented window and bucket interpolation;
 no p95 is implemented or claimed today. Instrumentation overhead has not been

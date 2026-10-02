@@ -40,8 +40,8 @@ source pin and ownership queries expose delegation; the explicit factory
   position plus emitted count, including un-emitted EOS (no position advance).
   Emitted tokens must be within the model vocabulary. The worker checks these
   invariants before token lookup/publication and fails closed on a contract
-  violation. Reported token-text size must fit its caller buffer. MTP and native
-  multirow submission are deliberately not advertised in this adapter.
+  violation. Reported token-text size must fit its caller buffer. MTP is not
+  advertised; native AR multirow submission uses the additive contract below.
 - The inspected upstream Forward completes `hipStreamSynchronize` before
   returning host logits. This is a synchronous completion API, not enqueue.
   It must run off the HTTP loop. There is no exported async ticket/poll API yet.
@@ -144,3 +144,42 @@ HTTP admission now permits 262144 total tokens, an 8 MiB JSON body and 1024
 messages. These are bounded frontend limits; existing executor ABI-2 layouts
 remain unchanged. `lie_model_tokenize` uses the same 8 MiB input bound. Model
 admission and qualification remain specific to context and active sequence count.
+
+## Planned state, MTP, vision and owned execution contracts
+
+These are requirements for future additive/versioned contracts, **not symbols
+or capabilities implemented by ABI 2**. Keep its completed scalar/batch semantics.
+Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
+profiles explicitly; refusing an unsupported capability must precede mutation.
+
+- State: exact model/input identity, kind and payload version, bounded immutable
+  capture, pure validation before mutating restore and explicit component
+  completeness. Only the device owner captures/uploads model state; C cache and
+  disk workers consume immutable host payloads with pinned lifetimes. A failed
+  mutating restore poisons the session/runtime according to the execution failure
+  contract, never becomes an ordinary cache miss. See [STATE.md](STATE.md).
+- MTP: bounded ordered vectors of verified committed output plus actual token
+  count, completed position, stop status and per-row outcomes. Reserve output
+  capacity for the maximum admitted burst, then commit actual tokens and release
+  unused credit. Do not reinterpret scalar `emitted` (0/1), expose drafts, share
+  RNG or let a blocked row consume a peer's credit. Separate draft/accept/reject
+  accounting from committed token usage; represent pending accepted output and
+  rollback lifetime explicitly.
+- Vision: bounded owned/prepared image inputs, encoder/preprocessing identity,
+  image placement and physical positions. Parsing/upload preparation is separate
+  from device-owner encoder/forward work. Refuse unsupported modality before
+  opening a mutable sequence; declare byte/pixel/patch/context/workspace budgets.
+  Text-only token IDs cannot identify image state.
+- Owned numerical boundary: versioned C buffer/tensor descriptors with dtype,
+  packing, shapes/strides/alignment, residency, lifetime and arithmetic identity;
+  explicit workspace and fused/native-batch capability. The C model layer owns
+  topology/state and invokes qualified operations. Keeping an opaque whole Gufo
+  Model/Session behind an operation table is still delegation.
+- Async evolution: distinct submission/completion handles and per-row outcomes,
+  device completion/failure, cancellation and retained buffers. Add only when an
+  actual overlap implementation needs it; `LIE_OK` remains completed today.
+
+Each contract must have a real producer/consumer and focused lifetime/parser
+sanitizer checks before integration, followed by original-weight GPU gates.
+Language/build ownership and feature qualification remain separate; see the
+[separation assessment](BACKEND.md#separation-assessment--2026-10-02).

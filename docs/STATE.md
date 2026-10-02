@@ -33,6 +33,23 @@ in the current server.
   a required capability, not a promise that restoring is always faster or that
   active-state paging/weight streaming is supported.
 
+Required configuration semantics, with spelling to be frozen during implementation:
+
+| Control | Required behavior |
+|---|---|
+| RAM prefix budget | Explicit byte limit; zero disables retention; eligible idle entries can be evicted before admission refusal |
+| SSD enable | Explicit opt-in, default off, independent of RAM retention |
+| SSD directory and byte quota | Private LIE-owned path, validated quota; no implicit discovery of another engine's store |
+| Capture/read staging and queue budgets | Bound resident bytes and concurrent I/O jobs; reserve space before capture/read and retain buffers until completion |
+
+The C cache manager owns identity lookup, immutable entry lifecycle, pinning,
+eviction and budgets. A transitional adapter owns capture/restore of its tagged
+payload on the device owner. Cache entry ownership is not yet ownership of the
+model's state representation. Future C-owned model components replace that
+payload through an explicit version, not reinterpretation. RAM entries must
+clone/restore independent mutable sessions; active requests cannot mutate a
+shared checkpoint or share sampler/RNG state.
+
 ## Two distinct kinds
 
 `prefix_checkpoint`: immutable model frontier at an exact list of processed
@@ -56,6 +73,21 @@ coverage requirements. A transitional Gufo v14 payload would need explicit engin
 version and compatibility admission plus the extra continuation state. Neither
 it nor DS4 native19 is an implicitly accepted future owned-LIE restore payload,
 even with identical weights/token counts. No capture/restore is implemented yet.
+
+MTP identity includes the predictor weights/configuration and arithmetic policy.
+Only verified target tokens define the reusable frontier. Draft/rollback state
+and acceptance-controller history must be captured or reconstructed explicitly;
+accepted output waiting for network credit belongs to resumable-session state,
+not a new request's prefix checkpoint. No unverified draft may enter a checkpoint.
+
+Vision identity includes consumed-image content, preprocessing/encoder identity,
+image placement and physical/rotary positions. Text tokens alone are insufficient:
+two requests can have identical image placeholder tokens and different pixels.
+The inspected Gufo snapshot requires matching images attached at restore and
+does not serialize pixels. A resumable SSD session therefore needs bounded owned
+image material or an explicit caller-supplied matching-input contract; persisting
+the opaque model payload alone cannot promise autonomous multimodal restart.
+Choose and qualify this contract before enabling image-state persistence.
 
 ## Proposed on-disk framing (must be frozen and tested before writer code)
 
@@ -107,6 +139,10 @@ atomic-write failure phases, interrupted workers, quota/eviction races and incom
 template, context, dtype and payload versions. Benchmark restore wall time,
 transfer and avoided prefill against recomputation; SSD is not assumed faster.
 Active-state paging and weight streaming are explicitly outside this version.
+For vision include different pixels with identical placeholder tokens,
+preprocessing/encoder changes and missing restart inputs. For MTP include
+different predictor identity, rejected drafts, rollback and queued accepted
+output. Disabled capabilities refuse before restore mutation.
 
 ## Responses request state
 

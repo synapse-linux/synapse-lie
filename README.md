@@ -13,6 +13,13 @@ See [API surface, reactive ownership and explicit limits](docs/OPENAI-REACTIVE.m
 It is not complete OpenAI platform coverage. Tests run on `.157`; CPU fixtures
 and original-weight HIP evidence remain separate.
 
+Native AR batching through eight rows is implemented. Cross-request prefix
+reuse, optional SSD state, MTP and vision remain implementation gaps. The
+[separation assessment](docs/BACKEND.md#separation-assessment--2026-10-02) defines
+the C17 engine/model ownership target and phased removal of C++ dependencies;
+the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
+explicit opt-in persistence with directory, quota and bounded I/O controls.
+
 ## Native tool API baseline
 
 The C17 server now accepts OpenAI function tools, assistant calls and correlated
@@ -250,7 +257,8 @@ No service, deployment, merge or publication is implied.
 [State design—not implemented](docs/STATE.md) · [Baseline](docs/BASELINE.md) ·
 [DS4 coordination](docs/COORDINATION.md)
 
-Next: lease-gated pristine comparison and original-model C1 AR qualification,
-then requirement-driven T1/T2 replacement. The immediate next gate is a coordinated
-real-Unsloth Pi tool session. RAM/SSD state, native batching, MTP and CUDA retain
-separate implementation/qualification gates; replayed tool history is not prefix reuse.
+Next: C-owned RAM prefix policy and complete hybrid capture/restore, followed by
+optional SSD persistence, MTP/vision and measured T1/T2 extractions. Independent
+numerical/quality and GPU failure gates remain open; future platform providers
+require their own qualification. Native AR batching and real Pi read/edit/read
+already have scoped original-weight evidence. Replayed tool history is not prefix reuse.

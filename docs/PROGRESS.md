@@ -1,5 +1,32 @@
 # Isolated OpenAI reactive API increment
 
+## C17 separation and cache/MTP/vision assessment — 2026-10-02
+
+Documentation-only assessment: start separating engine policy, model-family
+semantics and device/numerical capabilities now, before adding more session-state
+features. The present C boundary still delegates model loading/binding,
+tokenization, sampling, hybrid state and forward to Gufo C++ classes. Target
+C17 ownership of these responsibilities in measured slices; complete removal
+of retained C++/HIP kernels and runtime dependencies is a separate explicit gate.
+No replacement, ABI symbol, cache flag, MTP or vision capability is implemented
+by this assessment.
+
+The first runtime deliverable is C-owned RAM prefix lifecycle/budgets and complete
+version-qualified hybrid capture/restore, then optional default-off SSD storage
+with explicit directory/quota and bounded staging/I/O. Contracts now include
+verified MTP output bursts, rollback/RNG/predictor identity, image identity and
+multimodal restart inputs. Existing Gufo snapshot support alone does not include
+the external sampler or serialize image pixels. Model-family, weight packing
+and platform support remain independent qualification axes; the parallel format
+audit does not require a simultaneous engine rewrite.
+
+Updated [backend assessment](BACKEND.md#separation-assessment--2026-10-02),
+[architecture](ARCHITECTURE.md), [planned ABI](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts),
+[state design](STATE.md), metrics and README. Corrected stale one-row/no-batching
+and pending-Pi statements against existing evidence. Validation is documentation
+consistency and Git whitespace/link checks only; no source/build/model/GPU work,
+new CPU fixture result or numerical/performance claim in this increment.
+
 ## Extended-context benchmark client and closure audit — 2026-10-02
 
 The new HTTP `long-context` preset supplies varied deterministic numeric records

@@ -51,6 +51,8 @@ failure after mutation is not permission to retry through the other engine.
 | Concurrent agents | One device owner, isolated session/sampler state, fair decode/prefill, measured memory admission; no native batching claim for a serial loop |
 | Tool continuation | Explicit turn/wait/resume states and preserved token/template semantics; no retry/replay of external side effects |
 | Prefix and SSD state | RAM reuse independent of optional, default-off SSD save/restore with explicit enable/path/quota controls; complete hybrid frontier plus applicable RNG/MTP/continuation state; exact identity/version, pure pre-admission refusal and qualified future continuation after restart |
+| MTP | Explicit predictor identity and admission, bounded draft/rollback state and verified output bursts, target-correct sampling, independent per-row credit and cancellation; compare against AR before claiming speedup |
+| Vision | Bounded image decode/preparation and encoder work, explicit physical positions and image identity, compatible state reuse and image/text isolation; linked image helpers do not establish a multimodal API |
 | Observability | LIE event/accounting definitions, honest unavailable values, completed-work timing; do not equate upstream counters with LIE semantics without checking |
 | Portability and evolution | No upstream types outside the adapter; versioned execution/state contracts, capability negotiation/refusal and regression tests when behavior changes |
 
@@ -118,7 +120,112 @@ then test bounded changes to dependencies/synchronization, dispatch, overlap or
 buffer liveness. C1 PP/TG, concurrent throughput and HTTP responsiveness have
 separate evidence gates. This may motivate a T1 extraction from the synchronous
 upstream executor; it is not proof that an outer callback speeds up forward.
-No pure-inference performance gain or controlled optimization experiment is established.
+The controlled ready-row/native-batch experiment establishes a concurrency gain
+over scalar dispatch; it does not isolate a reactive-only gain over native Gufo
+batching or an optimization inside a single forward. See
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+
+## Separation assessment — 2026-10-02
+
+**Begin separation now, before extending session state for cache, MTP and vision.**
+This is a design decision and extraction order, not an implemented replacement.
+The current C ABI already protects HTTP and scheduling clients from C++ types,
+but the adapter still owns a Gufo `Model`, `Session` and external `SamplerState`.
+Loading/binding, tokenization, sampling, persistent model state and layer forward
+remain delegated. The worker creates and closes a sequence per HTTP job; it does
+not retain a cross-request prefix. Changing the adapter's language alone would
+leave that whole-engine dependency in place.
+
+### Separate engine policy, model semantics and device execution
+
+| Boundary | C17 ownership target | What must remain explicit |
+|---|---|---|
+| Engine | Admission, lifecycle, reactive scheduling/credit, cancellation, resource budgets, RAM/SSD cache policy and metrics | One device owner, bounded queues, confirmed frontiers and failure retirement |
+| Model family | Configuration, tensor-role binding, topology/layer order, RoPE, attention/recurrent/PLE state, MTP and vision semantics | Required operations/state components and exact model/format identity; no Gufo classes |
+| Device/numerical provider | A versioned C boundary for buffers, kernels, memory, streams and completion | Dtypes, quantization packing, strides/alignment, arithmetic profile, native batching/fusion and qualified hardware capabilities |
+
+Tokenizer/template and sampler components also become C17-owned, with separately
+qualified semantics. They must not depend on the HTTP server. Quantization is a
+format/codec and kernel capability, independently of model family and platform;
+support for GGUF alone does not qualify every tensor packing or dtype. The
+parallel official-Gufo compression audit can record these requirements without
+coupling its format changes to a simultaneous model-executor rewrite.
+
+Keep operations coarse enough to preserve efficient fused kernels and native
+multirow work. Avoid a callback per scalar/tensor operation or a universal graph
+framework before a real second implementation needs it. An initial owned graph
+may remain synchronous; future asynchronous submission must introduce explicit
+completion and pinned lifetimes rather than reinterpret completed return values.
+New families require model implementations; new platforms require qualified
+numerical providers. A C boundary makes these changes local, not automatic.
+
+### C17 milestone and complete C++ removal
+
+The first ownership milestone is C17 engine, model/session/layer control,
+loading/binding, tokenizer/template and sampling, calling selected numerical
+providers. Existing HIP kernels can temporarily remain in a disclosed C++/HIP
+component while this milestone is measured. This is not complete C++ removal.
+
+The user's full C++-removal objective additionally requires replacement of those
+kernel sources and any required C++ runtime dependencies on the selected path.
+The current subset build uses C++20/HIP20 and requires `gfx1151`; it is not a
+portable C backend. AMD's [HIP compiler documentation](https://rocm.docs.amd.com/projects/HIP/en/latest/how-to/kernel_language_cpp_support.html)
+describes a C++ kernel language and HIP-capable compilation. Separately compiled
+GPU code objects may reduce the host boundary, but do not make their source or
+toolchain C17. `extern "C"`, dynamic loading or renaming classes also do not meet
+the complete-removal gate.
+
+Qualify an alternative kernel/backend path before replacing working HIP kernels.
+The complete gate needs a source/build/dependency inventory, actual original-
+weight numerical and performance evidence, and no required whole-engine C++
+objects on that path. Keep this gate separate from host/model C17 ownership;
+neither architectural separation nor a language change guarantees a speedup.
+
+### First slices and feature order
+
+1. Define capability, state identity and completed-frontier contracts, using the
+   current adapter as an explicitly delegated reference. Add capture/restore
+   only for complete version-qualified state; no public unused framework.
+2. Own prefix lookup, immutable entries, pinning/clone lifetime, eviction and
+   shared-memory budgets in C17. Qualify RAM reuse first. Initially the payload
+   may remain Gufo-specific; that does not qualify owned model state. Prefer
+   exact prompt checkpoints over per-token snapshots and measure capture cost.
+3. Add optional SSD persistence with explicit enable/path/quota and bounded
+   staging/I/O. Disabled means no store I/O. Qualify restart, corruption,
+   incompatible identities, atomic writes and eviction races. This persists
+   hybrid frontiers; it does not page active KV or stream weights from SSD.
+4. Add MTP after defining verified multi-token output and resource reservations.
+   Admit predictor weights/configuration explicitly. Qualify greedy AR equality,
+   sampled target distribution, rejection/residual correction, rollback, per-row
+   credit/cancellation and exact compatible resume before performance claims.
+   Same seed need not produce the AR stream when speculative RNG draws differ.
+5. Add vision with bounded decoded pixels, encoder/preprocessing identity,
+   image placement and physical positions. Qualify same-image reuse and
+   different-image refusal, mixed histories, cancellation and restart. Vision
+   contract/preparation work can proceed independently of MTP; sharing the state
+   contract does not require a single monolithic implementation.
+6. Extract C17 sampler/tokenizer/binding, state layouts and layer graph in
+   measured slices, replacing each corresponding Gufo delegation. Retain
+   qualified kernels through the C numerical boundary until their replacement
+   separately passes the complete C++-removal gate.
+
+The first useful runtime deliverable is **RAM prefix reuse with measured avoided
+prefill**, followed by optional SSD restore. A two-turn 100K HTTP experiment
+currently re-prefills the whole history and takes 69.76/71.79s, making this a
+concrete observed limitation; it does not predict the cached result.
+See [full timings](FULL-PREFILL-HTTP-RESULT.md), [state contract](STATE.md),
+[future execution contracts](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
+and the [remaining qualification matrix](TEST-COVERAGE-LONG-CONTEXT.md).
+
+For every extraction compare identical physical inputs, weights/format,
+context/RoPE, chunking, sampling and cache policy on `.157`. Preserve the current
+native-batch control and separately measure C1 PP/TG, C2..8 aggregate throughput,
+HTTP TTFT/inter-token percentiles, allocation peaks and snapshot overhead. Use a
+predeclared regression bound and repetitions sufficient for observed variance;
+do not accept an ownership rewrite merely because it compiles. Cache-hit tests
+must distinguish reused tokens, new prefill, capture/read/upload costs and total
+request latency. CPU fixtures/sanitizers qualify their C contracts, not GPU
+equivalence, memory fit or numerical speed.
 
 ## New requirements and upstream evolution
 

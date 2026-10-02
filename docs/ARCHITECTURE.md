@@ -43,8 +43,10 @@ The target is publisher -> bounded subscription -> output subscriber, with
 credits/releases flowing back to the device-owner scheduler and cancellation on
 a separate control path. No inference or disk wait on the network loop, no queue
 that grows to hide a slow client, no token dropping during normal generation,
-no one-thread-per-agent execution, no unbounded operator chain. T0 bounds eight
-admissions and one or two active single-row sequences, without native batching.
+no one-thread-per-agent execution, no unbounded operator chain. Admission is
+bounded and the current worker supports one through eight active sequences.
+The shared C readiness/credit dispatcher immediately submits scalar work for
+one ready row or native AR batching for multiple ready rows, with one device owner.
 SSE write completion returns demand; disconnect latches cancellation with pinned
 lifetimes. Measured memory admission, advanced fairness, persistence and broader
 inference instrumentation remain open; libuv alone is not those properties.
@@ -89,18 +91,53 @@ where supported, decode plus bounded prefill chunks with new-arrival fairness,
 backpressure per sequence, controlled deadline expiry, idle-prefix reclamation
 before admission refusal. Budgets (active rows, token/chunk/speculation/memory)
 are explicit instance settings. Measured step-time targets are not instantaneous
-kernel preemption. No such scheduling performance is claimed by this increment.
+kernel preemption. Native AR throughput is measured in
+[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md); advanced fairness,
+mixed-arrival latency and internal asynchronous forward remain unqualified.
 
 ## Backend inspection
 
 At Gufo `f783fedb`, Qwen's Model owns resident weights and an Executor, and
 sessions carry independent history/state. `EvaluateBatch` and `DecodeBatch`
 exist, with per-row `BatchOutcome`; a failed call can contain completed peers.
-The experimental adapter currently exposes **one row** and no MTP. Native Gufo
-batching may be exposed in the transitional phase only after actual integration
-and per-row/lifetime qualification; a loop over single-row calls is not batching.
+The experimental adapter exposes native **AR batching through eight rows** and
+no MTP. The additive C contract validates completed per-row frontiers before
+publication; a loop over single-row calls is not native batching.
 Owned batching follows the replacement gates. Upstream payload version is **14**,
 not DS4 native19 or an automatically portable future LIE state format.
+
+## Separation target and immediate state work
+
+The [2026-10-02 assessment](BACKEND.md#separation-assessment--2026-10-02) recommends
+starting extraction now. The target separates three independent responsibilities:
+
+```mermaid
+flowchart TD
+    A["C17 engine: HTTP, scheduling, budgets, RAM/SSD cache"]
+    B["C17 model family: binding, topology, hybrid state, MTP, vision"]
+    C["Versioned C device/numerical boundary"]
+    D["Qualified AMD provider"]
+    E["Future qualified platform providers"]
+    A --> B --> C
+    C --> D
+    C --> E
+```
+
+This is the ownership target, not the current implementation. Gufo still owns
+the model layer and numerical execution. Model-family semantics, tensor formats
+and device capabilities are separate identities; adding one requires qualifying
+its actual operations and combinations. Preserve fused kernels and native batch
+granularity across the boundary. Porting model/control code to C17 is a distinct
+milestone from eliminating the retained C++/HIP numerical sources/dependencies.
+
+The first runtime extraction is C-owned prefix-cache policy with delegated,
+version-qualified complete hybrid capture/restore. Qualify RAM reuse and clone
+isolation, then optional SSD persistence and restart. Define MTP/vision state
+requirements before freezing payload framing. Device-owner capture/restore and
+bounded immutable disk jobs use the same cancellation/retirement/resource rules
+as inference. The [state design](STATE.md) and [future ABI requirements](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
+describe these unimplemented contracts. This sequence reduces duplicated prefill
+without making the entire executor rewrite a prerequisite.
 
 ## Increment plan and departure from requested order
 
