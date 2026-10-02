@@ -1,5 +1,17 @@
 # Isolated OpenAI reactive API increment
 
+## High-ratio compression deferred to upstream capability — 2026-10-02
+
+The owner explicitly permits skipping high-ratio compression for now when it
+is absent from antirez's implementation. The reviewed DS4 Qwen path uses F16/F32
+state without an additional high-ratio codec; developing a new one is removed
+from the active parity scope. The requirement for DS4-compatible RAM/SSD state
+and KVC files remains. KVC conversion, cross-quant reuse and frontend history
+serialization retain their separate implementation/qualification gates.
+
+Existing optional packing and the measured raw fallback remain available.
+This is a documentation/scope checkpoint; no runtime changes or new GPU tests.
+
 ## DS4 policy GPU qualification and retention regression — 2026-10-02
 
 Frozen `f11ab7f` completes 15 GPU child arms across R9/R10/R11 on `.157`:

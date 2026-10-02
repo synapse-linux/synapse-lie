@@ -219,7 +219,9 @@ neither architectural separation nor a language change guarantees a speedup.
    compression have independent default-ON build options. [R6](CACHE-COMPRESSION-GPU.md)
    qualifies exact compressed SSD restore at 128K but exposes excessive latency
    for a 15–16% saving; current admission instead requires 2:1 retained reduction.
-   Active-KV compression remains model/kernel work, with the boundary specified
+   A new high-ratio Qwen codec is deferred under the owner's scope clarification:
+   the reviewed antirez Qwen path does not provide one. DS4 format compatibility
+   remains required. Active-KV compression is future model/kernel work, with the boundary specified
    in [the cache boundary](STATE.md#retention-policy-and-compression-boundary).
 4. Add MTP after defining verified multi-token output and resource reservations.
    Admit predictor weights/configuration explicitly. Qualify greedy AR equality,

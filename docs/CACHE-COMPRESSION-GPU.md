@@ -117,6 +117,10 @@ owned GPU job or automatic waiter.
 
 ## Remaining compression work
 
+The owner now permits deferring high-ratio compression when absent from antirez.
+For the reviewed Qwen path, developing a new high-ratio codec is outside the
+active task. DS4-compatible RAM/SSD format work remains required independently.
+
 This implements benefit admission, not a new high-ratio Qwen representation.
 The reviewed upstream Qwen save path uses live F16 KV and F32 recurrent state;
 LIE's separate lossless stream must not be described as the same antirez codec.

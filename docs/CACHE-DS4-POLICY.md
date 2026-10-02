@@ -126,6 +126,14 @@ serialization of DS4-specific tool/visible-thinking/session extensions. The core
 can retain opaque extensions but does not manufacture those protocol histories.
 Cross-quantization reuse remains refused by full weight identity.
 
+Owner scope clarification, 2026-10-02: high-ratio compression is deferred where
+it is absent from the reviewed antirez implementation. The reviewed Qwen path
+uses F16/F32 state without an additional high-ratio codec, so inventing one is
+outside the current parity task. DS4-compatible RAM/SSD representation and KVC
+import/export remain required. Existing optional lossless packing and its
+benefit gate retain their current behavior; this clarification adds no memory
+saving claim or new codec acceptance gate.
+
 The inspected DS4 Qwen payload contains full raw index history, pooled keys,
 eight n-gram slots and position triples. LIE/Gufo retains an unpooled index tail,
 two n-gram slots and lazily produces pooled keys after the sparse boundary.

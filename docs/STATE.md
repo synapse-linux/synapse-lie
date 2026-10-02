@@ -153,10 +153,12 @@ separately. Active KV precision remains unchanged.
 
 ## Requested DS4 representation parity — clarification, 2026-10-02
 
-The owner now requires the same DS4 compressed representation in both RAM and
-SSD, with substantially lower retained memory and raw-like restore latency.
-This supersedes considering an unrelated lossy Q4/Q8 checkpoint codec as the
-implementation of that request. No such codec or precision change has been made.
+The required target is DS4-compatible state representation in both RAM and SSD.
+The owner subsequently clarified that high-ratio compression may be deferred
+when absent from antirez's implementation. For the reviewed Qwen path below,
+an additional high-ratio codec is therefore outside the current task; a large
+memory reduction is not an acceptance gate for format parity. An unrelated
+lossy Q4/Q8 checkpoint codec would not establish DS4 format compatibility.
 
 The reviewed upstream RAM path `ds4_session_save_snapshot` calls the same
 `ds4_session_save_payload` dispatcher used for persistence; its Qwen branch is
@@ -168,11 +170,12 @@ References: [RAM snapshot](https://github.com/antirez/ds4/blob/main/ds4.c#L61007
 These are read-only upstream-main observations dated 2026-10-02, not a pinned
 cross-runtime interoperability qualification or an audit of every fork.
 
-The existing LIE v1/v2 envelope remains its own format. Identical scalar
-precisions do not mean binary interoperability. The requested higher-compression
-DS4 function/version must be identified before claiming a matching implementation;
-raising LIE's admission threshold does not implement it. No DS4-owned source,
-cache, model, service or evidence has been changed.
+The existing LIE v1/v2/v3 envelope remains its own format. Identical scalar
+precisions do not mean binary interoperability. KVC import/export still needs
+a model-specific converter and independent qualification. A future compression
+extension should identify the corresponding antirez function/version before
+claiming parity; it does not block current format and cache-policy work.
+No DS4-owned source, cache, model, service or evidence has been changed.
 
 ## Two distinct kinds
 

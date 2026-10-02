@@ -43,6 +43,8 @@ including capture after generation and restore into a larger context. The
 [policy comparison](docs/CACHE-DS4-GPU.md) exposes a retention regression at 128K
 with the default 4 GiB budget; `--cache-policy legacy` remains available.
 DS4 KVC binary import/export and cross-quantization reuse are not implemented.
+An additional high-ratio Qwen cache codec is deferred: it is absent from the
+reviewed antirez path and is outside the current compatibility scope.
 The earlier GPU numbers above use their recorded capture policy.
 Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
 compression is enabled at build time by default, with bounded workspace and a
