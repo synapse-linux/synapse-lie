@@ -46,6 +46,11 @@ It keeps F32 normalized streams, removes the intermediate gate write/read and
 emits the existing half input in the producer. Static compilation and `.157`
 host/sanitizer fixtures pass; GPU correctness and performance remain pending.
 
+A separate [HC down prefetch candidate](docs/Q2-HC-PREFETCH.md) targets decode
+load latency while retaining the observed FMA order. Its generated code now
+overlaps next-group loads with current arithmetic; `.157` host checks pass.
+It is independent of the up fusion, and its GPU performance is still unmeasured.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

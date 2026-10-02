@@ -1,0 +1,37 @@
+{
+  "scope": "Static gfx1151 compiler and ISA evidence only; no GPU execution, numerical result or performance measurement",
+  "versions": [
+    {
+      "label": "measured_baseline",
+      "assembly": "evidence/q2-packed-static-r2.s",
+      "sha256": "d51b750fbfa0d47f01777dbd346755d5e489c63c008d9cb99008f62e9842cddb",
+      "kernel": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_118HcDownF16VecKernelEPK6__halfPKfPf",
+      "group_segment_fixed_size": 16,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 13,
+      "next_free_sgpr": 12
+    },
+    {
+      "label": "initial_no_overlap",
+      "assembly": "evidence/q2-hc-prefetch-static-r1.s",
+      "sha256": "a5b655080d9d5425f79670428877b055c7e24a6edc6599342815aa2c5dbc5634",
+      "kernel": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_118HcDownF16VecKernelEPK6__halfPKfPf",
+      "group_segment_fixed_size": 16,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 12,
+      "next_free_sgpr": 12
+    },
+    {
+      "label": "scheduled_prefetch",
+      "assembly": "evidence/q2-hc-prefetch-static-r2.s",
+      "sha256": "64a4bf734ea5e328dfbcd12f19b675b61f84d9e9b2adc537267a748e3c1b34b2",
+      "kernel": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_118HcDownF16VecKernelEPK6__halfPKfPf",
+      "group_segment_fixed_size": 16,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 20,
+      "next_free_sgpr": 12
+    }
+  ],
+  "candidate_schedule": "The loop waits for its previous loads, copies those six data registers, issues the next b128 activation/b64 weight loads, then executes four FMA mix instructions in component order 3,1,2,0 before the scalar loop backedge. Prefetch overlaps those FMAs/backedge; it does not remove every wait.",
+  "geometry": "320 blocks of 128 threads, twenty groups of four elements per thread, unchanged four-wave descending XOR reduction and 16-byte LDS partials. Only SmallGemm original F16 n=1,m=320,k=10240 dispatch is affected."
+}

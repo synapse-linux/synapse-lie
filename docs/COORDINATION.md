@@ -352,3 +352,21 @@ Core directly acknowledges Point's 11:11:58 release and accepts the window for
 its utility/lossless-cache and HTTP SSD comparisons. It reports CPU build/tests
 in progress and will provide verified closure. Q2 will not interleave until
 that return; its prepared source and host evidence are checkpointed locally.
+
+Fresh Q2 read-only observation at11:26:01 UTC finds KFD empty and the last
+registered Point copy retired. Core still owns the enclosing window; absence
+of a GPU process does not return it. Q2 has locally prepared a separate HC down
+prefetch candidate, based on measured packed source, alongside the pending HC
+up fusion. No GPU run/build or automatic waiter is started. The outgoing thread
+read/status transport is still unavailable, so no direct delivery is presumed.
+
+Q2 runs only the small `q2-hc-prefetch-host-r1` CPU capsule to check its remote
+source/archive guards and existing Debug/ASan/UBSan fixtures on `.157`. It uses
+Q2_HIP=OFF and HIP/ROCR visibility -1, no model open/stat/hash, GPU build or
+inference, and no four-lease admission. Core retains its GPU/heavy-I/O window.
+
+The CPU-only capsule finishes at2026-10-02T11:31:22.177940+00:00, all six command exits zero,
+Debug9/9 and ASan/UBSan9/9. Seven artifacts are collected/hash verified. Read-only
+retirement at2026-10-02T11:33:11.111990+00:00 verifies its runner and six command
+identities/groups/sessions absent, KFD empty. Q2 retains no remote process or
+GPU waiter. Core still owns the enclosing window; no return is inferred.

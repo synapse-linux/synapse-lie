@@ -55,3 +55,10 @@ independent synthetic fixtures are first-party MIT; existing upstream notices
 remain intact. The prepared source reconstructs exactly from this workstream's
 packed checkpoint. No antirez engine, DS4 source or KV codec is imported.
 Runtime qualification is explicitly pending in `docs/Q2-HC-UP-FUSION.md`.
+
+`experiments/q2-hc-prefetch.patch` independently extends this workstream's F16
+HC down kernel on the same official pin. It preserves original weight layout
+and uses AMD compiler scheduling/FMA intrinsics; no external engine or artifact
+is imported. First-party MIT source and existing upstream notices are retained.
+It derives from the measured packed source, not the pending HC up fusion.
+Static/host evidence and pending GPU qualification are in `docs/Q2-HC-PREFETCH.md`.

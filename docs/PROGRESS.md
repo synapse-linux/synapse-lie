@@ -326,3 +326,25 @@ copy retains the GPU/heavy-model-I/O window; CPU mode disables GPU visibility,
 opens no model and takes no GPU lease. Core follows Point's return. No new Q2
 GPU job or waiter is queued. See [Q2-HC-UP-FUSION.md](Q2-HC-UP-FUSION.md).
 The measured checkpoint remains 1250.45 PP/22.97 TG and parity is still unmet.
+
+## HC down prefetch prepared independently — 2026-10-02
+
+The measured packed decode trace spends 69.603 ms in 1455 scalar HC down calls.
+A separate candidate anticipates each next four-element group while retaining
+original F16 weights, F32 activations, the observed 3/1/2/0 FMA sequence and the
+existing four-wave reduction. It derives from packed, excluding the unmeasured
+HC up fusion. Only the one-token 320x10240 dispatch changes.
+
+Initial assembly shows LLVM removed the overlap; that version remains evidence.
+A scheduling boundary restores loads before current arithmetic. Current static
+resources are 20 VGPR, 12 SGPR, zero private bytes and 16 LDS bytes. Both source
+reconstruction methods cover all 1019 files, baseline matches the measured
+capsule exactly, and official formatting checks 486 files. Static compilation
+and fixture syntax pass; none of this establishes numerical correctness or speed.
+
+The `.157` CPU capsule finishes 11:31:22 UTC with six command exits zero,
+Debug 9/9 and ASan/UBSan 9/9. Seven artifacts are hash verified and owned process
+retirement is checked. The existing eleven-case GPU fixture and rotating-weight
+microbenchmark are ready; fresh packed/model/UD comparisons await core's
+verified return. No GPU job or automatic waiter is queued, and parity remains
+unmet. See [Q2-HC-PREFETCH.md](Q2-HC-PREFETCH.md).
