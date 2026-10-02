@@ -5,7 +5,7 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
-operators and original-model C1 screens run on `.157`. The latest isolated
+operators and original-model C1 screens run on `.157`. The latest retained isolated
 [F32 MoE/HC fusion](docs/Q2-HC-MOE-FUSION.md) reaches **1297.80 prefill
 tokens/s and 23.17 decode steps/s at 2K**, with byte-exact synthetic buffers,
 saved model logits and tokens against the retained packed Q2 reference.
@@ -54,6 +54,12 @@ eight GPU cases with 15 exact complete buffer pairs. Its component is 9.74%
 faster; full-model prefill improves 0.92% while decode measures 0.21% lower in
 the fresh comparison. Complete samples, durations and the new graph are in
 [Q2-HC-MOE-FUSION.md](docs/Q2-HC-MOE-FUSION.md).
+
+The subsequent [paired F32/F16 norm experiment](docs/Q2-HC-NORM-FUSION.md)
+passes every saved operator and model replay, but prefill falls from 1294.14 to
+1289.12 tok/s (-0.39%) despite 12–16% component speedups. It is not retained as
+a performance improvement. Its fresh UD control reaches 1683.84 PP/24.33 TG;
+complete timings, the initial rounding failure and graphs are preserved.
 
 Separate [HC down prefetch variants](docs/Q2-HC-PREFETCH.md) retain exact
 synthetic outputs but are 0.44% and 7.35% slower in the rotating-weight GPU

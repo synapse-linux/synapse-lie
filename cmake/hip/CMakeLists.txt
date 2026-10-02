@@ -157,3 +157,15 @@ target_include_directories(q2_hc_moe_fused PRIVATE "${GUFO_SOURCE}")
 target_include_directories(q2_hc_moe_fused SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_moe_fused PRIVATE hip::host)
+
+# Preserve the F32 HC norm and emit the consumer's original F16 copy.
+add_executable(q2_hc_norm_half EXCLUDE_FROM_ALL ../../tests/q2_hc_norm_half.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
+target_compile_options(q2_hc_norm_half PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_norm_half PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_norm_half PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_norm_half SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_norm_half PRIVATE hip::host)

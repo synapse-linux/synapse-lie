@@ -6,7 +6,7 @@
 The original antirez Q2 GGUF executes through a minimal patch to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. It passes independent synthetic GPU
 operators, parser/sanitizer checks and the bounded full-model semantic/C1 screen.
-**The performance gate still fails relative to UD-Q4.** The latest isolated
+**The performance gate still fails relative to UD-Q4.** The latest retained isolated
 [F32 MoE/HC fusion](Q2-HC-MOE-FUSION.md) measures 1297.80 PP/23.17 TG at C1 2K,
 against a fresh UD control at 1682.76/24.33: deficits of 22.88%/4.76%. It retains
 all saved packed-checkpoint logits and tokens, but is not accepted for integration.
@@ -20,6 +20,20 @@ PP changes by +0.22/+0.19/+0.30%, TG by +0.02/-0.19/-0.09%. The small measured
 losses remain explicit; this is not a formal zero-margin no-regression pass.
 Q2/UD physical prompts and generated trajectories match across these samples.
 No independent full-model Q2 teacher or general model-quality score is claimed.
+
+## HC norm producer experiment — 2026-10-02
+
+The paired F32 norm/F16 consumer copy passes 33 complete GPU buffer pairs,
+eight independent FP64 cases, six narrowing cases and ten repeated full-buffer
+checks after correction of two compiler rounding changes. The initial GPU
+exit 1 and all failed buffers are retained. Debug and ASan/UBSan pass 10/10 each
+on `.157`. The matched model pair retains all saved logits/tokens but prefill
+falls 1294.135 -> 1289.123 tok/s (-0.39%); decode measures 23.202 -> 23.221.
+Fresh UD is 1683.841/24.327. This variant is not accepted for performance;
+fresh profiles show 37.223 ms saved in combine/narrowing offset by 40.501 ms
+more in unchanged HC down kernels. Cache locality is a hypothesis, not measured
+hardware-counter evidence. All 277 artifacts and 38 command exits are retained;
+the GPU window is released with eight runners retired. See [report, complete samples and graph](Q2-HC-NORM-FUSION.md).
 
 ## Work preserved
 

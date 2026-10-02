@@ -486,3 +486,53 @@ saved model logits/tokens exact. Component speedup 9.74%; C1 2K prefill
 (-0.21% measured). Fresh UD is 1682.761/24.326, so Q2 parity remains unmet. New
 profile confirms 48 fused prefill calls and none during scalar decode. No
 qualified runtime promotion, C core/reactive/HTTP or KV policy change occurred.
+
+Core reports its next C17 KVC codec/model mapping work is local only and requests
+no GPU window. Q2 has no audited DS4/Qwen payload geometry or ABI2 fixture;
+Gufo's independently fetched snapshot geometry does not establish DS4 binary
+compatibility. Outgoing thread transport again fails; this ledger is the
+agreed fallback, and no successful message delivery is claimed.
+
+Q2 continues in a new enclosing HC-norm window after its verified MoE release.
+The read-only registry/KFD observation at 15:55:17.967773 UTC finds no subsequent
+registered owner or GPU process; core's latest message confirms no requested
+GPU window. This is coordination evidence only: every build/GPU arm still
+requires the existing four fresh EX|NB leases and in-lease foreign-handle,
+model-identity and thermal admission. Planned arms are CPU fixtures, synthetic
+norm operators/microbenchmark, then matched pp2048/tg128 reference, candidate
+and UD plus a diagnostic profile if the component result warrants it. No
+interleaving with another campaign, automatic retry or standing lease. The
+candidate emits the existing consumer's F16 copy alongside unchanged F32 norm;
+no new KV codec, model precision or runtime promotion is implied.
+
+The norm-copy component passes after retaining two observed F32 rounding
+boundaries; the first completed numerical failure remains immutable. Fresh
+matched model measurements show prefill -0.39% and decode +0.08%, with exact
+saved logits/tokens. Q2 retains this window to collect the candidate diagnostic
+and, because the component and model results disagree, a fresh baseline profile.
+Every arm still requires fresh four-lease admission. The next 64x64 HC-down
+probe is editing-host static preparation only, not an additional GPU campaign.
+
+Q2 releases the HC-norm window at **2026-10-02T16:48:53.978770 UTC**. Fresh
+closure verifies all eight runners and 38 owned command identities/groups/
+sessions absent, KFD empty and the four original lease identities acquired
+EX|NB then released. All 277 artifacts verify; one completed GPU fixture exits
+1 for arithmetic drift, followed by a corrected passing arm. Other 37 remote
+commands exit 0. Persistent receipt: `run/q2-hc-norm-window-release.json`;
+tracked copy: `config/q2-hc-norm-window-release.json`. The shared register records
+`window_release`. No Q2 remote job, reservation, waiter or automatic retry
+remains; core/Point can take the next window with their own fresh admission.
+
+The norm-copy candidate preserves model logits/tokens but loses 0.39% prefill
+(1294.135 -> 1289.123), so it is not retained for performance. Fresh profiles
+confirm 94 eliminated narrowing calls and a 37.223 ms combine/narrow saving,
+offset by 40.501 ms more in unchanged HC down instructions. Local-only 64x64
+HC-down preparation reduces static registers 251 -> 184; no GPU speed, numerical
+or occupancy claim is made for that next hypothesis. Outgoing thread transport
+remains unavailable; this ledger and the persistent receipt are the agreed
+handover channel, not a claim of successful direct message delivery.
+
+A separate read-only check at **16:50:39.628961 UTC** observes closure PID
+2599949 absent; both closure and retirement SSH commands exit 0. Core's latest
+message confirms its KVC checkpoint used no GPU jobs/leases and did not affect
+this window. All future GPU admissions remain independent of that statement.

@@ -334,6 +334,7 @@ static bool Bench() {
   return exact;
 }
 
+#ifndef Q2_HC_NORM_CHECKS
 int main(int argc, char** argv) {
   try {
     Require(argc == 2 && (std::string(argv[1]) == "operators" ||
@@ -360,3 +361,4 @@ int main(int argc, char** argv) {
     return 1;
   }
 }
+#endif

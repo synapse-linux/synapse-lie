@@ -84,3 +84,11 @@ LDS without importing UD activation precision or another engine. The generator,
 GPU fixture and orchestration changes are first-party MIT; existing upstream
 and llama.cpp notices remain intact. Source/static receipts and the runtime
 qualification status are recorded in `docs/Q2-HC-MOE-FUSION.md`.
+
+`experiments/q2-hc-norm-half.patch` independently extends this workstream's
+measured F32 MoE/HC fusion on the same official Gufo pin. It emits the existing
+F16 consumer copy alongside F32 norm, reuses the existing executor scratch,
+and explicitly retains the measured gfx1151 rounding sequence. The generator,
+fixture and runner extensions are first-party MIT; upstream notices remain.
+No antirez engine, DS4 source/artifact or KV codec is imported. The failed first
+round and corrected GPU qualification are retained in `docs/Q2-HC-NORM-FUSION.md`.

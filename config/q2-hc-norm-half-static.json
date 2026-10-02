@@ -1,0 +1,135 @@
+{
+  "scope": "Editing-host static compilation and patch reconstruction; no GPU execution",
+  "patch_exit": 0,
+  "reconstructed_files": 1019,
+  "mismatches": [],
+  "kernel_resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_122HcCombineF32HalfKernelEPfPKfS6_jS6_S4_P6__halfjf",
+      "mixed_f16_fma": 0,
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 84,
+      "next_free_sgpr": 28
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_121HcCombineMoeF32KernelEPfPKfS6_S6_S6_jjS6_jS6_S4_jfP6__half",
+      "mixed_f16_fma": 0,
+      "group_segment_fixed_size": 10368,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 84,
+      "next_free_sgpr": 30
+    }
+  ],
+  "checks": [
+    {
+      "label": "fixture",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/third_party/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_norm_half.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "label": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/third_party/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 1
+    },
+    {
+      "label": "format",
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/tools/ci/check-format.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "executor_syntax_corrected": {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-arch=gfx1151",
+      "--offload-host-only",
+      "-fsyntax-only",
+      "-std=c++20",
+      "-O3",
+      "-ffast-math",
+      "-fno-finite-math-only",
+      "-DQFN_ROCM_BUILD=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/third_party/mmq",
+      "-isystem",
+      "/opt/rocm/include",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/src/models/qwen38_flash_next/kernels/rocm/mmq",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+    ],
+    "exit_code": 0
+  },
+  "assembly": {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-arch=gfx1151",
+      "--offload-device-only",
+      "-S",
+      "-std=c++20",
+      "-O3",
+      "-ffast-math",
+      "-fno-finite-math-only",
+      "-DQFN_ROCM_BUILD=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half",
+      "-isystem",
+      "/opt/rocm/include",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "-o",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-norm-half-static-r3.s"
+    ],
+    "scope": "Static gfx1151 device assembly on editing host; no GPU execution or model access",
+    "exit_code": 0,
+    "assembly_sha256": "070110ed47ab024b5f89af51ec621220f3e3ef31efe6f44cc43e143f67e75cba"
+  },
+  "final_format": {
+    "argv": [
+      "python3",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/tools/ci/check-format.py"
+    ],
+    "exit_code": 0
+  }
+}
