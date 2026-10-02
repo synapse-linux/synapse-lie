@@ -1,5 +1,25 @@
 # Isolated OpenAI reactive API increment
 
+## Reactive core invariant and historical thread audit — 2026-10-02
+
+The shared-core extraction must retain reactive inference: bounded demand/output
+credit, immediate ready-row scalar/native-batch dispatch, one device owner,
+bounded prefill, cooperative cancellation and completed-work retirement for
+every client. Synchronous provider calls remain a separate internal boundary;
+moving ownership out of HTTP must not turn generation into an unbounded blocking
+loop or duplicate scheduling in clients.
+
+Source and archived harness inspection confirms one direct-benchmark model
+caller, or one server device worker plus its HTTP main loop. C1/2/4/6/8 count
+sequences, not CPU model threads. The earlier `performance-http-r1` process
+observer contains 693 samples, all with 36 OS threads after warm-up. Gufo has
+a separate PLE reader pool capped at 32; exact per-TID attribution was not
+recorded. Later reactive/full-prefill campaigns did not record process thread
+totals, so their application roles and measured older OS count stay distinct.
+[Thread scope and receipt](INFERENCE-REACTIVE.md#thread-topology-of-the-retained-tests).
+This is a read-only evidence audit and documentation update, with no new GPU
+run, runtime change or performance result.
+
 ## Shared engine core required before cache implementation — 2026-10-02
 
 The owner clarified that HTTP is a client/protocol layer; engine features must

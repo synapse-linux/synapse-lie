@@ -167,6 +167,42 @@ implemented in C17; there is no Spring/JVM runtime or Reactive Streams TCK claim
 | Adapter (`adapters/gufo.cpp`) | Per-sequence state/sampling; `lie_sequences_decode` invokes upstream `DecodeBatch`; complete and validate outcomes before publication | Enables the measured aggregate throughput gain. Numerical code is the unchanged pinned engine; LIE does not own those kernels yet. |
 | Inside a forward | Synchronous provider operations and upstream synchronization | No tensor readiness graph, asynchronous ABI, HIP-event lifetime graph, kernel preemption, new fusion or overlapping independent forwards has been implemented. |
 
+### Thread topology of the retained tests
+
+Thread count, active requests, native batch width and GPU kernel threads are
+different quantities. The following separates source-established application
+roles from sampled OS process totals; neither establishes CPU utilization.
+
+| Test path | LIE application threads driving the model | Other established roles / scope |
+|---|---:|---|
+| Direct C1/C2/C4/C6/C8 serial and reactive benchmark | 1 (benchmark main/device owner) | C8 is eight sequences; both arms retain one caller. Reactive uses native batch dispatch; serial interleaves scalar calls. |
+| Direct full-prefill through 258794 | 1 (benchmark main/device owner) | C1; one sequence at each point. |
+| Production HTTP server | 1 device-owner worker | Separate main HTTP event-loop thread: two LIE application roles in the server, plus backend/runtime threads. |
+| Reactive HTTP pair (`reactive-suite-r2`) | Same single server device owner | Server `max_active=2`; client harness uses two request threads for the concurrent pair. |
+| Full-prefill/shape/conversation HTTP (`reactive-suite-r5`) | Same single server device owner | Server `max_active=1`; client requests/turns run sequentially. |
+
+The older `performance-http-r1` observer actually sampled **36 server process
+threads in all 693 observations**, after warm-up, with `max_active=2`. The count
+comes from `/proc/<server-pid>/status:Threads`, excluding the separate observer
+and load-generator processes. It is a process total, not 36 model schedulers or
+evidence that 36 cores were busy. The pinned Gufo `NgramTable::Open` creates a
+resident pool of `max(1, min(32, hardware_concurrency))` PLE table reader workers;
+additional backend/runtime threads can exist. No per-TID role census was saved,
+so the exact attribution of the observed total is not established.
+
+The later `reactive-suite-r2` and `reactive-suite-r5` telemetry records memory,
+GPU and client ownership, without a process `Threads` field. Do not transfer
+the older measured 36-thread total to those runs or invent a direct-benchmark
+OS total from the single caller. See the [derived thread receipt](benchmarks/2026-10-01/thread-audit.json)
+and [original resource report](PERFORMANCE-RESULT.md#sampled-resources-and-retirement).
+Future campaigns should record process thread totals and CPU time by role where
+available alongside model-owner count, active requests and actual batch width.
+
+The shared-core extraction must preserve this reactive inference policy for
+direct clients and HTTP alike. It does not require one inference thread per
+request or an operator callback graph. Increasing host thread count is a
+separate measured change; it is not an explanation for the 4.11x batch result.
+
 ### What improved in the measured experiment
 
 `reactive-suite-r2` retained one warm-up and three measurements for every point.

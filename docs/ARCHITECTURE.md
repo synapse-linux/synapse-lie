@@ -180,6 +180,19 @@ JSON schema strings can be model data, but a protocol parser's `json_object`
 cannot own an admitted core job. Public core headers expose no libuv/llhttp or
 protocol JSON types. The core must build/link without the server or HTTP adapter.
 
+**Reactive inference is a mandatory core property.** Preserve `lie_flow` demand,
+bounded output reservations, ready-row selection and the single device owner
+when extracting the worker. Every production client returns credit through the
+same contract; an HTTP write completion is one kind of consumer completion.
+No credit means no additional decode for that row. Dispatch one ready row
+immediately or compatible ready rows in a native batch, without waiting for
+peers. Preserve bounded prefill steps, out-of-band cancellation and retirement
+after submitted work/output loans complete. Cache, MTP and vision must obey these
+same resource and completion rules. The core must not replace this with a
+blocking generate-to-completion loop. Existing synchronous numerical calls may
+remain behind reactive dispatch until a separately qualified async ABI exists.
+See [the inference contract and thread audit](INFERENCE-REACTIVE.md#thread-topology-of-the-retained-tests).
+
 Provide direct normalized-message and physical-token entry paths. The latter
 preserves benchmark/evaluation inputs without formatting a fake conversation;
 scoring/logit operations must be explicit bounded capabilities when introduced.

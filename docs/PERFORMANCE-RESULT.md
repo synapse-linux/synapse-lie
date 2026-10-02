@@ -98,6 +98,11 @@ median 110.2 W, maximum 158.6 W.
 Observer GTT maximum 81.12 GiB;
 VRAM maximum 361.93 MiB;
 process RSS maximum 395.73 MiB.
+The server process reports **36 OS threads in every one of the 693 samples**
+(min=max=36). This total includes backend/runtime workers as well as the single
+LIE device owner and the HTTP loop; per-thread role/utilization was not sampled.
+It excludes the separate observer/load-generator processes and does not cover
+initial loading. [Derived thread receipt](benchmarks/2026-10-01/thread-audit.json).
 Main system MemAvailable minimum 36.17 GiB.
 Clocks are retained as active driver DPM states in raw telemetry. These sampled
 counters are not exact allocation peaks; GTT/VRAM/RSS overlap on shared memory

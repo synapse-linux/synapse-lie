@@ -1,0 +1,63 @@
+{
+  "schema": "synapse-lie.historical-thread-audit.v1",
+  "audit_date": "2026-10-02",
+  "scope": "historical sampled process totals and source-established application roles; no new inference run",
+  "measured": {
+    "campaign": "performance-http-r1",
+    "process_kind": "server",
+    "server_pid": 2095277,
+    "server_start_ticks": 143387485,
+    "source": "evidence/performance-http-r1/resource-telemetry.jsonl",
+    "source_sha256": "c619684ad8f54f4fa26d7e4fe4561cb4c35ebfed064367e9ad34ff867ee5e453",
+    "field": "process.Threads from /proc/<server-pid>/status",
+    "samples": 693,
+    "samples_with_threads": 693,
+    "first_sample": "2026-10-01T15:32:08.045582+00:00",
+    "last_sample": "2026-10-01T15:43:40.831663+00:00",
+    "distribution": [
+      {
+        "threads": 36,
+        "samples": 693
+      }
+    ],
+    "min": 36,
+    "max": 36,
+    "max_active": 2,
+    "loading_covered": false,
+    "per_tid_role_census": false,
+    "thread_cpu_utilization_measured": false
+  },
+  "source_established_roles": {
+    "direct_benchmark_model_callers": 1,
+    "server_device_owner_threads": 1,
+    "server_http_main_threads": 1,
+    "reactive_multi_sequence_counts": [
+      1,
+      2,
+      4,
+      6,
+      8
+    ],
+    "reactive_http_pair_client_request_threads": 2,
+    "gufo_ple_reader_pool_formula": "max(1, min(32, std::thread::hardware_concurrency()))",
+    "gufo_source_pin": "f783fedb",
+    "gufo_ple_source": "src/models/qwen38_flash_next/ngram.cpp",
+    "observed_os_thread_role_breakdown": null
+  },
+  "later_campaign_coverage": [
+    {
+      "campaign": "reactive-suite-r2",
+      "telemetry_files": 5,
+      "samples": 2072,
+      "samples_with_process_threads": 0,
+      "measured_process_thread_total": null
+    },
+    {
+      "campaign": "reactive-suite-r5",
+      "telemetry_files": 2,
+      "samples": 1255,
+      "samples_with_process_threads": 0,
+      "measured_process_thread_total": null
+    }
+  ]
+}
