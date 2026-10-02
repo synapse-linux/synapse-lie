@@ -22,7 +22,10 @@ is implemented as an explicit opt-in in the shared C core. [GPU restart and C1
 comparisons now pass through 128K](docs/SSD-GPU-COMPLETION.md), including exact
 logits/tokens and separate prefill, read/upload, startup and thermal measurements.
 At 128K, median core TTFT is 98.583 s without cache, 2.186 s after SSD restart
-and 0.226 s from RAM. Original-weight HTTP/concurrent SSD checks remain separate.
+and 0.226 s from RAM. The new [`--suite http-ssd` client](docs/SSD-HTTP-PROTOCOL.md)
+covers restart, Chat/Responses JSON/SSE, C2, disk-wait cancellation and slow
+consumers, with percentile/PP/TG exports. Its ASan/UBSan CPU fixtures pass;
+original-weight HTTP/concurrent SSD checks remain separate.
 The bench now supports separate SSD write/read processes with exact
 logit comparisons and supervised resource/thermal admission. MTP and vision
 remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
@@ -30,6 +33,9 @@ remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
+Current retention uses LRU and preserves native state values. Advanced checkpoint
+priorities and additional compression of active KV memory are still pending;
+see the [cache capability boundary](docs/STATE.md#retention-policy-and-compression-boundary).
 The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)
 places engine features behind a common C17 API for HTTP, direct benchmark
 and future chat/eval clients. `lie_core` now owns model/job lifecycle, copied

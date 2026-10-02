@@ -214,6 +214,11 @@ neither architectural separation nor a language change guarantees a speedup.
    Disabled means no store I/O. Complete device qualification of restart, corruption,
    incompatible identities, atomic writes and eviction races. This persists
    hybrid frontiers; it does not page active KV or stream weights from SSD.
+   The [HTTP/restart/C2 checker](SSD-HTTP-PROTOCOL.md) now passes CPU fixtures;
+   its device campaign remains open. Advanced priority/utility eviction and
+   additional checkpoint/active-KV compression are distinct unfinished steps,
+   with core policy separated from model codecs and device kernels as specified
+   in [the cache boundary](STATE.md#retention-policy-and-compression-boundary).
 4. Add MTP after defining verified multi-token output and resource reservations.
    Admit predictor weights/configuration explicitly. Qualify greedy AR equality,
    sampled target distribution, rejection/residual correction, rollback, per-row

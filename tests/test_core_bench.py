@@ -237,6 +237,49 @@ class CoreBench(unittest.TestCase):
             link=root/'alias';link.symlink_to(store,target_is_directory=True)
             with self.assertRaises(OSError):RUNNER['ssd_inventory'](link)
 
+    def test_http_ssd_supervisor_profile_and_reference_binding(self):
+        with tempfile.TemporaryDirectory(prefix='lie-http-ssd-admission-') as tmp:
+            root=Path(tmp);producer=root/'writer';producer.mkdir();reader=root/'reader';reader.mkdir()
+            source=producer/'cases.json';source.write_text('[{"id":"a","prompt":"a","max_tokens":16}]')
+            digest=hashlib.sha256(source.read_bytes()).hexdigest()
+            args=['--suite','http-ssd','--cases-file','cases.json','--context','262144','--chunk','2048',
+                  '--users','2','--phase','write','--prefix-cache-mib','0','--prefix-ssd-dir','prefix-store',
+                  '--prefix-ssd-quota-mib','1','--prefix-ssd-staging-mib','1']
+            m={'files':{'cases.json':digest},'benchmark_input':{'path':'cases.json','bytes':source.stat().st_size,'sha256':digest},
+               'build_info':{'engine':'test-only-NOT-INFERENCE'},'http_model_id':'fixture',
+               'ssd_store':{'mode':'create','quota_bytes':1024**2,'staging_bytes':1024**2,
+                            'full_model_hash_authorized':True,'checkpoint_hash_authorized':True}}
+            bound=RUNNER['bind_args'](args,producer,m)
+            bound,store=RUNNER['bind_ssd'](bound,producer,m)
+            plan=RUNNER['http_ssd_plan'](bound,producer,m)
+            self.assertEqual(plan['ports'],[8000,19880])
+            self.assertIn(str(producer/'cases.json'),plan['client'])
+            self.assertIn(str(producer/'prefix-store'),plan['server'])
+            for key,value in [('--users','1'),('--users','8'),('--context','1048576'),('--chunk','0'),
+                              ('--prefix-cache-mib','1'),('--phase','unknown'),('--timeout-ms','1800001'),
+                              ('--repetitions','0'),('--overlap','1'),('--slow-client','1')]:
+                opts=dict(zip(bound[::2],bound[1::2]));opts[key]=value
+                invalid=[v for pair in opts.items() for v in pair]
+                with self.assertRaises(ValueError):RUNNER['http_ssd_plan'](invalid,producer,m)
+            with self.assertRaises(ValueError):RUNNER['http_ssd_plan'](bound,producer,dict(m,api_port=19880))
+            with self.assertRaises(ValueError):RUNNER['bind_args'](args+['--output','escape'],producer,m)
+            results=producer/'results';results.mkdir();summary=results/'http.jsonl.summary.json'
+            summary.write_text('{"state":"PASS","phase":"write"}')
+            receipt=results/'result.json';prior={'state':RUNNER['HTTP_SSD_PASS'],'child_exit_code':0,
+                                               'ssd_store':store,'http_summary_sha256':hashlib.sha256(summary.read_bytes()).hexdigest()}
+            receipt.write_text(json.dumps(prior))
+            m['ssd_store'].update(mode='reuse',source_run='writer',source_result_sha256=hashlib.sha256(receipt.read_bytes()).hexdigest())
+            opts=dict(zip(bound[::2],bound[1::2]));opts['--phase']='read';opts['--overlap']='1'
+            read_args=[v for pair in opts.items() for v in pair]
+            plan=RUNNER['http_ssd_plan'](read_args,reader,m)
+            self.assertIn(str(summary),plan['client']);self.assertIn('--overlap',plan['client'])
+            summary.write_text('{"state":"PASS","phase":"changed"}')
+            with self.assertRaises(ValueError):RUNNER['http_ssd_plan'](read_args,reader,m)
+            # A direct-core producer cannot qualify an HTTP reader.
+            prior['state']=RUNNER['BENCH_PASS'];receipt.write_text(json.dumps(prior))
+            m['ssd_store']['source_result_sha256']=hashlib.sha256(receipt.read_bytes()).hexdigest()
+            with self.assertRaises(ValueError):RUNNER['http_ssd_plan'](read_args,reader,m)
+
     def test_supervisor_thermal_sensor_limits(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-admission-') as tmp:
             root=Path(tmp);sensor=root/'hwmon0';sensor.mkdir()

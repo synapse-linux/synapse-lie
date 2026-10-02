@@ -189,3 +189,10 @@ and snapshot implementation; the representation and cache policy are C17-owned.
 HIP field transfers remain platform-specific and active forward execution remains
 delegated. This variant is not the pristine upstream source/build. The RAM default
 requires an explicitly state-capable composition; pristine baselines use RAM off.
+
+The SSD HTTP client/supervisor extensions and test-only `pread` barrier are
+first-party MIT. They use Python's standard library and optional Matplotlib for
+plots, adding no engine dependency. The 2026-10-02 cache-policy comparison reads
+official `antirez/ds4` upstream code as a behavioral reference; no implementation
+or local DS4 artifact is imported. It does not claim DS4 cache-policy or
+compression equivalence. LIE retains its existing component representation.

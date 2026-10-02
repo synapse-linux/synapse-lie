@@ -1,5 +1,31 @@
 # Isolated OpenAI reactive API increment
 
+## SSD HTTP consumer suite and explicit cache boundary — 2026-10-02
+
+Added `synapse-lie-bench --suite http-ssd`: producer/restarted-reader output
+comparison, Chat/Responses JSON/SSE, repeated C2 cohorts, cache-aware PP/TG,
+first-text latency and text-event gap distributions, CSV/JSON and SVG/PNG.
+Natural disk-wait cancellation and slow-client checks require observed states;
+missed windows are INCONCLUSIVE. A test-only held pread proves peer progress
+and cancellation deterministically through the real C core and HTTP stack.
+The production core/model/ABI are unchanged.
+
+The existing four-lease supervisor now owns the HTTP server and retires its
+checker, binds corpus and restarted producer/store/summary identities, and
+retains resource/thermal admission. Four focused ASan/UBSan CTest suites pass
+(including 16 core-bench, six HTTP-client and two thermal-guard checks), followed
+by a passing expanded supervisor/client fixture. R3 tests peak at CPU80.25/GPU57 C;
+R4 at CPU71.75/GPU55 C. Commands exit0. [Protocol and receipt](SSD-HTTP-PROTOCOL.md).
+The final R5 source repeats the four focused suites with leak detection and
+halt-on-error sanitizer settings: 4/4 pass, CPU75.625/GPU54 C, exit0.
+No original-model HTTP SSD result is claimed; `.157` is coordinated for the
+owner's direct model copy to `.161` following Q2, with no core interleaving.
+
+The owner clarified `antirez/ds4` as the cache reference. LIE's current LRU
+retention and F16 KV checkpoints do not implement DS4's disk utility priorities
+or a generic high-compression active KV codec. These are explicitly separate
+remaining core/model/provider work in [STATE.md](STATE.md#retention-policy-and-compression-boundary).
+
 ## Completed SSD GPU continuation and thermal timeline — 2026-10-02
 
 R4 completes 10/10 arms, closing 128K exact SSD restart and core C1 off/RAM/SSD

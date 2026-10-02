@@ -78,6 +78,39 @@ serving-time disk syscalls. Startup identity and index admission occur before
 READY. The [exact format, accounting, tests and remaining device gates](SSD-PREFIX.md)
 are authoritative. Active KV paging and PLE/weight streaming are separate features.
 
+## Retention policy and compression boundary
+
+The current RAM/SSD implementation provides prefix reuse and durable state
+restoration. It does **not** implement all cache mechanisms in `antirez/ds4`.
+RAM and SSD use LRU eviction; the Qwen state representation preserves native
+F16 K/V and block keys, plus required F32 recurrent/other components. There is
+no added low-bit KV codec, entropy compression or active-cache paging. Native
+hybrid/sparse model semantics do not establish a generic compression ratio.
+
+Upstream [DS4's disk eviction score](https://github.com/antirez/ds4/blob/main/ds4_kvstore.c),
+reviewed 2026-10-02, weighs decaying reuse counts, saved tokens per stored byte,
+checkpoint purpose and superseded continuation checkpoints. This is a disk
+retention policy, not a RAM codec. Its header's `quant_bits` identifies routed
+expert weight quantization; it must not be reported as KV precision.
+
+DeepSeek-specific KV compressors in [DS4's model engine](https://github.com/antirez/ds4/blob/main/ds4.c)
+use learned model projections and compressor state. Those architectural savings
+cannot be transplanted unchanged into Qwen, whose attention/recurrent state
+differs. No DS4 source or artifact is imported by this comparison.
+
+Remaining steps: a C17 utility/priority policy shared by all core clients;
+separately versioned lossless checkpoint compression; and model-qualified
+low-bit active KV representations with matching device kernels. Keep these
+independent: compressing retained checkpoints does not reduce a running
+sequence's device allocation. Any lossy mode needs long-context quality and
+latency/memory comparisons against the current representation before default
+use. Priority ties, aging, pins, budgets, cancellation and reactive progress
+need contract tests. SSD remains the only cache tier disabled by default.
+
+The [HTTP SSD suite](SSD-HTTP-PROTOCOL.md) now verifies the current representation
+through restart and concurrent consumers in CPU fixtures. It neither closes
+these additional compression gates nor establishes a reactive GPU speedup.
+
 ## Two distinct kinds
 
 `prefix_checkpoint`: immutable model frontier at an exact list of processed

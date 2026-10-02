@@ -219,13 +219,13 @@ done:
 }
 /* HTTP is an explicitly separate Python client harness, like the plot exporter.
  * It opens no model/device and never starts or reconfigures a server. */
-static int http_harness(int argc,char **argv,int suite_index) {
+static int http_harness(int argc,char **argv,int suite_index,const char *helper) {
     char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
     if(n<0)return 3;
     script[n]=0;char *slash=strrchr(script,'/');if(!slash)return 3;
     size_t prefix=(size_t)(slash-script)+1;
-    if(prefix+strlen("synapse-lie-bench-http.py")>=sizeof(script))return 3;
-    strcpy(script+prefix,"synapse-lie-bench-http.py");
+    if(prefix+strlen(helper)>=sizeof(script))return 3;
+    strcpy(script+prefix,helper);
     char **args=calloc((size_t)argc+2,sizeof(*args));if(!args)return 3;
     unsigned at=0;args[at++]="python3";args[at++]=script;
     for(int i=1;i<argc;++i)if(i!=suite_index&&i!=suite_index+1)args[at++]=argv[i];
@@ -238,11 +238,14 @@ int main(int argc,char **argv) {
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"core"))return lie_core_bench_main(argc,argv);
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"state"))return lie_state_bench_main(argc,argv);
 #endif
-    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"http"))return http_harness(argc,argv,i);
+    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")){
+        if(!strcmp(argv[i+1],"http"))return http_harness(argc,argv,i,"synapse-lie-bench-http.py");
+        if(!strcmp(argv[i+1],"http-ssd"))return http_harness(argc,argv,i,"synapse-lie-bench-ssd-http.py");
+    }
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
     struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nCore: --suite core --help (shared C engine, no HTTP).\nHTTP: --suite http --help (separate Python client harness, requires a running authorized server).\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nCore: --suite core --help (shared C engine, no HTTP).\nHTTP: --suite http --help (separate Python client harness, requires a running authorized server).\nSSD HTTP: --suite http-ssd --help (restart, cache accounting and concurrent consumers).\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
         if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];

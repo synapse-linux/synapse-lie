@@ -92,6 +92,21 @@ analysis on `.155`. No permanent reservation or DS4 ACK is implied.
 Offline checks pass all output/cache-count comparisons; the [complete result](SSD-GPU-COMPLETION.md)
 includes prefill/decode/restore timings and sampled temperature durations.
 
+## HTTP SSD preparation and other-thread window — 2026-10-02
+
+Core work following R4 is local CPU implementation and ASan/UBSan checks of
+`--suite http-ssd`, under the user's `.155` non-performance authorization and
+explicit 98 C guard. No model payload or remote GPU work is performed. The
+[protocol](SSD-HTTP-PROTOCOL.md) and source-bound receipts distinguish this
+preparation from original-weight evidence.
+
+After Q2's work, the Strix Point thread reports starting the owner's direct
+`.157` to `.161` model copy at 10:36:05 UTC, holding the four established `.157`
+leases. Root acknowledged this window and requested verified closure before
+the next core campaign. This is coordination reported by that thread, not a
+fresh root exclusivity observation. No gap interleaving or automatic GPU waiter
+is scheduled; next admission still requires completed handover and fresh leases.
+
 ## Earlier completed window — first SSD restart
 
 `ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.

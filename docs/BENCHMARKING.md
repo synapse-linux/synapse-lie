@@ -200,3 +200,11 @@ checkpoint fails, and the three fresh/restored pairs must match exactly. The
 reader holds its staging reservation through owner upload and every pair.
 Identity hashing, durable write, file read and device restore have separate
 JSONL timings. `bench-report.py` validates both modes without performance ranking.
+
+`--suite http-ssd` adds a cache-aware external consumer of the shared engine:
+separate producer/restarted reader, Chat/Responses JSON/SSE, repeated C2,
+disk-wait cancellation and slow clients. JSON/CSV/SVG/PNG report observed
+p50/p95/p99 with sample counts and distinguish HTTP wall/first text, text-event
+gaps and executed PP/TG. Full-hit PP stays null; Responses has no executor
+timings. [Usage, supervised admission and exact limits](SSD-HTTP-PROTOCOL.md).
+Its ASan/UBSan CPU fixtures pass; device qualification remains separately pending.

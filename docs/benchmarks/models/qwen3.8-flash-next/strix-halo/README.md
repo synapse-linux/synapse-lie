@@ -27,6 +27,11 @@ fresh PP, suffix PP and restored-prefix costs separately. The 4.11x C8 result
 compares LIE native batching against LIE serial dispatch on the same provider;
 it does not isolate a reactive advantage over Gufo native batching.
 
+The [SSD HTTP restart/C2 client](../../../../SSD-HTTP-PROTOCOL.md) is now
+implemented, including first-text/gap percentiles, executed PP/TG and graph
+exports. Its local CPU fixtures pass; original-weight `.157` measurements
+are pending and do not add another measured row to the table above.
+
 ## Other weight formats
 
 Antirez Q2/Q4 compatibility is separate work on `feature/antirez-compat-audit`.

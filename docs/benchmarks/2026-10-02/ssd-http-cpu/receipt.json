@@ -1,0 +1,472 @@
+{
+  "schema": "synapse-lie.ssd-http-cpu-receipt.v1",
+  "scope": "NOT-INFERENCE; local .155 CPU fixtures; no model payload, GPU run, remote build or DS4 mutation",
+  "source_base": "c768a11bcd33a446d66ef622b6f62d7f1721424a",
+  "source_sha256": {
+    "CMakeLists.txt": "fe9b2263963c8ef4f8b31e34108f16ee1128a4ff66b9a4e0ca3e0e01de32c12c",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/access.hpp": "b63a51f979a9d27c13ab24d8cc26b702ba8658cf3f49af7b5a86d88c61ed69cb",
+    "adapters/gufo.cpp": "5bc94c149b32d205bb2829e18ceb8c542644d7996cbe110efe710d4890dcd130",
+    "adapters/gufo_binding.c": "de5b07e73a509666506574d8f2ebedabbbe479f77498f0c816b44792a5d4ab9b",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "6a82299b884c0dda36d9da48626d8a05a9375445e3e22885dec5c5648b97d5f1",
+    "cmake/gufo-runtime/CMakeLists.txt": "0e61c0be387b84998d548427b554616227291699f7f42a53a369f5bae877699a",
+    "include/lie/chat.h": "be84f7685ea0e6e0323c8b953abb9f7ac1b547c004a552ded638fcc109ce17cb",
+    "include/lie/core.h": "bc0a36b1f0f7f94bee0bad6125107165c6396f03cd2b0a2bde1e9c460d1e4d5c",
+    "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "bf3a10a914f2f499586a8ab58a8d71ea06f0add4a19b773bebb38c59b5718b5c",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/responses.h": "08a1aa5cb03fb1607cb41c2cdc400e730d4cae6176993a1256a220e328750643",
+    "include/lie/state.h": "4534d64c134e34e8b12ab8fcd8950a9ebd16570de0cedb09502ff21247476cc3",
+    "include/lie/store.h": "c357c4e682dffefa4f5c85ef94dee12ed94ed3e2b3fbc779759ee43eabe5be2f",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "493ba51cf04e8e18d173de0e30545a4c3fe1a47db0d2b0ce57a4f08016398316",
+    "include/lie/wire.h": "63dc3cba8d66150ed338411045c1cfa72deb49f271cff023c22648a1397bc005",
+    "include/lie/worker.h": "49839ba31e97d278f25a5a3bc616aa176d04875363be61e30c600dfede5ac1ef",
+    "src/chat.c": "df077445a40abacfbfc8a643285029981d6b17201d2fa51a1aef2c49e1830102",
+    "src/chat_tools.c": "3db1abdd27a65ea86fdddde8f456fd9faf95636fb6b5cc4d0fa7db69cbd8eecd",
+    "src/core_input.c": "1ab2f981a0d7103712d8af982c728dd0e8a7a0ad18b2b03b90031021f84e0eaa",
+    "src/core_input.h": "0c6eedac2cd679dfb836fc22cbbd19e373e7acd2be6870d3283e5f99cf9b3793",
+    "src/executor_unavailable.c": "e19a37b04e5f3bb96d0d4f78959d550163210f1494a5ea4c20d5f97536078771",
+    "src/flow.c": "b636727e479a7e97aeafc3bea22f8a14641fbaa93ce6f2c80e45192ebb10be90",
+    "src/inference.c": "c05418baa2add3ea2ff76695b7969f5579146b4189fb62e0cd1f7f484a8e7293",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/prefix_cache.c": "19622d32597a74a1a83e5401baa874c05b28c513805bb1eb8e22df4eb3fa438b",
+    "src/prefix_cache.h": "795d6b5722c875958398eca250425226417557999cfe88ca97b97766b25c9d44",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/responses.c": "7a2f7e663d091056cb2914f8c928413d54c93603688030f44a513b665e5a14a1",
+    "src/server.c": "67e51cd4c08a6b65880e877e96fe08432cda3e71fd95d1e958ca556ac78e550b",
+    "src/state.c": "f9b205169b63a5a1a3913db5cef3bff82193961401c71e3586febb2c526ca53d",
+    "src/state_codec.c": "05f2cb81b62c22b80e207a1717d389be9eeb9e23eead222b08de3a5404bb6cc8",
+    "src/state_codec.h": "02ad9de6f74bb3743c6c8d5294c6d4ab0e4ff6e4c3f89e21fea1aee923347599",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "b57f24a4a4fede39df15dd1a6638ae7ba904a30718c579e84ba24f771c9ef081",
+    "src/store.c": "0cfc3b6d3694d18f56a248e88d45e97a4883288556284b8a5f2ea856c18b2225",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2dfb7eada235f515151ecd9e5acf0df2dfa3e62c4032b4d4a1ae06c9574e43f9",
+    "src/wire.c": "1225c5b1f0e72044454976b136a02b9e88084dcff808938eaa2ebb6249bf4516",
+    "src/worker.c": "d8224163b2e1f65221e17420614344977108be266a32ccdac76e2a41c4d9be23",
+    "src/worker_http.c": "0f7d51fa82a1eace1bb121c905918d197ead198b8473beb4d3711a7c47c4d9cf",
+    "tests/bench_executor.c": "5eeb51343280fa1f0835765fedae09a93ec1b96ea36c3f309274554fd15c19d9",
+    "tests/fake_executor.c": "11c7470155e91ad895b31b0f48e498e1c23593201b752121356cc1aac695e730",
+    "tests/fake_executor.h": "d3087bcd93f8970c5bfe2ccdce1f402ae32246a40f672982d082dbb3b89a6615",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_bench_http.py": "337d525e3f0d6270d351695baa57828c2045d34c1848e76140034b999d3da9f9",
+    "tests/test_cache_http.py": "3148611481cf23b779d28dd7ae4fc522c8f3ebda8272fb54daceecc4178f8cad",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+    "tests/test_core.c": "49e582ea2369d8256012d803a17f8fb0235dee99a1c48d39dc5a0465aa8f8dcf",
+    "tests/test_core_bench.py": "c43255e57c09c7c68957ce9b529396fc94e00c2286c95bbe6da7091d7ced06d3",
+    "tests/test_core_ssd.c": "4c32c01ffe59da8198c3166c8e42c47fe83904fefb8068bb56f03844b1ee1fd1",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+    "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+    "tests/test_prefix_cache.c": "02cc1a407785430fc2521215daaf9343a779af7be0cee19728eb8a286c79ec30",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+    "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+    "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+    "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+    "tests/test_ssd_http.py": "9ed88f640b8bdde28efe50bbf6fb4b12c9d85789253ae64baa477d78ab26df0c",
+    "tests/test_ssd_serving_checks.py": "b119e41a3997e4ec2f9bb5591cbcc3c338b4de6f69053867de47c3227cb78545",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_store.c": "625e5945db60a2a4d877464f4153b40af3fc732cba63f6fc50aa5ff4bb11b8be",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+    "tests/test_tools.c": "d858f7dfcb671844877562ade53fb05ba0c69c358a1aec3527c71b8b0ced11b5",
+    "tests/test_tools_http.py": "00407dc8db7b7fb3c378029a46497b4f480af989b8d1cb35b2ba549ebf511e31",
+    "tests/test_worker.c": "56cd946df2705676185982e231262885f4df42e6b9ef4f3bbec826af7cbb04d6",
+    "tests/test_worker_contract.c": "9b323160769b78d0d20b75cba1b2b38c671f09081c9761e6fdebae3b5bc222af",
+    "tests/test_worker_timings.c": "1094e4ea3c881e4157f1e91e70206636464f8e81f41f68c500b8838b99f60902",
+    "tools/bench-http.py": "00d4abdf36757778fdcd18277222ce382d5476e0394e5c889dfcc41da3e8df71",
+    "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+    "tools/bench-report.py": "c6a772ead77cb2e5ec16df510dc5db4caa12750000b1ef9cc2b4cdef63921b2f",
+    "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "tools/build-gufo.py": "6db8525df2948b29bbe1c9d81816c43caf18d979d54bea781241c2d8582bd200",
+    "tools/check-gufo-build.py": "823a7ec506dc8b7b48ebb06e715045a66988b9cb40cf3cf9336db0de4a8480dd",
+    "tools/core-bench.c": "6189abbc074f29aa84440a5ded893c4e162160054cc6c64df401c7901ec2cf2b",
+    "tools/executor-bench.c": "57186efe989f7fdbdc1e4b19034cefbe68bb21333ac92a9903e6064ae21ab45b",
+    "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+    "tools/gufo_state_source.py": "d77eb0091239c8c4b136eae218fa1a8098c292f4a13d56285a6c55bd0778c2f9",
+    "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+    "tools/lie-bench.c": "ec0320fbf495cb85d92347ec51d664fbddf527ed0adcc732783d5421f1ffc61d",
+    "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+    "tools/run-bench.py": "446fd55de670e67ba0d0f26113ea8c80716f5f81a40645e12d55d341b13e3046",
+    "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+    "tools/state-bench.c": "8ffc6861d7a81567c8179808303bd3e0f7e40225cbd73db62e28b7039b4ce9d1",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+    "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab"
+  },
+  "final_evidence": "evidence/ssd-http-local-r5",
+  "focused_ctest": "4/4 PASS",
+  "checks": {
+    "http_ssd": "20 read samples, 2 C2 cohorts, deterministic pending-read cancellation/peer progress, recovery, slow-client peer isolation, parser negatives, CLI producer, supervised client reader, graph export",
+    "core_bench": 16,
+    "http_bench": 6,
+    "thermal_guard": 2
+  },
+  "sanitizers": {
+    "build": "Debug, LIE_SANITIZERS=ON",
+    "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "original_model_http_ssd": "NOT RUN; .157 coordinated for model copy to .161 after Q2",
+  "commands": [
+    {
+      "directory": "evidence/ssd-http-local-r1/build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-sanitize",
+          "--target",
+          "test-ssd-http-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 69.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 90.75
+        },
+        "elapsed_s": 1.070420023985207
+      },
+      "sha256": {
+        "command.log": "ac4665fec71b5099b816aae7a3e09c5e387b0e15cc601ae4754b74e200e96d75",
+        "plan.json": "fb8c0420f8562d851e7087a09f1c643bfcf2911aa059d679aba242dfd6d426cd",
+        "result.json": "4071fa193227309e336be2a6430b5032b9a609f52895050b78a91c360bc87442",
+        "temperatures.jsonl": "5124e17684ee1eb5023bce1fad1c29bb0d27b619e5441dffc88758a9ff689f9f"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r1/test",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1",
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "^http-ssd-reactive-checker$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 85.25
+        },
+        "elapsed_s": 5.309259324334562
+      },
+      "sha256": {
+        "command.log": "c124095679d8627d21f6c36eb53817f821e38671326e55a24120ba7a898e623e",
+        "plan.json": "e95f7c02c0a9860eed895c31ecfbc5a08d050e5de85907ec98f699452e5a3f4a",
+        "result.json": "e69880df8d8ce13a86764ab4fde3ad05532ad2a31c28295dd32c597ba8932025",
+        "temperatures.jsonl": "7ceed797ffd3381ed6e8d30e93fa0294d2d8877d2a873de84b9095f8992d0cf9"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r2/build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-sanitize",
+          "--target",
+          "test-synthetic-lie-bench",
+          "test-ssd-http-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 82.375
+        },
+        "elapsed_s": 1.124025035649538
+      },
+      "sha256": {
+        "command.log": "826d86a782bd16b97aa891425a49c474d6298bf6947779db370371a90983a63b",
+        "plan.json": "d49090a05b614fd4b83286aef16ba2648658f42b812761737ebda24493de2e06",
+        "result.json": "bda474f2501cf89e798ac9ac0c2a61372cf3ab32024dbaad169a8c9be3522cac",
+        "temperatures.jsonl": "0dea34b0f3d58fcd836ba473a99e9290460ce62db624191d02430cead7b23c85"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r2/test",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1",
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "^http-ssd-reactive-checker$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.5
+        },
+        "elapsed_s": 8.409824224188924
+      },
+      "sha256": {
+        "command.log": "af7da9764684f19f07155057cb3d3829ec03430b9c880370a4eb077a6ea29fb3",
+        "plan.json": "2afaf42499d0ccb837c49b9cc38c6a2cde0ff9ee0157f21cad2f4cc057fe35cd",
+        "result.json": "02799ba054fb2813275896cd2b8019cdc6723ce2e9d9400dbe62ef0b3376c4a7",
+        "temperatures.jsonl": "b629f23c66dbe24b0f173d51c3370b66d7f4f77ff03a0f267f0dff68605897f1"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r3/build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-sanitize",
+          "--target",
+          "test-synthetic-lie-bench",
+          "test-ssd-http-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.0
+        },
+        "elapsed_s": 1.0881067430600524
+      },
+      "sha256": {
+        "command.log": "69b8dfb6b8bb93eaec7166e4f666a2692a10d0606b38481d1ecf035f4ce1013c",
+        "plan.json": "d49090a05b614fd4b83286aef16ba2648658f42b812761737ebda24493de2e06",
+        "result.json": "f25c8070df23033966c431c606bddaaae4295cd21624d68d537e4e49c3e242e3",
+        "temperatures.jsonl": "d6dccceec3f25aed3f7a93e0897a83bb1d2a94d8b1e574f43fc1e466c061b17e"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r3/test",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1",
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "^(http-ssd-reactive-checker|core-bench-contract|http-bench-contract|thermal-owned-process-guard)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 80.25
+        },
+        "elapsed_s": 16.794136160053313
+      },
+      "sha256": {
+        "command.log": "86dd4253e81475bfafd795a93c4aa11dbca6bcae31baf4beb04bb6a7faf54fe0",
+        "plan.json": "72e5e04d3cd0d4b3f5910a00ebb589d490ca2f3a0dfe5b39217d591355c13630",
+        "result.json": "3b8fe9b9fca5abcc0357cdb352611f42fe514688c6c1b1fef1afe01aaa068f1c",
+        "temperatures.jsonl": "401d7c7624655614d6e474cfb1e63e99524d12a98d35164e6f77b88f1619eb87"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r4/test",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1",
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "^http-ssd-reactive-checker$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.75
+        },
+        "elapsed_s": 8.384578864090145
+      },
+      "sha256": {
+        "command.log": "fb18acb3e07cfe4375b13ebc8dc65006ffb7852518ac68aa53577b651971e4f0",
+        "plan.json": "1d3e1c75cda2416b87ed55d4e3ebd8e0f61b9c2008ef8baa75467da38e032dd4",
+        "result.json": "fe27937d67aaa18957f706048274a09b5f6a626107f6f6af6010cd35185d6498",
+        "temperatures.jsonl": "cc06f61270bb0fc0574be4412a31a812ddda9aea8b8d4f268cc75897b3d80927"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r5/build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-sanitize",
+          "--target",
+          "test-synthetic-lie-bench",
+          "test-ssd-http-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 81.0
+        },
+        "elapsed_s": 1.1247658710926771
+      },
+      "sha256": {
+        "command.log": "69b8dfb6b8bb93eaec7166e4f666a2692a10d0606b38481d1ecf035f4ce1013c",
+        "plan.json": "d49090a05b614fd4b83286aef16ba2648658f42b812761737ebda24493de2e06",
+        "result.json": "a9a4710a84b3d4fedc700937df5e3132ac54972b548de44a35998ff2830712ff",
+        "temperatures.jsonl": "fbfead9342f613a6308fccde00f81d467fc0b875420b9e8c7b3466f6fe0f6bc7"
+      }
+    },
+    {
+      "directory": "evidence/ssd-http-local-r5/test",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+          "UBSAN_OPTIONS=halt_on_error=1",
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "^(http-ssd-reactive-checker|core-bench-contract|http-bench-contract|thermal-owned-process-guard)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.625
+        },
+        "elapsed_s": 16.83480152208358
+      },
+      "sha256": {
+        "command.log": "b7292c1f30c4cf261a9915f52dc39bfd417fca253baa724eb0ac34f63dd686d0",
+        "plan.json": "28a1503ae7ce769946257507de14bf2af32ff24edf942b9d4d3d44093af41f72",
+        "result.json": "5ba8e59d1e386736e648203f25a3db5aec2670b34a437b2b2df92be4d7c03d4c",
+        "temperatures.jsonl": "09980675aa88508479cf4afe826dd2ad621751ff89fb14401e1485c0b643ab71"
+      }
+    }
+  ],
+  "final_http_witness": {
+    "synthetic": true,
+    "samples": 20,
+    "cohorts": 2,
+    "overlap_pending": true,
+    "peer_output_tokens": 512,
+    "cancelled_while_io_pending": true,
+    "slow_client_peer_complete": true,
+    "final": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 0,
+        "prefill_returned": 0,
+        "decode_started": 5826,
+        "decode_returned": 5826,
+        "decode_batches": 32,
+        "decode_batch_rows": 64,
+        "decode_single_calls": 5794,
+        "cancel_during_prefill": 0,
+        "cancel_during_decode": 0
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 5858,
+      "completed": 23,
+      "cancelled": 2,
+      "failed": 0
+    },
+    "ssd": {
+      "enabled": true,
+      "quota_bytes": 1048576,
+      "disk_bytes": 784,
+      "allocated_bytes": 8192,
+      "staging_budget_bytes": 1048576,
+      "staging_bytes": 0,
+      "peak_staging_bytes": 1048576,
+      "entries": 2,
+      "pending": 0,
+      "lookups": 25,
+      "hits": 24,
+      "misses": 0,
+      "writes": 0,
+      "evictions": 0,
+      "skipped": 0,
+      "errors": 0,
+      "cancelled": 1,
+      "read_bytes": 9408,
+      "written_bytes": 0,
+      "read_ns": 546054991,
+      "write_ns": 0
+    }
+  },
+  "archive": {
+    "path": "evidence.tar.gz",
+    "sha256": "df08529559d225d3fd96fae1986d49b40c737ad391529ef69d204752c7bf2a6e",
+    "bytes": 7534
+  }
+}

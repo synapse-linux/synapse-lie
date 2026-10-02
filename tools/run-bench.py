@@ -6,6 +6,7 @@ Shares only read-only utility functions with the retained original-model runner.
 """
 import fcntl
 import hashlib
+import http.client
 import json
 import math
 import os
@@ -18,6 +19,7 @@ import stat
 import statistics
 import subprocess
 import sys
+import threading
 import time
 
 H = runpy.run_path(str(Path(__file__).with_name('smoke-model.py')))
@@ -36,6 +38,8 @@ def read_power_settings(paths):
 
 
 REPORT = runpy.run_path(str(Path(__file__).with_name("bench-report.py")))
+BENCH_PASS = 'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION'
+HTTP_SSD_PASS = 'HTTP_SSD_PASS_NOT_INDEPENDENT_QUALIFICATION'
 
 
 def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/cpuinfo'), observe_cpu_gpu=False):
@@ -118,7 +122,7 @@ def bind_ssd(args,run,manifest,check_thermal=lambda:None):
     if not any(present):
         if declared is not None or '--state-ssd-mode' in options:raise ValueError('SSD manifest/options mismatch')
         return args,None
-    if not all(present) or not isinstance(declared,dict) or options.get('--suite') not in ('core','state'):
+    if not all(present) or not isinstance(declared,dict) or options.get('--suite') not in ('core','state','http-ssd'):
         raise ValueError('complete explicit SSD declaration required')
     if declared.get('full_model_hash_authorized') is not True or declared.get('checkpoint_hash_authorized') is not True:
         raise ValueError('SSD full-content hashing admission required')
@@ -130,7 +134,7 @@ def bind_ssd(args,run,manifest,check_thermal=lambda:None):
         n=int(value)*1024**2
         if type(declared.get(field)) is not int or declared[field]!=n:raise ValueError('SSD budget declaration mismatch')
         budgets.append(n)
-    if options['--suite']=='core':
+    if options['--suite'] in ('core','http-ssd'):
         ram=options.get('--prefix-cache-mib','4096')
         if not ram.isascii() or not ram.isdecimal() or int(ram)>1048576:raise ValueError('invalid RAM reserve')
         minimum=int(ram)*1024**2
@@ -143,6 +147,8 @@ def bind_ssd(args,run,manifest,check_thermal=lambda:None):
     mode=declared.get('mode');run=Path(run).resolve()
     if options['--suite']=='state' and options.get('--state-ssd-mode')!=('write' if mode=='create' else 'read'):
         raise ValueError('state SSD mode mismatch')
+    if options['--suite']=='http-ssd' and options.get('--phase')!=('write' if mode=='create' else 'read'):
+        raise ValueError('HTTP SSD mode mismatch')
     if mode=='create':
         if 'source_run' in declared or 'source_result_sha256' in declared:raise ValueError('new SSD store cannot have a source')
         path=run/'prefix-store'
@@ -157,7 +163,8 @@ def bind_ssd(args,run,manifest,check_thermal=lambda:None):
         receipt=source/'results/result.json'
         if sha(receipt)!=declared.get('source_result_sha256'):raise ValueError('SSD source receipt identity mismatch')
         prior=json.loads(receipt.read_text());path=source/'prefix-store'
-        if prior.get('state')!='SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION' or prior.get('child_exit_code')!=0 or prior.get('ssd_store',{}).get('path')!=str(path):
+        required_state=HTTP_SSD_PASS if options['--suite']=='http-ssd' else BENCH_PASS
+        if prior.get('state')!=required_state or prior.get('child_exit_code')!=0 or prior.get('ssd_store',{}).get('path')!=str(path):
             raise ValueError('SSD source was not a completed store producer')
         if prior.get('ssd_store',{}).get('mode')!='create':raise ValueError('SSD reuse must bind the original producer')
         if prior.get('ssd_store',{}).get('quota_bytes')!=budgets[0]:raise ValueError('SSD source quota mismatch')
@@ -184,7 +191,10 @@ def validate_args(args):
     if options.get('--suite')=='state':
         allowed={'--suite','--context','--chunk','--pp','--tokens-file'}
         allowed.add('--state-ssd-mode')
-    if options.get('--suite') in ('core','state'):
+    if options.get('--suite')=='http-ssd':
+        allowed={'--suite','--cases-file','--context','--chunk','--users','--phase','--repetitions',
+                 '--timeout-ms','--prefix-cache-mib','--overlap','--slow-client'}
+    if options.get('--suite') in ('core','state','http-ssd'):
         allowed.update(('--prefix-ssd-dir','--prefix-ssd-quota-mib','--prefix-ssd-staging-mib'))
     if len(set(keys))!=len(keys) or any(k not in allowed for k in keys):
         raise ValueError('unapproved/duplicate benchmark option')
@@ -197,11 +207,11 @@ def bind_args(args, run, manifest):
     """Bind a core input to one immutable staged file, never an external path."""
     args=validate_args(args)
     options=dict(zip(args[::2],args[1::2]))
-    if options['--suite'] not in ('core','state'):
+    if options['--suite'] not in ('core','state','http-ssd'):
         if manifest.get('benchmark_input') is not None:
             raise ValueError('input manifest only applies to core suite')
         return args
-    keys=[k for k in ('--prompt-file','--tokens-file') if k in options]
+    keys=[k for k in (('--cases-file',) if options['--suite']=='http-ssd' else ('--prompt-file','--tokens-file')) if k in options]
     declared=manifest.get('benchmark_input')
     if len(keys)!=1 or not isinstance(declared,dict):
         raise ValueError('one bound core input required')
@@ -225,6 +235,67 @@ def bind_args(args, run, manifest):
     return result
 
 
+def http_ssd_plan(args, run, manifest):
+    """Validate the HTTP profile before model open; bound inputs/store come first."""
+    validate_args(args); options=dict(zip(args[::2],args[1::2]))
+    required={'--suite','--cases-file','--context','--chunk','--users','--phase','--prefix-cache-mib',
+              '--prefix-ssd-dir','--prefix-ssd-quota-mib','--prefix-ssd-staging-mib'}
+    if not required <= options.keys() or options['--suite']!='http-ssd':
+        raise ValueError('incomplete HTTP SSD profile')
+    def integer(flag, low, high, default=None):
+        value=options.get(flag,default)
+        if not isinstance(value,str) or not value.isascii() or not value.isdecimal() or not low<=int(value)<=high:
+            raise ValueError('invalid HTTP SSD option: '+flag)
+        return int(value)
+    context=integer('--context',128,262144);chunk=integer('--chunk',1,min(context,65535))
+    integer('--users',2,2);integer('--prefix-cache-mib',0,0)
+    integer('--prefix-ssd-quota-mib',1,1048576);integer('--prefix-ssd-staging-mib',1,1048576)
+    repeats=integer('--repetitions',1,100,'3');timeout=integer('--timeout-ms',1000,1800000,'600000')
+    overlap=integer('--overlap',0,1,'0');slow=integer('--slow-client',0,1,'0')
+    phase=options['--phase']
+    if phase not in ('write','read') or (phase=='write' and (overlap or slow)):
+        raise ValueError('scheduling checks require a restarted reader')
+    model=manifest.get('http_model_id'); provider=manifest['build_info']['engine']
+    if not isinstance(model,str) or not model or len(model)>128:raise ValueError('explicit HTTP model ID required')
+    api,management=H['serving_ports'](dict(manifest,api_port=manifest.get('api_port',8000)))
+    out=Path(run)/'results'
+    server=['--host','127.0.0.1','--management-host','127.0.0.1','--port',str(api),'--management-port',str(management),
+            '--model-id',model,'--context',str(context),'--prefill-chunk',str(chunk),'--max-active','2',
+            '--request-timeout-ms',str(timeout),'--prefix-cache-mib','0']
+    for flag in ('--prefix-ssd-dir','--prefix-ssd-quota-mib','--prefix-ssd-staging-mib'):server += [flag,options[flag]]
+    client=['--url',f'http://127.0.0.1:{api}/v1','--management-url',f'http://127.0.0.1:{management}',
+            '--model',model,'--provider',provider,'--cases',options['--cases-file'],
+            '--output',str(out/'http.jsonl'),'--phase',phase,'--chunk',str(chunk),
+            '--repetitions',str(repeats),'--timeout',str(timeout/1000)]
+    if overlap:client += ['--overlap']
+    if slow:client += ['--slow-client']
+    if phase=='read':
+        source=manifest['ssd_store']['source_run']
+        if not isinstance(source,str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*',source):raise ValueError('invalid reference source')
+        producer=Path(run).parent/source/'results';receipt=producer/'result.json'
+        if sha(receipt)!=manifest['ssd_store']['source_result_sha256']:raise ValueError('HTTP source receipt drift')
+        prior=json.loads(receipt.read_text());reference=producer/'http.jsonl.summary.json'
+        if prior.get('state')!=HTTP_SSD_PASS or sha(reference)!=prior.get('http_summary_sha256'):
+            raise ValueError('HTTP source summary identity mismatch')
+        client += ['--reference',str(reference)]
+    return dict(server=server,client=client,ports=[api,management],readiness_timeout=timeout/1000)
+
+
+def http_ssd_check(plan, helper, check):
+    """Run clients in one supervisor thread; the owned server alone uses the GPU."""
+    deadline=time.monotonic()+plan['readiness_timeout']
+    while True:
+        check()
+        try:
+            health=H['http'](plan['ports'][1],'/actuator/health/readiness',timeout=2)
+            if health['status']==200:break
+        except (OSError,http.client.HTTPException):pass
+        if time.monotonic()>=deadline:raise RuntimeError('HTTP model readiness deadline')
+        time.sleep(.1)
+    result=helper['main'](plan['client'],check=check)
+    if result!=0:raise RuntimeError('HTTP SSD client failed')
+
+
 def main():
     if len(sys.argv) != 2:
         raise SystemExit('Usage: run-bench.py PRIVATE-RUN-DIRECTORY')
@@ -240,6 +311,7 @@ def main():
          'authorization': m['authorization'], 'ds4_ack_claimed': False, 'model_attempted': False,
          'commands': [], 'locks': []}
     locks, child, registered = [], None, False
+    checker=None; checker_result={}; checker_done=threading.Event(); http_plan=None
     interrupted = False
 
     def save():
@@ -315,13 +387,22 @@ def main():
         reserve=m.get('ram_cache_reserve_bytes',0)
         if type(reserve) is not int or reserve<0 or r['preflight_memory']['MemAvailable']<=trunk+reserve:
             raise RuntimeError('RAM cache reserve admission failed; no memory-fit claim')
-        binary = run / 'synapse-lie-bench'
         for name, expected in m['files'].items():
             if sha(run / name) != expected:
                 raise RuntimeError('staged file identity mismatch: ' + name)
         r['preflight_temperatures']=check_thermal()
         benchmark_args=bind_args(m['benchmark_args'],run,m)
         benchmark_args,r['ssd_store']=bind_ssd(benchmark_args,run,m,check_thermal)
+        selected_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']
+        binary=run/('synapse-lie-server' if selected_suite=='http-ssd' else 'synapse-lie-bench')
+        if binary.name not in m['files']:raise ValueError('binary missing from staged identities')
+        if selected_suite=='http-ssd':
+            if 'bench-ssd-http.py' not in m['files']:raise ValueError('HTTP checker identity missing')
+            http_plan=http_ssd_plan(benchmark_args,run,m);r['http_plan']=http_plan
+            http_helper=runpy.run_path(str(run/'bench-ssd-http.py'))
+            cases=http_helper['validate_cases'](json.loads(Path(dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--cases-file']).read_text()))
+            r['http_cases_sha256']=http_helper['digest'](cases)
+            H['probe_ports'](http_plan['ports'])
         staging=r['ssd_store']['staging_bytes'] if r['ssd_store'] else 0
         if H['memory']()['MemAvailable']<=trunk+reserve+staging:
             raise RuntimeError('SSD staging plus RAM reserve admission failed; no fit claim')
@@ -332,9 +413,9 @@ def main():
             env[key] = str(p)
         env.update(LC_ALL='C', LD_BIND_NOW='1', ROCR_VISIBLE_DEVICES='0', HIP_VISIBLE_DEVICES='0')
         masked = dict(env, ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
-        selected_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']
         info = json.loads(command([str(binary), *(['--suite',selected_suite] if selected_suite in ('core','state') else []), '--build-info'], masked))
-        if info != m['build_info'] or info['synthetic'] or info['ownership'] != 'delegated':
+        synthetic=info.get('synthetic',False) if http_plan else info['synthetic']
+        if info != m['build_info'] or synthetic or info['ownership'] != 'delegated':
             raise RuntimeError('provider/build identity mismatch')
         command(['uname', '-srmo'], masked)
         command(['readelf', '-d', str(binary)], masked)
@@ -355,8 +436,8 @@ def main():
         if interrupted or H['kfd']():
             raise RuntimeError('admission interrupted or foreign client appeared')
         check_thermal()
-        r['argv'] = [str(binary), '--model', m['models'][0]['path'], '--output', str(out / 'measurements.jsonl')]
-        r['argv'] += benchmark_args
+        r['argv'] = [str(binary), '--model', m['models'][0]['path']]
+        r['argv'] += http_plan['server'] if http_plan else ['--output',str(out/'measurements.jsonl'),*benchmark_args]
         register('start')
         registered = True
         r['state'] = 'BENCHMARK_RUNNING'
@@ -364,6 +445,16 @@ def main():
         with (out / 'stdout.log').open('xb') as log, (out / 'stderr.log').open('xb') as err:
             child = subprocess.Popen(r['argv'], cwd=run, env=env, stdout=log, stderr=err, start_new_session=True)
         r['child_pid'], r['child_start_ticks'] = child.pid, ticks(child.pid)
+        if http_plan:
+            def live():
+                if interrupted or child.poll() is not None:raise RuntimeError('owned HTTP server retired/interrupted')
+            def check_http():
+                try:
+                    http_ssd_check(http_plan,http_helper,live);checker_result['exit_code']=0
+                except BaseException as ex:
+                    checker_result.update(exit_code=1,error=repr(ex))
+                finally:checker_done.set()
+            checker=threading.Thread(target=check_http,name='lie-http-ssd-checker');checker.start()
         save()
         deadline = time.monotonic() + 3600
         with (out / 'telemetry.jsonl').open('x') as log:
@@ -384,16 +475,26 @@ def main():
                     raise RuntimeError('foreign GPU client detected')
                 if interrupted or time.monotonic() > deadline:
                     raise RuntimeError('benchmark interrupted/deadline')
+                if http_plan and checker_done.is_set():
+                    checker.join();r['http_checker']=checker_result
+                    child.terminate();child.wait(timeout=120)
+                    if checker_result['exit_code']!=0:raise RuntimeError('HTTP SSD checks failed; retained request evidence')
+                    break
                 time.sleep(1)
         r['child_exit_code'] = child.returncode
         if child.returncode:
             raise RuntimeError('benchmark failed; see retained measurements/stderr')
-        data = [json.loads(x) for x in (out / 'measurements.jsonl').read_text().splitlines()]
-        r['summary'] = REPORT['read_result'](out / 'measurements.jsonl')
-        r['measurements_sha256'] = sha(out / 'measurements.jsonl')
+        if http_plan:
+            if not checker_done.is_set() or checker_result.get('exit_code')!=0:raise RuntimeError('HTTP server exited before checks completed')
+            summary=out/'http.jsonl.summary.json';r['summary']=json.loads(summary.read_text())
+            if r['summary']['state']!='PASS':raise RuntimeError('incomplete HTTP summary')
+            r['http_summary_sha256']=sha(summary);r['measurements_sha256']=sha(out/'http.jsonl')
+        else:
+            r['summary'] = REPORT['read_result'](out / 'measurements.jsonl')
+            r['measurements_sha256'] = sha(out / 'measurements.jsonl')
         if r['ssd_store']:
             r['ssd_after']=ssd_inventory(Path(r['ssd_store']['path']),check_thermal)
-        r['state'] = 'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION'
+        r['state'] = HTTP_SSD_PASS if http_plan else BENCH_PASS
     except BaseException as ex:
         r['state'], r['error'] = 'FAILED', repr(ex)
     finally:
@@ -407,6 +508,10 @@ def main():
                     child.kill()
                     child.wait()
             r['child_exit_code'] = child.returncode
+        if checker:
+            checker.join(timeout=30);r['http_checker']=checker_result
+            r['http_checker_retired']=not checker.is_alive()
+            if checker.is_alive():r['state'],r['closure_error']='FAILED','HTTP checker failed to retire'
         try:
             r['models_after'] = [H['model_stat'](x) for x in m['models']]
             r['files_unchanged'] = all(sha(run / name) == expected for name, expected in m['files'].items())
@@ -424,7 +529,7 @@ def main():
             for fd in reversed(locks):
                 os.close(fd)
     print(json.dumps(r, indent=2), flush=True)
-    return 0 if r['state'] == 'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION' else 1
+    return 0 if r['state'] in (BENCH_PASS,HTTP_SSD_PASS) else 1
 
 
 if __name__ == '__main__':

@@ -31,6 +31,7 @@ an implemented test and a completed measurement.
 - [Shared-core GPU protocol](CORE-GPU-PROTOCOL.md),
   [RAM state protocol](STATE-GPU-PROTOCOL.md),
   [SSD restart protocol](SSD-GPU-PROTOCOL.md),
+  [SSD HTTP/restart/concurrency client and protocol](SSD-HTTP-PROTOCOL.md),
   [executor and HTTP performance protocol](PERFORMANCE-PROTOCOL.md).
 - [Initial model serving](T0-SMOKE.md), [lifecycle](T0-LIFECYCLE.md),
   [OpenAI GPU checks](OPENAI-GPU.md), [256K and Pi checks](HTTP-256K-PI.md).

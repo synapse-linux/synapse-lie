@@ -9,6 +9,9 @@ through 128K](SSD-GPU-COMPLETION.md): full-logit/token equivalence after restart
 4K-to-8K extension, and matched off/RAM/SSD timings. The completed continuation
 retains the earlier software thermal stops and includes 1 Hz temperature/clock
 observations. HTTP/concurrent SSD device checks remain separate.
+The [HTTP SSD benchmark client](SSD-HTTP-PROTOCOL.md) now has passing CPU
+restart/C2/held-read/cancellation/slow-client fixtures and percentile exports;
+its original-weight campaign is still NOT RUN.
 
 RAM remains enabled by default, with its independent lazy 4 GiB budget.
 SSD remains disabled by default. Enable it explicitly with all three options:
