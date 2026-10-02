@@ -11,6 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#if LIE_CHECKPOINT_COMPRESSION
+#include <lz4.h>
+#endif
 static uint32_t random32(uint32_t *s){*s^=*s<<13;*s^=*s>>17;*s^=*s<<5;return *s;}
 static void checksum(int fd,uint64_t size){
     unsigned char *bytes=malloc((size_t)size),digest[32];unsigned count=0;assert(bytes);
@@ -33,13 +36,13 @@ static lie_state *fixture(unsigned pattern){
     uint32_t seed=123;unsigned char *data=p->payload+l.sections[2].offset;
     for(size_t i=0;i<blob[0];++i){
         unsigned char r=(unsigned char)random32(&seed);
-        data[i]=pattern==1?r:pattern==2&&i>=LIE_STATE_BLOCK_BYTES&&i<2u*LIE_STATE_BLOCK_BYTES?r:0;
+        data[i]=pattern==3?(i%4==3?0x3f:r):pattern==1?r:pattern==2&&i>=LIE_STATE_BLOCK_BYTES&&i<2u*LIE_STATE_BLOCK_BYTES?r:0;
     }
     return p;
 }
 int main(void){
     assert(lie_state_compression_enabled()==(LIE_CHECKPOINT_COMPRESSION!=0));
-    for(unsigned pattern=0;pattern<3;++pattern){
+    for(unsigned pattern=0;pattern<4;++pattern){
         lie_state *p=fixture(pattern);uint64_t raw=lie_state_bytes(p),payload=p->payload_bytes;
         unsigned char *expected=malloc((size_t)payload),*expanded=malloc((size_t)payload);assert(expected&&expanded);
         memcpy(expected,p->payload,(size_t)payload);
@@ -51,7 +54,7 @@ int main(void){
         assert(!memcmp(expanded,expected,(size_t)payload));
         assert(!memcmp(lie_state_tokens(p),expected,4*sizeof(int32_t)));
         if(packed){
-            assert(lie_state_bytes(p)<raw&&lie_state_restore_workspace(p)==payload);
+            assert(lie_state_bytes(p)<raw&&lie_state_restore_workspace(p)==payload+lie_state_decode_workspace(p->codec));
             uint64_t prefix=p->layout.sections[0].bytes;unsigned char save=p->payload[prefix];
             p->payload[prefix]^=1;assert(!lie_state_unpack_payload(p,expanded,(size_t)payload));p->payload[prefix]=save;
             p->storage_bytes++;assert(!lie_state_unpack_payload(p,expanded,(size_t)payload));p->storage_bytes--;
@@ -78,6 +81,23 @@ int main(void){
         assert(!ftruncate(fd,(off_t)file-1));assert(!lie_state_file_read(fd,&id,7,raw*3,NULL));
         close(fd);assert(!unlink(name));lie_state_destroy(&p);free(expected);free(expanded);
     }
+#if LIE_CHECKPOINT_COMPRESSION
+    /* Reader compatibility with the first released LZ4 envelope, codec 1. */
+    lie_state *raw=fixture(0),*old=lie_state_allocate(&raw->layout,UINT64_MAX);assert(old);
+    uint64_t in=raw->layout.sections[0].bytes,at=in;memcpy(old->payload,raw->payload,(size_t)in);
+    while(in<raw->payload_bytes){
+        uint32_t n=(uint32_t)((raw->payload_bytes-in)>LIE_STATE_BLOCK_BYTES?LIE_STATE_BLOCK_BYTES:raw->payload_bytes-in);
+        int count=LZ4_compress_default((const char *)raw->payload+in,(char *)old->payload+at+8,(int)n,(int)n);assert(count>0);
+        for(unsigned k=0;k<4;++k){old->payload[at+k]=(unsigned char)(n>>(8*k));old->payload[at+4+k]=(unsigned char)((uint32_t)count>>(8*k));}
+        in+=n;at+=8+(uint32_t)count;
+    }
+    old->codec=1;old->storage_bytes=at;
+    char legacy[]="checkpoint-legacy-XXXXXX";int fd=mkstemp(legacy);assert(fd>=0);lie_state_identity id={{4}};
+    assert(lie_state_file_write(fd,&id,old,NULL));
+    lie_state *loaded=lie_state_file_read(fd,&id,7,lie_state_bytes(raw)+LIE_STATE_BLOCK_BYTES,NULL);assert(loaded);
+    assert(!memcmp(raw->payload,loaded->payload,(size_t)raw->payload_bytes));
+    lie_state_destroy(&loaded);lie_state_destroy(&old);lie_state_destroy(&raw);close(fd);assert(!unlink(legacy));
+#endif
     if(LIE_CACHE_UTILITY){
         lie_retention a,b;lie_retention_init(&a,0,false);lie_retention_init(&b,0,false);
         for(unsigned i=1;i<=8;++i)lie_retention_hit(&a,i);

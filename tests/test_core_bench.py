@@ -166,7 +166,7 @@ class CoreBench(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='lie-core-report-') as tmp:
             p,path=self.run_case(tmp);self.assertEqual(p.returncode,0,p.stderr)
             original=[json.loads(x) for x in path.read_text().splitlines()]
-            for mode in ['count','hash','ids','time','missing','retention','compression','expanded']:
+            for mode in ['count','hash','ids','time','missing','retention','compression','expanded','codec']:
                 rows=copy.deepcopy(original)
                 if mode=='missing':rows.pop()
                 elif mode=='hash':next(r for r in rows if r['event']=='input')['physical_ids_sha256']='bad'
@@ -174,6 +174,7 @@ class CoreBench(unittest.TestCase):
                 elif mode=='count':next(r for r in rows if r['event']=='sample')['output_tokens']=0
                 elif mode=='retention':rows[0]['cache_retention_policy']='unknown'
                 elif mode=='compression':rows[0]['checkpoint_compression']=1
+                elif mode=='codec':rows[0]['checkpoint_codec']='unknown'
                 elif mode=='expanded':next(r for r in rows if r['event']=='sample')['cache_expanded_bytes']=-1
                 else:next(r for r in rows if r['event']=='job')['first_token_ns']=-1
                 bad=Path(tmp)/'bad.jsonl';bad.write_text('\n'.join(json.dumps(r) for r in rows)+'\n')

@@ -33,9 +33,9 @@ remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
-Retention uses decaying reuse/token-per-byte utility; lossless LZ4 checkpoint
+Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
 compression is enabled at build time by default, with bounded workspace and a
-12.5% minimum saving. Both features can be compiled out independently. Active KV
+12.5% minimum payload saving. Both features can be compiled out independently. Active KV
 remains native F16: compressed checkpoints do not shrink a running sequence;
 see the [cache capability boundary](docs/STATE.md#retention-policy-and-compression-boundary).
 The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)
@@ -170,10 +170,10 @@ or Reactive Streams TCK claim.
 ## CPU build and verification
 
 Installed dependencies: Linux, C17 compiler, CMake, pkg-config, libuv, llhttp,
-json-c, libcurl, Threads, libm, LZ4 and OpenSSL Crypto development headers. Crypto is
+json-c, libcurl, Threads, libm, LZ4, Zstandard and OpenSSL Crypto development headers. Crypto is
 required by the shared state store, including core-only builds. Python is
 development/test tooling only. `-DLIE_CACHE_UTILITY=OFF` selects LRU;
-`-DLIE_CHECKPOINT_COMPRESSION=OFF` excludes the codec and LZ4 dependency. Both
+`-DLIE_CHECKPOINT_COMPRESSION=OFF` excludes the codecs and their dependencies. Both
 options default ON; only SSD persistence defaults off at runtime.
 Nothing is installed by the build.
 

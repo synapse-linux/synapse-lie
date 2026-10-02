@@ -1,0 +1,356 @@
+{
+  "scope": "Matched build-feature ablation; one cold warmup and three measured warm cohorts per arm. No confidence interval or kernel/reactive causal speedup claim.",
+  "core": [
+    {
+      "arm": "core-p131072-c1-off",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1377.6838797754028,
+      "cold_capture_ms": 119.638303,
+      "hot_ttft_ms": 230.327465,
+      "hot_restore_ms": 42.176329,
+      "hot_executor_tg_tps": 24.932792945640852,
+      "hot_output_wall_tps": 24.038975761623938,
+      "retained_bytes": 3441461344,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p131072-c1-on",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1372.952310103215,
+      "cold_capture_ms": 205.906327,
+      "hot_ttft_ms": 228.839884,
+      "hot_restore_ms": 42.312614,
+      "hot_executor_tg_tps": 24.93984948648078,
+      "hot_output_wall_tps": 24.05437360508112,
+      "retained_bytes": 3441461344,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c1-off",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1522.4072312804724,
+      "cold_capture_ms": 17.838566,
+      "hot_ttft_ms": 135.33498,
+      "hot_restore_ms": 5.583805,
+      "hot_executor_tg_tps": 25.974787228205155,
+      "hot_output_wall_tps": 25.474942792533056,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c1-on",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1351.4701411554454,
+      "cold_capture_ms": 41.388615,
+      "hot_ttft_ms": 186.491235,
+      "hot_restore_ms": 5.566635,
+      "hot_executor_tg_tps": 25.970056175850832,
+      "hot_output_wall_tps": 25.215182511402325,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c2-off",
+      "users": 2,
+      "prompt_tokens": 8192,
+      "retention": "lru",
+      "compression": false,
+      "jobs": 8,
+      "cold_executed_pp_tps": 1512.4511308946207,
+      "cold_capture_ms": 98.410802,
+      "hot_ttft_ms": 573.1101435,
+      "hot_restore_ms": 5.9824935,
+      "hot_executor_tg_tps": 22.21602857473221,
+      "hot_output_wall_tps": 41.480875311464416,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c2-on",
+      "users": 2,
+      "prompt_tokens": 8192,
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 8,
+      "cold_executed_pp_tps": 1498.270314640708,
+      "cold_capture_ms": 151.510462,
+      "hot_ttft_ms": 489.2193675,
+      "hot_restore_ms": 5.921552500000001,
+      "hot_executor_tg_tps": 22.624129121753235,
+      "hot_output_wall_tps": 42.10729220303777,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    }
+  ],
+  "comparisons": [
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "lz4-blocks-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 1.000640536585663,
+      "primary": "core-p131072-c1-on",
+      "reference": "core-p131072-c1-off"
+    },
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "lz4-blocks-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 0.989803302670934,
+      "primary": "core-p8192-c1-on",
+      "reference": "core-p8192-c1-off"
+    },
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "lz4-blocks-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 1.01510134216961,
+      "primary": "core-p8192-c2-on",
+      "reference": "core-p8192-c2-off"
+    }
+  ],
+  "state": [
+    {
+      "arm": "state-p8192-on",
+      "capture": {
+        "event": "capture",
+        "retained_bytes": 326699104,
+        "expanded_bytes": 326699104,
+        "compressed": false,
+        "sections": 112,
+        "capture_ns": 42215880
+      },
+      "pairs": [
+        {
+          "event": "pair",
+          "pair": 0,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 5330768114,
+          "restore_ns": 5985337,
+          "tail_prefill_ns": 150,
+          "reused_tokens": 8192,
+          "new_tokens": 0,
+          "generation": "greedy",
+          "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            2,
+            17775,
+            314,
+            279,
+            42770,
+            43009,
+            9988,
+            5606,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            20454,
+            264,
+            15352
+          ]
+        },
+        {
+          "event": "pair",
+          "pair": 1,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 5386174476,
+          "restore_ns": 5697655,
+          "tail_prefill_ns": 20,
+          "reused_tokens": 8192,
+          "new_tokens": 0,
+          "generation": "seeded-sampling",
+          "full_logits_sha256": "a757e2b3b6aaf43bd28a8b889c94754a820c6c3511e68d29002fbf092c44eb4e",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            2,
+            17775,
+            314,
+            279,
+            24491,
+            43009,
+            9988,
+            5606,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            20454,
+            264,
+            15352
+          ]
+        },
+        {
+          "event": "pair",
+          "pair": 2,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 5441967209,
+          "restore_ns": 5607037,
+          "tail_prefill_ns": 20,
+          "reused_tokens": 8192,
+          "new_tokens": 0,
+          "generation": "greedy",
+          "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            2,
+            17775,
+            314,
+            279,
+            42770,
+            43009,
+            9988,
+            5606,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            20454,
+            264,
+            15352
+          ]
+        }
+      ]
+    }
+  ],
+  "http": [
+    {
+      "arm": "http-ssd-read-on",
+      "state": "PASS",
+      "phase": "read",
+      "samples": 30,
+      "cohorts": [
+        {
+          "rep": 0,
+          "users": 2,
+          "wall_ms": 23511.500445,
+          "output_over_wall_tps": 27.220721259246712
+        },
+        {
+          "rep": 1,
+          "users": 2,
+          "wall_ms": 23077.420975,
+          "output_over_wall_tps": 27.732734983398636
+        },
+        {
+          "rep": 2,
+          "users": 2,
+          "wall_ms": 22884.03661,
+          "output_over_wall_tps": 27.9670938701579
+        }
+      ],
+      "counts": [
+        {
+          "case": "near-128k",
+          "prompt_tokens": 131123,
+          "output_tokens": 128,
+          "cached_tokens": 131072
+        },
+        {
+          "case": "near-128k",
+          "prompt_tokens": 131123,
+          "output_tokens": 128,
+          "cached_tokens": 131072
+        }
+      ],
+      "overlap": "PASS",
+      "slow_client": "PASS"
+    },
+    {
+      "arm": "http-ssd-write-on",
+      "state": "PASS",
+      "phase": "write",
+      "samples": 2,
+      "cohorts": [],
+      "counts": [
+        {
+          "case": "near-128k",
+          "prompt_tokens": 131123,
+          "output_tokens": 128,
+          "cached_tokens": 0
+        },
+        {
+          "case": "near-8k-peer",
+          "prompt_tokens": 8243,
+          "output_tokens": 512,
+          "cached_tokens": 0
+        }
+      ],
+      "overlap": null,
+      "slow_client": null
+    }
+  ]
+}

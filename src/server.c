@@ -417,10 +417,12 @@ static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_s
     json_object_object_add(o,"ssd_enabled",json_object_new_boolean(ssd->enabled));
     json_object_object_add(o,"retention_policy",json_object_new_string(i->utility_policy?"decaying-token-byte-utility-v1":"lru"));
     json_object_object_add(o,"checkpoint_compression",json_object_new_boolean(i->compression_enabled));
+    json_object_object_add(o,"checkpoint_codec",json_object_new_string(lie_state_compression_codec()));
     json_object *disk=json_object_new_object();
     json_object_object_add(disk,"enabled",json_object_new_boolean(ssd->enabled));
     json_object_object_add(disk,"retention_policy",json_object_new_string(ssd->utility_policy?"decaying-token-byte-utility-v1":"lru"));
     json_object_object_add(disk,"checkpoint_compression",json_object_new_boolean(ssd->compression_enabled));
+    json_object_object_add(disk,"checkpoint_codec",json_object_new_string(lie_state_compression_codec()));
 #define SSD_FIELD(name) json_object_object_add(disk,#name,json_object_new_uint64(ssd->name))
     SSD_FIELD(quota_bytes);SSD_FIELD(disk_bytes);SSD_FIELD(allocated_bytes);SSD_FIELD(staging_budget_bytes);
     SSD_FIELD(staging_bytes);SSD_FIELD(peak_staging_bytes);SSD_FIELD(entries);SSD_FIELD(pending);
@@ -698,9 +700,9 @@ int main(int argc, char **argv) {
     int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
         if (!strcmp(argv[i],"--build-info")) {
-            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s}\n",
+            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":\"%s\"}\n",
                    LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership(),
-                   LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false");
+                   LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec());
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {

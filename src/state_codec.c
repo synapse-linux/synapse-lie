@@ -58,7 +58,7 @@ static bool read_header(int fd,const lie_state_identity *id,unsigned char *h,uin
     uint64_t prefix=LIE_STATE_DISK_HEADER+(uint64_t)u32(h+20)*LIE_STATE_DISK_SECTION;
     if(*size<prefix)return false;
     if(u32(h+8)==1)return !u32(h+36)&&!u64(h+152)&&u64(h+40)==*size-prefix;
-    return u32(h+8)==2&&u32(h+36)==1&&lie_state_compression_enabled()&&
+    return u32(h+8)==2&&(u32(h+36)==1||u32(h+36)==2)&&lie_state_compression_enabled()&&
            u64(h+152)==*size-prefix&&u64(h+152)<u64(h+40);
 }
 bool lie_state_file_probe(int fd,const lie_state_identity *id,uint64_t *bytes,unsigned *tokens){
@@ -79,7 +79,7 @@ static void decode_section(lie_state_section *s,const unsigned char *b){
 bool lie_state_file_write(int fd,const lie_state_identity *id,const lie_state *s,const atomic_bool *cancel){
     uint64_t bytes=0,payload=0;
     if(!platform()||!id||!s||!regular(fd,&bytes)||bytes||!lie_state_validate(&s->layout,&payload)||
-       payload!=s->payload_bytes||lie_state_file_bytes(s)>INT64_MAX||s->codec>1||
+       payload!=s->payload_bytes||lie_state_file_bytes(s)>INT64_MAX||s->codec>2||
        (!s->codec&&s->storage_bytes!=payload)||
        (s->codec&&(s->storage_bytes>=payload||s->layout.sections[0].role!=LIE_STATE_TOKENS)))return false;
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return false;
@@ -97,7 +97,7 @@ lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t doma
     unsigned char h[LIE_STATE_DISK_HEADER],section[LIE_STATE_DISK_SECTION],expected[32],actual[32];uint64_t bytes=0;
     if(!domain||!id||stopped(cancel)||!read_header(fd,id,h,&bytes)||u64(h+40)>budget||
        sizeof(lie_state)>budget-u64(h+40))return NULL;
-    uint64_t scratch=u32(h+36)?LIE_STATE_BLOCK_BYTES:0;
+    uint64_t scratch=u32(h+36)?LIE_STATE_BLOCK_BYTES+lie_state_decode_workspace(u32(h+36)):0;
     if(scratch>budget-u64(h+40)-sizeof(lie_state))return NULL;
     memcpy(expected,h+88,32);memset(h+88,0,32);
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return NULL;
@@ -124,7 +124,7 @@ lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t doma
             uint32_t stored=coded?coded:raw;
             ok=raw==want&&coded<raw&&stored<=bytes-offset;
             if(ok&&coded)ok=transfer(fd,block,stored,offset,false,cancel,hash)&&
-                            lie_state_decode_block(block,stored,s->payload+at,raw);
+                            lie_state_decode_block(u32(h+36),block,stored,s->payload+at,raw);
             else if(ok)ok=transfer(fd,s->payload+at,raw,offset,false,cancel,hash);
             offset+=stored;at+=raw;
         }

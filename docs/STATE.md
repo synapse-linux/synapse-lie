@@ -86,7 +86,7 @@ The shared C17 core now implements these independent default-ON CMake options:
 | Option | Enabled behavior | OFF behavior |
 |---|---|---|
 | `LIE_CACHE_UTILITY` | Decaying reuse, tokens per retained byte, anchor/continuation weighting | LRU |
-| `LIE_CHECKPOINT_COMPRESSION` | Bounded lossless LZ4 checkpoint packing, raw fallback | Raw checkpoints; no LZ4 dependency |
+| `LIE_CHECKPOINT_COMPRESSION` | Bounded lossless byte-plane/Zstandard checkpoint packing, raw fallback | Raw checkpoints; no codec dependencies |
 
 Utility is `(1 + decayed_hits) * tokens / retained_bytes`, doubled for an anchor
 and multiplied by 0.125 for a superseded continuation. Hit weight halves every
@@ -100,8 +100,11 @@ source imported.
 
 Packing operates only on a uniquely owned immutable state. Physical tokens stay
 uncompressed; all remaining bytes, including floating-point bit patterns, use
-independent 1 MiB LZ4/raw blocks. Payloads below 64 KiB stay raw. At least 12.5%
-saving is required; insufficient budget, allocation failure or incompressible
+independent 1 MiB Zstandard/raw blocks. Four-byte words are reversibly split
+into byte planes before level-1 compression, without interpreting their values.
+Static codec contexts keep all explicit workspace inside admission. Existing
+LZ4 blocks remain readable. Payloads below 64 KiB stay raw. At least 12.5%
+payload saving is required; insufficient budget, allocation failure or incompressible
 input leaves the original unchanged. The budget includes the source, candidate
 and explicit codec scratch; allocator internals/overhead and device memory are
 separate. Restore reserves the complete expanded payload and may evict other

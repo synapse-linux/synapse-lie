@@ -183,7 +183,8 @@ exact resumable sampling/tool sessions, MTP and vision require distinct contract
 ## Compressed version 2
 
 Raw states continue to write/read the unchanged v1 envelope. Compressed states
-use envelope version 2, codec 1 at offset 36, expanded payload size at offset 40
+use envelope version 2, codec 1 (legacy LZ4) or 2 (byte-plane4/Zstandard) at
+offset 36, expanded payload size at offset 40
 and stored payload size at offset 152. Section offsets describe the expanded
 layout, so model representation version and scalar bits remain unchanged.
 The first section must be physical tokens at offset zero; its bytes precede
@@ -192,7 +193,13 @@ data. Expanded frames are 1 MiB except the last. A zero compressed length means
 a raw block; otherwise it must be smaller than the expanded length. Exact final
 lengths and SHA-256 of the stored envelope/table/payload are required.
 
-Read admission reserves the expanded allocation plus one 1 MiB block buffer,
+For codec 2, each compressed frame decodes to four byte planes of `floor(n/4)`
+bytes plus the unchanged 1..3-byte tail, then reverses that permutation. Raw
+frames store original unpermuted bytes. Zstandard runs at level 1 with a static
+context; neither side creates hidden workers.
+
+Read admission reserves the expanded allocation, one encoded-block buffer and
+the selected decoder workspace (one block plus static context for codec 2),
 checks every frame before decompression, then validates checksum, canonical
 padding and physical tokens before exposing the state. Optional repacking stays
 inside the same SSD staging budget. Disabled codec builds safely miss v2 files;

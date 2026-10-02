@@ -30,6 +30,7 @@ static json_object *identity(void){
     str(j,"engine",lie_backend_name());str(j,"ownership",lie_backend_ownership());str(j,"source_pin",lie_backend_source_pin());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     json_object_object_add(j,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
+    str(j,"checkpoint_codec",lie_state_compression_codec());
     num(j,"state_abi",LIE_STATE_ABI);str(j,"scope","C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision");return j;
 }
 static bool integer(const char *s,unsigned *v){char *end=NULL;unsigned long n=strtoul(s,&end,10);if(!*s||*end||*s=='-'||!n||n>1048576)return false;*v=(unsigned)n;return true;}

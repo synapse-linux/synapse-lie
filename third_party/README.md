@@ -196,3 +196,11 @@ plots, adding no engine dependency. The 2026-10-02 cache-policy comparison reads
 official `antirez/ds4` upstream code as a behavioral reference; no implementation
 or local DS4 artifact is imported. It does not claim DS4 cache-policy or
 compression equivalence. LIE retains its existing component representation.
+
+
+The optional default-ON checkpoint codec links installed C libraries: Zstandard
+under its [BSD-3-Clause option](zstd-NOTICE), plus [LZ4 BSD-2-Clause](lz4-NOTICE)
+for legacy decoding. No library source is copied or installed by LIE. Disabling
+`LIE_CHECKPOINT_COMPRESSION` removes both dependencies. The byte permutation,
+framing and retention policy remain first-party MIT C17. OpenSSL Crypto is now
+a shared state-store dependency, including core-only builds.

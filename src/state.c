@@ -107,7 +107,11 @@ void lie_state_retain(lie_state *p){
 void lie_state_destroy(lie_state **p){if(p&&*p){if(atomic_fetch_sub(&(*p)->refs,1)==1)free(*p);*p=NULL;}}
 uint64_t lie_state_bytes(const lie_state *p){return p?sizeof(*p)+p->storage_bytes:0;}
 uint64_t lie_state_expanded_bytes(const lie_state *p){return p?sizeof(*p)+p->payload_bytes:0;}
-uint64_t lie_state_restore_workspace(const lie_state *p){return p&&p->codec?p->payload_bytes:0;}
+uint64_t lie_state_restore_workspace(const lie_state *p){
+    if(!p||!p->codec)return 0;
+    uint64_t scratch=lie_state_decode_workspace(p->codec);
+    return p->payload_bytes>UINT64_MAX-scratch?UINT64_MAX:p->payload_bytes+scratch;
+}
 bool lie_state_is_compressed(const lie_state *p){return p&&p->codec;}
 const lie_state_layout *lie_state_description(const lie_state *p){return p?&p->layout:NULL;}
 const int32_t *lie_state_tokens(const lie_state *p){

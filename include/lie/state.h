@@ -62,6 +62,7 @@ uint64_t lie_state_expanded_bytes(const lie_state *);
 uint64_t lie_state_restore_workspace(const lie_state *);
 bool lie_state_is_compressed(const lie_state *);
 bool lie_state_compression_enabled(void);
+const char *lie_state_compression_codec(void);
 /* Optional lossless packing of a unique immutable state before publication.
  * peak_budget bounds the existing state + result + codec scratch. Failure or
  * insufficient savings leaves the original untouched; no lossy conversion. */

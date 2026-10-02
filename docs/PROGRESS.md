@@ -1,5 +1,27 @@
 # Isolated OpenAI reactive API increment
 
+## Numeric-byte codec follow-up after R5 — 2026-10-02
+
+R5 closes 9/9 original-weight arms at 11:57:08 UTC: six ON/OFF core comparisons,
+three exact 8K state pairs, and HTTP SSD producer/restarted reader with 30
+samples, three C2 cohorts, natural read cancellation and slow-client isolation.
+All states remain raw: LZ4 does not provide an admitted 12.5% payload saving.
+At 128K, capture increases 119.638 to 205.906 ms without memory savings; warm
+aggregate throughput stays near 24.04 tok/s. [Full R5 result](CACHE-FEATURES-GPU.md).
+
+The follow-up groups numeric byte positions before Zstandard level-1 compression,
+using fixed static contexts inside the workspace budget. It preserves every bit,
+keeps legacy LZ4 decoding, names the selected codec in metrics/reports and remains
+behind default-ON `LIE_CHECKPOINT_COMPRESSION`. Thirteen focused ON suites, six
+OFF headless suites and the final report check pass ASan/UBSan; Release variants
+link locally. [CPU receipt](benchmarks/2026-10-02/cache-features-zstd-cpu/receipt.json).
+Original-model compression benefit is pending a distinct R6 admission. This is
+checkpoint storage, not an active KV precision/kernel change. R6 declares 8 GiB
+workspace for the 128K packing comparison and lower context capacity 133120 to
+bound active-session allocation; matched ON/OFF settings and exact SSD restart
+will be checked separately from R5's default-budget result.
+
+
 ## Default-on utility and lossless checkpoint compression — 2026-10-02
 
 Implemented independent CMake switches `LIE_CACHE_UTILITY` and

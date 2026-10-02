@@ -141,6 +141,13 @@ def distribution(values):
     return {'median':statistics.median(values),'min':min(values),'max':max(values),'all':values} if values else None
 
 
+def cache_codec(identity):
+    value=identity.get('checkpoint_codec','lz4-blocks-v1' if identity.get('checkpoint_compression',False) else 'none')
+    if value not in ('none','lz4-blocks-v1','byte-plane4-zstd1-v1') or (value!='none')!=identity.get('checkpoint_compression',False):
+        raise ValueError('invalid checkpoint codec declaration')
+    return value
+
+
 def read_state_result(path,rows):
     events=[r.get('event') for r in rows]
     ram=events==['identity','input','capture','pair','pair','pair','complete']
@@ -149,6 +156,7 @@ def read_state_result(path,rows):
     if not (ram or write or read) or rows[-1]!={'event':'complete','exit_code':0}:
         raise ValueError('incomplete state qualification')
     identity,p=rows[:2];capture=rows[2] if ram else rows[3]
+    cache_codec(identity)
     pairs=rows[3:6] if ram else rows[4:7] if read else []
     if identity.get('suite')!='state' or identity.get('state_abi')!=1 or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
         raise ValueError('invalid state input')
@@ -268,6 +276,7 @@ def read_core_result(path,rows):
     point={k:identity[k] for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','repetitions']}
     point.update(cache_policy=cache_policy,prefix_cache_bytes=cache_budget,
         cache_retention_policy=identity.get('cache_retention_policy','lru'),checkpoint_compression=identity.get('checkpoint_compression',False),
+        checkpoint_codec=cache_codec(identity),
         ssd_quota_bytes=identity.get('ssd_quota_bytes',0),ssd_staging_bytes=identity.get('ssd_staging_bytes',0),
         ssd_cached_tokens=distribution([r.get('ssd_cached_tokens',0) for r in measured]),
         ssd_read_ns=distribution([r.get('ssd_read_ns',0) for r in measured]),
@@ -292,7 +301,7 @@ def compare_core(a,b,compare_cache_build=False):
     p=a['configurations'][0];q=b['configurations'][0]
     for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes','ssd_quota_bytes','ssd_staging_bytes']:
         if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
-    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression') if p[k]!=q[k]}
+    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression','checkpoint_codec') if p[k]!=q[k]}
     if differences and not compare_cache_build:raise ValueError('core cache build mismatch; use explicit cache-build comparison')
     equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
     denominator=q['output_per_total_wall_tps']['median']
@@ -306,11 +315,11 @@ def export_core(result,out,label,reference,reference_label,compare_cache_build=F
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     series=[(label,result)]+([(reference_label,reference)] if reference else [])
     with (out/'summary.csv').open('w',newline='') as f:
-        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median'])
+        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median','checkpoint_codec'])
         for name,data in series:
             r=data['configurations'][0]
             value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
-            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes')])
+            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes'),r['checkpoint_codec']])
     os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
     import matplotlib
     matplotlib.use('Agg')
