@@ -2,6 +2,18 @@
 
 ## Strix Point fork — 2026-10-02
 
+The operator-requested `.161` Pop!_OS kernel update installed
+`7.1.5-76070105-generic` and kept `6.16.3-76061603-generic` in GRUB. With
+the same pinned ROCm 10 images and binaries, AlmaLinux native and Python HIP
+diagnostics and the Fedora 43 LIE HIP/rocBLAS probe now pass. A bounded original
+UD model run also passes. Matched ROCm 10 LIE and direct Gufo tests at 0/4K
+return identical 128-token outputs and prefill/decode frontier hashes; these
+frontiers differ from the earlier ROCm 7.2 results, and output IDs diverge at
+both depths. This qualifies the runtime gate and same-stack parity, not
+cross-stack numerical equivalence or full performance. The
+[updated report](STRIX-POINT-ROCM10.md) records the six clean passes, one
+preserved supervisor race failure, 80 verified files and restored .161 state.
+
 The official AlmaLinux 10.2 minimal image plus AMD's signed ROCm 10.0.0-4
 `gfx1150` RPMs built on `.161` with exit 0. Its in-image `hipcc` compiled a
 native HIP probe, which fails on the same 48-byte memset and host/device copy
@@ -9,8 +21,7 @@ operations as a separate Python diagnostic in the same image and the Fedora
 variants. Both failed campaigns retained all HIP codes, restored the named
 service, released their fresh leases and passed remote/local source-result hash
 checks. The [ROCm 10 report](STRIX-POINT-ROCM10.md) has image ID, binary hash,
-thermal and closure evidence. Original-weight ROCm 10 performance remains
-unmeasured pending a passing primitive runtime gate.
+thermal and closure evidence from the original 6.16.3-kernel tests.
 
 The ROCm 10 follow-up found the `.157` Strix Halo image originates from Kyuz0's
 Docker Hub repository: its local digest is recorded, with Fedora Minimal 44 and
@@ -20,8 +31,7 @@ copies fail in that image under three container profiles, and also fail with the
 Fedora 43 ROCm 10 tarball; a byte-identical ROCm 7.2 control passes on the same
 host. All one-shot runs release their lease and restore the named service.
 The [ROCm 10 report](STRIX-POINT-ROCM10.md) records exact image IDs, HIP codes,
-temperatures and evidence. Original-weight ROCm 10 performance remains
-unmeasured pending a passing runtime gate. The Fedora 43 `gfx1150` LIE probe
+temperatures and evidence from those original 6.16.3-kernel tests. The Fedora 43 `gfx1150` LIE probe
 was compiled and linked with ROCm 10 before execution; Fedora 44 has only a
 runtime diagnostic so far. Upstream gfx1150 issues #6191 and amdgpu #213 cover
 similar first-use failures, but neither matches our ROCm 10 errors and kernel.

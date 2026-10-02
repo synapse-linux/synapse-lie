@@ -1,5 +1,18 @@
 # DS4 / synapse-lie coordination
 
+The operator-requested `.161` kernel update and ROCm 10 follow-up completed on
+2026-10-02. Pop!_OS kernel 7.1.5 booted with 6.16.3 preserved in GRUB. Fresh
+AlmaLinux native/Python, Fedora 43 LIE probe, original UD core and matched
+LIE/Gufo direct parity windows each acquired and released the private .161
+lease, stopped/restored only the named authorized service and passed thermal
+and foreign-client supervision. The first Gufo parity supervisor failed on a
+Docker PID retirement race after its benchmark completed; its failed receipt
+is preserved and a fresh fixed-runner repeat passed. Final postflight finds
+`llama-router.service` active, only its PID in KFD, no LIE container and the
+private lease free. ROCm 10 same-stack LIE/Gufo 0/4K outputs match; ROCm 7.2
+frontiers differ. See the [updated ROCm 10 report](STRIX-POINT-ROCM10.md).
+No standing GPU ownership or long-context ROCm 10 qualification is implied.
+
 The `.161` AlmaLinux 10.2 ROCm 10 image build and two diagnostic windows ended
 at 18:40:10, 18:41:43 and 18:42:34 UTC on 2026-10-02. The image build passed;
 both native HIP and Python diagnostics failed on primitive memset/copy errors

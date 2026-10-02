@@ -117,6 +117,24 @@ class Tests(unittest.TestCase):
         with patch.object(point, 'observe', return_value=row): c.sample()
         saved = json.loads((c.root/'telemetry.jsonl').read_text())
         self.assertIn('Threads', saved['dri'][0]['status'])
+    def test_container_exit_race_waits_for_final_docker_state(self):
+        for pid in (0, 12345):
+            with self.subTest(pid=pid):
+                c = self.campaign(f'exit-{pid}')
+                states = iter(({'Running': True, 'Pid': pid},
+                               {'Running': False, 'Pid': 0, 'ExitCode': 0, 'OOMKilled': False}))
+                def command(argv, check=True, timeout=30):
+                    del check, timeout
+                    if argv[1] == 'create': output = 'a'*64
+                    elif argv[1] == 'inspect': output = json.dumps(next(states))
+                    else: output = ''
+                    return subprocess.CompletedProcess(argv, 0, stdout=output, stderr='')
+                with patch.object(c, 'command', side_effect=command), \
+                     patch.object(point, 'ticks', side_effect=FileNotFoundError), \
+                     patch.object(point.time, 'sleep'):
+                    c.execute_container(['docker', 'create'], 2)
+                self.assertEqual(c.r['child_exit_code'], 0)
+                self.assertNotIn('container_start_ticks', c.r)
     def test_failed_core_keeps_model_identity_and_error_evidence(self):
         c = self.campaign(); model = self.base/'model'; model.mkdir()
         path = model/'fixture.gguf'; path.write_bytes(b'tiny fixture')

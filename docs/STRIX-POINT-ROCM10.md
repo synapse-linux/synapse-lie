@@ -147,7 +147,8 @@ cleanup failure. The earlier ROCm 7.2 control R1 lacked private runtime DSOs;
 R2 was rejected before launch because one SHA-256 manifest value was mistyped.
 Their failed exits are preserved, and R3 is the valid passing control.
 
-The host is Pop!_OS 24.04, kernel `6.16.3-76061603-generic`. AMD's
+For the initial campaigns the host was Pop!_OS 24.04, kernel
+`6.16.3-76061603-generic`. AMD's
 [ROCm 10 compatibility matrix](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)
 does not qualify this host combination. This is a plausible compatibility
 lead, not a proven kernel root cause. No host kernel, driver, firmware, clocks
@@ -185,14 +186,105 @@ retained, while the successful build used the byte-identical staged runner via
 direct SSH. None of these windows touched the model files or installed ROCm on
 the host.
 
-There is **no valid ROCm 10 original-weight throughput comparison**: the
-primitive HIP gate fails, so the Fedora 44/AlmaLinux LIE compile and the matched
-`single`, `fresh-128k`, `fresh-256k`, `multi` and direct Gufo runs were not
-started. The already passing ROCm 7.2 report remains the qualified .161
-performance result. A future candidate must first pass the same exact-copy
-diagnostic under a fresh lease, then compile the unchanged LIE and Gufo pins
-and run matched full-output profiles; a successful image build or `hipMalloc`
-alone is insufficient.
+At that point there was **no valid ROCm 10 original-weight throughput
+comparison**: the primitive HIP gate failed, so the Fedora 44/AlmaLinux LIE
+compile and matched `single`, `fresh-128k`, `fresh-256k`, `multi` and direct
+Gufo runs were not started. The ROCm 7.2 report remains the qualified .161
+full-depth performance result.
+
+## Pop!_OS kernel 7.1.5 follow-up
+
+On 2026-10-02 the operator requested a kernel update to test the ROCm 10
+failure. After `apt-get update`, Pop!_OS APT selected
+`7.1.5-76070105.202607241434~1787955023~24.04~38a419f`. The simulated and
+actual package transaction upgraded five packages, installed four and removed
+none. System76 DKMS autoinstall and initramfs generation exited 0. GRUB has
+separate entries for the new kernel and the retained
+`6.16.3-76061603-generic` fallback. A warning that the separately built
+`system76_acpi` module matched the in-tree module did not fail DKMS. The
+machine rebooted from boot ID `7ada622d-f3c6-45aa-ad5d-4eb69b8e4857` to
+`00a38eef-12f6-4354-8aec-6783c34c7208`, and `uname -r` confirms
+`7.1.5-76070105-generic`. No host ROCm package, GPU firmware, power or clock
+setting was changed. This Pop!_OS combination is still outside AMD's
+[ROCm 10 published OS/kernel matrix](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html),
+which lists Ubuntu 24.04.4 with OEM 6.17 for this APU.
+
+The same pinned AlmaLinux image
+`sha256:fa243e504d1ae3d460c8bed01cf646ef48e06ef665f56bef563de8c13e2cb49e`,
+Fedora 43 image
+`sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e`,
+and their previously staged binaries were reused. Each check had a fresh
+one-shot .161 lease, foreign-client admission, one-second thermal observer and
+named `llama-router.service` stop/restore.
+
+| Unchanged ROCm 10 test | Kernel 6.16.3 | Kernel 7.1.5 |
+| --- | --- | --- |
+| AlmaLinux in-image native HIP | `hipMemset` status 2; copies status 1; supervisor FAIL | All 13 HIP calls status 0; exact 8-float round trip; PASS |
+| AlmaLinux Python `ctypes` | Same primitive errors; supervisor FAIL | All 13 HIP calls status 0; exact 8-float round trip; PASS |
+| Fedora 43 ROCm 10-linked `lie-hip-probe` | Host/device copy status 1; FAIL | Copy and four-element SGEMM verification pass; PASS |
+
+This controlled before/after result makes the old host kernel or its interaction
+with ROCm 10 the strongest observed explanation for the primitive failure;
+it does not identify an individual kernel change. The Fedora 44 image was not
+retested on 7.1.5.
+
+The existing Fedora 43 ROCm 10-linked `synapse-lie-bench` then completed a
+bounded original-weight UD shared-core run: nine physical input tokens, one
+warmup and three measured 32-token outputs, with child/supervisor exits 0,
+unchanged model file identities and completion marker. The warm outputs were
+identical within this run. It reports 14.039 s load-to-ready and measured
+output rates 10.576, 10.578 and 10.590 token/s; the three measured prompts
+were RAM-prefix-cache hits, so these are **not fresh-prefill figures**.
+The physical input IDs equal the earlier ROCm 7.2 core test, but generated IDs
+do not. This short run establishes working model execution, not numerical
+equivalence or long-context performance.
+
+The matched original-weight `single-parity` direct runs used PP2048/TG128,
+one complete measured 128-token output each at depth 0 and 4096, and the same
+verified UD model and Gufo source pin. Both LIE reactive and direct Gufo pass
+with child/supervisor exit 0, model stat identity unchanged and exact
+same-stack prefill-logit hashes, decode-logit hashes and output IDs at both
+depths. Their one-sample PP/TG rates are respectively 480.848/10.415 and
+480.308/10.414 token/s at depth 0, then 441.313/10.404 and
+442.061/10.408 at depth 4096. These are bounded parity samples, not the
+complete comparative performance campaign.
+
+Against the earlier ROCm 7.2 matched direct tests, the ROCm 10 logits hashes
+differ at both depths. Generated IDs first differ at zero-based index 92 at
+depth 0 (`67909` on ROCm 7.2, `11` on ROCm 10) and index 4 at depth 4096
+(`42770` versus `24491`). LIE and Gufo agree within each stack. The source
+diff between the ROCm 7.2 build checkpoint `3ea2f3c` and ROCm 10 source
+checkpoint `1877b03` has no model implementation changes, but stack, compiler
+and libraries changed together; the numerical cause needs a focused comparison
+before claiming cross-stack quality equivalence.
+
+The first Gufo direct run wrote both samples and the completion marker and its
+Docker container exited 0, but the supervisor exited 1: Docker briefly
+reported `Running=true` after its PID had disappeared, causing a `/proc` lookup
+error. The failed R1 receipt is preserved. The campaign runner now tolerates
+that exit race and re-inspects Docker state; a fresh R2 run passed with exactly
+the same LIE/Gufo frontiers. The campaign control suite now covers both
+PID-0 and disappearing-PID races. Across these seven fresh windows, observed
+maxima were 72.25 C CPU, 75 C GPU and 70.85 C NVMe, below the selected and
+sensor-specific limits. Collection matched SHA-256 for all 80 remote files.
+Final postflight shows 7.1.5 booted, no LIE container, the private lease free,
+`llama-router.service` active and its PID the only KFD client; the current-boot
+kernel journal has no matching GPU fault/error since these tests began.
+Focused local `core-headless-lifecycle` and `strix-point-campaign-controls`
+CTest suites pass 2/2 under ASan/UBSan with leak detection disabled. The
+initial leak-enabled run failed because LeakSanitizer could not run under the
+local tracing environment; both actual command exits are preserved under the
+same evidence directory.
+
+The new kernel clears the ROCm 10 runtime gate, but the `single` eight-depth,
+`fresh-128k`, `fresh-256k` and `multi` profiles remain unmeasured on ROCm 10.
+The numerical discrepancy must be investigated or accepted explicitly before
+using cross-stack throughput as a like-for-like quality comparison. The
+ROCm 7.2 long-context report remains the qualified performance reference.
+The new local receipts are under `evidence/strix-point-kernel715-r1/` and
+`evidence/rocm10-point-{alma-native,alma-ctypes,probe,core}-kernel715-r1/`,
+`evidence/rocm10-point-bench-lie-parity-kernel715-r1/` and
+`evidence/rocm10-point-bench-gufo-parity-kernel715-{r1,r2}/`.
 
 Raw local receipts are under `evidence/rocm10-157-image-provenance-r1/`,
 `evidence/rocm10-point-image-fedora44-rpm-r1/`,

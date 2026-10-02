@@ -44,10 +44,12 @@ remain explicitly separate. This is reuse, not faster fresh prefill.
 The [ROCm 10 comparison gate](docs/STRIX-POINT-ROCM10.md) records the
 Fedora Minimal 44 image provenance found on `.157` and independently built
 Fedora 44 and AlmaLinux 10.2 `gfx1150` RPM candidates on `.161`. Both RPM
-images build; a native HIP program compiled inside AlmaLinux reproduces the
-same primitive memset/copy failures as the Fedora and Python diagnostics.
-The same Python diagnostic passes on ROCm 7.2. No ROCm 10
-original-weight throughput is reported until that runtime gate passes.
+images build. With the original `.161` kernel 6.16.3, native HIP, Python and
+LIE probes failed on primitive ROCm 10 memory operations while ROCm 7.2 passed.
+After updating to Pop!_OS kernel 7.1.5, the unchanged ROCm 10 probes pass and
+short original-weight LIE/Gufo direct tests complete. Their ROCm 10 results
+match each other but differ numerically from ROCm 7.2 at 4K; the complete
+long-context throughput comparison remains pending.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151

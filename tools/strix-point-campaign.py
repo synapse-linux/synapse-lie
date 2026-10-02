@@ -224,8 +224,17 @@ class Campaign:
                 self.r['container_state'] = row
                 self.r['child_exit_code'] = row['ExitCode']
                 break
-            self.r['container_host_pid'] = row['Pid']
-            self.r['container_start_ticks'] = ticks(row['Pid'])
+            # Docker inspect and /proc are not atomic: a child can exit after
+            # inspect reports Running, leaving Pid=0 or no /proc entry.
+            pid = row['Pid']
+            if isinstance(pid, int) and pid > 0:
+                try:
+                    start_ticks = ticks(pid)
+                except FileNotFoundError:
+                    pass
+                else:
+                    self.r['container_host_pid'] = pid
+                    self.r['container_start_ticks'] = start_ticks
             self.sample()
             if time.monotonic() >= deadline: raise RuntimeError('Device command deadline')
             time.sleep(1)
