@@ -12,7 +12,7 @@ static void usage(void) {
     fputs("Usage: synapse-lie-kvc inspect INPUT [--max-mib N] [--qwen-geometry FILE]\n"
           "       synapse-lie-kvc copy INPUT OUTPUT [--max-mib N] [--qwen-geometry FILE]\n"
           "Offline KVC interchange only; no model restore or inference.\n"
-          "Geometry: 13 decimal integers in the order documented in docs/KVC.md.\n",stderr);
+          "Geometry: 13 decimal integers in the order documented in docs/reference/KVC.md.\n",stderr);
 }
 static int number(const char *s,uint64_t max,uint64_t *out) {
     if(!s||!*s)return 0;

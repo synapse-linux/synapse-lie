@@ -11,4 +11,4 @@ result rows. Strix Halo measurements must not be presented as Strix Point data.
 The first integrated UD-Q4_K_XL report must identify the actual device/host,
 weight revision, provider/build, numerical qualification, resource admission and
 thermal policy, then supply matched fresh PP, decode and concurrency samples.
-Use the [common result requirements](../../../README.md#required-result-identity).
+Use the [benchmark guide](../../../../guides/BENCHMARKS.md).

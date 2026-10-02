@@ -4,7 +4,7 @@ The user asks whether reactive execution can improve **model inference itself**,
 not only networking, multi-agent scheduling or responsiveness. This is a separate
 experimental track feeding the requirement-driven [backend evolution](BACKEND.md).
 A first direct-ABI C1 timing baseline is recorded separately in
-[C1-BASELINE.md](C1-BASELINE.md). The C readiness/credit dispatcher now drives scalar or native batch decode
+[C1-BASELINE.md](archive/C1-BASELINE.md). The C readiness/credit dispatcher now drives scalar or native batch decode
 from both worker and benchmark. Numerical kernels and their synchronization
 are unchanged; an internal-forward optimization or profiler-derived speedup
 is not established.
@@ -149,7 +149,7 @@ hashes across arms, 4.11× C8 aggregate decode and C1 median differences within
 0.35% through occupied 128K. Production HTTP also observes native batch dispatch
 with seeded per-sequence output equality. Prefill remains sequential; no internal
 kernel/graph or HTTP latency speedup is inferred. Full timings, variability and
-retirement receipts are in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+retirement receipts are in [REACTIVE-INFERENCE-RESULT.md](archive/REACTIVE-INFERENCE-RESULT.md).
 
 ## Implementation audit: how far the reactive flow reaches
 
@@ -194,7 +194,7 @@ The later `reactive-suite-r2` and `reactive-suite-r5` telemetry records memory,
 GPU and client ownership, without a process `Threads` field. Do not transfer
 the older measured 36-thread total to those runs or invent a direct-benchmark
 OS total from the single caller. See the [derived thread receipt](benchmarks/2026-10-01/thread-audit.json)
-and [original resource report](PERFORMANCE-RESULT.md#sampled-resources-and-retirement).
+and [original resource report](archive/PERFORMANCE-RESULT.md#sampled-resources-and-retirement).
 Future campaigns should record process thread totals and CPU time by role where
 available alongside model-owner count, active requests and actual batch width.
 
@@ -203,7 +203,7 @@ direct clients and HTTP alike. `--suite core` adds one device-owner thread plus
 the benchmark consumer thread, the same two application roles as HTTP without
 its network loop. Historical direct-executor thread counts above remain unchanged.
 Headless credit/cancellation, HTTP regression and the subsequent
-[original-weight core GPU gate](CORE-GPU-RESULT.md) pass on `.157`. This run
+[original-weight core GPU gate](archive/CORE-GPU-RESULT.md) pass on `.157`. This run
 samples 35 executor / 36 core-or-HTTP OS threads during inference, with 51/52
 also observed during loading. C8 uses the same single owner and records 128
 native eight-row batches per repetition; no thread-per-request pool is added.
@@ -234,7 +234,7 @@ It is not evidence that LIE reactive scheduling outperforms native Gufo. C8 mean
 eight concurrent sequences sharing one GPU-owner worker, not eight CPU forward
 threads. A native-batch control and mixed-arrival latency measurements are still
 needed to isolate reactive-specific value; see the
-[test closure matrix](TEST-COVERAGE-LONG-CONTEXT.md#isolating-reactive-value-from-native-batching).
+[test closure matrix](development/TEST-COVERAGE-LONG-CONTEXT.md#isolating-reactive-value-from-native-batching).
 At C1, the largest observed median difference through occupied 128K is below
 0.35%. This is evidence of no material regression under the predeclared 5% gate,
 not statistical equivalence or faster single-sequence mathematics.
@@ -272,7 +272,7 @@ MTP, PP batching and asynchronous forwards remain missing. RAM prefix reuse
 has now been added explicitly in the C core; it was not supplied by the existing
 reactive dispatcher.
 
-The later [full-prefill/HTTP campaign](FULL-PREFILL-HTTP-RESULT.md) supplies
+The later [full-prefill/HTTP campaign](archive/FULL-PREFILL-HTTP-RESULT.md) supplies
 absolute serving timings, but no before/after HTTP scheduler comparison. Its
 100K follow-up still re-prefills the entire history (71.79s): the implemented
 ready-row flow does not confer state-cache reuse.
@@ -288,7 +288,7 @@ an asynchronous dependency graph within a forward. The state experiment keeps
 copy paths, executed PP and client wall separate.
 
 
-The [completed RAM experiment](STATE-GPU-RESULT.md) isolates this effect: core
+The [completed RAM experiment](archive/STATE-GPU-RESULT.md) isolates this effect: core
 C8 complete-wall throughput rises 51.14→106.02 tok/s, while per-job TG stays
 13.40→13.42 tok/s. Inference process threads stay 36 for core/HTTP. This is
 avoided prefill with unchanged batching/forward, not evidence that callbacks or

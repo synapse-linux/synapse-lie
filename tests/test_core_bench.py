@@ -66,9 +66,14 @@ class CoreBench(unittest.TestCase):
                 drained=next(row for row in rows if row['event']=='ssd_drained')
                 self.assertEqual(drained['pending'],0)
                 self.assertEqual(drained['errors'],0)
+                self.assertEqual(drained['evictions'],0)
+                self.assertEqual(drained['skipped'],0)
+                self.assertGreater(drained['allocated_bytes'],0)
+                self.assertGreater(drained['entries'],0)
             self.assertEqual(results[0]['configurations'][0]['output_ids'],results[1]['configurations'][0]['output_ids'])
-            REPORT['export'](results[1],root/'graphs','SSD fixture')
-            self.assertIn('ssd_read_median_ms',(root/'graphs/summary.csv').read_text())
+            if importlib.util.find_spec('matplotlib'):
+                REPORT['export'](results[1],root/'graphs','SSD fixture')
+                self.assertIn('ssd_read_median_ms',(root/'graphs/summary.csv').read_text())
             bad=copy.deepcopy(results[1]);bad['configurations'][0]['ssd_staging_bytes']*=2
             with self.assertRaises(ValueError):REPORT['compare'](results[1],bad)
 
@@ -125,7 +130,15 @@ class CoreBench(unittest.TestCase):
             for row in r['samples']:
                 self.assertEqual(row['output_tokens'],64)
                 self.assertAlmostEqual(row['output_per_total_wall_tps'],64e9/row['wall_ns'])
+                for key in ('cache_skipped','ssd_evictions','ssd_skipped','ssd_errors'):
+                    self.assertEqual(row[key],0)
             self.assertTrue(REPORT['compare'](r,r)[0]['eligible'])
+            rows=[json.loads(line) for line in path.read_text().splitlines()]
+            for key in ('cache_skipped','ssd_evictions','ssd_skipped','ssd_errors'):
+                bad=copy.deepcopy(rows);next(row for row in bad if row['event']=='sample')[key]=-1
+                broken=Path(tmp)/'bad-admission.jsonl'
+                broken.write_text('\n'.join(json.dumps(row) for row in bad)+'\n')
+                with self.assertRaises(ValueError):REPORT['read_result'](broken)
 
     def test_ram_default_and_accounted_full_hit(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-cache-') as tmp:
@@ -141,8 +154,9 @@ class CoreBench(unittest.TestCase):
                 self.assertEqual(job['prefill_ns'],0)
                 self.assertEqual(job['output_ids'],list(range(16)))
             self.assertIsNone(result['configurations'][0]['job_prefill_tps'])
-            REPORT['export'](result,Path(tmp)/'graphs','RAM fixture')
-            self.assertTrue((Path(tmp)/'graphs/benchmark.png').exists())
+            if importlib.util.find_spec('matplotlib'):
+                REPORT['export'](result,Path(tmp)/'graphs','RAM fixture')
+                self.assertTrue((Path(tmp)/'graphs/benchmark.png').exists())
             rows=[json.loads(x) for x in path.read_text().splitlines()]
             next(r for r in rows if r['event']=='job' and not r['warmup'])['cached_tokens']=5
             bad=Path(tmp)/'bad.jsonl';bad.write_text('\n'.join(json.dumps(r) for r in rows)+'\n')

@@ -35,14 +35,14 @@ the operating guard for explicitly selected Strix Halo 395 tests. Helpers retain
 to respect lower exposed max/critical limits. NVMe stays at 85 C or lower. No
 firmware/fan/clock/power setting changes. This does not reopen the completed R1
 window or override Q2's current ownership; the next SSD attempt is separately
-prepared as described in [the revised protocol](SSD-GPU-PROTOCOL.md).
+prepared as described in [the revised protocol](development/protocols/SSD-GPU-PROTOCOL.md).
 
 Q2 subsequently completed HC exploration and recorded explicit release at
 2026-10-02 07:13:11.718 UTC in `run/q2-hc-window-release.json` and the shared
 register. Read-only SSD preparation verified that record, empty KFD, available
 memory/disk and CPU48.125/GPU46 C; no lease or model payload was touched. This
 thread takes the next coordinated SSD campaign, with fresh per-arm admission
-and thermal guard as specified in [SSD-GPU-PROTOCOL.md](SSD-GPU-PROTOCOL.md).
+and thermal guard as specified in [SSD-GPU-PROTOCOL.md](development/protocols/SSD-GPU-PROTOCOL.md).
 Q2 continues local preparation. This update supersedes its earlier ownership
 of the window described below, without rewriting historical run evidence.
 
@@ -80,7 +80,7 @@ software operating ceiling is removed in its explicit observation mode; exposed
 hardware bounds and SSD guards remain. There is no hardware-setting change.
 A separate owned read-only observer saves 1 Hz samples on the editing host;
 its retirement is also required before root returns the window. See the
-[R4 declaration](SSD-GPU-PROTOCOL.md#owner-requested-thermal-observation--r4-2026-10-02).
+[R4 declaration](development/protocols/SSD-GPU-PROTOCOL.md#owner-requested-thermal-observation--r4-2026-10-02).
 
 R4 completes all ten arms at **09:39:08.072 UTC**, each child/helper exit 0.
 Postflight records all twenty owned identities absent, empty KFD and four
@@ -89,7 +89,7 @@ The observer retires at 09:39:24.129 UTC, SSH exit 0, with 1,743 samples saved
 locally. All 106 collected files verify by SHA-256. Root returned the window
 to Q2 and notified Strix Point after collection; further work here is offline
 analysis on `.155`. No permanent reservation or DS4 ACK is implied.
-Offline checks pass all output/cache-count comparisons; the [complete result](SSD-GPU-COMPLETION.md)
+Offline checks pass all output/cache-count comparisons; the [complete result](archive/SSD-GPU-COMPLETION.md)
 includes prefill/decode/restore timings and sampled temperature durations.
 
 ## HTTP SSD preparation and other-thread window — 2026-10-02
@@ -97,7 +97,7 @@ includes prefill/decode/restore timings and sampled temperature durations.
 Core work following R4 is local CPU implementation and ASan/UBSan checks of
 `--suite http-ssd`, under the user's `.155` non-performance authorization and
 explicit 98 C guard. No model payload or remote GPU work is performed. The
-[protocol](SSD-HTTP-PROTOCOL.md) and source-bound receipts distinguish this
+[protocol](development/protocols/SSD-HTTP-PROTOCOL.md) and source-bound receipts distinguish this
 preparation from original-weight evidence.
 
 After Q2's work, the Strix Point thread reports starting the owner's direct
@@ -158,7 +158,7 @@ Closure at 2026-10-02 07:39:00.622454 UTC verifies six owned PID/start identitie
 absent, KFD empty and four expected lease inodes unchanged/free. Independent
 status confirms controller retirement. All 39 collected artifacts SHA-verify.
 Q2 received the release and resumed its own prefill window; no SSD automatic
-retry remains. Full [result and limitations](SSD-GPU-RESULT.md) are retained.
+retry remains. Full [result and limitations](archive/SSD-GPU-RESULT.md) are retained.
 
 ## Earlier completed window — C17 RAM state/cache
 
@@ -180,7 +180,7 @@ Persistent raw paths are local `evidence/state-gpu-r1` and remote
 persistent paths. No source in `/tmp`, foreign termination, deployment, install,
 model conversion, remote GPU build or DS4 mutation. Existing desktop/denied-FD
 limitations and absence of a formal DS4 ACK remain recorded. See the
-[complete RAM result](STATE-GPU-RESULT.md), including the retained CPU failures.
+[complete RAM result](archive/STATE-GPU-RESULT.md), including the retained CPU failures.
 
 ## Earlier completed window — shared-core GPU regression
 
@@ -203,7 +203,7 @@ compile/link and analysis only; CPU tests and original-weight execution ran on
 `.157`. No permanent service, foreign termination, install, remote GPU build,
 model conversion, tuning or DS4 mutation occurred. Desktop/denied-FD limits and
 the absence of a formal DS4 ACK remain recorded. See the
-[GPU result and retained failure](CORE-GPU-RESULT.md).
+[GPU result and retained failure](archive/CORE-GPU-RESULT.md).
 
 ## Earlier completed window — first real Q2 model test
 
@@ -222,7 +222,7 @@ UTC**, both owned PID/start identities were retired, KFD empty and all four
 unchanged lease files free. Start/end register and 20 telemetry samples are kept.
 Desktop/denied-FD limits remain; no universal exclusivity is claimed. No permanent
 service, waiter, retry, installation, remote build, tuning or DS4 modification.
-See [the model-test report](Q2-FIRST-MODEL.md). This one-shot window is complete,
+See [the model-test report](archive/Q2-FIRST-MODEL.md). This one-shot window is complete,
 not permanent authorization for more GPU work.
 
 ## Earlier completed window — extended Q2 operators and corrections
@@ -241,7 +241,7 @@ are hash-verified; start/end register and telemetry are retained. There is no
 model access, performance measurement, remote build/install, permanent service,
 waiter, tuning or DS4 change. Desktop/observer limitations still apply; formal
 ACK was absent, and no universal exclusivity or standing authorization is claimed.
-See [Q2-EXTENDED.md](Q2-EXTENDED.md), including the explicitly retained stale
+See [Q2-EXTENDED.md](archive/Q2-EXTENDED.md), including the explicitly retained stale
 source-receipt manifest field and additive source-binding evidence.
 
 ## Earlier completed run — initial Q2 synthetic GPU operators
@@ -257,7 +257,7 @@ EX|NB with FD/path/expected identity checks. It ran at **07:03:42.563098–
 07:03:46.073077 UTC** (supervisor scope). The unchanged `q2-route-linked-r5`
 synthetic probe passed **64/64**, child/supervisor exit 0, with start/end register
 records. No model load/payload, benchmark, remote build/install, deployment,
-GPU tuning or DS4 modification occurred. See [Q2-HIP.md](Q2-HIP.md) for the narrow
+GPU tuning or DS4 modification occurred. See [Q2-HIP.md](archive/Q2-HIP.md) for the narrow
 numerical coverage; production model admission remains closed.
 
 No new foreign GPU client was observed in nine telemetry samples. The desktop
@@ -324,10 +324,10 @@ recorded start/end and completed the C1 baseline at 20:52:07 UTC, child/helper e
 No foreign GPU client was observed and KFD was empty after retirement. The known
 model stat identities and staged hashes were unchanged; no power setting was
 modified. Missing `pp_power_profile_mode` is recorded as unavailable, not invented.
-See [C1-BASELINE.md](C1-BASELINE.md). Neither attempt is permanent admission approval.
+See [C1-BASELINE.md](archive/C1-BASELINE.md). Neither attempt is permanent admission approval.
 
 The operator handover is not an ACK or permanent shared-runner adoption; no
-`ds4-ack.json` was forged. See [T0-SMOKE.md](T0-SMOKE.md). Never opportunistically
+`ds4-ack.json` was forged. See [T0-SMOKE.md](archive/T0-SMOKE.md). Never opportunistically
 enter gaps between another owner's benchmark jobs; fresh work still needs an
 actual available campaign window and the same admission controls.
 
@@ -390,7 +390,7 @@ in the established order, with fresh in-lease preflight, start/end register and
 observed process ownership. Final r3 completed at 2026-10-01T13:52:14 UTC; server/
 helper exit 0. Postflight at 13:54:02 UTC found empty KFD, owned PIDs absent and
 unchanged/free locks. No formal DS4 ACK or standing lease is implied.
-See [the original-weight protocol evidence](OPENAI-GPU.md). Source and results
+See [the original-weight protocol evidence](archive/OPENAI-GPU.md). Source and results
 remain in the isolated branch; concurrent original-worktree records are not
 rewritten by this increment. CPU parser/lifetime/sanitizer checks also ran on
 `.157`, with GPU visibility explicitly disabled only for synthetic fixtures.
@@ -408,7 +408,7 @@ postflight at 15:45:00 UTC verified unchanged/free identities for all four locks
 owned supervisor/helper/server/observer PIDs absent, KFD empty, binary and model
 stat identities unchanged. The supplementary observer only read sysfs/proc and
 has a separate source hash and exit receipt. Results and limitations are in
-[PERFORMANCE-RESULT.md](PERFORMANCE-RESULT.md). Further GPU work needs a new
+[PERFORMANCE-RESULT.md](archive/PERFORMANCE-RESULT.md). Further GPU work needs a new
 admitted window; this is not permanent shared-runner adoption.
 
 ## Simplified Gufo-style campaign — 2026-10-01
@@ -429,7 +429,7 @@ shows no holders of the known four lease identities and all thirteen owned
 PIDs absent. Final r2 lock-path stat was not independently rechecked. Missing
 proc files produce expected SCP exit 1, retained in the retirement receipt.
 No persistent lease, tuning, package installation, foreign termination,
-deployment or publication. See [BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md).
+deployment or publication. See [BENCHMARK-RESULTS.md](archive/BENCHMARK-RESULTS.md).
 
 ## Reactive inference admission refusal — 2026-10-01
 
@@ -465,7 +465,7 @@ SHA-256 map. No foreign GPU client was observed; desktop clients and denied-FD
 observations still preclude universal exclusivity claims. No DS4 change, foreign
 signal, remote build, install, tuning, model conversion, deployment or publication.
 No standing lease or formal DS4 ACK is implied. See
-[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+[REACTIVE-INFERENCE-RESULT.md](archive/REACTIVE-INFERENCE-RESULT.md).
 
 ## DS4 policy continuation — 2026-10-02
 
@@ -504,7 +504,7 @@ Root explicitly returns the window to Q2 and notifies Point after collection
 and closure verification. No owned GPU process, automatic waiter or next GPU
 job remains. This is not a standing lease; future arms need fresh admission.
 No remote build, model conversion, DS4 mutation, installation or tuning occurred.
-See [policy results and retained failures](CACHE-DS4-GPU.md).
+See [policy results and retained failures](archive/CACHE-DS4-GPU.md).
 
 ## KVC runtime qualification handover — 2026-10-02
 
@@ -517,7 +517,7 @@ Root accepts and notifies Q2/Point. Fresh root observation at
 unchanged model stat witnesses, CPU48/GPU47 C. Receipt:
 `evidence/kvc-runtime-handover`. No model payload was read by that check.
 
-Root prepares `ssd-gpu-r12` for the [DS4 runtime comparison](KVC-GPU-PROTOCOL.md),
+Root prepares `ssd-gpu-r12` for the [DS4 runtime comparison](development/protocols/KVC-GPU-PROTOCOL.md),
 with fresh admission per arm and no gap interleaving. Local CPU fixtures and
 both HIP builds are complete; no remote build, dependency installation, model
 conversion or DS4 mutation. Owner-requested thermal observation retains exposed
@@ -532,4 +532,4 @@ absent, empty KFD and all four original leases EX|NB/free. Record:
 `run/kvc-runtime-window-release.json` on .157, with matching shared
 `window_release` entry. Root returns the window to Q2 and notifies Point;
 no owned GPU job, waiter or automatic retry remains. Further work is local
-analysis/documentation. [Results and latency regression](KVC-GPU-RESULT.md).
+analysis/documentation. [Results and latency regression](archive/KVC-GPU-RESULT.md).

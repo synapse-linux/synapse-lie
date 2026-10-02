@@ -13,4 +13,4 @@ do not treat a different 4-bit format as the Strix Halo UD-Q4_K_XL checkpoint.
 Record model/backend admission and numerical checks before PP, TG, concurrency,
 memory and cache results. Cross-platform comparisons require a matched workload
 and explicitly recorded differences in quantization and speculative execution.
-Use the [common result requirements](../../../README.md#required-result-identity).
+Use the [benchmark guide](../../../../guides/BENCHMARKS.md).

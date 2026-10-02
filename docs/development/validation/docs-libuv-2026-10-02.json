@@ -1,0 +1,909 @@
+{
+  "schema": "synapse-lie.cpu-documentation-libuv.v1",
+  "date": "2026-10-02",
+  "parent_commit": "b7cacbff7c9ca61b8741a34dae0bac67dfa4dbd9",
+  "scope": "CPU build/sanitizer/documentation validation only; no GPU execution or new performance measurement",
+  "source_sha256": {
+    "CHANGELOG.md": "80f96561e586fa4715fc47ba70e61a7262ef96b2c3982d02ab653f7338418584",
+    "CMakeLists.txt": "423564f311d3c41e004ae3eeca46f13c9fb02d4c8d6a589afcbd31f1f67c4954",
+    "README.md": "d8060fa1377d37f2a747b63d7b50347bfbeef4a9eb19da8e4ad9881ef6d72f18",
+    "cmake/gufo-runtime/CMakeLists.txt": "0e61c0be387b84998d548427b554616227291699f7f42a53a369f5bae877699a",
+    "docs/guides/BENCHMARKS.md": "2ec831194ec75527f2b8553a5185b1fe0daa6af35ab5035fea52c64f28c78c20",
+    "docs/guides/BUILD.md": "a2efe9e2214d4ef7a54b22df0b8d72065333e72eac5ff53d19428a3f57804137",
+    "docs/guides/USAGE.md": "e1f5ae00e8d737005d7215d21b11bff51eeab4252296f8b09e378470deb2e507",
+    "include/lie/cache_policy.h": "5ed2b4f71d61919d58a8fe7128ddcc1f0c38f26c9670789b33f5446f75b323f4",
+    "include/lie/chat.h": "be84f7685ea0e6e0323c8b953abb9f7ac1b547c004a552ded638fcc109ce17cb",
+    "include/lie/core.h": "cebe24e5638e12dc9550e3686051fadd4ec4233aee0f23de5357b305cc055791",
+    "include/lie/executor.h": "dc152488cc29c2b5be928995ef6bb5c360ff423f8d4618fed500b287bd845d87",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "bf3a10a914f2f499586a8ab58a8d71ea06f0add4a19b773bebb38c59b5718b5c",
+    "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+    "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+    "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+    "include/lie/kvc_state.h": "613f6269cbda355c116525cd9ae28dbc7c054dab4ca2d147cd286d6257d994d9",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/responses.h": "08a1aa5cb03fb1607cb41c2cdc400e730d4cae6176993a1256a220e328750643",
+    "include/lie/state.h": "b6aab1c34acad42f961e0cdc262e3651af8326add56e80b39e0a58fff0f909e7",
+    "include/lie/store.h": "79f1121add5435523ec804ab04b511dc373d03aba2e1883fe1c4eedd21f1a224",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "493ba51cf04e8e18d173de0e30545a4c3fe1a47db0d2b0ce57a4f08016398316",
+    "include/lie/wire.h": "63dc3cba8d66150ed338411045c1cfa72deb49f271cff023c22648a1397bc005",
+    "include/lie/worker.h": "49839ba31e97d278f25a5a3bc616aa176d04875363be61e30c600dfede5ac1ef",
+    "src/cache_policy.c": "3a4d702a3c308d52872250c4a28ceca7fd7a7175fb35573ae76ef34b6dc906ab",
+    "src/chat.c": "df077445a40abacfbfc8a643285029981d6b17201d2fa51a1aef2c49e1830102",
+    "src/chat_tools.c": "3db1abdd27a65ea86fdddde8f456fd9faf95636fb6b5cc4d0fa7db69cbd8eecd",
+    "src/core_input.c": "ccc553532730bbe153a26e6627c0538c2821931e945cd9874611cdbcfc4c08dd",
+    "src/core_input.h": "0c6eedac2cd679dfb836fc22cbbd19e373e7acd2be6870d3283e5f99cf9b3793",
+    "src/executor_unavailable.c": "94acdcefb77aba7b61ee44d12c9e2ba24664a5cf0cf11710b65ce457139a3bd3",
+    "src/flow.c": "b636727e479a7e97aeafc3bea22f8a14641fbaa93ce6f2c80e45192ebb10be90",
+    "src/inference.c": "c05418baa2add3ea2ff76695b7969f5579146b4189fb62e0cd1f7f484a8e7293",
+    "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+    "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+    "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+    "src/models/kvc_qwen_state.c": "9762b005fa3c911fe6d9f29d83c40f039538b5be113b2d9bd549ee9f971f4db5",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/prefix_cache.c": "ffa0ad1aa86a58b475b965d5b98dce30810922de9e43b7c5a84c0483315f8fc3",
+    "src/prefix_cache.h": "f74d3a3827adc5d34eefb865147faa005ee580948b525640b0b237b170055381",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/responses.c": "7a2f7e663d091056cb2914f8c928413d54c93603688030f44a513b665e5a14a1",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/server.c": "d44f115a8f451c42f7116a11b92b11fa74ff1ececb6fddde49c7b676a1937861",
+    "src/state.c": "199f8be963ea158ac16bcbf6fb322ebdfc1c9b4cb46c8e2c6a979655d6937558",
+    "src/state_codec.c": "3236458983e3a5c0421e57e6220e443a434a5c022a5aa6f529c46d23754d0d01",
+    "src/state_codec.h": "317684d8edbc56f60846042f7c5251037009211abc6f8c09ab548fab04d329a8",
+    "src/state_compression.c": "f56c78207fea1d59078a554b65bae44115ab7acbbf9b8d0447c17d174e96c0df",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/state_kvc.c": "b41db3e0bf51665c08cd74c862060b3e85da2f604fa3e9396fa4020edecad7ac",
+    "src/state_kvc.h": "20a607d4ebe3e0ad18e8f741998be8a235e40946a9992f3b4eea3c087fb990de",
+    "src/state_layout.c": "4b0702fb55739e7c8d4ff95f90c83849efc8b6b996b6c5e8d5f353204749a8de",
+    "src/store.c": "f5b0ac2b7e8a0404945debf54eca930e0733b82a69532da2a838917841afce01",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2dfb7eada235f515151ecd9e5acf0df2dfa3e62c4032b4d4a1ae06c9574e43f9",
+    "src/wire.c": "1225c5b1f0e72044454976b136a02b9e88084dcff808938eaa2ebb6249bf4516",
+    "src/worker.c": "efa7ecf4a36e877934517b9be1c9c47b1cf45cccc1adf59e8670a9ffb5fc4a2c",
+    "src/worker_http.c": "0f7d51fa82a1eace1bb121c905918d197ead198b8473beb4d3711a7c47c4d9cf",
+    "tests/bench_executor.c": "3d247bdb3adbf5667a0f7c701862e94aab367d41f559696582846bfc0f9169a2",
+    "tests/fake_executor.c": "6c0b7abd9f388cf927fc687d0d128f63db3ed2c22a468f32aac27312a1be48c2",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_bench_http.py": "337d525e3f0d6270d351695baa57828c2045d34c1848e76140034b999d3da9f9",
+    "tests/test_cache_http.py": "214c228ab275b2d1d493ad3f06aa953ab1be78b3646509ce531cb2b9947facee",
+    "tests/test_cache_policy.c": "8e5ffe9e45adf66e097806a0345451205f3b2256146b3570b4e45344ec79e96b",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_bench.py": "04b064f3b73f1fc3b6dc0fd66671db1cd26d4ff087c568f2c7fd2fcade3cc175",
+    "tests/test_core_ssd.c": "6f0619c03e5dad65e11691cdbe8210d748c4ba71aa97e3f1efebe9639b2665cc",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+    "tests/test_kvc_fixture.py": "c0990b0f79ccc8e3da6c152c6fb0714bfe0764761980e04ea6ddc8b8b6ce015f",
+    "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+    "tests/test_kvc_map_fixture.py": "ba8806e1fd6457a2eca42802e68a782388a47e0a9fb53fd6726d47a1da553f70",
+    "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+    "tests/test_kvc_state_fixture.py": "f5f8c5ac8c4070db6bee9c60b0dadcbb53519ed241fbbc6ecd9dc138ba16a1cb",
+    "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+    "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+    "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+    "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+    "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+    "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+    "tests/test_ssd_http.py": "0eb6b79d78b991d12ea7f3daa793b67ff4d95406afe33a0c553e5fe5a12a0b84",
+    "tests/test_ssd_serving_checks.py": "433bf5a977d4ff87bd4059a521e68af669fea11ad2bd7dcbe9ab16a77c893fe6",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+    "tests/test_tools.c": "d858f7dfcb671844877562ade53fb05ba0c69c358a1aec3527c71b8b0ced11b5",
+    "tests/test_tools_http.py": "6ed41081735c8a64ed3fbdb1eea2b182a54a5a76a1e238971769b1f8bc1b4f26",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "third_party/CMakeLists.txt": "119bf070bb8d70b285204d865889ad03f8d80afa09e92148b895f28db52cb224",
+    "third_party/libuv/AUTHORS": "215addc20f9d61eb4fdcfdb5b11296cb869d0e648b3fd1b32c9c4450f1c80642",
+    "third_party/libuv/CMakeLists.txt": "332ce2132588ba703f2e2efe9c3bdd5cdff4e70ae079720bc963ed6b9b0b051d",
+    "third_party/libuv/ChangeLog": "7ed222b49541efd538c256cf425e24dc6739c1f7b52394b51662ee19fa737941",
+    "third_party/libuv/LICENSE": "16de0c32b265cb7d46a6d3bd614f259dd4d693a5e26b3407b04aae8d73041f0c",
+    "third_party/libuv/LICENSE-extra": "262c44bd2cdba037e6d2a82fba15f5800d292bc993a6f5d6b6ea487744d02836",
+    "third_party/libuv/configure.ac": "96f9b0dbe140042419d900d0497a6593579f10f8d761cbec5d0ccda2e87478d5",
+    "third_party/libuv/include/uv/aix.h": "bed77e4cf6c06f1224e681cbe607eff04713ca0c1e1f4a102e6a6565ee3f02aa",
+    "third_party/libuv/include/uv/bsd.h": "963533ff4b16f72a204a8c760896a857c54d0ac50570f1793e3bef1f2ae8b35f",
+    "third_party/libuv/include/uv/darwin.h": "222b6dd3ce67cfbb735b14b1662f065fc23570d6969acf463b39d946b7590d8c",
+    "third_party/libuv/include/uv/errno.h": "4242edf790e4569ef349026ab4c6e31093334ee5fc02b16ed7a0d9fbacdffd16",
+    "third_party/libuv/include/uv/linux.h": "adce0ed0821c8466a87a0a4c9e0df9ea7e4a4b24d099c7d7ed196f72a13f669d",
+    "third_party/libuv/include/uv/os390.h": "98388ae32ce2c4390b82c3529539d2a476c44f590e960ed30a79f72b807ecd02",
+    "third_party/libuv/include/uv/posix.h": "e9d7218b34e6e89b7b412891b7e2aa8b3a561c5ce9714c1f4def6c8a8593a6a6",
+    "third_party/libuv/include/uv/sunos.h": "29d4b4ef48dc3c3ab32d75e0a85bcb80e084d42b32aae40d67fc1d882b93298a",
+    "third_party/libuv/include/uv/threadpool.h": "09ae41099af710289155be012df45c2fce04da6a02e813278b4558935e645938",
+    "third_party/libuv/include/uv/tree.h": "34393c74082c71ddd5bd9ec4afe30ef03df7fa7bb64be5a50ae070cdfebb5c43",
+    "third_party/libuv/include/uv/unix.h": "06ccd9e0f3f312b610a7e7a8ff16596988e02796e7a0c81a62e29d5f6abe4613",
+    "third_party/libuv/include/uv/version.h": "a859f2c21f7887d45b0372109ebc91759a6f8c408c7cbf2a12f9bbe579be403b",
+    "third_party/libuv/include/uv/win.h": "9ad5dd7d5d4d51981f40edfc65a53ab94e91f6a2e73f2bf897e0e697fd9e8233",
+    "third_party/libuv/include/uv.h": "bb9ed99b80cd22c58361bffdfbb2aa7029ce0391cde616745c0072a6f3c03219",
+    "third_party/libuv/libuv-static.pc.in": "2ec52a0b39abc4edea141386333d960e0bac8c94764500c95c3d11c2b5699551",
+    "third_party/libuv/libuv.pc.in": "207211332937097fdedb8b76cf230a06c039b695bb049a05bc9478fdc8f35bb5",
+    "third_party/libuv/src/fs-poll.c": "e4869036bc54bc5a881794ca6aac044c9c567361fff48dd7f02f3a4640e6d271",
+    "third_party/libuv/src/heap-inl.h": "e8dbafbe40150143a740e9b1aff03c4e623ebfe5d6b5e1834a09626a303ddbc2",
+    "third_party/libuv/src/idna.c": "01da9dc1b716f1320089706ae8fe0998bc73e456ff5bb71f32704868152bc74c",
+    "third_party/libuv/src/idna.h": "d72fc711db6309e6c6ec0fc777cb0bcbcfa3942262be25d315ac469db2787559",
+    "third_party/libuv/src/inet.c": "5fedd5da664c70aa539ae0f0fa10b28ea092c892f9516e95cf1bb782016d52f2",
+    "third_party/libuv/src/queue.h": "abdeddeefb025fcdeff7737d4d465d89081ab2c3cc08a423c042ee2093b8695a",
+    "third_party/libuv/src/random.c": "025d67c8249a9917964167ba17b325489e5fb8fbd26cff5f4eac6354e0cc5d4d",
+    "third_party/libuv/src/strscpy.c": "0058568b1a47d2a35ce3dd32d52463af5e066c1065fbb6dc28dd68107a978c1c",
+    "third_party/libuv/src/strscpy.h": "e3e5f81613b169ccd76eee4972d37e7cd5d875ac20d578467b2e42ee5c7f4051",
+    "third_party/libuv/src/strtok.c": "fdcd8971cef7aff15ed950c8d71521888eb57ab48b62196e1f4170b4cf522d2c",
+    "third_party/libuv/src/strtok.h": "2bb2ed731c7afb0efb14670854bc47fe435d72e93cb7b5a1ba99fc5d0548467f",
+    "third_party/libuv/src/thread-common.c": "0ce1ce99b53c1e453439fae0be62c417fca8a1850cd97be65ace5b36b306a7b9",
+    "third_party/libuv/src/threadpool.c": "28b4db439ee75e1bbb0661fcb1bf7619fd4414e69fb6e9bf348f6b887a7fcbe4",
+    "third_party/libuv/src/timer.c": "5a2326203a3ac21b16093e0928db393e00caf919c1ede5316ac7174b72daf217",
+    "third_party/libuv/src/unix/aix-common.c": "61a1cbb342c5e334622ba194927ec9cff8642e5dea7c5972c17f531123c3ebcf",
+    "third_party/libuv/src/unix/aix.c": "05a25cfc6956445d676cd600ae50f6d343828d3c6e415a534606debe31b5cffa",
+    "third_party/libuv/src/unix/async.c": "36e631e4c64ed1102ee82a4aadb329abb0ffa1397058f149a90b606bd61bf199",
+    "third_party/libuv/src/unix/bsd-ifaddrs.c": "4ef5cd279dad0f334fe3db09e6d48c35325d7f25e8c534f919eae68651b829ce",
+    "third_party/libuv/src/unix/bsd-proctitle.c": "1897f0eb92302dd75a1f2ea48118aaaae2c275ea9ed2f102007bb3debdbffb00",
+    "third_party/libuv/src/unix/core.c": "18bfd5f2045417f8ace5d76e222bf7441b31ead5fc2cbaf6225965e0afea8767",
+    "third_party/libuv/src/unix/cygwin.c": "57f86ce72120bf5af78891a69132564582deee3cb1cc988ef3bf4ac77a259318",
+    "third_party/libuv/src/unix/darwin-proctitle.c": "f68470f2a5ee9361d49083f0ec4c42e2a01a082907f9be983f31ab405e77b49d",
+    "third_party/libuv/src/unix/darwin-stub.h": "d397fe8920a057dbf335b5eb91c82122e0f0b61281cd0dcb9fd45420bd9de7d8",
+    "third_party/libuv/src/unix/darwin-syscalls.h": "9edc5b8872c8c718cffd43b02ff9730276f7f55d7585f9c080e0065c08aaa872",
+    "third_party/libuv/src/unix/darwin.c": "d3ffb6997fa61127feaa67ee2b9d0fda2796e58c0b1094a066bc017e648867cb",
+    "third_party/libuv/src/unix/dl.c": "fe5d987911461b7f680474ee3886884a6f3325dff0a4bc038734a088ee227ff1",
+    "third_party/libuv/src/unix/freebsd.c": "360960be1874bcd5c5f221d9e7cc6613cd0e4c51df004912c52ee86dbff63453",
+    "third_party/libuv/src/unix/fs.c": "7406d729f667053febfac84fa1fed6f9423ecead70ec2d05b060f92f360ed19c",
+    "third_party/libuv/src/unix/fsevents.c": "6d6b9e50ac30ce6c4d0ac046352fc308229f36774b092c3e4e99f434f50d5ca3",
+    "third_party/libuv/src/unix/getaddrinfo.c": "937dea83a24092bb80a7409e65f39c4bfd3fc8c8ed94deb7d80f9fbf13a740c4",
+    "third_party/libuv/src/unix/getnameinfo.c": "558b560c07b47db60cd04b182cbe10ced589753a904197a9120440fc23be61e5",
+    "third_party/libuv/src/unix/haiku.c": "5f056eace7dcf9021a1e6ad1b410ace855715f8942e5d643bf4616c52b9d652d",
+    "third_party/libuv/src/unix/hurd.c": "94442eee81f3bad7ec1ba82861695755d8256d48634251f581b2c4bd12dacde2",
+    "third_party/libuv/src/unix/ibmi.c": "f7475ea1203fcc1832f4811d25f4731fe6c2f2a05f17e2b982d2cdfce273972a",
+    "third_party/libuv/src/unix/internal.h": "959e3ce94dd0a1c12f090f40aac1f0cc9287b199eff4ed6dd9e2e944963a06ff",
+    "third_party/libuv/src/unix/kqueue.c": "d535fbed2b9beeb3c7afb939ff066601db98cecfb4642396732fff3d83d82660",
+    "third_party/libuv/src/unix/linux.c": "215185d94697e05cd75ba9466bb9ea93076769a7767218d4183eaf0723ccf2d2",
+    "third_party/libuv/src/unix/loop-watcher.c": "352e6272f340f424fba5ff6e28705b0b22c3a8903913d0ea6bbb6ba7c2293fb5",
+    "third_party/libuv/src/unix/loop.c": "2226f6b5747b90d9013238ac9de70d63dc084dce2fc60005af99412a4ee670e4",
+    "third_party/libuv/src/unix/netbsd.c": "4d8b26f699aaffde0851ccf7ae415f30fedc9ab0ab86a020ac1fc14808f16e63",
+    "third_party/libuv/src/unix/no-fsevents.c": "9d91a46c8477fd7145eac8b668da1041a69f5b12812b18888ad3eae85397d987",
+    "third_party/libuv/src/unix/no-proctitle.c": "65a37c263a39f59943856e3d6bf2119692cfaacdde13f05112411cd3edd15ec5",
+    "third_party/libuv/src/unix/openbsd.c": "0d7f6a5f10fcf4201541d2c14d73b05015577d8d1bcc0a4c581cde8b6532ca12",
+    "third_party/libuv/src/unix/os390-proctitle.c": "627cd81bf8925ced5e39ededce1fa50c9b77dba581a35383113a1520e015478d",
+    "third_party/libuv/src/unix/os390-syscalls.c": "76c5779fa2be1665b8d82c1e010eb37a9b216f8bdbdbd1a48f8c4f8985edc3d6",
+    "third_party/libuv/src/unix/os390-syscalls.h": "a0f585c827df219b526b9786caebc8c21fd4db9ea8d568c07264f24a266cd4f9",
+    "third_party/libuv/src/unix/os390.c": "a3baca96a03da1d7703cac57182baaa382fb455305d3ae8e6e79a10bda99b0e9",
+    "third_party/libuv/src/unix/pipe.c": "b338d8c1e72706281079aaf2ddbfb94512cef4dc2253c24b7af82a4f3f487b42",
+    "third_party/libuv/src/unix/poll.c": "1251826732affd254647829bb43bcdf5bc251915dac601b9eadea13f237b7c79",
+    "third_party/libuv/src/unix/posix-hrtime.c": "e0b6901588b417222c48c6b321d642f53f6b3ccd2512d86f3f5898dcd95b3671",
+    "third_party/libuv/src/unix/posix-poll.c": "38fc6a7020e482fedf29ab82b5fd77308748b9d1b4179e733672befafbcb9f16",
+    "third_party/libuv/src/unix/process.c": "e79f9bd90787011d59d9395f46658caca2ca01d1daad84c36e3b86eba50a4a52",
+    "third_party/libuv/src/unix/procfs-exepath.c": "56136e384f79f6691f8cc2976cd01d0a02019802d4be619d7c91cb21d413ada6",
+    "third_party/libuv/src/unix/proctitle.c": "16ff3c208dcce3798dc80bf596828a93f6ac42b1732e1ba75c331dfa3e90fffe",
+    "third_party/libuv/src/unix/qnx.c": "87a496ec783adca221bc598338762448c3255a1ff1af14e3ad7f68cf786010fa",
+    "third_party/libuv/src/unix/random-devurandom.c": "e774597ce4da739ad57317041aa0aaf00ae48b04f2359940188ab04475613420",
+    "third_party/libuv/src/unix/random-getentropy.c": "9bf7967967b6609810f42c72229edd086890864d4b78ed8c3269064a72769fe3",
+    "third_party/libuv/src/unix/random-getrandom.c": "149b6b2b9b9213f1355651c618e17b4dd2599ccafa1619ac3a8d7916a471f2a5",
+    "third_party/libuv/src/unix/random-sysctl-linux.c": "c5a344dfdd20029700c0686c3ca685e8e67931fa2a35d84b01b10b5a8ad812a0",
+    "third_party/libuv/src/unix/signal.c": "d6e74aa544ea4adfd57a6fbbf452f831a0fb3030873dd37e65205610174fbc94",
+    "third_party/libuv/src/unix/stream.c": "736cd948a28acdb1544dd683becd78fb744e79de55562229da54923b20f41c7c",
+    "third_party/libuv/src/unix/sunos.c": "3f259374d58aa19cb4a6fe36261ab50b7973f950224eb1a2c14a24a17279e845",
+    "third_party/libuv/src/unix/sysinfo-loadavg.c": "cd11de556cfa6371860a694e2d302037349d94b7b446506e721d412e97ea0334",
+    "third_party/libuv/src/unix/sysinfo-memory.c": "d0fc16262a6406a9dd547044895475d9a3b1f1e11bb3b23e4880cf5945121272",
+    "third_party/libuv/src/unix/tcp.c": "ab401c3846448501842b4c5a1973beceab00955aebecbbc05e64b71472f19053",
+    "third_party/libuv/src/unix/thread.c": "ff6670ab46d110e819ec788d8bb52ce4ec9e571b005157497c887b625e0d9a29",
+    "third_party/libuv/src/unix/tty.c": "65b98df1215c32ddd87e7b89e2d8d78c7e79a02e2bf4a53e1860f61d00bf431a",
+    "third_party/libuv/src/unix/udp.c": "81c58307bb111bfd09cbfa91d206b4bf4d4179e422e2fc174ae88e111bbe36b1",
+    "third_party/libuv/src/uv-common.c": "77a095249d0ff54053f435a7cc28daade68f8e67ad6f7ac95105901edce7fdf8",
+    "third_party/libuv/src/uv-common.h": "6ddce7ca203fe0dd293d1eec658745ca6a2d24386b3a02edaf2a15cf94732ee6",
+    "third_party/libuv/src/uv-data-getter-setters.c": "ce7fab84519adc0f9b63c268fcb5a73e643a4d9a22db125cf58db88a6acd38ee",
+    "third_party/libuv/src/version.c": "53296d9934d952545064673758e3ed46c10ab52e34ce540fbab4c595a0b44bfa",
+    "third_party/libuv/src/win/async.c": "cfb1f1e500e3b012f80b90a1e55a45b5f9c5fe7d070368a2a95e0eff661450d1",
+    "third_party/libuv/src/win/core.c": "b4e4f38d30c8c50cc5c2850c2512cb2fb43865236f3b7cfddc566b60ce9918a1",
+    "third_party/libuv/src/win/detect-wakeup.c": "914143627a1a97fafbf64a71564dce389a877b2e5aa9797f12dbc2811bd71d7a",
+    "third_party/libuv/src/win/dl.c": "2b5c586518c6e3b02108e5a47c0ae481a5059dbd2af4031bcc5402b16b013048",
+    "third_party/libuv/src/win/error.c": "c804f3da1436393d1170688cb9d0210638174c0f1af03013360a7d0a7eb945a8",
+    "third_party/libuv/src/win/fs-event.c": "f9916b4ceea11409e34908e79254c029f55f493f4338b49d557cd55e7922c0aa",
+    "third_party/libuv/src/win/fs-fd-hash-inl.h": "2baf0886b443d529c5c70f3ff85be0f667da59582d93603b64f6a54ca92ac14b",
+    "third_party/libuv/src/win/fs.c": "41633b8f58bb08c21f2dc8daa32990365e2df7154bb167a076e470339a218d18",
+    "third_party/libuv/src/win/getaddrinfo.c": "b2d85b2bf70dffd307fd13de2119702ee57746419ac35920fb6eff1aebe6a81a",
+    "third_party/libuv/src/win/getnameinfo.c": "c002f8d434ea01952671117dcc4f36bcb74cebcaf4f16b60de997afecfdac39b",
+    "third_party/libuv/src/win/handle-inl.h": "e590c46ef6bf5110be61015db784d515fcef34f9dfde61b674af1c28413eabc0",
+    "third_party/libuv/src/win/handle.c": "36778077a3ad0fb0ee55ccdba904e7393f74601be72be989110be4ee26ff753d",
+    "third_party/libuv/src/win/internal.h": "28de9aed84ec2dbb75e7eb18f270fa6fa3f080b16034e6a3d0b349a7d14bfe1a",
+    "third_party/libuv/src/win/loop-watcher.c": "b349a8ebf8f330418f7d15739441fdbd648b96ae7c4161a3d1145494a0c46c3a",
+    "third_party/libuv/src/win/pipe.c": "a712502b4bc71ad994e1c639fcba386ac1748ab8dcb693038d0203dbdbfe107a",
+    "third_party/libuv/src/win/poll.c": "d0711a1433e870d5a776def8b4934a2b60cb3ed17e86aa77f5f97aa4ef4d36bb",
+    "third_party/libuv/src/win/process-stdio.c": "7367280da2315b8cf16d42870a972164763b1967f8e39bd141b27726237872d8",
+    "third_party/libuv/src/win/process.c": "3613437d5b1511789fe4ea9ba6c3ab228c9d42a8d2eec56227f6d6919e917d91",
+    "third_party/libuv/src/win/req-inl.h": "45e14fd58e531759c8130f1617cbccac69b463e8ab980664dc16202bb0600742",
+    "third_party/libuv/src/win/signal.c": "7cbe1ec895c1fa5c974e6d59e55e6a6d7180e9c83ffbffa12691c24c44fdf1f0",
+    "third_party/libuv/src/win/snprintf.c": "2596b168ad64f54e94b95779f654326c107f43e0645efa11185f8e9b04ec2f6f",
+    "third_party/libuv/src/win/stream-inl.h": "071341e25de533dc19eeb3ee3ff3985caae7578c8da9109ffcf08b6574584712",
+    "third_party/libuv/src/win/stream.c": "f93f5f69b8538adee8a830bf4ed61ce666eb777cf3bfb364f26796b51a3f71e8",
+    "third_party/libuv/src/win/tcp.c": "86b3e81df0dd401cee22bfa921e9ef44ceceb62cd01b3a3f0cf830c61361c9a1",
+    "third_party/libuv/src/win/thread.c": "672c9fe0ac40b9b87c0c4eb8b9320ab9410385ddf0aa57ac071f33d86a3cfb91",
+    "third_party/libuv/src/win/tty.c": "5df3f88899bc4c6d85f80b54d4f4f14453359996a2c42693de38ef90c5b9941d",
+    "third_party/libuv/src/win/udp.c": "18266936d7b2dd7a84efc019a47d1aa620c09eaf29fba67ff185ab39b4272591",
+    "third_party/libuv/src/win/util.c": "cf857ce678c492c52b79782c980156e38b98f3167d117f0db1c3287be605a9a5",
+    "third_party/libuv/src/win/winapi.c": "9a54878daa60d6ca1acc3dc6032dee8803325cf9cd1c0aaa241a5c8d510ed201",
+    "third_party/libuv/src/win/winapi.h": "d44fed6bb0c7576eb20706d69a975ea1359f9cfcd017df6ae6cf7e4adbb60f54",
+    "third_party/libuv/src/win/winsock.c": "f9621966b332d29926ac6471b0aa08ef4f46be0b58cde852155592dc4de88590",
+    "third_party/libuv/src/win/winsock.h": "ab759f6d8dc22dbffae7e4eceebd1aaffa31173f64f135c0f51e9eebff11e0e5",
+    "third_party/libuv/uv_win_longpath.manifest": "b6890e27512e19bc7461589465f297d669ed4432a0b55d735916c0954f7ac678",
+    "third_party/libuv-source.json": "34c48ca08ba53bc393182c20cca3a089ac392bfd6e6c2c4413c6c08d44362f3f",
+    "tools/bench-http.py": "00d4abdf36757778fdcd18277222ce382d5476e0394e5c889dfcc41da3e8df71",
+    "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+    "tools/bench-report.py": "f809ecba197eb319dabda8a201a997940cca92bd3d9641549822e5c5a6a8a357",
+    "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "tools/build-gufo.py": "8458f5739cef9894f6e4f9077c0e44cf22d11fb6cea02642d7a645f5a49167d1",
+    "tools/check-gufo-build.py": "a5ba4f5cd9348501f1988cab0c98ba81c5eece80f33306508719757b38f1e349",
+    "tools/core-bench.c": "b4b896faf42d965e5d0bb11f1f0de3ed0663f6bf90f2252ffa04dd4f5369fc65",
+    "tools/executor-bench.c": "57186efe989f7fdbdc1e4b19034cefbe68bb21333ac92a9903e6064ae21ab45b",
+    "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+    "tools/gufo_state_source.py": "10e266807a58fb9c98295d76e5779ae6ccf656dd108b69db9f6ea6133fd9a24f",
+    "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+    "tools/lie-bench.c": "ec0320fbf495cb85d92347ec51d664fbddf527ed0adcc732783d5421f1ffc61d",
+    "tools/lie-kvc.c": "869639c9cc576e8f8763022c8c91b03b24dbbf243bfc833ed009d0ebea17f6f7",
+    "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+    "tools/render-published-benchmarks.py": "72a11a20ecbc1ecdadcc8dde9e9f9e51be925f2b163fae638822f3a28d5882bb",
+    "tools/run-bench.py": "44ea564bca0baa2035525298737db2e82f6457863607abdbac9f28d9108e3be4",
+    "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+    "tools/state-bench.c": "67019298cb16795c7c00b9de1289e3b634e985199228aaef686b57e1fccc29cd",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+    "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab",
+    ".gitattributes": "03d453027a4a66e36cabe5547f62a59736dcdb5b8c81a080edf1b203380d90e1"
+  },
+  "binary_sha256": {
+    "build/docs-libuv-sanitize/synapse-lie-server": "e9e8990c4ba4d0043eec050c4af0e3f3f0756c0722428ed3b48b018b1f1aa982",
+    "build/docs-system-uv/synapse-lie-server": "eca1a55ae46591987d00a41d86b5364d8608671e64cf1c5c665ffb062c3f4f2b",
+    "build/docs-libuv-linked/synapse-lie-server": "52e01ca96b6aad6ea8c294032c75d87fa72f33f9a4dc2f3cb8391f7715706fb6",
+    "build/docs-libuv-linked/synapse-lie-bench": "58eba1d3a028e41ad770b0d6cd0c62610e5ab8e6e16ddb6b80ecf61b3e29daed"
+  },
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/docs-libuv-sanitize",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.75
+      },
+      "elapsed_s": 6.258128544315696,
+      "receipt": "evidence/docs-libuv-build/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-build/command.log": "87c95c90c4f8d2beaf553f2a1bec09aadef3f4d43419056baac2bffc03947c7f",
+        "evidence/docs-libuv-build/plan.json": "1a0a284996d47e8fb91c637b98b3f842fd7bdfcbbfaefeb3b635b0f236e310c6",
+        "evidence/docs-libuv-build/temperatures.jsonl": "0e8560ffa1e26311c9fc5a9dad4a8159526e55a41bf80dbd0a0a139fe7f85ec7"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/docs-libuv-sanitize",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_BUILD_ID=docs-libuv-r1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.5
+      },
+      "elapsed_s": 1.124128789640963,
+      "receipt": "evidence/docs-libuv-configure/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-configure/command.log": "cd584c966b7f2845aee4ea3ba35b39080b9abac0512ce3d788e720cebb54a144",
+        "evidence/docs-libuv-configure/plan.json": "8a2d9d1070326ca49768038d2436ade0a55fee56a51448a5870c91b8f91e94c1",
+        "evidence/docs-libuv-configure/temperatures.jsonl": "bdf5e40a3d246c09689ddc44e15749e0b4a62c8c46661ce1ad714899da731cc2"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/docs-libuv-sanitize",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_BUILD_ID=docs-libuv-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 59.375
+      },
+      "elapsed_s": 1.0574667919427156,
+      "receipt": "evidence/docs-libuv-configure-r2/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-configure-r2/command.log": "1fc2a7dc214bffbdf0e3748cfc1e2865bd14ff588792ed50a893fd2ef03bd529",
+        "evidence/docs-libuv-configure-r2/plan.json": "8a2d9d1070326ca49768038d2436ade0a55fee56a51448a5870c91b8f91e94c1",
+        "evidence/docs-libuv-configure-r2/temperatures.jsonl": "e52c6409b49aa505f4ac4870850eedcc365275d517a0dd2db17f3fccbcd28c2b"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "HIP_VISIBLE_DEVICES=-1",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/docs-libuv-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.25
+      },
+      "elapsed_s": 36.66291928384453,
+      "receipt": "evidence/docs-libuv-ctest/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-ctest/command.log": "0273746e096f00745f3a004125c96d88e673172b588b85ac9830f1dd6c383de6",
+        "evidence/docs-libuv-ctest/plan.json": "b10d3963efef63d95310ed27a97b42cc7aa5a9f9defed79e4c90d47a4bf76b98",
+        "evidence/docs-libuv-ctest/temperatures.jsonl": "35ab6ed5d1afd0ff7b521cab786c8d01bcc7d321c99bcb4c59fd8abf2063e489"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "HIP_VISIBLE_DEVICES=-1",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/docs-libuv-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 68.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 92.625
+      },
+      "elapsed_s": 45.89092706516385,
+      "receipt": "evidence/docs-libuv-ctest-r2/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-ctest-r2/command.log": "bba4a4c888aa114515922135e0b4d9d2985a49110385c5a5f6432e0903ed59a3",
+        "evidence/docs-libuv-ctest-r2/plan.json": "2e783bda7ed7e8c134dc4aa46a214e88237e0977e0277f1146e15ade25e7805d",
+        "evidence/docs-libuv-ctest-r2/temperatures.jsonl": "a93072781882fc52f58003190d4270ee34197ee49226e435b5722c6b21525849"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/docs-libuv-linked",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 68.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 92.25
+      },
+      "elapsed_s": 9.255496485158801,
+      "receipt": "evidence/docs-libuv-linked-build/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-linked-build/command.log": "bb535c8cc0e13dbee185189611a84c9cca639ccc73c4d5f6194d087bbb4903ea",
+        "evidence/docs-libuv-linked-build/plan.json": "740a5f09db77cd6705a0211e20d91a88314d7da7c6331bad6cb58bcf9736b345",
+        "evidence/docs-libuv-linked-build/temperatures.jsonl": "89a6d8e261673db73a23e0e019745b7d16fa74166895a6a991304fe7370c8bb1"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/docs-libuv-linked",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/.deps/gufo-state-access-kvc-runtime-provider-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/kvc-runtime-provider-r1",
+        "-DPython3_EXECUTABLE=/usr/bin/python3",
+        "-DLIE_BUILD_ID=docs-libuv-linked-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 84.0
+      },
+      "elapsed_s": 2.0604195473715663,
+      "receipt": "evidence/docs-libuv-linked-configure/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-linked-configure/command.log": "e52b47c3094d60d7ab2e7c3cb46346495bc085da640e8d471c47c89dd2d19bfe",
+        "evidence/docs-libuv-linked-configure/plan.json": "800aeda2b796d7c6935f8f7cce179c8cefbb6b5d1b74a3ca31f0c470e75ba83a",
+        "evidence/docs-libuv-linked-configure/temperatures.jsonl": "7a694f8ab34822f57154b4a5f01991049efffde76eb507b99ffee21c57d02608"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "HIP_VISIBLE_DEVICES=-1",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/docs-libuv-sanitize",
+        "--output-on-failure",
+        "-R",
+        "^core-bench-contract$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.5
+      },
+      "elapsed_s": 1.127325488254428,
+      "receipt": "evidence/docs-libuv-no-plots-core-r2/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-no-plots-core-r2/command.log": "f8ef62b938d36951b7237c0679377ff58470fcf769b5e75d1e58d7a49d3873c9",
+        "evidence/docs-libuv-no-plots-core-r2/plan.json": "1710839f31736015d17e29741a178246c29d7b36f6668bacb72b0c501d9f56c7",
+        "evidence/docs-libuv-no-plots-core-r2/temperatures.jsonl": "bc3bd3cbebd39168d322dfa66a0457bddf446aede9b5869dc03f0662e2d2bf82"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "HIP_VISIBLE_DEVICES=-1",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/docs-libuv-sanitize",
+        "--output-on-failure",
+        "-R",
+        "http-ssd-reactive-checker|core-bench-contract"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.25
+      },
+      "elapsed_s": 8.426855788566172,
+      "receipt": "evidence/docs-libuv-no-plots-recheck/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-no-plots-recheck/command.log": "22faccf49953ae978e4d4c461d8234b9573ff97c5152eaaee71bcd444effc9cb",
+        "evidence/docs-libuv-no-plots-recheck/plan.json": "dee249c2c058567f1b83bad5c354fca9e2d8b618af115b9da5283747c254c808",
+        "evidence/docs-libuv-no-plots-recheck/temperatures.jsonl": "6d17012ad03a254edaa7b409e4142e0e2e6d584fabdc157ed51756141f38363e"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/docs-libuv-sanitize",
+        "-DPython3_EXECUTABLE=/usr/bin/python3"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 84.625
+      },
+      "elapsed_s": 1.0856922063976526,
+      "receipt": "evidence/docs-libuv-python-configure/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-python-configure/command.log": "60f41843bc5e51a68792c5d7589e34aef91eee6097835a983d5ed3fefb22ffa2",
+        "evidence/docs-libuv-python-configure/plan.json": "a8a27b15770bd0ef218f494181390253e4f8a304def3717584f4013eb50b2106",
+        "evidence/docs-libuv-python-configure/temperatures.jsonl": "248f51e9f0b90c2b62600885d16de36c50fa89dbad8c240950c40fb993db9432"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/docs-libuv-sanitize",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.375
+      },
+      "elapsed_s": 5.1231916435062885,
+      "receipt": "evidence/docs-libuv-rebuild/result.json",
+      "logs_sha256": {
+        "evidence/docs-libuv-rebuild/command.log": "d5651e5a6d42b74ad0971a4eb35ec45e7ed8bf87f09cace32633440c82fc8fd3",
+        "evidence/docs-libuv-rebuild/plan.json": "1a0a284996d47e8fb91c637b98b3f842fd7bdfcbbfaefeb3b635b0f236e310c6",
+        "evidence/docs-libuv-rebuild/temperatures.jsonl": "5e3b5776217f10484600bfc3182f0b7019239540ada0299381b78243da5acc9b"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/docs-system-uv",
+        "-j2",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-monitor",
+        "test-synthetic-server",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 72.875
+      },
+      "elapsed_s": 3.141544626094401,
+      "receipt": "evidence/docs-system-uv-build/result.json",
+      "logs_sha256": {
+        "evidence/docs-system-uv-build/command.log": "042b8bde9c78d5ba58b7c5a69a55bd84980087112c4afa720e22719a68e311c7",
+        "evidence/docs-system-uv-build/plan.json": "e1edb6a15bb582144dc686c1836786d18d686d9e3a0507308b8b992d6789f0e1",
+        "evidence/docs-system-uv-build/temperatures.jsonl": "7f00ca0662f91f07941af14340eab5cd54904e543c839ded85d23e09a84ad2c6"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/docs-system-uv",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_SYSTEM_LIBUV=ON",
+        "-DPython3_EXECUTABLE=/usr/bin/python3",
+        "-DLIE_BUILD_ID=docs-system-uv-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 65.875
+      },
+      "elapsed_s": 1.0892420103773475,
+      "receipt": "evidence/docs-system-uv-configure/result.json",
+      "logs_sha256": {
+        "evidence/docs-system-uv-configure/command.log": "14c9aabd5676170c7684e607a5595669f72bda6427e5b1acd1d98721a4351580",
+        "evidence/docs-system-uv-configure/plan.json": "0f4f99d0eb4c955e9c250d9e4f9094ab5836aef3ee1ea4be6cc43a427f913ae5",
+        "evidence/docs-system-uv-configure/temperatures.jsonl": "11ac001b96516e2f01d5bfe82be577075458d914ff251065366b933e6afd3ed0"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "HIP_VISIBLE_DEVICES=-1",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/docs-system-uv",
+        "--output-on-failure",
+        "-R",
+        "^http-(monitor|synthetic|tools-synthetic|responses-synthetic|prefix-cache|ssd-prefix)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 87.25
+      },
+      "elapsed_s": 19.79203704651445,
+      "receipt": "evidence/docs-system-uv-ctest/result.json",
+      "logs_sha256": {
+        "evidence/docs-system-uv-ctest/command.log": "db54df9db3a626fac10874b5b26137ea75758f1f81e95c5a6de5027774ccfd57",
+        "evidence/docs-system-uv-ctest/plan.json": "2dfbef90656585d55000fc3683ec15b6eaa74376e1e62d47f7d440dcdaf7b04b",
+        "evidence/docs-system-uv-ctest/temperatures.jsonl": "be9eae286a48e702ca0a82af8ce7c9e2cabd9a7bd18fabf0cd13135f72ba6be3"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/kvc-runtime-sanitize",
+        "--target",
+        "test-core-bench",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 59.125
+      },
+      "elapsed_s": 1.0561669878661633,
+      "receipt": "evidence/prompt-retention-bench-build/result.json"
+    }
+  ],
+  "documentation": {
+    "markdown_files": 93,
+    "broken_links": [],
+    "broken_fragments": [],
+    "shell_blocks": [
+      {
+        "file": "README.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "README.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "README.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 3,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 4,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 5,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 6,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 7,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 3,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 4,
+        "exit_code": 0,
+        "stderr": ""
+      }
+    ],
+    "bundled_libuv_files_verified": 127,
+    "published_csv_rows": 37,
+    "graphs_zero_based": true,
+    "dated_evidence_unchanged": true
+  },
+  "dynamic_and_help_checks": [
+    {
+      "build": "docs-libuv-sanitize",
+      "readelf_exit_code": 0,
+      "dynamic_libuv": false,
+      "dynamic_python": false
+    },
+    {
+      "build": "docs-system-uv",
+      "readelf_exit_code": 0,
+      "dynamic_libuv": true,
+      "dynamic_python": false
+    },
+    {
+      "build": "docs-libuv-linked",
+      "readelf_exit_code": 0,
+      "dynamic_libuv": false,
+      "dynamic_python": false
+    },
+    {
+      "executable": "build/docs-libuv-linked/synapse-lie-server",
+      "help_exit_code": 0,
+      "GPU_visibility": "masked",
+      "model_opened": false
+    },
+    {
+      "executable": "build/docs-libuv-linked/synapse-lie-bench",
+      "help_exit_code": 0,
+      "GPU_visibility": "masked",
+      "model_opened": false
+    }
+  ],
+  "plot_check": {
+    "scope": "plot-only altered rate fixture, NOT new performance evidence",
+    "axes": [
+      {
+        "metric": "prefill_tps",
+        "bottom": 0.0,
+        "top": 3608.5178633217547,
+        "highest_reference": 3257.021634505391
+      },
+      {
+        "metric": "decode_tps",
+        "bottom": 0.0,
+        "top": 241.64062797154682,
+        "highest_reference": 214.3170778095576
+      },
+      {
+        "metric": "prefill_tps",
+        "bottom": 0.0,
+        "top": 3608.5178633217547,
+        "highest_reference": 3257.021634505391
+      },
+      {
+        "metric": "decode_tps",
+        "bottom": 0.0,
+        "top": 241.64062797154682,
+        "highest_reference": 214.3170778095576
+      }
+    ]
+  },
+  "bundled_ctest": {
+    "passed": 39,
+    "total": 39
+  },
+  "system_ctest": {
+    "passed": 6,
+    "total": 6
+  },
+  "thermal_peak_c": 92.625,
+  "gpu_prompt_retention_comparison": "pending; no lease held or GPU process launched",
+  "documentation_pre_receipt_check": {
+    "exit_code": 1,
+    "reason": "Progress linked the receipt before it was created; final check passes.",
+    "record": "evidence/docs-presentation/check-before-receipt.json"
+  },
+  "whitespace_initial": {
+    "exit_code": 2,
+    "log": "evidence/docs-presentation/staged-whitespace-initial.log",
+    "resolution": "Normalize new generated SVG/CSV formatting; mark untouched upstream code as vendored with whitespace checks disabled."
+  }
+}

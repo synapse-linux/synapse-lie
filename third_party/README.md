@@ -18,10 +18,11 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
 | ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |
 
-Libraries are already installed system dependencies, not vendored/repackaged.
+libuv is bundled as described below. The other libraries are system dependencies.
 Build receipts record compiler/pkg-config versions. A distributable package will
 need its normal dependency-license audit; this increment installs/publishes none.
-Python is a development/test helper, not an inference dependency.
+Python verifies provider builds and runs test, HTTP benchmark and graph helpers.
+The C server and core do not require a Python runtime.
 The new first-party C17 SSD codec/identity/store also uses installed OpenSSL
 Crypto SHA-256. No upstream snapshot codec or disk-cache code was imported;
 upstream source/archive pins are unchanged by this increment.
@@ -63,7 +64,7 @@ is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualific
 
 The owner withdrew this experiment. Active overlays/tools are removed; the
 following provenance applies to preserved historical evidence and build artifacts,
-not to current source or runtime support. See [the new plan](../docs/REPLAN.md).
+not to current source or runtime support. See [the new plan](../docs/archive/REPLAN.md).
 
 `adapters/gufo-q2/host-edits.json` contains first-party, exact hash-guarded edits
 against six existing Gufo files, materialized only in a fresh private build source
@@ -71,7 +72,7 @@ tree. The source copier retains all upstream files/licenses/notices. This modifi
 storage/configuration/binding and adds an explicit device-upload refusal; it does
 not import or reimplement the GPU kernels/model forward. Pristine `.deps` and the
 original archives stay unchanged. The variant is not accepted by the production
-link checker; [Q2 host scope](../docs/Q2-COMPATIBILITY.md) is not GPU support.
+link checker; [Q2 host scope](../docs/archive/Q2-COMPATIBILITY.md) is not GPU support.
 
 Official `Qwen/Qwen3.8-Flash-Next` configuration at
 `de4b8e4d43b917e7706784d8bb445c9af86a3540` and its **Qwen Community License 1.0**
@@ -81,10 +82,10 @@ The assets retain their separate license (including commercial-service condition
 MIT runtime code does not relicense model/configuration assets or authorize release.
 No model values were fetched, converted or redistributed.
 
-The subsequent [Q2 HIP candidate](../docs/Q2-HIP.md) adds a separately hashed
+The subsequent [Q2 HIP candidate](../docs/archive/Q2-HIP.md) adds a separately hashed
 eight-file overlay and three first-party boundary files. It instantiates the
 licensed Gufo/llama.cpp MMQ IQ2/Q2 helpers, with scoped IQ2 fractional-eighth and
-Q2 MMA FP32-product corrections documented in [extended evidence](../docs/Q2-EXTENDED.md).
+Q2 MMA FP32-product corrections documented in [extended evidence](../docs/archive/Q2-EXTENDED.md).
 The test codebook generator retains the pinned MMQ table's MIT attribution.
 Other first-party work
 covers routing, reserved workspace, source geometry and zero-safe quantization
@@ -124,7 +125,7 @@ expected archive. That refusal was not worked around by relaxing the hash.
 - DS4: inherited stable reference `c05cd8e2bd35047196d95709f89d0ea2aff96df2`;
   modified port numerical baseline `982bffea86fd5568759a420c4808c5b2123161c8`.
   Cache/session/conversation lessons; the DS4 agent owns integration there.
-  For the [antirez model format gate](../docs/ANTIREZ-BENCHMARKS.md), LICENSE,
+  For the [antirez model format gate](../docs/archive/ANTIREZ-BENCHMARKS.md), LICENSE,
   `ds4.c` and `ds4.h` at c05cd8e2 were independently retrieved from official
   `raw.githubusercontent.com/antirez/ds4/` into ignored local evidence, with URL,
   HTTP status and SHA256 receipts. Only storage facts (MXFP4 id 39, 32 elements /
@@ -226,7 +227,7 @@ The outer envelope was separately inspected at
 `6289c516273979173abbc062209a81dd3706b804` and in the dated main review for extended
 quantization values. The older pin contains no Qwen path. OpenSSL's EVP SHA-1
 supplies text filenames; no upstream digest implementation was copied.
-[Exact scope, source links and remaining integration gates](../docs/KVC.md).
+[Exact scope, source links and remaining integration gates](../docs/reference/KVC.md).
 
 `src/models/kvc_qwen_map.c` is an original MIT host-layout transformation, not
 a model forward or upstream source port. DS4's public Metal Qwen source was
@@ -254,3 +255,23 @@ identify Qwen Flash Next as model id 5; the dated official store/server review
 accepts opaque trailers after the model payload. LIE adds its own identity and
 integrity extension there. This layout does not itself prove DS4 will restore a
 LIE checkpoint; bilateral device qualification remains pending.
+
+
+## Bundled libuv 1.52.1
+
+The HTTP event loop links the bundled static `uv_a` target by default. Configure
+`-DLIE_SYSTEM_LIBUV=ON` to use system libuv instead. Headless core builds do not
+link either version.
+
+Sources come directly from [official libuv](https://github.com/libuv/libuv/tree/1cfa32ff59c076ffb6ed735bbc8c18361558661f),
+commit `1cfa32ff59c076ffb6ed735bbc8c18361558661f` (tag `v1.52.1`). The
+[acquisition manifest](libuv-source.json) records the archive SHA-256, every
+retained file hash and every omission. The 127 retained files are unmodified:
+CMake, all platform sources and public headers, package templates, version metadata, authors,
+changelog and notices. Upstream tests, documentation, CI and alternative build
+systems are omitted. LIE's CMake wrapper lives outside the upstream directory.
+
+The original [LICENSE](libuv/LICENSE), [additional notices](libuv/LICENSE-extra)
+and [AUTHORS](libuv/AUTHORS) are retained. LIE's first-party MIT license does not
+replace those terms. The wrapper preserves upstream compiler settings while
+inheriting LIE's requested sanitizer instrumentation.

@@ -120,7 +120,7 @@ def export(result,out,label,reference=None,reference_label='Gufo reference',comp
         ax.bar([name for name,_ in series],[statistics.median(r['model_load_ns']/1e9 for r in data['loading']) for _,data in series]);ax.set_ylabel('Model load seconds (OS cache uncontrolled)')
         fig.suptitle('AR model loading — excludes HTTP readiness, not cold-file loading')
     else:
-        fig,axes=plt.subplots(1,2,figsize=(11,4),layout='constrained')
+        fig,axes=plt.subplots(1,2,figsize=(12,4.8),layout='constrained')
         for name,data in [(label,result)]+([(reference_label,reference)] if reference else []):
             rows=data['configurations'];x=[r['users'] if suite=='multi' else r['prompt_tokens'] if suite=='fresh' else r['depth'] for r in rows]
             for ax,key,title in [(axes[0],'prefill_tps','Aggregate new prefill tokens/s'),(axes[1],'decode_tps','Aggregate confirmed decode tokens/s')]:
@@ -129,10 +129,11 @@ def export(result,out,label,reference=None,reference_label='Gufo reference',comp
                 ax.set_ylabel(title);ax.set_xlabel('Users' if suite=='multi' else 'Full physical prompt tokens' if suite=='fresh' else 'Reused physical prefix tokens');ax.grid(alpha=.25);ax.legend()
                 for xx,yy,r in zip(x,y,rows):
                     if not r['full_output_budget']:ax.annotate('early EOS',(xx,yy),fontsize=8)
+        # Apply the common zero baseline only after every series has autoscaled.
+        for ax in axes:ax.set_ylim(bottom=0,top=ax.get_ylim()[1]*1.08)
         scope='CPU fixture — NOT-INFERENCE' if result['identity']['synthetic'] else 'Simplified direct GPU executor'
         pp='full prompt' if suite=='fresh' else '2048 / 4096' if suite=='memory' else str(result['identity']['pp_target'])
-        capacities=','.join(str(n) for n in sorted({r['context_capacity'] for r in result['configurations']}))
-        fig.suptitle(f'{scope} — {suite}, AR, greedy, capacity {capacities}\nPP {pp} / TG {result["identity"]["output_limit"]} · n={result["identity"]["repetitions"]} · median and observed min/max · no HTTP')
+        fig.suptitle(f'{scope}: {suite}, AR, greedy\nPP {pp} / TG {result["identity"]["output_limit"]} · n={result["identity"]["repetitions"]} · median and observed min/max')
     fig.savefig(out/'benchmark.svg');fig.savefig(out/'benchmark.png',dpi=160);plt.close(fig)
     return summary
 
@@ -293,6 +294,8 @@ def read_core_result(path,rows):
             if sample.get('cache_hits')!=hits or sample.get('cache_misses')!=users-hits or sample.get('cache_budget_bytes')!=cache_budget or not 0<=sample.get('cache_retained_bytes',-1)<=cache_budget:raise ValueError('core cache cohort accounting')
         for key in ('cache_expanded_bytes','cache_compressed_captures'):
             if key in sample and (type(sample[key]) is not int or sample[key]<0):raise ValueError('core compression accounting')
+        for key in ('cache_skipped','ssd_evictions','ssd_skipped','ssd_errors'):
+            if key in sample and (type(sample[key]) is not int or sample[key]<0):raise ValueError('core cache admission accounting')
         if sample.get('cache_expanded_bytes',sample.get('cache_retained_bytes',0))<sample.get('cache_retained_bytes',0):raise ValueError('core expanded byte accounting')
         if not identity.get('checkpoint_compression',False) and sample.get('cache_compressed_captures',0):raise ValueError('core disabled compression accounting')
         elapsed=sample['wall_ns'];tokens=sum(r['output_tokens'] for r in group)

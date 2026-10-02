@@ -145,11 +145,14 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     number(point,"decode_single_calls",after.decode_single_calls-before.decode_single_calls);
     number(point,"cache_hits",after.cache.hits-before.cache.hits);number(point,"cache_misses",after.cache.misses-before.cache.misses);
     number(point,"cache_captures",after.cache.captures-before.cache.captures);number(point,"cache_evictions",after.cache.evictions-before.cache.evictions);
+    number(point,"cache_skipped",after.cache.skipped-before.cache.skipped);
     number(point,"cache_retained_bytes",after.cache.retained_bytes);number(point,"cache_budget_bytes",after.cache.budget_bytes);
     number(point,"cache_expanded_bytes",after.cache.expanded_bytes);
     number(point,"cache_compressed_captures",after.cache.compressed_captures-before.cache.compressed_captures);
     number(point,"ssd_hits",after.ssd.hits-before.ssd.hits);number(point,"ssd_misses",after.ssd.misses-before.ssd.misses);
     number(point,"ssd_writes",after.ssd.writes-before.ssd.writes);number(point,"ssd_read_ns",after.ssd.read_ns-before.ssd.read_ns);
+    number(point,"ssd_evictions",after.ssd.evictions-before.ssd.evictions);number(point,"ssd_skipped",after.ssd.skipped-before.ssd.skipped);
+    number(point,"ssd_errors",after.ssd.errors-before.ssd.errors);
     number(point,"ssd_write_ns",after.ssd.write_ns-before.ssd.write_ns);number(point,"ssd_disk_bytes",after.ssd.disk_bytes);
     ok=emit(f,point);
 done:
@@ -248,6 +251,8 @@ done:
     if(core){lie_core_stop(core);if(!wait_core(core,LIE_STOPPED,0))code=1;else {
         if(ssd.directory){lie_core_info info;lie_core_snapshot(core,&info);json_object *store=event("ssd_drained");
             number(store,"writes",info.ssd.writes);number(store,"errors",info.ssd.errors);number(store,"disk_bytes",info.ssd.disk_bytes);
+            number(store,"evictions",info.ssd.evictions);number(store,"skipped",info.ssd.skipped);
+            number(store,"allocated_bytes",info.ssd.allocated_bytes);number(store,"entries",info.ssd.entries);
             number(store,"write_ns",info.ssd.write_ns);number(store,"pending",info.ssd.pending);if(!emit(f,store))code=1;}
         lie_core_destroy(core);
     }}

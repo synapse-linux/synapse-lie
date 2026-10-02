@@ -1,0 +1,23 @@
+<!-- SPDX-License-Identifier: MIT -->
+# Development documentation
+
+Implementation planning and validation, separate from user benchmarks.
+
+[Backend roadmap](../BACKEND.md) · [Coordination](../COORDINATION.md) ·
+[Progress](../PROGRESS.md) · [Reactive inference](../INFERENCE-REACTIVE.md)
+
+- [Environment and baseline admission](BASELINE.md).
+- [Complete prompt retention under cache pressure](CACHE-PROMPT-RETENTION.md).
+- [Shared reactive C core — first extraction](CORE-EXTRACTION.md).
+- [Read-only DS4 coverage comparison](DS4-COVERAGE.md).
+- [Long-context prefill: measurements and optimization boundaries](PREFILL-ANALYSIS.md).
+- [Benchmark closure and the 1M context gate](TEST-COVERAGE-LONG-CONTEXT.md).
+
+## Validation protocols
+
+- [CORE-GPU-PROTOCOL](protocols/CORE-GPU-PROTOCOL.md).
+- [KVC-GPU-PROTOCOL](protocols/KVC-GPU-PROTOCOL.md).
+- [PERFORMANCE-PROTOCOL](protocols/PERFORMANCE-PROTOCOL.md).
+- [SSD-GPU-PROTOCOL](protocols/SSD-GPU-PROTOCOL.md).
+- [SSD-HTTP-PROTOCOL](protocols/SSD-HTTP-PROTOCOL.md).
+- [STATE-GPU-PROTOCOL](protocols/STATE-GPU-PROTOCOL.md).

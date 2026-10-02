@@ -53,7 +53,7 @@ failure after mutation is not permission to retry through the other engine.
 | Concurrent agents | One device owner, isolated session/sampler state, fair decode/prefill, measured memory admission; no native batching claim for a serial loop |
 | Tool continuation | Explicit turn/wait/resume states and preserved token/template semantics; no retry/replay of external side effects |
 | Prefix and SSD state | RAM reuse independent of optional, default-off SSD save/restore with explicit enable/path/quota controls; complete hybrid frontier plus applicable RNG/MTP/continuation state; exact identity/version, pure pre-admission refusal and qualified future continuation after restart |
-| Multi-model cache | One shared RAM/SSD policy and lifecycle; model-specific complete state descriptors and payload codecs, without Qwen geometry in generic storage/scheduling; qualify a second family and reject incompatible reuse before mutation ([contract](STATE.md#multi-model-requirement)) |
+| Multi-model cache | One shared RAM/SSD policy and lifecycle; model-specific complete state descriptors and payload codecs, without Qwen geometry in generic storage/scheduling; qualify a second family and reject incompatible reuse before mutation ([contract](reference/STATE.md#multi-model-requirement)) |
 | MTP | Explicit predictor identity and admission, bounded draft/rollback state and verified output bursts, target-correct sampling, independent per-row credit and cancellation; compare against AR before claiming speedup |
 | Vision | Bounded image decode/preparation and encoder work, explicit physical positions and image identity, compatible state reuse and image/text isolation; linked image helpers do not establish a multimodal API |
 | Observability | LIE event/accounting definitions, honest unavailable values, completed-work timing; do not equate upstream counters with LIE semantics without checking |
@@ -126,7 +126,7 @@ upstream executor; it is not proof that an outer callback speeds up forward.
 The controlled ready-row/native-batch experiment establishes a concurrency gain
 over scalar dispatch; it does not isolate a reactive-only gain over native Gufo
 batching or an optimization inside a single forward. See
-[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+[REACTIVE-INFERENCE-RESULT.md](archive/REACTIVE-INFERENCE-RESULT.md).
 
 ## Separation assessment — 2026-10-02
 
@@ -160,7 +160,7 @@ adapter; it owns JSON/SSE, sockets and wire errors, not engine decisions. Core
 requests/events and metrics snapshots use owned C data independent of HTTP
 parser lifetimes. The benchmark must exercise this same core directly; future
 chat/eval clients must not require an HTTP service or duplicate the engine.
-The [source audit and extraction gates](ARCHITECTURE.md#shared-core-and-client-boundary)
+The [source audit and extraction gates](reference/ARCHITECTURE.md#shared-core-and-client-boundary)
 now cover the implemented `lie_core` lifecycle and direct `--suite core` consumer,
 not just the shared decode dispatcher. Structured tool-output semantics and
 RAM state/cache now follows the same neutral core boundary; MTP/vision remain pending.
@@ -198,7 +198,7 @@ neither architectural separation nor a language change guarantees a speedup.
 ### First slices and feature order
 
 1. The first shared C engine lifecycle extraction and direct core benchmark
-   consumer are implemented and pass the first [GPU regression](CORE-GPU-RESULT.md).
+   consumer are implemented and pass the first [GPU regression](archive/CORE-GPU-RESULT.md).
    Owned normalized-message/physical-token inputs are implemented. Complete typed
    model-semantic events,
    capability/state identity and frontier contracts. Use the current adapter as
@@ -209,21 +209,21 @@ neither architectural separation nor a language change guarantees a speedup.
    SSD defaults off. The transitional adapter binds fields and completed HIP
    copies, without calling the Gufo snapshot serializer. Active device buffers
    and forward math still belong to the transitional provider. Qualify complete
-   frontiers and capture/restore cost under [STATE-GPU-PROTOCOL.md](STATE-GPU-PROTOCOL.md).
+   frontiers and capture/restore cost under [STATE-GPU-PROTOCOL.md](development/protocols/STATE-GPU-PROTOCOL.md).
 3. Optional SSD persistence is implemented in the C core with explicit
-   enable/path/quota and bounded staging/I/O ([implementation](SSD-PREFIX.md)).
+   enable/path/quota and bounded staging/I/O ([implementation](reference/SSD-PREFIX.md)).
    Disabled means no store I/O. Complete device qualification of restart, corruption,
    incompatible identities, atomic writes and eviction races. This persists
    hybrid frontiers; it does not page active KV or stream weights from SSD.
-   The [HTTP/restart/C2 checker](SSD-HTTP-PROTOCOL.md) now passes CPU fixtures
-   and [R5 original-weight raw-state checks](CACHE-FEATURES-GPU.md). Shared utility eviction and lossless checkpoint
-   compression have independent default-ON build options. [R6](CACHE-COMPRESSION-GPU.md)
+   The [HTTP/restart/C2 checker](development/protocols/SSD-HTTP-PROTOCOL.md) now passes CPU fixtures
+   and [R5 original-weight raw-state checks](archive/CACHE-FEATURES-GPU.md). Shared utility eviction and lossless checkpoint
+   compression have independent default-ON build options. [R6](archive/CACHE-COMPRESSION-GPU.md)
    qualifies exact compressed SSD restore at 128K but exposes excessive latency
    for a 15–16% saving; current admission instead requires 2:1 retained reduction.
    A new high-ratio Qwen codec is deferred under the owner's scope clarification:
    the reviewed antirez Qwen path does not provide one. DS4 format compatibility
    remains required. Active-KV compression is future model/kernel work, with the boundary specified
-   in [the cache boundary](STATE.md#retention-policy-and-compression-boundary).
+   in [the cache boundary](reference/STATE.md#retention-policy-and-compression-boundary).
 4. Add MTP after defining verified multi-token output and resource reservations.
    Admit predictor weights/configuration explicitly. Qualify greedy AR equality,
    sampled target distribution, rejection/residual correction, rollback, per-row
@@ -244,9 +244,9 @@ the same core in direct benchmark and HTTP**, is implemented and GPU-qualified.
 Optional SSD restore follows its separate qualification protocol. The historical
 two-turn 100K HTTP experiment re-prefilled the whole history and took
 69.76/71.79s; it does not measure the later cached path.
-See [full timings](FULL-PREFILL-HTTP-RESULT.md), [state contract](STATE.md),
-[future execution contracts](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
-and the [remaining qualification matrix](TEST-COVERAGE-LONG-CONTEXT.md).
+See [full timings](archive/FULL-PREFILL-HTTP-RESULT.md), [state contract](reference/STATE.md),
+[future execution contracts](reference/ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
+and the [remaining qualification matrix](development/TEST-COVERAGE-LONG-CONTEXT.md).
 
 For every extraction compare identical physical inputs, weights/format,
 context/RoPE, chunking, sampling and cache policy on `.157`. Preserve the current
@@ -292,7 +292,7 @@ This section records the earlier rollback on this branch. Later work in
 `feature/antirez-compat-audit` is separate and does not inherit its qualification.
 The owner canceled the earlier Q2 extension. Active code/build/tests are restored to
 `4307486`; historical reports and evidence remain archived. Gufo is not assumed
-to be the basis of another Q2 attempt. The [replacement plan](REPLAN.md) requires
+to be the basis of another Q2 attempt. The [replacement plan](archive/REPLAN.md) requires
 a working native Q2 reference and an early matched comparison before more porting.
 The delivery uses the existing Unsloth runtime through a general OpenAI-compatible
 server, with Pi as an ordinary client. This change does
@@ -312,7 +312,7 @@ retirement on Strix Halo. This establishes bounded real serving with embedded
 Gufo, not pristine numerical equivalence, broad quality or an owned executor.
 A later C1 direct-ABI baseline (`t0-c1-perf-r2`) measures completed PP/TG with
 repeatable finite frontiers, but no independent comparison or reactive gain;
-see [C1-BASELINE.md](C1-BASELINE.md). The later `t0-model-lifecycle-r1` original-
+see [C1-BASELINE.md](archive/C1-BASELINE.md). The later `t0-model-lifecycle-r1` original-
 weight run passes bounded real prefill/decode cancellation, TCP backpressure,
 peer isolation/recovery and JSON/SSE timings. Full T0 acceptance still needs its
 independent numerical and GPU failure gates; this is not native batching or
@@ -321,7 +321,7 @@ preemption. Neither v0.1 nor deployment is qualified; see PROGRESS.md for receip
 Subsequently, the shared C readiness/credit dispatcher added native AR batching
 through eight rows while retaining scalar dispatch for a single ready row.
 The matched `.157` serial/reactive campaign and production HTTP checks are in
-[REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md): C8 aggregate TG
+[REACTIVE-INFERENCE-RESULT.md](archive/REACTIVE-INFERENCE-RESULT.md): C8 aggregate TG
 improves 4.11× with exact tested frontier/output equality, while C1 remains
 within 0.35% through occupied 128K. This closes the measured concurrent-dispatch
 gap; numerical ownership, internal asynchronous forward, MTP and the independent

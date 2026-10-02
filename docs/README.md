@@ -1,57 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Documentation index
+# Documentation
 
-This documentation describes `feature/openai-reactive-api`. Dated reports retain
-their tested source and conditions; work in other feature branches is not
-implicitly integrated. Start with the [project README](../README.md) for current
-capabilities and build commands.
+## Using LIE
 
-## Benchmarks by model and platform
+| Guide | What you will find |
+| --- | --- |
+| [Build](guides/BUILD.md) | Dependencies, GPU and CPU builds, and build options. |
+| [Usage](guides/USAGE.md) | Model files, HTTP requests, streaming, Pi and cache settings. |
+| [Run benchmarks](guides/BENCHMARKS.md) | Commands, metric definitions and graph export. |
+| [Benchmark results](benchmarks/README.md) | Tables and graphs, grouped by model and platform. |
+| [Changelog](../CHANGELOG.md) | User-visible additions, changes and fixes. |
 
-The [benchmark index](benchmarks/README.md) separates model, platform and weight
-format, with links to results, graphs, raw values and unmeasured combinations.
-[CLI usage](CONTEXT-COMPARISON.md), [methodology](BENCHMARKING.md) and
-[remaining tests](TEST-COVERAGE-LONG-CONTEXT.md) distinguish engine support from
-an implemented test and a completed measurement.
+## Developing LIE
 
-## Engine and clients
-
-- [Architecture and shared core](ARCHITECTURE.md), [extraction](CORE-EXTRACTION.md)
-  and [backend ownership roadmap](BACKEND.md).
-- [Execution ABI](ABI.md), [reactive contracts](REACTIVE.md),
-  [inference scheduling analysis](INFERENCE-REACTIVE.md) and [metrics](METRICS.md).
-- [RAM and hybrid state](STATE.md), [optional SSD persistence](SSD-PREFIX.md)
-  [DS4 runtime payload and interchange](KVC.md) and [prefill analysis](PREFILL-ANALYSIS.md).
-- [HTTP and SSE](HTTP.md), [OpenAI API scope](OPENAI-REACTIVE.md),
-  [function tools and Pi](SERVER-TOOLS.md).
-
-## Qualification and coordination
-
-- [Hardware ownership and leases](COORDINATION.md).
-- [Shared-core GPU protocol](CORE-GPU-PROTOCOL.md),
-  [RAM state protocol](STATE-GPU-PROTOCOL.md),
-  [DS4 runtime comparison protocol](KVC-GPU-PROTOCOL.md),
-  [SSD restart protocol](SSD-GPU-PROTOCOL.md),
-  [SSD HTTP/restart/concurrency client and protocol](SSD-HTTP-PROTOCOL.md),
-  [executor and HTTP performance protocol](PERFORMANCE-PROTOCOL.md).
-- [Initial model serving](T0-SMOKE.md), [lifecycle](T0-LIFECYCLE.md),
-  [OpenAI GPU checks](OPENAI-GPU.md), [256K and Pi checks](HTTP-256K-PI.md).
-- [DS4 coverage inspection](DS4-COVERAGE.md), [baseline](BASELINE.md)
-  and [third-party provenance](../third_party/README.md).
-- [Completed SSD restart/C1 measurements and temperature timeline](SSD-GPU-COMPLETION.md).
-- [Cache build comparisons and HTTP SSD GPU results](CACHE-FEATURES-GPU.md).
-- [Checkpoint compression cost, exact restore and benefit admission](CACHE-COMPRESSION-GPU.md).
-- [DS4-style policy: exact state, prefill, retention pressure and GPU results](CACHE-DS4-GPU.md).
-- [DS4 runtime payload: exact restore, complete timings, memory and latency cost](KVC-GPU-RESULT.md).
-- [Complete prompt retention under RAM/SSD pressure and qualification protocol](CACHE-PROMPT-RETENTION.md).
-
-## History and parallel work
-
-[PROGRESS.md](PROGRESS.md) is an append-only development history rather than a
-current capability matrix. Earlier Q2 investigations remain in
-[compatibility](Q2-COMPATIBILITY.md), [HIP](Q2-HIP.md),
-[first model](Q2-FIRST-MODEL.md), [extended checks](Q2-EXTENDED.md),
-[benchmark gates](ANTIREZ-BENCHMARKS.md) and [the historical replan](REPLAN.md).
-Their withdrawal does not describe the state of a later parallel feature branch.
-
-- [Shared DS4 cache policy, options and remaining interoperability gates](CACHE-DS4-POLICY.md)
+[Technical reference](reference/README.md) covers the API, shared core, state
+format and metrics. [Development documentation](development/README.md) covers
+implementation work, coordination and validation. Historical experiments are
+kept in the [technical archive](archive/README.md).

@@ -124,8 +124,11 @@ def run(binary, root, phase, reference=None):
                                   final=slow['final']['scheduler'], ssd=slow['final']['cache']['ssd'])))
             stats = checks.summarize(result)
             assert len(stats) == 10 and all(x['samples'] == 2 for x in stats)
-            checks.export(result, root/'graphs')
-            assert (root/'graphs/benchmark.svg').stat().st_size > 1000
+            if importlib.util.find_spec('matplotlib'):
+                checks.export(result, root/'graphs')
+                assert (root/'graphs/benchmark.svg').stat().st_size > 1000
+            else:
+                print('Optional graph check skipped: Matplotlib is unavailable.')
             # Corrupt metadata must not turn a reference mismatch into a cache pass.
             bad = copy.deepcopy(reference); bad['cases_sha256'] = '0'*64
             reject(lambda: checks.run_phase(client, CASES, phase, 4, bad, 1))

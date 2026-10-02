@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Experimental transitional execution ABI; linking is opt-in, qualification separate.
  * Not an autonomous LIE backend or its eventual numerical/device ABI.
- * Evolve behind LIE-owned contracts: see docs/BACKEND.md and docs/ABI.md. */
+ * Evolve behind LIE-owned contracts: see docs/BACKEND.md and docs/reference/ABI.md. */
 #ifndef LIE_EXECUTOR_H
 #define LIE_EXECUTOR_H
 #include <stddef.h>
