@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_NOT_GPU_TESTED",
+  "status": "HOST_PASS_GPU_PENDING",
   "goal": "Q2 must match UD PP and TG. This prepared experiment does not meet or narrow that goal.",
   "baseline_commit": "5e32120",
   "baseline_source": ".deps/gufo-q2-bench-iq2-pair",
@@ -11,7 +11,7 @@
   "gpu_operator_plan": "Reuse 12 independent Q2 and 18 independent IQ2 FP64 cases. Require byte-exact packed representation for every IQ2 output against independent packing of the F32 reference; byte-exact down output on all 12 direct cases and two actual-width IQ2->Q2 chains. Exact-sized direct/chain consumer input allocations, finite/written outputs and prefix/suffix guards. Replay unmodified reference buffers against retained pre-experiment outputs.",
   "model_numerics": "Require byte-exact complete saved logits and token files versus the retained paired-IQ2 baseline for the proposed arithmetic-preserving move; retain any discrepancy and actual failures. Do not relax earlier qualified-Q2 numerical diagnostics or declare false positives.",
   "sequence_after_handover": [
-    "Fresh .157 host Debug and ASan/UBSan fixtures",
+    "Completed .157 host Debug9/9 and ASan/UBSan9/9 fixtures in q2-packed-host-r1",
     "Profile the retained IQ2-pair source separately at marked pp2048/tg16 and verify its tokens/frontiers against the completed baseline",
     "If profile supports the candidate mechanism, run packed synthetic operators and exact replays",
     "Fresh unprofiled C1 pp2048/tg128 IQ2-pair baseline and packed candidate; one warmup plus three measured requests, 15s idle outside timing, full MMQ rebuilds",
@@ -19,5 +19,5 @@
     "Fresh UD control and broader scope remain necessary for final parity"
   ],
   "execution": "GPU .157 only after core returns the coordinated window and four fresh nonblocking leases. 98C inclusive or lower exposed strict hardware threshold. No model conversion, dependency installation, foreign process termination or tuning.",
-  "current_evidence": "Device assembly and fixture/executor syntax only on editing host, no GPU/model execution. Initial device syntax failure and missing local MMQ include failure are retained, followed by successful corrected static checks. Core retains its SSD campaign window."
+  "current_evidence": "Device assembly and fixture/executor syntax pass on editing host; Debug9/9 and ASan/UBSan9/9 host fixtures pass on .157 after core SSD R4 release. Seven host artifacts collected and hash verified. No GPU/model test of the packed candidate yet. Next GPU/heavy-I/O slot handed to Point read-only model copy, then return to Q2."
 }

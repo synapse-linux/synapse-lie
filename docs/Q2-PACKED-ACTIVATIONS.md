@@ -58,8 +58,16 @@ See [the static resource record](../config/q2-packed-static.json).
 
 ## Next admitted GPU window
 
-Core retains the current SSD window. No Q2 remote job or automatic retry has
-started. The [protocol](../config/q2-packed-protocol.json) requires a current
+Core released SSD R4 after all ten arms passed. The new Q2 host fixtures then
+pass 9/9 Debug and 9/9 ASan/UBSan on `.157`; seven artifacts are collected/hash
+verified in [the host receipt](../config/q2-packed-host.json). This includes
+four remote-guard fixture methods covering seven refused combinations, before
+staging or SSH. These are CPU checks only. All owned fixture processes retire.
+
+Q2 assigns the next GPU/heavy-I/O slot to Point for its read-only UD shard copy
+to `.161`, with four-lease admission and verified return before Q2 starts GPU
+work. No Q2 GPU job or automatic retry has started.
+The [protocol](../config/q2-packed-protocol.json) requires a current
 profile of the retained paired-IQ2 checkpoint before choosing this candidate
 for model performance measurement. The old pre-optimization trace cannot
 establish the current remaining bottleneck.
@@ -74,7 +82,8 @@ python3 tools/q2-remote.py q2-bench2k q2-packed-reference-r1 --source-variant iq
 python3 tools/q2-remote.py q2-bench2k q2-packed-model-r1 --source-variant packed --rebuild-mmq
 ```
 
-These commands are prepared, not queued. Model comparisons use the same C1
+The CPU command is complete; use a new label for any rerun. GPU commands remain
+prepared, not queued. Model comparisons use the same C1
 pp2048/tg128 scope, warmup plus three requests, and 15-second idle outside timing.
 Every GPU/build arm requires four fresh nonblocking leases and the owner-approved
 98 C inclusive guard, retaining lower exposed hardware thresholds. A complete

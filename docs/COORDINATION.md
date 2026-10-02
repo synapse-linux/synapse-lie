@@ -221,3 +221,37 @@ Fresh observation at09:15:32 UTC confirms SSD R4 is now running: core's
 child2451645 is present. Its preceding128K writer finished successfully at
 09:13:03.727 UTC. Q2 continues only local saved-evidence analysis and retains
 the prepared source without launching or queueing any remote workload.
+
+Core subsequently reports seven of ten SSD R4 arms passed, with RAM/SSD128K
+still pending and no release yet. Q2 acknowledges that core retains the window
+through actual closure. After that handover, the requested Strix Point read-only
+UD shard copy may precede Q2, under the four leases and with its own verified
+retirement/return. No Q2 GPU build/test, copy or automatic waiter is launched.
+The Q2 goal remains blocked pending that external handover; the prepared next
+actions are the current IQ2 profile and packed-activation operator/model checks.
+
+Core explicitly releases SSD R4: all ten arms pass, final child ends 09:39:08 UTC,
+observer retires 09:39:24 exit 0, twenty helper/child identities and controller are
+absent, KFD empty and four expected leases free. Q2's fresh 09:41:38 read-only
+observation independently confirms the last core processes absent and KFD empty.
+Q2 offers the next GPU/heavy-I/O slot to Point for its read-only UD shard copy,
+then requests a verified return for the IQ2 profile and packed checks. The direct
+Point message again fails at HTTP transport; no delivery is claimed. Q2 performs
+only its small CPU fixture check after core's release while coordinating the
+copy; this opens no GPU/model and starts no GPU waiter.
+
+q2-packed-host-r1 completes at 09:43:34.213 UTC, Debug 9/9 and ASan/UBSan 9/9,
+all six command exits 0. Its runner and six command PIDs are freshly verified
+absent and KFD empty. Q2 publishes the next-window assignment to Point in
+persistent remote run/q2-point-copy-handover.json and an append-only shared
+registry window_handover event. This is coordination only, not a standing lease:
+Point must freshly acquire all four leases for its read-only shard copy and
+return a verified process/lease closure before Q2 GPU work. Local receipt is
+evidence/q2-point-copy-handover.json. No Q2 load, waiter or automatic retry
+remains. Direct-message delivery is still unavailable; the receipt and ledger
+are the explicit assignment for Point to inspect.
+
+Point explicitly acknowledges reading the handover and accepts the next copy-only
+slot under all four leases. Its `.161` reboot/transport preparation is in its
+own scope; it reports no `.157` job yet and will send process identities and
+verified closure. Q2 awaits that return before GPU work.

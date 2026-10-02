@@ -263,3 +263,12 @@ Fresh 09:09:51 UTC observation confirms earlier SSD R2/R3 processes absent and
 KFD empty. Core has explicitly retained its enclosing window for SSD R4, so Q2
 does not enter the idle gap. Prepared runtime checks remain unexecuted; the
 performance goal is still active and unmet.
+
+After core releases SSD R4, q2-packed-host-r1 completes on `.157` at 09:43:34 UTC:
+Debug 9/9 and ASan/UBSan 9/9, six command exits 0, seven SHA-verified artifacts.
+The updated packed-source admission/refusal fixtures pass; no model or GPU is
+opened. All seven runner/command process identities are absent before handover.
+Q2 records the next GPU/heavy-I/O slot for Point's read-only UD copy in persistent
+remote run/q2-point-copy-handover.json and the shared registry. This precedes
+Q2's current IQ2 profile and packed GPU checks. The performance goal remains
+unmet; GPU-dependent work awaits the coordinated return.
