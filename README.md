@@ -42,11 +42,15 @@ bounded dynamic indices. CPU sanitizers and original-weight state checks pass,
 including capture after generation and restore into a larger context. The
 [policy comparison](docs/CACHE-DS4-GPU.md) exposes a retention regression at 128K
 with the default 4 GiB budget; `--cache-policy legacy` remains available.
-The shared C17 [KVC interchange codec and offline tool](docs/KVC.md) now read,
-write and structurally validate DS4 Qwen records. A C17 host mapper converts
-native components and requires explicit missing index history for export.
-Live model binding, GPU qualification and cross-quantization reuse remain pending;
-runtime caches still use LIE state.
+The shared C17 [DS4 KVC runtime path](docs/KVC.md#runtime-payload-and-ssd-binding)
+now replaces the Qwen cache representation in RAM and on optional SSD, selected
+by default with `LIE_DS4_RUNTIME_CACHE=ON`. Capture retains complete raw indices
+and pooled keys in the provider and copies directly into the exact model payload.
+The SSD envelope adds a trailing LIE identity/integrity binding, outside the DS4
+payload. CPU/sanitizer fixtures pass; GPU numerical/performance qualification of
+this new provider variant is pending. Earlier GPU numbers describe the legacy
+representation. Foreign DS4-produced restore and cross-quantization reuse still
+require independent qualification and authenticated import.
 The [multi-model cache contract](docs/STATE.md#multi-model-requirement) keeps
 RAM/SSD policy shared and payload codecs specific to each model family; Qwen is
 the first implementation, with other families still requiring their own binding
@@ -55,9 +59,10 @@ An additional high-ratio Qwen cache codec is deferred: it is absent from the
 reviewed antirez path and is outside the current compatibility scope.
 The earlier GPU numbers above use their recorded capture policy.
 Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
-compression is enabled at build time by default, with bounded workspace and a
+compression is enabled at build time for legacy states, with bounded workspace and a
 50% minimum retained-state saving and a bounded preliminary probe. Both features
-can be compiled out independently. Active KV
+can be compiled out independently. KVC payloads bypass this extra codec to preserve
+the DS4 representation. Active KV
 remains native F16: compressed checkpoints do not shrink a running sequence;
 see the [cache capability boundary](docs/STATE.md#retention-policy-and-compression-boundary).
 The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)
@@ -236,7 +241,7 @@ provenance and licensing are in [third_party/README.md](third_party/README.md).
 ```sh
 # Only on a fresh checkout; fetch refuses an existing source directory:
 python3 -B tools/fetch-gufo.py
-python3 -B tools/build-gufo.py new-gufo-label --qwen-only --state-access
+python3 -B tools/build-gufo.py new-gufo-label --qwen-only --state-access --ds4-state
 cmake -S . -B build/new-link-label -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-new-gufo-label" \
@@ -247,8 +252,11 @@ cmake --build build/new-link-label -j2
 ```
 
 The Qwen-only build uses the upstream model target. The explicit state-access
-variant adds only hash-checked friend declarations in two headers, in a separate
-source tree; numerical code and pristine sources/archives remain unchanged.
+DS4 variant adds hash-checked field access, full index retention and eager block
+pooling in a separate source tree. The existing kernels are reused; their new
+scheduling and memory cost require paired GPU checks. Pristine sources/archives
+remain unchanged. To build the legacy control, omit `--ds4-state` and configure
+the LIE link with `-DLIE_DS4_RUNTIME_CACHE=OFF`.
 This is a **LIE-owned build subset, not the complete upstream release build**.
 It avoids an unrelated full-tree rocWMMA requirement, without fake headers.
 Both source and private archives are verified before linking. Compiler commands,

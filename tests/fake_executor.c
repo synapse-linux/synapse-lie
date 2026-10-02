@@ -228,11 +228,23 @@ lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outco
 }
 
 int lie_backend_prefix_state_supported(void){return 1;}
+const char *lie_backend_state_format(void){
+#ifdef LIE_TEST_KVC_STATE
+    return "synthetic-kvc-payload";
+#else
+    return "synthetic-aligned-components";
+#endif
+}
 lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
     owner(s->model);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if((from?(s->position||from->domain!=s->model->domain||from->context_tokens>s->model->context):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=1,.domain=s->model->domain,
         .token_count=from?from->token_count:s->position,.context_tokens=from?from->context_tokens:s->model->context,.prefill_chunk=s->model->chunk};
+#ifdef LIE_TEST_KVC_STATE
+    /* Deliberately synthetic family; exercises the shared core/store without
+     * Qwen geometry, numerical computation or model inference claims. */
+    out->format=LIE_STATE_KVC;out->model_id=250;out->quant_bits=8;
+#endif
     uint64_t shape=out->token_count;assert(lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape));
     shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
     shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));

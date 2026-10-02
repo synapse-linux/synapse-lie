@@ -31,6 +31,7 @@ static json_object *identity(void){
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     json_object_object_add(j,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     str(j,"checkpoint_codec",lie_state_compression_codec());
+    str(j,"state_format",lie_backend_state_format());
     num(j,"state_abi",LIE_STATE_ABI);str(j,"scope","C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision");return j;
 }
 static bool integer(const char *s,unsigned *v){char *end=NULL;unsigned long n=strtoul(s,&end,10);if(!*s||*end||*s=='-'||!n||n>1048576)return false;*v=(unsigned)n;return true;}
@@ -50,6 +51,21 @@ static bool store_wait(lie_store *store,lie_store_result *result){
         if(poll(&fd,1,100)<0&&errno!=EINTR)return false;
     }
     return false;
+}
+static bool store_checkpoint(lie_model *model,lie_store *store,lie_state *state,lie_error *e){
+    if(lie_state_description(state)->format!=LIE_STATE_KVC)return lie_store_write(store,state);
+    const int32_t *tokens=lie_state_tokens(state);uint32_t count=lie_state_description(state)->token_count;
+    char *text=NULL;size_t size=0,capacity=0;bool ok=true;
+    for(uint32_t i=0;ok&&i<count;++i){char piece[256];size_t n=0;
+        ok=!interrupted&&lie_model_token_text(model,tokens[i],piece,sizeof(piece),&n,e)==LIE_OK&&n<=sizeof(piece)&&n<=LIE_CACHE_TEXT_MAX-size;
+        if(!ok)break;
+        if(size+n+1>capacity){size_t cap=capacity?capacity*2:4096;if(cap<size+n+1)cap=size+n+1;
+            if(cap>LIE_CACHE_TEXT_MAX+1)cap=LIE_CACHE_TEXT_MAX+1;
+            char *p=realloc(text,cap);if(!p){ok=false;break;}text=p;capacity=cap;}
+        memcpy(text+size,piece,n);size+=n;text[size]=0;
+    }
+    lie_cache_metadata meta={.text=text,.text_bytes=size,.reason=LIE_CACHE_COLD};
+    ok=ok&&lie_store_write_ex(store,state,&meta);free(text);return ok;
 }
 int lie_state_bench_main(int argc,char **argv){
     const char *model=NULL,*output=NULL,*input=NULL;unsigned context=262144,chunk=2048,checkpoint=0,capture_decode=0;bool info=false;unsigned seen=0;
@@ -134,6 +150,8 @@ int lie_state_bench_main(int argc,char **argv){
         lie_store_info si;lie_store_snapshot(store,&si);
         if(si.errors||si.hits!=1||si.lookups!=1)goto done;
         j=event("ssd_read");num(j,"retained_bytes",lie_state_bytes(state));num(j,"expanded_bytes",lie_state_expanded_bytes(state));
+        str(j,"state_format",stored->format==LIE_STATE_KVC?"ds4-kvc-payload":"lie-aligned-components");
+        num(j,"representation_version",stored->representation_version);
         json_object_object_add(j,"compressed",json_object_new_boolean(lie_state_is_compressed(state)));num(j,"sections",stored->section_count);
         num(j,"read_ns",disk.read_ns);num(j,"read_bytes",si.read_bytes);num(j,"peak_staging_bytes",si.peak_staging_bytes);
         if(!emit(f,j))goto done;
@@ -145,9 +163,13 @@ int lie_state_bench_main(int argc,char **argv){
         (void)lie_state_compress(&state,ssd_mode?ssd.staging_bytes:UINT64_C(4)*1024*1024*1024);
         j=event("capture");num(j,"retained_bytes",lie_state_bytes(state));num(j,"expanded_bytes",lie_state_expanded_bytes(state));
         json_object_object_add(j,"compressed",json_object_new_boolean(lie_state_is_compressed(state)));
+        str(j,"state_format",layout.format==LIE_STATE_KVC?"ds4-kvc-payload":"lie-aligned-components");
+        num(j,"representation_version",layout.representation_version);
         num(j,"sections",layout.section_count);num(j,"capture_ns",ns()-start);if(!emit(f,j)||lie_sequence_close(&s,&e)!=LIE_OK)goto done;
         if(store){
-            if(!lie_store_write(store,state)||!store_wait(store,&disk))goto done;
+            uint64_t render_start=ns();bool accepted=store_checkpoint(m,store,state,&e);
+            j=event("ssd_prepare");num(j,"render_and_admission_ns",ns()-render_start);
+            if(!emit(f,j)||!accepted||!store_wait(store,&disk))goto done;
             lie_store_result_release(store,&disk);disk=(lie_store_result){0};lie_store_info si;lie_store_snapshot(store,&si);
             if(si.writes!=1||si.errors||si.pending){snprintf(e.message,sizeof(e.message),"SSD durable write failed");goto done;}
             j=event("ssd_write");num(j,"writes",si.writes);num(j,"write_ns",si.write_ns);num(j,"written_bytes",si.written_bytes);

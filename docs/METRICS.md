@@ -261,3 +261,19 @@ do not change actuator/Prometheus counters or add inference threads.
 The detached Qwen component mapper likewise adds no runtime counters. Its
 caller accounts borrowed source/auxiliary buffers and output bytes; export
 additionally budgets `16 * tokens` bytes of temporary position storage.
+
+## Runtime state format
+
+Backend diagnostics, server `--build-info` and core/state bench identities expose
+`state_format`: `ds4-kvc-payload`, `lie-aligned-components`, `none`, or an explicit
+`synthetic-*` fixture label. Core comparisons reject differing formats unless
+`--compare-cache-build` is selected; the report records that difference. State
+ABI-2 capture/read records also contain the representation version. Historical
+ABI-1 reports remain readable as legacy evidence.
+
+State SSD writes emit `ssd_prepare.render_and_admission_ns` separately from
+`capture_ns` and worker `write_ns`; preparation renders text and admits the async
+write. KVC retained/expanded bytes are equal and restore workspace is zero.
+Full index allocation is included in provider session accounting; retained host
+bytes do not describe total device memory. No new worker, speedup or compression
+ratio is inferred from these format changes.

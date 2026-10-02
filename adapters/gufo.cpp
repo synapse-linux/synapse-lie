@@ -38,6 +38,7 @@ struct Runtime {
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
     std::uint32_t chunk{}, width{1};
+    uint8_t state_quant{};
     bool failed{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
     struct StateFile { int fd;struct stat stat; };
@@ -75,6 +76,15 @@ lie_status failed(const std::shared_ptr<Runtime> &r, lie_error *e, const std::st
 }
 extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
 extern "C" int lie_backend_is_synthetic(void) { return 0; }
+extern "C" const char *lie_backend_state_format(void) {
+#ifdef LIE_DS4_RUNTIME_CACHE
+    return "ds4-kvc-payload";
+#elif defined(LIE_GUFO_STATE_ACCESS)
+    return "lie-aligned-components";
+#else
+    return "none";
+#endif
+}
 extern "C" int lie_backend_prefix_state_supported(void) {
 #ifdef LIE_GUFO_STATE_ACCESS
     return 1;
@@ -93,6 +103,19 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
         auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;
+#ifdef LIE_DS4_RUNTIME_CACHE
+        const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
+        if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
+        using Q=gufo::core::GgmlType;
+        switch(expert->type){
+          case Q::kQ2_K:case Q::kIQ2_XXS:r->state_quant=2;break;
+          case Q::kQ4_0:case Q::kQ4_1:case Q::kQ4_K:case Q::kIQ4_NL:case Q::kIQ4_XS:r->state_quant=4;break;
+          case Q::kQ5_0:case Q::kQ5_1:case Q::kQ5_K:r->state_quant=5;break;
+          case Q::kQ6_K:r->state_quant=6;break;
+          case Q::kQ8_0:case Q::kQ8_1:case Q::kQ8_K:r->state_quant=8;break;
+          default:return error(e,LIE_UNSUPPORTED,"routed-expert quantization has no supported KVC tag");
+        }
+#endif
         // Retain only descriptors/stat witnesses, not a second mapped payload.
         // No weight hashing unless the shared core explicitly admits SSD.
         for(const auto& region:metadata->GetMappedRegions()){
@@ -129,7 +152,12 @@ extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *
             fds.push_back(f.fd);
         }
         char device[1024],policy[2048];if(!lie_gufo_device_identity(device,sizeof(device)))return error(e,LIE_INVALID,"SSD device identity unavailable");
-        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/qwen-ar-v1/text-only/thinking-off/context-growth-v1/chunk=%u/width=%u/%s",
+#ifdef LIE_DS4_RUNTIME_CACHE
+        const char *format="ds4-qwen-payload-v2/full-index/eager-pool";
+#else
+        const char *format="qwen-ar-v1";
+#endif
+        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/%s/text-only/thinking-off/context-growth-v1/chunk=%u/width=%u/%s",format,
             m->runtime->chunk,m->runtime->width,device);
         if(n<0||static_cast<size_t>(n)>=sizeof(policy))return error(e,LIE_INVALID,"SSD policy identity overflow");
         auto rc=lie_state_identity_files(fds.data(),fds.size(),policy,id,e);if(rc==LIE_OK)*domain=m->runtime->state_domain;return rc;
@@ -341,7 +369,7 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
 #ifdef LIE_GUFO_STATE_ACCESS
         /* Captures own only the completed token frontier, never sampler/RNG
          * state. Restoring still requires a fresh unstarted destination. */
-        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out))
+        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant))
             return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
         return LIE_OK;
 #else
@@ -364,6 +392,8 @@ static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void
             // Cancelled transfers have completed every submitted copy. Their
             // private sequence is retired; no incomplete state is published.
             if(copied==LIE_CANCELLED)return error(e,LIE_CANCELLED,message.c_str());
+            if(copied==LIE_INVALID||copied==LIE_UNSUPPORTED||copied==LIE_RESOURCE_LIMIT)
+                return error(e,copied,message.c_str()); // Payload admission precedes every device mutation.
             return failed(s->runtime,e,message);
         }
         if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled after completed state transfer");

@@ -146,15 +146,24 @@ messages. These are bounded frontend limits; existing executor ABI-2 layouts
 remain unchanged. `lie_model_tokenize` uses the same 8 MiB input bound. Model
 admission and qualification remain specific to context and active sequence count.
 
-## Implemented component-state extension (state ABI 1)
+## Implemented component-state extension (state ABI 2)
 
 `lie/state.h` is an additive C17 contract; executor ABI-2 structs stay unchanged.
 `describe(NULL)` plans capture; `describe(source)` validates a prospective restore
 into an empty sequence without mutating it. Sections carry role/layer, dtype,
-rank, dimensions, checked size and aligned offset. Generic C code validates
+rank, dimensions, checked size and offset. `format=ALIGNED` keeps 8-byte section
+alignment; `format=KVC` partitions the exact model payload without padding and
+requires 4-byte token alignment. ABI 2 adds format, model-id and quantization-label
+fields plus header/scalar roles; all static clients must rebuild together. Model
+id and quantization labels never authenticate weights or indicate KV precision.
+Generic C code validates
 length arithmetic, unique components, physical-token/logit sections and complete
 layout equality before allocating/copying or admitting a restore. Immutable
-handles expose read-only descriptions/tokens; no untrusted byte import exists.
+handles expose read-only descriptions/tokens. SSD reads verify stable identity,
+framing and integrity before creating a live-domain state; providers validate
+model payload semantics before device mutation. Unbound foreign KVC input remains
+offline. `lie_backend_state_format` declares the compiled provider format, with
+explicit synthetic labels for fixtures.
 
 `lie_state_plan/capture/restore/destroy` own host storage and lifecycle;
 `lie_sequence_state_describe/read/write` are provider bindings invoked only by
@@ -180,7 +189,8 @@ its model representation or any payload bit. `lie_state_bytes` reports retained
 storage, `lie_state_expanded_bytes` its raw equivalent, and
 `lie_state_restore_workspace` the temporary expansion requirement. The opaque
 handle keeps physical tokens directly readable. Providers continue to receive
-fully expanded typed payloads; executor/state descriptor ABIs are unchanged.
+fully expanded typed payloads. KVC payloads bypass optional extra compression
+and have zero expansion workspace. Executor ABI 2 remains unchanged.
 Core/store snapshot structs grow in this experimental static API, requiring
 all consumers to rebuild together. See [the codec contract](SSD-PREFIX.md#compressed-version-2).
 

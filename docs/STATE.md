@@ -18,8 +18,9 @@ of the device platform. `src/prefix_cache.c` owns lookup, admission, lifetime,
 utility eviction and accounting. The transitional adapter only binds model fields
 and performs completed host/HIP copies; it does **not** call Gufo's snapshot
 serializer or store an opaque Gufo snapshot. Its explicitly selected access
-variant changes three friend declarations in two independently fetched headers,
-with separate source/build hashes. Active execution storage and forward math
+variant includes field access and, with default `LIE_DS4_RUNTIME_CACHE=ON`,
+complete raw index retention and eager pooled keys. Source/build hashes identify
+this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
 ## Multi-model requirement
@@ -62,12 +63,12 @@ claimed by the current Qwen implementation.
 
 ## Implemented RAM contract
 
-The additive [KVC interchange API](KVC.md) reads/writes foreign wire records in
-RAM and files, with a typed Qwen payload codec. It does not change the following
-native runtime representation or enable unqualified foreign-model restore.
-Its C17 host mapper now converts into detached native component bytes (domain
-zero) and exports complete components with explicitly supplied missing index
-history. Live identity binding and independent device qualification remain required.
+The [KVC runtime binding](KVC.md#runtime-payload-and-ssd-binding) selects exact
+DS4 Qwen text-AR payloads by default. Generic `lie_state` allocation and policy
+remain model-neutral; the Qwen C codec describes its wire offsets and the loaded
+provider binds model geometry and identity. Native aligned components remain an
+explicit build-time control. CPU fixtures cover both; the new provider still
+requires GPU qualification. Foreign unbound records are not live states.
 
 - A dynamically growing immutable checkpoint index, separately bounded to
   `min(cache budget, 16 MiB)`; payloads remain bounded by the configured total bytes.

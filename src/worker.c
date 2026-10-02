@@ -31,7 +31,7 @@ struct lie_job {
     size_t checkpoint, next_continued, last_capture;
     char *rendered;size_t rendered_bytes, rendered_capacity;
     size_t *text_offsets;
-    bool text_lookup, shutdown_saved, finish_pending;
+    bool text_lookup, text_complete, shutdown_saved, finish_pending;
     lie_cache_reason capture_pending;
     lie_cache_metadata restored_metadata;
     bool cache_checked, capture_checked;
@@ -136,12 +136,13 @@ static bool append_text(lie_job *j,const char *text,size_t n){
     j->rendered_bytes+=n;j->rendered[j->rendered_bytes]=0;return true;
 }
 static bool render_prompt(lie_core *w,lie_job *j){
-    if(j->request.kind==LIE_INPUT_TOKENS)return false;
     j->text_offsets=calloc((size_t)w->options.context+1,sizeof(*j->text_offsets));
     if(!j->text_offsets)return false;
     for(size_t k=0;k<j->tokens;++k){char piece[LIE_CORE_TOKEN_BYTES];size_t n=0;lie_error e={0};
         lie_status rc=lie_model_token_text(w->model,j->prompt[k],piece,sizeof(piece),&n,&e);
-        if(rc!=LIE_OK||n>sizeof(piece)||!append_text(j,piece,n))return false;
+        if(rc!=LIE_OK||n>sizeof(piece)||!append_text(j,piece,n)){
+            free(j->text_offsets);j->text_offsets=NULL;
+            free(j->rendered);j->rendered=NULL;j->rendered_bytes=j->rendered_capacity=0;return false;}
         j->text_offsets[k+1]=j->rendered_bytes;
     }
     return true;
@@ -183,7 +184,7 @@ static bool rebuild_prompt(lie_core *w,lie_job *j,const lie_state *state,const l
         pthread_mutex_unlock(&j->gate);
         /* Rebuild byte offsets against the exact saved history and new suffix. */
         free(j->rendered);j->rendered=NULL;j->rendered_bytes=j->rendered_capacity=0;free(j->text_offsets);j->text_offsets=NULL;
-        j->text_lookup=render_prompt(w,j)||j->request.cache.text_bytes;checkpoint_targets(w,j);
+        j->text_complete=render_prompt(w,j);j->text_lookup=j->text_complete||j->request.cache.text_bytes;checkpoint_targets(w,j);
     }
     free(tokens);return ok;
 }
@@ -262,7 +263,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
         memcpy(owned,j->prompt,j->tokens*sizeof(*owned));memcpy(owned+j->tokens,j->output_ids,(frontier-j->tokens)*sizeof(*owned));tokens=owned;
     }
     lie_cache_metadata metadata={.reason=reason,.flags=j->request.cache.flags&~6u,.trailer=j->request.cache.trailer,.trailer_bytes=j->request.cache.trailer_bytes};
-    if(j->text_lookup&&j->text_offsets&&frontier<=w->options.context){metadata.text=j->rendered;metadata.text_bytes=j->text_offsets[frontier];}
+    if(j->text_complete&&j->text_offsets&&frontier<=w->options.context){metadata.text=j->rendered;metadata.text_bytes=j->text_offsets[frontier];}
     if(frontier==j->tokens&&j->request.cache.text_bytes){metadata.text=j->request.cache.text;metadata.text_bytes=j->request.cache.text_bytes;metadata.flags=j->request.cache.flags;}
     if(restore&&j->text_lookup){const lie_cache_metadata *m=NULL;
         size_t key_bytes;const char *key=lookup_text(j,&key_bytes);
@@ -428,8 +429,12 @@ static bool step(lie_core *w, size_t index) {
         j->info.prompt_tokens=(unsigned)j->tokens; j->info.prepared=true;
         checkpoint_targets(w,j);
         pthread_mutex_unlock(&j->gate);
-        if((w->options.prefix_cache_bytes||w->store)&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix)
-            j->text_lookup=render_prompt(w,j)||j->request.cache.text_bytes;
+        if(w->store||((w->options.prefix_cache_bytes||w->store)&&w->options.cache_policy.enabled&&
+           w->options.cache_policy.text_prefix&&j->request.kind!=LIE_INPUT_TOKENS)){
+            j->text_complete=render_prompt(w,j);
+            j->text_lookup=j->request.kind!=LIE_INPUT_TOKENS&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix&&
+                (j->text_complete||j->request.cache.text_bytes);
+        }
         signal_fd(w->notice);
     }
     if (atomic_load(&j->cancel)) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
@@ -555,8 +560,8 @@ static bool decode_ready(lie_core *w) {
         if(end)j->info.finish=d.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH;
         pthread_mutex_unlock(&j->gate);
         pthread_mutex_lock(&w->gate);w->info.generated_tokens+=d.emitted;pthread_mutex_unlock(&w->gate);
-        if(j->text_lookup&&j->text_offsets&&d.emitted){
-            if(!append_text(j,(const char *)r->reservation.data,bytes[i]))j->text_lookup=false;
+        if(j->text_complete&&j->text_offsets&&d.emitted){
+            if(!append_text(j,(const char *)r->reservation.data,bytes[i])){j->text_lookup=false;j->text_complete=false;}
             else j->text_offsets[j->position]=j->rendered_bytes;
         }
         if(w->options.cache_policy.enabled&&(w->options.prefix_cache_bytes||w->store)&&

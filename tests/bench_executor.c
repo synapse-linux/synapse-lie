@@ -93,6 +93,7 @@ lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outco
 }
 
 int lie_backend_prefix_state_supported(void){return 1;}
+const char *lie_backend_state_format(void){return "synthetic-aligned-components";}
 lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
     (void)e;if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(from?(s->position||s->step||from->domain!=s->m->domain):!s->position)return LIE_INVALID;

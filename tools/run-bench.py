@@ -95,7 +95,7 @@ def ssd_inventory(path,check_thermal=lambda:None):
         names=os.listdir(fd)
         if len(names)>65537:raise ValueError('SSD qualification inventory entry limit')
         for name in sorted(names):
-            if name!='.lie-prefix.lock' and not re.fullmatch(r'[0-9a-f]{64}\.lie',name):
+            if name!='.lie-prefix.lock' and not re.fullmatch(r'(?:[0-9a-f]{64}\.lie|[0-9a-f]{40}\.kv)',name):
                 raise ValueError('uncommitted or unknown SSD entry')
             entry=os.open(name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC,dir_fd=fd)
             with os.fdopen(entry,'rb') as f:

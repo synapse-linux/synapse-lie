@@ -2,14 +2,15 @@
 
 The shared C17 `lie_kvc` library reads/writes KVC v1, payload ABI 2, in owned
 RAM records and regular files. `LIE_KVC_INTERCHANGE=ON` builds it and the offline
-`synapse-lie-kvc` tool, including in `LIE_CORE_ONLY` builds. It adds no work,
-threads or storage to inference. SSD persistence still requires explicit opt-in.
+`synapse-lie-kvc` tool, including in `LIE_CORE_ONLY` builds. The default-ON
+`LIE_DS4_RUNTIME_CACHE` now selects the exact Qwen payload for live checkpoints
+in the state-capable HIP adapter. SSD remains an explicit opt-in.
 
-The wire codec and host component mapping are implemented; live DS4-to-LIE
-model restore still needs identity binding and GPU qualification. The runtime
-cache still uses the independently qualified LIE component representation and
-native `LIEPFX1` SSD format. Neither parsing a foreign file nor a synthetic
-round-trip authenticates its model or proves equivalent next-token inference.
+Runtime capture, binding, RAM reuse and KVC persistence are implemented. CPU
+fixtures and local HIP compilation pass; the new provider's GPU qualification
+is pending. Foreign DS4-to-LIE restore and bilateral interoperability remain
+separate gates. A parsed file or a synthetic round-trip does not authenticate
+its model or prove equivalent next-token inference.
 
 The envelope/store is model-neutral. Qwen is the first typed payload codec and
 host mapper, not the cache's universal state schema. Further model families add
@@ -139,29 +140,64 @@ publishes no descriptor; any partially written output bytes must be discarded.
 The mapper accepts native little-endian binary32 hosts. No new serving thread,
 active KV allocation or per-token inference work is introduced by building it.
 
-## Remaining live integration
+## Runtime payload and SSD binding
 
-Gufo currently retains an index ring/tail, two n-gram slots and lazily materialized
-pooled keys. The DS4 wire layout requires additional state. A native-to-KVC live
-export needs a provider capture path that actually retains that information,
-with separately measured memory and transfer costs. Import still needs device
-qualification of the inspected tensor/history mapping, strong model/tokenizer
-binding and a qualified DS4-produced checkpoint. Model id, geometry and text
-SHA-1 alone are insufficient.
-Cross-quantization reuse and frontend-specific history serialization remain open.
-No additional high-ratio codec is required by this increment.
+`lie/kvc_state.h` and `src/models/kvc_qwen_state.c` build a live-domain component
+layout around the exact DS4 Qwen payload. Capture writes directly to those offsets:
+F16 K/V, F32 recurrent/conv/PLE/index/pool state and logits retain their bits.
+Tokens supply all eight n-gram slots and canonical text positions. Restore
+validates geometry, frontier, positions and EOS history before device mutation.
+MTP and adjusted/vision positions remain refused by this runtime binding.
 
-The next device gate requires a DS4-produced checkpoint with recorded upstream
-revision, model/tokenizer identities, geometry and saved token frontier. The
-mapping must verify GDN matrix orientation, PLE ordering and EOS history handling;
-test both sides of the index-pooling boundary and context growth; and compare
-restored logits plus subsequent generated tokens against independent replay.
-The host mapper above implements the inspected component correspondence; an
-independent device test is still required for it. Export additionally needs DS4
-to load a LIE-produced file. Until those gates pass, no KVC object is converted
-into a live-domain `lie_state` or handed to `lie_sequence_state_write`.
-GPU work must first obtain the coordinated window
-and leases in [COORDINATION.md](COORDINATION.md).
+The independently materialized Gufo `lie-ds4-state-v1` variant retains every raw
+index row (`bit_ceil(context)` capacity), included in `SessionBytes`, and pools
+completed groups of four before the sparse-selection threshold. The original
+kernels are reused, but pooling schedule and allocation have changed: numerical
+and cost qualification is required. Capture performs no second complete tensor
+reformat and creates no new thread. `LIE_DS4_RUNTIME_CACHE=OFF` selects the old
+ring/native representation for a controlled comparison. Current runtime binding
+is Qwen Flash Next (DS4 model id 5), AR-only, with supported weight quantization
+labels 2/4/5/6/8. It is not a binding for every DS4 model.
+
+The shared C store retains the payload unchanged in RAM and SSD. KVC payloads
+bypass LIE's optional Zstandard packing, so restore needs no expansion buffer.
+The SSD file is `[KVC header][text][model payload][client trailer][LIE binding]`.
+Its filename is `SHA1(text).kv`; token-prefix lookup has a separate SHA-256 key,
+including after process restart. Physical-token requests render text only for
+storage metadata and retain their original token IDs. Different models add their
+own payload binding without adding Qwen geometry to generic policy or I/O.
+
+The LIE binding is an opaque trailer extension, outside the DS4 model payload:
+a 64-byte descriptor per component followed by a 192-byte `LIEKVC1` footer.
+It records state ABI/representation/chunk, model frontier data, exact stable
+identity, token-prefix key, client-trailer length and SHA-256 integrity. The hash
+covers envelope, text, payload, client trailer, descriptors and footer, excluding
+only mutable hit-count/last-used header fields and the digest itself. User trailer
+bytes remain untouched. This is exact DS4 envelope/payload layout with an extra
+LIE extension, not a claim that complete files equal a particular DS4 writer's
+output. The private binding is required for safe LIE process restart; an ordinary
+foreign DS4 file without it is refused by the live store.
+
+Writes reuse the retained state; reads allocate one payload plus descriptor.
+I/O checks cancellation between at most 1 MiB transfers; the existing single
+bounded I/O worker handles persistence. Descriptor-table stack storage (up to
+16 KiB), allocator/OpenSSL internals and ordinary metadata buffers remain outside
+payload accounting. Stable identity includes the provider variant and all prior
+model/executable/DSO bindings. No source model id, text SHA-1 or shape match can
+replace that identity. See [SSD ownership and budgets](SSD-PREFIX.md).
+
+## Remaining interoperability qualification
+
+The next cross-engine gate requires an independently DS4-produced checkpoint
+with recorded revision, model/tokenizer identities, geometry and frontier, plus
+an explicit authenticated import binding. Validate GDN orientation, PLE order,
+EOS history, both sides of index pooling and context growth with full restored
+logits and subsequent tokens against independent replay. Export additionally
+needs DS4 to load a LIE-produced file. Current CPU fixtures and planned LIE GPU
+restart tests do not establish either direction. Cross-quantization reuse,
+frontend history serializers and second-family GPU qualification remain open.
+No extra high-ratio compression is required. GPU work follows
+[COORDINATION.md](COORDINATION.md).
 
 ## Evidence and provenance
 

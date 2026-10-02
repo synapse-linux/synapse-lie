@@ -505,3 +505,21 @@ and closure verification. No owned GPU process, automatic waiter or next GPU
 job remains. This is not a standing lease; future arms need fresh admission.
 No remote build, model conversion, DS4 mutation, installation or tuning occurred.
 See [policy results and retained failures](CACHE-DS4-GPU.md).
+
+## KVC runtime qualification handover — 2026-10-02
+
+Q2 explicitly returns the PLE-cache window at **18:25:33.765424 UTC** with
+six runners and26 command identities/groups absent; observer retirement is
+independently verified at **18:26:08.303468 UTC**. Its persistent receipt is
+`run/q2-ple-cache-window-release.json` on .157, also tracked in the Q2 worktree.
+Root accepts and notifies Q2/Point. Fresh root observation at
+**18:41:12.661319 UTC** finds empty KFD, four original leases EX|NB/free, five
+unchanged model stat witnesses, CPU48/GPU47 C. Receipt:
+`evidence/kvc-runtime-handover`. No model payload was read by that check.
+
+Root prepares `ssd-gpu-r12` for the [DS4 runtime comparison](KVC-GPU-PROTOCOL.md),
+with fresh admission per arm and no gap interleaving. Local CPU fixtures and
+both HIP builds are complete; no remote build, dependency installation, model
+conversion or DS4 mutation. Owner-requested thermal observation retains exposed
+hardware bounds and NVMe guard, plus independent1Hz samples on .155. This
+handover is not a standing lease or a cross-engine qualification claim.

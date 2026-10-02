@@ -20,10 +20,11 @@ def sha(p):
     with p.open('rb') as f: return hashlib.file_digest(f, 'sha256').hexdigest()
 
 def main():
-    if len(sys.argv)<2 or not re.fullmatch(r'[a-z0-9-]{1,48}',sys.argv[1]) or sys.argv[2:] not in ([],['--qwen-only'],['--qwen-only','--state-access']):
-        raise SystemExit('Usage: tools/build-gufo.py EXCLUSIVE-LABEL [--qwen-only [--state-access]] (local compile only)')
+    if len(sys.argv)<2 or not re.fullmatch(r'[a-z0-9-]{1,48}',sys.argv[1]) or sys.argv[2:] not in ([],['--qwen-only'],['--qwen-only','--state-access'],['--qwen-only','--state-access','--ds4-state']):
+        raise SystemExit('Usage: tools/build-gufo.py EXCLUSIVE-LABEL [--qwen-only [--state-access [--ds4-state]]] (local compile only)')
     subset = '--qwen-only' in sys.argv
     state_access = '--state-access' in sys.argv
+    kvc = '--ds4-state' in sys.argv
     if os.environ.get('SSH_CONNECTION'):
         raise SystemExit('Remote GPU build requires the agreed lease runner; this helper is local-only')
     label = sys.argv[1]
@@ -43,6 +44,9 @@ def main():
     if state_access:
         result['source_variant']='lie-state-access-v1'
         result['state_access_edits_sha256']=sha(ROOT/'adapters/gufo-state/access-edits.json')
+        if kvc:
+            result['source_variant']='lie-ds4-state-v1'
+            result['kvc_edits_sha256']=sha(ROOT/'adapters/gufo-state/kvc-edits.json')
     def save(): (out / 'result.json').write_text(json.dumps(result, indent=2)+'\n')
     def verify():
         for name,h in source_files.items():
@@ -69,7 +73,7 @@ def main():
     try:
         if state_access:
             from gufo_state_source import materialize
-            source,source_files=materialize(ROOT,label)
+            source,source_files=materialize(ROOT,label,kvc)
             result['source']=str(source);result['variant_files']=source_files;save()
         verify()
         run(['cmake','--version']); run(['c++','--version']); run(['/opt/rocm/bin/hipcc','--version'])

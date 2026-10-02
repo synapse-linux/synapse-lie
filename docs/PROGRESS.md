@@ -1,5 +1,37 @@
 # Isolated OpenAI reactive API increment
 
+## DS4 runtime payload replacement — 2026-10-02
+
+Default-ON `LIE_DS4_RUNTIME_CACHE` now selects exact DS4 Qwen AR payloads in RAM
+and optional SSD, through state ABI 2 and the shared C17 core. The model binding
+captures directly into wire offsets; the generic store writes KVC `.kv` files
+with an opaque trailing LIE stable-identity/integrity extension. Foreign files
+without an authenticated binding remain offline. Qwen geometry stays in its
+model codec; an additional synthetic family exercises the generic lifecycle.
+
+The independently materialized Gufo variant keeps complete raw index history
+and pools completed keys before sparse selection, with full device allocation
+included in session admission. Existing kernels are reused; changed scheduling
+and memory cost require GPU qualification. Legacy runtime remains compile-time
+selectable. SSD remains default-off; KVC bypasses additional Zstandard packing.
+Reactive ownership stays one device worker and one optional bounded I/O worker.
+
+ASan/UBSan/LeakSanitizer: full **37/37**, headless interchange/compression OFF
+**8/8**, final report/supervisor contract **1/1**. Independent tiny wire fixtures
+cover 1/3/4/2048/2049/131072 tokens, exact payload, restart, client trailers,
+identity/integrity refusal and budget/cancellation boundaries. These are
+NOT-INFERENCE. Both DS4 and legacy HIP compositions compile and link locally.
+Retained failures: store-name compiler warning (exit2), old report ABI/event
+expectations (35/36, exit8), and invoking the Release all-target build on assert-
+based test fixtures (exit2); corrected focused builds/tests pass. Peak local
+CPU was95.125 C during provider compilation and93.375 C during the full suite.
+Source/binary-bound [CPU receipt](benchmarks/2026-10-02/kvc-runtime/cpu-receipt.json).
+
+Next is the [paired GPU campaign](KVC-GPU-PROTOCOL.md) on .157 after Q2's verified
+release. No GPU numerical/performance result is yet claimed for this variant.
+DS4-produced import/export, cross-quantization reuse and other real model families
+remain separate gates. [Runtime format and precise boundaries](KVC.md).
+
 ## Multi-model cache requirement — 2026-10-02
 
 The owner confirms that KV/prefix caching must also serve other model families.

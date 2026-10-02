@@ -40,7 +40,19 @@ rejects a second simultaneous store owner. These are private conversation-derive
 bytes without encryption at rest; the directory is not a boundary against an
 adversarial process with the same UID.
 
-## Identity and version 1 framing
+## Current KVC storage selection
+
+Default `LIE_DS4_RUNTIME_CACHE=ON` selects the [DS4 payload and LIE binding
+extension](KVC.md#runtime-payload-and-ssd-binding) for Qwen checkpoints. The raw
+model payload is identical in RAM and on SSD; text SHA-1 `.kv` names coexist with
+the token-prefix index. The store validates stable identity and SHA-256 before
+restore, then the provider validates semantics before device mutation. Ordinary
+foreign DS4 files without a trusted binding are refused. Existing `.lie` readers
+remain available for legacy states; the provider identity prevents accidental
+reuse across the changed representation. The earlier GPU evidence above uses
+legacy states; the new KVC provider awaits its own qualification.
+
+## Legacy identity and version 1 framing
 
 The live model domain is never written to disk. An enabled core obtains a stable
 identity and its new live domain before READY. For the transitional HIP provider,
@@ -224,6 +236,6 @@ identity; the updated adapter identity admits context growth but still binds
 weights, build, device, chunk and numerical policy. A binary identity change
 prevents treating historical GPU-qualified files as current-build evidence.
 Native v3 is not DS4 KVC/payload compatibility.
-The separate [KVC interchange codec](KVC.md) can retain and rewrite DS4 wire
-records; it is not registered as a live native-store loader. SSD opt-in,
-identity admission, accounting and existing native files retain this contract.
+The [KVC runtime path](KVC.md#runtime-payload-and-ssd-binding) now writes exact
+model payloads with a trailing identity/integrity binding. SSD opt-in, ownership,
+accounting and bounded reactive I/O remain shared with the legacy codec.

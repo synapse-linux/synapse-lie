@@ -199,6 +199,7 @@ int lie_core_bench_main(int argc,char **argv) {
     text(identity,"cache_retention_policy",LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru");
     json_object_object_add(identity,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     text(identity,"checkpoint_codec",lie_state_compression_codec());
+    text(identity,"state_format",lie_backend_state_format());
     text(identity,"checkpoint_policy",policy.enabled?"ds4":"legacy");
     number(identity,"cache_min_tokens",policy.min_tokens);number(identity,"cache_cold_max_tokens",policy.cold_max_tokens);
     number(identity,"cache_continued_tokens",policy.continued_interval_tokens);number(identity,"cache_trim_tokens",policy.boundary_trim_tokens);

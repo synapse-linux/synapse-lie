@@ -151,15 +151,24 @@ def cache_codec(identity):
 def read_state_result(path,rows):
     events=[r.get('event') for r in rows]
     ram=events==['identity','input','capture','pair','pair','pair','complete']
-    write=events==['identity','input','ssd_identity','capture','ssd_write','complete']
+    prepared=events==['identity','input','ssd_identity','capture','ssd_prepare','ssd_write','complete']
+    write=prepared or events==['identity','input','ssd_identity','capture','ssd_write','complete']
     read=events==['identity','input','ssd_identity','ssd_read','pair','pair','pair','complete']
     if not (ram or write or read) or rows[-1]!={'event':'complete','exit_code':0}:
         raise ValueError('incomplete state qualification')
     identity,p=rows[:2];capture=rows[2] if ram else rows[3]
     cache_codec(identity)
     pairs=rows[3:6] if ram else rows[4:7] if read else []
-    if identity.get('suite')!='state' or identity.get('state_abi')!=1 or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
+    if identity.get('suite')!='state' or type(identity.get('state_abi')) is not int or identity['state_abi'] not in (1,2) or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
         raise ValueError('invalid state input')
+    if identity['state_abi']==2:
+        fmt=capture.get('state_format');version=capture.get('representation_version')
+        if fmt not in ('ds4-kvc-payload','lie-aligned-components') or type(version) is not int or not 0<version<=4294967295:
+            raise ValueError('invalid state representation')
+        if fmt=='ds4-kvc-payload' and capture.get('compressed',False):
+            raise ValueError('KVC payload must retain its exact representation')
+    if prepared and (type(rows[4].get('render_and_admission_ns')) is not int or rows[4]['render_and_admission_ns']<0):
+        raise ValueError('invalid SSD preparation timing')
     generated=p.get('capture_decode_tokens',0)
     if type(generated) is not int or not 0<=generated<=256 or (generated and (not ram or generated>=p['prompt_tokens'] or p['checkpoint_tokens']!=p['prompt_tokens'])):
         raise ValueError('invalid generated capture frontier')
@@ -181,7 +190,7 @@ def read_state_result(path,rows):
             raise ValueError('state SSD identity')
         if any(type(disk.get(k)) is not int or disk[k]<=0 for k in ('model_load_ns','identity_ns','quota_bytes','staging_bytes')):
             raise ValueError('state SSD admission/timing')
-        transfer=rows[4] if write else capture
+        transfer=rows[5 if prepared else 4] if write else capture
         if type(transfer.get('peak_staging_bytes')) is not int or not capture['retained_bytes']<=transfer['peak_staging_bytes']<=budget:
             raise ValueError('state SSD staging accounting')
         if write and (transfer.get('writes')!=1 or transfer.get('write_ns',0)<=0 or
@@ -204,7 +213,7 @@ def read_state_result(path,rows):
         for key in ('output_ids','full_logits_sha256'):
             if pairs[0][key]!=pairs[2][key]:raise ValueError('independent clone drift')
     return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'input':p,'capture':capture,'pairs':pairs,
-            'ssd':disk,'ssd_transfer':None if ram else transfer,'scope':'durable checkpoint write only' if write else 'three exact fresh/restored pairs'}
+            'ssd':disk,'ssd_prepare':rows[4] if prepared else None,'ssd_transfer':None if ram else transfer,'scope':'durable checkpoint write only' if write else 'three exact fresh/restored pairs'}
 
 
 def read_core_result(path,rows):
@@ -213,6 +222,11 @@ def read_core_result(path,rows):
     identity=rows[0]
     if identity.get('suite')!='core' or identity.get('execution')!='shared-reactive-core':
         raise ValueError('invalid core benchmark identity')
+    state_format=identity.get('state_format','synthetic-aligned-components' if identity.get('synthetic') else 'lie-aligned-components')
+    if state_format not in ('none','lie-aligned-components','ds4-kvc-payload','synthetic-aligned-components','synthetic-kvc-payload'):
+        raise ValueError('invalid core state format')
+    if state_format.startswith('synthetic-') and not identity.get('synthetic'):
+        raise ValueError('synthetic state format in a model benchmark')
     users=identity['users'];reps=identity['warmups']+identity['repetitions']
     cache_policy=identity.get('cache_policy','off');cache_budget=identity.get('prefix_cache_bytes',0)
     if identity.get('cache_retention_policy','lru') not in ('lru','decaying-token-byte-utility-v1','ds4-time-token-byte-utility-v1') or type(identity.get('checkpoint_compression',False)) is not bool:
@@ -294,7 +308,7 @@ def read_core_result(path,rows):
         checkpoint_policy=identity.get('checkpoint_policy','legacy'),checkpoint_parameters={key:identity.get(key,0) for key in policy_keys},
         checkpoint_flags={key:identity.get(key,False) for key in policy_flags},
         cache_retention_policy=identity.get('cache_retention_policy','lru'),checkpoint_compression=identity.get('checkpoint_compression',False),
-        checkpoint_codec=cache_codec(identity),
+        checkpoint_codec=cache_codec(identity),state_format=state_format,
         ssd_quota_bytes=identity.get('ssd_quota_bytes',0),ssd_staging_bytes=identity.get('ssd_staging_bytes',0),
         ssd_cached_tokens=distribution([r.get('ssd_cached_tokens',0) for r in measured]),
         ssd_read_ns=distribution([r.get('ssd_read_ns',0) for r in measured]),
@@ -319,7 +333,7 @@ def compare_core(a,b,compare_cache_build=False):
     p=a['configurations'][0];q=b['configurations'][0]
     for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes','ssd_quota_bytes','ssd_staging_bytes']:
         if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
-    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression','checkpoint_codec','checkpoint_policy','checkpoint_parameters','checkpoint_flags') if p[k]!=q[k]}
+    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression','checkpoint_codec','checkpoint_policy','checkpoint_parameters','checkpoint_flags','state_format') if p[k]!=q[k]}
     if differences and not compare_cache_build:raise ValueError('core cache build mismatch; use explicit cache-build comparison')
     equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
     denominator=q['output_per_total_wall_tps']['median']
@@ -333,11 +347,11 @@ def export_core(result,out,label,reference,reference_label,compare_cache_build=F
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     series=[(label,result)]+([(reference_label,reference)] if reference else [])
     with (out/'summary.csv').open('w',newline='') as f:
-        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median','checkpoint_codec'])
+        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median','checkpoint_codec','state_format'])
         for name,data in series:
             r=data['configurations'][0]
             value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
-            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes'),r['checkpoint_codec']])
+            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes'),r['checkpoint_codec'],r['state_format']])
     os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
     import matplotlib
     matplotlib.use('Agg')

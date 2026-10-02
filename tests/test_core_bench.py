@@ -182,7 +182,7 @@ class CoreBench(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='lie-core-report-') as tmp:
             p,path=self.run_case(tmp);self.assertEqual(p.returncode,0,p.stderr)
             original=[json.loads(x) for x in path.read_text().splitlines()]
-            for mode in ['count','hash','ids','time','missing','retention','compression','expanded','codec']:
+            for mode in ['count','hash','ids','time','missing','retention','compression','expanded','codec','format']:
                 rows=copy.deepcopy(original)
                 if mode=='missing':rows.pop()
                 elif mode=='hash':next(r for r in rows if r['event']=='input')['physical_ids_sha256']='bad'
@@ -191,6 +191,7 @@ class CoreBench(unittest.TestCase):
                 elif mode=='retention':rows[0]['cache_retention_policy']='unknown'
                 elif mode=='compression':rows[0]['checkpoint_compression']=1
                 elif mode=='codec':rows[0]['checkpoint_codec']='unknown'
+                elif mode=='format':rows[0]['state_format']='unknown'
                 elif mode=='expanded':next(r for r in rows if r['event']=='sample')['cache_expanded_bytes']=-1
                 else:next(r for r in rows if r['event']=='job')['first_token_ns']=-1
                 bad=Path(tmp)/'bad.jsonl';bad.write_text('\n'.join(json.dumps(r) for r in rows)+'\n')
@@ -198,7 +199,7 @@ class CoreBench(unittest.TestCase):
             result=REPORT['read_result'](path);other=copy.deepcopy(result)
             other['configurations'][0]['prefill_chunk']=1
             with self.assertRaises(ValueError):REPORT['compare'](result,other)
-            for field,value in [('cache_retention_policy','different'),('checkpoint_compression',not result['identity']['checkpoint_compression'])]:
+            for field,value in [('cache_retention_policy','different'),('checkpoint_compression',not result['identity']['checkpoint_compression']),('state_format','ds4-kvc-payload')]:
                 other=copy.deepcopy(result);other['configurations'][0][field]=value
                 with self.assertRaises(ValueError):REPORT['compare'](result,other)
                 comparison=REPORT['compare'](result,other,True)[0]
@@ -250,7 +251,9 @@ class CoreBench(unittest.TestCase):
             with self.assertRaises(ValueError):RUNNER['bind_ssd'](args[:2]+args[4:],producer,cfg) # Undeclared default RAM.
             store=producer/'prefix-store';store.mkdir(mode=0o700)
             payload=store/('a'*64+'.lie');payload.write_bytes(b'checkpoint fixture');payload.chmod(0o600)
+            kvc=store/('b'*40+'.kv');kvc.write_bytes(b'KVC fixture');kvc.chmod(0o600)
             inventory=RUNNER['ssd_inventory'](store)
+            self.assertEqual(set(inventory),{payload.name,kvc.name})
             results=producer/'results';results.mkdir();receipt=results/'result.json'
             receipt.write_text(json.dumps({'state':'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION',
                                            'child_exit_code':0,'ssd_store':record,'ssd_after':inventory}))

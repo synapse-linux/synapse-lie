@@ -1,0 +1,47 @@
+{
+  "schema": "synapse-lie.gufo-ds4-state.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "AR-only complete raw index retention and eager completed block pooling for exact DS4 payload capture. Device SessionBytes includes the larger index allocation. Existing kernels and model arithmetic are reused; numerical equivalence requires GPU qualification. Applied after state-access friends in an independent source variant.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "#define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_",
+      "new": "#define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_\n#define LIE_GUFO_DS4_STATE 1"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  return static_cast<std::uint32_t>(std::bit_ceil(std::min<std::uint64_t>(\n      context, std::uint64_t{c.indexer_top_k} + batch)));",
+      "new": "  // LIE DS4 payload capture retains every raw index row. SessionBytes uses\n  // this same function, so admission includes the complete device allocation.\n  (void)c; (void)batch;\n  return static_cast<std::uint32_t>(std::bit_ceil(context));"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "    PoolIndexerBlocks(s.index_k, l.indexer_k_norm.f32(), s.block_k, first_block,\n                      pos, n_tokens, pool_grid, c.compress_ratio,\n                      c.indexer_head_dim, c.rotary_dim, c.rope_theta, c.rms_eps,\n                      index_capacity, stream_, s.rope);\n",
+      "new": ""
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  const std::uint32_t* mask = nullptr;\n  if (sparse) {",
+      "new": "  // Materialize complete DS4 block history even before sparse selection.\n    PoolIndexerBlocks(s.index_k, l.indexer_k_norm.f32(), s.block_k, first_block,\n                      pos, n_tokens, pool_grid, c.compress_ratio,\n                      c.indexer_head_dim, c.rotary_dim, c.rope_theta, c.rms_eps,\n                      index_capacity, stream_, s.rope);\n  const std::uint32_t* mask = nullptr;\n  if (sparse) {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "      sparse && complete > session.blocks_ ? complete - session.blocks_ : 0;",
+      "new": "      complete > session.blocks_ ? complete - session.blocks_ : 0;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  if (sparse) {\n    session.blocks_ = complete;\n  }",
+      "new": "  session.blocks_ = complete;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "          const auto pool = sparse[i] && complete[i] > session.blocks_",
+      "new": "          const auto pool = complete[i] > session.blocks_"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "    if (sparse[i]) {\n      items[i].session->blocks_ = complete[i];\n    }",
+      "new": "    items[i].session->blocks_ = complete[i];"
+    }
+  ]
+}

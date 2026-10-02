@@ -10,7 +10,7 @@ extern "C" {
  * Core owns descriptors, allocation, immutable bytes and validation. Providers
  * only describe model components and perform completed transfers. No opaque
  * backend snapshot object or backend serializer crosses this boundary. */
-#define LIE_STATE_ABI 1u
+#define LIE_STATE_ABI 2u
 #define LIE_STATE_MAX_SECTIONS 256u
 #define LIE_STATE_MAX_RANK 4u
 typedef enum { LIE_STATE_U8=1, LIE_STATE_I32, LIE_STATE_F16, LIE_STATE_F32 } lie_state_dtype;
@@ -18,8 +18,10 @@ typedef enum {
     LIE_STATE_TOKENS=1, LIE_STATE_LOGITS, LIE_STATE_K, LIE_STATE_V,
     LIE_STATE_CONV, LIE_STATE_RECURRENT, LIE_STATE_PLE, LIE_STATE_NGRAM,
     LIE_STATE_INDEX, LIE_STATE_BLOCK_KEYS,
+    LIE_STATE_HEADER, LIE_STATE_SCALAR,
     LIE_STATE_MODEL_COMPONENT=65536
 } lie_state_role;
+typedef enum { LIE_STATE_ALIGNED=0, LIE_STATE_KVC=1 } lie_state_format;
 typedef struct {
     uint32_t role, layer, dtype, rank;
     uint64_t shape[LIE_STATE_MAX_RANK];
@@ -32,6 +34,9 @@ typedef struct {
      * builds, devices or processes; SSD must validate a separate stable identity
      * before binding an imported checkpoint to this live domain. */
     uint64_t domain;
+    /* KVC payloads retain exact wire offsets; their model codec supplies the
+     * complete component map. Other fields never authenticate a model. */
+    uint32_t format, model_id, quant_bits;
     uint32_t model_data[8]; /* Model-defined frontier metadata, version-qualified. */
     lie_state_section sections[LIE_STATE_MAX_SECTIONS];
 } lie_state_layout;
@@ -47,6 +52,8 @@ lie_status lie_sequence_state_describe(lie_sequence *, const lie_state_layout *s
 lie_status lie_sequence_state_read(lie_sequence *, const lie_state_layout *, void *, size_t, lie_error *);
 lie_status lie_sequence_state_write(lie_sequence *, const lie_state_layout *, const void *, size_t, lie_error *);
 int lie_backend_prefix_state_supported(void);
+/* Build-level format declaration; synthetic providers label their fixtures. */
+const char *lie_backend_state_format(void);
 
 /* Common C17 implementation. Retained bytes include payload and descriptor
  * allocation; allocator/driver overhead is not an allocation-peak claim. */
@@ -71,7 +78,9 @@ bool lie_state_compress(lie_state **,uint64_t peak_budget);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);
 /* Shared layout builder/validator for model providers, CPU fixtures and core.
- * Every section is tightly packed and 8-byte aligned in the owned payload. */
+ * ALIGNED sections use 8-byte alignment. KVC sections exactly partition the
+ * model payload, including header/scalar fields, without inserted padding.
+ * TOKENS must remain 4-byte aligned for the shared prefix index. */
 int lie_state_add(lie_state_layout *, uint32_t role, uint32_t layer,
                   lie_state_dtype, uint32_t rank, const uint64_t *shape);
 int lie_state_validate(const lie_state_layout *, uint64_t *payload_bytes);

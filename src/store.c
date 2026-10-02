@@ -2,6 +2,7 @@
 #include "lie/store.h"
 #include "state_codec.h"
 #include "state_internal.h"
+#include "state_kvc.h"
 #include "retention.h"
 #include <assert.h>
 #include <dirent.h>
@@ -19,8 +20,9 @@
 #include <sys/statvfs.h>
 #include <time.h>
 #include <unistd.h>
+#include <openssl/evp.h>
 
-typedef struct { char name[69];uint64_t bytes,allocated,age;unsigned tokens,context;lie_retention utility;lie_cache_metadata metadata; } entry;
+typedef struct { char name[69],token_key[65];uint64_t bytes,allocated,age;unsigned tokens,context;lie_retention utility;lie_cache_metadata metadata; } entry;
 struct lie_store {
     pthread_t thread;
     pthread_mutex_t gate;
@@ -45,9 +47,20 @@ struct lie_store {
 static uint64_t now(void){struct timespec t;if(clock_gettime(CLOCK_MONOTONIC,&t))return 0;return (uint64_t)t.tv_sec*1000000000u+(uint64_t)t.tv_nsec;}
 static lie_status fail(lie_error *e,const char *message){if(e)snprintf(e->message,sizeof(e->message),"%s",message);return LIE_INVALID;}
 static bool hex_name(const char *s){
-    if(strlen(s)!=68||strcmp(s+64,".lie"))return false;
-    for(unsigned i=0;i<64;++i)if(!((s[i]>='0'&&s[i]<='9')||(s[i]>='a'&&s[i]<='f')))return false;
+    size_t n=strlen(s),digits;
+    if(n==68&&!strcmp(s+64,".lie"))digits=64;
+    else if(n==43&&!strcmp(s+40,".kv"))digits=40;
+    else return false;
+    for(size_t i=0;i<digits;++i)if(!((s[i]>='0'&&s[i]<='9')||(s[i]>='a'&&s[i]<='f')))return false;
     return true;
+}
+static bool text_name(const lie_cache_metadata *m,char name[69]){
+    if(!m->text_bytes||!m->text)return false;
+    unsigned char digest[20];unsigned n=0;EVP_MD_CTX *ctx=EVP_MD_CTX_new();
+    if(!ctx)return false;
+    bool ok=EVP_DigestInit_ex(ctx,EVP_sha1(),NULL)==1&&EVP_DigestUpdate(ctx,m->text,m->text_bytes)==1&&
+        EVP_DigestFinal_ex(ctx,digest,&n)==1&&n==20;EVP_MD_CTX_free(ctx);
+    if(ok){for(unsigned i=0;i<20;++i)snprintf(name+2*i,3,"%02x",digest[i]);memcpy(name+40,".kv",4);}return ok;
 }
 static bool owned_file(int fd,struct stat *s){return !fstat(fd,s)&&S_ISREG(s->st_mode)&&s->st_uid==geteuid()&&s->st_nlink==1&&(s->st_mode&0777)==0600&&s->st_size>=0&&s->st_blocks>=0;}
 static int open_file(lie_store *s,const char *name){
@@ -107,9 +120,12 @@ static bool scan(lie_store *s){
         if(fd<0||!owned_file(fd,&st)){if(fd>=0)close(fd);ok=false;break;}
         if(partial){ok=same_file(s,name,fd)&&!unlinkat(s->directory,name,0);close(fd);if(!ok)break;continue;}
         if(count==s->capacity&&!grow(s)){close(fd);ok=false;break;}
-        entry *e=&s->entries[count++];memcpy(e->name,name,69);e->bytes=(uint64_t)st.st_size;
+        entry *e=&s->entries[count++];memcpy(e->name,name,strlen(name)+1);e->bytes=(uint64_t)st.st_size;
         e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;uint64_t bytes=0;
         if(!lie_state_file_probe(fd,&s->identity,&bytes,&e->tokens,&e->context))e->tokens=0;
+        if(strlen(name)==43){
+            if(e->tokens&&!lie_state_kvc_token_key(fd,&s->identity,e->token_key))e->tokens=0;
+        }else{memcpy(e->token_key,name,64);e->token_key[64]=0;}
         if(e->tokens&&!lie_state_file_metadata(fd,&s->identity,s->info.index_budget_bytes-s->index_bytes,&e->metadata)){close(fd);ok=false;break;}
         s->index_bytes+=metadata_bytes(&e->metadata);
         e->utility=(lie_retention){.created=e->metadata.created_at,.touched=e->metadata.last_used,.hits=e->metadata.hits,.reason=e->metadata.reason};
@@ -140,7 +156,7 @@ static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *contin
                 if(s->metadata.text_bytes&&e->metadata.text_bytes)
                     superseded=e->metadata.text_bytes<s->metadata.text_bytes&&!memcmp(e->metadata.text,s->metadata.text,e->metadata.text_bytes);
                 else if(!s->metadata.text_bytes&&!e->metadata.text_bytes&&e->tokens<layout->token_count){char key[69]={0};if(lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,key)){
-                    memcpy(key+64,".lie",5);superseded=!strcmp(key,e->name);}}
+                    superseded=!strcmp(key,e->token_key);}}
             }
             if(superseded&&continued)*continued=true;
             double value=lie_retention_score(&e->utility,lie_cache_now(),e->tokens,cost,superseded);
@@ -152,15 +168,16 @@ static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *contin
     }
 }
 static bool write_state(lie_store *s){
-    char name[69]={0},temporary[78];const lie_state_layout *l=lie_state_description(s->state);
-    if(!lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,name))return false;
-    memcpy(name+64,".lie",5);
+    char name[69]={0},key[65],temporary[78];const lie_state_layout *l=lie_state_description(s->state);
+    if(!lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,key))return false;
+    if(l->format==LIE_STATE_KVC){if(!text_name(&s->metadata,name))return false;}
+    else{memcpy(name,key,64);memcpy(name+64,".lie",5);}
     unsigned replacement=s->capacity;
     for(unsigned i=0;i<s->capacity;++i)if(!strcmp(s->entries[i].name,name)){
         /* Immutable tensor payload is deduplicated. Extension changes require
          * replacing the record so its digest still binds the new metadata. */
         entry *e=&s->entries[i];
-        if(e->metadata.flags==s->metadata.flags&&e->metadata.text_bytes==s->metadata.text_bytes&&
+        if(!strcmp(e->token_key,key)&&e->metadata.flags==s->metadata.flags&&e->metadata.text_bytes==s->metadata.text_bytes&&
            e->metadata.trailer_bytes==s->metadata.trailer_bytes&&
            (!s->metadata.text_bytes||!memcmp(e->metadata.text,s->metadata.text,s->metadata.text_bytes))&&
            (!s->metadata.trailer_bytes||!memcmp(e->metadata.trailer,s->metadata.trailer,s->metadata.trailer_bytes))){e->age=++s->clock;return true;}
@@ -183,7 +200,7 @@ static bool write_state(lie_store *s){
         ok=(uint64_t)st.st_size==bytes&&allocated<=s->info.quota_bytes&&used<=s->info.quota_bytes-allocated;
     }
     if(ok){ok=renameat(s->directory,temporary,s->directory,name)==0;renamed=ok;}
-    if(renamed){entry *e=&s->entries[slot];memcpy(e->name,name,sizeof(name));
+    if(renamed){entry *e=&s->entries[slot];memcpy(e->name,name,sizeof(name));memcpy(e->token_key,key,sizeof(key));
         e->bytes=(uint64_t)st.st_size;e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;e->tokens=l->token_count;e->context=l->context_tokens;
         s->index_bytes-=metadata_bytes(&e->metadata);lie_cache_metadata_clear(&e->metadata);
         e->metadata=s->metadata;memset(&s->metadata,0,sizeof(s->metadata));s->index_bytes+=meta_bytes;
@@ -205,7 +222,7 @@ static lie_state *read_state(lie_store *s){
             if(s->text)match=(e->metadata.flags&6u)==(s->key_flags&6u)&&n&&n<=s->text_bytes&&!memcmp(e->metadata.text,s->text,(size_t)n);
             else if((e->metadata.flags&6u)==(s->key_flags&6u)&&e->tokens<=s->count&&(e->tokens==s->count||e->tokens%s->chunk==0)){
                 char name[69]={0};if(lie_state_prefix_key(&s->identity,s->tokens,e->tokens,name)){
-                    memcpy(name+64,".lie",5);match=!strcmp(e->name,name);}}
+                    match=!strcmp(e->token_key,name);}}
             if(match&&(best==s->capacity||n>length||(n==length&&i>best))){best=i;length=n;}
         }
         if(best==s->capacity)break;
@@ -328,6 +345,7 @@ bool lie_store_can_write(lie_store *s,uint64_t bytes){
 }
 bool lie_store_write_ex(lie_store *s,lie_state *state,const lie_cache_metadata *metadata){
     if(!s||!state||!lie_cache_metadata_valid(metadata))return false;
+    if(lie_state_description(state)->format==LIE_STATE_KVC&&!metadata->text_bytes)return false;
     uint64_t bytes=lie_state_bytes(state);pthread_mutex_lock(&s->gate);
     bool ok=!s->stop&&!s->busy&&lie_state_description(state)->domain==s->domain&&
         bytes<=s->info.staging_budget_bytes&&metadata_bytes(metadata)<=s->info.staging_budget_bytes-bytes&&

@@ -235,3 +235,22 @@ was unavailable. GPU GDN layout is value-major, unlike the CPU reference.
 Gufo destination facts come from the existing independently fetched `f783fedb`
 source. Synthetic mapping checks are not cross-engine numerical qualification.
 No local DS4 source, cache or qualified artifact was imported or modified.
+
+## Complete-history runtime KVC variant — 2026-10-02
+
+`adapters/gufo-state/kvc-edits.json` layers exact edits on the existing friend
+manifest at independent upstream pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`.
+The resulting four-file variant retains full raw index arrays, includes their
+capacity in `SessionBytes`, and pools completed AR keys before sparse selection
+in scalar and batch paths. It reuses upstream kernels but changes scheduling
+and memory usage, requiring independent GPU regression tests. `build-gufo.py`
+and `check-gufo-build.py` require explicit `--state-access --ds4-state`, source
+variant `lie-ds4-state-v1` and both manifest hashes. Previous source/archive trees
+are preserved. No DS4 implementation is copied.
+
+`src/models/kvc_qwen_state.c`, `src/state_kvc.c` and generic integration remain
+original MIT C17. Public DS4 constants at `0aaea5a238fb41a35106a551e73c8409dfb751ac`
+identify Qwen Flash Next as model id 5; the dated official store/server review
+accepts opaque trailers after the model payload. LIE adds its own identity and
+integrity extension there. This layout does not itself prove DS4 will restore a
+LIE checkpoint; bilateral device qualification remains pending.
