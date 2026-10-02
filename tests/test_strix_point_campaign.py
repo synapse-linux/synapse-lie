@@ -229,7 +229,7 @@ class Tests(unittest.TestCase):
         self.assertNotIn('dst=/opt/rocm,readonly', argv)
     def test_diagnostic_retains_hip_failure(self):
         c = self.campaign()
-        c.m.update(stack='rocm10-fedora43', bundle=str(self.base))
+        c.m.update(bundle=str(self.base))
         def run(*_args):
             (c.root/'stdout.log').write_text(json.dumps({
                 'scope': 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL',

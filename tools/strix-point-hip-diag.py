@@ -18,6 +18,7 @@ def main():
     hip.hipGetDeviceCount.argtypes = [c.POINTER(c.c_int)]
     hip.hipSetDevice.argtypes = [c.c_int]
     hip.hipMalloc.argtypes = [c.POINTER(c.c_void_p), c.c_size_t]
+    hip.hipMemGetInfo.argtypes = [c.POINTER(c.c_size_t), c.POINTER(c.c_size_t)]
     hip.hipFree.argtypes = [c.c_void_p]
     hip.hipMemset.argtypes = [c.c_void_p, c.c_int, c.c_size_t]
     hip.hipMemcpy.argtypes = [c.c_void_p, c.c_void_p, c.c_size_t, c.c_int]
@@ -34,6 +35,8 @@ def main():
         return code == 0
 
     count = c.c_int()
+    free_bytes = c.c_size_t()
+    total_bytes = c.c_size_t()
     device = c.c_void_p()
     pinned = c.c_void_p()
     host = (c.c_float * 8)(1, 3, 2, 4, 5, 7, 6, 8)
@@ -41,6 +44,7 @@ def main():
     try:
         if check('device_count', hip.hipGetDeviceCount, c.byref(count)) and count.value == 1:
             if check('set_device', hip.hipSetDevice, 0):
+                check('memory_info', hip.hipMemGetInfo, c.byref(free_bytes), c.byref(total_bytes))
                 if check('malloc_48', hip.hipMalloc, c.byref(device), 48):
                     check('memset_48', hip.hipMemset, device, 0, 48)
                     check('copy_pageable_h2d_32', hip.hipMemcpy, device, c.cast(host, c.c_void_p), 32, 1)
@@ -53,13 +57,14 @@ def main():
     finally:
         if pinned.value: check('host_free', hip.hipHostFree, pinned)
         if device.value: check('device_free', hip.hipFree, device)
-    return emit(steps, count.value, device, pinned, list(output))
+    return emit(steps, count.value, device, pinned, free_bytes.value, total_bytes.value, list(output))
 
 
-def emit(steps, device_count, device, pinned, output=None):
+def emit(steps, device_count, device, pinned, free_bytes, total_bytes, output=None):
     record = {'scope': 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL', 'device_count': device_count,
               'device_pointer_nonzero': bool(device.value),
               'pinned_pointer_nonzero': bool(pinned.value),
+              'hip_free_bytes': free_bytes, 'hip_total_bytes': total_bytes,
               'steps': steps, 'output': output}
     print(json.dumps(record), flush=True)
     return 0

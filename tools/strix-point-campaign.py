@@ -291,8 +291,7 @@ class Campaign:
         self.r['build_result'] = result
         self.record()
     def diagnostic(self):
-        if self.m.get('stack') != 'rocm10-fedora43':
-            raise ValueError('Diagnostic requires the ROCm 10 image')
+        self.image_and_rocm()
         self.run_container(['/usr/bin/python3', '-B', '/bundle/runtime/hip-diag.py'],
                            self.m['bundle'], 60)
         result = json.loads((self.root/'stdout.log').read_text())
