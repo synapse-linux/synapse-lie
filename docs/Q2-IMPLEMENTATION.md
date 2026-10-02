@@ -114,3 +114,13 @@ and binary hash stayed unchanged; postflight KFD was empty and all four lease
 path identities matched preflight. Six desktop DRI clients and inaccessible
 process observations remain recorded limitations. The UD before/after control is complete in [Q2-RESULTS.md](Q2-RESULTS.md).
 Q2 is slower than UD; the performance gate is not met.
+
+
+## Profiled optimization outcome
+
+The bounded profiler and pristine UD control now have separate PP/TG evidence
+in [Q2-PROFILING.md](Q2-PROFILING.md). The first down WMMA candidate passed
+synthetic operators but failed its model-frontier gate; its measured 34–64%
+PP gain is retained as a [rejected experiment](Q2-DOWN-EXPERIMENT.md).
+The runtime described above is restored exactly. `q2-profile` and `ud-profile`
+are diagnostic modes, not headline benchmark modes.

@@ -47,21 +47,29 @@ check stat identity before/after without rehashing the entire model payload.
 - Local repository checks: official formatting passes 486 files; exact archive
   reconstruction and report/plot generation pass. No local inference tests.
 
-All runs acquired the four existing EX|NB leases. Final Q2-workstream GPU child
-retired at 01:31:56 UTC; KFD empty, lease identities unchanged, no job or waiter
-left. The next window belongs to the coordinated core test thread.
+All GPU runs acquire the four existing EX|NB leases separately. The core thread
+returned the coordinated window after core-gpu-r2 retired at 02:13:52.976 UTC.
+Q2 completed the bounded campaign and handed the window back to core after
+fresh retirement at 03:14:56.579 UTC; see `COORDINATION.md`.
 
-## Next bounded diagnostic
+## Measured diagnostic and next candidate
 
-Source shows Q2 does not enter UD's specialized compacted F16 WMMA expert path
-or its F16 intermediate/epilogue fusion. This is a dispatch fact, not measured
-attribution of the entire gap. Quantify routed math, gathers, quantization and
-synchronization before choosing a packing/layout or WMMA extension.
+The profiler supervisor now passes six Debug and six ASan/UBSan CTests on `.157`.
+Q2 and pristine UD traces both complete successfully, with 24 verified artifacts
+and 11 exact baseline replay checks per arm. [Q2-PROFILING.md](Q2-PROFILING.md)
+records all phase totals: Q2_K down dominates PP; dense F16 projections explain
+a separate decode cost. These are diagnostic kernel times, not new performance
+numbers. The unprofiled gate above is still failed.
 
-`experiments/q2-profile.patch` preserves the original 2K/16-output profiling
-proposal. The working tree now adds bounded profiler supervision, process and
-accounting fixtures, and GPU phase markers after a shape warmup. This update
-is not yet runtime-tested. Validate the fixtures on `.157` before a newly
-coordinated GPU trace. Current core/GPU work is not to be interrupted. No
-performance fix, cache enlargement, model conversion, deployment, merge or
-publication is claimed.
+The compacted Q2_K down experiment passed independent operators after retaining
+a scaled F16 activation residual. Its C1 prefill improved by 34/50/64%, but the
+model-frontier KL reached 0.002809 against a 0.002 limit. All generated tokens
+matched; the numerical gate still failed. [Full experiment](Q2-DOWN-EXPERIMENT.md)
+retains values, graphs, rejected source, operator failures and actual exits.
+The active runtime patch is restored exactly to SHA-256
+`3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473`.
+No new UD control or long-context sweep was run after rejecting this candidate.
+
+The next PP hypothesis must preserve baseline activation quantization while
+improving layout/reuse. F16 HC down/up are a separate measured decode target.
+No deployment, merge, publication or full performance acceptance occurred.

@@ -18,7 +18,7 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     args = p.parse_args()
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
@@ -57,7 +57,7 @@ def main():
     with tarfile.open(capsule, 'w:gz') as archive:
         for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/analyze-q2-profile.py']:
             archive.add(ROOT / name, arcname=name)
-        archive.add(ROOT / ('.deps/gufo-base' if args.mode == 'ud-base' else '.deps/gufo-q2'), arcname='source')
+        archive.add(ROOT / ('.deps/gufo-base' if args.mode in ('ud-base','ud-profile') else '.deps/gufo-q2'), arcname='source')
     dest = REMOTE + args.label
     # Exclusive destination and data-only extraction. No model or foreign path.
     script = '\n'.join([

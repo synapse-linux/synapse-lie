@@ -69,17 +69,14 @@ MoE epilogue into the following combine. The Q2 port already shares the PP
 activation quantization for gate/up and fuses gate/up/SwiGLU in the small-batch
 path; zero padding is fused into quantization, without an extra float buffer.
 
-Therefore larger buffers alone are not an evidence-based remedy. The next
-bounded experiment is a 2K PP plus 16-output GPU kernel trace to quantify routed
-math, quantization, gather/scatter, dense operations and synchronization. It
-must precede selecting a lossless packed layout or extending the WMMA route.
-A change to F16 activation arithmetic must pass independent operator checks and
-matched model-frontier validation; faster output alone is insufficient.
-
-`experiments/q2-profile.patch` preserves that diagnostic preparation separately.
-It is **not applied or qualified**: first test its owned-session process handling
-on `.157` before GPU use. Profiling wall times are not benchmark replacements.
-No performance optimization or 128K/256K sweep has been accepted after this loss.
+The bounded Q2/UD traces now identify Q2_K down as 41.1% of Q2 prefill
+kernel time (1382.876 ms), and a separate dense F16 decode cost (232.268 ms
+versus 28.445 ms in UD). [Complete phase values](Q2-PROFILING.md) distinguish
+kernel costs from unprofiled throughput and document exact baseline replay.
+The [compacted down experiment](Q2-DOWN-EXPERIMENT.md) improved PP by 34–64%
+but failed its saved-frontier limit despite passing operators and matching
+tokens. It was rejected and the original runtime restored.
+No performance optimization or 128K/256K sweep is accepted after this loss.
 
 ## Evidence and coordination
 
@@ -89,8 +86,9 @@ exit 0 and telemetry. All four leases were acquired nonblocking per arm. Final
 run retired at 2026-10-02 01:31:56 UTC: KFD empty, lease paths unchanged, leases
 released and owned children reaped. Desktop DRI clients and inaccessible process
 observations remain limitations; no universal exclusivity claim is made.
-The GPU window was handed to the coordinated core test thread after retirement;
-no Q2 GPU job or waiter remains active.
+That initial window was handed to the core thread. Following its completed
+02:13:52.976 UTC handover, Q2 acquired a new diagnostic/optimization window.
+See `COORDINATION.md` for the current campaign state.
 
 Machine-readable summaries: `config/q2-c1-screen.json`, `config/q2-comparison.json`.
 Raw receipts remain under persistent local `evidence/` and remote project `run/`.

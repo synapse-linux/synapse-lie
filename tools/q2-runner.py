@@ -27,7 +27,8 @@ def now():
 
 def main():
     mode = sys.argv[1]
-    model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-base','ud-patched')
+    model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-profile','ud-base','ud-patched')
+    profile_mode = mode in ('q2-profile','ud-profile')
     if mode not in ('cpu', 'hip-build', 'operators') and not model_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -119,7 +120,7 @@ def main():
                 raise RuntimeError('Foreign model handle before build/launch')
             register('start');registered=True
         if model_mode:
-            if mode=='q2-profile':
+            if profile_mode:
                 profiler=shutil.which('rocprofv3')
                 if profiler is None and Path('/opt/rocm/bin/rocprofv3').is_file(): profiler='/opt/rocm/bin/rocprofv3'
                 if profiler is None: raise RuntimeError('Installed rocprofv3 unavailable; no dependency installation attempted')
@@ -161,7 +162,7 @@ def main():
                 run(['ldd',str(binary)],env,30)
                 result['model_access']=True
                 save()
-                if mode=='q2-profile':
+                if profile_mode:
                     run([profiler,'--kernel-trace','-d',str(results/'profile'),'-o','q2','--',
                          str(binary),model_paths[0],'profile'],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                     run(['python3',str(ROOT/'source/tools/prof/prof.py'),'show',str(results/'profile/q2_results.db'),'--json'],env,120)
@@ -174,7 +175,7 @@ def main():
                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
-        if mode=='q2-profile': result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
+        if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:
