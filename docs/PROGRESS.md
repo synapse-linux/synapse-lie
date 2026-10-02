@@ -1,5 +1,19 @@
 # Isolated OpenAI reactive API increment
 
+## User-authorized Strix Halo temperature revision — 2026-10-02
+
+The 85 C R1 ceiling was an assistant-selected precaution. Following the user's
+98 C clarification and AMD's 100 C CPU Tjmax specification, helpers now support
+an explicit 98 C CPU/GPU ceiling on the verified 395 host. Lower hardware limits
+remain enforced, NVMe stays at 85 C or lower and defaults remain 85 C elsewhere.
+No numerical/core source or hardware policy changes. Both focused ASan/UBSan
+CTest suites pass, including 14 bench checks and two guard tests, at CPU91.875 /
+GPU65 C. The preceding sandbox attempt retains its LeakSanitizer/loopback
+restrictions and exit 8. [Thermal revision receipt](benchmarks/2026-10-02/ssd-qualification/thermal-revision.json).
+
+The remaining 14 SSD arms are prepared for a separate continuation; Q2 owns
+`.157`, so no new GPU run or heavyweight hash starts before its release.
+
 ## First original-weight SSD restart — 2026-10-02
 
 `ssd-gpu-r1` records two successful arms: 512-token durable write and a separate

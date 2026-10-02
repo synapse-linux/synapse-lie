@@ -10,6 +10,7 @@ import subprocess
 import time
 
 HWMON = Path('/sys/class/hwmon')
+CPUINFO = Path('/proc/cpuinfo')
 
 
 def main():
@@ -20,8 +21,10 @@ def main():
     p.add_argument('command', nargs=argparse.REMAINDER)
     a = p.parse_args()
     argv = a.command[1:] if a.command[:1] == ['--'] else a.command
-    if not argv or not 30 <= a.limit_c <= 85 or not 0 < a.timeout <= 7200:
+    if not argv or not 30 <= a.limit_c <= 98 or not 0 < a.timeout <= 7200:
         p.error('Command, timeout and temperature limit are required and bounded')
+    if a.limit_c>85 and 'ryzen ai max+ 395' not in CPUINFO.read_text().lower():
+        p.error('Raised thermal ceiling requires the qualified Strix Halo 395 host')
     a.output.mkdir(parents=True, exist_ok=False)
     sensors = []
     for device in sorted(HWMON.glob('hwmon*')):
@@ -29,7 +32,7 @@ def main():
         if name not in ('k10temp', 'amdgpu', 'nvme', 'coretemp'):
             continue
         for path in sorted(device.glob('temp*_input')):
-            limit = a.limit_c
+            limit = min(a.limit_c,85) if name=='nvme' else a.limit_c
             for suffix in ('max', 'crit'):
                 bound = path.with_name(path.name[:-6] + '_' + suffix)
                 if bound.exists():

@@ -29,6 +29,14 @@ from agreed stable inputs, never racing their build output.
 
 ## Local non-performance tests — user authorization update
 
+The subsequent user clarification, `strix halo regge fino a 98 gradi`, revises
+the operating guard for explicitly selected Strix Halo 395 tests. Helpers retain
+85 C by default, allow explicit 98 C only on the verified 395 host and continue
+to respect lower exposed max/critical limits. NVMe stays at 85 C or lower. No
+firmware/fan/clock/power setting changes. This does not reopen the completed R1
+window or override Q2's current ownership; the next SSD attempt is separately
+prepared as described in [the revised protocol](SSD-GPU-PROTOCOL.md).
+
 Q2 subsequently completed HC exploration and recorded explicit release at
 2026-10-02 07:13:11.718 UTC in `run/q2-hc-window-release.json` and the shared
 register. Read-only SSD preparation verified that record, empty KFD, available

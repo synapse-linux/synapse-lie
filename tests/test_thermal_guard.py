@@ -17,16 +17,27 @@ spec.loader.exec_module(guard)
 
 
 class Guard(unittest.TestCase):
-    def run_guard(self, root, name, command):
+    def run_guard(self, root, name, command, limit=85):
         output = root/name
         handlers = {s: signal.getsignal(s) for s in (signal.SIGINT, signal.SIGTERM)}
         try:
-            with patch.object(guard, 'HWMON', root/'sensors'), patch.object(sys, 'argv', ['guard','--output',str(output),'--',*command]):
+            with patch.object(guard, 'HWMON', root/'sensors'), patch.object(guard,'CPUINFO',root/'cpuinfo'), patch.object(sys, 'argv', ['guard','--output',str(output),'--limit-c',str(limit),'--',*command]):
                 code = guard.main()
         finally:
             for s, h in handlers.items():
                 signal.signal(s, h)
         return code, json.loads((output/'result.json').read_text())
+
+    def test_explicit_strix_halo_ceiling_preserves_ssd_limit(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-halo-') as tmp:
+            root=Path(tmp);cpu=root/'sensors/hwmon0';cpu.mkdir(parents=True)
+            (root/'cpuinfo').write_text('AMD RYZEN AI MAX+ 395 w/ Radeon 8060S\n')
+            (cpu/'name').write_text('k10temp\n');(cpu/'temp1_input').write_text('97000\n')
+            code,result=self.run_guard(root,'permitted',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,0);self.assertEqual(result['child_exit_code'],0)
+            disk=root/'sensors/hwmon1';disk.mkdir();(disk/'name').write_text('nvme\n');(disk/'temp1_input').write_text('86000\n')
+            code,result=self.run_guard(root,'disk-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
 
     def test_preflight_and_only_owned_group(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-fixture-') as tmp:

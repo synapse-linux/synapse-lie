@@ -38,15 +38,17 @@ def read_power_settings(paths):
 REPORT = runpy.run_path(str(Path(__file__).with_name("bench-report.py")))
 
 
-def temperatures(root=Path('/sys/class/hwmon'), ceiling=85):
-    if type(ceiling) not in (int,float) or not math.isfinite(ceiling) or not 30<=ceiling<=85:
+def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/cpuinfo')):
+    if type(ceiling) not in (int,float) or not math.isfinite(ceiling) or not 30<=ceiling<=98:
         raise ValueError('invalid thermal ceiling')
+    if ceiling>85 and 'ryzen ai max+ 395' not in cpuinfo.read_text().lower():
+        raise ValueError('raised thermal ceiling requires the qualified Strix Halo 395 host')
     rows=[]
     for device in sorted(root.glob('hwmon*')):
         name=(device/'name').read_text().strip()
         if name not in ('k10temp','coretemp','amdgpu','nvme'):continue
         for path in sorted(device.glob('temp*_input')):
-            limit=ceiling
+            limit=min(ceiling,85) if name=='nvme' else ceiling
             for suffix in ('max','crit'):
                 bound=path.with_name(path.name[:-6]+'_'+suffix)
                 if bound.exists():

@@ -1,5 +1,24 @@
 # SSD checkpoint qualification protocol
 
+## Operator thermal revision for the next continuation
+
+After R1 stopped, the user clarified that Strix Halo supports operation through
+98 C. AMD lists [Tjmax 100 C for the Ryzen AI Max+ 395](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-plus-395.html).
+The next separately declared campaign uses an explicit 98 C CPU/GPU stop ceiling
+on a verified `Ryzen AI Max+ 395` host, while retaining any lower exposed max/crit.
+This is an operator-selected operating guard, not a new claim of a separately
+specified GPU temperature rating. NVMe retains 85 C or lower sensor limits.
+Default helper policy remains 85 C on all platforms; no hardware setting changes.
+
+R1 stays FAILED under its original policy below. Its successful 512-token arms
+remain narrow evidence; R2 prepares the remaining 14 arms at 8K/extension/128K
+and core off/RAM/SSD. The numerical executable is unchanged. CPU regression
+checks verify the explicit override, lower hardware limits, SSD separation and
+refusal on unrelated hosts. Q2 currently owns `.157`; preparation is local and
+launch waits for its explicit handover plus fresh four-lease admission.
+
+## Original R1 declaration (retained)
+
 This campaign follows the user's roadmap/SSD implementation and `go next`.
 Q2 records a completed handover at 2026-10-02 07:13:11.718 UTC in its coordination
 ledger and persistent `run/q2-hc-window-release.json`. This is campaign
