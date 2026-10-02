@@ -48,13 +48,17 @@ target. CPU architecture checks and headless ASan/UBSan tests pass on
 and no-model startup passes in the existing target container/runtime. The full
 local sanitizer suite passes 34/34. After the operator's temporary service-stop
 grant, the real gfx1150 HIP allocation/copy/rocBLAS diagnostic passes and llama
-is restored. Original UD staging is in progress; model inference is still pending.
+is restored. All four original UD shards are now copied and SHA-256 verified;
+source files on .157 remain intact. The first original-weight shared-core GPU
+smoke on .161 passes: nine prompt tokens, 32 generated tokens, identical output
+across one warmup and three repetitions. Warm decode averages 10.56 token/s;
+this short-prompt result does not qualify long-context performance or parity.
 The additional C17 HIP/rocBLAS diagnostic is compiled; its synthetic fault
 controls pass ASan/UBSan locally and on .161, and its no-device help path loads
 on the target. Pinned four-shard staging uses complete SHA-256 verification.
 The operator-authorized TTM change and reboot increased actual HIP memory from
 61.72 to **96 GiB**; the post-boot HIP/rocBLAS probe passes. This raises the
-allocation limit but does not yet qualify UD model fit or performance.
+allocation limit; the bounded UD smoke fits, while longer contexts remain untested.
 See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

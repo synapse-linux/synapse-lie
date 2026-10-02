@@ -1,0 +1,1693 @@
+{
+  "schema": "synapse-lie.strix-point.core.v1",
+  "scope": "Original UD C1 short-prompt smoke; no long-context, independent parity, HTTP or reactive speedup qualification",
+  "raw_sha256": {
+    "evidence/strix-point-core-ud-r1/manifest.json": "34de73a61d49b8dc50e36a8d74f542e1bac551f0ca1cd9a11cb28dd7bcded35d",
+    "evidence/strix-point-core-ud-r1/runner.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+    "evidence/strix-point-core-ud-r1/plan.json": "74d535f96282e3bd21c9f342e6fdf3b6e1f4294480d6c8ba5f3a4d6529a04ea6",
+    "evidence/strix-point-core-ud-r1/controller-stdout.log": "679580294c2a98eba4b0806927013ada1d61e1237f526dfe6ac9bf8fe3dbe2dd",
+    "evidence/strix-point-core-ud-r1/controller-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-core-ud-r1/controller-result.json": "0e76cc85a54483d12018fa40c9209ebf1ed8eec9652fdad1ab73d0f0ad1d0d65",
+    "evidence/strix-point-core-ud-r1/result.json": "0e91f59b4dacb6da0bc1e4e66355ec76356886631123bc3c3fa6fe837e870692",
+    "evidence/strix-point-core-ud-r1/measurements.jsonl": "861fa8f2855839e19335abcf73189343438f2ba585dd358dc3a848790b5fb8fe",
+    "evidence/strix-point-core-ud-r1/telemetry.jsonl": "59aae92eaec9ae84493fcd6832607da5ac0bef404fadc402cc97c49e6ee9b5e8",
+    "evidence/strix-point-core-ud-r1/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-core-ud-r1/stderr.log": "81057a0e98a65ea85500dd419c4f174dfa9674491c55c2475c4cb8456fb1b21e",
+    "evidence/strix-point-core-ud-r1/postflight.json": "37d16dbdc2293bd9b19677000a7a22f377996c2b9c7a9d5aaa4da5a31d5ead7e",
+    "evidence/strix-point-core-ud-r1/summary.json": "3de5f572cd2b2b3d539afc99cb5ba95a627b143511486218f27dde7637a35701"
+  },
+  "summary": {
+    "scope": "Original UD C1 short-prompt smoke; no long-context, independent parity, HTTP or reactive speedup qualification",
+    "prompt_tokens": 9,
+    "output_tokens_per_sample": 32,
+    "load_to_ready_seconds": 13.439568845,
+    "warmup_prefill_ms": 377.705472,
+    "warmup_first_token_ms": 519.029494,
+    "decode_tps": [
+      10.560323030988434,
+      10.544112496327708,
+      10.562598203116144
+    ],
+    "warm_first_token_ms": [
+      113.159497,
+      112.893369,
+      112.504772
+    ],
+    "warm_cache_restore_ms": [
+      4.482426,
+      4.449926,
+      4.45186
+    ],
+    "peak_c": {
+      "k10temp": 74.25,
+      "amdgpu": 58.0,
+      "nvme": 63.85
+    },
+    "sampled_peak_gtt_used_bytes": 85505114112,
+    "observed_process_threads": [
+      1,
+      28,
+      44
+    ],
+    "identical_output_ids_across_four_samples": true,
+    "mean_decode_tps": 10.555677910144095,
+    "mean_warm_first_token_ms": 112.852546
+  },
+  "result": {
+    "state": "PASSED",
+    "started_at": "2026-10-02T11:14:12.114479+00:00",
+    "pid": 5170,
+    "start_ticks": 533551,
+    "manifest_sha256": "34de73a61d49b8dc50e36a8d74f542e1bac551f0ca1cd9a11cb28dd7bcded35d",
+    "runner_sha256": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+    "authorization": {
+      "kind": "operator-one-shot-window",
+      "service": "llama-router.service",
+      "stop_restore_authorized": true,
+      "quote": "llama si pu\u00f2 stoppaare"
+    },
+    "commands": [
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=5009\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "stop",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "create",
+          "--network",
+          "none",
+          "--read-only",
+          "--cap-drop",
+          "ALL",
+          "--security-opt",
+          "no-new-privileges",
+          "--user",
+          "1000:1000",
+          "--group-add",
+          "992",
+          "--pids-limit",
+          "512",
+          "--device",
+          "/dev/kfd",
+          "--device",
+          "/dev/dri/renderD128",
+          "--label",
+          "synapse-lie.run=/home/pop/workspace/synapse-lie/strix-point-core-ud-r1",
+          "--mount",
+          "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-runtime-161-r4,dst=/bundle,readonly",
+          "--mount",
+          "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-core-ud-r1,dst=/work",
+          "--mount",
+          "type=bind,src=/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0,dst=/opt/rocm,readonly",
+          "--workdir",
+          "/work",
+          "--env",
+          "LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib",
+          "--env",
+          "LD_BIND_NOW=1",
+          "--env",
+          "LC_ALL=C",
+          "--env",
+          "HOME=/work/home",
+          "--env",
+          "XDG_CACHE_HOME=/work/cache",
+          "--env",
+          "TMPDIR=/work/tmp",
+          "--env",
+          "ROCR_VISIBLE_DEVICES=0",
+          "--env",
+          "HIP_VISIBLE_DEVICES=0",
+          "--mount",
+          "type=bind,src=/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee,dst=/model,readonly",
+          "--entrypoint",
+          "/bundle/runtime/bin/synapse-lie-bench",
+          "sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac",
+          "--suite",
+          "core",
+          "--model",
+          "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "--prompt-file",
+          "/work/prompt.txt",
+          "--output",
+          "/work/measurements.jsonl",
+          "--timeout-ms",
+          "600000",
+          "--context",
+          "4096",
+          "--chunk",
+          "2048",
+          "--users",
+          "1",
+          "--tg",
+          "32",
+          "--warmups",
+          "1",
+          "--repetitions",
+          "3"
+        ],
+        "exit_code": 0,
+        "stdout": "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "start",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":5232,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"2026-10-02T11:14:39.266414547Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "logs",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{index .Config.Labels \"synapse-lie.run\"}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "/home/pop/workspace/synapse-lie/strix-point-core-ud-r1\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "stop",
+          "--time",
+          "10",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "Flag --time has been deprecated, use --timeout instead\n2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "logs",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T11:14:12.854584311Z\",\"FinishedAt\":\"2026-10-02T11:14:39.266414547Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "rm",
+          "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02"
+        ],
+        "exit_code": 0,
+        "stdout": "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "start",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=5668\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      }
+    ],
+    "container": "2c075f00471d272fd082ff5565962cc3246542fa2df00bf67125faadd6e54f02",
+    "model_attempted": true,
+    "service_restore_required": true,
+    "exit_code": 0,
+    "service_before": {
+      "MainPID": "5009",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "before": {
+      "at": "2026-10-02T11:14:12.120654+00:00",
+      "kfd": [
+        {
+          "pid": 5009,
+          "start_ticks": 520219,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 5009,
+          "start_ticks": 520219,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 366,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 35.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 36.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 36.75,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 119923273728,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [
+        5009
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 103079215104,
+        "mem_info_gtt_used": 18628608,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151109632
+      }
+    },
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66308,
+      "inode": 105946405,
+      "cooperative_lie_only": true
+    },
+    "service_stopped": {
+      "MainPID": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "admission": {
+      "at": "2026-10-02T11:14:12.568055+00:00",
+      "kfd": [],
+      "dri": [],
+      "denied_fd": 366,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 36.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 36.75,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 119933267968,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 103079215104,
+        "mem_info_gtt_used": 14393344,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151052288
+      }
+    },
+    "models_before": [
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "container_host_pid": 5232,
+    "container_start_ticks": 533636,
+    "container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-02T11:14:12.854584311Z",
+      "FinishedAt": "2026-10-02T11:14:39.266414547Z"
+    },
+    "child_exit_code": 0,
+    "measurements": [
+      {
+        "event": "identity",
+        "schema": "synapse-lie.core-bench.v1",
+        "suite": "core",
+        "execution": "shared-reactive-core",
+        "provider": "gufo-embedded-f783fedb",
+        "build_id": "strix-point-ud-r3",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "scope": "core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP",
+        "cache_policy": "ram",
+        "prefix_cache_bytes": 4294967296,
+        "ssd_quota_bytes": 0,
+        "ssd_staging_bytes": 0,
+        "context_capacity": 4096,
+        "prefill_chunk": 2048,
+        "users": 1,
+        "output_limit": 32,
+        "warmups": 1,
+        "repetitions": 3,
+        "input_kind": "raw-text"
+      },
+      {
+        "event": "core_ready",
+        "load_to_ready_ns": 13439568845
+      },
+      {
+        "event": "input",
+        "prompt_tokens": 9,
+        "physical_ids_sha256": "d9ffbbe13f1f89407ac959615971c4829f1a018f60ada747062256dfd8157464",
+        "physical_ids": [
+          760,
+          2542,
+          314,
+          220,
+          17,
+          321,
+          220,
+          17,
+          369
+        ]
+      },
+      {
+        "event": "job",
+        "rep": 0,
+        "warmup": 1,
+        "user": 0,
+        "prompt_tokens": 9,
+        "output_tokens": 32,
+        "output_bytes": 61,
+        "prefill_tokens": 9,
+        "prefill_ns": 377705472,
+        "decode_ns": 3045064078,
+        "cached_tokens": 0,
+        "cache_capture_ns": 21444582,
+        "cache_restore_ns": 361,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 0,
+        "prefill_calls": 1,
+        "decode_calls": 32,
+        "total_ns": 3458391445,
+        "first_token_ns": 519029494,
+        "finish": "length",
+        "output_ids": [
+          220,
+          19,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          19,
+          321,
+          220,
+          17,
+          369,
+          220,
+          21,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          21,
+          321,
+          220,
+          17,
+          369,
+          220,
+          23,
+          13,
+          198,
+          760,
+          2542
+        ]
+      },
+      {
+        "event": "sample",
+        "rep": 0,
+        "warmup": 1,
+        "users": 1,
+        "output_tokens": 32,
+        "wall_ns": 3458391675,
+        "output_per_total_wall_tps": 9.252855953627636,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 32,
+        "cache_hits": 0,
+        "cache_misses": 1,
+        "cache_captures": 1,
+        "cache_evictions": 0,
+        "cache_retained_bytes": 119324800,
+        "cache_budget_bytes": 4294967296,
+        "ssd_hits": 0,
+        "ssd_misses": 0,
+        "ssd_writes": 0,
+        "ssd_read_ns": 0,
+        "ssd_write_ns": 0,
+        "ssd_disk_bytes": 0
+      },
+      {
+        "event": "job",
+        "rep": 1,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 9,
+        "output_tokens": 32,
+        "output_bytes": 61,
+        "prefill_tokens": 0,
+        "prefill_ns": 0,
+        "decode_ns": 3030210336,
+        "cached_tokens": 9,
+        "cache_capture_ns": 0,
+        "cache_restore_ns": 4482426,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 0,
+        "prefill_calls": 0,
+        "decode_calls": 32,
+        "total_ns": 3047771942,
+        "first_token_ns": 113159497,
+        "finish": "length",
+        "output_ids": [
+          220,
+          19,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          19,
+          321,
+          220,
+          17,
+          369,
+          220,
+          21,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          21,
+          321,
+          220,
+          17,
+          369,
+          220,
+          23,
+          13,
+          198,
+          760,
+          2542
+        ]
+      },
+      {
+        "event": "sample",
+        "rep": 1,
+        "warmup": 0,
+        "users": 1,
+        "output_tokens": 32,
+        "wall_ns": 3047772082,
+        "output_per_total_wall_tps": 10.499472775208655,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 32,
+        "cache_hits": 1,
+        "cache_misses": 0,
+        "cache_captures": 0,
+        "cache_evictions": 0,
+        "cache_retained_bytes": 119324800,
+        "cache_budget_bytes": 4294967296,
+        "ssd_hits": 0,
+        "ssd_misses": 0,
+        "ssd_writes": 0,
+        "ssd_read_ns": 0,
+        "ssd_write_ns": 0,
+        "ssd_disk_bytes": 0
+      },
+      {
+        "event": "job",
+        "rep": 2,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 9,
+        "output_tokens": 32,
+        "output_bytes": 61,
+        "prefill_tokens": 0,
+        "prefill_ns": 0,
+        "decode_ns": 3034868986,
+        "cached_tokens": 9,
+        "cache_capture_ns": 0,
+        "cache_restore_ns": 4449926,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 0,
+        "prefill_calls": 0,
+        "decode_calls": 32,
+        "total_ns": 3052352993,
+        "first_token_ns": 112893369,
+        "finish": "length",
+        "output_ids": [
+          220,
+          19,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          19,
+          321,
+          220,
+          17,
+          369,
+          220,
+          21,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          21,
+          321,
+          220,
+          17,
+          369,
+          220,
+          23,
+          13,
+          198,
+          760,
+          2542
+        ]
+      },
+      {
+        "event": "sample",
+        "rep": 2,
+        "warmup": 0,
+        "users": 1,
+        "output_tokens": 32,
+        "wall_ns": 3052353194,
+        "output_per_total_wall_tps": 10.483714683773258,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 32,
+        "cache_hits": 1,
+        "cache_misses": 0,
+        "cache_captures": 0,
+        "cache_evictions": 0,
+        "cache_retained_bytes": 119324800,
+        "cache_budget_bytes": 4294967296,
+        "ssd_hits": 0,
+        "ssd_misses": 0,
+        "ssd_writes": 0,
+        "ssd_read_ns": 0,
+        "ssd_write_ns": 0,
+        "ssd_disk_bytes": 0
+      },
+      {
+        "event": "job",
+        "rep": 3,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 9,
+        "output_tokens": 32,
+        "output_bytes": 61,
+        "prefill_tokens": 0,
+        "prefill_ns": 0,
+        "decode_ns": 3029557632,
+        "cached_tokens": 9,
+        "cache_capture_ns": 0,
+        "cache_restore_ns": 4451860,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 0,
+        "prefill_calls": 0,
+        "decode_calls": 32,
+        "total_ns": 3046961235,
+        "first_token_ns": 112504772,
+        "finish": "length",
+        "output_ids": [
+          220,
+          19,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          19,
+          321,
+          220,
+          17,
+          369,
+          220,
+          21,
+          13,
+          198,
+          760,
+          2542,
+          314,
+          220,
+          21,
+          321,
+          220,
+          17,
+          369,
+          220,
+          23,
+          13,
+          198,
+          760,
+          2542
+        ]
+      },
+      {
+        "event": "sample",
+        "rep": 3,
+        "warmup": 0,
+        "users": 1,
+        "output_tokens": 32,
+        "wall_ns": 3046961335,
+        "output_per_total_wall_tps": 10.502266514648765,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 32,
+        "cache_hits": 1,
+        "cache_misses": 0,
+        "cache_captures": 0,
+        "cache_evictions": 0,
+        "cache_retained_bytes": 119324800,
+        "cache_budget_bytes": 4294967296,
+        "ssd_hits": 0,
+        "ssd_misses": 0,
+        "ssd_writes": 0,
+        "ssd_read_ns": 0,
+        "ssd_write_ns": 0,
+        "ssd_disk_bytes": 0
+      },
+      {
+        "event": "complete",
+        "exit_code": 0
+      }
+    ],
+    "measurements_raw": "{\"event\":\"identity\",\"schema\":\"synapse-lie.core-bench.v1\",\"suite\":\"core\",\"execution\":\"shared-reactive-core\",\"provider\":\"gufo-embedded-f783fedb\",\"build_id\":\"strix-point-ud-r3\",\"ownership\":\"delegated\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"synthetic\":false,\"scope\":\"core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP\",\"cache_policy\":\"ram\",\"prefix_cache_bytes\":4294967296,\"ssd_quota_bytes\":0,\"ssd_staging_bytes\":0,\"context_capacity\":4096,\"prefill_chunk\":2048,\"users\":1,\"output_limit\":32,\"warmups\":1,\"repetitions\":3,\"input_kind\":\"raw-text\"}\n{\"event\":\"core_ready\",\"load_to_ready_ns\":13439568845}\n{\"event\":\"input\",\"prompt_tokens\":9,\"physical_ids_sha256\":\"d9ffbbe13f1f89407ac959615971c4829f1a018f60ada747062256dfd8157464\",\"physical_ids\":[760,2542,314,220,17,321,220,17,369]}\n{\"event\":\"job\",\"rep\":0,\"warmup\":1,\"user\":0,\"prompt_tokens\":9,\"output_tokens\":32,\"output_bytes\":61,\"prefill_tokens\":9,\"prefill_ns\":377705472,\"decode_ns\":3045064078,\"cached_tokens\":0,\"cache_capture_ns\":21444582,\"cache_restore_ns\":361,\"ssd_cached_tokens\":0,\"ssd_read_ns\":0,\"prefill_calls\":1,\"decode_calls\":32,\"total_ns\":3458391445,\"first_token_ns\":519029494,\"finish\":\"length\",\"output_ids\":[220,19,13,198,760,2542,314,220,19,321,220,17,369,220,21,13,198,760,2542,314,220,21,321,220,17,369,220,23,13,198,760,2542]}\n{\"event\":\"sample\",\"rep\":0,\"warmup\":1,\"users\":1,\"output_tokens\":32,\"wall_ns\":3458391675,\"output_per_total_wall_tps\":9.2528559536276358,\"decode_batches\":0,\"decode_batch_rows\":0,\"decode_single_calls\":32,\"cache_hits\":0,\"cache_misses\":1,\"cache_captures\":1,\"cache_evictions\":0,\"cache_retained_bytes\":119324800,\"cache_budget_bytes\":4294967296,\"ssd_hits\":0,\"ssd_misses\":0,\"ssd_writes\":0,\"ssd_read_ns\":0,\"ssd_write_ns\":0,\"ssd_disk_bytes\":0}\n{\"event\":\"job\",\"rep\":1,\"warmup\":0,\"user\":0,\"prompt_tokens\":9,\"output_tokens\":32,\"output_bytes\":61,\"prefill_tokens\":0,\"prefill_ns\":0,\"decode_ns\":3030210336,\"cached_tokens\":9,\"cache_capture_ns\":0,\"cache_restore_ns\":4482426,\"ssd_cached_tokens\":0,\"ssd_read_ns\":0,\"prefill_calls\":0,\"decode_calls\":32,\"total_ns\":3047771942,\"first_token_ns\":113159497,\"finish\":\"length\",\"output_ids\":[220,19,13,198,760,2542,314,220,19,321,220,17,369,220,21,13,198,760,2542,314,220,21,321,220,17,369,220,23,13,198,760,2542]}\n{\"event\":\"sample\",\"rep\":1,\"warmup\":0,\"users\":1,\"output_tokens\":32,\"wall_ns\":3047772082,\"output_per_total_wall_tps\":10.499472775208655,\"decode_batches\":0,\"decode_batch_rows\":0,\"decode_single_calls\":32,\"cache_hits\":1,\"cache_misses\":0,\"cache_captures\":0,\"cache_evictions\":0,\"cache_retained_bytes\":119324800,\"cache_budget_bytes\":4294967296,\"ssd_hits\":0,\"ssd_misses\":0,\"ssd_writes\":0,\"ssd_read_ns\":0,\"ssd_write_ns\":0,\"ssd_disk_bytes\":0}\n{\"event\":\"job\",\"rep\":2,\"warmup\":0,\"user\":0,\"prompt_tokens\":9,\"output_tokens\":32,\"output_bytes\":61,\"prefill_tokens\":0,\"prefill_ns\":0,\"decode_ns\":3034868986,\"cached_tokens\":9,\"cache_capture_ns\":0,\"cache_restore_ns\":4449926,\"ssd_cached_tokens\":0,\"ssd_read_ns\":0,\"prefill_calls\":0,\"decode_calls\":32,\"total_ns\":3052352993,\"first_token_ns\":112893369,\"finish\":\"length\",\"output_ids\":[220,19,13,198,760,2542,314,220,19,321,220,17,369,220,21,13,198,760,2542,314,220,21,321,220,17,369,220,23,13,198,760,2542]}\n{\"event\":\"sample\",\"rep\":2,\"warmup\":0,\"users\":1,\"output_tokens\":32,\"wall_ns\":3052353194,\"output_per_total_wall_tps\":10.483714683773258,\"decode_batches\":0,\"decode_batch_rows\":0,\"decode_single_calls\":32,\"cache_hits\":1,\"cache_misses\":0,\"cache_captures\":0,\"cache_evictions\":0,\"cache_retained_bytes\":119324800,\"cache_budget_bytes\":4294967296,\"ssd_hits\":0,\"ssd_misses\":0,\"ssd_writes\":0,\"ssd_read_ns\":0,\"ssd_write_ns\":0,\"ssd_disk_bytes\":0}\n{\"event\":\"job\",\"rep\":3,\"warmup\":0,\"user\":0,\"prompt_tokens\":9,\"output_tokens\":32,\"output_bytes\":61,\"prefill_tokens\":0,\"prefill_ns\":0,\"decode_ns\":3029557632,\"cached_tokens\":9,\"cache_capture_ns\":0,\"cache_restore_ns\":4451860,\"ssd_cached_tokens\":0,\"ssd_read_ns\":0,\"prefill_calls\":0,\"decode_calls\":32,\"total_ns\":3046961235,\"first_token_ns\":112504772,\"finish\":\"length\",\"output_ids\":[220,19,13,198,760,2542,314,220,19,321,220,17,369,220,21,13,198,760,2542,314,220,21,321,220,17,369,220,23,13,198,760,2542]}\n{\"event\":\"sample\",\"rep\":3,\"warmup\":0,\"users\":1,\"output_tokens\":32,\"wall_ns\":3046961335,\"output_per_total_wall_tps\":10.502266514648765,\"decode_batches\":0,\"decode_batch_rows\":0,\"decode_single_calls\":32,\"cache_hits\":1,\"cache_misses\":0,\"cache_captures\":0,\"cache_evictions\":0,\"cache_retained_bytes\":119324800,\"cache_budget_bytes\":4294967296,\"ssd_hits\":0,\"ssd_misses\":0,\"ssd_writes\":0,\"ssd_read_ns\":0,\"ssd_write_ns\":0,\"ssd_disk_bytes\":0}\n{\"event\":\"complete\",\"exit_code\":0}\n",
+    "models_after": [
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "model_stat_unchanged": true,
+    "final_container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-02T11:14:12.854584311Z",
+      "FinishedAt": "2026-10-02T11:14:39.266414547Z"
+    },
+    "postflight_before_restore": {
+      "at": "2026-10-02T11:14:40.386227+00:00",
+      "kfd": [],
+      "dri": [],
+      "denied_fd": 368,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 39.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 44.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 60.0,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 122283945984,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474824192
+      },
+      "kernel_kfd": [],
+      "gpu": {
+        "gpu_busy_percent": 23,
+        "mem_info_gtt_total": 103079215104,
+        "mem_info_gtt_used": 14393344,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151052288
+      }
+    },
+    "service_after": {
+      "MainPID": "5668",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "lease_released_at": "2026-10-02T11:14:40.601764+00:00",
+    "cleanup_failures": [],
+    "ended_at": "2026-10-02T11:14:40.601778+00:00"
+  },
+  "measurements": [
+    {
+      "event": "identity",
+      "schema": "synapse-lie.core-bench.v1",
+      "suite": "core",
+      "execution": "shared-reactive-core",
+      "provider": "gufo-embedded-f783fedb",
+      "build_id": "strix-point-ud-r3",
+      "ownership": "delegated",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "synthetic": false,
+      "scope": "core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP",
+      "cache_policy": "ram",
+      "prefix_cache_bytes": 4294967296,
+      "ssd_quota_bytes": 0,
+      "ssd_staging_bytes": 0,
+      "context_capacity": 4096,
+      "prefill_chunk": 2048,
+      "users": 1,
+      "output_limit": 32,
+      "warmups": 1,
+      "repetitions": 3,
+      "input_kind": "raw-text"
+    },
+    {
+      "event": "core_ready",
+      "load_to_ready_ns": 13439568845
+    },
+    {
+      "event": "input",
+      "prompt_tokens": 9,
+      "physical_ids_sha256": "d9ffbbe13f1f89407ac959615971c4829f1a018f60ada747062256dfd8157464",
+      "physical_ids": [
+        760,
+        2542,
+        314,
+        220,
+        17,
+        321,
+        220,
+        17,
+        369
+      ]
+    },
+    {
+      "event": "job",
+      "rep": 0,
+      "warmup": 1,
+      "user": 0,
+      "prompt_tokens": 9,
+      "output_tokens": 32,
+      "output_bytes": 61,
+      "prefill_tokens": 9,
+      "prefill_ns": 377705472,
+      "decode_ns": 3045064078,
+      "cached_tokens": 0,
+      "cache_capture_ns": 21444582,
+      "cache_restore_ns": 361,
+      "ssd_cached_tokens": 0,
+      "ssd_read_ns": 0,
+      "prefill_calls": 1,
+      "decode_calls": 32,
+      "total_ns": 3458391445,
+      "first_token_ns": 519029494,
+      "finish": "length",
+      "output_ids": [
+        220,
+        19,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        19,
+        321,
+        220,
+        17,
+        369,
+        220,
+        21,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        21,
+        321,
+        220,
+        17,
+        369,
+        220,
+        23,
+        13,
+        198,
+        760,
+        2542
+      ]
+    },
+    {
+      "event": "sample",
+      "rep": 0,
+      "warmup": 1,
+      "users": 1,
+      "output_tokens": 32,
+      "wall_ns": 3458391675,
+      "output_per_total_wall_tps": 9.252855953627636,
+      "decode_batches": 0,
+      "decode_batch_rows": 0,
+      "decode_single_calls": 32,
+      "cache_hits": 0,
+      "cache_misses": 1,
+      "cache_captures": 1,
+      "cache_evictions": 0,
+      "cache_retained_bytes": 119324800,
+      "cache_budget_bytes": 4294967296,
+      "ssd_hits": 0,
+      "ssd_misses": 0,
+      "ssd_writes": 0,
+      "ssd_read_ns": 0,
+      "ssd_write_ns": 0,
+      "ssd_disk_bytes": 0
+    },
+    {
+      "event": "job",
+      "rep": 1,
+      "warmup": 0,
+      "user": 0,
+      "prompt_tokens": 9,
+      "output_tokens": 32,
+      "output_bytes": 61,
+      "prefill_tokens": 0,
+      "prefill_ns": 0,
+      "decode_ns": 3030210336,
+      "cached_tokens": 9,
+      "cache_capture_ns": 0,
+      "cache_restore_ns": 4482426,
+      "ssd_cached_tokens": 0,
+      "ssd_read_ns": 0,
+      "prefill_calls": 0,
+      "decode_calls": 32,
+      "total_ns": 3047771942,
+      "first_token_ns": 113159497,
+      "finish": "length",
+      "output_ids": [
+        220,
+        19,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        19,
+        321,
+        220,
+        17,
+        369,
+        220,
+        21,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        21,
+        321,
+        220,
+        17,
+        369,
+        220,
+        23,
+        13,
+        198,
+        760,
+        2542
+      ]
+    },
+    {
+      "event": "sample",
+      "rep": 1,
+      "warmup": 0,
+      "users": 1,
+      "output_tokens": 32,
+      "wall_ns": 3047772082,
+      "output_per_total_wall_tps": 10.499472775208655,
+      "decode_batches": 0,
+      "decode_batch_rows": 0,
+      "decode_single_calls": 32,
+      "cache_hits": 1,
+      "cache_misses": 0,
+      "cache_captures": 0,
+      "cache_evictions": 0,
+      "cache_retained_bytes": 119324800,
+      "cache_budget_bytes": 4294967296,
+      "ssd_hits": 0,
+      "ssd_misses": 0,
+      "ssd_writes": 0,
+      "ssd_read_ns": 0,
+      "ssd_write_ns": 0,
+      "ssd_disk_bytes": 0
+    },
+    {
+      "event": "job",
+      "rep": 2,
+      "warmup": 0,
+      "user": 0,
+      "prompt_tokens": 9,
+      "output_tokens": 32,
+      "output_bytes": 61,
+      "prefill_tokens": 0,
+      "prefill_ns": 0,
+      "decode_ns": 3034868986,
+      "cached_tokens": 9,
+      "cache_capture_ns": 0,
+      "cache_restore_ns": 4449926,
+      "ssd_cached_tokens": 0,
+      "ssd_read_ns": 0,
+      "prefill_calls": 0,
+      "decode_calls": 32,
+      "total_ns": 3052352993,
+      "first_token_ns": 112893369,
+      "finish": "length",
+      "output_ids": [
+        220,
+        19,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        19,
+        321,
+        220,
+        17,
+        369,
+        220,
+        21,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        21,
+        321,
+        220,
+        17,
+        369,
+        220,
+        23,
+        13,
+        198,
+        760,
+        2542
+      ]
+    },
+    {
+      "event": "sample",
+      "rep": 2,
+      "warmup": 0,
+      "users": 1,
+      "output_tokens": 32,
+      "wall_ns": 3052353194,
+      "output_per_total_wall_tps": 10.483714683773258,
+      "decode_batches": 0,
+      "decode_batch_rows": 0,
+      "decode_single_calls": 32,
+      "cache_hits": 1,
+      "cache_misses": 0,
+      "cache_captures": 0,
+      "cache_evictions": 0,
+      "cache_retained_bytes": 119324800,
+      "cache_budget_bytes": 4294967296,
+      "ssd_hits": 0,
+      "ssd_misses": 0,
+      "ssd_writes": 0,
+      "ssd_read_ns": 0,
+      "ssd_write_ns": 0,
+      "ssd_disk_bytes": 0
+    },
+    {
+      "event": "job",
+      "rep": 3,
+      "warmup": 0,
+      "user": 0,
+      "prompt_tokens": 9,
+      "output_tokens": 32,
+      "output_bytes": 61,
+      "prefill_tokens": 0,
+      "prefill_ns": 0,
+      "decode_ns": 3029557632,
+      "cached_tokens": 9,
+      "cache_capture_ns": 0,
+      "cache_restore_ns": 4451860,
+      "ssd_cached_tokens": 0,
+      "ssd_read_ns": 0,
+      "prefill_calls": 0,
+      "decode_calls": 32,
+      "total_ns": 3046961235,
+      "first_token_ns": 112504772,
+      "finish": "length",
+      "output_ids": [
+        220,
+        19,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        19,
+        321,
+        220,
+        17,
+        369,
+        220,
+        21,
+        13,
+        198,
+        760,
+        2542,
+        314,
+        220,
+        21,
+        321,
+        220,
+        17,
+        369,
+        220,
+        23,
+        13,
+        198,
+        760,
+        2542
+      ]
+    },
+    {
+      "event": "sample",
+      "rep": 3,
+      "warmup": 0,
+      "users": 1,
+      "output_tokens": 32,
+      "wall_ns": 3046961335,
+      "output_per_total_wall_tps": 10.502266514648765,
+      "decode_batches": 0,
+      "decode_batch_rows": 0,
+      "decode_single_calls": 32,
+      "cache_hits": 1,
+      "cache_misses": 0,
+      "cache_captures": 0,
+      "cache_evictions": 0,
+      "cache_retained_bytes": 119324800,
+      "cache_budget_bytes": 4294967296,
+      "ssd_hits": 0,
+      "ssd_misses": 0,
+      "ssd_writes": 0,
+      "ssd_read_ns": 0,
+      "ssd_write_ns": 0,
+      "ssd_disk_bytes": 0
+    },
+    {
+      "event": "complete",
+      "exit_code": 0
+    }
+  ],
+  "postflight": {
+    "at": "2026-10-02T11:18:38.306207+00:00",
+    "supervisor_absent": true,
+    "gpu_child_absent": true,
+    "lease_free": true,
+    "service": "MainPID=5668\nActiveState=active\n",
+    "kernel_kfd": [
+      "5668"
+    ]
+  },
+  "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+}

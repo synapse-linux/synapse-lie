@@ -10,6 +10,15 @@ spec=importlib.util.spec_from_file_location('point',campaign_path)
 point=importlib.util.module_from_spec(spec); spec.loader.exec_module(point)
 CHUNK=8*1024*1024
 
+def end_payload(stream):
+ """Send real pipe EOF before waiting for the receiver's acknowledgement.
+ Python's standard streams use closefd=False, so closing the buffer alone can
+ leave descriptor1 open and deadlock both peers. Redirect atomically to avoid
+ descriptor reuse races with the telemetry thread.
+ """
+ stream.flush()
+ with open(os.devnull,'wb') as sink: os.dup2(sink.fileno(),stream.fileno())
+
 def identity(path):
  s=path.stat()
  return dict(path=str(path),bytes=s.st_size,device=s.st_dev,inode=s.st_ino,mtime_ns=s.st_mtime_ns,ctime_ns=s.st_ctime_ns)
@@ -111,7 +120,7 @@ def main():
     r['files'].append(receive(row,dest,sys.stdin.buffer,progress))
    completed+=row['bytes']; record()
   if role=='send':
-   sys.stdout.buffer.close()
+   end_payload(sys.stdout.buffer)
    if sys.stdin.buffer.readline()!=b'VERIFIED\n': raise ValueError('Receiver did not acknowledge verification')
    r['models_after']=[checked_source(x) for x in m['sources']]
   else:

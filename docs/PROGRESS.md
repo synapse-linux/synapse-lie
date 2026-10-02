@@ -9,9 +9,25 @@ retained. After Q2's release and core's handover, the direct .157-to-.161 copy
 started at 10:36:05 under both hosts' admitted leases. The source controller
 streams to the destination directly, using a temporary destination-constrained
 SSH agent; model bytes do not pass through the editing host, and no remote SSH
-account configuration changes. At 10:38:25 UTC, 36.94 of 111.33 GB is staged.
-Full destination SHA-256 verification, source stat checks and verified closure
-are required before declaring this copy complete. No WAN fallback is scheduled.
+account configuration changes. **Copy complete:** all 111334654784 bytes and
+four official SHA-256 digests are verified, with all source file identities
+unchanged. R1 delivered the data but exposed an EOF/ACK deadlock; its failed
+control exit is retained. The corrected helper has a real-pipe regression test;
+R2 reverified existing destination files without recopying payload and passed
+at 11:11:58 UTC. Processes and temporary agents are retired, leases free; core
+and Q2 received the .157 handover. No WAN fallback is scheduled.
+
+**First original-weight GPU smoke passes** on .161 at 11:14:40 UTC: shared
+reactive core, context capacity4096, actual prompt9 tokens, AR32 output tokens,
+one warmup and three measured repetitions. Load-to-ready13.440 s, first fresh
+prefill377.705 ms, measured warm decode mean10.556 token/s, warm TTFT112.853 ms.
+All four output ID sequences match. The warm samples restore all9 prompt tokens
+from RAM cache and do no prefill; do not interpret them as long-context PP.
+CPU/GPU/NVMe peaks74.25/58.00/63.85 C, below85 C; process threads observed
+1/28/44 include runtime threads, not configured inference-worker counts.
+Child/supervisor exit0, model stats unchanged, owned container removed, llama
+restored and private lease free. Independent numerical parity, long contexts,
+HTTP and comparative reactive benefit remain separate gates.
 
 Operator-authorized TTM tuning **passes** on .161: after reboot, actual HIP
 reports 103079215104 bytes (96 GiB), up from 61.72 GiB. HIP allocation/copies
@@ -22,9 +38,9 @@ limits, while compute is operational. The initial KFD-retirement refusal is
 retained and its bounded wait is fixture-tested.
 The read-only .157 LAN attempt held all four established leases but was
 deliberately stopped after the Wi-Fi relay proved slow; its partial data and
-failure exits are retained, .157 released to Q2, and WAN resume R3 continues
-on .161 (19.35 GB of 111.33 GB at 09:59 UTC). Model inference is still pending.
-The transfer's six tiny CPU integrity fixtures pass; focused CTest 4/4 includes
+failure exits are retained. The temporary WAN R3 phase is superseded by the
+completed direct copy above. The transfer's seven tiny CPU integrity/pipe
+fixtures pass; focused CTest 4/4 includes
 the existing core contract under ASan/UBSan. Core bench now
 preserves model-load errors; focused ASan/UBSan tests pass and the new R3
 candidate passes no-device startup. See [the evolving target report](STRIX-POINT.md).

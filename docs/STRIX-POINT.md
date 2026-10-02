@@ -1,8 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Strix Point UD port — .161
 
-Status: **gfx1150 compilation, link and real HIP/rocBLAS diagnostic pass;
-original-weight staging in progress, model qualification not run**. This branch is `feature/strix-point-ud`, based
+Status: **gfx1150 original UD short-prompt inference passes; all four copied
+shards verified, source files retained unchanged**. Long-context, independent
+numerical parity and comparative performance remain unqualified.
+This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned
 Gufo adapter. No CPU model forward, re-quantization or architecture override.
@@ -11,10 +13,12 @@ Gufo adapter. No CPU model forward, re-quantization or architecture override.
 
 Read-only SSH inventory on 2026-10-02 identifies `pop@192.168.5.161` as Ryzen AI 9
 HX 370 / Radeon 890M, x86_64, KFD target version `110500` (`gfx1150`), wave32,
-Pop!_OS 24.04, kernel `6.16.3-76061603-generic`. MemTotal is 132545421312 bytes;
-the reported GTT limit is 66272710656 bytes (61.72 GiB), with a separate reported
+Pop!_OS 24.04, kernel `6.16.3-76061603-generic`. Initial MemTotal was 132545421312 bytes;
+the initial reported GTT limit was 66272710656 bytes (61.72 GiB), with a separate reported
 2 GiB VRAM aperture. These share physical RAM; adding them is not a capacity
-proof. No memory/BIOS/driver setting was changed.
+proof. The subsequently authorized TTM96 change and post-boot HIP verification
+are documented below; the current total reported by HIP is 96 GiB. No BIOS
+setting or driver package was changed.
 
 The requested UD identity is the existing **Qwen3.8 Flash Next UD-Q4_K_XL**,
 Unsloth revision `38bb39ee97821de2c9009abb7e93950eec396e66`: four trunk shards,
@@ -84,7 +88,7 @@ existing .161 Arch-based container; native Pop!_OS ABI compatibility is not
 claimed. The local-only build
 helper continues to refuse SSH invocation; no remote lease bypass was added.
 
-## Completed tests on .161
+## Initial headless tests on .161
 
 All retained results are **synthetic CPU / NOT-INFERENCE**:
 
@@ -142,7 +146,7 @@ inference or numerical compatibility. It does not install dependencies or alter
 services. [Condensed source-bound receipts](benchmarks/2026-10-02/strix-point/receipt.json)
 identify retained local and remote evidence, including failures.
 
-## Remaining gates
+## Qualification history and remaining gates
 
 ### Authorized GPU diagnostic — 08:52 UTC
 
@@ -174,7 +178,47 @@ source/artifact identity, 85 C temperature limit and service restoration in clea
 Neither helper uses .157/.158 resources or treats a private lock as other owners'
 agreement; .161 admission derives from the operator's scoped handover.
 
-### Direct copy of existing original weights — started 10:36 UTC
+### Original-weight shared-core smoke — completed 11:14 UTC
+
+`strix-point-core-ud-r1` runs the original UD in the C17 shared reactive core
+with the independently built gfx1150 Gufo adapter (`strix-point-ud-r3`). Actual
+GPU inference passes: one warmup and three repetitions, each with32 generated
+tokens and identical output IDs. The physical raw-text prompt has **9 tokens**;
+4096 is the configured capacity, not the exercised context length. There is no
+HTTP layer, MTP or vision in this test. The default RAM prefix cache remains on;
+SSD persistence remains off.
+
+| Observation | Result |
+|---|---:|
+| Load to core ready (files recently copied/cached) | 13.440 s |
+| First sample: fresh9-token prefill | 377.705 ms |
+| First sample: TTFT | 519.029 ms |
+| Measured decode rates | 10.560 / 10.544 / 10.563 token/s |
+| Mean measured decode | 10.556 token/s |
+| Mean warm TTFT | 112.853 ms |
+| RAM prefix restore | 4.482 / 4.450 / 4.452 ms |
+| CPU / GPU / NVMe peak | 74.25 / 58.00 / 63.85 C |
+| Sampled GTT usage maximum (1 Hz) | 85505114112 bytes |
+| Observed process thread counts | 1 / 28 / 44 |
+
+Each measured sample hits all9 prompt tokens in the RAM cache and records zero
+prefill calls. Its TTFT and restore duration are **warm-cache measurements**.
+The nine-token first prefill is a smoke timing, not a representative PP benchmark.
+GTT usage is sampled whole-device accounting, not an exact allocator peak.
+Thread counts include runtime threads; they are not configured worker counts
+or evidence of a reactive speedup. A matched serial/reference comparison is
+still required for that claim.
+
+The container and supervisor both exit0; no OOM or cleanup error occurs, all
+model stat identities stay unchanged, the container is removed, llama is restored
+and the private lease released. Fresh postflight verifies both owned processes
+absent and the lease free. The [core receipt](benchmarks/2026-10-02/strix-point/core-receipt.json)
+contains every input/output token ID, all timing/cache rows, stderr, source and
+artifact identities, thermal summary and exact cleanup. This is original-weight
+inference evidence for the recorded small case, not independent numerical
+qualification, long-context fit, HTTP serving or a platform speedup comparison.
+
+### Direct copy of existing original weights — complete
 
 The operator explicitly selected copying the existing .157 weights, with all
 source files retained unchanged. WAN R3 retired cleanly at 10:27:42 UTC after
@@ -198,14 +242,28 @@ appends the exact remaining bytes and only publishes a shard after complete
 SHA-256 agreement. All four shards must verify before `SOURCE.json` exists.
 The new four-hour bound permits slower Wi-Fi without assuming wired throughput.
 The source files are never moved, renamed or removed. The local six tiny
-integrity fixtures and focused CTest 4/4 pass, including the core contract under
+integrity fixtures, a seventh real-pipe EOF/ACK regression and focused CTest 4/4
+pass, including the core contract under
 ASan/UBSan.
 
-The current run is `strix-point-ud-copy-direct-r1`, admitted after Q2's
-10:29:49 release and core's explicit handover. Its 10:38:25 progress snapshot
-is36.94 GB of111.33 GB; this is not completed staging or model inference.
-Core and Q2 wait for the copy's verified closure before their next source-host
-window. Historical WAN and slower relay outcomes below remain preserved.
+R1 copied the remaining **79739222784 bytes** after Q2's release and core's
+handover. All four destination digests passed, but Python's standard stdout
+buffer retained its underlying descriptor when closed, leaving sender and
+receiver waiting for ACK/EOF. The sender was deliberately retired through its
+verified pidfd; source/controller exit1 and successful destination verification
+are retained. The helper now atomically redirects the flushed descriptor to
+`/dev/null`, delivering real EOF before waiting for ACK. A subprocess regression
+proves that ordering; no source model file is changed by this fix.
+
+R2 rehashed the already complete destination files, sent **zero** source payload
+bytes and passed with all three exits0 at 11:11:58 UTC. All **111334654784 bytes**
+are verified against four official SHA-256 digests. Source model stat identities
+are unchanged, owned source processes are absent, KFD empty, four source leases
+free, and both temporary agents retired. Llama is restored and the destination
+lease is free. Core and Q2 received the verified handover. The
+[copy receipt](benchmarks/2026-10-02/strix-point/copy-receipt.json) preserves
+both the failed first control completion and successful revalidation. Historical
+WAN and slower relay outcomes below remain preserved.
 
 ### TTM96 applied and verified — 09:47 UTC
 
@@ -368,29 +426,28 @@ run the bounded AR/model checks below; retire owned children, release the lease
 and restore the prior service state if an authorized stop was used. No background
 waiter, service mutation or automatic GPU retry has been installed.
 
-### Original-weight gates
+### Current original-weight gates
 
-1. Obtain the actual .161 handover. `llama-router.service` PID2211125 holds KFD
-   and can autoload models; it was preserved. A zero busy reading is insufficient.
-   Agree .161-specific campaign/lease ownership and recheck under the lease;
-   .157's DS4 lease paths do not apply on this host.
-2. Qualify the prepared gfx1150 binaries with the actual device and the target's
-   different ROCm runtime. Compilation, target headers, link and no-model startup
-   already pass, but they do not exercise lazy BLAS plans/kernels or GPU memory.
-3. Stage the exact four UD trunk shards in a LIE-owned persistent model directory,
-   after coordinated I/O admission; bind source revision/content and destination
-   stat identities. No model payload has yet been read or downloaded here.
-4. Start with bounded C1 AR, context4096, chunk2048, greedy/thinking off; verify
-   actual device, memory allocations, completed prefill/decode, logits and output.
-   Preserve allocation failures as failures; do not weaken guards or change GTT
-   to manufacture a pass. The reported GTT limit alone does not prove model fit
-   or OOM, and total GGUF size is not the resident GPU working set.
-5. Compare direct reference, shared core and HTTP using identical physical inputs,
+1. **Completed for the recorded runs:** explicit .161 handover, fresh private
+   lease, authorized llama stop/restore and observed client/temperature checks.
+   Every future GPU campaign still needs current admission; .157's DS4 lease
+   paths do not apply to the .161 device.
+2. **Completed for the small cases:** real gfx1150 HIP/rocBLAS probe and original
+   UD shared-core prefill/decode. Broader numerical/operator parity remains open.
+3. **Completed:** four official UD shards in the persistent .161 LIE directory,
+   all SHA-256 verified, source files unchanged and destination identities bound.
+4. **Bounded C1 smoke completed:** capacity4096, chunk2048, raw prompt9 tokens,
+   greedy AR32 output tokens, one warmup/three samples, identical output IDs.
+   This validates that case's allocation and execution, not independent logits
+   parity, long-context memory fit or general quality. Keep actual failures and
+   resource guards; any further system tuning requires separate authorization.
+5. **Remaining:** compare direct reference, shared core and HTTP using identical physical inputs,
    then fresh contexts 2K/8K/32K/128K as measured fit allows; warmup plus three
    measured repetitions, and C1/2/4 separately. Record fresh PP, TG, total-wall
    throughput, TTFT, actual threads/memory/temperature and all failures. Keep
    RAM-hit and cold-prefill rows separate; SSD/MTP/vision require their own gates.
 
-No Strix Point PP/TG number, numerical parity, long-context fit or GPU speedup
-is claimed. The existing Halo results remain historical, platform-specific
-evidence rather than a measured .161 comparison.
+The recorded short-prompt timings are .161 evidence with explicit cache bounds.
+Independent numerical parity, long-context fit and comparative/reactive speedup
+remain unqualified. Existing Halo results remain platform-specific evidence
+rather than a matched .161 comparison.

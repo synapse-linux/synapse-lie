@@ -1,11 +1,29 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 """Tiny CPU fixtures for resumed LAN transfer integrity; no model or network."""
-import hashlib,importlib.util,io,tempfile,unittest
+import hashlib,importlib.util,io,os,selectors,subprocess,sys,tempfile,time,unittest
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('lan',Path(__file__).resolve().parents[1]/'tools/strix-point-lan-copy.py')
 lan=importlib.util.module_from_spec(spec); spec.loader.exec_module(lan)
 class Tests(unittest.TestCase):
+ def test_real_pipe_eof_precedes_ack(self):
+  program='import importlib.util,sys; s=importlib.util.spec_from_file_location("lan",'+repr(str(Path(lan.__file__).resolve()))+'); m=importlib.util.module_from_spec(s);s.loader.exec_module(m);sys.stdout.buffer.write(b"payload");m.end_payload(sys.stdout.buffer);raise SystemExit(0 if sys.stdin.buffer.readline()==b"VERIFIED\\n" else 1)'
+  child=subprocess.Popen([sys.executable,'-B','-c',program],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+  try:
+   data=b''; deadline=time.monotonic()+3
+   with selectors.DefaultSelector() as poll:
+    poll.register(child.stdout,selectors.EVENT_READ)
+    while True:
+     self.assertTrue(poll.select(max(0,deadline-time.monotonic())),'Sender withheld EOF while waiting for ACK')
+     part=os.read(child.stdout.fileno(),1024)
+     if not part:break
+     data+=part
+   self.assertEqual(data,b'payload');self.assertIsNone(child.poll())
+   child.stdin.write(b'VERIFIED\n');child.stdin.flush()
+   self.assertEqual(child.wait(timeout=3),0)
+  finally:
+   if child.poll() is None:child.terminate();child.wait(timeout=3)
+   child.stdin.close();child.stdout.close();child.stderr.close()
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory(); self.dest=Path(self.tmp.name)/'test.gguf'
   self.part=self.dest.with_suffix('.gguf.part'); self.data=b'original fixture payload'

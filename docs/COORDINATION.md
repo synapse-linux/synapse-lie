@@ -4,6 +4,25 @@
 
 The latest operator instruction explicitly selects **copying** the existing
 original UD shards from .157 to .161, retaining every source file unchanged.
+This copy is now complete: 111334654784 destination bytes and all four official
+SHA-256 digests verified. R1's completed payload exposed an EOF/ACK deadlock;
+its source supervisor was deliberately retired and its failed exit preserved.
+The receiver had already verified all files. R2 uses the corrected real pipe
+EOF, rehashes the existing files without copying payload, and completes at
+11:11:58 UTC with source/receiver/controller exits0. All original source stat
+identities remain unchanged; fresh postflight finds the three source processes
+absent, KFD empty and four unchanged leases EX|NB/free. Both temporary local
+SSH agents are retired. Core accepted the verified .157 handover; Point has no
+source-host job/waiter or further source payload work.
+
+The independent .161 original-weight C1 run `strix-point-core-ud-r1` passes
+at 11:14:40 UTC under a fresh private lease, service stop/restore and85 C guard.
+The GPU container and supervisor both exit0, no OOM/cleanup failure, unchanged
+model identities and empty KFD before llama restoration. Fresh11:18:38 postflight
+finds both owned processes absent, the private lease free and llama active;
+the sole kernel KFD entry belongs to that restored service. This qualifies only
+the recorded short-prompt run, not long-context fit or a standing GPU window.
+
 Do not fall back to Internet downloading. WAN R3 was deliberately stopped
 through its verified supervisor pidfd at 10:27:42 UTC, child exit -15,
 supervisor exit1, llama restored and lease released; the verified first shard
