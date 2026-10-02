@@ -18,14 +18,14 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc'],
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     args = p.parse_args()
-    if args.source_variant == 'hc' and args.mode not in ('hc-operators', 'hc-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
+    if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('qualified', 'hc') and args.mode != 'q2-bench':
+    if args.source_variant not in ('qualified', 'hc', 'hc-prefill') and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')

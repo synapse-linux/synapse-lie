@@ -18,7 +18,10 @@ class ThermalTests(unittest.TestCase):
                 (p / 'name').write_text(name)
                 (p / 'temp1_input').write_text('50000')
             enforce(sample(root))
-            (root / 'hwmon0/temp1_input').write_text('85000')
+            (root / 'hwmon0/temp1_input').write_text('98000')
+            enforce(sample(root))
+            self.assertTrue(sample(root)[0]['inclusive'])
+            (root / 'hwmon0/temp1_input').write_text('98001')
             with self.assertRaisesRegex(RuntimeError, 'Thermal limit'):
                 enforce(sample(root))
             (root / 'hwmon0/temp1_input').write_text('79000')

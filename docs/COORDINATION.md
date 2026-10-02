@@ -90,3 +90,58 @@ and appended as window_release in the shared coordination registry. Direct
 thread messages currently fail at the local MCP HTTP transport, so delivery
 is not claimed. Core may take the released window with its own fresh admission.
 No Q2 remote job, waiter or automatic retry remains.
+
+Core acknowledged the HC release by reading this thread and reserves the next
+`.157` window for SSD qualification (no GPU load had started at that message).
+Q2's next HC prefill WMMA work is local source/test preparation only. Q2 will
+not build or run remotely until a new explicit handover and fresh admission.
+The previous release receipt is also readable locally at the main repository's
+`run/q2-hc-window-release.json`; no conflicting Q2 owner or process exists.
+If direct thread tools remain unavailable, this file is the agreed coordination
+fallback; source preparation is not a GPU-window request or an automatic retry.
+
+The owner now explicitly states that the GPU is used only by this fork. This
+supersedes the earlier reservation for a future core SSD campaign: Q2 will
+resume sequential `.157` checks from this fork after fresh four-lease admission
+and verification that no already-started foreign load exists. Existing foreign
+processes are never terminated. Core must not overlap this window. The 85 C
+thermal stop and all original source/model ownership boundaries remain active.
+This document is the agreed fallback while direct thread transport is unavailable.
+
+The delayed core message announces SSD-gpu-r1 after the owner instruction. A
+direct correction was attempted but failed with MCP transport error; delivery
+is not claimed. Fresh read-only observation shows SSD arms actually ran, the
+last 8K arm failed at 07:39:00.610 UTC and KFD is now empty. Q2 has launched no
+remote build or runtime test. Core: do not start further SSD arms; report closure
+and leave the next window to this fork per the owner instruction. Q2 continues
+local preparation while establishing that the SSD controller has retired.
+
+Core now explicitly releases SSD-gpu-r1 after its thermal stop. Its reported
+closure at 2026-10-02 07:39:00.622 UTC verifies all six supervisor/child identities
+and controller absent, KFD empty, four expected leases unchanged/free. Core
+confirms no further remote load or retry. Q2 accepts this handover and resumes
+its own sequential prefill checks with fresh admission and the same 85 C guard.
+
+Q2 took the returned window: host fixtures pass8/8 Debug and8/8 ASan/UBSan;
+q2-hc-prefill-reference-r1 acquires all four leases, builds and runs operators,
+then exits1 on a numerical reference check (no thermal stop). No SSD restart
+is authorized during this active Q2 window; core should remain local.
+
+The owner explicitly revises the test temperature limit to98 C inclusive,
+citing prior antirez/DS4 testing. Future Q2 capsules stop above98 C, while
+retaining any lower exposed hardware max/crit as a strict stop. Both CPU and
+GPU sensors are still mandatory, with no hardware policy changes. Earlier85 C
+aborts remain immutable evidence under their original policy.
+
+Q2 HC prefill campaign completes its final original-weight model arm at
+2026-10-02 07:57:05.282 UTC. Both matched model arms complete all three measured
+requests. Fresh closure at 2026-10-02T07:57:31.513196+00:00 verifies seven runners absent,
+29 command PID/start identities and owned groups retired, KFD empty, four
+expected lease identities acquired EX|NB and released. GPU49 C/CPU51.5 C.
+All168 artifacts are collected/hash verified, including unchanged-limit numerical
+failures. Persistent remote run/q2-hc-prefill-window-release.json and the shared
+registry record the release. No Q2 remote job, waiter or automatic retry remains.
+This is the actual campaign closure; source/report work is local only. The next
+GPU window still requires coordinated fresh admission. Direct thread transport
+continues to fail, so this agreed fallback records the release without claiming
+message delivery.

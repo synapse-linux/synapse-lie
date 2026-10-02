@@ -21,3 +21,10 @@ distribution without importing another engine or changing weight precision.
 Its qualification harness inherits upstream numerical flags; bounded model
 checks may reuse this workstream's unchanged, identity-verified MMQ archive.
 The original upstream and llama.cpp notices remain applicable to that archive.
+
+`experiments/q2-hc-prefill-wmma.patch` specializes the same official Gufo raw-F16
+WMMA template for the two original Q2 HC prefill projections. It is a separate
+experimental delta after the HC4 decode patch, with first-party MIT synthetic
+checks and unchanged upstream arithmetic/weight formats. The source receipt
+records both modified translation units and all 1019-file inventory coverage.
+No antirez engine or sibling workspace source/artifact is incorporated.

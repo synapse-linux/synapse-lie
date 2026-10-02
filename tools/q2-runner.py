@@ -31,7 +31,8 @@ def main():
     mode = sys.argv[1]
     model_mode = mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    hc_mode = mode in ('hc-operators', 'hc-bench')
+    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench')
+    hc_target = 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
     if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -182,19 +183,21 @@ def main():
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode else '2']
-            if mode!='cpu':build_args+=['--target','q2_model' if model_mode else 'q2_hc' if hc_mode else 'q2_operators']
+            if mode!='cpu':build_args+=['--target','q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
             run(build_args,env)
             if mode=='cpu':run(['ctest','--test-dir',str(build),'--output-on-failure'],env)
             elif mode in ('operators','operators-reference'):
                 gpu_env=dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0')
                 run([str(build/'cmake/hip/q2_operators')],gpu_env,120)
             elif hc_mode:
-                binary=build/'cmake/hip/q2_hc'
+                binary=build/'cmake/hip'/hc_target
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
-                run([str(binary), 'bench' if mode=='hc-bench' else 'operators'],
-                    dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
-                result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
-                if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
+                try:
+                    run([str(binary), 'bench' if mode.endswith('-bench') else 'operators'],
+                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
+                finally:
+                    result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                    if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
             elif model_mode:
                 binary=build/'cmake/hip/q2_model'
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -217,7 +220,7 @@ def main():
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
-        if mode=='hc-bench': result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
+        if mode in ('hc-bench','hc-pp-bench'): result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:

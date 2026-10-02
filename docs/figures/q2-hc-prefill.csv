@@ -1,0 +1,11 @@
+scope,arm,unit,minimum,median,maximum
+HC down prefill,hipBLASLt,Microseconds / call,2431.010007858,2449.038028717,2490.456104279
+HC down prefill,WMMA,Microseconds / call,1142.779707909,1201.007962227,1288.330793381
+HC up prefill,hipBLASLt,Microseconds / call,2458.59503746,2469.746589661,2497.175693512
+HC up prefill,WMMA,Microseconds / call,927.6224374771,951.9717097282,958.4389328957
+Prefill: 2048 tokens,Q2 HC4,Tokens / second,608.7229727,608.7999721,609.1182017
+Prefill: 2048 tokens,Q2 HC4+PP,Tokens / second,658.443431,658.8374747,659.7577801
+Prefill: 2048 tokens,UD prior,Tokens / second,1681.350007,1684.618967,1685.163389
+Decode: 127 calls,Q2 HC4,Calls / second,22.9189071,22.92934577,22.93501518
+Decode: 127 calls,Q2 HC4+PP,Calls / second,22.95619172,22.98868847,22.99404608
+Decode: 127 calls,UD prior,Calls / second,24.17087235,24.31592218,24.32482896

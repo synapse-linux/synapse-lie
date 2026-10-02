@@ -170,3 +170,28 @@ four expected leases free. GPU48 C/CPU49.5 C. Handover is recorded persistently
 in remote run/q2-hc-window-release.json and the shared coordination registry;
 direct thread-message delivery currently fails with an HTTP transport error.
 No Q2 load or automatic retry remains. Overall PP/TG parity with UD stays open.
+
+## F16 HC prefill exploration
+
+[HC prefill WMMA](Q2-HC-PREFILL.md) ports the existing official raw-half pipeline
+to original HC down/up shapes without quantizing weights. Component speedups
+are 2.04x/2.59x. Fresh matched C1 2K/128 model samples complete: PP 608.800 to
+658.837 tok/s (+8.22%), TG 22.929 to 22.989 calls/s (+0.26%, no claimed TG gain).
+Historical UD remains 1684.619 PP/24.316 TG; full Q2 parity is unmet.
+
+The original hipBLASLt synthetic baseline fails 12/22 checks at the unchanged
+2e-5 oracle limits; WMMA fails 4/22, all unchanged fallback controls. All 16
+modified cases pass and all six controls retain full-output hashes. Timings
+complete despite numerical exit 1, per explicit owner authorization. Nine
+model token files are identical, four of 12 logit frontiers exact, maximum
+KL 0.003925764262; candidate remains experimental. No false-positive conclusion
+is inferred from identical greedy tokens. Full values, plots, raw failures and
+source identities are retained in the report and config manifests.
+
+The owner changes the thermal ceiling to 98 C inclusive; focused Debug 8/8 and
+ASan/UBSan 8/8 pass on .157, including admission at 98000 mC and rejection at 98001 mC.
+Lower exposed hardware limits remain strict. No physical device policy changes.
+Seven arms, 168 collected/hash-verified artifacts, 29 commands; fresh closure
+07:57:31.513 UTC verifies all runners/groups retired, KFD empty and four leases
+free. Direct message transport is unavailable; coordinated release is recorded
+in docs/COORDINATION.md and persistent remote/shared registry receipts.

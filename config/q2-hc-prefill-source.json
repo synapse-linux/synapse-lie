@@ -1,0 +1,56 @@
+{
+  "files": 1019,
+  "changed": {
+    "src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp": {
+      "reference": "d2779722a1fe8918db4a181289fd227e292dcad7cb5590c5e7652a84571fb647",
+      "candidate": "c96c993d97baa3253190491c96dac16b6ede767eff8460fc24d7b9e0f5d0f590"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "reference": "f7fff70df4021ef3d37b754b3748764d2d5c1f992573c0092513d28780d37581",
+      "candidate": "6e0a01063c30f5c2587378b6bb975d47d9593cb04deffd6cbc1111a53cd1231f"
+    }
+  },
+  "patch_sha256": "c4787ca6c0a9bc4ae19d015ac323f9bbe7b700a24ee241f123a7d357956fd491",
+  "checks": [
+    {
+      "argv": [
+        "patch",
+        "--dry-run",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-prefill-wmma.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-prefill",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_hc_pp.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0
+    }
+  ]
+}

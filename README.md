@@ -21,6 +21,11 @@ The separate [F16 HC down experiment](docs/Q2-HC-EXPERIMENT.md) measures a
 2.86x component speedup and about 12% higher model decode, with original weight
 bytes. The fresh reference is thermally interrupted; the comparison is
 incomplete and the candidate remains 5.7% below UD decode at 2K.
+The subsequent [HC prefill WMMA experiment](docs/Q2-HC-PREFILL.md) completes both
+matched model arms: PP rises from 608.8 to 658.8 tok/s (+8.22%), TG stays near 23.
+All changed synthetic operator cases pass; greedy tokens match, but model logits
+differ. The candidate still trails UD and remains isolated. The owner-approved
+test ceiling is now 98 C inclusive, with lower exposed hardware limits retained.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

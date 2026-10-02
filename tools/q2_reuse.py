@@ -4,6 +4,9 @@ import hashlib
 from pathlib import Path
 
 HC_KERNEL = 'src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp'
+HC_DISPATCH = 'src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp'
+# Both translation units are rebuilt; every MMQ source/header stays identical.
+REBUILT_HC = frozenset((HC_KERNEL, HC_DISPATCH))
 
 
 def verify_sources(reference, candidate):
@@ -14,8 +17,8 @@ def verify_sources(reference, candidate):
     if not old or set(old) != set(new):
         raise RuntimeError('MMQ reuse requires identical source inventories')
     changed = [name for name in old if old[name] != new[name]]
-    if any(name != HC_KERNEL for name in changed):
-        raise RuntimeError('MMQ reuse source differs outside the HC kernel')
+    if any(name not in REBUILT_HC for name in changed):
+        raise RuntimeError('MMQ reuse source differs outside rebuilt HC translation units')
     return {'files_verified': len(old), 'changed': changed,
             'reference_manifest_sha256': hashlib.sha256(repr(sorted(old.items())).encode()).hexdigest(),
             'candidate_manifest_sha256': hashlib.sha256(repr(sorted(new.items())).encode()).hexdigest()}
