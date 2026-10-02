@@ -18,6 +18,13 @@ with one fresh warmup and three cached repetitions. **4096 is capacity, not a
 tested 4K prompt.** Long-context throughput, matched platform comparisons,
 independent numerical parity and HTTP performance remain unmeasured on .161.
 
+**Direct-benchmark follow-up:** the requested `synapse-lie-bench` result is now
+recorded separately in [the Strix Point benchmark report](STRIX-POINT-BENCHMARK-RESULT.md).
+It contains a matched LIE/Gufo PP2048/TG128 pair at occupied depths 0 and 4K,
+paired 256K-capacity model loads, and the retained eight-depth campaign
+failure when CPU reached the 85 C guard at the start of 8K. This original
+shared-core smoke report remains the record of the earlier nine-token test.
+
 ## Hardware, build and model
 
 | Item | Recorded configuration |
@@ -308,9 +315,10 @@ timestamped closure observations, not a claim about the machine's later state.
 | Workload / question | .161 status | Missing evidence |
 |---|---|---|
 | Original UD, C1, 9 prompt / 32 output | PASS, bounded smoke | Broader output/correctness cases |
+| Direct `single` PP2048/TG128 at occupied 0/4K | PAIRED PASS | Matched LIE/Gufo values in the direct-benchmark follow-up |
 | Fresh PP at 2K, 4K, 8K, 32K, 64K, 128K | NOT RUN | Physical prompts, independent fresh repetitions, PP/TG/TTFT |
 | Occupied-prefix depth through 128K | NOT RUN | Fixed fresh tail, explicit reused tokens and cache timing |
-| 256K and 1M contexts | NOT QUALIFIED | Position/model/runtime support, memory admission, numerical checks, actual fit |
+| 256K and 1M contexts | 256K-capacity load only | Position/model/runtime support, numerical checks, full-prompt fit; 1M unavailable |
 | Native C2/C4/C8 | NOT RUN | Matched prompts, confirmed batch rows, total and per-user throughput |
 | Reactive versus serial | NOT RUN | Same executor/settings/cache/workload with scheduling control |
 | Gufo / Halo / external benchmark comparison | NO MATCHED ARM | Same model, physical IDs, output budget, cache and timing scope |

@@ -8,6 +8,11 @@ The [full qualification report](STRIX-POINT-RESULT.md) consolidates all recorded
 samples, prefill/cache/decode timings, resource and thread graphs, validation,
 failures and remaining coverage. Its portable CSV/JSON/PNG/SVG bundle reproduces
 offline without another GPU run.
+The subsequent [direct benchmark report](STRIX-POINT-BENCHMARK-RESULT.md) uses
+`synapse-lie-bench` PP2048/TG128 and an independently run same-device Gufo
+reference. Matched 0/4K results and paired 256K-capacity loading pass; the ordered
+eight-depth run stops at the 85 C guard during the 8K warmup, with preserved
+failure and completed cleanup. Longer performance points remain unqualified.
 This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned

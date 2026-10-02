@@ -63,6 +63,11 @@ The [full Strix Point report](docs/STRIX-POINT-RESULT.md) includes every sample,
 fresh prefill versus RAM reuse, decode and client latency, memory/temperature/thread
 graphs, portable CSV/JSON and an offline reproducer. Its coverage matrix identifies
 the long-context, concurrency, HTTP and comparative checks still required on .161.
+The follow-up [direct benchmark report](docs/STRIX-POINT-BENCHMARK-RESULT.md)
+uses `synapse-lie-bench` with the earlier PP2048/TG128 method. It records an
+exact-input LIE/Gufo pair at occupied 0/4K and paired 256K-capacity loading.
+The ordered eight-depth run stopped at CPU 85 C during the 8K point; its partial
+measurements and full thermal/cleanup evidence are retained as a failed attempt.
 See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

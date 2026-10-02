@@ -2,6 +2,18 @@
 
 ## Additional target .161 — Strix Point fork
 
+The 2026-10-02 direct-benchmark follow-up uses only .161, not .157/.158.
+The first eight-depth `single` window ended FAILED at CPU85 C during the 8K
+warmup, with no OOM. It preserved its partial JSONL, 114 thermal observations,
+actual exit1, model-stat identity and complete owned cleanup. A fresh collector
+found child/supervisor absent, private lease free and llama restored. Two
+subsequent cooled 0/4K reference and LIE windows plus two 256K-capacity
+loading windows exited0 under separate admission; each restored llama and freed
+the same private lease. The last Gufo loading collection found the named service
+active with PID10582 and no owned process. See
+[the direct benchmark result](STRIX-POINT-BENCHMARK-RESULT.md). No long-context
+GPU campaign remains active or automatically retries the thermal failure.
+
 The latest operator instruction explicitly selects **copying** the existing
 original UD shards from .157 to .161, retaining every source file unchanged.
 This copy is now complete: 111334654784 destination bytes and all four official

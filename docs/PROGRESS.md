@@ -2,6 +2,22 @@
 
 ## Strix Point fork — 2026-10-02
 
+`synapse-lie-bench` now has supervised fixed .161 profiles for the same direct
+`single`, `fresh`, `multi`, `memory` and `loading` workload families used on
+.157; a separate direct Gufo reference arm is supported. The first full
+eight-depth `single` run exited1 at CPU85 C during the 8K warmup. Completed
+0/4K samples and 114 telemetry records are retained as failed-campaign
+diagnostics, not promoted to a passing sweep. Its owned child/supervisor and
+lease retired; the named service was restored, model stats unchanged.
+Subsequent short, cooled **matched** LIE/Gufo runs at depths0/4096 each exit0
+and agree exactly on physical prompts, generated output IDs and complete
+prefill/decode frontier hashes. PP and TG values, resource peaks and graphics
+are in [the direct-benchmark result](STRIX-POINT-BENCHMARK-RESULT.md).
+Both LIE and direct Gufo `--suite loading` arms at capacity262144 exit0 with
+13.750589557/13.695302901 s under uncontrolled OS file-cache conditions,
+without a 256K prompt prefill. No
+additional long-context or concurrency claim is made after the thermal stop.
+
 The [full Strix Point report](STRIX-POINT-RESULT.md) now consolidates the completed
 build/runtime/tuning/copy qualification and original-weight C1 smoke. All four
 samples, exact nanoseconds, RAM counters, decode versus complete-wall throughput,

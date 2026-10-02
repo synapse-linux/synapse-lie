@@ -118,5 +118,40 @@ class Tests(unittest.TestCase):
             with self.assertRaises(RuntimeError): c.core()
         self.assertTrue(c.r['model_stat_unchanged'])
         self.assertIn('synthetic load failure', c.r['measurements_raw'])
+    def test_direct_bench_keeps_partial_failure_and_model_identity(self):
+        c = self.campaign(); model = self.base/'model'; model.mkdir()
+        shard = model/'fixture.gguf'; shard.write_bytes(b'fixture model identity')
+        st = shard.stat()
+        row = {'path': str(shard), 'bytes': st.st_size, 'device': st.st_dev, 'inode': st.st_ino,
+               'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns,
+               'sha256': point.sha(shard)}
+        plan = {'destination': str(model), 'files': [{'name': shard.name, 'sha256': row['sha256']}]}
+        (model/'SOURCE.json').write_text(json.dumps({'result': {'state': 'VERIFIED', 'files': [row]}, 'plan': plan}))
+        c.m.update(model_plan=plan, bundle=str(self.base), bench_profile='single')
+        def failure(argv, bundle, timeout, model_path):
+            self.assertEqual(argv[argv.index('--suite')+1], 'single')
+            self.assertEqual(argv[argv.index('--depths')+1], '0,4096,8192,12288,16384,32768,65536,131072')
+            self.assertEqual(argv[argv.index('--tg')+1], '128')
+            self.assertEqual(timeout, 3600)
+            self.assertEqual(model_path, model)
+            (c.root/'measurements.jsonl').write_text('{"event":"failed","error":"synthetic thermal stop"}\n')
+            raise RuntimeError('fixture child failed')
+        with patch.object(c, 'run_container', failure):
+            with self.assertRaisesRegex(RuntimeError, 'fixture child failed'): c.bench()
+        self.assertTrue(c.r['model_stat_unchanged'])
+        self.assertEqual(c.r['bench_partial']['measurements_sha256'], point.sha(c.root/'measurements.jsonl'))
+        self.assertNotIn('bench_result', c.r)
+        c.m['bench_profile'] = 'arbitrary'
+        with self.assertRaisesRegex(ValueError, 'fixed benchmark'): c.bench()
+        c.m['bench_profile'] = 'single'
+        c.m['bench_impl'] = 'gufo'
+        def reference_failure(argv, bundle, timeout, model_path):
+            self.assertEqual(argv[0], '/bundle/runtime/bin/synapse-lie-bench-gufo-reference')
+            self.assertNotIn('--execution', argv)
+            raise RuntimeError('reference fixture failure')
+        with patch.object(c, 'run_container', reference_failure):
+            with self.assertRaisesRegex(RuntimeError, 'reference fixture failure'): c.bench()
+        c.m['bench_impl'] = 'unexpected'
+        with self.assertRaisesRegex(ValueError, 'implementation'): c.bench()
 
 if __name__ == '__main__': unittest.main()

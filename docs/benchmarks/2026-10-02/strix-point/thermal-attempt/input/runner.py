@@ -23,7 +23,6 @@ ROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
     'single': ('single', 'reactive', 1, 1, ('--depths', '0,4096,8192,12288,16384,32768,65536,131072')),
-    'single-parity': ('single', 'reactive', 0, 1, ('--depths', '0,4096')),
     'fresh-128k': ('fresh', 'reactive', 0, 2, ('--sizes', '1500,8000,8192,32768,131072')),
     'fresh-256k': ('fresh', 'reactive', 0, 2, ('--sizes', '258794')),
     'multi': ('multi', 'reactive', 1, 3, ('--users', '1,2,4,6,8')),
@@ -289,18 +288,13 @@ class Campaign:
         profile = self.m.get('bench_profile')
         if type(profile) is not str or profile not in BENCH_PROFILES:
             raise ValueError('Unknown fixed benchmark profile')
-        implementation = self.m.get('bench_impl', 'lie')
-        if implementation not in ('lie', 'gufo'):
-            raise ValueError('Unknown fixed benchmark implementation')
         model, rows = self.verified_model()
         suite, execution, warmups, repetitions, extra = BENCH_PROFILES[profile]
-        binary = 'synapse-lie-bench' if implementation == 'lie' else 'synapse-lie-bench-gufo-reference'
-        command = ['/bundle/runtime/bin/'+binary, '--suite', suite,
+        command = ['/bundle/runtime/bin/synapse-lie-bench', '--suite', suite,
                    '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
-                   '--output', '/work/measurements.jsonl',
+                   '--output', '/work/measurements.jsonl', '--execution', execution,
                    '--pp', '2048', '--tg', '128', '--warmups', str(warmups),
                    '--repetitions', str(repetitions), *extra]
-        if implementation == 'lie': command += ['--execution', execution]
         self.r['bench_command'] = command
         self.record()
         try:
@@ -309,12 +303,9 @@ class Campaign:
             if not measurements or measurements[-1] != {'event': 'complete', 'exit_code': 0}:
                 raise RuntimeError('Incomplete direct benchmark')
             identity = measurements[0]
-            expected_execution = 'upstream-native-batch' if implementation == 'gufo' else 'LIE-serial-interleaved' if execution == 'serial' else 'LIE-reactive-ready-batch'
-            if (identity.get('schema') != 'synapse-lie.bench.v1' or identity.get('suite') != suite or
-                identity.get('synthetic') or identity.get('execution') != expected_execution):
+            if identity.get('schema') != 'synapse-lie.bench.v1' or identity.get('suite') != suite or identity.get('synthetic'):
                 raise RuntimeError('Unexpected benchmark identity')
-            self.r['bench_result'] = {'profile': profile, 'suite': suite, 'implementation': implementation,
-                                      'execution': identity['execution'],
+            self.r['bench_result'] = {'profile': profile, 'suite': suite, 'execution': identity['execution'],
                                       'rows': len(measurements), 'samples': sum(r.get('event') == 'sample' for r in measurements),
                                       'measurements_sha256': sha(self.root/'measurements.jsonl')}
         finally:

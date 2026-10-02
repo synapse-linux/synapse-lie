@@ -1,0 +1,20 @@
+{
+  "lie": {
+    "observations": 53,
+    "peak_c": {
+      "k10temp": 82.625,
+      "amdgpu": 77.0,
+      "nvme": 66.85
+    },
+    "sampled_peak_gtt_used_bytes": 88802295808
+  },
+  "gufo": {
+    "observations": 53,
+    "peak_c": {
+      "k10temp": 81.625,
+      "amdgpu": 76.0,
+      "nvme": 61.85
+    },
+    "sampled_peak_gtt_used_bytes": 88802295808
+  }
+}
