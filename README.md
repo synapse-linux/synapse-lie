@@ -58,16 +58,19 @@ controls pass ASan/UBSan locally and on .161, and its no-device help path loads
 on the target. Pinned four-shard staging uses complete SHA-256 verification.
 The operator-authorized TTM change and reboot increased actual HIP memory from
 61.72 to **96 GiB**; the post-boot HIP/rocBLAS probe passes. This raises the
-allocation limit; the bounded UD smoke fits, while longer contexts remain untested.
+allocation limit; the bounded UD smoke fits. The subsequent direct executor
+benchmark exercises occupied prefixes through 128K.
 The [full Strix Point report](docs/STRIX-POINT-RESULT.md) includes every sample,
 fresh prefill versus RAM reuse, decode and client latency, memory/temperature/thread
 graphs, portable CSV/JSON and an offline reproducer. Its coverage matrix identifies
 the long-context, concurrency, HTTP and comparative checks still required on .161.
 The follow-up [direct benchmark report](docs/STRIX-POINT-BENCHMARK-RESULT.md)
-uses `synapse-lie-bench` with the earlier PP2048/TG128 method. It records an
-exact-input LIE/Gufo pair at occupied 0/4K and paired 256K-capacity loading.
-The ordered eight-depth run stopped at CPU 85 C during the 8K point; its partial
-measurements and full thermal/cleanup evidence are retained as a failed attempt.
+uses `synapse-lie-bench` with the earlier PP2048/TG128 method. The new
+operator-approved 100 C campaigns complete all eight occupied-prefix depths
+0–128K for both LIE and direct Gufo, with matching physical prompts, outputs
+and prefill/decode frontiers. Paired 256K-capacity loading also passes. The
+earlier 85 C stop and its partial/cleanup evidence remain a failed attempt;
+fresh full-prompt, multi-user and HTTP performance are separate pending suites.
 See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

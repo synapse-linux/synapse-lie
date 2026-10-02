@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Strix Point UD — direct benchmark attempt and paired reference
+# Strix Point UD — complete eight-depth direct benchmark and paired reference
 
 Date: **2026-10-02**. Target: **pop@192.168.5.161**, Radeon 890M / gfx1150.
 Original Unsloth Qwen3.8 Flash Next UD-Q4_K_XL, revision
@@ -11,12 +11,14 @@ the direct Gufo adapter. No HTTP, MTP, vision or CPU model forward is involved.
 Matching frontiers establish consistency between these two paths using the
 same numerical implementation, not an independent model-quality oracle.
 
-The eight-depth `synapse-lie-bench --suite single` campaign was **attempted but
-did not finish**. Its 85 C guard stopped it at the start of the 8192-token
-prefix point. All samples at depths 0 and 4096 completed before that stop.
-A separate, fully completed **matched LIE/Gufo two-point test** confirms exact
-physical prompts, generated tokens and both executor frontier hashes on .161.
-Both `--suite loading` arms also complete at context capacity 262144. These are the
+The new `synapse-lie-bench --suite single` and direct Gufo campaigns **both
+finished all eight depths through 131072** under the operator-approved 100 C
+ceiling. They each completed one warmup and one measured PP2048/TG128 sample
+per depth. Exact physical prompts, generated tokens and both executor frontier
+hashes match on all eight points. The earlier 85 C attempt remains preserved
+below as a separate failed campaign. A short matched two-point test is also
+retained as historical evidence with different warmup settings.
+Both `--suite loading` arms complete at context capacity 262144. These are the
 actual direct-benchmark tests, separate from the earlier 9-token shared-core
 smoke in [the port report](STRIX-POINT-RESULT.md).
 
@@ -28,11 +30,12 @@ tokens**, prefill chunk 2048. A live physical prefix is computed in the same
 sequence before the measured suffix. The capacity is 133760 for `single`.
 Prefill and decode rates use separate completed executor intervals. Prefix
 preparation, calibration, loading and plots are outside those intervals.
-The paired two-point runs each take **one measured sample and no warmup**, on
-separate admitted windows after the machine cooled. They are low-sample
-diagnostics with observed values, not confidence intervals. The longer failed
-run used **one warmup plus one measured sample per depth** and is retained
-separately; its partial values are never substituted into the matched pair.
+The complete eight-point runs each take **one warmup and one measured sample per
+depth** in a continuous ordered sweep. The paired two-point runs each take
+**one measured sample and no warmup**, on separate admitted windows after the
+machine cooled. Both are low-sample observations, not confidence intervals.
+The failed 85 C run used the complete profile too, but is retained separately;
+its partial values are never substituted into either passing comparison.
 
 The direct suite is the same executable family as the earlier .157
 [eight-depth result](BENCHMARK-RESULTS.md). The complete requested profile is
@@ -41,7 +44,51 @@ depth 0/4096/8192/12288/16384/32768/65536/131072, `pp2048/tg128`. The
 uses these depth and work-size conventions. Its published Halo numbers are a
 separate hardware/provenance reference, not an additional measured .161 arm.
 
-## Matched .161 LIE versus direct Gufo
+## Complete .161 LIE versus direct Gufo, occupied context through 128K
+
+Both campaigns report state PASSED, supervisor/child exit 0, 16 complete
+samples, full 128-token output at every point, unchanged model stat identities,
+no cleanup error, and fresh collection with the owned processes absent,
+private lease free and `llama-router.service` active. The report validator
+confirms the same physical token IDs, generated token IDs, full prefill logits
+hash and final decode logits hash at **all eight** depths. The same pinned Gufo
+numerical engine is used in both paths, so this is executor-path parity rather
+than an independent quality oracle.
+
+| Occupied prefix | Physical prompt | New PP | LIE PP tok/s | Gufo PP tok/s | LIE TG tok/s | Gufo TG tok/s |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 2048 | 2048 | 472.581 | 470.233 | 10.2924 | 10.2767 |
+| 4096 | 6143 | 2047 | 433.310 | 426.986 | 10.2613 | 10.2642 |
+| 8192 | 10240 | 2048 | 415.064 | 428.741 | 10.2510 | 10.2483 |
+| 12288 | 14336 | 2048 | 419.773 | 423.425 | 9.8912 | 10.2430 |
+| 16384 | 18432 | 2048 | 434.701 | 434.712 | 10.2031 | 10.2398 |
+| 32768 | 34816 | 2048 | 425.131 | 424.975 | 10.1734 | 10.1883 |
+| 65536 | 67584 | 2048 | 404.108 | 409.685 | 10.0455 | 10.0617 |
+| 131072 | 133120 | 2048 | 389.786 | 388.395 | 9.8622 | 9.8694 |
+
+LIE's observed PP rate at 128K is 17.52% below its own zero-prefix point;
+its TG rate is 4.18% below. Gufo's corresponding changes are 17.40% and
+3.96%. This measures 2048 **new** prefill tokens after a live prepared prefix,
+not a 128K fresh-prefill rate. LIE and Gufo each have only one measured sample
+per point. The isolated 12K decode difference and small PP differences cannot
+establish a ranking. Gufo began at CPU/GPU 42.25/41 C versus LIE 35.125/34 C,
+so the initial thermal conditions were not identical.
+
+Sampled maxima are LIE CPU/GPU/NVMe **91.5/90/65.85 C** and Gufo
+**92/92/67.85 C**. Both show sampled whole-device GTT use up to
+89154617344 bytes. This is not an exact provider-allocation peak. The 100 C
+CPU/GPU guard was authorized after the first failure; both NVMe composite
+sensors retained their published 89.85 C max. No clock, fan or power setting
+was changed. [AMD lists 100 C Tjmax for the HX 370](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).
+
+![Full direct benchmark with zero-based axes](benchmarks/2026-10-02/strix-point/full-single/generated/benchmark-zero.svg)
+
+The [complete eight-depth bundle](benchmarks/2026-10-02/strix-point/full-single/README.md)
+holds both raw JSONL streams, supervisor/collection receipts, complete
+comparison JSON/CSV, source/output hashes, resource peaks, standard and
+zero-axis SVG/PNG graphics, plus a byte-reproducible offline generator.
+
+## Earlier matched .161 LIE versus direct Gufo, short protocol
 
 Both campaigns completed with child/supervisor exit 0. Every request generated
 the full 128 tokens. The exact physical token IDs, output IDs, full prefill
@@ -89,10 +136,10 @@ campaign, not a passing eight-point benchmark.
 | 0 | 2048 | 467.567 | 10.2729 |
 | 4096 | 6143 | 442.044 | 10.2632 |
 
-These two values are diagnostics inside a failed campaign; the complete paired
-table above is the available valid comparison. No values exist for completed
-8K, 12K, 16K, 32K, 64K or 128K points. The maximum sampled GPU/NVMe readings
-are 83/60.85 C, and the highest sampled whole-device GTT use is
+These two values are diagnostics inside the earlier failed campaign; they are
+not substituted into the new passing eight-depth result. No completed 8K, 12K,
+16K, 32K, 64K or 128K values exist **in that failed campaign**. Its maximum
+sampled GPU/NVMe readings are 83/60.85 C, and the highest sampled whole-device GTT use is
 88877793280 bytes. The 114 retained temperature observations show the rise to
 the CPU guard. No thermal setting, fan, clock or power limit was altered.
 
@@ -140,26 +187,23 @@ retains both campaigns and a reproducible plot/CSV.
 
 | Requested test | .161 outcome |
 |---|---|
-| Original-weight `lie-bench` PP2048/TG128 at occupied 0 and 4K | Complete matched LIE/Gufo pair, exact prompts/outputs/frontiers |
-| Occupied 8K–128K in one ordered sweep | Stopped by CPU 85 C at start of 8K; no passing data |
-| Full fresh prefill 8K/32K/128K/256K | Not run after the thermal stop |
-| Concurrent C1/2/4/6/8 and serial/reactive comparison | Not run after the thermal stop |
+| Original-weight `lie-bench` PP2048/TG128 at occupied 0 through 128K | Complete matched LIE/Gufo eight-depth pair, exact prompts/outputs/frontiers |
+| Earlier 85 C ordered sweep | Stopped at start of 8K; preserved as failed evidence, superseded by fresh 100 C passing campaigns |
+| Full fresh prefill 8K/32K/128K/256K | Separate suite not yet qualified on .161 |
+| Concurrent C1/2/4/6/8 and serial/reactive comparison | Separate suite not yet qualified on .161 |
 | Model loading at capacity 256K | Paired LIE/Gufo pass, one OS-cache-uncontrolled observation each |
 | Actual 256K prompt / 1M context | Not qualified; 1M exceeds current native provider/ABI support |
 | Served HTTP :8000 and Pi agent on Point | Not exercised in these direct benchmarks |
 
-The current cooling reaches the 85 C cutoff after about 128 s of this
-continuous benchmark. Repeating the same long workload now would predictably
-hit the guard again. Completing the long-context and concurrency matrix needs
-a sustainable cooling condition within the existing 85 C limit, followed by
-fresh one-shot admission and fully completed samples. Short, cooled runs cannot
-be silently merged into the ordered eight-depth protocol or used as full-prompt
-prefill throughput. Any alternative paced method would have different timing
-semantics and require its own paired protocol and label.
+The original 85 C cutoff interrupted the first ordered sweep after about
+128 s. The separately admitted 100 C campaigns each completed all eight
+depths without changing benchmark timing semantics. These values still do not
+represent fresh full-prompt prefill or multi-user throughput; those are
+different suites with their own qualification gate.
 
 All tests use LIE-owned persistent paths under the feature worktree and .161;
 no model data was moved back from .161, no DS4 source/evidence was changed,
-and no publication/deployment occurred. The latest loading run left the named
-service active with PID 10582 and the private LIE lease free at its recorded
+and no publication/deployment occurred. The latest full Gufo run left the named
+service active with PID 44193 and the private LIE lease free at its recorded
 collection time. Each result is a timestamped observation, not a standing GPU
 window or claim that the machine remains idle later.

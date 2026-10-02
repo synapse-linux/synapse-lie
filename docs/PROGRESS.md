@@ -2,13 +2,26 @@
 
 ## Strix Point fork — 2026-10-02
 
+The fresh operator-approved 100 C `single` campaigns on .161 now pass **8/8
+occupied depths each** for LIE reactive C1 and direct Gufo C1, PP2048/TG128,
+one warmup and one measured sample per depth. All 16 samples in each arm
+complete 128 output tokens; physical inputs, outputs and PP/TG frontiers match
+at every depth. At 128K, LIE measures 389.786 PP / 9.862 TG token/s and Gufo
+388.395 PP / 9.869 TG token/s. Sampled CPU/GPU maxima are 91.5/90 C for LIE
+and 92/92 C for Gufo, below the authorized limit. Both child and supervisor
+exit0 with unchanged model files, restored service, released lease and fresh
+collection proving owned processes absent. The [complete direct report](STRIX-POINT-BENCHMARK-RESULT.md)
+and [portable raw/graph bundle](benchmarks/2026-10-02/strix-point/full-single/README.md)
+retain all values and receipts. Fresh full-prompt and multi-user suites remain
+separate tests; the earlier 85 C failure is preserved unchanged.
+
 The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
 The campaign supervisor requires that explicit override in the manifest and
 still applies lower published sensor limits, including NVMe max 89.85 C.
 AMD publishes 100 C Tjmax for the target HX 370 CPU; the previous run stopped
 on CPU Tctl at the conservative 85 C setting. Focused CPU campaign controls
 pass 11/11, including refusal of an unquoted or above-100 C override. The
-full GPU retry requires fresh admission and its own evidence.
+two full GPU campaigns subsequently obtained fresh admission and evidence.
 
 `synapse-lie-bench` now has supervised fixed .161 profiles for the same direct
 `single`, `fresh`, `multi`, `memory` and `loading` workload families used on

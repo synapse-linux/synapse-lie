@@ -10,15 +10,18 @@ failures and remaining coverage. Its portable CSV/JSON/PNG/SVG bundle reproduces
 offline without another GPU run.
 The subsequent [direct benchmark report](STRIX-POINT-BENCHMARK-RESULT.md) uses
 `synapse-lie-bench` PP2048/TG128 and an independently run same-device Gufo
-reference. Matched 0/4K results and paired 256K-capacity loading pass; the ordered
-eight-depth run stops at the 85 C guard during the 8K warmup, with preserved
-failure and completed cleanup. Longer performance points remain unqualified.
-The later operator instruction authorizes a **new** 100 C thermal ceiling for
-the full-depth benchmark on .161. The CPU Tctl sensor triggered the old 85 C
+reference. The full eight-depth LIE and Gufo campaigns both pass through 128K
+with identical prompts, outputs and frontiers. Paired 256K-capacity loading
+also passes. The earlier ordered sweep stopped at the 85 C guard during 8K;
+its failure and cleanup remain preserved. Fresh full-prompt, multi-user and
+served performance remain separately unqualified. The operator authorized a
+100 C manifest-scoped ceiling for the new full-depth campaigns; CPU Tctl
+triggered the old 85 C
 stop; [AMD lists the HX 370 Tjmax as 100 C](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).
 The override is manifest-scoped and retains lower sensor max/critical limits,
 including the two NVMe composite max readings of 89.85 C. Historical 85 C
-results are not relabelled. The new campaign still requires fresh GPU admission.
+results are not relabelled. Both new campaigns obtained fresh GPU admission,
+exited 0, retired their owned processes and restored the named service.
 This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned

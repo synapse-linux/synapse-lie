@@ -18,12 +18,14 @@ with one fresh warmup and three cached repetitions. **4096 is capacity, not a
 tested 4K prompt.** Long-context throughput, matched platform comparisons,
 independent numerical parity and HTTP performance remain unmeasured on .161.
 
-**Direct-benchmark follow-up:** the requested `synapse-lie-bench` result is now
+**Direct-benchmark follow-up:** the requested `synapse-lie-bench` result is
 recorded separately in [the Strix Point benchmark report](STRIX-POINT-BENCHMARK-RESULT.md).
-It contains a matched LIE/Gufo PP2048/TG128 pair at occupied depths 0 and 4K,
-paired 256K-capacity model loads, and the retained eight-depth campaign
-failure when CPU reached the 85 C guard at the start of 8K. This original
-shared-core smoke report remains the record of the earlier nine-token test.
+Its later LIE/Gufo PP2048/TG128 campaigns complete all eight occupied depths
+through 128K under the authorized 100 C ceiling, with exact input/output and
+frontier parity. The same report keeps the earlier 85 C failed campaign and
+paired 256K-capacity model loads. This original shared-core smoke report remains
+the record of the earlier nine-token test; its historical coverage statements
+above refer to that earlier test, not the later direct benchmark.
 
 ## Hardware, build and model
 

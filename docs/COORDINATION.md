@@ -2,6 +2,16 @@
 
 ## Additional target .161 — Strix Point fork
 
+The complete eight-depth 100 C LIE and Gufo direct `single` campaigns retired
+at 13:24:43 and 13:54:43 UTC on 2026-10-02. Each reports PASSED with
+supervisor/child exit0, 16 full-output samples, unchanged model stat identities,
+no cleanup failures, and restored `llama-router.service`. Fresh collectors
+verified each owned supervisor/GPU child absent, the private lease free and all
+seven archived remote files by SHA-256. The final Gufo collection observed the
+named service active with PID44193. The two runs use .161 only. Source data and
+graph reproduction are in the [full direct result](STRIX-POINT-BENCHMARK-RESULT.md).
+No full-suite fresh or multi-user GPU job is implied by these C1 results.
+
 The operator explicitly raised the .161 benchmark ceiling from the prior
 conservative 85 C to 100 C to test full capacity. The earlier stop was the CPU
 Tctl sensor, not the GPU edge sensor. The target identifies as Ryzen AI 9 HX 370;
