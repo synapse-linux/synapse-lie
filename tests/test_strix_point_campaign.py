@@ -179,6 +179,8 @@ class Tests(unittest.TestCase):
         with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
                 [], 0, stdout=json.dumps({'Id': image, 'Architecture': 'amd64'}))):
             self.assertEqual(c.image_and_rocm(), (image, None))
+            c.m['stack'] = 'rocm10-fedora44-rpm'
+            self.assertEqual(c.image_and_rocm(), (image, None))
         with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
                 [], 0, stdout=json.dumps({'Id': 'sha256:'+'b'*64, 'Architecture': 'amd64'}))):
             with self.assertRaisesRegex(ValueError, 'identity'): c.image_and_rocm()
@@ -238,5 +240,30 @@ class Tests(unittest.TestCase):
         with patch.object(c, 'run_container', side_effect=run):
             with self.assertRaisesRegex(RuntimeError, 'HIP errors'): c.diagnostic()
         self.assertEqual(c.r['diagnostic']['steps'][0]['name'], 'hipErrorInvalidValue')
+    def test_full_rocm10_profile_is_diagnostic_only_and_explicit(self):
+        c = self.campaign()
+        bundle = self.base/'bundle'; bundle.mkdir()
+        (bundle/'probe').write_bytes(b'fixture')
+        c.m.update(action='diagnostic', stack='rocm10-fedora44-rpm',
+                   artifacts={'probe': point.sha(bundle/'probe')},
+                   rocm10_diagnostic_full_profile=True)
+        with patch.object(point, 'kfd_group', return_value=1000), \
+             patch.object(c, 'image_and_rocm', return_value=('sha256:'+'a'*64, None)):
+            with self.assertRaisesRegex(ValueError, 'requires explicit'):
+                c.run_container(['/probe'], bundle, 1)
+            c.m.update(rocm10_seccomp_unconfined=True,
+                       rocm10_published_container_profile=True)
+            with patch.object(c, 'execute_container') as execute:
+                c.run_container(['/probe'], bundle, 1)
+            argv = execute.call_args.args[0]
+            self.assertNotIn('--read-only', argv)
+            self.assertNotIn('--cap-drop', argv)
+            self.assertNotIn('no-new-privileges', argv)
+            self.assertEqual(argv[argv.index('--ipc')+1], 'host')
+            self.assertIn('SYS_PTRACE', argv)
+            self.assertIn('LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/core/lib/rocm_sysdeps/lib:/opt/rocm/lib', argv)
+            c.m['action'] = 'bench'
+            with self.assertRaisesRegex(ValueError, 'requires explicit'):
+                c.run_container(['/probe'], bundle, 1)
 
 if __name__ == '__main__': unittest.main()

@@ -22,6 +22,8 @@ SERVICE = 'llama-router.service'
 IMAGE = 'sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac'
 ROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'
 ROCM10_SOURCE = BASE/'rocm10-fedora-161'/'source'
+ROCM10_RPM_CONTEXT = BASE/'rocm10-fedora-161'/'fedora44-rpm'
+ROCM10_RPM_TAG = 'synapse-lie-rocm10-fedora44-rpm:gfx1150-r1'
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
     'single': ('single', 'reactive', 1, 1, ('--depths', '0,4096,8192,12288,16384,32768,65536,131072')),
@@ -134,7 +136,7 @@ class Campaign:
         if stack == 'rocm7.2-arch':
             if 'image' in self.m: raise ValueError('Legacy image is fixed')
             return IMAGE, ROCM
-        if stack == 'rocm10-fedora43':
+        if stack in ('rocm10-fedora43', 'rocm10-fedora44-rpm'):
             image = self.m.get('image')
             if type(image) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
                 raise ValueError('ROCm 10 image must be pinned by local image ID')
@@ -236,15 +238,25 @@ class Campaign:
             if sha(path) != expected: raise RuntimeError('Artifact drift: '+name)
         image, rocm = self.image_and_rocm()
         self.sample()
-        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()
-        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
-                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',
+        library_path = '/bundle/runtime/lib:/opt/rocm/lib'
+        if self.m.get('stack') == 'rocm10-fedora44-rpm':
+            library_path = '/bundle/runtime/lib:/opt/rocm/core/lib/rocm_sysdeps/lib:/opt/rocm/lib'
+        full_profile = self.m.get('rocm10_diagnostic_full_profile', False)
+        if type(full_profile) is not bool or (full_profile and
+                (self.m.get('action') != 'diagnostic' or self.m.get('stack') != 'rocm10-fedora44-rpm' or
+                 not self.m.get('rocm10_seccomp_unconfined') or
+                 not self.m.get('rocm10_published_container_profile'))):
+            raise ValueError('Full ROCm profile requires explicit Fedora 44 diagnostic flags')
+        argv = ['docker', 'create', '--network', 'none']
+        if not full_profile:
+            argv += ['--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges']
+        argv += ['--user', f'{os.getuid()}:{os.getgid()}',
                 '--group-add', str(kfd_group()), '--pids-limit', '512',
                 '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',
                 '--label', 'synapse-lie.run='+str(self.root),
                 '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',
                 '--mount', 'type=bind,src='+str(self.root)+',dst=/work',
-                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib',
+                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH='+library_path,
                 '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',
                 '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',
                 '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']
@@ -253,6 +265,12 @@ class Campaign:
             raise ValueError('Seccomp override is explicit and ROCm 10 only')
         if relaxed_seccomp:
             argv += ['--security-opt', 'seccomp=unconfined']
+        published_profile = self.m.get('rocm10_published_container_profile', False)
+        if type(published_profile) is not bool or (published_profile and rocm is not None):
+            raise ValueError('Published ROCm container profile is explicit and ROCm 10 only')
+        if published_profile:
+            argv += ['--ipc', 'host', '--cap-add', 'SYS_PTRACE']
+        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()
         if self.m.get('action') == 'diagnostic':
             argv += ['--env', 'LIE_GPU_DIAGNOSTIC_WINDOW=admitted']
         if rocm: argv += ['--mount', 'type=bind,src='+rocm+',dst=/opt/rocm,readonly']
@@ -289,6 +307,40 @@ class Campaign:
         if result.get('state') != 'BUILT_NOT_GPU_TESTED' or result.get('exit_code') != 0:
             raise RuntimeError('Incomplete ROCm 10 build receipt')
         self.r['build_result'] = result
+        self.record()
+    def image_build(self):
+        if self.m.get('stack') != 'rocm10-fedora44-rpm':
+            raise ValueError('Image build requires the explicit Fedora 44 RPM stack')
+        context = checked_path(ROCM10_RPM_CONTEXT)
+        dockerfile = checked_path(context/'Dockerfile')
+        if sha(dockerfile) != self.m.get('dockerfile_sha256'):
+            raise ValueError('RPM Dockerfile drift')
+        if sorted(path.name for path in context.iterdir()) != ['Dockerfile']:
+            raise ValueError('RPM build context must contain only its Dockerfile')
+        self.sample()
+        argv = ['docker', 'build', '--no-cache', '--pull', '--progress=plain',
+                '--tag', ROCM10_RPM_TAG, '--file', str(dockerfile), str(context)]
+        self.r['image_build_argv'] = argv
+        self.record()
+        with (self.root/'image-build.log').open('xb') as log:
+            self.child = subprocess.Popen(argv, stdout=log, stderr=subprocess.STDOUT)
+            self.r['child_pid'], self.r['child_start_ticks'] = self.child.pid, ticks(self.child.pid)
+            self.r['state'] = 'BUILDING_IMAGE'
+            self.record()
+            deadline = time.monotonic()+7200
+            while self.child.poll() is None:
+                self.sample()
+                if time.monotonic() >= deadline: raise RuntimeError('Image build deadline')
+                time.sleep(1)
+            self.r['child_exit_code'] = self.child.returncode
+        if self.child.returncode:
+            raise RuntimeError('RPM image build failed; see retained image-build.log')
+        inspected = json.loads(self.command(['docker', 'image', 'inspect', ROCM10_RPM_TAG,
+                                             '--format', '{{json .}}']).stdout)
+        if inspected['Architecture'] != 'amd64' or not re.fullmatch(r'sha256:[0-9a-f]{64}', inspected['Id']):
+            raise RuntimeError('Unexpected RPM image identity')
+        self.r['image_build_result'] = {'tag': ROCM10_RPM_TAG, 'id': inspected['Id'],
+                                        'architecture': inspected['Architecture']}
         self.record()
     def diagnostic(self):
         self.image_and_rocm()
@@ -445,7 +497,7 @@ def main():
     if os.getuid() != 1000 or os.environ.get('SSH_CONNECTION', '').split()[2:3] != ['192.168.5.161']:
         raise SystemExit('Expected pop@192.168.5.161 SSH target')
     m = json.loads((root/'manifest.json').read_text())
-    if m.get('action') not in ('probe', 'download', 'core', 'bench', 'build', 'diagnostic'): raise SystemExit('Unsupported campaign action')
+    if m.get('action') not in ('probe', 'download', 'core', 'bench', 'build', 'diagnostic', 'image-build'): raise SystemExit('Unsupported campaign action')
     if m['authorization'] != {'kind': 'operator-one-shot-window', 'service': SERVICE,
                               'stop_restore_authorized': True, 'quote': 'llama si può stoppaare'}:
         raise SystemExit('Explicit scoped operator handover required')
@@ -463,6 +515,7 @@ def main():
         elif m['action'] == 'core': c.core()
         elif m['action'] == 'bench': c.bench()
         elif m['action'] == 'build': c.build()
+        elif m['action'] == 'image-build': c.image_build()
         elif m['action'] == 'diagnostic': c.diagnostic()
         else: raise ValueError('Unsupported campaign action')
         c.r.update(state='PASSED', exit_code=0)

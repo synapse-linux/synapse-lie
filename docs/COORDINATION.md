@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+The 2026-10-02 `.161` ROCm 10 Fedora 44 RPM image build and four subsequent
+HIP diagnostic windows are complete. Each acquired the private LIE lease
+afresh, restored `llama-router.service` when it had been active, retired owned
+processes and released the lease. The image build and the ROCm 7.2 control pass;
+three Fedora 44 ROCm 10 diagnostic variants fail on primitive HIP memset/copy.
+The earlier Fedora 43 ROCm 10 tarball variant fails the same runtime gate. No
+original-weight ROCm 10 benchmark was started. The [comparison report](STRIX-POINT-ROCM10.md)
+links the local image provenance, exact outcomes and collection receipts.
+This is a completed set of windows, not standing GPU ownership.
+
 ## Additional target .161 — Strix Point fork
 
 The `.161` direct `fresh-256k` LIE and Gufo arms retired at 16:13:38 and

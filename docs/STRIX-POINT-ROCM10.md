@@ -1,12 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Strix Point ROCm 10.0.0 comparison
 
-This experiment builds the unchanged LIE `gfx1150` numerical slice with ROCm
-10.0.0 inside Fedora 43 on `pop@192.168.5.161`, then compares direct original
-UD-Q4_K_XL inference against the recorded ROCm 7.2 baseline on the same HX 370.
-The candidate changes the distribution, compiler, HIP runtime and math libraries
-together. Throughput differences therefore describe this complete stack, not an
-isolated ROCm library effect.
+This experiment tests two ROCm 10.0.0 container stacks for the unchanged LIE
+`gfx1150` numerical slice on `pop@192.168.5.161`, with the recorded ROCm 7.2
+baseline on the same HX 370. The Fedora 43 candidate uses AMD's `gfx1150`
+tarball; the Fedora Minimal 44 candidate uses AMD's signed RPMs, following the
+distribution/package method of the Strix Halo image found on `.157`.
+The candidates change the compiler, HIP runtime and math libraries together;
+eventual throughput differences would describe complete stacks, not an isolated
+ROCm library effect.
 
 AMD publishes an official [ROCm 10.0.0 developer image for Ubuntu
 24.04](https://hub.docker.com/r/rocm/dev-ubuntu-24.04/tags). The only AMD
@@ -23,6 +25,25 @@ the downloaded 1770580920 bytes have SHA-256
 `e2fc089e2874dcff88384f387d5bb0553ac1392d5cd1c96d6ade0233a94a8c4b`.
 The [Dockerfile](../docker/strix-point-rocm10-fedora43.Dockerfile) verifies that
 hash before extraction. No host ROCm or driver packages are replaced.
+
+Read-only inspection of `.157` found the community
+[`kyuz0/strix-halo-ds4-toolbox:rocm-10.0` image](https://hub.docker.com/r/kyuz0/strix-halo-ds4-toolbox/tags),
+with local digest `sha256:4b446536c1ed6d551b0df49356852772c414b6a1335a2290433ec3eeae3f0c04`
+and image creation time `2026-09-23T22:39:58Z`. Its labels identify Fedora
+Minimal **44**; its build history adds the signed AMD RHEL 10 repository at
+`https://stable.repo.amd.com/rocm/core/packages/rhel10/x86_64`, installs
+`amdrocm10.0-gfx1151`, and exposes `/opt/rocm/core-10.0`. The publisher's
+[source history](https://github.com/kyuz0/strix-halo-ds4-toolbox/commits/main/toolboxes/Dockerfile.rocm-10.0)
+contains a ROCm 10 Dockerfile, but the image metadata does not identify an
+exact source commit. The live Docker Hub tag is mutable; the local digest is
+the evidence for the image actually present on `.157`.
+
+The independently authored [Fedora Minimal 44 RPM candidate](../docker/strix-point-rocm10-fedora44-rpm.Dockerfile)
+uses AMD's corresponding `amdrocm-core-devel10.0-gfx1150` package, which AMD
+[documents for this GPU](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/install-methods/multi-version-install/multi-version-install-rhel.html).
+It mirrors the distribution and package method, not DS4 source or binaries.
+The tarball candidate and RPM candidate are separate stacks and must retain
+their own image IDs, HIP receipts and benchmark results.
 
 AMD's [ROCm 10 compatibility
 matrix](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)
@@ -42,15 +63,74 @@ intended matched profiles. A failure is retained as a failure; there is no
 automatic retry or inferred throughput.
 
 The [one-shot campaign runner](../tools/strix-point-campaign.py) selects ROCm 10
-only for an explicit `rocm10-fedora43` manifest and pinned image ID. Its build
-action runs without `/dev/kfd`, `/dev/dri` or network, under the same .161 lease,
-foreign-client checks, service stop/restore and sensor guard as inference. The
-ROCm 7.2 path remains the default for historical manifests. The
+only for an explicit `rocm10-fedora43` or `rocm10-fedora44-rpm` manifest and
+pinned image ID. The Fedora 43 LIE compile action runs without `/dev/kfd`,
+`/dev/dri` or network. The Fedora 44 image build also ran without GPU devices;
+both use the same .161 lease, foreign-client checks, service stop/restore and
+sensor guard as inference. The ROCm 7.2 path remains the default for historical
+manifests. The
 [compile helper](../tools/strix-point-rocm10-compile.py) retains actual exits,
 logs, library hashes and linked binary hashes under the persistent .161 LIE
 directory. The official Gufo source was independently fetched at
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`; no sibling project source
 or artifact is used.
 
-Results and comparison tables will be entered from collected raw receipts after
-the image, compile, GPU probe and original-weight runs complete.
+The Fedora 43 tarball image `sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e`
+built and compiled the LIE `gfx1150` slice with exit 0. Its first GPU probe
+failed on the copy path (`copy_inputs: HIP status 1`), unchanged by
+`seccomp=unconfined`. The no-model diagnostic enumerated one device and a
+successful 48-byte `hipMalloc`, then reported `hipErrorOutOfMemory` from
+`hipMemset` and `hipErrorInvalidValue` from pageable and pinned `hipMemcpy`.
+
+The Fedora Minimal 44 RPM image build passed under a fresh .161 lease with
+Docker image ID `sha256:de9a979b0a53c91749d122b9f60712318175daca40fbdeac14e6793654a69a54`.
+The installed AMD `amdrocm-core-devel10.0-gfx1150` RPM is `10.0.0-4`; the
+image uses the officially documented amd64 Fedora Minimal 44 base manifest
+`sha256:dbc66957b83be679a2fb8ed8964a8b47c60a75567b527a7362976cc714e70a3c`.
+All 386 build telemetry samples stayed below the guard (CPU 71.125 C, GPU
+46 C, NVMe 46.85 C maxima). Docker build and supervisor exited 0; the named
+service was restored and the private lease released.
+
+| .161 runtime and container mode | 48-byte `hipMalloc` | `hipMemset` | Host/device copies | 8-float round trip | Campaign |
+| --- | --- | --- | --- | --- | --- |
+| ROCm 7.2 control, existing image | success | success | all success | exact | PASS, exit 0 |
+| ROCm 10 Fedora 43 tarball, restricted | success | out of memory | invalid value | failed | FAIL, exit 1 |
+| ROCm 10 Fedora 44 RPM, seccomp open | success | out of memory | invalid value | failed | FAIL, exit 1 |
+| ROCm 10 Fedora 44 RPM, IPC host + SYS_PTRACE | success | out of memory | invalid value | failed | FAIL, exit 1 |
+| ROCm 10 Fedora 44 RPM, published Docker security profile | success | out of memory | invalid value | failed | FAIL, exit 1 |
+
+The Fedora 44 variants and ROCm 7.2 control use the same byte-identical bounded
+`hip-diag.py` (SHA-256 `f134f3d55c157bbb6b869b81781f802bd44311b6d0e18a86d842baad72f8a4a9`);
+the earlier Fedora 43 run used its R1 version. All report 1 GPU with 96 GiB
+HIP total memory. The ROCm 7.2 control returns the exact eight input floats;
+all ROCm 10 variants fail the same primitive operations before model loading.
+The final Fedora 44 run omits the extra read-only, capability-drop and
+no-new-privileges settings while retaining a non-root user, private work mount,
+network isolation and the supervised lease. Every run retired its owned child
+and supervisor, freed the lease, restored `llama-router.service`, and had no
+cleanup failure. The earlier ROCm 7.2 control R1 lacked private runtime DSOs;
+R2 was rejected before launch because one SHA-256 manifest value was mistyped.
+Their failed exits are preserved, and R3 is the valid passing control.
+
+The host is Pop!_OS 24.04, kernel `6.16.3-76061603-generic`. AMD's
+[ROCm 10 compatibility matrix](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)
+does not qualify this host combination. This is a plausible compatibility
+lead, not a proven kernel root cause. No host kernel, driver, firmware, clocks
+or power settings were changed for this experiment.
+
+There is **no valid ROCm 10 original-weight throughput comparison**: the
+primitive HIP gate fails, so the Fedora 44 LIE compile and the matched
+`single`, `fresh-128k`, `fresh-256k`, `multi` and direct Gufo runs were not
+started. The already passing ROCm 7.2 report remains the qualified .161
+performance result. A future candidate must first pass the same exact-copy
+diagnostic under a fresh lease, then compile the unchanged LIE and Gufo pins
+and run matched full-output profiles; a successful image build or `hipMalloc`
+alone is insufficient.
+
+Raw local receipts are under `evidence/rocm10-157-image-provenance-r1/`,
+`evidence/rocm10-point-image-fedora44-rpm-r1/`,
+`evidence/rocm10-point-hip-diag-fedora44-rpm-{r1,profile-r2,full-r3}/`,
+`evidence/rocm72-point-hip-diag-control-r3/`, and the earlier
+`evidence/rocm10-point-{build,probe,probe-seccomp,hip-diag}-*/` runs. The
+collection receipts include file SHA-256, actual process exits, service state,
+owned-process retirement and lease closure.

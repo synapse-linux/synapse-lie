@@ -2,6 +2,17 @@
 
 ## Strix Point fork — 2026-10-02
 
+The ROCm 10 follow-up found the `.157` Strix Halo image originates from Kyuz0's
+Docker Hub repository: its local digest is recorded, with Fedora Minimal 44 and
+AMD's signed RHEL 10 `gfx1151` RPMs. A separate LIE Fedora Minimal 44 image
+using AMD `gfx1150` RPMs built on `.161` with exit 0. Primitive HIP memset and
+copies fail in that image under three container profiles, and also fail with the
+Fedora 43 ROCm 10 tarball; a byte-identical ROCm 7.2 control passes on the same
+host. All one-shot runs release their lease and restore the named service.
+The [ROCm 10 report](STRIX-POINT-ROCM10.md) records exact image IDs, HIP codes,
+temperatures and evidence. Original-weight ROCm 10 performance remains
+unmeasured pending a passing runtime gate.
+
 The fresh operator-approved 100 C `single` campaigns on .161 now pass **8/8
 occupied depths each** for LIE reactive C1 and direct Gufo C1, PP2048/TG128,
 one warmup and one measured sample per depth. All 16 samples in each arm

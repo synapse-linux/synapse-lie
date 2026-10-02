@@ -13,8 +13,15 @@ BASE = '/home/pop/workspace/synapse-lie'
 SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8',
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
-FILES = ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
-         'telemetry.jsonl', 'stdout.log', 'stderr.log')
+FILES = {
+    'bench': ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
+              'telemetry.jsonl', 'stdout.log', 'stderr.log'),
+    'diagnostic': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
+                   'stdout.log', 'stderr.log'),
+    'image-build': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
+                    'image-build.log'),
+    'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
+}
 
 
 def sha(path):
@@ -25,18 +32,20 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('label')
+    parser.add_argument('--kind', choices=tuple(FILES), default='bench')
     args = parser.parse_args()
     if not re.fullmatch('[a-z0-9-]{1,48}', args.label): parser.error('Invalid label')
     local = ROOT/'evidence'/args.label
     if not (local/'plan.json').is_file(): parser.error('Unknown local campaign label')
     remote = BASE+'/'+args.label
+    names = FILES[args.kind]
     program = '''import fcntl,hashlib,json,os,pathlib,subprocess
 base=pathlib.Path('/home/pop/workspace/synapse-lie')
 root=base/'''+repr(args.label)+'''
 if root.resolve()!=root or root.stat().st_uid!=os.getuid():raise SystemExit('Unexpected run root')
 result=json.loads((root/'result.json').read_text())
 if not result.get('ended_at'):raise SystemExit('Campaign has not finished')
-names='''+repr(FILES)+'''
+names='''+repr(names)+'''
 files={}
 for name in names:
  p=root/name
@@ -53,12 +62,14 @@ out={'files':files,'result_state':result.get('state'),'result_exit_code':result.
      'child_exit_code':result.get('child_exit_code'),'model_stat_unchanged':result.get('model_stat_unchanged'),
      'supervisor_absent':not pathlib.Path('/proc/'+str(result['pid'])).exists(),
      'gpu_child_absent':not pathlib.Path('/proc/'+str(result.get('container_host_pid',-1))).exists(),
+     'owned_child_absent':not pathlib.Path('/proc/'+str(result.get('child_pid',-1))).exists(),
      'lease_free':free,'service':service.stdout,'service_exit':service.returncode,
      'kernel_kfd':[p.name for p in pathlib.Path('/sys/class/kfd/kfd/proc').iterdir()]}
 print(json.dumps(out))
 '''
     commands = []
-    status = {'schema': 'synapse-lie.point-bench-collection.v1', 'label': args.label,
+    status = {'schema': 'synapse-lie.point-run-collection.v1', 'label': args.label,
+              'kind': args.kind,
               'remote_root': remote, 'commands': commands}
     p = subprocess.run(SSH+['python3 -'], input=program, capture_output=True, text=True, timeout=90)
     commands.append({'argv': SSH+['python3 -'], 'exit_code': p.returncode, 'stderr': p.stderr})
@@ -82,7 +93,7 @@ print(json.dumps(out))
             sha(dest) != identity['sha256']):
             status['error'] = 'Copy/hash mismatch: '+name
             break
-    required = set(FILES)
+    required = set(names)
     if not status.get('error') and not required.issubset(inventory['files']):
         status['error'] = 'Missing required evidence files'
     status['exit_code'] = 0 if not status.get('error') else 1
@@ -90,7 +101,7 @@ print(json.dumps(out))
     print(json.dumps({'label': args.label, 'exit_code': status['exit_code'],
                       'state': inventory['result_state'], 'child_exit_code': inventory['child_exit_code'],
                       'files': len(inventory['files']), 'closure': {key: inventory[key] for key in
-                      ('supervisor_absent', 'gpu_child_absent', 'lease_free')}}))
+                      ('supervisor_absent', 'gpu_child_absent', 'owned_child_absent', 'lease_free')}}))
     return status['exit_code']
 
 
