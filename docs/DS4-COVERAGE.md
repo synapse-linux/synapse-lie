@@ -68,3 +68,11 @@ LIE sources: `src/chat.c`, `src/server.c`, `src/responses.c`, `src/worker.c`,
 OPENAI-GPU.md/C1-BASELINE.md/REACTIVE-INFERENCE-RESULT.md.
 This is a source/evidence audit, not a new DS4 run or independent performance
 comparison. Fresh performance measurements use only LIE-owned artifacts.
+
+## KVC codec increment — 2026-10-02
+
+The [shared C17 KVC wire codec](KVC.md) now reads/writes the DS4 envelope and
+serializes/parses its Qwen payload, independently of HTTP and the device backend.
+Synthetic independent byte fixtures pass; live state mapping and upstream-produced
+checkpoint qualification remain open. This does not change the dated DS4 Gufo
+port inspection above or establish cross-quantization cache reuse.

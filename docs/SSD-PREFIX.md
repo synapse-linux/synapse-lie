@@ -224,3 +224,6 @@ identity; the updated adapter identity admits context growth but still binds
 weights, build, device, chunk and numerical policy. A binary identity change
 prevents treating historical GPU-qualified files as current-build evidence.
 Native v3 is not DS4 KVC/payload compatibility.
+The separate [KVC interchange codec](KVC.md) can retain and rewrite DS4 wire
+records; it is not registered as a live native-store loader. SSD opt-in,
+identity admission, accounting and existing native files retain this contract.

@@ -1,5 +1,30 @@
 # Isolated OpenAI reactive API increment
 
+## C17 KVC envelope and Qwen payload codecs — 2026-10-02
+
+Added default-ON, independently optional `LIE_KVC_INTERCHANGE`: a shared C17
+wire library and `synapse-lie-kvc inspect/copy`, also available without HTTP.
+Owned RAM records and file I/O retain KVC v1/ABI2 bytes, bounded text/extensions
+and interoperable text filenames. The typed Qwen codec validates and serializes
+complete payload components, including full index history, MTP rows and position
+metadata, without inventing missing data or changing numerical precision.
+
+An independent Python wire oracle checks C decode/re-encode byte equality.
+The suite covers truncation at every byte, size/geometry/token corruption,
+4,000 deterministic mutations, cancellation, short I/O/EINTR/ENOSPC, source
+mutation, budgets and exclusive output publication. Headless ON: 8/8; complete
+HTTP/core composition: 34/34; headless interchange OFF: 7/7, all ASan/UBSan with
+LeakSanitizer enabled. All build/configuration/test child exits are 0. Persistent
+receipts: `evidence/kvc-*`; local CPU peak 74.875 C. No GPU or model work.
+
+This is wire-format support, not a qualified live-state converter. Native RAM
+and `LIEPFX1` SSD serving remain unchanged; there is no new inference thread or
+prefill work. Gufo's discarded index history and differing state layout still
+require a provider bridge, an independently produced DS4 checkpoint and a
+coordinated numerical GPU test. Cross-quant reuse and frontend-specific history
+serialization remain open. High-ratio compression beyond reviewed upstream
+capability stays deferred. [API, tool, provenance and next gates](KVC.md).
+
 ## High-ratio compression deferred to upstream capability — 2026-10-02
 
 The owner explicitly permits skipping high-ratio compression for now when it

@@ -42,7 +42,9 @@ bounded dynamic indices. CPU sanitizers and original-weight state checks pass,
 including capture after generation and restore into a larger context. The
 [policy comparison](docs/CACHE-DS4-GPU.md) exposes a retention regression at 128K
 with the default 4 GiB budget; `--cache-policy legacy` remains available.
-DS4 KVC binary import/export and cross-quantization reuse are not implemented.
+The shared C17 [KVC interchange codec and offline tool](docs/KVC.md) now read,
+write and structurally validate DS4 Qwen records. Live model-state conversion
+and cross-quantization reuse remain pending; runtime caches still use LIE state.
 An additional high-ratio Qwen cache codec is deferred: it is absent from the
 reviewed antirez path and is outside the current compatibility scope.
 The earlier GPU numbers above use their recorded capture policy.

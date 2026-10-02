@@ -215,3 +215,15 @@ The implementation in `cache_policy.c`, `retention.c`, `prefix_cache.c` and
 local DS4 checkout was modified. This is a dated moving-main review, not an
 immutable upstream source dependency. DS4 binary payload compatibility and
 cross-quantization reuse are not claimed; native metadata remains LIE-owned.
+
+## DS4 wire interoperability reference — 2026-10-02
+
+`src/kvc.c` and `src/models/kvc_qwen.c` are first-party MIT C17 codecs written
+against observed wire facts; no DS4 source/artifact was imported. Qwen payload
+and public constants were read in official upstream revision
+`0aaea5a238fb41a35106a551e73c8409dfb751ac`, obtained with read-only `git ls-remote`.
+The outer envelope was separately inspected at
+`6289c516273979173abbc062209a81dd3706b804` and in the dated main review for extended
+quantization values. The older pin contains no Qwen path. OpenSSL's EVP SHA-1
+supplies text filenames; no upstream digest implementation was copied.
+[Exact scope, source links and remaining integration gates](../docs/KVC.md).

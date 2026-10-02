@@ -324,3 +324,14 @@ Capture may follow completed autoregressive generation or an EOS boundary;
 and component geometry. Restore continues to require a fresh, unstarted target.
 Capturing a source with an active sampler does not copy that sampler or its RNG.
 A capture failure publishes job error metadata before waking the flow consumer.
+
+## KVC wire interchange API
+
+`lie/kvc.h` and `lie/kvc_qwen.h` expose additive shared C17 codecs, built by the
+default-ON `LIE_KVC_INTERCHANGE` option. Existing executor, request and state ABIs
+are unchanged. The library owns envelope framing, byte budgets and Qwen wire
+layout; it does not own or borrow an executor session. Byte views are immutable
+and unaligned; owned records must outlive their borrowed views. Outputs publish
+only on success, except caller-owned encode/write buffers, which must be discarded
+after any error. No implicit file publication, model identity binding or restore
+occurs. See [format, cancellation and lifetime contract](KVC.md).

@@ -253,3 +253,8 @@ store-wide. SSD hits update persisted timestamps and hit counts. Build flags
 and every core-bench policy setting are comparison keys. Historical records
 without checkpoint-policy fields retain legacy interpretation. No hit metric
 asserts DS4 file interoperability or a numerical/performance improvement.
+
+The offline [KVC tool](KVC.md) reports `memory_bytes`, text/payload/trailer sizes
+and optional Qwen structural-validation fields in its own JSON. These are not
+runtime cache hits, throughput or device qualification. Its completed operations
+do not change actuator/Prometheus counters or add inference threads.

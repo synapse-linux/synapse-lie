@@ -121,7 +121,11 @@ progressive/final captures evict useful waypoints and significantly worsen
 identical-prompt latency. This is a retention tradeoff, not faster prefill.
 The previous schedule remains available with `--cache-policy legacy`.
 
-Remaining gates: DS4 KVC/payload binary import/export; cross-quantization reuse; and frontend
+The [C17 KVC codec](KVC.md) now implements envelope I/O and complete Qwen
+wire serialization with independent synthetic byte fixtures. Runtime model-state
+conversion is separate: current live captures cannot supply every wire component.
+
+Remaining gates: live DS4 KVC/payload import/export and numerical qualification; cross-quantization reuse; and frontend
 serialization of DS4-specific tool/visible-thinking/session extensions. The core
 can retain opaque extensions but does not manufacture those protocol histories.
 Cross-quantization reuse remains refused by full weight identity.

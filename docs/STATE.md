@@ -24,6 +24,10 @@ remain delegated; this does not claim an autonomous C model executor.
 
 ## Implemented RAM contract
 
+The additive [KVC interchange API](KVC.md) reads/writes foreign wire records in
+RAM and files, with a typed Qwen payload codec. It does not change the following
+native runtime representation or enable unqualified foreign-model restore.
+
 - A dynamically growing immutable checkpoint index, separately bounded to
   `min(cache budget, 16 MiB)`; payloads remain bounded by the configured total bytes.
   Account the allocation containing descriptor and payload; allocator/driver
