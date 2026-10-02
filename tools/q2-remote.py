@@ -18,13 +18,15 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier'],
-                   default='qualified', help='Isolated experimental source for q2-bench only')
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc'],
+                   default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     args = p.parse_args()
-    if args.source_variant != 'qualified' and args.mode != 'q2-bench':
-        p.error('Experimental source selection requires q2-bench')
+    if args.source_variant == 'hc' and args.mode not in ('hc-operators', 'hc-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
+        p.error('HC source requires HC checks or Q2 benchmark/profile')
+    if args.source_variant not in ('qualified', 'hc') and args.mode != 'q2-bench':
+        p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
     if args.mode == 'status':
@@ -59,9 +61,9 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
             archive.add(ROOT / name, arcname=name)
-        source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
+        source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
             source = '.deps/gufo-q2-bench-' + args.source_variant
         archive.add(ROOT / source, arcname='source')

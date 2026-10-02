@@ -5,3 +5,4 @@
 !/evidence/README.md
 __pycache__/
 *.pyc
+/docs/figures/.mpl-cache/

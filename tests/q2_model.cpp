@@ -11,6 +11,7 @@
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "src/core/crypto/sha256.hpp"
@@ -97,8 +98,9 @@ SizedPrompt(const tok::QwenTokenizer &tokenizer, std::size_t target) {
 
 int main(int argc, char **argv) {
   try {
-    Require(argc == 3, "Usage: q2_model MODEL smoke|bench|profile");
-    const bool bench = std::string(argv[2]) == "bench";
+    Require(argc == 3, "Usage: q2_model MODEL smoke|bench|bench2k|profile");
+    const bool bench2k = std::string(argv[2]) == "bench2k";
+    const bool bench = std::string(argv[2]) == "bench" || bench2k;
     const bool profile = std::string(argv[2]) == "profile";
     Require(bench || profile || std::string(argv[2]) == "smoke",
             "Unsupported profile");
@@ -228,14 +230,23 @@ int main(int argc, char **argv) {
     } else if (bench) {
       std::vector<std::vector<std::int32_t>> inputs;
       for (std::size_t size : {512, 2048, 8192}) {
+        if (bench2k && size != 2048)
+          continue;
         const auto input = SizedPrompt(*tokenizer, size);
         const auto label = "pp" + std::to_string(size);
         Save<std::int32_t>(label + "-input.i32", input);
         inputs.push_back(input);
       }
       for (int rep = 0; rep < 4; ++rep) {
-        for (int i = 0; i < 3; ++i) {
-          const auto &input = inputs[rep == 2 ? 2 - i : i];
+        if (bench2k) {
+          // Cool between independent requests; never inside PP/TG timing.
+          // The external supervisor retains its CPU/GPU thermal stop.
+          std::cout << "{\"event\":\"cooldown\",\"seconds\":15,\"before_rep\":"
+                    << rep << "}\n";
+          std::this_thread::sleep_for(std::chrono::seconds(15));
+        }
+        for (std::size_t i = 0; i < inputs.size(); ++i) {
+          const auto &input = inputs[rep == 2 ? inputs.size() - 1 - i : i];
           sample("pp" + std::to_string(input.size()), input, rep, 128);
         }
       }

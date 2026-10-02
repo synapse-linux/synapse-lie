@@ -20,6 +20,22 @@ target_sources(q2_host PRIVATE ${GUFO_SOURCE}/src/core/hip/hipblaslt_plan_databa
 set(PROJECT_SOURCE_DIR "${GUFO_SOURCE}")
 add_subdirectory("${GUFO_SOURCE}/src/models/qwen38_flash_next" qwen)
 set(MMQ "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/mmq")
+set(Q2_MMQ_ARCHIVE "" CACHE FILEPATH "Verified task-owned unchanged MMQ archive")
+if(Q2_MMQ_ARCHIVE)
+  if(NOT EXISTS "${Q2_MMQ_ARCHIVE}")
+    message(FATAL_ERROR "Verified MMQ archive is missing")
+  endif()
+  add_library(q2_qualified_mmq STATIC IMPORTED GLOBAL)
+  set_target_properties(q2_qualified_mmq PROPERTIES
+    IMPORTED_LOCATION "${Q2_MMQ_ARCHIVE}"
+    INTERFACE_INCLUDE_DIRECTORIES "${MMQ}"
+    INTERFACE_LINK_LIBRARIES "hip::host;roc::hipblas")
+  foreach(property IN ITEMS LINK_LIBRARIES INTERFACE_LINK_LIBRARIES)
+    get_target_property(links gufo_qwen38_flash_next ${property})
+    list(TRANSFORM links REPLACE "^gufo_qwen38_flash_next_mmq$" "q2_qualified_mmq")
+    set_target_properties(gufo_qwen38_flash_next PROPERTIES ${property} "${links}")
+  endforeach()
+endif()
 file(READ "${MMQ}/ggml-common.h" table_source)
 string(REGEX MATCH "GGML_TABLE_BEGIN\\(uint64_t, iq2xxs_grid, 256\\)([^)]*)GGML_TABLE_END\\(\\)" table_match "${table_source}")
 if(NOT table_match)
@@ -51,3 +67,21 @@ target_link_libraries(q2_host PUBLIC ICU::uc ICU::i18n OpenSSL::Crypto
   PNG::PNG JPEG::JPEG CURL::libcurl roc::rocblas roc::hipblas roc::hipblaslt)
 add_executable(q2_model ../../tests/q2_model.cpp ../../tests/q2_profile_markers.hip)
 target_link_libraries(q2_model PRIVATE gufo_qwen38_flash_next)
+# The HC diagnostic uses the exact upstream kernel translation unit and its
+# numerical flags, without compiling unrelated MMQ and model executor code.
+add_executable(q2_hc ../../tests/q2_hc.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
+set_source_files_properties(
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  PROPERTIES LANGUAGE HIP)
+set_source_files_properties(
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  PROPERTIES COMPILE_OPTIONS "-mwavefrontsize64")
+target_compile_options(q2_hc PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc PRIVATE hip::host)

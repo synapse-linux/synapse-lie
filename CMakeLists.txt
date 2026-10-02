@@ -21,6 +21,10 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter)
 add_test(NAME q2_process COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_process_test.py)
 set_tests_properties(q2_process PROPERTIES TIMEOUT 30)
+add_test(NAME q2_thermal COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_thermal_test.py)
+add_test(NAME q2_reuse COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_reuse_test.py)
 add_test(NAME q2_profile COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_profile_test.py)
 add_library(q2_host STATIC

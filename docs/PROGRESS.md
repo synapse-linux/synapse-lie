@@ -130,3 +130,43 @@ Fresh release at 2026-10-02 06:14:39.647 UTC verifies four runners absent, 16 co
 identities/groups retired, KFD empty and four expected leases free. Core received
 the explicit handover; no Q2 job or retry remains. Checkpoint 714bac0 preserves
 the isolated experiment setup before completion.
+
+## F16 HC decode exploration
+
+The owner confirms performance may be measured before numerical correction.
+[Q2-HC-EXPERIMENT.md](Q2-HC-EXPERIMENT.md) records a four-wave F16 HC down
+candidate against the original 320x10240 one-token projection. Original weights
+and F32 activations are preserved. Isolated GPU medians improve from 135.4764
+to 47.3383 us, 2.86188x, rotating 100 MiB beyond cache. Both arms pass 11
+independent operators; eight controls remain byte-exact, three targeted cases
+change rounding with maximum absolute delta 1.90735e-6. This is component
+evidence, not model parity. The active qualified runtime remains unchanged.
+
+CPU/GPU thermal guards stop owned process groups at 85 C or lower exposed
+thresholds. Latest host checks pass 8/8 Debug and 8/8 ASan/UBSan on `.157`.
+Two complete rebuilds stop thermally; a reduced micro target succeeds after a
+recorded missing-wave64 link failure. Bounded model compilation now reuses only
+the verified unchanged MMQ archive from this workstream's own qualified runs,
+checking all 1019 source files except the changed HC kernel and archive/binary
+identities. A CMake visibility failure was corrected and retained.
+
+The uncooled original-model screen stops at CPU 85.750 C after one measured
+request. A matched protocol with explicit 15-second idle intervals then retains
+two measured Q2 reference requests before CPU 85.250 C interrupts the third.
+Both remain FAILED, not completed comparative benchmarks. No continuous-serving
+throughput or model parity is inferred from these partial observations.
+
+The candidate and matched UD model arms complete all three requested samples.
+At 2K, candidate PP/TG medians are 609.762/22.9246, versus fresh UD
+1684.619/24.3159. Candidate TG is 12.25% above the two partial reference samples
+and 5.72% below UD; PP remains 63.80% below UD. All nine Q2 token files match;
+6/12 saved logits are exact, maximum KL3.2777e-6. Nine repeated candidate
+frontiers/output checks are exact; fresh UD matches 21 historical files.
+No runtime is promoted and no full comparison pass is claimed.
+
+Twelve arms retain 153 verified artifacts and 42 command exits. Fresh closure
+2026-10-02 07:13:11.718 UTC verifies all owned processes retired, KFD empty and
+four expected leases free. GPU48 C/CPU49.5 C. Handover is recorded persistently
+in remote run/q2-hc-window-release.json and the shared coordination registry;
+direct thread-message delivery currently fails with an HTTP transport error.
+No Q2 load or automatic retry remains. Overall PP/TG parity with UD stays open.

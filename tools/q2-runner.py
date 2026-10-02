@@ -11,6 +11,8 @@ import shutil
 import sys
 
 from q2_process import supervise
+from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
+from q2_reuse import verify_sources
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCKS = [
@@ -27,9 +29,10 @@ def now():
 
 def main():
     mode = sys.argv[1]
-    model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-profile','ud-base','ud-patched')
+    model_mode = mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode:
+    hc_mode = mode in ('hc-operators', 'hc-bench')
+    if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
               'pid': os.getpid(), 'commands': [], 'locks': [], 'model_access': False}
@@ -40,7 +43,7 @@ def main():
     def clients():
         return sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').glob('*') if p.name.isdecimal())
     def observation(pid=None):
-        row={'at':now(),'kfd':clients()}
+        row={'at':now(),'kfd':clients(),'thermal':thermal_sample()}
         for name in ['meminfo']:
             row[name]=Path('/proc',name).read_text()
         row['sensors']={}
@@ -54,6 +57,10 @@ def main():
                 try: row[name]=Path('/proc',str(pid),name).read_text()
                 except OSError as ex: row[name]=str(ex)
         with (results/'telemetry.jsonl').open('a') as stream: stream.write(json.dumps(row)+'\n')
+        if any(sensor['over_limit'] for sensor in row['thermal']):
+            result['thermal_stop'] = row['thermal']
+            save()
+        thermal_enforce(row['thermal'])
     def device_observers():
         observers=[];denied=0
         for proc in Path('/proc').glob('[0-9]*'):
@@ -82,13 +89,14 @@ def main():
         return {'path':path,'bytes':st.st_size,'device':st.st_dev,'inode':st.st_ino,
                 'mtime_ns':st.st_mtime_ns,'ctime_ns':st.st_ctime_ns}
     def run(argv, env, limit=1800):
+        observation()
         row = {'argv': argv, 'started_at': now()}; result['commands'].append(row); save()
         logfile = results/f'{len(result["commands"]):02}.log'
         with logfile.open('wb') as log:
             try:
                 supervise(argv,cwd=ROOT,env=env,log=log,row=row,timeout=limit,save=save,
                           clients=clients if mode!='cpu' else lambda: (),
-                          observe=observation if mode!='cpu' else lambda pid: None)
+                          observe=observation)
             finally:
                 row['finished_at']=now();save()
         row['finished_at'] = now(); save()
@@ -141,6 +149,28 @@ def main():
         env = {k:v for k,v in os.environ.items() if not k.startswith(('GUFO_','DS4_','HIP_','ROCR_','HSA_','CUDA_')) and k not in ('LD_PRELOAD','LD_LIBRARY_PATH')}
         env.update(LC_ALL='C',HIP_VISIBLE_DEVICES='-1',ROCR_VISIBLE_DEVICES='-1',
                    ASAN_OPTIONS='detect_leaks=1:halt_on_error=1',UBSAN_OPTIONS='halt_on_error=1')
+        reuse_args=[]
+        if mode.endswith('bench2k'):
+            observation()
+            previous=ROOT.parent/('q2-explore-reference-r1' if mode.startswith('q2-') else 'q2-explore-ud-r1')
+            receipt=json.loads((previous/'results/result.json').read_text())
+            if receipt['state']!='MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT' or any(c['exit_code'] for c in receipt['commands']):
+                raise RuntimeError('MMQ reuse reference was not qualified')
+            identity=verify_sources(previous/'source', ROOT/'source')
+            prior_binary=previous/'build/hip/cmake/hip/q2_model'
+            if hashlib.sha256(prior_binary.read_bytes()).hexdigest()!=receipt['binary_sha256_after']:
+                raise RuntimeError('MMQ reuse reference binary changed')
+            archive=previous/'build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a'
+            digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+            reuse=ROOT/'reuse';reuse.mkdir()
+            copied=reuse/'libgufo_qwen38_flash_next_mmq.a'
+            shutil.copyfile(archive,copied)
+            if hashlib.sha256(copied.read_bytes()).hexdigest()!=digest:
+                raise RuntimeError('MMQ archive copy differs')
+            result['mmq_reuse']=dict(identity,reference=str(previous),archive=str(archive),sha256=digest,
+                                     reference_binary_sha256=receipt['binary_sha256_after'])
+            reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
+            save()
         profiles=[('debug',False),('sanitize',True)] if mode=='cpu' else [('hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
@@ -148,14 +178,23 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if mode=='cpu' else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if mode=='cpu' else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151'],env)
-            build_args=['cmake','--build',str(build),'--parallel','2']
-            if mode!='cpu':build_args+=['--target','q2_model' if model_mode else 'q2_operators']
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+reuse_args,env)
+            # Bound CPU build pressure after the recorded two-job thermal
+            # stop. This changes build concurrency, not runtime device policy.
+            build_args=['cmake','--build',str(build),'--parallel','1' if model_mode else '2']
+            if mode!='cpu':build_args+=['--target','q2_model' if model_mode else 'q2_hc' if hc_mode else 'q2_operators']
             run(build_args,env)
             if mode=='cpu':run(['ctest','--test-dir',str(build),'--output-on-failure'],env)
             elif mode in ('operators','operators-reference'):
                 gpu_env=dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0')
                 run([str(build/'cmake/hip/q2_operators')],gpu_env,120)
+            elif hc_mode:
+                binary=build/'cmake/hip/q2_hc'
+                result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                run([str(binary), 'bench' if mode=='hc-bench' else 'operators'],
+                    dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
+                result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
             elif model_mode:
                 binary=build/'cmake/hip/q2_model'
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -171,17 +210,23 @@ def main():
                     run(['python3',str(ROOT/'tools/q2-resource-report.py'),str(results/'profile/q2_results.db'),
                          str(results/'profile-resources.json')],env,120)
                 else:
-                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
+                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench2k' if mode.endswith('bench2k') else 'bench'],
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                 result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
+        if mode=='hc-bench': result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:
         try:
+            if 'mmq_reuse' in result:
+                for archive_path in (Path(result['mmq_reuse']['archive']), ROOT/'reuse/libgufo_qwen38_flash_next_mmq.a'):
+                    if hashlib.sha256(archive_path.read_bytes()).hexdigest()!=result['mmq_reuse']['sha256']:
+                        raise RuntimeError('MMQ archive changed during run')
+                result['mmq_reuse']['unchanged_after']=True
             if model_paths:
                 result['models_after']=[stat_model(p) for p in model_paths]
                 if result['models_after']!=result['models_before']: raise RuntimeError('Model identity changed')

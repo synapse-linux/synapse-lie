@@ -70,3 +70,23 @@ acquired EX|NB then released. Core received explicit handover. No Q2 remote job
 or retry remains. The core thread was also informed of observed model-process
 temperature maxima 92/95/97/98°C across the sequential arms. Qualified runtime
 source remains unchanged; neither numerical failure is rewritten as a pass.
+
+Core explicitly returned the next window to Q2 for HC F16 exploration, then
+reconfirmed it after a local `.155` thermal abort: no core `.157` load overlaps.
+All Q2 commands now require fresh CPU/GPU thermal readings and stop their own
+process group at 85 C or a lower exposed sensor max/crit threshold. The initial
+whole-library HC diagnostic build was stopped at CPU 86.625 C (GPU 48 C),
+command exit -15, transport exit 1; no operator or model ran. Its immutable
+receipt is `evidence/q2-hc-reference-r1`. The next diagnostic target compiles
+only the original kernel translation unit with inherited numerical flags; it
+does not disable the thermal guard or modify hardware policy.
+
+HC exploration closes at 2026-10-02 07:13:11.718 UTC: 12 runners absent,
+42 command PID/start identities and groups retired, KFD empty, expected four
+lease identities acquired EX|NB and released. GPU48 C/CPU49.5 C. All 153 artifacts
+are collected and hash verified, including thermal and build failures. The
+explicit handover is stored at persistent remote run/q2-hc-window-release.json
+and appended as window_release in the shared coordination registry. Direct
+thread messages currently fail at the local MCP HTTP transport, so delivery
+is not claimed. Core may take the released window with its own fresh admission.
+No Q2 remote job, waiter or automatic retry remains.

@@ -14,3 +14,10 @@ widths, and exactly widens the small F16 HC injection matrices at load. The
 standalone qualification harness is first-party MIT. Its IQ2 oracle uses the
 official format codebook generated from the pinned source at build time, with
 independently evaluated unpacking and dot-product arithmetic.
+
+`experiments/q2-hc-four-wave.patch` is first-party MIT numerical work against
+the same independently fetched official pin. It changes F16 HC down work
+distribution without importing another engine or changing weight precision.
+Its qualification harness inherits upstream numerical flags; bounded model
+checks may reuse this workstream's unchanged, identity-verified MMQ archive.
+The original upstream and llama.cpp notices remain applicable to that archive.

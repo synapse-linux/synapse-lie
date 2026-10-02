@@ -88,6 +88,14 @@ class ProcessTests(unittest.TestCase):
         self.assertTrue(self.row['lingering_descendants'])
         self.assert_retired()
 
+    def test_observer_failure_stops_owned(self):
+        def hot(pid):
+            raise RuntimeError('Thermal limit reached')
+        with self.assertRaisesRegex(RuntimeError, 'Thermal limit'):
+            self.run_child('import time; time.sleep(10)', observe=hot)
+        self.assert_retired()
+        self.assertIsNotNone(self.row['exit_code'])
+
     def test_disappeared_client(self):
         self.assertIsNone(identity(2147483647))
         self.run_child('pass', clients=lambda: [2147483647])

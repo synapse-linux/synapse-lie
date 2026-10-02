@@ -17,6 +17,10 @@ register spills but fail exact operator replay. The original runtime is restored
 the subsequent owner-authorized [performance exploration](docs/Q2-PERFORMANCE-EXPLORATION.md)
 measures +13–42% PP for bounded K and +1–28% for the barrier. Numerical work
 and the overall no-regression target remain open.
+The separate [F16 HC down experiment](docs/Q2-HC-EXPERIMENT.md) measures a
+2.86x component speedup and about 12% higher model decode, with original weight
+bytes. The fresh reference is thermally interrupted; the comparison is
+incomplete and the candidate remains 5.7% below UD decode at 2K.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
