@@ -97,6 +97,10 @@ def main():
         axis.set_ylim(bottom=0);axis.set_title(title);axis.grid(alpha=.25);axis.legend()
     fig.suptitle('Q2 compatibility: initial C1 screen (median and observed range)')
     fig.savefig(args.output/'comparison.svg');fig.savefig(args.output/'comparison.png',dpi=150)
+    svg=args.output/'comparison.svg'
+    lines_svg=svg.read_text().splitlines()
+    lines_svg.insert(1,'<!-- SPDX-License-Identifier: MIT -->')
+    svg.write_text('\n'.join(line.rstrip() for line in lines_svg)+'\n')
     print('\n'.join(lines))
 
 
