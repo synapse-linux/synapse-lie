@@ -21,6 +21,18 @@ losses remain explicit; this is not a formal zero-margin no-regression pass.
 Q2/UD physical prompts and generated trajectories match across these samples.
 No independent full-model Q2 teacher or general model-quality score is claimed.
 
+## Q2 weight staging prepared — 2026-10-02
+
+The [isolated staged-weight path](Q2-STAGED-WEIGHTS.md) decodes original Q2
+weights once in LDS for the packed activation consumer. The retained profile
+places 288.934 ms in this down projection. Static compilation halves the
+mixed-half decode instructions, but VGPR/LDS requirements rise, so runtime
+benefit remains unproven. All 1,019 files reconstruct exactly; changed-source
+formatting and the new original-shape benchmark's host syntax pass. Existing
+operators, numerical replay and GPU performance checks remain pending while
+core owns `ssd-gpu-r12`. User-directed reactive PLE lookahead is examined as a
+separate hypothesis with unchanged kernels and bounded buffer lifetimes.
+
 ## PLE I/O and cache capacity — 2026-10-02
 
 The [bounded I/O comparison](Q2-PLE-CACHE.md) measures about 2,847 MiB physical

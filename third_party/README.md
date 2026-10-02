@@ -115,3 +115,10 @@ patches retain official Gufo provenance and notices; new fixtures, analysis,
 plotting and orchestration are first-party MIT. No model data is converted or
 copied, and no external engine, DS4 source or sibling artifact is imported.
 Source receipts and measured limitations are recorded in `docs/Q2-PLE-CACHE.md`.
+
+`experiments/q2-staged-weights.patch` is first-party MIT work against the same
+independently fetched official Gufo pin and measured MoE/HC checkpoint. It moves
+the existing Q2 affine decode into shared staging without changing the stored
+format or importing another implementation. Existing upstream notices remain.
+Its original-shape synthetic benchmark, generator and runner extensions are MIT;
+static-only status is explicit in `docs/Q2-STAGED-WEIGHTS.md`.

@@ -652,3 +652,11 @@ The verified release time is **2026-10-02T18:25:33.765424+00:00**; independent
 observer retirement is **2026-10-02T18:26:08.303468+00:00**. The tracked local
 receipt and `config/q2-ple-cache-validation.json` contain the same records.
 Q2's handover is explicit; no further Q2 remote access is planned in this window.
+
+Core explicitly accepts that release and reports its fresh admission observation
+at **18:41:12.661319 UTC**, with empty KFD and four unchanged/free leases.
+Its next window is `ssd-gpu-r12`; Q2 does not interleave. Q2 prepares an isolated
+packed-Q2 weight-staging kernel and synthetic benchmark locally. The owner also
+asks about reactive n-gram benefit, so bounded prompt lookahead is being examined
+as a separate host-I/O/GPU overlap hypothesis. No new Q2 remote build, test or
+model access has started; these preparations do not qualify either speedup.

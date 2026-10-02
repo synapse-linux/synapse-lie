@@ -83,6 +83,11 @@ All 264 compared model frontiers replay exactly. The extra cache stores 15 MiB
 more encoded rows plus metadata; it remains an isolated instrumented experiment.
 The report includes the full comparison, graph and retained validation failures.
 
+A [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) now compiles and
+reconstructs statically, with a synthetic original-shape benchmark prepared.
+It halves the static mixed-half decode instructions but increases registers
+and LDS; numerical and performance qualification await the next GPU window.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

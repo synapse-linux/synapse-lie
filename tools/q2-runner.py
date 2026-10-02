@@ -34,8 +34,8 @@ def main():
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k')
     model_mode = io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators')
-    hc_target = 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
+    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'packed-bench')
+    hc_target = 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode == 'packed-bench' else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
     if not cpu_mode and mode not in ('hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -208,7 +208,7 @@ def main():
                 binary=build/'cmake/hip'/hc_target
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 try:
-                    run([str(binary)] + ([] if mode in ('hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators') else ['bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
+                    run([str(binary)] + ([] if mode in ('hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'packed-bench') else ['bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -239,6 +239,7 @@ def main():
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
         if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'
+        if mode == 'packed-bench': result['state']='SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode in ('hc-bench','hc-pp-bench','hc-up-bench','hc-moe-bench','hc-norm-bench'): result['state']='SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT'
     except Exception as ex:
         result['state'] = 'FAILED'; result['error'] = repr(ex)
