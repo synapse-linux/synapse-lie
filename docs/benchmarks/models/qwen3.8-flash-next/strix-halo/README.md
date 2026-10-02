@@ -20,6 +20,7 @@ executable, numerical archives and measurement protocol.
 | Shared C core | [GPU regression](../../../../CORE-GPU-RESULT.md) | C1/C2/C4/C8 and fresh PP through 128K; includes core latency |
 | RAM prefix state | [GPU state and cache result](../../../../STATE-GPU-RESULT.md) | Exact same-provider restore through 128K, core cache off/on timings and HTTP smoke |
 | SSD restart and C1 off/RAM/SSD | [Completed SSD result](../../../../SSD-GPU-COMPLETION.md) | Exact restore through 128K, 4K-to-8K extension, PP/TG/TTFT and 1 Hz thermal graphs; earlier software stops retained |
+| Cache features and HTTP SSD | [R5 results](../../../../CACHE-FEATURES-GPU.md) | ON/OFF core through 128K; raw SSD restart, C2, cancellation and slow-client checks; numeric-byte codec is a separate revision |
 | HTTP capacity and Pi | [256K and tool receipt](../../../../HTTP-256K-PI.md) | Capacity and functional tool tests; not a 256K quality/performance campaign |
 
 Reports link full tables, graph exports and machine-readable samples. Preserve
@@ -27,10 +28,10 @@ fresh PP, suffix PP and restored-prefix costs separately. The 4.11x C8 result
 compares LIE native batching against LIE serial dispatch on the same provider;
 it does not isolate a reactive advantage over Gufo native batching.
 
-The [SSD HTTP restart/C2 client](../../../../SSD-HTTP-PROTOCOL.md) is now
-implemented, including first-text/gap percentiles, executed PP/TG and graph
-exports. Its local CPU fixtures pass; original-weight `.157` measurements
-are pending and do not add another measured row to the table above.
+The [SSD HTTP restart/C2 client](../../../../SSD-HTTP-PROTOCOL.md) includes
+first-text/gap percentiles, executed PP/TG and graph exports. R5 now supplies
+original-weight measurements. Preserve its raw-checkpoint and sample-count
+limits when comparing later codec revisions.
 
 ## Other weight formats
 

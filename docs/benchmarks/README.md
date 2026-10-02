@@ -8,7 +8,7 @@ Results from parallel branches require their own source and evidence review.
 
 | Model | Platform and provider | Weight format | Integrated evidence |
 |---|---|---|---|
-| [Qwen3.8 Flash Next](models/qwen3.8-flash-next/README.md) | [AMD Strix Halo, HIP gfx1151](models/qwen3.8-flash-next/strix-halo/README.md) | Unsloth UD-Q4_K_XL | Original-weight AR performance, HTTP capacity, reactive batching, RAM state and SSD restart/C1 through 128K |
+| [Qwen3.8 Flash Next](models/qwen3.8-flash-next/README.md) | [AMD Strix Halo, HIP gfx1151](models/qwen3.8-flash-next/strix-halo/README.md) | Unsloth UD-Q4_K_XL | Original-weight AR performance, HTTP capacity, reactive batching, RAM state, SSD restart/C1 through 128K and raw-state HTTP SSD/C2 |
 | Qwen3.8 Flash Next | [AMD Strix Halo, HIP gfx1151](models/qwen3.8-flash-next/strix-halo/README.md#other-weight-formats) | antirez Q2/Q4 | No current qualified result integrated from the separate compatibility branch |
 | Qwen3.8 Flash Next | [AMD Strix Point, HIP gfx1150](models/qwen3.8-flash-next/strix-point/README.md) | Unsloth UD-Q4_K_XL | No original-weight GPU measurement integrated |
 | Qwen3.8 Flash Next | [NVIDIA DGX Spark, CUDA](models/qwen3.8-flash-next/dgx-spark/README.md) | Must identify the exact checkpoint and format | No LIE CUDA performance measurement integrated |

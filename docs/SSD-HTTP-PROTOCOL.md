@@ -6,11 +6,11 @@ and Responses, in JSON and SSE. Python measures the external client; checkpoint
 ownership, disk waits, cancellation and output credits stay in `lie_core`.
 This increment changes no engine or numerical behavior.
 
-Status, 2026-10-02: implemented and checked with ASan/UBSan CPU fixtures.
-**Original-weight HTTP SSD qualification is NOT RUN.** The completed
-[128K state/core result](SSD-GPU-COMPLETION.md) is separate evidence. After Q2,
-the `.157` window is being used for the owner's direct model copy to `.161`;
-this campaign waits for verified release and fresh four-lease admission.
+Status, 2026-10-02: CPU fixtures and the original-weight R5 campaign pass.
+R5 uses source `3b20903`: producer/restarted reader, 30 samples, three C2
+cohorts, natural I/O cancellation and unread-client isolation. Actual prompt
+sizes are 131123 and 8243 tokens. Checkpoints stay raw v1; this does not qualify
+the later byte-plane/Zstandard codec. See [the complete R5 result](CACHE-FEATURES-GPU.md).
 
 ## Client interface
 

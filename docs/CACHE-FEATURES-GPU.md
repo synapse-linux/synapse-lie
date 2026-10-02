@@ -6,7 +6,7 @@ Qwen3.8 Flash Next UD-Q4_K_XL, HIP/gfx1151. This tests the initial LZ4 codec.
 It does not qualify the subsequent byte-plane/Zstandard revision.
 
 Core compares both features OFF (LRU/raw) against both ON (utility/LZ4), same
-context262144/chunk2048, 4 GiB RAM budget, TG128, one retained cold warmup and
+context 262144/chunk 2048, 4 GiB RAM budget, TG128, one retained cold warmup and
 three measured warm cohorts. All output IDs match. No compression is accepted
 on these states: the codec falls back to raw. Three 8K state pairs also match
 all logits and tokens; because those states stay raw, this is not compressed
@@ -27,7 +27,7 @@ job deduplicates). Full warm hits execute no PP. C2 executor times overlap acros
 rows; aggregate output/wall is separate. The 8K C1 cold PP difference is a single
 observation, not a codec causal estimate: packing occurs after prefill. Do not
 infer a speedup/regression confidence interval from these few sequential samples.
-At128K warm aggregate changes24.039→24.054 tok/s, capture119.638→205.906 ms.
+At 128K warm aggregate changes 24.039→24.054 tok/s, capture 119.638→205.906 ms.
 Retained memory is unchanged. This negative compression result motivates the
 separate numeric-byte codec revision, not an invented memory-saving claim.
 
@@ -35,13 +35,13 @@ separate numeric-byte codec revision, not an invented memory-saving claim.
 
 ## HTTP SSD restart and reactive behavior
 
-Port8000, management19880, RAMoff, SSDquota8GiB/staging4GiB/C2. Raw-text prompts
-contain **131123 and8243 physical tokens**, checkpoints131072 and8192, with
-51 real tail-prefill tokens after restart. Output budgets128 and512 are reached.
-The producer saves both states; the restarted reader passes30 samples across
-Chat/Responses JSON/SSE and3 two-user cohorts, with exact producer text/counts.
+Port 8000, management 19880, RAM off, SSD quota 8 GiB/staging 4 GiB/C2. Raw-text prompts
+contain **131123 and 8243 physical tokens**, checkpoints 131072 and 8192, with
+51 real tail-prefill tokens after restart. Output budgets 128 and 512 are reached.
+The producer saves both states; the restarted reader passes 30 samples across
+Chat/Responses JSON/SSE and 3 two-user cohorts, with exact producer text/counts.
 Natural SSD-pending peer progress/cancellation and unread-client isolation both
-pass. Final counters:33 completed,2 cancelled,0 failed; no queued/active/blocked
+pass. Final counters: 33 completed, 2 cancelled, 0 failed; no queued/active/blocked
 work or pending/staging state. Both SSD files are raw v1, not compressed v2.
 SSE event-gap percentiles measure text events, not individual model tokens.
 Startup full model hashing is outside request PP and file-cache conditions are
@@ -50,18 +50,18 @@ throughput gain over Gufo.
 
 ## Temperatures, threads and closure
 
-The independent1Hz observer saves1277 samples on `.155`, one unchanged boot ID.
-CPU peak98 C is one sample, bracketed within2.015 s. GPU peak99 C appears in8
-samples; episodes at/above98 C have at most3 consecutive samples and a longest
-below-threshold bracket4.036 s. No crash, reboot or device failure was observed.
+The independent 1 Hz observer saves 1277 samples on `.155`, one unchanged boot ID.
+CPU peak 98 C is one sample, bracketed within 2.015 s. GPU peak 99 C appears in 8
+samples; episodes at/above 98 C have at most 3 consecutive samples and a longest
+below-threshold bracket 4.036 s. No crash, reboot or device failure was observed.
 These sampled bounds are not an exact continuous peak or a thermal causal test.
 The core still owns one device worker; SSD adds its existing one I/O worker.
 Library/driver process thread counts in telemetry are distinct from scheduler
 workers; no additional codec worker was introduced. No fan/clock/power change.
 
-At **11:57:08.113025 UTC**,18 owned helper/child identities are absent, KFD is
+At **11:57:08.113025 UTC**, 18 owned helper/child identities are absent, KFD is
 empty and four unchanged leases are free. The controller is also absent; the
-observer exits0 at11:57:23.792732 UTC. All98 collected files verify. Root retains
+observer exits 0 at 11:57:23.792732 UTC. All 98 collected files verify. Root retains
 the coordinated window for the separately admitted codec follow-up; this
 closure is not permanent GPU authorization.
 

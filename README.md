@@ -25,7 +25,8 @@ At 128K, median core TTFT is 98.583 s without cache, 2.186 s after SSD restart
 and 0.226 s from RAM. The new [`--suite http-ssd` client](docs/SSD-HTTP-PROTOCOL.md)
 covers restart, Chat/Responses JSON/SSE, C2, disk-wait cancellation and slow
 consumers, with percentile/PP/TG exports. Its ASan/UBSan CPU fixtures pass;
-original-weight HTTP/concurrent SSD checks remain separate.
+original-weight HTTP/concurrent SSD checks also pass on raw states in
+[R5](docs/CACHE-FEATURES-GPU.md). Numeric-byte codec qualification is separate.
 The bench now supports separate SSD write/read processes with exact
 logit comparisons and supervised resource/thermal admission. MTP and vision
 remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
@@ -35,7 +36,8 @@ the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
 Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
 compression is enabled at build time by default, with bounded workspace and a
-12.5% minimum payload saving. Both features can be compiled out independently. Active KV
+50% minimum retained-state saving and a bounded preliminary probe. Both features
+can be compiled out independently. Active KV
 remains native F16: compressed checkpoints do not shrink a running sequence;
 see the [cache capability boundary](docs/STATE.md#retention-policy-and-compression-boundary).
 The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)

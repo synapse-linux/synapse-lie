@@ -36,25 +36,33 @@ static lie_state *fixture(unsigned pattern){
     uint32_t seed=123;unsigned char *data=p->payload+l.sections[2].offset;
     for(size_t i=0;i<blob[0];++i){
         unsigned char r=(unsigned char)random32(&seed);
-        data[i]=pattern==3?(i%4==3?0x3f:r):pattern==1?r:pattern==2&&i>=LIE_STATE_BLOCK_BYTES&&i<2u*LIE_STATE_BLOCK_BYTES?r:0;
+        data[i]=pattern==3?(i%4==3?0x3f:r):(pattern==1||pattern==4)?r:pattern==2&&i>=LIE_STATE_BLOCK_BYTES&&i<2u*LIE_STATE_BLOCK_BYTES?r:0;
+    }
+    if(pattern==4){
+        /* A misleadingly compressible beginning/middle/end must not bypass
+         * the complete retained-size gate. Most of this state is random. */
+        uint64_t start=l.sections[0].bytes,span=p->payload_bytes-start;
+        memset(p->payload+start,0,65536);
+        memset(p->payload+start+span/2-32768,0,65536);
+        memset(p->payload+p->payload_bytes-65536,0,65536);
     }
     return p;
 }
 int main(void){
     assert(lie_state_compression_enabled()==(LIE_CHECKPOINT_COMPRESSION!=0));
-    for(unsigned pattern=0;pattern<4;++pattern){
+    for(unsigned pattern=0;pattern<5;++pattern){
         lie_state *p=fixture(pattern);uint64_t raw=lie_state_bytes(p),payload=p->payload_bytes;
         unsigned char *expected=malloc((size_t)payload),*expanded=malloc((size_t)payload);assert(expected&&expanded);
         memcpy(expected,p->payload,(size_t)payload);
         assert(!lie_state_compress(&p,raw));assert(!lie_state_is_compressed(p)); /* No unaccounted workspace. */
         lie_state_retain(p);lie_state *pin=p;assert(!lie_state_compress(&p,raw*3));lie_state_destroy(&pin);
         bool packed=lie_state_compress(&p,raw*3);
-        assert(packed==(LIE_CHECKPOINT_COMPRESSION&&pattern!=1));
+        assert(packed==(LIE_CHECKPOINT_COMPRESSION&&(pattern==0||pattern==2)));
         assert(lie_state_expanded_bytes(p)==raw&&lie_state_unpack_payload(p,expanded,(size_t)payload));
         assert(!memcmp(expanded,expected,(size_t)payload));
         assert(!memcmp(lie_state_tokens(p),expected,4*sizeof(int32_t)));
         if(packed){
-            assert(lie_state_bytes(p)<raw&&lie_state_restore_workspace(p)==payload+lie_state_decode_workspace(p->codec));
+            assert(lie_state_bytes(p)<=raw/2&&lie_state_restore_workspace(p)==payload+lie_state_decode_workspace(p->codec));
             uint64_t prefix=p->layout.sections[0].bytes;unsigned char save=p->payload[prefix];
             p->payload[prefix]^=1;assert(!lie_state_unpack_payload(p,expanded,(size_t)payload));p->payload[prefix]=save;
             p->storage_bytes++;assert(!lie_state_unpack_payload(p,expanded,(size_t)payload));p->storage_bytes--;

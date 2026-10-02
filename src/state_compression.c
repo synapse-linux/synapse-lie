@@ -30,6 +30,25 @@ static void planes(unsigned char *restrict to,const unsigned char *restrict from
     }
     memcpy(to+words*4,from+words*4,n-words*4);
 }
+/* Bounded admission heuristic, not a ratio guarantee. False negatives only
+ * forgo optional packing. The complete result must still halve retained bytes.
+ * Probe at most 48 KiB before allocating/scanning a multi-GiB candidate. */
+static bool worth_packing(const lie_state *p,ZSTD_CCtx *ctx,unsigned char *block,
+                          size_t cap,unsigned char *shuffled,const atomic_bool *cancel){
+    uint64_t prefix=p->layout.sections[0].bytes,bytes=p->payload_bytes-prefix;
+    size_t n=bytes<16384?(size_t)bytes:16384;
+    if(!n)return false;
+    uint64_t offsets[]={0,(bytes-n)/2,bytes-n};size_t stored=0;
+    for(unsigned i=0;i<3;++i){
+        if(cancel&&atomic_load(cancel))return false;
+        planes(shuffled,p->payload+prefix+offsets[i],n,false);
+        size_t z=ZSTD_compressCCtx(ctx,block,cap,shuffled,n,1);
+        if(ZSTD_isError(z))return false;
+        stored+=z;
+    }
+    /* Allow a small estimation margin; final admission is strictly 50%. */
+    return stored*100<=3*n*55;
+}
 #endif
 bool lie_state_decode_block(uint32_t codec,const void *encoded,size_t size,void *out,size_t bytes){
 #if LIE_CHECKPOINT_COMPRESSION
@@ -74,21 +93,27 @@ bool lie_state_compress_cancel(lie_state **handle,uint64_t budget,const atomic_b
     if(p->codec||atomic_load(&p->refs)!=1||!lie_state_validate(&p->layout,&raw)||raw!=p->payload_bytes||
        p->storage_bytes!=raw||raw<65536||p->layout.sections[0].role!=LIE_STATE_TOKENS)return false;
     uint64_t occupied=lie_state_bytes(p);
-    /* Only reserve a result capable of saving at least 12.5%. Codec workspace
+    /* Only reserve a result capable of halving the complete retained state.
+     * A small probe rejects low-benefit data before candidate allocation.
+     * Codec workspace
      * includes a static context, byte-plane input and encoded output block. */
     size_t encoded_cap=ZSTD_compressBound(LIE_STATE_BLOCK_BYTES),context=ZSTD_estimateCCtxSize(1);
     if(ZSTD_isError(context)||ZSTD_isError(encoded_cap))return false;
     uint64_t scratch=(uint64_t)encoded_cap+context+LIE_STATE_BLOCK_BYTES;
     if(budget<occupied||budget-occupied<sizeof(lie_state)+scratch)return false;
-    uint64_t cap=raw-(raw+7)/8,available=budget-occupied-sizeof(lie_state)-scratch;
+    if(occupied/2<=sizeof(lie_state))return false;
+    uint64_t cap=occupied/2-sizeof(lie_state),available=budget-occupied-sizeof(lie_state)-scratch;
     if(cap>available)cap=available;
     uint64_t prefix=p->layout.sections[0].bytes;
     if(prefix>=cap)return false;
-    lie_state *packed=malloc(sizeof(*packed)+(size_t)cap);
     unsigned char *block=malloc(encoded_cap),*shuffled=malloc(LIE_STATE_BLOCK_BYTES);void *work=malloc(context);
-    if(!packed||!block||!shuffled||!work){free(packed);free(block);free(shuffled);free(work);return false;}
+    if(!block||!shuffled||!work){free(block);free(shuffled);free(work);return false;}
     ZSTD_CCtx *ctx=ZSTD_initStaticCCtx(work,context);
-    if(!ctx){free(packed);free(block);free(shuffled);free(work);return false;}
+    if(!ctx||!worth_packing(p,ctx,block,encoded_cap,shuffled,cancel)){
+        free(block);free(shuffled);free(work);return false;
+    }
+    lie_state *packed=malloc(sizeof(*packed)+(size_t)cap);
+    if(!packed){free(block);free(shuffled);free(work);return false;}
     memcpy(packed->payload,p->payload,(size_t)prefix);uint64_t in=prefix,out=prefix;
     bool ok=true;
     while(in<raw){

@@ -38,6 +38,7 @@ an implemented test and a completed measurement.
 - [DS4 coverage inspection](DS4-COVERAGE.md), [baseline](BASELINE.md)
   and [third-party provenance](../third_party/README.md).
 - [Completed SSD restart/C1 measurements and temperature timeline](SSD-GPU-COMPLETION.md).
+- [Cache build comparisons and HTTP SSD GPU results](CACHE-FEATURES-GPU.md).
 
 ## History and parallel work
 

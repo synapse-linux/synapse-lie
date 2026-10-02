@@ -214,8 +214,8 @@ neither architectural separation nor a language change guarantees a speedup.
    Disabled means no store I/O. Complete device qualification of restart, corruption,
    incompatible identities, atomic writes and eviction races. This persists
    hybrid frontiers; it does not page active KV or stream weights from SSD.
-   The [HTTP/restart/C2 checker](SSD-HTTP-PROTOCOL.md) now passes CPU fixtures;
-   its device campaign remains open. Shared utility eviction and lossless checkpoint
+   The [HTTP/restart/C2 checker](SSD-HTTP-PROTOCOL.md) now passes CPU fixtures
+   and [R5 original-weight raw-state checks](CACHE-FEATURES-GPU.md). Shared utility eviction and lossless checkpoint
    compression now have independent default-ON build options and CPU qualification.
    Active-KV compression remains model/kernel work, with the boundary specified
    in [the cache boundary](STATE.md#retention-policy-and-compression-boundary).

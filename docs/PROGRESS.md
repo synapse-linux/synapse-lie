@@ -1,5 +1,29 @@
 # Isolated OpenAI reactive API increment
 
+## Reject low-benefit checkpoint compression — 2026-10-02
+
+The owner rejects the measured 15–16% checkpoint saving as insufficient for its
+capture/restore cost. New default admission requires at least 50% saving of the
+complete retained allocation, including its descriptor. A deterministic probe
+of at most 48 KiB rejects likely low-benefit data before candidate allocation;
+the full result still has to meet the strict size gate. The probe may skip useful
+packing but never changes the state or permits lossy conversion. Existing v1/v2
+readers remain compatible. Both cache build options remain ON; SSD remains opt-in.
+
+Thirteen focused ON suites and six OFF suites pass ASan/UBSan; local Release
+variants link against the unchanged numerical engine. Tests include modest
+savings rejected and misleadingly compressible samples that fail final admission.
+[CPU source-bound receipt](benchmarks/2026-10-02/cache-benefit-cpu/receipt.json).
+The new GPU comparison is pending a fresh per-arm admission after R6 closes.
+
+The upstream Qwen payload audit corrects the earlier architectural generalization:
+DS4 supports Qwen, but its reviewed Qwen path writes live F16 KV and F32 recurrent
+state without a generic high-compression stream. LIE's independent host codec is
+not the same algorithm. High-ratio compression of real Qwen state and low-bit
+active KV are not achieved by raising the admission threshold. See the precise
+[model/policy boundary](STATE.md#retention-policy-and-compression-boundary).
+
+
 ## Numeric-byte codec follow-up after R5 — 2026-10-02
 
 R5 closes 9/9 original-weight arms at 11:57:08 UTC: six ON/OFF core comparisons,

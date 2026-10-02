@@ -65,7 +65,8 @@ bool lie_state_compression_enabled(void);
 const char *lie_state_compression_codec(void);
 /* Optional lossless packing of a unique immutable state before publication.
  * peak_budget bounds the existing state + result + codec scratch. Failure or
- * insufficient savings leaves the original untouched; no lossy conversion. */
+ * insufficient savings leaves the original untouched; no lossy conversion.
+ * A bounded probe may skip packing; accepted results halve retained bytes. */
 bool lie_state_compress(lie_state **,uint64_t peak_budget);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);

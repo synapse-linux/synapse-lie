@@ -8,8 +8,8 @@ per-sequence KV/recurrent working state is still required when retention is off.
 Only optional SSD persistence defaults off. With SSD disabled, no persistent-state
 directory is created, scanned, read or written. The implemented opt-in is described
 in [SSD-PREFIX.md](SSD-PREFIX.md). Original-weight [SSD restart and C1 cache
-comparisons pass through 128K](SSD-GPU-COMPLETION.md); HTTP/concurrent SSD and
-device fault injection remain separate gates.
+comparisons pass through 128K](SSD-GPU-COMPLETION.md); raw-state HTTP/concurrent
+SSD also passes [R5](CACHE-FEATURES-GPU.md). Device fault injection remains separate.
 
 The generic C17 `lie_state` component contract owns section validation, overflow
 checks, host allocation, immutable payloads and capture/restore coordination.
@@ -103,9 +103,14 @@ uncompressed; all remaining bytes, including floating-point bit patterns, use
 independent 1 MiB Zstandard/raw blocks. Four-byte words are reversibly split
 into byte planes before level-1 compression, without interpreting their values.
 Static codec contexts keep all explicit workspace inside admission. Existing
-LZ4 blocks remain readable. Payloads below 64 KiB stay raw. At least 12.5%
-payload saving is required; insufficient budget, allocation failure or incompressible
-input leaves the original unchanged. The budget includes the source, candidate
+LZ4 blocks remain readable. Payloads below 64 KiB stay raw. At least 50%
+saving of the complete retained allocation (descriptor plus stored payload) is
+required. Three deterministic samples totaling at most 48 KiB reject low-benefit
+inputs before allocating or scanning the full candidate. This is a conservative
+heuristic: it may skip compressible inputs; passing it does not bypass the final
+size gate. Insufficient budget, allocation failure or an inadequate saving leaves
+the original unchanged. The earlier 12.5% gate is retained only in dated R5/R6
+measurement capsules, not in the current admission policy. The budget includes the source, candidate
 and explicit codec scratch; allocator internals/overhead and device memory are
 separate. Restore reserves the complete expanded payload and may evict other
 entries first. A checkpoint that cannot fit with its restore workspace is not
@@ -124,9 +129,15 @@ reviewed 2026-10-02, also weighs reuse, saved tokens per byte, checkpoint purpos
 and superseded continuations. Its header's `quant_bits` identifies routed expert
 weight quantization; it is not KV precision. LIE does not claim identical policy.
 
-DeepSeek-specific KV compressors in [DS4's model engine](https://github.com/antirez/ds4/blob/main/ds4.c)
-use learned projections and compressor state. Those architectural savings cannot
-be transplanted unchanged into Qwen. Qwen active K/V and block keys remain F16,
+The Qwen3.8 path in [DS4's model engine](https://github.com/antirez/ds4/blob/main/ds4.c#L59813-L59929),
+reviewed 2026-10-02, writes live K/V and pooled block keys as 16-bit tensors,
+recurrent/history/index data as 32-bit tensors, plus tokens and logits. Its
+`qwen4_session_save_payload` uses bounded tensor copies, not a generic compressed
+stream. LIE already retains live text-state rows with these numerical precisions;
+it additionally keeps only the unpooled index tail. The two binary formats are
+not interchangeable. DS4 Qwen support must not be conflated with the separate
+DeepSeek learned-compressor path, and LIE's Zstandard codec is not a port of an
+antirez compression algorithm. Qwen active K/V and block keys remain F16,
 with the required F32 recurrent/other components. Checkpoint packing does not
 reduce the active device allocation. Low-bit active KV still needs a distinct
 model representation, matching attention/prefill/batch kernels and long-context
