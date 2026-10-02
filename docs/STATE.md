@@ -151,6 +151,30 @@ an unfavorable 15–16% saving/latency tradeoff. Its old admission threshold is
 preserved in the evidence; the stricter current benefit gate is qualified
 separately. Active KV precision remains unchanged.
 
+
+## Requested DS4 representation parity — clarification, 2026-10-02
+
+The owner now requires the same DS4 compressed representation in both RAM and
+SSD, with substantially lower retained memory and raw-like restore latency.
+This supersedes considering an unrelated lossy Q4/Q8 checkpoint codec as the
+implementation of that request. No such codec or precision change has been made.
+
+The reviewed upstream RAM path `ds4_session_save_snapshot` calls the same
+`ds4_session_save_payload` dispatcher used for persistence; its Qwen branch is
+`qwen4_session_save_payload`. The inspected Qwen path stores live F16 K/V and
+F32 recurrent components. It does not add a high-ratio compressed stream.
+References: [RAM snapshot](https://github.com/antirez/ds4/blob/main/ds4.c#L61007-L61074),
+[family dispatch](https://github.com/antirez/ds4/blob/main/ds4.c#L60043-L60060),
+[Qwen payload](https://github.com/antirez/ds4/blob/main/ds4.c#L59813-L59929).
+These are read-only upstream-main observations dated 2026-10-02, not a pinned
+cross-runtime interoperability qualification or an audit of every fork.
+
+The existing LIE v1/v2 envelope remains its own format. Identical scalar
+precisions do not mean binary interoperability. The requested higher-compression
+DS4 function/version must be identified before claiming a matching implementation;
+raising LIE's admission threshold does not implement it. No DS4-owned source,
+cache, model, service or evidence has been changed.
+
 ## Two distinct kinds
 
 `prefix_checkpoint`: immutable model frontier at an exact list of processed

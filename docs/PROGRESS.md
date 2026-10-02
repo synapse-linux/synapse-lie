@@ -1,5 +1,18 @@
 # Isolated OpenAI reactive API increment
 
+## DS4 format constraint for RAM and SSD — 2026-10-02
+
+The owner requires DS4's compression representation in both memory and SSD,
+with higher savings and restore latency close to raw state. The earlier idea
+of a separate lossy Q4/Q8 format is therefore not pursued as an equivalent.
+Read-only upstream tracing confirms RAM snapshots share the Qwen persistence
+serializer; the inspected path retains F16 KV/F32 recurrent tensors without an
+extra high-ratio stream. The exact alternative DS4 function/version remains
+unidentified. [Source trace and constraint](STATE.md#requested-ds4-representation-parity--clarification-2026-10-02).
+No runtime code or numerical precision changes, model reads, new GPU jobs or
+DS4 mutations in this clarification. Q2 still owns its separately admitted work.
+
+
 ## Compression cost measured; strict admission qualified — 2026-10-02
 
 R6 passes all six GPU arms, including restarted compressed SSD state at 128K
