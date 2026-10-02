@@ -5,7 +5,8 @@ RAM records and regular files. `LIE_KVC_INTERCHANGE=ON` builds it and the offlin
 `synapse-lie-kvc` tool, including in `LIE_CORE_ONLY` builds. It adds no work,
 threads or storage to inference. SSD persistence still requires explicit opt-in.
 
-This completes the wire codec, not live DS4-to-LIE model restore. The runtime
+The wire codec and host component mapping are implemented; live DS4-to-LIE
+model restore still needs identity binding and GPU qualification. The runtime
 cache still uses the independently qualified LIE component representation and
 native `LIEPFX1` SSD format. Neither parsing a foreign file nor a synthetic
 round-trip authenticates its model or proves equivalent next-token inference.
@@ -85,14 +86,61 @@ It preserves MTP rows, full index history, pooled keys, PLE and n-gram state,
 signed position delta and position tuples. This is a serialization API, not an
 implicit adapter from native `lie_state`.
 
+## Native component conversion
+
+`lie/kvc_qwen_map.h` exposes the shared `lie_qwen_kvc` C17 library. It maps a
+validated text AR record into native QF1 component bytes, and exports raw native
+components into the DS4 payload layout. The caller supplies the model geometry,
+indexer threshold, ring capacity and EOS identifier. No HTTP, executor or GPU
+entry point is called. Generic state-layout validation/building is now in
+`src/state_layout.c`, independently linkable from sequence capture/restore.
+
+Projection handles these representation differences:
+
+| Component | Conversion |
+|---|---|
+| GDN recurrent state | Copy the inspected GPU `[head][value][key]` layout without transpose |
+| Convolution and PLE | Preserve oldest-first rows and all F32 bits |
+| Physical tokens, logits, K/V | Preserve contents and precision; repack into native alignment |
+| N-gram history | Validate all eight wire slots against tokens/EOS, retain the configured native window; absent predecessors become native `-1` |
+| Index before/at the threshold | Retain every raw row, with native pooled-block count zero |
+| Index above the threshold | Retain `tokens % 4` raw rows and the complete pooled-key array |
+
+The output descriptor has **domain zero**. It is deliberately detached from any
+live model and fails ordinary `lie_state_validate`; it is not a restorable
+`lie_state` object. A shape match cannot authenticate model weights, tokenizer,
+RoPE settings or the producer's numerical policy. Positive MTP frontiers and
+noncanonical text positions are refused by the mapper; the lower-level wire
+codec still preserves those records without interpreting them for inference.
+
+Reverse conversion checks the native descriptor against the expected model
+layout. It reconstructs all eight n-gram slots from the complete physical token
+history and emits canonical text positions. Numerical tensor values are copied,
+never recomputed. Full raw index arrays or pooled keys missing from the native
+representation must be supplied through typed auxiliary spans. Duplicate,
+wrong-sized, unknown or inconsistent auxiliary spans are rejected; any known
+native tail/pool must match them byte-for-byte. Prefixes shorter than four tokens
+have no missing pooled keys and can be exported without auxiliary history.
+Longer complete exports depend on an actual source for the missing arrays.
+
+Projection allocates no memory; the caller owns output bytes. Export's only
+allocated scratch is `16 * tokens` bytes for positions. Its limit bounds scratch
+plus output; borrowed inputs, output descriptors and stack storage remain the
+caller's accounting responsibility. Inputs must remain immutable until completion.
+Byte copies/comparisons are cancellable between 1 MiB chunks. A failed operation
+publishes no descriptor; any partially written output bytes must be discarded.
+The mapper accepts native little-endian binary32 hosts. No new serving thread,
+active KV allocation or per-token inference work is introduced by building it.
+
 ## Remaining live integration
 
 Gufo currently retains an index ring/tail, two n-gram slots and lazily materialized
 pooled keys. The DS4 wire layout requires additional state. A native-to-KVC live
 export needs a provider capture path that actually retains that information,
-with separately measured memory and transfer costs. Import also needs an audited
-tensor-orientation/history mapping, strong model/tokenizer binding and a qualified
-DS4-produced checkpoint. Model id, geometry and text SHA-1 alone are insufficient.
+with separately measured memory and transfer costs. Import still needs device
+qualification of the inspected tensor/history mapping, strong model/tokenizer
+binding and a qualified DS4-produced checkpoint. Model id, geometry and text
+SHA-1 alone are insufficient.
 Cross-quantization reuse and frontend-specific history serialization remain open.
 No additional high-ratio codec is required by this increment.
 
@@ -101,9 +149,11 @@ revision, model/tokenizer identities, geometry and saved token frontier. The
 mapping must verify GDN matrix orientation, PLE ordering and EOS history handling;
 test both sides of the index-pooling boundary and context growth; and compare
 restored logits plus subsequent generated tokens against independent replay.
-Export additionally needs DS4 to load a LIE-produced file. Until those gates
-pass, no KVC object is converted into a live-domain `lie_state` or handed to
-`lie_sequence_state_write`. GPU work must first obtain the coordinated window
+The host mapper above implements the inspected component correspondence; an
+independent device test is still required for it. Export additionally needs DS4
+to load a LIE-produced file. Until those gates pass, no KVC object is converted
+into a live-domain `lie_state` or handed to `lie_sequence_state_write`.
+GPU work must first obtain the coordinated window
 and leases in [COORDINATION.md](COORDINATION.md).
 
 ## Evidence and provenance
@@ -117,6 +167,15 @@ EINTR, ENOSPC, a changing source, sparse oversized files and 4,000 deterministic
 mutations. CLI tests check JSON, exclusive publication and nonblocking refusal
 of special inputs. These are explicitly **NOT-INFERENCE** fixtures.
 
+`test_kvc_map_fixture.py` additionally constructs both wire and native expected
+bytes independently. Thirteen wire→native→wire pairs cover 1/2/3/4/7/8/9/11/12
+tokens with threshold 8 and 2047/2048/2049/131072 with threshold 2048. All use
+tiny synthetic tensor geometry, not full-model memory/performance evidence.
+They check raw-tail boundaries, exact component order/alignment, non-symmetric
+GDN data, EOS/unset history, auxiliary mismatch/refusal, overlap, budgets and
+cancellation throughout conversion. Whole rebuilt KVC files must match the
+independent inputs byte-for-byte.
+
 Original first-party MIT implementation; no upstream implementation was copied.
 Wire facts were inspected read-only in official
 [DS4 Qwen payload code](https://github.com/antirez/ds4/blob/0aaea5a238fb41a35106a551e73c8409dfb751ac/ds4.c)
@@ -128,3 +187,12 @@ and the [2026-10-02 main store review](https://github.com/antirez/ds4/blob/main/
 for its expanded quantization list. The older pin has no Qwen payload and must
 not be cited as Qwen qualification. No local DS4 source, build, cache, service,
 model or qualified artifact was modified or imported.
+
+The additional GPU layout audit used the official
+[Metal Qwen kernels](https://github.com/antirez/ds4/blob/main/metal/qwen4.metal)
+as observed on 2026-10-02: GDN uses value-major rows, convolution/PLE retain
+chronological history. That file was available through the dated main web
+snapshot; its immutable-pin fetch was unavailable, so this is not a pinned
+Metal qualification. Gufo's independently fetched `f783fedb` ROCm kernels and
+ngram code confirm the destination layout. The DS4 **CPU reference** uses the
+opposite GDN matrix orientation and is not the source of this GPU payload mapping.

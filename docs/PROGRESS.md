@@ -1,5 +1,31 @@
 # Isolated OpenAI reactive API increment
 
+## C17 Qwen KVC/native component mapping — 2026-10-02
+
+Added shared `lie_qwen_kvc`: allocation-free projection of validated text AR
+KVC records into native QF1 components, plus exact reverse serialization when
+the caller supplies missing index/pool history. It preserves GPU GDN orientation,
+PLE order and tensor bits, translates EOS/unset n-gram history and handles both
+sides of the index-pooling threshold. Generic layout helpers were extracted
+unchanged from device capture/restore, so this library links without a provider.
+
+Independent Python wire and native byte oracles pass thirteen complete
+wire→native→wire pairs, including 2047/2048/2049 and 131072 tokens with tiny
+synthetic geometry. These are NOT-INFERENCE checks, not full-model memory or
+performance measurements. The suite also checks cancellation, budgets, aliasing,
+malformed state and refusal of incomplete auxiliary history. Initial headless
+suite: 9/9; final full composition: 35/35; interchange-OFF: 7/7. All use ASan/UBSan
+with LeakSanitizer enabled; all nine configuration/build/test commands exit 0.
+Persistent receipts: `evidence/kvc-map-*`. Local sampled CPU peak 84.625 C
+during the OFF build; full-suite peak 78.875 C. No GPU/model work or window request.
+
+Projected layouts deliberately have domain zero and cannot be restored into a
+live model. Provider capture of discarded history, model/tokenizer identity
+binding and bilateral GPU qualification using a DS4-produced checkpoint remain
+open. Runtime RAM/SSD formats, reactive scheduling and inference work are
+unchanged. The mapper is built by default under optional `LIE_KVC_INTERCHANGE`;
+SSD remains opt-in. [Contracts, source audit and next gates](KVC.md).
+
 ## C17 KVC envelope and Qwen payload codecs — 2026-10-02
 
 Added default-ON, independently optional `LIE_KVC_INTERCHANGE`: a shared C17

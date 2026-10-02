@@ -123,7 +123,9 @@ The previous schedule remains available with `--cache-policy legacy`.
 
 The [C17 KVC codec](KVC.md) now implements envelope I/O and complete Qwen
 wire serialization with independent synthetic byte fixtures. Runtime model-state
-conversion is separate: current live captures cannot supply every wire component.
+conversion now has a C17 host mapper, with domain-zero projection and explicit
+auxiliary-history requirements for export. Current live captures cannot supply
+every wire component; identity binding and device qualification remain separate.
 
 Remaining gates: live DS4 KVC/payload import/export and numerical qualification; cross-quantization reuse; and frontend
 serialization of DS4-specific tool/visible-thinking/session extensions. The core

@@ -227,3 +227,11 @@ The outer envelope was separately inspected at
 quantization values. The older pin contains no Qwen path. OpenSSL's EVP SHA-1
 supplies text filenames; no upstream digest implementation was copied.
 [Exact scope, source links and remaining integration gates](../docs/KVC.md).
+
+`src/models/kvc_qwen_map.c` is an original MIT host-layout transformation, not
+a model forward or upstream source port. DS4's public Metal Qwen source was
+reviewed read-only via the dated main web view on 2026-10-02; the pinned fetch
+was unavailable. GPU GDN layout is value-major, unlike the CPU reference.
+Gufo destination facts come from the existing independently fetched `f783fedb`
+source. Synthetic mapping checks are not cross-engine numerical qualification.
+No local DS4 source, cache or qualified artifact was imported or modified.

@@ -258,3 +258,6 @@ The offline [KVC tool](KVC.md) reports `memory_bytes`, text/payload/trailer size
 and optional Qwen structural-validation fields in its own JSON. These are not
 runtime cache hits, throughput or device qualification. Its completed operations
 do not change actuator/Prometheus counters or add inference threads.
+The detached Qwen component mapper likewise adds no runtime counters. Its
+caller accounts borrowed source/auxiliary buffers and output bytes; export
+additionally budgets `16 * tokens` bytes of temporary position storage.

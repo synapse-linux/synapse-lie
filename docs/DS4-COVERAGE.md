@@ -73,6 +73,9 @@ comparison. Fresh performance measurements use only LIE-owned artifacts.
 
 The [shared C17 KVC wire codec](KVC.md) now reads/writes the DS4 envelope and
 serializes/parses its Qwen payload, independently of HTTP and the device backend.
-Synthetic independent byte fixtures pass; live state mapping and upstream-produced
-checkpoint qualification remain open. This does not change the dated DS4 Gufo
-port inspection above or establish cross-quantization cache reuse.
+The shared host mapper also converts text AR payloads to detached native
+components and back, requiring explicit arrays for history absent from native
+state. Thirteen independent byte pairs pass with tiny synthetic geometry through
+131072 tokens. Live model binding, provider history capture and upstream-produced
+checkpoint GPU qualification remain open. This does not change the dated DS4
+Gufo port inspection above or establish cross-quantization cache reuse.

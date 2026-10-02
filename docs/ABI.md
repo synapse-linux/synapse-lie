@@ -335,3 +335,11 @@ and unaligned; owned records must outlive their borrowed views. Outputs publish
 only on success, except caller-owned encode/write buffers, which must be discarded
 after any error. No implicit file publication, model identity binding or restore
 occurs. See [format, cancellation and lifetime contract](KVC.md).
+
+`lie/kvc_qwen_map.h` adds completed host component projection/export. Projected
+layouts have domain zero and cannot be admitted as live states. Byte output is
+caller-owned; conversion never mutates a sequence or binds model identity.
+Export requires complete auxiliary index/pool spans where native retention has
+discarded them, with exact overlap checks against known native slices. Ordinary
+state, request and executor ABIs are unchanged. State layout helpers were moved
+unchanged to `state_layout.c` so offline mapping links without provider stubs.
