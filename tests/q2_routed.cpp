@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 #include "q2_operator_fixture.hpp"
 #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+#ifdef Q2_PACKED_CHECKS
+#include "q2_packed_fixture.hpp"
+#endif
 
 void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
   namespace q = gufo::models::qwen38_flash_next::rocm;
@@ -75,8 +78,24 @@ void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
           "Q2 routed F16 tokens=" + std::to_string(tokens) + " rows=" +
               std::to_string(rows) + " tile=" + std::to_string(tile_rows) +
               (tiny ? " tiny" : " ordinary"));
+#ifdef Q2_PACKED_CHECKS
+  std::vector<std::uint32_t> packed(x.size());
+  for (std::size_t i = 0; i < x.size(); ++i)
+    packed[i] = PackCompensated(x[i]);
+  Device pd(packed.size() * 4);
+  Hip(hipMemcpy(pd.data, packed.data(), packed.size() * 4,
+                hipMemcpyHostToDevice));
+  CheckPackedDown(wd.data, static_cast<const std::uint32_t *>(pd.data),
+                  static_cast<const std::int32_t *>(td.data), tiles.size(),
+                  tile_rows, static_cast<const std::int32_t *>(bounds.data),
+                  static_cast<const std::int32_t *>(row_slot.data), rows, got,
+                  "down-n" + std::to_string(tokens) + "-m" +
+                      std::to_string(rows) + "-tile" +
+                      std::to_string(tile_rows) + (tiny ? "-tiny" : "-normal"));
+#endif
 }
 
+#ifndef Q2_PACKED_CHECKS
 int main() {
   try {
     Hip(hipSetDevice(0));
@@ -92,3 +111,5 @@ int main() {
     return 1;
   }
 }
+
+#endif

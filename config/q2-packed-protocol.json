@@ -1,0 +1,23 @@
+{
+  "status": "PREPARED_NOT_GPU_TESTED",
+  "goal": "Q2 must match UD PP and TG. This prepared experiment does not meet or narrow that goal.",
+  "baseline_commit": "5e32120",
+  "baseline_source": ".deps/gufo-q2-bench-iq2-pair",
+  "candidate_source": ".deps/gufo-q2-bench-packed",
+  "patch": "experiments/q2-packed-activations.patch",
+  "mechanism": "Move the existing high-half plus scaled-residual conversion from every Q2 output-row block to the IQ2 SwiGLU producer, reusing each existing four-byte slot. Preserve weight bytes, routing, WMMA order, F32 epilogue and all other dispatches.",
+  "layout": "One uint32 per slot/channel: bits0..15 = RN_F16(value), bits16..31 = RN_F16((value - F32(high))*4096). The down kernel extracts these halves without arithmetic conversion.",
+  "memory": "No new persistent allocation or extra activation byte; existing gate_e storage changes interpretation only between paired IQ2 producer and Q2 consumer. No concurrent F32 reader is allowed in that branch.",
+  "gpu_operator_plan": "Reuse 12 independent Q2 and 18 independent IQ2 FP64 cases. Require byte-exact packed representation for every IQ2 output against independent packing of the F32 reference; byte-exact down output on all 12 direct cases and two actual-width IQ2->Q2 chains. Exact-sized direct/chain consumer input allocations, finite/written outputs and prefix/suffix guards. Replay unmodified reference buffers against retained pre-experiment outputs.",
+  "model_numerics": "Require byte-exact complete saved logits and token files versus the retained paired-IQ2 baseline for the proposed arithmetic-preserving move; retain any discrepancy and actual failures. Do not relax earlier qualified-Q2 numerical diagnostics or declare false positives.",
+  "sequence_after_handover": [
+    "Fresh .157 host Debug and ASan/UBSan fixtures",
+    "Profile the retained IQ2-pair source separately at marked pp2048/tg16 and verify its tokens/frontiers against the completed baseline",
+    "If profile supports the candidate mechanism, run packed synthetic operators and exact replays",
+    "Fresh unprofiled C1 pp2048/tg128 IQ2-pair baseline and packed candidate; one warmup plus three measured requests, 15s idle outside timing, full MMQ rebuilds",
+    "Profile candidate separately if the complete-model gain is meaningful; retain or reject based on the complete path",
+    "Fresh UD control and broader scope remain necessary for final parity"
+  ],
+  "execution": "GPU .157 only after core returns the coordinated window and four fresh nonblocking leases. 98C inclusive or lower exposed strict hardware threshold. No model conversion, dependency installation, foreign process termination or tuning.",
+  "current_evidence": "Device assembly and fixture/executor syntax only on editing host, no GPU/model execution. Initial device syntax failure and missing local MMQ include failure are retained, followed by successful corrected static checks. Core retains its SSD campaign window."
+}

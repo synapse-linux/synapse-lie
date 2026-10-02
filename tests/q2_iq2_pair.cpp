@@ -2,6 +2,9 @@
 // Independent IQ2 format oracle over synthetic tensors, not a CPU model.
 #include "q2_operator_fixture.hpp"
 #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+#ifdef Q2_PACKED_CHECKS
+#include "q2_packed_fixture.hpp"
+#endif
 
 void IQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
   namespace q = gufo::models::qwen38_flash_next::rocm;
@@ -94,8 +97,80 @@ void IQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
           "IQ2-pair-n" + std::to_string(tokens) + "-m" + std::to_string(rows) +
               "-tile" + std::to_string(tile_rows) +
               (tiny ? "-tiny" : "-normal"));
+#ifdef Q2_PACKED_CHECKS
+  Device packed_out((size + 2 * guard) * 4);
+  Hip(hipMemset(packed_out.data, 0xA5, (size + 2 * guard) * 4));
+  Check(q::RoutedGatedIQ2GemmPacked(
+            gd.data, ud.data, static_cast<const __half *>(xd.data),
+            static_cast<const std::int32_t *>(td.data), tiles.size(), tile_rows,
+            static_cast<const std::int32_t *>(bounds.data),
+            static_cast<const std::int32_t *>(row_token.data),
+            static_cast<const std::int32_t *>(row_slot.data),
+            static_cast<std::uint32_t *>(packed_out.data) + guard, rows, k,
+            nullptr),
+        "Packed IQ2 dispatch failed");
+  Hip(hipDeviceSynchronize());
+  std::vector<std::uint32_t> packed(size + 2 * guard);
+  Hip(hipMemcpy(packed.data(), packed_out.data, packed.size() * 4,
+                hipMemcpyDeviceToHost));
+  for (std::size_t i = 0; i < guard; ++i)
+    Check(packed[i] == 0xA5A5A5A5U && packed[guard + size + i] == 0xA5A5A5A5U,
+          "Packed IQ2 output guard changed");
+  for (std::size_t i = 0; i < size; ++i)
+    Check(packed[guard + i] == PackCompensated(got[i]),
+          "Packed IQ2 differs from independent packing of F32 reference");
+  const auto label = "iq2-n" + std::to_string(tokens) + "-m" +
+                     std::to_string(rows) + "-tile" +
+                     std::to_string(tile_rows) + (tiny ? "-tiny" : "-normal");
+  std::ofstream saved("results/packed-" + label + ".u32", std::ios::binary);
+  saved.write(reinterpret_cast<const char *>(packed.data() + guard), size * 4);
+  Check(bool(saved), "Could not save packed IQ2 output");
+  std::cout << "PASS exact packed IQ2 " << label << " values=" << size << '\n';
+  if (rows == 640) {
+    constexpr int down_rows = 129;
+    auto down = Make(10, experts, down_rows, 768, 19);
+    Device dw(down.bytes.size()), exact_packed(size * 4);
+    const auto down_size = std::size_t(slots) * down_rows;
+    Device reference_out((down_size + 2 * guard) * 4);
+    Hip(hipMemcpy(dw.data, down.bytes.data(), down.bytes.size(),
+                  hipMemcpyHostToDevice));
+    Hip(hipMemcpy(exact_packed.data, packed.data() + guard, size * 4,
+                  hipMemcpyHostToDevice));
+    Hip(hipMemset(reference_out.data, 0xA5, (down_size + 2 * guard) * 4));
+    Check(q::RoutedQ2Gemm(dw.data, static_cast<const float *>(out.data) + guard,
+                          static_cast<const std::int32_t *>(td.data),
+                          tiles.size(), tile_rows,
+                          static_cast<const std::int32_t *>(bounds.data),
+                          static_cast<const std::int32_t *>(row_slot.data),
+                          static_cast<float *>(reference_out.data) + guard,
+                          down_rows, rows, nullptr),
+          "Reference chain down failed");
+    Hip(hipDeviceSynchronize());
+    std::vector<float> down_guarded(down_size + 2 * guard);
+    Hip(hipMemcpy(down_guarded.data(), reference_out.data,
+                  down_guarded.size() * 4, hipMemcpyDeviceToHost));
+    for (std::size_t i = 0; i < guard; ++i)
+      Check(std::bit_cast<std::uint32_t>(down_guarded[i]) == 0xA5A5A5A5U &&
+                std::bit_cast<std::uint32_t>(
+                    down_guarded[guard + down_size + i]) == 0xA5A5A5A5U,
+            "Reference chain output guard changed");
+    std::vector<float> reference(down_guarded.begin() + guard,
+                                 down_guarded.begin() + guard + down_size);
+    for (float value : reference)
+      Check(std::isfinite(value) &&
+                std::bit_cast<std::uint32_t>(value) != 0xA5A5A5A5U,
+            "Invalid reference chain output");
+    CheckPackedDown(dw.data,
+                    static_cast<const std::uint32_t *>(exact_packed.data),
+                    static_cast<const std::int32_t *>(td.data), tiles.size(),
+                    tile_rows, static_cast<const std::int32_t *>(bounds.data),
+                    static_cast<const std::int32_t *>(row_slot.data), down_rows,
+                    reference, "chain-" + label);
+  }
+#endif
 }
 
+#ifndef Q2_PACKED_CHECKS
 int main() {
   try {
     Hip(hipSetDevice(0));
@@ -113,3 +188,5 @@ int main() {
     return 1;
   }
 }
+
+#endif

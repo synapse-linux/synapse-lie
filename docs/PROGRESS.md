@@ -227,3 +227,23 @@ retired, KFD empty and four leases free. The window is handed to core for its
 14-arm SSD R2 campaign; no Q2 job or automatic retry remains. Reporting and
 source work continue locally. Next runtime work needs a fresh candidate profile
 and eventual matched UD control after coordinated handover.
+
+## Prepared compensated activation layout
+
+[Q2-PACKED-ACTIVATIONS.md](Q2-PACKED-ACTIVATIONS.md) prepares one mechanism:
+produce the existing Q2 high/residual F16 pair in the IQ2 SwiGLU epilogue,
+then extract it in down instead of repeating conversion in every output-row
+block. Four bytes per slot and all persistent allocations remain unchanged.
+The isolated patch reconstructs all 1019 files exactly; official formatting
+passes 486 files. Device assembly and fixture/executor host syntax checks pass,
+with the initial syntax and include-path failures retained. This is static
+evidence only, not a GPU correctness or performance result.
+
+Prepared operators reuse 30 independent cases, require exact packed-word and
+down-output replay, and add two complete IQ2→Q2 chains. Full saved model
+frontiers must match the paired-IQ2 checkpoint for this move. The remote wrapper
+supports the isolated packed source, operator target and full model rebuild;
+updated CPU guard fixtures await `.157` with the GPU checks. No new tests were
+run on the occupied remote host. Core still owns the SSD window; the next
+Q2 action after handover is a current baseline profile, followed by this
+candidate only if the measured phase costs support it. UD parity remains open.

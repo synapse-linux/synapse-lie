@@ -39,3 +39,11 @@ first-party MIT. Source reconstruction verifies every file against the actual
 measured trees; hashes are in `config/q2-expert-stack-source.json`. Neither
 experimental patch replaces the qualified runtime patch or imports an antirez
 engine, sibling source or sibling compiled artifact.
+
+`experiments/q2-packed-activations.patch` moves this workstream's existing
+compensated activation representation into its IQ2 producer, using the same
+independently fetched official Gufo templates and buffers. It introduces no
+external code or new weight format. Existing upstream and llama.cpp notices
+remain applicable; prepared synthetic replay fixtures are first-party MIT.
+Static-only evidence and pending runtime gates are explicit in
+`docs/Q2-PACKED-ACTIVATIONS.md`.

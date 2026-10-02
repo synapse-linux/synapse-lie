@@ -31,8 +31,8 @@ def main():
     mode = sys.argv[1]
     model_mode = mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'routed-operators', 'iq2-pair-operators')
-    hc_target = 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
+    hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators')
+    hc_target = 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') else 'q2_hc'
     if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -193,7 +193,7 @@ def main():
                 binary=build/'cmake/hip'/hc_target
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 try:
-                    run([str(binary)] + ([] if mode in ('routed-operators', 'iq2-pair-operators') else ['bench' if mode.endswith('-bench') else 'operators']),
+                    run([str(binary)] + ([] if mode in ('routed-operators', 'iq2-pair-operators', 'packed-operators') else ['bench' if mode.endswith('-bench') else 'operators']),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),120)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()

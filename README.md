@@ -31,6 +31,11 @@ All changed synthetic operator cases pass; greedy tokens match, but model logits
 differ. The candidate still trails UD and remains isolated. The owner-approved
 test ceiling is now 98 C inclusive, with lower exposed hardware limits retained.
 
+The next [packed-activation experiment](docs/Q2-PACKED-ACTIVATIONS.md) moves
+compensated input conversion into the IQ2 producer, using the same buffer bytes.
+Source/static checks are complete; GPU correctness and performance are pending
+the core campaign handover. It introduces no new measured speed claim.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

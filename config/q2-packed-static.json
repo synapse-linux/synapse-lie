@@ -1,0 +1,160 @@
+{
+  "scope": "Static gfx1151 assembly only; no GPU runtime or model qualification",
+  "assembly_sha256": "d51b750fbfa0d47f01777dbd346755d5e489c63c008d9cb99008f62e9842cddb",
+  "kernels": [
+    {
+      "group_segment_fixed_size": 11392,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 82,
+      "next_free_sgpr": 24,
+      "type": 16,
+      "tile": 16,
+      "pair": true,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 15488,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 94,
+      "next_free_sgpr": 30,
+      "type": 16,
+      "tile": 48,
+      "pair": true,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 17536,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 102,
+      "next_free_sgpr": 30,
+      "type": 16,
+      "tile": 64,
+      "pair": true,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 25728,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 148,
+      "next_free_sgpr": 38,
+      "type": 16,
+      "tile": 128,
+      "pair": true,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 11392,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 82,
+      "next_free_sgpr": 24,
+      "type": 16,
+      "tile": 16,
+      "pair": true,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 15488,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 94,
+      "next_free_sgpr": 30,
+      "type": 16,
+      "tile": 48,
+      "pair": true,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 17536,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 102,
+      "next_free_sgpr": 30,
+      "type": 16,
+      "tile": 64,
+      "pair": true,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 25728,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 148,
+      "next_free_sgpr": 38,
+      "type": 16,
+      "tile": 128,
+      "pair": true,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 16640,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 112,
+      "next_free_sgpr": 26,
+      "type": 10,
+      "tile": 16,
+      "pair": false,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 16, 2, false, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 24832,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 144,
+      "next_free_sgpr": 32,
+      "type": 10,
+      "tile": 48,
+      "pair": false,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 28928,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 169,
+      "next_free_sgpr": 32,
+      "type": 10,
+      "tile": 64,
+      "pair": false,
+      "packed": false,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 64, 2, false, false>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 16640,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 112,
+      "next_free_sgpr": 24,
+      "type": 10,
+      "tile": 16,
+      "pair": false,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 16, 2, false, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 24832,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 144,
+      "next_free_sgpr": 30,
+      "type": 10,
+      "tile": 48,
+      "pair": false,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 28928,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 169,
+      "next_free_sgpr": 31,
+      "type": 10,
+      "tile": 64,
+      "pair": false,
+      "packed": true,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 64, 2, false, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    }
+  ]
+}

@@ -190,3 +190,28 @@ Core confirms direct verification of the persistent closure and fresh idle
 observation at 08:38:43 UTC, then takes the SSD R2 window. Q2 acknowledges
 core ownership; no further Q2 workload is scheduled. Outgoing message transport
 still fails, so this acknowledgement remains in the agreed local fallback.
+
+At 08:51:36 UTC Q2 observes core SSD R2 reader PID 2444585 alive with matching
+start_ticks 149634110 and KFD child 2444600. Core subsequently reports its 98 C
+thermal stop and explicitly retains the next window for remaining SSD arms.
+Fresh read-only observation at 09:02:46 finds that PID absent and SSD R3
+core-p8192-off PID 2446701 also retired (registry exit 1 at 08:57:27); KFD is empty.
+These terminal jobs do not return the enclosing core window. Q2 has launched
+no new remote build/test. Local packed-activation source, fixtures and static
+checks are prepared. Core: return the next window after coherent closure for
+the current IQ2 baseline profile and packed-operator/model experiment. The
+direct status/handover request again fails at the outgoing HTTP transport;
+delivery is not claimed. This file remains the agreed fallback.
+
+Core reports a fresh owner instruction in its own task to investigate thermal
+behavior, prepares SSD R4 and explicitly retains the `.157` window. Q2 respects
+that reservation. This does not revise the Q2 runner's98 C inclusive policy;
+no Q2 remote job or waiter is started.
+
+Strix Point thread01a0fb73-1367-7313-b771-6e721a4155bc requests a future
+read-only original-UD shard copy from `.157` to its `.161` scope, under all four
+leases, after core SSD R4. Q2 has no active job and can follow that coordinated
+copy, but cannot release the current core-owned window. Copy and Q2 inference
+must not overlap. Core/Strix Point should record actual copy retirement and
+handover before Q2's baseline profile. The outgoing acknowledgement was
+attempted through the already-authorized thread tool; delivery is not assumed.

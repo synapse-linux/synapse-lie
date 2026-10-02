@@ -29,13 +29,16 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_not_called()
 
     def test_changed_executor_header_cannot_reuse_mmq(self):
-        for variant in ('stack', 'iq2-pair'):
+        for variant in ('stack', 'iq2-pair', 'packed'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
     def test_iq2_entry_requires_correct_source(self):
         self.refuse(['iq2-pair-operators', 'q2-fixture'], 'require the isolated IQ2 source')
         self.refuse(['routed-operators', 'q2-fixture'], 'require the isolated stack source')
+
+    def test_packed_entry_requires_correct_source(self):
+        self.refuse(['packed-operators', 'q2-fixture'], 'require the isolated packed source')
 
     def test_rebuild_flag_does_not_silently_apply_elsewhere(self):
         self.refuse(['q2-profile', 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
