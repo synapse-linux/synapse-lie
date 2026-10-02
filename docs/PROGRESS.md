@@ -1,5 +1,34 @@
 # Isolated OpenAI reactive API increment
 
+## Default-on utility and lossless checkpoint compression — 2026-10-02
+
+Implemented independent CMake switches `LIE_CACHE_UTILITY` and
+`LIE_CHECKPOINT_COMPRESSION`, both ON by default. Shared C17 RAM/SSD utility
+retention ages reuse and scores saved tokens per stored byte, distinguishes
+anchors/continuations and deterministically breaks ties. OFF selects LRU.
+The C-owned checkpoint codec preserves every byte with bounded 1 MiB LZ4/raw
+blocks, a 12.5% minimum saving, raw fallback and explicit working-memory
+admission. Tokens remain directly readable. Raw v1 persists; compressed SSD
+files use separately validated v2 framing. SSD alone remains runtime opt-in.
+
+Metrics and benchmark JSON/CSV distinguish expanded/retained memory and build
+features. An explicit `--compare-cache-build` enables matched ON/OFF reports;
+ordinary comparisons reject those differences. State qualification applies the
+same codec before full-logit/token checks. No kernel, active KV format, thread
+count or HTTP-owned engine policy was introduced. Host packing/expansion can
+add owner latency; active Qwen KV remains F16 and DS4's learned architectural
+compression is not claimed.
+
+Thirteen focused ASan/UBSan CPU suites pass with features ON; all six headless
+suites pass with both OFF and without LZ4. The first reporting attempt selected
+Python without matplotlib and failed two suites; that evidence is preserved.
+Using the already installed system interpreter fixes both. Release ON/OFF
+executables link the unchanged pinned numerical engine locally; no local GPU
+inference. The next `.157` campaign follows Point's verified 11:11:58 UTC
+handover, fresh root checks and independent four-lease admission per arm.
+GPU performance of these new defaults is not yet claimed at this checkpoint.
+
+
 ## SSD HTTP consumer suite and explicit cache boundary — 2026-10-02
 
 Added `synapse-lie-bench --suite http-ssd`: producer/restarted-reader output

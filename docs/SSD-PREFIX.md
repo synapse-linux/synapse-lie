@@ -179,3 +179,27 @@ synthetic contract scope. 256K checkpoint retention/fit and 1M remain
 unqualified/unsupported respectively.
 This version persists hybrid checkpoints. Active KV paging, PLE/weight streaming,
 exact resumable sampling/tool sessions, MTP and vision require distinct contracts.
+
+## Compressed version 2
+
+Raw states continue to write/read the unchanged v1 envelope. Compressed states
+use envelope version 2, codec 1 at offset 36, expanded payload size at offset 40
+and stored payload size at offset 152. Section offsets describe the expanded
+layout, so model representation version and scalar bits remain unchanged.
+The first section must be physical tokens at offset zero; its bytes precede
+frames of two little-endian uint32 lengths (expanded, compressed), followed by
+data. Expanded frames are 1 MiB except the last. A zero compressed length means
+a raw block; otherwise it must be smaller than the expanded length. Exact final
+lengths and SHA-256 of the stored envelope/table/payload are required.
+
+Read admission reserves the expanded allocation plus one 1 MiB block buffer,
+checks every frame before decompression, then validates checksum, canonical
+padding and physical tokens before exposing the state. Optional repacking stays
+inside the same SSD staging budget. Disabled codec builds safely miss v2 files;
+they still read v1 and never interpret compressed bytes as model values.
+Cache identity already includes binary/DSO content, so changing build options
+can also change identity. No cross-build cache reuse is promised.
+
+Utility eviction and lossless packing are [shared core policies](STATE.md#retention-policy-and-compression-boundary),
+independent of enabling SSD. Byte/quota counters use actual stored/file sizes;
+active KV allocation and allocator/driver overhead remain separate.

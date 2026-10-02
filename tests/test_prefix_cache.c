@@ -76,6 +76,21 @@ int main(void){
     c=start(one);run(c,a,4);run(c,b,4);run(c,a,4);lie_core_snapshot(c,&ci);
     assert(ci.cache.evictions==2&&ci.cache.entries==1&&ci.cache.peak_retained_bytes==one);stop(c);
 
+    /* A repeatedly reused prefix survives a newer one-use prefix under utility
+     * pressure; compiling the feature out restores the ordinary LRU choice. */
+    c=start(one*2);run(c,a,4);
+    for(unsigned k=0;k<8;++k)assert(run(c,a,4).cached_tokens==4);
+    run(c,b,4);int32_t third[]={0,30,30,30};run(c,third,4);
+    i=run(c,a,4);assert(i.cached_tokens==(LIE_CACHE_UTILITY?4u:0u));stop(c);
+
+    /* Exercise real capture/expansion/provider writes, not only codec helpers. */
+    c=start(16u*1024u*1024u);fake_state_padding(2u*1024u*1024u);
+    run(c,a,4);lie_core_snapshot(c,&ci);
+    assert(ci.cache.compressed_captures==(LIE_CHECKPOINT_COMPRESSION?1u:0u));
+    assert((ci.cache.expanded_bytes>ci.cache.retained_bytes)==(LIE_CHECKPOINT_COMPRESSION!=0));
+    assert(run(c,a,4).cached_tokens==4);assert(run(c,a,9).cached_tokens==4);
+    stop(c);fake_state_padding(0);
+
     /* Cancellation while a completed transfer is pinned must retire only its
      * own sequence. A peer uses the checkpoint and fresh generation state. */
     c=start(LIE_PREFIX_CACHE_DEFAULT_BYTES);run(c,a,4);

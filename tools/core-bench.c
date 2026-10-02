@@ -146,6 +146,8 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     number(point,"cache_hits",after.cache.hits-before.cache.hits);number(point,"cache_misses",after.cache.misses-before.cache.misses);
     number(point,"cache_captures",after.cache.captures-before.cache.captures);number(point,"cache_evictions",after.cache.evictions-before.cache.evictions);
     number(point,"cache_retained_bytes",after.cache.retained_bytes);number(point,"cache_budget_bytes",after.cache.budget_bytes);
+    number(point,"cache_expanded_bytes",after.cache.expanded_bytes);
+    number(point,"cache_compressed_captures",after.cache.compressed_captures-before.cache.compressed_captures);
     number(point,"ssd_hits",after.ssd.hits-before.ssd.hits);number(point,"ssd_misses",after.ssd.misses-before.ssd.misses);
     number(point,"ssd_writes",after.ssd.writes-before.ssd.writes);number(point,"ssd_read_ns",after.ssd.read_ns-before.ssd.read_ns);
     number(point,"ssd_write_ns",after.ssd.write_ns-before.ssd.write_ns);number(point,"ssd_disk_bytes",after.ssd.disk_bytes);
@@ -194,6 +196,8 @@ int lie_core_bench_main(int argc,char **argv) {
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
     text(identity,"cache_policy",ssd.directory?(cache_mib?"ram+ssd":"ssd"):(cache_mib?"ram":"off"));number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);
+    text(identity,"cache_retention_policy",LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru");
+    json_object_object_add(identity,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     number(identity,"ssd_quota_bytes",ssd.quota_bytes);number(identity,"ssd_staging_bytes",ssd.staging_bytes);
     number(identity,"context_capacity",context);number(identity,"prefill_chunk",chunk);number(identity,"users",users);
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);

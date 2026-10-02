@@ -200,6 +200,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_error *erro
                 if(rc==LIE_RESOURCE_LIMIT)rc=LIE_OK;
                 if(temporary&&memcmp(lie_state_tokens(temporary),j->prompt,j->fed*sizeof(*j->prompt))){
                     lie_state_destroy(&temporary);rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token contents mismatch");}
+                if(temporary)(void)lie_state_compress(&temporary,w->options.ssd.staging_bytes);
                 state=temporary;
             }
         }

@@ -107,6 +107,16 @@ the next core campaign. This is coordination reported by that thread, not a
 fresh root exclusivity observation. No gap interleaving or automatic GPU waiter
 is scheduled; next admission still requires completed handover and fresh leases.
 
+Point reports completed copy/rehash and verified release at **11:11:58 UTC**:
+owned source/receiver/controller and temporary agent retired, KFD empty, four
+unchanged/free leases and source model stats unchanged. Root accepted the next
+core cache/HTTP SSD window and notified Q2. Fresh root observation at
+**11:27:36.764514 UTC** independently finds KFD empty, all four original lease
+identities free via nonblocking probes, five model stat witnesses unchanged,
+CPU49.375/GPU48 C and installed system LZ4 1.10.0. This lightweight handover
+check does not replace per-arm leases or authorize campaign-gap interleaving.
+
+
 ## Earlier completed window — first SSD restart
 
 `ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.

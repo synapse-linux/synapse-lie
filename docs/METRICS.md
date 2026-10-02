@@ -185,7 +185,12 @@ wall interval, including the C inference dispatch and its flow bookkeeping.
 
 Core snapshots own `cache`: byte budget, retained and peak logical bytes,
 lookups, hits, misses, reused tokens, captures, evictions, skipped captures and
-entry count. `/actuator/llm` projects this object and reports the actual
+entry count. `retention_policy` identifies utility-v1 or LRU;
+`checkpoint_compression` identifies the build capability. `expanded_bytes` is
+the raw equivalent of currently retained states; `compressed_captures` counts
+successful packs and `compression_attempts` counts eligible capture-path calls
+(including calls refused by size/budget). These are not active GPU KV savings.
+`/actuator/llm` projects this object and reports the actual
 `ssd_enabled` flag, false by default, plus a separate `ssd` object.
 The budget covers the immutable descriptor/payload allocations, including the
 in-progress capture after pre-eviction; it excludes allocator/driver overhead,
@@ -200,7 +205,8 @@ a full hit has zero PP calls/time and no PP throughput value.
 
 `cache_restore_ns` (HTTP `cache_restore_ms`) covers lookup plus completed restore,
 including a cheap lookup on a miss. `cache_capture_ns` includes planning,
-deduplication, eviction, allocation and completed capture. These are whole cache
+deduplication, eviction, allocation, completed capture and optional packing.
+Restore includes full expansion when needed. These are whole cache
 path durations, not isolated DMA bandwidth. Client total wall/TTFT includes them.
 Counters reflect actual core events, independent of HTTP. Capture/restore do not
 increment prefill/decode call counters; faults/cancellation can leave lookups
@@ -217,7 +223,7 @@ reads reserve the cap and keep it through owner upload/result release. A file hi
 can still fail the provider geometry check and is distinct from actual reuse.
 
 Job `ssd_cached_tokens` is a subset of `cached_tokens`; `ssd_read_ns` (HTTP
-`ssd_read_ms`) is lookup/read/checksum time. GPU restore remains separately in
+`ssd_read_ms`) is lookup/read/checksum and optional host packing time. GPU restore remains separately in
 `cache_restore_ns`, and no avoided PP is credited as executed PP throughput.
 Write completion may outlive its originating job, so write timing is store-wide.
 The bench emits `ssd_drained` after graceful shutdown and adds SSD columns to
@@ -225,3 +231,10 @@ JSON/CSV. The precise [store contract](SSD-PREFIX.md) defines exclusions.
 [Original-weight C1 SSD comparisons](SSD-GPU-COMPLETION.md) now report those
 intervals at 8K/128K; full hits retain undefined executed-PP throughput. HTTP
 with SSD enabled and concurrent SSD performance remain separate measurements.
+
+Core bench identity and CSV include both build options; sample rows include raw
+equivalent and retained bytes. Ordinary comparisons refuse differing build
+features. `bench-report.py --compare-cache-build --compare ...` explicitly
+permits only those feature differences, reports them, and still requires matched
+workload/runtime settings and output tokens. This is an ON/OFF ablation, not an
+unqualified model/server comparison.

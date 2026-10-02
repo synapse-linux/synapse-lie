@@ -20,6 +20,8 @@ static bool held, entered;
 static fake_phase held_phase;
 static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls, capture_calls, restore_calls, state_fault;
 static atomic_uint_fast64_t domain_counter=1;
+static atomic_uint state_padding;
+void fake_state_padding(unsigned bytes){atomic_store(&state_padding,bytes);}
 void fake_state_fault(unsigned value){atomic_store(&state_fault,value);}
 static const char *tool_outputs[]={
     "Reading.\n<tool_call>\n<function=read>\n<parameter=path>\n  caffè 🙂.txt  \n</parameter>\n<parameter=offset>\n3\n</parameter>\n<parameter=options>\n{\"raw\":true}\n</parameter>\n</function>\n</tool_call>",
@@ -225,6 +227,7 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     uint64_t shape=out->token_count;assert(lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape));
     shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
     shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));
+    shape=atomic_load(&state_padding);if(shape)assert(lie_state_add(out,LIE_STATE_MODEL_COMPONENT,0,LIE_STATE_U8,1,&shape));
     if(atomic_load(&state_fault)==1)out->sections[0].bytes++;
     return LIE_OK;
 }
@@ -235,6 +238,7 @@ lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,voi
     memcpy((char*)bytes+l->sections[0].offset,s->prompt,l->sections[0].bytes);
     const float logits[]={1,2,3,4};memcpy((char*)bytes+l->sections[1].offset,logits,sizeof(logits));
     const int32_t recurrent[]={s->mode,(int32_t)s->step};memcpy((char*)bytes+l->sections[2].offset,recurrent,sizeof(recurrent));
+    if(l->section_count==4)memset((char*)bytes+l->sections[3].offset,0x5a,(size_t)l->sections[3].bytes);
     return LIE_OK;
 }
 lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
@@ -244,5 +248,6 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
     if(atomic_load(&state_fault)==3){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic mutating state write fault");}
     memcpy(s->prompt,(const char*)bytes+l->sections[0].offset,l->sections[0].bytes);
     int32_t recurrent[2];memcpy(recurrent,(const char*)bytes+l->sections[2].offset,sizeof(recurrent));
+    if(l->section_count==4)for(uint64_t i=0;i<l->sections[3].bytes;++i)assert(((const unsigned char *)bytes)[l->sections[3].offset+i]==0x5a);
     s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
 }

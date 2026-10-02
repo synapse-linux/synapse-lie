@@ -2,6 +2,7 @@
 #ifndef LIE_STATE_H
 #define LIE_STATE_H
 #include "lie/executor.h"
+#include <stdbool.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -57,6 +58,14 @@ void lie_state_destroy(lie_state **);
 /* Immutable host state may be pinned by the bounded SSD worker. */
 void lie_state_retain(lie_state *);
 uint64_t lie_state_bytes(const lie_state *);
+uint64_t lie_state_expanded_bytes(const lie_state *);
+uint64_t lie_state_restore_workspace(const lie_state *);
+bool lie_state_is_compressed(const lie_state *);
+bool lie_state_compression_enabled(void);
+/* Optional lossless packing of a unique immutable state before publication.
+ * peak_budget bounds the existing state + result + codec scratch. Failure or
+ * insufficient savings leaves the original untouched; no lossy conversion. */
+bool lie_state_compress(lie_state **,uint64_t peak_budget);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);
 /* Shared layout builder/validator for model providers, CPU fixtures and core.

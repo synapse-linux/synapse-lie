@@ -18,6 +18,8 @@
 typedef struct {
     uint64_t budget_bytes, retained_bytes, peak_retained_bytes;
     uint64_t lookups, hits, misses, reused_tokens, captures, evictions, skipped;
+    uint64_t expanded_bytes, compression_attempts, compressed_captures;
+    bool utility_policy, compression_enabled;
     unsigned entries;
 } lie_prefix_cache_info;
 typedef enum { LIE_TOOLS_AUTO, LIE_TOOLS_NONE, LIE_TOOLS_REQUIRED, LIE_TOOLS_NAMED } lie_tool_choice;

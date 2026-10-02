@@ -16,6 +16,7 @@ typedef struct {
 } lie_store_options;
 typedef struct {
     bool enabled;
+    bool utility_policy, compression_enabled;
     uint64_t quota_bytes, disk_bytes, allocated_bytes, staging_budget_bytes;
     uint64_t staging_bytes, peak_staging_bytes;
     uint64_t lookups, hits, misses, writes, evictions, skipped, errors, cancelled;

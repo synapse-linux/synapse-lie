@@ -72,11 +72,12 @@ def read_result(path):
     return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'configurations':result,'loading':[r for r in rows if r['event']=='model_loaded']}
 
 
-def compare(a,b):
+def compare(a,b,compare_cache_build=False):
     if a['identity']['suite']=='state' or b['identity']['suite']=='state':
         raise ValueError('state qualification uses paired exact frontiers, not performance ranking')
     if a['identity']['suite']=='core' or b['identity']['suite']=='core':
-        return compare_core(a,b)
+        return compare_core(a,b,compare_cache_build)
+    if compare_cache_build:raise ValueError('cache build comparison requires core results')
     if a['identity']['synthetic']!=b['identity']['synthetic']:
         raise ValueError('cannot compare CPU fixtures with model inference')
     if a['identity']['suite']!=b['identity']['suite'] or a['identity']['output_limit']!=b['identity']['output_limit']:
@@ -97,11 +98,11 @@ def compare(a,b):
     return comparisons
 
 
-def export(result,out,label,reference=None,reference_label='Gufo reference'):
+def export(result,out,label,reference=None,reference_label='Gufo reference',compare_cache_build=False):
     if result['identity']['suite']=='core':
-        return export_core(result,out,label,reference,reference_label)
+        return export_core(result,out,label,reference,reference_label,compare_cache_build)
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
-    summary={'primary':result,'reference':reference,'comparison':compare(result,reference) if reference else None}
+    summary={'primary':result,'reference':reference,'comparison':compare(result,reference,compare_cache_build) if reference else None}
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     with (out/'summary.csv').open('w',newline='') as f:
         writer=csv.writer(f);writer.writerow(['label','depth','users','context_capacity','prompt_tokens','repetitions','full_output_budget','pp_median_tps','pp_min_tps','pp_max_tps','tg_median_tps','tg_min_tps','tg_max_tps'])
@@ -151,6 +152,11 @@ def read_state_result(path,rows):
     pairs=rows[3:6] if ram else rows[4:7] if read else []
     if identity.get('suite')!='state' or identity.get('state_abi')!=1 or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
         raise ValueError('invalid state input')
+    if type(identity.get('checkpoint_compression',False)) is not bool or type(capture.get('compressed',False)) is not bool or capture.get('compressed',False) and not identity.get('checkpoint_compression',False):
+        raise ValueError('invalid state compression declaration')
+    expanded=capture.get('expanded_bytes',capture['retained_bytes'])
+    if type(expanded) is not int or expanded<capture['retained_bytes'] or (expanded>capture['retained_bytes'])!=capture.get('compressed',False):
+        raise ValueError('invalid expanded state accounting')
     if p['checkpoint_tokens']!=p['prompt_tokens'] and p['checkpoint_tokens']%p['chunk']:
         raise ValueError('state chunk alignment')
     budget=4*1024**3 if ram else rows[2]['staging_bytes']
@@ -195,6 +201,8 @@ def read_core_result(path,rows):
         raise ValueError('invalid core benchmark identity')
     users=identity['users'];reps=identity['warmups']+identity['repetitions']
     cache_policy=identity.get('cache_policy','off');cache_budget=identity.get('prefix_cache_bytes',0)
+    if identity.get('cache_retention_policy','lru') not in ('lru','decaying-token-byte-utility-v1') or type(identity.get('checkpoint_compression',False)) is not bool:
+        raise ValueError('core cache build configuration')
     ram=cache_policy in ('ram','ram+ssd');ssd=cache_policy in ('ssd','ram+ssd')
     if cache_policy not in ('off','ram','ssd','ram+ssd') or type(cache_budget) is not int or cache_budget<0 or ram!=(cache_budget>0):raise ValueError('core cache declaration')
     for key in ('ssd_quota_bytes','ssd_staging_bytes'):
@@ -245,6 +253,10 @@ def read_core_result(path,rows):
         if ram:
             hits=sum(r.get('cached_tokens',0)>0 and not r.get('ssd_cached_tokens',0) for r in group)
             if sample.get('cache_hits')!=hits or sample.get('cache_misses')!=users-hits or sample.get('cache_budget_bytes')!=cache_budget or not 0<=sample.get('cache_retained_bytes',-1)<=cache_budget:raise ValueError('core cache cohort accounting')
+        for key in ('cache_expanded_bytes','cache_compressed_captures'):
+            if key in sample and (type(sample[key]) is not int or sample[key]<0):raise ValueError('core compression accounting')
+        if sample.get('cache_expanded_bytes',sample.get('cache_retained_bytes',0))<sample.get('cache_retained_bytes',0):raise ValueError('core expanded byte accounting')
+        if not identity.get('checkpoint_compression',False) and sample.get('cache_compressed_captures',0):raise ValueError('core disabled compression accounting')
         elapsed=sample['wall_ns'];tokens=sum(r['output_tokens'] for r in group)
         if type(elapsed) is not int or elapsed<=0 or sample['output_tokens']!=tokens or not math.isfinite(sample['output_per_total_wall_tps']) or not math.isclose(sample['output_per_total_wall_tps'],tokens*1e9/elapsed,rel_tol=1e-12):
             raise ValueError('core common-window accounting')
@@ -255,12 +267,15 @@ def read_core_result(path,rows):
     measured=[r for r in jobs if not r['warmup']]
     point={k:identity[k] for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','repetitions']}
     point.update(cache_policy=cache_policy,prefix_cache_bytes=cache_budget,
+        cache_retention_policy=identity.get('cache_retention_policy','lru'),checkpoint_compression=identity.get('checkpoint_compression',False),
         ssd_quota_bytes=identity.get('ssd_quota_bytes',0),ssd_staging_bytes=identity.get('ssd_staging_bytes',0),
         ssd_cached_tokens=distribution([r.get('ssd_cached_tokens',0) for r in measured]),
         ssd_read_ns=distribution([r.get('ssd_read_ns',0) for r in measured]),
         cached_tokens=distribution([r.get('cached_tokens',0) for r in measured]),
         cache_capture_ns=distribution([r.get('cache_capture_ns',0) for r in measured]),
         cache_restore_ns=distribution([r.get('cache_restore_ns',0) for r in measured]),
+        cache_retained_bytes=distribution([r.get('cache_retained_bytes',0) for r in samples if not r['warmup']]),
+        cache_expanded_bytes=distribution([r.get('cache_expanded_bytes',r.get('cache_retained_bytes',0)) for r in samples if not r['warmup']]),
         prompt_tokens=p['prompt_tokens'],physical_ids_sha256=p['physical_ids_sha256'],output_ids=jobs[0]['output_ids'],
         full_output_budget=all(r['output_tokens']==identity['output_limit'] for r in measured),
         first_token_ns=distribution([r['first_token_ns'] for r in measured if r['first_token_ns'] is not None]),
@@ -271,29 +286,31 @@ def read_core_result(path,rows):
         'configurations':[point],'jobs':jobs,'samples':samples,'loading':[r for r in rows if r['event']=='core_ready']}
 
 
-def compare_core(a,b):
+def compare_core(a,b,compare_cache_build=False):
     if a['identity']['suite']!='core' or b['identity']['suite']!='core' or a['identity']['synthetic']!=b['identity']['synthetic']:
         raise ValueError('core scope/provider-kind mismatch')
     p=a['configurations'][0];q=b['configurations'][0]
     for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes','ssd_quota_bytes','ssd_staging_bytes']:
         if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
+    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression') if p[k]!=q[k]}
+    if differences and not compare_cache_build:raise ValueError('core cache build mismatch; use explicit cache-build comparison')
     equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
     denominator=q['output_per_total_wall_tps']['median']
-    return [{'tokens_equal':equal,'eligible':eligible,
+    return [{'tokens_equal':equal,'eligible':eligible,'cache_build_comparison':compare_cache_build,'build_setting_differences':differences,
         'output_per_total_wall_ratio':p['output_per_total_wall_tps']['median']/denominator if eligible and denominator else None}]
 
 
-def export_core(result,out,label,reference,reference_label):
+def export_core(result,out,label,reference,reference_label,compare_cache_build=False):
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
-    summary={'primary':result,'reference':reference,'comparison':compare_core(result,reference) if reference else None}
+    summary={'primary':result,'reference':reference,'comparison':compare_core(result,reference,compare_cache_build) if reference else None}
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     series=[(label,result)]+([(reference_label,reference)] if reference else [])
     with (out/'summary.csv').open('w',newline='') as f:
-        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms'])
+        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median'])
         for name,data in series:
             r=data['configurations'][0]
             value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
-            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6)])
+            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes')])
     os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
     import matplotlib
     matplotlib.use('Agg')
@@ -316,9 +333,11 @@ def export_core(result,out,label,reference,reference_label):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('input');parser.add_argument('--output',required=True);parser.add_argument('--label',default='LIE');parser.add_argument('--compare');parser.add_argument('--reference-label',default='Gufo reference')
+    parser.add_argument('--compare-cache-build',action='store_true',help='Explicit core ON/OFF cache build comparison; keep all workload/runtime settings equal')
     args=parser.parse_args()
     result=read_result(args.input);reference=read_result(args.compare) if args.compare else None
-    export(result,args.output,args.label,reference,args.reference_label)
+    if args.compare_cache_build and reference is None:parser.error('--compare-cache-build requires --compare')
+    export(result,args.output,args.label,reference,args.reference_label,args.compare_cache_build)
     print(json.dumps({'output':str(Path(args.output).resolve()),'artifacts':['summary.json','summary.csv','benchmark.svg','benchmark.png']}))
 
 if __name__=='__main__':main()

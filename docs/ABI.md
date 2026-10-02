@@ -170,10 +170,19 @@ Gufo types, private-field access and HIP copy operations stay inside the adapter
 All consumers of this experimental static core API must be rebuilt together.
 Backend state capability is explicit; missing support with RAM enabled refuses
 readiness. Model-open domains prohibit cross-instance/restart restores. SSD
-requires a separate stable identity/codec and remains pending.
+uses a separate stable identity and versioned component codec.
 See [STATE.md](STATE.md) for compatibility, budgets, exact prefix/chunk eligibility
 and independent sampler semantics. The two new executor phases are `capture`
 and `restore`; their wall durations are separate from executed PP/TG.
+
+`lie_state_compress` optionally replaces a uniquely owned handle without changing
+its model representation or any payload bit. `lie_state_bytes` reports retained
+storage, `lie_state_expanded_bytes` its raw equivalent, and
+`lie_state_restore_workspace` the temporary expansion requirement. The opaque
+handle keeps physical tokens directly readable. Providers continue to receive
+fully expanded typed payloads; executor/state descriptor ABIs are unchanged.
+Core/store snapshot structs grow in this experimental static API, requiring
+all consumers to rebuild together. See [the codec contract](SSD-PREFIX.md#compressed-version-2).
 
 ## Planned state, MTP, vision and owned execution contracts
 

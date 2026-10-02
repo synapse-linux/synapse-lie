@@ -137,6 +137,26 @@ int main(void){
     assert(lie_store_open(&options,&foreign,domain,&s,&e)==LIE_OK);prompt[1]=prompt[2]=prompt[3]=20;
     assert(lie_store_read(s,prompt,4,4));r=complete(s);assert(!r.state);lie_store_close(&s);
     clean(path);
+    /* Utility works in the asynchronous SSD store too; OFF returns to LRU. */
+    options.quota_bytes=8192;assert(lie_store_open(&options,&id,domain,&s,&e)==LIE_OK);
+    state=capture(m,10);assert(lie_store_write(s,state));lie_state_destroy(&state);complete(s);
+    prompt[1]=prompt[2]=prompt[3]=10;
+    for(unsigned hit=0;hit<8;++hit){assert(lie_store_read(s,prompt,4,4));r=complete(s);assert(r.state);lie_store_result_release(s,&r);}
+    for(int value=20;value<=30;value+=10){state=capture(m,value);assert(lie_store_write(s,state));lie_state_destroy(&state);complete(s);}
+    assert(lie_store_read(s,prompt,4,4));r=complete(s);assert((r.state!=NULL)==(LIE_CACHE_UTILITY!=0));
+    if(r.state)lie_store_result_release(s,&r);
+    lie_store_close(&s);clean(path);
+
+    /* Compressed envelope survives store close/reopen and bounded I/O import. */
+    fake_state_padding(2u*1024u*1024u);state=capture(m,10);options.quota_bytes=options.staging_bytes=16u*1024u*1024u;
+    assert(lie_state_compress(&state,options.staging_bytes)==(LIE_CHECKPOINT_COMPRESSION!=0));
+    assert(lie_store_open(&options,&id,domain,&s,&e)==LIE_OK&&lie_store_write(s,state));
+    lie_state_destroy(&state);complete(s);lie_store_close(&s);
+    assert(lie_store_open(&options,&id,domain,&s,&e)==LIE_OK&&lie_store_read(s,prompt,4,4));r=complete(s);assert(r.state);
+    assert(lie_state_is_compressed(r.state)==(LIE_CHECKPOINT_COMPRESSION!=0));
+    lie_sequence *restored=NULL;assert(lie_sequence_create(m,&restored,&e)==LIE_OK);
+    assert(lie_state_restore(restored,r.state,&e)==LIE_OK&&lie_sequence_close(&restored,&e)==LIE_OK);
+    lie_store_result_release(s,&r);lie_store_close(&s);fake_state_padding(0);clean(path);
     /* Unsafe directories, symlinks and unrelated contents are refused. */
     assert(!mkdir(path,0755));assert(lie_store_open(&options,&id,domain,&s,&e)!=LIE_OK&&!s);assert(!rmdir(path));
     assert(!symlink(base,path));assert(lie_store_open(&options,&id,domain,&s,&e)!=LIE_OK&&!s);assert(!unlink(path));

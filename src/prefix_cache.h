@@ -3,11 +3,12 @@
 #define LIE_PREFIX_CACHE_H
 #include "lie/core.h"
 #include "lie/state.h"
+#include "retention.h"
 #define LIE_PREFIX_CACHE_ENTRIES 8u
 /* All mutations and transfers use the core device owner. A selected entry is
  * pinned by that synchronous owner interval; clients receive snapshots only.
  * Independent restored sequences never alias the immutable host payload. */
-typedef struct { lie_state *state; uint64_t age; } lie_prefix_entry;
+typedef struct { lie_state *state; uint64_t age; lie_retention utility; } lie_prefix_entry;
 typedef struct {
     lie_prefix_entry entries[LIE_PREFIX_CACHE_ENTRIES];
     uint64_t clock;

@@ -166,18 +166,29 @@ class CoreBench(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='lie-core-report-') as tmp:
             p,path=self.run_case(tmp);self.assertEqual(p.returncode,0,p.stderr)
             original=[json.loads(x) for x in path.read_text().splitlines()]
-            for mode in ['count','hash','ids','time','missing']:
+            for mode in ['count','hash','ids','time','missing','retention','compression','expanded']:
                 rows=copy.deepcopy(original)
                 if mode=='missing':rows.pop()
                 elif mode=='hash':next(r for r in rows if r['event']=='input')['physical_ids_sha256']='bad'
                 elif mode=='ids':next(r for r in rows if r['event']=='job')['output_ids'][0]=5
                 elif mode=='count':next(r for r in rows if r['event']=='sample')['output_tokens']=0
+                elif mode=='retention':rows[0]['cache_retention_policy']='unknown'
+                elif mode=='compression':rows[0]['checkpoint_compression']=1
+                elif mode=='expanded':next(r for r in rows if r['event']=='sample')['cache_expanded_bytes']=-1
                 else:next(r for r in rows if r['event']=='job')['first_token_ns']=-1
                 bad=Path(tmp)/'bad.jsonl';bad.write_text('\n'.join(json.dumps(r) for r in rows)+'\n')
                 with self.assertRaises(ValueError):REPORT['read_result'](bad)
             result=REPORT['read_result'](path);other=copy.deepcopy(result)
             other['configurations'][0]['prefill_chunk']=1
             with self.assertRaises(ValueError):REPORT['compare'](result,other)
+            for field,value in [('cache_retention_policy','different'),('checkpoint_compression',not result['identity']['checkpoint_compression'])]:
+                other=copy.deepcopy(result);other['configurations'][0][field]=value
+                with self.assertRaises(ValueError):REPORT['compare'](result,other)
+                comparison=REPORT['compare'](result,other,True)[0]
+                self.assertTrue(comparison['eligible'] and comparison['cache_build_comparison'])
+                self.assertIn(field,comparison['build_setting_differences'])
+                other['configurations'][0]['prefill_chunk']=1
+                with self.assertRaises(ValueError):REPORT['compare'](result,other,True)
 
     def test_supervisor_binds_core_input_and_ports(self):
         bind=RUNNER['bind_args']

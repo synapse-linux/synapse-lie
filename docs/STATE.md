@@ -15,7 +15,7 @@ The generic C17 `lie_state` component contract owns section validation, overflow
 checks, host allocation, immutable payloads and capture/restore coordination.
 `src/models/qwen_flash_state.c` owns Qwen AR component geometry independently
 of the device platform. `src/prefix_cache.c` owns lookup, admission, lifetime,
-LRU eviction and accounting. The transitional adapter only binds model fields
+utility eviction and accounting. The transitional adapter only binds model fields
 and performs completed host/HIP copies; it does **not** call Gufo's snapshot
 serializer or store an opaque Gufo snapshot. Its explicitly selected access
 variant changes three friend declarations in two independently fetched headers,
@@ -26,8 +26,9 @@ remain delegated; this does not claim an autonomous C model executor.
 
 - Eight immutable checkpoint slots, bounded by the configured total bytes.
   Account the allocation containing descriptor and payload; allocator/driver
-  overhead and active sessions are separate. Allocation is lazy. Evict idle LRU
-  entries before capture, so retained plus in-progress capture fits the budget.
+  overhead and active sessions are separate. Allocation is lazy. Evict the lowest-utility
+  eligible entries before capture; retained, in-progress capture and explicit
+  codec buffers must fit the budget. LRU remains a compile-time alternative.
   Oversized checkpoints or a failed host allocation skip optional retention.
 - Capture at most once per request, at its largest completed chunk boundary,
   or the entire prompt if shorter than a chunk. Match exact physical token IDs.
@@ -64,7 +65,7 @@ through 128K and C8. CPU results remain NOT-INFERENCE.
 
 ## Optional SSD persistence — explicit opt-in
 
-The C17 store and version 1 component codec are implemented in the shared core.
+The C17 store and raw-v1/compressed-v2 component codecs are implemented in the shared core.
 Enable with `--prefix-ssd-dir ABSOLUTE-DIRECTORY`, `--prefix-ssd-quota-mib N`
 and `--prefix-ssd-staging-mib N`, supported by server and `--suite core`.
 RAM remains independently enabled by default. There is no implicit disk spill.
@@ -80,36 +81,58 @@ are authoritative. Active KV paging and PLE/weight streaming are separate featur
 
 ## Retention policy and compression boundary
 
-The current RAM/SSD implementation provides prefix reuse and durable state
-restoration. It does **not** implement all cache mechanisms in `antirez/ds4`.
-RAM and SSD use LRU eviction; the Qwen state representation preserves native
-F16 K/V and block keys, plus required F32 recurrent/other components. There is
-no added low-bit KV codec, entropy compression or active-cache paging. Native
-hybrid/sparse model semantics do not establish a generic compression ratio.
+The shared C17 core now implements these independent default-ON CMake options:
+
+| Option | Enabled behavior | OFF behavior |
+|---|---|---|
+| `LIE_CACHE_UTILITY` | Decaying reuse, tokens per retained byte, anchor/continuation weighting | LRU |
+| `LIE_CHECKPOINT_COMPRESSION` | Bounded lossless LZ4 checkpoint packing, raw fallback | Raw checkpoints; no LZ4 dependency |
+
+Utility is `(1 + decayed_hits) * tokens / retained_bytes`, doubled for an anchor
+and multiplied by 0.125 for a superseded continuation. Hit weight halves every
+64 logical cache accesses; ties use oldest access. A newly captured prefix that
+extends an existing prefix is a continuation. SSD uses the larger of file and
+allocated-block bytes. This is internal automatic prioritization, not an API
+for arbitrary client priority. Pins, valid prefix geometry and admission limits
+remain authoritative. Utility metadata resets on restart; a persistent priority
+index is not implemented. The algorithm is independently written, with no DS4
+source imported.
+
+Packing operates only on a uniquely owned immutable state. Physical tokens stay
+uncompressed; all remaining bytes, including floating-point bit patterns, use
+independent 1 MiB LZ4/raw blocks. Payloads below 64 KiB stay raw. At least 12.5%
+saving is required; insufficient budget, allocation failure or incompressible
+input leaves the original unchanged. The budget includes the source, candidate
+and explicit codec scratch; allocator internals/overhead and device memory are
+separate. Restore reserves the complete expanded payload and may evict other
+entries first. A checkpoint that cannot fit with its restore workspace is not
+promoted from SSD into RAM. No fixed compression ratio is promised.
+
+Captures and RAM expansion remain completed calls on the single device owner;
+packing does not add a thread or GPU overlap. These CPU passes can increase
+capture/restore latency and delay peers. SSD import packing runs on the existing
+bounded I/O worker, checks cancellation between blocks, and stays inside its
+staging reservation. Serving credits, bounded queues and cancellation ownership
+remain in the core. Measure C1 timings and C2 responsiveness separately; the
+presence of a codec does not prove a reactive speedup.
 
 Upstream [DS4's disk eviction score](https://github.com/antirez/ds4/blob/main/ds4_kvstore.c),
-reviewed 2026-10-02, weighs decaying reuse counts, saved tokens per stored byte,
-checkpoint purpose and superseded continuation checkpoints. This is a disk
-retention policy, not a RAM codec. Its header's `quant_bits` identifies routed
-expert weight quantization; it must not be reported as KV precision.
+reviewed 2026-10-02, also weighs reuse, saved tokens per byte, checkpoint purpose
+and superseded continuations. Its header's `quant_bits` identifies routed expert
+weight quantization; it is not KV precision. LIE does not claim identical policy.
 
 DeepSeek-specific KV compressors in [DS4's model engine](https://github.com/antirez/ds4/blob/main/ds4.c)
-use learned model projections and compressor state. Those architectural savings
-cannot be transplanted unchanged into Qwen, whose attention/recurrent state
-differs. No DS4 source or artifact is imported by this comparison.
+use learned projections and compressor state. Those architectural savings cannot
+be transplanted unchanged into Qwen. Qwen active K/V and block keys remain F16,
+with the required F32 recurrent/other components. Checkpoint packing does not
+reduce the active device allocation. Low-bit active KV still needs a distinct
+model representation, matching attention/prefill/batch kernels and long-context
+quality/performance qualification; it is not implemented by the lossless codec.
 
-Remaining steps: a C17 utility/priority policy shared by all core clients;
-separately versioned lossless checkpoint compression; and model-qualified
-low-bit active KV representations with matching device kernels. Keep these
-independent: compressing retained checkpoints does not reduce a running
-sequence's device allocation. Any lossy mode needs long-context quality and
-latency/memory comparisons against the current representation before default
-use. Priority ties, aging, pins, budgets, cancellation and reactive progress
-need contract tests. SSD remains the only cache tier disabled by default.
-
-The [HTTP SSD suite](SSD-HTTP-PROTOCOL.md) now verifies the current representation
-through restart and concurrent consumers in CPU fixtures. It neither closes
-these additional compression gates nor establishes a reactive GPU speedup.
+CPU fixtures cover exact special floating bits, mixed/raw blocks, valid-checksum
+malformed frames, budgets, pins, utility aging/eviction, core restore and SSD
+restart. These are NOT-INFERENCE. Prior [128K GPU results](SSD-GPU-COMPLETION.md)
+qualify the earlier raw representation, not the new default policy/codec.
 
 ## Two distinct kinds
 

@@ -29,6 +29,7 @@ static json_object *identity(void){
     json_object *j=event("identity");str(j,"schema","synapse-lie.state-bench.v1");str(j,"suite","state");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"ownership",lie_backend_ownership());str(j,"source_pin",lie_backend_source_pin());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
+    json_object_object_add(j,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     num(j,"state_abi",LIE_STATE_ABI);str(j,"scope","C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision");return j;
 }
 static bool integer(const char *s,unsigned *v){char *end=NULL;unsigned long n=strtoul(s,&end,10);if(!*s||*end||*s=='-'||!n||n>1048576)return false;*v=(unsigned)n;return true;}
@@ -119,7 +120,8 @@ int lie_state_bench_main(int argc,char **argv){
         if(stored->token_count!=checkpoint||memcmp(tokens,lie_state_tokens(state),(size_t)checkpoint*sizeof(*tokens))){snprintf(e.message,sizeof(e.message),"SSD checkpoint frontier mismatch");goto done;}
         lie_store_info si;lie_store_snapshot(store,&si);
         if(si.errors||si.hits!=1||si.lookups!=1)goto done;
-        j=event("ssd_read");num(j,"retained_bytes",lie_state_bytes(state));num(j,"sections",stored->section_count);
+        j=event("ssd_read");num(j,"retained_bytes",lie_state_bytes(state));num(j,"expanded_bytes",lie_state_expanded_bytes(state));
+        json_object_object_add(j,"compressed",json_object_new_boolean(lie_state_is_compressed(state)));num(j,"sections",stored->section_count);
         num(j,"read_ns",disk.read_ns);num(j,"read_bytes",si.read_bytes);num(j,"peak_staging_bytes",si.peak_staging_bytes);
         if(!emit(f,j))goto done;
     }else{
@@ -127,7 +129,10 @@ int lie_state_bench_main(int argc,char **argv){
         if(lie_sequence_create(m,&s,&e)!=LIE_OK||!prefill(s,tokens,0,checkpoint,chunk,&e))goto done;
         start=ns();
         if(lie_state_plan(s,&layout,&bytes,&e)!=LIE_OK||lie_state_capture(s,&layout,ssd_mode?ssd.staging_bytes:UINT64_C(4)*1024*1024*1024,&state,&e)!=LIE_OK)goto done;
-        j=event("capture");num(j,"retained_bytes",lie_state_bytes(state));num(j,"sections",layout.section_count);num(j,"capture_ns",ns()-start);if(!emit(f,j)||lie_sequence_close(&s,&e)!=LIE_OK)goto done;
+        (void)lie_state_compress(&state,ssd_mode?ssd.staging_bytes:UINT64_C(4)*1024*1024*1024);
+        j=event("capture");num(j,"retained_bytes",lie_state_bytes(state));num(j,"expanded_bytes",lie_state_expanded_bytes(state));
+        json_object_object_add(j,"compressed",json_object_new_boolean(lie_state_is_compressed(state)));
+        num(j,"sections",layout.section_count);num(j,"capture_ns",ns()-start);if(!emit(f,j)||lie_sequence_close(&s,&e)!=LIE_OK)goto done;
         if(store){
             if(!lie_store_write(store,state)||!store_wait(store,&disk))goto done;
             lie_store_result_release(store,&disk);disk=(lie_store_result){0};lie_store_info si;lie_store_snapshot(store,&si);

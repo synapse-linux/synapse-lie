@@ -11,5 +11,6 @@ void fake_barrier_release(void);
 /* Reset only with no fixture worker running. */
 void fake_calls_reset(void);
 void fake_state_fault(unsigned); /* 1 invalid layout, 2 read fault, 3 mutating write fault. */
+void fake_state_padding(unsigned); /* Extra deterministic bytes; set between requests only. */
 fake_calls fake_calls_snapshot(void);
 #endif

@@ -415,8 +415,12 @@ static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_s
     json_object_object_add(o,"kind",json_object_new_string("ram-prefix-checkpoints"));
     json_object_object_add(o,"enabled",json_object_new_boolean(i->budget_bytes!=0));
     json_object_object_add(o,"ssd_enabled",json_object_new_boolean(ssd->enabled));
+    json_object_object_add(o,"retention_policy",json_object_new_string(i->utility_policy?"decaying-token-byte-utility-v1":"lru"));
+    json_object_object_add(o,"checkpoint_compression",json_object_new_boolean(i->compression_enabled));
     json_object *disk=json_object_new_object();
     json_object_object_add(disk,"enabled",json_object_new_boolean(ssd->enabled));
+    json_object_object_add(disk,"retention_policy",json_object_new_string(ssd->utility_policy?"decaying-token-byte-utility-v1":"lru"));
+    json_object_object_add(disk,"checkpoint_compression",json_object_new_boolean(ssd->compression_enabled));
 #define SSD_FIELD(name) json_object_object_add(disk,#name,json_object_new_uint64(ssd->name))
     SSD_FIELD(quota_bytes);SSD_FIELD(disk_bytes);SSD_FIELD(allocated_bytes);SSD_FIELD(staging_budget_bytes);
     SSD_FIELD(staging_bytes);SSD_FIELD(peak_staging_bytes);SSD_FIELD(entries);SSD_FIELD(pending);
@@ -429,6 +433,7 @@ static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_s
     CACHE_FIELD(budget_bytes);CACHE_FIELD(retained_bytes);CACHE_FIELD(peak_retained_bytes);
     CACHE_FIELD(lookups);CACHE_FIELD(hits);CACHE_FIELD(misses);CACHE_FIELD(reused_tokens);
     CACHE_FIELD(captures);CACHE_FIELD(evictions);CACHE_FIELD(skipped);CACHE_FIELD(entries);
+    CACHE_FIELD(expanded_bytes);CACHE_FIELD(compression_attempts);CACHE_FIELD(compressed_captures);
 #undef CACHE_FIELD
     return o;
 }
@@ -693,8 +698,9 @@ int main(int argc, char **argv) {
     int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
         if (!strcmp(argv[i],"--build-info")) {
-            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false}\n",
-                   LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership());
+            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s}\n",
+                   LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership(),
+                   LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false");
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {

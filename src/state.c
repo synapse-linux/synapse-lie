@@ -87,13 +87,17 @@ lie_status lie_state_restore(lie_sequence *s,const lie_state *p,lie_error *e) {
     lie_state_layout expected={0};
     lie_status rc=lie_sequence_state_describe(s,&p->layout,&expected,e);if(rc!=LIE_OK)return rc;
     if(!lie_state_layout_equal(&p->layout,&expected))return fail(e,LIE_INVALID,"incompatible prefix state");
-    return lie_sequence_state_write(s,&p->layout,p->payload,(size_t)bytes,e);
+    if(!p->codec)return lie_sequence_state_write(s,&p->layout,p->payload,(size_t)bytes,e);
+    void *raw=malloc((size_t)bytes);
+    if(!raw)return fail(e,LIE_RESOURCE_LIMIT,"checkpoint expansion allocation failed");
+    if(!lie_state_unpack_payload(p,raw,(size_t)bytes)){free(raw);return fail(e,LIE_INVALID,"invalid compressed checkpoint");}
+    rc=lie_sequence_state_write(s,&p->layout,raw,(size_t)bytes,e);free(raw);return rc;
 }
 lie_state *lie_state_allocate(const lie_state_layout *l,uint64_t budget){
     uint64_t bytes=0;
     if(!lie_state_validate(l,&bytes)||bytes+sizeof(lie_state)>budget)return NULL;
     lie_state *p=malloc(sizeof(*p)+(size_t)bytes);
-    if(p){p->layout=*l;p->payload_bytes=bytes;atomic_init(&p->refs,1);}
+    if(p){p->layout=*l;p->payload_bytes=p->storage_bytes=bytes;p->codec=0;atomic_init(&p->refs,1);}
     return p;
 }
 void lie_state_retain(lie_state *p){
@@ -101,7 +105,10 @@ void lie_state_retain(lie_state *p){
     if(!before||before==UINT32_MAX)abort();
 }
 void lie_state_destroy(lie_state **p){if(p&&*p){if(atomic_fetch_sub(&(*p)->refs,1)==1)free(*p);*p=NULL;}}
-uint64_t lie_state_bytes(const lie_state *p){return p?sizeof(*p)+p->payload_bytes:0;}
+uint64_t lie_state_bytes(const lie_state *p){return p?sizeof(*p)+p->storage_bytes:0;}
+uint64_t lie_state_expanded_bytes(const lie_state *p){return p?sizeof(*p)+p->payload_bytes:0;}
+uint64_t lie_state_restore_workspace(const lie_state *p){return p&&p->codec?p->payload_bytes:0;}
+bool lie_state_is_compressed(const lie_state *p){return p&&p->codec;}
 const lie_state_layout *lie_state_description(const lie_state *p){return p?&p->layout:NULL;}
 const int32_t *lie_state_tokens(const lie_state *p){
     if(p)for(unsigned i=0;i<p->layout.section_count;++i)if(p->layout.sections[i].role==LIE_STATE_TOKENS)

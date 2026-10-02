@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/store.h"
 #include "state_codec.h"
+#include "state_internal.h"
+#include "retention.h"
 #include <assert.h>
 #include <dirent.h>
 #include <errno.h>
@@ -19,7 +21,7 @@
 #include <unistd.h>
 
 #define STORE_ENTRIES 64u
-typedef struct { char name[69];uint64_t bytes,allocated,age;unsigned tokens; } entry;
+typedef struct { char name[69];uint64_t bytes,allocated,age;unsigned tokens;lie_retention utility; } entry;
 struct lie_store {
     pthread_t thread;
     pthread_mutex_t gate;
@@ -97,6 +99,7 @@ static bool scan(lie_store *s){
         entry *e=&s->entries[count++];memcpy(e->name,name,69);e->bytes=(uint64_t)st.st_size;
         e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;uint64_t bytes=0;
         if(!lie_state_file_probe(fd,&s->identity,&bytes,&e->tokens))e->tokens=0;
+        lie_retention_init(&e->utility,s->clock,false);
         close(fd);
         /* Bound accounting even for foreign/corrupt files; never overflow. */
         uint64_t a=0,b=0;
@@ -110,13 +113,21 @@ static bool scan(lie_store *s){
     if(ok)account(s);
     return ok;
 }
-static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot){
+static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *continued){
     if(bytes>UINT64_MAX-(s->block_bytes-1))return false;
     uint64_t allocated=((bytes+s->block_bytes-1)/s->block_bytes)*s->block_bytes;
     if(bytes>s->info.quota_bytes||allocated>s->info.quota_bytes)return false;
-    for(;;){uint64_t used=0,blocks=0;unsigned free_slot=STORE_ENTRIES,oldest=STORE_ENTRIES;
+    bool superseded[STORE_ENTRIES]={false};const lie_state_layout *layout=lie_state_description(s->state);
+    for(unsigned i=0;LIE_CACHE_UTILITY&&i<STORE_ENTRIES;++i){entry *e=&s->entries[i];char key[69]={0};
+        if(e->tokens&&e->tokens<layout->token_count&&lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,key)){
+            memcpy(key+64,".lie",5);superseded[i]=!strcmp(e->name,key);if(superseded[i])*continued=true;}}
+    for(;;){uint64_t used=0,blocks=0;unsigned free_slot=STORE_ENTRIES,oldest=STORE_ENTRIES;double score=0;
         for(unsigned i=0;i<STORE_ENTRIES;++i){entry *e=&s->entries[i];if(!e->name[0]){free_slot=i;continue;}
-            used+=e->bytes;blocks+=e->allocated;if(oldest==STORE_ENTRIES||e->age<s->entries[oldest].age)oldest=i;}
+            used+=e->bytes;blocks+=e->allocated;
+            uint64_t cost=e->bytes>e->allocated?e->bytes:e->allocated;
+            double value=lie_retention_score(&e->utility,s->clock,e->tokens,cost,superseded[i]);
+            if(oldest==STORE_ENTRIES||(LIE_CACHE_UTILITY?(value<score||(value==score&&e->age<s->entries[oldest].age)):
+                                                                      e->age<s->entries[oldest].age)){oldest=i;score=value;}}
         if(free_slot<STORE_ENTRIES&&used<=s->info.quota_bytes-bytes&&blocks<=s->info.quota_bytes-allocated){*slot=free_slot;return true;}
         if(oldest==STORE_ENTRIES||!remove_entry(s,oldest))return false;
     }
@@ -127,7 +138,7 @@ static bool write_state(lie_store *s){
     memcpy(name+64,".lie",5);
     for(unsigned i=0;i<STORE_ENTRIES;++i)if(!strcmp(s->entries[i].name,name)){s->entries[i].age=++s->clock;return true;}
     unsigned slot=0;uint64_t bytes=lie_state_file_bytes(s->state);
-    if(!reserve_disk(s,bytes,&slot))return false;
+    bool continued=false;if(!reserve_disk(s,bytes,&slot,&continued))return false;
     snprintf(temporary,sizeof(temporary),".pending-%s",name);
     int fd=openat(s->directory,temporary,O_RDWR|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0600);if(fd<0)return false;
     bool renamed=false;struct stat st;
@@ -140,6 +151,7 @@ static bool write_state(lie_store *s){
     if(ok){ok=renameat(s->directory,temporary,s->directory,name)==0;renamed=ok;}
     if(renamed){entry *e=&s->entries[slot];memcpy(e->name,name,sizeof(name));
         e->bytes=(uint64_t)st.st_size;e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;e->tokens=l->token_count;
+        lie_retention_init(&e->utility,s->clock,continued);
         account(s);ok=fsync(s->directory)==0;
     }else if(same_file(s,temporary,fd)){(void)unlinkat(s->directory,temporary,0);(void)fsync(s->directory);}
     close(fd);
@@ -170,7 +182,8 @@ static lie_state *read_state(lie_store *s){
         if(state){const lie_state_layout *l=lie_state_description(state);
             if(l->token_count!=ceiling||l->prefill_chunk!=s->chunk||memcmp(lie_state_tokens(state),s->tokens,ceiling*sizeof(*s->tokens)))lie_state_destroy(&state);
         }
-        if(state){s->entries[best].age=++s->clock;
+        if(state){s->entries[best].age=++s->clock;lie_retention_hit(&s->entries[best].utility,s->clock);
+            (void)lie_state_compress_cancel(&state,s->info.staging_budget_bytes-input,&s->cancel);
             pthread_mutex_lock(&s->gate);s->info.read_bytes+=s->entries[best].bytes;pthread_mutex_unlock(&s->gate);return state;}
         if(atomic_load(&s->cancel))break;
         pthread_mutex_lock(&s->gate);++s->info.errors;pthread_mutex_unlock(&s->gate);
@@ -203,7 +216,8 @@ lie_status lie_store_open(const lie_store_options *o,const lie_state_identity *i
         return fail(e,"invalid SSD quota/staging/identity");
     lie_store *s=calloc(1,sizeof(*s));if(!s)return LIE_RESOURCE_LIMIT;
     s->directory=s->lock=s->notice=-1;s->identity=*id;s->domain=domain;atomic_init(&s->cancel,false);
-    s->info=(lie_store_info){.enabled=true,.quota_bytes=o->quota_bytes,.staging_budget_bytes=o->staging_bytes};
+    s->info=(lie_store_info){.enabled=true,.quota_bytes=o->quota_bytes,.staging_budget_bytes=o->staging_bytes,
+        .utility_policy=LIE_CACHE_UTILITY!=0,.compression_enabled=lie_state_compression_enabled()};
     if(pthread_mutex_init(&s->gate,NULL)){free(s);return LIE_RESOURCE_LIMIT;}
     if(pthread_cond_init(&s->ready,NULL)){pthread_mutex_destroy(&s->gate);free(s);return LIE_RESOURCE_LIMIT;}
     s->directory=private_directory(o->directory);if(s->directory<0)goto bad;
