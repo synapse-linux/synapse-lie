@@ -1,0 +1,43 @@
+{
+  "status": "Running after explicit core handover",
+  "authorization": "Owner explicitly requests performance exploration before fixing numerical differences. Prior exact replay failures remain recorded; this is not promotion or final numerical acceptance.",
+  "variants": {
+    "bounded-k": {
+      "source_path": ".deps/gufo-q2-bench-bounded-k",
+      "historical_operator_arm": "q2-register-operators-r1",
+      "reconstructed_source_files": 1019,
+      "matches_operator_capsule": true,
+      "patch_sha256": "0270918a8231f777bdb1dcf52aa12f61e9669e71e9d4c81cd830dfaa869c1f52"
+    },
+    "wide-barrier": {
+      "source_path": ".deps/gufo-q2-bench-wide-barrier",
+      "historical_operator_arm": "q2-register-operators-r2",
+      "reconstructed_source_files": 1019,
+      "matches_operator_capsule": true,
+      "patch_sha256": "17ca778c22671af7c10bc85d13f2e34b2ca7385f96c71db2b58efda4d57c86c6"
+    }
+  },
+  "runtime_reference_patch_sha256": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+  "timing": {
+    "profiles": [
+      512,
+      2048,
+      8192
+    ],
+    "prefill_chunk": 2048,
+    "session_capacity": 9216,
+    "warmups": 1,
+    "measured_repetitions": 3,
+    "emitted_tokens": 128,
+    "decode_calls": 127,
+    "concurrency": 1,
+    "mtp": false,
+    "loading_excluded": true,
+    "profiling_enabled": false
+  },
+  "numerics": "Report independent operator status, exact replay, token agreement, finite full-frontier KL and errors separately from timings. Do not change goldens or mark rejected variants qualified.",
+  "controls": "Fresh qualified Q2 and pristine UD in the same exclusive campaign; historical values retained for comparison.",
+  "stop_conditions": "Resource/lease failures, GPU faults, non-finite logits or incomparable workload remain explicit failures.",
+  "publication": "No deployment, merge, publication or active runtime change.",
+  "handover_recorded_at": "2026-10-02T05:56:25.098787+00:00"
+}

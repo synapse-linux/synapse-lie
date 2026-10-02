@@ -54,3 +54,10 @@ empty and the four expected lease identities acquired EX|NB and released.
 All 150 artifacts are collected/hash verified. Core received explicit handover;
 no Q2 remote job, waiter or automatic retry remains. Evidence is retained in
 `evidence/q2-register-window-release.json` with closure command exit 0.
+
+The owner then authorized exploratory performance measurement before fixing
+numerical differences. Core explicitly confirms no active load/lease and grants
+the next window to Q2, retaining its SSD preparation offline. Q2 acknowledges
+four sequential C1 arms (fresh qualified Q2, bounded K, token barrier, pristine
+UD), with fresh four-lease admission per build/GPU arm and verified final release.
+The qualified runtime stays unchanged; experimental source trees are isolated.

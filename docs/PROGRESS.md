@@ -98,3 +98,12 @@ identities/groups retired, KFD empty and four expected leases free. Core receive
 the handover; no Q2 job or retry remains. The performance target is still unmet.
 A next implementation must bound register lifetimes while controlling the actual
 FP32 contraction/reduction order. The separate F16 HC decode cost remains.
+
+## Owner-authorized performance exploration
+
+The owner requested measuring candidate speed before fixing small numerical
+differences. [Q2-PERFORMANCE-EXPLORATION.md](Q2-PERFORMANCE-EXPLORATION.md) defines
+a new exploratory campaign, preserving all prior failures and the qualified
+runtime. Both isolated candidate trees match their operator source capsules
+exactly. Fresh Q2/UD controls and numerical drift will accompany C1 timings.
+No remote work starts before the next explicit coordinated handover.

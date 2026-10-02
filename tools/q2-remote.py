@@ -20,7 +20,11 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier'],
+                   default='qualified', help='Isolated experimental source for q2-bench only')
     args = p.parse_args()
+    if args.source_variant != 'qualified' and args.mode != 'q2-bench':
+        p.error('Experimental source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
     if args.mode == 'status':
@@ -58,6 +62,8 @@ def main():
         for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
+        if args.source_variant != 'qualified':
+            source = '.deps/gufo-q2-bench-' + args.source_variant
         archive.add(ROOT / source, arcname='source')
     dest = REMOTE + args.label
     # Exclusive destination and data-only extraction. No model or foreign path.
@@ -75,7 +81,7 @@ def main():
     ])
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:
