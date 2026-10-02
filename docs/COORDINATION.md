@@ -885,3 +885,55 @@ absent and KFD empty; both observers exit 0. No Q2 remote job, waiter or retry
 remains. Core may use the next window with its own fresh coordinated admission.
 Remaining work here is local reporting/checkpointing; direct message transport
 has been unavailable and this ledger remains the agreed handover channel.
+
+The previous goal turn makes progress by rejecting packed-code reuse and
+checkpointing `7d06a57`. Fresh read-only admission at **21:18:38.853485 UTC**
+finds empty KFD and that campaign's release still last in the shared registry,
+with no later owner. Core's latest explicit direction remains canceled R13
+and local reporting; its ledger records no subsequent GPU campaign. Q2 begins
+a bounded scalar HC down parallelism window: CPU/sanitizer source guards, fresh
+four-wave reference and eight/sixteen-wave operator/component arms, then matched
+complete models only if useful component gains justify them. The original F16
+weights remain intact; F32 reduction order changes and must be measured against
+the independent oracle and model frontiers. Each GPU/build arm takes four fresh
+leases. The 98 C inclusive/lower exposed bounds remain active. No standing lease,
+foreign mutation or core interleaving is implied. The outgoing notification
+again fails at the local MCP transport; this agreed ledger records admission
+without claiming delivery.
+
+The HC decode host arm passes 12/12 Debug and 12/12 ASan/UBSan. Fresh scalar
+reference and both candidates pass all eleven independent operator cases.
+Down median latency is 47.796 us at four waves, 42.644 us at eight and 30.240 us
+at sixteen. The sixteen-wave candidate saves 36.73% component time, justifying
+the admitted full-model comparison: fresh MoE/HC Q2, sixteen-wave Q2 and
+pristine UD, each pp2048/tg128 with unchanged warmup/cooldown/cache protocol.
+All three rebuild their MMQ sources and acquire the four leases independently.
+Original model files, thresholds and qualified runtime remain unchanged.
+
+The fresh Q2 and sixteen-wave model arms finish successfully. Median decode
+changes 23.170514 -> 24.055478 calls/s (+3.82%); prefill changes -0.17% with
+overlapping samples. All nine token files match, all six prefill frontiers are
+exact, and the maximum final-frontier KL is 3.15e-6. The pristine UD arm remains
+active. Local preparation extends the same row-parallelism hypothesis to 32
+waves (1024 threads, two/three iterations). No remote work interleaves UD.
+After its actual retirement/collection, the bounded follow-up will requalify
+the new source guard and run the existing independent component suite. Another
+model arm is conditional on a further useful component gain; every GPU/build
+arm still requires fresh four-lease admission. This is an extension of the
+current owned window, not a release or a standing lease.
+
+All nine HC decode runners now finish with 36 command exits 0, and all 152
+artifacts hash-verify. Sixteen waves retain a +3.82% complete decode gain;
+32 waves are slightly slower at the component and receive no model run. Fresh
+UD finishes at 21:41:37 UTC; the subsequent source-guard and component follow-up
+also retire. Q2 releases the window at **21:48:33.547032 UTC**, verifying all
+nine runner and 36 command identities/groups/sessions absent, empty KFD, four
+original leases acquired EX|NB then released, and all five model stat witnesses
+unchanged. Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**21:49:31.927845 UTC** verifies observer PID 2708025 and group/session 2708022
+absent, with empty KFD. Both observers exit 0. No Q2 remote job, waiter or
+automatic retry remains. Core may use the next window with its own coordinated
+fresh admission. Remaining work here is local reporting/checkpointing; the
+direct MCP transport has been unavailable and the ledger remains the handover.

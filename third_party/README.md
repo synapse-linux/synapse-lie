@@ -139,3 +139,11 @@ remain unchanged; upstream notices remain intact. The bounded C17 flow, fixtures
 original-weight harness, generator and analysis are first-party MIT. No external
 engine or sibling project artifact is imported. Source and ownership contracts
 are recorded in `docs/Q2-PLE-LOOKAHEAD.md`.
+
+`experiments/q2-hc-decode{8,16,32}.patch` are first-party MIT row-partition
+changes against the measured MoE/HC checkpoint and the same independently
+fetched official Gufo pin. Original F16 model bytes and upstream notices remain
+intact. The generator and plotting extensions are first-party MIT; no external
+engine or sibling project implementation is imported. Source hashes, changed
+reduction order, independent checks and complete-model scope are recorded in
+`docs/Q2-HC-DECODE-WAVES.md`.

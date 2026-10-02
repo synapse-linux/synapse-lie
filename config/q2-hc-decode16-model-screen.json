@@ -1,0 +1,189 @@
+{
+  "scope": "Fresh Q2 source comparison; same original model and token trajectory, not independent teacher qualification",
+  "arms": {
+    "q2-hc-decode-model-ref-r1": {
+      "prefill_tok_s": {
+        "min": 1286.889766,
+        "median": 1294.041322,
+        "max": 1297.143947,
+        "samples": [
+          1297.143947,
+          1286.889766,
+          1294.041322
+        ]
+      },
+      "decode_steps_s": {
+        "min": 23.16836602,
+        "median": 23.17051391,
+        "max": 23.20427864,
+        "samples": [
+          23.17051391,
+          23.16836602,
+          23.20427864
+        ]
+      },
+      "prefill_s": {
+        "min": 1.578853299,
+        "median": 1.582638796,
+        "max": 1.591433901,
+        "samples": [
+          1.578853299,
+          1.591433901,
+          1.582638796
+        ]
+      },
+      "decode_s": {
+        "min": 5.473128554,
+        "median": 5.481104151,
+        "max": 5.481612293,
+        "samples": [
+          5.481104151,
+          5.481612293,
+          5.473128554
+        ]
+      }
+    },
+    "q2-hc-decode16-model-r1": {
+      "prefill_tok_s": {
+        "min": 1290.518008,
+        "median": 1291.807941,
+        "max": 1293.373483,
+        "samples": [
+          1293.373483,
+          1290.518008,
+          1291.807941
+        ]
+      },
+      "decode_steps_s": {
+        "min": 24.0514823,
+        "median": 24.05547823,
+        "max": 24.06994669,
+        "samples": [
+          24.05547823,
+          24.06994669,
+          24.0514823
+        ]
+      },
+      "prefill_s": {
+        "min": 1.583455999,
+        "median": 1.585374989,
+        "max": 1.586959645,
+        "samples": [
+          1.583455999,
+          1.586959645,
+          1.585374989
+        ]
+      },
+      "decode_s": {
+        "min": 5.276289209,
+        "median": 5.279462697,
+        "max": 5.280339832,
+        "samples": [
+          5.279462697,
+          5.276289209,
+          5.280339832
+        ]
+      }
+    }
+  },
+  "frontiers": [
+    {
+      "name": "arithmetic-0-last.f32",
+      "exact": false,
+      "max_absolute_delta": 1.0792009830474854,
+      "relative_l2": 0.08404414780750993,
+      "kl_p_to_candidate": 8.012509652272066e-08
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    },
+    {
+      "name": "counting-0-last.f32",
+      "exact": false,
+      "max_absolute_delta": 0.801710844039917,
+      "relative_l2": 0.06633215667603862,
+      "kl_p_to_candidate": 3.150156377799592e-06
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    },
+    {
+      "name": "pp2048-0-last.f32",
+      "exact": false,
+      "max_absolute_delta": 1.1397182941436768,
+      "relative_l2": 0.07807608592692179,
+      "kl_p_to_candidate": 9.74258213132873e-08
+    },
+    {
+      "name": "pp2048-0-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    },
+    {
+      "name": "pp2048-1-last.f32",
+      "exact": false,
+      "max_absolute_delta": 1.1397182941436768,
+      "relative_l2": 0.07807608592692179,
+      "kl_p_to_candidate": 9.74258213132873e-08
+    },
+    {
+      "name": "pp2048-1-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    },
+    {
+      "name": "pp2048-2-last.f32",
+      "exact": false,
+      "max_absolute_delta": 1.1397182941436768,
+      "relative_l2": 0.07807608592692179,
+      "kl_p_to_candidate": 9.74258213132873e-08
+    },
+    {
+      "name": "pp2048-2-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    },
+    {
+      "name": "pp2048-3-last.f32",
+      "exact": false,
+      "max_absolute_delta": 1.1397182941436768,
+      "relative_l2": 0.07807608592692179,
+      "kl_p_to_candidate": 9.74258213132873e-08
+    },
+    {
+      "name": "pp2048-3-prefill.f32",
+      "exact": true,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0,
+      "kl_p_to_candidate": 0.0
+    }
+  ],
+  "token_files": [
+    "arithmetic-0-output.u32",
+    "arithmetic-input.i32",
+    "counting-0-output.u32",
+    "counting-input.i32",
+    "pp2048-0-output.u32",
+    "pp2048-1-output.u32",
+    "pp2048-2-output.u32",
+    "pp2048-3-output.u32",
+    "pp2048-input.i32"
+  ],
+  "changed_tokens": [],
+  "max_kl": 3.150156377799592e-06,
+  "max_absolute_logit_delta": 1.1397182941436768
+}

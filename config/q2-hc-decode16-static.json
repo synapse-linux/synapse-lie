@@ -1,0 +1,75 @@
+{
+  "scope": "Editing-host device-only assembly and source checks; no GPU execution",
+  "checks": [
+    {
+      "name": "compiler",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-decode16",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-decode16/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode16-static/kernels.s"
+      ],
+      "cwd": null,
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode16-static/compiler.log"
+    },
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-decode16.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-decode16-reconstructed",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode16-static/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-decode16/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "cwd": null,
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode16-static/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-decode16",
+      "exit_code": 1,
+      "log": "evidence/q2-hc-decode16-static/shared-format.log"
+    }
+  ],
+  "resources": {
+    "group_segment_fixed_size": 64,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 13,
+    "next_free_sgpr": 12
+  },
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "assembly_sha256": "36c120a803db64a8904282ef3bb7836932a784b8da9927a8fd81f2d3041d3b70"
+}

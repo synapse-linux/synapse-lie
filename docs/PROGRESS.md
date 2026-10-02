@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC scalar parallelism improves complete decode — 2026-10-02
+
+The [four/eight/sixteen/32-wave comparison](Q2-HC-DECODE-WAVES.md) finds useful
+additional row parallelism without changing F16 weight bytes. Component medians
+are 47.796 / 42.644 / 30.240 / 30.758 us; sixteen waves save 36.73% time.
+All eleven independent operator cases pass per arm and all eight unaffected
+buffers replay exactly. The three scalar frontiers change within the original
+FP64 limits. Thirty-two waves are slower than sixteen and receive no model run.
+
+The complete original-weight screen retains the gain: Q2 decode rises
+23.170514 -> 24.055478 calls/s (+3.82%) with identical token trajectories.
+Prefill changes 1294.041 -> 1291.808 tokens/s (-0.17%, overlapping samples).
+All six prefill frontiers are exact; final-frontier KL is at most 3.15e-6.
+Fresh UD measures 1650.348 PP / 24.136370 TG. The candidate trails by 21.73%
+and 0.34%; this UD arm is itself below the earlier 1682.761 / 24.326 control.
+Sixteen waves become the development candidate, not a qualified runtime or
+zero-margin parity claim. The prefill gap and broader quality/context gates
+remain open. Full ranges, durations, raw sample CSVs and graphs are retained.
+
+Two host arms pass 12/12 Debug and 12/12 ASan/UBSan. Nine runners/36 commands
+exit 0 and all 152 artifacts verify. Three inherited formatting exits 1 and
+two corrected local validation exits 1 remain evidence. [Verified closure](../config/q2-hc-decode-validation.json)
+at 21:48:33 UTC and observer retirement at 21:49:31 confirm empty KFD, all own
+processes absent, unchanged/free leases and unchanged original model witnesses.
+No Q2 remote job, waiter or automatic retry remains.
+
 ## Packed Q2 code reuse measured — 2026-10-02
 
 Retaining the original Q2 code bytes across two K64 stages halves their source
