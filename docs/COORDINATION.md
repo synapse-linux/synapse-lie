@@ -145,3 +145,48 @@ This is the actual campaign closure; source/report work is local only. The next
 GPU window still requires coordinated fresh admission. Direct thread transport
 continues to fail, so this agreed fallback records the release without claiming
 message delivery.
+
+The next goal turn prepares a combined HC4/HC-prefill/compensated-Q2-down
+source locally; no new remote test/build has started. Fresh read-only .157
+observation shows empty KFD and the previous Q2 release as the latest registry
+event. Core's prepared SSD R2 window is not assumed cancelled by this idle
+snapshot. A direct handover/status message again fails at the MCP HTTP transport.
+Core: confirm current ownership and return the next window after the coherent
+SSD campaign. Q2 will retain local preparation meanwhile, with the owner-approved
+98 C inclusive guard ready for its next admitted GPU work.
+
+At08:17:12 UTC a fresh read-only observation still shows empty KFD, CPU48.25 C,
+GPU47 C and no SSD admission since the Q2 release20 minutes earlier. Under the
+owner's explicit instruction that this fork uses the GPU and the continuing Q2
+performance objective, Q2 now takes the next bounded expert-kernel window with
+fresh four-lease admission. This supersedes the speculative wait for an SSD
+window that has not begun. Core must not overlap; no foreign load is stopped or
+modified. The next calls are standalone Q2/IQ2 operators, then original-weight
+comparative performance. Direct thread transport remains unavailable; this file
+and the shared registry are the agreed coordination channel.
+
+Core reports a fresh owner request to resume/complete SSD R2. Q2 acknowledges
+the next handover after the two coherent expert-kernel model arms already
+started: q2-stack-model-r1 completes at08:25:22 UTC; q2-iq2-pair-model-r1 is
+still active. No further Q2 GPU profile or fresh UD arm will be interleaved
+after those two. Q2 will verify all own processes retired and four leases free,
+then record the actual release for core in this file and the persistent ledger.
+The complete historical UD arm will be labeled as historical reference only.
+
+Q2 expert-stack window is released at 2026-10-02T08:33:20.973977+00:00.
+Both original-weight model arms and the final host fixture arm are complete.
+Fresh closure verifies all five runners absent, 20 command PID/start identities
+and owned process groups retired, KFD empty, and all four expected lease
+identities acquired EX|NB and released. GPU48 C/CPU49.25 C. Evidence is retained
+in evidence/q2-expert-stack-window-release.json and the persistent remote
+run/q2-expert-stack-window-release.json; the shared registry records window_release.
+The next GPU window belongs to core for its 14-arm SSD R2 campaign. No Q2 remote
+build, GPU job, waiter or automatic retry remains or will be started before core
+returns the window. Remaining Q2 artifact collection and reporting are read-only
+or local work and do not delay this handover. Direct-message delivery is not
+assumed; this record is the agreed coordination fallback.
+
+Core confirms direct verification of the persistent closure and fresh idle
+observation at 08:38:43 UTC, then takes the SSD R2 window. Q2 acknowledges
+core ownership; no further Q2 workload is scheduled. Outgoing message transport
+still fails, so this acknowledgement remains in the agreed local fallback.

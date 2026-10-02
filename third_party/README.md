@@ -28,3 +28,14 @@ experimental delta after the HC4 decode patch, with first-party MIT synthetic
 checks and unchanged upstream arithmetic/weight formats. The source receipt
 records both modified translation units and all 1019-file inventory coverage.
 No antirez engine or sibling workspace source/artifact is incorporated.
+
+`experiments/q2-compensated-down-source.patch` is the source-level delta of this
+workstream's retained compensated Q2 down experiment, composed after the HC
+patches. `experiments/q2-iq2-pair.patch` extends the same official routed WMMA
+template to IQ2_XXS paired gate/up. It uses the codebook and parity sign tables
+already present in official `mmq/ggml-common.h`; all upstream/llama.cpp notices
+remain applicable. The independent synthetic fixtures and orchestration are
+first-party MIT. Source reconstruction verifies every file against the actual
+measured trees; hashes are in `config/q2-expert-stack-source.json`. Neither
+experimental patch replaces the qualified runtime patch or imports an antirez
+engine, sibling source or sibling compiled artifact.

@@ -1,0 +1,285 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1610,7 +1610,43 @@
+                             (l.ffn_down_exps.type == GgmlType::kQ5_1 ||
+                              l.ffn_down_exps.type == GgmlType::kQ8_0) &&
+                             c.hidden_size % 256 == 0 && c.expert_ff % 64 == 0;
+-  if (wmma_experts) {
++  const bool iq2_wmma = ExpertMatrixRows(n_tokens) &&
++                        l.ffn_gate_exps.type == GgmlType::kIQ2_XXS &&
++                        l.ffn_up_exps.type == GgmlType::kIQ2_XXS &&
++                        l.ffn_down_exps.type == GgmlType::kQ2_K &&
++                        c.hidden_size == 2560 && c.expert_ff == 640 &&
++                        l.ffn_down_exps.cols == 768;
++  if (iq2_wmma) {
++    RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds, s_.routed_cursors,
++                  s_.rows_token, s_.rows_slot, n_tokens, used, c.num_experts,
++                  stream_);
++    if (!(half_src_ == x && half_rows_ == n_tokens &&
++          half_cols_ == c.hidden_size && !half_bf16_)) {
++      NarrowActivations(x, s_.x_half, false,
++                        static_cast<std::size_t>(n_tokens) * c.hidden_size,
++                        stream_);
++      half_src_ = x;
++      half_rows_ = n_tokens;
++      half_cols_ = c.hidden_size;
++      half_bf16_ = false;
++    }
++    const bool pair_map = n_tokens >= 1024 && routed_tile_rows_ == 48;
++    if (!RoutedGatedIQ2Gemm(
++            l.ffn_gate_exps.data, l.ffn_up_exps.data,
++            static_cast<const __half*>(s_.x_half),
++            s_.routed_tiles + (pair_map ? routed_pair_offset_ : 0),
++            pair_map ? routed_pair_tiles_ : routed_n_tiles_,
++            pair_map ? routed_pair_rows_ : routed_tile_rows_, s_.routed_bounds,
++            s_.rows_token, s_.rows_slot, s_.gate_e, c.expert_ff, c.hidden_size,
++            stream_) ||
++        !RoutedQ2Gemm(l.ffn_down_exps.data, s_.gate_e, s_.routed_tiles,
++                      routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
++                      s_.rows_slot, s_.down_e, c.hidden_size, c.expert_ff,
++                      stream_)) {
++      AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
++      return false;
++    }
++  } else if (wmma_experts) {
+     RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds, s_.routed_cursors,
+                   s_.rows_token, s_.rows_slot, n_tokens, used, c.num_experts,
+                   stream_);
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -9,6 +9,8 @@
+ #include <stdexcept>
+ #include <type_traits>
+ 
++// Official packed IQ2 codebook/sign tables retain their upstream notices.
++#include "src/models/qwen38_flash_next/kernels/rocm/mmq/ggml-common.h"
+ #include "src/models/qwen38_flash_next/mtp_sampling.hpp"
+ 
+ // HIP kernels follow the layouts and operator formulas in reference.cpp.
+@@ -3753,11 +3755,12 @@
+ 
+ template<WeightType kType>
+ __device__ __forceinline__ std::size_t RoutedF16RowBytes(std::size_t k) {
+-  return kType == WeightType::kQ2_K   ? ((k + 255) / 256) * 84
+-         : kType == WeightType::kQ4_K ? (k / 256) * sizeof(Q4KBlock)
+-         : kType == WeightType::kQ5_K ? (k / 256) * kQ5KBlockBytes
+-         : kType == WeightType::kQ5_1 ? (k / 32) * sizeof(Q5_1Block)
+-                                      : (k / 32) * sizeof(Q8_0Block);
++  return kType == WeightType::kIQ2_XXS ? (k / 256) * 66
++         : kType == WeightType::kQ2_K  ? ((k + 255) / 256) * 84
++         : kType == WeightType::kQ4_K  ? (k / 256) * sizeof(Q4KBlock)
++         : kType == WeightType::kQ5_K  ? (k / 256) * kQ5KBlockBytes
++         : kType == WeightType::kQ5_1  ? (k / 32) * sizeof(Q5_1Block)
++                                       : (k / 32) * sizeof(Q8_0Block);
+ }
+ 
+ /// Bit `s` of each of the four bytes of `w`, packed into bits 0-3.
+@@ -3810,10 +3813,12 @@
+   constexpr bool kQ5K = kType == WeightType::kQ5_K;
+   constexpr bool kQ8 = kType == WeightType::kQ8_0;
+   constexpr bool kQ2 = kType == WeightType::kQ2_K;
++  constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
++  constexpr bool kSigned = kQ8 || kIQ2;
+   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
+   // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
+   // two nibble blocks are two, Q8_0's two byte blocks are four.
+-  constexpr int kChunks = (kQ8 || kQ2) ? 2 * BK : BK;
++  constexpr int kChunks = (kSigned || kQ2) ? 2 * BK : BK;
+ 
+   // LDS plan (bytes): the code plane holds BM rows x kChunks 16-byte chunks
+   // with the chunks of nearby rows permuted so a fragment read (one row per
+@@ -3940,6 +3945,35 @@
+         f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
+         f_high[u] = w0.y;
+         f_dm[u] = w0.x;
++      } else if constexpr (kIQ2) {
++        const int sb32 = kb0 + f_c;
++        const auto* block = f_ptr[u] + (sb32 / 8) * 66;
++        uint2 group;
++        __half d;
++        __builtin_memcpy(&group, block + 2 + (sb32 % 8) * 8, 8);
++        __builtin_memcpy(&d, block, 2);
++        // One packed group: four grid indices, four parity-completed sign
++        // masks and a four-bit scale. All codebook magnitudes are 8/25/43;
++        // packed xor-plus-one negation therefore cannot carry across bytes.
++        uint2 signed_codes[4];
++#pragma unroll
++        for (int part = 0; part < 4; ++part) {
++          const unsigned code = (group.x >> (8 * part)) & 255U;
++          const unsigned sign = (group.y >> (7 * part)) & 127U;
++          const uint2 magnitude =
++              reinterpret_cast<const uint2*>(iq2xxs_grid)[code];
++          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++          signed_codes[part] =
++              make_uint2((magnitude.x ^ mask.x) + (mask.x & 0x01010101U),
++                         (magnitude.y ^ mask.y) + (mask.y & 0x01010101U));
++        }
++        f_codes[u] = make_uint4(signed_codes[0].x, signed_codes[0].y,
++                                signed_codes[1].x, signed_codes[1].y);
++        f_codes_hi[u] = make_uint4(signed_codes[2].x, signed_codes[2].y,
++                                   signed_codes[3].x, signed_codes[3].y);
++        const float scale =
++            __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
++        f_dm[u] = __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
+       } else if constexpr (kQ2) {
+         // Each Q2_K superblock stores 256 codes with independent affine
+         // scales every 16 elements. The input's logical K may end halfway
+@@ -4037,7 +4071,7 @@
+     for (int u = 0; u < kWaveRowTiles; ++u) {
+       const int row = (tid >> 1) + (u * 128);
+       std::uint32_t scale_bias = 0;
+-      if constexpr (kQ8 || kQ2) {
++      if constexpr (kSigned || kQ2) {
+         s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+         s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
+         scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
+@@ -4062,7 +4096,7 @@
+           affine[0] = d;
+           affine[1] = b;
+         }
+-      } else if constexpr (kQ8) {
++      } else if constexpr (kSigned) {
+       } else if constexpr (kQ5) {
+         s_high[(f_c * BM) + row] = f_high[u];
+         const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+@@ -4116,11 +4150,11 @@
+     }
+   }
+ 
+-  const __half2 magic =
+-      __floats2half2_rn(kQ8 ? -1152.0F : -1024.0F, kQ8 ? -1152.0F : -1024.0F);
++  const __half2 magic = __floats2half2_rn(kSigned ? -1152.0F : -1024.0F,
++                                          kSigned ? -1152.0F : -1024.0F);
+   const auto compute_stage = [&]() {
+     uint4 raw[kWaveRowTiles][BK];
+-    if constexpr (!kQ8 && !kQ2) {
++    if constexpr (!kSigned && !kQ2) {
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+@@ -4143,7 +4177,7 @@
+         const __half2 scale2 = __low2half2(sb);
+         const __half2 bias2 = __high2half2(sb);
+         std::uint32_t nib[8];
+-        if constexpr (kQ8 || kQ2) {
++        if constexpr (kSigned || kQ2) {
+           // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
+           // flipping the sign bit carries q + 128, which the 1152 magic
+           // takes back out.
+@@ -4153,7 +4187,7 @@
+                                           c1.x, c1.y, c1.z, c1.w};
+ #pragma unroll
+           for (int i = 0; i < 8; ++i) {
+-            nib[i] = kQ8 ? words[i] ^ 0x80808080U : words[i];
++            nib[i] = kSigned ? words[i] ^ 0x80808080U : words[i];
+           }
+         } else if constexpr (kQ5) {
+           // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
+@@ -4302,6 +4336,7 @@
+             // order before narrowing. Fast-math can otherwise regroup the
+             // products and change an F16 rounding tie.
+             __half values[2];
++            float wide_values[2];
+ #pragma unroll
+             for (int v = 0; v < 2; ++v) {
+               float product = base[idx + v + 4 * plane] * base[idx + v];
+@@ -4309,9 +4344,20 @@
+               float value = product * SigmoidF(base[idx + v]);
+               asm volatile("" : "+v"(value));
+               values[v] = __float2half(value);
++              if constexpr (kIQ2)
++                wide_values[v] = value;
+             }
+             const auto offset = static_cast<std::size_t>(dst) * m + r_block + r;
+-            if (m % 2 == 0 && r_block + r + 1 < m_i) {
++            if constexpr (kIQ2) {
++              if (m % 2 == 0 && r_block + r + 1 < m_i)
++                *reinterpret_cast<float2*>(out + offset) =
++                    make_float2(wide_values[0], wide_values[1]);
++              else {
++                out[offset] = wide_values[0];
++                if (r_block + r + 1 < m_i)
++                  out[offset + 1] = wide_values[1];
++              }
++            } else if (m % 2 == 0 && r_block + r + 1 < m_i) {
+               *reinterpret_cast<__half2*>(out_half + offset) =
+                   __halves2half2(values[0], values[1]);
+             } else {
+@@ -4733,6 +4779,51 @@
+   hipLaunchKernelGGL(RoutedScatterKernel, dim3(Blocks(slots)), dim3(kThreads),
+                      0, stream, ids, pad_bounds, cursors, rows_token, rows_slot,
+                      static_cast<std::uint32_t>(slots), k);
++}
++
++template<int BN>
++void LaunchRoutedIQ2(const void* gate, const void* up, const __half* x,
++                     const std::int32_t* tiles, std::uint32_t n_tiles,
++                     const std::int32_t* bounds, const std::int32_t* rows_token,
++                     const std::int32_t* rows_slot, float* out, std::size_t m,
++                     std::size_t k, hipStream_t stream) {
++  const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
++  hipLaunchKernelGGL(
++      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true>), grid,
++      dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token, rows_slot,
++      nullptr, out, nullptr, m, k, up);
++}
++
++bool RoutedGatedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                        const std::int32_t* tiles, std::uint32_t n_tiles,
++                        std::uint32_t tile_rows, const std::int32_t* bounds,
++                        const std::int32_t* rows_token,
++                        const std::int32_t* rows_slot, float* out,
++                        std::size_t m, std::size_t k, hipStream_t stream) {
++  if (!gate || !up || !x || !out || !tiles || !bounds || !rows_token ||
++      !rows_slot || !m || !k || k % 256 || !n_tiles)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchRoutedIQ2<16>(gate, up, x, tiles, n_tiles, bounds, rows_token,
++                          rows_slot, out, m, k, stream);
++      break;
++    case 48:
++      LaunchRoutedIQ2<48>(gate, up, x, tiles, n_tiles, bounds, rows_token,
++                          rows_slot, out, m, k, stream);
++      break;
++    case 64:
++      LaunchRoutedIQ2<64>(gate, up, x, tiles, n_tiles, bounds, rows_token,
++                          rows_slot, out, m, k, stream);
++      break;
++    case 128:
++      LaunchRoutedIQ2<128>(gate, up, x, tiles, n_tiles, bounds, rows_token,
++                           rows_slot, out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return true;
+ }
+ 
+ template<int BN>
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -43,6 +43,7 @@
+   kQ2_K = 10,
+   kQ4_K = 12,
+   kQ5_K = 13,
++  kIQ2_XXS = 16,
+   kBF16 = 30,
+ };
+ 
+@@ -243,6 +244,15 @@
+                   const std::int32_t* pad_bounds, const std::int32_t* rows_slot,
+                   float* out, std::size_t m, std::size_t k, hipStream_t stream);
+ 
++/// Paired IQ2_XXS gate/up from original blocks, with F32 SwiGLU slot output.
++/// Input token rows are F16, preserving the upstream wide-path boundary.
++bool RoutedGatedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                        const std::int32_t* tiles, std::uint32_t n_tiles,
++                        std::uint32_t tile_rows, const std::int32_t* pad_bounds,
++                        const std::int32_t* rows_token,
++                        const std::int32_t* rows_slot, float* out,
++                        std::size_t m, std::size_t k, hipStream_t stream);
++
+ /// Paired Q4_K/Q5_K gate/up GEMM with SwiGLU and F16 output. Uses the same
+ /// routing layout as RoutedF16Gemm, with 64 or 128 token rows per tile. The two
+ /// projections share one launch and never materialize the gate output.

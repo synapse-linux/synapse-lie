@@ -5,9 +5,13 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
-operators and the first original-model C1 screen pass on `.157`. **The performance
-requirement is not met:** Q2 is 48–66% slower in prefill and 16–17% slower in
-decode than existing UD-Q4 in this screen. Do not promote this candidate yet.
+operators and original-model C1 screens run on `.157`. The latest isolated
+[expert-kernel experiment](docs/Q2-EXPERT-STACK.md) reaches **1240.52 prefill
+tok/s and 23.01 decode calls/s at 2K**, up 88.29% in prefill from the previous HC
+checkpoint. **The performance requirement is not met:** the candidate still
+trails historical UD by 26.36% in prefill and 5.37% in decode. Greedy tokens match
+the Q2 reference, but logits differ. Do not promote this candidate yet.
+The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.
 See the [complete results and plots](docs/Q2-RESULTS.md) and the now-qualified
 [Q2/UD phase profiles](docs/Q2-PROFILING.md). The first WMMA down
 [experiment](docs/Q2-DOWN-EXPERIMENT.md) improved PP by 34–64% but exceeded the

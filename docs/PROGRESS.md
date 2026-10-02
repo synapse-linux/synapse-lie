@@ -195,3 +195,35 @@ Seven arms, 168 collected/hash-verified artifacts, 29 commands; fresh closure
 07:57:31.513 UTC verifies all runners/groups retired, KFD empty and four leases
 free. Direct message transport is unavailable; coordinated release is recorded
 in docs/COORDINATION.md and persistent remote/shared registry receipts.
+
+## Combined expert kernels and native paired IQ2
+
+[Q2-EXPERT-STACK.md](Q2-EXPERT-STACK.md) records two complete original-model
+arms. HC4 + HC prefill + compensated Q2 down reaches 1037.258 PP/22.9725 TG.
+Adding native paired IQ2 gate/up reaches 1240.516 PP/23.0103 TG, another 19.60%
+prefill gain and 88.29% above the prior HC checkpoint. Decode is effectively
+unchanged. Historical UD remains 1684.619 PP/24.3159 TG: the best candidate is
+still 26.36% below PP and 5.37% below TG. The no-regression goal remains open.
+
+Both isolated sources reconstruct byte-exactly across 1019 files; the qualified
+runtime patch is unchanged. Full MMQ rebuilds avoid reusing archives after
+executor/header changes. Paired IQ2 uses original packed weights, existing
+upstream tables, routing and buffers, FP32 accumulation and F32 SwiGLU output
+feeding compensated Q2 down. No new persistent allocation or model conversion.
+Static assembly shows no private segment for the four IQ2 templates; no new
+profile yet establishes their actual phase costs. Reactive policy is unchanged.
+
+Twelve independent Q2 down and 18 paired IQ2 GPU cases pass. The IQ2 full outputs
+are byte-exact across 12 tile-width comparisons. Host Debug 9/9 and ASan/UBSan 9/9
+pass on .157. Nine saved model token files match the qualified Q2 reference for
+each candidate, but 0/12 saved logit frontiers are exact. Maximum KL is 0.00181461
+for combined down and 0.00274255 for paired IQ2; the latter exceeds the historical
+0.002 diagnostic. No numerical false-positive or broad quality claim is made.
+
+Five arms, 97 SHA-verified artifacts, 20 successful command exits. Original model
+stat and binary identities remain unchanged; build/model arm maxima stay below
+the 98 C inclusive ceiling. Fresh closure 08:33:20.974 UTC verifies runners/groups
+retired, KFD empty and four leases free. The window is handed to core for its
+14-arm SSD R2 campaign; no Q2 job or automatic retry remains. Reporting and
+source work continue locally. Next runtime work needs a fresh candidate profile
+and eventual matched UD control after coordinated handover.

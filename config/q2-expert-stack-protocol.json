@@ -1,0 +1,33 @@
+{
+  "objective": "Q2 must match UD PP/TG with original Q2 compression, no antirez engine; experiments remain isolated until final acceptance.",
+  "arms": [
+    "HC4+HC-prefill reference from prior completed2K campaign",
+    "HC4+HC-prefill+compensated Q2 down",
+    "same stack plus paired native IQ2 gate/up"
+  ],
+  "stack_reconstruction": [
+    "official pinned Gufo + patches/gufo-q2.patch",
+    "experiments/q2-hc-four-wave.patch",
+    "experiments/q2-hc-prefill-wmma.patch",
+    "experiments/q2-compensated-down-source.patch"
+  ],
+  "iq2_reconstruction": "Apply experiments/q2-iq2-pair.patch after stack; use original IQ2 codebook/sign tables already in upstream source.",
+  "operator_scope": "12 original compensated-down cases, plus18 paired IQ2 cases: tile16/48/64/128, tokens17/65, output5/129, ordinary/tiny F16 inputs, experts0/1/511 or0/1/2, real output640 cases, original packed weights, independently decoded FP64 gate/up/SwiGLU, exact input allocations and output guards/unwritten/finite checks.",
+  "operator_relative_rms_max": 0.002,
+  "operator_error_over_peak_max": 0.002,
+  "IQ2_arithmetic": "Original 66-byte blocks. Decode signed grid magnitudes with original parity sign table; narrow block scale toF16, existing signed-half WMMA coefficients; original wide-path F16 inputs; independent FP32 gate/up accumulators; fused F32 SwiGLU slot output consumed by compensated Q2 down. Decode path unchanged.",
+  "numerical_policy": "User explicitly permits speed before numerical correction and suspects false flags. Preserve all failures/actual exits, compare full-vocabulary frontiers and greedy outputs, no silent tolerance/golden replacement. Do not call numerical flags false positives without proof.",
+  "performance": "Unprofiled C1 pp2048/tg128, warmup+3 measured requests,15s idle before each request outside PP/TG, original model/stat inventory, same flags and device policy. Compare stack then IQ2 candidate; if promising profile separately. Full long-context/Cn and Q2/UD parity remain open.",
+  "build": "Full MMQ rebuild for stack/IQ2 model arms because executor/header changed; no broadened archive reuse whitelist. Standalone operators use original numerical TU+wave64 companion and inherited flags.",
+  "execution": "GPU .157 only, user-exclusive fork priority, fresh4leases and no foreign KFD/model handles;98C inclusive or strict lower exposed hardware threshold, owned-process cleanup. Local source/device-assembly analysis is not runtime evidence.",
+  "prepared_source": {
+    "files": 1019,
+    "changed": [
+      "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+    ],
+    "patch_sha256": "f16e96bcff348669b0a5965069d6da07af4bbec91fba04d54316147fbdf4fcb3"
+  },
+  "status": "Completed: 12 compensated Q2 down and 18 paired IQ2 operators pass; two fresh full-build C1 model arms complete; host Debug 9/9 and ASan/UBSan 9/9 pass. Numerical drift retained; no promotion or Q2/UD parity. Released to core SSD R2 at 2026-10-02T08:33:20.973977+00:00."
+}

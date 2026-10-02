@@ -18,14 +18,26 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'routed-operators', 'iq2-pair-operators', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill'],
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
+    p.add_argument('--rebuild-mmq', action='store_true',
+                   help='Recompile all MMQ sources for bench2k; no prior archive reuse')
     args = p.parse_args()
+    if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k'):
+        p.error('Full MMQ rebuild selection requires bench2k')
+    if args.mode == 'routed-operators' and args.source_variant not in ('stack', 'iq2-pair'):
+        p.error('Compensated routed operators require the isolated stack source')
+    if args.mode == 'iq2-pair-operators' and args.source_variant != 'iq2-pair':
+        p.error('Paired IQ2 operators require the isolated IQ2 source')
+    if args.source_variant in ('stack', 'iq2-pair') and args.mode not in ('iq2-pair-operators', 'routed-operators', 'operators', 'q2-bench', 'q2-bench2k', 'q2-profile'):
+        p.error('Stack source requires routed checks or Q2 model measurements')
+    if args.source_variant in ('stack', 'iq2-pair') and args.mode == 'q2-bench2k' and not args.rebuild_mmq:
+        p.error('Stack changes executor/header; explicitly rebuild MMQ')
     if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('qualified', 'hc', 'hc-prefill') and args.mode != 'q2-bench':
+    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair') and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
@@ -61,7 +73,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
@@ -79,11 +91,11 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>16000000: raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + '])',
     ])
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'rebuild_mmq': args.rebuild_mmq, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:
