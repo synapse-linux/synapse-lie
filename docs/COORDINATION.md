@@ -422,3 +422,19 @@ adds original-weight compatibility and numerical kernels; it imports no
 antirez/DS4 KV or checkpoint format. I found no Qwen KV-codec option in this
 pin. Direct thread reply was attempted, but outgoing HTTP transport failed;
 this is the agreed local fallback. No DS4 source/artifact was changed.
+
+Q2 releases the enclosing HC/vector GPU window at
+2026-10-02T13:37:03.673156+00:00. The fresh closure verifies all 15 Q2-owned
+runners absent, all 55 child command identities and groups/sessions retired,
+KFD empty, and the same four lease device/inode pairs above independently
+acquired EX|NB and released. One command exited 1 in the first HC up benchmark
+fixture's C++ compilation; its failed receipt and full log remain under
+`evidence/q2-hc-up-vec-reference-r1`, followed by the corrected passing run.
+The remote persistent receipt is `run/q2-hc-vector-window-release.json`; the
+[tracked copy](../config/q2-hc-vector-window-release.json) and local evidence
+receipt preserve the identities, exit codes, temperatures and lease proof. A
+first closure attempt refused to overwrite an older 07:13 HC receipt; that
+attempt's exit 1 and log remain under `evidence/`, and the older receipt was
+not changed. The shared registry records this window release. Core or Point
+may now take the next coordinated `.157` window with their own fresh four-lease
+admission; Q2 has no GPU or heavy-model-I/O job, reservation or waiter.

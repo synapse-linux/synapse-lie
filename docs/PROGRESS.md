@@ -399,6 +399,11 @@ fused Q2; prefill is unchanged within measured spread. A fresh same-window UD
 control reaches 1682.768 PP/24.301 TG. Q2 still trails 23.51% PP and 4.47% TG.
 See [full results, graph and source evidence](Q2-HC-UP-VECTOR.md). Context and
 concurrency qualification plus the Q2/UD no-regression goal remain open.
+The final `.157` host capsule passes 10/10 Debug and 10/10 ASan/UBSan, with
+six zero-exit commands and seven hash-verified artifacts. Q2 releases its
+enclosing window at 13:37:03 UTC after retiring 15 runners and 55 commands,
+observing KFD empty and verifying all four leases EX|NB/free; see the
+[tracked release receipt](../config/q2-hc-vector-window-release.json).
 
 ## HC reader CPU fixtures pass; core retains GPU for R6 — 2026-10-02
 

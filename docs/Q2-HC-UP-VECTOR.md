@@ -70,3 +70,10 @@ passes syntax check and subsequent GPU runs. No failed command is reclassified
 as a completed performance result. Both variants are isolated patches against
 the HC up fused source, with preparation scripts under `tools/` and original
 source trees retained outside `/tmp`.
+
+The final `.157` host capsule passes 10/10 Debug and 10/10 ASan/UBSan tests,
+including the remote variant guards; all six commands exit zero and seven
+artifacts are hash verified. The [window release receipt](../config/q2-hc-vector-window-release.json)
+records retirement of all 15 Q2-owned runners and 55 commands, empty KFD and
+four unchanged, free EX|NB leases. It retains the one earlier fixture build
+failure as a real exit code.

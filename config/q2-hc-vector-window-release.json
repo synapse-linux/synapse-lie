@@ -1,0 +1,464 @@
+{
+  "at": "2026-10-02T13:37:03.673156+00:00",
+  "state": "Q2_HC_VECTOR_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-up-operators-r1",
+      "pid": 2516226,
+      "absent": true,
+      "finished_at": "2026-10-02T12:40:47.714991+00:00"
+    },
+    {
+      "label": "q2-hc-up-reference-r1",
+      "pid": 2516897,
+      "absent": true,
+      "finished_at": "2026-10-02T12:46:05.378446+00:00"
+    },
+    {
+      "label": "q2-hc-up-model-r1",
+      "pid": 2518849,
+      "absent": true,
+      "finished_at": "2026-10-02T12:50:55.399175+00:00"
+    },
+    {
+      "label": "q2-hc-prefetch-reference-r1",
+      "pid": 2521012,
+      "absent": true,
+      "finished_at": "2026-10-02T12:52:25.022719+00:00"
+    },
+    {
+      "label": "q2-hc-prefetch-candidate-r1",
+      "pid": 2521483,
+      "absent": true,
+      "finished_at": "2026-10-02T12:53:12.126255+00:00"
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523175,
+      "absent": true,
+      "finished_at": "2026-10-02T12:58:35.518193+00:00"
+    },
+    {
+      "label": "q2-hc-prefetch2-candidate-r1",
+      "pid": 2523706,
+      "absent": true,
+      "finished_at": "2026-10-02T12:59:17.151312+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r1",
+      "pid": 2526875,
+      "absent": true,
+      "finished_at": "2026-10-02T13:09:46.232988+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r2",
+      "pid": 2527553,
+      "absent": true,
+      "finished_at": "2026-10-02T13:11:16.911057+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-candidate-r1",
+      "pid": 2528219,
+      "absent": true,
+      "finished_at": "2026-10-02T13:12:38.626643+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-model-r1",
+      "pid": 2528800,
+      "absent": true,
+      "finished_at": "2026-10-02T13:17:48.690672+00:00"
+    },
+    {
+      "label": "q2-hc-window-ud-r1",
+      "pid": 2530911,
+      "absent": true,
+      "finished_at": "2026-10-02T13:22:32.020518+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-exact-micro-r1",
+      "pid": 2532770,
+      "absent": true,
+      "finished_at": "2026-10-02T13:23:39.233135+00:00"
+    },
+    {
+      "label": "q2-hc-up-vec-exact-model-r1",
+      "pid": 2533388,
+      "absent": true,
+      "finished_at": "2026-10-02T13:29:01.233010+00:00"
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536343,
+      "absent": true,
+      "finished_at": "2026-10-02T13:33:33.363729+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-up-operators-r1",
+      "pid": 2516227,
+      "start_ticks": 151022428,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-operators-r1",
+      "pid": 2516407,
+      "start_ticks": 151022682,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-operators-r1",
+      "pid": 2516610,
+      "start_ticks": 151024094,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-reference-r1",
+      "pid": 2516904,
+      "start_ticks": 151030000,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-reference-r1",
+      "pid": 2517078,
+      "start_ticks": 151030203,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-reference-r1",
+      "pid": 2518154,
+      "start_ticks": 151045731,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-reference-r1",
+      "pid": 2518159,
+      "start_ticks": 151045784,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-model-r1",
+      "pid": 2518850,
+      "start_ticks": 151059101,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-model-r1",
+      "pid": 2519024,
+      "start_ticks": 151059305,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-model-r1",
+      "pid": 2520139,
+      "start_ticks": 151074832,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-model-r1",
+      "pid": 2520172,
+      "start_ticks": 151074885,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-reference-r1",
+      "pid": 2521013,
+      "start_ticks": 151092271,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-reference-r1",
+      "pid": 2521188,
+      "start_ticks": 151092474,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-reference-r1",
+      "pid": 2521318,
+      "start_ticks": 151093828,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-candidate-r1",
+      "pid": 2521484,
+      "start_ticks": 151097031,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-candidate-r1",
+      "pid": 2521664,
+      "start_ticks": 151097184,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch-candidate-r1",
+      "pid": 2521794,
+      "start_ticks": 151098538,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523176,
+      "start_ticks": 151128563,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523221,
+      "start_ticks": 151128615,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523331,
+      "start_ticks": 151129018,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523356,
+      "start_ticks": 151129672,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523394,
+      "start_ticks": 151129724,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-host-r1",
+      "pid": 2523489,
+      "start_ticks": 151130327,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-candidate-r1",
+      "pid": 2523707,
+      "start_ticks": 151133483,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-candidate-r1",
+      "pid": 2523887,
+      "start_ticks": 151133636,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-prefetch2-candidate-r1",
+      "pid": 2524024,
+      "start_ticks": 151134990,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r1",
+      "pid": 2526876,
+      "start_ticks": 151196495,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r1",
+      "pid": 2527091,
+      "start_ticks": 151196698,
+      "exit_code": 1
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r2",
+      "pid": 2527582,
+      "start_ticks": 151205455,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r2",
+      "pid": 2527786,
+      "start_ticks": 151205658,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-reference-r2",
+      "pid": 2527894,
+      "start_ticks": 151207017,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-candidate-r1",
+      "pid": 2528220,
+      "start_ticks": 151213675,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-candidate-r1",
+      "pid": 2528395,
+      "start_ticks": 151213828,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-candidate-r1",
+      "pid": 2528534,
+      "start_ticks": 151215182,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-model-r1",
+      "pid": 2528801,
+      "start_ticks": 151220524,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-model-r1",
+      "pid": 2529004,
+      "start_ticks": 151220727,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-model-r1",
+      "pid": 2530077,
+      "start_ticks": 151236205,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-model-r1",
+      "pid": 2530082,
+      "start_ticks": 151236257,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-ud-r1",
+      "pid": 2530912,
+      "start_ticks": 151252419,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-ud-r1",
+      "pid": 2531086,
+      "start_ticks": 151252572,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-ud-r1",
+      "pid": 2531957,
+      "start_ticks": 151263793,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-ud-r1",
+      "pid": 2531962,
+      "start_ticks": 151263846,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-micro-r1",
+      "pid": 2532771,
+      "start_ticks": 151279691,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-micro-r1",
+      "pid": 2532946,
+      "start_ticks": 151279894,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-micro-r1",
+      "pid": 2533086,
+      "start_ticks": 151281249,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-model-r1",
+      "pid": 2533389,
+      "start_ticks": 151287679,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-model-r1",
+      "pid": 2533563,
+      "start_ticks": 151287882,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-model-r1",
+      "pid": 2534694,
+      "start_ticks": 151303409,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-up-vec-exact-model-r1",
+      "pid": 2534699,
+      "start_ticks": 151303462,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536346,
+      "start_ticks": 151338346,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536390,
+      "start_ticks": 151338399,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536447,
+      "start_ticks": 151338802,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536528,
+      "start_ticks": 151339456,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536566,
+      "start_ticks": 151339508,
+      "exit_code": 0
+    },
+    {
+      "label": "q2-hc-window-host-r1",
+      "pid": 2536629,
+      "start_ticks": 151340111,
+      "exit_code": 0
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": {
+    "amdgpu": {
+      "/sys/class/hwmon/hwmon2/temp1_input": 47000
+    },
+    "k10temp": {
+      "/sys/class/hwmon/hwmon3/temp1_input": 48500
+    }
+  }
+}
