@@ -95,3 +95,56 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
   CPU fixtures, compilation and generated charts are not inference evidence.
 
 Full-prompt and served measurements are recorded in [FULL-PREFILL-HTTP-RESULT.md](FULL-PREFILL-HTTP-RESULT.md). Their cold-context averages must not be substituted for the earlier incremental-prefix protocol.
+
+
+## Direct shared core suite
+
+`--suite core` exercises the same C engine as HTTP, including model/job lifecycle,
+input preparation, reactive admission and output consumption. Unlike the older
+executor diagnostic suites it does not create or schedule provider sequences.
+Use exactly one of `--prompt-file` (raw UTF-8, no chat template) or `--tokens-file`
+(a JSON array of nonnegative int32 physical IDs). Context defaults to 4096 and is
+bounded at 262144; the prompt plus requested output must fit. `--users` is one
+concurrency value from 1 through 8, not a host thread count. Generation is greedy
+AR with fresh sessions and no cross-request cache, MTP or vision.
+
+A safe fixture example in a GPU-masked `.157` CPU checkout:
+
+```sh
+# fixture-tokens.json contains [0,1,2,3]; output must not already exist.
+build/debug/test-synthetic-lie-bench --suite core --model :fixture: \
+  --tokens-file fixture-tokens.json --output core-fixture.jsonl \
+  --context 4096 --chunk 2048 --users 4 --tg 128 \
+  --warmups 1 --repetitions 3 --graphs core-fixture-charts
+```
+
+The HIP-linked `synapse-lie-bench` contains the same suite; real-model execution
+needs a fresh coordinated GPU build/admission. The existing `run-bench.py`
+allowlist has not yet been extended to bind core input files, so the new GPU
+lane is pending. A direct command is not a substitute for the shared-machine
+lease/manifest protocol. This increment's tests and plots are NOT-INFERENCE.
+
+Each `synapse-lie.core-bench.v1` file contains identity, readiness time, complete
+physical input IDs with little-endian SHA-256, per-job output IDs and timings,
+per-cohort samples and an explicit complete/failed terminal. All repeated peers
+must produce the same greedy output IDs. Report validation preserves EOS and
+refuses missing/failed samples rather than averaging partial results.
+
+| Measurement | Interval / aggregation |
+|---|---|
+| `load_to_ready_ns` | Core creation to client observation of READY; no cold-file guarantee |
+| `first_token_ns` | Before that submit through client observation of the first confirmed token, nullable if none |
+| `total_ns` | Before that submit through observable terminal; includes copy/preparation, queue, inference and consumption |
+| `prefill_ns`, `decode_ns` | Completed executor-call wall durations per job; batch intervals overlap across jobs |
+| `output_per_total_wall_tps` | All peer output tokens divided by common time from before first submit through last observable terminal; includes full prefill, not pure decode throughput |
+
+Reports retain warmups and all raw measured values; charts show medians and
+observed min/max. The prefill panel uses individual completed-call throughput;
+aggregate output/total-wall and client first-token latency have their own panels.
+Core comparisons require matching scope, input hash, context/chunk, users and
+output limit; performance ratios additionally require equal full-budget output.
+These checks do not establish model identity or independent numerical accuracy;
+original-weight comparisons also require model/binary/DSO manifests and the
+separate frontier/logit qualification. An executor result cannot be supplied as
+a matched core result. Optional Matplotlib is used only for export, never installed
+automatically. `--suite core --help` and `--build-info` open no model.

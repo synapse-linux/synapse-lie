@@ -2,7 +2,9 @@
 
 This is a compatibility/lifecycle contract for increment D, not a claim that
 snapshot save/restore works in synapse-lie today. No snapshot files are produced
-by the current server; no DS4 payload is imported or converted.
+by the current server; no DS4 payload is imported or converted. The shared C17
+core and direct benchmark path now exist, providing the intended integration
+point; this extraction implements no cache or snapshot capability.
 
 ## Optional SSD persistence — required feature, explicit opt-in
 
@@ -152,7 +154,8 @@ output. Disabled capabilities refuse before restore mutation.
 
 Stateless Responses requests normalize into the same owned chat history, job
 and flow. No new recurrent-state store or parallel model scheduler is created.
-The UI independently retains the tool policy; the worker owns parsed input.
+The UI independently retains the tool policy; the core owns a bounded normalized
+copy, and the HTTP adapter releases its parsed input after admission.
 A text stream may hold a bounded final response projection while its current
 flow loan stays pinned through write completion. Typed response terminals do
 not change the dispatch frontier, accounting or cancellation ownership.

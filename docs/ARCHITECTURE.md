@@ -151,21 +151,34 @@ describe these unimplemented contracts.
 ## Shared core and client boundary
 
 The owner requires engine features to be reusable by HTTP, `synapse-lie-bench`
-and future `lie-chat`/`lie-eval` clients. `lie_core` is the proposed shared C17
-library boundary; **it is not an implemented CMake target or stable API yet**.
-Clients consume the same core directly without starting an HTTP server.
+and future `lie-chat`/`lie-eval` clients. `lie_core` is now a C17 static library
+with an experimental client API in `lie/core.h`. HTTP and the direct core
+benchmark use it without separate engine lifecycle implementations. It builds
+with `LIE_CORE_ONLY=ON` without discovery of protocol dependencies. This is not
+a stable public ABI or ownership of the delegated numerical model. The
+[extraction receipt](CORE-EXTRACTION.md) records CPU checks and the GPU gate.
 
 Current source audit:
 
 - `lie_flow` and `lie_inference` are already independent of HTTP. The production
   worker and reactive direct benchmark share ready-row/credit batch dispatch.
-- `lie_runtime` currently combines `worker.c` with Chat/Responses parsing, tools
-  and wire code. `worker.h` accepts `lie_chat_request`, whose ownership includes
-  a `json_object` and whose fields include wire streaming options.
-- The benchmark creates/manages sequences itself through the executor ABI. Its
-  shared dispatch does not yet mean shared job/session/cache lifecycle.
+- `lie_core` combines `worker.c`, neutral bounded input copying and UTF-8
+  primitives with `lie_flow` and `lie_inference`. Jobs own copied C descriptors,
+  not `lie_chat_request.json_owner` or streaming flags. One device-owner thread
+  handles formatting/tokenization, model calls, sampling and retirement.
+- `lie_runtime` now contains the protocol parsers, tool-output parser, wire
+  formatting and `worker_http.c`. Its legacy `worker.h` shim translates requests,
+  submits a core copy and frees the parsed request on success.
+- `synapse-lie-bench --suite core` is a direct core client, with the same jobs,
+  demand, cancellation and witnesses. The historical executor suites retain
+  their diagnostic/reference scope; they still manage low-level sequences.
+- Structured tool-output events, scoring/logit capability, cross-request cache,
+  MTP and vision remain future core work. Current core output is confirmed token
+  text; HTTP still interprets tool frames. Future clients must not duplicate that
+  model-specific interpretation.
 
-Required responsibility split:
+Required responsibility split (implemented lifecycle subset above; cache/MTP/vision
+and complete semantic events remain planned):
 
 | Shared core | Client or protocol adapter |
 |---|---|
@@ -203,8 +216,8 @@ Gufo classes or manage a second production session/cache implementation.
 Benchmark coverage has three explicit scopes: the shared core lifecycle, the
 HTTP path including transport cost, and low-level executor diagnostics/reference
 measurements. Preserve historical labels; an executor-only result does not
-qualify shared cache or job lifecycle. Add the direct core consumer as part of
-the extraction, rather than claiming a renamed library is sufficient.
+qualify shared cache or job lifecycle. The new direct core consumer supplies
+that lifecycle path; it does not add the absent cache or numerical-logit tests.
 
 Extraction acceptance: headless core build; direct-message/token and HTTP paths
 using the same engine policy; matched physical inputs/outputs where semantics

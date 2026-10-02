@@ -13,6 +13,8 @@ import statistics
 
 def read_result(path):
     rows=[json.loads(x) for x in Path(path).read_text().splitlines()]
+    if rows and rows[0].get('schema')=='synapse-lie.core-bench.v1':
+        return read_core_result(path,rows)
     if not rows or rows[0].get('schema')!='synapse-lie.bench.v1' or rows[-1]!={'event':'complete','exit_code':0}:
         raise ValueError('incomplete/failed benchmark; preserve raw evidence, no partial averaging')
     identity=rows[0]
@@ -69,6 +71,8 @@ def read_result(path):
 
 
 def compare(a,b):
+    if a['identity']['suite']=='core' or b['identity']['suite']=='core':
+        return compare_core(a,b)
     if a['identity']['synthetic']!=b['identity']['synthetic']:
         raise ValueError('cannot compare CPU fixtures with model inference')
     if a['identity']['suite']!=b['identity']['suite'] or a['identity']['output_limit']!=b['identity']['output_limit']:
@@ -90,6 +94,8 @@ def compare(a,b):
 
 
 def export(result,out,label,reference=None,reference_label='Gufo reference'):
+    if result['identity']['suite']=='core':
+        return export_core(result,out,label,reference,reference_label)
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     summary={'primary':result,'reference':reference,'comparison':compare(result,reference) if reference else None}
     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
@@ -122,6 +128,110 @@ def export(result,out,label,reference=None,reference_label='Gufo reference'):
         pp='full prompt' if suite=='fresh' else '2048 / 4096' if suite=='memory' else str(result['identity']['pp_target'])
         capacities=','.join(str(n) for n in sorted({r['context_capacity'] for r in result['configurations']}))
         fig.suptitle(f'{scope} — {suite}, AR, greedy, capacity {capacities}\nPP {pp} / TG {result["identity"]["output_limit"]} · n={result["identity"]["repetitions"]} · median and observed min/max · no HTTP')
+    fig.savefig(out/'benchmark.svg');fig.savefig(out/'benchmark.png',dpi=160);plt.close(fig)
+    return summary
+
+
+def distribution(values):
+    return {'median':statistics.median(values),'min':min(values),'max':max(values),'all':values} if values else None
+
+
+def read_core_result(path,rows):
+    if rows[-1]!={'event':'complete','exit_code':0}:
+        raise ValueError('incomplete/failed core benchmark')
+    identity=rows[0]
+    if identity.get('suite')!='core' or identity.get('execution')!='shared-reactive-core':
+        raise ValueError('invalid core benchmark identity')
+    users=identity['users'];reps=identity['warmups']+identity['repetitions']
+    if not 1<=users<=8 or identity['warmups']<0 or identity['repetitions']<1:
+        raise ValueError('invalid core sample configuration')
+    inputs=[r for r in rows if r['event']=='input']
+    samples=[r for r in rows if r['event']=='sample'];jobs=[r for r in rows if r['event']=='job']
+    if len(inputs)!=1 or len(samples)!=reps or len(jobs)!=reps*users or [r['rep'] for r in samples]!=list(range(reps)):
+        raise ValueError('missing/duplicate core samples')
+    p=inputs[0]
+    if not p['physical_ids'] or len(p['physical_ids'])!=p['prompt_tokens'] or p['prompt_tokens']+identity['output_limit']>identity['context_capacity']:
+        raise ValueError('core physical input count/capacity')
+    if any(type(i) is not int or i<0 or i>2147483647 for i in p['physical_ids']):
+        raise ValueError('core physical input IDs')
+    packed=b''.join(i.to_bytes(4,'little',signed=True) for i in p['physical_ids'])
+    if hashlib.sha256(packed).hexdigest()!=p['physical_ids_sha256']:
+        raise ValueError('core physical input hash')
+    for sample in samples:
+        rep=sample['rep'];group=[r for r in jobs if r['rep']==rep]
+        if [r['user'] for r in group]!=list(range(users)) or sample['users']!=users or sample['warmup']!=int(rep<identity['warmups']):
+            raise ValueError('core peer/warmup drift')
+        for r in group:
+            if r['warmup']!=sample['warmup'] or r['prompt_tokens']!=p['prompt_tokens'] or r['prefill_tokens']!=p['prompt_tokens']:
+                raise ValueError('core prefill accounting')
+            for key in ['output_tokens','output_bytes','prefill_ns','decode_ns','prefill_calls','decode_calls','total_ns']:
+                if type(r[key]) is not int or r[key]<0:raise ValueError('core timing/count type')
+            if r['total_ns']<=0 or not 0<=r['output_tokens']<=identity['output_limit'] or len(r['output_ids'])!=r['output_tokens']:
+                raise ValueError('core output count')
+            if any(type(i) is not int or i<0 or i>2147483647 for i in r['output_ids']):raise ValueError('core output IDs')
+            if r['finish'] not in ('stop','length') or (r['finish']=='length' and r['output_tokens']!=identity['output_limit']):
+                raise ValueError('core completion reason')
+            first=r['first_token_ns']
+            if (r['output_tokens']==0 and first is not None) or (r['output_tokens']>0 and (type(first) is not int or not 0<=first<=r['total_ns'])):
+                raise ValueError('core first-token timing')
+            if r['output_ids']!=jobs[0]['output_ids']:raise ValueError('core greedy output drift')
+        elapsed=sample['wall_ns'];tokens=sum(r['output_tokens'] for r in group)
+        if type(elapsed) is not int or elapsed<=0 or sample['output_tokens']!=tokens or not math.isfinite(sample['output_per_total_wall_tps']) or not math.isclose(sample['output_per_total_wall_tps'],tokens*1e9/elapsed,rel_tol=1e-12):
+            raise ValueError('core common-window accounting')
+        for key in ['decode_batches','decode_batch_rows','decode_single_calls']:
+            if type(sample[key]) is not int or sample[key]<0:raise ValueError('core dispatch count')
+        if not 2*sample['decode_batches']<=sample['decode_batch_rows']<=users*sample['decode_batches']:
+            raise ValueError('core batch width accounting')
+    measured=[r for r in jobs if not r['warmup']]
+    point={k:identity[k] for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','repetitions']}
+    point.update(prompt_tokens=p['prompt_tokens'],physical_ids_sha256=p['physical_ids_sha256'],output_ids=jobs[0]['output_ids'],
+        full_output_budget=all(r['output_tokens']==identity['output_limit'] for r in measured),
+        first_token_ns=distribution([r['first_token_ns'] for r in measured if r['first_token_ns'] is not None]),
+        total_ns=distribution([r['total_ns'] for r in measured]),
+        job_prefill_tps=distribution([r['prefill_tokens']*1e9/r['prefill_ns'] for r in measured if r['prefill_ns']]),
+        output_per_total_wall_tps=distribution([r['output_per_total_wall_tps'] for r in samples if not r['warmup']]))
+    return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+        'configurations':[point],'jobs':jobs,'samples':samples,'loading':[r for r in rows if r['event']=='core_ready']}
+
+
+def compare_core(a,b):
+    if a['identity']['suite']!='core' or b['identity']['suite']!='core' or a['identity']['synthetic']!=b['identity']['synthetic']:
+        raise ValueError('core scope/provider-kind mismatch')
+    p=a['configurations'][0];q=b['configurations'][0]
+    for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256']:
+        if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
+    equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
+    denominator=q['output_per_total_wall_tps']['median']
+    return [{'tokens_equal':equal,'eligible':eligible,
+        'output_per_total_wall_ratio':p['output_per_total_wall_tps']['median']/denominator if eligible and denominator else None}]
+
+
+def export_core(result,out,label,reference,reference_label):
+    out=Path(out);out.mkdir(parents=True,exist_ok=True)
+    summary={'primary':result,'reference':reference,'comparison':compare_core(result,reference) if reference else None}
+    (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+    series=[(label,result)]+([(reference_label,reference)] if reference else [])
+    with (out/'summary.csv').open('w',newline='') as f:
+        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms'])
+        for name,data in series:
+            r=data['configurations'][0]
+            value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
+            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6)])
+    os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    fig,axes=plt.subplots(1,3,figsize=(13,4),layout='constrained')
+    for ax,key,scale,title in zip(axes,['job_prefill_tps','output_per_total_wall_tps','first_token_ns'],[1,1,1e-6],
+            ['Per-job executor prefill tok/s','Aggregate output / complete wall tok/s','Client first confirmed token, ms']):
+        for x,(name,data) in enumerate(series):
+            v=data['configurations'][0][key]
+            if v is None:ax.text(x,0,'unavailable',ha='center');continue
+            ax.bar(x,v['median']*scale,yerr=[[max(0,v['median']-v['min'])*scale],[max(0,v['max']-v['median'])*scale]],capsize=4)
+        ax.set_xticks(range(len(series)),[name for name,_ in series]);ax.set_ylabel(title);ax.grid(axis='y',alpha=.25)
+    scope='CPU fixture — NOT-INFERENCE' if result['identity']['synthetic'] else 'Shared reactive C core'
+    r=result['configurations'][0]
+    fig.suptitle(f'{scope} · {r["users"]} users · {r["prompt_tokens"]} prompt tokens · n={r["repetitions"]}\nNo HTTP or cache; per-job executor calls and client wall have different scopes')
     fig.savefig(out/'benchmark.svg');fig.savefig(out/'benchmark.png',dpi=160);plt.close(fig)
     return summary
 

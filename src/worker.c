@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
-#include "lie/worker.h"
+#include "lie/core.h"
+#include "core_input.h"
 #include "lie/inference.h"
 #include <errno.h>
 #include <poll.h>
@@ -13,8 +14,10 @@
 #include <unistd.h>
 
 struct lie_job {
-    lie_worker *owner;
-    lie_chat_request request;
+    lie_core *owner;
+    lie_core_request request;
+    void *request_storage;
+    int32_t *output_ids;
     lie_flow *flow;
     atomic_uint refs;
     atomic_bool cancel;
@@ -28,19 +31,20 @@ struct lie_job {
     bool executing; /* Protected by owner gate; cancellation observation. */
     bool output_blocked; /* Worker-owned, aggregate snapshot under owner gate. */
 };
-struct lie_worker {
+struct lie_core {
     pthread_t thread;
     pthread_mutex_t gate;
     atomic_bool stop;
-    lie_worker_info info;
-    lie_worker_options options;
+    lie_core_info info;
+    lie_core_options options;
     char *path;
-    lie_job *jobs[LIE_WORKER_JOBS];
+    lie_job *jobs[LIE_CORE_JOBS];
+    unsigned preparing; /* Bounded admission copies, protected by gate. */
     int wake, notice;
     lie_model *model;
     lie_job *dispatch; /* Pinned worker job, protected by owner gate. */
 };
-static void set_output_blocked(lie_worker *w, lie_job *j, bool value) {
+static void set_output_blocked(lie_core *w, lie_job *j, bool value) {
     if (j->output_blocked==value) return;
     j->output_blocked=value;
     pthread_mutex_lock(&w->gate);
@@ -48,7 +52,7 @@ static void set_output_blocked(lie_worker *w, lie_job *j, bool value) {
     else --w->info.output_blocked;
     pthread_mutex_unlock(&w->gate);
 }
-static void begin_call(lie_worker *w, lie_job *j, bool prefill) {
+static void begin_call(lie_core *w, lie_job *j, bool prefill) {
     pthread_mutex_lock(&w->gate);
     if (w->dispatch) abort();
     w->dispatch=j; j->executing=true;
@@ -77,7 +81,7 @@ static void record_call(lie_job *j, bool prefill, bool started_ok, uint64_t star
     if (prefill) { ++j->info.prefill_calls; j->info.prefill_tokens+=completed_input; }
     else ++j->info.decode_calls;
     pthread_mutex_unlock(&j->gate);
-    lie_worker *w=j->owner;
+    lie_core *w=j->owner;
     pthread_mutex_lock(&w->gate);
     if (w->dispatch!=j) abort();
     if (prefill) ++w->info.prefill_returned;
@@ -98,13 +102,28 @@ static void drain_fd(int fd) {
 static void job_drop(lie_job *j) {
     if (atomic_fetch_sub(&j->refs,1)!=1) return;
     if (lie_flow_destroy(&j->flow)!=LIE_FLOW_OK) abort();
-    lie_chat_free(&j->request); free(j->prompt);
+    free(j->request_storage); free(j->output_ids); free(j->prompt);
     pthread_mutex_destroy(&j->gate); free(j);
 }
 void lie_job_snapshot(lie_job *j, lie_job_info *out) {
     pthread_mutex_lock(&j->gate); *out=j->info; pthread_mutex_unlock(&j->gate);
 }
-void lie_worker_snapshot(lie_worker *w, lie_worker_info *out) {
+static lie_status copy_ids(lie_job *j, bool prompt, int32_t *out, size_t cap, size_t *needed) {
+    if (!j || !needed || (!out && cap)) return LIE_INVALID;
+    pthread_mutex_lock(&j->gate);
+    if (prompt && !j->info.prepared) { pthread_mutex_unlock(&j->gate);return LIE_INVALID; }
+    *needed=prompt?j->tokens:j->info.output_tokens;
+    lie_status rc=*needed>cap?LIE_BUFFER_SMALL:LIE_OK;
+    if (rc==LIE_OK && *needed) memcpy(out,prompt?j->prompt:j->output_ids,*needed*sizeof(*out));
+    pthread_mutex_unlock(&j->gate);return rc;
+}
+lie_status lie_job_prompt_tokens(lie_job *j, int32_t *out, size_t cap, size_t *needed) {
+    return copy_ids(j,true,out,cap,needed);
+}
+lie_status lie_job_output_tokens(lie_job *j, int32_t *out, size_t cap, size_t *needed) {
+    return copy_ids(j,false,out,cap,needed);
+}
+void lie_core_snapshot(lie_core *w, lie_core_info *out) {
     pthread_mutex_lock(&w->gate); *out=w->info; pthread_mutex_unlock(&w->gate);
 }
 static void publish_outcome(lie_job *j, lie_job_finish finish, const char *message) {
@@ -113,7 +132,7 @@ static void publish_outcome(lie_job *j, lie_job_finish finish, const char *messa
     if (message) snprintf(j->info.error,sizeof(j->info.error),"%s",message);
     pthread_mutex_unlock(&j->gate);
 }
-static void finish_job(lie_worker *w, size_t index, lie_job_finish finish, const char *message) {
+static void finish_job(lie_core *w, size_t index, lie_job_finish finish, const char *message) {
     lie_job *j=w->jobs[index]; lie_error error={0};
     set_output_blocked(w,j,false);
     /* Detach under the cancellation gate. An external latch call cannot race
@@ -128,7 +147,9 @@ static void finish_job(lie_worker *w, size_t index, lie_job_finish finish, const
     } else {
         pthread_mutex_lock(&w->gate); --w->info.queued; pthread_mutex_unlock(&w->gate);
     }
-    free(j->prompt); j->prompt=NULL; lie_chat_free(&j->request);
+    /* Keep immutable physical input/output witnesses until the last consumer
+     * reference; protocol/parser storage never belonged to this job. */
+    free(j->request_storage); j->request_storage=NULL;
     pthread_mutex_lock(&j->gate);
     j->info.finish=finish; j->info.retired=true;
     if (message) snprintf(j->info.error,sizeof(j->info.error),"%s",message);
@@ -146,15 +167,15 @@ static void finish_job(lie_worker *w, size_t index, lie_job_finish finish, const
     signal_fd(w->notice);
     job_drop(j); /* No access to j after retiring the worker reference. */
 }
-static void poison(lie_worker *w, const lie_error *error) {
+static void poison(lie_core *w, const lie_error *error) {
     pthread_mutex_lock(&w->gate);
     w->info.state=LIE_FAILED;
     snprintf(w->info.error,sizeof(w->info.error),"%s",error->message);
     pthread_mutex_unlock(&w->gate); signal_fd(w->notice);
 }
-static bool step(lie_worker *w, size_t index) {
+static bool step(lie_core *w, size_t index) {
     lie_job *j=w->jobs[index]; if (!j) return false;
-    lie_error error={0}; lie_worker_info wi; lie_worker_snapshot(w,&wi);
+    lie_error error={0}; lie_core_info wi; lie_core_snapshot(w,&wi);
     if (atomic_load(&j->cancel) || atomic_load(&w->stop)) {
         finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true;
     }
@@ -163,23 +184,35 @@ static bool step(lie_worker *w, size_t index) {
         if (wi.active>=w->options.max_active) return false;
         j->prompt=malloc((size_t)w->options.context*sizeof(*j->prompt));
         if (!j->prompt) { finish_job(w,index,LIE_FINISH_BACKEND,"allocation_failed"); return true; }
-        lie_chat_request *r=&j->request;
-        const lie_chat_tool *tools=r->tools;
-        size_t tool_count=r->tool_choice==LIE_TOOLS_NONE?0:r->tool_count;
+        lie_core_request *r=&j->request;
+        const lie_chat_tool *tools=r->chat.tools;
+        size_t tool_count=r->tool_choice==LIE_TOOLS_NONE?0:r->chat.tool_count;
         if (r->tool_choice==LIE_TOOLS_NAMED) {
-            size_t k=0; while (k<r->tool_count && strcmp(r->tools[k].name,r->named_tool)) ++k;
-            if (k==r->tool_count) { finish_job(w,index,LIE_FINISH_INVALID,"invalid_tool_choice"); return true; }
-            tools=&r->tools[k]; tool_count=1;
+            size_t k=0; while (k<r->chat.tool_count && strcmp(r->chat.tools[k].name,r->named_tool)) ++k;
+            if (k==r->chat.tool_count) { finish_job(w,index,LIE_FINISH_INVALID,"invalid_tool_choice"); return true; }
+            tools=&r->chat.tools[k]; tool_count=1;
         }
-        const lie_chat_template input={r->messages,r->details,r->count,tools,tool_count,r->tool_choice>=LIE_TOOLS_REQUIRED};
-        lie_status rc=lie_model_chat_tokens_ex(w->model,&input,
-                         j->prompt,w->options.context,&j->tokens,&error);
+        lie_status rc=LIE_OK;
+        if (r->kind==LIE_INPUT_TOKENS) {
+            j->tokens=r->token_count;
+            if (j->tokens>w->options.context) rc=LIE_BUFFER_SMALL;
+            else memcpy(j->prompt,r->tokens,j->tokens*sizeof(*j->prompt));
+        } else if (r->kind==LIE_INPUT_TEXT) {
+            rc=lie_model_tokenize(w->model,r->text,r->text_bytes,j->prompt,w->options.context,&j->tokens,&error);
+        } else {
+            const lie_chat_template input={r->chat.messages,r->chat.details,r->chat.count,tools,tool_count,
+                r->tool_choice>=LIE_TOOLS_REQUIRED || r->chat.require_tool_call};
+            rc=lie_model_chat_tokens_ex(w->model,&input,j->prompt,w->options.context,&j->tokens,&error);
+        }
         if (rc!=LIE_OK || !j->tokens || j->tokens>w->options.context ||
             j->request.max_tokens>w->options.context-j->tokens) {
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,rc==LIE_BACKEND_FAILED?LIE_FINISH_BACKEND:LIE_FINISH_INVALID,
                        rc==LIE_OK || rc==LIE_BUFFER_SMALL?"context_budget_exceeded":error.message);
             return true;
+        }
+        for (size_t k=0;k<j->tokens;++k) if (j->prompt[k]<0 || (uint32_t)j->prompt[k]>=wi.model.vocab_tokens) {
+            finish_job(w,index,LIE_FINISH_INVALID,"invalid_prompt_token");return true;
         }
         lie_sequence *sequence=NULL;
         rc=lie_sequence_create(w->model,&sequence,&error);
@@ -221,11 +254,11 @@ static bool step(lie_worker *w, size_t index) {
     }
     return false; /* Prefilled rows enter the shared inference dispatcher below. */
 }
-static bool decode_ready(lie_worker *w) {
-    lie_inference_row rows[LIE_WORKER_JOBS]={0};size_t indices[LIE_WORKER_JOBS],n=0;
-    lie_worker_info wi;lie_worker_snapshot(w,&wi);
+static bool decode_ready(lie_core *w) {
+    lie_inference_row rows[LIE_CORE_JOBS]={0};size_t indices[LIE_CORE_JOBS],n=0;
+    lie_core_info wi;lie_core_snapshot(w,&wi);
     if(wi.state!=LIE_READY)return false;
-    for(size_t i=0;i<LIE_WORKER_JOBS;++i){
+    for(size_t i=0;i<LIE_CORE_JOBS;++i){
         pthread_mutex_lock(&w->gate);lie_job *j=w->jobs[i];pthread_mutex_unlock(&w->gate);
         if(j&&j->sequence&&j->fed==j->tokens&&!atomic_load(&j->cancel)){
             indices[n]=i;rows[n++]=(lie_inference_row){.sequence=j->sequence,.flow=j->flow,
@@ -259,7 +292,7 @@ static bool decode_ready(lie_worker *w) {
         for(size_t i=0;i<n;++i)if(rows[i].selected)w->jobs[indices[i]]->executing=false;
         pthread_mutex_unlock(&w->gate);
     }
-    size_t bytes[LIE_WORKER_JOBS]={0};
+    size_t bytes[LIE_CORE_JOBS]={0};
     /* Validate all rows before exposing any output from a shared call. */
     for(size_t i=0;i<n&&rc==LIE_OK;++i)if(rows[i].selected&&rows[i].outcome.status==LIE_OK&&rows[i].outcome.result.emitted){
         lie_inference_row *r=&rows[i];
@@ -284,7 +317,9 @@ static bool decode_ready(lie_worker *w) {
         }
         if(!r->selected)continue;
         lie_decode_result d=r->outcome.result;j->position=d.position;
-        pthread_mutex_lock(&j->gate);j->info.output_tokens+=d.emitted;
+        pthread_mutex_lock(&j->gate);
+        if (d.emitted) j->output_ids[j->info.output_tokens]=d.token;
+        j->info.output_tokens+=d.emitted;
         bool end=d.stop||j->info.output_tokens>=j->request.max_tokens;
         if(end)j->info.finish=d.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH;
         pthread_mutex_unlock(&j->gate);
@@ -297,7 +332,7 @@ static bool decode_ready(lie_worker *w) {
     return progress;
 }
 static void *work(void *arg) {
-    lie_worker *w=arg; lie_error error={0};
+    lie_core *w=arg; lie_error error={0};
     lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk};
     lie_model_info model={0};
     lie_status rc=lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
@@ -309,7 +344,7 @@ static void *work(void *arg) {
     pthread_mutex_unlock(&w->gate); signal_fd(w->notice);
     for (;;) {
         bool progress=false; size_t present=0;
-        for (size_t i=0;i<LIE_WORKER_JOBS;++i) {
+        for (size_t i=0;i<LIE_CORE_JOBS;++i) {
             /* Only the worker removes slots; producer publication is under gate. */
             pthread_mutex_lock(&w->gate); bool has=w->jobs[i]!=NULL; pthread_mutex_unlock(&w->gate);
             if (has) { ++present; progress=step(w,i) || progress; }
@@ -317,10 +352,10 @@ static void *work(void *arg) {
         progress=decode_ready(w) || progress;
         if (atomic_load(&w->stop) && !present) break;
         if (progress) continue;
-        struct pollfd fds[LIE_WORKER_JOBS+1]; size_t count=1;
+        struct pollfd fds[LIE_CORE_JOBS+1]; size_t count=1;
         fds[0]=(struct pollfd){w->wake,POLLIN,0};
         pthread_mutex_lock(&w->gate);
-        for (size_t i=0;i<LIE_WORKER_JOBS;++i) if (w->jobs[i]) {
+        for (size_t i=0;i<LIE_CORE_JOBS;++i) if (w->jobs[i]) {
             fds[count++]=(struct pollfd){lie_flow_fd(w->jobs[i]->flow,LIE_FLOW_WORK_READY),POLLIN,0};
         }
         pthread_mutex_unlock(&w->gate);
@@ -332,10 +367,10 @@ static void *work(void *arg) {
     pthread_mutex_lock(&w->gate); w->info.state=LIE_STOPPED; pthread_mutex_unlock(&w->gate);
     signal_fd(w->notice); return NULL;
 }
-lie_worker *lie_worker_create(const lie_worker_options *o) {
-    if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_WORKER_MAX_CONTEXT ||
+lie_core *lie_core_create(const lie_core_options *o) {
+    if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
-    lie_worker *w=calloc(1,sizeof(*w)); if (!w) return NULL;
+    lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     atomic_init(&w->stop,false);
     if (!w->path) goto fail;
@@ -349,38 +384,45 @@ fail:
     if (w->notice>=0) close(w->notice);
     free(w->path); free(w); return NULL;
 }
-void lie_worker_stop(lie_worker *w) {
+void lie_core_stop(lie_core *w) {
     atomic_store(&w->stop,true);
     pthread_mutex_lock(&w->gate);
     if (w->info.state!=LIE_STOPPED) w->info.state=LIE_STOPPING;
     pthread_mutex_unlock(&w->gate); signal_fd(w->wake);
 }
-void lie_worker_destroy(lie_worker *w) {
-    lie_worker_info info; lie_worker_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
+void lie_core_destroy(lie_core *w) {
+    lie_core_info info; lie_core_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
     pthread_join(w->thread,NULL); close(w->wake); close(w->notice);
     pthread_mutex_destroy(&w->gate); free(w->path); free(w);
 }
-int lie_worker_fd(lie_worker *w) { return w->notice; }
-void lie_worker_drain(lie_worker *w) { drain_fd(w->notice); }
-int lie_worker_submit(lie_worker *w, lie_chat_request *request, lie_job **out) {
-    if (!w || !request || !request->count || request->count>LIE_CHAT_MAX_MESSAGES ||
-        !request->max_tokens || request->max_tokens>LIE_CHAT_MAX_OUTPUT || !out || *out) return 3;
-    lie_job *j=calloc(1,sizeof(*j)); if (!j) return 3;
-    lie_flow_options options={LIE_OUTPUT_SLOTS,LIE_CHAT_TOKEN_BYTES,65536};
-    if (lie_flow_create(&options,&j->flow)!=LIE_FLOW_OK) { free(j); return 3; }
-    if (pthread_mutex_init(&j->gate,NULL)) { (void)lie_flow_cancel(j->flow); (void)lie_flow_destroy(&j->flow); free(j); return 3; }
+int lie_core_fd(lie_core *w) { return w->notice; }
+void lie_core_drain(lie_core *w) { drain_fd(w->notice); }
+int lie_core_submit(lie_core *w, const lie_core_request *request, lie_job **out) {
+    if (!w || !request || !out || *out) return 3;
+    pthread_mutex_lock(&w->gate);
+    int result=w->info.state!=LIE_READY || atomic_load(&w->stop)?1:
+        w->info.active+w->info.queued+w->preparing>=LIE_CORE_JOBS?2:0;
+    if (!result) ++w->preparing;
+    pthread_mutex_unlock(&w->gate);
+    if (result) return result;
+    lie_job *j=calloc(1,sizeof(*j));
+    lie_flow_options options={LIE_OUTPUT_SLOTS,LIE_CORE_TOKEN_BYTES,65536};
+    if (!j || !lie_core_input_copy(request,&j->request,&j->request_storage) ||
+        !(j->output_ids=calloc(j->request.max_tokens,sizeof(*j->output_ids))) ||
+        lie_flow_create(&options,&j->flow)!=LIE_FLOW_OK) goto prepare_failed;
+    if (pthread_mutex_init(&j->gate,NULL)) goto prepare_failed;
     atomic_init(&j->refs,2); atomic_init(&j->cancel,false); j->owner=w;
     j->info.timing_valid=true;
     (void)lie_flow_request(j->flow,LIE_OUTPUT_SLOTS);
     pthread_mutex_lock(&w->gate);
-    int result=0; size_t index=0;
+    --w->preparing;
+    size_t index=0;
     if (w->info.state!=LIE_READY || atomic_load(&w->stop)) result=1;
     else {
-        while (index<LIE_WORKER_JOBS && w->jobs[index]) ++index;
-        if (index==LIE_WORKER_JOBS) result=2;
+        while (index<LIE_CORE_JOBS && w->jobs[index]) ++index;
+        if (index==LIE_CORE_JOBS) result=2;
     }
     if (!result) {
-        j->request=*request; memset(request,0,sizeof(*request));
         w->jobs[index]=j; ++w->info.queued; *out=j;
     }
     pthread_mutex_unlock(&w->gate);
@@ -388,6 +430,13 @@ int lie_worker_submit(lie_worker *w, lie_chat_request *request, lie_job **out) {
         (void)lie_flow_cancel(j->flow); atomic_store(&j->refs,1); job_drop(j); return result;
     }
     signal_fd(w->wake); signal_fd(w->notice); return 0;
+prepare_failed:
+    if (j) {
+        if (j->flow) { (void)lie_flow_cancel(j->flow);(void)lie_flow_destroy(&j->flow); }
+        free(j->request_storage);free(j->output_ids);free(j);
+    }
+    pthread_mutex_lock(&w->gate);--w->preparing;pthread_mutex_unlock(&w->gate);
+    return 3;
 }
 lie_flow *lie_job_flow(lie_job *j) { return j->flow; }
 void lie_job_cancel(lie_job *j) {
@@ -400,7 +449,7 @@ void lie_job_cancel(lie_job *j) {
     /* Never nest metadata gates or wait for provider completion. This records
      * first cancellation observed within the owner dispatch interval, not HIP
      * submission, kernel preemption or every possible cancellation race. */
-    lie_worker *w=j->owner;
+    lie_core *w=j->owner;
     if (first) {
         pthread_mutex_lock(&w->gate);
         if (j->executing) {

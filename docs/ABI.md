@@ -70,9 +70,10 @@ struct layout/version change or numerical operation is introduced; older binarie
 without the new symbol cannot be linked as the new adapter. The `LIE_CHAT_TOOL`
 role is appended; developer messages map to leading system messages in C.
 
-The C17 parser owns normalized JSON and copied message content. Ownership moves
-to the worker until retirement; the UI has a deep, independent schema copy, not
-cross-thread json-c refcounts. Adapter translation bounds aggregate spans/strings
+The C17 parser owns normalized JSON and message content. The HTTP shim copies
+normalized input into the core and frees/zeros the parsed request on successful
+admission; refusal preserves caller ownership. The UI retains a deep, independent
+schema copy. No admitted core job retains a json-c object. Adapter translation bounds aggregate spans/strings
 to 32 MiB (four times the body bound); HTTP requests have a separate 8 MiB cap. The native renderer applies its
 context-derived output bound (at least 1 MiB). The adapter validates the GGUF
 template before model load, then invokes the pinned Qwen renderer/tokenizer with
@@ -158,8 +159,8 @@ direct benchmark and future chat/eval consume owned normalized inputs and typed
 events. Input paths must include physical tokens as well as messages, with
 explicit capability-gated scoring/logit operations for evaluation when added.
 Core headers and admitted jobs must not depend on HTTP parser trees, socket
-types, SSE options or wire status codes. Explicit copy/transfer/release rules
-replace the present worker's ownership of `lie_chat_request.json_owner`.
+types, SSE options or wire status codes. The implemented copy/release rules
+below replace the former worker ownership of `lie_chat_request.json_owner`.
 Historical low-level executor diagnostics remain labelled separately from full
 core lifecycle tests. See [the core extraction contract](ARCHITECTURE.md#shared-core-and-client-boundary).
 
@@ -194,3 +195,45 @@ Each contract must have a real producer/consumer and focused lifetime/parser
 sanitizer checks before integration, followed by original-weight GPU gates.
 Language/build ownership and feature qualification remain separate; see the
 [separation assessment](BACKEND.md#separation-assessment--2026-10-02).
+
+
+## Shared core client API 1
+
+`lie/core.h` is an experimental C client contract, distinct from executor ABI 2.
+`lie_core_request_init` sets required version/size tags, greedy generation
+(`temperature=0`, `top_p=1`, `seed=-1`) and output limit 128. The caller chooses
+exactly one input: normalized messages/tools, physical token IDs, or raw UTF-8
+text (no implicit chat template). Initialize `*out` to NULL before submit.
+
+`lie_core_submit` borrows input only during the call and deep-copies nested
+arrays/strings into one bounded arena. Successful submission never steals caller
+storage. Return codes are 0 admitted, 1 not ready/stopping, 2 admission full,
+3 invalid input/allocation failure. Copy reservations plus queued/active jobs are
+bounded to eight, with at most 32 MiB normalized input per admission. Vocabulary,
+formatted physical context and provider checks precede sequence mutation on the
+owner; asynchronous refusal is reported through the job terminal. No queue or
+provider call runs on a protocol-owned JSON tree.
+
+The core grants eight initial output credits. Clients release each output loan,
+then return demand through `lie_flow_request`; without more credit a row cannot
+advance. A job has one consumer reference plus the core's in-flight reference.
+`lie_job_release` cancels unfinished consumption; release outstanding output loans
+first. After `lie_core_stop`, wait for STOPPED, release all consumer references
+and quiesce every client API call (including concurrent submit) before destroy.
+STOPPED alone does not authorize racing destruction against client calls.
+
+`lie_job_prompt_tokens` requires a prepared job. Both it and
+`lie_job_output_tokens` copy a metadata-protected snapshot and return
+`LIE_BUFFER_SMALL` with the required count when capacity is insufficient. No
+partial copy or provider call occurs. Output IDs describe validated generation,
+not delivery; cancellation may discard an undelivered generated token. Physical
+prompt storage (up to context times four bytes) and output IDs (up to output limit
+times four bytes) remain until the last job reference. Retired jobs held by a
+client therefore retain memory; clients must release them. These witnesses are
+not reusable KV checkpoints. Request-copy storage is freed at retirement.
+
+The HTTP legacy submit shim preserves its transfer-on-success interface by
+freeing the parsed request after the core accepts its independent copy. The
+core and its public headers have no JSON, libuv, llhttp or socket dependency.
+`lie_flow` retains Linux eventfd/pthread dependencies; this extraction does not
+claim cross-platform portability. CPU acceptance is in [CORE-EXTRACTION.md](CORE-EXTRACTION.md).

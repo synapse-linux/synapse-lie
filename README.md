@@ -20,9 +20,12 @@ the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
 The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)
-places all engine features behind a common C17 API for HTTP, direct benchmark
-and future chat/eval clients. Today only the ready-row dispatcher is shared
-across those existing paths; full job/session ownership still needs extraction.
+places engine features behind a common C17 API for HTTP, direct benchmark
+and future chat/eval clients. `lie_core` now owns model/job lifecycle, copied
+normalized input, reactive scheduling and output retirement independently of HTTP.
+`--suite core` exercises it directly with raw text or physical token IDs and
+exports latency/prefill/throughput graphs. The [extraction receipt](docs/CORE-EXTRACTION.md)
+records headless, Debug and ASan/UBSan checks on `.157`; GPU regression remains open.
 
 ## Native tool API baseline
 
@@ -154,13 +157,13 @@ env HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1 \
 # The .157 qualification capsules retain explicit source SHA-256 inventories.
 ```
 
-Twenty-one CPU suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+Twenty-three CPU suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
 executor failure/dispatch contracts, the HTTP lifecycle checker, native tool
 protocol and HTTP tool round trips, Responses, shared inference dispatch,
-256K admission and direct/HTTP benchmark accounting. An additional formatter test is available
+256K admission, headless core ownership and direct/core/HTTP benchmark accounting. An additional formatter test is available
 in the linked Gufo build; the installed-Pi integration check is separate.
 The withdrawn Q2 tests remain only in Git history and local evidence.
 The active tests cover bounded overload, stalled consumers, peer progress, disconnect,
@@ -198,6 +201,8 @@ The same opt-in build provides `synapse-lie-bench` and the benchmark-only
 `synapse-lie-bench-gufo-reference`. Both use the original HIP executor; the latter
 exercises native upstream batching. On shared `.157`, real-model invocations
 run under `tools/run-bench.py` with a fresh admitted manifest and four leases.
+The new `--suite core` mode has CPU qualification only; the supervisor still needs
+an explicit core-input manifest contract before its first admitted GPU run.
 `synapse-lie-bench --help` opens no model. Graphs can be generated afterwards:
 
 ```sh
@@ -261,7 +266,7 @@ No service, deployment, merge or publication is implied.
 [State design—not implemented](docs/STATE.md) · [Baseline](docs/BASELINE.md) ·
 [DS4 coordination](docs/COORDINATION.md)
 
-Next: extract a shared C core used directly by HTTP and benchmark clients, then
+Next: qualify the extracted core on the GPU with matched inputs, then implement
 C-owned RAM prefix policy and complete hybrid capture/restore, followed by
 optional SSD persistence, MTP/vision and measured T1/T2 extractions. Independent
 numerical/quality and GPU failure gates remain open; future platform providers

@@ -162,7 +162,7 @@ implemented in C17; there is no Spring/JVM runtime or Reactive Streams TCK claim
 |---|---|---|
 | HTTP reactor (`src/server.c`) | libuv callbacks, bounded admission, write completion and disconnect notifications | Network handling remains independent of synchronous model calls; correctness/lifecycle tested. No matched p99/TTFT speedup measured. |
 | Flow ownership (`src/flow.c`) | Explicit demand, eight bounded token loans per job, cancellation and completion | A slow consumer bounds outstanding storage and cannot expose a cancelled token. Correctness/resource property, not faster arithmetic. |
-| Worker (`src/worker.c`, `step`, `decode_ready`, `work`) | One device owner; eventfd/poll wakeups; completed prefill chunks; ready-row collection | Avoids periodic token polling. Backpressured rows are excluded from decode selection. Prefill calls are still sequential. |
+| Shared core owner (`src/worker.c`, `step`, `decode_ready`, `work`) | One device owner; eventfd/poll wakeups; completed prefill chunks; ready-row collection | Avoids periodic token polling. Backpressured rows are excluded from decode selection. Prefill calls are still sequential. |
 | Inference dispatcher (`src/inference.c`) | Reserve output credit before execution; zero rows do no work, one uses scalar decode immediately, multiple use native batch up to eight | Both production serving and direct benchmark use this code. No peer-collection timer penalizes an isolated request. |
 | Adapter (`adapters/gufo.cpp`) | Per-sequence state/sampling; `lie_sequences_decode` invokes upstream `DecodeBatch`; complete and validate outcomes before publication | Enables the measured aggregate throughput gain. Numerical code is the unchanged pinned engine; LIE does not own those kernels yet. |
 | Inside a forward | Synchronous provider operations and upstream synchronization | No tensor readiness graph, asynchronous ABI, HIP-event lifetime graph, kernel preemption, new fusion or overlapping independent forwards has been implemented. |
@@ -198,8 +198,12 @@ and [original resource report](PERFORMANCE-RESULT.md#sampled-resources-and-retir
 Future campaigns should record process thread totals and CPU time by role where
 available alongside model-owner count, active requests and actual batch width.
 
-The shared-core extraction must preserve this reactive inference policy for
-direct clients and HTTP alike. It does not require one inference thread per
+The shared-core extraction preserves this reactive inference policy for
+direct clients and HTTP alike. `--suite core` adds one device-owner thread plus
+the benchmark consumer thread, the same two application roles as HTTP without
+its network loop. Historical direct-executor thread counts above remain unchanged.
+Headless credit/cancellation and HTTP regression checks pass on `.157`; no new
+GPU throughput result is established by this extraction. It does not require one inference thread per
 request or an operator callback graph. Increasing host thread count is a
 separate measured change; it is not an explanation for the 4.11x batch result.
 

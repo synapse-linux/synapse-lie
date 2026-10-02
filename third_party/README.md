@@ -159,3 +159,10 @@ dispatcher and a small C++ binding to the pinned public `Session::DecodeBatch`.
 No upstream numerical source/archive or model was modified or imported from
 DS4. Native batch execution and its internal recovery remain delegated to
 Gufo at the recorded pin; this is not an owned numerical reimplementation.
+
+
+The shared `lie_core` extraction, bounded normalized-input copier, token witnesses
+and direct core benchmark are first-party C17 under MIT. UTF-8 code is moved from
+LIE's existing parser; no external implementation is imported. The provider ABI,
+Gufo adapter, numerical source pin and model files are unchanged. json-c/OpenSSL
+remain benchmark/protocol dependencies, not dependencies of the headless core.

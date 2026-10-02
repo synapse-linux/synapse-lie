@@ -1,5 +1,35 @@
 # Isolated OpenAI reactive API increment
 
+## Shared C17 core and direct benchmark implemented — 2026-10-02
+
+`lie_core` now owns the existing reactive worker independently of the HTTP parser:
+neutral deep-copied messages/tools, raw text/physical-token inputs, model/job
+lifecycle, bounded admission, ready-row batching, demand, cancellation, snapshots
+and retirement. The protocol library translates/frees parsed requests; no JSON
+object or SSE state owns a core job. `lie/core.h` is experimental client API 1;
+executor ABI 2 and the numerical Gufo pin remain unchanged.
+
+`synapse-lie-bench --suite core` directly consumes those jobs and exports physical
+input/output witnesses, per-job PP/decode call times, client first-token/total
+latency and cohort throughput over total wall time, with optional plots. Historical
+executor and HTTP modes retain their separate timing meanings. No new GPU rate is
+claimed. Input copy and retained token witnesses add host cost that still needs
+measurement. Tool-output semantic events, cache/MTP/vision and evaluation logits
+remain open; the library extraction does not complete those engine features.
+
+Coordinated `.157` receipt `reactive-cpu-r7`: headless build 1/1, full Debug 23/23,
+ASan/UBSan 23/23; all nine commands exit 0. The six core benchmark tests include
+actual graph export. Original-weight execution did not run; Pi/node were not
+available to the private CPU runner. Full logs, exact source SHA-256 inventory
+and runner remain under local `evidence/reactive-cpu-r7/`. See
+[scope, limitations and next gates](CORE-EXTRACTION.md).
+
+Next: bind the core input manifest in the coordinated supervisor, qualify the
+refactor with the GPU, then implement RAM prefix reuse and complete hybrid state,
+optional SSD, MTP/vision and measured model/numerical extraction. No deployment,
+push, merge or dependency installation occurred. The earlier design-only entries
+below describe their historical checkpoints, before this implementation.
+
 ## Reactive core invariant and historical thread audit — 2026-10-02
 
 The shared-core extraction must retain reactive inference: bounded demand/output

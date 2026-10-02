@@ -117,9 +117,13 @@ batch dispatcher measurements in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFEREN
 Engine counters, resource accounting and execution snapshots belong to the
 shared C core, regardless of whether HTTP, benchmark or a future chat/eval client
 submitted the job. JSON/Prometheus serializers and transport counters are client
-projections. The planned core clock starts at core submission; distinguish its
-queue/first-confirmed-token latency from HTTP request admission and first SSE
-write. Direct-core and HTTP results must label these different timing scopes.
+projections. Current `lie_core_snapshot` and `lie_job_snapshot` expose the same
+execution counters/durations to direct clients and HTTP. `--suite core` measures
+client wall time from before submit to observed output/terminal and labels it
+separately from per-job prefill/decode call time. It includes copying, preparation,
+queueing, inference and consumption; its first-token clock is not first SSE write.
+An internal core queue-duration clock and complete resource accounting remain
+pending. Direct-core and HTTP results must label these different timing scopes.
 
 At admission: accepted/rejected counters, active/queued gauges, input tokens.
 On worker start: queue duration. TTFT starts at full HTTP request admission,
