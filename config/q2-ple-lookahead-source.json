@@ -1,0 +1,23 @@
+{
+  "scope": "Static preparation; no GPU overlap or speedup qualified",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-ple-lookahead",
+  "patch_sha256": "acf4f603776a173666042124091ca484054ce3cc25ff7873f58e6bad5019432f",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+  ],
+  "files": {
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
+      "base_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc",
+      "candidate_sha256": "4d641c55545294e149f1905a50020450d240f1c53eef0cc1dfa5e03392856987"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp": {
+      "base_sha256": "65bc2a863cf1c45d608d9f942097d2080b4279ca043ee862ad979f95b1cd1f99",
+      "candidate_sha256": "d634079e951fc9142193b831eb0da593429b3b18da448e7a0f9e444258976e76"
+    }
+  },
+  "arithmetic": "Unchanged kernels, row decoding and cache capacity",
+  "ownership": "C17 bounded producer/consumer; borrowed pinned inputs drained by transitional executor"
+}

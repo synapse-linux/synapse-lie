@@ -1,4 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+## Reactive PLE lookahead — 2026-10-02
+
+The owner asks whether reactive inference can hide n-gram stalls. An isolated
+C17 producer/consumer now owns two bounded pinned input slots, readiness,
+backpressure, cancellation and callback metrics. The transitional executor
+validates prepared row IDs against live session history and retains each input
+until HIP drain. Kernel arithmetic, table capacity and model bytes are unchanged.
+Debug and ASan/UBSan each pass 12/12 CTest checks on `.157`; static executor and
+full-model harness compilation pass. After core's verified R12 release, the
+original-Q2 8K GPU comparison verifies all 432 frontiers byte-exact and real
+in-flight cancellation/drain. Lookahead hides 174–187 ms of row preparation,
+but native already overlaps much of that cost: median prefill is 1236.75 ->
+1241.15 tokens/s (+0.36%), too small to establish a robust gain in three samples.
+Prepared serial reaches 1209.85; decode is effectively unchanged. The first
+ordered native run is 14.109 s; following arms use warmer pages and cannot
+qualify a cold-input speedup. See the [full comparison and graph](Q2-PLE-LOOKAHEAD.md).
+Two runners/ten command exits are 0, all 38 artifacts verify, and the window
+is released with independent observer retirement. Production integration,
+controlled first-access benefit and Q2/UD parity remain unqualified.
 # Progress — Q2 compatibility workstream
 
 ## Current state — 2026-10-02

@@ -69,6 +69,8 @@ add_executable(q2_model ../../tests/q2_model.cpp ../../tests/q2_profile_markers.
 target_link_libraries(q2_model PRIVATE gufo_qwen38_flash_next)
 add_executable(q2_ple EXCLUDE_FROM_ALL ../../tests/q2_ple.cpp)
 target_link_libraries(q2_ple PRIVATE gufo_qwen38_flash_next)
+add_executable(q2_ple_lookahead EXCLUDE_FROM_ALL ../../tests/q2_ple_lookahead.cpp)
+target_link_libraries(q2_ple_lookahead PRIVATE gufo_qwen38_flash_next lie_ple_flow)
 # The HC diagnostic uses the exact upstream kernel translation unit and its
 # numerical flags, without compiling unrelated MMQ and model executor code.
 add_executable(q2_hc ../../tests/q2_hc.cpp

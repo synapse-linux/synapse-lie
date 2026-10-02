@@ -83,6 +83,14 @@ All 264 compared model frontiers replay exactly. The extra cache stores 15 MiB
 more encoded rows plus metadata; it remains an isolated instrumented experiment.
 The report includes the full comparison, graph and retained validation failures.
 
+The [reactive PLE lookahead experiment](docs/Q2-PLE-LOOKAHEAD.md) prepares the
+next prompt chunk using a bounded C17 two-buffer flow. Its lifetime, ordering
+and cancellation fixtures pass on `.157` in Debug and ASan/UBSan. Original-Q2
+8K comparison verifies 432 exact frontiers and 174–187 ms of hidden preparation,
+but prefill improves only 0.36% over native (1236.75 -> 1241.15 tokens/s).
+This small repeated-input result does not establish a robust speedup or parity;
+the qualified runtime remains unchanged. Full samples and a graph are retained.
+
 A [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) now compiles and
 reconstructs statically, with a synthetic original-shape benchmark prepared.
 It halves the static mixed-half decode instructions but increases registers

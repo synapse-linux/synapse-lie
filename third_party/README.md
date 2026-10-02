@@ -122,3 +122,10 @@ the existing Q2 affine decode into shared staging without changing the stored
 format or importing another implementation. Existing upstream notices remain.
 Its original-shape synthetic benchmark, generator and runner extensions are MIT;
 static-only status is explicit in `docs/Q2-STAGED-WEIGHTS.md`.
+
+`experiments/q2-ple-lookahead.patch` adds a validated borrowed-input boundary
+to the measured official-Gufo-derived executor. Kernels and original model bytes
+remain unchanged; upstream notices remain intact. The bounded C17 flow, fixtures,
+original-weight harness, generator and analysis are first-party MIT. No external
+engine or sibling project artifact is imported. Source and ownership contracts
+are recorded in `docs/Q2-PLE-LOOKAHEAD.md`.

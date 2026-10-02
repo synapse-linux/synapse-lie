@@ -660,3 +660,36 @@ packed-Q2 weight-staging kernel and synthetic benchmark locally. The owner also
 asks about reactive n-gram benefit, so bounded prompt lookahead is being examined
 as a separate host-I/O/GPU overlap hypothesis. No new Q2 remote build, test or
 model access has started; these preparations do not qualify either speedup.
+
+Core explicitly releases `ssd-gpu-r12`: controller closure **19:16:14.347739
+UTC**, observer exit 0 **19:16:30.127576 UTC**, independent fresh retirement
+**19:18:19.131870 UTC**. It reports all 30 identities, controller and observer
+absent, KFD empty, four original leases free and 152 collected files verified.
+Persistent receipt is `run/kvc-runtime-window-release.json`; the shared registry
+records `window_release`. Q2 accepts the next bounded PLE-lookahead window.
+First are C17 flow/row-history fixtures and ASan/UBSan on `.157`, then an
+original-Q2 8K/chunk2048 comparison of unchanged native prefill, prepared serial
+prefill and two-slot lookahead if host checks pass. Kernel arithmetic, model
+bytes, table cache capacity and global page policy remain fixed. No UD parity,
+HTTP integration or long-context acceptance is inferred from this experiment.
+Every GPU arm still requires fresh admission to all four leases. Direct thread
+transport remains unavailable; the explicit incoming handover and this ledger
+record ownership, not a claim of outgoing message delivery.
+
+Q2 releases this PLE-lookahead window at **19:29:48.264076 UTC**. Both runners
+and all ten command identities/groups/sessions are absent; all commands exit 0.
+KFD is empty and all four original lease identities are freshly verified EX|NB
+free, then released. All 38 collected artifacts hash-verify. Persistent receipt:
+`run/q2-ple-lookahead-window-release.json`; tracked copy under `config/`.
+The shared registry records `window_release`. Independent observation at
+**19:30:19.997146 UTC** verifies closure PID 2655356 and its group/session retired.
+No Q2 remote job, build, waiter or automatic retry remains; subsequent work is
+local analysis/reporting and checkpointing.
+
+The measured original-Q2 8K lookahead hides 174–187 ms of host row preparation,
+retains all 432 frontiers exactly and passes real cancellation/drain. Native
+already overlaps most warm I/O: prefill 1236.75 -> 1241.15 tokens/s (+0.36%),
+not a robust gain from three repetitions. Decode is unchanged. The first
+native run is 14.109 s, but later modes use pages it warmed; no cold speedup
+is claimed. This experimental prepared-input API does not modify the C ABI,
+HTTP server or qualified runtime; its integration remains core-owned.
