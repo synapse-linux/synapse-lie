@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build/state-linked-r1",
+    "-j2",
+    "--target",
+    "synapse-lie-server",
+    "synapse-lie-bench"
+  ],
+  "exit_code": 0,
+  "at": "2026-10-02T03:31:09.187686+00:00",
+  "scope": "local compile/link only; no tests"
+}

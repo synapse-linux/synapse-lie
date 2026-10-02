@@ -1,0 +1,104 @@
+[
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12",
+      "-B",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/headless",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DLIE_GUFO_RUNTIME=OFF",
+      "-DLIE_CORE_ONLY=ON",
+      "-DCMAKE_DISABLE_FIND_PACKAGE_PkgConfig=TRUE"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/headless",
+      "-j2"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/headless",
+      "--output-on-failure",
+      "-V"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12",
+      "-B",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/debug",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DLIE_GUFO_RUNTIME=OFF"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/debug",
+      "-j2"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/debug",
+      "--output-on-failure",
+      "-V"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12",
+      "-B",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/sanitize",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DLIE_GUFO_RUNTIME=OFF",
+      "-DLIE_SANITIZERS=ON"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/sanitize",
+      "-j2"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/reactive-cpu-r12/build/sanitize",
+      "--output-on-failure",
+      "-V"
+    ],
+    "exit_code": 0
+  }
+]

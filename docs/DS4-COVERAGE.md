@@ -2,7 +2,8 @@
 
 Inspected 2026-10-01 against LIE `213c91e` and the DS4 Gufo integration workspace.
 The DS4 column retains that dated read-only inspection; the LIE column is updated
-for `0e2bd45` and the [reactive GPU campaign](REACTIVE-INFERENCE-RESULT.md).
+through `4fe6231`, the [reactive GPU campaign](REACTIVE-INFERENCE-RESULT.md) and
+the [C17 RAM-state qualification](STATE-GPU-RESULT.md).
 This compares the actual DS4 frontend/adapter and historical sealed evidence,
 not every function in its vendored upstream library. No DS4 file, executable,
 cache, model or qualification artifact was modified or imported into LIE.

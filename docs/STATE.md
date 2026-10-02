@@ -1,8 +1,9 @@
 # C17 prefix state and RAM cache
 
 RAM prefix retention is **enabled by default**, with a lazy 4 GiB budget shared
-by HTTP and `synapse-lie-bench --suite core`. `--prefix-cache-mib N` changes the
-budget; `0` explicitly disables retention for fresh-work comparisons. The normal
+by consumers of each core instance. HTTP and `synapse-lie-bench --suite core`
+use the same implementation; separate processes do not share a RAM store.
+`--prefix-cache-mib N` changes the budget; `0` explicitly disables retention for fresh-work comparisons. The normal
 per-sequence KV/recurrent working state is still required when retention is off.
 Only optional SSD persistence defaults off. SSD is not implemented yet: no
 persistent-state directory is created, scanned, read or written by this cache.
@@ -54,8 +55,9 @@ remain delegated; this does not claim an autonomous C model executor.
 
 The `.157` headless, Debug and sanitizer fixtures exercise ownership, isolated
 clones, budgets/eviction, incompatible domains, faulty providers, cancellation,
-Chat/Responses usage and direct bench graphs. Device qualification follows the
-[predeclared GPU protocol](STATE-GPU-PROTOCOL.md); CPU results are NOT-INFERENCE.
+Chat/Responses usage and direct bench graphs. Device qualification passes the
+[predeclared GPU protocol](STATE-GPU-PROTOCOL.md), with [full results](STATE-GPU-RESULT.md)
+through 128K and C8. CPU results remain NOT-INFERENCE.
 
 ## Optional SSD persistence — required feature, explicit opt-in
 

@@ -27,7 +27,29 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest completed window — shared-core GPU regression
+## Latest completed window — C17 RAM state/cache
+
+After Q2's verified release at 2026-10-02 03:14:56.579 UTC, CPU fixtures ran
+sequentially on `.157`, followed by `state-gpu-r1` from 03:36:25.717 to
+04:06:08.841 UTC. All 16 arms exit 0. Each reacquired all four established leases
+EX|NB with recorded device/inode identities, fresh admission, model stat and
+binary/DSO identities, foreign-client observation and owned cleanup.
+
+Postflight at **04:06:08.841823 UTC** records 32 owned supervisor/child identities
+absent, KFD empty and all four unchanged leases free. Read-only status afterwards
+confirms the controller absent and no listener on 8000 (only six TIME_WAIT
+connections). All 153 collected files verify by SHA-256. The verified release
+was sent to Q2, which acknowledged taking the next window. Remaining LIE work
+was local offline analysis and documentation, not renewed GPU admission.
+
+Persistent raw paths are local `evidence/state-gpu-r1` and remote
+`run/state-gpu-r1`; source CPU capsules and all builds also stay under LIE-owned
+persistent paths. No source in `/tmp`, foreign termination, deployment, install,
+model conversion, remote GPU build or DS4 mutation. Existing desktop/denied-FD
+limitations and absence of a formal DS4 ACK remain recorded. See the
+[complete RAM result](STATE-GPU-RESULT.md), including the retained CPU failures.
+
+## Earlier completed window — shared-core GPU regression
 
 The operator authorized the first conversion test on `.157`. After the Q2
 thread's verified release at 2026-10-02 01:31:56 UTC, CPU fixture verification

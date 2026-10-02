@@ -165,3 +165,9 @@ PP and every AR step, greedy/seeded sampling and independent clones. Its JSONL
 is accepted only after every exact pair and complete terminal succeeds. This
 numerical diagnostic bypasses job scheduling; it supplements `--suite core`,
 not a measurement of HTTP or reactive speedup. See the [protocol](STATE-GPU-PROTOCOL.md).
+
+
+The [RAM GPU result](STATE-GPU-RESULT.md) now supplies paired core off/on measurements
+through 128K, C2/C4/C8, exact component-state logits and default-on HTTP smoke.
+It does not reproduce the entire upstream HTTP/cache preparation corpus or MTP
+quality suite. All cold samples and actual reused/new token counts are retained.

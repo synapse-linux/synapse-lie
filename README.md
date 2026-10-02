@@ -32,6 +32,11 @@ records headless, Debug and ASan/UBSan checks on `.157`. The first
 executor frontiers, native batching through C8 and fresh prefill through 128K,
 with no sampled median regression beyond the declared 5% threshold. Full PP/TG,
 client latency, thread observations and graphs are included in that report.
+The subsequent [RAM-state GPU qualification](docs/STATE-GPU-RESULT.md) passes
+16/16 arms: exact restored logits through 128K, cache-off numerical controls,
+core C1/C2/C4/C8 and default-on HTTP. At 128K a repeated full-prefix hit reduces
+core TTFT from 98.384 s to 0.225 s; full recomputation and first-capture costs
+remain explicitly separate. This is reuse, not faster fresh prefill.
 
 ## Native tool API baseline
 

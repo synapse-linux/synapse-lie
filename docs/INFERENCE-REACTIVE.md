@@ -286,3 +286,11 @@ can improve TTFT and aggregate wall throughput by avoiding PP, while cold captur
 adds cost. Neither observation establishes faster fresh PP, parallel kernels or
 an asynchronous dependency graph within a forward. The state experiment keeps
 copy paths, executed PP and client wall separate.
+
+
+The [completed RAM experiment](STATE-GPU-RESULT.md) isolates this effect: core
+C8 complete-wall throughput rises 51.14→106.02 tok/s, while per-job TG stays
+13.40→13.42 tok/s. Inference process threads stay 36 for core/HTTP. This is
+avoided prefill with unchanged batching/forward, not evidence that callbacks or
+additional CPU threads accelerate the numerical kernel. At 128K TTFT falls
+98.384→0.225 s for a full hit; fresh PP remains about 1335 tok/s in the off arm.

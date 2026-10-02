@@ -25,11 +25,21 @@ the successful HIP link receipts; no test or model ran on the editing host.
 
 `--suite state` adds paired full-logit qualification (greedy, seeded sampling,
 independent clone) with completed capture/restore/tail timings. GPU campaign
-`state-gpu-r1` is running under the [predeclared protocol](STATE-GPU-PROTOCOL.md),
-after Q2's verified release and fresh per-arm leases. Completed 512/8192-token
-and 4096-to-8192 extension arms already pass; 128K, throughput and HTTP results
-remain pending until final collection/retirement. This checkpoint makes no
-completed-campaign or performance claim.
+`state-gpu-r1` now passes **16/16 arms** under the [predeclared protocol](STATE-GPU-PROTOCOL.md).
+Exact logits/output pass at 512/8192/131072 tokens and 4096-to-8192 extension;
+cache-off frontiers match the pristine historical provider. Core warm-cache
+TTFT falls from 98384.31 to 224.93 ms at 128K; whole-request throughput rises
+from 1.24 to 24.08 tok/s. C8 aggregate complete-wall throughput rises from 51.14
+to 106.02 tok/s, with effectively unchanged per-job TG and no added threads.
+These are repeated identical-prefix savings, not faster fresh PP. Default-on
+HTTP passes on port 8000. [Full values, cold samples, graphs and limits](STATE-GPU-RESULT.md)
+are retained; SSD/MTP/vision remain pending.
+
+Runtime checkpoint `4fe6231`; 153 GPU evidence files SHA-verified. Final postflight
+at 04:06:08.842 UTC records 32 owned child/supervisor identities absent, KFD empty,
+and four unchanged/free leases. Controller retirement was observed separately;
+the window was returned to Q2 before offline analysis. No permanent listener,
+publication or DS4 mutation.
 
 ## First core GPU regression passed — 2026-10-02
 

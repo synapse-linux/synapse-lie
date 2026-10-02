@@ -1,0 +1,170 @@
+{
+  "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+  "started_at": "2026-10-02T03:36:25.717428+00:00",
+  "pid": 2341873,
+  "start_ticks": 147757997,
+  "runs": [
+    {
+      "arm": "state-p512-k512",
+      "pid": 2341876,
+      "start_ticks": 147758016,
+      "started_at": "2026-10-02T03:36:25.869854+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:36:53.511597+00:00"
+    },
+    {
+      "arm": "state-p8192-k8192",
+      "pid": 2342083,
+      "start_ticks": 147760792,
+      "started_at": "2026-10-02T03:36:53.629645+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:37:43.585772+00:00"
+    },
+    {
+      "arm": "state-p8192-k4096",
+      "pid": 2342356,
+      "start_ticks": 147765803,
+      "started_at": "2026-10-02T03:37:43.741406+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:38:40.122578+00:00"
+    },
+    {
+      "arm": "state-p131072-k131072",
+      "pid": 2342692,
+      "start_ticks": 147771455,
+      "started_at": "2026-10-02T03:38:40.266943+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:45:39.395355+00:00"
+    },
+    {
+      "arm": "candidate-fresh",
+      "pid": 2344757,
+      "start_ticks": 147813382,
+      "started_at": "2026-10-02T03:45:39.532101+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:49:50.476265+00:00",
+      "comparison": [
+        {
+          "depth": 0,
+          "users": 1,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 1.0035043076648105
+        },
+        {
+          "depth": 0,
+          "users": 1,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 0.9935930548441592
+        }
+      ]
+    },
+    {
+      "arm": "core-p8192-c1-off",
+      "pid": 2346008,
+      "start_ticks": 147838491,
+      "started_at": "2026-10-02T03:49:50.628145+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:50:45.345980+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p8192-c1-ram",
+      "pid": 2346291,
+      "start_ticks": 147843977,
+      "started_at": "2026-10-02T03:50:45.485575+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:51:29.244594+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p131072-c1-off",
+      "pid": 2346564,
+      "start_ticks": 147848368,
+      "started_at": "2026-10-02T03:51:29.389399+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:57:00.293088+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p131072-c1-ram",
+      "pid": 2348156,
+      "start_ticks": 147881469,
+      "started_at": "2026-10-02T03:57:00.401358+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T03:59:15.193939+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c2-off",
+      "pid": 2348868,
+      "start_ticks": 147894963,
+      "started_at": "2026-10-02T03:59:15.345632+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:00:11.213868+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c2-ram",
+      "pid": 2349196,
+      "start_ticks": 147900559,
+      "started_at": "2026-10-02T04:00:11.306394+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:00:58.058028+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c4-off",
+      "pid": 2349480,
+      "start_ticks": 147905242,
+      "started_at": "2026-10-02T04:00:58.135439+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:02:08.438409+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c4-ram",
+      "pid": 2349951,
+      "start_ticks": 147912285,
+      "started_at": "2026-10-02T04:02:08.563681+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:02:59.315970+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c8-off",
+      "pid": 2350227,
+      "start_ticks": 147917369,
+      "started_at": "2026-10-02T04:02:59.406058+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:04:41.878013+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p2048-c8-ram",
+      "pid": 2350770,
+      "start_ticks": 147927628,
+      "started_at": "2026-10-02T04:04:41.994278+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:05:44.818911+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "http-default-ram",
+      "pid": 2351122,
+      "start_ticks": 147933924,
+      "started_at": "2026-10-02T04:05:44.955566+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T04:06:08.838093+00:00"
+    }
+  ],
+  "current_arm": "http-default-ram",
+  "finished_at": "2026-10-02T04:06:08.841129+00:00"
+}
