@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-02T20:43:20.880908+00:00",
+  "scope": "Read-only current inode flags and compression property; no payload reads or mutation; not historical write provenance",
+  "files": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 52,
+      "inode": 3206497,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 52,
+      "inode": 3228516,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 52,
+      "inode": 3211726,
+      "flags_hex": "0x400",
+      "compress": false,
+      "no_compress": true,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 52,
+      "inode": 3207513,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 52,
+      "inode": 3206512,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 52,
+      "inode": 3116203,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 52,
+      "inode": 3116346,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+      "device": 52,
+      "inode": 3116447,
+      "flags_hex": "0x0",
+      "compress": false,
+      "no_compress": false,
+      "no_cow": false,
+      "btrfs_compression_property_errno": 61
+    }
+  ]
+}

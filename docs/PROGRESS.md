@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Reactive PLE first-access benefit measured — 2026-10-02
+
+The [eight-set ABBAABBA comparison](Q2-PLE-FIRST-ACCESS.md) now measures the
+larger I/O case missing from the warm experiment. Four first-position samples
+per mode give 10.982155 -> 7.791053 s for 8K prefill: -29.06% elapsed time /
+**+40.96% throughput**. Observed median page residency is 30.58% / 30.11%;
+mean physical reads are 9093.921 / 9017.233 MiB. Lookahead hides 3.380 s of
+preparation, while both paths still incur substantial I/O. On replay at about
+99.95% page residency the rate changes only +0.57%; forced decode is unchanged.
+All 576 frontier hashes and complete pair buffers are exact and finite.
+
+This is a positive isolated scheduling result on synthetic varied inputs,
+not a controlled identical-state storage trial, natural-language quality
+qualification, production integration or warm Q2/UD parity. The original
+BF16 PLE rows, arithmetic and default row-cache capacity remain unchanged.
+Read-only inode checks do not find a current compression override or
+NOCOMPRESS flag on either Q2 or the UD PLE shard; other sampled model regions
+also show mixed extent encoding. Filesystem causality remains unisolated.
+
+The same window completes [HC coalesced stage reads](Q2-HC-DOWN-COALESCED.md):
+all 22 output hashes match, but down latency only changes 1177.428 -> 1169.698
+us (0.66% rate gain), with broad overlap and unchanged up control +0.96% time.
+Both numerical-control exit 1 results are retained, with no model sweep.
+
+Three CPU fixture arms each pass 12/12 Debug and 12/12 ASan/UBSan. The extra
+collector check follows a retained collection exit 1 at the old 128-MB cap;
+the 318-MB complete output set is recovered without model rerun, under a bounded
+mode-specific allowance and stricter path/duplicate checks. Six runners and
+28 remote commands are complete: 26 exits 0, two known HC numerical exits 1.
+All 170 artifacts verify. [Closure](../config/q2-coalesced-ple-validation.json)
+at 20:50:13 UTC and independent retirement at 20:50:40 verify empty KFD and
+four original/free leases. No Q2 remote job, waiter or automatic retry remains.
+
 ## Half-wave and HC scheduling measured — 2026-10-02
 
 The returned `.157` window completes both [half-wave variants](Q2-HALF-WAVE.md)

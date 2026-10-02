@@ -1,0 +1,298 @@
+{
+  "at": "2026-10-02T20:50:13.476631+00:00",
+  "state": "Q2_COALESCED_PLE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675036,
+      "absent": true,
+      "finished_at": "2026-10-02T20:26:00.618805+00:00"
+    },
+    {
+      "label": "q2-coalesced-micro-ref-r1",
+      "pid": 2675927,
+      "absent": true,
+      "finished_at": "2026-10-02T20:26:34.100229+00:00"
+    },
+    {
+      "label": "q2-coalesced-micro-r1",
+      "pid": 2676629,
+      "absent": true,
+      "finished_at": "2026-10-02T20:28:00.852099+00:00"
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679249,
+      "absent": true,
+      "finished_at": "2026-10-02T20:36:41.480772+00:00"
+    },
+    {
+      "label": "q2-ple-first-access-model-r1",
+      "pid": 2680369,
+      "absent": true,
+      "finished_at": "2026-10-02T20:44:36.608179+00:00"
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684504,
+      "absent": true,
+      "finished_at": "2026-10-02T20:48:39.225104+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675070,
+      "start_ticks": 153812923,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675146,
+      "start_ticks": 153812975,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675216,
+      "start_ticks": 153813428,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675421,
+      "start_ticks": 153814081,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675491,
+      "start_ticks": 153814134,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-host-r1",
+      "pid": 2675629,
+      "start_ticks": 153814836,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-ref-r1",
+      "pid": 2675929,
+      "start_ticks": 153816921,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-ref-r1",
+      "pid": 2676133,
+      "start_ticks": 153817124,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-ref-r1",
+      "pid": 2676280,
+      "start_ticks": 153818536,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-r1",
+      "pid": 2676630,
+      "start_ticks": 153825603,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-r1",
+      "pid": 2676834,
+      "start_ticks": 153825806,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-coalesced-micro-r1",
+      "pid": 2676979,
+      "start_ticks": 153827211,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679250,
+      "start_ticks": 153877008,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679325,
+      "start_ticks": 153877061,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679456,
+      "start_ticks": 153877513,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679662,
+      "start_ticks": 153878167,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679732,
+      "start_ticks": 153878220,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-host-r1",
+      "pid": 2679840,
+      "start_ticks": 153878923,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-model-r1",
+      "pid": 2680370,
+      "start_ticks": 153885924,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-model-r1",
+      "pid": 2680578,
+      "start_ticks": 153886127,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-model-r1",
+      "pid": 2681686,
+      "start_ticks": 153901554,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-model-r1",
+      "pid": 2681691,
+      "start_ticks": 153901607,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684511,
+      "start_ticks": 153948732,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684581,
+      "start_ticks": 153948785,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684653,
+      "start_ticks": 153949238,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684902,
+      "start_ticks": 153949892,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2684972,
+      "start_ticks": 153949945,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-first-access-collection-host-r1",
+      "pid": 2685065,
+      "start_ticks": 153950697,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2685761,
+    "state": "R",
+    "group": 2685758,
+    "session": 2685758,
+    "start_ticks": 153960773
+  },
+  "result_sha256": {
+    "q2-coalesced-host-r1": "51febfaf2974eeb7a9c2686b19624d0980db8d8d9c48e0398bb191c59d062d27",
+    "q2-coalesced-micro-ref-r1": "55e5c9de12ed6307caf810c9e4b9252b737146d4fbf1a49745f1b2569593b075",
+    "q2-coalesced-micro-r1": "94d9edc3b83c61779086ff245100cc25c2b16b6c22533bbea777ce85dcfea220",
+    "q2-ple-first-access-host-r1": "3a4523254d4bb596956f4fcd2d3040d2f89855184f1b48934be30c233e8b9820",
+    "q2-ple-first-access-model-r1": "77abdbdea0e30865bb748db5de1550f8188eb26aa94e4cc661747417c4cf04d3",
+    "q2-ple-first-access-collection-host-r1": "bb2f9d9e23537f2c13e585941aa0cec156691d2bddf8bb385152331d85fbffef"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "49500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "50125",
+    "/sys/class/hwmon/hwmon1/temp6_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "55850"
+  }
+}

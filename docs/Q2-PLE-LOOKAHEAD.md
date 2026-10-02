@@ -48,6 +48,13 @@ earlier reads. This is **not** evidence of a 2x reactive speedup. A controlled
 first-access comparison remains necessary to quantify the larger-I/O case;
 no shared cache was flushed.
 
+The [subsequent eight-set comparison](Q2-PLE-FIRST-ACCESS.md) balances native
+and lookahead first position on new inputs and observes page residency/I/O.
+It measures +40.96% first-position throughput with similar group residency,
+versus +0.57% on replay, while preserving all 576 frontiers. That positive
+I/O-bound result remains distinct from this warm comparison and from a
+controlled identical-state filesystem trial.
+
 All **432** full-vocabulary frontier hashes match, and every complete 36-row
 output is compared byte-for-byte in memory. All values are finite. The saved
 native complete output and 24 final prefill/decode arrays agree. Stale/malformed

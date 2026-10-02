@@ -795,3 +795,63 @@ own fresh admission. The later HC K4 and wide four-wave variants are exact but
 79.97% and 38.44% slower; none of this campaign's kernels warrants model trials.
 The outgoing release notification also fails at the local MCP transport; this
 ledger, the persistent receipt and shared registry remain the agreed handover.
+
+The preceding turn produced measured rejections and checkpoint `21cfae3`.
+Fresh read-only observation at **20:24:24.803519 UTC** finds empty KFD and the
+Q2 half-wave/HC release still last in the registry, with no subsequent owner.
+Core's latest explicit instruction is its cancelled/unstarted R13 window and
+local documentation priority. Q2 starts a bounded HC-down coalesced-fetch
+campaign through this agreed ledger: updated CPU/sanitizer guards, fresh
+reference/candidate components, then complete model comparisons only if a
+component benefit warrants them. The single mechanism distributes original
+F16 stage reads in 16-byte chunks; arithmetic, LDS, tile and output order remain
+unchanged. Each GPU/build arm still acquires all four leases afresh. No standing
+lease, foreign mutation, model conversion or change to qualified runtime is
+implied. The previous outgoing transport failure is not treated as delivery.
+
+The coalesced-fetch component comparison is complete: all 22 hashes replay,
+with the same four library control failures and only a 0.66% median rate change.
+No full-model trial is justified by these overlapping samples. The owner asks
+again about n-gram slowness; Q2 extends this bounded window to the already
+requested first-access reactive investigation. The fixed original-Q2 probe
+uses eight new deterministic 8K inputs, native/lookahead first order ABBAABBA,
+a separate padding warmup, fresh owned row caches and observed page residency
+and process read bytes. No shared page eviction, model mutation or storage
+policy change is made. Updated CPU/sanitizer guards precede the GPU arm; each
+GPU build/model arm acquires four fresh leases. Core must not interleave this
+enclosing campaign.
+
+The direct current-window notification again fails at the local MCP HTTP
+transport; delivery is not claimed. The shared ledger remains authoritative.
+The first-access host arm passes 12/12 Debug and 12/12 ASan/UBSan; its GPU
+arm begins at 20:37:44 UTC and completes the full HIP build at 20:40:21 UTC.
+No qualified runtime or original model/storage setting is changed.
+
+The model probe finishes with all four command exits 0 at 20:44:36 UTC.
+The first collection retains actual exit 1 because eight complete output
+arrays exceed the old 128-MB archive cap. No model rerun follows. The collector
+adds a bounded 384-MB allowance only for this recorded mode, retains 128 MB
+elsewhere, rejects unsafe/duplicate members and refuses existing result trees.
+An offline recovery path verifies the already-downloaded archive. A separate
+CPU/sanitizer arm qualifies these parser/admission changes before recovery.
+
+The repaired collector passes the .157 Debug and ASan/UBSan suites (12/12 each)
+and recovers all 53 model artifacts from the original archive. All 170 artifacts
+across six runners verify. Twenty-six of 28 remote commands exit 0; two HC
+component commands preserve numerical-control exit 1. The eight-set PLE probe
+is exact across 576 frontiers and measures 10.982155 -> 7.791053 s first-position
+8K prefill (+40.96% throughput), with median page residency 30.58% / 30.11%.
+Replay improves only 0.57%; the source remains isolated from qualified runtime.
+
+Q2 releases the coalesced HC / PLE window at **20:50:13.476631 UTC**. All six
+runner and 28 command identities/groups/sessions are absent; KFD is empty,
+and all four original lease identities are acquired EX|NB then released.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-coalesced-ple-window-release.json`.
+The shared registry records `window_release`; tracked copies and full validation
+are under `config/`. Independent observer retirement at **20:50:40.742304 UTC**
+verifies PID 2685761, group/session 2685758 absent and empty KFD. Both observers
+exit 0. No Q2 remote job, lease, waiter or automatic retry remains. Core may
+use the next window with its own coordinated fresh admission. Further work
+here is local documentation/checkpointing; direct notification transport has
+not been available and this ledger remains the agreed handover channel.

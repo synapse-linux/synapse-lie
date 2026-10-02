@@ -1,0 +1,19 @@
+{
+  "scope": "Static preparation only; GPU replay and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-hc-down-coalesced",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "file_count": 1019,
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "403ad8e454b7aa524fd39d042805b5b4b45e69c2648aad8c1a65910c7fe86eec",
+  "patch_sha256": "6133dd34393fed5a1ae8113efa1eff8a6daf738c39b690cbb767ec6bfe5e73a9",
+  "mechanism": "HC down 16-byte coalesced global stage fetches; original LDS, tile, ordered K16 chains and epilogue retained",
+  "stage_chunks_per_thread": {
+    "weights": 2,
+    "activations": 4
+  },
+  "model_conversion": false
+}

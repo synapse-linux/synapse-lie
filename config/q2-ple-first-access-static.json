@@ -1,0 +1,47 @@
+{
+  "scope": "Editing-host syntax only; no runtime, model or GPU access",
+  "checks": [
+    {
+      "name": "harness",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_ple_lookahead.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-first-access-static-r1/harness.log"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_ple_lookahead.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-first-access-static-r1/format.log"
+    }
+  ],
+  "python_syntax": true,
+  "source_sha256": {
+    "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2",
+    "tools/q2-runner.py": "bd2de4de9c7755fbd47c7770f77e951fea32c6d11e10dae2d7328b040d2b9b6f",
+    "tools/q2-remote.py": "48b22014cfb046b68aa5875cb3fc76f5bd224e251e1b6c0641e29333e9c7de4d",
+    "tests/q2_remote_test.py": "1b94902fddbe0a37eab4f28817d7e420fc75c008580c03530cef6a4800d1d7de",
+    "tools/analyze-q2-ple-first-access.py": "6ca47297b1d80bf646ae8583b33c096e0b7173492fd8238b9bc2533555fce2f6",
+    "tools/plot-q2-ple-first-access.py": "b9b0739325ea263a518409a076b1d9248e9c369bf560b5656c92b76d56be5502"
+  },
+  "source_scope": "First-party harness/analysis only; same previously reconstructed prepared-input executor and unchanged C17 flow"
+}

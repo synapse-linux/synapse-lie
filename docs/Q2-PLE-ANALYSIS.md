@@ -82,6 +82,13 @@ GGUF metadata and five bounded FIEMAP windows inside each PLE table show:
 - UD: every sampled PLE region is unencoded, in roughly 64-MiB extents.
 - Both are on Btrfs `/home` with `compress=zstd:1`, kernel `7.2.2-1-cachyos`.
 
+This is not a whole-model compressed/uncompressed distinction. The preceding
+bounded probes find compressed regions in UD shard 1 and an uncompressed region
+near 36.8 GB in the Q2 file. The PLE-specific samples above are the relevant
+ones for row gathering. The historical write path, file attributes at creation
+and compression decisions are not established by FIEMAP, so the reason these
+PLE regions have different encoding remains unverified.
+
 Btrfs documents that reads of compressed extents fall back to buffered I/O
 even with `O_DIRECT`. It also describes 128-KiB compression chunks. This is a
 concrete explanation consistent with the expensive first Q2 access and fast

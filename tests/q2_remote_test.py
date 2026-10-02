@@ -4,10 +4,12 @@
 import contextlib
 import importlib.util
 import io
+import json
 from pathlib import Path
 import sys
+import tarfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 path = Path(__file__).resolve().parents[1] / 'tools/q2-remote.py'
 spec = importlib.util.spec_from_file_location('q2_remote', path)
@@ -16,6 +18,34 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_collection_bounds_and_paths(self):
+        def archive(mode, size=1, name='results/output.f32', kind=tarfile.REGTYPE):
+            receipt = tarfile.TarInfo('results/result.json')
+            data = json.dumps({'mode': mode}).encode()
+            receipt.size = len(data)
+            member = tarfile.TarInfo(name)
+            member.size, member.type = size, kind
+            result = Mock()
+            result.getmembers.return_value = [receipt, member]
+            result.extractfile.return_value = io.BytesIO(data)
+            return result
+        self.assertEqual(remote.collection_receipt(archive('q2-ple-first-access', 320000000))['mode'],
+                         'q2-ple-first-access')
+        for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000)]:
+            with self.assertRaisesRegex(ValueError, 'Oversized collection'):
+                remote.collection_receipt(archive(mode, size))
+        for name, kind in [('../escape', tarfile.REGTYPE), ('/absolute', tarfile.REGTYPE),
+                           ('source/file', tarfile.REGTYPE), ('results/link', tarfile.SYMTYPE),
+                           ('results/result.json', tarfile.REGTYPE)]:
+            value = archive('q2-ple-first-access', name=name, kind=kind)
+            with self.assertRaisesRegex(ValueError, 'Unsafe collection'):
+                remote.collection_receipt(value)
+            value.extractfile.assert_not_called()
+
+    def test_existing_collection_cannot_launch_model(self):
+        self.refuse(['q2-ple-first-access', 'q2-fixture', '--existing-collection'],
+                    'Existing collection requires collect mode')
+
     def refuse(self, argv, reason):
         with patch.object(sys, 'argv', [str(path), *argv]), \
              patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run, \
@@ -29,13 +59,13 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_not_called()
 
     def test_ple_source_is_fixed(self):
-        for mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead'):
+        for mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access'):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-moe-fused'],
                         'fixed instrumented Q2/UD source')
             self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
 
     def test_changed_executor_header_cannot_reuse_mmq(self):
-        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
+        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
@@ -76,7 +106,7 @@ class RemoteGuardTests(unittest.TestCase):
                             'require the isolated hc-moe-fused source')
 
     def test_q2_source_cannot_replace_ud_control(self):
-        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
+        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
             self.refuse(['ud-bench2k', 'q2-fixture', '--source-variant', variant],
                         'Stack source requires')
 

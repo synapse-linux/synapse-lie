@@ -92,6 +92,15 @@ but prefill improves only 0.36% over native (1236.75 -> 1241.15 tokens/s).
 This small repeated-input result does not establish a robust speedup or parity;
 the qualified runtime remains unchanged. Full samples and a graph are retained.
 
+The [balanced new-input follow-up](docs/Q2-PLE-FIRST-ACCESS.md) measures a
+substantial I/O-bound benefit: 8K prefill falls 10.982 -> 7.791 s, **+40.96%**
+throughput, with similar observed page residency and physical traffic across
+first-position groups. On replay the gain is only 0.57%. All 576 frontiers match.
+This is an isolated scheduling result, not controlled identical cold states,
+production adoption or warm Q2/UD parity. PLE in the Q2-named model is BF16;
+filesystem compression is a separate layer and its causal contribution remains
+unisolated. The report includes every prefill/decode sample, graph and CSV.
+
 The [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) passes independent
 GPU checks, 62 saved-buffer comparisons and 52.4 million exact synthetic output
 values, but its component is 4.94% slower. It is rejected. The subsequent
@@ -99,6 +108,10 @@ values, but its component is 4.94% slower. It is rejected. The subsequent
 original shared-memory footprint, but shuffle is 1.44% slower and direct row
 permute is effectively unchanged (+0.05% time). Neither is promoted; the report
 retains the independent checks, all timing samples and the unchanged control.
+
+The [HC coalesced-fetch probe](docs/Q2-HC-DOWN-COALESCED.md) preserves all
+outputs but changes component throughput only 0.66%, within the overlapping
+sample distributions. No model sweep or runtime promotion follows.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

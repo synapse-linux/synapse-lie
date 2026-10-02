@@ -16,16 +16,42 @@ HOST = 'paperboy@192.168.5.157'
 REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 
+def collection_receipt(archive):
+    members = archive.getmembers()
+    names = set()
+    for member in members:
+        path = Path(member.name)
+        if (path.is_absolute() or '..' in path.parts or not path.parts or
+                path.parts[0] != 'results' or path in names or member.size < 0 or
+                not (member.isdir() or member.isfile())):
+            raise ValueError('Unsafe collection')
+        names.add(path)
+    receipts = [member for member in members if member.name == 'results/result.json']
+    if len(receipts) != 1 or not receipts[0].isfile() or receipts[0].size > 1000000:
+        raise ValueError('Missing or oversized collection receipt')
+    receipt = json.load(archive.extractfile(receipts[0]))
+    # Eight complete 36-row outputs alone occupy 286 MB in this fixed probe.
+    # Keep other modes at their existing bound and retain a finite total cap.
+    limit = 384000000 if receipt.get('mode') == 'q2-ple-first-access' else 128000000
+    if sum(member.size for member in members) > limit:
+        raise ValueError('Oversized collection')
+    return receipt
+
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'packed-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'packed-bench', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'],
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--rebuild-mmq', action='store_true',
                    help='Recompile all MMQ sources for bench2k; no prior archive reuse')
+    p.add_argument('--existing-collection', action='store_true',
+                   help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
-    if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead') and args.source_variant != 'qualified':
+    if args.existing_collection and args.mode != 'collect':
+        p.error('Existing collection requires collect mode')
+    if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access') and args.source_variant != 'qualified':
         p.error('PLE diagnostics select their fixed instrumented Q2/UD source')
     if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k'):
         p.error('Full MMQ rebuild selection requires bench2k')
@@ -39,21 +65,21 @@ def main():
         p.error('HC up benchmark requires the measured hc-up-fused source or hc-up-vec candidate')
     if args.mode == 'packed-bench' and args.source_variant not in ('hc-moe-fused', 'staged-weights', 'half-wave', 'half-wave-permlane'):
         p.error('Packed benchmark requires a measured or isolated Q2 decode source')
-    if args.mode == 'packed-operators' and args.source_variant not in ('packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
+    if args.mode == 'packed-operators' and args.source_variant not in ('packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
         p.error('Packed operators require the isolated packed source')
-    if args.mode == 'routed-operators' and args.source_variant not in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
+    if args.mode == 'routed-operators' and args.source_variant not in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
         p.error('Compensated routed operators require the isolated stack source')
-    if args.mode == 'iq2-pair-operators' and args.source_variant not in ('iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
+    if args.mode == 'iq2-pair-operators' and args.source_variant not in ('iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2'):
         p.error('Paired IQ2 operators require the isolated IQ2 source')
     hc_component = args.source_variant in ('packed', 'hc-prefetch', 'hc-prefetch2') and args.mode in ('hc-operators', 'hc-bench')
-    hc_component = hc_component or (args.source_variant in ('hc-moe-fused', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4') and args.mode in ('hc-pp-operators', 'hc-pp-bench'))
-    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and not hc_component and args.mode not in ('hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'iq2-pair-operators', 'routed-operators', 'packed-operators', 'packed-bench', 'operators', 'q2-bench', 'q2-bench2k', 'q2-profile'):
+    hc_component = hc_component or (args.source_variant in ('hc-moe-fused', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced') and args.mode in ('hc-pp-operators', 'hc-pp-bench'))
+    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and not hc_component and args.mode not in ('hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'iq2-pair-operators', 'routed-operators', 'packed-operators', 'packed-bench', 'operators', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('Stack source requires routed checks or Q2 model measurements')
-    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and args.mode == 'q2-bench2k' and not args.rebuild_mmq:
+    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and args.mode == 'q2-bench2k' and not args.rebuild_mmq:
         p.error('Stack changes executor/header; explicitly rebuild MMQ')
     if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and args.mode != 'q2-bench':
+    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2') and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
@@ -63,25 +89,24 @@ def main():
     if args.mode == 'collect':
         out = ROOT/'evidence'/args.label
         archive_path = out/'results.tar.gz'
-        script = 'import tarfile,sys; a=tarfile.open(fileobj=sys.stdout.buffer,mode="w|gz"); a.add('+repr(REMOTE+args.label+'/results')+',arcname="results"); a.close()'
-        with archive_path.open('xb') as stream:
-            rc = subprocess.run(['ssh','-F','/dev/null','-o','BatchMode=yes',HOST,'python3 -c '+shlex.quote(script)],stdout=stream).returncode
-        if rc: raise SystemExit(rc)
+        if (out/'results').exists() or (out/'collection.json').exists():
+            raise ValueError('Refusing to overwrite collected results')
+        if not args.existing_collection:
+            script = 'import tarfile,sys; a=tarfile.open(fileobj=sys.stdout.buffer,mode="w|gz"); a.add('+repr(REMOTE+args.label+'/results')+',arcname="results"); a.close()'
+            with archive_path.open('xb') as stream:
+                rc = subprocess.run(['ssh','-F','/dev/null','-o','BatchMode=yes',HOST,'python3 -c '+shlex.quote(script)],stdout=stream).returncode
+            if rc: raise SystemExit(rc)
         with tarfile.open(archive_path) as a:
-            members=a.getmembers()
-            if sum(m.size for m in members)>128000000: raise ValueError('Oversized collection')
-            for m in members:
-                pth=Path(m.name)
-                if pth.is_absolute() or '..' in pth.parts or not (m.isdir() or m.isfile()): raise ValueError('Unsafe collection')
+            receipt=collection_receipt(a)
             a.extractall(out,filter='data')
-        receipt=json.loads((out/'results/result.json').read_text())
         for name,meta in receipt.get('artifacts',{}).items():
             if Path(name).is_absolute() or '..' in Path(name).parts: raise ValueError('Unsafe artifact name')
             payload=(out/'results'/name).read_bytes()
             if len(payload)!=meta['bytes'] or hashlib.sha256(payload).hexdigest()!=meta['sha256']:
                 raise ValueError('Artifact integrity mismatch')
         collected={'collected':str(archive_path),'sha256':hashlib.sha256(archive_path.read_bytes()).hexdigest(),
-                   'verified_artifacts':len(receipt.get('artifacts',{}))}
+                   'verified_artifacts':len(receipt.get('artifacts',{})),
+                   'existing_archive':args.existing_collection}
         (out/'collection.json').write_text(json.dumps(collected,indent=2)+'\n')
         print(json.dumps(collected))
         return
@@ -100,7 +125,7 @@ def main():
             source = '.deps/gufo-ple-io-' + ('ud' if args.mode == 'ud-ple-io' else 'q2')
         if args.mode in ('ple-cache-cpu', 'q2-ple-cache64k'):
             source = '.deps/gufo-ple-cache64k'
-        if args.mode in ('ple-lookahead-cpu', 'q2-ple-lookahead'):
+        if args.mode in ('ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access'):
             source = '.deps/gufo-q2-bench-ple-lookahead'
         archive.add(ROOT / source, arcname='source')
     dest = REMOTE + args.label

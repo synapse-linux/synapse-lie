@@ -31,8 +31,8 @@ def main():
     mode = sys.argv[1]
     cpu_mode = mode in ('cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
-    ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead')
-    ple_target = 'q2_ple_lookahead' if mode == 'q2-ple-lookahead' else 'q2_ple'
+    ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
+    ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
     model_mode = io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
     hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'packed-bench')
@@ -150,8 +150,10 @@ def main():
                 if any(actual[k]!=expected[k] for k in actual): raise RuntimeError('Model identity differs from inventory')
             result['model_hash_scope']='Stat inventory; no full payload rehash'
             result['resource_scope']='Quantized AR weights only; PLE read through upstream bounded row cache; MTP disabled; context 9216/chunk 2048'
-            if mode == 'q2-ple-lookahead':
+            if mode in ('q2-ple-lookahead', 'q2-ple-first-access'):
                 result['resource_scope']='Original Q2 AR weights; native/prepared-serial/C17-lookahead; unchanged kernels/cache; context 8224/chunk 2048; two bounded pinned PLE buffers; no page eviction'
+            if mode == 'q2-ple-first-access':
+                result['resource_scope']='Original Q2 AR weights; eight new input sets with native/C17-lookahead first order ABBAABBA; warmup on padding; page residency observed; context 8224/chunk 2048; two bounded pinned PLE buffers; no page eviction'
             if io_mode:
                 result['resource_scope']='Original PLE rows only; no model upload or forward; descriptor-local advice and bounded BF16 cache capacity; no cache eviction or file mutation'
             save()
@@ -223,7 +225,7 @@ def main():
                 result['model_access']=True
                 save()
                 if ple_mode:
-                    run([str(binary),model_paths[0]],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                    run([str(binary),model_paths[0]] + (['--first-access'] if mode == 'q2-ple-first-access' else []),dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                 elif profile_mode:
                     run([profiler,'--kernel-trace','-d',str(results/'profile'),'-o','q2','--',
                          str(binary),model_paths[0],'profile'],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)

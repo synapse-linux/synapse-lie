@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Original-weight scheduling A/B, synthetic varied tokens, AR prefill only.
+#include <sys/mman.h>
+#include <unistd.h>
+
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -32,6 +35,54 @@ static void Require(bool good, const std::string &why) {
 }
 static double Seconds(Clock::time_point start) {
   return std::chrono::duration<double>(Clock::now() - start).count();
+}
+static void FillTokens(std::span<std::int32_t> tokens, std::uint32_t seed) {
+  for (auto &token : tokens) {
+    seed ^= seed << 13;
+    seed ^= seed >> 17;
+    seed ^= seed << 5;
+    token = 256 + seed % 100000;
+  }
+}
+static std::uint64_t ReadBytes() {
+  std::ifstream stream("/proc/self/io");
+  std::string key;
+  std::uint64_t value;
+  while (stream >> key >> value)
+    if (key == "read_bytes:")
+      return value;
+  throw std::runtime_error("Process I/O accounting is unavailable");
+}
+static std::vector<std::uint64_t> Pages(std::span<const std::uint32_t> rows,
+                                        std::uint64_t offset,
+                                        std::size_t bytes) {
+  Require(::sysconf(_SC_PAGESIZE) == 4096, "Diagnostic requires 4-KiB pages");
+  std::vector<std::uint64_t> pages;
+  pages.reserve(rows.size() * 2);
+  for (auto row : rows) {
+    const auto first = offset + row * bytes;
+    pages.push_back(first / 4096);
+    pages.push_back((first + bytes - 1) / 4096);
+  }
+  std::sort(pages.begin(), pages.end());
+  pages.erase(std::unique(pages.begin(), pages.end()), pages.end());
+  return pages;
+}
+static std::size_t Resident(const gufo::core::GgufMappedRegion &region,
+                            std::span<const std::uint64_t> pages) {
+  // Observe only: no deliberate page faults, eviction or advice changes.
+  // Every residency check is outside the prefill and decode timers.
+  std::size_t resident = 0;
+  for (auto page : pages) {
+    Require(page * 4096 < region.size, "Page outside mapped file");
+    auto *address = const_cast<std::uint8_t *>(
+                        static_cast<const std::uint8_t *>(region.data)) +
+                    page * 4096;
+    unsigned char value = 0;
+    Require(::mincore(address, 4096, &value) == 0, "mincore failed");
+    resident += value & 1;
+  }
+  return resident;
 }
 template <typename T> static std::string Hash(std::span<const T> values) {
   return gufo::crypto::Sha256Hex(
@@ -184,7 +235,10 @@ static void RejectStale(Exec &exec, q::rocm::Session &session,
 
 int main(int argc, char **argv) {
   try {
-    Require(argc == 2, "Usage: q2_ple_lookahead MODEL");
+    Require(argc == 2 ||
+                (argc == 3 && std::string(argv[2]) == "--first-access"),
+            "Usage: q2_ple_lookahead MODEL [--first-access]");
+    const bool first_access = argc == 3;
     std::cout << std::unitbuf << std::setprecision(12);
     std::string error;
     auto reader = gufo::core::GgufReader::OpenFile(argv[1], &error);
@@ -200,30 +254,91 @@ int main(int argc, char **argv) {
             "Unexpected original PLE model geometry");
     Buffers buffers(config);
     std::vector<std::int32_t> tokens(kPrompt + kDecode);
-    std::uint32_t random = 0x734ec92u;
-    for (auto &token : tokens) {
-      random ^= random << 13;
-      random ^= random >> 17;
-      random ^= random << 5;
-      token = 256 + random % 100000;
+    FillTokens(tokens, 0x734ec92u);
+    if (first_access) {
+      Require(tensor.type == gufo::core::GgmlType::kBF16,
+              "First-access probe requires original BF16 PLE rows");
+      // Warm execution paths on a disjoint padding prompt before assigning
+      // first position to either arm. Fresh tables/sessions follow below.
+      auto table = q::NgramTable::Open(
+          reader->GetMappedRegions()[tensor.shard].file_descriptor,
+          tensor.file_offset, tensor.rows, config.ple_head_dim, tensor.type,
+          &error);
+      Require(bool(table), error);
+      Exec::Options options;
+      options.max_batch = kChunk;
+      auto exec = Exec::Create(*device, table.get(), options, &error);
+      Require(bool(exec), error);
+      auto session = exec->CreateSession(
+          gufo::core::SessionMode::kAutoregressive, kPrompt + kDecode, &error);
+      Require(bool(session), error);
+      std::vector<std::int32_t> padding(kPrompt + kDecode, 256);
+      std::vector<float> logits(config.vocab_size);
+      const auto start = Clock::now();
+      for (std::size_t chunk = 0; chunk < kChunks; ++chunk)
+        Require(
+            exec->Forward(*session,
+                          std::span(padding).subspan(chunk * kChunk, kChunk), 1,
+                          logits.data(), Exec::ForwardMode::kPrefill, &error),
+            error);
+      for (std::size_t step = 0; step < kDecode; ++step)
+        Require(exec->Forward(
+                    *session, std::span(padding).subspan(kPrompt + step, 1), 1,
+                    logits.data(), Exec::ForwardMode::kDecode, &error),
+                error);
+      Require(std::all_of(logits.begin(), logits.end(),
+                          [](float x) { return std::isfinite(x); }),
+              "Non-finite warmup output");
+      std::cout << "{\"event\":\"warmup\",\"padding_id\":256,\"seconds\":"
+                << Seconds(start) << ",\"finite\":true}\n";
     }
-    Save<std::int32_t>("lookahead-input.i32", tokens);
+    if (!first_access)
+      Save<std::int32_t>("lookahead-input.i32", tokens);
     std::cout << "{\"event\":\"configuration\",\"prompt\":" << kPrompt
               << ",\"chunk\":" << kChunk << ",\"forced_decode\":" << kDecode
               << ",\"slot_bytes\":" << buffers.slot_bytes
               << ",\"reserved_bytes\":"
-              << lie_ple_flow_bytes(buffers.slot_bytes)
-              << ",\"input_sha256\":\"" << Hash<std::int32_t>(tokens)
-              << "\",\"global_cache_flush\":false,\"synthetic_tokens\":true}\n";
+              << lie_ple_flow_bytes(buffers.slot_bytes) << ",\"input_sha256\":"
+              << (first_access ? "null"
+                               : "\"" + Hash<std::int32_t>(tokens) + "\"")
+              << ",\"global_cache_flush\":false,\"synthetic_tokens\":true"
+              << ",\"protocol\":\""
+              << (first_access ? "first-access-v1" : "repeated-v1")
+              << "\",\"sets\":" << (first_access ? 8 : 1) << "}\n";
     std::vector<float> reference;
     bool exact_all = true;
     // First accesses are retained separately, then rotate all three arms so
     // each occupies every measured order position. No global page eviction.
-    const std::array<std::array<int, 3>, 4> orders{
-        {{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {2, 1, 0}}};
+    const std::vector<std::vector<int>> orders =
+        first_access
+            ? std::vector<std::vector<int>>{{0, 2}, {2, 0}, {2, 0}, {0, 2},
+                                            {0, 2}, {2, 0}, {2, 0}, {0, 2}}
+            : std::vector<std::vector<int>>{
+                  {0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {2, 1, 0}};
     const std::array<const char *, 3> names{"native", "prepared_serial",
                                             "lookahead"};
     for (std::size_t rep = 0; rep < orders.size(); ++rep) {
+      std::vector<std::uint64_t> pages;
+      if (first_access) {
+        const std::uint32_t seed =
+            0xd17a4c39u + std::uint32_t(rep) * 0x09e3779bu;
+        FillTokens(tokens, seed);
+        reference.clear();
+        Save<std::int32_t>(
+            "first-access-set-" + std::to_string(rep) + "-input.i32", tokens);
+        std::vector<std::uint32_t> rows(kPrompt * config.ple_heads);
+        q::NgramHistory history;
+        q::HashNgramRows(config, history, std::span(tokens).first(kPrompt),
+                         rows);
+        pages = Pages(rows, tensor.file_offset,
+                      config.ple_head_dim * sizeof(std::uint16_t));
+        std::cout << "{\"event\":\"input\",\"rep\":" << rep
+                  << ",\"seed\":" << seed << ",\"first_mode\":\""
+                  << names[orders[rep][0]] << "\",\"input_sha256\":\""
+                  << Hash<std::int32_t>(tokens) << "\",\"rows_sha256\":\""
+                  << Hash<std::uint32_t>(rows) << "\"}\n";
+      }
+      std::size_t order_position = 0;
       for (const auto mode : orders[rep]) {
         std::this_thread::sleep_for(std::chrono::seconds(5));
         auto table = q::NgramTable::Open(
@@ -258,6 +373,11 @@ int main(int argc, char **argv) {
         lie_ple_flow *flow =
             mode ? lie_ple_flow_create(&flow_options) : nullptr;
         Require(!mode || flow, "Cannot admit bounded PLE flow");
+        const auto resident_before =
+            first_access
+                ? Resident(reader->GetMappedRegions()[tensor.shard], pages)
+                : 0;
+        const auto read_before = first_access ? ReadBytes() : 0;
         context.start = Clock::now();
         bool good = true;
         if (mode == 0) {
@@ -272,6 +392,7 @@ int main(int argc, char **argv) {
           good = lie_ple_flow_run(flow, &stats) == LIE_PLE_OK;
         }
         const double prefill_seconds = Seconds(context.start);
+        const auto read_after = first_access ? ReadBytes() : 0;
         if (!good && !mode &&
             hipStreamSynchronize(exec->stream()) != hipSuccess)
           Undrained();
@@ -280,7 +401,9 @@ int main(int argc, char **argv) {
                   "Flow did not retire");
         std::cout << "{\"event\":\"prefill\",\"mode\":\"" << names[mode]
                   << "\",\"rep\":" << rep << ",\"first_access_observation\":"
-                  << (rep == 0 ? "true" : "false")
+                  << ((first_access ? order_position == 0 : rep == 0) ? "true"
+                                                                      : "false")
+                  << ",\"order_position\":" << order_position++
                   << ",\"seconds\":" << prefill_seconds
                   << ",\"tokens_per_second\":" << kPrompt / prefill_seconds
                   << ",\"good\":" << (good ? "true" : "false")
@@ -294,6 +417,17 @@ int main(int argc, char **argv) {
                   << "}\n";
         Require(good, error + context.producer_error + context.consumer_error);
         Require(session->position() == kPrompt, "Prefill position differs");
+        if (first_access) {
+          Require(read_after >= read_before, "Process read counter decreased");
+          std::cout << "{\"event\":\"io\",\"mode\":\"" << names[mode]
+                    << "\",\"rep\":" << rep
+                    << ",\"requested_pages\":" << pages.size()
+                    << ",\"resident_before\":" << resident_before
+                    << ",\"resident_after\":"
+                    << Resident(reader->GetMappedRegions()[tensor.shard], pages)
+                    << ",\"process_read_bytes\":" << read_after - read_before
+                    << "}\n";
+        }
         for (std::size_t chunk = 0; chunk < kChunks; ++chunk) {
           std::cout << "{\"event\":\"interval\",\"mode\":\"" << names[mode]
                     << "\",\"rep\":" << rep << ",\"chunk\":" << chunk
@@ -320,7 +454,10 @@ int main(int argc, char **argv) {
                         [](float value) { return std::isfinite(value); });
         if (reference.empty()) {
           reference = logits;
-          Save<float>("lookahead-native-all.f32", reference);
+          Save<float>(first_access ? "first-access-set-" + std::to_string(rep) +
+                                         "-reference-all.f32"
+                                   : "lookahead-native-all.f32",
+                      reference);
         }
         const bool exact = !std::memcmp(reference.data(), logits.data(),
                                         logits.size() * sizeof(float));
