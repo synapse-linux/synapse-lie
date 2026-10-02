@@ -91,10 +91,11 @@ but prefill improves only 0.36% over native (1236.75 -> 1241.15 tokens/s).
 This small repeated-input result does not establish a robust speedup or parity;
 the qualified runtime remains unchanged. Full samples and a graph are retained.
 
-A [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) now compiles and
-reconstructs statically, with a synthetic original-shape benchmark prepared.
-It halves the static mixed-half decode instructions but increases registers
-and LDS; numerical and performance qualification await the next GPU window.
+The [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) passes independent
+GPU checks, 62 saved-buffer comparisons and 52.4 million exact synthetic output
+values, but its component is 4.94% slower. It is rejected. A
+[paired half-wave decode](docs/Q2-HALF-WAVE.md) is prepared locally to avoid
+increasing the shared-memory footprint; its GPU qualification remains pending.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

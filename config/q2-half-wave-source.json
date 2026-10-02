@@ -1,0 +1,14 @@
+{
+  "scope": "Static preparation only; GPU numerical equivalence and benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-half-wave",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "dae7ae07d845436a7ce1e5b4b2382775b8040f742c9a646015ebd3051c7719c8",
+  "patch_sha256": "d6f5336ad4402ec0a69d044649a6cff1393ed275e298bc6ae964b2a49ee13cd6",
+  "mechanism": "Paired half-waves decode opposite K16 halves, exchange rounded F16 bits; original LDS layout and WMMA accumulation order retained",
+  "exchange": "shuffle"
+}

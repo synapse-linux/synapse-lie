@@ -1,5 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Q2 shared weight staging — 2026-10-02
+
+The prepared staging kernel passes 30 independent GPU cases and 32 exact
+packing/down/chain checks on `.157`. All 62 saved buffers and 52,428,800 shaped
+synthetic output values match the retained packed baseline. Performance does
+not improve: packed down time rises 5682.759 -> 5963.628 us (+4.94%), with the
+unchanged raw-input control at -0.12%. The candidate is rejected without an
+unjustified full-model sweep. [All samples, checks and graph](Q2-STAGED-WEIGHTS.md)
+are retained; three runners/nine command exits are 0 and 76 artifacts verify.
+The window is returned to core after verified process/lease closure. Local
+work now prepares paired half-wave decoding with the original LDS footprint.
+The Q2/UD performance goal remains unmet.
+
+Both [half-wave variants](Q2-HALF-WAVE.md) compile device-only and reconstruct
+all 1019 source files. They reduce static mixed-half FMA instructions 64 -> 32
+without increasing LDS. The tile48 shape uses 146 VGPRs with HIP shuffle or
+145 with explicit cross-row permute, versus 144 in the measured baseline.
+Exchange instructions are extra work; no numerical or performance benefit is
+yet qualified. New fixed-mode source guards have syntax checks only and await
+the next coordinated `.157` CPU/GPU window. No remote job or waiter is active.
+
 ## Reactive PLE lookahead — 2026-10-02
 
 The owner asks whether reactive inference can hide n-gram stalls. An isolated

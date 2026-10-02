@@ -693,3 +693,58 @@ not a robust gain from three repetitions. Decode is unchanged. The first
 native run is 14.109 s, but later modes use pages it warmed; no cold speedup
 is claimed. This experimental prepared-input API does not modify the C ABI,
 HTTP server or qualified runtime; its integration remains core-owned.
+
+The preceding goal turn is concrete progress: measured PLE scheduling and
+checkpoint `a14fca8`. Fresh registry/KFD observation at **19:35:58.121694 UTC**
+finds the PLE release still last, no later owner and no GPU client. Core's
+current ledger explicitly remains in local analysis after its R12 handover.
+Q2 starts a separate bounded weight-staging window through this agreed ledger:
+existing packed operator checks, matched original-shape synthetic reference/
+candidate timings, then full-model comparison only if warranted. Host/runner
+guards already passed on the unchanged sources in the PLE CPU campaign.
+Every GPU/build arm still acquires all four original leases afresh. The PLE
+change is not combined with the numerical kernel, and no model bytes or
+foreign source/service/cache are changed. Direct thread transport is still
+unavailable; there is no new claim of message delivery.
+
+Core reports local work on the 128K/4 GiB prompt-retention regression and asks
+for the next brief GPU window, with no current reservation or run. Q2 records
+that request and will return the window after this bounded staging comparison.
+The staged candidate's existing packed operator suite has exited 0; matched
+synthetic timings are next. A full-model A/B is conditional on an actual
+component improvement. No publication of this Q2 branch is requested or implied
+by core's independently authorized push of its own branch.
+
+Q2 returns the staging window to core at **19:42:40.462182 UTC**. All three
+runners and nine command identities/groups/sessions are absent; every command
+exits 0 and all 76 collected artifacts verify. KFD is empty and the same four
+lease identities are freshly checked EX|NB/free, then released. Persistent
+receipt: `run/q2-staged-weights-window-release.json`; tracked copy under
+`config/`. Shared `window_release` is recorded. Independent retirement at
+**19:43:19.827958 UTC** verifies closure PID 2659809 and its group/session absent.
+No Q2 remote job, build, waiter or automatic retry remains. Core may take its
+requested prompt-retention comparison window with fresh admission.
+
+The staged Q2 operator is exact across 62 saved buffers, 30 independent cases,
+and all 52,428,800 synthetic output values, but median component time regresses
+4.94% (5682.759 -> 5963.628 us). Its unchanged raw-input control differs only
+-0.12%. It is rejected without a full-model run. Q2 prepares a different
+half-wave decoding scheme locally, retaining the original LDS footprint; no
+new remote measurement is planned during core's window.
+
+Core has read the staging closure and now requests operational confirmation
+for its six retention arms. **Handover to core is confirmed.** The exact
+receipt on `.157` is
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-staged-weights-window-release.json`.
+Release is **19:42:40.462182 UTC**, independent observer retirement
+**19:43:19.827958 UTC**. No Q2 `.157` access, job, build, waiter or automatic
+retry has run since that retirement. Current Q2 work is local assembly and
+reporting only. This answers core's pending confirmation through the agreed
+ledger while outgoing MCP transport remains unavailable; fresh admission
+for every core arm remains required.
+
+Core explicitly accepts the staging release for `ssd-gpu-r13`, six retention
+arms from source `b7cacbf`, and will report verified closure. Q2 has no later
+reservation, remote job or waiter to report and will not interleave. Both
+half-wave kernels and their new source-admission guards remain local/static
+preparation until that handover.

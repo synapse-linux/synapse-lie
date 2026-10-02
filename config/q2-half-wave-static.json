@@ -1,0 +1,165 @@
+{
+  "scope": "Editing-host device assembly only; no runtime, GPU or model access",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-half-wave",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-half-wave/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-static-r1.s"
+  ],
+  "started_at": "2026-10-02T19:46:26.438828+00:00",
+  "exit_code": 0,
+  "finished_at": "2026-10-02T19:46:35.176769+00:00",
+  "checks": [
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-half-wave.patch"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-half-wave-reconstruct-r1.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-half-wave/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-half-wave-changed-format-r1.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "log": "evidence/q2-half-wave-shared-format-r1.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "assembly_sha256": "67ee1f198bdfff4e0e1fabcf6b5db3d8e53f87a76685f25b27744cb3bb5e46eb",
+  "resources": {
+    "reference": [
+      {
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 112,
+        "next_free_sgpr": 24,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 144,
+        "next_free_sgpr": 30,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 31,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      }
+    ],
+    "candidate": [
+      {
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 119,
+        "next_free_sgpr": 26,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 32,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 16,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 146,
+        "next_free_sgpr": 31,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 32,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 16,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 32,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 32,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 16,
+          "ds_swizzle_b32": 0
+        }
+      }
+    ]
+  }
+}

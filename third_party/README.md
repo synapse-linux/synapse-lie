@@ -121,7 +121,15 @@ independently fetched official Gufo pin and measured MoE/HC checkpoint. It moves
 the existing Q2 affine decode into shared staging without changing the stored
 format or importing another implementation. Existing upstream notices remain.
 Its original-shape synthetic benchmark, generator and runner extensions are MIT;
-static-only status is explicit in `docs/Q2-STAGED-WEIGHTS.md`.
+the measured component regression is explicit in `docs/Q2-STAGED-WEIGHTS.md`.
+
+`experiments/q2-half-wave*.patch` independently derive from that same measured
+MoE/HC checkpoint and official pin. They distribute the existing affine decode
+between paired lanes and exchange already-rounded F16 bits without changing
+model bytes or the LDS allocation. The generator and reports are first-party
+MIT; upstream notices remain intact. No external project implementation is
+imported. LLVM intrinsic documentation informs the alternate exchange primitive;
+source links and static-only status are in `docs/Q2-HALF-WAVE.md`.
 
 `experiments/q2-ple-lookahead.patch` adds a validated borrowed-input boundary
 to the measured official-Gufo-derived executor. Kernels and original model bytes
