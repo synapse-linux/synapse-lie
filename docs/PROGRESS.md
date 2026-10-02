@@ -21,14 +21,23 @@ packages were installed. Thermal R4/R10/R11 refused before spawning a build at C
 89/89.625/91.625 C. The successful full suite's observed peak was CPU84.375/GPU61 C.
 Subsequent passive readings reached CPU92.625 C with no owned test running.
 
-At this checkpoint, final review has additionally hardened file-length/timer
-arithmetic and Release reference-count checks, expanded identity environment
-inputs and added a fixture for the
-thermal guard. Rebuild of those final changes, ASan/UBSan and the HIP adapter link
-remain pending a temperature-safe window. Original-weight SSD restart, fit and
-performance remain unqualified; no new model run or heavyweight hash occurred.
-The Q2 thread retains the coordinated `.157` window. This is a code checkpoint,
-not a completed SSD device acceptance gate. No push, deployment or DS4 mutation.
+Runtime checkpoint `9b6c937` includes the final file-length/timer arithmetic and
+Release reference-count checks, expanded identity environment inputs and the
+thermal guard fixture. On that source, R12 rebuild and focused Debug checks pass
+4/4; R13 ASan/UBSan passes **30/30**, with leak detection and halt-on-error enabled.
+All five configure/build/test commands exit 0; the sanitizer suite's observed
+peak is CPU79.75/GPU57 C. The HIP adapter and both executables compile/link in
+`ssd-linked-r2`, exit 0, CPU74.625/GPU53 C, against the existing qualified numerical
+archives. The preceding linked build remains a recorded thermal stop at CPU86.5 C
+(owned child SIGTERM, child exit -15, guard exit 125). No numerical archive was
+rebuilt. [Source and command receipts](benchmarks/2026-10-02/ssd-prefix-cpu/receipt.json)
+bind these completed checks to the committed source; earlier fixtures remain
+historical evidence rather than final-source acceptance.
+
+Original-weight SSD restart, fit and performance remain unqualified; no new
+model run or heavyweight hash occurred. The Q2 thread retains the coordinated
+`.157` window. This completes the local contract/build checks, not the SSD device
+acceptance gate. No push, deployment or DS4 mutation.
 
 A separately requested fork, **Synapse LIE — DGX Spark**, was initialized in
 `worktrees/dgx-spark`, branch `feature/dgx-spark`, at qualified checkpoint

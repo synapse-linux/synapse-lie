@@ -151,7 +151,15 @@ most two compiler processes; `tools/thermal-run.py` records sensor readings and
 actual exits and stops only its owned child group at 85 C or a lower sensor
 max/critical limit. No fan, power or clock changes. The local R4 attempt was
 refused before spawn at CPU 89 C; retain that evidence separately from failures.
-Final CPU/sanitizer receipts are recorded in PROGRESS when the checks finish.
+At runtime checkpoint `9b6c937`, final focused Debug checks pass 4/4 and the full
+ASan/UBSan suite passes 30/30, including leak detection. The sanitizer run peaks
+at CPU79.75/GPU57 C. The HIP adapter and server/bench compile/link pass against
+existing qualified numerical archives, without executing a model or rebuilding
+those archives. The successful linked continuation peaks at CPU74.625/GPU53 C;
+the earlier attempt stopped at CPU86.5 C, preserving child exit -15 and guard
+exit 125. [Receipts](benchmarks/2026-10-02/ssd-prefix-cpu/receipt.json) retain source
+hashes, commands, exits and raw telemetry/log hashes. These functional and build
+checks do not qualify original-weight SSD inference or performance.
 
 Original-weight acceptance still needs an explicit fresh coordinated window:
 same binary/configuration and exact inputs, cold recomputation, RAM hit, and SSD
