@@ -6,11 +6,14 @@
 The original antirez Q2 GGUF executes through a minimal patch to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. It passes independent synthetic GPU
 operators, parser/sanitizer checks and the bounded full-model semantic/C1 screen.
-**The performance gate fails relative to existing UD-Q4:** fresh PP is 48–66%
-slower and decode 16–17% slower. The candidate is not accepted for integration.
-No 128K/256K expansion follows this failure. [Results](Q2-RESULTS.md) retain all
-values, failures, limits and plots; [implementation](Q2-IMPLEMENTATION.md) records
-the exact runtime changes.
+**The performance gate still fails relative to UD-Q4.** The latest isolated
+[F32 MoE/HC fusion](Q2-HC-MOE-FUSION.md) measures 1297.80 PP/23.17 TG at C1 2K,
+against a fresh UD control at 1682.76/24.33: deficits of 22.88%/4.76%. It retains
+all saved packed-checkpoint logits and tokens, but is not accepted for integration.
+This Q2 experiment does not qualify 128K/256K. The initial runtime screen was
+48–66% slower in PP and 16–17% in decode; [initial results](Q2-RESULTS.md) retain
+those values and failures. [Implementation](Q2-IMPLEMENTATION.md) records the
+unchanged qualified runtime patch.
 
 UD before/after the patch has 47/47 identical token/frontier files. Its median
 PP changes by +0.22/+0.19/+0.30%, TG by +0.02/-0.19/-0.09%. The small measured

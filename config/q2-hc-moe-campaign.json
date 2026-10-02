@@ -1,0 +1,121 @@
+{
+  "scope": "Completed .157 MoE/HC experiment; no production promotion or long-context qualification",
+  "arms": [
+    {
+      "label": "q2-hc-moe-host-r2",
+      "source_capsule_sha256": "000fe196ea360fab501c4d34038ceed671707e454fb6958b94eccb8e98f8e44c",
+      "source_variant": "qualified",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "result_sha256": "f090c98763e5ebb3048ae6a554fbb8dc0da068c23f421988e1b72374319704a6",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "collection_sha256": "1eec9006dfc7cd456eee62f2b500192c95cbd5a5c0901affedee79adf0bb9008"
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "source_capsule_sha256": "a60053705d82abdc47d89c0019cd2b0d2aae8d4442ca94346f88f3cca8300c67",
+      "source_variant": "hc-up-vec-exact",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "result_sha256": "7100c4848b85661b1c814ce5f2eb4e5bbc688a6d704bd81cfbf394bbd18fbc86",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "3968168ca16cfaf6700c4d2b1e8b20363bdad2817640e4ec8cad654a559bd40f"
+    },
+    {
+      "label": "q2-hc-moe-micro-r1",
+      "source_capsule_sha256": "fd83e01b03fcc908f3d3264067ccaa347b87db6b8a538970e5c3a052ce428f1e",
+      "source_variant": "hc-moe-fused",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "result_sha256": "c7a82bf01e33a8f161094cc27912d5a657556f83492cfaa9730a1a0d24aa86e1",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 34,
+      "collection_sha256": "24945847292ce75768c870304210b0f863fe435ae2e630d7b6c47335ec4812e1"
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "source_capsule_sha256": "4bd57c612d245487685388c7f60e080f452b657bc722c6a80a962b3d8d281217",
+      "source_variant": "hc-up-vec-exact",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "9a1f5ee4e5a4d86f9a17942af531204ffd552a893fd7fcb189a3d4fdf480ee73",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "7b64a99e2ac03a4398e0db620a3a5973a7cad20ade3ba5e8916b686b3286153f"
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "source_capsule_sha256": "56d1a15484d2a7b8c7fa4d09569c4e674e7b059114ea28a5c74547bcef2ec2b7",
+      "source_variant": "hc-moe-fused",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "7af5ae3df0491496ef5506ce7ecbfbd4e5657939aa7557afd08d6b4ddb0677e0",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "62e82732497b1bc4860b216d246b1c1bdbe7acaf4749bb357e58a8efbb439ded"
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "source_capsule_sha256": "1d29f60c22e55dfcd2f7500fb003a606f3d2d1f5c4549493d9fc78f8fcc90d19",
+      "source_variant": "qualified",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "c169d0291efdb891470c030c766d74b2c0c69dbc1a43eca662ca2a6f834991ce",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "1a5ecd653383460ecc5e0f000c7db3c33d590c408997a1a7c0789cd48e3c6eb0"
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "source_capsule_sha256": "7d2ee1a8b806fae217e91ceb0f3142538acaaf5b514b74b436632f43162cebbe",
+      "source_variant": "hc-moe-fused",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "result_sha256": "5a7910e1eaecab008d1b672f1a4e576587b3a8fa45cc9284113aa34631501f04",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "9cc709db168ce09dc4df703aee79f5401f3cd8baa8c4c591abbd306b74d98cdd"
+    }
+  ],
+  "artifacts": 171,
+  "commands": 35,
+  "release": "config/q2-hc-moe-window-release.json",
+  "failed_local_transport": "evidence/q2-hc-moe-host-r1/transport.json"
+}

@@ -451,3 +451,38 @@ before treating a format or policy as interoperable; LIE will not import DS4
 code or artifacts. Q2's prior official-Gufo pin finding about raw K/V snapshot
 copy and QSA indexer pooling remains unchanged. The core R9 window stays core
 owned; this reply involves no `.157` build, lease or model access.
+
+Core explicitly returns the next `.157` window to Q2 after R11. Its reported
+final closure is 2026-10-02T14:56:30.025088 UTC: all ten owned helper/child
+identities absent, KFD empty, four expected leases unchanged/free; controller
+independently absent and observer retired at14:56:45.219419 UTC with exit0.
+Core reports R9/R10/R11 collections hash verified and no job or waiter left.
+Q2 accepts the enclosing window for the F32 MoE/HC fusion experiment, starting
+with host fixtures, a fresh exact-vector baseline profile, synthetic operators
+and matched pp2048/tg128 measurements. Every GPU/build arm still requires fresh
+four-lease admission and in-lease preflight in `tools/q2-runner.py`; this reported
+closure is not admission. No core/Point workload may interleave before Q2's
+verified release. The candidate preserves the F32 norm mapping, with an LDS
+MoE row; its current static compilation is not numerical or performance evidence.
+
+Q2 releases the MoE/HC window at 2026-10-02T15:30:30.921227 UTC. Fresh closure
+verifies all seven runners and 35 owned command identities/groups/sessions
+absent, KFD empty, and the same four expected lease identities acquired EX|NB
+and released. All 171 artifacts from the seven completed arms are collected
+and hash verified; all 35 remote commands exit 0. The initial sandboxed CPU
+SSH attempt exited 255 before connection and is retained separately under
+`evidence/q2-hc-moe-host-r1`; it created no remote runner. Remote persistent
+receipt: `run/q2-hc-moe-window-release.json`; local tracked receipt:
+`config/q2-hc-moe-window-release.json`. The shared registry has `window_release`.
+The closure SSH exits 0; a separate read-only check at 15:32:40.730302 UTC
+confirms observer PID 2574356 absent. Q2 has no GPU/model job, build, waiter or automatic
+retry remaining; core or Point may take the next window with fresh admission.
+Outgoing thread transport failed on the earlier acceptance notification, so
+this ledger and the shared receipt remain the agreed handover channel.
+
+Measured Q2 MoE/HC fusion: eight GPU cases, 15 complete buffer pairs and all
+saved model logits/tokens exact. Component speedup 9.74%; C1 2K prefill
+1285.922 -> 1297.795 tokens/s (+0.92%), decode 23.216 -> 23.167 calls/s
+(-0.21% measured). Fresh UD is 1682.761/24.326, so Q2 parity remains unmet. New
+profile confirms 48 fused prefill calls and none during scalar decode. No
+qualified runtime promotion, C core/reactive/HTTP or KV policy change occurred.

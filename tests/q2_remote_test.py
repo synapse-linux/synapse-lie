@@ -29,7 +29,7 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_not_called()
 
     def test_changed_executor_header_cannot_reuse_mmq(self):
-        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-prefetch', 'hc-prefetch2'):
+        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-prefetch', 'hc-prefetch2'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
@@ -52,8 +52,14 @@ class RemoteGuardTests(unittest.TestCase):
         self.refuse(['hc-up-bench', 'q2-fixture', '--source-variant', 'packed'],
                     'requires the measured hc-up-fused source')
 
+    def test_hc_moe_entry_requires_fused_source(self):
+        for mode in ('hc-moe-operators', 'hc-moe-bench'):
+            for variant in ('qualified', 'hc-up-vec-exact', 'packed'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'require the isolated hc-moe-fused source')
+
     def test_q2_source_cannot_replace_ud_control(self):
-        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-prefetch', 'hc-prefetch2'):
+        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-prefetch', 'hc-prefetch2'):
             self.refuse(['ud-bench2k', 'q2-fixture', '--source-variant', variant],
                         'Stack source requires')
 

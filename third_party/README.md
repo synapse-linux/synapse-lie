@@ -76,3 +76,11 @@ Static, host and GPU evidence are in `docs/Q2-HC-PREFETCH.md`.
 `experiments/q2-hc-prefetch2.patch` is the separate two-group scheduling delta.
 Both HC down prefetch variants are measured and rejected for performance; their
 negative GPU results and complete source identity remain in that document.
+
+`experiments/q2-hc-moe-fused.patch` derives its F32 norm mapping and expert
+epilogue from the same independently fetched official Gufo source, after this
+workstream's measured exact HC up vector checkpoint. It stages the MoE row in
+LDS without importing UD activation precision or another engine. The generator,
+GPU fixture and orchestration changes are first-party MIT; existing upstream
+and llama.cpp notices remain intact. Source/static receipts and the runtime
+qualification status are recorded in `docs/Q2-HC-MOE-FUSION.md`.

@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--arm', action='append', help='Ordered NAME=display label; repeat for each arm')
     parser.add_argument('--historical', action='append', help='Arm name to hatch as historical')
     parser.add_argument('--title', default='Q2 expert kernels', help='Figure title')
+    parser.add_argument('--note', default='numerical drift retained', help='Numerical qualification note')
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -54,7 +55,7 @@ def main():
             axis.text(i, value + max(medians) * 0.04, f'{value:,.2f}', ha='center')
     note = '; hatched controls are historical' if any(key in historical for key, _ in arms) else ''
     fig.suptitle(args.title + ': median and observed min/max, three measured requests\n'
-                 'C1, 15 s idle outside timing' + note + '; numerical drift retained')
+                 'C1, 15 s idle outside timing' + note + '; ' + args.note)
     for extension in ('svg', 'png'):
         fig.savefig(args.output.with_suffix('.' + extension), dpi=150,
                     metadata={'Date': None} if extension == 'svg' else None)

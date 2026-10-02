@@ -6,11 +6,11 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest isolated
-[HC up vector experiment](docs/Q2-HC-UP-VECTOR.md) reaches **1287.12 prefill
-tokens/s and 23.21 decode steps/s at 2K**, with byte-exact synthetic buffers,
+[F32 MoE/HC fusion](docs/Q2-HC-MOE-FUSION.md) reaches **1297.80 prefill
+tokens/s and 23.17 decode steps/s at 2K**, with byte-exact synthetic buffers,
 saved model logits and tokens against the retained packed Q2 reference.
 **The performance requirement is not met:** the fresh same-window UD control
-reaches 1682.77 PP/24.30 TG; Q2 trails by 23.51% and 4.47%. Earlier checkpoint
+reaches 1682.76 PP/24.33 TG; Q2 trails by 22.88% and 4.76%. Earlier checkpoint
 drift from qualified Q2 remains unresolved. This is an experimental checkpoint,
 not a promotion to the qualified runtime patch.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
@@ -48,6 +48,12 @@ and emits the existing half input in the producer. Prefill improves 2.91% over
 the fresh packed checkpoint; decode is unchanged. The subsequent
 [scalar HC up vector kernel](docs/Q2-HC-UP-VECTOR.md) speeds up its isolated
 component 15.22% and the full-model decode 1.16% without model-logit drift.
+
+The subsequent F32 MoE/HC fusion retains the original norm reduction and passes
+eight GPU cases with 15 exact complete buffer pairs. Its component is 9.74%
+faster; full-model prefill improves 0.92% while decode measures 0.21% lower in
+the fresh comparison. Complete samples, durations and the new graph are in
+[Q2-HC-MOE-FUSION.md](docs/Q2-HC-MOE-FUSION.md).
 
 Separate [HC down prefetch variants](docs/Q2-HC-PREFETCH.md) retain exact
 synthetic outputs but are 0.44% and 7.35% slower in the rotating-weight GPU

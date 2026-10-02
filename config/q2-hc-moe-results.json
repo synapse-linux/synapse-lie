@@ -1,0 +1,506 @@
+{
+  "scope": "Same-window .157 unprofiled C1 pp2048/tg128 original Q2 reference, F32 MoE/HC fusion and pristine UD control; one warmup plus three measured sessions, 15 s idle outside timing, full MMQ rebuild for every arm; no long-context, reactive concurrency or sustained-serving qualification",
+  "promotion": false,
+  "goal": "Q2 PP/TG parity with UD remains required",
+  "numerical_reference": {
+    "path": "evidence/q2-packed-model-r1",
+    "binary_sha256": "149e5499641a1dec9e5511f11aff7a1681819e72808ef362cbc55436a74270a8",
+    "complete": true,
+    "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+    "thermal_stop": null,
+    "command_wall_s": 100.802944,
+    "mmq_reuse": null,
+    "thermal_max_mc": {
+      "amdgpu": 80000,
+      "k10temp": 90000
+    },
+    "finished_at": "2026-10-02T10:21:03.410180+00:00"
+  },
+  "arms": {
+    "reference": {
+      "path": "evidence/q2-hc-moe-reference-r1",
+      "binary_sha256": "a1ac9f6868c56b546e1eb68e51d8776684cc272502e8a9a720e9f427015d6d38",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 100.80186,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 92375
+      },
+      "finished_at": "2026-10-02T15:12:56.423085+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 1282.991633,
+          "median": 1285.922116,
+          "max": 1287.353164,
+          "samples": [
+            1287.353164,
+            1285.922116,
+            1282.991633
+          ]
+        },
+        "decode_steps_s": {
+          "min": 23.21119423,
+          "median": 23.21636534,
+          "max": 23.22551397,
+          "samples": [
+            23.22551397,
+            23.21119423,
+            23.21636534
+          ]
+        },
+        "prefill_s": {
+          "min": 1.590861045,
+          "median": 1.592631447,
+          "max": 1.596269178,
+          "samples": [
+            1.590861045,
+            1.592631447,
+            1.596269178
+          ]
+        },
+        "decode_s": {
+          "min": 5.468124415,
+          "median": 5.470279182,
+          "max": 5.471497878,
+          "samples": [
+            5.468124415,
+            5.471497878,
+            5.470279182
+          ]
+        }
+      },
+      "numerical": {
+        "frontiers": [
+          {
+            "name": "arithmetic-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "arithmetic-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "counting-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "counting-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-1-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-1-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-2-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-2-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-3-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-3-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          }
+        ],
+        "token_files": [
+          "arithmetic-0-output.u32",
+          "arithmetic-input.i32",
+          "counting-0-output.u32",
+          "counting-input.i32",
+          "pp2048-0-output.u32",
+          "pp2048-1-output.u32",
+          "pp2048-2-output.u32",
+          "pp2048-3-output.u32",
+          "pp2048-input.i32"
+        ],
+        "changed_tokens": []
+      },
+      "replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "models": [
+        {
+          "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+          "bytes": 147207127040,
+          "device": 52,
+          "inode": 3116203,
+          "mtime_ns": 1789830972390000000,
+          "ctime_ns": 1790245042601989314
+        }
+      ],
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "fused": {
+      "path": "evidence/q2-hc-moe-model-r1",
+      "binary_sha256": "b1db0cbed23c820f42ae346658b1e362bfa96a18502ca3a3fd6e134e2f0e7c75",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 100.292505,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 89625
+      },
+      "finished_at": "2026-10-02T15:18:55.459452+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 1296.290423,
+          "median": 1297.795206,
+          "max": 1299.355644,
+          "samples": [
+            1299.355644,
+            1297.795206,
+            1296.290423
+          ]
+        },
+        "decode_steps_s": {
+          "min": 23.15954373,
+          "median": 23.16674166,
+          "max": 23.17384886,
+          "samples": [
+            23.15954373,
+            23.16674166,
+            23.17384886
+          ]
+        },
+        "prefill_s": {
+          "min": 1.576165855,
+          "median": 1.578061,
+          "max": 1.579892873,
+          "samples": [
+            1.576165855,
+            1.578061,
+            1.579892873
+          ]
+        },
+        "decode_s": {
+          "min": 5.480315367,
+          "median": 5.481996643,
+          "max": 5.483700433,
+          "samples": [
+            5.483700433,
+            5.481996643,
+            5.480315367
+          ]
+        }
+      },
+      "numerical": {
+        "frontiers": [
+          {
+            "name": "arithmetic-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "arithmetic-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "counting-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "counting-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-0-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-0-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-1-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-1-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-2-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-2-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-3-last.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          },
+          {
+            "name": "pp2048-3-prefill.f32",
+            "exact": true,
+            "max_absolute_delta": 0.0,
+            "relative_l2": 0.0,
+            "kl_p_to_candidate": 0.0
+          }
+        ],
+        "token_files": [
+          "arithmetic-0-output.u32",
+          "arithmetic-input.i32",
+          "counting-0-output.u32",
+          "counting-input.i32",
+          "pp2048-0-output.u32",
+          "pp2048-1-output.u32",
+          "pp2048-2-output.u32",
+          "pp2048-3-output.u32",
+          "pp2048-input.i32"
+        ],
+        "changed_tokens": []
+      },
+      "replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "models": [
+        {
+          "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+          "bytes": 147207127040,
+          "device": 52,
+          "inode": 3116203,
+          "mtime_ns": 1789830972390000000,
+          "ctime_ns": 1790245042601989314
+        }
+      ],
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "ud": {
+      "path": "evidence/q2-hc-moe-ud-r1",
+      "binary_sha256": "e8ae10612ec0b99efcc1daeae01bfa136a0c23a1ca86f02d3f5ba08a003a4886",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 108.31751,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 84000,
+        "k10temp": 82500
+      },
+      "finished_at": "2026-10-02T15:23:10.227631+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 1682.751778,
+          "median": 1682.761121,
+          "max": 1683.344137,
+          "samples": [
+            1682.751778,
+            1683.344137,
+            1682.761121
+          ]
+        },
+        "decode_steps_s": {
+          "min": 24.29565634,
+          "median": 24.32581963,
+          "max": 24.33942059,
+          "samples": [
+            24.29565634,
+            24.32581963,
+            24.33942059
+          ]
+        },
+        "prefill_s": {
+          "min": 1.216625855,
+          "median": 1.217047372,
+          "max": 1.217054129,
+          "samples": [
+            1.217054129,
+            1.216625855,
+            1.217047372
+          ]
+        },
+        "decode_s": {
+          "min": 5.217872772,
+          "median": 5.220790171,
+          "max": 5.22727183,
+          "samples": [
+            5.22727183,
+            5.220790171,
+            5.217872772
+          ]
+        }
+      },
+      "numerical": {},
+      "replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "models": [
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 52,
+          "inode": 3206497,
+          "mtime_ns": 1790711324843554872,
+          "ctime_ns": 1790711324862554699
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "device": 52,
+          "inode": 3228516,
+          "mtime_ns": 1790736177583897747,
+          "ctime_ns": 1790736200535707812
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "device": 52,
+          "inode": 3211726,
+          "mtime_ns": 1790722377225361874,
+          "ctime_ns": 1790722399329150549
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "device": 52,
+          "inode": 3207513,
+          "mtime_ns": 1790713947624076845,
+          "ctime_ns": 1790713953424001688
+        }
+      ],
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "relative_medians": {
+    "reference": {
+      "fused": {
+        "prefill_tok_s": 0.9908513377572147,
+        "decode_steps_s": 1.0021420224185293
+      },
+      "ud": {
+        "prefill_tok_s": 0.7641738925105579,
+        "decode_steps_s": 0.9543919051084404
+      }
+    },
+    "fused": {
+      "reference": {
+        "prefill_tok_s": 1.009233133058581,
+        "decode_steps_s": 0.9978625560343634
+      },
+      "ud": {
+        "prefill_tok_s": 0.7712296117400017,
+        "decode_steps_s": 0.9523519458900139
+      }
+    },
+    "ud": {
+      "reference": {
+        "prefill_tok_s": 1.3086026751249995,
+        "decode_steps_s": 1.0477875961095642
+      },
+      "fused": {
+        "prefill_tok_s": 1.2966307112402755,
+        "decode_steps_s": 1.0500319806302878
+      }
+    }
+  }
+}
