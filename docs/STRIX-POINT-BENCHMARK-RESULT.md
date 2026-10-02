@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Strix Point UD — complete eight-depth direct benchmark and paired reference
+# Strix Point UD — full eight-depth and concurrent direct benchmarks
 
 Date: **2026-10-02**. Target: **pop@192.168.5.161**, Radeon 890M / gfx1150.
 Original Unsloth Qwen3.8 Flash Next UD-Q4_K_XL, revision
@@ -18,7 +18,9 @@ per depth. Exact physical prompts, generated tokens and both executor frontier
 hashes match on all eight points. The earlier 85 C attempt remains preserved
 below as a separate failed campaign. A short matched two-point test is also
 retained as historical evidence with different warmup settings.
-Both `--suite loading` arms complete at context capacity 262144. These are the
+The C1/2/4/6/8 reactive, native Gufo and serial control arms also pass with
+three measured samples per point. Both `--suite loading` arms complete at
+context capacity 262144. These are the
 actual direct-benchmark tests, separate from the earlier 9-token shared-core
 smoke in [the port report](STRIX-POINT-RESULT.md).
 
@@ -87,6 +89,45 @@ The [complete eight-depth bundle](benchmarks/2026-10-02/strix-point/full-single/
 holds both raw JSONL streams, supervisor/collection receipts, complete
 comparison JSON/CSV, source/output hashes, resource peaks, standard and
 zero-axis SVG/PNG graphics, plus a byte-reproducible offline generator.
+
+## Concurrent .161 LIE reactive, direct Gufo and LIE serial
+
+The three `--suite multi` campaigns all passed with child/supervisor exit 0,
+unchanged model file identities, restored service and free private GPU lease.
+For each of C1/2/4/6/8, the test uses identical physical 2048-token prompts
+per user, one warmup plus three measured runs, and full 128-token output from
+each user. Sequences finish prefill before the common decode interval. All
+physical inputs, generated token IDs and full prefill/decode frontier hashes
+match across **all three paths** at all five points. Rates below are medians
+with no outlier removal; complete measured min/max values are in the bundle.
+
+| Users | LIE reactive PP tok/s | Gufo PP tok/s | Serial PP tok/s | LIE reactive TG tok/s | Gufo TG tok/s | Serial TG tok/s |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 465.708 | 466.416 | 464.126 | 10.2955 | 10.2735 | 10.2917 |
+| 2 | 462.806 | 463.194 | 461.892 | 16.4296 | 16.4303 | 10.2701 |
+| 4 | 467.093 | 469.222 | 469.039 | 23.8083 | 23.8365 | 10.2781 |
+| 6 | 491.446 | 491.966 | 498.651 | 29.6203 | 29.5842 | 10.3133 |
+| 8 | 497.795 | 498.405 | 498.853 | 32.1842 | 32.1458 | 10.3165 |
+
+At C8, reactive aggregate decode is **3.12× the serial control** and
+**3.13× its own C1**, while it is within 0.12% of direct Gufo. For every
+measured C2/4/6/8 sample, the C dispatcher records zero single-row decode
+calls, 128 batch calls and exactly 128 × users batch rows. The batch therefore
+reaches the inference executor; this is not merely HTTP event scheduling.
+The serial control stays near 10.3 token/s as users increase. Prefill changes
+little with concurrency because this suite prepares peer sequences before the
+common decode window; the reactive gain is a batch-decode result, not a claim
+of faster C1 kernels or end-to-end HTTP throughput. Three samples bound the
+observed variation but do not supply a hardware-wide confidence interval.
+
+![Concurrent direct GPU benchmark with zero-based axes](benchmarks/2026-10-02/strix-point/multi/generated/benchmark-zero.svg)
+
+Sampled CPU/GPU peaks are 90.125/92 C for LIE reactive, 90.875/92 C for Gufo
+and 92/92 C for serial. NVMe composite peaks are 71.85 C in each campaign,
+under its published 89.85 C maximum. The
+[three-arm raw bundle](benchmarks/2026-10-02/strix-point/multi/README.md)
+contains all 60 samples, per-sample batch counters, exact receipt hashes,
+resource telemetry and byte-reproducible plots/CSV/JSON.
 
 ## Earlier matched .161 LIE versus direct Gufo, short protocol
 
@@ -160,6 +201,28 @@ was restored active. Fresh read-only collection confirmed both owned processes
 absent and the restored service as the observed KFD client. This is a thermal
 stop, not an observed OOM or model-fit failure.
 
+## Memory-estimate workload at capacity 133121
+
+The separate LIE and direct Gufo `--suite memory` arms each passed d0/PP2048
+and d16384/PP4096 with TG128, one warmup plus one measured sample per point.
+All outputs fill 128 tokens, and physical inputs, generated tokens and complete
+prefill/decode frontier hashes match at both points.
+
+| Occupied prefix | Physical prompt | LIE PP tok/s | Gufo PP tok/s | LIE TG tok/s | Gufo TG tok/s |
+|---:|---:|---:|---:|---:|---:|
+| 0 | 2048 | 466.430 | 466.165 | 10.2891 | 10.2883 |
+| 16384 | 20480 | 404.620 | 407.782 | 10.2301 | 10.2361 |
+
+Both bindings report **82384141824 model-resident estimated bytes** and
+**3517025300 per-session estimated bytes** at this capacity. These are
+provider estimates, not allocation-exact GPU peaks. The highest sampled
+whole-device GTT use is 88802295808 bytes in each arm. CPU/GPU maxima are
+90.625/91 C for LIE and 91.125/90 C for Gufo; NVMe reaches 71.85 C. Both
+arms retire cleanly, preserve model identities and restore the service.
+The [paired memory bundle](benchmarks/2026-10-02/strix-point/memory/README.md)
+holds exact raw data, collection hashes, estimates, telemetry and reproducible
+CSV/JSON/plots.
+
 ## Loading at capacity 256K
 
 Separate LIE and direct Gufo `--suite loading` runs completed with **context
@@ -190,20 +253,21 @@ retains both campaigns and a reproducible plot/CSV.
 | Original-weight `lie-bench` PP2048/TG128 at occupied 0 through 128K | Complete matched LIE/Gufo eight-depth pair, exact prompts/outputs/frontiers |
 | Earlier 85 C ordered sweep | Stopped at start of 8K; preserved as failed evidence, superseded by fresh 100 C passing campaigns |
 | Full fresh prefill 8K/32K/128K/256K | Separate suite not yet qualified on .161 |
-| Concurrent C1/2/4/6/8 and serial/reactive comparison | Separate suite not yet qualified on .161 |
+| Concurrent C1/2/4/6/8 and serial/reactive comparison | Three matched arms pass, with confirmed executor batches and complete 128-token outputs |
+| Memory estimates at capacity 133121 | Paired d0/PP2048 and d16384/PP4096 pass; estimated versus sampled bytes distinguished |
 | Model loading at capacity 256K | Paired LIE/Gufo pass, one OS-cache-uncontrolled observation each |
 | Actual 256K prompt / 1M context | Not qualified; 1M exceeds current native provider/ABI support |
 | Served HTTP :8000 and Pi agent on Point | Not exercised in these direct benchmarks |
 
 The original 85 C cutoff interrupted the first ordered sweep after about
 128 s. The separately admitted 100 C campaigns each completed all eight
-depths without changing benchmark timing semantics. These values still do not
-represent fresh full-prompt prefill or multi-user throughput; those are
-different suites with their own qualification gate.
+depths without changing benchmark timing semantics. Those `single` values do
+not represent fresh full-prompt prefill. The separate `multi` suite above
+measures direct multi-user executor throughput; served HTTP has its own gate.
 
 All tests use LIE-owned persistent paths under the feature worktree and .161;
 no model data was moved back from .161, no DS4 source/evidence was changed,
-and no publication/deployment occurred. The latest full Gufo run left the named
-service active with PID 44193 and the private LIE lease free at its recorded
-collection time. Each result is a timestamped observation, not a standing GPU
+and no publication/deployment occurred. Each recorded campaign left the named
+service active and private LIE lease free. Its result is a timestamped
+observation, not a standing GPU
 window or claim that the machine remains idle later.

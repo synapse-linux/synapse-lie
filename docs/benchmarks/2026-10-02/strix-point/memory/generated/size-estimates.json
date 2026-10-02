@@ -1,0 +1,22 @@
+{
+  "lie": [
+    {
+      "resident_bytes_estimate": 82384141824,
+      "session_bytes_estimate": 3517025300
+    },
+    {
+      "resident_bytes_estimate": 82384141824,
+      "session_bytes_estimate": 3517025300
+    }
+  ],
+  "gufo": [
+    {
+      "resident_bytes_estimate": 82384141824,
+      "session_bytes_estimate": 3517025300
+    },
+    {
+      "resident_bytes_estimate": 82384141824,
+      "session_bytes_estimate": 3517025300
+    }
+  ]
+}

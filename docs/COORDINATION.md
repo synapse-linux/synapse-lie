@@ -2,6 +2,20 @@
 
 ## Additional target .161 — Strix Point fork
 
+Three subsequent `.161` multi-user campaigns (`strix-point-bench-multi-{lie,gufo,serial}-100c-r1`)
+each passed C1/2/4/6/8 with one warmup and three measured samples per point.
+The final serial arm retired at 15:03:17 UTC on 2026-10-02. The paired
+`memory` arms also passed and retired by 15:14:01 UTC. Each campaign acquired
+the private .161 lease afresh, stopped only the authorized named service,
+monitored sensors and GPU clients, preserved model stat identities, and
+restored the service; collected receipts verify both owned processes absent,
+the lease free and all seven remote files per arm by SHA-256. Multi prompts,
+outputs and frontiers match across all three paths, with confirmed C2–C8
+reactive batch calls. The memory pair also matches exact frontiers and reports
+provider size estimates separately from sampled whole-device GTT. Results and
+raw receipts are in the [direct benchmark report](STRIX-POINT-BENCHMARK-RESULT.md).
+Each result is a completed window, not ongoing ownership of the GPU.
+
 The complete eight-depth 100 C LIE and Gufo direct `single` campaigns retired
 at 13:24:43 and 13:54:43 UTC on 2026-10-02. Each reports PASSED with
 supervisor/child exit0, 16 full-output samples, unchanged model stat identities,

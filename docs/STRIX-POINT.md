@@ -13,14 +13,17 @@ The subsequent [direct benchmark report](STRIX-POINT-BENCHMARK-RESULT.md) uses
 reference. The full eight-depth LIE and Gufo campaigns both pass through 128K
 with identical prompts, outputs and frontiers. Paired 256K-capacity loading
 also passes. The earlier ordered sweep stopped at the 85 C guard during 8K;
-its failure and cleanup remain preserved. Fresh full-prompt, multi-user and
-served performance remain separately unqualified. The operator authorized a
+its failure and cleanup remain preserved. Three matched C1/2/4/6/8 direct
+campaigns now qualify reactive, Gufo native and serial decode: at C8 their
+aggregate TG rates are 32.184/32.146/10.316 token/s, with exact output and
+frontier parity. Fresh full-prompt and served performance remain separately
+unqualified. The operator authorized a
 100 C manifest-scoped ceiling for the new full-depth campaigns; CPU Tctl
 triggered the old 85 C
 stop; [AMD lists the HX 370 Tjmax as 100 C](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).
 The override is manifest-scoped and retains lower sensor max/critical limits,
 including the two NVMe composite max readings of 89.85 C. Historical 85 C
-results are not relabelled. Both new campaigns obtained fresh GPU admission,
+results are not relabelled. Each new campaign obtained fresh GPU admission,
 exited 0, retired their owned processes and restored the named service.
 This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct

@@ -70,7 +70,11 @@ operator-approved 100 C campaigns complete all eight occupied-prefix depths
 0–128K for both LIE and direct Gufo, with matching physical prompts, outputs
 and prefill/decode frontiers. Paired 256K-capacity loading also passes. The
 earlier 85 C stop and its partial/cleanup evidence remain a failed attempt;
-fresh full-prompt, multi-user and HTTP performance are separate pending suites.
+the separate three-arm C1/2/4/6/8 direct benchmark also passes with exact
+frontier parity. At C8 reactive/native Gufo decode is 32.18/32.15 aggregate
+token/s versus 10.32 for serial LIE; all measured reactive C2–C8 dispatches
+use native inference batches. Fresh full-prompt and HTTP performance have
+separate qualification gates.
 See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

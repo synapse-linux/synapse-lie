@@ -12,8 +12,22 @@ and 92/92 C for Gufo, below the authorized limit. Both child and supervisor
 exit0 with unchanged model files, restored service, released lease and fresh
 collection proving owned processes absent. The [complete direct report](STRIX-POINT-BENCHMARK-RESULT.md)
 and [portable raw/graph bundle](benchmarks/2026-10-02/strix-point/full-single/README.md)
-retain all values and receipts. Fresh full-prompt and multi-user suites remain
-separate tests; the earlier 85 C failure is preserved unchanged.
+retain all values and receipts. These are direct C1 occupied-prefix tests;
+fresh full-prompt and multi-user suites use separate methods. The earlier
+85 C failure is preserved unchanged.
+
+The subsequent `.161` C1/2/4/6/8 `multi` suites each passed for LIE reactive,
+direct Gufo and LIE serial control with one warmup and three measured samples
+per point. All 60 samples returned the complete 128-token output per user;
+physical prompts, generated outputs and PP/TG frontier hashes match among all
+three arms. At C8, aggregate decode medians are 32.184/32.146/10.316 token/s.
+Every measured reactive C2–C8 sample records zero scalar decode calls and 128
+native batch calls, with 128 × users rows. The direct reactive path therefore
+gains 3.12× over serial at C8 and closely matches direct Gufo; C1 and PP
+speedups are not established. All arms retire their child and supervisor,
+preserve model stats and restore the service. Exact raw data, counters,
+telemetry, CSV/JSON and reproducible plots are in the
+[three-arm bundle](benchmarks/2026-10-02/strix-point/multi/README.md).
 
 The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
 The campaign supervisor requires that explicit override in the manifest and
@@ -37,7 +51,8 @@ are in [the direct-benchmark result](STRIX-POINT-BENCHMARK-RESULT.md).
 Both LIE and direct Gufo `--suite loading` arms at capacity262144 exit0 with
 13.750589557/13.695302901 s under uncontrolled OS file-cache conditions,
 without a 256K prompt prefill. No
-additional long-context or concurrency claim is made after the thermal stop.
+additional long-context or concurrency claim was made from that thermal stop;
+later, separately admitted passing campaigns are reported above.
 
 The [full Strix Point report](STRIX-POINT-RESULT.md) now consolidates the completed
 build/runtime/tuning/copy qualification and original-weight C1 smoke. All four

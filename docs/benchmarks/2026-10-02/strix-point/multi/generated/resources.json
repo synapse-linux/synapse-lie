@@ -1,0 +1,29 @@
+{
+  "lie": {
+    "observations": 734,
+    "peak_c": {
+      "k10temp": 90.125,
+      "amdgpu": 92.0,
+      "nvme": 71.85
+    },
+    "sampled_peak_gtt_used_bytes": 87991980032
+  },
+  "gufo": {
+    "observations": 733,
+    "peak_c": {
+      "k10temp": 90.875,
+      "amdgpu": 92.0,
+      "nvme": 71.85
+    },
+    "sampled_peak_gtt_used_bytes": 87991980032
+  },
+  "serial": {
+    "observations": 1244,
+    "peak_c": {
+      "k10temp": 92.0,
+      "amdgpu": 92.0,
+      "nvme": 71.85
+    },
+    "sampled_peak_gtt_used_bytes": 87990112256
+  }
+}
