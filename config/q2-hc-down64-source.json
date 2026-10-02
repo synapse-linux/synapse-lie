@@ -1,0 +1,14 @@
+{
+  "scope": "Source preparation only; no numerical or GPU evidence",
+  "base": "measured F32 MoE/HC fusion; excludes rejected norm copy",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "file_count": 1019,
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+      "candidate_sha256": "5672828208c0d0697dad2249c99933b88ea2f5e77d0a74cb34a4658ce33bbf2b"
+    }
+  },
+  "patch_sha256": "217b888c33ecd1aee8bc966db9d76db77b65ed1b2d5a2d4eb6e3a941dbd96483",
+  "generator": "tools/prepare-q2-hc-down64.py"
+}

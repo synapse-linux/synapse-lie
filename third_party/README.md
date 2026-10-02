@@ -92,3 +92,17 @@ and explicitly retains the measured gfx1151 rounding sequence. The generator,
 fixture and runner extensions are first-party MIT; upstream notices remain.
 No antirez engine, DS4 source/artifact or KV codec is imported. The failed first
 round and corrected GPU qualification are retained in `docs/Q2-HC-NORM-FUSION.md`.
+
+`experiments/q2-hc-down64.patch` and the three `q2-hc-down*` scheduling deltas
+derive from the same measured MoE/HC source and official pin. First-party MIT
+generators retain upstream notices. The 64x64 component is measured and rejected;
+the remaining variants have static preparation only, with failed attempts kept
+in `docs/Q2-HC-DOWN-TILES.md` and persistent evidence.
+
+`experiments/q2-ple-{q2,ud}.patch` add host clocks/counters to `ngram.cpp` plus
+a first-party MIT diagnostic header. They independently derive from measured
+Q2 MoE/HC and pristine official Gufo, without altering executor/kernels, GGUF
+bytes or quantization. Fixtures, analysis/plot tools and bounded storage observer
+are MIT. The storage observer uses the independently fetched official GGUF
+metadata helper; no CPU model execution or sibling project artifact is imported.
+Source identities, observations and limitations are in `docs/Q2-PLE-ANALYSIS.md`.

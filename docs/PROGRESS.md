@@ -21,6 +21,36 @@ losses remain explicit; this is not a formal zero-margin no-regression pass.
 Q2/UD physical prompts and generated trajectories match across these samples.
 No independent full-model Q2 teacher or general model-quality score is claimed.
 
+## N-gram/PLE diagnosis and HC down probes — 2026-10-02
+
+[Direct PLE counters](Q2-PLE-ANALYSIS.md) isolate a first-access host I/O
+bottleneck: Q2 varied 2K prefill 4,927 ms, blocked row wait 3,374 ms; UD
+1,355/169 ms. Hashing is below 0.08 ms. Repeated-padding row waits are negligible,
+so PLE does not explain the existing warm GPU deficit. The previous padding
+prompt has only 664 distinct rows versus 32,766 in the synthetic varied input.
+Q2 retains 16,384 encoded rows against UD's 65,536. Read-only extent metadata
+finds compressed 128-KiB Q2 PLE samples and unencoded UD samples; Btrfs can
+buffer compressed reads despite O_DIRECT. The report separates that supported
+storage hypothesis from an unperformed controlled compression experiment.
+
+Both model arms finish with all command exits 0, 46 hash-verified artifacts,
+exact repeated frontier hashes and eight exact prefill replays against the
+uninstrumented models. Host hash/I/O tests pass 11/11 Debug and 11/11 ASan/UBSan.
+The fixture, counters, source patches, JSON report, graph and storage observer
+are retained; no model data or runtime arithmetic changes. Long-context,
+natural-language/cache-cold and C17 serving qualifications remain open.
+
+The first [HC down tile probe](Q2-HC-DOWN-TILES.md) is byte-exact and 5.93%
+slower despite fewer static registers. Both arms preserve the same four known
+library-control numerical failures and exit 1. No full-model trial follows.
+Three follow-up tiles now compile/reconstruct statically, with two prior
+compilation failures retained; none is GPU or performance qualified.
+
+The combined window is released at 17:43:35 UTC: seven runners and 32 command
+identities/groups/sessions retired, KFD empty, four exact leases EX|NB/free,
+163 artifacts verified. Independent observer retirement passes at 17:44:18.
+See `config/q2-hc-down-ple-window-release.json`; no Q2 job or waiter remains.
+
 ## HC norm producer experiment — 2026-10-02
 
 The paired F32 norm/F16 consumer copy passes 33 complete GPU buffer pairs,

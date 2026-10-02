@@ -101,7 +101,7 @@ static bool Case(rocm::BlasLt &blas, unsigned m, unsigned k, unsigned n,
   // Visit every macro-tile and WMMA boundaries, including ragged token tails.
   // Large matrices are sampled; the entire output is checked finite and hashed.
   const auto rows = Boundaries(m, m == 320 ? 64 : 128);
-  const auto tokens = Boundaries(n, 128);
+  const auto tokens = Boundaries(n, m == 320 ? 64 : 128);
   std::vector<float> samples;
   std::vector<std::uint32_t> coordinates;
   double error2 = 0, reference2 = 0, peak = 0, maximum = 0;

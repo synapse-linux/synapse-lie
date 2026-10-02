@@ -1,0 +1,246 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5741,101 +5741,137 @@
+   constexpr unsigned kOutputGroups = kOutputTokens / 16;
+   static_assert(8 * kOutputTokens * kOutputStride * sizeof(float) <=
+                 sizeof(s_lds));
+-  static_assert(kWaveRowTiles % 2 == 0, "the epilogue pairs row tiles");
+-  float* tile_scratch =
+-      reinterpret_cast<float*>(s_lds) + wave_id * kOutputTokens * kOutputStride;
+-#pragma unroll
+-  for (int i = 0; i < kWaveRowTiles; i += 2) {
+-#pragma unroll
+-    for (int j = 0; j < kWaveTokTiles; j += kOutputGroups) {
+-#pragma unroll
+-      for (unsigned group = 0; group < kOutputGroups; ++group) {
+-        // scratch[token][row], with 32 output rows per token.
+-#pragma unroll
+-        for (int l = 0; l < 8; ++l) {
+-          tile_scratch[((sub_lane + group * 16) * kOutputStride) + (2 * l) +
+-                       half_id] = acc[i][j + group][l];
+-          tile_scratch[((sub_lane + group * 16) * kOutputStride) + 16 +
+-                       (2 * l) + half_id] = acc[i + 1][j + group][l];
++  if constexpr (kWaveRowTiles == 1) {
++    static_assert(kHalfWeights && !kHcMix && !kSsmConv && !kAttention);
++    // One 16-row output tile per wave. Preserve the matrix accumulators;
++    // only the LDS-to-global transpose differs from the paired-row route.
++    float* tile = reinterpret_cast<float*>(s_lds) +
++                  wave_id * kOutputTokens * kOutputStride;
++#pragma unroll
++    for (int j = 0; j < kWaveTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l)
++        tile[sub_lane * kOutputStride + 2 * l + half_id] = acc[0][j][l];
++      __builtin_amdgcn_wave_barrier();
++      const std::size_t tok =
++          t_block + (wave_tok * kWaveTokTiles + j) * 16 + (lane_id >> 1);
++      const int row_l = (lane_id & 1) * 8;
++      const std::size_t row = r_block + wave_row * 16 + row_l;
++      if (tok < batch && row + 8 <= m && m % 4 == 0) {
++        auto* dst = reinterpret_cast<float4*>(y + tok * m + row);
++        const auto* src = reinterpret_cast<const float4*>(
++            tile + (lane_id >> 1) * kOutputStride + row_l);
++        dst[0] = src[0];
++        dst[1] = src[1];
++      } else if (tok < batch) {
++#pragma unroll
++        for (int q = 0; q < 8; ++q)
++          if (row + q < m)
++            y[tok * m + row + q] =
++                tile[(lane_id >> 1) * kOutputStride + row_l + q];
++      }
++      __builtin_amdgcn_wave_barrier();
++    }
++  } else {
++    static_assert(kWaveRowTiles % 2 == 0, "the epilogue pairs row tiles");
++    float* tile_scratch = reinterpret_cast<float*>(s_lds) +
++                          wave_id * kOutputTokens * kOutputStride;
++#pragma unroll
++    for (int i = 0; i < kWaveRowTiles; i += 2) {
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; j += kOutputGroups) {
++#pragma unroll
++        for (unsigned group = 0; group < kOutputGroups; ++group) {
++          // scratch[token][row], with 32 output rows per token.
++#pragma unroll
++          for (int l = 0; l < 8; ++l) {
++            tile_scratch[((sub_lane + group * 16) * kOutputStride) + (2 * l) +
++                         half_id] = acc[i][j + group][l];
++            tile_scratch[((sub_lane + group * 16) * kOutputStride) + 16 +
++                         (2 * l) + half_id] = acc[i + 1][j + group][l];
++          }
+         }
+-      }
+-      __builtin_amdgcn_wave_barrier();
+-      const std::size_t r0 =
+-          static_cast<std::size_t>(r_block) +
+-          static_cast<std::size_t>((((wave_row * kWaveRowTiles) + i) * 16));
+-      const std::size_t t0 =
+-          static_cast<std::size_t>(t_block) +
+-          static_cast<std::size_t>((((wave_tok * kWaveTokTiles) + j) * 16));
+-#pragma unroll
+-      for (unsigned group = 0; group < kOutputGroups; ++group) {
+-        // Lane pair (2p, 2p + 1) stores token p's 32 rows as eight float4.
+-        const int tok_l = (lane_id >> 1) + group * 16;
+-        const int row_l = (lane_id & 1) * 16;
+-        const std::size_t tok = t0 + static_cast<std::size_t>(tok_l);
+-        const auto* src = reinterpret_cast<const float4*>(
+-            tile_scratch + (tok_l * kOutputStride) + row_l);
+-        if constexpr (kSsmConv) {
+-          static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
+-                        WN == 1);
+-          static_assert(!kHcMix && kRowGroup == 1);
+-          constexpr std::uint32_t channels = 10240;
+-          if (tok < batch) {
+-#pragma unroll
+-            for (int v = 0; v < 4; ++v) {
+-              const unsigned row = r0 + row_l + v * 4;
+-              if (row >= m)
+-                continue;
+-              const float4 current = src[v];
+-              if (row >= channels || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
+-                  tok + 3 >= batch) {
+-                *reinterpret_cast<float4*>(y + tok * m + row) = current;
+-              }
+-              if (row < channels && tok_l >= 3) {
+-                const float4 x0 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 3) * kOutputStride + row_l + v * 4);
+-                const float4 x1 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 2) * kOutputStride + row_l + v * 4);
+-                const float4 x2 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 1) * kOutputStride + row_l + v * 4);
+-                const float4 w0 =
+-                    *reinterpret_cast<const float4*>(conv_w + (row + 0) * 4);
+-                const float4 w1 =
+-                    *reinterpret_cast<const float4*>(conv_w + (row + 1) * 4);
+-                const float4 w2 =
+-                    *reinterpret_cast<const float4*>(conv_w + (row + 2) * 4);
+-                const float4 w3 =
+-                    *reinterpret_cast<const float4*>(conv_w + (row + 3) * 4);
+-                const float4 value{
+-                    SsmConv4Value(w0, x0.x, x1.x, x2.x, current.x),
+-                    SsmConv4Value(w1, x0.y, x1.y, x2.y, current.y),
+-                    SsmConv4Value(w2, x0.z, x1.z, x2.z, current.z),
+-                    SsmConv4Value(w3, x0.w, x1.w, x2.w, current.w)};
+-                *reinterpret_cast<float4*>(conv_out + tok * channels + row) =
+-                    value;
++        __builtin_amdgcn_wave_barrier();
++        const std::size_t r0 =
++            static_cast<std::size_t>(r_block) +
++            static_cast<std::size_t>((((wave_row * kWaveRowTiles) + i) * 16));
++        const std::size_t t0 =
++            static_cast<std::size_t>(t_block) +
++            static_cast<std::size_t>((((wave_tok * kWaveTokTiles) + j) * 16));
++#pragma unroll
++        for (unsigned group = 0; group < kOutputGroups; ++group) {
++          // Lane pair (2p, 2p + 1) stores token p's 32 rows as eight float4.
++          const int tok_l = (lane_id >> 1) + group * 16;
++          const int row_l = (lane_id & 1) * 16;
++          const std::size_t tok = t0 + static_cast<std::size_t>(tok_l);
++          const auto* src = reinterpret_cast<const float4*>(
++              tile_scratch + (tok_l * kOutputStride) + row_l);
++          if constexpr (kSsmConv) {
++            static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
++                          WN == 1);
++            static_assert(!kHcMix && kRowGroup == 1);
++            constexpr std::uint32_t channels = 10240;
++            if (tok < batch) {
++#pragma unroll
++              for (int v = 0; v < 4; ++v) {
++                const unsigned row = r0 + row_l + v * 4;
++                if (row >= m)
++                  continue;
++                const float4 current = src[v];
++                if (row >= channels || tok_l < 3 ||
++                    tok_l >= kOutputTokens - 3 || tok + 3 >= batch) {
++                  *reinterpret_cast<float4*>(y + tok * m + row) = current;
++                }
++                if (row < channels && tok_l >= 3) {
++                  const float4 x0 = *reinterpret_cast<const float4*>(
++                      tile_scratch + (tok_l - 3) * kOutputStride + row_l +
++                      v * 4);
++                  const float4 x1 = *reinterpret_cast<const float4*>(
++                      tile_scratch + (tok_l - 2) * kOutputStride + row_l +
++                      v * 4);
++                  const float4 x2 = *reinterpret_cast<const float4*>(
++                      tile_scratch + (tok_l - 1) * kOutputStride + row_l +
++                      v * 4);
++                  const float4 w0 =
++                      *reinterpret_cast<const float4*>(conv_w + (row + 0) * 4);
++                  const float4 w1 =
++                      *reinterpret_cast<const float4*>(conv_w + (row + 1) * 4);
++                  const float4 w2 =
++                      *reinterpret_cast<const float4*>(conv_w + (row + 2) * 4);
++                  const float4 w3 =
++                      *reinterpret_cast<const float4*>(conv_w + (row + 3) * 4);
++                  const float4 value{
++                      SsmConv4Value(w0, x0.x, x1.x, x2.x, current.x),
++                      SsmConv4Value(w1, x0.y, x1.y, x2.y, current.y),
++                      SsmConv4Value(w2, x0.z, x1.z, x2.z, current.z),
++                      SsmConv4Value(w3, x0.w, x1.w, x2.w, current.w)};
++                  *reinterpret_cast<float4*>(conv_out + tok * channels + row) =
++                      value;
++                }
+               }
+             }
+-          }
+-        } else {
+-          if (tok < batch && r0 + 32 <= m && ((tok * m) % 4 == 0)) {
+-            auto* dst = reinterpret_cast<float4*>(
+-                y + (tok * m) + r0 + static_cast<std::size_t>(row_l));
+-#pragma unroll
+-            for (int q = 0; q < 4; ++q) {
+-              dst[q] = src[q];
+-            }
+-          } else if (tok < batch) {
+-#pragma unroll
+-            for (int q = 0; q < 16; ++q) {
+-              const std::size_t r = r0 + static_cast<std::size_t>(row_l + q);
+-              if (r < m) {
+-                y[(tok * m) + r] =
+-                    tile_scratch[(tok_l * kOutputStride) + row_l + q];
++          } else {
++            if (tok < batch && r0 + 32 <= m && ((tok * m) % 4 == 0)) {
++              auto* dst = reinterpret_cast<float4*>(
++                  y + (tok * m) + r0 + static_cast<std::size_t>(row_l));
++#pragma unroll
++              for (int q = 0; q < 4; ++q) {
++                dst[q] = src[q];
++              }
++            } else if (tok < batch) {
++#pragma unroll
++              for (int q = 0; q < 16; ++q) {
++                const std::size_t r = r0 + static_cast<std::size_t>(row_l + q);
++                if (r < m) {
++                  y[(tok * m) + r] =
++                      tile_scratch[(tok_l * kOutputStride) + row_l + q];
++                }
+               }
+             }
+           }
+         }
+-      }
+-      __builtin_amdgcn_wave_barrier();
++        __builtin_amdgcn_wave_barrier();
++      }
+     }
+   }
+ }
+@@ -5921,12 +5957,12 @@
+   // unquantized router. Retain the two FP32 K16 accumulation chains; only
+   // macro-tile geometry differs. The caller has already narrowed inputs.
+   if (batch >= 96 && m == 320 && k == 10240) {
+-    // Group all five row tiles around one 128-token input stripe. The
+-    // original F16 full-batch input alone exceeds the 32 MiB cache.
++    // Group five row tiles around a 64-token stripe; retain both
++    // ordered K16 accumulation chains with the selected wave plan.
+     hipLaunchKernelGGL(
+-        (DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>),
+-        dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w, x, out,
+-        batch, m, k);
++        (DenseF16GEMMKernel<64, 64, 2, 4, 2, 5, false, false, false, true>),
++        dim3((batch + 63) / 64, 5), dim3(kThreads), 0, stream, w, x, out, batch,
++        m, k);
+     return true;
+   }
+   if (batch >= 96 && m == 10240 && k == 320) {

@@ -67,6 +67,8 @@ target_link_libraries(q2_host PUBLIC ICU::uc ICU::i18n OpenSSL::Crypto
   PNG::PNG JPEG::JPEG CURL::libcurl roc::rocblas roc::hipblas roc::hipblaslt)
 add_executable(q2_model ../../tests/q2_model.cpp ../../tests/q2_profile_markers.hip)
 target_link_libraries(q2_model PRIVATE gufo_qwen38_flash_next)
+add_executable(q2_ple EXCLUDE_FROM_ALL ../../tests/q2_ple.cpp)
+target_link_libraries(q2_ple PRIVATE gufo_qwen38_flash_next)
 # The HC diagnostic uses the exact upstream kernel translation unit and its
 # numerical flags, without compiling unrelated MMQ and model executor code.
 add_executable(q2_hc ../../tests/q2_hc.cpp

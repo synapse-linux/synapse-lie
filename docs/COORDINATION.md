@@ -536,3 +536,61 @@ A separate read-only check at **16:50:39.628961 UTC** observes closure PID
 2599949 absent; both closure and retirement SSH commands exit 0. Core's latest
 message confirms its KVC checkpoint used no GPU jobs/leases and did not affect
 this window. All future GPU admissions remain independent of that statement.
+
+Q2 starts a new HC-down tile window after the verified norm release. The fresh
+read-only observation at **16:55:19.803887 UTC** finds the norm release as the
+latest registry event and KFD empty. Core's last 67d9ab1 message states no GPU
+work/leases; no intervening core/Point window is recorded in the shared ledger.
+Outgoing transport remains unavailable, so this is the agreed fallback notice.
+These observations are coordination only: every remote build/GPU arm requires
+fresh four-lease admission and the existing in-lease preflight. Planned work is
+CPU fixtures, matched 22-case HC operators and rotating-weight microbenchmarks,
+then full pp2048/tg128 model controls and profiles only if warranted. The source
+is derived from the measured MoE/HC checkpoint, excluding rejected norm fusion.
+No automatic waiter, other-project mutation or service change is scheduled.
+
+Core explicitly acknowledges the new HC-down64 window: it has read the release
+and campaign status and continues C17 KVC mapping with CPU-only work, no GPU
+window requested. This acknowledgment does not replace any per-arm lease or
+preflight requirement. Q2 host fixtures pass 10/10 Debug and 10/10 ASan/UBSan.
+
+The first 64x64 component is byte-exact but slower. Q2 keeps the enclosing
+HC-down window for three bounded scheduling hypotheses using the same fixture:
+64x64 with four row waves, 64x64 with four K32 blocks per stage, and 64x128 with
+four row waves. All preserve the two ordered K16 accumulation chains and use
+fresh individual lease admission. No full-model arm will follow an unfavorable
+component result without a concrete unresolved measurement concern.
+
+User asks whether n-gram/PLE work explains the remaining gap. Q2 retains this
+acknowledged window for two fixed diagnostic arms (retained MoE Q2 and pristine
+UD with identical host counters), plus focused CPU/sanitizer checks first.
+They measure fresh/repeated owned row caches, repeated-padding versus synthetic
+varied-token pp2048 and 32 forced decode calls, followed by bounded 2K/8K row
+gathers. Model arithmetic, kernels, table bytes and global cache policy are
+unchanged. No cache flush or KV/prefix reuse. Timing instrumentation is isolated
+and cannot qualify throughput; each arm requires fresh four-lease admission.
+HC wave scheduling probes remain unmeasured pending their compilation fixes.
+
+Q2 releases the combined HC-down/PLE window at **2026-10-02T17:43:35.013626
+UTC**. All seven runners, 32 command identities/groups/sessions and the bounded
+storage observer are retired. KFD is empty; all four original lease identities
+are verified EX|NB/free and released. All 163 collected artifacts hash-verify.
+Two HC operator commands preserve their known unchanged library-control exit 1;
+the other 30 commands exit 0. Persistent release is
+`run/q2-hc-down-ple-window-release.json`, with the tracked copy under `config/`.
+The shared registry records `window_release`. A separate observation at
+17:44:18.765996 UTC verifies closure PID 2618543 and its SSH parent absent,
+with KFD still empty. No Q2 job, waiter, reservation or automatic retry remains.
+
+User-directed PLE finding: first synthetic varied 2K Q2 prefill is 4,927 ms
+with 3,374 ms host row wait; UD is 1,355/169 ms. Repeated padding hides this
+I/O bottleneck and its GPU gap remains separate. Q2 has 16K row slots versus
+UD 64K; five bounded FIEMAP windows within Q2 PLE are encoded 128-KiB extents,
+whereas five UD PLE windows are unencoded. Btrfs compressed reads can fall back
+to buffered I/O despite O_DIRECT; a controlled storage A/B is still needed.
+`docs/Q2-PLE-ANALYSIS.md` contains all first/repeated numbers and limitations.
+No DS4 artifact, model file, system cache policy, kernel arithmetic, C17 core
+or HTTP service was changed. The HC four-row-wave candidates now compile
+statically after retained failures but remain GPU-unqualified. Outgoing thread
+transport remains unavailable; this ledger and the shared receipt are the
+agreed handover channel.

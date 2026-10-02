@@ -65,6 +65,16 @@ Separate [HC down prefetch variants](docs/Q2-HC-PREFETCH.md) retain exact
 synthetic outputs but are 0.44% and 7.35% slower in the rotating-weight GPU
 microbenchmark. Neither is promoted.
 
+The [n-gram/PLE investigation](docs/Q2-PLE-ANALYSIS.md) exposes a separate
+new-input bottleneck hidden by repeated padding: first varied 2K input spends
+3,374 ms waiting for Q2 rows versus 169 ms for UD. Q2's row cache holds four
+times fewer entries, and sampled Q2 PLE extents are compressed by Btrfs while
+sampled UD PLE extents are not. Hashing is below 0.08 ms. This is instrumented
+diagnostic evidence; the warm-padding GPU performance deficit remains distinct.
+Complete first/repeated results and a graph are retained. The new
+[64x64 HC down tile](docs/Q2-HC-DOWN-TILES.md) is byte-exact but 5.93% slower;
+three further tiles have static preparation only.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

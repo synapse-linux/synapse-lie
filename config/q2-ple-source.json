@@ -1,0 +1,34 @@
+{
+  "scope": "Diagnostic timers/counters only; model kernels unchanged; no runtime performance verdict",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "variants": {
+    "q2": {
+      "base": ".deps/gufo-q2-bench-hc-moe-fused",
+      "files": 1019,
+      "changed": {
+        "src/models/qwen38_flash_next/ngram.cpp": {
+          "base": "7f39b2ed99982301d9874fd850aebace7cc1ec3c601936c53e1d4f97a34cdf37",
+          "diagnostic": "4bdf53fe33420f2df34f609fc9f24b21e8e110c4b7d8a05f4cb51a0899296f35"
+        }
+      },
+      "added": {
+        "q2_ple_diag.hpp": "387a30cd9945545c18787bd22db54afcda36cbe255d33ed64d5de2c0ebeeff1e"
+      },
+      "patch_sha256": "23a1d6f96cdd75878fdd315df3c9b5b4174f4d625c368f785c12d2dd6f638952"
+    },
+    "ud": {
+      "base": ".deps/gufo-base",
+      "files": 1019,
+      "changed": {
+        "src/models/qwen38_flash_next/ngram.cpp": {
+          "base": "7f39b2ed99982301d9874fd850aebace7cc1ec3c601936c53e1d4f97a34cdf37",
+          "diagnostic": "4bdf53fe33420f2df34f609fc9f24b21e8e110c4b7d8a05f4cb51a0899296f35"
+        }
+      },
+      "added": {
+        "q2_ple_diag.hpp": "387a30cd9945545c18787bd22db54afcda36cbe255d33ed64d5de2c0ebeeff1e"
+      },
+      "patch_sha256": "23a1d6f96cdd75878fdd315df3c9b5b4174f4d625c368f785c12d2dd6f638952"
+    }
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "q2": {
+    "harness_sha256": "2b97364994943f6fd48caed67cf3f9ad72bf18b546d9ea5315cacc5bfbfbc05a",
+    "prefill_replay": [
+      {
+        "file": "padding-0-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-reference-r1/results/pp2048-1-prefill.f32",
+        "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+      },
+      {
+        "file": "padding-1-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-reference-r1/results/pp2048-1-prefill.f32",
+        "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+      },
+      {
+        "file": "padding-2-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-reference-r1/results/pp2048-1-prefill.f32",
+        "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+      },
+      {
+        "file": "padding-3-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-reference-r1/results/pp2048-1-prefill.f32",
+        "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+      }
+    ]
+  },
+  "ud": {
+    "harness_sha256": "2b97364994943f6fd48caed67cf3f9ad72bf18b546d9ea5315cacc5bfbfbc05a",
+    "prefill_replay": [
+      {
+        "file": "padding-0-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-ud-r1/results/pp2048-1-prefill.f32",
+        "sha256": "d1c630078b7c1dfff767984910994d9cb35bd40021f84af61d32e0aff87c6c56"
+      },
+      {
+        "file": "padding-1-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-ud-r1/results/pp2048-1-prefill.f32",
+        "sha256": "d1c630078b7c1dfff767984910994d9cb35bd40021f84af61d32e0aff87c6c56"
+      },
+      {
+        "file": "padding-2-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-ud-r1/results/pp2048-1-prefill.f32",
+        "sha256": "d1c630078b7c1dfff767984910994d9cb35bd40021f84af61d32e0aff87c6c56"
+      },
+      {
+        "file": "padding-3-prefill.f32",
+        "exact_uninstrumented_reference": "evidence/q2-hc-norm-ud-r1/results/pp2048-1-prefill.f32",
+        "sha256": "d1c630078b7c1dfff767984910994d9cb35bd40021f84af61d32e0aff87c6c56"
+      }
+    ]
+  },
+  "host": {
+    "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "artifacts": 7,
+    "debug_ctest": "11/11",
+    "asan_ubsan_ctest": "11/11"
+  },
+  "storage": {
+    "at": "2026-10-02T17:37:01.469314+00:00",
+    "scope": "Read-only metadata and five 64-KiB FIEMAP windows per PLE table; no payload reads",
+    "kernel": "7.2.2-1-cachyos",
+    "observer": {
+      "pid": 2616623,
+      "state": "R",
+      "group": 2616620,
+      "session": 2616620,
+      "start_ticks": 152801521
+    },
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067
+      }
+    ],
+    "files": [
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "tensor": "per_layer_token_embd.weight",
+        "type": "IQ4_NL",
+        "table_offset": 682453280,
+        "table_bytes": 28800138240,
+        "samples": [
+          {
+            "offset": 5482475520,
+            "extents": [
+              {
+                "logical": 5467168768,
+                "length": 67203072,
+                "flags": 0,
+                "encoded": false
+              }
+            ]
+          },
+          {
+            "offset": 10282496000,
+            "extents": [
+              {
+                "logical": 10243014656,
+                "length": 67321856,
+                "flags": 0,
+                "encoded": false
+              }
+            ]
+          },
+          {
+            "offset": 15082520576,
+            "extents": [
+              {
+                "logical": 15062900736,
+                "length": 67383296,
+                "flags": 0,
+                "encoded": false
+              }
+            ]
+          },
+          {
+            "offset": 19882545152,
+            "extents": [
+              {
+                "logical": 19838640128,
+                "length": 67031040,
+                "flags": 0,
+                "encoded": false
+              }
+            ]
+          },
+          {
+            "offset": 24682565632,
+            "extents": [
+              {
+                "logical": 24629321728,
+                "length": 67751936,
+                "flags": 0,
+                "encoded": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+        "tensor": "per_layer_token_embd.weight",
+        "type": "BF16",
+        "table_offset": 44806635520,
+        "table_bytes": 102400491520,
+        "samples": [
+          {
+            "offset": 61873381376,
+            "extents": [
+              {
+                "logical": 61873324032,
+                "length": 131072,
+                "flags": 8,
+                "encoded": true
+              }
+            ]
+          },
+          {
+            "offset": 78940131328,
+            "extents": [
+              {
+                "logical": 78940078080,
+                "length": 131072,
+                "flags": 8,
+                "encoded": true
+              }
+            ]
+          },
+          {
+            "offset": 96006881280,
+            "extents": [
+              {
+                "logical": 96006832128,
+                "length": 131072,
+                "flags": 8,
+                "encoded": true
+              }
+            ]
+          },
+          {
+            "offset": 113073627136,
+            "extents": [
+              {
+                "logical": 113073586176,
+                "length": 131072,
+                "flags": 8,
+                "encoded": true
+              }
+            ]
+          },
+          {
+            "offset": 130140377088,
+            "extents": [
+              {
+                "logical": 130140340224,
+                "length": 131072,
+                "flags": 8,
+                "encoded": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "filesystem": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "stat_blocks": 287513920,
+      "stat_size": 147207127040,
+      "findmnt": {
+        "argv": [
+          "findmnt",
+          "-J",
+          "-T",
+          "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+          "-o",
+          "TARGET,SOURCE,FSTYPE,OPTIONS"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/home\",\n         \"source\": \"/dev/nvme0n1p2[/@home]\",\n         \"fstype\": \"btrfs\",\n         \"options\": \"rw,noatime,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=257,subvol=/@home\"\n      }\n   ]\n}\n",
+        "stderr": ""
+      },
+      "lsattr": {
+        "argv": [
+          "lsattr",
+          "-d",
+          "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf"
+        ],
+        "exit_code": 0,
+        "stdout": "---------------------- /home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf\n",
+        "stderr": ""
+      }
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "stat_blocks": 21384,
+      "stat_size": 10946624,
+      "findmnt": {
+        "argv": [
+          "findmnt",
+          "-J",
+          "-T",
+          "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "-o",
+          "TARGET,SOURCE,FSTYPE,OPTIONS"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/home\",\n         \"source\": \"/dev/nvme0n1p2[/@home]\",\n         \"fstype\": \"btrfs\",\n         \"options\": \"rw,noatime,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=257,subvol=/@home\"\n      }\n   ]\n}\n",
+        "stderr": ""
+      },
+      "lsattr": {
+        "argv": [
+          "lsattr",
+          "-d",
+          "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+        ],
+        "exit_code": 0,
+        "stdout": "---------------------- /home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf\n",
+        "stderr": ""
+      }
+    }
+  ]
+}
