@@ -6,16 +6,15 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
-[sixteen-wave HC down candidate](docs/Q2-HC-DECODE-WAVES.md) reaches **1291.81
-prefill tokens/s and 24.06 decode steps/s at 2K**. Decode improves 3.82% over
-the fresh MoE/HC reference with identical generated tokens; prefill changes
--0.17% with overlapping samples. The independent operator limits pass, but
-decode logits differ (maximum KL 3.15e-6).
-**The performance requirement is not met:** fresh UD reaches 1650.35 PP/24.14 TG;
-Q2 trails by 21.73% and 0.34%. This UD arm is slower than the earlier retained
-1682.76 PP/24.33 TG control. These short sequential screens do not establish
-zero-margin parity. Earlier checkpoint drift and independent model qualification
-remain unresolved; the qualified runtime patch is unchanged.
+[Q2 affine palette](docs/Q2-AFFINE-PALETTE.md) reaches **1313.33 prefill
+tokens/s and 24.10 decode steps/s at 2K**. Prefill improves 1.35% over fresh
+HC16, with all saved logits and tokens byte-exact; decode medians differ by
+-0.00062%. It retains the [HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md).
+**The performance requirement is not met:** fresh UD reaches 1660.10 PP/24.31 TG;
+Q2 trails by 20.89% and 0.86%. UD prefill remains below the earlier retained
+1682.76 control. These short sequential screens do not establish zero-margin
+parity. Earlier checkpoint drift and independent model qualification remain
+unresolved; the qualified runtime patch is unchanged.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.

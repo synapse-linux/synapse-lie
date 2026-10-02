@@ -147,3 +147,10 @@ intact. The generator and plotting extensions are first-party MIT; no external
 engine or sibling project implementation is imported. Source hashes, changed
 reduction order, independent checks and complete-model scope are recorded in
 `docs/Q2-HC-DECODE-WAVES.md`.
+
+`experiments/q2-affine-palette.patch` is a first-party MIT delta against the
+measured HC16 candidate and the same independently fetched official Gufo pin.
+It precomputes the four existing Q2 affine values inside registers, retaining
+original model bytes and upstream notices. The generator and admission changes
+are MIT; no external engine implementation or sibling artifact is imported.
+Source, numerical replay and measured scope are in `docs/Q2-AFFINE-PALETTE.md`.

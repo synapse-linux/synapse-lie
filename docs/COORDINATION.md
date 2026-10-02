@@ -937,3 +937,46 @@ absent, with empty KFD. Both observers exit 0. No Q2 remote job, waiter or
 automatic retry remains. Core may use the next window with its own coordinated
 fresh admission. Remaining work here is local reporting/checkpointing; the
 direct MCP transport has been unavailable and the ledger remains the handover.
+
+The previous goal turn is progress: checkpoint `49148b9` retains the HC16
+complete-decode gain. Fresh read-only observation at **22:11:33.078430 UTC**
+finds empty KFD, all four original leases EX|NB/free and the HC decode release
+still last in the shared registry. Core's ledger has no subsequent GPU window;
+its latest explicit direction remains canceled R13 and local reporting. Q2
+starts a bounded affine-palette experiment from HC16: updated CPU/sanitizer
+source guards, existing independent packed operators and matched synthetic
+component measurements, then complete model trials only if a useful component
+gain warrants them. Four Q2 values per affine group are computed once in
+registers; original F32/F16 rounding, activation compensation and WMMA order
+must replay exactly. Each build/GPU arm acquires all four leases afresh under
+the 98 C inclusive/lower exposed bounds. No foreign changes, weight conversion,
+standing lease or core interleaving is implied. Direct read-thread transport
+remains unavailable; this agreed ledger records the campaign.
+
+The palette host arm passes 12/12 Debug and 12/12 ASan/UBSan. All 30 independent
+operator cases and 32 packing/down/chain checks pass; 62 saved buffers and all
+52,428,800 shaped outputs replay exactly. The fresh component comparison saves
+7.10% packed-path time, with the unchanged raw control also 1.84% faster. The
+remaining relative advantage justifies the admitted complete-model comparison:
+fresh HC16, affine palette, pristine UD, each pp2048/tg128 with full MMQ rebuild,
+one warmup/three measured sessions and the existing 15-second untimed idle.
+No component result is called model throughput or parity. Every GPU/build arm
+still acquires four fresh leases; no core interleaving until verified release.
+The outgoing admission message also failed at the MCP transport; this ledger
+records coordination without claiming its delivery.
+
+All seven palette runners and 27 remote commands finish with exit 0; all 161
+artifacts SHA-verify. The complete candidate prefill improves 1.35%, with all
+21 Q2 logit/token files exact and decode medians changing -0.00062%. Q2
+still trails fresh UD by about 20.9% in prefill. Q2 releases this window at
+**22:34:30.399078 UTC**, verifying all seven runners and 27 command identities/
+groups/sessions absent, empty KFD, all four original leases EX|NB/free and all
+five original model stat witnesses unchanged. Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-affine-palette-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**22:34:58.781853 UTC** verifies observer PID 2724233, group/session 2724230
+absent and KFD empty. Both observers exit 0. No Q2 remote job, waiter, lease or
+automatic retry remains. Core may use the next window with its own fresh
+coordinated admission; Q2 continues only local reporting and checkpointing.
+The outgoing release message also fails at the local MCP transport; delivery
+is not claimed. This ledger, the persistent receipt and registry record the handover.

@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Q2 affine-value reuse improves complete prefill — 2026-10-02 UTC
+
+The [affine palette](Q2-AFFINE-PALETTE.md) evaluates the four possible weights
+once per Q2 affine group and selects their rounded F16 bytes in registers.
+Original storage, activation compensation and accumulation order remain intact.
+The shaped down component saves 7.10% time; its unchanged raw control also
+improves 1.84%. All 62 operator buffers and 52,428,800 shaped outputs are exact,
+with the original independent FP64 limits satisfied.
+
+The complete fresh comparison retains a 1.35% prefill gain: HC16 1295.823 ->
+palette 1313.327 tokens/s. Decode stays near 24.10 calls/s (-0.00062% median).
+All twelve logit frontiers and nine token files match exactly; the HC16
+reference reproduces its retained checkpoint. Fresh UD is 1660.101 / 24.309297,
+leaving Q2 behind by 20.89% PP and 0.86% TG. Palette becomes the development
+candidate, preserving HC16; no qualified-runtime or parity promotion occurs.
+Broader contexts/concurrency, independent quality and earlier drift remain open.
+
+Host fixtures pass 12/12 Debug and 12/12 ASan/UBSan. Seven runners and 27 remote
+commands exit 0, and all 161 artifacts verify. The inherited formatting failure
+and corrected local report exit 1 remain evidence. [Closure](../config/q2-affine-palette-validation.json)
+at 22:34:30 UTC and observer retirement at 22:34:58 verify all own processes
+absent, empty KFD, unchanged/free original leases and unchanged model witnesses.
+No Q2 remote job, waiter or automatic retry remains. Full samples and graphs
+are retained with the report.
+
 ## HC scalar parallelism improves complete decode — 2026-10-02
 
 The [four/eight/sixteen/32-wave comparison](Q2-HC-DECODE-WAVES.md) finds useful
