@@ -1,0 +1,7 @@
+{
+  "scope": "Read-only status after collection; final telemetry is historical, not a current GPU observation",
+  "controller_identity_alive": false,
+  "port8000_tcp": [],
+  "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+  "finished_at": "2026-10-02T02:13:52.975891+00:00"
+}

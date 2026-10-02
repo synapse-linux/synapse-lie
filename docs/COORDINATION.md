@@ -27,7 +27,30 @@ mutable DS4 binary as a baseline. Record its sealed historical identity only;
 a future fresh comparator must be built in an immutable, test-owned directory
 from agreed stable inputs, never racing their build output.
 
-## Latest completed window — first real Q2 model test
+## Latest completed window — shared-core GPU regression
+
+The operator authorized the first conversion test on `.157`. After the Q2
+thread's verified release at 2026-10-02 01:31:56 UTC, CPU fixture verification
+and the core GPU campaign ran sequentially. Every GPU arm acquired all four
+existing EX|NB leases with fresh admission and identity checks. Failed R1 keeps
+its pre-model port refusal; its successful baseline HTTP arm is explicitly
+retained in R2. No opportunistic interleaving or automatic admission retry ran.
+
+R2 completes its 13-arm comparison at **02:13:52.975891 UTC**. Postflight at
+**02:13:52.976657 UTC** records all 26 supervisor/child PID/start identities absent,
+empty KFD and unchanged/free leases. Later read-only status confirms the controller
+absent and port 8000 empty. All 121 collected files verify by SHA-256. The release
+was sent to the Q2 thread before local offline analysis. These observations do
+not assert the machine stays idle once that thread resumes.
+
+Source/build/evidence stay in persistent LIE-owned directories. Local work was
+compile/link and analysis only; CPU tests and original-weight execution ran on
+`.157`. No permanent service, foreign termination, install, remote GPU build,
+model conversion, tuning or DS4 mutation occurred. Desktop/denied-FD limits and
+the absence of a formal DS4 ACK remain recorded. See the
+[GPU result and retained failure](CORE-GPU-RESULT.md).
+
+## Earlier completed window — first real Q2 model test
 
 The operator explicitly said `autorizzo il test GPU` and then dedicated the
 machine to the model. The isolated test removed its proposed cumulative HIP cap
@@ -193,7 +216,9 @@ for. Avoid a fixed assistant-invented RAM floor; choose explicit measured job
 budgets with the operator, never interpret a policy stop as OOM/capacity proof.
 
 **Further hardware/heavy-I/O work requires current coordination and admission;
-the completed operator window is not a standing lease.** CPU tests are on .155.
+the completed operator window is not a standing lease.** The initial CPU receipts
+in this historical section ran on `.155`; the user's later instruction moves
+CPU tests as well as GPU execution to `.157` for the isolated reactive branch.
 Read-only reconnaissance reads small receipts/sysfs/proc and bounded metadata,
 not tensor payloads. The separately authorized r4 model run did read original
 weights and execute HIP on .157; it passed a bounded serving smoke, not a numerical

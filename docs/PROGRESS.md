@@ -1,5 +1,29 @@
 # Isolated OpenAI reactive API increment
 
+## First core GPU regression passed — 2026-10-02
+
+`core-gpu-r2` completes all 13 declared arms on `.157`, all exits 0, with the
+successful baseline HTTP arm explicitly retained from failed R1. Baseline
+`2ba01ed` and candidate engine `81c2f60` use identical official Gufo archives;
+helpers are at `04a0642`. Tokens and executor PP/TG frontier hashes match;
+core physical replay and HTTP request/output/usage/finish comparisons also pass.
+
+Matched executor median changes stay within 1%. At 131072 fresh tokens, PP is
+1347.00 -> 1342.70 tok/s; C8 pure TG is 106.98 -> 107.09 tok/s. The largest HTTP
+first-text median increase is 0.35%. Direct C8 core records 128 eight-row batches
+and 51.09 output tok/s over total wall, including prefill. These timing scopes
+remain distinct; extraction does not introduce a new numerical/reactive gain.
+Actual inference thread samples are 35 executor / 36 core-or-HTTP, with loader
+totals 51/52. C8 adds no per-request owner threads.
+
+CPU headless/Debug/ASan checks already pass on `.157` (`reactive-cpu-r9`). All
+121 collected GPU files verify against their hashes. Closure at 02:13:52 UTC:
+owned identities retired, empty KFD, four unchanged/free leases; the controller
+and port 8000 are also retired. The window was returned to the Q2 thread.
+Full tables, ranges, thread census, retained preflight failure and graphs:
+[GPU result](CORE-GPU-RESULT.md). Pi itself was not rerun; numerical ownership,
+RAM/SSD reuse, MTP/vision and 1M remain open. Earlier entries below are historical.
+
 ## First core GPU regression campaign prepared — 2026-10-02
 
 The operator authorized the first extraction's original-weight GPU test. New

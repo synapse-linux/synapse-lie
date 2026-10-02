@@ -1,0 +1,27 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-02T01:36:40.227819+00:00",
+  "pid": 2297033,
+  "start_ticks": 147039449,
+  "runs": [
+    {
+      "arm": "baseline-http",
+      "pid": 2297036,
+      "start_ticks": 147039473,
+      "started_at": "2026-10-02T01:36:40.441843+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:38:52.144178+00:00"
+    },
+    {
+      "arm": "candidate-http",
+      "pid": 2297757,
+      "start_ticks": 147052650,
+      "started_at": "2026-10-02T01:38:52.216020+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-02T01:38:55.036334+00:00"
+    }
+  ],
+  "current_arm": "candidate-http",
+  "error": "RuntimeError('arm failed: candidate-http')",
+  "finished_at": "2026-10-02T01:38:55.036979+00:00"
+}

@@ -202,9 +202,14 @@ The shared-core extraction preserves this reactive inference policy for
 direct clients and HTTP alike. `--suite core` adds one device-owner thread plus
 the benchmark consumer thread, the same two application roles as HTTP without
 its network loop. Historical direct-executor thread counts above remain unchanged.
-Headless credit/cancellation and HTTP regression checks pass on `.157`; no new
-GPU throughput result is established by this extraction. It does not require one inference thread per
-request or an operator callback graph. Increasing host thread count is a
+Headless credit/cancellation, HTTP regression and the subsequent
+[original-weight core GPU gate](CORE-GPU-RESULT.md) pass on `.157`. This run
+samples 35 executor / 36 core-or-HTTP OS threads during inference, with 51/52
+also observed during loading. C8 uses the same single owner and records 128
+native eight-row batches per repetition; no thread-per-request pool is added.
+Matched executor median changes stay within 1%, HTTP first-text increase within
+0.35%; this is preservation through extraction, not a new reactive speedup.
+It does not require an operator callback graph. Increasing host thread count is a
 separate measured change; it is not an explanation for the 4.11x batch result.
 
 ### What improved in the measured experiment

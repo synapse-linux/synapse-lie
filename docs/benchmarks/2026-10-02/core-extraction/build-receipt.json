@@ -1,0 +1,99 @@
+{
+  "state": "BUILT_NO_EXECUTION",
+  "started_at": "2026-10-02T01:29:39.371089+00:00",
+  "scope": "local compile/link only; no tests or model execution",
+  "source_base": "81c2f60",
+  "baseline_commit": "2ba01ed",
+  "gufo_receipt_sha256": "210ed26a2722ecfd7b36c58901310553c9821a58834859291e2489e6ce814251",
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1/build/core-baseline-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1/build/gufo-qwen-host-r2",
+        "-DLIE_BUILD_ID=core-baseline-r1"
+      ],
+      "started_at": "2026-10-02T01:29:39.371216+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:29:39.986342+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1/build/core-baseline-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "-j2"
+      ],
+      "started_at": "2026-10-02T01:29:39.986645+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:29:42.455576+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/core-candidate-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/gufo-qwen-host-r2",
+        "-DLIE_BUILD_ID=core-candidate-r1"
+      ],
+      "started_at": "2026-10-02T01:29:42.508393+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:29:43.073392+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/core-candidate-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "-j2"
+      ],
+      "started_at": "2026-10-02T01:29:43.073707+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:29:45.743187+00:00"
+    }
+  ],
+  "binaries": {
+    "baseline": {
+      "synapse-lie-server": {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1/build/core-baseline-r1/synapse-lie-server",
+        "sha256": "69c2de3b4e9a4951f5772babd1560b33519752efb9452bc3809d35186d9272b4"
+      },
+      "synapse-lie-bench": {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/run/core-baseline-source-r1/build/core-baseline-r1/synapse-lie-bench",
+        "sha256": "2fba38a9040d92454c66646ecc70af3311467bb84764bf9bbb562338dff2b533"
+      }
+    },
+    "candidate": {
+      "synapse-lie-server": {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/core-candidate-r1/synapse-lie-server",
+        "sha256": "d27c257ab3bba0d12f84d644d481f221e32bb2bda7c0c734f563aa1c4646bce3"
+      },
+      "synapse-lie-bench": {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/core-candidate-r1/synapse-lie-bench",
+        "sha256": "4ecfcb44840da4125f3eb15e6b72da4cbd1b53527e82fe05274f010e3919214e"
+      }
+    }
+  },
+  "finished_at": "2026-10-02T01:29:45.802269+00:00"
+}

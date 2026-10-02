@@ -1,0 +1,184 @@
+{
+  "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+  "started_at": "2026-10-02T01:43:59.592286+00:00",
+  "pid": 2300795,
+  "start_ticks": 147083385,
+  "runs": [
+    {
+      "arm": "baseline-http",
+      "exit_code": 0,
+      "retained_from": "core-gpu-r1",
+      "result_sha256": "9360490ea5001ab066e0e9e1b8fb54fc1ab7826a5a88917d74f5b6c7a264616e",
+      "started_at": "2026-10-02T01:36:40.478558+00:00",
+      "finished_at": "2026-10-02T01:38:52.120058+00:00"
+    },
+    {
+      "arm": "candidate-http",
+      "pid": 2300798,
+      "start_ticks": 147083410,
+      "started_at": "2026-10-02T01:43:59.811632+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:46:10.448549+00:00"
+    },
+    {
+      "arm": "candidate-lifecycle",
+      "pid": 2301529,
+      "start_ticks": 147096481,
+      "started_at": "2026-10-02T01:46:10.521614+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:46:48.723899+00:00"
+    },
+    {
+      "arm": "baseline-multi",
+      "pid": 2301761,
+      "start_ticks": 147100308,
+      "started_at": "2026-10-02T01:46:48.796283+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:51:37.176765+00:00"
+    },
+    {
+      "arm": "candidate-multi",
+      "pid": 2303348,
+      "start_ticks": 147129155,
+      "started_at": "2026-10-02T01:51:37.265521+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:56:20.083549+00:00",
+      "comparison": [
+        {
+          "depth": 0,
+          "users": 1,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 0.9990727969918064
+        },
+        {
+          "depth": 0,
+          "users": 2,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 1.0009059436573275
+        },
+        {
+          "depth": 0,
+          "users": 4,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 1.002302351847367
+        },
+        {
+          "depth": 0,
+          "users": 8,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 1.001034544827652
+        }
+      ]
+    },
+    {
+      "arm": "core-c1",
+      "pid": 2304819,
+      "start_ticks": 147157451,
+      "started_at": "2026-10-02T01:56:20.229260+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:57:07.927902+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-c2",
+      "pid": 2305170,
+      "start_ticks": 147162229,
+      "started_at": "2026-10-02T01:57:08.005740+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:58:03.369924+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-c4",
+      "pid": 2305452,
+      "start_ticks": 147167773,
+      "started_at": "2026-10-02T01:58:03.447536+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T01:59:14.310712+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-c8",
+      "pid": 2305868,
+      "start_ticks": 147174872,
+      "started_at": "2026-10-02T01:59:14.439259+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T02:00:57.886319+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "baseline-fresh",
+      "pid": 2306426,
+      "start_ticks": 147185231,
+      "started_at": "2026-10-02T02:00:58.028423+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T02:05:08.772636+00:00"
+    },
+    {
+      "arm": "candidate-fresh",
+      "pid": 2307749,
+      "start_ticks": 147210318,
+      "started_at": "2026-10-02T02:05:08.890152+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T02:09:19.662694+00:00",
+      "comparison": [
+        {
+          "depth": 0,
+          "users": 1,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 0.9978188078854341
+        },
+        {
+          "depth": 0,
+          "users": 1,
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "eligible": true,
+          "decode_ratio": 1.0094855282478095
+        }
+      ]
+    },
+    {
+      "arm": "core-p8192",
+      "pid": 2308906,
+      "start_ticks": 147235411,
+      "started_at": "2026-10-02T02:09:19.824211+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T02:10:03.149839+00:00",
+      "tokens_match_executor": true
+    },
+    {
+      "arm": "core-p131072",
+      "pid": 2309175,
+      "start_ticks": 147239759,
+      "started_at": "2026-10-02T02:10:03.304964+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T02:13:52.938760+00:00",
+      "tokens_match_executor": true
+    }
+  ],
+  "current_arm": "core-p131072",
+  "finished_at": "2026-10-02T02:13:52.975891+00:00"
+}

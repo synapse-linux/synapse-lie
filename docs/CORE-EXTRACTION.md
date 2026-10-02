@@ -1,5 +1,9 @@
 # Shared reactive C core — first extraction
 
+The subsequent [original-weight GPU regression](CORE-GPU-RESULT.md) passes the
+first extraction gate through C8 and 131072-token fresh prefill. The CPU-only
+receipt below records the earlier implementation checkpoint, not the later run.
+
 Receipt date: 2026-10-02. Source base: `2ba01ed`, with the exact tested source
 inventory retained in local `evidence/reactive-cpu-r7/source.json`.
 Source capsule SHA-256: `300e889cabca97d18c3a6d5543c6c4d39b48b71ec719fee451abebcf2c0dc8aa`.
@@ -43,7 +47,8 @@ were not tuned.
 
 The new input copy executes during submission, outside the scheduler gate, after
 reserving an admission slot. This adds allocation/copy cost to HTTP admission;
-its latency effect has not been measured with real workloads. Input arena storage
+its net effect is now covered by the matched HTTP/core [GPU run](CORE-GPU-RESULT.md),
+although input-copy time is not isolated as a separate metric. Input arena storage
 is capped at 32 MiB per job. Prompt/output witnesses stay alive until the final
 consumer reference and must be released by the client. No allocation-exact
 resource accounting or reusable KV cache is implied by retaining token IDs.
@@ -80,13 +85,12 @@ GPU failure, TSan or independent review qualification is claimed here.
 
 ## Next acceptance and roadmap
 
-1. Extend the coordinated benchmark supervisor with core input-file identity and
-   immutable manifest binding. Its current allowlist does not admit the new core
-   CLI options; do not bypass it for a shared-GPU run.
-2. Build the unchanged-provider candidate under a fresh lease and compare matching
-   message/physical-token requests across direct core, HTTP and the retained
-   executor/reference lanes. Check output/usage, C1 overhead, C2/4/8 pressure,
-   cancellation and prefill at long context before transferring performance claims.
+1. **Completed:** coordinated supervisor core input identity/manifest binding,
+   with source-bound CPU/sanitizer checks (`reactive-cpu-r9`).
+2. **Completed for this slice:** unchanged-provider GPU comparison across HTTP,
+   direct core and executor, C1/2/4/8 and 8192/131072 fresh tokens. See the
+   [full result and remaining limits](CORE-GPU-RESULT.md). Numerical ownership,
+   256K requalification and 1M execution are not covered by this gate.
 3. Complete neutral engine semantic events as clients need them: tool-frame
    interpretation is still in the protocol library; scoring/logit operations are
    not yet a core capability. Future chat/eval must not duplicate model semantics.

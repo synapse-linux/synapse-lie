@@ -25,7 +25,11 @@ and future chat/eval clients. `lie_core` now owns model/job lifecycle, copied
 normalized input, reactive scheduling and output retirement independently of HTTP.
 `--suite core` exercises it directly with raw text or physical token IDs and
 exports latency/prefill/throughput graphs. The [extraction receipt](docs/CORE-EXTRACTION.md)
-records headless, Debug and ASan/UBSan checks on `.157`; GPU regression remains open.
+records headless, Debug and ASan/UBSan checks on `.157`. The first
+[GPU regression](docs/CORE-GPU-RESULT.md) also passes: identical tested tokens and
+executor frontiers, native batching through C8 and fresh prefill through 128K,
+with no sampled median regression beyond the declared 5% threshold. Full PP/TG,
+client latency, thread observations and graphs are included in that report.
 
 ## Native tool API baseline
 

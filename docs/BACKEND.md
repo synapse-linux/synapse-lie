@@ -160,7 +160,9 @@ requests/events and metrics snapshots use owned C data independent of HTTP
 parser lifetimes. The benchmark must exercise this same core directly; future
 chat/eval clients must not require an HTTP service or duplicate the engine.
 The [source audit and extraction gates](ARCHITECTURE.md#shared-core-and-client-boundary)
-distinguish today's shared decode dispatcher from the still-unshared lifecycle.
+now cover the implemented `lie_core` lifecycle and direct `--suite core` consumer,
+not just the shared decode dispatcher. Structured tool-output semantics and
+future cache/MTP/vision capabilities still need the same neutral core boundary.
 
 Keep operations coarse enough to preserve efficient fused kernels and native
 multirow work. Avoid a callback per scalar/tensor operation or a universal graph
@@ -194,9 +196,10 @@ neither architectural separation nor a language change guarantees a speedup.
 
 ### First slices and feature order
 
-1. Extract shared C engine lifecycle from protocol parsing/wire ownership and
-   connect both the HTTP adapter and a direct core benchmark consumer. Define
-   owned normalized-message/physical-token inputs and typed completed events,
+1. The first shared C engine lifecycle extraction and direct core benchmark
+   consumer are implemented and pass the first [GPU regression](CORE-GPU-RESULT.md).
+   Owned normalized-message/physical-token inputs are implemented. Complete typed
+   model-semantic events,
    capability/state identity and frontier contracts. Use the current adapter as
    an explicitly delegated reference; add capture/restore only for complete
    version-qualified state. Do not introduce a public unused framework.

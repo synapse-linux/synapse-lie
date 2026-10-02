@@ -1,0 +1,2 @@
+label,users,prompt_tokens,repetitions,job_prefill_median_tps,output_per_total_wall_median_tps,first_token_median_ms,total_median_ms
+LIE shared core,2,2048,3,1619.5614583578872,31.479539758160083,2586.8510189999997,8129.80455

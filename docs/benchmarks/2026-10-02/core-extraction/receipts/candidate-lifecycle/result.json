@@ -1,0 +1,1007 @@
+{
+  "state": "MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION",
+  "started_at": "2026-10-02T01:46:10.558326+00:00",
+  "manifest_sha256": "3320741d7c107417dba2bca916b43deba58050062fbdf1dd53f0a704c2a57152",
+  "runner_sha256": "617379c62db0c0867a3bfbb91867f0ee5c2ea140e96d7bbaa5b134a0a9b51225",
+  "supervisor_pid": 2301529,
+  "supervisor_start_ticks": 147096481,
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "gpu_test_authorized": true,
+    "operator_message": "ok facciao il test gpu per questa prima fase di conversione",
+    "context": "Q2 owner confirmed final child/helper retired 2026-10-02 01:31:56 UTC; no automatic retry or overlapping Q2 profile; four fresh EX|NB leases per arm."
+  },
+  "ds4_ack_claimed": false,
+  "model_attempted": true,
+  "model_inference_observed": true,
+  "numerical_qualification": false,
+  "performance_qualification": false,
+  "suite": "http-lifecycle-v1",
+  "commands": [
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/core-gpu-r2/candidate-lifecycle/synapse-lie-server",
+        "--build-info"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"build_id\":\"core-candidate-r1\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"hardware_qualified\":false}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-srmo"
+      ],
+      "exit_code": 0,
+      "stdout": "Linux 7.2.2-1-cachyos x86_64 GNU/Linux\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/core-gpu-r2/candidate-lifecycle/synapse-lie-server"
+      ],
+      "exit_code": 0,
+      "stdout": "\nDynamic section at offset 0x136ebd8 contains 45 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libjson-c.so.5]\n 0x0000000000000001 (NEEDED)             Shared library: [libuv.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libllhttp.so.9.3]\n 0x0000000000000001 (NEEDED)             Shared library: [libhipblas.so.3]\n 0x0000000000000001 (NEEDED)             Shared library: [libhipblaslt.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [librocblas.so.5]\n 0x0000000000000001 (NEEDED)             Shared library: [libamdhip64.so.7]\n 0x0000000000000001 (NEEDED)             Shared library: [libicuuc.so.78]\n 0x0000000000000001 (NEEDED)             Shared library: [libicui18n.so.78]\n 0x0000000000000001 (NEEDED)             Shared library: [libcrypto.so.3]\n 0x0000000000000001 (NEEDED)             Shared library: [libpng16.so.16]\n 0x0000000000000001 (NEEDED)             Shared library: [libz.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libjpeg.so.8]\n 0x0000000000000001 (NEEDED)             Shared library: [libcurl.so.4]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-x86-64.so.2]\n 0x000000000000001d (RUNPATH)            Library runpath: [/opt/rocm/lib]\n 0x000000000000000c (INIT)               0x15000\n 0x000000000000000d (FINI)               0x20aa04\n 0x0000000000000019 (INIT_ARRAY)         0x136d1c0\n 0x000000000000001b (INIT_ARRAYSZ)       88 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x136d218\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x400\n 0x0000000000000005 (STRTAB)             0x3c18\n 0x0000000000000006 (SYMTAB)             0x7f8\n 0x000000000000000a (STRSZ)              21676 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x136ffe8\n 0x0000000000000002 (PLTRELSZ)           9672 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x12980\n 0x0000000000000007 (RELA)               0x9860\n 0x0000000000000008 (RELASZ)             37152 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x9520\n 0x000000006fffffff (VERNEEDNUM)         11\n 0x000000006ffffff0 (VERSYM)             0x90c4\n 0x000000006ffffff9 (RELACOUNT)          1427\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "ldd",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/core-gpu-r2/candidate-lifecycle/synapse-lie-server"
+      ],
+      "exit_code": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007f7df8752000)\n\tlibjson-c.so.5 => /usr/lib/libjson-c.so.5 (0x00007f7df86fc000)\n\tlibuv.so.1 => /usr/lib/libuv.so.1 (0x00007f7df86ba000)\n\tlibllhttp.so.9.3 => /usr/lib/libllhttp.so.9.3 (0x00007f7df86a7000)\n\tlibhipblas.so.3 => /opt/rocm/lib/libhipblas.so.3 (0x00007f7df85fa000)\n\tlibhipblaslt.so.1 => /opt/rocm/lib/libhipblaslt.so.1 (0x00007f7df6c00000)\n\tlibrocblas.so.5 => /opt/rocm/lib/librocblas.so.5 (0x00007f7debc00000)\n\tlibamdhip64.so.7 => /opt/rocm/lib/libamdhip64.so.7 (0x00007f7dea000000)\n\tlibicuuc.so.78 => /usr/lib/libicuuc.so.78 (0x00007f7de9c00000)\n\tlibicui18n.so.78 => /usr/lib/libicui18n.so.78 (0x00007f7de9800000)\n\tlibcrypto.so.3 => /usr/lib/libcrypto.so.3 (0x00007f7de9000000)\n\tlibpng16.so.16 => /usr/lib/libpng16.so.16 (0x00007f7df859d000)\n\tlibz.so.1 => /usr/lib/libz.so.1 (0x00007f7df71c4000)\n\tlibjpeg.so.8 => /usr/lib/libjpeg.so.8 (0x00007f7df711c000)\n\tlibcurl.so.4 => /usr/lib/libcurl.so.4 (0x00007f7df6afd000)\n\tlibstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x00007f7de8c00000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x00007f7de9ef7000)\n\tlibgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x00007f7df6ac8000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x00007f7de8800000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f7df8754000)\n\tlibrocsolver.so.0 => /opt/rocm/lib/../lib/librocsolver.so.0 (0x00007f7dbd800000)\n\tlibroctx64.so.4 => /opt/rocm/lib/../lib/libroctx64.so.4 (0x00007f7df8596000)\n\tlibrocroller.so.1 => /opt/rocm/lib/../lib/librocroller.so.1 (0x00007f7dbbc00000)\n\tlibrocprofiler-register.so.0 => /opt/rocm/lib/librocprofiler-register.so.0 (0x00007f7df6a7d000)\n\tlibhsa-runtime64.so.1 => /opt/rocm/lib/libhsa-runtime64.so.1 (0x00007f7dbb600000)\n\tlibicudata.so.78 => /usr/lib/libicudata.so.78 (0x00007f7db9600000)\n\tlibbrotlienc.so.1 => /usr/lib/libbrotlienc.so.1 (0x00007f7de9706000)\n\tlibbrotlidec.so.1 => /usr/lib/libbrotlidec.so.1 (0x00007f7df8584000)\n\tlibzstd.so.1 => /usr/lib/libzstd.so.1 (0x00007f7de8a9f000)\n\tlibnghttp3.so.9 => /usr/lib/libnghttp3.so.9 (0x00007f7df6a51000)\n\tlibngtcp2_crypto_ossl.so.0 => /usr/lib/libngtcp2_crypto_ossl.so.0 (0x00007f7df8575000)\n\tlibngtcp2.so.16 => /usr/lib/libngtcp2.so.16 (0x00007f7debb8c000)\n\tlibnghttp2.so.14 => /usr/lib/libnghttp2.so.14 (0x00007f7debb5d000)\n\tlibidn2.so.0 => /usr/lib/libidn2.so.0 (0x00007f7df6a2e000)\n\tlibssh2.so.1 => /usr/lib/libssh2.so.1 (0x00007f7de9e9b000)\n\tlibpsl.so.5 => /usr/lib/libpsl.so.5 (0x00007f7de9e87000)\n\tlibssl.so.3 => /usr/lib/libssl.so.3 (0x00007f7de86e6000)\n\tlibgssapi_krb5.so.2 => /usr/lib/libgssapi_krb5.so.2 (0x00007f7de8f97000)\n\tlibyaml-cpp.so.0.9 => /usr/lib/libyaml-cpp.so.0.9 (0x00007f7de96ac000)\n\tlibamd_comgr.so.3 => /opt/rocm/lib/../lib/../lib/libamd_comgr.so.3 (0x00007f7daec00000)\n\tlibfmt.so.12 => /usr/lib/libfmt.so.12 (0x00007f7de8f68000)\n\tlibglog.so.2 => /usr/lib/libglog.so.2 (0x00007f7de8687000)\n\tlibelf.so.1 => /usr/lib/libelf.so.1 (0x00007f7de9e69000)\n\tlibdrm.so.2 => /usr/lib/libdrm.so.2 (0x00007f7de9be7000)\n\tlibdrm_amdgpu.so.1 => /usr/lib/libdrm_amdgpu.so.1 (0x00007f7df7108000)\n\tlibnuma.so.1 => /usr/lib/libnuma.so.1 (0x00007f7de9e5b000)\n\tlibbrotlicommon.so.1 => /usr/lib/libbrotlicommon.so.1 (0x00007f7de8f45000)\n\tlibunistring.so.5 => /usr/lib/libunistring.so.5 (0x00007f7daea08000)\n\tlibkrb5.so.3 => /usr/lib/libkrb5.so.3 (0x00007f7dbbafa000)\n\tlibk5crypto.so.3 => /usr/lib/libk5crypto.so.3 (0x00007f7de8a6a000)\n\tlibcom_err.so.2 => /usr/lib/libcom_err.so.2 (0x00007f7debb57000)\n\tlibkrb5support.so.0 => /usr/lib/libkrb5support.so.0 (0x00007f7de8f35000)\n\tlibkeyutils.so.1 => /usr/lib/libkeyutils.so.1 (0x00007f7de9be0000)\n\tlibresolv.so.2 => /usr/lib/libresolv.so.2 (0x00007f7de8a55000)\n\tlibgflags.so.2.2 => /usr/lib/libgflags.so.2.2 (0x00007f7de8656000)\n",
+      "stderr": ""
+    }
+  ],
+  "tests": [
+    {
+      "case": "ready",
+      "stream": false,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply with exactly the uppercase word READY, without punctuation or explanation."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 16,
+        "stream": false,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Content-Length": "669",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'"
+        },
+        "body": "{\"id\":\"chatcmpl-2301538-1470965871923108-1\",\"object\":\"chat.completion\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"READY\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":25,\"completion_tokens\":1,\"total_tokens\":26},\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":25,\"decode_tokens\":1,\"prefill_calls\":1,\"decode_calls\":2,\"prefill_ms\":270.34707800000001,\"decode_ms\":43.774455000000003,\"prefill_tokens_per_second\":92.473720022969886,\"decode_tokens_per_second\":22.844373505049919}}"
+      },
+      "elapsed_wall_seconds": 0.325422341004014,
+      "parsed": {
+        "content": "READY",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 25,
+          "completion_tokens": 1,
+          "total_tokens": 26
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 25,
+        "decode_tokens": 1,
+        "prefill_calls": 1,
+        "decode_calls": 2,
+        "prefill_ms": 270.347078,
+        "decode_ms": 43.774455,
+        "prefill_tokens_per_second": 92.47372002296989,
+        "decode_tokens_per_second": 22.84437350504992
+      }
+    },
+    {
+      "case": "ready",
+      "stream": true,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply with exactly the uppercase word READY, without punctuation or explanation."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 16,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "X-Accel-Buffering": "no"
+        },
+        "body": "data: {\"id\":\"chatcmpl-2301538-1470965871923108-2\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":\"\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-2\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"READY\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-2\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":25,\"decode_tokens\":1,\"prefill_calls\":1,\"decode_calls\":2,\"prefill_ms\":137.43822599999999,\"decode_ms\":36.975879999999997,\"prefill_tokens_per_second\":181.89990316085715,\"decode_tokens_per_second\":27.044657219787602}}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-2\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[],\"usage\":{\"prompt_tokens\":25,\"completion_tokens\":1,\"total_tokens\":26}}\n\ndata: [DONE]\n\n"
+      },
+      "elapsed_wall_seconds": 0.18613871303386986,
+      "parsed": {
+        "content": "READY",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 25,
+          "completion_tokens": 1,
+          "total_tokens": 26
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 25,
+        "decode_tokens": 1,
+        "prefill_calls": 1,
+        "decode_calls": 2,
+        "prefill_ms": 137.438226,
+        "decode_ms": 36.97588,
+        "prefill_tokens_per_second": 181.89990316085715,
+        "decode_tokens_per_second": 27.044657219787602
+      }
+    },
+    {
+      "case": "arithmetic",
+      "stream": false,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is 2 + 2? Reply with only the digit, without punctuation or explanation."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 16,
+        "stream": false,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Content-Length": "665",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'"
+        },
+        "body": "{\"id\":\"chatcmpl-2301538-1470965871923108-3\",\"object\":\"chat.completion\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"4\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":31,\"completion_tokens\":1,\"total_tokens\":32},\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":31,\"decode_tokens\":1,\"prefill_calls\":1,\"decode_calls\":2,\"prefill_ms\":150.49222700000001,\"decode_ms\":37.064388000000001,\"prefill_tokens_per_second\":205.99070542028724,\"decode_tokens_per_second\":26.980075861498104}}"
+      },
+      "elapsed_wall_seconds": 0.1980468831025064,
+      "parsed": {
+        "content": "4",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 31,
+          "completion_tokens": 1,
+          "total_tokens": 32
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 31,
+        "decode_tokens": 1,
+        "prefill_calls": 1,
+        "decode_calls": 2,
+        "prefill_ms": 150.492227,
+        "decode_ms": 37.064388,
+        "prefill_tokens_per_second": 205.99070542028724,
+        "decode_tokens_per_second": 26.980075861498104
+      }
+    },
+    {
+      "case": "arithmetic",
+      "stream": true,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is 2 + 2? Reply with only the digit, without punctuation or explanation."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 16,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "X-Accel-Buffering": "no"
+        },
+        "body": "data: {\"id\":\"chatcmpl-2301538-1470965871923108-4\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":\"\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-4\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"4\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-4\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":31,\"decode_tokens\":1,\"prefill_calls\":1,\"decode_calls\":2,\"prefill_ms\":146.95894899999999,\"decode_ms\":37.101329,\"prefill_tokens_per_second\":210.9432614409892,\"decode_tokens_per_second\":26.953212376839655}}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-4\",\"object\":\"chat.completion.chunk\",\"created\":1790905592,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[],\"usage\":{\"prompt_tokens\":31,\"completion_tokens\":1,\"total_tokens\":32}}\n\ndata: [DONE]\n\n"
+      },
+      "elapsed_wall_seconds": 0.19644373608753085,
+      "parsed": {
+        "content": "4",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 31,
+          "completion_tokens": 1,
+          "total_tokens": 32
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 31,
+        "decode_tokens": 1,
+        "prefill_calls": 1,
+        "decode_calls": 2,
+        "prefill_ms": 146.958949,
+        "decode_ms": 37.101329,
+        "prefill_tokens_per_second": 210.9432614409892,
+        "decode_tokens_per_second": 26.953212376839655
+      }
+    },
+    {
+      "case": "unicode",
+      "stream": false,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Repeat exactly this text, without quotes or additions: caff\u00e8 \ud83d\ude42"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32,
+        "stream": false,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Content-Length": "666",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'"
+        },
+        "body": "{\"id\":\"chatcmpl-2301538-1470965871923108-5\",\"object\":\"chat.completion\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"caff\u00e8 \ud83d\ude42\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":24,\"completion_tokens\":3,\"total_tokens\":27},\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":24,\"decode_tokens\":3,\"prefill_calls\":1,\"decode_calls\":4,\"prefill_ms\":138.40711099999999,\"decode_ms\":119.065032,\"prefill_tokens_per_second\":173.40149524542855,\"decode_tokens_per_second\":25.19631456530411}}"
+      },
+      "elapsed_wall_seconds": 0.2697792840190232,
+      "parsed": {
+        "content": "caff\u00e8 \ud83d\ude42",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 24,
+          "completion_tokens": 3,
+          "total_tokens": 27
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 24,
+        "decode_tokens": 3,
+        "prefill_calls": 1,
+        "decode_calls": 4,
+        "prefill_ms": 138.407111,
+        "decode_ms": 119.065032,
+        "prefill_tokens_per_second": 173.40149524542855,
+        "decode_tokens_per_second": 25.19631456530411
+      }
+    },
+    {
+      "case": "unicode",
+      "stream": true,
+      "request": {
+        "model": "qwen3.8-flash-next",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Repeat exactly this text, without quotes or additions: caff\u00e8 \ud83d\ude42"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Connection": "close",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "X-Accel-Buffering": "no"
+        },
+        "body": "data: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":\"\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"caff\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\u00e8\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \ud83d\ude42\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"lie_timings\":{\"schema\":\"synapse-lie.request-timings.v1\",\"scope\":\"synchronous_executor_calls\",\"valid\":true,\"prefill_tokens\":24,\"decode_tokens\":3,\"prefill_calls\":1,\"decode_calls\":4,\"prefill_ms\":132.786857,\"decode_ms\":118.240863,\"prefill_tokens_per_second\":180.74077918720525,\"decode_tokens_per_second\":25.371939310016707}}\n\ndata: {\"id\":\"chatcmpl-2301538-1470965871923108-6\",\"object\":\"chat.completion.chunk\",\"created\":1790905593,\"model\":\"qwen3.8-flash-next\",\"system_fingerprint\":\"gufo-embedded-f783fedb\",\"choices\":[],\"usage\":{\"prompt_tokens\":24,\"completion_tokens\":3,\"total_tokens\":27}}\n\ndata: [DONE]\n\n"
+      },
+      "elapsed_wall_seconds": 0.2636565240100026,
+      "parsed": {
+        "content": "caff\u00e8 \ud83d\ude42",
+        "finish": "stop",
+        "usage": {
+          "prompt_tokens": 24,
+          "completion_tokens": 3,
+          "total_tokens": 27
+        }
+      },
+      "timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 24,
+        "decode_tokens": 3,
+        "prefill_calls": 1,
+        "decode_calls": 4,
+        "prefill_ms": 132.786857,
+        "decode_ms": 118.240863,
+        "prefill_tokens_per_second": 180.74077918720525,
+        "decode_tokens_per_second": 25.371939310016707
+      }
+    }
+  ],
+  "locks": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067
+    }
+  ],
+  "preflight_dri": {
+    "pids": [
+      1543,
+      1596,
+      1605,
+      1656,
+      2017,
+      2178786
+    ],
+    "permission_denied": 477
+  },
+  "preflight_kfd": [],
+  "preflight_memory": {
+    "MemTotal": 134145568768,
+    "MemAvailable": 126258311168,
+    "SwapTotal": 134145372160,
+    "SwapFree": 128301801472
+  },
+  "preflight_gpu": {
+    "gpu_busy_percent": "49",
+    "mem_info_gtt_used": "355864576",
+    "mem_info_vram_used": "378974208"
+  },
+  "models_before": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "historical_sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "historical_sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "historical_sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "historical_sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467,
+      "historical_sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6",
+      "full_hash_recomputed": false
+    }
+  ],
+  "binary_sha256": "d27c257ab3bba0d12f84d644d481f221e32bb2bda7c0c734f563aa1c4646bce3",
+  "build_info": {
+    "build_id": "core-candidate-r1",
+    "engine": "gufo-embedded-f783fedb",
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "ownership": "delegated",
+    "hardware_qualified": false
+  },
+  "dsos": {
+    "/usr/lib/libjson-c.so.5.5.0": "9bc832bf8224aea4e161865d4f9ec24de3774eb07e15a984c84336dd8535982e",
+    "/usr/lib/libuv.so.1.0.0": "e48ceaf8c22317810bd33fc940be1fdd3e87b12744b3b0fd169d5c3d79c5da82",
+    "/usr/lib/libllhttp.so.9.3.1": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+    "/opt/rocm/lib/libhipblas.so.3.2": "97c880fd351c3fee31c867bf7303e894377f3d31a11b6ce83f8cea83d4f9d85f",
+    "/opt/rocm/lib/libhipblaslt.so.1.2": "b968e32e8ad22b1812c2b1502b5eddb0fdabf5fead95b5fd447a8cf0e208bff3",
+    "/opt/rocm/lib/librocblas.so.5.2": "9f1f808ac10d3aed67d2893ad83a840311362db6b25d0eacdb3c7fcc60923c9b",
+    "/opt/rocm/lib/libamdhip64.so.7.2.53211-3d9ef42": "4472e429b1ebae2a7230cf77ab591fffa20d91e5d1a0405daaae1c438b18f7ea",
+    "/usr/lib/libicuuc.so.78.3": "874d8a44bf66f6a8c30c94d5e3f4f2f7fe1c4483ef0bc660a77d86d74bc9fd27",
+    "/usr/lib/libicui18n.so.78.3": "0cf36e645e153271fce2ec1affd463b3535cad4e0c05298a0620aa4b197e6022",
+    "/usr/lib/libcrypto.so.3": "7cbcdaf70b12a69ef8518188e62a0c2cb46838c01f42c002d09625a4eb07c2e2",
+    "/usr/lib/libpng16.so.16.58.0": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+    "/usr/lib/libz.so.1.3.1.zlib-ng": "2a252a45a28d93ca2e6a7d2662f6cef5cfa666c9da2f8cfbc90bc521c45a03c5",
+    "/usr/lib/libjpeg.so.8.3.2": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665",
+    "/usr/lib/libcurl.so.4.8.0": "32a37411a15ae3a38bac69eb9afb043aa8d4b7a432f97062f26aa0da57289241",
+    "/usr/lib/libstdc++.so.6.0.36": "7913c46122fd82b6de363b3ab5c01c727730604e9685ad9103323a2b3d43c12d",
+    "/usr/lib/libm.so.6": "6262820f17cd34cd327e5dbb2eefa8a740875c47c6a6f8a02fa6f1ae79152797",
+    "/usr/lib/libgcc_s.so.1": "3a19e3a7541ddc0277af34957c00d3ad114e2379a6fb8d812364e94046bfae64",
+    "/usr/lib/libc.so.6": "4c8eb6d2e4c3459f5100e44330067db455b7cb873742d8d8f820ee5d6a142080",
+    "/usr/lib/ld-linux-x86-64.so.2": "68a643913f9499e5a4986b793c202da085e7583714357c244a70727c57bbdb24",
+    "/opt/rocm/lib/librocsolver.so.0.7": "a263c660c5c10f7b14f17aa2af250b31a33e6b8bf80b377a31396e16a573acfe",
+    "/opt/rocm/lib/libroctx64.so.4.1.0": "52b2e7883f68541385f3afb0644d4d6fc1f70728d83712544fed141865f84047",
+    "/opt/rocm/lib/librocroller.so.1.0.0": "9ac36cdc693cb48e134be6d95da8e393007fc8ae7a81c00c7ded2e211f88523c",
+    "/opt/rocm/lib/librocprofiler-register.so.0.6.0": "5022da0fe4b034aa5dd16ca65b74ea9ff743d1b11421b9dc17a1a16440e6c929",
+    "/opt/rocm/lib/libhsa-runtime64.so.1.18.0": "0da170e0171beaa5cccbe8221a9f772121c7a51d27773a36cc3a07fb4fb37265",
+    "/usr/lib/libicudata.so.78.3": "d72003b08760852bee4c80cff32c1e6248ae6b1fda5bd313482733a4d5e70dc9",
+    "/usr/lib/libbrotlienc.so.1.2.0": "c956eae170e9b514c4cddcc0984fd455242afa84d8a6fcc2255c0ef527039345",
+    "/usr/lib/libbrotlidec.so.1.2.0": "30f17680a262758748f4977b21d3e6ea2b0221c11ab4d7f42574c399f031894f",
+    "/usr/lib/libzstd.so.1.5.7": "c60355be9fecd6434fdf19b824d4fd6758191e19277fd8618f0e255196384e53",
+    "/usr/lib/libnghttp3.so.9.9.0": "61fa60a2d40fb14cfa61847b25ed78e30edb63fb02745017708989273e769838",
+    "/usr/lib/libngtcp2_crypto_ossl.so.0.3.1": "88b90f39c71042e9ce10372acaf69ec4760c73db229b6c62b447503605614327",
+    "/usr/lib/libngtcp2.so.16.11.0": "5e7db28802c5a95587e36158ed208c1c43793ab68d3ef53ddd8546455ece0060",
+    "/usr/lib/libnghttp2.so.14.29.5": "0246bf7a831868a1bc596b86a60f4822b26c2bd79a5e80142dd5743277ec9e73",
+    "/usr/lib/libidn2.so.0.4.0": "f8b7db5a046b30a5d6e18fe9808b705209147e853c6c4fd3019b397c0efc40b9",
+    "/usr/lib/libssh2.so.1.0.1": "a045b989c7690ddd92932316d6ec4b41ef63eaafa2af2c19a2503a2e358c7edf",
+    "/usr/lib/libpsl.so.5.3.5": "4955ece71148fb830960dc10796e4d0ea1c2d3a145e00ca8465847e8c4e96a38",
+    "/usr/lib/libssl.so.3": "566862b92dfc386fc1908ddad98ebd0c71b1b28a57188f16e03345edf8ee4fee",
+    "/usr/lib/libgssapi_krb5.so.2.2": "fd3cd20d2272a721c600cce0ecc4abcd60adbc5cda73307abf5551c3ba355917",
+    "/usr/lib/libyaml-cpp.so.0.9.0": "8afa6c22badcbd8ea969c5fcffc936e5c6dcc93c72151c8bac1d8419ee019988",
+    "/opt/rocm/lib/libamd_comgr.so.3.0.0": "97fdbba3f8fa9e903fadd2996fa478229928638185aa63a3dd4f7f453e3cb408",
+    "/usr/lib/libfmt.so.12.2.0": "25c13c21114f01f45d2d584763458c7022c943fc04905587fb40ad763bbcd550",
+    "/usr/lib/libglog.so.0.7.1": "5f8b8ea8bb1fb7c9b30006c5e416041aa7afd5e989d1e8615a4a36dc1822de61",
+    "/usr/lib/libelf-0.196.so": "13d3e3cb54d6120d87a0569ac67be05c029f8cd2e4bf44e75936b2721c8e08af",
+    "/usr/lib/libdrm.so.2.134.0": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+    "/usr/lib/libdrm_amdgpu.so.1.134.0": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+    "/usr/lib/libnuma.so.1.0.0": "847c5f5afbe586c2a7592c344080caf3268846af1f3be90175447e12791fad51",
+    "/usr/lib/libbrotlicommon.so.1.2.0": "3afb9cc10ea6cc42fa71db49293934c285e9318eff7e684bdae38d4f5275dd5a",
+    "/usr/lib/libunistring.so.5.2.1": "7ea320ec0065d0523837919a9e18a7756c4cab38a04aeb8b293d2c26f1f5a186",
+    "/usr/lib/libkrb5.so.3.3": "214fd6fdeac1b0b11b740e157f1ba394d0d3f45df47244b6d8277dcf1ee2c898",
+    "/usr/lib/libk5crypto.so.3.1": "b527e5da0b4362c598c28e0e7e98a6b3798f4a129c66d4f2a0e3d747b846612a",
+    "/usr/lib/libcom_err.so.2.1": "9148c96476da1ca7b1945c252f1e66ce9797787534b8f76593768ab20fd8bdee",
+    "/usr/lib/libkrb5support.so.0.1": "9982ba28e8c6bd16717fa35e7b19e530055ca08c82261ae7341865a6ac02b569",
+    "/usr/lib/libkeyutils.so.1.10": "b715b4a16a82b2255b5236889f9a99ab973b2076f1c2fae3019383659252366b",
+    "/usr/lib/libresolv.so.2": "a7d2030e59dca7bc6246bf43565e84b6630504c2d4df467f0328fad2c9cbe84c",
+    "/usr/lib/libgflags.so.2.2.2": "78d6a2e22935a2e4d375a80e0874be0e57c28501c8ccd2c96ca7059396f268c6"
+  },
+  "power_settings": {
+    "/sys/devices/system/cpu/cpufreq/policy11/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy11/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy8/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy8/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy6/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy6/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy28/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy28/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy18/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy18/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy4/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy4/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy26/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy26/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy16/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy16/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy2/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy2/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy24/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy24/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy14/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy14/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy0/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy0/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy22/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy22/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy12/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy12/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy9/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy9/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy30/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy30/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy20/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy20/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy10/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy10/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy7/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy7/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy29/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy29/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy19/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy19/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy5/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy5/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy27/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy27/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy17/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy17/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy3/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy3/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy25/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy25/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy15/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy15/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy1/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy1/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy23/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy23/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy13/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy13/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy31/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy31/energy_performance_preference": "balance_performance",
+    "/sys/devices/system/cpu/cpufreq/policy21/scaling_governor": "powersave",
+    "/sys/devices/system/cpu/cpufreq/policy21/energy_performance_preference": "balance_performance",
+    "/sys/class/drm/card1/device/power_dpm_force_performance_level": "auto"
+  },
+  "serving_checks_sha256": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+  "server_argv": [
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/core-gpu-r2/candidate-lifecycle/synapse-lie-server",
+    "--model",
+    "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--context",
+    "4096",
+    "--prefill-chunk",
+    "2048",
+    "--max-active",
+    "2",
+    "--request-timeout-ms",
+    "120000",
+    "--port",
+    "8000",
+    "--management-port",
+    "19880"
+  ],
+  "server_pid": 2301538,
+  "server_start_ticks": 147096584,
+  "last_loading_state": {
+    "schema": "synapse-lie.llm.v1",
+    "ready": true,
+    "backend": {
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "build_id": "core-candidate-r1",
+      "ownership": "delegated",
+      "state": "READY",
+      "model": "qwen3.8-flash-next",
+      "synthetic": false,
+      "hardware_qualified": false,
+      "native_batching": true,
+      "native_batch_capacity": 2,
+      "tools": true,
+      "tool_streaming": "buffered-complete-turn",
+      "context_tokens": 4096,
+      "max_output_tokens": 4096,
+      "max_request_bytes": 8388608,
+      "max_messages": 1024,
+      "mtp": false,
+      "snapshot_restore": false,
+      "error": null
+    },
+    "scheduler": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 0,
+        "prefill_returned": 0,
+        "decode_started": 0,
+        "decode_returned": 0,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 0,
+        "cancel_during_prefill": 0,
+        "cancel_during_decode": 0
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 0,
+      "completed": 0,
+      "cancelled": 0,
+      "failed": 0
+    },
+    "memory": null,
+    "cache": null,
+    "speculation": null,
+    "throughput": null,
+    "latency": null
+  },
+  "ready_at": "2026-10-02T01:46:32.144278+00:00",
+  "ready_info": {
+    "application": "synapse-lie",
+    "version": "0.1.0-dev",
+    "build_id": "core-candidate-r1",
+    "instance": "2301538-1470965871923108",
+    "backend": {
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "build_id": "core-candidate-r1",
+      "ownership": "delegated",
+      "state": "READY",
+      "model": "qwen3.8-flash-next",
+      "synthetic": false,
+      "hardware_qualified": false,
+      "native_batching": true,
+      "native_batch_capacity": 2,
+      "tools": true,
+      "tool_streaming": "buffered-complete-turn",
+      "context_tokens": 4096,
+      "max_output_tokens": 4096,
+      "max_request_bytes": 8388608,
+      "max_messages": 1024,
+      "mtp": false,
+      "snapshot_restore": false,
+      "error": null
+    },
+    "inference_verified": false
+  },
+  "final_llm": {
+    "schema": "synapse-lie.llm.v1",
+    "ready": true,
+    "backend": {
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "build_id": "core-candidate-r1",
+      "ownership": "delegated",
+      "state": "READY",
+      "model": "qwen3.8-flash-next",
+      "synthetic": false,
+      "hardware_qualified": false,
+      "native_batching": true,
+      "native_batch_capacity": 2,
+      "tools": true,
+      "tool_streaming": "buffered-complete-turn",
+      "context_tokens": 4096,
+      "max_output_tokens": 4096,
+      "max_request_bytes": 8388608,
+      "max_messages": 1024,
+      "mtp": false,
+      "snapshot_restore": false,
+      "error": null
+    },
+    "scheduler": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 1,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 22,
+        "prefill_returned": 22,
+        "decode_started": 272,
+        "decode_returned": 272,
+        "decode_batches": 32,
+        "decode_batch_rows": 64,
+        "decode_single_calls": 240,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 288,
+      "completed": 18,
+      "cancelled": 3,
+      "failed": 0
+    },
+    "memory": null,
+    "cache": null,
+    "speculation": null,
+    "throughput": null,
+    "latency": null
+  },
+  "lifecycle": {
+    "schema": "synapse-lie.serving-checks.v1",
+    "state": "HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_OR_PERFORMANCE_QUALIFICATION",
+    "provider": "gufo-embedded-f783fedb",
+    "synthetic": false,
+    "initial": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 6,
+        "prefill_returned": 6,
+        "decode_started": 16,
+        "decode_returned": 16,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 16,
+        "cancel_during_prefill": 0,
+        "cancel_during_decode": 0
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 10,
+      "completed": 6,
+      "cancelled": 0,
+      "failed": 0
+    },
+    "final": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 12,
+        "prefill_returned": 12,
+        "decode_started": 89,
+        "decode_returned": 89,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 89,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 79,
+      "completed": 9,
+      "cancelled": 3,
+      "failed": 0
+    },
+    "native_batch_dispatches_observed": 0,
+    "gpu_kernel_preemption_proved": false
+  },
+  "reactive": {
+    "state": "PASS",
+    "reference": [
+      {
+        "content": "1 2 3 4 5 6 7 8 9 10 11 12 13 14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      },
+      {
+        "content": "The alarm on the central SCADA (Supervisory Control and Data Acquisition) system didn\u2019t just beep; it screamed. At 02:14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      }
+    ],
+    "concurrent": [
+      {
+        "content": "1 2 3 4 5 6 7 8 9 10 11 12 13 14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      },
+      {
+        "content": "The alarm on the central SCADA (Supervisory Control and Data Acquisition) system didn\u2019t just beep; it screamed. At 02:14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      }
+    ],
+    "batch_dispatches": 32,
+    "seeded_sampling": true,
+    "heterogeneous_prompts": true,
+    "before": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 12,
+        "prefill_returned": 12,
+        "decode_started": 89,
+        "decode_returned": 89,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 89,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 79,
+      "completed": 9,
+      "cancelled": 3,
+      "failed": 0
+    },
+    "after": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 1,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 16,
+        "prefill_returned": 16,
+        "decode_started": 185,
+        "decode_returned": 185,
+        "decode_batches": 32,
+        "decode_batch_rows": 64,
+        "decode_single_calls": 153,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 207,
+      "completed": 12,
+      "cancelled": 3,
+      "failed": 0
+    }
+  },
+  "openai": {
+    "state": "PASS",
+    "responses_json_sse": true,
+    "seeded_sampling": true,
+    "native_tool_roundtrip": true,
+    "independent_numerical_qualification": false
+  },
+  "lifecycle_status": "PASS",
+  "server_exit_code": 0,
+  "models_after": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "historical_sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "historical_sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "historical_sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "historical_sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467,
+      "historical_sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6",
+      "full_hash_recomputed": false
+    }
+  ],
+  "binary_unchanged": true,
+  "postflight_kfd": [],
+  "postflight_gpu": {
+    "gpu_busy_percent": "77",
+    "mem_info_gtt_used": "355864576",
+    "mem_info_vram_used": "378974208"
+  },
+  "postflight_memory": {
+    "MemTotal": 134145568768,
+    "MemAvailable": 126328111104,
+    "SwapTotal": 134145372160,
+    "SwapFree": 128301838336
+  },
+  "finished_at": "2026-10-02T01:46:48.702256+00:00"
+}
