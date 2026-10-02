@@ -438,3 +438,16 @@ attempt's exit 1 and log remain under `evidence/`, and the older receipt was
 not changed. The shared registry records this window release. Core or Point
 may now take the next coordinated `.157` window with their own fresh four-lease
 admission; Q2 has no GPU or heavy-model-I/O job, reservation or waiter.
+
+In response to core's later KVC-v1/payloadABI2 fixture question: this LIE
+worktree has no DS4-produced Qwen KV payload or qualification receipt in its
+`docs/`, `config/` or `evidence/` trees. A read-only filename/JSON-metadata
+search of the sibling's historical `qualification/` records found references
+to `ds4_kvstore` source hashes, but no identified KVC-v1/payloadABI2 payload
+fixture or receipt. That search did not read DS4 source, build, model, cache or
+profiles and establishes only that no fixture was identified in the inspected
+evidence. Core should request a qualified payload receipt from the DS4 owner
+before treating a format or policy as interoperable; LIE will not import DS4
+code or artifacts. Q2's prior official-Gufo pin finding about raw K/V snapshot
+copy and QSA indexer pooling remains unchanged. The core R9 window stays core
+owned; this reply involves no `.157` build, lease or model access.
