@@ -16,8 +16,10 @@ also passes. The earlier ordered sweep stopped at the 85 C guard during 8K;
 its failure and cleanup remain preserved. Three matched C1/2/4/6/8 direct
 campaigns now qualify reactive, Gufo native and serial decode: at C8 their
 aggregate TG rates are 32.184/32.146/10.316 token/s, with exact output and
-frontier parity. Fresh full-prompt and served performance remain separately
-unqualified. The operator authorized a
+frontier parity. A further matched direct fresh-prompt pair passes 1500/8000/
+8192/32768/131072 physical tokens with two measured repetitions and exact
+frontiers. Near-256K fresh prefill and served performance retain separate
+qualification gates. The operator authorized a
 100 C manifest-scoped ceiling for the new full-depth campaigns; CPU Tctl
 triggered the old 85 C
 stop; [AMD lists the HX 370 Tjmax as 100 C](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).

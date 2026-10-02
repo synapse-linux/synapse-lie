@@ -3,6 +3,7 @@
 """Reproduce the .161 LIE reactive, direct Gufo and LIE serial multi benchmark."""
 import argparse
 import csv
+import datetime
 import hashlib
 import importlib.util
 import json
@@ -101,9 +102,11 @@ def main():
                                    for stat in ('median', 'min', 'max')]])
     (out/'reactive-dispatch.json').write_text(json.dumps(counters, indent=2)+'\n')
     resources = {}
+    timelines = {}
     for arm in ARMS:
         telemetry = [json.loads(line) for line in
                      (HERE/'input'/arm/'telemetry.jsonl').read_text().splitlines()]
+        timelines[arm] = telemetry
         resources[arm] = {
             'observations': len(telemetry),
             'peak_c': {sensor: max(t['value_c'] for row in telemetry
@@ -136,6 +139,29 @@ def main():
         axis.set_ylim(bottom=0)
     figure.savefig(out/'benchmark-zero.svg', metadata={'Date': None})
     figure.savefig(out/'benchmark-zero.png', dpi=160)
+    plt.close(figure)
+    figure, axes = plt.subplots(1, 2, figsize=(11, 4), layout='constrained')
+    for arm in ARMS:
+        telemetry = timelines[arm]
+        times = [datetime.datetime.fromisoformat(row['at']) for row in telemetry]
+        minutes = [(value-times[0]).total_seconds()/60 for value in times]
+        for sensor, suffix, style in (('k10temp', 'CPU', '-'), ('amdgpu', 'GPU', '--')):
+            values = [max(t['value_c'] for t in row['temperatures'] if t['name'] == sensor)
+                      for row in telemetry]
+            axes[0].plot(minutes, values, linestyle=style, label=f'{arm} {suffix}')
+        axes[1].plot(minutes, [row['gpu']['mem_info_gtt_used']/2**30 for row in telemetry],
+                     label=arm)
+    axes[0].axhline(100, color='black', linewidth=1, linestyle=':', label='CPU/GPU guard')
+    axes[0].set(xlabel='Minutes since admission', ylabel='Sampled sensor °C', ylim=(0, 105))
+    axes[1].set(xlabel='Minutes since admission', ylabel='Sampled whole-device GTT GiB',
+                ylim=(0, None))
+    for axis in axes:
+        axis.grid(alpha=.2)
+        axis.legend()
+    figure.suptitle('Original UD multi-user · separate admitted .161 runs aligned at start\n'
+                    'One-second supervisor samples; GTT includes whole device, not exact model allocation')
+    figure.savefig(out/'resources.svg', metadata={'Date': None})
+    figure.savefig(out/'resources.png', dpi=160)
     plt.close(figure)
     for path in out.iterdir():
         if path.suffix in ('.svg', '.csv'):

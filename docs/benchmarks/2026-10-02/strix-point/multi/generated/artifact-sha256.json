@@ -2,7 +2,7 @@
   "schema": "synapse-lie.point-multi-report.v1",
   "input_sha256": {
     "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
-    "docs/benchmarks/2026-10-02/strix-point/multi/make-report.py": "628c1d85ee4fc7f40cb3d6fedffd38a806853353dd2effc65b9037983b35a8ff",
+    "docs/benchmarks/2026-10-02/strix-point/multi/make-report.py": "bf1644dfa33f340bce05a63ab2502578f3fac1e23116cf9bfb34c4ac4a9629e8",
     "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/collection.json": "365945636e232fd5a4fba1b6ff04d9cc496c225e8bdd21e4403f13309f4eb430",
     "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/manifest.json": "8bb7cdc8c781e016a2bc7fd9232f1657034b51e61cc82f8425f06be2c5dab11d",
     "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/measurements.jsonl": "b0df707375d8f5c8e71934abf63379a0f416a77d9e1e9da752446a51d20f263f",
@@ -35,6 +35,8 @@
     "benchmark.svg": "a9c316fe6282529038fc482f3730fc3683480bbcea58002fe2482f8bd4e7d32c",
     "reactive-dispatch.json": "1c68dc33efeab3b8d631bbb76f98cd52a365d9a7522103555fe71bc7b485abe9",
     "resources.json": "cf39905ee2e911aff965f53b1a5f264867ff8cd7920572aba44e2492f3805684",
+    "resources.png": "2b8d02f4ef329278afd841933633e345e116acbc4b8b6ea8672e7b5d9eb03866",
+    "resources.svg": "a16a17cf81e5306560e578cc7256dfbf752349bd315867bd4f8feab109a7fde1",
     "summary.csv": "26398b8f7aed25739b1b4b2d1d243089955711f1574dc2de9087cdaed6aada19",
     "summary.json": "18ab8ff8c935e355f38ccf3ea2b0c8f0f65938bcf63e5b17b77c825607a0b46c"
   }

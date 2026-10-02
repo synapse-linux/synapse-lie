@@ -2,6 +2,18 @@
 
 ## Additional target .161 — Strix Point fork
 
+The matched `.161` `fresh-128k` LIE/Gufo arms retired at 15:31:31 and
+15:48:46 UTC on 2026-10-02. Both pass two measured full-prompt samples each
+at 1500/8000/8192/32768/131072 tokens with 128-token output and exact
+input/output/frontier parity. Fresh collection verified SHA-256 for all seven
+remote files per arm, owned supervisor/GPU child absent, private lease free,
+unchanged model stats and restored `llama-router.service`. Their sampled
+CPU/GPU peaks are below 92 C under the quoted 100 C manifest guard, with lower
+published sensor limits retained. The [direct report](STRIX-POINT-BENCHMARK-RESULT.md)
+separates this full-prompt work from earlier occupied-prefix timings. The
+near-256K prompt remains a distinct GPU workload; neither this completed
+pair nor idle observations grant a standing lease.
+
 Three subsequent `.161` multi-user campaigns (`strix-point-bench-multi-{lie,gufo,serial}-100c-r1`)
 each passed C1/2/4/6/8 with one warmup and three measured samples per point.
 The final serial arm retired at 15:03:17 UTC on 2026-10-02. The paired

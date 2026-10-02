@@ -19,7 +19,8 @@ hashes match on all eight points. The earlier 85 C attempt remains preserved
 below as a separate failed campaign. A short matched two-point test is also
 retained as historical evidence with different warmup settings.
 The C1/2/4/6/8 reactive, native Gufo and serial control arms also pass with
-three measured samples per point. Both `--suite loading` arms complete at
+three measured samples per point. Paired full-prompt fresh runs pass through
+131072 physical tokens. Both `--suite loading` arms complete at
 context capacity 262144. These are the
 actual direct-benchmark tests, separate from the earlier 9-token shared-core
 smoke in [the port report](STRIX-POINT-RESULT.md).
@@ -90,6 +91,41 @@ holds both raw JSONL streams, supervisor/collection receipts, complete
 comparison JSON/CSV, source/output hashes, resource peaks, standard and
 zero-axis SVG/PNG graphics, plus a byte-reproducible offline generator.
 
+## Fresh full-prompt prefill through 128K
+
+The paired `--suite fresh` campaigns each passed **two measured samples** at
+1500, 8000, 8192, 32768 and 131072 physical prompt tokens, followed by 128
+generated tokens. There is no warmup in this profile; context capacity is
+262144 in both arms. At every point both measured outputs fill the 128-token
+budget, and LIE/Gufo physical IDs, generated IDs and full prefill/decode
+frontier hashes agree. Here the PP clock covers the **entire new prompt**,
+unlike the occupied-prefix `single` suite above. Values are medians of two;
+observed min/max remain in the CSV, with no outlier removal.
+
+| Fresh prompt | LIE PP tok/s | Gufo PP tok/s | LIE TG tok/s | Gufo TG tok/s |
+|---:|---:|---:|---:|---:|
+| 1500 | 444.514 | 445.049 | 10.4444 | 10.4274 |
+| 8000 | 444.475 | 446.996 | 10.2738 | 10.2623 |
+| 8192 | 440.846 | 442.947 | 10.2653 | 10.2496 |
+| 32768 | 434.917 | 438.392 | 10.2037 | 10.1902 |
+| 131072 | 413.264 | 412.584 | 9.8940 | 9.8750 |
+
+LIE's fresh PP median at 128K is 7.03% below its own 1500-token point;
+Gufo's is 7.29% below. This ratio reflects averaging all prefill work from
+position zero and differs from the 2048-token tail rate after an occupied
+128K prefix. Both arms use the same 82384141824-byte model resident and
+6786984980-byte per-session **estimates** at capacity262144. Sampled peak
+whole-device GTT is 92224847872 bytes in each; CPU/GPU peaks are
+91.625/91 C for LIE and 91.75/91 C for Gufo. Each campaign has supervisor
+and child exit0, unchanged model stats, restored service and verified free lease.
+These are direct GPU executor intervals, without HTTP or prefix-cache hits.
+
+![Fresh full-prompt PP and TG through 128K](benchmarks/2026-10-02/strix-point/fresh-128k/generated/benchmark-zero.svg)
+
+The [fresh 128K bundle](benchmarks/2026-10-02/strix-point/fresh-128k/README.md)
+preserves all 20 samples, exact source/collection hashes, full summary and
+sampled temperature/GTT timelines with offline reproduction.
+
 ## Concurrent .161 LIE reactive, direct Gufo and LIE serial
 
 The three `--suite multi` campaigns all passed with child/supervisor exit 0,
@@ -128,6 +164,8 @@ under its published 89.85 C maximum. The
 [three-arm raw bundle](benchmarks/2026-10-02/strix-point/multi/README.md)
 contains all 60 samples, per-sample batch counters, exact receipt hashes,
 resource telemetry and byte-reproducible plots/CSV/JSON.
+
+![Concurrent-run sampled temperatures and GTT](benchmarks/2026-10-02/strix-point/multi/generated/resources.svg)
 
 ## Earlier matched .161 LIE versus direct Gufo, short protocol
 
@@ -223,6 +261,8 @@ The [paired memory bundle](benchmarks/2026-10-02/strix-point/memory/README.md)
 holds exact raw data, collection hashes, estimates, telemetry and reproducible
 CSV/JSON/plots.
 
+![Memory-workload sampled temperatures and GTT](benchmarks/2026-10-02/strix-point/memory/generated/resources.svg)
+
 ## Loading at capacity 256K
 
 Separate LIE and direct Gufo `--suite loading` runs completed with **context
@@ -252,7 +292,8 @@ retains both campaigns and a reproducible plot/CSV.
 |---|---|
 | Original-weight `lie-bench` PP2048/TG128 at occupied 0 through 128K | Complete matched LIE/Gufo eight-depth pair, exact prompts/outputs/frontiers |
 | Earlier 85 C ordered sweep | Stopped at start of 8K; preserved as failed evidence, superseded by fresh 100 C passing campaigns |
-| Full fresh prefill 8K/32K/128K/256K | Separate suite not yet qualified on .161 |
+| Full fresh prefill 1.5K/8K/32K/128K | Paired LIE/Gufo pass, two measured repetitions and exact frontiers per point |
+| Full fresh prefill near 256K | Separate workload not yet qualified on .161 |
 | Concurrent C1/2/4/6/8 and serial/reactive comparison | Three matched arms pass, with confirmed executor batches and complete 128-token outputs |
 | Memory estimates at capacity 133121 | Paired d0/PP2048 and d16384/PP4096 pass; estimated versus sampled bytes distinguished |
 | Model loading at capacity 256K | Paired LIE/Gufo pass, one OS-cache-uncontrolled observation each |

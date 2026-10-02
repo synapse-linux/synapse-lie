@@ -29,6 +29,17 @@ preserve model stats and restore the service. Exact raw data, counters,
 telemetry, CSV/JSON and reproducible plots are in the
 [three-arm bundle](benchmarks/2026-10-02/strix-point/multi/README.md).
 
+The later `.161` paired `fresh` campaigns also pass for 1500, 8000, 8192,
+32768 and 131072 **entirely new physical prompt tokens** at capacity 262144,
+with no warmup and two measured repetitions per point. All 20 samples finish
+the 128-token output budget; LIE and Gufo physical IDs, output IDs and PP/TG
+frontier hashes match at all five points. At 128K, fresh PP medians are
+413.264/412.584 token/s and TG medians 9.894/9.875 token/s; this is a
+different metric from a 2048-token tail after a live 128K prefix. Both runs
+retire cleanly with sampled CPU/GPU peaks below 92 C. Raw receipts, exact
+min/max and reproducible graphs are in the
+[fresh-128K bundle](benchmarks/2026-10-02/strix-point/fresh-128k/README.md).
+
 The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
 The campaign supervisor requires that explicit override in the manifest and
 still applies lower published sensor limits, including NVMe max 89.85 C.

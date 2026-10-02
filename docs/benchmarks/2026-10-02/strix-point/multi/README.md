@@ -13,7 +13,8 @@ lower published limits per sensor.
 
 `input/{lie,gufo,serial}/` holds the original seven campaign files per arm and
 its SHA-256 collection/retirement receipt. `generated/` holds all three
-series with observed min/max, comparative JSON/CSV, sampled resource peaks,
+series with observed min/max, comparative JSON/CSV, sampled resource peaks and
+temperature/GTT timelines,
 every measured reactive batch counter, normal and zero-axis SVG/PNG plots, and
 source/output hashes. The plotted prefill is aggregate new prefill throughput;
 this suite pre-fills sequences before the common decode interval. Its decode

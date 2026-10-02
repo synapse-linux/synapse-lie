@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 """Validate and reproduce .161 memory or fresh-prefill LIE/Gufo bundles offline."""
 import argparse
+import datetime
 import hashlib
 import importlib.util
 import json
@@ -56,6 +57,7 @@ def main():
     runs = {}
     resources = {}
     estimates = {}
+    timelines = {}
     for arm, execution in (('lie', 'LIE-reactive-ready-batch'),
                            ('gufo', 'upstream-native-batch')):
         root = bundle/'input'/arm
@@ -80,6 +82,7 @@ def main():
                            'session_bytes_estimate': r['session_bytes_estimate']}
                           for r in loads]
         telemetry = [json.loads(line) for line in (root/'telemetry.jsonl').read_text().splitlines()]
+        timelines[arm] = telemetry
         resources[arm] = {'observations': len(telemetry),
                           'peak_c': {sensor: max(t['value_c'] for row in telemetry
                                                   for t in row['temperatures'] if t['name'] == sensor)
@@ -120,6 +123,29 @@ def main():
                     'frontier identity; bars: observed min/max; zero-based axes')
     figure.savefig(out/'benchmark-zero.svg', metadata={'Date': None})
     figure.savefig(out/'benchmark-zero.png', dpi=160)
+    plt.close(figure)
+    figure, axes = plt.subplots(1, 2, figsize=(11, 4), layout='constrained')
+    for arm, label in (('lie', 'LIE'), ('gufo', 'Gufo')):
+        telemetry = timelines[arm]
+        times = [datetime.datetime.fromisoformat(row['at']) for row in telemetry]
+        minutes = [(value-times[0]).total_seconds()/60 for value in times]
+        for sensor, name, style in (('k10temp', 'CPU', '-'), ('amdgpu', 'GPU', '--')):
+            values = [max(t['value_c'] for t in row['temperatures'] if t['name'] == sensor)
+                      for row in telemetry]
+            axes[0].plot(minutes, values, linestyle=style, label=f'{label} {name}')
+        axes[1].plot(minutes, [row['gpu']['mem_info_gtt_used']/2**30 for row in telemetry],
+                     label=label)
+    axes[0].axhline(100, color='black', linewidth=1, linestyle=':', label='CPU/GPU guard')
+    axes[0].set(xlabel='Minutes since admission', ylabel='Sampled sensor °C', ylim=(0, 105))
+    axes[1].set(xlabel='Minutes since admission', ylabel='Sampled whole-device GTT GiB',
+                ylim=(0, None))
+    for axis in axes:
+        axis.grid(alpha=.2)
+        axis.legend()
+    figure.suptitle('Original UD '+args.profile+' · separate admitted runs aligned at start\n'
+                    'One-second supervisor samples; GTT includes whole device, not exact model allocation')
+    figure.savefig(out/'resources.svg', metadata={'Date': None})
+    figure.savefig(out/'resources.png', dpi=160)
     plt.close(figure)
     (out/'resources.json').write_text(json.dumps(resources, indent=2)+'\n')
     (out/'size-estimates.json').write_text(json.dumps(estimates, indent=2)+'\n')

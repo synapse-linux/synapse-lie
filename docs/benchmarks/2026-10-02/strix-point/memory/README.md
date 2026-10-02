@@ -8,8 +8,9 @@ all outputs and matched physical inputs, outputs and PP/TG frontier hashes.
 
 The common model resident estimate is 82384141824 bytes and the per-session
 estimate is 3517025300 bytes. They are upstream estimates, **not exact peak
-GPU allocations**. `generated/resources.json` separately gives sampled
-whole-device GTT and temperatures. `input/{lie,gufo}/` retains the seven
+GPU allocations**. `generated/resources.json` and `generated/resources.svg`
+separately give sampled whole-device GTT and temperature peaks/timelines.
+`input/{lie,gufo}/` retains the seven
 original campaign files and each SHA-256 collection/retirement receipt.
 `generated/` contains validated comparison CSV/JSON and plots.
 
