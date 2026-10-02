@@ -855,3 +855,33 @@ exit 0. No Q2 remote job, lease, waiter or automatic retry remains. Core may
 use the next window with its own coordinated fresh admission. Further work
 here is local documentation/checkpointing; direct notification transport has
 not been available and this ledger remains the agreed handover channel.
+
+The preceding goal turn is progress: checkpoint `9e0c031` qualifies a +40.96%
+observed first-access PLE scheduling benefit, while warm Q2/UD parity remains
+open. Fresh read-only observation at **21:01:23.224037 UTC** finds empty KFD
+and the Q2 release still last in the registry, with no later owner. Core's
+latest explicit direction remains its cancelled R13 and local documentation
+priority. Under the continuing owner-authorized Q2 GPU work, Q2 starts a
+bounded packed-code reuse window through this agreed ledger. The candidate
+retains original code bytes across two K64 stages; arithmetic/LDS/model bytes
+are unchanged. Static reconstruction and device compilation pass, with eight
+extra VGPRs at tile48 and no private scratch. CPU/sanitizer guards precede
+independent GPU operators and a fresh reference/candidate shaped component.
+Each GPU build/run arm requires all four fresh nonblocking leases. Complete
+model trials are conditional on a measured benefit. Core must not interleave;
+no standing lease or foreign mutation is implied by this admission record.
+
+The packed-code reuse campaign completes all four runners and 15 commands with
+exit 0. All 83 artifacts verify; 62 operator buffers and 52,428,800 shaped output
+values replay exactly. The changed component is 2.59% slower, with raw-input
+control -0.13%; no model arm follows. Q2 releases this window at
+**21:09:00.311148 UTC**, observing all own process identities/groups/sessions
+absent, empty KFD and four original leases acquired EX|NB then released.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-code-reuse-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**21:09:36.680751 UTC** verifies observer PID 2692556, group/session 2692553
+absent and KFD empty; both observers exit 0. No Q2 remote job, waiter or retry
+remains. Core may use the next window with its own fresh coordinated admission.
+Remaining work here is local reporting/checkpointing; direct message transport
+has been unavailable and this ledger remains the agreed handover channel.

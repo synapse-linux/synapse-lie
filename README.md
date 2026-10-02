@@ -113,6 +113,11 @@ The [HC coalesced-fetch probe](docs/Q2-HC-DOWN-COALESCED.md) preserves all
 outputs but changes component throughput only 0.66%, within the overlapping
 sample distributions. No model sweep or runtime promotion follows.
 
+The [packed-Q2 code-reuse probe](docs/Q2-CODE-REUSE.md) retains original code
+bytes across adjacent stages. It passes independent GPU checks and exact replay,
+but increases component time 2.59%, with an unchanged control at -0.13%.
+It is rejected; all samples, graph and closure evidence are retained.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

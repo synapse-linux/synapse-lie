@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Packed Q2 code reuse measured — 2026-10-02
+
+Retaining the original Q2 code bytes across two K64 stages halves their source
+fetches, but the [shaped component](Q2-CODE-REUSE.md) slows 5688.152 -> 5835.681
+us (+2.59%). The unchanged raw-input control changes -0.13%. The candidate
+is rejected, with no original-model run or runtime promotion. Additional
+register lifetime may offset fetch savings; this comparison does not isolate
+that mechanism. The complete-model Q2/UD performance gap remains open.
+
+Thirty independent GPU cases, 32 packed/chain checks, all 62 saved buffers and
+52,428,800 shaped output values pass unchanged limits/exact replay. The benchmark
+also verifies 1024 independent FP64 dot products. Source guards pass 12/12
+Debug and 12/12 ASan/UBSan on `.157`. Four runners/15 commands exit 0 and all
+83 artifacts verify. [Release](../config/q2-code-reuse-validation.json) at
+21:09:00 UTC and independent observer retirement at 21:09:36 verify empty KFD
+and all four original leases free. No Q2 remote job or automatic retry remains.
+
 ## Reactive PLE first-access benefit measured — 2026-10-02
 
 The [eight-set ABBAABBA comparison](Q2-PLE-FIRST-ACCESS.md) now measures the

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Plot all Q2 weight-staging component samples with the unchanged control."""
+"""Plot all packed-Q2 component samples with the unchanged control."""
 import argparse
 import csv
 import json
@@ -12,18 +12,20 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('report', type=Path)
     p.add_argument('output', type=Path)
+    p.add_argument('--candidate-label', default='Staged weights')
     a = p.parse_args()
     report = json.loads(a.report.read_text())
     os.environ.setdefault('MPLCONFIGDIR', str(Path(__file__).resolve().parents[1] / 'evidence/.mpl-cache'))
     import matplotlib
     matplotlib.use('Agg')
+    matplotlib.rcParams['svg.hashsalt'] = 'q2-packed-component'
     import matplotlib.pyplot as plt
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))
     csv_rows = []
     for ax, packed, key, title in zip(axes, [True, False], ['packed', 'raw'],
                                      ['Changed packed-Q2 path', 'Unchanged raw-input control']):
         medians = [report[name]['median_us'][key] / 1000 for name in ('reference', 'candidate')]
-        bars = ax.bar(['Reference', 'Staged weights'], medians, color=['#376fbd', '#cf7738'])
+        bars = ax.bar(['Reference', a.candidate_label], medians, color=['#376fbd', '#cf7738'])
         ax.bar_label(bars, labels=[f'{v:.3f}' for v in medians], padding=5)
         maximum = max(medians)
         for x, arm in enumerate(('reference', 'candidate')):
@@ -44,7 +46,8 @@ def main():
              ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .12, 1, .91))
     for extension in ('.svg', '.png'):
-        fig.savefig(a.output.with_suffix(extension), dpi=150)
+        metadata = {'Date': None} if extension == '.svg' else None
+        fig.savefig(a.output.with_suffix(extension), dpi=150, metadata=metadata)
     svg = a.output.with_suffix('.svg')
     svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines()) + '\n')
     with a.output.with_suffix('.csv').open('w') as file:

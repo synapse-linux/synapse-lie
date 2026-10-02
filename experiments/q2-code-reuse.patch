@@ -1,0 +1,33 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4046,6 +4046,10 @@
+   // Paired gate/up tiles reuse the full quantized block over four stages.
+   // Keep its remaining codes in registers alongside the cached header.
+   uint4 code_cache[kWaveRowTiles][4];
++  // Q2's 32 stored bytes contain four K32 groups in separate 2-bit planes.
++  // A thread consumes two of those groups in successive K64 stages. Retain
++  // the original bytes instead of fetching the same range for both stages.
++  uint4 q2_code_cache[kQ2 && kPacked ? kWaveRowTiles : 1][2];
+   uint4 f_codes_hi[kWaveRowTiles];  ///< Q8_0: the block's second 16 codes
+   uint4 f_qh[kWaveRowTiles][2];     ///< Q5_K: the superblock's high bits
+   std::uint32_t f_high[kWaveRowTiles];
+@@ -4131,8 +4135,17 @@
+         const int sb32 = kb0 + f_c;
+         const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
+         const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
+-        __builtin_memcpy(&f_codes[u], codes, 16);
+-        __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
++        if constexpr (kPacked) {
++          if (kb0 % 4 == 0) {
++            __builtin_memcpy(&q2_code_cache[u][0], codes, 16);
++            __builtin_memcpy(&q2_code_cache[u][1], codes + 16, 16);
++          }
++          f_codes[u] = q2_code_cache[u][0];
++          f_codes_hi[u] = q2_code_cache[u][1];
++        } else {
++          __builtin_memcpy(&f_codes[u], codes, 16);
++          __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
++        }
+         __builtin_memcpy(&f_dm[u], blk + 80, 4);
+         f_high[u] = blk[2 * (sb32 % 8)] |
+                     (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);

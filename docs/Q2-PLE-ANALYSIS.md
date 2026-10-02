@@ -89,6 +89,14 @@ ones for row gathering. The historical write path, file attributes at creation
 and compression decisions are not established by FIEMAP, so the reason these
 PLE regions have different encoding remains unverified.
 
+Filesystem compression changes how the original GGUF bytes are stored; it does
+not change their numerical quantization. For a scattered row absent from the
+filesystem cache, accessing a few hundred useful bytes in a compressed extent
+can require reading and decompressing a larger chunk. The 128-KiB figure is the
+uncompressed chunk size, not a claim that every row reads 128 KiB physically.
+Same-disk placement therefore does not establish identical row-access costs.
+UD's denser IQ4_NL rows and the measured extent layout are separate differences.
+
 Btrfs documents that reads of compressed extents fall back to buffered I/O
 even with `O_DIRECT`. It also describes 128-KiB compression chunks. This is a
 concrete explanation consistent with the expensive first Q2 access and fast
