@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## Additional target .161 — Strix Point fork
+
+The owner requested the UD port and tests on `pop@192.168.5.161`; this fork owns
+only its `feature/strix-point-ud` work and persistent test directories under
+`/home/pop/workspace/synapse-lie`. Read-only inspection at 07:41 UTC on 2026-10-02
+found `llama-router.service` PID2211125 with `/dev/kfd` and renderD128 open.
+The service can autoload models. It was not stopped, signalled, reconfigured or
+queried for inference. An owner-release question remains pending; no GPU lease,
+model payload access, remote GPU build or implicit waiter was started.
+
+Synthetic CPU tests are authorized by the test request. The target runner masks
+GPU visibility, and headless container tests expose no GPU device nodes. All
+private children retire; the existing service and unrelated containers remain
+untouched. Recorded temperatures and actual exits are retained, including the
+first container sensor-discovery failure. These tests do not consume a GPU window.
+
+Any later GPU, model hash/download or remote HIP build requires an actual
+.161-specific handover/lease agreement and fresh admission with resource and
+foreign-client checks. Do not copy .157 DS4 lock paths to .161 or infer ownership
+from a newly created private lock. No .157/.158 resource is used by this fork.
+See [the target inventory and qualification gates](STRIX-POINT.md).
+
 ## Ownership and observed isolation
 
 Editing host `.155`, target `paperboy@192.168.5.157`, SSH port 22, recovered from

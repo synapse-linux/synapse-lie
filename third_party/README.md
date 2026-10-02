@@ -189,3 +189,12 @@ and snapshot implementation; the representation and cache policy are C17-owned.
 HIP field transfers remain platform-specific and active forward execution remains
 delegated. This variant is not the pristine upstream source/build. The RAM default
 requires an explicitly state-capable composition; pristine baselines use RAM off.
+## Strix Point composition
+
+The `feature/strix-point-ud` fork independently fetched the same official Gufo
+archive at `f783fedb`, matching the recorded archive and 1019 file hashes. Its
+LIE-owned Qwen-only CMake recipe can select real gfx1150, with a target-bound
+receipt and runtime admission. Numerical files, licenses, wave64 translation
+unit flags and the optional state-access variant retain their existing
+provenance. This is experimental platform support, not upstream release or
+original-weight GPU qualification; see [STRIX-POINT.md](../docs/STRIX-POINT.md).

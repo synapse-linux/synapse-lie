@@ -39,6 +39,17 @@ core C1/C2/C4/C8 and default-on HTTP. At 128K a repeated full-prefix hit reduces
 core TTFT from 98.384 s to 0.225 s; full recomputation and first-capture costs
 remain explicitly separate. This is reuse, not faster fresh prefill.
 
+## Strix Point port
+
+The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
+device admission, preserving the shared C17 reactive core and default gfx1151
+target. CPU architecture checks and headless ASan/UBSan tests pass on
+`pop@192.168.5.161`; the gfx1150 numerical archives and executables compile/link,
+and no-model startup passes in the existing target container/runtime. The full
+local sanitizer suite passes 34/34. Original-weight UD GPU tests remain blocked
+by the existing GPU service and missing Flash Next shards.
+See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
+
 ## Native tool API baseline
 
 The C17 server now accepts OpenAI function tools, assistant calls and correlated

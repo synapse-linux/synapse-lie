@@ -26,6 +26,7 @@ struct lie_sequence {
     bool started=false,stopped=false;
 };
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
+extern "C" lie_status lie_gufo_device_validate(lie_error *) noexcept;
 namespace {
 lie_status fail(lie_error *e,const char *s) { if(e)std::snprintf(e->message,sizeof(e->message),"%s",s);return LIE_BACKEND_FAILED; }
 template<class F> lie_status protect(lie_error *e,F f) {
@@ -37,6 +38,8 @@ extern "C" const char *lie_backend_source_pin(void) {return "f783fedb9bea2ec7de9
 extern "C" const char *lie_backend_ownership(void) {return "delegated";}
 extern "C" int lie_backend_is_synthetic(void) {return 0;}
 extern "C" lie_status lie_backend_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
+    const auto status = lie_gufo_device_validate(e);
+    if (status != LIE_OK) return status;
     return protect(e,[&] { qfn::ModelOptions options;options.max_context=o->context_tokens;
         options.decode_concurrency=reference_width;options.max_draft_tokens=1;
         std::string error;auto model=qfn::Model::Load(path,options,&error);

@@ -1,5 +1,26 @@
 # Isolated OpenAI reactive API increment
 
+## Strix Point fork — 2026-10-02
+
+`feature/strix-point-ud` starts from the qualified shared-core checkpoint
+`02a9464`. Explicit gfx1150 selection, archive/cache target binding and runtime
+architecture/wave validation are implemented without numerical source changes.
+The C17 core and reactive scheduling remain shared. On `pop@192.168.5.161`,
+host target/admission fixtures pass ASan/UBSan and four Python receipt checks;
+headless core CTest passes 6/6 under ASan/UBSan, CPU peak47.625 C. The initial
+container sensor failure and local thermal preflight refusals are retained.
+The complete local ASan/UBSan suite passes 34/34. All 38 gfx1150 numerical build
+steps and server/bench/reference links pass; ten device ELF headers confirm
+gfx1150. No-model startup on .161 works with the existing runtime and isolated
+DSOs, without installing the missing target SDK. Loader failures are retained.
+
+GPU qualification has not run: the foreign `llama-router.service` holds KFD,
+the requested Flash Next UD shards were not found in known model directories,
+and no model was substituted. The target's native SDK is incomplete, but the
+prepared cross-host/container path passes its no-model checks. No foreign process stop,
+package install, weight download, tuning or
+publication occurred. [Port boundary and staged device gates](STRIX-POINT.md).
+
 ## Optional SSD prefix persistence — 2026-10-02
 
 Implemented the version 1 component codec, conservative full-file identity,
