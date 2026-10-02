@@ -1,0 +1,14 @@
+{
+  "state": "PREPARED_NOT_LAUNCHED",
+  "source_commit": "8bc6f74",
+  "arms": 14,
+  "operator_authorization_persists": true,
+  "window_state": "pending-Q2-handover",
+  "controller_requires": "handed-over plus fresh per-arm leases",
+  "capsule_path": "run/ssd-gpu-r2.tar.gz",
+  "capsule_sha256": "c9bd87fd101d0f78678dda895ff24d80bc94a2705603b178a78fc3aca75d6334",
+  "manifest_sha256": "b1d05bcb25b2e38fe3dcc0e85cb44087b26fc71a005e9a1a0d97071d113960c1",
+  "thermal_limit_c": 98,
+  "nvme_ceiling_c": 85,
+  "lower_exposed_limits_enforced": true
+}
