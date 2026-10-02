@@ -22,6 +22,44 @@ variant changes three friend declarations in two independently fetched headers,
 with separate source/build hashes. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
+## Multi-model requirement
+
+RAM and optional SSD prefix caching must serve every supported model family
+through the same C17 core. Qwen is the first implemented component binding and
+KVC payload codec; its geometry must not become a requirement of the cache.
+
+- The shared core owns lookup, priorities, eviction, budgets, immutable lifetime,
+  optional lossless packing, persistence, cancellation and metrics. HTTP, bench
+  and future chat/eval clients consume that same implementation.
+- Each model binding describes its complete reusable frontier: ordinary K/V,
+  recurrent or hybrid state, positions and any required auxiliary history.
+  Model-defined components use versioned roles/representations; models without
+  PLE, n-grams or pooled indices must not allocate or invent those components.
+- Each interoperable model payload has its own C codec/mapping under
+  `src/models/`. The KVC envelope and file I/O remain shared; model dispatch and
+  identity checks belong at the loaded-model boundary, outside cache policy and
+  HTTP. A KVC model id alone never selects a trusted live binding. Preserve each
+  supported upstream payload exactly instead of encoding other models as Qwen.
+- Active device KV layout and numerical compression remain model/provider
+  capabilities. Shared checkpoint packing does not promise the same compression
+  ratio or representation for every architecture or device. A new model must
+  declare its state support before cache readiness.
+
+Supporting several models does not authorize sharing checkpoints between
+different weights, tokenizers, positional configurations or incompatible
+representations. Validate identity and layout before any device mutation;
+unsupported model payloads may remain opaque for offline copying but cannot be
+restored. RAM stays enabled by default; SSD stays explicit opt-in.
+
+Before extending live KVC integration, preserve these boundaries in model
+selection, identity binding and auxiliary-history capture. Qualification of a
+second family must exercise the same RAM/SSD policy and lifecycle with a
+different component layout, refusal of incompatible identities/versions, and
+independent cold-versus-restored logits/tokens on each supported device path.
+Synthetic layout fixtures can validate the generic boundary but do not establish
+inference support for another family. No second-family live KVC support is
+claimed by the current Qwen implementation.
+
 ## Implemented RAM contract
 
 The additive [KVC interchange API](KVC.md) reads/writes foreign wire records in

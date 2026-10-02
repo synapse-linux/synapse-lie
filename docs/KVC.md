@@ -11,6 +11,13 @@ cache still uses the independently qualified LIE component representation and
 native `LIEPFX1` SSD format. Neither parsing a foreign file nor a synthetic
 round-trip authenticates its model or proves equivalent next-token inference.
 
+The envelope/store is model-neutral. Qwen is the first typed payload codec and
+host mapper, not the cache's universal state schema. Further model families add
+their own exact payload codec and state binding while reusing the same RAM/SSD
+policy, budgets and reactive lifecycle. Live codec selection must follow a
+validated loaded-model binding; foreign header identifiers alone cannot admit a
+restore. See the [multi-model contract](STATE.md#multi-model-requirement).
+
 ## Offline use
 
 ```sh

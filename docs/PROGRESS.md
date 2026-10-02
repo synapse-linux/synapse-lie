@@ -1,5 +1,20 @@
 # Isolated OpenAI reactive API increment
 
+## Multi-model cache requirement — 2026-10-02
+
+The owner confirms that KV/prefix caching must also serve other model families.
+Recorded an explicit [multi-model contract](STATE.md#multi-model-requirement):
+shared C17 RAM/SSD policy, resource and reactive lifecycle; model-specific
+component geometry, complete frontier capture and exact KVC payload codecs.
+The loaded-model binding must select and authenticate a codec before restore;
+Qwen-specific history must not enter generic cache/storage policy. Second-family
+RAM/SSD lifecycle and numerical qualification are acceptance gates, not existing
+support. Different models do not share otherwise incompatible checkpoints.
+
+Source review confirms separate generic state/store/envelope and Qwen model
+modules. This checkpoint changes documentation only; no runtime, ABI, model or
+GPU work, and no new test execution is needed.
+
 ## C17 Qwen KVC/native component mapping — 2026-10-02
 
 Added shared `lie_qwen_kvc`: allocation-free projection of validated text AR

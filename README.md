@@ -47,6 +47,10 @@ write and structurally validate DS4 Qwen records. A C17 host mapper converts
 native components and requires explicit missing index history for export.
 Live model binding, GPU qualification and cross-quantization reuse remain pending;
 runtime caches still use LIE state.
+The [multi-model cache contract](docs/STATE.md#multi-model-requirement) keeps
+RAM/SSD policy shared and payload codecs specific to each model family; Qwen is
+the first implementation, with other families still requiring their own binding
+and inference qualification.
 An additional high-ratio Qwen cache codec is deferred: it is absent from the
 reviewed antirez path and is outside the current compatibility scope.
 The earlier GPU numbers above use their recorded capture policy.
