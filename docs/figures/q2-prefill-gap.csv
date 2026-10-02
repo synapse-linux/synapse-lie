@@ -1,0 +1,31 @@
+arm,source,shape,rep,us_per_launch
+Reference,evidence/q2-prefill-gap-hc-ref-r1,320x10240,0,1185.728430748
+Reference,evidence/q2-prefill-gap-hc-ref-r1,320x10240,1,1122.322797775
+Reference,evidence/q2-prefill-gap-hc-ref-r1,320x10240,2,1169.338822365
+Reference,evidence/q2-prefill-gap-hc-ref-r1,320x10240,3,1205.435037613
+Reference,evidence/q2-prefill-gap-hc-ref-r1,320x10240,4,1217.146992683
+Reference,evidence/q2-prefill-gap-hc-ref-r1,10240x320,0,931.9031238556
+Reference,evidence/q2-prefill-gap-hc-ref-r1,10240x320,1,957.5471282005
+Reference,evidence/q2-prefill-gap-hc-ref-r1,10240x320,2,954.394698143
+Reference,evidence/q2-prefill-gap-hc-ref-r1,10240x320,3,953.8772702217
+Reference,evidence/q2-prefill-gap-hc-ref-r1,10240x320,4,957.3121070862
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,320x10240,0,1274.766921997
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,320x10240,1,1290.786504745
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,320x10240,2,1279.736399651
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,320x10240,3,1263.9118433
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,320x10240,4,1310.265541077
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,10240x320,0,928.2714128494
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,10240x320,1,926.6063570976
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,10240x320,2,943.5958862305
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,10240x320,3,927.3537993431
+Before token tile,evidence/q2-prefill-gap-hc-token-r1,10240x320,4,942.8952336311
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,320x10240,0,1258.260011673
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,320x10240,1,1352.627515793
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,320x10240,2,1369.746446609
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,320x10240,3,1190.989017487
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,320x10240,4,1210.443496704
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,10240x320,0,929.4738173485
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,10240x320,1,955.6531906128
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,10240x320,2,928.7838935852
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,10240x320,3,935.2812170982
+Before K32 stage,evidence/q2-prefill-gap-hc-stage-r1,10240x320,4,946.6183781624

@@ -1,0 +1,16 @@
+{
+  "scope": "Static preparation; runtime benefit and exact replay unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-stage-bound",
+  "base_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "candidate_sha256": "f5c63f859df486b00791d59128b24a45ab0168ee1600d0a1658e8016bcdc150c",
+  "patch_sha256": "d9e3f557959edb3b8a6050e289c3ebc0d3274876725b1b02ae3d2b1103971d8e",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "mechanism": "Compiler memory barrier before each HC down k fragment load",
+  "dispatch": "Existing F16 DenseF16GEMM 64x128 BK2 WM2 WN4 row-group5 only",
+  "unchanged": "Original weights, LDS allocation, tiles, split accumulation chains and scalar HC16 decode; other kernels unaffected",
+  "numeric_contract": "Exact component/model replay, with unchanged independent operator thresholds"
+}

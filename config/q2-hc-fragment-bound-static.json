@@ -1,0 +1,84 @@
+{
+  "scope": "Editing-host device-only compiler check; no GPU execution",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-fragment-bound",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-fragment-bound/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-fragment-bound-static-r1.s"
+  ],
+  "started_at": "2026-10-02T22:49:10.009842+00:00",
+  "finished_at": "2026-10-02T22:49:19.068053+00:00",
+  "exit_code": 0,
+  "assembly_sha256": "98d0b82338f678edcc5886c50888b5ba7cac125f9d9d6d9271b924c5d9208fe5",
+  "resources": {
+    "reference": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 251,
+      "next_free_sgpr": 22
+    },
+    "candidate": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 253,
+      "next_free_sgpr": 20
+    }
+  },
+  "checks": [
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-fragment-bound.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-fragment-bound-reconstructed",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-fragment-bound-source-checks/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-fragment-bound/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-fragment-bound-source-checks/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-fragment-bound",
+      "exit_code": 1,
+      "log": "evidence/q2-hc-fragment-bound-source-checks/shared-format.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true
+}

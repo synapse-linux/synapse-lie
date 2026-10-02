@@ -1,0 +1,15 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5549,6 +5549,12 @@
+       }
+ #pragma unroll
+       for (int j = 0; j < kWaveTokTiles; ++j) {
++        if constexpr (kHalfWeights && !kHcMix && BM == 64 && BN == 128 &&
++                      BK == 2 && WM == 2 && WN == 4 && kRowGroup == 5) {
++          // Keep the next token tile's LDS fragments out of the current
++          // tile's live register set. No device barrier or arithmetic change.
++          asm volatile("" ::: "memory");
++        }
+         const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
+         uint4 c[4];
+ #pragma unroll

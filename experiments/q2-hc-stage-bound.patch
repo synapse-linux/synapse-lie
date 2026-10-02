@@ -1,0 +1,15 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5534,6 +5534,12 @@
+     __builtin_amdgcn_sched_barrier(0);
+ #pragma unroll
+     for (int kb = 0; kb < BK; ++kb) {
++      if constexpr (kHalfWeights && !kHcMix && BM == 64 && BN == 128 &&
++                    BK == 2 && WM == 2 && WN == 4 && kRowGroup == 5) {
++        // Keep later K32 fragments out of this stage's live register set.
++        // This compiler boundary changes no device barrier or arithmetic.
++        asm volatile("" ::: "memory");
++      }
+       v16h a_lo[kWaveRowTiles];
+       v16h a_hi[kWaveRowTiles];
+ #pragma unroll

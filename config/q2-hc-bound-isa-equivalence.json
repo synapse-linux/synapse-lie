@@ -1,0 +1,14 @@
+{
+  "scope": "Static normalized instructions for the changed HC down function; not performance",
+  "same": false,
+  "assemblies": [
+    "evidence/q2-hc-fragment-bound-static-r1.s",
+    "evidence/q2-hc-stage-bound-static-r1.s"
+  ],
+  "instruction_sha256": [
+    "615bf5deae00aefbe4aed0dd9bd32c28b583906177a7f1746abc2c2e08834830",
+    "eaa9e3924f3e598a7017dcdc1c3f0a9c02f810dc53b1930c6032a918acfc24a0"
+  ],
+  "retained_first_attempt": "evidence/q2-hc-bound-isa-analysis-r1.json",
+  "exit_code": 0
+}

@@ -15,6 +15,10 @@ Q2 trails by 20.89% and 0.86%. UD prefill remains below the earlier retained
 1682.76 control. These short sequential screens do not establish zero-margin
 parity. Earlier checkpoint drift and independent model qualification remain
 unresolved; the qualified runtime patch is unchanged.
+The [fresh GPU profile and HC follow-up](docs/Q2-PREFILL-GAP.md) localize
+321.10 ms of additional Q2 prefill kernel time. Two compiler-boundary probes
+preserve all component outputs but regress time by 7.93% and 6.12%; both are
+rejected. The retained whole-model rates above are unchanged.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.

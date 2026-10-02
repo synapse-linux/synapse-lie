@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Fresh prefill gap profile and rejected HC barriers — 2026-10-02 UTC
+
+The [current Q2/UD profiles](Q2-PREFILL-GAP.md) reconcile 321.095 ms extra
+prefill kernel time, primarily recognized HC down (+87.062), expert down
+(+69.570), activation packing (+65.212) and HC up (+52.785). Each profile
+replays its own unprofiled control exactly in 14 checks. Profile spans include
+overhead and do not replace the retained model throughput comparison.
+
+Two isolated compiler barriers before HC token/K32 fragment loads increase
+static VGPR from 251 to 253. The fresh component medians regress 7.93% and
+6.12%, with all 22 complete outputs per candidate exact. Both are rejected;
+no new model arm or runtime promotion follows. Four existing numerical library
+control failures and actual exit 1 remain in all three component arms.
+
+Host guards pass 12/12 Debug and 12/12 ASan/UBSan. Six runners/29 commands
+finish, all 203 artifacts verify, and source reconstruction/device compilation
+pass. Inherited formatting and corrected assembly-parser failures remain in
+evidence. Closure at 23:11:56 UTC and observer retirement at 23:12:27 confirm
+empty KFD, all own processes absent, original leases free and original-model
+witnesses unchanged. No Q2 remote job, waiter or automatic retry remains.
+Palette/HC16 remains the measured candidate; full-model parity is still open.
+
 ## Q2 affine-value reuse improves complete prefill — 2026-10-02 UTC
 
 The [affine palette](Q2-AFFINE-PALETTE.md) evaluates the four possible weights

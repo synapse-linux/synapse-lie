@@ -980,3 +980,51 @@ automatic retry remains. Core may use the next window with its own fresh
 coordinated admission; Q2 continues only local reporting and checkpointing.
 The outgoing release message also fails at the local MCP transport; delivery
 is not claimed. This ledger, the persistent receipt and registry record the handover.
+
+The preceding goal turn is progress: checkpoint `25372f1` retains an exact
+1.35% full-prefill improvement. Fresh read-only admission at
+**22:44:06.765720 UTC** finds empty KFD, all four original leases EX|NB/free
+and the palette release still last in the shared registry. Core's ledger has
+no later GPU campaign; its latest explicit direction remains canceled R13 and
+local reporting. Q2 takes a bounded diagnostic window for matched current
+palette/pristine-UD pp2048/tg16 profiles. Existing runner/source guards are
+unchanged and already qualified; no repeat CPU fixture arm is needed yet.
+Each build/profile takes four fresh leases under the 98 C inclusive/lower
+exposed limits. Profiles are diagnostic kernel evidence, not throughput.
+Any additional candidate qualification will be recorded before it starts.
+No core interleaving, standing lease or foreign mutation is implied.
+
+Both diagnostic profiles complete and collect with all commands successful.
+Q2 prefill kernel sum is 1582.091 ms, UD 1260.996 ms; the profiled HC down
+alone is 128.083 ms versus 41.034 ms for UD's dominant Q8 path. Q2 extends
+this owned window to two compiler-fragment lifetime hypotheses for that exact
+HC down specialization, derived independently from palette. Neither reduces
+static registers (251 -> 253); no runtime benefit is assumed. Updated source
+guards receive CPU/sanitizer qualification first, then fresh palette reference
+and both existing 22-case HC prefill operator/benchmark arms. The known four
+unchanged-library numerical controls retain their actual failures and limits.
+Complete models follow only a useful measured component gain. Original model
+bytes, two accumulation chains, LDS and geometry stay unchanged; each GPU/build
+arm takes four fresh leases. No core interleaving until verified release.
+The outgoing window message failed at MCP transport; the agreed ledger remains
+the coordination channel, without a claim of message delivery.
+
+The prefill-gap window finishes all six runners and 29 commands. Both profiles
+pass their own 14-control replays; all 203 artifacts verify. Updated guards
+pass 12/12 Debug and 12/12 ASan/UBSan. All three HC component arms retain the
+same four library numerical failures and actual exit 1, with every saved output
+exact. Token/K32 boundaries increase component median time 7.93%/6.12%; both
+are rejected and no complete-model follow-up is launched.
+
+Q2 releases the window at **2026-10-02 23:11:56.422703 UTC**, verifying six
+runners and 29 command identities/groups/sessions absent, empty KFD, all four
+original leases EX|NB/free and all five original-model stat witnesses unchanged.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-prefill-gap-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**23:12:27.986027 UTC** verifies observer PID 2737607 and group/session 2737604
+absent with empty KFD. Both observers exit 0. No Q2 remote job, waiter, lease
+or automatic retry remains. Core may use the next window with fresh coordinated
+admission; Q2 continues local reporting/checkpointing only. The outgoing release
+message also fails at the MCP transport; this ledger, persistent receipt and
+registry record handover without claiming message delivery.

@@ -154,3 +154,12 @@ It precomputes the four existing Q2 affine values inside registers, retaining
 original model bytes and upstream notices. The generator and admission changes
 are MIT; no external engine implementation or sibling artifact is imported.
 Source, numerical replay and measured scope are in `docs/Q2-AFFINE-PALETTE.md`.
+
+`experiments/q2-hc-{fragment,stage}-bound.patch` are independent compiler-load
+scheduling deltas against the measured affine-palette source and the same
+official Gufo pin. Upstream notices, weights and arithmetic remain intact.
+The generator, fresh-profile analysis, plot and runner guard changes are
+first-party MIT. Both candidates are measured and rejected for performance;
+their original numerical control failures remain explicit. No external engine
+or sibling artifact is imported. See `docs/Q2-PREFILL-GAP.md` and its source
+receipts for provenance, exact replay, limitations and artifact identities.

@@ -1,0 +1,562 @@
+{
+  "scope": "Fresh sequential diagnostic pp2048/tg16 traces with 15 decode calls; kernel sums include profiler overhead and are not request throughput",
+  "goal_met": false,
+  "promotion": false,
+  "arms": {
+    "q2": {
+      "path": "evidence/q2-prefill-gap-q2-profile-r1",
+      "baseline": "evidence/q2-affine-palette-model-r1",
+      "binary_sha256": "f0f7e1b985b52dfbc2b1ed012e66459732333303b6b61a716f8e799ee54cf6f8",
+      "replay": [
+        {
+          "name": "arithmetic-input.i32",
+          "exact": true
+        },
+        {
+          "name": "counting-input.i32",
+          "exact": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true
+        },
+        {
+          "name": "profile input",
+          "exact": true
+        },
+        {
+          "name": "warm2048 prefill",
+          "exact": true
+        },
+        {
+          "name": "warm2048 first16 output",
+          "exact": true
+        },
+        {
+          "name": "profile2048 prefill",
+          "exact": true
+        },
+        {
+          "name": "profile2048 first16 output",
+          "exact": true
+        },
+        {
+          "name": "warm/profile prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "warm/profile last.f32",
+          "exact": true
+        },
+        {
+          "name": "warm/profile output.u32",
+          "exact": true
+        }
+      ],
+      "exact_replay": true,
+      "phases": {
+        "prefill": {
+          "dispatches": 1955,
+          "kernel_sum_ns": 1582091201,
+          "gpu_busy_union_ns": 1582091201,
+          "kernel_span_ns": 1587369420,
+          "inter_kernel_gap_ns": 5278219,
+          "largest_inter_kernel_gaps_ns": [
+            386932,
+            8200,
+            7917,
+            7570,
+            7240,
+            7200,
+            7079,
+            7000,
+            6988,
+            6971
+          ],
+          "groups": {
+            "other": {
+              "calls": 1399,
+              "ns": 741099895
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 265851749
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 263114088
+            },
+            "hc_down_f16_wmma": {
+              "calls": 96,
+              "ns": 128082836
+            },
+            "hc_up_f16_fused": {
+              "calls": 96,
+              "ns": 108592495
+            },
+            "explicit_activation_packing": {
+              "calls": 266,
+              "ns": 72224923
+            },
+            "q8_dense_gemv": {
+              "calls": 1,
+              "ns": 3078936
+            },
+            "hc_down_f16_gemv": {
+              "calls": 1,
+              "ns": 46279
+            }
+          },
+          "comparison_groups": {
+            "other": {
+              "calls": 1399,
+              "ns": 741099895
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 265851749
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 263114088
+            },
+            "hc_down_projection": {
+              "calls": 97,
+              "ns": 128129115
+            },
+            "hc_up_projection": {
+              "calls": 96,
+              "ns": 108592495
+            },
+            "explicit_activation_packing": {
+              "calls": 266,
+              "ns": 72224923
+            },
+            "q8_dense_gemv": {
+              "calls": 1,
+              "ns": 3078936
+            }
+          }
+        },
+        "decode": {
+          "dispatches": 23594,
+          "kernel_sum_ns": 560054476,
+          "gpu_busy_union_ns": 560054476,
+          "kernel_span_ns": 640143155,
+          "inter_kernel_gap_ns": 80088679,
+          "largest_inter_kernel_gaps_ns": [
+            3096273,
+            2204007,
+            2165969,
+            2116694,
+            2113939,
+            2098148,
+            2086908,
+            2074090,
+            2071624,
+            2071480
+          ],
+          "groups": {
+            "q8_dense_gemv": {
+              "calls": 3285,
+              "ns": 261505439
+            },
+            "other": {
+              "calls": 11444,
+              "ns": 119256505
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 63991587
+            },
+            "hc_down_f16_gemv": {
+              "calls": 1455,
+              "ns": 44567339
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 35465600
+            },
+            "other_f16_gemv": {
+              "calls": 1260,
+              "ns": 28598991
+            },
+            "explicit_activation_packing": {
+              "calls": 4710,
+              "ns": 6669015
+            }
+          },
+          "comparison_groups": {
+            "q8_dense_gemv": {
+              "calls": 3285,
+              "ns": 261505439
+            },
+            "other": {
+              "calls": 11444,
+              "ns": 119256505
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 63991587
+            },
+            "hc_down_projection": {
+              "calls": 1455,
+              "ns": 44567339
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 35465600
+            },
+            "other_f16_gemv": {
+              "calls": 1260,
+              "ns": 28598991
+            },
+            "explicit_activation_packing": {
+              "calls": 4710,
+              "ns": 6669015
+            }
+          }
+        }
+      },
+      "trace_sha256": "6cdc92b546c542c9038b39b08ebc5d530e3c11429d0751c747604c576d7a4795"
+    },
+    "ud": {
+      "path": "evidence/q2-prefill-gap-ud-profile-r1",
+      "baseline": "evidence/q2-affine-palette-ud-r1",
+      "binary_sha256": "68e1ac581119dc3a5495a8dcf4b349bfe2494df4a50b417b8435d11311f3ee3a",
+      "replay": [
+        {
+          "name": "arithmetic-input.i32",
+          "exact": true
+        },
+        {
+          "name": "counting-input.i32",
+          "exact": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true
+        },
+        {
+          "name": "profile input",
+          "exact": true
+        },
+        {
+          "name": "warm2048 prefill",
+          "exact": true
+        },
+        {
+          "name": "warm2048 first16 output",
+          "exact": true
+        },
+        {
+          "name": "profile2048 prefill",
+          "exact": true
+        },
+        {
+          "name": "profile2048 first16 output",
+          "exact": true
+        },
+        {
+          "name": "warm/profile prefill.f32",
+          "exact": true
+        },
+        {
+          "name": "warm/profile last.f32",
+          "exact": true
+        },
+        {
+          "name": "warm/profile output.u32",
+          "exact": true
+        }
+      ],
+      "exact_replay": true,
+      "phases": {
+        "prefill": {
+          "dispatches": 1630,
+          "kernel_sum_ns": 1260996183,
+          "gpu_busy_union_ns": 1260996183,
+          "kernel_span_ns": 1265464069,
+          "inter_kernel_gap_ns": 4467886,
+          "largest_inter_kernel_gaps_ns": [
+            396591,
+            8359,
+            7149,
+            7120,
+            7040,
+            6946,
+            6905,
+            6880,
+            6879,
+            6822
+          ],
+          "groups": {
+            "other": {
+              "calls": 1309,
+              "ns": 718372464
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 242067340
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 193543855
+            },
+            "hc_up_q8_fused": {
+              "calls": 94,
+              "ns": 55807969
+            },
+            "hc_down_q8_wmma": {
+              "calls": 94,
+              "ns": 41033914
+            },
+            "explicit_activation_packing": {
+              "calls": 34,
+              "ns": 7012460
+            },
+            "q8_dense_gemv": {
+              "calls": 2,
+              "ns": 3125182
+            },
+            "hc_down_q8_gemv": {
+              "calls": 1,
+              "ns": 32999
+            }
+          },
+          "comparison_groups": {
+            "other": {
+              "calls": 1309,
+              "ns": 718372464
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 242067340
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 193543855
+            },
+            "hc_up_projection": {
+              "calls": 94,
+              "ns": 55807969
+            },
+            "hc_down_projection": {
+              "calls": 95,
+              "ns": 41066913
+            },
+            "explicit_activation_packing": {
+              "calls": 34,
+              "ns": 7012460
+            },
+            "q8_dense_gemv": {
+              "calls": 2,
+              "ns": 3125182
+            }
+          }
+        },
+        "decode": {
+          "dispatches": 26144,
+          "kernel_sum_ns": 549993308,
+          "gpu_busy_union_ns": 549993308,
+          "kernel_span_ns": 641683929,
+          "inter_kernel_gap_ns": 91690621,
+          "largest_inter_kernel_gaps_ns": [
+            7418798,
+            4164120,
+            2264359,
+            2218300,
+            2210170,
+            2163302,
+            2162692,
+            2151696,
+            2124833,
+            2121257
+          ],
+          "groups": {
+            "q8_dense_gemv": {
+              "calls": 4380,
+              "ns": 285423761
+            },
+            "other": {
+              "calls": 10349,
+              "ns": 83972302
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 69547588
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 47375949
+            },
+            "other_f16_gemv": {
+              "calls": 1260,
+              "ns": 28427437
+            },
+            "hc_down_q8_gemv": {
+              "calls": 1455,
+              "ns": 25189818
+            },
+            "explicit_activation_packing": {
+              "calls": 7260,
+              "ns": 10056453
+            }
+          },
+          "comparison_groups": {
+            "q8_dense_gemv": {
+              "calls": 4380,
+              "ns": 285423761
+            },
+            "other": {
+              "calls": 10349,
+              "ns": 83972302
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 69547588
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 47375949
+            },
+            "other_f16_gemv": {
+              "calls": 1260,
+              "ns": 28427437
+            },
+            "hc_down_projection": {
+              "calls": 1455,
+              "ns": 25189818
+            },
+            "explicit_activation_packing": {
+              "calls": 7260,
+              "ns": 10056453
+            }
+          }
+        }
+      },
+      "trace_sha256": "e7440933a2d967ced87a7b1bead3daa01dcbe0e0b34d8a83e5e5fee3b2740b31"
+    }
+  },
+  "phase_deltas": {
+    "prefill": {
+      "kernel_sum_delta_ns": 321095018,
+      "groups": [
+        {
+          "group": "hc_down_projection",
+          "q2_ns": 128129115,
+          "ud_ns": 41066913,
+          "delta_ns": 87062202
+        },
+        {
+          "group": "routed_down",
+          "q2_ns": 263114088,
+          "ud_ns": 193543855,
+          "delta_ns": 69570233
+        },
+        {
+          "group": "explicit_activation_packing",
+          "q2_ns": 72224923,
+          "ud_ns": 7012460,
+          "delta_ns": 65212463
+        },
+        {
+          "group": "hc_up_projection",
+          "q2_ns": 108592495,
+          "ud_ns": 55807969,
+          "delta_ns": 52784526
+        },
+        {
+          "group": "routed_gate_up",
+          "q2_ns": 265851749,
+          "ud_ns": 242067340,
+          "delta_ns": 23784409
+        },
+        {
+          "group": "other",
+          "q2_ns": 741099895,
+          "ud_ns": 718372464,
+          "delta_ns": 22727431
+        },
+        {
+          "group": "q8_dense_gemv",
+          "q2_ns": 3078936,
+          "ud_ns": 3125182,
+          "delta_ns": -46246
+        }
+      ]
+    },
+    "decode": {
+      "kernel_sum_delta_ns": 10061168,
+      "groups": [
+        {
+          "group": "other",
+          "q2_ns": 119256505,
+          "ud_ns": 83972302,
+          "delta_ns": 35284203
+        },
+        {
+          "group": "hc_down_projection",
+          "q2_ns": 44567339,
+          "ud_ns": 25189818,
+          "delta_ns": 19377521
+        },
+        {
+          "group": "other_f16_gemv",
+          "q2_ns": 28598991,
+          "ud_ns": 28427437,
+          "delta_ns": 171554
+        },
+        {
+          "group": "explicit_activation_packing",
+          "q2_ns": 6669015,
+          "ud_ns": 10056453,
+          "delta_ns": -3387438
+        },
+        {
+          "group": "routed_gate_up",
+          "q2_ns": 63991587,
+          "ud_ns": 69547588,
+          "delta_ns": -5556001
+        },
+        {
+          "group": "routed_down",
+          "q2_ns": 35465600,
+          "ud_ns": 47375949,
+          "delta_ns": -11910349
+        },
+        {
+          "group": "q8_dense_gemv",
+          "q2_ns": 261505439,
+          "ud_ns": 285423761,
+          "delta_ns": -23918322
+        }
+      ]
+    }
+  },
+  "grouping_limit": "Only recognized projection families are grouped; library/fallback projections remain in other. Decode Q8 dense includes HC up."
+}
