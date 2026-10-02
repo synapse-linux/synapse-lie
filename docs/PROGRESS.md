@@ -1,5 +1,26 @@
 # Isolated OpenAI reactive API increment
 
+## Compression cost measured; strict admission qualified — 2026-10-02
+
+R6 passes all six GPU arms, including restarted compressed SSD state at 128K
+with three exact full-logit/token pairs. The codec saves 15.35% at 8K and 15.71%
+at 128K, but 128K warm restore rises 42.46 to 1228.78 ms and output/wall falls 24.38
+to 19.87 tok/s. The owner rejects that tradeoff; this is retained negative evidence.
+
+R7 source `71a4599` passes 4/4 matched ON/OFF arms. Both tested Qwen states fail
+the stricter benefit gate and remain raw. At 128K, warm restore 42.41 ms and
+output/wall 24.36 tok/s match the OFF control closely; no high compression is
+claimed. One cold capture 129.15 versus 118.00 ms remains visible. All 16 jobs
+reach 128 identical tokens across matched builds. [Full tables and graphs](CACHE-COMPRESSION-GPU.md).
+
+R6 CPU/GPU peaks 97.875/99 C; R7 peaks 98/100 C, with the 100 C GPU reading confined
+to one sampled point bracketed within 2.018 s. No observed crash/reboot/device
+failure. R7 closure 12:37:26.556477 UTC confirms eight owned identities absent,
+KFD empty, four unchanged/free leases; controller and observer retire, all 50
+collected files verify. Root releases the coordinated window to Q2 and informs
+Point. Sources, evidence, CSV and graph artifacts remain persistent and local.
+
+
 ## Reject low-benefit checkpoint compression — 2026-10-02
 
 The owner rejects the measured 15–16% checkpoint saving as insufficient for its

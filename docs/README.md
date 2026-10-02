@@ -39,6 +39,7 @@ an implemented test and a completed measurement.
   and [third-party provenance](../third_party/README.md).
 - [Completed SSD restart/C1 measurements and temperature timeline](SSD-GPU-COMPLETION.md).
 - [Cache build comparisons and HTTP SSD GPU results](CACHE-FEATURES-GPU.md).
+- [Checkpoint compression cost, exact restore and benefit admission](CACHE-COMPRESSION-GPU.md).
 
 ## History and parallel work
 

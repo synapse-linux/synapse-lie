@@ -145,8 +145,11 @@ quality/performance qualification; it is not implemented by the lossless codec.
 
 CPU fixtures cover exact special floating bits, mixed/raw blocks, valid-checksum
 malformed frames, budgets, pins, utility aging/eviction, core restore and SSD
-restart. These are NOT-INFERENCE. Prior [128K GPU results](SSD-GPU-COMPLETION.md)
-qualify the earlier raw representation, not the new default policy/codec.
+restart. These are NOT-INFERENCE. [R6](CACHE-COMPRESSION-GPU.md) additionally
+qualifies exact original-weight compressed SSD restart at 128K, while measuring
+an unfavorable 15–16% saving/latency tradeoff. Its old admission threshold is
+preserved in the evidence; the stricter current benefit gate is qualified
+separately. Active KV precision remains unchanged.
 
 ## Two distinct kinds
 

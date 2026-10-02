@@ -190,7 +190,9 @@ entry count. `retention_policy` identifies utility-v1 or LRU;
 identifies the writer (`byte-plane4-zstd1-v1`, legacy `lz4-blocks-v1`, or `none`). `expanded_bytes` is
 the raw equivalent of currently retained states; `compressed_captures` counts
 successful packs and `compression_attempts` counts eligible capture-path calls
-(including calls refused by size/budget). These are not active GPU KV savings.
+(including calls refused by size/budget or the bounded benefit probe). A true
+build capability does not imply any state was packed: current admission requires
+at least 50% retained saving. These are not active GPU KV savings.
 `/actuator/llm` projects this object and reports the actual
 `ssd_enabled` flag, false by default, plus a separate `ssd` object.
 The budget covers the immutable descriptor/payload allocations, including the

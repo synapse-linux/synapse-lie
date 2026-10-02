@@ -1,0 +1,258 @@
+{
+  "scope": "Matched build-feature ablation; one cold warmup and three measured warm cohorts per arm. No confidence interval or kernel/reactive causal speedup claim.",
+  "core": [
+    {
+      "arm": "core-p131072-c1-off",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "context_capacity": 133120,
+      "cache_budget_bytes": 8589934592,
+      "checkpoint_codec": "none",
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1389.3933052057428,
+      "cold_capture_ms": 120.229212,
+      "hot_ttft_ms": 158.406429,
+      "hot_restore_ms": 42.456036,
+      "hot_executor_tg_tps": 24.948731059356085,
+      "hot_output_wall_tps": 24.384560153264246,
+      "retained_bytes": 3441461344,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p131072-c1-on",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "context_capacity": 133120,
+      "cache_budget_bytes": 8589934592,
+      "checkpoint_codec": "byte-plane4-zstd1-v1",
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1384.9601546099186,
+      "cold_capture_ms": 1721.107245,
+      "hot_ttft_ms": 1350.013779,
+      "hot_restore_ms": 1228.779833,
+      "hot_executor_tg_tps": 24.922411131048197,
+      "hot_output_wall_tps": 19.872184635915275,
+      "retained_bytes": 2900848373,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 1,
+      "saved_fraction": 0.15708820090120412
+    },
+    {
+      "arm": "core-p8192-c1-off",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "context_capacity": 262144,
+      "cache_budget_bytes": 4294967296,
+      "checkpoint_codec": "none",
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1518.5119063487855,
+      "cold_capture_ms": 14.90383,
+      "hot_ttft_ms": 186.700758,
+      "hot_restore_ms": 5.629133,
+      "hot_executor_tg_tps": 25.973320541169944,
+      "hot_output_wall_tps": 25.2146565225301,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c1-on",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "context_capacity": 262144,
+      "cache_budget_bytes": 4294967296,
+      "checkpoint_codec": "byte-plane4-zstd1-v1",
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1519.623345356256,
+      "cold_capture_ms": 191.459059,
+      "hot_ttft_ms": 304.278481,
+      "hot_restore_ms": 121.533881,
+      "hot_executor_tg_tps": 26.00209297509393,
+      "hot_output_wall_tps": 24.67150332304651,
+      "retained_bytes": 276533378,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 1,
+      "saved_fraction": 0.1535533014501319
+    }
+  ],
+  "comparisons": [
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "byte-plane4-zstd1-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 0.8149494807785196,
+      "primary": "core-p131072-c1-on",
+      "reference": "core-p131072-c1-off"
+    },
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "byte-plane4-zstd1-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 0.9784588301253176,
+      "primary": "core-p8192-c1-on",
+      "reference": "core-p8192-c1-off"
+    }
+  ],
+  "state": [
+    {
+      "arm": "state-p131072-read-on",
+      "capture": {
+        "event": "ssd_read",
+        "retained_bytes": 2900848373,
+        "expanded_bytes": 3441461344,
+        "compressed": true,
+        "sections": 112,
+        "read_ns": 3966088965,
+        "read_bytes": 2900839229,
+        "peak_staging_bytes": 8589934592
+      },
+      "pairs": [
+        {
+          "event": "pair",
+          "pair": 0,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 94463712019,
+          "restore_ns": 1261501210,
+          "tail_prefill_ns": 380,
+          "reused_tokens": 131072,
+          "new_tokens": 0,
+          "generation": "greedy",
+          "full_logits_sha256": "541c8fe321b3ffea8deb4eb3e53c2d7fb5e99d3186fd0de97ea194960dbd000d",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            13962,
+            3534,
+            353,
+            25,
+            70229,
+            17775,
+            314,
+            279,
+            5606,
+            17529,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            3875
+          ]
+        },
+        {
+          "event": "pair",
+          "pair": 1,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 96031441851,
+          "restore_ns": 1247978815,
+          "tail_prefill_ns": 170,
+          "reused_tokens": 131072,
+          "new_tokens": 0,
+          "generation": "seeded-sampling",
+          "full_logits_sha256": "541c8fe321b3ffea8deb4eb3e53c2d7fb5e99d3186fd0de97ea194960dbd000d",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            13962,
+            3534,
+            353,
+            25,
+            70229,
+            17775,
+            314,
+            279,
+            5606,
+            17529,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            3875
+          ]
+        },
+        {
+          "event": "pair",
+          "pair": 2,
+          "decode_calls": 16,
+          "fresh_prefill_ns": 97506939465,
+          "restore_ns": 1248110486,
+          "tail_prefill_ns": 410,
+          "reused_tokens": 131072,
+          "new_tokens": 0,
+          "generation": "greedy",
+          "full_logits_sha256": "541c8fe321b3ffea8deb4eb3e53c2d7fb5e99d3186fd0de97ea194960dbd000d",
+          "exact_logits_and_tokens": 1,
+          "output_ids": [
+            13962,
+            3534,
+            353,
+            25,
+            70229,
+            17775,
+            314,
+            279,
+            5606,
+            17529,
+            271,
+            760,
+            3766,
+            2313,
+            8129,
+            3875
+          ]
+        }
+      ]
+    },
+    {
+      "arm": "state-p131072-write-on",
+      "capture": {
+        "event": "capture",
+        "retained_bytes": 2900848373,
+        "expanded_bytes": 3441461344,
+        "compressed": true,
+        "sections": 112,
+        "capture_ns": 1722601344
+      },
+      "pairs": []
+    }
+  ],
+  "http": []
+}

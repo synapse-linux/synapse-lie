@@ -216,7 +216,9 @@ neither architectural separation nor a language change guarantees a speedup.
    hybrid frontiers; it does not page active KV or stream weights from SSD.
    The [HTTP/restart/C2 checker](SSD-HTTP-PROTOCOL.md) now passes CPU fixtures
    and [R5 original-weight raw-state checks](CACHE-FEATURES-GPU.md). Shared utility eviction and lossless checkpoint
-   compression now have independent default-ON build options and CPU qualification.
+   compression have independent default-ON build options. [R6](CACHE-COMPRESSION-GPU.md)
+   qualifies exact compressed SSD restore at 128K but exposes excessive latency
+   for a 15–16% saving; current admission instead requires 2:1 retained reduction.
    Active-KV compression remains model/kernel work, with the boundary specified
    in [the cache boundary](STATE.md#retention-policy-and-compression-boundary).
 4. Add MTP after defining verified multi-token output and resource reservations.

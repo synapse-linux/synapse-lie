@@ -117,6 +117,35 @@ CPU49.375/GPU48 C and installed system LZ4 1.10.0. This lightweight handover
 check does not replace per-arm leases or authorize campaign-gap interleaving.
 
 
+## Cache codec continuation — R5/R6/R7, 2026-10-02
+
+R5 closes nine successful arms at **11:57:08.113025 UTC**: eighteen owned
+helper/child identities absent, KFD empty and four unchanged/free leases.
+Independent status confirms controller retirement; the observer exits 0 at
+11:57:23.792732 UTC. All 98 collected files verify. Root retains the coordinated
+window for the numeric-codec follow-up, with fresh admission for every arm.
+
+R6 closes all six arms at **12:30:26.836170 UTC**: twelve owned identities
+absent, KFD empty, four unchanged/free leases, controller absent. Observer
+exits 0 at 12:30:42.174668 UTC with 951 locally preserved samples. All 68 collected
+files verify. The codec is exact but its 15–16% savings have unacceptable cost
+for the owner. Root informs Q2 of the brief R7 continuation before staging it.
+
+R7 is staged at 12:31:09 UTC from `71a4599`; each of its four ON/OFF core arms
+retains fresh four-lease admission and all model/DSO/resource checks. The new
+>=2:1 acceptance gate and bounded probe change only host packing admission;
+no numerical kernel, device setting or thread count changes. The independent
+observer remains part of required closure before returning the window.
+
+R7 completes 4/4 arms and closes at **12:37:26.556477 UTC**, eight owned identities
+absent, KFD empty, four unchanged/free leases and controller absent. Observer
+retires at 12:37:42.541409 UTC, SSH exit 0 with 373 samples. All 50 collected files
+verify. Root returns the window to Q2 and informs Point after these checks;
+no root GPU job or automatic waiter remains. Remaining work is local analysis
+and documentation. This completed handover does not waive future admission.
+
+
+
 ## Earlier completed window — first SSD restart
 
 `ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.

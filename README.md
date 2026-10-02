@@ -26,7 +26,8 @@ and 0.226 s from RAM. The new [`--suite http-ssd` client](docs/SSD-HTTP-PROTOCOL
 covers restart, Chat/Responses JSON/SSE, C2, disk-wait cancellation and slow
 consumers, with percentile/PP/TG exports. Its ASan/UBSan CPU fixtures pass;
 original-weight HTTP/concurrent SSD checks also pass on raw states in
-[R5](docs/CACHE-FEATURES-GPU.md). Numeric-byte codec qualification is separate.
+[R5](docs/CACHE-FEATURES-GPU.md). [Compressed-state tests](docs/CACHE-COMPRESSION-GPU.md) pass through 128K;
+the measured 15–16% saving is rejected in favor of a stricter benefit gate.
 The bench now supports separate SSD write/read processes with exact
 logit comparisons and supervised resource/thermal admission. MTP and vision
 remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The

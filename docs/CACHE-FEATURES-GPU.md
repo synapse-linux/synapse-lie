@@ -69,3 +69,7 @@ closure is not permanent GPU authorization.
 [CSV](benchmarks/2026-10-02/cache-features-r5/summary.csv),
 [receipt/archive](benchmarks/2026-10-02/cache-features-r5/receipt.json) preserve
 source, command exits, complete HTTP distributions and all samples.
+
+[Sampled thermal timeline](benchmarks/2026-10-02/cache-features-r5-thermal-addendum/thermal.svg)
+is an additive export of the archived R5 observer data. See the subsequent
+[numeric codec and admission result](CACHE-COMPRESSION-GPU.md) for R6/R7.

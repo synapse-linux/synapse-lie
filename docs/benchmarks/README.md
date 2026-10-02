@@ -52,3 +52,7 @@ source bindings, links and SHA-256 inventories remain valid. Dated reports
 describe the tested snapshot; consult the linked contracts for later features.
 Do not reinterpret an old failure, capacity smoke or synthetic chart as a new
 performance result.
+
+[Checkpoint compression and benefit admission](../CACHE-COMPRESSION-GPU.md)
+records the measured memory/latency tradeoff and exact restored state. The
+model/platform index keeps these separate from raw HTTP SSD qualification.
