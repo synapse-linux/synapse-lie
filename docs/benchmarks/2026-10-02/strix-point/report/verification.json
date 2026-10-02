@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.offline-report-verification.v1",
+  "render": {
+    "argv": [
+      "python3",
+      "-B",
+      "docs/benchmarks/2026-10-02/strix-point/report/make-report.py",
+      "run/strix-point-report-r3"
+    ],
+    "exit_code": 0
+  },
+  "validation": {
+    "exit_code": 0,
+    "source_hashes": 6,
+    "artifact_hashes": 13,
+    "reproduction": "Numeric data and additional plots match independent prior reproduction after text whitespace normalization",
+    "input_files": "Unchanged original bytes; raw hashes verified",
+    "gpu_runs": 0
+  },
+  "relative_links_checked": 38,
+  "rejected_inputs": [
+    "incomplete core benchmark",
+    "cache-hit prefill double counting"
+  ],
+  "visual_review": [
+    "timings.png",
+    "resources.png",
+    "core/benchmark.png"
+  ],
+  "runtime_changes": false,
+  "remote_access": false,
+  "notes": "No additional GPU tests. Original model smoke and historical test counts retain their recorded scopes."
+}

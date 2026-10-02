@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.offline-report.v1",
+  "source_sha256": {
+    "docs/benchmarks/2026-10-02/strix-point/report/make-report.py": "ed66b1aefab1a2a8128e4bc6b7af5d51377486c1d56354df0880f36449ee9e41",
+    "docs/benchmarks/2026-10-02/strix-point/core-receipt.json": "2f5917d2683d2b3f3d46bf18139a75b5eeed9080edc13e24343e73990ca848be",
+    "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
+    "docs/benchmarks/2026-10-02/strix-point/report/input/manifest.json": "34de73a61d49b8dc50e36a8d74f542e1bac551f0ca1cd9a11cb28dd7bcded35d",
+    "docs/benchmarks/2026-10-02/strix-point/report/input/measurements.jsonl": "861fa8f2855839e19335abcf73189343438f2ba585dd358dc3a848790b5fb8fe",
+    "docs/benchmarks/2026-10-02/strix-point/report/input/telemetry.jsonl": "59aae92eaec9ae84493fcd6832607da5ac0bef404fadc402cc97c49e6ee9b5e8"
+  },
+  "artifact_sha256": {
+    "core/benchmark.png": "dc7c830b4adc96fe88c0205fa1a5af734b091af4a8ebc90cfc94be02631d3ba4",
+    "core/benchmark.svg": "f00687b6d9d1a73422f418f48c1749da2ea1888c4a6913678f100641acc11669",
+    "core/summary.csv": "2a947648f2ace6f97845f52e5d793e333544ed820f9c0d1c413c6674f1c19fe5",
+    "core/summary.json": "3f8c5eba95f7ad2fff5eee3f184d116dc615ae290b0b5aac0eff6ba143bdc773",
+    "resources.png": "39358ba0b25aeeac5c5eae9919ec3ca4943c4de4b05f4262cb5f9d8eb6eadc7f",
+    "resources.svg": "5abbc12def92624c4c7e6c95919ae11cd856c7a9616665183575535c72d49b98",
+    "samples.csv": "418f9d9683f6e47d5f1762047e089b7903384ee96ee694d7d986cd32f4aeecab",
+    "statistics.csv": "63ce69e1a4e7afa083f70a39edcf6b8e643501c0e83418395cce114048f7dc5c",
+    "summary.json": "e59a7f69e54d3cdf0e02b8ed57262522452ccdad2f928e456feb52000dfd0114",
+    "telemetry.csv": "11992c83dbcabe700a1f4f22c7b8b8a575202e0336d6615efb6c7518118efd55",
+    "temperatures.csv": "98be29e94afef2c15f7956c361ad52899f2665ba371f05e984ade0e37af2b891",
+    "timings.png": "0cc9ad6922593a8263feba418969eed85d6f2a6350fb63a4f60ef24996cda34a",
+    "timings.svg": "01a0c21ebfe96fcd0173387e6bc47f5416abbe7b76567ca7cd2dde800b94b9a8"
+  },
+  "matplotlib_version": "3.11.1",
+  "validation": "Receipt hashes, complete core accounting, identical IDs, model stat preservation, exit codes, closure and thermal samples"
+}

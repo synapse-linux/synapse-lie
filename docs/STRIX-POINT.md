@@ -4,6 +4,10 @@
 Status: **gfx1150 original UD short-prompt inference passes; all four copied
 shards verified, source files retained unchanged**. Long-context, independent
 numerical parity and comparative performance remain unqualified.
+The [full qualification report](STRIX-POINT-RESULT.md) consolidates all recorded
+samples, prefill/cache/decode timings, resource and thread graphs, validation,
+failures and remaining coverage. Its portable CSV/JSON/PNG/SVG bundle reproduces
+offline without another GPU run.
 This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned

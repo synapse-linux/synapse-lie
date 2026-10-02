@@ -2,6 +2,19 @@
 
 ## Strix Point fork — 2026-10-02
 
+The [full Strix Point report](STRIX-POINT-RESULT.md) now consolidates the completed
+build/runtime/tuning/copy qualification and original-weight C1 smoke. All four
+samples, exact nanoseconds, RAM counters, decode versus complete-wall throughput,
+27 resource observations and individual temperature sensors are exported as
+portable CSV/JSON with SVG/PNG plots. An offline reproducer validates the
+previously committed receipt hashes, complete benchmark accounting, repeated
+output IDs, successful exits and retirement before deriving metrics. Mean decode
+is 10.555678 token/s; mean output/complete-wall is 10.495151 token/s. Fresh PP is
+only the first 9-token warmup; three measured samples reuse all nine tokens.
+The report keeps missing long-context, concurrency, numerical-reference and HTTP
+qualification explicit. Report generation is local CPU work only; no new model
+run, remote access or runtime implementation change is implied.
+
 The latest operator instruction replaces WAN download with a **copy** of the
 existing official .157 UD shards, keeping the source intact. WAN R3 retired at
 10:27:42 UTC; its verified first shard and 31.584 GB second-shard partial are

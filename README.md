@@ -59,7 +59,11 @@ on the target. Pinned four-shard staging uses complete SHA-256 verification.
 The operator-authorized TTM change and reboot increased actual HIP memory from
 61.72 to **96 GiB**; the post-boot HIP/rocBLAS probe passes. This raises the
 allocation limit; the bounded UD smoke fits, while longer contexts remain untested.
-See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
+The [full Strix Point report](docs/STRIX-POINT-RESULT.md) includes every sample,
+fresh prefill versus RAM reuse, decode and client latency, memory/temperature/thread
+graphs, portable CSV/JSON and an offline reproducer. Its coverage matrix identifies
+the long-context, concurrency, HTTP and comparative checks still required on .161.
+See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline
 
