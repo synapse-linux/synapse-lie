@@ -121,8 +121,10 @@ This implements benefit admission, not a new high-ratio Qwen representation.
 The reviewed upstream Qwen save path uses live F16 KV and F32 recurrent state;
 LIE's separate lossless stream must not be described as the same antirez codec.
 See the [source audit and model boundary](STATE.md#retention-policy-and-compression-boundary).
-Low-bit KV, shared/delta checkpoints, persistent utility metadata and compressed
-HTTP/C2 responsiveness remain separate work. Low-bit state would require explicit
+Persistent utility metadata is now implemented in the
+[shared policy](CACHE-DS4-POLICY.md), with [separate GPU evidence](CACHE-DS4-GPU.md).
+Low-bit KV, shared/delta checkpoints and compressed HTTP/C2 responsiveness remain
+separate work. Low-bit state would require explicit
 representation/versioning and quality evaluation; exact lossless replay results
 cannot qualify a lossy format. No Qwen compression ratio from another model,
 backend, branch or weight-only quantization is inherited by these measurements.

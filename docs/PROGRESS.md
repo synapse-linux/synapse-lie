@@ -1,5 +1,35 @@
 # Isolated OpenAI reactive API increment
 
+## DS4 policy GPU qualification and retention regression — 2026-10-02
+
+Frozen `f11ab7f` completes 15 GPU child arms across R9/R10/R11 on `.157`:
+six exact full-logit/token state pairs, five matched legacy/DS4 core comparisons,
+and automatic SSD producer/restarted-reader output equality. Capture after
+128 generated tokens and restoring a checkpoint from capacity 131072 into 262144
+pass. The later `fffaabb` cache-disabled shortcut retains its separate CPU check.
+
+At 128K/4 GiB, DS4 scheduling keeps only 28672 reusable tokens and recomputes 102400;
+warm TTFT is 79.195 s versus legacy 0.227 s. At 8 GiB it keeps 122880 tokens, with TTFT
+6.738 s versus matched legacy 0.231 s, retaining 7.524 GB. No high compression or
+reactive speedup is claimed. Default-ON features remain independently optional;
+runtime `--cache-policy legacy` is available. [Tables, graphs and limits](CACHE-DS4-GPU.md).
+
+R9 retains FAILED controller status for the mistaken 122880-token expectation
+under 4 GiB pressure; all nine device children exit 0 and offline outputs match.
+R10 retains its mistaken 8231-token expectation for a legacy aligned 8192-token
+checkpoint, child exit 0. R11 runs only missing arms and completes successfully.
+R8's original adapter refusal and every actual exit remain in the archive.
+
+Final R11 closure 14:56:30.025088 UTC confirms ten owned identities absent,
+empty KFD and four unchanged/free leases. Controller is absent; observer exits 0
+at 14:56:45.219419 UTC; all 58 collected files verify. Root returns the window
+to Q2 and notifies Point, with no GPU job or waiter remaining. Whole-process
+inference observations are 36 threads for RAM and 37 with SSD, including provider
+threads. `.157` supervisor peaks CPU 98.25/GPU 100 C; no observed crash/reboot.
+Independent sampled thermal durations are preserved separately. DS4 binary KVC
+conversion, cross-quant reuse and DS4-specific frontend history serializers
+remain unimplemented; this is shared policy parity, not full format parity.
+
 ## DS4 policy GPU refusal and repair — 2026-10-02
 
 R8 passes native-v3 SSD producer and context131072→262144 reader, with three

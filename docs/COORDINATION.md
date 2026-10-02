@@ -483,3 +483,25 @@ finds the retained adapter pre-generation capture restriction. Campaign closure
 unchanged/free leases. Observer retires at 14:06:16.094468 UTC, SSH exit 0, 269 samples.
 All 49 collected files verify. Root informs Q2 and retains the window for the
 local repair and R9 with a dedicated generated-frontier qualification.
+
+R9 frozen source `f11ab7f` completes nine device arms, all child exits 0. Its
+controller fails an expected-cache-depth assertion at 128K/4 GiB; the observed
+28672-token prefix reflects eviction pressure. Closure 14:42:10.456303 UTC
+verifies 18 owned identities absent, empty KFD and four unchanged/free leases.
+Observer exits 0 at 14:42:26.574409 UTC;95 files verify. R10's one raw-text legacy
+child exits 0, while its controller assumes an unaligned full hit incorrectly.
+Closure 14:44:49.080054 UTC verifies two owned identities absent and the same
+lease/KFD conditions; observer exits 0 at 14:45:05.154928;22 files verify.
+
+R11 uses the identical frozen binary and five unlaunched arms: raw text, core
+SSD producer/reader and matched 128K/8 GiB controls. The R10 text reference is
+bound by SHA256. All five arms complete, and independent offline analysis
+validates all five paired core comparisons and six state pairs across R9/R10/R11.
+Final closure **14:56:30.025088 UTC** verifies ten owned identities absent,
+empty KFD and four unchanged/free leases. Independent status observes controller
+retirement. Observer exits 0 at **14:56:45.219419 UTC**; all 58 files verify.
+Root explicitly returns the window to Q2 and notifies Point after collection
+and closure verification. No owned GPU process, automatic waiter or next GPU
+job remains. This is not a standing lease; future arms need fresh admission.
+No remote build, model conversion, DS4 mutation, installation or tuning occurred.
+See [policy results and retained failures](CACHE-DS4-GPU.md).

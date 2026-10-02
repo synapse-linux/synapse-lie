@@ -15,7 +15,7 @@ GPU reports qualify their recorded builds, not this new policy automatically.
 | Extension metadata | Bounded owned text/trailer bytes and key-kind flags in RAM and SSD; client supplies protocol serialization |
 | Dynamic index | RAM and SSD tables grow geometrically inside explicit index bounds |
 | Quota change | An exclusively owned private SSD store evicts entries when reopened with a smaller quota |
-| Context growth | Smaller saved context may restore into a larger context after component/geometry validation; numerical qualification pending |
+| Context growth | Smaller saved context may restore into a larger context after component/geometry validation; original-weight SSD restore from capacity 131072 into 262144 passes |
 | Reactive operation | One device owner and one SSD worker; a row awaiting checkpoint I/O yields while eligible peers continue |
 
 The policy defaults follow the reviewed official
@@ -115,8 +115,13 @@ These are NOT-INFERENCE. Initial build/test failures are preserved, including
 LeakSanitizer under ptrace and a wrong Python interpreter lacking Matplotlib;
 the successful complete run explicitly uses `/usr/bin/python3`.
 
-Remaining gates: original-weight policy/context-growth correctness and timing;
-DS4 KVC/payload binary import/export; cross-quantization reuse; and frontend
+[Original-weight measurements](CACHE-DS4-GPU.md) qualify generated-frontier
+capture, context growth and policy comparisons. At 128K with 4 GiB RAM,
+progressive/final captures evict useful waypoints and significantly worsen
+identical-prompt latency. This is a retention tradeoff, not faster prefill.
+The previous schedule remains available with `--cache-policy legacy`.
+
+Remaining gates: DS4 KVC/payload binary import/export; cross-quantization reuse; and frontend
 serialization of DS4-specific tool/visible-thinking/session extensions. The core
 can retain opaque extensions but does not manufacture those protocol histories.
 Cross-quantization reuse remains refused by full weight identity.

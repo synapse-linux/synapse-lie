@@ -22,6 +22,7 @@ executable, numerical archives and measurement protocol.
 | SSD restart and C1 off/RAM/SSD | [Completed SSD result](../../../../SSD-GPU-COMPLETION.md) | Exact restore through 128K, 4K-to-8K extension, PP/TG/TTFT and 1 Hz thermal graphs; earlier software stops retained |
 | Cache features and HTTP SSD | [R5 results](../../../../CACHE-FEATURES-GPU.md) | ON/OFF core through 128K; raw SSD restart, C2, cancellation and slow-client checks; numeric-byte codec is a separate revision |
 | Lossless checkpoint packing | [R6/R7 cost and benefit gate](../../../../CACHE-COMPRESSION-GPU.md) | Exact compressed SSD restore at 128K; 15–16% saving has excessive restore cost; stricter admission passes matched ON/OFF regression, retaining raw states |
+| DS4-style cache policy | [Policy and retention measurements](../../../../CACHE-DS4-GPU.md) | Exact generated-frontier and context-growth restore; C1/C2 and 128K retention cost; binary KVC interoperability remains unimplemented |
 | HTTP capacity and Pi | [256K and tool receipt](../../../../HTTP-256K-PI.md) | Capacity and functional tool tests; not a 256K quality/performance campaign |
 
 Reports link full tables, graph exports and machine-readable samples. Preserve

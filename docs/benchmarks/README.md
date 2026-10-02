@@ -56,3 +56,7 @@ performance result.
 [Checkpoint compression and benefit admission](../CACHE-COMPRESSION-GPU.md)
 records the measured memory/latency tradeoff and exact restored state. The
 model/platform index keeps these separate from raw HTTP SSD qualification.
+
+[DS4-style checkpoint policy](../CACHE-DS4-GPU.md) additionally distinguishes
+progressive checkpoint correctness from retention performance under RAM pressure.
+Never substitute its trimmed/intermediate-prefix timings for a full cache hit.

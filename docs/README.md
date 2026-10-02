@@ -40,6 +40,7 @@ an implemented test and a completed measurement.
 - [Completed SSD restart/C1 measurements and temperature timeline](SSD-GPU-COMPLETION.md).
 - [Cache build comparisons and HTTP SSD GPU results](CACHE-FEATURES-GPU.md).
 - [Checkpoint compression cost, exact restore and benefit admission](CACHE-COMPRESSION-GPU.md).
+- [DS4-style policy: exact state, prefill, retention pressure and GPU results](CACHE-DS4-GPU.md).
 
 ## History and parallel work
 

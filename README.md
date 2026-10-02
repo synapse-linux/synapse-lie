@@ -21,7 +21,8 @@ are implemented. RAM retention is on by default (4 GiB, allocated lazily);
 is implemented as an explicit opt-in in the shared C core. [GPU restart and C1
 comparisons now pass through 128K](docs/SSD-GPU-COMPLETION.md), including exact
 logits/tokens and separate prefill, read/upload, startup and thermal measurements.
-At 128K, median core TTFT is 98.583 s without cache, 2.186 s after SSD restart
+With the earlier legacy capture schedule, at 128K median core TTFT is 98.583 s
+without cache, 2.186 s after SSD restart
 and 0.226 s from RAM. The new [`--suite http-ssd` client](docs/SSD-HTTP-PROTOCOL.md)
 covers restart, Chat/Responses JSON/SSE, C2, disk-wait cancellation and slow
 consumers, with percentile/PP/TG exports. Its ASan/UBSan CPU fixtures pass;
@@ -35,7 +36,14 @@ remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
-[DS4-style cache policy](docs/CACHE-DS4-POLICY.md) is implemented in the shared C17 core: persistent priorities, progressive checkpoints, text-prefix reuse and bounded dynamic indices. Its CPU sanitizer suite passes; GPU policy qualification and DS4 binary interoperability remain open. The earlier GPU numbers above use their recorded capture policy.
+[DS4-style cache policy](docs/CACHE-DS4-POLICY.md) is implemented in the shared
+C17 core: persistent priorities, progressive checkpoints, text-prefix reuse and
+bounded dynamic indices. CPU sanitizers and original-weight state checks pass,
+including capture after generation and restore into a larger context. The
+[policy comparison](docs/CACHE-DS4-GPU.md) exposes a retention regression at 128K
+with the default 4 GiB budget; `--cache-policy legacy` remains available.
+DS4 KVC binary import/export and cross-quantization reuse are not implemented.
+The earlier GPU numbers above use their recorded capture policy.
 Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
 compression is enabled at build time by default, with bounded workspace and a
 50% minimum retained-state saving and a bounded preliminary probe. Both features
