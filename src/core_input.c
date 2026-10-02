@@ -43,6 +43,13 @@ static bool generation_valid(const lie_generation_options *o) {
 }
 static bool layout(const lie_core_request *r, lie_core_request *out, arena *a) {
     *out=*r;
+    if(!lie_cache_metadata_valid(&r->cache))return false;
+    if(r->cache.text_bytes){char *p=reserve(a,r->cache.text_bytes+1);
+        if(p){memcpy(p,r->cache.text,r->cache.text_bytes);p[r->cache.text_bytes]=0;}out->cache.text=p;}
+    if(r->cache.trailer_bytes){void *p=reserve(a,r->cache.trailer_bytes);
+        if(p)memcpy(p,r->cache.trailer,r->cache.trailer_bytes);
+        out->cache.trailer=p;}
+
     if (r->kind==LIE_INPUT_TOKENS) {
         int32_t *p=reserve(a,r->token_count*sizeof(*p));
         for (size_t i=0;i<r->token_count;++i) if (r->tokens[i]<0) return false;

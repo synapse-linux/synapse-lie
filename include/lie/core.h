@@ -13,10 +13,11 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 1u
+#define LIE_CORE_REQUEST_ABI 2u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
 typedef struct {
     uint64_t budget_bytes, retained_bytes, peak_retained_bytes;
+    uint64_t index_bytes, index_budget_bytes;
     uint64_t lookups, hits, misses, reused_tokens, captures, evictions, skipped;
     uint64_t expanded_bytes, compression_attempts, compressed_captures;
     bool utility_policy, compression_enabled;
@@ -38,6 +39,7 @@ typedef struct {
     size_t text_bytes;
     unsigned max_tokens;
     lie_generation_options generation;
+    lie_cache_metadata cache; /* Optional client-owned visible key / extension bytes. */
 } lie_core_request;
 void lie_core_request_init(lie_core_request *);
 
@@ -52,6 +54,7 @@ typedef struct {
     const char *model_path;
     uint32_t context, chunk, max_active;
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
+    lie_cache_policy cache_policy;
     lie_store_options ssd; /* Explicit directory enables; zero defaults off. */
 } lie_core_options;
 /* RAM enabled by default; independent SSD persistence is opt-in. */
@@ -66,6 +69,7 @@ typedef struct {
     /* Completed model output, not client delivery. */
     uint64_t generated_tokens, completed_requests, cancelled_requests, failed_requests;
     lie_prefix_cache_info cache;
+    lie_cache_policy cache_policy;
     lie_store_info ssd;
     lie_model_info model;
     char error[256];
@@ -101,6 +105,8 @@ int lie_core_submit(lie_core *, const lie_core_request *, lie_job **out);
 lie_flow *lie_job_flow(lie_job *);
 void lie_job_snapshot(lie_job *, lie_job_info *);
 void lie_job_cancel(lie_job *);
+/* Independent owned metadata copy; caller clears it with lie_cache_metadata_clear. */
+bool lie_job_cache_metadata(lie_job *,lie_cache_metadata *);
 /* Stable snapshots copied while holding metadata ownership. Prompt requires
  * prepared=true; output IDs are validated model output, not delivery receipts.
  * BUFFER_SMALL reports required count; no partial copy or provider call. */

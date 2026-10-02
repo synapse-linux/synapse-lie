@@ -297,3 +297,24 @@ closing the store. Cancellation latches affect reads between bounded transfers;
 no filesystem syscall or GPU operation is forcibly preempted. Provider calls
 still run only on the device owner, and mutating failures never become misses.
 See [SSD-PREFIX.md](SSD-PREFIX.md) for framing, durability and qualification limits.
+
+## Cache-policy client extension (request ABI 2)
+
+`lie_core_request` now carries `lie_cache_metadata cache`: bounded byte text,
+opaque trailer, purpose and extension/key-kind flags. Submit deep-copies these
+bytes within the normalized-input arena. Callers must rebuild and use
+`lie_core_request_init`; old request version/size tags are refused.
+`lie_job_cache_metadata` returns an independent metadata copy after a successful
+restore; initialize the output to zero and release it using
+`lie_cache_metadata_clear`. A miss returns empty metadata. Do not reuse a live
+owned output struct without clearing it first. Store results similarly own
+metadata until `lie_store_result_release`.
+
+`lie_core_options.cache_policy` controls shared capture/reuse behavior; snapshots
+expose it and separate RAM/SSD index budgets. Consumers of these experimental
+structs must rebuild together. `lie_model_chat_anchor` is an additive provider
+query for the stable model-specific chat prefix; unsupported providers can
+return no anchor. It performs no forward inference and exposes no upstream type.
+State component ABI and executor ABI 2 are unchanged. Context growth must pass
+the provider's layout checks before mutation; cross-weight/quantization restore
+remains refused. [Policy and format details](CACHE-DS4-POLICY.md).

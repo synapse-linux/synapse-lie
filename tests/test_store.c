@@ -119,7 +119,7 @@ int main(void){
     }
     assert(lie_store_write(s,state));lie_state_destroy(&state); /* Writer holds the immutable payload. */
     lie_store_result r=complete(s);assert(!r.read&&!r.state&&entries(path)==1);
-    lie_store_info info;lie_store_snapshot(s,&info);assert(info.writes==1&&info.errors==3&&info.disk_bytes==size&&info.allocated_bytes<=4096&&!info.staging_bytes);
+    lie_store_info info;lie_store_snapshot(s,&info);assert(info.writes==1&&info.errors==3&&info.disk_bytes==size+64&&info.allocated_bytes<=4096&&!info.staging_bytes);
     lie_store_close(&s);assert(!s&&entries(path)==1); /* Close/disable never delete committed entries. */
     assert(lie_store_open(&off,NULL,0,&s,&e)==LIE_OK&&!s&&entries(path)==1);
     assert(lie_store_open(&options,&id,domain,&s,&e)==LIE_OK);
@@ -146,6 +146,27 @@ int main(void){
     assert(lie_store_read(s,prompt,4,4));r=complete(s);assert((r.state!=NULL)==(LIE_CACHE_UTILITY!=0));
     if(r.state)lie_store_result_release(s,&r);
     lie_store_close(&s);clean(path);
+
+    /* Rewriting extensions is atomic: failed writes/fsync/rename leave the
+     * previous committed payload and extension bytes usable. */
+    assert(lie_store_open(&options,&id,domain,&s,&e)==LIE_OK);
+    state=capture(m,10);lie_cache_metadata original={.reason=LIE_CACHE_COLD,.trailer="old",.trailer_bytes=3};
+    assert(lie_store_write_ex(s,state,&original));complete(s);
+    lie_cache_metadata changed_meta=original;changed_meta.trailer="new";
+    prompt[1]=prompt[2]=prompt[3]=10;
+    for(unsigned fault=0;fault<3;++fault){
+        if(fault==0)atomic_store(&fail_write,1);
+        if(fault==1)atomic_store(&fail_flush,1);
+        if(fault==2)atomic_store(&fail_rename,1);
+        assert(lie_store_write_ex(s,state,&changed_meta));complete(s);
+        assert(lie_store_read(s,prompt,4,4));r=complete(s);
+        assert(r.state&&r.metadata.trailer_bytes==3&&!memcmp(r.metadata.trailer,"old",3));lie_store_result_release(s,&r);
+    }
+    assert(lie_store_write_ex(s,state,&changed_meta));complete(s);
+    assert(lie_store_read(s,prompt,4,4));r=complete(s);
+    assert(r.state&&r.metadata.hits==4&&!memcmp(r.metadata.trailer,"new",3));lie_store_result_release(s,&r);
+    lie_store_snapshot(s,&info);assert(info.entries==1&&info.errors==3&&info.writes==2);
+    lie_state_destroy(&state);lie_store_close(&s);clean(path);
 
     /* Compressed envelope survives store close/reopen and bounded I/O import. */
     fake_state_padding(2u*1024u*1024u);state=capture(m,10);options.quota_bytes=options.staging_bytes=16u*1024u*1024u;

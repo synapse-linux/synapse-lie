@@ -49,3 +49,5 @@ current capability matrix. Earlier Q2 investigations remain in
 [first model](Q2-FIRST-MODEL.md), [extended checks](Q2-EXTENDED.md),
 [benchmark gates](ANTIREZ-BENCHMARKS.md) and [the historical replan](REPLAN.md).
 Their withdrawal does not describe the state of a later parallel feature branch.
+
+- [Shared DS4 cache policy, options and remaining interoperability gates](CACHE-DS4-POLICY.md)

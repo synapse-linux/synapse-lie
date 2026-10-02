@@ -241,3 +241,15 @@ features. `bench-report.py --compare-cache-build --compare ...` explicitly
 permits only those feature differences, reports them, and still requires matched
 workload/runtime settings and output tokens. This is an ON/OFF ablation, not an
 unqualified model/server comparison.
+
+## Shared progressive cache policy
+
+`/actuator/llm.cache.checkpoint_policy` reports kind (`ds4`/`legacy`), text-prefix
+and finish-capture booleans, minimum/cold/continued/trim/alignment limits. Both
+cache tiers expose `index_bytes` and `index_budget_bytes` separately from their
+payload/staging pools. `cache_capture_ns` accumulates all completed captures of
+a job, including periodic frontiers; asynchronous disk write duration remains
+store-wide. SSD hits update persisted timestamps and hit counts. Build flags
+and every core-bench policy setting are comparison keys. Historical records
+without checkpoint-policy fields retain legacy interpretation. No hit metric
+asserts DS4 file interoperability or a numerical/performance improvement.

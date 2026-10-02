@@ -68,7 +68,7 @@ def run(binary, root, phase, reference=None):
     gate = root/'gate'; gate.mkdir(exist_ok=True)
     events = []; logpath = root/(phase+'.log')
     with logpath.open('xb') as log:
-        proc = subprocess.Popen([binary, '--model', ':fixture:', '--port', str(api), '--management-port', str(management),
+        proc = subprocess.Popen([binary, '--model', ':fixture:', '--cache-policy', 'legacy', '--port', str(api), '--management-port', str(management),
                                  '--context', '4096', '--prefill-chunk', '4', '--max-active', '2', '--prefix-cache-mib', '0',
                                  '--prefix-ssd-dir', str(root/'store'), '--prefix-ssd-quota-mib', '1', '--prefix-ssd-staging-mib', '1'],
                                 stdout=log, stderr=log, env=dict(os.environ, LIE_TEST_SSD_READ_GATE=str(gate)))

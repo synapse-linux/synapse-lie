@@ -111,3 +111,7 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;return LIE_OK;
 }
+
+lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){
+    (void)m;(void)t;(void)n;(void)e;*out=0;return LIE_OK;
+}

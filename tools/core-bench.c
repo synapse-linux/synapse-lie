@@ -158,12 +158,12 @@ done:
 }
 int lie_core_bench_main(int argc,char **argv) {
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
-    lie_store_options ssd={0};
+    lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--prefix-cache-mib 4096]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero MiB disables); SSD prefix persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--prefix-cache-mib 4096] [--cache-policy ds4|legacy]\n  [--cache-min-tokens 512] [--cache-cold-max-tokens 30000] [--cache-continued-tokens 10000]\n  [--cache-trim-tokens 32] [--cache-align-tokens 2048] [--cache-text-prefix on|off] [--cache-capture-finish on|off]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero MiB disables); SSD prefix persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];unsigned bit=0;
@@ -184,7 +184,7 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--prefix-ssd-dir")){bit=16384u;ssd.directory=value;}
         else if(!strcmp(key,"--prefix-ssd-quota-mib")){unsigned mib;bit=32768u;if(!integer(value,1,1048576,&mib))goto usage;ssd.quota_bytes=(uint64_t)mib*1024u*1024u;}
         else if(!strcmp(key,"--prefix-ssd-staging-mib")){unsigned mib;bit=65536u;if(!integer(value,1,1048576,&mib))goto usage;ssd.staging_bytes=(uint64_t)mib*1024u*1024u;}
-        else goto usage;
+        else if(lie_cache_policy_option(&policy,key,value)!=1)goto usage;
         if(seen&bit)goto usage;
         seen|=bit;
     }
@@ -196,9 +196,15 @@ int lie_core_bench_main(int argc,char **argv) {
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
     text(identity,"cache_policy",ssd.directory?(cache_mib?"ram+ssd":"ssd"):(cache_mib?"ram":"off"));number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);
-    text(identity,"cache_retention_policy",LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru");
+    text(identity,"cache_retention_policy",LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru");
     json_object_object_add(identity,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     text(identity,"checkpoint_codec",lie_state_compression_codec());
+    text(identity,"checkpoint_policy",policy.enabled?"ds4":"legacy");
+    number(identity,"cache_min_tokens",policy.min_tokens);number(identity,"cache_cold_max_tokens",policy.cold_max_tokens);
+    number(identity,"cache_continued_tokens",policy.continued_interval_tokens);number(identity,"cache_trim_tokens",policy.boundary_trim_tokens);
+    number(identity,"cache_align_tokens",policy.boundary_align_tokens);
+    json_object_object_add(identity,"cache_text_prefix",json_object_new_boolean(policy.text_prefix));
+    json_object_object_add(identity,"cache_capture_finish",json_object_new_boolean(policy.capture_finish));
     number(identity,"ssd_quota_bytes",ssd.quota_bytes);number(identity,"ssd_staging_bytes",ssd.staging_bytes);
     number(identity,"context_capacity",context);number(identity,"prefill_chunk",chunk);number(identity,"users",users);
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);
@@ -230,7 +236,9 @@ int lie_core_bench_main(int argc,char **argv) {
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
     int code=1;lie_core *core=NULL;char error[256]="core benchmark failed";witness w={0};
     if(!emit(f,identity))goto done;
-    uint64_t started=now();lie_core_options options={model,context,chunk,users,(uint64_t)cache_mib*1024u*1024u,ssd};core=lie_core_create(&options);
+    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;
+    options.chunk=chunk;options.max_active=users;options.prefix_cache_bytes=(uint64_t)cache_mib*1024u*1024u;options.ssd=ssd;options.cache_policy=policy;
+    core=lie_core_create(&options);
     if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){snprintf(error,256,"core readiness failed");goto done;}
     json_object *ready=event("core_ready");number(ready,"load_to_ready_ns",now()-started);if(!emit(f,ready))goto done;
     for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,&w,f,error))goto done;

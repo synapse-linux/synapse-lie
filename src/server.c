@@ -410,29 +410,40 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object_object_add(o,"cancel_during_decode",json_object_new_uint64(i->cancel_during_decode));
     return o;
 }
-static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_store_info *ssd) {
+static json_object *prefix_cache_json(const lie_prefix_cache_info *i,const lie_store_info *ssd,const lie_cache_policy *p) {
     json_object *o=json_object_new_object();
     json_object_object_add(o,"kind",json_object_new_string("ram-prefix-checkpoints"));
     json_object_object_add(o,"enabled",json_object_new_boolean(i->budget_bytes!=0));
     json_object_object_add(o,"ssd_enabled",json_object_new_boolean(ssd->enabled));
-    json_object_object_add(o,"retention_policy",json_object_new_string(i->utility_policy?"decaying-token-byte-utility-v1":"lru"));
+    json_object_object_add(o,"retention_policy",json_object_new_string(i->utility_policy?"ds4-time-token-byte-utility-v1":"lru"));
     json_object_object_add(o,"checkpoint_compression",json_object_new_boolean(i->compression_enabled));
     json_object_object_add(o,"checkpoint_codec",json_object_new_string(lie_state_compression_codec()));
+    json_object *policy=json_object_new_object();
+    json_object_object_add(policy,"kind",json_object_new_string(p->enabled?"ds4":"legacy"));
+    json_object_object_add(policy,"text_prefix",json_object_new_boolean(p->text_prefix));
+    json_object_object_add(policy,"capture_finish",json_object_new_boolean(p->capture_finish));
+#define POLICY_FIELD(name) json_object_object_add(policy,#name,json_object_new_uint64(p->name))
+    POLICY_FIELD(min_tokens);POLICY_FIELD(cold_max_tokens);POLICY_FIELD(continued_interval_tokens);
+    POLICY_FIELD(boundary_trim_tokens);POLICY_FIELD(boundary_align_tokens);
+#undef POLICY_FIELD
+    json_object_object_add(o,"checkpoint_policy",policy);
     json_object *disk=json_object_new_object();
     json_object_object_add(disk,"enabled",json_object_new_boolean(ssd->enabled));
-    json_object_object_add(disk,"retention_policy",json_object_new_string(ssd->utility_policy?"decaying-token-byte-utility-v1":"lru"));
+    json_object_object_add(disk,"retention_policy",json_object_new_string(ssd->utility_policy?"ds4-time-token-byte-utility-v1":"lru"));
     json_object_object_add(disk,"checkpoint_compression",json_object_new_boolean(ssd->compression_enabled));
     json_object_object_add(disk,"checkpoint_codec",json_object_new_string(lie_state_compression_codec()));
 #define SSD_FIELD(name) json_object_object_add(disk,#name,json_object_new_uint64(ssd->name))
     SSD_FIELD(quota_bytes);SSD_FIELD(disk_bytes);SSD_FIELD(allocated_bytes);SSD_FIELD(staging_budget_bytes);
+    SSD_FIELD(index_bytes);SSD_FIELD(index_budget_bytes);
     SSD_FIELD(staging_bytes);SSD_FIELD(peak_staging_bytes);SSD_FIELD(entries);SSD_FIELD(pending);
     SSD_FIELD(lookups);SSD_FIELD(hits);SSD_FIELD(misses);SSD_FIELD(writes);SSD_FIELD(evictions);SSD_FIELD(skipped);
     SSD_FIELD(errors);SSD_FIELD(cancelled);SSD_FIELD(read_bytes);SSD_FIELD(written_bytes);SSD_FIELD(read_ns);SSD_FIELD(write_ns);
 #undef SSD_FIELD
     json_object_object_add(o,"ssd",disk);
-    json_object_object_add(o,"accounting",json_object_new_string("owned payload and descriptors; excludes allocator/driver overhead"));
+    json_object_object_add(o,"accounting",json_object_new_string("payload, descriptors and metadata; index separately bounded; excludes allocator/driver overhead"));
 #define CACHE_FIELD(name) json_object_object_add(o,#name,json_object_new_uint64(i->name))
     CACHE_FIELD(budget_bytes);CACHE_FIELD(retained_bytes);CACHE_FIELD(peak_retained_bytes);
+    CACHE_FIELD(index_bytes);CACHE_FIELD(index_budget_bytes);
     CACHE_FIELD(lookups);CACHE_FIELD(hits);CACHE_FIELD(misses);CACHE_FIELD(reused_tokens);
     CACHE_FIELD(captures);CACHE_FIELD(evictions);CACHE_FIELD(skipped);CACHE_FIELD(entries);
     CACHE_FIELD(expanded_bytes);CACHE_FIELD(compression_attempts);CACHE_FIELD(compressed_captures);
@@ -447,7 +458,7 @@ static char *llm_json(server *s) {
     json_object *scheduler=NULL;
     if (s->worker) {
         lie_worker_info info; lie_worker_snapshot(s->worker,&info);
-        json_object_object_add(j,"cache",prefix_cache_json(&info.cache,&info.ssd));
+        json_object_object_add(j,"cache",prefix_cache_json(&info.cache,&info.ssd,&info.cache_policy));
         scheduler=json_object_new_object();
         json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-reactive-ready-batch"));
         json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
@@ -702,11 +713,11 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i],"--build-info")) {
             printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":\"%s\"}\n",
                    LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership(),
-                   LIE_CACHE_UTILITY?"decaying-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec());
+                   LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec());
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. SSD prefix persistence is opt-in; no MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096] [--cache-policy ds4|legacy]\n  [--cache-min-tokens 512] [--cache-cold-max-tokens 30000] [--cache-continued-tokens 10000]\n  [--cache-trim-tokens 32] [--cache-align-tokens 2048] [--cache-text-prefix on|off] [--cache-capture-finish on|off]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. SSD prefix persistence is opt-in; no MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -732,7 +743,8 @@ int main(int argc, char **argv) {
             else options.ssd.staging_bytes=(uint64_t)mib*1024u*1024u;
         }
         else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
-        else { fputs("Unknown option\n", stderr); return 2; }
+        else {int rc=lie_cache_policy_option(&options.cache_policy,argv[i],argv[i+1]);
+            if(rc!=1){fputs(rc?"Invalid cache policy value\n":"Unknown option\n",stderr);return 2;}++i;}
     }
     if((options.ssd.directory&&(!options.model_path||*options.ssd.directory!='/'||!options.ssd.quota_bytes||!options.ssd.staging_bytes))||
        (!options.ssd.directory&&(options.ssd.quota_bytes||options.ssd.staging_bytes))){

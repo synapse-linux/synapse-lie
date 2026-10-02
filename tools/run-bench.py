@@ -93,7 +93,7 @@ def ssd_inventory(path,check_thermal=lambda:None):
     fd=private_directory(path);entries={}
     try:
         names=os.listdir(fd)
-        if len(names)>65:raise ValueError('SSD inventory entry limit')
+        if len(names)>65537:raise ValueError('SSD qualification inventory entry limit')
         for name in sorted(names):
             if name!='.lie-prefix.lock' and not re.fullmatch(r'[0-9a-f]{64}\.lie',name):
                 raise ValueError('uncommitted or unknown SSD entry')
@@ -187,7 +187,9 @@ def validate_args(args):
     options=dict(zip(keys,args[1::2]))
     if options.get('--suite')=='core':
         allowed={'--suite','--users','--tg','--warmups','--repetitions',
-                 '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file','--prefix-cache-mib'}
+                 '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file','--prefix-cache-mib',
+                 '--cache-policy','--cache-text-prefix','--cache-capture-finish','--cache-min-tokens',
+                 '--cache-cold-max-tokens','--cache-continued-tokens','--cache-trim-tokens','--cache-align-tokens'}
     if options.get('--suite')=='state':
         allowed={'--suite','--context','--chunk','--pp','--tokens-file'}
         allowed.add('--state-ssd-mode')
@@ -404,8 +406,15 @@ def main():
             r['http_cases_sha256']=http_helper['digest'](cases)
             H['probe_ports'](http_plan['ports'])
         staging=r['ssd_store']['staging_bytes'] if r['ssd_store'] else 0
-        if H['memory']()['MemAvailable']<=trunk+reserve+staging:
-            raise RuntimeError('SSD staging plus RAM reserve admission failed; no fit claim')
+        # The dynamic SSD index is a separate pool, capped by staging size.
+        # RAM entry records use at most another 16 MiB. Rendering offsets/text
+        # are bounded per job in addition to normalized request storage.
+        options=dict(zip(benchmark_args[::2],benchmark_args[1::2]))
+        rows=int(options.get('--users','1'))
+        policy_reserve=staging+16*1024**2+rows*(8*1024**2+(int(options.get('--context','262144'))+1)*8)
+        r['cache_policy_extra_reserve_bytes']=policy_reserve
+        if H['memory']()['MemAvailable']<=trunk+reserve+staging+policy_reserve:
+            raise RuntimeError('SSD staging/index plus RAM reserve admission failed; no fit claim')
         env = {k: v for k, v in os.environ.items() if not k.startswith(('GUFO_', 'DS4_', 'HIP_', 'ROCR_', 'HSA_', 'CUDA_')) and k not in ('LD_PRELOAD', 'LD_LIBRARY_PATH')}
         for key, name in [('HOME', 'home'), ('XDG_CACHE_HOME', 'cache'), ('TMPDIR', 'tmp')]:
             p = run / name

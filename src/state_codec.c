@@ -49,6 +49,10 @@ static void header(unsigned char *h,const lie_state_identity *id,const lie_state
     for(unsigned i=0;i<8;++i)put32(h+120+i*4,s->layout.model_data[i]);
     if(s->codec)put64(h+152,s->storage_bytes);
 }
+static uint64_t payload_end(const unsigned char *h){
+    return LIE_STATE_DISK_HEADER+(uint64_t)u32(h+20)*LIE_STATE_DISK_SECTION+
+        (u32(h+36)?u64(h+152):u64(h+40));
+}
 static bool read_header(int fd,const lie_state_identity *id,unsigned char *h,uint64_t *size){
     if(!platform()||!regular(fd,size)||*size<LIE_STATE_DISK_HEADER||
        !transfer(fd,h,LIE_STATE_DISK_HEADER,0,false,NULL,NULL)||memcmp(h,"LIEPFX1",8)||
@@ -58,13 +62,83 @@ static bool read_header(int fd,const lie_state_identity *id,unsigned char *h,uin
     uint64_t prefix=LIE_STATE_DISK_HEADER+(uint64_t)u32(h+20)*LIE_STATE_DISK_SECTION;
     if(*size<prefix)return false;
     if(u32(h+8)==1)return !u32(h+36)&&!u64(h+152)&&u64(h+40)==*size-prefix;
+    if(u32(h+8)==3){
+        uint64_t stored=u32(h+36)?u64(h+152):u64(h+40);
+        return stored<=*size-prefix&&*size-prefix-stored>=64&&
+            ((!u32(h+36)&&!u64(h+152))||
+             ((u32(h+36)==1||u32(h+36)==2)&&lie_state_compression_enabled()&&stored<u64(h+40)));
+    }
     return u32(h+8)==2&&(u32(h+36)==1||u32(h+36)==2)&&lie_state_compression_enabled()&&
            u64(h+152)==*size-prefix&&u64(h+152)<u64(h+40);
 }
-bool lie_state_file_probe(int fd,const lie_state_identity *id,uint64_t *bytes,unsigned *tokens){
+/* Usage counters are advisory and deliberately excluded from the digest so
+ * a hit never rehashes multi-GiB tensors. Text, extensions and reason ARE hashed. */
+static bool metadata_header(int fd,const unsigned char *h,unsigned char b[64],uint64_t *offset){
+    *offset=payload_end(h);
+    if(u32(h+8)!=3||!transfer(fd,b,64,*offset,false,NULL,NULL)||memcmp(b,"LIECACH1",8))return false;
+    uint64_t tail=64ull+u32(b+40)+u32(b+44);
+    if(tail!=u64(h+48)-*offset||u32(b+12)||u32(b+32)>LIE_CACHE_AGENT_SESSION||
+       (u32(b+36)&~15u)||u32(b+40)>LIE_CACHE_TEXT_MAX||u32(b+44)>LIE_CACHE_TRAILER_MAX)return false;
+    for(unsigned i=48;i<64;++i)if(b[i])return false;
+    return true;
+}
+bool lie_state_file_metadata(int fd,const lie_state_identity *id,uint64_t budget,lie_cache_metadata *m){
+    unsigned char h[LIE_STATE_DISK_HEADER],b[64];uint64_t size,offset;
+    memset(m,0,sizeof(*m));
+    if(!read_header(fd,id,h,&size))return false;
+    if(u32(h+8)!=3)return true;
+    if(!metadata_header(fd,h,b,&offset))return false;
+    m->hits=u32(b+8);m->last_used=u64(b+16);m->created_at=u64(b+24);
+    m->reason=u32(b+32);m->flags=u32(b+36);m->text_bytes=u32(b+40);m->trailer_bytes=u32(b+44);
+    if(m->text_bytes+m->trailer_bytes+1>budget){memset(m,0,sizeof(*m));return false;}
+    char *text=m->text_bytes?malloc(m->text_bytes+1):NULL;
+    void *trailer=m->trailer_bytes?malloc(m->trailer_bytes):NULL;
+    m->text=text;m->trailer=trailer;
+    bool ok=(!m->text_bytes||(text&&transfer(fd,text,m->text_bytes,offset+64,false,NULL,NULL)))&&
+        (!m->trailer_bytes||(trailer&&transfer(fd,trailer,m->trailer_bytes,offset+64+m->text_bytes,false,NULL,NULL)));
+    if(ok&&text)text[m->text_bytes]=0;
+    if(!ok)lie_cache_metadata_clear(m);
+    return ok;
+}
+bool lie_state_file_touch(int fd,const lie_state_identity *id,uint32_t hits,uint64_t last){
+    unsigned char h[LIE_STATE_DISK_HEADER],b[64],usage[16]={0};uint64_t size,offset;
+    if(!read_header(fd,id,h,&size))return false;
+    if(u32(h+8)!=3)return true; /* Legacy checkpoints have no usage record. */
+    if(!metadata_header(fd,h,b,&offset))return false;
+    put32(usage,hits);put64(usage+8,last);
+    return transfer(fd,usage,sizeof(usage),offset+8,true,NULL,NULL);
+}
+uint64_t lie_state_file_bytes_ex(const lie_state *s,const lie_cache_metadata *m){
+    uint64_t n=lie_state_file_bytes(s);
+    if(!m)return n;
+    uint64_t extra=64ull+m->text_bytes+m->trailer_bytes;
+    return !lie_cache_metadata_valid(m)||n>UINT64_MAX-extra?UINT64_MAX:n+extra;
+}
+static bool metadata_write(int fd,const lie_cache_metadata *m,uint64_t at,const atomic_bool *cancel,EVP_MD_CTX *hash){
+    unsigned char b[64]={0};memcpy(b,"LIECACH1",8);
+    put64(b+24,m->created_at);put32(b+32,m->reason);put32(b+36,m->flags);
+    put32(b+40,(uint32_t)m->text_bytes);put32(b+44,(uint32_t)m->trailer_bytes);
+    if(EVP_DigestUpdate(hash,b,sizeof(b))!=1)return false;
+    put32(b+8,m->hits);put64(b+16,m->last_used);
+    return transfer(fd,b,sizeof(b),at,true,cancel,NULL)&&
+        transfer(fd,(void *)m->text,m->text_bytes,at+64,true,cancel,hash)&&
+        transfer(fd,(void *)m->trailer,m->trailer_bytes,at+64+m->text_bytes,true,cancel,hash);
+}
+static bool metadata_hash(int fd,const unsigned char *h,const atomic_bool *cancel,EVP_MD_CTX *hash){
+    unsigned char b[64],buf[4096];uint64_t at;
+    if(!metadata_header(fd,h,b,&at))return false;
+    memset(b+8,0,16);
+    if(EVP_DigestUpdate(hash,b,sizeof(b))!=1)return false;
+    at+=64;
+    while(at<u64(h+48)){uint64_t n=u64(h+48)-at;if(n>sizeof(buf))n=sizeof(buf);
+        if(!transfer(fd,buf,(size_t)n,at,false,cancel,hash))return false;
+        at+=n;}
+    return true;
+}
+bool lie_state_file_probe(int fd,const lie_state_identity *id,uint64_t *bytes,unsigned *tokens,unsigned *context){
     unsigned char h[LIE_STATE_DISK_HEADER];
     if(!id||!bytes||!tokens||!read_header(fd,id,h,bytes))return false;
-    *tokens=u32(h+24);return true;
+    *tokens=u32(h+24);if(context)*context=u32(h+28);return true;
 }
 static void encode_section(unsigned char *b,const lie_state_section *s){
     put32(b,s->role);put32(b+4,s->layer);put32(b+8,s->dtype);put32(b+12,s->rank);
@@ -76,22 +150,27 @@ static void decode_section(lie_state_section *s,const unsigned char *b){
     for(unsigned k=0;k<4;++k)s->shape[k]=u64(b+16+8*k);
     s->bytes=u64(b+48);s->offset=u64(b+56);
 }
-bool lie_state_file_write(int fd,const lie_state_identity *id,const lie_state *s,const atomic_bool *cancel){
+bool lie_state_file_write_ex(int fd,const lie_state_identity *id,const lie_state *s,const lie_cache_metadata *m,const atomic_bool *cancel){
     uint64_t bytes=0,payload=0;
     if(!platform()||!id||!s||!regular(fd,&bytes)||bytes||!lie_state_validate(&s->layout,&payload)||
-       payload!=s->payload_bytes||lie_state_file_bytes(s)>INT64_MAX||s->codec>2||
+       payload!=s->payload_bytes||lie_state_file_bytes_ex(s,m)>INT64_MAX||s->codec>2||
        (!s->codec&&s->storage_bytes!=payload)||
        (s->codec&&(s->storage_bytes>=payload||s->layout.sections[0].role!=LIE_STATE_TOKENS)))return false;
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return false;
     unsigned char h[LIE_STATE_DISK_HEADER],section[LIE_STATE_DISK_SECTION],digest[32];unsigned count=0;
     header(h,id,s);
+    if(m){put32(h+8,3);put64(h+48,lie_state_file_bytes_ex(s,m));}
     bool ok=EVP_DigestInit_ex(hash,EVP_sha256(),NULL)==1&&transfer(fd,h,sizeof(h),0,true,cancel,hash);
     uint64_t offset=sizeof(h);
     for(unsigned i=0;ok&&i<s->layout.section_count;++i){encode_section(section,&s->layout.sections[i]);
         ok=transfer(fd,section,sizeof(section),offset,true,cancel,hash);offset+=sizeof(section);}
     ok=ok&&transfer(fd,(void *)s->payload,(size_t)s->storage_bytes,offset,true,cancel,hash)&&
+       (!m||metadata_write(fd,m,offset+s->storage_bytes,cancel,hash))&&
        EVP_DigestFinal_ex(hash,digest,&count)==1&&count==32&&transfer(fd,digest,32,88,true,cancel,NULL);
     EVP_MD_CTX_free(hash);return ok;
+}
+bool lie_state_file_write(int fd,const lie_state_identity *id,const lie_state *s,const atomic_bool *cancel){
+    return lie_state_file_write_ex(fd,id,s,NULL,cancel);
 }
 lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t domain,uint64_t budget,const atomic_bool *cancel){
     unsigned char h[LIE_STATE_DISK_HEADER],section[LIE_STATE_DISK_SECTION],expected[32],actual[32];uint64_t bytes=0;
@@ -99,6 +178,7 @@ lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t doma
        sizeof(lie_state)>budget-u64(h+40))return NULL;
     uint64_t scratch=u32(h+36)?LIE_STATE_BLOCK_BYTES+lie_state_decode_workspace(u32(h+36)):0;
     if(scratch>budget-u64(h+40)-sizeof(lie_state))return NULL;
+    uint64_t data_end=payload_end(h);
     memcpy(expected,h+88,32);memset(h+88,0,32);
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return NULL;
     bool ok=EVP_DigestInit_ex(hash,EVP_sha256(),NULL)==1&&EVP_DigestUpdate(hash,h,sizeof(h))==1;
@@ -113,23 +193,24 @@ lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t doma
     lie_state *s=ok?lie_state_allocate(&l,budget):NULL;unsigned count=0;
     if(s&&u32(h+36)){
         unsigned char *block=malloc(LIE_STATE_BLOCK_BYTES);uint64_t at=l.sections[0].bytes;
-        ok=block&&l.sections[0].role==LIE_STATE_TOKENS&&at<=bytes-offset&&
+        ok=block&&l.sections[0].role==LIE_STATE_TOKENS&&at<=data_end-offset&&
            transfer(fd,s->payload,(size_t)at,offset,false,cancel,hash);offset+=at;
         while(ok&&at<payload){
             unsigned char frame[8];
-            ok=bytes-offset>=sizeof(frame)&&transfer(fd,frame,sizeof(frame),offset,false,cancel,hash);offset+=sizeof(frame);
+            ok=data_end-offset>=sizeof(frame)&&transfer(fd,frame,sizeof(frame),offset,false,cancel,hash);offset+=sizeof(frame);
             if(!ok)break;
             uint32_t raw=u32(frame),coded=u32(frame+4);uint64_t want=payload-at;
             if(want>LIE_STATE_BLOCK_BYTES)want=LIE_STATE_BLOCK_BYTES;
             uint32_t stored=coded?coded:raw;
-            ok=raw==want&&coded<raw&&stored<=bytes-offset;
+            ok=raw==want&&coded<raw&&stored<=data_end-offset;
             if(ok&&coded)ok=transfer(fd,block,stored,offset,false,cancel,hash)&&
                             lie_state_decode_block(u32(h+36),block,stored,s->payload+at,raw);
             else if(ok)ok=transfer(fd,s->payload+at,raw,offset,false,cancel,hash);
             offset+=stored;at+=raw;
         }
-        free(block);ok=ok&&offset==bytes;
+        free(block);ok=ok&&offset==data_end;
     }else ok=s&&transfer(fd,s->payload,(size_t)payload,offset,false,cancel,hash);
+    ok=ok&&(u32(h+8)!=3||metadata_hash(fd,h,cancel,hash));
     ok=ok&&EVP_DigestFinal_ex(hash,actual,&count)==1&&count==32&&!memcmp(expected,actual,32);
     EVP_MD_CTX_free(hash);
     /* Padding is canonical, and all physical token IDs are nonnegative. */

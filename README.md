@@ -35,6 +35,7 @@ remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
+[DS4-style cache policy](docs/CACHE-DS4-POLICY.md) is implemented in the shared C17 core: persistent priorities, progressive checkpoints, text-prefix reuse and bounded dynamic indices. Its CPU sanitizer suite passes; GPU policy qualification and DS4 binary interoperability remain open. The earlier GPU numbers above use their recorded capture policy.
 Retention uses decaying reuse/token-per-byte utility; lossless byte-plane/Zstandard checkpoint
 compression is enabled at build time by default, with bounded workspace and a
 50% minimum retained-state saving and a bounded preliminary probe. Both features

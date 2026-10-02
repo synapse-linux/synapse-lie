@@ -38,3 +38,5 @@ lie_status lie_model_state_identity(lie_model *m UNUSED,lie_state_identity *id U
 lie_status lie_sequence_state_describe(lie_sequence *s UNUSED,const lie_state_layout *from UNUSED,lie_state_layout *out UNUSED,lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_state_read(lie_sequence *s UNUSED,const lie_state_layout *l UNUSED,void *p UNUSED,size_t n UNUSED,lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_state_write(lie_sequence *s UNUSED,const lie_state_layout *l UNUSED,const void *p UNUSED,size_t n UNUSED,lie_error *e) { return unavailable(e); }
+
+lie_status lie_model_chat_anchor(lie_model *m UNUSED,const int32_t *t UNUSED,size_t n UNUSED,size_t *o UNUSED,lie_error *e){return unavailable(e);}

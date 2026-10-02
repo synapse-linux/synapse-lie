@@ -16,7 +16,7 @@ def run(binary, root, index, ram):
         management = port()
     log_path = root / f'{index}.log'
     with log_path.open('wb') as log:
-        proc = subprocess.Popen([binary, '--model', ':fixture:', '--port', str(api),
+        proc = subprocess.Popen([binary, '--model', ':fixture:', '--cache-policy', 'legacy', '--port', str(api),
                                  '--management-port', str(management), '--context', '128',
                                  '--prefill-chunk', '4', '--prefix-cache-mib', str(ram),
                                  '--prefix-ssd-dir', str(root/'store'), '--prefix-ssd-quota-mib', '1',

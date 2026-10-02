@@ -24,24 +24,25 @@ remain delegated; this does not claim an autonomous C model executor.
 
 ## Implemented RAM contract
 
-- Eight immutable checkpoint slots, bounded by the configured total bytes.
+- A dynamically growing immutable checkpoint index, separately bounded to
+  `min(cache budget, 16 MiB)`; payloads remain bounded by the configured total bytes.
   Account the allocation containing descriptor and payload; allocator/driver
   overhead and active sessions are separate. Allocation is lazy. Evict the lowest-utility
   eligible entries before capture; retained, in-progress capture and explicit
   codec buffers must fit the budget. LRU remains a compile-time alternative.
   Oversized checkpoints or a failed host allocation skip optional retention.
-- Capture at most once per request, at its largest completed chunk boundary,
-  or the entire prompt if shorter than a chunk. Match exact physical token IDs.
-  Reuse the longest stored prefix; never trim a longer recurrent state. A short
-  unaligned checkpoint serves only an exact hit, preserving chunk shapes on
-  extensions. Similar strings or client conversation IDs are not cache keys.
+- Default policy captures cold/continued/retirement/shutdown frontiers and can
+  match rendered byte prefixes while retokenizing only the suffix. Exact saved
+  physical history is preserved. `--cache-policy legacy` retains the earlier
+  single aligned physical-prefix capture schedule. See
+  [policy settings and qualification](CACHE-DS4-POLICY.md).
 - Each model open has a process-local domain. Same domain, context/chunk,
   component representation and shapes are checked before restore mutation.
   Because entries never leave the live model instance, they cannot cross model,
   device, build or process reopen. This is not a stable disk compatibility ID.
 - A recipient is an empty independent sequence. Sampling, seed/RNG, penalties,
-  output parsing and transport state belong to the new request. Only pre-decode
-  confirmed text prefixes are captured. MTP/vision states are refused.
+  output parsing and transport state belong to the new request. Completed prompt and generated-token
+  frontiers may be captured; request-local sampling state is not resumed. MTP/vision states are refused.
 - The C model representation includes physical tokens, host logits, n-gram
   history, PLE history, convolution and recurrent state, attention K/V,
   chronological unpooled index keys and pooled block keys plus their frontier.
@@ -88,15 +89,12 @@ The shared C17 core now implements these independent default-ON CMake options:
 | `LIE_CACHE_UTILITY` | Decaying reuse, tokens per retained byte, anchor/continuation weighting | LRU |
 | `LIE_CHECKPOINT_COMPRESSION` | Bounded lossless byte-plane/Zstandard checkpoint packing, raw fallback | Raw checkpoints; no codec dependencies |
 
-Utility is `(1 + decayed_hits) * tokens / retained_bytes`, doubled for an anchor
-and multiplied by 0.125 for a superseded continuation. Hit weight halves every
-64 logical cache accesses; ties use oldest access. A newly captured prefix that
-extends an existing prefix is a continuation. SSD uses the larger of file and
-allocated-block bytes. This is internal automatic prioritization, not an API
-for arbitrary client priority. Pins, valid prefix geometry and admission limits
-remain authoritative. Utility metadata resets on restart; a persistent priority
-index is not implemented. The algorithm is independently written, with no DS4
-source imported.
+Utility now follows the six-hour wall-clock DS4 score and purpose weighting;
+SSD creation/use timestamps and saturating hit counts persist in native v3.
+Dynamic index memory is accounted separately. Compile-time
+`LIE_DS4_CACHE_POLICY` is default ON alongside utility and compression; runtime
+`--cache-policy legacy` selects the previous capture schedule. Full contracts,
+CLI options and CPU/GPU status are in [CACHE-DS4-POLICY.md](CACHE-DS4-POLICY.md).
 
 Packing operates only on a uniquely owned immutable state. Physical tokens stay
 uncompressed; all remaining bytes, including floating-point bit patterns, use
@@ -127,7 +125,8 @@ presence of a codec does not prove a reactive speedup.
 Upstream [DS4's disk eviction score](https://github.com/antirez/ds4/blob/main/ds4_kvstore.c),
 reviewed 2026-10-02, also weighs reuse, saved tokens per byte, checkpoint purpose
 and superseded continuations. Its header's `quant_bits` identifies routed expert
-weight quantization; it is not KV precision. LIE does not claim identical policy.
+weight quantization; it is not KV precision. LIE now implements its utility formula and progressive policy; binary format
+and cross-quantization interoperability remain separate pending work.
 
 The Qwen3.8 path in [DS4's model engine](https://github.com/antirez/ds4/blob/main/ds4.c#L59813-L59929),
 reviewed 2026-10-02, writes live K/V and pooled block keys as 16-bit tensors,

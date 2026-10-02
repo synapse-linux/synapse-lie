@@ -2,6 +2,7 @@
 #ifndef LIE_STORE_H
 #define LIE_STORE_H
 #include "lie/state.h"
+#include "lie/cache_policy.h"
 #include <stdbool.h>
 #ifdef __cplusplus
 extern "C" {
@@ -21,6 +22,7 @@ typedef struct {
     uint64_t staging_bytes, peak_staging_bytes;
     uint64_t lookups, hits, misses, writes, evictions, skipped, errors, cancelled;
     uint64_t read_bytes, written_bytes, read_ns, write_ns;
+    uint64_t index_bytes, index_budget_bytes;
     unsigned entries, pending;
 } lie_store_info;
 typedef struct { unsigned char bytes[32]; } lie_state_identity;
@@ -39,6 +41,7 @@ typedef struct {
     uint64_t ticket, read_ns;
     bool read;
     lie_state *state; /* Owned result, or NULL for miss/cancel/write. */
+    lie_cache_metadata metadata; /* Owned until result_release. */
 } lie_store_result;
 lie_status lie_store_open(const lie_store_options *,const lie_state_identity *,uint64_t domain,
                           lie_store **,lie_error *);
@@ -48,6 +51,11 @@ int lie_store_fd(const lie_store *);
 uint64_t lie_store_read(lie_store *,const int32_t *,size_t,uint32_t chunk);
 bool lie_store_can_write(lie_store *,uint64_t retained_bytes);
 bool lie_store_write(lie_store *,lie_state *);
+bool lie_store_write_ex(lie_store *,lie_state *,const lie_cache_metadata *);
+/* Text matching keeps the payload's exact token history. The owner must rebuild
+ * and validate the suffix before restoring. All copied inputs are bounded. */
+uint64_t lie_store_read_text(lie_store *,const char *,size_t,uint32_t chunk);
+uint64_t lie_store_read_text_key(lie_store *,const char *,size_t,uint32_t chunk,uint32_t key_flags);
 void lie_store_cancel(lie_store *,uint64_t ticket);
 bool lie_store_take(lie_store *,lie_store_result *);
 /* Release the completed operation after any owner upload. The slot and staging

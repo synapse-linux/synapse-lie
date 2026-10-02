@@ -21,6 +21,8 @@ static fake_phase held_phase;
 static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls, capture_calls, restore_calls, state_fault;
 static atomic_uint_fast64_t domain_counter=1;
 static atomic_uint state_padding;
+static atomic_bool merge_tokenizer;
+void fake_tokenizer_merge(bool enabled){atomic_store(&merge_tokenizer,enabled);}
 void fake_state_padding(unsigned bytes){atomic_store(&state_padding,bytes);}
 void fake_state_fault(unsigned value){atomic_store(&state_fault,value);}
 static const char *tool_outputs[]={
@@ -69,7 +71,7 @@ int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
     (void)e;owner(m);memset(id,0,sizeof(*id));
     memcpy(id->bytes,"NOT-INFERENCE-state-v1",22);
-    unsigned values[]={m->context,m->chunk,m->width};
+    unsigned values[]={1,m->chunk,m->width};
     for(unsigned i=0;i<3;++i)for(unsigned k=0;k<3;++k)id->bytes[22+i*3+k]=(unsigned char)(values[i]>>(8*k));
     *domain=m->domain;return LIE_OK;
 }
@@ -121,7 +123,11 @@ lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *t, in
     return lie_model_chat_tokens(m,t->messages,t->count,out,cap,needed,e);
 }
 lie_status lie_model_tokenize(lie_model *m, const char *s, size_t n, int32_t *out, size_t cap, size_t *needed, lie_error *e) {
-    (void)s; (void)n; (void)out; (void)cap; (void)needed; owner(m); return error(e,LIE_UNSUPPORTED,"fixture_has_no_tokenizer");
+    owner(m);bool merged=atomic_load(&merge_tokenizer)&&n>=5&&s[0]=='a'&&s[1]=='b';
+    *needed=n-(merged?1:0);if(*needed>cap)return error(e,LIE_BUFFER_SMALL,"fixture_byte_bound");
+    if(merged)out[0]=500;
+    for(size_t i=merged?2:0;i<n;++i)out[i-(merged?1:0)]=128+(unsigned char)s[i];
+    return LIE_OK;
 }
 lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t capacity, size_t *required, lie_error *e) {
     owner(m); assert(!m->failed); atomic_fetch_add(&text_calls,1);
@@ -139,6 +145,8 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
         *required=256; if (capacity<256) return error(e,LIE_BUFFER_SMALL,"fixture_piece_bound");
         memset(out,token==1003?1:token==1001?'A':token==1002?'B':'Z',256); return LIE_OK;
     }
+    if(token==500&&atomic_load(&merge_tokenizer)){*required=2;if(capacity<2)return LIE_BUFFER_SMALL;memcpy(out,"ab",2);return LIE_OK;}
+    if(token>=8&&token<1000){*required=1;if(!capacity)return LIE_BUFFER_SMALL;out[0]='x';return LIE_OK;}
     assert(token>=0 && token<8); *required=strlen(pieces[token]);
     if (*required>capacity) return error(e,LIE_BUFFER_SMALL,"fixture_piece_bound");
     memcpy(out,pieces[token],*required); return LIE_OK;
@@ -193,6 +201,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
         case TEXT_REFUSAL: out->token=1011; break;
         case TEXT_SIZE: out->token=1010; break;
     }
+    if(out->emitted==1&&out->position<=s->model->context)s->prompt[out->position-1]=out->token;
     return LIE_OK;
 }
 lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
@@ -221,9 +230,9 @@ lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outco
 int lie_backend_prefix_state_supported(void){return 1;}
 lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
     owner(s->model);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
-    if(s->step||(from?(s->position||from->domain!=s->model->domain):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
+    if((from?(s->position||from->domain!=s->model->domain||from->context_tokens>s->model->context):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=1,.domain=s->model->domain,
-        .token_count=from?from->token_count:s->position,.context_tokens=s->model->context,.prefill_chunk=s->model->chunk};
+        .token_count=from?from->token_count:s->position,.context_tokens=from?from->context_tokens:s->model->context,.prefill_chunk=s->model->chunk};
     uint64_t shape=out->token_count;assert(lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape));
     shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
     shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));
@@ -250,4 +259,8 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
     int32_t recurrent[2];memcpy(recurrent,(const char*)bytes+l->sections[2].offset,sizeof(recurrent));
     if(l->section_count==4)for(uint64_t i=0;i<l->sections[3].bytes;++i)assert(((const unsigned char *)bytes)[l->sections[3].offset+i]==0x5a);
     s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
+}
+
+lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){
+    (void)m;(void)t;(void)n;(void)e;*out=0;return LIE_OK;
 }

@@ -49,7 +49,7 @@ checks, then the executable and loaded library files, kernel/architecture,
 device/runtime policy and relevant numerical environment. The model's original
 file descriptors/stat witnesses are retained across load; changed files refuse
 SSD admission. Model/configuration/tokenizer/template/quantization metadata is
-included in full GGUF content; context, chunk, batch width, text-only AR and
+included in full GGUF content; chunk, batch width, text-only AR and
 thinking policy are explicit. Immutable weights remain a prerequisite during
 model execution. No stat-only digest cache or guessed publisher hash is used.
 
@@ -120,14 +120,16 @@ the bounded query token copy, before allocating a payload; no unbounded queue or
 staging allocation is hidden behind async submission. Fixed metadata, thread
 stack, OpenSSL internals and allocator overhead are outside payload accounting.
 
-The index has at most 64 files. Logical and allocated entry bytes are recorded;
+The index grows geometrically inside a separate RAM cap equal to the configured
+staging cap; it retains bounded text/trailer metadata. Logical and allocated entry bytes are recorded;
 admission checks both against the quota, including reserved temporary-file space.
 Physical reservation uses the filesystem allocation unit and is checked again
 before commit; this is not a bound on filesystem journal/metadata or transient
 allocation beyond that unit. Successful file bytes exclude failed partial I/O.
-One worker serializes reader pins, writes and eviction. Idle least-recently-used
-entries are evicted before admitting a write; recency restarts in scan order
-after reopening. A pre-existing store above the requested quota refuses startup.
+One worker serializes reader pins, writes and eviction. Lowest-utility eligible
+entries are evicted before admitting a write; creation/use timestamps and hits
+persist in native v3. LRU remains a compile-time alternative. An exclusively
+owned store above the requested quota evicts entries at startup.
 Lock/directory filesystem metadata is not included in the payload quota.
 
 Writes use an exclusive same-directory temporary file, bounded transfers,
@@ -212,3 +214,13 @@ can also change identity. No cross-build cache reuse is promised.
 Utility eviction and lossless packing are [shared core policies](STATE.md#retention-policy-and-compression-boundary),
 independent of enabling SSD. Byte/quota counters use actual stored/file sizes;
 active KV allocation and allocator/driver overhead remain separate.
+
+## Persistent policy metadata (native version 3)
+
+The shared [DS4 policy contract](CACHE-DS4-POLICY.md#native-file-version-3)
+defines the appended metadata, mutable advisory hit fields, text keys, opaque
+trailers and bounds. All native v1/v2 files remain readable under their original
+identity; the updated adapter identity admits context growth but still binds
+weights, build, device, chunk and numerical policy. A binary identity change
+prevents treating historical GPU-qualified files as current-build evidence.
+Native v3 is not DS4 KVC/payload compatibility.

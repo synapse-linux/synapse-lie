@@ -69,7 +69,7 @@ int main(void){
         }
         char name[]="checkpoint-codec-XXXXXX";int fd=mkstemp(name);assert(fd>=0);
         lie_state_identity id={{4}};assert(lie_state_file_write(fd,&id,p,NULL));uint64_t file=0;unsigned n=0;
-        assert(lie_state_file_probe(fd,&id,&file,&n)&&n==4&&file==lie_state_file_bytes(p));
+        assert(lie_state_file_probe(fd,&id,&file,&n,NULL)&&n==4&&file==lie_state_file_bytes(p));
         assert(!lie_state_file_read(fd,&id,7,raw-1,NULL));
         lie_state *loaded=lie_state_file_read(fd,&id,7,raw*3,NULL);assert(loaded);
         assert(loaded->codec==0&&!memcmp(loaded->payload,expected,(size_t)payload));lie_state_destroy(&loaded);
@@ -111,11 +111,11 @@ int main(void){
         for(unsigned i=1;i<=8;++i)lie_retention_hit(&a,i);
         double hot=lie_retention_score(&a,8,8192,1048576,false);
         assert(hot>lie_retention_score(&b,8,8192,1048576,false));
-        lie_retention_hit(&b,4096);
-        assert(lie_retention_score(&a,4096,8192,1048576,false)<lie_retention_score(&b,4096,8192,1048576,false));
-        assert(lie_retention_score(&b,4096,8192,524288,false)>lie_retention_score(&b,4096,8192,1048576,false));
-        b.continuation=true;
-        assert(lie_retention_score(&b,4096,8192,1048576,true)<lie_retention_score(&b,4096,8192,1048576,false));
+        lie_retention_hit(&b,216008);
+        assert(lie_retention_score(&a,216008,8192,1048576,false)<lie_retention_score(&b,216008,8192,1048576,false));
+        assert(lie_retention_score(&b,216008,8192,524288,false)>lie_retention_score(&b,216008,8192,1048576,false));
+        b.reason=LIE_CACHE_CONTINUED;
+        assert(lie_retention_score(&b,216008,8192,1048576,true)<lie_retention_score(&b,216008,8192,1048576,false));
         assert(isfinite(lie_retention_score(&b,UINT64_MAX,UINT64_MAX,1,false)));
     }
     puts("Lossless checkpoint blocks, exact special bits, bounds, pinning, disk restart and utility aging: PASS (NOT-INFERENCE)");

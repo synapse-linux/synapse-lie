@@ -14,7 +14,7 @@ static lie_core_info wait_state(lie_core *c,lie_core_state state){
     assert(!"state deadline");return i;
 }
 static lie_core *start(uint64_t budget){
-    fake_calls_reset();lie_core_options o;lie_core_options_init(&o);
+    fake_calls_reset();lie_core_options o;lie_core_options_init(&o);o.cache_policy.enabled=false;
     assert(o.prefix_cache_bytes==LIE_PREFIX_CACHE_DEFAULT_BYTES);
     o.model_path=":fixture:";o.context=128;o.chunk=4;o.max_active=2;o.prefix_cache_bytes=budget;
     lie_core *c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);return c;

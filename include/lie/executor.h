@@ -102,6 +102,9 @@ lie_status lie_model_chat_tokens(lie_model *, const lie_chat_message *, size_t c
                                  int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_model_chat_tokens_ex(lie_model *, const lie_chat_template *,
                                     int32_t *out, size_t capacity, size_t *required, lie_error *);
+/* Model-template boundary before the last user message preceding the first
+ * assistant. No state/GPU work; zero means no stable chat anchor. */
+lie_status lie_model_chat_anchor(lie_model *,const int32_t *,size_t,size_t *,lie_error *);
 lie_status lie_sequence_create(lie_model *, lie_sequence **out, lie_error *);
 lie_status lie_sequence_close(lie_sequence **, lie_error *);
 /* Append-only cumulative physical token prefix. Delta <= configured chunk.

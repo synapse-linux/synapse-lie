@@ -89,7 +89,7 @@ class CoreBench(unittest.TestCase):
         root=Path(root);source=root/'input';output=root/'result.jsonl'
         source.write_text(text if text is not None else json.dumps(tokens or [0,1,2,3]))
         kind='--prompt-file' if text is not None else '--tokens-file'
-        p=subprocess.run([BINARY,'--suite','core','--model',model,'--output',str(output),kind,str(source),
+        p=subprocess.run([BINARY,'--suite','core','--cache-policy','legacy','--model',model,'--output',str(output),kind,str(source),
                           '--tg','16','--repetitions','2',*(['--prefix-cache-mib',cache] if cache is not None else []),*args],capture_output=True,text=True,timeout=15)
         return p,output
 

@@ -209,8 +209,18 @@ def read_core_result(path,rows):
         raise ValueError('invalid core benchmark identity')
     users=identity['users'];reps=identity['warmups']+identity['repetitions']
     cache_policy=identity.get('cache_policy','off');cache_budget=identity.get('prefix_cache_bytes',0)
-    if identity.get('cache_retention_policy','lru') not in ('lru','decaying-token-byte-utility-v1') or type(identity.get('checkpoint_compression',False)) is not bool:
+    if identity.get('cache_retention_policy','lru') not in ('lru','decaying-token-byte-utility-v1','ds4-time-token-byte-utility-v1') or type(identity.get('checkpoint_compression',False)) is not bool:
         raise ValueError('core cache build configuration')
+    if identity.get('checkpoint_policy','legacy') not in ('legacy','ds4'):
+        raise ValueError('core checkpoint policy')
+    policy_keys=('cache_min_tokens','cache_cold_max_tokens','cache_continued_tokens','cache_trim_tokens','cache_align_tokens')
+    for key in policy_keys:
+        if key in identity and (type(identity[key]) is not int or not 0<=identity[key]<=4294967295):
+            raise ValueError('core checkpoint policy bounds')
+    policy_flags=('cache_text_prefix','cache_capture_finish')
+    for key in policy_flags:
+        if key in identity and type(identity[key]) is not bool:
+            raise ValueError('core checkpoint policy flag')
     ram=cache_policy in ('ram','ram+ssd');ssd=cache_policy in ('ssd','ram+ssd')
     if cache_policy not in ('off','ram','ssd','ram+ssd') or type(cache_budget) is not int or cache_budget<0 or ram!=(cache_budget>0):raise ValueError('core cache declaration')
     for key in ('ssd_quota_bytes','ssd_staging_bytes'):
@@ -240,7 +250,7 @@ def read_core_result(path,rows):
             disk=r.get('ssd_cached_tokens',0);read_ns=r.get('ssd_read_ns',0)
             if type(disk) is not int or not 0<=disk<=cached or (not ssd and disk) or (not ram and disk!=cached):raise ValueError('core SSD reused token count')
             if type(read_ns) is not int or read_ns<0 or (not ssd and read_ns):raise ValueError('core SSD read timing')
-            if cached!=p['prompt_tokens'] and cached%identity['prefill_chunk']:raise ValueError('unaligned reused prefix')
+            if identity.get('checkpoint_policy','legacy')=='legacy' and cached!=p['prompt_tokens'] and cached%identity['prefill_chunk']:raise ValueError('unaligned reused prefix')
             if r['warmup']!=sample['warmup'] or r['prompt_tokens']!=p['prompt_tokens'] or r['prefill_tokens']+cached!=p['prompt_tokens']:
                 raise ValueError('core prefill accounting')
             for key in ['output_tokens','output_bytes','prefill_ns','decode_ns','prefill_calls','decode_calls','total_ns']:
@@ -275,6 +285,8 @@ def read_core_result(path,rows):
     measured=[r for r in jobs if not r['warmup']]
     point={k:identity[k] for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','repetitions']}
     point.update(cache_policy=cache_policy,prefix_cache_bytes=cache_budget,
+        checkpoint_policy=identity.get('checkpoint_policy','legacy'),checkpoint_parameters={key:identity.get(key,0) for key in policy_keys},
+        checkpoint_flags={key:identity.get(key,False) for key in policy_flags},
         cache_retention_policy=identity.get('cache_retention_policy','lru'),checkpoint_compression=identity.get('checkpoint_compression',False),
         checkpoint_codec=cache_codec(identity),
         ssd_quota_bytes=identity.get('ssd_quota_bytes',0),ssd_staging_bytes=identity.get('ssd_staging_bytes',0),
@@ -301,7 +313,7 @@ def compare_core(a,b,compare_cache_build=False):
     p=a['configurations'][0];q=b['configurations'][0]
     for k in ['users','context_capacity','prefill_chunk','input_kind','output_limit','physical_ids_sha256','cache_policy','prefix_cache_bytes','ssd_quota_bytes','ssd_staging_bytes']:
         if p[k]!=q[k]:raise ValueError('core comparison input/settings mismatch')
-    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression','checkpoint_codec') if p[k]!=q[k]}
+    differences={k:{'primary':p[k],'reference':q[k]} for k in ('cache_retention_policy','checkpoint_compression','checkpoint_codec','checkpoint_policy','checkpoint_parameters','checkpoint_flags') if p[k]!=q[k]}
     if differences and not compare_cache_build:raise ValueError('core cache build mismatch; use explicit cache-build comparison')
     equal=p['output_ids']==q['output_ids'];eligible=equal and p['full_output_budget'] and q['full_output_budget']
     denominator=q['output_per_total_wall_tps']['median']

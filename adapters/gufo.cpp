@@ -129,8 +129,8 @@ extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *
             fds.push_back(f.fd);
         }
         char device[1024],policy[2048];if(!lie_gufo_device_identity(device,sizeof(device)))return error(e,LIE_INVALID,"SSD device identity unavailable");
-        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/qwen-ar-v1/text-only/thinking-off/context=%u/chunk=%u/width=%u/%s",
-            m->runtime->model->MaxContext(),m->runtime->chunk,m->runtime->width,device);
+        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/qwen-ar-v1/text-only/thinking-off/context-growth-v1/chunk=%u/width=%u/%s",
+            m->runtime->chunk,m->runtime->width,device);
         if(n<0||static_cast<size_t>(n)>=sizeof(policy))return error(e,LIE_INVALID,"SSD policy identity overflow");
         auto rc=lie_state_identity_files(fds.data(),fds.size(),policy,id,e);if(rc==LIE_OK)*domain=m->runtime->state_domain;return rc;
     });
@@ -159,6 +159,19 @@ extern "C" lie_status lie_model_tokenize(lie_model *m, const char *text, size_t 
         *required = tokens.size();
         if (tokens.size() > capacity) return error(e, LIE_BUFFER_SMALL, "token buffer too small");
         if (!tokens.empty()) std::copy(tokens.begin(), tokens.end(), out);
+        return LIE_OK;
+    });
+}
+extern "C" lie_status lie_model_chat_anchor(lie_model *m,const int32_t *tokens,size_t n,size_t *out,lie_error *e){
+    if(!m||!tokens||!out)return error(e,LIE_INVALID,"invalid chat anchor input");
+    return guarded(m->runtime,e,[&]{
+        auto user=m->runtime->model->Tokenize("<|im_start|>user\n");
+        auto assistant=m->runtime->model->Tokenize("<|im_start|>assistant\n");
+        *out=0;
+        for(size_t i=0;i<n;++i){
+            if(!assistant.empty()&&assistant.size()<=n-i&&std::equal(assistant.begin(),assistant.end(),tokens+i))break;
+            if(!user.empty()&&user.size()<=n-i&&std::equal(user.begin(),user.end(),tokens+i))*out=i;
+        }
         return LIE_OK;
     });
 }

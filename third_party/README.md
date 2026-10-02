@@ -204,3 +204,14 @@ for legacy decoding. No library source is copied or installed by LIE. Disabling
 `LIE_CHECKPOINT_COMPRESSION` removes both dependencies. The byte permutation,
 framing and retention policy remain first-party MIT C17. OpenSSL Crypto is now
 a shared state-store dependency, including core-only builds.
+
+## DS4 cache-policy behavior reference — 2026-10-02
+
+Official `https://github.com/antirez/ds4/blob/main/ds4_kvstore.c` and its header
+were read as public behavioral specifications for purpose codes, default
+checkpoint limits, six-hour utility, prefix matching and optional extensions.
+The implementation in `cache_policy.c`, `retention.c`, `prefix_cache.c` and
+`store.c` is first-party MIT C17. No DS4 source or artifact was imported and no
+local DS4 checkout was modified. This is a dated moving-main review, not an
+immutable upstream source dependency. DS4 binary payload compatibility and
+cross-quantization reuse are not claimed; native metadata remains LIE-owned.

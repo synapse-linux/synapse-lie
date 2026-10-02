@@ -466,3 +466,13 @@ observations still preclude universal exclusivity claims. No DS4 change, foreign
 signal, remote build, install, tuning, model conversion, deployment or publication.
 No standing lease or formal DS4 ACK is implied. See
 [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+
+## DS4 policy continuation — 2026-10-02
+
+Q2 records explicit HC-vector release at **13:37:03.673156 UTC**. Root accepts
+the next policy/context-growth window and notifies Q2 and Point. Fresh root
+handover at **13:57:00.664436 UTC** finds empty KFD, four unchanged/free leases,
+five unchanged model stat witnesses, CPU47.375/GPU46 C. The first read-only
+helper attempt had a Python quoting error and performed no remote action; its
+exit is retained. No model was launched by these observations. Every ensuing
+arm requires fresh admission; no interleaving, remote build or model conversion.

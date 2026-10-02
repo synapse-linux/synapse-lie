@@ -1,5 +1,23 @@
 # Isolated OpenAI reactive API increment
 
+## Shared DS4 cache policy — 2026-10-02
+
+Implemented persistent six-hour utility, bounded dynamic indices, startup quota
+eviction, text-prefix/suffix retokenization, owned opaque extensions and
+progressive cold/continued/retirement/shutdown captures in the shared C17 core.
+One busy SSD operation parks the affected row; peers remain schedulable.
+The server and core bench expose matching options and accounting. Request ABI
+is now 2. The adapter admits smaller saved contexts after shape validation.
+
+Complete CPU sanitizer suite: 33/33, including failed-write preservation and
+shutdown captures; optional-feature OFF checks also pass. Peak CPU in the full
+run was 75.25 C on .155, no GPU work in those tests. Retained failed attempts
+and successful receipts live in `evidence/ds4-policy-*`. GPU qualification is
+prepared after Q2 release at 13:37:03.673156 UTC, with fresh per-arm leases.
+**DS4 KVC import/export and cross-quant reuse remain pending.** Native v3 files
+persist policy metadata but are not DS4-compatible files.
+[Implementation, controls and remaining gates](CACHE-DS4-POLICY.md).
+
 ## DS4 format constraint for RAM and SSD — 2026-10-02
 
 The owner requires DS4's compression representation in both memory and SSD,

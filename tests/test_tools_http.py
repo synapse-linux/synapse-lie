@@ -58,7 +58,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='lie-tools-http-') as d:
         log = Path(d) / 'server.log'
         with log.open('wb') as f:
-            p = subprocess.Popen([sys.argv[1], '--model', ':fixture:', '--port', str(a),
+            p = subprocess.Popen([sys.argv[1], '--model', ':fixture:', '--cache-policy', 'legacy', '--port', str(a),
                                   '--management-port', str(m)], stdout=f, stderr=f)
             try:
                 deadline = time.monotonic() + 5

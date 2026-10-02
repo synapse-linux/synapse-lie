@@ -17,9 +17,9 @@ public:
     auto& d=*s.session_;const auto& c=s.model_->config();
     if(!s.valid_||s.MtpEnabled()||s.image_prompt_||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
-    if(source&&(source->domain!=domain||source->context_tokens!=s.ContextSize()||
+    if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
                 source->prefill_chunk!=chunk||source->representation_version!=LIE_QWEN_STATE_REPRESENTATION))return false;
-    out={};out.domain=domain;out.context_tokens=s.ContextSize();out.prefill_chunk=chunk;
+    out={};out.domain=domain;out.context_tokens=source?source->context_tokens:s.ContextSize();out.prefill_chunk=chunk;
     out.token_count=source?source->token_count:s.Position();
     out.model_data[0]=source?source->model_data[0]:d.blocks_;
     if(source)for(unsigned i=1;i<8;++i)if(source->model_data[i])return false;
