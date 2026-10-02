@@ -1,4 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
+# Progress — Q2 compatibility workstream
+
+## Half-wave and HC scheduling measured — 2026-10-02
+
+The returned `.157` window completes both [half-wave variants](Q2-HALF-WAVE.md)
+and all three pending [HC scheduling probes](Q2-HC-DOWN-TILES.md). Half-wave
+shuffle preserves every operator buffer and all 52.4 million shaped output
+values but costs +1.44% time; direct row permute is effectively unchanged at
++0.05%. Their raw-input controls are about 0.9% faster. Neither candidate
+warrants a full-model comparison. The reduction in static decode work did not
+produce a measured component benefit.
+
+All three HC variants retain the 22 complete output hashes and the same four
+known unchanged-library numerical failures. Fresh down latency is 1172.898 us;
+four row waves take 1278.868 us, four K blocks 2110.809 us, and the wide
+four-row-wave tile 1623.730 us. These are +9.03%, +79.97% and +38.44% regressions,
+with the unchanged up control between -2.36% and +0.20%. All are rejected for
+performance; actual exit 1 and failure details remain evidence. The graphs
+show all samples, zero-based axes, matched controls and component-only scope.
+
+Updated host admission fixtures pass 12/12 Debug and 12/12 ASan/UBSan.
+The [campaign receipt](../config/q2-half-wave-hc-validation.json) verifies ten
+runners, 33 commands and 346 artifacts. Twenty-nine commands exit 0 and four
+retain their numerical exit 1. No original model is opened. Release is verified
+at 20:16:14 UTC, with independent observer retirement at 20:16:35 UTC, empty
+KFD and all four original leases free. No Q2 remote job or retry remains.
+The retained complete-model Q2/UD gap is unchanged; reactive PLE's earlier
++0.36% warmed result remains separate from these numerical-kernel probes.
 
 ## Q2 shared weight staging — 2026-10-02
 
@@ -18,8 +46,9 @@ all 1019 source files. They reduce static mixed-half FMA instructions 64 -> 32
 without increasing LDS. The tile48 shape uses 146 VGPRs with HIP shuffle or
 145 with explicit cross-row permute, versus 144 in the measured baseline.
 Exchange instructions are extra work; no numerical or performance benefit is
-yet qualified. New fixed-mode source guards have syntax checks only and await
-the next coordinated `.157` CPU/GPU window. No remote job or waiter is active.
+implied by those static counts. Their subsequent runtime results and updated
+source-admission guard qualification are recorded above. No variant improves
+the measured component and no remote job or waiter is active.
 
 ## Reactive PLE lookahead — 2026-10-02
 
@@ -40,7 +69,6 @@ qualify a cold-input speedup. See the [full comparison and graph](Q2-PLE-LOOKAHE
 Two runners/ten command exits are 0, all 38 artifacts verify, and the window
 is released with independent observer retirement. Production integration,
 controlled first-access benefit and Q2/UD parity remain unqualified.
-# Progress — Q2 compatibility workstream
 
 ## Current state — 2026-10-02
 
@@ -62,7 +90,7 @@ losses remain explicit; this is not a formal zero-margin no-regression pass.
 Q2/UD physical prompts and generated trajectories match across these samples.
 No independent full-model Q2 teacher or general model-quality score is claimed.
 
-## Q2 weight staging prepared — 2026-10-02
+## Earlier Q2 weight-staging preparation — 2026-10-02
 
 The [isolated staged-weight path](Q2-STAGED-WEIGHTS.md) decodes original Q2
 weights once in LDS for the packed activation consumer. The retained profile
@@ -121,8 +149,9 @@ natural-language/cache-cold and C17 serving qualifications remain open.
 The first [HC down tile probe](Q2-HC-DOWN-TILES.md) is byte-exact and 5.93%
 slower despite fewer static registers. Both arms preserve the same four known
 library-control numerical failures and exit 1. No full-model trial follows.
-Three follow-up tiles now compile/reconstruct statically, with two prior
-compilation failures retained; none is GPU or performance qualified.
+Three follow-up tiles compiled/reconstructed statically, with two prior
+compilation failures retained. Their later runtime regressions are recorded
+in the measured scheduling entry above.
 
 The combined window is released at 17:43:35 UTC: seven runners and 32 command
 identities/groups/sessions retired, KFD empty, four exact leases EX|NB/free,

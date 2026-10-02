@@ -1,10 +1,58 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Q2 paired half-wave decoding — static preparation
+# Q2 paired half-wave decoding — no measured component benefit
 
 The [LDS weight-staging candidate](Q2-STAGED-WEIGHTS.md) is exact but 4.94%
 slower on the shaped down projection. The next hypothesis removes duplicate
-decoding without expanding LDS. These sources are prepared locally while core
-owns the next `.157` window; **no GPU correctness or speedup is established**.
+decoding without expanding LDS. Both variants now preserve the tested outputs
+on `.157`, but neither improves the shaped GPU component. They remain isolated
+experiments; no complete-model run or runtime promotion follows this result.
+
+## Measured result
+
+| Source | Packed Q2 median, us | Change in packed time | Raw-input control, us | Change in control time |
+| --- | ---: | ---: | ---: | ---: |
+| Measured MoE/HC reference | 5635.715 | — | 6121.384 | — |
+| Half-wave XOR shuffle | 5716.618 | +1.44% | 6068.835 | -0.86% |
+| Half-wave row permute | 5638.434 | +0.05% | 6063.829 | -0.94% |
+
+These are GPU-event times for the same original-shape synthetic down projection:
+2048 tokens, 512 experts, ten selected, 2560 output rows, logical K640/stored
+K768, tile48 and 315 MiB of encoded weights. Each path has five batched samples
+of eight launches, after three warmups. Raw and packed paths alternate within
+each arm; the three separate arms run reference, shuffle, permute in that order.
+Transfers, routing construction, hashing and oracle checks are outside timing.
+They are component measurements, not complete prefill rates or UD comparisons.
+
+The unchanged raw controls are slightly faster in both candidate arms. Even
+with that favorable drift, the changed path is slower or effectively equal.
+Fewer decode instructions alone therefore do not establish a useful speedup.
+The exchange/select overhead is a plausible explanation, not a profiled causal
+finding. No claim of statistical equivalence is made from these five samples.
+
+![Half-wave component timings and unchanged control](figures/q2-half-wave.svg)
+
+[All 30 timing samples as CSV](figures/q2-half-wave.csv),
+[shuffle report](../config/q2-half-wave-results.json), and
+[row-permute report](../config/q2-half-wave-permlane-results.json) retain the
+actual numbers and checks. The chart starts at zero and shows every sample.
+
+Both variants pass 30 independent operator cases plus 32 exact packing/down/
+chain checks. All 62 saved buffers match the retained packed reference.
+The shaped benchmark also matches all 52,428,800 F32 output values between
+raw and packed paths and across all three arms. Its 1024 independent FP64 dot
+products retain relative RMS 0.000192816 and error/peak 0.000224105 against the
+unchanged 0.002 limits. GPU commands exit 0; full output hashes and independent
+sample files agree. This does not resolve earlier complete-model drift from
+the qualified Q2 runtime or establish an independent model-quality score.
+
+The fresh host capsule passes 12/12 Debug and 12/12 ASan/UBSan checks, including
+the source-admission guards. Across these six CPU/component arms, all 21 command
+exits are zero and 154 artifacts hash-verify. Every GPU/build arm independently
+acquires the four expected leases in the window explicitly returned by core.
+The enclosing [half-wave/HC validation](../config/q2-half-wave-hc-validation.json)
+records process retirement, artifact verification and lease release. Observed
+thermal samples across that window peak at GPU 51 C and CPU 80.5 C; short
+sampling intervals do not guarantee the true instantaneous maximum.
 
 ## Mechanism
 
@@ -21,7 +69,7 @@ Q2 bytes are consumed directly; there is no persistent decoded-weight cache.
 Only `kQ2 && kPacked` selects the new code. This is independent of reactive PLE,
 the larger encoded-row cache and the rejected decoded-weight staging buffer.
 
-Two isolated exchange primitives are prepared:
+Two isolated exchange primitives were measured:
 
 - `half-wave`: HIP XOR shuffle, lowered by the installed compiler to sixteen
   static `ds_bpermute_b32` instructions in each affected specialization.
@@ -59,19 +107,14 @@ compiler resource records are in
 [shuffle static checks](../config/q2-half-wave-static.json) and
 [permute static checks](../config/q2-half-wave-permlane-static.json).
 
-## Runtime gates
+## Reproduction and remaining scope
 
-After core returns the window, validate the updated source-admission guards
-on `.157` first. They have syntax checks only since the new variant names were
-added; the preceding runtime guard pass covered the staging campaign.
-Each GPU arm then requires fresh four-lease admission.
-Run the existing packed operator suite and the same shaped benchmark, retaining
-all independent numerical checks and complete-buffer replay. The unchanged
-raw-input path remains the control. Record performance even when finite
-numerical errors occur, but do not relabel a failed check or relax tolerances.
-Only a measured component benefit warrants the matched complete pp2048/tg128
-Q2 baseline/candidate comparison and fresh UD control. Model quality, long
-context support and the Q2/UD parity requirement remain open.
+The existing packed operator suite and shaped benchmark supplied the runtime
+checks above. Performance remains separate from numerical acceptance; failures
+are never relabeled or hidden by relaxed tolerances. No component benefit was
+found, so the conditional complete pp2048/tg128 Q2 baseline/candidate and UD
+campaign is not warranted for these variants. Model quality, long context
+support and the Q2/UD parity requirement remain open.
 
 Generate either source into a fresh persistent directory using
 `tools/prepare-q2-half-wave.py --exchange shuffle` or `--exchange permlane`.
@@ -85,3 +128,9 @@ The fixed remote component modes now accept `--source-variant half-wave` and
 Both remain excluded from UD controls and require an explicit complete MMQ
 rebuild for any eventual `q2-bench2k` model comparison. No launch is scheduled
 by source preparation.
+
+The existing `tools/analyze-q2-staged-weights.py` reader verifies each comparison;
+`tools/plot-q2-half-wave.py` renders the two reports against their common fresh
+reference. The initial plotting command named a nonexistent output directory
+and exited 1; that attempt is retained under `evidence/`. The corrected command
+uses `docs/figures/q2-half-wave` and exits 0.

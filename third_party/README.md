@@ -95,9 +95,10 @@ round and corrected GPU qualification are retained in `docs/Q2-HC-NORM-FUSION.md
 
 `experiments/q2-hc-down64.patch` and the three `q2-hc-down*` scheduling deltas
 derive from the same measured MoE/HC source and official pin. First-party MIT
-generators retain upstream notices. The 64x64 component is measured and rejected;
-the remaining variants have static preparation only, with failed attempts kept
-in `docs/Q2-HC-DOWN-TILES.md` and persistent evidence.
+generators retain upstream notices. The 64x64 component and the three scheduling
+variants are measured and rejected for performance; exact output hashes and
+unchanged numerical control failures remain in `docs/Q2-HC-DOWN-TILES.md` and
+persistent evidence. The component plotting tool is first-party MIT.
 
 `experiments/q2-ple-{q2,ud}.patch` add host clocks/counters to `ngram.cpp` plus
 a first-party MIT diagnostic header. They independently derive from measured
@@ -129,7 +130,8 @@ between paired lanes and exchange already-rounded F16 bits without changing
 model bytes or the LDS allocation. The generator and reports are first-party
 MIT; upstream notices remain intact. No external project implementation is
 imported. LLVM intrinsic documentation informs the alternate exchange primitive;
-source links and static-only status are in `docs/Q2-HALF-WAVE.md`.
+source links, exact GPU replay and the measured lack of component benefit are
+in `docs/Q2-HALF-WAVE.md`. The comparison plotting tool is first-party MIT.
 
 `experiments/q2-ple-lookahead.patch` adds a validated borrowed-input boundary
 to the measured official-Gufo-derived executor. Kernels and original model bytes

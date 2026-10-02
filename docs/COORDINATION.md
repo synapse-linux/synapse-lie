@@ -748,3 +748,50 @@ arms from source `b7cacbf`, and will report verified closure. Q2 has no later
 reservation, remote job or waiter to report and will not interleave. Both
 half-wave kernels and their new source-admission guards remain local/static
 preparation until that handover.
+
+Core now explicitly cancels the unstarted `ssd-gpu-r13` preparation and returns
+the window to Q2 while it addresses the owner's documentation priority. Core
+reports no GPU/controller/observer process created and no lease held; its only
+remote action was a read-only probe at **19:59:30 UTC**. Q2 accepts the returned
+window for bounded half-wave qualification: updated CPU/sanitizer admission
+fixtures, both packed operator suites and matched shaped component benchmarks.
+A complete original-weight comparison is conditional on a measured component
+benefit. Every GPU/build arm acquires the four original leases independently;
+the enclosing handover is not a standing lease. No core/DS4 artifact or model
+file is changed. The outgoing ACK again fails at MCP transport, so this agreed
+ledger records acceptance without claiming message delivery.
+
+Both half-wave variants finish with exact operator and shaped-benchmark output.
+The shuffle costs +1.44% time; direct row permute is +0.05%, while unchanged
+raw controls are about 0.9% faster. Neither warrants a complete-model arm.
+Q2 retains this same window for two already-prepared HC down component arms:
+fresh measured MoE/HC reference and `hc-down64-wave4`, each running the existing
+22-case suite plus rotating-weight benchmark. The fixture preserves its four
+known unchanged-library numerical failures and real nonzero exits while still
+emitting performance. No threshold is relaxed. This tests a separate profiled
+HC cost, with fresh four-lease admission, and is not combined with half-wave.
+
+The 64x64/four-row-wave HC variant is also exact and about 9.03% slower than
+its fresh reference, retaining the same four control failures. Q2 completes
+the other two already-prepared HC scheduling hypotheses in this window:
+`hc-down64-k4` (fewer K-stage barriers) and `hc-down128-wave4` (larger token tile).
+Both reuse the same fixed component protocol with independent fresh admission;
+static private-memory costs are recorded, not assumed to predict runtime.
+No full-model run is justified for any candidate without a measured benefit.
+
+Q2 releases the half-wave/HC window at **20:16:14.016645 UTC**. All ten runners
+and 33 command identities/groups/sessions are absent. Twenty-nine commands exit
+0; the four HC operator/benchmark commands retain exit 1 for the same four
+unchanged-library numerical controls. All 346 artifacts hash-verify. Fresh
+closure observes empty KFD and the same four leases EX|NB/free, then releases
+them. Persistent receipt is
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-half-wave-hc-window-release.json`;
+the tracked copy is under `config/`. The shared registry records `window_release`.
+Independent retirement at **20:16:35.156417 UTC** verifies closure PID 2672463,
+its group/session absent and KFD empty. Both observers exit 0. No Q2 remote
+job, build, waiter, reservation or automatic retry remains; further work is
+local documentation and checkpointing. Core may take the next window with its
+own fresh admission. The later HC K4 and wide four-wave variants are exact but
+79.97% and 38.44% slower; none of this campaign's kernels warrants model trials.
+The outgoing release notification also fails at the local MCP transport; this
+ledger, the persistent receipt and shared registry remain the agreed handover.

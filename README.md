@@ -72,8 +72,9 @@ times fewer entries, and sampled Q2 PLE extents are compressed by Btrfs while
 sampled UD PLE extents are not. Hashing is below 0.08 ms. This is instrumented
 diagnostic evidence; the warm-padding GPU performance deficit remains distinct.
 Complete first/repeated results and a graph are retained. The new
-[64x64 HC down tile](docs/Q2-HC-DOWN-TILES.md) is byte-exact but 5.93% slower;
-three further tiles have static preparation only.
+[64x64 HC down tile](docs/Q2-HC-DOWN-TILES.md) is byte-exact but 5.93% slower.
+The three follow-up scheduling variants also preserve the outputs and regress
+component time by 9.03–79.97%; their numerical control failures remain explicit.
 
 The subsequent [PLE I/O/cache comparison](docs/Q2-PLE-CACHE.md) measures about
 21x physical read amplification on new Q2 row sets; descriptor-local RANDOM
@@ -93,9 +94,11 @@ the qualified runtime remains unchanged. Full samples and a graph are retained.
 
 The [Q2 weight-staging candidate](docs/Q2-STAGED-WEIGHTS.md) passes independent
 GPU checks, 62 saved-buffer comparisons and 52.4 million exact synthetic output
-values, but its component is 4.94% slower. It is rejected. A
-[paired half-wave decode](docs/Q2-HALF-WAVE.md) is prepared locally to avoid
-increasing the shared-memory footprint; its GPU qualification remains pending.
+values, but its component is 4.94% slower. It is rejected. The subsequent
+[paired half-wave decode](docs/Q2-HALF-WAVE.md) preserves all outputs with the
+original shared-memory footprint, but shuffle is 1.44% slower and direct row
+permute is effectively unchanged (+0.05% time). Neither is promoted; the report
+retains the independent checks, all timing samples and the unchanged control.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

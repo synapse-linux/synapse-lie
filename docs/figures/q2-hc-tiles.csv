@@ -1,0 +1,41 @@
+arm,source,shape,rep,us_per_launch
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,320x10240,0,1140.531301498
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,320x10240,1,1202.167272568
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,320x10240,2,1237.031459808
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,320x10240,3,1170.248031616
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,320x10240,4,1172.898054123
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,320x10240,0,1359.261393547
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,320x10240,1,1235.414266586
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,320x10240,2,1251.911520958
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,320x10240,3,1310.697555542
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,320x10240,4,1278.868198395
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,320x10240,0,2115.978956223
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,320x10240,1,2110.808849335
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,320x10240,2,2135.73551178
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,320x10240,3,2105.761289597
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,320x10240,4,2093.513965607
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,320x10240,0,1663.534522057
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,320x10240,1,1587.416291237
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,320x10240,2,1623.729944229
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,320x10240,3,1636.164784431
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,320x10240,4,1616.810202599
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,10240x320,0,935.9083771706
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,10240x320,1,949.7005343437
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,10240x320,2,959.5278501511
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,10240x320,3,973.4575748444
+64x128 reference,evidence/q2-hc-wave4-micro-ref-r1,10240x320,4,958.8003754616
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,10240x320,0,932.7186346054
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,10240x320,1,963.9078378677
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,10240x320,2,970.7626104355
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,10240x320,3,958.1328630447
+64x64 4 row waves,evidence/q2-hc-wave4-micro-r1,10240x320,4,960.6778025627
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,10240x320,0,935.9983205795
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,10240x320,1,962.3127579689
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,10240x320,2,936.1633658409
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,10240x320,3,934.7309470177
+64x64 4 K blocks,evidence/q2-hc-k4-micro-r1,10240x320,4,957.2628736496
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,10240x320,0,936.7282986641
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,10240x320,1,935.6052875519
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,10240x320,2,960.4490399361
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,10240x320,3,948.2506513596
+64x128 4 row waves,evidence/q2-hc-128wave4-micro-r1,10240x320,4,958.0228924751

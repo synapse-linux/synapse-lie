@@ -1,0 +1,361 @@
+{
+  "at": "2026-10-02T20:16:14.016645+00:00",
+  "state": "Q2_HALF_WAVE_HC_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2666596,
+      "absent": true,
+      "finished_at": "2026-10-02T20:07:37.554275+00:00"
+    },
+    {
+      "label": "q2-half-wave-operators-r1",
+      "pid": 2667589,
+      "absent": true,
+      "finished_at": "2026-10-02T20:08:30.943451+00:00"
+    },
+    {
+      "label": "q2-half-wave-permlane-operators-r1",
+      "pid": 2668077,
+      "absent": true,
+      "finished_at": "2026-10-02T20:09:18.120399+00:00"
+    },
+    {
+      "label": "q2-half-wave-micro-ref-r1",
+      "pid": 2668575,
+      "absent": true,
+      "finished_at": "2026-10-02T20:10:04.940437+00:00"
+    },
+    {
+      "label": "q2-half-wave-micro-r1",
+      "pid": 2669336,
+      "absent": true,
+      "finished_at": "2026-10-02T20:11:33.553321+00:00"
+    },
+    {
+      "label": "q2-half-wave-permlane-micro-r1",
+      "pid": 2669761,
+      "absent": true,
+      "finished_at": "2026-10-02T20:12:03.531038+00:00"
+    },
+    {
+      "label": "q2-hc-wave4-micro-ref-r1",
+      "pid": 2670420,
+      "absent": true,
+      "finished_at": "2026-10-02T20:13:21.512109+00:00"
+    },
+    {
+      "label": "q2-hc-wave4-micro-r1",
+      "pid": 2670884,
+      "absent": true,
+      "finished_at": "2026-10-02T20:13:54.394360+00:00"
+    },
+    {
+      "label": "q2-hc-k4-micro-r1",
+      "pid": 2671457,
+      "absent": true,
+      "finished_at": "2026-10-02T20:15:01.303764+00:00"
+    },
+    {
+      "label": "q2-hc-128wave4-micro-r1",
+      "pid": 2671895,
+      "absent": true,
+      "finished_at": "2026-10-02T20:15:35.736582+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2666597,
+      "start_ticks": 153702566,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2666667,
+      "start_ticks": 153702618,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2666773,
+      "start_ticks": 153703071,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2666994,
+      "start_ticks": 153703725,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2667064,
+      "start_ticks": 153703778,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-host-r1",
+      "pid": 2667183,
+      "start_ticks": 153704531,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-operators-r1",
+      "pid": 2667590,
+      "start_ticks": 153708755,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-operators-r1",
+      "pid": 2667785,
+      "start_ticks": 153708958,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-operators-r1",
+      "pid": 2667922,
+      "start_ticks": 153710370,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-operators-r1",
+      "pid": 2668078,
+      "start_ticks": 153713480,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-operators-r1",
+      "pid": 2668301,
+      "start_ticks": 153713683,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-operators-r1",
+      "pid": 2668440,
+      "start_ticks": 153715088,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-ref-r1",
+      "pid": 2668604,
+      "start_ticks": 153718112,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-ref-r1",
+      "pid": 2668827,
+      "start_ticks": 153718315,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-ref-r1",
+      "pid": 2668934,
+      "start_ticks": 153719720,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-r1",
+      "pid": 2669337,
+      "start_ticks": 153726974,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-r1",
+      "pid": 2669561,
+      "start_ticks": 153727177,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-micro-r1",
+      "pid": 2669703,
+      "start_ticks": 153728581,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-micro-r1",
+      "pid": 2669763,
+      "start_ticks": 153729964,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-micro-r1",
+      "pid": 2669992,
+      "start_ticks": 153730167,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-half-wave-permlane-micro-r1",
+      "pid": 2670126,
+      "start_ticks": 153731572,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-ref-r1",
+      "pid": 2670421,
+      "start_ticks": 153737669,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-ref-r1",
+      "pid": 2670644,
+      "start_ticks": 153737872,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-ref-r1",
+      "pid": 2670789,
+      "start_ticks": 153739277,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-r1",
+      "pid": 2670885,
+      "start_ticks": 153740900,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-r1",
+      "pid": 2671080,
+      "start_ticks": 153741103,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-wave4-micro-r1",
+      "pid": 2671222,
+      "start_ticks": 153742515,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-k4-micro-r1",
+      "pid": 2671464,
+      "start_ticks": 153747642,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-k4-micro-r1",
+      "pid": 2671659,
+      "start_ticks": 153747794,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-k4-micro-r1",
+      "pid": 2671802,
+      "start_ticks": 153749206,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-128wave4-micro-r1",
+      "pid": 2671896,
+      "start_ticks": 153751035,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-128wave4-micro-r1",
+      "pid": 2672122,
+      "start_ticks": 153751238,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-128wave4-micro-r1",
+      "pid": 2672267,
+      "start_ticks": 153752649,
+      "exit_code": 1,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2672463,
+    "state": "R",
+    "group": 2672460,
+    "session": 2672460,
+    "start_ticks": 153756827
+  },
+  "result_sha256": {
+    "q2-half-wave-host-r1": "67944e231b0fa5f2cd8a34223b154d98964aa857cbaf3e362cf5bea9929c2fa6",
+    "q2-half-wave-operators-r1": "cbf2be5a68c6424829e2abf89c8106541d78146b9bcf0a76337d892360d4d0d0",
+    "q2-half-wave-permlane-operators-r1": "ffeef5f9a06a1043fd07020f2b08f8a0491f4a4443fd344c2550faffd5cf4098",
+    "q2-half-wave-micro-ref-r1": "4326d778bfc47862c8b01a26bf6a3bdac5613a8d62c5a203a0184e63482f4f68",
+    "q2-half-wave-micro-r1": "69e34bc9317a6a60e9891ac2075ed127cb564b3b3020933d9cfc1056955fa35e",
+    "q2-half-wave-permlane-micro-r1": "eee70d55c900639086fe0b99b5671a742202ed0c7e2650e8ea164077d5cd0a04",
+    "q2-hc-wave4-micro-ref-r1": "9835453f3ab0d7f7caad9eeef3ca95241e6e557b9d0ff4ee587f7e9a85d4d3f2",
+    "q2-hc-wave4-micro-r1": "7a2b287c302b89fc79d17d6f4329056a9f32a954c3fffcbab2fbf91ed1e748f0",
+    "q2-hc-k4-micro-r1": "056f394fb657b277a5b5e746b25e6458d46d5b3d76305dc0582ec22af7cfd330",
+    "q2-hc-128wave4-micro-r1": "e2cf561d00454a06f6c6c5c133451e02ae4fd2aed88ce5e0eb1fc8971a86869f"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "46625",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}
