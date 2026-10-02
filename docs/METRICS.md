@@ -222,4 +222,6 @@ Job `ssd_cached_tokens` is a subset of `cached_tokens`; `ssd_read_ns` (HTTP
 Write completion may outlive its originating job, so write timing is store-wide.
 The bench emits `ssd_drained` after graceful shutdown and adds SSD columns to
 JSON/CSV. The precise [store contract](SSD-PREFIX.md) defines exclusions.
-Original-weight SSD performance is still unqualified.
+[Original-weight C1 SSD comparisons](SSD-GPU-COMPLETION.md) now report those
+intervals at 8K/128K; full hits retain undefined executed-PP throughput. HTTP
+with SSD enabled and concurrent SSD performance remain separate measurements.

@@ -1,0 +1,587 @@
+{
+  "scope": "Matched same-provider SSD checkpoint qualification; OS file cache uncontrolled; state pairs are correctness, core timings include distinct policy costs",
+  "campaign_state": "FAILED",
+  "state": [
+    {
+      "arm": "state-p8192-k8192-write",
+      "mode": "write",
+      "prompt_tokens": 8192,
+      "checkpoint_tokens": 8192,
+      "prefill_chunk": 2048,
+      "model_load_ms": 20453.162419,
+      "identity_hash_ms": 53180.421723,
+      "retained_bytes": 326699096,
+      "peak_staging_bytes": 326699096,
+      "capture_ms": 14.941431,
+      "write_ms": 216.749065,
+      "read_ms": 0.0,
+      "pairs": 0,
+      "transfer_bytes": 326689960,
+      "min_decode_calls": null,
+      "min_output_tokens": null,
+      "fresh_prefill_median_ms": null,
+      "restore_median_ms": null,
+      "tail_prefill_median_ms": null
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "mode": "read",
+      "prompt_tokens": 8192,
+      "checkpoint_tokens": 8192,
+      "prefill_chunk": 2048,
+      "model_load_ms": 20478.595204,
+      "identity_hash_ms": 54320.069893,
+      "retained_bytes": 326699096,
+      "peak_staging_bytes": 4294967296,
+      "capture_ms": 0.0,
+      "write_ms": 0.0,
+      "read_ms": 177.848954,
+      "pairs": 3,
+      "transfer_bytes": 326689960,
+      "min_decode_calls": 16,
+      "min_output_tokens": 16,
+      "fresh_prefill_median_ms": 5338.325853,
+      "restore_median_ms": 5.750396,
+      "tail_prefill_median_ms": 3e-05
+    },
+    {
+      "arm": "state-p8192-k4096-write",
+      "mode": "write",
+      "prompt_tokens": 8192,
+      "checkpoint_tokens": 4096,
+      "prefill_chunk": 2048,
+      "model_load_ms": 20543.341509,
+      "identity_hash_ms": 53597.269846,
+      "retained_bytes": 222873688,
+      "peak_staging_bytes": 222873688,
+      "capture_ms": 10.27094,
+      "write_ms": 149.230013,
+      "read_ms": 0.0,
+      "pairs": 0,
+      "transfer_bytes": 222864552,
+      "min_decode_calls": null,
+      "min_output_tokens": null,
+      "fresh_prefill_median_ms": null,
+      "restore_median_ms": null,
+      "tail_prefill_median_ms": null
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "mode": "read",
+      "prompt_tokens": 8192,
+      "checkpoint_tokens": 4096,
+      "prefill_chunk": 2048,
+      "model_load_ms": 20482.40782,
+      "identity_hash_ms": 53142.777342,
+      "retained_bytes": 222873688,
+      "peak_staging_bytes": 4294967296,
+      "capture_ms": 0.0,
+      "write_ms": 0.0,
+      "read_ms": 121.548759,
+      "pairs": 3,
+      "transfer_bytes": 222864552,
+      "min_decode_calls": 16,
+      "min_output_tokens": 16,
+      "fresh_prefill_median_ms": 5408.143875,
+      "restore_median_ms": 4.472345,
+      "tail_prefill_median_ms": 2783.266051
+    },
+    {
+      "arm": "state-p131072-k131072-write",
+      "mode": "write",
+      "prompt_tokens": 131072,
+      "checkpoint_tokens": 131072,
+      "prefill_chunk": 2048,
+      "model_load_ms": 20581.451103,
+      "identity_hash_ms": 53391.327499,
+      "retained_bytes": 3441461336,
+      "peak_staging_bytes": 3441461336,
+      "capture_ms": 197.886785,
+      "write_ms": 2239.709423,
+      "read_ms": 0.0,
+      "pairs": 0,
+      "transfer_bytes": 3441452200,
+      "min_decode_calls": null,
+      "min_output_tokens": null,
+      "fresh_prefill_median_ms": null,
+      "restore_median_ms": null,
+      "tail_prefill_median_ms": null
+    }
+  ],
+  "state_pairs": [
+    {
+      "arm": "state-p8192-k8192-read",
+      "event": "pair",
+      "pair": 0,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5499883697,
+      "restore_ns": 14807654,
+      "tail_prefill_ns": 20,
+      "reused_tokens": 8192,
+      "new_tokens": 0,
+      "generation": "greedy",
+      "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        42770,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "event": "pair",
+      "pair": 1,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5292799836,
+      "restore_ns": 5750396,
+      "tail_prefill_ns": 140,
+      "reused_tokens": 8192,
+      "new_tokens": 0,
+      "generation": "seeded-sampling",
+      "full_logits_sha256": "a757e2b3b6aaf43bd28a8b889c94754a820c6c3511e68d29002fbf092c44eb4e",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        24491,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "event": "pair",
+      "pair": 2,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5338325853,
+      "restore_ns": 5515371,
+      "tail_prefill_ns": 30,
+      "reused_tokens": 8192,
+      "new_tokens": 0,
+      "generation": "greedy",
+      "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        42770,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "event": "pair",
+      "pair": 0,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5408143875,
+      "restore_ns": 46126212,
+      "tail_prefill_ns": 2783266051,
+      "reused_tokens": 4096,
+      "new_tokens": 4096,
+      "generation": "greedy",
+      "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        42770,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "event": "pair",
+      "pair": 1,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5329061843,
+      "restore_ns": 4172713,
+      "tail_prefill_ns": 3428025365,
+      "reused_tokens": 4096,
+      "new_tokens": 4096,
+      "generation": "seeded-sampling",
+      "full_logits_sha256": "a757e2b3b6aaf43bd28a8b889c94754a820c6c3511e68d29002fbf092c44eb4e",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        24491,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "event": "pair",
+      "pair": 2,
+      "decode_calls": 16,
+      "fresh_prefill_ns": 5502291375,
+      "restore_ns": 4472345,
+      "tail_prefill_ns": 2757369177,
+      "reused_tokens": 4096,
+      "new_tokens": 4096,
+      "generation": "greedy",
+      "full_logits_sha256": "f52a7be0c967a26dd390c1529e7d9b4a3ea3b3ad0d8b00d5fc0bd33e869c0231",
+      "exact_logits_and_tokens": 1,
+      "output_ids": [
+        2,
+        17775,
+        314,
+        279,
+        42770,
+        43009,
+        9988,
+        5606,
+        271,
+        760,
+        3766,
+        2313,
+        8129,
+        20454,
+        264,
+        15352
+      ]
+    }
+  ],
+  "jobs": [],
+  "resources": [
+    {
+      "arm": "state-p8192-k8192-write",
+      "peak_c": {
+        "nvme": 71.85,
+        "amdgpu": 89.0,
+        "k10temp": 87.25
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "peak_c": {
+        "nvme": 73.85,
+        "amdgpu": 96.0,
+        "k10temp": 94.0
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    },
+    {
+      "arm": "state-p8192-k4096-write",
+      "peak_c": {
+        "nvme": 75.85,
+        "amdgpu": 83.0,
+        "k10temp": 81.25
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "peak_c": {
+        "nvme": 76.85,
+        "amdgpu": 95.0,
+        "k10temp": 94.875
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    },
+    {
+      "arm": "state-p131072-k131072-write",
+      "peak_c": {
+        "nvme": 75.85,
+        "amdgpu": 97.0,
+        "k10temp": 96.375
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    }
+  ],
+  "failed": [
+    {
+      "arm": "state-p131072-k131072-read",
+      "error": "RuntimeError('thermal limit; retiring owned child')",
+      "exit": 1
+    }
+  ],
+  "not_run": [
+    "core-p8192-off",
+    "core-p8192-ram",
+    "core-p8192-ssd-write",
+    "core-p8192-ssd-read",
+    "core-p131072-off",
+    "core-p131072-ram",
+    "core-p131072-ssd-write",
+    "core-p131072-ssd-read"
+  ],
+  "identities": [
+    {
+      "arm": "state-p8192-k8192-write",
+      "identity": {
+        "event": "identity",
+        "schema": "synapse-lie.state-bench.v1",
+        "suite": "state",
+        "build_id": "ssd-linked-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "state_abi": 1,
+        "scope": "C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision"
+      },
+      "measurement_sha256": "18ca4cb4a687cb1cb0cf2e73bac2633bb48ddbf698f2c578c287f34881e60273"
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "identity": {
+        "event": "identity",
+        "schema": "synapse-lie.state-bench.v1",
+        "suite": "state",
+        "build_id": "ssd-linked-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "state_abi": 1,
+        "scope": "C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision"
+      },
+      "measurement_sha256": "389e0186e1da8bde55245c36d0e75560a051c2759b293eb1928dc6af4c099b26"
+    },
+    {
+      "arm": "state-p8192-k4096-write",
+      "identity": {
+        "event": "identity",
+        "schema": "synapse-lie.state-bench.v1",
+        "suite": "state",
+        "build_id": "ssd-linked-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "state_abi": 1,
+        "scope": "C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision"
+      },
+      "measurement_sha256": "774d80532a89115b62ed2064a376e6fd58c53f8aea1988929a95aaa3e1050cc6"
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "identity": {
+        "event": "identity",
+        "schema": "synapse-lie.state-bench.v1",
+        "suite": "state",
+        "build_id": "ssd-linked-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "state_abi": 1,
+        "scope": "C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision"
+      },
+      "measurement_sha256": "dc589bcd55e8d67b67c8780f69e2e572311e39bc5c14d3f8b21a365daf8019e8"
+    },
+    {
+      "arm": "state-p131072-k131072-write",
+      "identity": {
+        "event": "identity",
+        "schema": "synapse-lie.state-bench.v1",
+        "suite": "state",
+        "build_id": "ssd-linked-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "synthetic": false,
+        "state_abi": 1,
+        "scope": "C17 typed state; RAM pairs or explicit SSD write/read across processes; exact full logits each AR step; fresh sampler; no MTP/vision"
+      },
+      "measurement_sha256": "3c903f1b2dcbd215c7f9fe3846d142547d32fec4adf0033680b0174e51adcc0c"
+    }
+  ],
+  "ssd_drains": [],
+  "complete": false,
+  "postflight": {
+    "at": "2026-10-02T08:51:50.703726+00:00",
+    "owned_processes": [
+      {
+        "pid": 2441607,
+        "expected_start_ticks": 149578962,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2441617,
+        "expected_start_ticks": 149579080,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2442165,
+        "expected_start_ticks": 149587208,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2442174,
+        "expected_start_ticks": 149587392,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2442652,
+        "expected_start_ticks": 149597137,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2442666,
+        "expected_start_ticks": 149597352,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2443128,
+        "expected_start_ticks": 149605247,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2443137,
+        "expected_start_ticks": 149605403,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2443686,
+        "expected_start_ticks": 149615924,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2443701,
+        "expected_start_ticks": 149616025,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2444585,
+        "expected_start_ticks": 149634110,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2444600,
+        "expected_start_ticks": 149634876,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  }
+}

@@ -19,7 +19,7 @@ executable, numerical archives and measurement protocol.
 | Fresh PP through 258794 tokens | [Fresh and HTTP measurements](../../../../FULL-PREFILL-HTTP-RESULT.md) | Two repetitions for fresh PP; HTTP shapes and conversation retain their own sample counts |
 | Shared C core | [GPU regression](../../../../CORE-GPU-RESULT.md) | C1/C2/C4/C8 and fresh PP through 128K; includes core latency |
 | RAM prefix state | [GPU state and cache result](../../../../STATE-GPU-RESULT.md) | Exact same-provider restore through 128K, core cache off/on timings and HTTP smoke |
-| SSD restart | [SSD result](../../../../SSD-GPU-RESULT.md) | 512-token restart passes; R1 stopped thermally at 8K, long-context continuation pending |
+| SSD restart and C1 off/RAM/SSD | [Completed SSD result](../../../../SSD-GPU-COMPLETION.md) | Exact restore through 128K, 4K-to-8K extension, PP/TG/TTFT and 1 Hz thermal graphs; earlier software stops retained |
 | HTTP capacity and Pi | [256K and tool receipt](../../../../HTTP-256K-PI.md) | Capacity and functional tool tests; not a 256K quality/performance campaign |
 
 Reports link full tables, graph exports and machine-readable samples. Preserve

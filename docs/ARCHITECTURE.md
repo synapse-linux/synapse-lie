@@ -141,8 +141,9 @@ milestone from eliminating the retained C++/HIP numerical sources/dependencies.
 The first runtime extraction is a shared, transport-independent C core, used by
 the HTTP adapter and a direct engine benchmark path. C-owned RAM prefix policy
 and version-qualified hybrid capture/restore are implemented and GPU-qualified
-through 128K. Optional SSD persistence is implemented, with partial GPU restart
-qualification. MTP/vision state requirements remain separate extension gates. Device-owner
+through 128K. Optional SSD persistence has [GPU restart and C1 qualification
+through 128K](SSD-GPU-COMPLETION.md); HTTP/concurrent SSD checks remain separate.
+MTP/vision state requirements remain separate extension gates. Device-owner
 capture/restore and bounded immutable disk jobs use the same cancellation,
 retirement and resource rules as inference. The [state design](STATE.md) and
 [future ABI requirements](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)

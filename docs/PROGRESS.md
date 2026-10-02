@@ -1,5 +1,32 @@
 # Isolated OpenAI reactive API increment
 
+## Completed SSD GPU continuation and thermal timeline — 2026-10-02
+
+R4 completes 10/10 arms, closing 128K exact SSD restart and core C1 off/RAM/SSD
+at 8K/128K. All 24 core jobs (four warmups) emit 128 identical tokens across
+policies; three state pairs each match every logit frontier and 16 output tokens.
+R2's exact 8K and 4K-to-8K extension passes remain separate from its failed
+128K reader. R1/R2/R3 failures and actual exits are retained without rewriting.
+
+At 128K, median core TTFT is 98.583 s off, 0.226 s RAM, 2.186 s restarted SSD;
+fresh PP is 1332.098 tok/s and native C1 TG about 25 tok/s. Full hits execute no
+PP; startup hashing and write durability have separate measurements. The bench
+graphs/CSV expose complete samples and min/max, not just headline rates.
+
+The 1 Hz observer retains 1743 samples: CPU peak 98.125 C, GPU peak 100 C in three
+isolated samples. GPU episodes at/above 98 C are bracketed within 3.036 s, while
+95 C plateaus last longer. No crash/reboot/device error was observed. Matched
+128K fresh PP falls about 2.08% across three samples; there is no controlled
+thermal A/B to attribute that variation solely to temperature. No hardware
+settings changed. The core adds one optional I/O worker; C1 does not establish
+reactive concurrency speedup. [Full result and reproducible evidence](SSD-GPU-COMPLETION.md).
+
+Closure at 09:39:08.072 UTC confirms twenty owned helper/child identities absent,
+KFD empty and four unchanged/free leases. Controller and observer retired;
+all 106 collected files SHA-verify. The window was returned to Q2 and Point was
+notified after collection. HTTP/concurrent SSD GPU tests, fault injection,
+256K checkpoint fit, 1M, MTP and vision remain separate roadmap items.
+
 ## Owner requested transient-temperature observation — 2026-10-02
 
 R2 closes with five successful SSD state arms and a software thermal stop at

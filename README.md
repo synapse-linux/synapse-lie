@@ -18,9 +18,11 @@ on the editing Strix Halo, with temperature monitoring. CPU fixtures and origina
 Native AR batching through eight rows and C17 cross-request RAM prefix reuse
 are implemented. RAM retention is on by default (4 GiB, allocated lazily);
 `--prefix-cache-mib 0` disables retention explicitly. Optional SSD persistence
-is now implemented as an explicit opt-in in the shared C core; device qualification
-is partial: [512-token restart passes](docs/SSD-GPU-RESULT.md); the 8K continuation
-stopped under its initial thermal policy, leaving long-prefix/performance gates open.
+is implemented as an explicit opt-in in the shared C core. [GPU restart and C1
+comparisons now pass through 128K](docs/SSD-GPU-COMPLETION.md), including exact
+logits/tokens and separate prefill, read/upload, startup and thermal measurements.
+At 128K, median core TTFT is 98.583 s without cache, 2.186 s after SSD restart
+and 0.226 s from RAM. Original-weight HTTP/concurrent SSD checks remain separate.
 The bench now supports separate SSD write/read processes with exact
 logit comparisons and supervised resource/thermal admission. MTP and vision
 remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The

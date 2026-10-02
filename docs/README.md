@@ -36,6 +36,7 @@ an implemented test and a completed measurement.
   [OpenAI GPU checks](OPENAI-GPU.md), [256K and Pi checks](HTTP-256K-PI.md).
 - [DS4 coverage inspection](DS4-COVERAGE.md), [baseline](BASELINE.md)
   and [third-party provenance](../third_party/README.md).
+- [Completed SSD restart/C1 measurements and temperature timeline](SSD-GPU-COMPLETION.md).
 
 ## History and parallel work
 

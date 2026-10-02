@@ -7,7 +7,9 @@ use the same implementation; separate processes do not share a RAM store.
 per-sequence KV/recurrent working state is still required when retention is off.
 Only optional SSD persistence defaults off. With SSD disabled, no persistent-state
 directory is created, scanned, read or written. The implemented opt-in is described
-in [SSD-PREFIX.md](SSD-PREFIX.md); original-weight SSD qualification is pending.
+in [SSD-PREFIX.md](SSD-PREFIX.md). Original-weight [SSD restart and C1 cache
+comparisons pass through 128K](SSD-GPU-COMPLETION.md); HTTP/concurrent SSD and
+device fault injection remain separate gates.
 
 The generic C17 `lie_state` component contract owns section validation, overflow
 checks, host allocation, immutable payloads and capture/restore coordination.

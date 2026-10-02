@@ -1,0 +1,61 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-02T08:39:55.172624+00:00",
+  "pid": 2441586,
+  "start_ticks": 149578943,
+  "runs": [
+    {
+      "arm": "state-p8192-k8192-write",
+      "pid": 2441607,
+      "start_ticks": 149578962,
+      "started_at": "2026-10-02T08:39:55.335569+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T08:41:17.702966+00:00"
+    },
+    {
+      "arm": "state-p8192-k8192-read",
+      "pid": 2442165,
+      "start_ticks": 149587208,
+      "started_at": "2026-10-02T08:41:17.794717+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T08:42:56.971881+00:00",
+      "stable_identity_equal": true
+    },
+    {
+      "arm": "state-p8192-k4096-write",
+      "pid": 2442652,
+      "start_ticks": 149597137,
+      "started_at": "2026-10-02T08:42:57.086475+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T08:44:18.096395+00:00"
+    },
+    {
+      "arm": "state-p8192-k4096-read",
+      "pid": 2443128,
+      "start_ticks": 149605247,
+      "started_at": "2026-10-02T08:44:18.181703+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T08:46:04.882358+00:00",
+      "stable_identity_equal": true
+    },
+    {
+      "arm": "state-p131072-k131072-write",
+      "pid": 2443686,
+      "start_ticks": 149615924,
+      "started_at": "2026-10-02T08:46:04.954988+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T08:49:06.732019+00:00"
+    },
+    {
+      "arm": "state-p131072-k131072-read",
+      "pid": 2444585,
+      "start_ticks": 149634110,
+      "started_at": "2026-10-02T08:49:06.817122+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-02T08:51:50.702253+00:00"
+    }
+  ],
+  "current_arm": "state-p131072-k131072-read",
+  "error": "RuntimeError('arm failed: state-p131072-k131072-read')",
+  "finished_at": "2026-10-02T08:51:50.703159+00:00"
+}

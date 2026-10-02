@@ -56,7 +56,7 @@ on `.157` under fresh ownership/leases. This is not GPU-run or heavyweight model
 hash authorization on the editing host. The Q2 thread owns the next `.157` window
 while this thread implements and CPU-tests the C17 SSD store locally.
 
-## Active SSD continuation — 2026-10-02
+## Completed SSD continuation — 2026-10-02
 
 Q2 explicitly reserved the next window after its two expert-kernel model arms.
 Its persistent `run/q2-expert-stack-window-release.json` records closure at
@@ -67,7 +67,32 @@ staged SSD R2 at 08:39 UTC with 14 remaining arms and explicit 98 C CPU/GPU,
 85 C or lower NVMe guards. Every arm still performs fresh four-lease admission.
 The earlier prepared capsule/manifest are preserved before the handover update.
 
-## Latest completed window — first SSD restart
+R2 closes at 08:51:50.704 UTC with twelve owned identities absent, KFD empty
+and four unchanged/free leases, after the 128K reader reaches the 98 C software
+ceiling (sample99 C). R3 closes at 08:57:27.576 UTC with two owned identities
+absent and the same empty/free observations, after the first 8K core arm samples
+98 C. All 67 R2 and 23 R3 files verify. Neither event was a hardware crash.
+
+The owner then explicitly requests observing brief high-temperature peaks with
+dynamic fans and recording deterioration or shutdown. Root retains the window
+for R4, launched at 09:09:58 UTC under fresh per-arm admission. Only the CPU/GPU
+software operating ceiling is removed in its explicit observation mode; exposed
+hardware bounds and SSD guards remain. There is no hardware-setting change.
+A separate owned read-only observer saves 1 Hz samples on the editing host;
+its retirement is also required before root returns the window. See the
+[R4 declaration](SSD-GPU-PROTOCOL.md#owner-requested-thermal-observation--r4-2026-10-02).
+
+R4 completes all ten arms at **09:39:08.072 UTC**, each child/helper exit 0.
+Postflight records all twenty owned identities absent, empty KFD and four
+unchanged/free leases; independent status confirms the controller absent.
+The observer retires at 09:39:24.129 UTC, SSH exit 0, with 1,743 samples saved
+locally. All 106 collected files verify by SHA-256. Root returned the window
+to Q2 and notified Strix Point after collection; further work here is offline
+analysis on `.155`. No permanent reservation or DS4 ACK is implied.
+Offline checks pass all output/cache-count comparisons; the [complete result](SSD-GPU-COMPLETION.md)
+includes prefill/decode/restore timings and sampled temperature durations.
+
+## Earlier completed window — first SSD restart
 
 `ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.
 512-token write and restarted exact-logit/token read pass. The 8K producer

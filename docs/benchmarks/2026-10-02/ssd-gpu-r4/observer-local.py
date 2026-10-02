@@ -1,0 +1,95 @@
+# SPDX-License-Identifier: MIT
+"""Read-only 1 Hz .157 telemetry, persisted on the editing host per sample.
+
+No model access, device setting writes or process signals. Connection loss is
+recorded as connection loss, not proof of a power failure or its temperature.
+"""
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+
+if len(sys.argv)!=2 or not re.fullmatch(r'ssd-gpu-r[1-9][0-9]*',sys.argv[1]):
+    raise SystemExit('Usage: ssd-thermal-observer.py ssd-gpu-rN')
+label=sys.argv[1]
+root=Path(__file__).resolve().parent.parent
+out=root/'evidence'/(label+'-live-thermal');out.mkdir(exist_ok=False)
+source=r'''
+from pathlib import Path
+import datetime,json,os,time
+root=Path('/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run')/LABEL
+def read(p,limit=8192):
+ try:
+  with p.open() as f:return f.read(limit).strip()
+ except OSError:return None
+boot=read(Path('/proc/sys/kernel/random/boot_id'));start=time.monotonic();terminal_at=None
+seen={};offsets={}
+while time.monotonic()-start<7200:
+ row={'event':'sample','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+      'remote_monotonic_s':time.monotonic(),'boot_id':boot,'observer_pid':os.getpid(),
+      'temperatures':[],'gpu':[],'cpu_mhz':[],'campaign':None,'benchmark_events':[]}
+ for d in sorted(Path('/sys/class/hwmon').glob('hwmon*')):
+  name=read(d/'name')
+  if name not in ('amdgpu','k10temp','coretemp','nvme'):continue
+  for p in sorted(d.glob('temp*_input')):
+   raw=read(p)
+   row['temperatures'].append({'name':name,'path':str(p),'raw_millic':raw,
+      'label':read(p.with_name(p.name[:-6]+'_label'))})
+  row.setdefault('fans',[]).extend({'name':name,'path':str(p),'rpm':read(p)} for p in d.glob('fan*_input'))
+ for d in sorted(Path('/sys/class/drm').glob('card[0-9]*/device')):
+  if not (d/'gpu_busy_percent').exists():continue
+  row['gpu'].append({'path':str(d),**{n:read(d/n) for n in ('gpu_busy_percent','pp_dpm_sclk','pp_dpm_mclk','mem_info_gtt_used','mem_info_vram_used')}})
+ cpu=read(Path('/proc/cpuinfo'),131072) or ''
+ row['cpu_mhz']=[float(s.split(':',1)[1]) for s in cpu.splitlines() if s.startswith('cpu MHz')]
+ text=read(root/'state.json',131072)
+ if text:
+  try:
+   state=json.loads(text);row['campaign']={k:state.get(k) for k in ('state','current_arm','error')}
+   arm=state.get('current_arm')
+   if arm:
+    p=root/arm/'results/measurements.jsonl'
+    if p.exists():
+     with p.open() as f:
+      f.seek(offsets.get(arm,0))
+      while True:
+       pos=f.tell();line=f.readline(4*1024*1024)
+       if not line or not line.endswith('\n'):f.seek(pos);break
+       try:
+        event=json.loads(line)
+        keep=('event','rep','warmup','pair','generation','decode_calls','exact_logits_and_tokens','prefill_tokens','cached_tokens','ssd_cached_tokens','output_tokens','prefill_ns','decode_ns','first_token_ns','total_ns','error','exit_code')
+        row['benchmark_events'].append({k:event[k] for k in keep if k in event})
+       except ValueError:pass
+      offsets[arm]=f.tell()
+   if state['state'] in ('FAILED','COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS'):
+    if terminal_at is None:terminal_at=time.monotonic()
+  except (ValueError,OSError) as e:row['campaign_read_error']=str(e)
+ print(json.dumps(row,separators=(',',':')),flush=True)
+ if terminal_at is not None and time.monotonic()-terminal_at>=15:break
+ if text is None and time.monotonic()-start>180:break
+ time.sleep(1)
+'''.replace('LABEL',repr(label))
+(out/'remote-source.py').write_text(source)
+argv=['ssh','-F','/dev/null','-o','BatchMode=yes','-o','ServerAliveInterval=5',
+      '-o','ServerAliveCountMax=3','paperboy@192.168.5.157','python3 -u -']
+plan={'label':label,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+      'source_sha256':hashlib.sha256(source.encode()).hexdigest(),'sample_interval_s':1,
+      'scope':'Read-only observation; fsync each received sample on editing host; no thermal/device configuration writes'}
+(out/'plan.json').write_text(json.dumps(plan,indent=2)+'\n')
+with (out/'stderr.log').open('x') as err,(out/'samples.jsonl').open('x') as log:
+    p=subprocess.Popen(argv,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,text=True)
+    p.stdin.write(source);p.stdin.close();count=0
+    for line in p.stdout:
+        record={'received_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'remote':json.loads(line)}
+        log.write(json.dumps(record,separators=(',',':'))+'\n');log.flush();os.fsync(log.fileno());count+=1
+    code=p.wait()
+    end={'event':'connection_closed','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+         'ssh_exit_code':code,'samples':count,'power_failure_proven':False}
+    log.write(json.dumps(end)+'\n');log.flush();os.fsync(log.fileno())
+(out/'result.json').write_text(json.dumps(end,indent=2)+'\n')
+print(json.dumps(end))
+raise SystemExit(code)

@@ -1,0 +1,5 @@
+{
+  "raw_tar_sha256": "d8d83b555d47f0f22135ffae91027c85ddf702261aa7047b77072cbdf614f23b",
+  "gzip_sha256": "9c0fda1a912f61621c949e1da11cd134a325e390b65aa663e266beb78f469c97",
+  "scope": "Complete collected small evidence; excludes executable, model weights and checkpoint payloads."
+}

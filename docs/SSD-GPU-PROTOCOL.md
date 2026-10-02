@@ -1,5 +1,9 @@
 # SSD checkpoint qualification protocol
 
+The [completed R4 result](SSD-GPU-COMPLETION.md) closes the pending 128K
+restart and core off/RAM/SSD arms. R1/R2/R3 declarations and failures below
+remain historical evidence; the next hardware run still needs fresh admission.
+
 ## Operator thermal revision for the next continuation
 
 After R1 stopped, the user clarified that Strix Halo supports operation through

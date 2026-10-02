@@ -187,6 +187,10 @@ supervisor requires a dedicated SSD resource manifest, hashing authorization and
 a new store or a SHA-bound preceding producer, with temperature monitoring.
 Synthetic direct CLI tests are not GPU performance evidence. See
 [the SSD qualification boundary](SSD-PREFIX.md) and [campaign protocol](SSD-GPU-PROTOCOL.md).
+The [completed original-weight result](SSD-GPU-COMPLETION.md) covers exact restart
+through 128K, 4K-to-8K extension and matched C1 off/RAM/SSD at 8K/128K. It includes
+all warmups/repetitions, separate load/hash costs, SVG/PNG graphs and sampled
+temperature durations. It does not reproduce Gufo's full HTTP benchmark protocol.
 
 For full-logit SSD qualification, add `--state-ssd-mode write` to `--suite state`
 with all three SSD options. This persists one checkpoint into an empty store;

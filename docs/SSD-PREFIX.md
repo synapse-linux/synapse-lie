@@ -4,10 +4,11 @@ This increment implements disk persistence of the same complete hybrid AR
 frontiers used by the RAM cache. It is shared by HTTP and `--suite core` through
 `lie_core`; the provider supplies bound model files, geometry and completed
 device transfers. The codec, identity hashing, store, budgets, I/O scheduling and
-ownership are C17. A [512-token original-weight restart](SSD-GPU-RESULT.md) passes
-three exact pairs with early EOS. The next 8K arm stopped thermally; long-prefix
-and core performance qualification remain **pending**. The earlier RAM result
-does not qualify the new disk path.
+ownership are C17. [Original-weight restart and core C1 comparisons now pass
+through 128K](SSD-GPU-COMPLETION.md): full-logit/token equivalence after restart,
+4K-to-8K extension, and matched off/RAM/SSD timings. The completed continuation
+retains the earlier software thermal stops and includes 1 Hz temperature/clock
+observations. HTTP/concurrent SSD device checks remain separate.
 
 RAM remains enabled by default, with its independent lazy 4 GiB budget.
 SSD remains disabled by default. Enable it explicitly with all three options:
@@ -164,12 +165,14 @@ exit 125. [Receipts](benchmarks/2026-10-02/ssd-prefix-cpu/receipt.json) retain s
 hashes, commands, exits and raw telemetry/log hashes. These functional and build
 checks do not qualify original-weight SSD inference or performance.
 
-Original-weight acceptance still needs an explicit fresh coordinated window:
-same binary/configuration and exact inputs, cold recomputation, RAM hit, and SSD
-restore after process restart; exact logits/tokens and prefix extension; separate
-startup hashing, capture/write/read/upload and TTFT timings; file corruption,
-cancellation and disk/quota failures; actual staging/device allocation and
-temperature telemetry. Reuse through 128K was qualified for RAM, not for this
-SSD increment. 256K retention/fit and 1M remain unqualified/unsupported respectively.
+The [completed GPU continuation](SSD-GPU-COMPLETION.md) qualifies exact SSD state
+through 128K and C1 off/RAM/SSD request timings at 8K/128K, with startup hashing,
+capture/write/read/upload, output equality and temperature telemetry separated.
+Every restarted SSD request reuses its full prompt; all core outputs reach TG128.
+HTTP with SSD enabled, concurrent GPU peer progress/cancellation, device-side
+fault injection and independently measured HIP peak allocation still need
+separate admitted work. File corruption, quota and write failures retain their
+synthetic contract scope. 256K checkpoint retention/fit and 1M remain
+unqualified/unsupported respectively.
 This version persists hybrid checkpoints. Active KV paging, PLE/weight streaming,
 exact resumable sampling/tool sessions, MTP and vision require distinct contracts.
