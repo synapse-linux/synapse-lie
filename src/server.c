@@ -711,9 +711,9 @@ int main(int argc, char **argv) {
     int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
         if (!strcmp(argv[i],"--build-info")) {
-            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":\"%s\"}\n",
+            printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":\"%s\",\"ds4_cache_policy\":%s}\n",
                    LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership(),
-                   LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec());
+                   LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec(),LIE_DS4_CACHE_POLICY?"true":"false");
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {

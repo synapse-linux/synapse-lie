@@ -160,6 +160,9 @@ def read_state_result(path,rows):
     pairs=rows[3:6] if ram else rows[4:7] if read else []
     if identity.get('suite')!='state' or identity.get('state_abi')!=1 or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
         raise ValueError('invalid state input')
+    generated=p.get('capture_decode_tokens',0)
+    if type(generated) is not int or not 0<=generated<=256 or (generated and (not ram or generated>=p['prompt_tokens'] or p['checkpoint_tokens']!=p['prompt_tokens'])):
+        raise ValueError('invalid generated capture frontier')
     if type(identity.get('checkpoint_compression',False)) is not bool or type(capture.get('compressed',False)) is not bool or capture.get('compressed',False) and not identity.get('checkpoint_compression',False):
         raise ValueError('invalid state compression declaration')
     expanded=capture.get('expanded_bytes',capture['retained_bytes'])
@@ -188,6 +191,9 @@ def read_state_result(path,rows):
         if read and not 0<transfer.get('read_bytes',0)<=disk['quota_bytes']:
             raise ValueError('state SSD read accounting')
     for index,r in enumerate(pairs):
+        replay=r.get('fresh_decode_replay_ns',0)
+        if type(replay) is not int or replay<0 or (replay>0)!=(generated>0) or (generated and r['generation']!='greedy'):
+            raise ValueError('invalid generated frontier replay')
         if r['pair']!=index or r['exact_logits_and_tokens']!=1 or r['reused_tokens']!=p['checkpoint_tokens'] or r['new_tokens']+r['reused_tokens']!=p['prompt_tokens']:
             raise ValueError('state pair accounting')
         if not 0<r['decode_calls']<=16 or not 0<=len(r['output_ids'])<=r['decode_calls'] or len(r['full_logits_sha256'])!=64:

@@ -93,6 +93,22 @@ class CoreBench(unittest.TestCase):
                           '--tg','16','--repetitions','2',*(['--prefix-cache-mib',cache] if cache is not None else []),*args],capture_output=True,text=True,timeout=15)
         return p,output
 
+    def test_state_capture_after_generated_frontier(self):
+        with tempfile.TemporaryDirectory(prefix='lie-state-generated-') as tmp:
+            root=Path(tmp);source=root/'input.json';source.write_text(json.dumps(list(range(12))))
+            output=root/'state.jsonl'
+            p=subprocess.run([BINARY,'--suite','state','--model',':fixture:','--output',str(output),
+                              '--tokens-file',str(source),'--pp','12','--chunk','4','--context','128',
+                              '--capture-decode','4'],capture_output=True,text=True,timeout=15)
+            self.assertEqual(p.returncode,0,p.stderr)
+            data=REPORT['read_result'](output)
+            self.assertEqual(data['input']['capture_decode_tokens'],4)
+            self.assertEqual(data['input']['prompt_tokens'],16)
+            for pair in data['pairs']:
+                self.assertEqual(pair['generation'],'greedy')
+                self.assertEqual(pair['output_ids'],list(range(4,20)))
+                self.assertGreater(pair['fresh_decode_replay_ns'],0)
+
     def test_real_core_lifecycle_counts_and_replay(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-bench-') as tmp:
             p,path=self.run_case(tmp,'--users','4','--warmups','1')

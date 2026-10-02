@@ -52,11 +52,11 @@ static bool store_wait(lie_store *store,lie_store_result *result){
     return false;
 }
 int lie_state_bench_main(int argc,char **argv){
-    const char *model=NULL,*output=NULL,*input=NULL;unsigned context=262144,chunk=2048,checkpoint=0;bool info=false;unsigned seen=0;
+    const char *model=NULL,*output=NULL,*input=NULL;unsigned context=262144,chunk=2048,checkpoint=0,capture_decode=0;bool info=false;unsigned seen=0;
     const char *ssd_mode=NULL;lie_store_options ssd={0};
     for(int i=1;i<argc;++i){
         if(!strcmp(argv[i],"--build-info")){info=true;continue;}
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite state --model FIRST-SHARD --output NEW-JSONL --tokens-file JSON-IDS --pp CHECKPOINT [--context 262144] [--chunk 2048]\nThree fresh/restored pairs: greedy, seeded sampling, independent greedy clone; full logits at every step.\nOptional SSD: --state-ssd-mode write|read --prefix-ssd-dir PRIVATE-PATH --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N.\nWrite requires an empty store and durably saves one checkpoint; read requires an exact checkpoint from an earlier process and runs the three pairs.\nPrefix checkpoint must align to chunks unless it is the whole prompt. RAM capture budget: 4 GiB. MTP/vision unsupported. Shared GPU requires leased supervisor.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite state --model FIRST-SHARD --output NEW-JSONL --tokens-file JSON-IDS --pp CHECKPOINT [--context 262144] [--chunk 2048]\nThree fresh/restored pairs: greedy, seeded sampling, independent greedy clone; full logits at every step.\nOptional SSD: --state-ssd-mode write|read --prefix-ssd-dir PRIVATE-PATH --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N.\nWrite requires an empty store and durably saves one checkpoint; read requires an exact checkpoint from an earlier process and runs the three pairs.\nPrefix checkpoint must align to chunks unless it is the whole prompt. Optional RAM-only --capture-decode 1..256 captures after generated tokens; requires --pp equal to the input length and runs three greedy replay/restore pairs. Replay time is separate from prefill. RAM capture budget: 4 GiB. MTP/vision unsupported. Shared GPU requires leased supervisor.");return 0;}
         if(i+1==argc)goto usage;
         const char *k=argv[i],*v=argv[++i];unsigned bit=0;
         if(!strcmp(k,"--suite")){bit=1;if(strcmp(v,"state"))goto usage;}
@@ -66,6 +66,7 @@ int lie_state_bench_main(int argc,char **argv){
         else if(!strcmp(k,"--context")){bit=16;if(!integer(v,&context))goto usage;}
         else if(!strcmp(k,"--chunk")){bit=32;if(!integer(v,&chunk)||chunk>2048)goto usage;}
         else if(!strcmp(k,"--pp")){bit=64;if(!integer(v,&checkpoint))goto usage;}
+        else if(!strcmp(k,"--capture-decode")){bit=2048;if(!integer(v,&capture_decode)||capture_decode>256)goto usage;}
         else if(!strcmp(k,"--state-ssd-mode")){bit=128;ssd_mode=v;if(strcmp(v,"write")&&strcmp(v,"read"))goto usage;}
         else if(!strcmp(k,"--prefix-ssd-dir")){bit=256;ssd.directory=v;if(*v!='/')goto usage;}
         else if(!strcmp(k,"--prefix-ssd-quota-mib")){unsigned value;bit=512;if(!integer(v,&value))goto usage;ssd.quota_bytes=(uint64_t)value*1024*1024;}
@@ -76,7 +77,7 @@ int lie_state_bench_main(int argc,char **argv){
     }
     if((seen&1920)&&((seen&1920)!=1920))goto usage;
     if(info)return emit(stdout,identity())?0:1;
-    if(!model||!output||!input||!checkpoint||context<=STEPS||!lie_backend_prefix_state_supported())goto usage;
+    if(!model||!output||!input||!checkpoint||context<=STEPS+capture_decode||!lie_backend_prefix_state_supported()||(capture_decode&&ssd_mode))goto usage;
     int fd=open(input,O_RDONLY|O_CLOEXEC|O_NOFOLLOW|O_NONBLOCK);struct stat sb;
     if(fd<0)return 2;
     if(fstat(fd,&sb)||!S_ISREG(sb.st_mode)||sb.st_size<=0||sb.st_size>8*1024*1024){close(fd);return 2;}
@@ -87,7 +88,7 @@ int lie_state_bench_main(int argc,char **argv){
     bool valid=at==(size_t)sb.st_size&&json_tokener_get_error(parser)==json_tokener_success&&json_object_is_type(array,json_type_array);
     size_t end=json_tokener_get_parse_end(parser);while(end<at&&strchr(" \t\r\n",raw[end]))++end;
     valid=valid&&(end==at||end==at+1);unsigned n=valid?(unsigned)json_object_array_length(array):0;
-    valid=valid&&n&&n<=context-STEPS&&checkpoint<=n&&(checkpoint==n||checkpoint%chunk==0);
+    valid=valid&&n&&n<=context-STEPS-capture_decode&&checkpoint<=n&&(checkpoint==n||checkpoint%chunk==0)&&(!capture_decode||checkpoint==n);
     int32_t *tokens=valid?malloc((size_t)n*sizeof(*tokens)):NULL;valid=valid&&tokens;
     for(unsigned i=0;valid&&i<n;++i){json_object *v=json_object_array_get_idx(array,i);int64_t x=json_object_get_int64(v);valid=json_object_is_type(v,json_type_int)&&x>=0&&x<=INT32_MAX;if(valid)tokens[i]=(int32_t)x;}
     json_object_put(array);json_tokener_free(parser);free(raw);if(!valid){free(tokens);goto usage;}
@@ -101,9 +102,20 @@ int lie_state_bench_main(int argc,char **argv){
     if(!emit(f,identity())||lie_backend_open(model,&o,&m,&e)!=LIE_OK||lie_model_get_info(m,&mi,&e)!=LIE_OK||!mi.vocab_tokens||mi.vocab_tokens>1048576)goto done;
     uint64_t load_ns=ns()-load_start;
     for(unsigned i=0;i<n;++i)if((uint32_t)tokens[i]>=mi.vocab_tokens)goto done;
+    unsigned original_prompt=n;
+    if(capture_decode){
+        int32_t *grown=realloc(tokens,(size_t)(n+capture_decode)*sizeof(*tokens));if(!grown)goto done;tokens=grown;
+        lie_generation_options greedy={.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(greedy),.temperature=0,.top_p=.9,.seed=123};
+        if(lie_sequence_create(m,&s,&e)!=LIE_OK||lie_sequence_configure(s,&greedy,&e)!=LIE_OK||!prefill(s,tokens,0,n,chunk,&e))goto done;
+        for(unsigned k=0;k<capture_decode;++k){lie_decode_result d={0};
+            if(lie_sequence_decode(s,&d,&e)!=LIE_OK||d.stop||d.emitted!=1||d.position!=n+1){snprintf(e.message,sizeof(e.message),"capture decode did not complete required live frontier");goto done;}
+            tokens[n++]=d.token;
+        }
+        checkpoint=n;
+    }
     witness=malloc((STEPS+1)*(size_t)mi.vocab_tokens*sizeof(float));row=malloc((size_t)mi.vocab_tokens*sizeof(float));if(!witness||!row)goto done;
     char input_hash[65];if(!hash(tokens,(size_t)n*sizeof(*tokens),input_hash))goto done;
-    json_object *j=event("input");str(j,"physical_ids_sha256",input_hash);num(j,"prompt_tokens",n);num(j,"checkpoint_tokens",checkpoint);num(j,"context",context);num(j,"chunk",chunk);num(j,"vocab",mi.vocab_tokens);if(!emit(f,j))goto done;
+    json_object *j=event("input");str(j,"physical_ids_sha256",input_hash);num(j,"prompt_tokens",n);num(j,"checkpoint_tokens",checkpoint);num(j,"context",context);num(j,"chunk",chunk);num(j,"vocab",mi.vocab_tokens);num(j,"capture_decode_tokens",capture_decode);if(!emit(f,j))goto done;
     lie_state_layout layout;uint64_t bytes=0,start=ns();
     if(ssd_mode){
         lie_state_identity id;uint64_t domain=0;char hex[65];
@@ -127,7 +139,7 @@ int lie_state_bench_main(int argc,char **argv){
         if(!emit(f,j))goto done;
     }else{
         if(store){lie_store_info si;lie_store_snapshot(store,&si);if(si.entries){snprintf(e.message,sizeof(e.message),"SSD write requires an empty store");goto done;}}
-        if(lie_sequence_create(m,&s,&e)!=LIE_OK||!prefill(s,tokens,0,checkpoint,chunk,&e))goto done;
+        if(!s&&(lie_sequence_create(m,&s,&e)!=LIE_OK||!prefill(s,tokens,0,checkpoint,chunk,&e)))goto done;
         start=ns();
         if(lie_state_plan(s,&layout,&bytes,&e)!=LIE_OK||lie_state_capture(s,&layout,ssd_mode?ssd.staging_bytes:UINT64_C(4)*1024*1024*1024,&state,&e)!=LIE_OK)goto done;
         (void)lie_state_compress(&state,ssd_mode?ssd.staging_bytes:UINT64_C(4)*1024*1024*1024);
@@ -145,14 +157,22 @@ int lie_state_bench_main(int argc,char **argv){
         }
     }
     for(unsigned pair=0;pair<3;++pair){
-        lie_generation_options gen={.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(gen),.temperature=pair==1?.7:0,.top_p=.9,.seed=123,.frequency_penalty=pair==1?.1:0,.presence_penalty=pair==1?.1:0};
-        lie_decode_result expected[STEPS]={0};unsigned count=0;uint64_t pp_ns=0,restore_ns=0,tail_ns=0;char hashes[2][65];
+        bool sampled=pair==1&&!capture_decode;
+        lie_generation_options gen={.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(gen),.temperature=sampled?.7:0,.top_p=.9,.seed=123,.frequency_penalty=sampled?.1:0,.presence_penalty=sampled?.1:0};
+        lie_decode_result expected[STEPS]={0};unsigned count=0;uint64_t pp_ns=0,restore_ns=0,tail_ns=0,replay_ns=0;char hashes[2][65];
         for(unsigned restored=0;restored<2;++restored){
             if(lie_sequence_create(m,&s,&e)!=LIE_OK||lie_sequence_configure(s,&gen,&e)!=LIE_OK)goto done;
             start=ns();if(restored&&lie_state_restore(s,state,&e)!=LIE_OK)goto done;
             if(restored)restore_ns=ns()-start;
-            start=ns();if(!prefill(s,tokens,restored?checkpoint:0,n,chunk,&e))goto done;
+            start=ns();if(!prefill(s,tokens,restored?checkpoint:0,!restored&&capture_decode?original_prompt:n,chunk,&e))goto done;
             if(restored)tail_ns=ns()-start;else pp_ns=ns()-start;
+            if(!restored&&capture_decode){start=ns();
+                for(unsigned k=original_prompt;k<n;++k){lie_decode_result d={0};
+                    if(lie_sequence_decode(s,&d,&e)!=LIE_OK||d.stop||d.emitted!=1||d.position!=k+1||d.token!=tokens[k]){
+                        snprintf(e.message,sizeof(e.message),"generated checkpoint replay drift");goto done;}
+                }
+                replay_ns=ns()-start;
+            }
             for(unsigned step=0;step<=STEPS;++step){
                 if(interrupted||!frontier(s,row,mi.vocab_tokens,&e))goto done;
                 float *reference=witness+(size_t)step*mi.vocab_tokens;
@@ -166,7 +186,7 @@ int lie_state_bench_main(int argc,char **argv){
             if(lie_sequence_close(&s,&e)!=LIE_OK)goto done;
         }
         j=event("pair");num(j,"pair",pair);num(j,"decode_calls",count);num(j,"fresh_prefill_ns",pp_ns);num(j,"restore_ns",restore_ns);num(j,"tail_prefill_ns",tail_ns);num(j,"reused_tokens",checkpoint);num(j,"new_tokens",n-checkpoint);
-        str(j,"generation",pair==1?"seeded-sampling":"greedy");str(j,"full_logits_sha256",hashes[0]);num(j,"exact_logits_and_tokens",1);
+        num(j,"fresh_decode_replay_ns",replay_ns);str(j,"generation",sampled?"seeded-sampling":"greedy");str(j,"full_logits_sha256",hashes[0]);num(j,"exact_logits_and_tokens",1);
         json_object *ids=json_object_new_array();for(unsigned i=0;i<count;++i)if(expected[i].emitted)json_object_array_add(ids,json_object_new_int(expected[i].token));json_object_object_add(j,"output_ids",ids);
         if(!emit(f,j))goto done;
     }

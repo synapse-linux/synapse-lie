@@ -111,15 +111,15 @@ void lie_prefix_cache_insert(lie_prefix_cache *c,lie_state *state){
     }
     lie_state_retain(state);installed(c,slot,state,continued);
 }
-lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
-                                    size_t n,uint32_t chunk,unsigned *reused,lie_error *error){
+lie_status lie_prefix_cache_restore_key(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                    size_t n,uint32_t chunk,uint32_t flags,unsigned *reused,lie_error *error){
     if(!c||!s||!tokens||!n||!chunk||!reused)return LIE_INVALID;
     *reused=0;if(!c->info.budget_bytes)return LIE_OK;
     ++c->info.lookups;touch(c);unsigned best=c->capacity;size_t longest=0;
     for(unsigned i=0;i<c->capacity;++i){const lie_state_layout *l=lie_state_description(c->entries[i].state);
         /* Extending an unaligned checkpoint would change prefill chunk shapes.
          * Only an exact hit may reuse a short, non-chunk-aligned checkpoint. */
-        if(l&&l->token_count<=n&&l->token_count>longest&&(l->token_count==n||l->token_count%chunk==0)&&
+        if(l&&(c->entries[i].metadata.flags&6u)==(flags&6u)&&l->token_count<=n&&l->token_count>longest&&(l->token_count==n||l->token_count%chunk==0)&&
            !memcmp(tokens,lie_state_tokens(c->entries[i].state),l->token_count*sizeof(*tokens))){best=i;longest=l->token_count;}
     }
     if(best==c->capacity){++c->info.misses;return LIE_OK;}
@@ -137,11 +137,20 @@ lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const in
     c->entries[best].metadata.hits=c->entries[best].utility.hits;c->entries[best].metadata.last_used=c->entries[best].utility.touched;
     ++c->info.hits;c->info.reused_tokens+=longest;*reused=(unsigned)longest;return LIE_OK;
 }
+lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                    size_t n,uint32_t chunk,unsigned *reused,lie_error *error){
+    return lie_prefix_cache_restore_key(c,s,tokens,n,chunk,0,reused,error);
+}
 lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
                                     size_t n,const lie_cache_metadata *metadata,lie_error *error){
     if(!c->info.budget_bytes)return LIE_OK;
     for(unsigned i=0;i<c->capacity;++i){const lie_state_layout *l=lie_state_description(c->entries[i].state);
-        if(l&&l->token_count==n&&!memcmp(tokens,lie_state_tokens(c->entries[i].state),n*sizeof(*tokens)))return LIE_OK;
+        if(l&&l->token_count==n&&!memcmp(tokens,lie_state_tokens(c->entries[i].state),n*sizeof(*tokens))){
+            if(metadata){lie_cache_metadata m=*metadata;
+                m.hits=c->entries[i].metadata.hits;m.created_at=c->entries[i].metadata.created_at;m.last_used=c->entries[i].metadata.last_used;
+                if(!lie_prefix_cache_metadata(c,c->entries[i].state,&m))++c->info.skipped;}
+            return LIE_OK;
+        }
     }
     lie_state_layout layout;uint64_t bytes=0;lie_status rc=lie_state_plan(s,&layout,&bytes,error);
     if(rc!=LIE_OK)return rc;

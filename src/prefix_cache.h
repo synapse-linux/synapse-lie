@@ -25,6 +25,8 @@ lie_state *lie_prefix_cache_find(lie_prefix_cache *,const int32_t *,size_t);
 void lie_prefix_cache_insert(lie_prefix_cache *,lie_state *);
 lie_status lie_prefix_cache_restore(lie_prefix_cache *,lie_sequence *,const int32_t *,
                                     size_t tokens,uint32_t chunk,unsigned *reused,lie_error *);
+lie_status lie_prefix_cache_restore_key(lie_prefix_cache *,lie_sequence *,const int32_t *,
+                                    size_t tokens,uint32_t chunk,uint32_t flags,unsigned *reused,lie_error *);
 lie_status lie_prefix_cache_capture(lie_prefix_cache *,lie_sequence *,const int32_t *,
                                     size_t tokens,lie_error *);
 #endif

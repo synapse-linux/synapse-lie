@@ -191,7 +191,7 @@ def validate_args(args):
                  '--cache-policy','--cache-text-prefix','--cache-capture-finish','--cache-min-tokens',
                  '--cache-cold-max-tokens','--cache-continued-tokens','--cache-trim-tokens','--cache-align-tokens'}
     if options.get('--suite')=='state':
-        allowed={'--suite','--context','--chunk','--pp','--tokens-file'}
+        allowed={'--suite','--context','--chunk','--pp','--tokens-file','--capture-decode'}
         allowed.add('--state-ssd-mode')
     if options.get('--suite')=='http-ssd':
         allowed={'--suite','--cases-file','--context','--chunk','--users','--phase','--repetitions',

@@ -181,7 +181,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
         const char *text=tool_outputs[s->mode-100];
         bool done=s->step==strlen(text);
         *out=(lie_decode_result){.stop=done,.position=s->position};
-        if (!done) { out->token=128+(unsigned char)text[s->step++]; out->emitted=1; out->position=++s->position; }
+        if (!done) { out->token=128+(unsigned char)text[s->step++];s->prompt[s->position]=out->token;out->emitted=1;out->position=++s->position; }
         return LIE_OK;
     }
     bool done=s->mode==6 || (s->mode==0 && s->step==8);

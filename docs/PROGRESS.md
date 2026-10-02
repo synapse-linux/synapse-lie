@@ -1,5 +1,21 @@
 # Isolated OpenAI reactive API increment
 
+## DS4 policy GPU refusal and repair — 2026-10-02
+
+R8 passes native-v3 SSD producer and context131072→262144 reader, with three
+exact full-logit/token pairs, then the 8K legacy core control. The first DS4
+core arm fails at end-of-generation capture: the adapter still rejected
+`sampling_started` sources. Its exit1 and empty surfaced job error are retained.
+The repair allows completed capture after decode while restore still requires
+an empty unstarted destination, and publishes capture failure before waking a
+flow consumer. A zero-frontier shutdown edge is also corrected. The state bench
+adds `--capture-decode` to qualify exact live generated frontiers independently.
+
+R8 closes at 14:06:00.539460 UTC with eight owned identities absent, empty KFD,
+four unchanged/free leases. Observer retires at 14:06:16.094468, exit 0; all 49 collected
+files verify. Root retains the coordinated window for a freshly admitted R9
+following local CPU qualification. The incomplete R8 is not a policy pass.
+
 ## Shared DS4 cache policy — 2026-10-02
 
 Implemented persistent six-hour utility, bounded dynamic indices, startup quota

@@ -87,6 +87,24 @@ int main(int argc,char **argv){
     lie_job_cancel(pending);consume(pending,LIE_FLOW_CANCELLED);
     atomic_store(&held,false);stop(c);
 
+    if(LIE_DS4_CACHE_POLICY){
+        /* min_tokens=0 must still skip an empty live sequence when graceful
+         * stop races its first SSD read. No empty backend capture is valid. */
+        lie_core_options o;lie_core_options_init(&o);o.model_path=":fixture:";o.context=128;o.chunk=4;o.max_active=2;
+        o.prefix_cache_bytes=0;o.ssd=(lie_store_options){path,1024*1024,65536};o.cache_policy.min_tokens=0;
+        fake_calls_reset();c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
+        atomic_store(&entered,false);atomic_store(&held,true);pending=submit(c,a,8,8);wait_read();
+        lie_core_stop(c);atomic_store(&held,false);consume(pending,LIE_FLOW_CANCELLED);
+        ci=stop(c);assert(!ci.failed_requests&&!ci.error[0]&&!fake_calls_snapshot().capture);
+
+        o.ssd=(lie_store_options){0};o.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES;
+        fake_calls_reset();c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
+        fake_barrier_arm_phase(FAKE_DECODE);pending=submit(c,a,8,1);fake_barrier_wait();
+        fake_state_fault(2);fake_barrier_release();i=consume(pending,LIE_FLOW_ERROR);
+        assert(i.error[0]&&i.finish==LIE_FINISH_BACKEND);ci=stop(c);assert(ci.failed_requests==1);
+        fake_calls_reset();
+    }
+
     /* A mutating upload failure poisons the core; it cannot turn into prefill. */
     fake_calls_reset();c=start(path,0);fake_state_fault(3);
     consume(submit(c,a,8,8),LIE_FLOW_ERROR);wait_state(c,LIE_FAILED);

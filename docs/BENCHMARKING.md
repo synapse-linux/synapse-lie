@@ -208,3 +208,14 @@ p50/p95/p99 with sample counts and distinguish HTTP wall/first text, text-event
 gaps and executed PP/TG. Full-hit PP stays null; Responses has no executor
 timings. [Usage, supervised admission and exact limits](SSD-HTTP-PROTOCOL.md).
 Its ASan/UBSan CPU fixtures pass; device qualification remains separately pending.
+
+## State captured after generation
+
+`--suite state --capture-decode N` (1..256) extends a full input checkpoint by
+N greedy decoded tokens before capturing it in RAM. `--pp` must equal the input
+length; this mode is not combined with SSD write/read. Three independently
+replayed greedy references compare all logits and subsequent tokens with the
+restored state. `capture_decode_tokens` is explicit in the input record and
+`fresh_decode_replay_ns` separates prefix replay from `fresh_prefill_ns`.
+Without this option, the existing greedy/seeded/independent-clone pairs apply.
+This tests completed model state; sampler/RNG continuation is not serialized.

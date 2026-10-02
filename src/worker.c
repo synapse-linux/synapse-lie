@@ -274,7 +274,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
-    lie_status rc=restore?lie_prefix_cache_restore(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,&reused,error):
+    lie_status rc=restore?lie_prefix_cache_restore_key(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,&reused,error):
         lie_prefix_cache_capture_ex(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,error);
     if(!restore&&rc==LIE_OK&&w->store){
         lie_state *state=lie_prefix_cache_find(&w->cache,tokens,frontier),*temporary=NULL;
@@ -365,7 +365,7 @@ static bool step(lie_core *w, size_t index) {
     }
     if(atomic_load(&w->stop)&&!atomic_load(&j->cancel)&&j->sequence&&!wi.error[0]&&
        w->options.cache_policy.enabled&&w->options.cache_policy.capture_finish&&!j->shutdown_saved&&
-       (w->options.prefix_cache_bytes||w->store)&&j->position>=w->options.cache_policy.min_tokens){
+       (w->options.prefix_cache_bytes||w->store)&&j->position&&j->position>=w->options.cache_policy.min_tokens){
         j->shutdown_saved=true;j->capture_pending=LIE_CACHE_SHUTDOWN;return true;
     }
     if (atomic_load(&j->cancel) || atomic_load(&w->stop)) {
@@ -442,7 +442,7 @@ static bool step(lie_core *w, size_t index) {
         if(j->ssd_ticket)return false;
         size_t key_bytes;const char *key=lookup_text(j,&key_bytes);
         j->ssd_ticket=j->text_lookup?lie_store_read_text_key(w->store,key,key_bytes,w->options.chunk,j->request.cache.flags):
-            lie_store_read(w->store,j->prompt,j->tokens,w->options.chunk);
+            lie_store_read_key(w->store,j->prompt,j->tokens,w->options.chunk,j->request.cache.flags);
         if(j->ssd_ticket)return true;
         lie_store_info store;lie_store_snapshot(w->store,&store);
         if(store.pending)return false; /* Other rows may still prefill/decode. */
@@ -566,6 +566,7 @@ static bool decode_ready(lie_core *w) {
             uint32_t interval=lie_cache_continued_step(&w->options.cache_policy);
             j->next_continued=interval?((j->position/interval)+1)*(size_t)interval:0;
             if(saved!=LIE_OK&&saved!=LIE_CANCELLED){poison(w,&error);
+                publish_outcome(j,LIE_FINISH_BACKEND,error.message);
                 (void)lie_flow_abort(j->flow,r->reservation.ticket,LIE_FINISH_BACKEND);
                 finish_job(w,indices[i],LIE_FINISH_BACKEND,error.message);continue;}
         }

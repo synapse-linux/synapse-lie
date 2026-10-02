@@ -318,3 +318,9 @@ return no anchor. It performs no forward inference and exposes no upstream type.
 State component ABI and executor ABI 2 are unchanged. Context growth must pass
 the provider's layout checks before mutation; cross-weight/quantization restore
 remains refused. [Policy and format details](CACHE-DS4-POLICY.md).
+
+Capture may follow completed autoregressive generation or an EOS boundary;
+`lie_sequence_state_describe(source == NULL)` validates the live token frontier
+and component geometry. Restore continues to require a fresh, unstarted target.
+Capturing a source with an active sampler does not copy that sampler or its RNG.
+A capture failure publishes job error metadata before waking the flow consumer.

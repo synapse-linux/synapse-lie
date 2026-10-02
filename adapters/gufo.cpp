@@ -339,7 +339,9 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
     return guarded(s->runtime,e,[&]{
         if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled before state description");
 #ifdef LIE_GUFO_STATE_ACCESS
-        if(s->stopped||s->sampling_started||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out))
+        /* Captures own only the completed token frontier, never sampler/RNG
+         * state. Restoring still requires a fresh unstarted destination. */
+        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out))
             return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
         return LIE_OK;
 #else

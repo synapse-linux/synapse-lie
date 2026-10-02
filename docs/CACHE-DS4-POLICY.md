@@ -95,9 +95,16 @@ text and trailer; hit/use bytes 8..23 are zeroed when hashing. An SSD hit update
 only those 16 advisory bytes, avoiding a full tensor rehash. A process restart
 retains completed updates; individual hit updates are not fsynced and do not
 promise power-loss atomicity. Payload commits retain file/rename/directory fsync.
-Failed extension replacement preserves the previously committed file.
+Failed extension replacement preserves the previously committed file. The
+native index retains one metadata record per physical checkpoint; a new
+text/trailer/key kind replaces that record. Key-kind checks also apply to
+token lookup, so a physical match cannot bypass visible-key separation.
 
 ## Qualification and remaining parity
+
+The state benchmark also supports RAM-only `--capture-decode 1..256` to
+compare completed generated frontiers with independently replayed greedy
+references. Request sampler/RNG state remains fresh after restore.
 
 CPU evidence under persistent `evidence/ds4-policy-*` includes the complete
 33-test ASan/UBSan/LeakSanitizer suite, optional-feature OFF core suite, 81-entry

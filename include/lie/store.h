@@ -49,6 +49,7 @@ int lie_store_fd(const lie_store *);
 /* Single producer (core owner), one admitted operation including completed
  * results. Zero means busy/refused; no unbounded queue or disk access here. */
 uint64_t lie_store_read(lie_store *,const int32_t *,size_t,uint32_t chunk);
+uint64_t lie_store_read_key(lie_store *,const int32_t *,size_t,uint32_t chunk,uint32_t flags);
 bool lie_store_can_write(lie_store *,uint64_t retained_bytes);
 bool lie_store_write(lie_store *,lie_state *);
 bool lie_store_write_ex(lie_store *,lie_state *,const lie_cache_metadata *);

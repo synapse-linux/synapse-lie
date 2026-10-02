@@ -81,4 +81,6 @@ def run(binary, enabled, policy='legacy'):
 if __name__ == '__main__':
     run(sys.argv[1], True)
     run(sys.argv[1], False)
-    run(sys.argv[1], True, 'ds4')
+    info=json.loads(subprocess.check_output([sys.argv[1], '--build-info'],text=True,timeout=5))
+    if info['ds4_cache_policy']:
+        run(sys.argv[1], True, 'ds4')

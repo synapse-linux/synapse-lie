@@ -59,6 +59,7 @@ lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *d,lie_error *e
     if (s->m->mode==4) { snprintf(e->message,sizeof(e->message),"synthetic mutating failure; no retry"); return LIE_BACKEND_FAILED; }
     if (s->m->mode==1 && s->step==7) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
     *d=(lie_decode_result){.token=(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
+    s->prompt[s->position-1]=d->token;
     if (s->m->mode==5) ++d->position;
     return LIE_OK;
 }
@@ -94,9 +95,10 @@ lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outco
 int lie_backend_prefix_state_supported(void){return 1;}
 lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
     (void)e;if(atomic_load(&s->cancelled))return LIE_CANCELLED;
-    if(s->step||(from?(s->position||from->domain!=s->m->domain):!s->position))return LIE_INVALID;
+    if(from?(s->position||s->step||from->domain!=s->m->domain):!s->position)return LIE_INVALID;
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=2,.domain=s->m->domain,
         .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->m->chunk};
+    out->model_data[0]=from?from->model_data[0]:s->step;
     uint64_t shape=out->token_count;if(!lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape))return LIE_INVALID;
     shape=256;return lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape)?LIE_OK:LIE_INVALID;
 }
@@ -109,7 +111,7 @@ lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,voi
 lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *p,size_t n,lie_error *e){
     (void)e;uint64_t bytes;if(!lie_state_validate(l,&bytes)||bytes!=n||s->position)return LIE_INVALID;
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
-    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;return LIE_OK;
+    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;s->step=l->model_data[0];return LIE_OK;
 }
 
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){

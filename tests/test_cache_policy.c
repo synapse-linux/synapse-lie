@@ -151,6 +151,15 @@ int main(void){
             lie_core_stop(core);wait_core(core,LIE_STOPPED);lie_core_destroy(core);
         }
         fake_tokenizer_merge(false);clean(path);
+        /* Identical physical tokens cannot bypass a visible-key-kind miss. */
+        o.ssd=(lie_store_options){0};core=lie_core_create(&o);assert(core);wait_core(core,LIE_READY);
+        for(unsigned k=0;k<3;++k){
+            lie_core_request_init(&request);request.kind=LIE_INPUT_TEXT;request.text="abcd";request.text_bytes=4;request.max_tokens=4;
+            request.cache=(lie_cache_metadata){.text="abcd",.text_bytes=4,.flags=k?LIE_CACHE_THINKING_VISIBLE:LIE_CACHE_RESPONSES_VISIBLE};
+            job=NULL;assert(!lie_core_submit(core,&request,&job));drain(job);
+            lie_job_info ji;lie_job_snapshot(job,&ji);assert(ji.cached_tokens==(k==2?4u:0u));lie_job_release(job);
+        }
+        lie_core_stop(core);wait_core(core,LIE_STOPPED);lie_core_destroy(core);
     }
     assert(!rmdir(base));puts("DS4 policy formulas, persistent utility, dynamic index, text keys, trailers, quota and progressive captures: PASS (NOT-INFERENCE)");return 0;
 }

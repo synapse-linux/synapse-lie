@@ -476,3 +476,10 @@ five unchanged model stat witnesses, CPU47.375/GPU46 C. The first read-only
 helper attempt had a Python quoting error and performed no remote action; its
 exit is retained. No model was launched by these observations. Every ensuing
 arm requires fresh admission; no interleaving, remote build or model conversion.
+
+R8 stages at 14:01:18 UTC from `80b6273`. Its first three arms pass; the fourth
+finds the retained adapter pre-generation capture restriction. Campaign closure
+14:06:00.539460 UTC verifies eight owned identities absent, KFD empty and four
+unchanged/free leases. Observer retires at 14:06:16.094468 UTC, SSH exit 0, 269 samples.
+All 49 collected files verify. Root informs Q2 and retains the window for the
+local repair and R9 with a dedicated generated-frontier qualification.

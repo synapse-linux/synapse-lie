@@ -203,7 +203,7 @@ static lie_state *read_state(lie_store *s){
             if(n>ceiling||(n==ceiling&&i>=prior))continue;
             bool match=false;
             if(s->text)match=(e->metadata.flags&6u)==(s->key_flags&6u)&&n&&n<=s->text_bytes&&!memcmp(e->metadata.text,s->text,(size_t)n);
-            else if(e->tokens<=s->count&&(e->tokens==s->count||e->tokens%s->chunk==0)){
+            else if((e->metadata.flags&6u)==(s->key_flags&6u)&&e->tokens<=s->count&&(e->tokens==s->count||e->tokens%s->chunk==0)){
                 char name[69]={0};if(lie_state_prefix_key(&s->identity,s->tokens,e->tokens,name)){
                     memcpy(name+64,".lie",5);match=!strcmp(e->name,name);}}
             if(match&&(best==s->capacity||n>length||(n==length&&i>best))){best=i;length=n;}
@@ -294,16 +294,19 @@ static void admitted(lie_store *s,uint64_t bytes,bool read){
     if(bytes>s->info.peak_staging_bytes)s->info.peak_staging_bytes=bytes;
     pthread_cond_signal(&s->ready);
 }
-uint64_t lie_store_read(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk){
-    if(!s||!tokens||!n||n>UINT32_MAX||!chunk||n>SIZE_MAX/sizeof(*tokens))return 0;
+uint64_t lie_store_read_key(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk,uint32_t flags){
+    if(!s||!tokens||!n||n>UINT32_MAX||!chunk||n>SIZE_MAX/sizeof(*tokens)||(flags&~15u))return 0;
     pthread_mutex_lock(&s->gate);uint64_t ticket=0;
     if(!s->stop&&!s->busy&&n*sizeof(*tokens)<s->info.staging_budget_bytes){
         s->tokens=malloc(n*sizeof(*tokens));
-        if(s->tokens){memcpy(s->tokens,tokens,n*sizeof(*tokens));s->count=n;s->chunk=chunk;
+        if(s->tokens){memcpy(s->tokens,tokens,n*sizeof(*tokens));s->count=n;s->chunk=chunk;s->key_flags=flags;
             /* Reserve the entire staging cap before asynchronous allocation. */
             admitted(s,s->info.staging_budget_bytes,true);++s->info.lookups;ticket=s->ticket;}
     }
     pthread_mutex_unlock(&s->gate);return ticket;
+}
+uint64_t lie_store_read(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk){
+    return lie_store_read_key(s,tokens,n,chunk,0);
 }
 uint64_t lie_store_read_text_key(lie_store *s,const char *text,size_t n,uint32_t chunk,uint32_t flags){
     if(!s||!text||!n||n>LIE_CACHE_TEXT_MAX||!chunk||(flags&~15u))return 0;
