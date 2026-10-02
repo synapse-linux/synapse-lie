@@ -48,3 +48,10 @@ remain applicable; prepared synthetic replay fixtures are first-party MIT.
 GPU operator, exact full-model replay and fresh Q2/UD performance evidence
 are explicit in `docs/Q2-PACKED-ACTIVATIONS.md`. This does not promote the
 experimental patch into the qualified runtime or replace its provenance.
+
+`experiments/q2-hc-up-fused.patch` adapts the same official Gufo HC WMMA mixer
+to original F16 weights and F32 normalized streams. The numerical work and
+independent synthetic fixtures are first-party MIT; existing upstream notices
+remain intact. The prepared source reconstructs exactly from this workstream's
+packed checkpoint. No antirez engine, DS4 source or KV codec is imported.
+Runtime qualification is explicitly pending in `docs/Q2-HC-UP-FUSION.md`.

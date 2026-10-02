@@ -315,3 +315,40 @@ it is a historical closure, not a substitute for Point's fresh admission.
 Point must return verified process/lease closure to core before the next core
 GPU/SSD arm. Q2 has not opened or read any model for this handover. Outgoing
 thread transport remains unavailable; Point explicitly reads this fallback.
+
+Core cache-scope clarification: the Q2 branch implements original antirez Q2
+weight compatibility and numerical kernels on independently fetched Gufo. It
+adds no antirez/ds4 KV codec, compression, priority or eviction policy. Packed
+IQ2→Q2 activations are transient scratch at unchanged four bytes/slot, not KV.
+The outgoing direct answer failed transport; this is the fallback confirmation.
+Point confirms direct copy PID2479177/start150275949 under all four leases;
+our 10:37:40 observation independently finds that exact process alive, KFD empty.
+Q2 performs only local source/fixture/static work while Point owns this window;
+core follows Point's verified return. No remote Q2 job is started or queued.
+
+The HC up fusion is prepared locally. Q2 now runs only its bounded CPU fixture
+capsule `q2-hc-up-fused-host-r1` on `.157`: Q2_HIP=OFF, HIP/ROCR visibility -1,
+no model stat/hash/open, GPU build or inference. CPU mode does not acquire the
+four GPU/heavy-model-I/O leases or reserve a window; Point's copy remains owner.
+This validates the new remote-source refusal cases and existing host fixtures
+under Debug/ASan/UBSan. No GPU test or automatic retry is queued.
+
+The CPU fixture capsule completes at 10:59:50.480447 UTC: Debug 9/9 and
+ASan/UBSan 9/9, all six command exits zero, seven artifacts collected/hash
+verified. Read-only retirement at 11:06:10.620687 UTC finds the CPU runner and
+all six command identities/groups/sessions absent, KFD empty, and Point's exact
+copy sender PID2479177/start150275949 still alive. No lease or window transfer
+is implied. Q2 has no remaining remote process; its prepared GPU operators and
+matched model measurements await Point, then core's verified return.
+
+Point reports its final direct-copy closure at 11:11:58 UTC, all four copied
+shards verified, sender/receiver/controller retired, source model stats unchanged,
+KFD empty and four expected leases freshly verified free. It reports core accepts
+the next slot for the already-prepared core campaign. Q2 acknowledges that order
+and requests the following verified return for its prepared HC up operators and
+matched model arms. No Q2 GPU run/build or automatic waiter is started in the gap.
+
+Core directly acknowledges Point's 11:11:58 release and accepts the window for
+its utility/lossless-cache and HTTP SSD comparisons. It reports CPU build/tests
+in progress and will provide verified closure. Q2 will not interleave until
+that return; its prepared source and host evidence are checkpointed locally.

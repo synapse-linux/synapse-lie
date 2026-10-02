@@ -1,0 +1,15 @@
+{
+  "status": "PREPARED_HOST_PASS_GPU_PENDING",
+  "goal": "Q2 PP/TG must match UD; the prepared HC up fusion does not establish a speedup or parity.",
+  "baseline_commit": "8dc2752",
+  "baseline_source": ".deps/gufo-q2-bench-packed",
+  "candidate_source": ".deps/gufo-q2-bench-hc-up-fused",
+  "patch": "experiments/q2-hc-up-fused.patch",
+  "mechanism": "Fuse original raw F16 HC up projection and F32 mix with rounded half output; retain original separate F32 inject arithmetic, reuse dead gate storage for low-rank half input. A smaller 128x64 tile bounds register pressure.",
+  "gpu_operator_cases": 7,
+  "model_protocol": "C1 pp2048/tg128, one warmup and three measured fresh sessions, 15 s idle outside timing, full MMQ rebuilds. Compare all 21 saved model buffers against packed baseline; earlier qualified-Q2 drift remains separate.",
+  "numerical_policy": "Preserve every numerical mismatch and actual exit. Arithmetic-preserving replay is the candidate contract; owner-authorized performance exploration can proceed after memory/launch safety checks, without promotion or relabeling failures.",
+  "static": "Current fused tile 181 VGPR, 0 private bytes, 18432 LDS bytes. First 256x128 tile 256 VGPR and 492 private bytes retained. Static metadata is not a speed measurement.",
+  "cpu_host_receipt": "config/q2-hc-up-fused-host.json",
+  "gpu_ownership": "Point reports verified release at11:11:58UTC; core directly accepts the next window for its cache/HTTP campaign. Q2 awaits core verified return, with no GPU job or automatic waiter. Each later arm requires fresh four-lease admission and 98C inclusive guard, or lower exposed strict hardware limit."
+}

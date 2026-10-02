@@ -41,6 +41,11 @@ Q2 references. Fresh UD also replays all 21 retained model buffers exactly.
 include prefill/decode rates and durations. The current baseline profile points
 to remaining HC projection/epilogue and activation-conversion costs.
 
+The next [raw-F16 HC up/mix fusion](docs/Q2-HC-UP-FUSION.md) is prepared.
+It keeps F32 normalized streams, removes the intermediate gate write/read and
+emits the existing half input in the producer. Static compilation and `.157`
+host/sanitizer fixtures pass; GPU correctness and performance remain pending.
+
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
 - [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)

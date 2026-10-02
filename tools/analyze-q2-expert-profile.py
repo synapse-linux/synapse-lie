@@ -43,6 +43,8 @@ def category(name):
         return 'hc_up_f16_wmma'
     if 'W8A8BlockedWmmaGEMMKernel<64, 128, 4, 2, 4, true>' in name:
         return 'hc_down_q8_wmma'
+    if 'DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>' in name:
+        return 'hc_up_f16_fused'
     if 'DenseF16GEMMKernel<256, 128, 1, 4, 2, 8, true,' in name:
         return 'hc_up_q8_fused'
     if 'HcDownF16VecKernel' in name:

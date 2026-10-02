@@ -133,3 +133,15 @@ target_include_directories(q2_packed PRIVATE "${GUFO_SOURCE}" "${CMAKE_CURRENT_B
 target_include_directories(q2_packed SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_packed PRIVATE hip::host)
+
+# Original F16 HC up projection fused with the F32 mixer and half output.
+add_executable(q2_hc_up_fused EXCLUDE_FROM_ALL ../../tests/q2_hc_up_fused.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
+target_compile_options(q2_hc_up_fused PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_up_fused PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_up_fused PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_up_fused SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_up_fused PRIVATE hip::host)

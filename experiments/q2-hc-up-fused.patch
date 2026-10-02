@@ -1,0 +1,181 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1134,6 +1134,14 @@
+       c.hidden_size == 2560 && c.hc_low_rank == 320 &&
+       m.up.type == GgmlType::kQ8_0 && m.up.rows == c.HcDim() &&
+       m.up.cols == c.hc_low_rank;
++  const bool fused_raw_projection =
++      !xn_half_ && n_tokens >= 96 && extras && c.hc_count == 4 &&
++      c.hidden_size == 2560 && c.hc_low_rank == 320 &&
++      m.down.type == GgmlType::kF16 && m.down.rows == c.hc_low_rank &&
++      m.down.cols == c.HcDim() && m.up.type == GgmlType::kF16 &&
++      m.up.rows == c.HcDim() && m.up.cols == c.hc_low_rank &&
++      (inject == nullptr || m.inject.empty() ||
++       m.inject.type == GgmlType::kF32);
+   if (fused_projection) {
+     // The up projection writes x_half; keep its input in the gate buffer.
+     if (!HcDownF16Gemm(m.down.data, s_.xn_q8t,
+@@ -1154,7 +1162,13 @@
+     }
+     SiluScale(s_.lo, 1.0F / static_cast<float>(c.hc_count),
+               static_cast<std::size_t>(n_tokens) * c.hc_low_rank, stream_);
+-    if (!Dense(m.up, s_.lo, s_.hc_gate, n_tokens, error_msg)) {
++    if (fused_raw_projection) {
++      // The full gate tensor is dead on this route. Its prefix holds the
++      // same narrowed low-rank rows that the separate up GEMM would read.
++      NarrowActivations(s_.lo, s_.hc_gate, false,
++                        static_cast<std::size_t>(n_tokens) * c.hc_low_rank,
++                        stream_);
++    } else if (!Dense(m.up, s_.lo, s_.hc_gate, n_tokens, error_msg)) {
+       return false;
+     }
+   }
+@@ -1195,6 +1209,18 @@
+       q8t_rows_ = n_tokens;
+       q8t_cols_ = c.hidden_size;
+     }
++  } else if (fused_raw_projection) {
++    if (!HcMixRawF16Gemm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
++                         xn, fused_inject ? m.inject.f32() : nullptr, mixed,
++                         static_cast<__half*>(s_.x_half), inject, n_tokens,
++                         c.hidden_size, c.hc_low_rank, stream_)) {
++      AssignError(error_msg, "fused raw F16 HC projection failed");
++      return false;
++    }
++    half_src_ = mixed;
++    half_rows_ = n_tokens;
++    half_cols_ = c.hidden_size;
++    half_bf16_ = false;
+   } else if (vectorized) {
+     HcMixEpilogueVec4(xn, s_.hc_gate, fused_inject ? m.inject.f32() : nullptr,
+                       mixed, inject, n_tokens, c.hidden_size, c.hc_count,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -228,7 +228,7 @@
+   return float4{lo.x, lo.y, hi.x, hi.y};
+ }
+ 
+-template<typename XnT>
++template<typename XnT, bool kMix = true>
+ __global__ void HcMixEpilogueVec4Kernel(const XnT* xn, const float* gate,
+                                         const float* inject_w, float* mixed,
+                                         float* inject, std::uint32_t hidden) {
+@@ -243,7 +243,7 @@
+   for (std::uint32_t s = 0; s < kStreams; ++s) {
+     const std::size_t idx = static_cast<std::size_t>(s) * hidden + i;
+     v[s] = i < hidden ? Load4(x + idx) : float4{0.0F, 0.0F, 0.0F, 0.0F};
+-    if (i < hidden) {
++    if (kMix && i < hidden) {
+       const float4 g = *reinterpret_cast<const float4*>(
+           gate + static_cast<std::size_t>(t) * hc_dim + idx);
+       acc.x += v[s].x * SigmoidF(g.x);
+@@ -252,7 +252,7 @@
+       acc.w += v[s].w * SigmoidF(g.w);
+     }
+   }
+-  if (i < hidden) {
++  if (kMix && i < hidden) {
+     constexpr float kInvStreams = 1.0F / static_cast<float>(kStreams);
+     acc.x *= kInvStreams;
+     acc.y *= kInvStreams;
+@@ -5136,9 +5136,10 @@
+ __launch_bounds__(256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+     float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
+-    const __half* xn = nullptr, __half* mixed_half = nullptr,
+-    void* mixed_q8 = nullptr, const float* conv_w = nullptr,
+-    float* conv_out = nullptr, AttentionProjectionOutput attention = {}) {
++    const std::conditional_t<kHalfWeights, float, __half>* xn = nullptr,
++    __half* mixed_half = nullptr, void* mixed_q8 = nullptr,
++    const float* conv_w = nullptr, float* conv_out = nullptr,
++    AttentionProjectionOutput attention = {}) {
+   static_assert(WM * WN == 8, "256 threads is 8 waves");
+   static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
+   constexpr int kRowTiles = BM / 16;
+@@ -5156,10 +5157,10 @@
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+   // stride) covers all bank groups.
+   constexpr int kLdsChunks = BK * (BM + BN) * 4;
+-  static_assert(kLdsChunks * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
+   constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
+   constexpr int kLdsStorage =
+       kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
++  static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
+   __shared__ __attribute__((aligned(16))) uint4 s_lds[kLdsStorage];
+   auto* s_a = reinterpret_cast<uint4(*)[BM][4]>(s_lds);
+   auto* s_b = reinterpret_cast<uint4(*)[BN][4]>(s_lds + (BK * BM * 4));
+@@ -5464,7 +5465,8 @@
+   }
+ 
+   if constexpr (kHcMix) {
+-    static_assert(BM == 256 && BN == 128 && BK == 1 && WM == 4 && WN == 2);
++    static_assert((BM == 128 || BM == 256) && (BN == 64 || BN == 128) &&
++                  BK == 1 && WM == 4 && WN == 2);
+     constexpr unsigned kHiddenTile = BM / 4;
+     constexpr unsigned kStreamStride = kHiddenTile + 1;
+     constexpr unsigned kPlane = 16 * kStreamStride;
+@@ -5495,7 +5497,9 @@
+         const std::size_t token =
+             t_block + (token_group * kWaveTokTiles + j) * 16 + token_in_tile;
+         const std::size_t h = r_block / 4 + h_local;
+-        if (token < batch) {
++        // Smaller hidden tiles use only the lanes of 16 token rows.
++        // All threads still reach both surrounding block barriers.
++        if (token_in_tile < 16 && token < batch) {
+           float4 value{0.0F, 0.0F, 0.0F, 0.0F};
+ #pragma unroll
+           for (unsigned stream = 0; stream < 4; ++stream) {
+@@ -5710,6 +5714,34 @@
+   return true;
+ }
+ 
++bool HcMixRawF16Gemm(const void* up, const __half* low_rank, const float* xn,
++                     const float* inject_w, float* mixed, __half* mixed_half,
++                     float* inject, std::uint32_t n_tokens,
++                     std::uint32_t hidden, std::uint32_t rank,
++                     hipStream_t stream) {
++  if (n_tokens < 96 || hidden != 2560 || rank != 320 || up == nullptr ||
++      low_rank == nullptr || xn == nullptr || mixed == nullptr ||
++      (inject_w != nullptr && inject == nullptr)) {
++    return false;
++  }
++  // Original half weights and the existing F32 normalized streams. Interleave
++  // gate rows only in the fetch addresses; no persistent weight repacking.
++  const dim3 grid((n_tokens + 63) / 64, 4 * hidden / 128);
++  hipLaunchKernelGGL(
++      (DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>), grid,
++      dim3(kThreads), 0, stream, up, low_rank, mixed, n_tokens, 4 * hidden,
++      rank, xn, mixed_half, nullptr);
++  if (inject_w != nullptr) {
++    // Keep the original F32 inject products, partials and reduction order.
++    // This specialization omits only the gate read and mixed-row output.
++    hipLaunchKernelGGL((HcMixEpilogueVec4Kernel<float, false>),
++                       dim3(n_tokens, HcInjectPartsVec4(hidden)),
++                       dim3(kThreads), 0, stream, xn, nullptr, inject_w,
++                       nullptr, inject, hidden);
++  }
++  return true;
++}
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -177,6 +177,16 @@
+                       float theta, float eps, hipStream_t stream,
+                       const qwen::vision::DeviceRope* rope = nullptr);
+ 
++/// Fused original F16 up weights over F16 low rank and F32 normalized
++/// streams. Fixed hidden=2560, rank=320, n_tokens>=96; other shapes
++/// return false without a launch. Low rank must not overlap mixed_half.
++/// Mixed half rows are optional; inject keeps F32 partials.
++bool HcMixRawF16Gemm(const void* up, const __half* low_rank, const float* xn,
++                     const float* inject_w, float* mixed, __half* mixed_half,
++                     float* inject, std::uint32_t n_tokens,
++                     std::uint32_t hidden, std::uint32_t rank,
++                     hipStream_t stream);
++
+ /// Exact Q8_0 HC up projection and F16-input mixer for the Flash Next
+ /// 2560-hidden, rank-320 geometry. Returns false below 96 tokens or for other
+ /// shapes. low_rank must not overlap mixed_half; side outputs are optional.

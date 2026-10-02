@@ -304,3 +304,25 @@ all four expected leases freshly verified free at 10:29:49 UTC. No Q2 GPU job,
 waiter or automatic retry remains. The candidate stays isolated and the parity
 goal is **not met**. The coordinated next copy/core windows are recorded in
 COORDINATION.md; local reporting does not reserve `.157`.
+
+## HC up/mix fusion prepared — 2026-10-02
+
+The next isolated candidate adapts the official UD fused HC template to the
+original Q2 F16 up weights and unchanged F32 normalized streams. The gate
+buffer's unused prefix stores the same narrowed low-rank input; mixed F32/F16
+outputs share one projection epilogue, while inject preserves its F32 partials.
+No persistent allocation, weight conversion, KV policy or scalar decode change.
+
+The initial 256x128 tile shows 492 private bytes/work item. The prepared 128x64
+tile has zero private bytes, 181 VGPRs and 18,432 LDS bytes; this is compiler
+evidence only. All 1019 source files reconstruct exactly, official formatting
+passes 486 files, and device assembly/host syntax pass. Seven synthetic GPU
+cases, exact complete output replay and independent FP64 oracles are prepared.
+GPU correctness, full-model replay and PP/TG remain unmeasured for this candidate.
+
+The bounded `.157` CPU capsule completes at 10:59:50 UTC, all six commands zero,
+Debug 9/9 and ASan/UBSan 9/9, seven artifacts collected/hash verified. Point's
+copy retains the GPU/heavy-model-I/O window; CPU mode disables GPU visibility,
+opens no model and takes no GPU lease. Core follows Point's return. No new Q2
+GPU job or waiter is queued. See [Q2-HC-UP-FUSION.md](Q2-HC-UP-FUSION.md).
+The measured checkpoint remains 1250.45 PP/22.97 TG and parity is still unmet.

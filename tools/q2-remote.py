@@ -18,28 +18,30 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'packed-operators', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed'],
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--rebuild-mmq', action='store_true',
                    help='Recompile all MMQ sources for bench2k; no prior archive reuse')
     args = p.parse_args()
     if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k'):
         p.error('Full MMQ rebuild selection requires bench2k')
-    if args.mode == 'packed-operators' and args.source_variant != 'packed':
+    if args.mode == 'hc-up-operators' and args.source_variant != 'hc-up-fused':
+        p.error('Fused HC up operators require the isolated hc-up-fused source')
+    if args.mode == 'packed-operators' and args.source_variant not in ('packed', 'hc-up-fused'):
         p.error('Packed operators require the isolated packed source')
-    if args.mode == 'routed-operators' and args.source_variant not in ('stack', 'iq2-pair', 'packed'):
+    if args.mode == 'routed-operators' and args.source_variant not in ('stack', 'iq2-pair', 'packed', 'hc-up-fused'):
         p.error('Compensated routed operators require the isolated stack source')
-    if args.mode == 'iq2-pair-operators' and args.source_variant not in ('iq2-pair', 'packed'):
+    if args.mode == 'iq2-pair-operators' and args.source_variant not in ('iq2-pair', 'packed', 'hc-up-fused'):
         p.error('Paired IQ2 operators require the isolated IQ2 source')
-    if args.source_variant in ('stack', 'iq2-pair', 'packed') and args.mode not in ('iq2-pair-operators', 'routed-operators', 'packed-operators', 'operators', 'q2-bench', 'q2-bench2k', 'q2-profile'):
+    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused') and args.mode not in ('hc-up-operators', 'iq2-pair-operators', 'routed-operators', 'packed-operators', 'operators', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('Stack source requires routed checks or Q2 model measurements')
-    if args.source_variant in ('stack', 'iq2-pair', 'packed') and args.mode == 'q2-bench2k' and not args.rebuild_mmq:
+    if args.source_variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused') and args.mode == 'q2-bench2k' and not args.rebuild_mmq:
         p.error('Stack changes executor/header; explicitly rebuild MMQ')
     if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed') and args.mode != 'q2-bench':
+    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused') and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
