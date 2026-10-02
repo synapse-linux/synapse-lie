@@ -2,6 +2,34 @@
 
 ## Additional target .161 — Strix Point fork
 
+The latest operator instruction explicitly selects **copying** the existing
+original UD shards from .157 to .161, retaining every source file unchanged.
+Do not fall back to Internet downloading. WAN R3 was deliberately stopped
+through its verified supervisor pidfd at 10:27:42 UTC, child exit -15,
+supervisor exit1, llama restored and lease released; the verified first shard
+and 31584485376-byte second-shard partial are preserved and fsynced.
+
+Q2's packed window release at 10:29:49 UTC records all owned processes retired,
+empty KFD and four unchanged/free leases. Core explicitly yields the next slot
+to this copy and waits for its verified closure. `strix-point-ud-copy-direct-r1`
+started at 10:36:05 UTC: source controller2479176, sender2479177/start150275949,
+outbound SSH2479178; receiver4509/start304908 on .161. All four established
+source leases are held EX|NB with start/end registration and thermal/client
+guards; the receiver separately holds the private .161 lease and stop/restore
+grant. The sender uses read-only/O_NOATIME source FDs, retains source stat
+identities, and sends only missing suffixes. The destination rehashes its saved
+prefix and verifies every completed shard against the pinned official SHA-256.
+
+Payload bytes flow directly between the two remote hosts. A temporary local
+SSH agent is constrained to the initial .157 login and the .157-to-pop@.161
+hop, with finite key lifetime and owned-process cleanup. The private key is
+never copied to either server; no global SSH configuration or authorized_keys
+file changes. Host trust uses the already-known public host keys in a private
+run file, with strict host-key checking. Both source and target use persistent
+exclusive LIE directories. The copy has a four-hour bound, preserves incomplete
+destination bytes on failure, and must publish verified retirement before core
+or Q2 can enter. The historical WAN/relay records below remain evidence only.
+
 The operator subsequently explicitly authorized stopping llama:
 `llama si può stoppaare`. This grants the previously proposed temporary
 `llama-router.service` stop/restore for the .161 diagnostic, pinned UD staging

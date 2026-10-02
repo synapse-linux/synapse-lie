@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""One admitted read-only .157 -> .161 UD transfer over two controller SSH pipes."""
+"""One admitted read-only .157 -> .161 UD copy over supervised byte streams."""
 import datetime,fcntl,hashlib,importlib.util,json,os,signal,stat,sys,threading,time
 from pathlib import Path
 
@@ -78,7 +78,8 @@ def main():
   else:
    assert root.parent==point.BASE
    campaign=point.Campaign(root,m); campaign.enter(); sample=campaign.sample
-  deadline=time.monotonic()+1800
+  # Wi-Fi throughput varies; retain a bound without assuming wired LAN speeds.
+  deadline=time.monotonic()+14400
   def watch():
    try:
     while not stop.wait(1):

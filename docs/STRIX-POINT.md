@@ -174,6 +174,39 @@ source/artifact identity, 85 C temperature limit and service restoration in clea
 Neither helper uses .157/.158 resources or treats a private lock as other owners'
 agreement; .161 admission derives from the operator's scoped handover.
 
+### Direct copy of existing original weights — started 10:36 UTC
+
+The operator explicitly selected copying the existing .157 weights, with all
+source files retained unchanged. WAN R3 retired cleanly at 10:27:42 UTC after
+the intentional signal (child -15, supervisor1, llama restored, lease released).
+Its verified first shard and 31584485376-byte second-shard partial were fsynced.
+No Internet fallback is scheduled.
+
+[`strix-point-copy-direct.py`](../tools/strix-point-copy-direct.py) stages the
+private controls and runs the sender/controller on .157; model data goes over
+one direct SSH connection to .161. Existing local authentication is exposed
+only through a temporary SSH agent constrained to these two hops, with a finite
+lifetime and cleanup. The private key stays on the editing host, public host
+keys are pinned from its existing trust file, and no global SSH configuration
+or authorized_keys file is changed. Neither model nor project source is staged
+under `/tmp`.
+
+The shared copy helper keeps four established .157 leases, source identities,
+read-only/O_NOATIME access and registered start/end events. On .161 it retains
+the service stop/restore grant and private lease. It hashes the preserved prefix,
+appends the exact remaining bytes and only publishes a shard after complete
+SHA-256 agreement. All four shards must verify before `SOURCE.json` exists.
+The new four-hour bound permits slower Wi-Fi without assuming wired throughput.
+The source files are never moved, renamed or removed. The local six tiny
+integrity fixtures and focused CTest 4/4 pass, including the core contract under
+ASan/UBSan.
+
+The current run is `strix-point-ud-copy-direct-r1`, admitted after Q2's
+10:29:49 release and core's explicit handover. Its 10:38:25 progress snapshot
+is36.94 GB of111.33 GB; this is not completed staging or model inference.
+Core and Q2 wait for the copy's verified closure before their next source-host
+window. Historical WAN and slower relay outcomes below remain preserved.
+
 ### TTM96 applied and verified — 09:47 UTC
 
 The operator authorized the concrete TTM96/initramfs/reboot proposal with

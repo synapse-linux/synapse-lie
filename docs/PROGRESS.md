@@ -2,6 +2,17 @@
 
 ## Strix Point fork — 2026-10-02
 
+The latest operator instruction replaces WAN download with a **copy** of the
+existing official .157 UD shards, keeping the source intact. WAN R3 retired at
+10:27:42 UTC; its verified first shard and 31.584 GB second-shard partial are
+retained. After Q2's release and core's handover, the direct .157-to-.161 copy
+started at 10:36:05 under both hosts' admitted leases. The source controller
+streams to the destination directly, using a temporary destination-constrained
+SSH agent; model bytes do not pass through the editing host, and no remote SSH
+account configuration changes. At 10:38:25 UTC, 36.94 of 111.33 GB is staged.
+Full destination SHA-256 verification, source stat checks and verified closure
+are required before declaring this copy complete. No WAN fallback is scheduled.
+
 Operator-authorized TTM tuning **passes** on .161: after reboot, actual HIP
 reports 103079215104 bytes (96 GiB), up from 61.72 GiB. HIP allocation/copies
 and rocBLAS SGEMM pass, child/supervisor exit 0, owned container retired and
