@@ -227,5 +227,16 @@ class Tests(unittest.TestCase):
         argv = execute.call_args.args[0]
         self.assertIn('seccomp=unconfined', argv)
         self.assertNotIn('dst=/opt/rocm,readonly', argv)
+    def test_diagnostic_retains_hip_failure(self):
+        c = self.campaign()
+        c.m.update(stack='rocm10-fedora43', bundle=str(self.base))
+        def run(*_args):
+            (c.root/'stdout.log').write_text(json.dumps({
+                'scope': 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL',
+                'steps': [{'step': 'copy_pageable_h2d_32', 'code': 1,
+                           'name': 'hipErrorInvalidValue'}]}))
+        with patch.object(c, 'run_container', side_effect=run):
+            with self.assertRaisesRegex(RuntimeError, 'HIP errors'): c.diagnostic()
+        self.assertEqual(c.r['diagnostic']['steps'][0]['name'], 'hipErrorInvalidValue')
 
 if __name__ == '__main__': unittest.main()

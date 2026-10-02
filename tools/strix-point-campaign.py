@@ -253,6 +253,8 @@ class Campaign:
             raise ValueError('Seccomp override is explicit and ROCm 10 only')
         if relaxed_seccomp:
             argv += ['--security-opt', 'seccomp=unconfined']
+        if self.m.get('action') == 'diagnostic':
+            argv += ['--env', 'LIE_GPU_DIAGNOSTIC_WINDOW=admitted']
         if rocm: argv += ['--mount', 'type=bind,src='+rocm+',dst=/opt/rocm,readonly']
         if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']
         argv += ['--entrypoint', command[0], image, *command[1:]]
@@ -288,6 +290,18 @@ class Campaign:
             raise RuntimeError('Incomplete ROCm 10 build receipt')
         self.r['build_result'] = result
         self.record()
+    def diagnostic(self):
+        if self.m.get('stack') != 'rocm10-fedora43':
+            raise ValueError('Diagnostic requires the ROCm 10 image')
+        self.run_container(['/usr/bin/python3', '-B', '/bundle/runtime/hip-diag.py'],
+                           self.m['bundle'], 60)
+        result = json.loads((self.root/'stdout.log').read_text())
+        if result.get('scope') != 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL' or not isinstance(result.get('steps'), list):
+            raise RuntimeError('Malformed GPU diagnostic result')
+        self.r['diagnostic'] = result
+        self.record()
+        if any(step['code'] != 0 for step in result['steps']):
+            raise RuntimeError('GPU diagnostic reported HIP errors')
     def download(self):
         if sha(self.root/'download.py') != self.m['download_sha256']: raise RuntimeError('Download helper drift')
         env = dict(os.environ, LIE_ADMITTED_RUN=str(self.root), LC_ALL='C', ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
@@ -432,7 +446,7 @@ def main():
     if os.getuid() != 1000 or os.environ.get('SSH_CONNECTION', '').split()[2:3] != ['192.168.5.161']:
         raise SystemExit('Expected pop@192.168.5.161 SSH target')
     m = json.loads((root/'manifest.json').read_text())
-    if m.get('action') not in ('probe', 'download', 'core', 'bench', 'build'): raise SystemExit('Unsupported campaign action')
+    if m.get('action') not in ('probe', 'download', 'core', 'bench', 'build', 'diagnostic'): raise SystemExit('Unsupported campaign action')
     if m['authorization'] != {'kind': 'operator-one-shot-window', 'service': SERVICE,
                               'stop_restore_authorized': True, 'quote': 'llama si può stoppaare'}:
         raise SystemExit('Explicit scoped operator handover required')
@@ -450,6 +464,7 @@ def main():
         elif m['action'] == 'core': c.core()
         elif m['action'] == 'bench': c.bench()
         elif m['action'] == 'build': c.build()
+        elif m['action'] == 'diagnostic': c.diagnostic()
         else: raise ValueError('Unsupported campaign action')
         c.r.update(state='PASSED', exit_code=0)
     except BaseException as ex:
