@@ -174,7 +174,73 @@ source/artifact identity, 85 C temperature limit and service restoration in clea
 Neither helper uses .157/.158 resources or treats a private lock as other owners'
 agreement; .161 admission derives from the operator's scoped handover.
 
-### UD transfer and memory finding — 09:15 UTC snapshot
+### TTM96 applied and verified — 09:47 UTC
+
+The operator authorized the concrete TTM96/initramfs/reboot proposal with
+`procedi con il tuning`. The owned WAN downloader was deliberately interrupted
+through its verified pidfd; child exit -15 and supervisor exit 1 are retained,
+with successful llama restoration and lease release. Its verified first shard
+and 17129537536-byte second-shard partial were fsynced before reboot.
+
+Only `/etc/modprobe.d/90-synapse-lie-ttm.conf` was added, root-owned mode0644,
+with the exact [tracked configuration](../config/strix-point-ttm96.conf).
+The current kernel `6.16.3-76061603-generic` initramfs was backed up, rebuilt
+(exit 0), checked for the new config, and confirmed as the GRUB default boot
+entry. Kernelstub's live-mode warning was retained; GRUB uses the updated file.
+The reboot command exited 0; its SSH connection closed with exit255, followed
+by a verified new boot ID. No clocks, fan controls, power limits or page-pool
+override were changed.
+
+| Observation | Before | After reboot |
+|---|---:|---:|
+| TTM pages limit (4096 B/page) | 16179861 | 25165824 |
+| GTT and actual HIP total, bytes | 66272710656 | 103079215104 |
+| GTT and actual HIP total, GiB | 61.72 | 96.00 |
+| HIP free before diagnostic, bytes | 66079281152 | 102919798784 |
+
+`strix-point-gpu-probe-ttm96-r1` passes actual HIP allocation/copies and the four
+rocBLAS SGEMM output checks, child/supervisor exit 0; the container retires,
+llama is restored active, and the private lease is released at 09:46:29 UTC.
+Its explicit allocation is only 48 bytes: it verifies the runtime and reported
+limit, **not** a 96 GiB allocation or original-weight model fit. GPU card numbering
+changed across reboot, so campaign telemetry now follows the admitted
+`renderD128` node rather than assuming `card1` exists.
+
+The boot also reports COSMIC `Backend initialized without output`: no connected
+display is detected; greeter retries exhaust the start limit of it and
+`gpu-manager`. The latter's actual detection commands previously exited 0.
+The kernel additionally reports an amdxdna NPU firmware-protocol mismatch.
+These observations are retained separately from the successful HIP compute
+test; their causal relationship to TTM is not established. No display/NPU
+configuration or package was changed to hide them.
+
+Backup and rollback are persistent under
+`/home/pop/workspace/synapse-lie/strix-point-ttm96-r1/`: `initramfs.before.img`,
+`prepare-result.json` and `rollback.py`. In an admitted maintenance window,
+`sudo -n python3 /home/pop/workspace/synapse-lie/strix-point-ttm96-r1/rollback.py`
+checks and removes only this exact owned config and rebuilds the same kernel's
+initramfs; a subsequent reboot is required. The original initramfs SHA-256 is
+recorded if recovery from the backup is necessary. Rebuilding later kernels or
+reapplying this host-specific configuration requires their own verification.
+
+The [tuning receipt](benchmarks/2026-10-02/strix-point/ttm96-receipt.json)
+binds the configuration, administrative scripts, before/after identities,
+actual probe result, thermal observations and test exits. Raw evidence and
+the initramfs backup remain in the persistent run directories.
+
+After a separate root/Q2 handover, a read-only .157-to-.161 copy held all four
+established source leases (09:52:28–09:57:00 UTC). The relay crossed Wi-Fi at
+each machine and transferred only about10 MB/s, so it was intentionally stopped
+to return .157 to Q2. Both exits1 and the receiver's truncated-payload result
+are retained. The source process is absent, KFD empty, all four unchanged leases
+free, and all original model stat identities unchanged. The .161 partial was
+preserved and llama restored. WAN R3 resumes from that prefix with complete
+SHA-256 verification and an eight-hour bound; its09:59 UTC snapshot is19.35 GB
+of111.33 GB, **not completed staging**. Source/destination temperature peaks
+and exact cleanup are included in the receipt. No original UD inference or
+PP/TG measurement follows from these transfer or runtime checks.
+
+### UD transfer and memory finding — historical 09:15 UTC snapshot
 
 The official first shard is downloaded and SHA-256 verified. Sequential R1 was
 intentionally interrupted to improve transfer throughput; its supervisor exit 1,
@@ -196,13 +262,12 @@ The real HIP probe reports total GPU memory **66272710656 bytes / 61.72 GiB**.
 The same UD's measured resident-weight estimate on Halo is **82384141824 bytes /
 76.73 GiB**, excluding session/scratch state. This predicts a capacity problem
 with the current limit; it is not an observed allocation failure on .161 yet.
-The kernel exposes TTM `pages_limit=16179861` with 4096-byte pages, matching the
-reported limit. A reviewed proposal, [96 GiB TTM configuration](../config/strix-point-ttm.conf.proposed),
+The kernel initially exposed TTM `pages_limit=16179861` with 4096-byte pages,
+matching the reported limit. The [96 GiB TTM configuration](../config/strix-point-ttm96.conf)
 uses 25165824 pages and leaves about 27.44 GiB of total system RAM outside that
-limit. It raises a maximum, not a reservation. It has **not** been applied and
-the machine has **not** been rebooted; explicit system-change consent is pending.
-The proposed procedure writes only a new owned modprobe file, updates the current
-kernel's initramfs and reboots in an agreed window. Rollback removes that owned
+limit. It raises a maximum, not a reservation. It was subsequently authorized
+and applied as documented above. The procedure writes only a new owned modprobe
+file, updates the current kernel's initramfs and reboots. Rollback removes that owned
 file, rebuilds the initramfs and reboots. AMD documents the
 [TTM limit and reboot requirement](https://rocm.docs.amd.com/en/docs-7.2.0/how-to/system-optimization/strixhalo.html);
 that Halo guidance alone does not qualify Point model fit.

@@ -51,9 +51,10 @@ grant, the real gfx1150 HIP allocation/copy/rocBLAS diagnostic passes and llama
 is restored. Original UD staging is in progress; model inference is still pending.
 The additional C17 HIP/rocBLAS diagnostic is compiled; its synthetic fault
 controls pass ASan/UBSan locally and on .161, and its no-device help path loads
-on the target. A pinned four-shard download is running with final SHA-256 checks.
-The observed HIP memory limit (61.72 GiB) is below the same UD's historical
-resident-weight estimate (76.73 GiB); a TTM increase is proposed, not applied.
+on the target. Pinned four-shard staging uses complete SHA-256 verification.
+The operator-authorized TTM change and reboot increased actual HIP memory from
+61.72 to **96 GiB**; the post-boot HIP/rocBLAS probe passes. This raises the
+allocation limit but does not yet qualify UD model fit or performance.
 See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

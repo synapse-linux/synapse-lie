@@ -11,7 +11,8 @@ and retain owned cleanup; restore the service if it was active before the window
 A persistent LIE campaign lock under `/home/pop/workspace/synapse-lie` serializes
 our own work, with PID/start and inode identity recorded. It is not evidence of
 adoption by other applications: the window derives from the operator handover.
-No .157/.158 lease or resource is used. Historical observations below are retained.
+The initial .161 phases used no .157/.158 resource. The later read-only .157
+copy window is separately recorded below; no .158 resource is used.
 
 `strix-point-gpu-probe-r2` completed at 08:52:45 UTC with real HIP/rocBLAS exit0,
 owned container removed, KFD empty before restoration, llama active again and
@@ -27,8 +28,37 @@ R2 verifies/resumes the partial in a bounded eight-range pipeline. Its cleanup
 must restore llama and release the lease on completion/error. A future LAN
 copy of original pinned weights was discussed with root/Q2/Spark; .157 is still
 owned by the root SSD campaign. No remote source access or payload copy from
-.157/.158 has been admitted. TTM modification/reboot consent is separately
-pending; the service-stop grant does not authorize system tuning.
+.157/.158 has been admitted.
+
+The operator subsequently answered `procedi con il tuning` to the concrete
+96 GiB TTM + current-kernel initramfs + reboot proposal. This authorizes that
+specific .161 maintenance operation, with backup/rollback, post-boot HIP
+verification and resumption of the preserved download. It does not authorize
+clock, fan, power, page-pool or other-host changes. R2 was deliberately retired
+through its verified supervisor pidfd at 09:38:50 UTC: child exit -15,
+supervisor exit 1, llama restored active, lease released, no cleanup failure.
+Its 17129537536-byte second-shard partial and verified first shard were fsynced
+before maintenance. The preparation receipt will retain the old boot identity,
+initramfs backup and exact new file identity; a written config alone is not
+evidence that HIP sees the requested memory limit. Maintenance completed:
+initramfs rebuild exit0, reboot command exit0/SSH255, new boot ID observed;
+the post-boot HIP/rocBLAS probe passes with total103079215104 bytes (96 GiB).
+Its own lease retired at 09:46:29 UTC and llama was restored.
+
+After root's SSD R4 release and Q2's explicit handover, the read-only source
+window `ud-copy-r1` ran on .157 from 09:52:28 to 09:57:00 UTC under all four
+established EX|NB leases, identity-checked and registered start/end. The source
+opened only the four official pinned trunk shards read-only/O_NOATIME; it did
+not import sibling project source or build artifacts. Sender PID2463485,
+start_ticks150014282, was deliberately retired through verified pidfd because
+the all-Wi-Fi SSH relay sustained only about10 MB/s. The .161 receiver retained
+the additional partial bytes, exited1 on EOF and restored llama at 09:57:01 UTC.
+Sender/controller exit1 and the interrupted result are preserved, not PASS.
+Postflight found the source process absent, KFD empty, all four model stat
+identities unchanged and all four unchanged leases reacquirable nonblocking.
+Q2 received the release message before its next slot. No Point job/waiter
+remains on .157. Only the independent .161 WAN resume R3 is active at09:59 UTC;
+its eight-hour deadline, thermal/client supervision and stop/restore rules apply.
 
 The owner requested the UD port and tests on `pop@192.168.5.161`; this fork owns
 only its `feature/strix-point-ud` work and persistent test directories under

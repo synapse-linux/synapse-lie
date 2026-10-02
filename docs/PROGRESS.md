@@ -2,13 +2,19 @@
 
 ## Strix Point fork — 2026-10-02
 
-Operator-authorized GPU diagnostic **passes** on .161: actual gfx1150 HIP
-allocation/copies and rocBLAS SGEMM, child/supervisor exit 0, owned container
-retired and llama restored. Initial KFD-retirement refusal is retained and the
-bounded wait is fixture-tested. Official UD download is in progress (about
-7.51 GB at 09:15 UTC); no model inference or performance result yet. Observed
-HIP capacity61.72 GiB is below the same UD's Halo resident estimate76.73 GiB;
-a 96 GiB TTM proposal is prepared but not authorized/applied. Core bench now
+Operator-authorized TTM tuning **passes** on .161: after reboot, actual HIP
+reports 103079215104 bytes (96 GiB), up from 61.72 GiB. HIP allocation/copies
+and rocBLAS SGEMM pass, child/supervisor exit 0, owned container retired and
+llama restored. Initramfs backup and scoped rollback are retained. Post-boot
+COSMIC reports no display output; greeter and gpu-manager reached their start
+limits, while compute is operational. The initial KFD-retirement refusal is
+retained and its bounded wait is fixture-tested.
+The read-only .157 LAN attempt held all four established leases but was
+deliberately stopped after the Wi-Fi relay proved slow; its partial data and
+failure exits are retained, .157 released to Q2, and WAN resume R3 continues
+on .161 (19.35 GB of 111.33 GB at 09:59 UTC). Model inference is still pending.
+The transfer's six tiny CPU integrity fixtures pass; focused CTest 4/4 includes
+the existing core contract under ASan/UBSan. Core bench now
 preserves model-load errors; focused ASan/UBSan tests pass and the new R3
 candidate passes no-device startup. See [the evolving target report](STRIX-POINT.md).
 

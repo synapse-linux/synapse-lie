@@ -78,7 +78,8 @@ def observe():
         key, value = line.split(':', 1)
         if key in ('MemTotal', 'MemAvailable', 'SwapTotal', 'SwapFree'):
             result['memory'][key] = int(value.split()[0])*1024
-    device = Path('/sys/class/drm/card1/device')
+    # Match the admitted render node; card numbering can change after reboot.
+    device = Path('/sys/class/drm/renderD128/device')
     result['gpu'] = {}
     for name in ('gpu_busy_percent', 'mem_info_gtt_total', 'mem_info_gtt_used', 'mem_info_vram_total', 'mem_info_vram_used'):
         try: result['gpu'][name] = int((device/name).read_text())
@@ -217,7 +218,8 @@ class Campaign:
                                           env=env, stdout=log, stderr=subprocess.STDOUT)
             self.r['child_pid'], self.r['child_start_ticks'] = self.child.pid, ticks(self.child.pid)
             self.r['state'] = 'DOWNLOADING'; self.record()
-            deadline = time.monotonic()+14400
+            # The pinned 111 GB payload can exceed four hours on this Wi-Fi WAN.
+            deadline = time.monotonic()+28800
             while self.child.poll() is None:
                 self.sample()
                 if time.monotonic() >= deadline: raise RuntimeError('Download deadline')

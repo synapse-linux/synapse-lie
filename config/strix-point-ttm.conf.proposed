@@ -1,8 +1,0 @@
-# SPDX-License-Identifier: MIT
-# PROPOSAL ONLY. Do not deploy without explicit system-change authorization.
-# Strix Point .161: 96 GiB maximum GPU-accessible shared memory, 4 KiB pages.
-# This is a limit, not a 96 GiB reservation or a qualified model-fit result.
-# Proposed destination: /etc/modprobe.d/90-synapse-lie-ttm.conf
-# Rebuild the current kernel initramfs, then reboot in an agreed window.
-# Rollback: remove only that owned file, rebuild the initramfs and reboot.
-options ttm pages_limit=25165824
