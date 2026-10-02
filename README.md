@@ -42,10 +42,11 @@ remain explicitly separate. This is reuse, not faster fresh prefill.
 ## Strix Point port
 
 The [ROCm 10 comparison gate](docs/STRIX-POINT-ROCM10.md) records the
-Fedora Minimal 44 image provenance found on `.157` and an independently built
-`gfx1150` RPM candidate on `.161`. The RPM image builds, but its primitive
-HIP memset/copy diagnostic fails exactly as the separate Fedora 43 tarball
-candidate does; the same diagnostic passes on ROCm 7.2. No ROCm 10
+Fedora Minimal 44 image provenance found on `.157` and independently built
+Fedora 44 and AlmaLinux 10.2 `gfx1150` RPM candidates on `.161`. Both RPM
+images build; a native HIP program compiled inside AlmaLinux reproduces the
+same primitive memset/copy failures as the Fedora and Python diagnostics.
+The same Python diagnostic passes on ROCm 7.2. No ROCm 10
 original-weight throughput is reported until that runtime gate passes.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and

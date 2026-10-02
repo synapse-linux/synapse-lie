@@ -181,6 +181,8 @@ class Tests(unittest.TestCase):
             self.assertEqual(c.image_and_rocm(), (image, None))
             c.m['stack'] = 'rocm10-fedora44-rpm'
             self.assertEqual(c.image_and_rocm(), (image, None))
+            c.m['stack'] = 'rocm10-almalinux10-rpm'
+            self.assertEqual(c.image_and_rocm(), (image, None))
         with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
                 [], 0, stdout=json.dumps({'Id': 'sha256:'+'b'*64, 'Architecture': 'amd64'}))):
             with self.assertRaisesRegex(ValueError, 'identity'): c.image_and_rocm()
@@ -240,6 +242,45 @@ class Tests(unittest.TestCase):
         with patch.object(c, 'run_container', side_effect=run):
             with self.assertRaisesRegex(RuntimeError, 'HIP errors'): c.diagnostic()
         self.assertEqual(c.r['diagnostic']['steps'][0]['name'], 'hipErrorInvalidValue')
+    def test_almalinux_native_diagnostic_uses_compiled_binary(self):
+        c = self.campaign()
+        c.m.update(stack='rocm10-almalinux10-rpm', diagnostic_impl='native', bundle=str(self.base))
+        def run(command, *_args):
+            self.assertEqual(command, ['/opt/lie/hip-smoke'])
+            (c.root/'stdout.log').write_text(json.dumps({
+                'scope': 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL', 'device_count': 1,
+                'steps': [{'step': 'copy_pageable_h2d_32', 'code': 0}],
+                'output': [1, 3, 2, 4, 5, 7, 6, 8]}))
+        with patch.object(c, 'image_and_rocm', return_value=('sha256:'+'a'*64, None)), \
+             patch.object(c, 'run_container', side_effect=run):
+            c.diagnostic()
+        self.assertEqual(c.r['diagnostic_impl'], 'native')
+        c.m['stack'] = 'rocm10-fedora44-rpm'
+        with patch.object(c, 'image_and_rocm', return_value=('sha256:'+'a'*64, None)):
+            with self.assertRaisesRegex(ValueError, 'implementation'): c.diagnostic()
+    def test_diagnostic_requires_exact_round_trip(self):
+        c = self.campaign()
+        c.m.update(bundle=str(self.base))
+        def run(*_args):
+            (c.root/'stdout.log').write_text(json.dumps({
+                'scope': 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL', 'device_count': 1,
+                'steps': [{'step': 'copy_d2h_32', 'code': 0}], 'output': [0]*8}))
+        with patch.object(c, 'image_and_rocm', return_value=('sha256:'+'a'*64, None)), \
+             patch.object(c, 'run_container', side_effect=run):
+            with self.assertRaisesRegex(RuntimeError, 'HIP errors'): c.diagnostic()
+    def test_almalinux_image_build_checks_native_source_hash(self):
+        c = self.campaign()
+        context = self.base/'alma'; context.mkdir()
+        (context/'Dockerfile').write_text('FROM scratch\n')
+        (context/'hip-smoke.cpp').write_text('// fixture\n')
+        c.m.update(stack='rocm10-almalinux10-rpm',
+                   dockerfile_sha256=point.sha(context/'Dockerfile'),
+                   hip_smoke_sha256='0'*64)
+        with patch.object(point, 'ROCM10_ALMA_CONTEXT', context):
+            with self.assertRaisesRegex(ValueError, 'smoke source drift'): c.image_build()
+            c.m['hip_smoke_sha256'] = point.sha(context/'hip-smoke.cpp')
+            (context/'unexpected').write_text('fixture')
+            with self.assertRaisesRegex(ValueError, 'context contents'): c.image_build()
     def test_full_rocm10_profile_is_diagnostic_only_and_explicit(self):
         c = self.campaign()
         bundle = self.base/'bundle'; bundle.mkdir()

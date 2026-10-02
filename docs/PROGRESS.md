@@ -2,6 +2,16 @@
 
 ## Strix Point fork — 2026-10-02
 
+The official AlmaLinux 10.2 minimal image plus AMD's signed ROCm 10.0.0-4
+`gfx1150` RPMs built on `.161` with exit 0. Its in-image `hipcc` compiled a
+native HIP probe, which fails on the same 48-byte memset and host/device copy
+operations as a separate Python diagnostic in the same image and the Fedora
+variants. Both failed campaigns retained all HIP codes, restored the named
+service, released their fresh leases and passed remote/local source-result hash
+checks. The [ROCm 10 report](STRIX-POINT-ROCM10.md) has image ID, binary hash,
+thermal and closure evidence. Original-weight ROCm 10 performance remains
+unmeasured pending a passing primitive runtime gate.
+
 The ROCm 10 follow-up found the `.157` Strix Halo image originates from Kyuz0's
 Docker Hub repository: its local digest is recorded, with Fedora Minimal 44 and
 AMD's signed RHEL 10 `gfx1151` RPMs. A separate LIE Fedora Minimal 44 image

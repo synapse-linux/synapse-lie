@@ -24,6 +24,8 @@ ROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'
 ROCM10_SOURCE = BASE/'rocm10-fedora-161'/'source'
 ROCM10_RPM_CONTEXT = BASE/'rocm10-fedora-161'/'fedora44-rpm'
 ROCM10_RPM_TAG = 'synapse-lie-rocm10-fedora44-rpm:gfx1150-r1'
+ROCM10_ALMA_CONTEXT = BASE/'rocm10-almalinux-161'/'context'
+ROCM10_ALMA_TAG = 'synapse-lie-rocm10-almalinux10-rpm:gfx1150-r1'
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
     'single': ('single', 'reactive', 1, 1, ('--depths', '0,4096,8192,12288,16384,32768,65536,131072')),
@@ -136,7 +138,7 @@ class Campaign:
         if stack == 'rocm7.2-arch':
             if 'image' in self.m: raise ValueError('Legacy image is fixed')
             return IMAGE, ROCM
-        if stack in ('rocm10-fedora43', 'rocm10-fedora44-rpm'):
+        if stack in ('rocm10-fedora43', 'rocm10-fedora44-rpm', 'rocm10-almalinux10-rpm'):
             image = self.m.get('image')
             if type(image) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
                 raise ValueError('ROCm 10 image must be pinned by local image ID')
@@ -239,14 +241,15 @@ class Campaign:
         image, rocm = self.image_and_rocm()
         self.sample()
         library_path = '/bundle/runtime/lib:/opt/rocm/lib'
-        if self.m.get('stack') == 'rocm10-fedora44-rpm':
+        if self.m.get('stack') in ('rocm10-fedora44-rpm', 'rocm10-almalinux10-rpm'):
             library_path = '/bundle/runtime/lib:/opt/rocm/core/lib/rocm_sysdeps/lib:/opt/rocm/lib'
         full_profile = self.m.get('rocm10_diagnostic_full_profile', False)
         if type(full_profile) is not bool or (full_profile and
-                (self.m.get('action') != 'diagnostic' or self.m.get('stack') != 'rocm10-fedora44-rpm' or
+                (self.m.get('action') != 'diagnostic' or
+                 self.m.get('stack') not in ('rocm10-fedora44-rpm', 'rocm10-almalinux10-rpm') or
                  not self.m.get('rocm10_seccomp_unconfined') or
                  not self.m.get('rocm10_published_container_profile'))):
-            raise ValueError('Full ROCm profile requires explicit Fedora 44 diagnostic flags')
+            raise ValueError('Full ROCm profile requires explicit RPM diagnostic flags')
         argv = ['docker', 'create', '--network', 'none']
         if not full_profile:
             argv += ['--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges']
@@ -309,17 +312,26 @@ class Campaign:
         self.r['build_result'] = result
         self.record()
     def image_build(self):
-        if self.m.get('stack') != 'rocm10-fedora44-rpm':
-            raise ValueError('Image build requires the explicit Fedora 44 RPM stack')
-        context = checked_path(ROCM10_RPM_CONTEXT)
+        stack = self.m.get('stack')
+        if stack == 'rocm10-fedora44-rpm':
+            context, tag = ROCM10_RPM_CONTEXT, ROCM10_RPM_TAG
+            expected_files = ['Dockerfile']
+        elif stack == 'rocm10-almalinux10-rpm':
+            context, tag = ROCM10_ALMA_CONTEXT, ROCM10_ALMA_TAG
+            expected_files = ['Dockerfile', 'hip-smoke.cpp']
+        else:
+            raise ValueError('Image build requires an explicit ROCm 10 RPM stack')
+        context = checked_path(context)
         dockerfile = checked_path(context/'Dockerfile')
         if sha(dockerfile) != self.m.get('dockerfile_sha256'):
             raise ValueError('RPM Dockerfile drift')
-        if sorted(path.name for path in context.iterdir()) != ['Dockerfile']:
-            raise ValueError('RPM build context must contain only its Dockerfile')
+        if sorted(path.name for path in context.iterdir()) != expected_files:
+            raise ValueError('Unexpected RPM build context contents')
+        if stack == 'rocm10-almalinux10-rpm' and sha(context/'hip-smoke.cpp') != self.m.get('hip_smoke_sha256'):
+            raise ValueError('Native HIP smoke source drift')
         self.sample()
         argv = ['docker', 'build', '--no-cache', '--pull', '--progress=plain',
-                '--tag', ROCM10_RPM_TAG, '--file', str(dockerfile), str(context)]
+                '--tag', tag, '--file', str(dockerfile), str(context)]
         self.r['image_build_argv'] = argv
         self.record()
         with (self.root/'image-build.log').open('xb') as log:
@@ -335,23 +347,32 @@ class Campaign:
             self.r['child_exit_code'] = self.child.returncode
         if self.child.returncode:
             raise RuntimeError('RPM image build failed; see retained image-build.log')
-        inspected = json.loads(self.command(['docker', 'image', 'inspect', ROCM10_RPM_TAG,
+        inspected = json.loads(self.command(['docker', 'image', 'inspect', tag,
                                              '--format', '{{json .}}']).stdout)
         if inspected['Architecture'] != 'amd64' or not re.fullmatch(r'sha256:[0-9a-f]{64}', inspected['Id']):
             raise RuntimeError('Unexpected RPM image identity')
-        self.r['image_build_result'] = {'tag': ROCM10_RPM_TAG, 'id': inspected['Id'],
+        self.r['image_build_result'] = {'tag': tag, 'id': inspected['Id'],
                                         'architecture': inspected['Architecture']}
         self.record()
     def diagnostic(self):
         self.image_and_rocm()
-        self.run_container(['/usr/bin/python3', '-B', '/bundle/runtime/hip-diag.py'],
-                           self.m['bundle'], 60)
+        implementation = self.m.get('diagnostic_impl', 'ctypes')
+        if implementation == 'ctypes':
+            command = ['/usr/bin/python3', '-B', '/bundle/runtime/hip-diag.py']
+        elif implementation == 'native' and self.m.get('stack') == 'rocm10-almalinux10-rpm':
+            command = ['/opt/lie/hip-smoke']
+        else:
+            raise ValueError('Unsupported HIP diagnostic implementation')
+        self.r['diagnostic_impl'] = implementation
+        self.run_container(command, self.m['bundle'], 60)
         result = json.loads((self.root/'stdout.log').read_text())
         if result.get('scope') != 'GPU_RUNTIME_DIAGNOSTIC_NO_MODEL' or not isinstance(result.get('steps'), list):
             raise RuntimeError('Malformed GPU diagnostic result')
         self.r['diagnostic'] = result
         self.record()
-        if any(step['code'] != 0 for step in result['steps']):
+        if (result.get('device_count') != 1 or
+                any(step['code'] != 0 for step in result['steps']) or
+                result.get('output') != [1, 3, 2, 4, 5, 7, 6, 8]):
             raise RuntimeError('GPU diagnostic reported HIP errors')
     def download(self):
         if sha(self.root/'download.py') != self.m['download_sha256']: raise RuntimeError('Download helper drift')

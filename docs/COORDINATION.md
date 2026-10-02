@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+The `.161` AlmaLinux 10.2 ROCm 10 image build and two diagnostic windows ended
+at 18:40:10, 18:41:43 and 18:42:34 UTC on 2026-10-02. The image build passed;
+both native HIP and Python diagnostics failed on primitive memset/copy errors
+before any model access. Each acquired a fresh private LIE lease, stopped only
+the authorized `llama-router.service`, checked foreign clients and sensors,
+then restored the service and freed the lease. A fresh verification checks 17
+remote/local file hashes, all six owned PIDs absent, the service active and the
+lease free. [The ROCm 10 report](STRIX-POINT-ROCM10.md) records exact outcomes.
+No standing ownership or model benchmark is implied.
+
 The 2026-10-02 `.161` ROCm 10 Fedora 44 RPM image build and four subsequent
 HIP diagnostic windows are complete. Each acquired the private LIE lease
 afresh, restored `llama-router.service` when it had been active, retired owned
