@@ -48,6 +48,10 @@ target. CPU architecture checks and headless ASan/UBSan tests pass on
 and no-model startup passes in the existing target container/runtime. The full
 local sanitizer suite passes 34/34. Original-weight UD GPU tests remain blocked
 by the existing GPU service and missing Flash Next shards.
+The additional C17 HIP/rocBLAS diagnostic is compiled; its synthetic fault
+controls pass ASan/UBSan locally and on .161, and its no-device help path loads
+on the target. Real GPU execution remains pending. A pinned four-shard download
+plan is prepared from independent official metadata; weights are not yet staged.
 See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

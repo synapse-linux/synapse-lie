@@ -2,6 +2,16 @@
 
 ## Strix Point fork — 2026-10-02
 
+Follow-up: added a C17 HIP/rocBLAS diagnostic with explicit actual-device
+execution, separate from automatic tests. Its twenty synthetic error/lifetime
+cases pass ASan/UBSan locally and on .161; focused local CTest passes 2/2.
+The HIP-linked diagnostic loads with `--help` on .161, without device access.
+The first local LeakSanitizer sandbox failure is retained. Four official shard
+identities are independently verified via small upstream metadata and recorded
+in `config/models-161.plan.json`; no payload download/hash has run. The router
+is still active at the 08:36:57 UTC check; explicit temporary-stop/restore
+handover remains pending. No GPU SGEMM, model inference or fit claim follows.
+
 `feature/strix-point-ud` starts from the qualified shared-core checkpoint
 `02a9464`. Explicit gfx1150 selection, archive/cache target binding and runtime
 architecture/wave validation are implemented without numerical source changes.

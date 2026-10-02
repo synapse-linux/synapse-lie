@@ -144,6 +144,63 @@ identify retained local and remote evidence, including failures.
 
 ## Remaining gates
 
+### Follow-up diagnostic and model plan — 08:37 UTC
+
+`lie-hip-probe` is now compiled and linked for gfx1150. Its C17 driver reuses
+the provider's device admission and failure-quiescence wrapper. An explicit
+`--run` checks real HIP identity, memory reporting, a 48-byte allocation,
+host/device copies and a 2x2 rocBLAS SGEMM with four known outputs. rocBLAS may
+allocate its own workspace. This is a small runtime diagnostic, not a model-fit,
+quantized-kernel, model-output or performance qualification. It is deliberately
+excluded from automatic CTest execution; real `--run` still requires the GPU
+window and supervised device access below. No model or HTTP listener is opened.
+
+The separate fixture labels its output `SYNTHETIC_CPU_NOT_INFERENCE`. Twenty
+subprocess cases cover command/admission controls, allocation/copy/BLAS failures,
+wrong/non-finite output, cleanup failures and unquiesced-device exit 70. They
+pass ASan/UBSan locally and on .161 without GPU devices or a ROCm runtime in the
+fixture container. Local focused CTest passes 2/2. The first local attempt's
+exit 8 is retained: LeakSanitizer was incompatible with the execution sandbox's
+ptrace, so the successful check ran outside it without disabling sanitizers.
+The real binary's `--help` also loads successfully with the existing .161 ROCm
+runtime in `strix-point-probe-startup-r2`, still without GPU passthrough.
+These results do **not** mean the real SGEMM has executed on the GPU.
+The final target fixture peaks at CPU36.375/GPU36 C, below the 85 C ceiling;
+the focused local check peaks at CPU78.375/GPU60 C. The
+[source-bound preparation receipt](benchmarks/2026-10-02/strix-point/probe-receipt.json)
+retains commands, actual exits, source/binary hashes, temperatures and failures.
+
+`tools/strix-point-remote.py probe-tests LABEL` runs the synthetic controls;
+`probe-check LABEL --bundle build/point-probe-bundle-r2` tests only the real
+binary's help path. Both retain the existing no-device/no-network container
+isolation and 85 C target ceiling. The diagnostic and test code are persistent
+in this worktree, with private artifacts under `build/` and `evidence/`.
+
+[The pinned download plan](../config/models-161.plan.json) contains independent
+official URLs, sizes and SHA-256 for the four trunk shards, verified against the
+[upstream repository metadata](https://huggingface.co/api/models/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL).
+Only 1391 bytes of metadata were fetched; no weight payload was downloaded or
+hashed. It agrees with all four historical UD content identities and targets
+the private persistent directory
+`/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee`.
+
+The 08:24 UTC inventory and 08:36:57 UTC service check still identify the same
+active `llama-router.service` PID2211125. No established connection on its 8080
+listener was observed; that snapshot is not a handover. A temporary service
+stop followed by restoration has been proposed to the operator, but has not
+been authorized explicitly or executed. `AGENTS.md` forbids foreign process
+termination. No private lock is being represented as an adopted .161 lease.
+
+The concrete pending sequence is: agree the .161 campaign window and ownership;
+retire the router through its owner or an explicitly authorized temporary stop;
+verify KFD empty and acquire the agreed lease; run the small diagnostic under
+temperature/foreign-client observation; stage and verify the pinned shards;
+run the bounded AR/model checks below; retire owned children, release the lease
+and restore the prior service state if an authorized stop was used. No background
+waiter, service mutation or automatic GPU retry has been installed.
+
+### Original-weight gates
+
 1. Obtain the actual .161 handover. `llama-router.service` PID2211125 holds KFD
    and can autoload models; it was preserved. A zero busy reading is insufficient.
    Agree .161-specific campaign/lease ownership and recheck under the lease;

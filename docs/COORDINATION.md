@@ -22,6 +22,15 @@ foreign-client checks. Do not copy .157 DS4 lock paths to .161 or infer ownershi
 from a newly created private lock. No .157/.158 resource is used by this fork.
 See [the target inventory and qualification gates](STRIX-POINT.md).
 
+Follow-up at 08:24 UTC again observes the same KFD holder; the 08:36:57 UTC
+service status remains active/running, with no observed established 8080
+connection. This is not an ownership release. The operator was asked whether
+to authorize a temporary `llama-router.service` stop and restoration; no explicit
+answer is recorded. The service has not been changed. Additional synthetic
+diagnostic controls and no-device startup passed, and only 1391 bytes of official
+model repository metadata were fetched. No model payload, GPU initialization,
+device probe `--run`, lease acquisition or implicit background waiter occurred.
+
 ## Ownership and observed isolation
 
 Editing host `.155`, target `paperboy@192.168.5.157`, SSH port 22, recovered from

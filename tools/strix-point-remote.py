@@ -19,7 +19,7 @@ FILES = ('tools/strix-point-inventory.py', 'tools/thermal-run.py', 'tools/gufo_b
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('inventory', 'cpu-tests', 'core-tests', 'runtime-check'))
+    parser.add_argument('action', choices=('inventory', 'cpu-tests', 'core-tests', 'runtime-check', 'probe-check', 'probe-tests'))
     parser.add_argument('label')
     parser.add_argument('--bundle',type=Path,default=Path('build/point-runtime-bundle'))
     args = parser.parse_args()
@@ -28,11 +28,16 @@ def main():
     out = ROOT/'evidence'/args.label
     out.mkdir(parents=True, exist_ok=False)
     source = {name: (ROOT/name).read_bytes() for name in FILES}
-    if args.action == 'runtime-check':
+    if args.action == 'probe-tests':
+        for name in ('tools/hip-probe.c', 'tests/hip_probe_stub.c', 'tests/test_hip_probe.py',
+                     'tests/hip_stub/rocblas/rocblas.h'):
+            source[name] = (ROOT/name).read_bytes()
+    if args.action in ('runtime-check', 'probe-check'):
         bundle=(ROOT/args.bundle).resolve()
         if not bundle.is_relative_to((ROOT/'build').resolve()):
             parser.error('Runtime bundle must be inside this worktree build directory')
-        for name in ('synapse-lie-server','synapse-lie-bench','synapse-lie-bench-gufo-reference'):
+        binaries = ('lie-hip-probe',) if args.action == 'probe-check' else ('synapse-lie-server','synapse-lie-bench','synapse-lie-bench-gufo-reference')
+        for name in binaries:
             source['runtime/bin/'+name]=(bundle/name).read_bytes()
         for name in ('libllhttp.so.9.3','libdrm.so.2','libdrm_amdgpu.so.1','libpng16.so.16','libjpeg.so.8'):
             source['runtime/lib/'+name]=(Path('/usr/lib')/name).read_bytes()
@@ -80,7 +85,7 @@ commands=[
  ('test-arch',['./test-gufo-arch']), ('test-device',['./test-gufo-device']),
  ('test-receipt',['python3','-B','tests/test_gufo_target.py'])]
 prefix=[]
-if action in ('core-tests','runtime-check'):
+if action in ('core-tests','runtime-check','probe-check','probe-tests'):
     commands=[('configure',['cmake','-S','.','-B','build','-G','Ninja','-DLIE_CORE_ONLY=ON','-DLIE_SANITIZERS=ON','-DLIE_HIP_ARCHITECTURE=gfx1150','-DCMAKE_BUILD_TYPE=Debug']),
               ('build',['cmake','--build','build','-j1']),
               ('test',['ctest','--test-dir','build','--output-on-failure','-V'])]
@@ -93,7 +98,7 @@ if action in ('core-tests','runtime-check'):
             '--mount','type=bind,src=/sys,dst=/sys,readonly',
             '--env','ASAN_OPTIONS=detect_leaks=1:halt_on_error=1','--env','UBSAN_OPTIONS=halt_on_error=1',
             '--entrypoint','/usr/bin/python3','sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac']
-    if action=='runtime-check':
+    if action in ('runtime-check','probe-check'):
         # Reuse the existing target runtime read-only. Five official system DSOs
         # are private test artifacts; no package or service environment is changed.
         prefix[-1:-1]=['--mount','type=bind,src=/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0,dst=/opt/rocm,readonly',
@@ -101,6 +106,16 @@ if action in ('core-tests','runtime-check'):
         commands=[('server-help',['./runtime/bin/synapse-lie-server','--help']),
                   ('bench-info',['./runtime/bin/synapse-lie-bench','--build-info']),
                   ('reference-info',['./runtime/bin/synapse-lie-bench-gufo-reference','--build-info'])]
+        if action=='probe-check':
+            commands=[('probe-help',['./runtime/bin/lie-hip-probe','--help'])]
+    if action=='probe-tests':
+        flags=['-D_POSIX_C_SOURCE=200809L','-DLIE_HIP_PROBE_SYNTHETIC=1','-DLIE_BUILD_ID="synthetic-probe"','-DLIE_HIP_ARCHITECTURE="gfx1150"',
+               '-O1','-g','-Wall','-Wextra','-Werror','-fsanitize=address,undefined','-fno-omit-frame-pointer',
+               '-Itests/hip_stub','-Iinclude','-Iadapters']
+        commands=[('compile-probe',['cc','-std=c17']+flags+['-c','tools/hip-probe.c','-o','probe.o']),
+                  ('compile-stubs',['cc','-std=c17']+flags+['-c','tests/hip_probe_stub.c','-o','stub.o']),
+                  ('link-fixture',['c++','-std=c++17']+flags+['adapters/gufo_device.cpp','probe.o','stub.o','-ljson-c','-lm','-o','test-hip-probe-fixture']),
+                  ('test-probe',['python3','-B','tests/test_hip_probe.py','./test-hip-probe-fixture'])]
 os.environ.update(ASAN_OPTIONS='detect_leaks=1:halt_on_error=1',UBSAN_OPTIONS='halt_on_error=1')
 rows=[]
 for label,command in commands:
@@ -109,7 +124,7 @@ for label,command in commands:
     rows.append({'step':label,'exit_code':run.returncode,'guard_stdout':run.stdout})
     if run.returncode: break
 artifacts={str(path.relative_to(root)):path.read_text() for path in sorted((root/'evidence').rglob('*')) if path.is_file()}
-result={'scope':'LINKED_NO_MODEL_NOT_INFERENCE' if action=='runtime-check' else 'SYNTHETIC_CPU_NOT_INFERENCE','remote_root':str(root),'commands':rows,'artifacts':artifacts}
+result={'scope':'LINKED_NO_MODEL_NOT_INFERENCE' if action in ('runtime-check','probe-check') else 'SYNTHETIC_CPU_NOT_INFERENCE','remote_root':str(root),'commands':rows,'artifacts':artifacts}
 (root/'RESULT.json').write_text(json.dumps(result,indent=2)+'\\n')
 print(json.dumps(result))
 sys.exit(0 if len(rows)==len(commands) and all(r['exit_code']==0 for r in rows) else 1)
