@@ -204,6 +204,24 @@ class Tests(unittest.TestCase):
         with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
                 [], 0, stdout=json.dumps({'Id': 'sha256:'+'b'*64, 'Architecture': 'amd64'}))):
             with self.assertRaisesRegex(ValueError, 'identity'): c.image_and_rocm()
+    def test_distrobox_benchmark_transport_is_explicit(self):
+        c = self.campaign(); bundle = self.base/'bundle'; bundle.mkdir()
+        (bundle/'probe').write_bytes(b'fixture')
+        model = self.base/'model'; model.mkdir()
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   distrobox_name='lie-test', artifacts={'probe': point.sha(bundle/'probe')})
+        image = 'sha256:'+'a'*64
+        with patch.object(c, 'image_and_rocm', return_value=(image, None)), \
+             patch.object(c, 'execute_distrobox') as execute:
+            c.run_container(['/bench'], bundle, 10, model)
+            execute.assert_called_once_with(['/bench'], bundle, model, image, 10)
+        c.m['transport'] = 'unknown'
+        with patch.object(c, 'image_and_rocm', return_value=(image, None)):
+            with self.assertRaisesRegex(ValueError, 'transport'):
+                c.run_container(['/bench'], bundle, 10, model)
+        c.m['transport'] = 'distrobox'; c.m['distrobox_name'] = 'foreign-name'
+        with self.assertRaisesRegex(ValueError, 'explicit ROCm 10 name'):
+            c.execute_distrobox(['/bench'], bundle, model, image, 10)
     def test_rocm10_build_has_no_gpu_devices_or_network(self):
         c = self.campaign()
         source = self.base/'rocm10-fedora-161'/'source'

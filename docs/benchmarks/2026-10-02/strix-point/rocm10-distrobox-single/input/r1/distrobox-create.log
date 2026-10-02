@@ -1,0 +1,6 @@
+Creating 'lie-rocm10-single-k715-r1' using image sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e	[32m [ OK ]
+[0mDistrobox 'lie-rocm10-single-k715-r1' successfully created.
+To enter, run:
+
+distrobox enter lie-rocm10-single-k715-r1
+

@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+The 2026-10-02 `.161` Docker-managed Distrobox ROCm 10 LIE `single` window is
+closed. The initial container network-entry attempt failed before benchmark
+execution; a fresh window passed all eight occupied-prefix depths with 16/16
+full outputs. Both windows released their private leases and restored only the
+named authorized `llama-router.service`. Fresh collection verified all 27
+remote files, and postflight found the service active, only its PID in KFD,
+no LIE Distrobox and the lease free. Sampled CPU/GPU maxima in the successful
+run were 91.125/90 C. See the [full Distrobox report](benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md).
+No standing GPU ownership follows from this window.
+
 The operator-requested `.161` kernel update and ROCm 10 follow-up completed on
 2026-10-02. Pop!_OS kernel 7.1.5 booted with 6.16.3 preserved in GRUB. Fresh
 AlmaLinux native/Python, Fedora 43 LIE probe, original UD core and matched
@@ -11,7 +21,8 @@ is preserved and a fresh fixed-runner repeat passed. Final postflight finds
 `llama-router.service` active, only its PID in KFD, no LIE container and the
 private lease free. ROCm 10 same-stack LIE/Gufo 0/4K outputs match; ROCm 7.2
 frontiers differ. See the [updated ROCm 10 report](STRIX-POINT-ROCM10.md).
-No standing GPU ownership or long-context ROCm 10 qualification is implied.
+That earlier window did not itself qualify long-context ROCm 10 throughput;
+the later Distrobox `single` result above covers occupied prefixes to 128K.
 
 The `.161` AlmaLinux 10.2 ROCm 10 image build and two diagnostic windows ended
 at 18:40:10, 18:41:43 and 18:42:34 UTC on 2026-10-02. The image build passed;

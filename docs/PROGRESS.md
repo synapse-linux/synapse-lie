@@ -2,6 +2,18 @@
 
 ## Strix Point fork — 2026-10-02
 
+The Docker-managed Distrobox ROCm 10 `single` benchmark on `.161` now passes
+all eight occupied-prefix depths 0–128K with 16/16 full 128-token outputs.
+At 128K, LIE measures 357.117 prefill and 9.227 decode tokens/s for a 2,048
+new-token tail. CPU/GPU peaks were 91.125/90 C; supervisor and child exited 0,
+model files stayed unchanged, and final postflight found `llama-router.service`
+active and the private lease free. A failed Distrobox network-entry attempt is
+retained separately. The [raw report and graphs](benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
+include all eight points and 27 remote-file hashes. Physical inputs match the
+earlier ROCm 7.2 run, but output IDs and numerical frontiers differ at every
+depth; the kernel and container mode also changed. `fresh-128k`, `fresh-256k`
+and `multi` remain pending for ROCm 10.
+
 The operator-requested `.161` Pop!_OS kernel update installed
 `7.1.5-76070105-generic` and kept `6.16.3-76061603-generic` in GRUB. With
 the same pinned ROCm 10 images and binaries, AlmaLinux native and Python HIP

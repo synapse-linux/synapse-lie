@@ -48,8 +48,12 @@ images build. With the original `.161` kernel 6.16.3, native HIP, Python and
 LIE probes failed on primitive ROCm 10 memory operations while ROCm 7.2 passed.
 After updating to Pop!_OS kernel 7.1.5, the unchanged ROCm 10 probes pass and
 short original-weight LIE/Gufo direct tests complete. Their ROCm 10 results
-match each other but differ numerically from ROCm 7.2 at 4K; the complete
-long-context throughput comparison remains pending.
+match each other but differ numerically from ROCm 7.2 at 0/4K. The
+[Docker-managed Distrobox `single` report](docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
+now includes the complete eight-depth LIE occupied-prefix run to 128K, with
+prefill, decode, telemetry and graphs. The earlier ROCm 7.2 output IDs and
+numerical frontiers differ at every depth, so this is a cross-stack observation;
+ROCm 10 fresh full-prompt and multi-user comparisons remain pending.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151

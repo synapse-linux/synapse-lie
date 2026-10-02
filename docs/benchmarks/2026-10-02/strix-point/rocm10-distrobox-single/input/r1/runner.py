@@ -252,7 +252,7 @@ class Campaign:
         home = self.root/'home'
         home.mkdir()
         flags = ('--device /dev/kfd --device /dev/dri/renderD128 '
-                 '--group-add '+str(kfd_group())+' --pids-limit 512 '
+                 '--group-add '+str(kfd_group())+' --pids-limit 512 --network none '
                  '--label synapse-lie.run='+root)
         create = ['distrobox', 'create', '--yes', '--image', image, '--name', name,
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
@@ -282,6 +282,7 @@ class Campaign:
                  'LC_ALL=C', 'ROCR_VISIBLE_DEVICES=0', 'HIP_VISIBLE_DEVICES=0',
                  *command]
         self.r['distrobox']['enter_argv'] = enter
+        self.r['model_attempted'] = True
         self.record()
         with (self.root/'distrobox.stdout.log').open('x') as stdout, \
              (self.root/'distrobox.stderr.log').open('x') as stderr:
@@ -292,15 +293,10 @@ class Campaign:
             self.record()
             deadline = time.monotonic()+timeout
             while self.child.poll() is None:
-                if not self.r['model_attempted'] and (self.root/'measurements.jsonl').exists():
-                    self.r['model_attempted'] = True
-                    self.record()
                 self.sample()
                 if time.monotonic() >= deadline: raise RuntimeError('Distrobox benchmark deadline')
                 time.sleep(1)
             self.r['child_exit_code'] = self.child.returncode
-            if not self.r['model_attempted'] and (self.root/'measurements.jsonl').exists():
-                self.r['model_attempted'] = True
         if self.child.returncode: raise RuntimeError('Distrobox benchmark failed; see retained logs')
     def run_container(self, command, bundle, timeout, model=None):
         bundle = checked_path(bundle)

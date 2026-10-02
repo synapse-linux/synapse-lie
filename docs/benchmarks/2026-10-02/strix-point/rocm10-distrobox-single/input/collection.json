@@ -1,0 +1,63 @@
+{
+  "schema": "synapse-lie.point-rocm10-distrobox-single.v1",
+  "host": "pop@192.168.5.161",
+  "kernel": "7.1.5-76070105-generic",
+  "distrobox_version": "1.7.0",
+  "docker_image_id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "apt_install_exit_code": 0,
+  "remote_files_verified": 27,
+  "hash_mismatches": 0,
+  "runs": {
+    "rocm10-point-distrobox-single-kernel715-r1": {
+      "state": "FAILED",
+      "supervisor_exit_code": 1,
+      "child_exit_code": 1,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "8672",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T19:32:33.150406+00:00",
+      "cleanup_failures": [],
+      "telemetry_samples": 5,
+      "temperature_max_c": {
+        "k10temp": 37.75,
+        "amdgpu": 37.0,
+        "nvme": 36.85
+      },
+      "remote_files_verified": 9
+    },
+    "rocm10-point-distrobox-single-kernel715-r2": {
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "56759",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T20:01:58.299890+00:00",
+      "cleanup_failures": [],
+      "telemetry_samples": 1601,
+      "temperature_max_c": {
+        "k10temp": 91.125,
+        "amdgpu": 90.0,
+        "nvme": 66.85
+      },
+      "remote_files_verified": 18
+    }
+  },
+  "r2_duration_seconds": 1677.672965,
+  "postflight": [
+    "7.1.5-76070105-generic",
+    "MainPID=56759",
+    "ActiveState=active",
+    "56759",
+    "ID           | NAME                 | STATUS             | IMAGE                         ",
+    "lease_exit:0"
+  ],
+  "focused_sanitizer_exit_code": 0,
+  "r1_model_attempted_field_caveat": "R1 runner sets model_attempted before Distrobox entry; entry failed during container networking, and no measurements.jsonl exists. Source corrected after R2 without rewriting raw receipts."
+}

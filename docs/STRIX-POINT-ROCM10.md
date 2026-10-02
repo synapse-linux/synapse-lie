@@ -276,11 +276,12 @@ initial leak-enabled run failed because LeakSanitizer could not run under the
 local tracing environment; both actual command exits are preserved under the
 same evidence directory.
 
-The new kernel clears the ROCm 10 runtime gate, but the `single` eight-depth,
-`fresh-128k`, `fresh-256k` and `multi` profiles remain unmeasured on ROCm 10.
-The numerical discrepancy must be investigated or accepted explicitly before
-using cross-stack throughput as a like-for-like quality comparison. The
-ROCm 7.2 long-context report remains the qualified performance reference.
+The new kernel clears the ROCm 10 runtime gate. The later Distrobox `single`
+campaign below covers all eight occupied-prefix depths; `fresh-128k`,
+`fresh-256k` and `multi` remain unmeasured on ROCm 10. The numerical
+discrepancy must be investigated or accepted explicitly before using
+cross-stack throughput as a like-for-like quality comparison. The ROCm 7.2
+long-context report remains the qualified same-stack LIE/Gufo reference.
 The new local receipts are under `evidence/strix-point-kernel715-r1/` and
 `evidence/rocm10-point-{alma-native,alma-ctypes,probe,core}-kernel715-r1/`,
 `evidence/rocm10-point-bench-lie-parity-kernel715-r1/` and
@@ -298,3 +299,51 @@ The AlmaLinux image, native and Python receipts are under
 `evidence/rocm10-point-alma-native-r1/` and
 `evidence/rocm10-point-alma-ctypes-r1/`; their fresh hash/closure check is
 `evidence/rocm10-point-alma-verification-r1.json`.
+
+## Full LIE `single` profile in Distrobox
+
+The operator-requested Docker-managed Distrobox 1.7.0 run on `.161` reused the
+pinned Fedora 43 ROCm 10 image and compiled LIE executable under kernel 7.1.5.
+The original four-shard UD model was mounted read-only. The one-shot runner
+stopped only the authorized `llama-router.service`, held the private GPU lease,
+checked foreign clients and temperatures every second, then restored the
+service and released the lease. Distrobox was installed on the host with APT;
+the host ROCm stack was not changed.
+
+The first Distrobox entry failed before model execution because an extra
+`--network none` flag conflicted with Distrobox's namespace setup. Its
+supervisor and child exited 1, and its failed receipt is retained. A fresh
+run without that flag passed with supervisor and child exit 0. The `single`
+profile used a 2,048-token new prefill tail after each occupied prefix,
+followed by 128 decode tokens, one warmup and one measured sample at every
+depth. All 16 samples finished their 128-token outputs.
+
+| Occupied prefix | ROCm 10 PP tok/s | ROCm 10 TG tok/s | Earlier ROCm 7.2 PP tok/s | Earlier ROCm 7.2 TG tok/s |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 | 479.936 | 10.433 | 472.581 | 10.292 |
+| 4,096 | 439.211 | 10.414 | 433.310 | 10.261 |
+| 8,192 | 427.143 | 10.411 | 415.064 | 10.251 |
+| 12,288 | 420.799 | 10.394 | 419.773 | 9.891 |
+| 16,384 | 418.574 | 10.397 | 434.701 | 10.203 |
+| 32,768 | 407.723 | 10.343 | 425.131 | 10.173 |
+| 65,536 | 394.419 | 10.241 | 404.108 | 10.045 |
+| 131,072 | 357.117 | 9.227 | 389.786 | 9.862 |
+
+At 128K, the measured new prefill tail took 5.735 s and the 128-token decode
+took 13.873 s. The ROCm 10 rates are 8.38% lower for PP and 6.44% lower for
+TG than the earlier ROCm 7.2 rates. Kernel, ROCm and container mode changed,
+so this is an observed cross-stack difference rather than a causal ROCm result.
+Physical input token IDs match at all eight depths, while prefill/decode
+frontier hashes and generated IDs differ at all eight depths. One measured
+sample per depth gives no variability estimate or quality-equivalent ranking.
+
+The successful run sampled CPU/GPU/NVMe peaks of 91.125/90/66.85 C under the
+operator's 100 C ceiling and lower sensor limits. The four model files were
+unchanged; fresh collection verified all 27 remote files across both runs by
+SHA-256. Postflight found `llama-router.service` active, its PID the only KFD
+client, no remaining LIE Distrobox and the private lease free. The
+[portable raw receipts, graph and offline reproducer](benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
+contain the full per-sample values and validation. The local full collection,
+including container home/cache files, is under
+`evidence/rocm10-point-distrobox-single-kernel715-{r1,r2}/`; the report bundle
+includes the relevant raw benchmark, telemetry and lifecycle receipts.
