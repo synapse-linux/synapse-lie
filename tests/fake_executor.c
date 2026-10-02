@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Synthetic transport/lifetime fixture. No weights, neural computation or GPU. */
 #include "lie/executor.h"
+#include "lie/state.h"
 #include "fake_executor.h"
 #include <assert.h>
 #include <pthread.h>
@@ -10,13 +11,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed; };
-struct lie_sequence { lie_model *model; unsigned position, step; int mode; atomic_bool cancelled; };
+struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed; uint64_t domain; };
+struct lie_sequence { lie_model *model; unsigned position, step; int mode; int32_t *prompt; atomic_bool cancelled; };
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
 static fake_phase held_phase;
-static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls;
+static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls, capture_calls, restore_calls, state_fault;
+static atomic_uint_fast64_t domain_counter=1;
+void fake_state_fault(unsigned value){atomic_store(&state_fault,value);}
 static const char *tool_outputs[]={
     "Reading.\n<tool_call>\n<function=read>\n<parameter=path>\n  caffè 🙂.txt  \n</parameter>\n<parameter=offset>\n3\n</parameter>\n<parameter=options>\n{\"raw\":true}\n</parameter>\n</function>\n</tool_call>",
     "<tool_call>\n<function=read>\n<parameter=path>\nincomplete",
@@ -36,12 +39,13 @@ void fake_barrier_arm(void) { fake_barrier_arm_phase(FAKE_DECODE); }
 void fake_barrier_wait(void) { pthread_mutex_lock(&gate); while (!entered) pthread_cond_wait(&condition,&gate); pthread_mutex_unlock(&gate); }
 void fake_barrier_release(void) { pthread_mutex_lock(&gate); held=false; pthread_cond_broadcast(&condition); pthread_mutex_unlock(&gate); }
 void fake_calls_reset(void) {
+    atomic_store(&capture_calls,0);atomic_store(&restore_calls,0);atomic_store(&state_fault,0);
     atomic_store(&prefill_calls,0); atomic_store(&decode_calls,0); atomic_store(&text_calls,0);
     atomic_store(&batch_calls,0); atomic_store(&create_calls,0); atomic_store(&close_calls,0);
 }
 fake_calls fake_calls_snapshot(void) {
     return (fake_calls){atomic_load(&prefill_calls),atomic_load(&decode_calls),atomic_load(&text_calls),
-                       atomic_load(&create_calls),atomic_load(&close_calls),atomic_load(&batch_calls)};
+                       atomic_load(&create_calls),atomic_load(&close_calls),atomic_load(&batch_calls),atomic_load(&capture_calls),atomic_load(&restore_calls)};
 }
 static void barrier(fake_phase phase) {
     pthread_mutex_lock(&gate);
@@ -62,7 +66,7 @@ int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
     if (strcmp(path,":fixture:") || o->abi_version!=LIE_EXECUTOR_ABI) return error(e,LIE_INVALID,"fixture_path_required");
     lie_model *m=calloc(1,sizeof(*m)); assert(m);
-    m->owner=pthread_self(); m->width=1; m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens; *out=m; return LIE_OK;
+    m->domain=atomic_fetch_add(&domain_counter,1);m->owner=pthread_self(); m->width=1; m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens; *out=m; return LIE_OK;
 }
 lie_status lie_model_get_info(lie_model *m, lie_model_info *out, lie_error *e) {
     (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=m->width}; return LIE_OK;
@@ -132,11 +136,11 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
 lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_error *e) {
     (void)e; owner(m); assert(!m->failed); atomic_fetch_add(&create_calls,1);
     lie_sequence *s=calloc(1,sizeof(*s)); assert(s);
-    s->model=m; atomic_init(&s->cancelled,false); ++m->sequences; *out=s; return LIE_OK;
+    s->prompt=calloc(m->context,sizeof(*s->prompt));assert(s->prompt);s->model=m; atomic_init(&s->cancelled,false); ++m->sequences; *out=s; return LIE_OK;
 }
 lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     (void)e; owner((*s)->model); atomic_fetch_add(&close_calls,1);
-    --(*s)->model->sequences; free(*s); *s=NULL; return LIE_OK;
+    --(*s)->model->sequences; free((*s)->prompt);free(*s); *s=NULL; return LIE_OK;
 }
 lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {
     owner(s->model); assert(!s->model->failed && count>s->position && count-s->position<=s->model->chunk);
@@ -147,7 +151,7 @@ lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t c
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (s->mode==PREFILL_REFUSAL) return error(e,LIE_INVALID,"synthetic_prefill_refusal");
     if (s->mode==7 && count>2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_prefill_failure"); }
-    s->position=(unsigned)count; return LIE_OK;
+    memcpy(s->prompt,tokens,count*sizeof(*tokens));s->position=(unsigned)count; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
     owner(s->model); assert(!s->model->failed); atomic_fetch_add(&decode_calls,1); barrier(FAKE_DECODE);
@@ -202,4 +206,35 @@ lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outco
     for(size_t i=0;i<n;++i){o[i].result=(lie_decode_result){0};o[i].status=lie_sequence_decode(s[i],&o[i].result,e);
         if(o[i].status!=LIE_OK&&o[i].status!=LIE_CANCELLED){for(size_t j=0;j<n;++j)o[j]=(lie_decode_outcome){.status=LIE_BACKEND_FAILED};return LIE_BACKEND_FAILED;}}
     return LIE_OK;
+}
+
+int lie_backend_prefix_state_supported(void){return 1;}
+lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
+    owner(s->model);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
+    if(s->step||(from?(s->position||from->domain!=s->model->domain):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
+    *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=1,.domain=s->model->domain,
+        .token_count=from?from->token_count:s->position,.context_tokens=s->model->context,.prefill_chunk=s->model->chunk};
+    uint64_t shape=out->token_count;assert(lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape));
+    shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
+    shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));
+    if(atomic_load(&state_fault)==1)out->sections[0].bytes++;
+    return LIE_OK;
+}
+lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *bytes,size_t n,lie_error *e){
+    owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected);
+    atomic_fetch_add(&capture_calls,1);barrier(FAKE_CAPTURE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
+    if(atomic_load(&state_fault)==2){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic state read fault");}
+    memcpy((char*)bytes+l->sections[0].offset,s->prompt,l->sections[0].bytes);
+    const float logits[]={1,2,3,4};memcpy((char*)bytes+l->sections[1].offset,logits,sizeof(logits));
+    const int32_t recurrent[]={s->mode,(int32_t)s->step};memcpy((char*)bytes+l->sections[2].offset,recurrent,sizeof(recurrent));
+    return LIE_OK;
+}
+lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
+    owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected&&!s->position);
+    atomic_fetch_add(&restore_calls,1);barrier(FAKE_RESTORE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
+    s->position=l->token_count;
+    if(atomic_load(&state_fault)==3){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic mutating state write fault");}
+    memcpy(s->prompt,(const char*)bytes+l->sections[0].offset,l->sections[0].bytes);
+    int32_t recurrent[2];memcpy(recurrent,(const char*)bytes+l->sections[2].offset,sizeof(recurrent));
+    s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
 }

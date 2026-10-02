@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.gufo-state-access.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Two narrow friend access declarations; no layout, numerical or upstream snapshot changes. Rebuild libraries from the explicit variant.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "private:\n  friend class Model;\n  Session(",
+      "new": "private:\n  friend class LieStateAccess;\n  friend class Model;\n  Session("
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "namespace gufo::models::qwen38_flash_next::rocm {",
+      "new": "namespace gufo::models::qwen38_flash_next { class LieStateAccess; }\n\nnamespace gufo::models::qwen38_flash_next::rocm {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "private:\n  friend class Executor;\n  Session()",
+      "new": "private:\n  friend class ::gufo::models::qwen38_flash_next::LieStateAccess;\n  friend class Executor;\n  Session()"
+    }
+  ]
+}

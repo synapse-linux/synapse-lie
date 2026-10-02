@@ -17,6 +17,10 @@ static json_object *base(const char *id, const char *model, int64_t created, boo
 static json_object *usage(const lie_job_info *i) {
     json_object *u=json_object_new_object();
     json_object_object_add(u,"prompt_tokens",json_object_new_int64(i->prompt_tokens));
+    if(i->cached_tokens){json_object *details=json_object_new_object();
+        json_object_object_add(details,"cached_tokens",json_object_new_int64(i->cached_tokens));
+        json_object_object_add(u,"prompt_tokens_details",details);}
+
     json_object_object_add(u,"completion_tokens",json_object_new_int64(i->output_tokens));
     json_object_object_add(u,"total_tokens",json_object_new_int64((uint64_t)i->prompt_tokens+i->output_tokens));
     return u;
@@ -27,6 +31,9 @@ static json_object *timings(const lie_job_info *i) {
     json_object_object_add(t,"scope",json_object_new_string("synchronous_executor_calls"));
     json_object_object_add(t,"valid",json_object_new_boolean(i->timing_valid));
     json_object_object_add(t,"prefill_tokens",json_object_new_int64(i->prefill_tokens));
+    json_object_object_add(t,"cached_tokens",json_object_new_int64(i->cached_tokens));
+    json_object_object_add(t,"cache_capture_ms",i->timing_valid?json_object_new_double((double)i->cache_capture_ns/1e6):NULL);
+    json_object_object_add(t,"cache_restore_ms",i->timing_valid?json_object_new_double((double)i->cache_restore_ns/1e6):NULL);
     json_object_object_add(t,"decode_tokens",json_object_new_int64(i->output_tokens));
     json_object_object_add(t,"prefill_calls",json_object_new_int64(i->prefill_calls));
     json_object_object_add(t,"decode_calls",json_object_new_int64(i->decode_calls));

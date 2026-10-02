@@ -6,6 +6,7 @@
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
+#include "lie/state.h"
 #include "gufo_chat.hpp"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
@@ -20,14 +21,19 @@
 #include <memory>
 #include <cmath>
 #include <thread>
+#ifdef LIE_GUFO_STATE_ACCESS
+#include "gufo-state/access.hpp"
+#endif
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
 namespace qfn = gufo::models::qwen38_flash_next;
+static std::atomic<uint64_t> next_state_domain{1};
 struct Runtime {
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
     std::uint32_t chunk{}, width{1};
     bool failed{false};
+    uint64_t state_domain{next_state_domain.fetch_add(1)};
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
 struct lie_sequence {
@@ -60,6 +66,13 @@ lie_status failed(const std::shared_ptr<Runtime> &r, lie_error *e, const std::st
 }
 extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
 extern "C" int lie_backend_is_synthetic(void) { return 0; }
+extern "C" int lie_backend_prefix_state_supported(void) {
+#ifdef LIE_GUFO_STATE_ACCESS
+    return 1;
+#else
+    return 0;
+#endif
+}
 extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_options *o, uint32_t width, lie_model **out, lie_error *e) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
@@ -270,3 +283,48 @@ extern "C" lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t ca
     });
 }
 extern "C" void lie_sequence_cancel(lie_sequence *s) { if (s) s->cancelled.store(true); }
+
+extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *source,
+                                                  lie_state_layout *out,lie_error *e) {
+    if(!s||!out)return error(e,LIE_INVALID,"invalid state description");
+    return guarded(s->runtime,e,[&]{
+        if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled before state description");
+#ifdef LIE_GUFO_STATE_ACCESS
+        if(s->stopped||s->sampling_started||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out))
+            return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
+        return LIE_OK;
+#else
+        (void)source;return error(e,LIE_UNSUPPORTED,"provider built without component state access");
+#endif
+    });
+}
+static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void *data,size_t bytes,
+                              bool restore,lie_error *e) {
+    uint64_t required=0;
+    if(!s||!data||!lie_state_validate(layout,&required)||bytes!=required)return error(e,LIE_INVALID,"invalid state transfer");
+    lie_state_layout expected{};lie_status rc=lie_sequence_state_describe(s,restore?layout:nullptr,&expected,e);
+    if(rc!=LIE_OK)return rc;
+    if(!lie_state_layout_equal(layout,&expected))return error(e,LIE_INVALID,"state transfer layout mismatch");
+    return guarded(s->runtime,e,[&]{
+#ifdef LIE_GUFO_STATE_ACCESS
+        std::string message;
+        lie_status copied=qfn::LieStateAccess::Copy(*s->session,*layout,data,restore,s->cancelled,message);
+        if(copied!=LIE_OK){
+            // Cancelled transfers have completed every submitted copy. Their
+            // private sequence is retired; no incomplete state is published.
+            if(copied==LIE_CANCELLED)return error(e,LIE_CANCELLED,message.c_str());
+            return failed(s->runtime,e,message);
+        }
+        if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled after completed state transfer");
+        return LIE_OK;
+#else
+        return error(e,LIE_UNSUPPORTED,"provider built without component state access");
+#endif
+    });
+}
+extern "C" lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *out,size_t bytes,lie_error *e) {
+    return state_copy(s,l,out,bytes,false,e);
+}
+extern "C" lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *in,size_t bytes,lie_error *e) {
+    return state_copy(s,l,const_cast<void*>(in),bytes,true,e);
+}

@@ -146,10 +146,40 @@ messages. These are bounded frontend limits; existing executor ABI-2 layouts
 remain unchanged. `lie_model_tokenize` uses the same 8 MiB input bound. Model
 admission and qualification remain specific to context and active sequence count.
 
+## Implemented component-state extension (state ABI 1)
+
+`lie/state.h` is an additive C17 contract; executor ABI-2 structs stay unchanged.
+`describe(NULL)` plans capture; `describe(source)` validates a prospective restore
+into an empty sequence without mutating it. Sections carry role/layer, dtype,
+rank, dimensions, checked size and aligned offset. Generic C code validates
+length arithmetic, unique components, physical-token/logit sections and complete
+layout equality before allocating/copying or admitting a restore. Immutable
+handles expose read-only descriptions/tokens; no untrusted byte import exists.
+
+`lie_state_plan/capture/restore/destroy` own host storage and lifecycle;
+`lie_sequence_state_describe/read/write` are provider bindings invoked only by
+the device owner at a completed frontier. Read/write returns only after transfers
+finish, including cancellation/error cleanup. A mutating failure is fatal and
+never triggers fallback prefill. `LIE_RESOURCE_LIMIT` is a nonmutating optional
+capture allocation/budget refusal. Existing executor status values retain their
+numbers. The C17 Qwen layout module supplies the model-specific components;
+Gufo types, private-field access and HIP copy operations stay inside the adapter.
+
+`lie_core_options_init` defaults RAM retention to 4 GiB. The appended
+`prefix_cache_bytes` option is an explicit byte budget; zero disables retention.
+All consumers of this experimental static core API must be rebuilt together.
+Backend state capability is explicit; missing support with RAM enabled refuses
+readiness. Model-open domains prohibit cross-instance/restart restores. SSD
+requires a separate stable identity/codec and remains pending.
+See [STATE.md](STATE.md) for compatibility, budgets, exact prefix/chunk eligibility
+and independent sampler semantics. The two new executor phases are `capture`
+and `restore`; their wall durations are separate from executed PP/TG.
+
 ## Planned state, MTP, vision and owned execution contracts
 
-These are requirements for future additive/versioned contracts, **not symbols
-or capabilities implemented by ABI 2**. Keep its completed scalar/batch semantics.
+The remaining items below are requirements for future contracts. RAM prefix
+state is implemented by the separate extension above; SSD/exact resume, MTP
+and vision are not capabilities of executor ABI 2. Keep completed scalar/batch semantics.
 Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
 profiles explicitly; refusing an unsupported capability must precede mutation.
 

@@ -240,8 +240,8 @@ The worker publishes timings and output accounting before the flow can publish
 a successful terminal. Partial worker snapshots can contain completed work only;
 in-flight work is not counted until the call returns. On failure/cancellation,
 internal call counts may include the failed/cancelled return, but no successful
-HTTP timing/usage record is produced. No prefix cache exists: completed successful
-prefill tokens currently equal the full physical prompt count.
+HTTP timing/usage record is produced. With RAM reuse, completed successful
+executed prefill tokens plus cached tokens equal the full physical prompt count.
 
 This increment is tested with CPU executor/clock fixtures (including chunk sums,
 EOS, queue/credit exclusion, in-flight cancellation, faults, zero resolution and
@@ -278,3 +278,11 @@ The diagnostics page is not a finished 64-locale release GUI.
 Stateless `/v1/responses` text/functions use the same reactive worker/flow;
 see [Responses events and current limits](OPENAI-REACTIVE.md). Encoded network
 writes are bounded to 32 MiB, including repeated final Responses projections.
+
+
+RAM prefix retention defaults to 4096 MiB, shared with direct core clients.
+`--prefix-cache-mib 0` disables retention, not the active per-sequence KV state.
+`/actuator/info` exposes `prefix_state`; `snapshot_restore:false` still denotes
+unsupported exact session resume. `/actuator/llm.cache` reports real RAM counters
+and `ssd_enabled:false`. [State](STATE.md) and [metrics](METRICS.md) define the
+completed owner phases, bounded storage and cache-aware PP/usage semantics.

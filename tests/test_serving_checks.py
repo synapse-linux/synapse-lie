@@ -77,7 +77,7 @@ def main():
         log_path = Path(directory) / 'server.log'; events = []
         with log_path.open('xb') as log:
             proc = subprocess.Popen([binary, '--port', str(api), '--management-port', str(management),
-                                     '--model', ':fixture:', '--max-active', '2'], stdout=log, stderr=log)
+                                     '--model', ':fixture:', '--prefix-cache-mib', '0', '--max-active', '2'], stdout=log, stderr=log)
             def check():
                 if proc.poll() is not None: raise RuntimeError('fixture exited: ' + log_path.read_text())
             try:

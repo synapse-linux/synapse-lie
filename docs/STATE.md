@@ -1,18 +1,68 @@
-# State envelope design — not implemented
+# C17 prefix state and RAM cache
 
-This is a compatibility/lifecycle contract for increment D, not a claim that
-snapshot save/restore works in synapse-lie today. No snapshot files are produced
-by the current server; no DS4 payload is imported or converted. The shared C17
-core and direct benchmark path now exist, providing the intended integration
-point; this extraction implements no cache or snapshot capability.
+RAM prefix retention is **enabled by default**, with a lazy 4 GiB budget shared
+by HTTP and `synapse-lie-bench --suite core`. `--prefix-cache-mib N` changes the
+budget; `0` explicitly disables retention for fresh-work comparisons. The normal
+per-sequence KV/recurrent working state is still required when retention is off.
+Only optional SSD persistence defaults off. SSD is not implemented yet: no
+persistent-state directory is created, scanned, read or written by this cache.
+
+The generic C17 `lie_state` component contract owns section validation, overflow
+checks, host allocation, immutable payloads and capture/restore coordination.
+`src/models/qwen_flash_state.c` owns Qwen AR component geometry independently
+of the device platform. `src/prefix_cache.c` owns lookup, admission, lifetime,
+LRU eviction and accounting. The transitional adapter only binds model fields
+and performs completed host/HIP copies; it does **not** call Gufo's snapshot
+serializer or store an opaque Gufo snapshot. Its explicitly selected access
+variant changes three friend declarations in two independently fetched headers,
+with separate source/build hashes. Active execution storage and forward math
+remain delegated; this does not claim an autonomous C model executor.
+
+## Implemented RAM contract
+
+- Eight immutable checkpoint slots, bounded by the configured total bytes.
+  Account the allocation containing descriptor and payload; allocator/driver
+  overhead and active sessions are separate. Allocation is lazy. Evict idle LRU
+  entries before capture, so retained plus in-progress capture fits the budget.
+  Oversized checkpoints or a failed host allocation skip optional retention.
+- Capture at most once per request, at its largest completed chunk boundary,
+  or the entire prompt if shorter than a chunk. Match exact physical token IDs.
+  Reuse the longest stored prefix; never trim a longer recurrent state. A short
+  unaligned checkpoint serves only an exact hit, preserving chunk shapes on
+  extensions. Similar strings or client conversation IDs are not cache keys.
+- Each model open has a process-local domain. Same domain, context/chunk,
+  component representation and shapes are checked before restore mutation.
+  Because entries never leave the live model instance, they cannot cross model,
+  device, build or process reopen. This is not a stable disk compatibility ID.
+- A recipient is an empty independent sequence. Sampling, seed/RNG, penalties,
+  output parsing and transport state belong to the new request. Only pre-decode
+  confirmed text prefixes are captured. MTP/vision states are refused.
+- The C model representation includes physical tokens, host logits, n-gram
+  history, PLE history, convolution and recurrent state, attention K/V,
+  chronological unpooled index keys and pooled block keys plus their frontier.
+  Ring wrap is handled by the binding, not exposed in the core payload.
+- The existing single device owner performs completed transfers. Owner-only
+  entry mutation pins the selected checkpoint until the synchronous call ends;
+  cancellation is latched and borrowed storage stays alive through completion.
+  There are no extra engine threads. No HIP error may become a cache miss:
+  failed mutating restore poisons the runtime and retires affected work.
+- Cache policy is shared by every core client. `lie_core_options_init` selects
+  the RAM default; explicitly setting `prefix_cache_bytes=0` disables it. A
+  provider without component-state support refuses enabled cache at readiness;
+  it does not silently ignore the requested policy. Pristine reference builds
+  must use explicit RAM-off settings.
+
+The `.157` headless, Debug and sanitizer fixtures exercise ownership, isolated
+clones, budgets/eviction, incompatible domains, faulty providers, cancellation,
+Chat/Responses usage and direct bench graphs. Device qualification follows the
+[predeclared GPU protocol](STATE-GPU-PROTOCOL.md); CPU results are NOT-INFERENCE.
 
 ## Optional SSD persistence — required feature, explicit opt-in
 
 The user requires an optional SSD save/restore facility in addition to in-memory
 prefix reuse. The ordinary per-sequence attention KV already used by inference,
 retaining a reusable frontier across requests, and persisting that frontier across
-process restarts are distinct capabilities. None of the latter two is implemented
-in the current server.
+process restarts are distinct capabilities. RAM reuse is implemented as described above; restart persistence remains pending.
 
 - SSD persistence is **disabled by default**. In-memory reuse must work without
   it. Disabled means no persistent-state directory creation, scanning, reading or
@@ -39,22 +89,15 @@ Required configuration semantics, with spelling to be frozen during implementati
 
 | Control | Required behavior |
 |---|---|
-| RAM prefix budget | Explicit byte limit; zero disables retention; eligible idle entries can be evicted before admission refusal |
+| RAM prefix budget | Enabled by default, 4 GiB; explicit byte limit; zero disables retention; eligible idle entries can be evicted before admission refusal |
 | SSD enable | Explicit opt-in, default off, independent of RAM retention |
 | SSD directory and byte quota | Private LIE-owned path, validated quota; no implicit discovery of another engine's store |
 | Capture/read staging and queue budgets | Bound resident bytes and concurrent I/O jobs; reserve space before capture/read and retain buffers until completion |
 
-The C cache manager belongs to the shared engine core used by HTTP, direct
-benchmark and future chat/eval clients. It owns identity lookup, immutable entry
-lifecycle, pinning, eviction and budgets. A transitional adapter owns capture/restore of its tagged
-payload on the device owner. Cache entry ownership is not yet ownership of the
-model's state representation. Future C-owned model components replace that
-payload through an explicit version, not reinterpretation. RAM entries must
-clone/restore independent mutable sessions; active requests cannot mutate a
-shared checkpoint or share sampler/RNG state.
-Capture/restore must work through the same core without an HTTP request or server
-process. Transport identifiers and JSON ownership are not cache identity or
-state ownership. Core state events are projected into client-specific formats.
+The implemented C cache manager is shared by HTTP, direct benchmark and future
+chat/eval clients. SSD will consume the same C-owned components through a new
+versioned disk codec, with bounded staging and explicit identity admission.
+It must not reintroduce a backend-owned opaque serializer.
 
 ## Two distinct kinds
 
@@ -70,15 +113,13 @@ No exact resume claim if any of these are omitted.
 Qwen Flash Next is hybrid. LIE must own and capture its token history, logits,
 attention KV, recurrent/SSM and convolution state, positions and, when supported,
 MTP carry/history/rollback and controller state. Sampling/RNG must be included
-explicitly for resumable sessions. The transitional adapter may initially capture
-Gufo state, but it must be identified as delegated, complete and build/version-
-qualified; it does not establish owned backend state. See [BACKEND.md](BACKEND.md).
+explicitly for resumable sessions. The implemented AR checkpoint uses the C-owned component contract above.
+Future modality components require an explicit version and qualification. See
+[BACKEND.md](BACKEND.md).
 
-The inspected Gufo `SessionSnapshot` and external `SamplerState` illustrate the
-coverage requirements. A transitional Gufo v14 payload would need explicit engine,
-version and compatibility admission plus the extra continuation state. Neither
-it nor DS4 native19 is an implicitly accepted future owned-LIE restore payload,
-even with identical weights/token counts. No capture/restore is implemented yet.
+Gufo `SessionSnapshot` and external `SamplerState` were audited as coverage
+references. Neither Gufo v14 nor DS4 native19 is an accepted LIE payload. The
+current RAM representation has no file reader or byte import API.
 
 MTP identity includes the predictor weights/configuration and arithmetic policy.
 Only verified target tokens define the reusable frontier. Draft/rollback state
@@ -99,11 +140,10 @@ Choose and qualify this contract before enabling image-state persistence.
 
 Little-endian envelope with magic, envelope version, fixed header length,
 kind, total length, metadata length, token count, payload length and checksum
-algorithm. Bounded canonical metadata and LE int32 token array precede an
-engine-tagged, versioned payload with an explicit component/layout contract.
-During transition it may be a documented Gufo-specific encoding; the eventual
-owned encoding needs its own identity/qualification, not reinterpretation of
-upstream bytes. Unsupported cross-engine state is refused before mutation, unless
+algorithm. Bounded canonical metadata and LE int32 token array precede a
+LIE-owned, versioned component payload with an explicit layout contract. It
+needs its own stable identity and qualification, not reinterpretation of upstream
+bytes or a dump of the in-process C struct. Unsupported cross-engine state is refused before mutation, unless
 an explicit versioned migration is implemented and qualified. SHA-256 covers the
 declared metadata + tokens + payload; lengths, coverage and identity must validate
 before restore admission.

@@ -180,3 +180,27 @@ call duration. Per-request durations overlap; summing them is not GPU elapsed
 time or aggregate throughput. Credit stalls, prefill peers and network writes
 remain excluded. The benchmark reports aggregate confirmed tokens over a common
 wall interval, including the C inference dispatch and its flow bookkeeping.
+
+## Implemented RAM prefix accounting
+
+Core snapshots own `cache`: byte budget, retained and peak logical bytes,
+lookups, hits, misses, reused tokens, captures, evictions, skipped captures and
+entry count. `/actuator/llm` projects this object and reports `ssd_enabled:false`.
+The budget covers the immutable descriptor/payload allocations, including the
+in-progress capture after pre-eviction; it excludes allocator/driver overhead,
+active sequences and model scratch. It is not total RSS or a memory-fit proof.
+
+Per-job `cached_tokens` is the restored physical prefix, not newly executed PP.
+Successful completion satisfies `prefill_tokens + cached_tokens = prompt_tokens`.
+Chat usage reports `prompt_tokens_details.cached_tokens` on a hit; Responses
+always reports `input_tokens_details.cached_tokens`. Prompt usage remains full
+physical input length. Pure PP tokens/s uses only executed tokens and time;
+a full hit has zero PP calls/time and no PP throughput value.
+
+`cache_restore_ns` (HTTP `cache_restore_ms`) covers lookup plus completed restore,
+including a cheap lookup on a miss. `cache_capture_ns` includes planning,
+deduplication, eviction, allocation and completed capture. These are whole cache
+path durations, not isolated DMA bandwidth. Client total wall/TTFT includes them.
+Counters reflect actual core events, independent of HTTP. Capture/restore do not
+increment prefill/decode call counters; faults/cancellation can leave lookups
+without a successful hit or miss. No SSD timer or kernel-overlap gain is claimed.

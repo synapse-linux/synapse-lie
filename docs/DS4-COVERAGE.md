@@ -14,7 +14,7 @@ A capability's presence is separate from qualification of its current binary.
 | Responses text/functions | Present; stateless and checked live continuation | Present; stateless full-history replay |
 | Legacy `/v1/completions` | Present | Missing |
 | Anthropic `/v1/messages` | Present | Missing; separate from OpenAI parity |
-| Function calls/results | Present, bounded exact sampled-tool replay/cache facilities | Present, typed correlation and complete-turn validation; fresh prefill |
+| Function calls/results | Present, bounded exact sampled-tool replay/cache facilities | Present, typed correlation and complete-turn validation; shared RAM prefix reuse |
 | Required/named tool choice | Responses explicitly rejects it; Chat mainly honors none and skips other targets | Declared choice checked against generated complete calls; no constrained decoder |
 | Temperature/top_p/seed | Present; defaults differ | Present, per-sequence sampler |
 | top_k/min_p/ignore_eos/stop | Exposed in relevant frontend requests | Missing; honors model EOS |
@@ -23,8 +23,8 @@ A capability's presence is separate from qualification of its current binary.
 | Inline image input | Present; bounded PNG/JPEG paths and original-weight tests | Missing |
 | MTP/speculative execution | Present; bounded Q4 evidence, Q2 prose blockers retained | Explicitly disabled/missing |
 | Native grouped model decode | Adapter has batch and speculative-batch APIs; bounded tests | Present: shared C readiness/credit dispatcher, native AR batches through eight rows; direct GPU comparison at C1/2/4/6/8 and original-weight HTTP C2 checks |
-| Live prefix reuse | Present | Missing; every request re-prefills complete input |
-| Hybrid-state snapshots/disk restart | Present; validated identity/frontiers and bounded restart evidence | Missing |
+| Live prefix reuse | Present | Implemented in shared C17 core; RAM defaults on, bounded immutable hybrid checkpoints |
+| Hybrid-state snapshots/disk restart | Present; validated identity/frontiers and bounded restart evidence | C17 AR component snapshots in RAM implemented; SSD restart/exact resume pending and off |
 | Long AR context/YaRN | Historical bounded AR/frontier evidence through 128K | Direct AR measurements with physical prefix 131072 plus 2048 new tokens; exact serial/batch scheduling comparisons. HTTP Chat/Responses verified at 262075 physical prompt tokens, capacity 262144; no independent long-context numerical oracle |
 | Adapted IQ2/Q2/MXFP4 kernels | DS4-specific changes and numerical/performance receipts | Not adopted or qualified; upstream pin is independently fetched |
 | Strict JSON/JSON Schema grammar | Explicitly unavailable through DS4 ABI | Missing |

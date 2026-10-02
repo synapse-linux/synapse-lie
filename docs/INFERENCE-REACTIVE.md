@@ -268,10 +268,21 @@ record queue delay, p50/p95/p99 first output and inter-token gaps, batch occupan
 credit stalls and time spent in prefill. Only that evidence can justify a new
 prefill/decode fairness policy or different chunk size. Operator-level profiling
 is separately needed before changing internal synchronization or scratch reuse.
-Prefix cache, MTP, PP batching and asynchronous forwards remain distinct missing
-features; none is supplied by the current reactive dispatcher.
+MTP, PP batching and asynchronous forwards remain missing. RAM prefix reuse
+has now been added explicitly in the C core; it was not supplied by the existing
+reactive dispatcher.
 
 The later [full-prefill/HTTP campaign](FULL-PREFILL-HTTP-RESULT.md) supplies
 absolute serving timings, but no before/after HTTP scheduler comparison. Its
 100K follow-up still re-prefills the entire history (71.79s): the implemented
 ready-row flow does not confer state-cache reuse.
+
+
+The RAM increment adds owner phases for completed capture/restore, bounded
+immutable storage and cancellation-safe retirement. HTTP still runs independently;
+no new inference worker or hidden per-request thread is introduced. A transfer
+can delay peer dispatch until it completes, just as a prefill chunk can. Reuse
+can improve TTFT and aggregate wall throughput by avoiding PP, while cold capture
+adds cost. Neither observation establishes faster fresh PP, parallel kernels or
+an asynchronous dependency graph within a forward. The state experiment keeps
+copy paths, executed PP and client wall separate.

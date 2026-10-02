@@ -52,7 +52,7 @@ imported into the server. No sibling project code or artifacts were imported.
 
 | Reference experiment | Meaning / required semantics | Current LIE gap |
 |---|---|---|
-| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | Direct physical-prefix measurements through 128K exist; HTTP prefix caching remains absent; context now reaches 262144 with an 8 MiB request limit; exact reference corpus/calibration not reproduced |
+| Single AR | HTTP, greedy, thinking off, approximately 2048 **new** prompt tokens and up to 128 output tokens after cached depths 0/4096/8192/12288/16384/32768/65536/131072; recipe context 133760 | Direct physical-prefix measurements through 128K exist; shared C17 RAM prefix caching is now implemented; context now reaches 262144 with an 8 MiB request limit; exact reference corpus/calibration not reproduced |
 | Single MTP | Same depth sweep; mixed and repetitive workloads; PP is the maximum per engine/depth across these workloads, including predictor catch-up | MTP not exposed |
 | Multi AR/MTP | C1/2/4/6/8, context 4096 per user, all sessions prefilled before measured TG128; **sum of individual decode rates**, not cohort tokens divided by cohort wall time | Native AR batching is implemented for 1/2/4/6/8; the direct benchmark uses common-window aggregate throughput, not the reference HTTP/cache protocol or rate aggregation; MTP absent |
 | Loading | Cold target/sidecar files to HTTP readiness, C1/MTP/context 262144 | No equivalent cold-load experiment; never drop global caches or alter another service implicitly |
@@ -106,7 +106,8 @@ Use exactly one of `--prompt-file` (raw UTF-8, no chat template) or `--tokens-fi
 (a JSON array of nonnegative int32 physical IDs). Context defaults to 4096 and is
 bounded at 262144; the prompt plus requested output must fit. `--users` is one
 concurrency value from 1 through 8, not a host thread count. Generation is greedy
-AR with fresh sessions and no cross-request cache, MTP or vision.
+AR with independent fresh sessions; RAM prefix caching defaults on (4 GiB).
+Use `--prefix-cache-mib 0` to measure full fresh PP. MTP/vision remain unsupported.
 
 A safe fixture example in a GPU-masked `.157` CPU checkout:
 
@@ -123,7 +124,7 @@ needs a fresh coordinated GPU build/admission. The existing `run-bench.py`
 allowlist now binds exactly one staged input basename, byte count and SHA-256
 to the core argument and file inventory. It rejects external paths, symlinks,
 drift and ambiguous inputs. A direct command is not a substitute for the shared-machine
-lease/manifest protocol. This increment's tests and plots are NOT-INFERENCE.
+lease/manifest protocol. Synthetic tests and fixture plots are NOT-INFERENCE; GPU qualification is separate.
 
 Each `synapse-lie.core-bench.v1` file contains identity, readiness time, complete
 physical input IDs with little-endian SHA-256, per-job output IDs and timings,
@@ -143,9 +144,24 @@ Reports retain warmups and all raw measured values; charts show medians and
 observed min/max. The prefill panel uses individual completed-call throughput;
 aggregate output/total-wall and client first-token latency have their own panels.
 Core comparisons require matching scope, input hash, context/chunk, users and
-output limit; performance ratios additionally require equal full-budget output.
+output limit and cache policy/budget; performance ratios additionally require equal full-budget output.
 These checks do not establish model identity or independent numerical accuracy;
 original-weight comparisons also require model/binary/DSO manifests and the
 separate frontier/logit qualification. An executor result cannot be supplied as
 a matched core result. Optional Matplotlib is used only for export, never installed
 automatically. `--suite core --help` and `--build-info` open no model.
+
+
+RAM-aware core reports include reused tokens and capture/restore-path durations.
+Use one discarded warmup for an explicitly warm-cache series and retain that
+cold sample. An exact full hit has no executed PP tokens/s; charts say so instead
+of dividing the whole prompt by restore time. Cache-on/off experiments require
+an explicitly declared paired analysis; the ordinary comparator refuses to
+silently mix policies. Identity records the effective byte budget.
+
+`--suite state --tokens-file INPUT --pp CHECKPOINT --context N --chunk N` directly
+qualifies C-owned state with three fresh/restored pairs, full float logits after
+PP and every AR step, greedy/seeded sampling and independent clones. Its JSONL
+is accepted only after every exact pair and complete terminal succeeds. This
+numerical diagnostic bypasses job scheduling; it supplements `--suite core`,
+not a measurement of HTTP or reactive speedup. See the [protocol](STATE-GPU-PROTOCOL.md).

@@ -175,7 +175,7 @@ json_object *lie_response_object(const char *id,const char *model,int64_t create
         json_object_object_add(u,"output_tokens",json_object_new_int64(info->output_tokens));
         json_object_object_add(u,"total_tokens",json_object_new_int64((uint64_t)info->prompt_tokens+info->output_tokens));
         json_object *in=json_object_new_object(), *out=json_object_new_object();
-        json_object_object_add(in,"cached_tokens",json_object_new_int(0)); json_object_object_add(out,"reasoning_tokens",json_object_new_int(0));
+        json_object_object_add(in,"cached_tokens",json_object_new_int64(info->cached_tokens)); json_object_object_add(out,"reasoning_tokens",json_object_new_int(0));
         json_object_object_add(u,"input_tokens_details",in); json_object_object_add(u,"output_tokens_details",out);
     }
     json_object_object_add(o,"usage",u); return o;

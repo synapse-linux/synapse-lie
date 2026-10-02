@@ -18,7 +18,7 @@ def main():
     while a==m: m=port()
     with tempfile.TemporaryDirectory(prefix='lie-performance-fixture-') as d:
         with Path(d,'log').open('wb') as log:
-            p=subprocess.Popen([sys.argv[1],'--model',':fixture:','--port',str(a),'--management-port',str(m)],stdout=log,stderr=log)
+            p=subprocess.Popen([sys.argv[1],'--model',':fixture:','--prefix-cache-mib','0','--port',str(a),'--management-port',str(m)],stdout=log,stderr=log)
             try:
                 deadline=time.monotonic()+5
                 while True:

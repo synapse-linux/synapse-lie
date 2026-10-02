@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/core.h"
 #include "core_input.h"
+#include "prefix_cache.h"
 #include "lie/inference.h"
 #include <errno.h>
 #include <poll.h>
@@ -27,6 +28,8 @@ struct lie_job {
     lie_sequence *sequence; /* worker only */
     int32_t *prompt;
     size_t tokens, fed;
+    size_t checkpoint;
+    bool cache_checked, capture_checked;
     uint32_t position; /* Last validated completed frontier; worker only. */
     bool executing; /* Protected by owner gate; cancellation observation. */
     bool output_blocked; /* Worker-owned, aggregate snapshot under owner gate. */
@@ -42,6 +45,7 @@ struct lie_core {
     unsigned preparing; /* Bounded admission copies, protected by gate. */
     int wake, notice;
     lie_model *model;
+    lie_prefix_cache cache;
     lie_job *dispatch; /* Pinned worker job, protected by owner gate. */
 };
 static void set_output_blocked(lie_core *w, lie_job *j, bool value) {
@@ -173,6 +177,27 @@ static void poison(lie_core *w, const lie_error *error) {
     snprintf(w->info.error,sizeof(w->info.error),"%s",error->message);
     pthread_mutex_unlock(&w->gate); signal_fd(w->notice);
 }
+static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_error *error) {
+    pthread_mutex_lock(&w->gate);
+    w->dispatch=j;j->executing=true;
+    w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
+    pthread_mutex_unlock(&w->gate);
+    uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
+    lie_status rc=restore?lie_prefix_cache_restore(&w->cache,j->sequence,j->prompt,j->tokens,w->options.chunk,&reused,error):
+        lie_prefix_cache_capture(&w->cache,j->sequence,j->prompt,j->fed,error);
+    bool b=clock_ns(&end);
+    pthread_mutex_lock(&j->gate);
+    if(!a||!b||end<start)j->info.timing_valid=false;
+    else if(restore)j->info.cache_restore_ns=end-start;
+    else j->info.cache_capture_ns=end-start;
+    if(restore&&rc==LIE_OK){j->fed=reused;j->position=reused;j->info.cached_tokens=reused;}
+    pthread_mutex_unlock(&j->gate);
+    pthread_mutex_lock(&w->gate);
+    w->info.cache=w->cache.info;w->info.executor_phase=LIE_EXECUTOR_IDLE;
+    j->executing=false;w->dispatch=NULL;
+    pthread_mutex_unlock(&w->gate);
+    return rc;
+}
 static bool step(lie_core *w, size_t index) {
     lie_job *j=w->jobs[index]; if (!j) return false;
     lie_error error={0}; lie_core_info wi; lie_core_snapshot(w,&wi);
@@ -233,10 +258,18 @@ static bool step(lie_core *w, size_t index) {
         j->sequence=sequence;
         if (atomic_load(&j->cancel)) lie_sequence_cancel(sequence);
         j->info.prompt_tokens=(unsigned)j->tokens; j->info.prepared=true;
+        j->checkpoint=j->tokens>=w->options.chunk?j->tokens-j->tokens%w->options.chunk:j->tokens;
         pthread_mutex_unlock(&j->gate);
         signal_fd(w->notice);
     }
     if (atomic_load(&j->cancel)) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }
+    if(w->options.prefix_cache_bytes&&!j->cache_checked){
+        j->cache_checked=true;lie_status rc=cache_step(w,j,true,&error);
+        if(rc!=LIE_OK){if(rc!=LIE_CANCELLED)poison(w,&error);
+            finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);return true;}
+        if(j->fed>=j->checkpoint)j->capture_checked=true;
+        if(atomic_load(&j->cancel)){finish_job(w,index,LIE_FINISH_CANCEL,"cancelled");return true;}
+    }
     if (j->fed<j->tokens) {
         size_t add=j->tokens-j->fed; if (add>w->options.chunk) add=w->options.chunk;
         begin_call(w,j,true);
@@ -249,7 +282,14 @@ static bool step(lie_core *w, size_t index) {
                 poison(w,&error);
             }
             finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);
-        } else { j->fed+=add; j->position=(uint32_t)j->fed; }
+        } else {
+            j->fed+=add;j->position=(uint32_t)j->fed;
+            if(w->options.prefix_cache_bytes&&!j->capture_checked&&j->fed==j->checkpoint){
+                j->capture_checked=true;rc=cache_step(w,j,false,&error);
+                if(rc!=LIE_OK){if(rc!=LIE_CANCELLED)poison(w,&error);
+                    finish_job(w,index,rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_BACKEND,error.message);}
+            }
+        }
         return true;
     }
     return false; /* Prefilled rows enter the shared inference dispatcher below. */
@@ -337,6 +377,9 @@ static void *work(void *arg) {
     lie_model_info model={0};
     lie_status rc=lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
+    if(rc==LIE_OK&&w->options.prefix_cache_bytes&&!lie_backend_prefix_state_supported()){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable RAM cache");
+    }
     pthread_mutex_lock(&w->gate);
     w->info.model=model;
     w->info.state=atomic_load(&w->stop)?LIE_STOPPING:rc==LIE_OK?LIE_READY:LIE_FAILED;
@@ -363,15 +406,20 @@ static void *work(void *arg) {
         if (result<0) abort();
         for (size_t i=0;i<count;++i) if (fds[i].revents&POLLIN) drain_fd(fds[i].fd);
     }
+    lie_prefix_cache_clear(&w->cache);
     if (w->model) (void)lie_model_close(&w->model,&error);
-    pthread_mutex_lock(&w->gate); w->info.state=LIE_STOPPED; pthread_mutex_unlock(&w->gate);
+    pthread_mutex_lock(&w->gate); w->info.cache=w->cache.info;w->info.state=LIE_STOPPED; pthread_mutex_unlock(&w->gate);
     signal_fd(w->notice); return NULL;
+}
+void lie_core_options_init(lie_core_options *o){
+    if(o)*o=(lie_core_options){.context=4096,.chunk=2048,.max_active=1,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
 }
 lie_core *lie_core_create(const lie_core_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
+    lie_prefix_cache_init(&w->cache,o->prefix_cache_bytes);w->info.cache=w->cache.info;
     atomic_init(&w->stop,false);
     if (!w->path) goto fail;
     w->wake=eventfd(0,EFD_NONBLOCK|EFD_CLOEXEC); w->notice=eventfd(0,EFD_NONBLOCK|EFD_CLOEXEC);

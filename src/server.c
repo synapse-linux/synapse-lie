@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/metrics.h"
 #include "lie/worker.h"
+#include "lie/state.h"
 #include "lie/wire.h"
 #include "lie/tools.h"
 #include "lie/responses.h"
@@ -387,6 +388,7 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
     json_object_object_add(b,"mtp",json_object_new_boolean(false));
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
+    json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()));
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
 }
@@ -394,7 +396,9 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object *o=json_object_new_object();
     json_object_object_add(o,"scope",json_object_new_string("owner_dispatch_intervals"));
     json_object_object_add(o,"phase",json_object_new_string(i->executor_phase==LIE_EXECUTOR_PREFILL?"prefill":
-                                                         i->executor_phase==LIE_EXECUTOR_DECODE?"decode":"none"));
+                                                         i->executor_phase==LIE_EXECUTOR_DECODE?"decode":
+                                                         i->executor_phase==LIE_EXECUTOR_CAPTURE?"capture":
+                                                         i->executor_phase==LIE_EXECUTOR_RESTORE?"restore":"none"));
     json_object_object_add(o,"prefill_started",json_object_new_uint64(i->prefill_started));
     json_object_object_add(o,"prefill_returned",json_object_new_uint64(i->prefill_returned));
     json_object_object_add(o,"decode_started",json_object_new_uint64(i->decode_started));
@@ -406,6 +410,19 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object_object_add(o,"cancel_during_decode",json_object_new_uint64(i->cancel_during_decode));
     return o;
 }
+static json_object *prefix_cache_json(const lie_prefix_cache_info *i) {
+    json_object *o=json_object_new_object();
+    json_object_object_add(o,"kind",json_object_new_string("ram-prefix-checkpoints"));
+    json_object_object_add(o,"enabled",json_object_new_boolean(i->budget_bytes!=0));
+    json_object_object_add(o,"ssd_enabled",json_object_new_boolean(false));
+    json_object_object_add(o,"accounting",json_object_new_string("owned payload and descriptors; excludes allocator/driver overhead"));
+#define CACHE_FIELD(name) json_object_object_add(o,#name,json_object_new_uint64(i->name))
+    CACHE_FIELD(budget_bytes);CACHE_FIELD(retained_bytes);CACHE_FIELD(peak_retained_bytes);
+    CACHE_FIELD(lookups);CACHE_FIELD(hits);CACHE_FIELD(misses);CACHE_FIELD(reused_tokens);
+    CACHE_FIELD(captures);CACHE_FIELD(evictions);CACHE_FIELD(skipped);CACHE_FIELD(entries);
+#undef CACHE_FIELD
+    return o;
+}
 static char *llm_json(server *s) {
     json_object *j=json_object_new_object();
     json_object_object_add(j,"schema",json_object_new_string("synapse-lie.llm.v1"));
@@ -414,6 +431,7 @@ static char *llm_json(server *s) {
     json_object *scheduler=NULL;
     if (s->worker) {
         lie_worker_info info; lie_worker_snapshot(s->worker,&info);
+        json_object_object_add(j,"cache",prefix_cache_json(&info.cache));
         scheduler=json_object_new_object();
         json_object_object_add(scheduler,"mode",json_object_new_string("single-owner-reactive-ready-batch"));
         json_object_object_add(scheduler,"queued",json_object_new_int(info.queued));
@@ -428,7 +446,8 @@ static char *llm_json(server *s) {
         json_object_object_add(scheduler,"failed",json_object_new_uint64(info.failed_requests));
     }
     json_object_object_add(j,"scheduler",scheduler);
-    const char *unknown[]={"memory","cache","speculation","throughput","latency"};
+    if(!s->worker)json_object_object_add(j,"cache",NULL);
+    const char *unknown[]={"memory","speculation","throughput","latency"};
     for (size_t i=0;i<sizeof(unknown)/sizeof(*unknown);++i) json_object_object_add(j,unknown[i],NULL);
     return json_text(j);
 }
@@ -661,7 +680,7 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL, "C"); int port = 19879, management_port = 19880;
     const char *host = "127.0.0.1", *management_host = "127.0.0.1";
     const char *model_id=lie_backend_is_synthetic()?"cpu-test-fixture":"qwen3.8-flash-next";
-    lie_worker_options options={NULL,4096,2048,1};
+    lie_worker_options options;lie_core_options_init(&options);
     int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
         if (!strcmp(argv[i],"--build-info")) {
@@ -670,7 +689,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. No MTP or restore.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. No SSD, MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -683,6 +702,11 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[i], "--context")) options.context=(uint32_t)number(argv[++i],LIE_WORKER_MAX_CONTEXT);
         else if (!strcmp(argv[i], "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
         else if (!strcmp(argv[i], "--max-active")) options.max_active=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(argv[i], "--prefix-cache-mib")) {
+            const char *v=argv[++i];int mib=!strcmp(v,"0")?0:number(v,1048576);
+            if(mib<0){fputs("Invalid prefix cache budget\n",stderr);return 2;}
+            options.prefix_cache_bytes=(uint64_t)mib*1024u*1024u;
+        }
         else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
         else { fputs("Unknown option\n", stderr); return 2; }
     }

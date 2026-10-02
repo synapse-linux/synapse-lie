@@ -12,13 +12,13 @@ means the linked experiment, not every variant in a referenced document.
 
 | Area | Existing LIE evidence | Remaining work |
 |---|---|---|
-| Single AR at occupied 0..128K | Direct executor pp2048/tg128, exact inputs/output/frontiers versus direct pinned Gufo | Exact HTTP cached-prefix preparation, reference corpus and count conventions; live state cache first |
+| Single AR at occupied 0..128K | Direct executor pp2048/tg128, exact inputs/output/frontiers versus direct pinned Gufo | Exact HTTP cached-prefix preparation, reference corpus and count conventions; new RAM cache qualification is separate |
 | Concurrent AR C1/2/4/6/8 | Common-window direct TG, scalar versus ready/native batch; three repetitions | Reference HTTP method sums individual rates; retain both definitions and repeat against direct native batch in the same campaign |
 | Single and concurrent MTP | None through the LIE contract | Expose/admit predictor, mixed and repetitive cases, draft catch-up, acceptance/RNG/rollback correctness, AR parity, then timings |
 | Full fresh PP through 258794 | Six points, n=2, TG128; HTTP PP through actual 131063, n=2 | HTTP 256K performance repetitions, predeclared higher repetition count/order, diverse recorded corpus; capacity smoke is separate |
 | Ten served prompt shapes | Ten original shapes, one sample each, actual output256 | Three repetitions each; exact exported corpus on comparator; same AR/thinking/cache settings, then separate speculative experiments |
 | Agent and function-call throughput | Real Pi read/edit/read acceptance; text-only tool-dialogue in shape suite | Six actual tool-history/coding trajectories, output400, repeated timings, thinking variants; MTP/lookup require implementations |
-| 100K conversation | Two actual turns, 69.76/71.79s; all history re-prefilled | Twenty actual turns already supported by client; cache-off timing can run now, cached timing requires state reuse |
+| 100K conversation | Two actual turns, 69.76/71.79s; all history re-prefilled | Twenty actual turns already supported by client; cache-off timing can run now, new RAM implementation permits cached timing after its qualification |
 | State reuse, RAM/disk restart | No LIE implementation | Hybrid recurrent/attention/PLE state, divergence and identity, bounds/eviction, restart and replay; not just token caching |
 | Loading | One AR load per binding under existing file-cache conditions | Cold target plus predictor to HTTP readiness, explicit file-cache conditions; no global cache drop implicit in a test |
 | Memory | Upstream size estimates and sampled telemetry | Peak live HIP allocation including idle baseline, scratch and retained state; quantify host pressure separately |
@@ -71,7 +71,8 @@ and preserves the observation. Tokenizers without this linear property must use
 an explicitly prepared `--requests` corpus. Targets round down to whole records;
 only actual usage is used in rates. No large-prompt prefill calibration is hidden.
 The model and file cache can be warm from startup/probes; cache-off denotes no
-prefix reuse, not cold disk pages. Server cache policy is an operator declaration.
+prefix reuse, not cold disk pages. Server cache policy is an operator declaration. Since RAM now defaults on,
+cache-off serving runs must explicitly start the server with `--prefix-cache-mib 0`.
 
 Each sample retains the exact request, hash, byte count, actual input/output,
 SSE, finish reason, first output and total wall, plus available executor timings.

@@ -138,7 +138,7 @@ def main():
     if manifest['authorization']['kind']!='operator-one-shot-window' or not manifest['authorization']['gpu_test_authorized']:
         raise SystemExit('Explicit current operator authorization required')
     suite=manifest.get('suite','http-smoke-v1')
-    if suite not in ('http-smoke-v1','http-lifecycle-v1','http-performance-v1'): raise SystemExit('Unsupported serving qualification suite')
+    if suite not in ('http-smoke-v1','http-lifecycle-v1','http-performance-v1','http-cache-v1'): raise SystemExit('Unsupported serving qualification suite')
     out=run/'results'; out.mkdir()  # Refuse replays/overwrites, including previous failures.
     result={'state':'PREFLIGHT','started_at':now(),'manifest_sha256':sha(run/'manifest.json'),
             'runner_sha256':sha(Path(__file__)),'supervisor_pid':os.getpid(),'supervisor_start_ticks':ticks(os.getpid()),
@@ -186,6 +186,7 @@ def main():
             except BaseException: os.close(fd); raise
             locks.append(fd); s=os.fstat(fd); live=p.stat()
             if (s.st_dev,s.st_ino)!=(live.st_dev,live.st_ino): raise RuntimeError('lock identity race')
+            if manifest.get('lock_identities') and manifest['lock_identities'].get(name)!=[s.st_dev,s.st_ino]: raise RuntimeError('unexpected established lease identity')
             result['locks'].append({'path':name,'device':s.st_dev,'inode':s.st_ino})
         baseline_dri,denied=dri_clients()
         result['preflight_dri']={'pids':sorted(baseline_dri),'permission_denied':denied}
@@ -194,6 +195,8 @@ def main():
         result['models_before']=[model_stat(m) for m in manifest['models']]
         trunk=sum(m['bytes'] for m in manifest['models'] if '/mtp-' not in m['path'])
         if result['preflight_memory']['MemAvailable']<=trunk: raise RuntimeError('available RAM below trunk-file-size estimate; not an OOM/fit claim')
+        reserve=manifest.get('ram_cache_reserve_bytes',0)
+        if type(reserve) is not int or reserve<0 or result['preflight_memory']['MemAvailable']<=trunk+reserve: raise RuntimeError('RAM cache reserve admission failed; no memory-fit claim')
         binary=run/'synapse-lie-server'
         if sha(binary)!=manifest['binary_sha256']: raise RuntimeError('binary identity mismatch')
         result['binary_sha256']=sha(binary)
@@ -234,6 +237,11 @@ def main():
             checks=load_serving_checks(run,manifest['serving_checks_sha256'])
             result['serving_checks_sha256']=manifest['serving_checks_sha256']
         result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','9216' if suite=='http-performance-v1' else '4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port',str(api_port),'--management-port',str(management_port)]
+        # Historical lifecycle/performance protocol measures fresh work. Older
+        # sealed binaries lack this option; new manifests declare it explicitly.
+        if manifest.get('prefix_cache_mib') is not None:
+            if manifest['prefix_cache_mib'] != 0: raise RuntimeError('fresh-work protocol requires cache disabled')
+            result['server_argv'] += ['--prefix-cache-mib','0']
         register('start'); registered=True
         result['model_attempted']=True; stage('MODEL_LOADING')
         with (out/'server.log').open('xb') as log:
@@ -293,7 +301,7 @@ def main():
                     if obj.get('system_fingerprint')!='gufo-embedded-f783fedb': raise RuntimeError('completion provider')
                     parsed={'content':obj['choices'][0]['message']['content'],'finish':obj['choices'][0]['finish_reason'],'usage':obj['usage']}
                 row['parsed']=parsed; pair.append(parsed)
-                if checks:
+                if checks or suite=='http-cache-v1':
                     if streaming:
                         frames=[json.loads(f[6:]) for f in response['body'].split('\n\n') if f.startswith('data: {')]
                         final=[f for f in frames if 'lie_timings' in f]
@@ -301,11 +309,21 @@ def main():
                             raise RuntimeError('SSE timing terminal contract')
                         row['timings']=final[0]['lie_timings']
                     else: row['timings']=obj['lie_timings']
-                    checks.validate_timings(parsed['usage'],row['timings'])
+                    if checks: checks.validate_timings(parsed['usage'],row['timings'])
+                    else:
+                        t=row['timings'];u=parsed['usage'];cached=u.get('prompt_tokens_details',{}).get('cached_tokens',0)
+                        if t['cached_tokens']!=cached or t['prefill_tokens']+cached!=u['prompt_tokens']: raise RuntimeError('cache PP/usage accounting')
+                        if streaming and not cached: raise RuntimeError('expected repeated prompt RAM hit')
                 if parsed['usage']['completion_tokens']<=0 or parsed['finish'] not in ('stop','length'): raise RuntimeError('no valid generated completion')
                 result['model_inference_observed']=True; save()
                 if parsed['content'].strip()!=case['expected']: raise RuntimeError('predeclared smoke text mismatch: '+repr(parsed['content']))
-            if pair[0]!=pair[1]: raise RuntimeError('nonstream/SSE mismatch')
+            if suite=='http-cache-v1':
+                normalized=[]
+                for item in pair:
+                    usage={k:v for k,v in item['usage'].items() if k!='prompt_tokens_details'}
+                    normalized.append(dict(item,usage=usage))
+                if normalized[0]!=normalized[1]: raise RuntimeError('cache nonstream/SSE output mismatch')
+            elif pair[0]!=pair[1]: raise RuntimeError('nonstream/SSE mismatch')
             print(now(),'PASS',case['name'],repr(pair[0]['content']),flush=True)
         check()
         deadline=time.monotonic()+20
@@ -318,6 +336,10 @@ def main():
         expected=sum(row['parsed']['usage']['completion_tokens'] for row in result['tests'])
         if scheduler['completed']!=len(manifest['cases'])*2 or scheduler['failed'] or scheduler['cancelled'] or scheduler['generated_tokens']!=expected:
             raise RuntimeError('unexpected worker accounting / foreign request')
+        if suite=='http-cache-v1':
+            cache=result['final_llm']['cache']
+            if not cache['enabled'] or cache['ssd_enabled'] or cache['budget_bytes']!=4*1024**3 or cache['retained_bytes']>cache['budget_bytes'] or cache['hits']<len(manifest['cases']):
+                raise RuntimeError('default RAM cache contract')
         if checks and suite!='http-performance-v1':
             stage('MODEL_HTTP_LIFECYCLE_RUNNING')
             with (out/'lifecycle.jsonl').open('x') as log:
@@ -366,13 +388,13 @@ def main():
             result['postflight_kfd']=sorted(kfd()); result['postflight_gpu']=gpu(); result['postflight_memory']=memory()
             if not result['binary_unchanged'] or (proc is not None and proc.pid in result['postflight_kfd']): raise RuntimeError('retirement/identity failure')
             if result['state']=='SMOKE_PASSED_AWAITING_SHUTDOWN':
-                result['state']='MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON' if suite=='http-performance-v1' else 'MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-lifecycle-v1' else 'MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
+                result['state']='MODEL_HTTP_RAM_CACHE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-cache-v1' else 'MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON' if suite=='http-performance-v1' else 'MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION' if suite=='http-lifecycle-v1' else 'MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION'
         except Exception as ex:
             result['state']='FAILED'; result['closure_error']=repr(ex)
         result['finished_at']=now(); save()
         if registered: register('end')
         for fd in reversed(locks): os.close(fd)
     print(json.dumps({k:result[k] for k in ('state','model_attempted','model_inference_observed','finished_at')},indent=2),flush=True)
-    return 0 if result['state'] in ('MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON') else 1
+    return 0 if result['state'] in ('MODEL_HTTP_RAM_CACHE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_SSE_SMOKE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION','MODEL_HTTP_PERFORMANCE_PASS_NOT_INDEPENDENT_COMPARISON') else 1
 
 if __name__=='__main__': raise SystemExit(main())

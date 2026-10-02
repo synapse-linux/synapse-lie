@@ -44,7 +44,9 @@ def validate_args(args):
     options=dict(zip(keys,args[1::2]))
     if options.get('--suite')=='core':
         allowed={'--suite','--users','--tg','--warmups','--repetitions',
-                 '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file'}
+                 '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file','--prefix-cache-mib'}
+    if options.get('--suite')=='state':
+        allowed={'--suite','--context','--chunk','--pp','--tokens-file'}
     if len(set(keys))!=len(keys) or any(k not in allowed for k in keys):
         raise ValueError('unapproved/duplicate benchmark option')
     if not args or '--suite' not in keys:
@@ -56,7 +58,7 @@ def bind_args(args, run, manifest):
     """Bind a core input to one immutable staged file, never an external path."""
     args=validate_args(args)
     options=dict(zip(args[::2],args[1::2]))
-    if options['--suite']!='core':
+    if options['--suite'] not in ('core','state'):
         if manifest.get('benchmark_input') is not None:
             raise ValueError('input manifest only applies to core suite')
         return args
@@ -152,6 +154,8 @@ def main():
             s, live = os.fstat(fd), p.stat()
             if (s.st_dev, s.st_ino) != (live.st_dev, live.st_ino):
                 raise RuntimeError('lock identity race')
+            if m.get('lock_identities') and m['lock_identities'].get(name) != [s.st_dev,s.st_ino]:
+                raise RuntimeError('unexpected established lease identity')
             r['locks'].append({'path': name, 'device': s.st_dev, 'inode': s.st_ino})
         r['models_before'] = [H['model_stat'](x) for x in m['models']]
         r['preflight_memory'] = H['memory']()
@@ -163,6 +167,9 @@ def main():
         trunk = sum(x['bytes'] for x in m['models'] if '/mtp-' not in x['path'])
         if r['preflight_memory']['MemAvailable'] <= trunk:
             raise RuntimeError('available RAM below trunk-size estimate, not OOM/fit evidence')
+        reserve=m.get('ram_cache_reserve_bytes',0)
+        if type(reserve) is not int or reserve<0 or r['preflight_memory']['MemAvailable']<=trunk+reserve:
+            raise RuntimeError('RAM cache reserve admission failed; no memory-fit claim')
         binary = run / 'synapse-lie-bench'
         for name, expected in m['files'].items():
             if sha(run / name) != expected:
@@ -175,8 +182,8 @@ def main():
         env.update(LC_ALL='C', LD_BIND_NOW='1', ROCR_VISIBLE_DEVICES='0', HIP_VISIBLE_DEVICES='0')
         masked = dict(env, ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
         benchmark_args = bind_args(m['benchmark_args'],run,m)
-        core_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']=='core'
-        info = json.loads(command([str(binary), *(['--suite','core'] if core_suite else []), '--build-info'], masked))
+        selected_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']
+        info = json.loads(command([str(binary), *(['--suite',selected_suite] if selected_suite in ('core','state') else []), '--build-info'], masked))
         if info != m['build_info'] or info['synthetic'] or info['ownership'] != 'delegated':
             raise RuntimeError('provider/build identity mismatch')
         command(['uname', '-srmo'], masked)

@@ -36,7 +36,7 @@ int __wrap_clock_gettime(clockid_t clock, struct timespec *out) {
 static void pause_short(void) { struct timespec t={0,1000000}; nanosleep(&t,NULL); }
 static lie_worker *start(enum clock_fault f, uint64_t step) {
     fault=f; stride=step; atomic_store(&ticks,1000000); atomic_store(&reads,0);
-    lie_worker_options opts={":fixture:",1024,2,1};
+    lie_worker_options opts={":fixture:",1024,2,1,0};
     lie_worker *w=lie_worker_create(&opts); assert(w);
     for (unsigned i=0;i<3000;++i) {
         lie_worker_info info; lie_worker_snapshot(w,&info);

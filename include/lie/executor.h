@@ -14,7 +14,8 @@ typedef struct lie_model lie_model;
 typedef struct lie_sequence lie_sequence;
 typedef enum {
     LIE_OK = 0, LIE_INVALID = 1, LIE_UNSUPPORTED = 2, LIE_BUFFER_SMALL = 3,
-    LIE_CANCELLED = 4, LIE_BACKEND_FAILED = 5, LIE_WRONG_OWNER = 6
+    LIE_CANCELLED = 4, LIE_BACKEND_FAILED = 5, LIE_WRONG_OWNER = 6,
+    LIE_RESOURCE_LIMIT = 7 /* Refused before mutation; optional retention may skip. */
 } lie_status;
 typedef struct { char message[256]; } lie_error;
 typedef struct {

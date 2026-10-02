@@ -166,3 +166,23 @@ and direct core benchmark are first-party C17 under MIT. UTF-8 code is moved fro
 LIE's existing parser; no external implementation is imported. The provider ABI,
 Gufo adapter, numerical source pin and model files are unchanged. json-c/OpenSSL
 remain benchmark/protocol dependencies, not dependencies of the headless core.
+
+
+## Explicit component-state access variant
+
+`adapters/gufo-state/access-edits.json` records three exact friend declarations in
+two official `f783fedb` headers. `tools/gufo_state_source.py` validates the pristine
+1019-file inventory, materializes a separate copy and derives the variant hashes.
+`build-gufo.py LABEL --qwen-only --state-access` rebuilds all selected archives;
+`check-gufo-build.py ... --state-access` checks the edit/source/archive/recipe
+identities. Pristine builds reject variant receipts without the explicit option.
+No Q2 patch, sibling project source, numerical edit or opaque snapshot serializer
+is imported. Original Gufo files retain their upstream licenses/notices.
+
+`src/state.c`, `src/prefix_cache.c`, `src/models/qwen_flash_state.c` and the narrow
+`adapters/gufo-state/access.hpp` binding are first-party MIT. The state component
+coverage and geometry were audited against the pinned Qwen engine/executor fields
+and snapshot implementation; the representation and cache policy are C17-owned.
+HIP field transfers remain platform-specific and active forward execution remains
+delegated. This variant is not the pristine upstream source/build. The RAM default
+requires an explicitly state-capable composition; pristine baselines use RAM off.

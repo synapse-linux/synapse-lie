@@ -128,6 +128,7 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         json_object *job=event("job");number(job,"rep",rep);number(job,"warmup",warmup);number(job,"user",i);
         number(job,"prompt_tokens",info.prompt_tokens);number(job,"output_tokens",info.output_tokens);number(job,"output_bytes",rows[i].bytes);
         number(job,"prefill_tokens",info.prefill_tokens);number(job,"prefill_ns",info.prefill_ns);number(job,"decode_ns",info.decode_ns);
+        number(job,"cached_tokens",info.cached_tokens);number(job,"cache_capture_ns",info.cache_capture_ns);number(job,"cache_restore_ns",info.cache_restore_ns);
         number(job,"prefill_calls",info.prefill_calls);number(job,"decode_calls",info.decode_calls);
         number(job,"total_ns",rows[i].end-rows[i].start);
         json_object_object_add(job,"first_token_ns",rows[i].first?json_object_new_uint64(rows[i].first-rows[i].start):NULL);
@@ -141,6 +142,9 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     json_object_object_add(point,"output_per_total_wall_tps",json_object_new_double(tokens*1e9/(last-begin)));
     number(point,"decode_batches",after.decode_batches-before.decode_batches);number(point,"decode_batch_rows",after.decode_batch_rows-before.decode_batch_rows);
     number(point,"decode_single_calls",after.decode_single_calls-before.decode_single_calls);
+    number(point,"cache_hits",after.cache.hits-before.cache.hits);number(point,"cache_misses",after.cache.misses-before.cache.misses);
+    number(point,"cache_captures",after.cache.captures-before.cache.captures);number(point,"cache_evictions",after.cache.evictions-before.cache.evictions);
+    number(point,"cache_retained_bytes",after.cache.retained_bytes);number(point,"cache_budget_bytes",after.cache.budget_bytes);
     ok=emit(f,point);
 done:
     for(unsigned i=0;i<users;++i)if(rows[i].job)lie_job_release(rows[i].job);
@@ -149,9 +153,10 @@ done:
 int lie_core_bench_main(int argc,char **argv) {
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
+    unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY]\nDirect shared reactive core; raw text has no chat template. Greedy AR, no cache/MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--prefix-cache-mib 4096]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero MiB disables); no SSD/MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];unsigned bit=0;
@@ -168,6 +173,7 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--warmups")){bit=1024u;if(!integer(value,0,10,&warmups))goto usage;}
         else if(!strcmp(key,"--timeout-ms")){bit=2048u;if(!integer(value,1,3600000,&timeout))goto usage;}
         else if(!strcmp(key,"--graphs")){bit=4096u;graphs=value;}
+        else if(!strcmp(key,"--prefix-cache-mib")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
         else goto usage;
         if(seen&bit)goto usage;
         seen|=bit;
@@ -176,7 +182,8 @@ int lie_core_bench_main(int argc,char **argv) {
     text(identity,"execution","shared-reactive-core");text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
-    text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; no HTTP or cache");
+    text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
+    text(identity,"cache_policy",cache_mib?"ram":"off");number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);
     number(identity,"context_capacity",context);number(identity,"prefill_chunk",chunk);number(identity,"users",users);
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);
     if(build_info)return emit(stdout,identity)?0:1;
@@ -207,7 +214,7 @@ int lie_core_bench_main(int argc,char **argv) {
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
     int code=1;lie_core *core=NULL;char error[256]="core benchmark failed";witness w={0};
     if(!emit(f,identity))goto done;
-    uint64_t started=now();lie_core_options options={model,context,chunk,users};core=lie_core_create(&options);
+    uint64_t started=now();lie_core_options options={model,context,chunk,users,(uint64_t)cache_mib*1024u*1024u};core=lie_core_create(&options);
     if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){snprintf(error,256,"core readiness failed");goto done;}
     json_object *ready=event("core_ready");number(ready,"load_to_ready_ns",now()-started);if(!emit(f,ready))goto done;
     for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,&w,f,error))goto done;

@@ -1,5 +1,36 @@
 # Isolated OpenAI reactive API increment
 
+
+## C17 component state and default RAM retention — 2026-10-02
+
+The user's clarification is implemented: RAM retention defaults on (4 GiB,
+lazy allocation), SSD remains off and pending. State layout/allocation and
+prefix lookup/budgets/LRU are extracted into C17; Qwen AR component geometry
+is a C model module. HTTP and `--suite core` share the same engine cache.
+No opaque Gufo serializer is used. The explicit friend-access variant changes
+three declarations in two pinned headers, rebuilt separately; active numerical
+execution remains delegated. Exact-generation resume, SSD, MTP and vision remain
+pending. [State contract](STATE.md), [ABI](ABI.md) and [provenance](../third_party/README.md)
+record this boundary.
+
+New coverage includes headless capture/restore, domain/layout rejection,
+independent clones, budget eviction, cancellation, fail-closed mutating faults,
+cache-aware Chat/Responses and default-on/off bench graphs. `.157`
+`reactive-cpu-r12` passes headless 3/3, Debug 26/26 and ASan/UBSan 26/26; all nine
+configure/build/CTest commands exit 0. R11 also passed. R10 retains two failed
+HTTP assertions that assumed cold/warm usage equality or selected usage from
+the timing SSE frame; both expectations were corrected, without hiding failure.
+Local compile failures R1/R3/R4 are retained alongside corrected R2/R5/R6 and
+the successful HIP link receipts; no test or model ran on the editing host.
+
+`--suite state` adds paired full-logit qualification (greedy, seeded sampling,
+independent clone) with completed capture/restore/tail timings. GPU campaign
+`state-gpu-r1` is running under the [predeclared protocol](STATE-GPU-PROTOCOL.md),
+after Q2's verified release and fresh per-arm leases. Completed 512/8192-token
+and 4096-to-8192 extension arms already pass; 128K, throughput and HTTP results
+remain pending until final collection/retirement. This checkpoint makes no
+completed-campaign or performance claim.
+
 ## First core GPU regression passed — 2026-10-02
 
 `core-gpu-r2` completes all 13 declared arms on `.157`, all exits 0, with the

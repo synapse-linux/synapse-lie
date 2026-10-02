@@ -234,7 +234,9 @@ static int http_harness(int argc,char **argv,int suite_index) {
 int main(int argc,char **argv) {
 #ifndef LIE_BENCH_REFERENCE
     extern int lie_core_bench_main(int,char **);
+    extern int lie_state_bench_main(int,char **);
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"core"))return lie_core_bench_main(argc,argv);
+    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"state"))return lie_state_bench_main(argc,argv);
 #endif
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"http"))return http_harness(argc,argv,i);
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");

@@ -162,7 +162,7 @@ chat/eval clients must not require an HTTP service or duplicate the engine.
 The [source audit and extraction gates](ARCHITECTURE.md#shared-core-and-client-boundary)
 now cover the implemented `lie_core` lifecycle and direct `--suite core` consumer,
 not just the shared decode dispatcher. Structured tool-output semantics and
-future cache/MTP/vision capabilities still need the same neutral core boundary.
+RAM state/cache now follows the same neutral core boundary; MTP/vision remain pending.
 
 Keep operations coarse enough to preserve efficient fused kernels and native
 multirow work. Avoid a callback per scalar/tensor operation or a universal graph
@@ -203,10 +203,12 @@ neither architectural separation nor a language change guarantees a speedup.
    capability/state identity and frontier contracts. Use the current adapter as
    an explicitly delegated reference; add capture/restore only for complete
    version-qualified state. Do not introduce a public unused framework.
-2. Own prefix lookup, immutable entries, pinning/clone lifetime, eviction and
-   shared-memory budgets in C17. Qualify RAM reuse first. Initially the payload
-   may remain Gufo-specific; that does not qualify owned model state. Prefer
-   exact prompt checkpoints over per-token snapshots and measure capture cost.
+2. C17 now owns prefix lookup, immutable component storage, pinning/clone
+   lifetime, eviction, budgets and Qwen AR state layout. RAM defaults on; only
+   SSD defaults off. The transitional adapter binds fields and completed HIP
+   copies, without calling the Gufo snapshot serializer. Active device buffers
+   and forward math still belong to the transitional provider. Qualify complete
+   frontiers and capture/restore cost under [STATE-GPU-PROTOCOL.md](STATE-GPU-PROTOCOL.md).
 3. Add optional SSD persistence with explicit enable/path/quota and bounded
    staging/I/O. Disabled means no store I/O. Qualify restart, corruption,
    incompatible identities, atomic writes and eviction races. This persists
@@ -263,11 +265,10 @@ same LIE-owned contract principles.
 
 ## State formats and provenance
 
-A transitional snapshot may contain a Gufo-specific payload only if its schema
-and identity clearly identify that engine/build and all additional continuation
-state is accounted for. It is not an owned LIE state format and is not implicitly
-loadable by the future owned executor. Refuse incompatible state, or provide an
-explicitly versioned and qualified migration; do not reinterpret opaque bytes.
+RAM snapshots now use the LIE C17 component representation. The user's clarified
+requirement supersedes the earlier option of caching opaque Gufo payloads.
+Do not reintroduce that serializer when adding SSD: persistent identity and
+encoding belong in the shared core. Existing foreign formats remain incompatible.
 
 Fetch/reference Gufo independently, not through the DS4 fork. Preserve notices,
 licenses, pins and per-component source/hash/change records for numerical ports.

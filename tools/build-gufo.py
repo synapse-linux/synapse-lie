@@ -20,9 +20,10 @@ def sha(p):
     with p.open('rb') as f: return hashlib.file_digest(f, 'sha256').hexdigest()
 
 def main():
-    if len(sys.argv) not in (2,3) or not re.fullmatch(r'[a-z0-9-]{1,48}', sys.argv[1]) or (len(sys.argv)==3 and sys.argv[2]!='--qwen-only'):
-        raise SystemExit('Usage: tools/build-gufo.py EXCLUSIVE-LABEL [--qwen-only] (local compile only)')
-    subset = len(sys.argv)==3
+    if len(sys.argv)<2 or not re.fullmatch(r'[a-z0-9-]{1,48}',sys.argv[1]) or sys.argv[2:] not in ([],['--qwen-only'],['--qwen-only','--state-access']):
+        raise SystemExit('Usage: tools/build-gufo.py EXCLUSIVE-LABEL [--qwen-only [--state-access]] (local compile only)')
+    subset = '--qwen-only' in sys.argv
+    state_access = '--state-access' in sys.argv
     if os.environ.get('SSH_CONNECTION'):
         raise SystemExit('Remote GPU build requires the agreed lease runner; this helper is local-only')
     label = sys.argv[1]
@@ -32,15 +33,19 @@ def main():
     temp = build / 'tmp'; temp.mkdir()
     source = ROOT / '.deps/gufo-f783fedb'
     manifest = json.loads((ROOT / 'third_party/gufo-source.json').read_text())
+    source_files=manifest['files']
     result = {'state':'RUNNING', 'source_pin':PIN, 'pid':os.getpid(), 'commands':[],
               'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
               'gpu_execution':False, 'installation':False, 'build':str(build),
               'scope':'lie-qwen-only-source-subset' if subset else 'upstream-cmake',
               'build_script_sha256':sha(Path(__file__)),
               'subset_cmake_sha256':sha(ROOT/'cmake/gufo-runtime/CMakeLists.txt') if subset else None}
+    if state_access:
+        result['source_variant']='lie-state-access-v1'
+        result['state_access_edits_sha256']=sha(ROOT/'adapters/gufo-state/access-edits.json')
     def save(): (out / 'result.json').write_text(json.dumps(result, indent=2)+'\n')
     def verify():
-        for name,h in manifest['files'].items():
+        for name,h in source_files.items():
             p=source/name
             if p.is_symlink() or not p.is_file() or sha(p)!=h: raise RuntimeError('source drift: '+name)
     env = {k:v for k,v in os.environ.items() if not k.startswith(('GUFO_', 'DS4_')) and k not in
@@ -62,6 +67,10 @@ def main():
         if code: raise RuntimeError(f'command {index} exit {code}')
     save()
     try:
+        if state_access:
+            from gufo_state_source import materialize
+            source,source_files=materialize(ROOT,label)
+            result['source']=str(source);result['variant_files']=source_files;save()
         verify()
         run(['cmake','--version']); run(['c++','--version']); run(['/opt/rocm/bin/hipcc','--version'])
         run(['cmake','-S',str(ROOT/'cmake/gufo-runtime' if subset else source),'-B',str(build),'-G','Ninja',

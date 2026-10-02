@@ -20,12 +20,25 @@ RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.p
 
 
 class CoreBench(unittest.TestCase):
-    def run_case(self,root,*args,model=':fixture:',tokens=None,text=None):
+    def test_typed_state_clone_and_suffix(self):
+        with tempfile.TemporaryDirectory(prefix='lie-state-bench-') as tmp:
+            root=Path(tmp);source=root/'input.json';source.write_text(json.dumps(list(range(12))))
+            for checkpoint in (8,12):
+                output=root/f'state-{checkpoint}.jsonl'
+                p=subprocess.run([BINARY,'--suite','state','--model',':fixture:','--output',str(output),'--tokens-file',str(source),'--pp',str(checkpoint),'--chunk','4','--context','128'],capture_output=True,text=True,timeout=15)
+                self.assertEqual(p.returncode,0,p.stderr)
+                data=REPORT['read_result'](output)
+                self.assertEqual(len(data['pairs']),3)
+                self.assertEqual(data['pairs'][0]['reused_tokens'],checkpoint)
+                self.assertEqual(data['pairs'][0]['new_tokens'],12-checkpoint)
+                self.assertEqual(data['pairs'][0]['output_ids'],list(range(16)))
+
+    def run_case(self,root,*args,model=':fixture:',tokens=None,text=None,cache='0'):
         root=Path(root);source=root/'input';output=root/'result.jsonl'
         source.write_text(text if text is not None else json.dumps(tokens or [0,1,2,3]))
         kind='--prompt-file' if text is not None else '--tokens-file'
         p=subprocess.run([BINARY,'--suite','core','--model',model,'--output',str(output),kind,str(source),
-                          '--tg','16','--repetitions','2',*args],capture_output=True,text=True,timeout=15)
+                          '--tg','16','--repetitions','2',*(['--prefix-cache-mib',cache] if cache is not None else []),*args],capture_output=True,text=True,timeout=15)
         return p,output
 
     def test_real_core_lifecycle_counts_and_replay(self):
@@ -45,6 +58,27 @@ class CoreBench(unittest.TestCase):
                 self.assertEqual(row['output_tokens'],64)
                 self.assertAlmostEqual(row['output_per_total_wall_tps'],64e9/row['wall_ns'])
             self.assertTrue(REPORT['compare'](r,r)[0]['eligible'])
+
+    def test_ram_default_and_accounted_full_hit(self):
+        with tempfile.TemporaryDirectory(prefix='lie-core-cache-') as tmp:
+            p,path=self.run_case(tmp,'--warmups','1',cache=None)
+            self.assertEqual(p.returncode,0,p.stderr)
+            result=REPORT['read_result'](path)
+            self.assertEqual(result['identity']['cache_policy'],'ram')
+            self.assertEqual(result['identity']['prefix_cache_bytes'],4*1024**3)
+            self.assertEqual(result['jobs'][0]['cached_tokens'],0)
+            for job in result['jobs'][1:]:
+                self.assertEqual(job['cached_tokens'],4)
+                self.assertEqual(job['prefill_tokens'],0)
+                self.assertEqual(job['prefill_ns'],0)
+                self.assertEqual(job['output_ids'],list(range(16)))
+            self.assertIsNone(result['configurations'][0]['job_prefill_tps'])
+            REPORT['export'](result,Path(tmp)/'graphs','RAM fixture')
+            self.assertTrue((Path(tmp)/'graphs/benchmark.png').exists())
+            rows=[json.loads(x) for x in path.read_text().splitlines()]
+            next(r for r in rows if r['event']=='job' and not r['warmup'])['cached_tokens']=5
+            bad=Path(tmp)/'bad.jsonl';bad.write_text('\n'.join(json.dumps(r) for r in rows)+'\n')
+            with self.assertRaises(ValueError):REPORT['read_result'](bad)
 
     def test_raw_text_and_early_eos(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-raw-') as tmp:

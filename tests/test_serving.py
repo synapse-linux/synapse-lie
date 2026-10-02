@@ -79,7 +79,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='lie-synthetic-serving-') as directory:
         log_path=Path(directory)/'server.log'; clients=[]
         with log_path.open('wb') as log:
-            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:',
+            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:','--prefix-cache-mib','0',
                                    '--max-active','2','--request-timeout-ms','2000'],stdout=log,stderr=log)
             try:
                 def ready():
@@ -167,7 +167,7 @@ def main():
                 assert proc.returncode==0,proc.returncode
         # Shutdown with live work/writes, using a fresh owned child.
         with log_path.open('ab') as log:
-            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:'],stdout=log,stderr=log)
+            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:','--prefix-cache-mib','0'],stdout=log,stderr=log)
             held=None
             try:
                 eventually(ready); held=slow(a); time.sleep(.02); proc.terminate(); proc.wait(timeout=6)
@@ -179,7 +179,7 @@ def main():
         # Backend and successful-but-malformed returns must both fail closed.
         for fault in ('FAULT','BAD-POSITION','TEXT-SIZE'):
           with log_path.open('ab') as log:
-            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:'],stdout=log,stderr=log)
+            proc=subprocess.Popen([BINARY,'--port',str(a),'--management-port',str(m),'--model',':fixture:','--prefix-cache-mib','0'],stdout=log,stderr=log)
             try:
                 eventually(ready)
                 status,headers,body=chat(a,payload(fault,True))

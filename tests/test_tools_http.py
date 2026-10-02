@@ -91,7 +91,8 @@ def main():
                     merged['tool_calls'].extend(delta.get('tool_calls', []))
                 check_message(merged)
                 assert chunks[-2]['choices'][0]['finish_reason'] == 'tool_calls'
-                assert chunks[-1]['usage'] == full['usage']
+                assert chunks[-1]['usage'] == dict(full['usage'], prompt_tokens_details={'cached_tokens': 4})
+                assert chunks[-2]['lie_timings']['prefill_tokens'] == 0
                 assert merged['tool_calls'][0]['index'] == 0
                 # Standard OpenAI history, no textual client shim.
                 follow = request('TOOL-FOLLOW')

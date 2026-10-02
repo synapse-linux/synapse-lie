@@ -13,8 +13,10 @@ See [API surface, reactive ownership and explicit limits](docs/OPENAI-REACTIVE.m
 It is not complete OpenAI platform coverage. Tests run on `.157`; CPU fixtures
 and original-weight HIP evidence remain separate.
 
-Native AR batching through eight rows is implemented. Cross-request prefix
-reuse, optional SSD state, MTP and vision remain implementation gaps. The
+Native AR batching through eight rows and C17 cross-request RAM prefix reuse
+are implemented. RAM retention is on by default (4 GiB, allocated lazily);
+`--prefix-cache-mib 0` disables retention explicitly. Optional SSD persistence
+is off and pending, as are MTP and vision. The
 [separation assessment](docs/BACKEND.md#separation-assessment--2026-10-02) defines
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
@@ -184,13 +186,19 @@ provenance and licensing are in [third_party/README.md](third_party/README.md).
 ```sh
 # Only on a fresh checkout; fetch refuses an existing source directory:
 python3 -B tools/fetch-gufo.py
-python3 -B tools/build-gufo.py new-gufo-label --qwen-only
-python3 -B tools/verify-linked.py new-link-label build/new-gufo-label
-build/new-link-label/synapse-lie-server --build-info
+python3 -B tools/build-gufo.py new-gufo-label --qwen-only --state-access
+cmake -S . -B build/new-link-label -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
+  -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-new-gufo-label" \
+  -DGUFO_BUILD="$PWD/build/new-gufo-label"
+cmake --build build/new-link-label -j2
+# Run build-info and tests only on the designated .157 verification host.
 ```
 
-The Qwen-only build uses unchanged upstream source and the upstream model target;
-it is a **LIE-owned build subset, not the complete upstream release build**.
+The Qwen-only build uses the upstream model target. The explicit state-access
+variant adds only hash-checked friend declarations in two headers, in a separate
+source tree; numerical code and pristine sources/archives remain unchanged.
+This is a **LIE-owned build subset, not the complete upstream release build**.
 It avoids an unrelated full-tree rocWMMA requirement, without fake headers.
 Both source and private archives are verified before linking. Compiler commands,
 failures, hashes and logs are retained. Verification masks GPU visibility, uses
@@ -226,8 +234,13 @@ part of the local verification—an original-weight candidate can be started wit
 # read-only first shard. MODEL is explicitly supplied by the operator.
 build/new-link-label/synapse-lie-server --model "$MODEL" \
   --context 4096 --prefill-chunk 2048 --max-active 1 \
-  --port 19879 --management-port 19880
+  --port 8000 --management-port 19880
 ```
+
+The RAM budget is shared by core clients, including `--suite core`; use explicit
+RAM-off mode for full-prefill performance baselines. `--suite state --help`
+describes the direct typed-state/full-logit qualification probe. Cache savings,
+capture/restore costs and executed PP are separate metrics; see [STATE.md](docs/STATE.md).
 
 Opening succeeds asynchronously on the worker; health becomes ready only after
 model/executor open, and goes unavailable on poison. Readiness is not a quality
@@ -253,7 +266,7 @@ build/debug/synapse-lie-monitor watch --duration 10 --interval 1
 build/debug/synapse-lie-monitor record --duration 10 --output run.jsonl
 ```
 
-Open `http://127.0.0.1:19880/monitor`. Missing memory/cache/latency/throughput
+Open `http://127.0.0.1:19880/monitor`. Missing memory/latency/throughput
 values remain null. The page is an en_US development fallback, not a localized
 release GUI. SIGINT/SIGTERM waits for owned work/write retirement; cancellation
 is not GPU preemption. **Keep loopback defaults:** no TLS/authentication exists.
