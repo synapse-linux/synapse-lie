@@ -45,5 +45,6 @@ compensated activation representation into its IQ2 producer, using the same
 independently fetched official Gufo templates and buffers. It introduces no
 external code or new weight format. Existing upstream and llama.cpp notices
 remain applicable; prepared synthetic replay fixtures are first-party MIT.
-Static-only evidence and pending runtime gates are explicit in
-`docs/Q2-PACKED-ACTIVATIONS.md`.
+GPU operator, exact full-model replay and fresh Q2/UD performance evidence
+are explicit in `docs/Q2-PACKED-ACTIVATIONS.md`. This does not promote the
+experimental patch into the qualified runtime or replace its provenance.

@@ -1,0 +1,168 @@
+{
+  "scope": "Current baseline profile, packed operators, fresh sequential Q2 baseline/candidate and UD model arms, packed diagnostic profile. CPU fixtures are recorded separately.",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "arms": {
+    "q2-iq2-current-profile-r1": {
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T09:59:45.972568+00:00",
+      "finished_at": "2026-10-02T10:02:43.563642+00:00",
+      "result_sha256": "16d29be48be0a34b8e54cc02629453101d6ef9620e2d146738d11504b3b4a7d0",
+      "capsule_sha256": "c5bbaeb1683fac82a76db2b8ed2ba19640e20a0707dd293fe9ba282856d66be5",
+      "binary_sha256": "827645d68b4eb5e539dc43d1be8ccb98574bf083b1846e9e845b85563bb79aaf",
+      "collection_sha256": "f9687dc91cc6006e34185f531780a223fe86c0011c24494e3cd6d94bb900cccf",
+      "verified_artifacts": 26,
+      "thermal_max_mc": {
+        "amdgpu": 76000,
+        "k10temp": 91750
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    },
+    "q2-packed-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T10:06:27.084755+00:00",
+      "finished_at": "2026-10-02T10:06:44.269636+00:00",
+      "result_sha256": "62ccafb0d96ee32ad7aa3552f303c360a5d8c172b0b8e8b33d7641198a2676d2",
+      "capsule_sha256": "458d9b251b7c963df1975fda9f632d41d2eb8b29b43788602b185362bc66aaef",
+      "binary_sha256": "d004d01f0de4cc282b438a72f6248601bb088bafee6ecdb88da4e4185fcac367",
+      "collection_sha256": "b9e237e0e8031e6265dd6a9cd9871c4fcc14f4660222518fbfcbbeaaf16b6ed7",
+      "verified_artifacts": 66,
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79125
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    },
+    "q2-packed-reference-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T10:12:07.147096+00:00",
+      "finished_at": "2026-10-02T10:16:24.824468+00:00",
+      "result_sha256": "979d66f99d95fbac246b00999cfb347d30d42c649c14d99048996bfa6d3c1a00",
+      "capsule_sha256": "5fbfe51bfaf0c9c3616728bc0d2f3426da13b5769794b883bbd49d38f82769d0",
+      "binary_sha256": "6a7535542e919031bf099498c1cadf6894c9415f3cf2ed4bc13ac1b1a8e956b2",
+      "collection_sha256": "92d815fdef6f7b5be47c91cbb0efaf9d3e2bc873b90a968c730635d3f8dcbc81",
+      "verified_artifacts": 26,
+      "thermal_max_mc": {
+        "amdgpu": 78000,
+        "k10temp": 91000
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    },
+    "q2-packed-model-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T10:16:45.719762+00:00",
+      "finished_at": "2026-10-02T10:21:03.410180+00:00",
+      "result_sha256": "adbf3a181210260220e51286df663bce78a07c69fe2073950013f5378ca33633",
+      "capsule_sha256": "8f65f38393f4873021c4d640a755ad939b07a086ed353e30ce069cb6c7a1ee39",
+      "binary_sha256": "149e5499641a1dec9e5511f11aff7a1681819e72808ef362cbc55436a74270a8",
+      "collection_sha256": "43647582d31a18a57141bf30517a055b661101e21f05598814d8a70c711dca44",
+      "verified_artifacts": 26,
+      "thermal_max_mc": {
+        "amdgpu": 80000,
+        "k10temp": 90000
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    },
+    "q2-packed-ud-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T10:21:38.856432+00:00",
+      "finished_at": "2026-10-02T10:25:21.499738+00:00",
+      "result_sha256": "42eedea50b5e38ee9295f3437b8eea541e5cc24d46174fc9d91feeadc9b2bb9b",
+      "capsule_sha256": "069510db6803a43ac9276924aa627a97753eae5783a1b12fcfcd66519ef514eb",
+      "binary_sha256": "7e86ccdf5974d4974cb7c45673c1868b5218d81e673724f2a6415b6524ffa860",
+      "collection_sha256": "5a7626347b00859a6ae04311c6e932973d46ad98ffe8fccab20ec8d8e1e7e6a9",
+      "verified_artifacts": 26,
+      "thermal_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 82500
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    },
+    "q2-packed-profile-r1": {
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T10:25:36.420302+00:00",
+      "finished_at": "2026-10-02T10:28:34.433480+00:00",
+      "result_sha256": "97ddaa82d5495a7d66bfd9b09b6dd016cf65a9cfd6f2fd96d1b9f15beae36fdb",
+      "capsule_sha256": "f1e22f4c1a88c39b47ee87d406a82c15ba7ed610b8a52119a464774392899b1c",
+      "binary_sha256": "0b263cd5a0c08160f225979284d93ce171c6257d08730e1d1545600794ae5711",
+      "collection_sha256": "e5f060ae914c46ee3332762a148c7a6c00dd1a94fd1c3ce2411550c41214034c",
+      "verified_artifacts": 26,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 92500
+      },
+      "thermal_stop": null,
+      "mmq_reuse": null,
+      "models_unchanged": true
+    }
+  },
+  "verified_artifacts": 196,
+  "successful_commands": 29,
+  "release": {
+    "at": "2026-10-02T10:29:49.807761+00:00",
+    "state": "Q2_PACKED_WINDOW_RELEASED",
+    "retired_runners": 6,
+    "retired_commands": 29,
+    "live_owned": [],
+    "kfd": [],
+    "leases_free": true,
+    "receipt_sha256": "e21ea6ff6dea52e8e19702db2881cda0e49d4a077b2dd72f36589fb7e0fcf0d6"
+  }
+}

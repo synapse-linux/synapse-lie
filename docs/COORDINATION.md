@@ -255,3 +255,63 @@ Point explicitly acknowledges reading the handover and accepts the next copy-onl
 slot under all four leases. Its `.161` reboot/transport preparation is in its
 own scope; it reports no `.157` job yet and will send process identities and
 verified closure. Q2 awaits that return before GPU work.
+
+Point starts its read-only copy under all four leases: supervisor PID2463485,
+start_ticks150014282, remote root /home/paperboy/synapse-lie-strix-point/ud-copy-r1.
+Fresh Q2 observation at2026-10-02T09:54:57.864353+00:00 confirms that exact supervisor alive
+and KFD empty. Point reports94.2 GB remaining and a30-minute deadline.
+The copy owns the window until its verified process/lease closure; Q2 has
+no GPU job, build or automatic waiter. Evidence: evidence/q2-point-copy-observation-r1.json.
+
+Point explicitly returns the next window after aborting its slow Wi-Fi relay
+at09:57:00 UTC. It reports both source/receiver retired, KFD empty, unchanged
+model stats and four expected leases freshly acquired EX|NB/released. Point
+continues independent WAN work on `.161` only. Fresh Q2 observation at2026-10-02T09:59:44.421618+00:00
+confirms all registered supervisors absent and KFD empty. Q2 accepts the returned
+window for the IQ2 baseline profile, packed operators and matched model arms,
+each with fresh four-lease admission and the existing98 C inclusive guard.
+No core or Point GPU/heavy-I/O work may interleave until Q2's verified release.
+
+Core requests the next coordinated window for owner-approved SSD-over-HTTP
+and mixed-arrival concurrency checks. Q2 acknowledges that request and retains
+its current window through the packed baseline/candidate measurements and
+verified process/lease closure. Core prepares locally without `.157` work;
+Q2 will publish a persistent release receipt when complete.
+
+The current baseline profile reproduces all 14 saved checks; packed GPU
+operators pass 30 independent cases and 32 exact packing/down/chain checks.
+The fresh IQ2 reference completes at 10:16:24 UTC, all four command exits 0,
+and replays all 21 saved model buffers exactly. Packed full-model measurement
+is running. Q2 adds one fresh UD control in the same window, then a separate
+packed diagnostic profile if its complete-model gain warrants it. These arms
+remain sequential; the window is not released between commands.
+
+Q2 PACKED WINDOW RELEASED at 2026-10-02T10:29:49.807761+00:00.
+All six runner identities and 29 command identities/process groups/sessions are
+retired; KFD is empty and all four expected lease identities are freshly verified
+EX|NB/free. Final profile completes at 10:28:34 UTC. All 196 artifacts from the
+six arms are collected/hash verified. Persistent remote receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-packed-window-release.json`;
+local receipt `evidence/q2-packed-window-release.json`, manifest
+`config/q2-packed-campaign.json`, shared registry event `window_release`.
+No Q2 GPU job, build, heavy model I/O, waiter or automatic retry remains.
+
+Core's previously requested next SSD HTTP/concurrency slot is available after
+its fresh lease admission. Point now reports an explicit owner request for a
+direct read-only `.157`→`.161` original-UD copy (~79.7 GB remaining), without the
+previous relay/WAN path. Core and Point must coordinate their ordering; Q2 does
+not assign simultaneous windows. Outgoing notifications to both threads fail
+at HTTP transport, not approval review, so delivery is not claimed. This ledger
+and the persistent remote release are the agreed fallback. Q2 proceeds only
+with local analysis, documentation and checkpoint commit.
+
+Point subsequently reports that direct host-to-host authentication is ready and
+that core waits for its copy handover. Q2 confirms its verified 10:29:49 release
+and has no remaining `.157` workload. With that reported Core/Point ordering,
+Point may take the next copy-only window now, under all four freshly acquired
+leases and its own in-lease preflight. The release receipt above contains every
+runner/command identity, expected lease device/inode and empty KFD observation;
+it is a historical closure, not a substitute for Point's fresh admission.
+Point must return verified process/lease closure to core before the next core
+GPU/SSD arm. Q2 has not opened or read any model for this handover. Outgoing
+thread transport remains unavailable; Point explicitly reads this fallback.

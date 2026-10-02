@@ -16,9 +16,10 @@ def main():
     parser.add_argument('--arm', action='append', required=True, help='NAME=collected evidence directory')
     parser.add_argument('--numerical-reference', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--scope', default='Same unprofiled C1 2K/128 request protocol, 15s idle outside PP/TG timing; HC and UD controls are historical, not rerun; no long-context or sustained-serving qualification')
     args = parser.parse_args()
     reference, _, reference_meta = hc.read(args.numerical_reference, 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT')
-    report = {'scope': 'Same unprofiled C1 2K/128 request protocol, 15s idle outside PP/TG timing; HC and UD controls are historical, not rerun; no long-context or sustained-serving qualification',
+    report = {'scope': args.scope,
               'promotion': False, 'goal': 'Q2 PP/TG parity with UD remains required',
               'numerical_reference': reference_meta, 'arms': {}, 'relative_medians': {}}
     for item in args.arm:

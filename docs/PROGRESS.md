@@ -272,3 +272,35 @@ Q2 records the next GPU/heavy-I/O slot for Point's read-only UD copy in persiste
 remote run/q2-point-copy-handover.json and the shared registry. This precedes
 Q2's current IQ2 profile and packed GPU checks. The performance goal remains
 unmet; GPU-dependent work awaits the coordinated return.
+
+## Packed activations measured against fresh UD — 2026-10-02
+
+The arithmetic-preserving producer/consumer packing move completes on `.157`.
+Thirty independent GPU operator cases pass unchanged limits; 18 exact packed
+word checks, 12 exact down-output checks and two complete chains pass. All 30
+original synthetic buffers reproduce the retained references. Fresh Q2 baseline
+and candidate reproduce all 21 saved model files exactly, and the fresh baseline
+also matches all 21 retained IQ2 checkpoint files. UD's 21 saved files replay its
+retained control exactly. Both profiles pass 14 baseline checks and their 15
+saved buffers match each other exactly.
+
+Fresh unprofiled C1 pp2048/tg128 medians, one warmup plus three measured sessions:
+Q2 reference 1240.505 PP/22.9755 TG; packed Q2 1250.451/22.9695;
+UD 1685.150/24.3229. All use full MMQ rebuilds and 15 s idle outside timing.
+Packing improves PP 0.802%, leaves TG unchanged, and preserves every saved
+logit/token versus IQ2. Q2 still trails fresh UD 25.80% PP and 5.56% TG.
+The earlier qualified-Q2 KL difference 0.00274255 is unchanged; its task-quality
+impact remains unresolved. No diagnostic threshold is relaxed.
+
+The diagnostic Q2 down sum falls 311.965→286.173 ms (-8.27%), but the full model
+saves only 13.131 ms median prefill. HC projections, F32 combine/mix passes and
+narrowing remain concrete follow-up targets. Decode trace variation on unchanged
+code is not treated as a throughput gain. See the complete samples, graph/CSV,
+replay checks and disposition in [Q2-PACKED-ACTIVATIONS.md](Q2-PACKED-ACTIVATIONS.md).
+
+Six arms finish with 29 command exits zero and 196 collected/hash-verified
+artifacts. Six runners and 29 commands/groups/sessions are retired; KFD empty,
+all four expected leases freshly verified free at 10:29:49 UTC. No Q2 GPU job,
+waiter or automatic retry remains. The candidate stays isolated and the parity
+goal is **not met**. The coordinated next copy/core windows are recorded in
+COORDINATION.md; local reporting does not reserve `.157`.

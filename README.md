@@ -6,11 +6,14 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest isolated
-[expert-kernel experiment](docs/Q2-EXPERT-STACK.md) reaches **1240.52 prefill
-tok/s and 23.01 decode calls/s at 2K**, up 88.29% in prefill from the previous HC
-checkpoint. **The performance requirement is not met:** the candidate still
-trails historical UD by 26.36% in prefill and 5.37% in decode. Greedy tokens match
-the Q2 reference, but logits differ. Do not promote this candidate yet.
+[packed-activation experiment](docs/Q2-PACKED-ACTIVATIONS.md) reaches **1250.45
+prefill tok/s and 22.97 decode calls/s at 2K**. It improves prefill 0.80% over
+a fresh paired-IQ2 checkpoint, with byte-exact saved logits and tokens.
+**The performance requirement is not met:** fresh UD reaches 1685.15 PP/24.32 TG;
+Q2 trails by 25.80% and 5.56%. Earlier checkpoint drift from qualified Q2 remains
+unresolved. The candidate is retained for further experiments, not promoted.
+The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
+prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.
 See the [complete results and plots](docs/Q2-RESULTS.md) and the now-qualified
 [Q2/UD phase profiles](docs/Q2-PROFILING.md). The first WMMA down
@@ -31,10 +34,12 @@ All changed synthetic operator cases pass; greedy tokens match, but model logits
 differ. The candidate still trails UD and remains isolated. The owner-approved
 test ceiling is now 98 C inclusive, with lower exposed hardware limits retained.
 
-The next [packed-activation experiment](docs/Q2-PACKED-ACTIVATIONS.md) moves
-compensated input conversion into the IQ2 producer, using the same buffer bytes.
-Source/static checks are complete; GPU correctness and performance are pending
-the core campaign handover. It introduces no new measured speed claim.
+The packed activation move passes 30 independent GPU operator cases, 32 exact
+packing/down/chain checks and 42 saved-model comparisons against fresh/retained
+Q2 references. Fresh UD also replays all 21 retained model buffers exactly.
+[Complete samples and graph](docs/Q2-PACKED-ACTIVATIONS.md#fresh-complete-model-performance)
+include prefill/decode rates and durations. The current baseline profile points
+to remaining HC projection/epilogue and activation-conversion costs.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
