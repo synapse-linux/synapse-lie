@@ -84,6 +84,20 @@ false positives. As authorized by the owner, bounded performance exploration
 may continue with recorded numerical differences once memory/launch safety is
 established; promotion still requires numerical and complete-model acceptance.
 
+`tools/analyze-q2-hc-up.py` audits all seven cases and nineteen complete buffer
+pairs after collection. It verifies artifact hashes, exact output sizes, finite
+values, oracle sample counts, original thresholds and agreement with the actual
+process exit. A complete numerical failure produces a report and exit 1;
+interrupted runs, missing output, runtime failures or inconsistent verdicts are
+refused. Exact equality, changed-value counts, maximum absolute differences and
+relative L2 are retained separately for mixed, half and inject outputs.
+Five CPU reader fixtures are prepared; their execution on `.157` awaits the
+core window's return to avoid disturbing its active timing measurements.
+
+```sh
+python3 tools/analyze-q2-hc-up.py evidence/q2-hc-up-operators-r1 --output config/q2-hc-up-fused-operators.json
+```
+
 The `.157` CPU capsule completes 9/9 Debug and 9/9 ASan/UBSan, including five
 remote-guard methods covering nine refusal cases. All six commands exit zero;
 seven artifacts are collected/hash verified in

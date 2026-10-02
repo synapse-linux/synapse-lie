@@ -78,7 +78,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':

@@ -29,6 +29,8 @@ add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
 add_test(NAME q2_profile COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_profile_test.py)
+add_test(NAME q2_hc_report COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_hc_report_test.py)
 add_library(q2_host STATIC
   ${GUFO_SOURCE}/src/core/gguf_reader.cpp
   ${GUFO_SOURCE}/src/core/quant/ggml_dequant.cpp

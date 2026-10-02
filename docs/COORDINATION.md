@@ -370,3 +370,13 @@ Debug9/9 and ASan/UBSan9/9. Seven artifacts are collected/hash verified. Read-on
 retirement at2026-10-02T11:33:11.111990+00:00 verifies its runner and six command
 identities/groups/sessions absent, KFD empty. Q2 retains no remote process or
 GPU waiter. Core still owns the enclosing window; no return is inferred.
+
+At11:37:21 UTC Q2 independently observes core R5 C2-off supervisor2497058 with
+matching start_ticks150642852 and KFD child2497067 alive. At11:43:54 UTC the
+enclosing R5 controller2496414/start150632787 remains alive; five arms have
+completed with exit0 and128K-on supervisor2498575/start150669128 is running with
+KFD child2498587. Core directly confirms5/9 and retains ownership through closure.
+Q2 acknowledges: no GPU build/test, heavy model I/O, CPU fixture run or automatic
+waiter will interleave with these measurements. The new HC output-report reader
+is prepared locally; its five CPU fixtures will run after verified return.
+Outgoing acknowledgement again failed at HTTP transport; delivery is not claimed.

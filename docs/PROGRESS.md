@@ -348,3 +348,21 @@ retirement is checked. The existing eleven-case GPU fixture and rotating-weight
 microbenchmark are ready; fresh packed/model/UD comparisons await core's
 verified return. No GPU job or automatic waiter is queued, and parity remains
 unmet. See [Q2-HC-PREFETCH.md](Q2-HC-PREFETCH.md).
+
+## Complete HC fusion output audit prepared — 2026-10-02
+
+The HC up report reader now checks all seven planned cases and nineteen full
+buffer pairs, including F16 output, F32 mixed rows and F32 inject partials.
+Artifact hashes, lengths, finite values, oracle sample coverage and unchanged
+thresholds must agree with the retained process outcome. Complete numerical
+failures remain FAILED with exit 1; interruption, missing output, corruption or
+runtime/postflight failures cannot be reclassified as numerical-only evidence.
+
+Five CPU reader fixtures cover exact replay, a recorded numerical mismatch,
+artifact truncation, non-finite values, signed-zero byte differences, missing
+oracle coverage and runtime interruptions. Python syntax is checked locally;
+target runtime execution remains pending. They are included in the next `.157`
+CPU capsule, to run after core's R5 return. At 11:46:48 UTC the R5 controller
+2496414/start150632787 is still alive and seven of nine arms have completed;
+Q2 has no remote workload. This is preparation and verified waiting, not a new
+Q2 performance result or completion of the parity goal.
