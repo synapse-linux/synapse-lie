@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: MIT
 """One-shot .161 campaign under the operator's explicit llama stop/restore grant.
 Remote entry point. Inputs/results live in an exclusive persistent run directory.
-No install, tuning, remote GPU build, foreign signals or automatic retries.
+The opt-in ROCm 10 build is GPU-device-free but still requires the same lease.
+No host install, tuning, foreign signals or automatic retries.
 """
 import datetime
 import fcntl
@@ -20,6 +21,7 @@ BASE = Path('/home/pop/workspace/synapse-lie')
 SERVICE = 'llama-router.service'
 IMAGE = 'sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac'
 ROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'
+ROCM10_SOURCE = BASE/'rocm10-fedora-161'/'source'
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
     'single': ('single', 'reactive', 1, 1, ('--depths', '0,4096,8192,12288,16384,32768,65536,131072')),
@@ -126,6 +128,21 @@ class Campaign:
         self.record()
         if check and p.returncode: raise RuntimeError('Command failed: '+repr(argv))
         return p
+    def image_and_rocm(self):
+        stack = self.m.get('stack', 'rocm7.2-arch')
+        if stack == 'rocm7.2-arch':
+            if 'image' in self.m: raise ValueError('Legacy image is fixed')
+            return IMAGE, ROCM
+        if stack == 'rocm10-fedora43':
+            image = self.m.get('image')
+            if type(image) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
+                raise ValueError('ROCm 10 image must be pinned by local image ID')
+            inspected = json.loads(self.command(['docker', 'image', 'inspect', image,
+                '--format', '{{json .}}']).stdout)
+            if inspected['Id'] != image or inspected['Architecture'] != 'amd64':
+                raise ValueError('ROCm 10 image identity mismatch')
+            return image, None
+        raise ValueError('Unknown ROCm stack')
     def service(self):
         p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])
         return dict(line.split('=', 1) for line in p.stdout.splitlines())
@@ -187,31 +204,12 @@ class Campaign:
         self.r['admission'] = row
         self.r['state'] = 'ADMITTED'
         self.record()
-    def run_container(self, command, bundle, timeout, model=None):
-        bundle = checked_path(bundle)
-        for name, expected in self.m['artifacts'].items():
-            path = checked_path(bundle/name)
-            if sha(path) != expected: raise RuntimeError('Artifact drift: '+name)
+    def execute_container(self, argv, timeout, model_attempted=False):
         self.sample()
-        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()
-        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
-                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',
-                '--group-add', str(Path('/dev/kfd').stat().st_gid), '--pids-limit', '512',
-                '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',
-                '--label', 'synapse-lie.run='+str(self.root),
-                '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',
-                '--mount', 'type=bind,src='+str(self.root)+',dst=/work',
-                '--mount', 'type=bind,src='+ROCM+',dst=/opt/rocm,readonly',
-                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib',
-                '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',
-                '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',
-                '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']
-        if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']
-        argv += ['--entrypoint', command[0], IMAGE, *command[1:]]
         self.cid = self.command(argv).stdout.strip()
         if not re.fullmatch('[a-f0-9]{64}', self.cid): raise RuntimeError('Invalid container identity')
         self.r['container'] = self.cid
-        self.r['model_attempted'] = model is not None
+        self.r['model_attempted'] = model_attempted
         self.record()
         self.command(['docker', 'start', self.cid])
         deadline = time.monotonic()+timeout
@@ -229,7 +227,61 @@ class Campaign:
         p = self.command(['docker', 'logs', self.cid], check=False)
         (self.root/'stdout.log').write_text(p.stdout)
         (self.root/'stderr.log').write_text(p.stderr)
-        if row['ExitCode'] or row['OOMKilled']: raise RuntimeError('GPU child failed; see retained logs')
+        if row['ExitCode'] or row['OOMKilled']: raise RuntimeError('Container child failed; see retained logs')
+    def run_container(self, command, bundle, timeout, model=None):
+        bundle = checked_path(bundle)
+        for name, expected in self.m['artifacts'].items():
+            path = checked_path(bundle/name)
+            if sha(path) != expected: raise RuntimeError('Artifact drift: '+name)
+        image, rocm = self.image_and_rocm()
+        self.sample()
+        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()
+        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
+                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',
+                '--group-add', str(Path('/dev/kfd').stat().st_gid), '--pids-limit', '512',
+                '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',
+                '--label', 'synapse-lie.run='+str(self.root),
+                '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',
+                '--mount', 'type=bind,src='+str(self.root)+',dst=/work',
+                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib',
+                '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',
+                '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',
+                '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']
+        if rocm: argv += ['--mount', 'type=bind,src='+rocm+',dst=/opt/rocm,readonly']
+        if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']
+        argv += ['--entrypoint', command[0], image, *command[1:]]
+        self.execute_container(argv, timeout, model is not None)
+    def build(self):
+        if self.m.get('stack') != 'rocm10-fedora43':
+            raise ValueError('Build requires the explicit ROCm 10 stack')
+        image, rocm = self.image_and_rocm()
+        if rocm is not None or checked_path(ROCM10_SOURCE) != ROCM10_SOURCE:
+            raise ValueError('Unexpected build source/runtime')
+        archive = ROCM10_SOURCE.parent/'source.tar.gz'
+        if sha(archive) != self.m.get('source_archive_sha256'):
+            raise ValueError('Build source archive drift')
+        helper = ROCM10_SOURCE/'tools/strix-point-rocm10-compile.py'
+        if sha(helper) != self.m.get('compile_helper_sha256'):
+            raise ValueError('Build helper drift')
+        for directory in ('build', 'evidence'): (ROCM10_SOURCE/directory).mkdir(exist_ok=True)
+        for directory in ('tmp', 'home'): (ROCM10_SOURCE/'build'/directory).mkdir(exist_ok=True)
+        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
+                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',
+                '--pids-limit', '512', '--cpus', '2', '--memory', '16g',
+                '--label', 'synapse-lie.run='+str(self.root),
+                '--mount', 'type=bind,src='+str(ROCM10_SOURCE)+',dst=/source',
+                '--workdir', '/source', '--env', 'LC_ALL=C',
+                '--env', 'HOME=/source/build/home', '--env', 'TMPDIR=/source/build/tmp',
+                '--env', 'LIE_ROCM10_BUILD_WINDOW=admitted',
+                '--env', 'ROCR_VISIBLE_DEVICES=-1', '--env', 'HIP_VISIBLE_DEVICES=-1',
+                '--entrypoint', '/usr/bin/python3', image, '-B',
+                'tools/strix-point-rocm10-compile.py']
+        self.execute_container(argv, 7200)
+        result = json.loads((ROCM10_SOURCE/'evidence/rocm10-point-compile-r1/result.json').read_text())
+        if result.get('state') != 'BUILT_NOT_GPU_TESTED' or result.get('exit_code') != 0:
+            raise RuntimeError('Incomplete ROCm 10 build receipt')
+        self.r['build_result'] = result
+        self.record()
     def download(self):
         if sha(self.root/'download.py') != self.m['download_sha256']: raise RuntimeError('Download helper drift')
         env = dict(os.environ, LIE_ADMITTED_RUN=str(self.root), LC_ALL='C', ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
@@ -374,7 +426,7 @@ def main():
     if os.getuid() != 1000 or os.environ.get('SSH_CONNECTION', '').split()[2:3] != ['192.168.5.161']:
         raise SystemExit('Expected pop@192.168.5.161 SSH target')
     m = json.loads((root/'manifest.json').read_text())
-    if m.get('action') not in ('probe', 'download', 'core', 'bench'): raise SystemExit('Unsupported campaign action')
+    if m.get('action') not in ('probe', 'download', 'core', 'bench', 'build'): raise SystemExit('Unsupported campaign action')
     if m['authorization'] != {'kind': 'operator-one-shot-window', 'service': SERVICE,
                               'stop_restore_authorized': True, 'quote': 'llama si può stoppaare'}:
         raise SystemExit('Explicit scoped operator handover required')
@@ -391,6 +443,7 @@ def main():
         elif m['action'] == 'download': c.download()
         elif m['action'] == 'core': c.core()
         elif m['action'] == 'bench': c.bench()
+        elif m['action'] == 'build': c.build()
         else: raise ValueError('Unsupported campaign action')
         c.r.update(state='PASSED', exit_code=0)
     except BaseException as ex:

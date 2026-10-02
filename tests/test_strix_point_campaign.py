@@ -168,5 +168,44 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'reference fixture failure'): c.bench()
         c.m['bench_impl'] = 'unexpected'
         with self.assertRaisesRegex(ValueError, 'implementation'): c.bench()
+    def test_rocm_stack_identity_is_explicit(self):
+        c = self.campaign()
+        self.assertEqual(c.image_and_rocm(), (point.IMAGE, point.ROCM))
+        c.m['stack'] = 'rocm10-fedora43'
+        c.m['image'] = 'unversioned-image'
+        with self.assertRaisesRegex(ValueError, 'pinned'): c.image_and_rocm()
+        image = 'sha256:'+'a'*64
+        c.m['image'] = image
+        with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
+                [], 0, stdout=json.dumps({'Id': image, 'Architecture': 'amd64'}))):
+            self.assertEqual(c.image_and_rocm(), (image, None))
+        with patch.object(c, 'command', return_value=subprocess.CompletedProcess(
+                [], 0, stdout=json.dumps({'Id': 'sha256:'+'b'*64, 'Architecture': 'amd64'}))):
+            with self.assertRaisesRegex(ValueError, 'identity'): c.image_and_rocm()
+    def test_rocm10_build_has_no_gpu_devices_or_network(self):
+        c = self.campaign()
+        source = self.base/'rocm10-fedora-161'/'source'
+        (source/'tools').mkdir(parents=True)
+        (source.parent/'source.tar.gz').write_bytes(b'fixture source archive')
+        helper = source/'tools/strix-point-rocm10-compile.py'
+        helper.write_bytes(b'fixture compile helper')
+        c.m.update(stack='rocm10-fedora43',
+                   source_archive_sha256=point.sha(source.parent/'source.tar.gz'),
+                   compile_helper_sha256=point.sha(helper))
+        image = 'sha256:'+'c'*64
+        def run(argv, timeout, model_attempted=False):
+            self.assertEqual(timeout, 7200)
+            self.assertFalse(model_attempted)
+            self.assertNotIn('--device', argv)
+            self.assertEqual(argv[argv.index('--network')+1], 'none')
+            self.assertEqual(argv[argv.index('--entrypoint')+1], '/usr/bin/python3')
+            receipt = source/'evidence/rocm10-point-compile-r1/result.json'
+            receipt.parent.mkdir(parents=True)
+            receipt.write_text('{"state":"BUILT_NOT_GPU_TESTED","exit_code":0}')
+        with patch.object(point, 'ROCM10_SOURCE', source), \
+             patch.object(c, 'image_and_rocm', return_value=(image, None)), \
+             patch.object(c, 'execute_container', side_effect=run):
+            c.build()
+        self.assertEqual(c.r['build_result']['exit_code'], 0)
 
 if __name__ == '__main__': unittest.main()
