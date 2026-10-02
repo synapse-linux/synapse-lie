@@ -26,6 +26,26 @@ def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def sha(p):
     with Path(p).open('rb') as f: return hashlib.file_digest(f,'sha256').hexdigest()
 def ticks(pid): return int(Path(f'/proc/{pid}/stat').read_text().rsplit(')',1)[1].split()[19])
+def process_status(pid):
+    try:
+        fields=dict(line.split(':',1) for line in Path(f'/proc/{pid}/status').read_text().splitlines())
+        return {k:fields[k].strip() for k in ('Threads','VmRSS','VmHWM','voluntary_ctxt_switches','nonvoluntary_ctxt_switches') if k in fields}
+    except OSError as ex:
+        return {'unavailable':type(ex).__name__,'errno':ex.errno}
+
+def serving_ports(manifest):
+    ports=(manifest.get('api_port',19879),manifest.get('management_port',19880))
+    if any(type(p) is not int or not 1<=p<=65535 for p in ports) or ports[0]==ports[1]:
+        raise ValueError('invalid serving ports')
+    return ports
+
+def probe_ports(ports):
+    # Match the listener's address reuse policy: retired TCP connections must
+    # not look like a live listener. SO_REUSEPORT is intentionally not enabled.
+    for port in ports:
+        with socket.socket() as sock:
+            sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+            sock.bind(('127.0.0.1',port))
 def kfd(): return set(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').iterdir() if p.name.isdecimal())
 def dri_clients():
     clients=set(); denied=0
@@ -114,6 +134,7 @@ def load_serving_checks(run, expected_sha256):
 def main():
     if len(sys.argv)!=2: raise SystemExit('Usage: smoke-model.py PRIVATE-RUN-DIRECTORY')
     run=Path(sys.argv[1]).resolve(); manifest=json.loads((run/'manifest.json').read_text())
+    api_port,management_port=serving_ports(manifest)
     if manifest['authorization']['kind']!='operator-one-shot-window' or not manifest['authorization']['gpu_test_authorized']:
         raise SystemExit('Explicit current operator authorization required')
     suite=manifest.get('suite','http-smoke-v1')
@@ -205,15 +226,14 @@ def main():
             p=Path('/sys/class/drm/card1/device')/name
             try: result['power_settings'][str(p)]=p.read_text().strip()
             except OSError: pass
-        for port in (19879,19880):
-            with socket.socket() as sock: sock.bind(('127.0.0.1',port))
+        probe_ports((api_port,management_port))
         if kfd(): raise RuntimeError('foreign KFD client appeared during preflight')
         check()
         checks=None
         if suite in ('http-lifecycle-v1','http-performance-v1'):
             checks=load_serving_checks(run,manifest['serving_checks_sha256'])
             result['serving_checks_sha256']=manifest['serving_checks_sha256']
-        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','9216' if suite=='http-performance-v1' else '4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port','19879','--management-port','19880']
+        result['server_argv']=[str(binary),'--model',manifest['models'][0]['path'],'--context','9216' if suite=='http-performance-v1' else '4096','--prefill-chunk','2048','--max-active','2' if checks else '1','--request-timeout-ms','120000','--port',str(api_port),'--management-port',str(management_port)]
         register('start'); registered=True
         result['model_attempted']=True; stage('MODEL_LOADING')
         with (out/'server.log').open('xb') as log:
@@ -225,7 +245,7 @@ def main():
                     try:
                         clients=kfd(); drm,denied=dri_clients()
                         foreign=(clients-{proc.pid}) | (drm-baseline_dri-{proc.pid})
-                        row={'at':now(),'memory':memory(),'gpu':gpu(),'kfd':sorted(clients),'dri':sorted(drm),'dri_permission_denied':denied}
+                        row={'at':now(),'memory':memory(),'gpu':gpu(),'kfd':sorted(clients),'dri':sorted(drm),'dri_permission_denied':denied,'process':process_status(proc.pid)}
                         log.write(json.dumps(row)+'\n'); log.flush()
                         if foreign:
                             result['foreign_gpu_clients']=sorted(foreign); abort.set()
@@ -241,7 +261,7 @@ def main():
         while True:
             check()
             try:
-                state=http(19880,'/actuator/llm',timeout=3)
+                state=http(management_port,'/actuator/llm',timeout=3)
                 if state['status']==200:
                     obj=json.loads(state['body']); result['last_loading_state']=obj
                     if obj['backend']['state']=='FAILED': raise RuntimeError('model load failed: '+str(obj['backend']['error']))
@@ -251,7 +271,7 @@ def main():
             if time.monotonic()-announced>10:
                 save(); print(now(),'waiting for model readiness',flush=True); announced=time.monotonic()
             time.sleep(.25)
-        result['ready_at']=now(); result['ready_info']=json.loads(http(19880,'/actuator/info')['body'])
+        result['ready_at']=now(); result['ready_info']=json.loads(http(management_port,'/actuator/info')['body'])
         if result['ready_info']['backend']['synthetic'] or result['ready_info']['backend']['ownership']!='delegated': raise RuntimeError('unexpected provider')
         stage('MODEL_READY_SMOKE_RUNNING')
         for case in manifest['cases']:
@@ -261,7 +281,7 @@ def main():
                 request={'model':'qwen3.8-flash-next','messages':[{'role':'user','content':case['prompt']}],
                          'temperature':0,'max_tokens':case['max_tokens'],'stream':streaming,'chat_template_kwargs':{'enable_thinking':False}}
                 if streaming: request['stream_options']={'include_usage':True}
-                start=time.monotonic(); response=http(19879,'/v1/chat/completions',json.dumps(request,ensure_ascii=False).encode())
+                start=time.monotonic(); response=http(api_port,'/v1/chat/completions',json.dumps(request,ensure_ascii=False).encode())
                 row={'case':case['name'],'stream':streaming,'request':request,'response':response,'elapsed_wall_seconds':time.monotonic()-start}
                 result['tests'].append(row); save()
                 if response['status']!=200: raise RuntimeError('chat HTTP failure: '+response['body'])
@@ -290,7 +310,7 @@ def main():
         check()
         deadline=time.monotonic()+20
         while True:
-            check(); result['final_llm']=json.loads(http(19880,'/actuator/llm')['body'])
+            check(); result['final_llm']=json.loads(http(management_port,'/actuator/llm')['body'])
             scheduler=result['final_llm']['scheduler']
             if scheduler['active']==0 and scheduler['queued']==0: break
             if time.monotonic()>deadline: raise RuntimeError('session retirement deadline')
@@ -304,27 +324,27 @@ def main():
                 def record(event):
                     log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
                 try:
-                    result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
+                    result['lifecycle']=checks.run(api_port,management_port,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
                 except checks.Inconclusive:
                     result['lifecycle_status']='INCONCLUSIVE'; raise
                 if manifest.get('reactive_checks'):
-                    result['reactive']=checks.run_reactive_pair(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
+                    result['reactive']=checks.run_reactive_pair(api_port,management_port,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
                 if manifest.get('openai_checks'):
-                    result['openai']=checks.run_openai(19879,19880,'qwen3.8-flash-next',record,check)
+                    result['openai']=checks.run_openai(api_port,management_port,'qwen3.8-flash-next',record,check)
             result['lifecycle_status']='PASS'
-            result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
+            result['final_llm']=json.loads(http(management_port,'/actuator/llm')['body']); save()
         if suite=='http-performance-v1':
             stage('MODEL_HTTP_PERFORMANCE_RUNNING')
             with (out/'performance.jsonl').open('x') as log:
                 def record(event):
                     log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
-                result['performance']=checks.run_performance(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check,manifest['performance_profile'])
+                result['performance']=checks.run_performance(api_port,management_port,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check,manifest['performance_profile'])
             with (out/'lifecycle.jsonl').open('x') as log:
                 def record(event):
                     log.write(json.dumps(event,ensure_ascii=False,allow_nan=False)+'\n'); log.flush()
-                result['lifecycle']=checks.run(19879,19880,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
+                result['lifecycle']=checks.run(api_port,management_port,'qwen3.8-flash-next','gufo-embedded-f783fedb',record,check)
             result['lifecycle_status']='PASS'
-            result['final_llm']=json.loads(http(19880,'/actuator/llm')['body']); save()
+            result['final_llm']=json.loads(http(management_port,'/actuator/llm')['body']); save()
         stage('SMOKE_PASSED_AWAITING_SHUTDOWN')
     except BaseException as ex:
         result['error']=repr(ex); stage('FAILED')

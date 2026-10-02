@@ -120,8 +120,9 @@ build/debug/test-synthetic-lie-bench --suite core --model :fixture: \
 
 The HIP-linked `synapse-lie-bench` contains the same suite; real-model execution
 needs a fresh coordinated GPU build/admission. The existing `run-bench.py`
-allowlist has not yet been extended to bind core input files, so the new GPU
-lane is pending. A direct command is not a substitute for the shared-machine
+allowlist now binds exactly one staged input basename, byte count and SHA-256
+to the core argument and file inventory. It rejects external paths, symlinks,
+drift and ambiguous inputs. A direct command is not a substitute for the shared-machine
 lease/manifest protocol. This increment's tests and plots are NOT-INFERENCE.
 
 Each `synapse-lie.core-bench.v1` file contains identity, readiness time, complete

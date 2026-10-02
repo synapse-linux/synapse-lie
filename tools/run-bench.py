@@ -12,6 +12,7 @@ from pathlib import Path
 import resource
 import runpy
 import signal
+import stat
 import statistics
 import subprocess
 import sys
@@ -40,11 +41,47 @@ def validate_args(args):
     if not isinstance(args,list) or len(args)%2 or any(type(x) is not str for x in args):
         raise ValueError('invalid declared benchmark arguments')
     keys=args[::2]
+    options=dict(zip(keys,args[1::2]))
+    if options.get('--suite')=='core':
+        allowed={'--suite','--users','--tg','--warmups','--repetitions',
+                 '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file'}
     if len(set(keys))!=len(keys) or any(k not in allowed for k in keys):
         raise ValueError('unapproved/duplicate benchmark option')
     if not args or '--suite' not in keys:
         raise ValueError('explicit benchmark suite required')
     return args
+
+
+def bind_args(args, run, manifest):
+    """Bind a core input to one immutable staged file, never an external path."""
+    args=validate_args(args)
+    options=dict(zip(args[::2],args[1::2]))
+    if options['--suite']!='core':
+        if manifest.get('benchmark_input') is not None:
+            raise ValueError('input manifest only applies to core suite')
+        return args
+    keys=[k for k in ('--prompt-file','--tokens-file') if k in options]
+    declared=manifest.get('benchmark_input')
+    if len(keys)!=1 or not isinstance(declared,dict):
+        raise ValueError('one bound core input required')
+    name=options[keys[0]]
+    if not name or name in ('.','..') or Path(name).name!=name or name.startswith('-'):
+        raise ValueError('core input must be a staged basename')
+    if declared.get('path')!=name or type(declared.get('bytes')) is not int or not 0<declared['bytes']<=8*1024*1024:
+        raise ValueError('core input declaration mismatch')
+    if manifest.get('files',{}).get(name)!=declared.get('sha256') or not isinstance(declared.get('sha256'),str):
+        raise ValueError('core input missing from file identities')
+    fd=os.open(Path(run)/name,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW|os.O_NONBLOCK)
+    with os.fdopen(fd,'rb') as f:
+        info=os.fstat(f.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_size!=declared['bytes']:
+            raise ValueError('core input size/type mismatch')
+        data=f.read(8*1024*1024+1)
+    import hashlib
+    if len(data)!=declared['bytes'] or hashlib.sha256(data).hexdigest()!=declared['sha256']:
+        raise ValueError('core input content mismatch')
+    result=list(args);result[result.index(keys[0])+1]=str(Path(run).resolve()/name)
+    return result
 
 
 def main():
@@ -137,7 +174,9 @@ def main():
             env[key] = str(p)
         env.update(LC_ALL='C', LD_BIND_NOW='1', ROCR_VISIBLE_DEVICES='0', HIP_VISIBLE_DEVICES='0')
         masked = dict(env, ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
-        info = json.loads(command([str(binary), '--build-info'], masked))
+        benchmark_args = bind_args(m['benchmark_args'],run,m)
+        core_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']=='core'
+        info = json.loads(command([str(binary), *(['--suite','core'] if core_suite else []), '--build-info'], masked))
         if info != m['build_info'] or info['synthetic'] or info['ownership'] != 'delegated':
             raise RuntimeError('provider/build identity mismatch')
         command(['uname', '-srmo'], masked)
@@ -159,7 +198,7 @@ def main():
         if interrupted or H['kfd']():
             raise RuntimeError('admission interrupted or foreign client appeared')
         r['argv'] = [str(binary), '--model', m['models'][0]['path'], '--output', str(out / 'measurements.jsonl')]
-        r['argv'] += validate_args(m['benchmark_args'])
+        r['argv'] += benchmark_args
         register('start')
         registered = True
         r['state'] = 'BENCHMARK_RUNNING'
@@ -175,7 +214,8 @@ def main():
                 drm, denied = H['dri_clients']()
                 foreign = (kfd - {child.pid}) | (drm - baseline_dri - {child.pid})
                 log.write(json.dumps({'at': now(), 'memory': H['memory'](), 'gpu': H['gpu'](),
-                                      'kfd': sorted(kfd), 'dri': sorted(drm), 'dri_permission_denied': denied}) + '\n')
+                                      'kfd': sorted(kfd), 'dri': sorted(drm), 'dri_permission_denied': denied,
+                                      'process': H['process_status'](child.pid)}) + '\n')
                 log.flush()
                 if foreign:
                     r['foreign_gpu_clients'] = sorted(foreign)

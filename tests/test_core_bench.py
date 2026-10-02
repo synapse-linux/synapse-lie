@@ -3,9 +3,12 @@
 """Shared-core consumer/accounting fixtures; never model inference."""
 import copy
 import importlib.util
+import hashlib
+import os
 import json
 from pathlib import Path
 import runpy
+import socket
 import subprocess
 import sys
 import tempfile
@@ -13,6 +16,7 @@ import unittest
 
 BINARY=str(Path(sys.argv.pop(1)).resolve())
 REPORT=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/bench-report.py'))
+RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.py'))
 
 
 class CoreBench(unittest.TestCase):
@@ -88,6 +92,49 @@ class CoreBench(unittest.TestCase):
             result=REPORT['read_result'](path);other=copy.deepcopy(result)
             other['configurations'][0]['prefill_chunk']=1
             with self.assertRaises(ValueError):REPORT['compare'](result,other)
+
+    def test_supervisor_binds_core_input_and_ports(self):
+        bind=RUNNER['bind_args']
+        with tempfile.TemporaryDirectory(prefix='lie-core-binding-') as tmp:
+            root=Path(tmp);p=root/'tokens.json';p.write_text('[1,2,3]')
+            digest=hashlib.sha256(p.read_bytes()).hexdigest()
+            manifest={'files':{'tokens.json':digest},'benchmark_input':{'path':'tokens.json','bytes':p.stat().st_size,'sha256':digest}}
+            args=['--suite','core','--tokens-file','tokens.json','--users','2']
+            self.assertEqual(bind(args,root,manifest)[3],str(p))
+            for invalid in [args+['--tokens-file','tokens.json'],args+['--prompt-file','tokens.json'],
+                            ['--suite','core'],['--suite','core','--tokens-file','../tokens.json'],
+                            args+['--execution','serial'],args+['--output','escape']]:
+                with self.assertRaises(ValueError):bind(invalid,root,manifest)
+            for key,value in [('bytes',0),('bytes',True),('bytes',100),('sha256','wrong'),('path','elsewhere')]:
+                bad=copy.deepcopy(manifest);bad['benchmark_input'][key]=value
+                with self.assertRaises(ValueError):bind(args,root,bad)
+            p.write_text('[4,5,6]')
+            with self.assertRaises(ValueError):bind(args,root,manifest)
+            p.unlink();p.symlink_to(root/'missing')
+            with self.assertRaises(OSError):bind(args,root,manifest)
+        ports=RUNNER['H']['serving_ports']
+        self.assertEqual(ports({}),(19879,19880))
+        self.assertEqual(ports({'api_port':8000}),(8000,19880))
+        for cfg in [{'api_port':True},{'api_port':19880},{'management_port':65536}]:
+            with self.assertRaises(ValueError):ports(cfg)
+        self.assertGreaterEqual(int(RUNNER['H']['process_status'](os.getpid())['Threads']),1)
+
+    def test_port_probe_rejects_listener_but_allows_retired_tcp(self):
+        probe=RUNNER['H']['probe_ports']
+        with socket.socket() as listener:
+            listener.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+            listener.bind(('127.0.0.1',0));listener.listen()
+            address=listener.getsockname()
+            with self.assertRaises(OSError):probe((address[1],))
+            with socket.create_connection(address,timeout=2) as client:
+                peer,_=listener.accept();listener.close()
+                with peer:
+                    peer.shutdown(socket.SHUT_WR)
+                    self.assertEqual(client.recv(1),b'')
+        # The active closer leaves a TIME_WAIT tuple on this private port.
+        with socket.socket() as legacy:
+            with self.assertRaises(OSError):legacy.bind(address)
+        probe((address[1],))
 
     @unittest.skipUnless(importlib.util.find_spec('matplotlib'),'optional matplotlib unavailable')
     def test_core_graphs(self):

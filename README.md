@@ -201,8 +201,9 @@ The same opt-in build provides `synapse-lie-bench` and the benchmark-only
 `synapse-lie-bench-gufo-reference`. Both use the original HIP executor; the latter
 exercises native upstream batching. On shared `.157`, real-model invocations
 run under `tools/run-bench.py` with a fresh admitted manifest and four leases.
-The new `--suite core` mode has CPU qualification only; the supervisor still needs
-an explicit core-input manifest contract before its first admitted GPU run.
+The new `--suite core` mode binds its input file to the run manifest and staged
+SHA-256 inventory. Its first GPU qualification follows the
+[shared-core regression protocol](docs/CORE-GPU-PROTOCOL.md).
 `synapse-lie-bench --help` opens no model. Graphs can be generated afterwards:
 
 ```sh

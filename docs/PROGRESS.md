@@ -1,5 +1,31 @@
 # Isolated OpenAI reactive API increment
 
+## First core GPU regression campaign prepared — 2026-10-02
+
+The operator authorized the first extraction's original-weight GPU test. New
+Release builds compare baseline `2ba01ed` and core `81c2f60`, with identical
+verified official Gufo archives. `run-bench.py` now binds core input basename,
+size and hash to the staged manifest; `smoke-model.py` accepts explicit private
+ports and both supervisors record process thread/RSS observations. New fixture
+checks cover malformed, ambiguous, changed and symlinked input declarations.
+
+`.157` receipt `reactive-cpu-r8` passes headless 1/1, Debug 23/23 and ASan/UBSan
+23/23; all nine configure/build/test exits are 0. The core benchmark suite now
+has seven checks. No new engine/provider code changed after `81c2f60`.
+The predeclared [GPU protocol](CORE-GPU-PROTOCOL.md) covers HTTP lifecycle and
+latency, C1/2/4/8 and fresh 8192/131072-token prefill with exact physical replay.
+GPU results are pending; source-bound CPU evidence is not GPU qualification.
+
+`core-gpu-r1` completed the baseline HTTP performance/lifecycle arm, then the
+candidate preflight refused port 8000 before model load. Both owned processes
+retired, KFD was empty and all four locks were free. The preflight socket lacked
+address reuse after server-side TCP close; a new private-port regression fixture
+checks both active-listener refusal and retired TIME_WAIT reuse. The corrected
+helper uses SO_REUSEADDR (not SO_REUSEPORT). R1 remains FAILED; its successful
+baseline arm is retained with explicit hashes for the continuation.
+`reactive-cpu-r9` passes headless 1/1, Debug 23/23 and ASan/UBSan 23/23,
+including eight core-benchmark checks and the TCP regression. All exits are 0.
+
 ## Shared C17 core and direct benchmark implemented — 2026-10-02
 
 `lie_core` now owns the existing reactive worker independently of the HTTP parser:
