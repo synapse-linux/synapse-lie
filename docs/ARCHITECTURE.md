@@ -139,14 +139,14 @@ granularity across the boundary. Porting model/control code to C17 is a distinct
 milestone from eliminating the retained C++/HIP numerical sources/dependencies.
 
 The first runtime extraction is a shared, transport-independent C core, used by
-the HTTP adapter and a direct engine benchmark path. Prefix policy and delegated,
-version-qualified complete hybrid capture/restore are then added to that core.
-Qualify RAM reuse and clone isolation, then optional SSD persistence and restart.
-Define MTP/vision state requirements before freezing payload framing. Device-owner
+the HTTP adapter and a direct engine benchmark path. C-owned RAM prefix policy
+and version-qualified hybrid capture/restore are implemented and GPU-qualified
+through 128K. Optional SSD persistence is implemented, with partial GPU restart
+qualification. MTP/vision state requirements remain separate extension gates. Device-owner
 capture/restore and bounded immutable disk jobs use the same cancellation,
 retirement and resource rules as inference. The [state design](STATE.md) and
 [future ABI requirements](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
-describe these unimplemented contracts.
+distinguish the implemented AR state contract from planned extensions.
 
 ## Shared core and client boundary
 
@@ -172,12 +172,13 @@ Current source audit:
 - `synapse-lie-bench --suite core` is a direct core client, with the same jobs,
   demand, cancellation and witnesses. The historical executor suites retain
   their diagnostic/reference scope; they still manage low-level sequences.
-- Structured tool-output events, scoring/logit capability, cross-request cache,
-  MTP and vision remain future core work. Current core output is confirmed token
+- Cross-request RAM caching and optional SSD persistence belong to the shared
+  core. Structured tool-output events, scoring/logit capability, MTP and vision
+  remain future core work. Current core output is confirmed token
   text; HTTP still interprets tool frames. Future clients must not duplicate that
   model-specific interpretation.
 
-Required responsibility split (implemented lifecycle subset above; cache/MTP/vision
+Required responsibility split (lifecycle and AR cache are implemented; MTP/vision
 and complete semantic events remain planned):
 
 | Shared core | Client or protocol adapter |

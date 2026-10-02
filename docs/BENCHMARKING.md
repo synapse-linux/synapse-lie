@@ -4,8 +4,8 @@ The **`synapse-lie-bench` executable is C17**, like the server. A simplified
 direct-executor AR implementation is now available; see
 [CLI, graph exports and exact deviations](CONTEXT-COMPARISON.md).
 Full-prefill and an explicit Python HTTP client mode are available, including
-actual conversation replay. Cached-conversation/MTP execution below remains
-incomplete; a benchmark client cannot supply absent server capabilities.
+actual conversation replay. RAM prefix reuse is qualified; the exact reference
+HTTP cached-conversation protocol and MTP coverage remain incomplete; a benchmark client cannot supply absent server capabilities.
 The [test closure matrix and 1M gate](TEST-COVERAGE-LONG-CONTEXT.md) distinguish
 missing repetitions/protocols from missing engine features and describe the
 extended-context client preset without claiming 1M LIE execution.
@@ -76,8 +76,9 @@ accordingly. Highest MTP PP does not authorize removing inconvenient samples.
   to make an external reader accept a response. A LIE-aware intermediate reader
   must recognize the schema rather than label it Gufo/llama.cpp timing.
 - Prefix reuse requires correct physical-token/frontier identity, bounded state
-  ownership, cancellation and invalidation. Chat history currently re-prefills
-  from a fresh session. Do not label this cached-prefill measurement.
+  ownership, cancellation and invalidation. The shared C17 cache now restores
+  matching hybrid prefixes across requests. The earlier cache-off conversation
+  measurements still describe full recomputation; they are not cached timings.
 - Native concurrency, MTP and longer contexts require implementation and numerical/
   lifecycle/capacity qualification before their rows can be filled. The measured
   direct AR scope is in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md);

@@ -5,6 +5,8 @@ Primarily C17, initially targeting Qwen3.8 Flash Next on AMD Strix Halo. An
 refactored toward LIE-owned model/session/memory/execution. Delegation is not
 reimplementation. See the [backend evolution contract](docs/BACKEND.md).
 
+[Documentation index](docs/README.md) · [Benchmarks by model and platform](docs/benchmarks/README.md)
+
 ## Current implementation: reactive OpenAI text/function API
 
 The isolated `feature/openai-reactive-api` increment adds stateless Responses
@@ -91,13 +93,15 @@ lease supervision and graph generation. See [usage and scope](docs/CONTEXT-COMPA
 and [methodology/prerequisites](docs/BENCHMARKING.md). The executable also has full-prompt `fresh` and a separate Python HTTP client
 harness (`--suite http`), including exact corpus replay and multi-turn timing.
 The [full-prefill/HTTP result](docs/FULL-PREFILL-HTTP-RESULT.md) reaches 258794
-physical prompt tokens and records a real 100K follow-up. Cache/MTP execution,
-cold-file loading and exact allocation peaks remain open.
+physical prompt tokens and records a real 100K follow-up. RAM reuse is qualified
+separately; the exact reference HTTP cache protocol, MTP, cold-file loading and
+peak HIP measurement remain open. The [model/platform index](docs/benchmarks/README.md)
+keeps these distinct from completed results.
 The [test coverage and 1M gate](docs/TEST-COVERAGE-LONG-CONTEXT.md) list the remaining
 work. A dedicated HTTP `long-context` preset prepares reproducible 256K/512K/768K/1M
 workloads; the current LIE provider still supports native 256K only.
 
-**The Q2 experiment has been withdrawn at the owner's request.** Its active
+**The earlier Q2 experiment was withdrawn on this branch at the owner's request.** Its active
 source, recipes, build helpers and tests are removed; rollback commit `ffca17e`
 restored the original-Unsloth baseline `4307486`, before the new server tool work. The C17 server/runtime, original Gufo
 adapter and UD measurements are retained. Git history, reports and local evidence
@@ -105,9 +109,9 @@ remain as an archive, not current build instructions or Q2 support.
 
 **Current scope: a general OpenAI-compatible server and measured reactive
 inference**, using the existing Unsloth model. Pi uses the standard client
-protocol; no Pi-specific server interface is required. Q2 is deferred under the [replacement plan](docs/REPLAN.md):
-measure a working native Q2 reference first, then compare the smallest integration
-before undertaking another port. No performance preservation has been demonstrated.
+protocol; no Pi-specific server interface is required. The [historical replacement
+plan](docs/REPLAN.md) led to separate work on `feature/antirez-compat-audit`;
+that work is not integrated or qualified by this branch's UD results.
 
 The server now also validates returned executor frontiers and token-text bounds
 before publication, fails closed across peers on provider contract errors, and
@@ -156,8 +160,9 @@ or Reactive Streams TCK claim.
 ## CPU build and verification
 
 Installed dependencies: Linux, C17 compiler, CMake, pkg-config, libuv, llhttp,
-json-c, libcurl, Threads and libm. Python is development/test tooling only.
-CPU benchmark tests additionally need installed OpenSSL Crypto development headers.
+json-c, libcurl, Threads, libm and OpenSSL Crypto development headers. Crypto is
+required by the shared state store, including core-only builds. Python is
+development/test tooling only.
 Nothing is installed by the build.
 
 ```sh
@@ -173,7 +178,8 @@ env HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1 \
 # The .157 qualification capsules retain explicit source SHA-256 inventories.
 ```
 
-Twenty-three CPU suites cover flow, parser/UTF-8/wire, worker, metrics, monitor parser,
+The latest full ASan/UBSan receipt passes 30 suites (see [progress](docs/PROGRESS.md)).
+Coverage includes flow, parser/UTF-8/wire, worker, metrics, monitor parser,
 C ABI layout, HTTP/monitor, HTTP/SSE with the separate synthetic executor,
 CPU-only smoke-runner HTTP/identity checks, the executor benchmark contract,
 per-request completed-call timing with a test-only deterministic clock,
@@ -202,7 +208,8 @@ cmake -S . -B build/new-link-label -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-new-gufo-label" \
   -DGUFO_BUILD="$PWD/build/new-gufo-label"
 cmake --build build/new-link-label -j2
-# Run build-info and tests only on the designated .157 verification host.
+# Non-performance checks may also run locally with temperature monitoring.
+# Original-weight performance remains on .157 under coordinated leases.
 ```
 
 The Qwen-only build uses the upstream model target. The explicit state-access
@@ -291,12 +298,12 @@ No service, deployment, merge or publication is implied.
 
 [Progress/evidence](docs/PROGRESS.md) · [Architecture](docs/ARCHITECTURE.md) ·
 [Execution ABI](docs/ABI.md) · [Metrics](docs/METRICS.md) ·
-[State design—not implemented](docs/STATE.md) · [Baseline](docs/BASELINE.md) ·
+[RAM and SSD state contract](docs/STATE.md) · [Baseline](docs/BASELINE.md) ·
 [DS4 coordination](docs/COORDINATION.md)
 
-Next: qualify the extracted core on the GPU with matched inputs, then implement
-C-owned RAM prefix policy and complete hybrid capture/restore, followed by
-optional SSD persistence, MTP/vision and measured T1/T2 extractions. Independent
+Next: complete long-prefix SSD restart and shared-core performance qualification,
+then continue MTP/vision and measured T1/T2 extractions. The shared core and RAM
+hybrid capture/restore already have scoped GPU qualification. Independent
 numerical/quality and GPU failure gates remain open; future platform providers
 require their own qualification. Native AR batching and real Pi read/edit/read
 already have scoped original-weight evidence. Replayed tool history is not prefix reuse.

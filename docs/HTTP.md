@@ -2,8 +2,8 @@
 
 The optional real provider is linked. A separately leased original-weight C1
 JSON/SSE smoke passed (`t0-model-smoke-r4`), but full numerical/hardware qualification
-remains open. The later native tool extension is CPU/Pi-protocol tested and
-HIP-linked, not yet exercised with the actual model. CPU transport tests use a
+remains open. The native tool extension has [original-weight function-call and
+Responses evidence](OPENAI-GPU.md), plus a [real Pi read/edit/read run](HTTP-256K-PI.md). CPU transport tests use a
 separate, clearly labelled synthetic executable. No model is configured by default and no synthetic provider can be
 selected in `synapse-lie-server`.
 

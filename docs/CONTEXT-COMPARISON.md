@@ -84,7 +84,9 @@ multi-turn 8-token preparation and RAM/disk snapshot restoration. The independen
 written deterministic project-note paragraphs/prose instruction are shared across
 arms, not Gufo exact historical prompt bytes. Accordingly published Gufo/llama.cpp
 numbers are historical reference, not a matched numerical gain comparison.
-No LIE cache/snapshot implementation is claimed by the benchmark.
+The historical executor suites bypass cross-request cache policy. RAM reuse
+and optional SSD persistence are implemented in the shared core; use the
+separate core/state suites and their qualification reports.
 
 The benchmark-only `synapse-lie-bench-gufo-reference` links unchanged LIE-owned
 upstream archives and invokes direct `Sync`/`DecodeStep`/`DecodeBatch`. It isolates
@@ -96,8 +98,9 @@ IDs and frontier hashes are checked in the report. No tolerance changes on failu
 MTP, mixed/repetitive MTP maxima, cold cache eviction and allocation-exact peak
 tracking are unavailable in LIE and explicitly not replicated. This tool is not
 QUALITY.md independent FP64/operator or broad model-quality qualification.
-LIE HTTP now admits up to 262144 total prompt-plus-output tokens and has no
-prefix cache. HTTP capacity and direct-executor performance have separate receipts.
+LIE HTTP admits up to 262144 total prompt-plus-output tokens. RAM prefix
+retention defaults on, with optional SSD persistence. HTTP capacity, cache
+qualification and direct-executor performance have separate receipts.
 
 ## Admitted measurement protocol
 
@@ -167,7 +170,8 @@ never executed. Supply recorded tool-result histories as a static body to measur
 function-calling/agent turns. `--request-options JSON-FILE` records explicit
 server-supported sampling/drafter fields; a label never activates speculation.
 A server refusal stays a failed observation. LIE does not implement MTP, prompt
-lookup drafting, cache restoration or 1M/YaRN and these modes are not synthesized.
+lookup drafting or 1M/YaRN and these modes are not synthesized. Cache restoration
+is implemented in the shared core; this client does not control its policy.
 
 HTTP evidence keeps complete request bytes/hash, SSE chunks, actual usage, early
 EOS, finish reason, first content/tool-argument time and full HTTP wall time.

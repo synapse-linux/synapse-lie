@@ -1,5 +1,16 @@
 # Isolated OpenAI reactive API increment
 
+## Documentation navigation and benchmark scope — 2026-10-02
+
+Added a documentation index and benchmark navigation by model, platform and
+weight format. Current UD Strix Halo campaigns link their original reports and
+artifacts; other platform/format work is explicitly not integrated evidence.
+Corrected stale current-contract statements about RAM/SSD, shared-core ownership,
+actual-model tools, Crypto dependencies and local non-performance checks. Dated
+result files and hash-bound assets retain their original scope and contents.
+The Gufo-style multiuser result remains a simplified direct-executor measurement;
+it does not reproduce the published HTTP corpus and per-request-rate aggregation.
+
 ## User-authorized Strix Halo temperature revision — 2026-10-02
 
 The 85 C R1 ceiling was an assistant-selected precaution. Following the user's
