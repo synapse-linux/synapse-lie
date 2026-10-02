@@ -1,5 +1,5 @@
 {
-  "status": "Running after explicit core handover",
+  "status": "Completed: exploratory gains measured; numerical acceptance pending; no candidate promoted",
   "authorization": "Owner explicitly requests performance exploration before fixing numerical differences. Prior exact replay failures remain recorded; this is not promotion or final numerical acceptance.",
   "variants": {
     "bounded-k": {
@@ -39,5 +39,7 @@
   "controls": "Fresh qualified Q2 and pristine UD in the same exclusive campaign; historical values retained for comparison.",
   "stop_conditions": "Resource/lease failures, GPU faults, non-finite logits or incomparable workload remain explicit failures.",
   "publication": "No deployment, merge, publication or active runtime change.",
-  "handover_recorded_at": "2026-10-02T05:56:25.098787+00:00"
+  "handover_recorded_at": "2026-10-02T05:56:25.098787+00:00",
+  "results": "config/q2-performance-exploration-results.json",
+  "gpu_release_at": "2026-10-02T06:14:39.646783+00:00"
 }

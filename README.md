@@ -14,7 +14,9 @@ See the [complete results and plots](docs/Q2-RESULTS.md) and the now-qualified
 saved-logit limit and was rejected. The subsequent
 [integer scheduling experiments](docs/Q2-REGISTER-EXPERIMENT.md) reduce static
 register spills but fail exact operator replay. The original runtime is restored;
-no new performance gain is qualified.
+the subsequent owner-authorized [performance exploration](docs/Q2-PERFORMANCE-EXPLORATION.md)
+measures +13–42% PP for bounded K and +1–28% for the barrier. Numerical work
+and the overall no-regression target remain open.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

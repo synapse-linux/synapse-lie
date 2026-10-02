@@ -61,3 +61,12 @@ the next window to Q2, retaining its SSD preparation offline. Q2 acknowledges
 four sequential C1 arms (fresh qualified Q2, bounded K, token barrier, pristine
 UD), with fresh four-lease admission per build/GPU arm and verified final release.
 The qualified runtime stays unchanged; experimental source trees are isolated.
+
+All four exploration arms finish successfully, last model command retired at
+2026-10-02 06:13:54.007 UTC. All 208 artifacts were collected/hash verified.
+Fresh closure at 06:14:39.647 UTC verifies four runners absent, 16 command PID/start
+identities and owned groups retired, KFD empty and expected lease identities
+acquired EX|NB then released. Core received explicit handover. No Q2 remote job
+or retry remains. The core thread was also informed of observed model-process
+temperature maxima 92/95/97/98°C across the sequential arms. Qualified runtime
+source remains unchanged; neither numerical failure is rewritten as a pass.

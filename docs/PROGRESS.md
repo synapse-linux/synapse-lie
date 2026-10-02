@@ -106,4 +106,27 @@ differences. [Q2-PERFORMANCE-EXPLORATION.md](Q2-PERFORMANCE-EXPLORATION.md) defi
 a new exploratory campaign, preserving all prior failures and the qualified
 runtime. Both isolated candidate trees match their operator source capsules
 exactly. Fresh Q2/UD controls and numerical drift will accompany C1 timings.
-No remote work starts before the next explicit coordinated handover.
+The exploratory campaign completed after explicit core handover. All four
+model arms pass semantic smoke and finish with command/transport exit 0; 208
+artifacts are collected and SHA verified. Fresh Q2/UD controls reproduce all 47
+prior input/output/frontier files exactly and have median rates within 0.3%.
+
+At 512/2K/8K, bounded K median PP is 618.72/776.24/791.88 tok/s, versus original
+548.15/606.16/559.55: gains 12.87/28.06/41.52%. The barrier reaches
+554.15/695.27/718.09: gains 1.09/14.70/28.33%. Both remain below fresh UD
+1047.70/1650.06/1628.67. TG is essentially flat but its measured small decreases
+remain explicit; this is not a zero-margin no-regression pass. Full observed
+ranges, durations, CSV and graph are in the linked report.
+
+Token files remain exact for both candidates. Maximum full-frontier KL is
+0.002494217876 for bounded K and 0.001866698415 for the barrier. The latter lies
+within the historical WMMA diagnostic limit 0.002, but both still fail exact
+replay. No variant is promoted. The runtime patch remains restored and the
+experimental sources stay isolated. Observed model-process temperature maxima
+rise 92/95/97/98°C across the sequential arms; small timing differences must not
+be attributed confidently without a controlled follow-up.
+
+Fresh release at 2026-10-02 06:14:39.647 UTC verifies four runners absent, 16 command
+identities/groups retired, KFD empty and four expected leases free. Core received
+the explicit handover; no Q2 job or retry remains. Checkpoint 714bac0 preserves
+the isolated experiment setup before completion.

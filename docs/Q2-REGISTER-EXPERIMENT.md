@@ -94,3 +94,10 @@ Fresh closure at 2026-10-02 04:22:17.419 UTC verifies four runners absent, 15 co
 PID/start identities and owned groups retired, KFD empty, and all four expected
 leases acquired EX|NB and released. Core received the explicit handover. No Q2
 job or retry remains; no deployment, merge or publication occurred.
+
+## Subsequent owner-authorized performance exploration
+
+The owner later requested measuring speed before fixing numerical differences.
+[Q2-PERFORMANCE-EXPLORATION.md](Q2-PERFORMANCE-EXPLORATION.md) retains the resulting
+four-arm campaign, measurable PP gains and model-frontier drift. This historical
+operator campaign and its exact replay failures remain unchanged.
