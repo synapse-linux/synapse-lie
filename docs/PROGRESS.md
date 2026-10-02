@@ -1,5 +1,20 @@
 # Isolated OpenAI reactive API increment
 
+## First original-weight SSD restart — 2026-10-02
+
+`ssd-gpu-r1` records two successful arms: 512-token durable write and a separate
+restart reader with three exact fresh/restored logit/token pairs. Early EOS
+limits each pair to two decode calls and one emitted token. File read takes
+61.517 ms, median owner upload 4.388 ms; median fresh PP 627.892 ms. Startup model
+load and 52.770–60.059 s full-content hashing remain separate, not request latency.
+
+The next 8K producer stops during PP at GPU86/CPU84 C under the initial 85 C
+policy, child/supervisor exits 1/1, without forced kill. The campaign remains
+FAILED/INCOMPLETE; 13 arms never launched, so there is no long-prefix SSD or core
+performance result. All 39 collected files verify. Closure 07:39:00.622 UTC:
+six owned identities/controller retired, KFD empty, four unchanged/free leases.
+The window was returned to Q2. [Complete timings, failure and scope](SSD-GPU-RESULT.md).
+
 ## SSD restart qualification harness — 2026-10-02
 
 `synapse-lie-bench --suite state` now has explicit `--state-ssd-mode write|read`

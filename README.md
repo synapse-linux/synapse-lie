@@ -17,7 +17,9 @@ Native AR batching through eight rows and C17 cross-request RAM prefix reuse
 are implemented. RAM retention is on by default (4 GiB, allocated lazily);
 `--prefix-cache-mib 0` disables retention explicitly. Optional SSD persistence
 is now implemented as an explicit opt-in in the shared C core; device qualification
-is pending. The bench now supports separate SSD write/read processes with exact
+is partial: [512-token restart passes](docs/SSD-GPU-RESULT.md); the 8K continuation
+stopped under its initial thermal policy, leaving long-prefix/performance gates open.
+The bench now supports separate SSD write/read processes with exact
 logit comparisons and supervised resource/thermal admission. MTP and vision
 remain pending. See the [SSD implementation and bounds](docs/SSD-PREFIX.md). The
 [separation assessment](docs/BACKEND.md#separation-assessment--2026-10-02) defines

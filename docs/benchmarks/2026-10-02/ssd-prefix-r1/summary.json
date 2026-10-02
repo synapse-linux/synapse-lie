@@ -1,0 +1,151 @@
+{
+  "scope": "Matched same-provider SSD checkpoint qualification; OS file cache uncontrolled; state pairs are correctness, core timings include distinct policy costs",
+  "campaign_state": "FAILED",
+  "state": [
+    {
+      "arm": "state-p512-k512-write",
+      "mode": "write",
+      "prompt_tokens": 512,
+      "checkpoint_tokens": 512,
+      "model_load_ms": 20558.985633,
+      "identity_hash_ms": 60058.549552,
+      "retained_bytes": 134778968,
+      "peak_staging_bytes": 134778968,
+      "capture_ms": 7.97681,
+      "write_ms": 1852.212254,
+      "read_ms": 0.0,
+      "pairs": 0,
+      "fresh_prefill_median_ms": null,
+      "restore_median_ms": null,
+      "tail_prefill_median_ms": null
+    },
+    {
+      "arm": "state-p512-k512-read",
+      "mode": "read",
+      "prompt_tokens": 512,
+      "checkpoint_tokens": 512,
+      "model_load_ms": 25244.686843,
+      "identity_hash_ms": 52769.649634,
+      "retained_bytes": 134778968,
+      "peak_staging_bytes": 4294967296,
+      "capture_ms": 0.0,
+      "write_ms": 0.0,
+      "read_ms": 61.51724,
+      "pairs": 3,
+      "fresh_prefill_median_ms": 627.891816,
+      "restore_median_ms": 4.38819,
+      "tail_prefill_median_ms": 0.00015
+    }
+  ],
+  "jobs": [],
+  "resources": [
+    {
+      "arm": "state-p512-k512-write",
+      "peak_c": {
+        "nvme": 71.85,
+        "amdgpu": 73.0,
+        "k10temp": 64.875
+      },
+      "sampled_threads_including_loader": [
+        1,
+        35,
+        36,
+        51
+      ]
+    },
+    {
+      "arm": "state-p512-k512-read",
+      "peak_c": {
+        "nvme": 76.85,
+        "amdgpu": 78.0,
+        "k10temp": 75.75
+      },
+      "sampled_threads_including_loader": [
+        1,
+        3,
+        35,
+        36,
+        51
+      ]
+    }
+  ],
+  "failed": [
+    {
+      "arm": "state-p8192-k8192-write",
+      "error": "RuntimeError('thermal limit; retiring owned child')",
+      "exit": 1
+    }
+  ],
+  "postflight": {
+    "at": "2026-10-02T07:39:00.622454+00:00",
+    "owned_processes": [
+      {
+        "pid": 2418929,
+        "expected_start_ticks": 149188202,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2418938,
+        "expected_start_ticks": 149188461,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419409,
+        "expected_start_ticks": 149197086,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419427,
+        "expected_start_ticks": 149197328,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419893,
+        "expected_start_ticks": 149205656,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419902,
+        "expected_start_ticks": 149205828,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-02T07:34:47.559745+00:00",
+  "pid": 2418904,
+  "start_ticks": 149188182,
+  "runs": [
+    {
+      "arm": "state-p512-k512-write",
+      "pid": 2418929,
+      "start_ticks": 149188202,
+      "started_at": "2026-10-02T07:34:47.733706+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T07:36:16.471826+00:00"
+    },
+    {
+      "arm": "state-p512-k512-read",
+      "pid": 2419409,
+      "start_ticks": 149197086,
+      "started_at": "2026-10-02T07:36:16.570363+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T07:37:42.161635+00:00",
+      "stable_identity_equal": true
+    },
+    {
+      "arm": "state-p8192-k8192-write",
+      "pid": 2419893,
+      "start_ticks": 149205656,
+      "started_at": "2026-10-02T07:37:42.276735+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-02T07:39:00.621707+00:00"
+    }
+  ],
+  "current_arm": "state-p8192-k8192-write",
+  "error": "RuntimeError('arm failed: state-p8192-k8192-write')",
+  "finished_at": "2026-10-02T07:39:00.622217+00:00"
+}

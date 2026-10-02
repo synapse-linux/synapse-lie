@@ -4,8 +4,10 @@ This increment implements disk persistence of the same complete hybrid AR
 frontiers used by the RAM cache. It is shared by HTTP and `--suite core` through
 `lie_core`; the provider supplies bound model files, geometry and completed
 device transfers. The codec, identity hashing, store, budgets, I/O scheduling and
-ownership are C17. Original-weight SSD restart/performance qualification is
-**pending**; the earlier RAM GPU result does not qualify a new disk path.
+ownership are C17. A [512-token original-weight restart](SSD-GPU-RESULT.md) passes
+three exact pairs with early EOS. The next 8K arm stopped thermally; long-prefix
+and core performance qualification remain **pending**. The earlier RAM result
+does not qualify the new disk path.
 
 RAM remains enabled by default, with its independent lazy 4 GiB budget.
 SSD remains disabled by default. Enable it explicitly with all three options:

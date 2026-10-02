@@ -48,7 +48,21 @@ on `.157` under fresh ownership/leases. This is not GPU-run or heavyweight model
 hash authorization on the editing host. The Q2 thread owns the next `.157` window
 while this thread implements and CPU-tests the C17 SSD store locally.
 
-## Latest completed window — C17 RAM state/cache
+## Latest completed window — first SSD restart
+
+`ssd-gpu-r1` held fresh four-lease admission for each of three sequential arms.
+512-token write and restarted exact-logit/token read pass. The 8K producer
+stops during PP at GPU86/CPU84 C under the initial 85 C ceiling; child/supervisor
+exit 1/1, no forced kill. Thirteen later arms were not launched. This is a failed,
+incomplete campaign, not an SSD performance qualification.
+
+Closure at 2026-10-02 07:39:00.622454 UTC verifies six owned PID/start identities
+absent, KFD empty and four expected lease inodes unchanged/free. Independent
+status confirms controller retirement. All 39 collected artifacts SHA-verify.
+Q2 received the release and resumed its own prefill window; no SSD automatic
+retry remains. Full [result and limitations](SSD-GPU-RESULT.md) are retained.
+
+## Earlier completed window — C17 RAM state/cache
 
 After Q2's verified release at 2026-10-02 03:14:56.579 UTC, CPU fixtures ran
 sequentially on `.157`, followed by `state-gpu-r1` from 03:36:25.717 to

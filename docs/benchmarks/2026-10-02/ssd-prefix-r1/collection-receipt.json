@@ -1,0 +1,10 @@
+{
+  "action": "collect",
+  "label": "ssd-gpu-r1",
+  "exit_code": 0,
+  "started_ns": 1790926830872649360,
+  "finished_ns": 1790926831701373197,
+  "stderr": "",
+  "files_verified": 39,
+  "archive_sha256": "da655386b84128d569c44a650be61bc7ebeca632866476d815bcf486166ff66f"
+}
