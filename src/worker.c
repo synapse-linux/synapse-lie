@@ -149,6 +149,7 @@ static bool render_prompt(lie_core *w,lie_job *j){
 /* Core policies choose a live capture frontier, never rewind recurrent state. */
 static void checkpoint_targets(lie_core *w,lie_job *j){
     const lie_cache_policy *p=&w->options.cache_policy;
+    if(!w->options.prefix_cache_bytes&&!w->store){j->checkpoint=j->next_continued=0;return;}
     if(!p->enabled){j->checkpoint=j->tokens>=w->options.chunk?j->tokens-j->tokens%w->options.chunk:j->tokens;return;}
     uint32_t n=(uint32_t)j->tokens;
     if(p->cold_max_tokens&&n>p->cold_max_tokens)n=p->cold_max_tokens;
@@ -427,7 +428,8 @@ static bool step(lie_core *w, size_t index) {
         j->info.prompt_tokens=(unsigned)j->tokens; j->info.prepared=true;
         checkpoint_targets(w,j);
         pthread_mutex_unlock(&j->gate);
-        if(w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix)j->text_lookup=render_prompt(w,j)||j->request.cache.text_bytes;
+        if((w->options.prefix_cache_bytes||w->store)&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix)
+            j->text_lookup=render_prompt(w,j)||j->request.cache.text_bytes;
         signal_fd(w->notice);
     }
     if (atomic_load(&j->cancel)) { finish_job(w,index,LIE_FINISH_CANCEL,"cancelled"); return true; }

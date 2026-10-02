@@ -62,7 +62,8 @@ Both the server and `synapse-lie-bench --suite core` accept:
 Zero continued interval disables periodic captures; zero cold maximum leaves
 the cold length uncapped. Zero trim/alignment disables that boundary adjustment.
 Policy selection does not enable a zero-budget RAM pool or an unconfigured SSD
-store. Text keys are bounded to 8 MiB and extension trailers to 1 MiB, with
+store. With both tiers disabled, the core skips prompt rendering and checkpoint
+splits entirely. Text keys are bounded to 8 MiB and extension trailers to 1 MiB, with
 admission copies included in the 32 MiB request arena. Rendering additionally
 reserves at most 8 MiB + 1 byte and `(context + 1) * sizeof(size_t)` for offsets
 per active job; these buffers live until the last job reference is released.

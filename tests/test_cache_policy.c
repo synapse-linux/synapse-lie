@@ -160,6 +160,14 @@ int main(void){
             lie_job_info ji;lie_job_snapshot(job,&ji);assert(ji.cached_tokens==(k==2?4u:0u));lie_job_release(job);
         }
         lie_core_stop(core);wait_core(core,LIE_STOPPED);lie_core_destroy(core);
+        /* A disabled cache adds neither prompt rendering nor policy splits. */
+        o.prefix_cache_bytes=0;o.cache_policy.min_tokens=1;o.cache_policy.cold_max_tokens=3;
+        o.cache_policy.continued_interval_tokens=3;o.cache_policy.boundary_align_tokens=0;
+        fake_calls_reset();core=lie_core_create(&o);assert(core);wait_core(core,LIE_READY);
+        lie_core_request_init(&request);request.kind=LIE_INPUT_TEXT;request.text="abcdefghijkl";request.text_bytes=12;request.max_tokens=4;
+        job=NULL;assert(!lie_core_submit(core,&request,&job));drain(job);lie_job_info no_cache;lie_job_snapshot(job,&no_cache);
+        assert(no_cache.prefill_calls==3&&fake_calls_snapshot().text==4&&!fake_calls_snapshot().capture);lie_job_release(job);
+        lie_core_stop(core);wait_core(core,LIE_STOPPED);lie_core_destroy(core);
     }
     assert(!rmdir(base));puts("DS4 policy formulas, persistent utility, dynamic index, text keys, trailers, quota and progressive captures: PASS (NOT-INFERENCE)");return 0;
 }
