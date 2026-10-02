@@ -141,15 +141,38 @@ def distribution(values):
 
 
 def read_state_result(path,rows):
-    if [r.get('event') for r in rows]!=['identity','input','capture','pair','pair','pair','complete'] or rows[-1]!={'event':'complete','exit_code':0}:
+    events=[r.get('event') for r in rows]
+    ram=events==['identity','input','capture','pair','pair','pair','complete']
+    write=events==['identity','input','ssd_identity','capture','ssd_write','complete']
+    read=events==['identity','input','ssd_identity','ssd_read','pair','pair','pair','complete']
+    if not (ram or write or read) or rows[-1]!={'event':'complete','exit_code':0}:
         raise ValueError('incomplete state qualification')
-    identity,p,capture=rows[:3];pairs=rows[3:6]
+    identity,p=rows[:2];capture=rows[2] if ram else rows[3]
+    pairs=rows[3:6] if ram else rows[4:7] if read else []
     if identity.get('suite')!='state' or identity.get('state_abi')!=1 or not 0<p['checkpoint_tokens']<=p['prompt_tokens']<p['context']:
         raise ValueError('invalid state input')
     if p['checkpoint_tokens']!=p['prompt_tokens'] and p['checkpoint_tokens']%p['chunk']:
         raise ValueError('state chunk alignment')
-    if not 0<capture['retained_bytes']<=4*1024**3 or not 0<capture['sections']<=256 or capture['capture_ns']<=0:
+    budget=4*1024**3 if ram else rows[2]['staging_bytes']
+    if type(budget) is not int or not 0<capture['retained_bytes']<=budget or not 0<capture['sections']<=256 or capture['read_ns' if read else 'capture_ns']<=0:
         raise ValueError('state capture accounting')
+    disk=None
+    if not ram:
+        disk=rows[2];mode='write' if write else 'read'
+        digest=disk.get('stable_identity_sha256','')
+        if disk.get('mode')!=mode or not isinstance(digest,str) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):
+            raise ValueError('state SSD identity')
+        if any(type(disk.get(k)) is not int or disk[k]<=0 for k in ('model_load_ns','identity_ns','quota_bytes','staging_bytes')):
+            raise ValueError('state SSD admission/timing')
+        transfer=rows[4] if write else capture
+        if type(transfer.get('peak_staging_bytes')) is not int or not capture['retained_bytes']<=transfer['peak_staging_bytes']<=budget:
+            raise ValueError('state SSD staging accounting')
+        if write and (transfer.get('writes')!=1 or transfer.get('write_ns',0)<=0 or
+                      not 0<transfer.get('written_bytes',0)==transfer.get('disk_bytes',0)<=disk['quota_bytes'] or
+                      not 0<transfer.get('allocated_bytes',0)<=disk['quota_bytes']):
+            raise ValueError('state SSD durable write accounting')
+        if read and not 0<transfer.get('read_bytes',0)<=disk['quota_bytes']:
+            raise ValueError('state SSD read accounting')
     for index,r in enumerate(pairs):
         if r['pair']!=index or r['exact_logits_and_tokens']!=1 or r['reused_tokens']!=p['checkpoint_tokens'] or r['new_tokens']+r['reused_tokens']!=p['prompt_tokens']:
             raise ValueError('state pair accounting')
@@ -157,9 +180,11 @@ def read_state_result(path,rows):
             raise ValueError('state frontier witness')
         if any(type(r[k]) is not int or r[k]<0 for k in ('fresh_prefill_ns','restore_ns','tail_prefill_ns')) or not r['fresh_prefill_ns'] or not r['restore_ns']:
             raise ValueError('state pair timing')
-    for key in ('output_ids','full_logits_sha256'):
-        if pairs[0][key]!=pairs[2][key]:raise ValueError('independent clone drift')
-    return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'input':p,'capture':capture,'pairs':pairs}
+    if pairs:
+        for key in ('output_ids','full_logits_sha256'):
+            if pairs[0][key]!=pairs[2][key]:raise ValueError('independent clone drift')
+    return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'input':p,'capture':capture,'pairs':pairs,
+            'ssd':disk,'ssd_transfer':None if ram else transfer,'scope':'durable checkpoint write only' if write else 'three exact fresh/restored pairs'}
 
 
 def read_core_result(path,rows):

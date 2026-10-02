@@ -5,11 +5,13 @@ Requires a fresh operator-authorized manifest and private, unused run directory.
 Shares only read-only utility functions with the retained original-model runner.
 """
 import fcntl
+import hashlib
 import json
 import math
 import os
 from pathlib import Path
 import resource
+import re
 import runpy
 import signal
 import stat
@@ -36,6 +38,135 @@ def read_power_settings(paths):
 REPORT = runpy.run_path(str(Path(__file__).with_name("bench-report.py")))
 
 
+def temperatures(root=Path('/sys/class/hwmon'), ceiling=85):
+    if type(ceiling) not in (int,float) or not math.isfinite(ceiling) or not 30<=ceiling<=85:
+        raise ValueError('invalid thermal ceiling')
+    rows=[]
+    for device in sorted(root.glob('hwmon*')):
+        name=(device/'name').read_text().strip()
+        if name not in ('k10temp','coretemp','amdgpu','nvme'):continue
+        for path in sorted(device.glob('temp*_input')):
+            limit=ceiling
+            for suffix in ('max','crit'):
+                bound=path.with_name(path.name[:-6]+'_'+suffix)
+                if bound.exists():
+                    value=int(bound.read_text())/1000
+                    if 30<=value<=150:limit=min(limit,value)
+            value=int(path.read_text())/1000
+            if not -40<=value<=150:raise ValueError('invalid temperature sensor')
+            rows.append({'name':name,'path':str(path),'value_c':value,'limit_c':limit})
+    if not any(r['name'] in ('k10temp','coretemp') for r in rows):raise ValueError('CPU temperature unavailable')
+    return rows
+
+
+def require_cool(rows):
+    if any(r['value_c']>=r['limit_c'] for r in rows):raise RuntimeError('thermal limit')
+
+
+def private_directory(path):
+    """Open an existing private store without following any path symlink."""
+    path=Path(path)
+    if not path.is_absolute() or any(p in ('.','..') for p in path.parts):raise ValueError('absolute canonical store path required')
+    fd=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_CLOEXEC)
+    try:
+        for part in path.parts[1:]:
+            child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC,dir_fd=fd)
+            os.close(fd);fd=child
+        s=os.fstat(fd)
+        if s.st_uid!=os.geteuid() or stat.S_IMODE(s.st_mode)!=0o700:raise ValueError('store must be owned and mode 0700')
+        return fd
+    except BaseException:
+        os.close(fd);raise
+
+
+def ssd_inventory(path,check_thermal=lambda:None):
+    """Full checkpoint hashes under the campaign leases; never model hashes."""
+    fd=private_directory(path);entries={}
+    try:
+        names=os.listdir(fd)
+        if len(names)>65:raise ValueError('SSD inventory entry limit')
+        for name in sorted(names):
+            if name!='.lie-prefix.lock' and not re.fullmatch(r'[0-9a-f]{64}\.lie',name):
+                raise ValueError('uncommitted or unknown SSD entry')
+            entry=os.open(name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC,dir_fd=fd)
+            with os.fdopen(entry,'rb') as f:
+                before=os.fstat(f.fileno())
+                if not stat.S_ISREG(before.st_mode) or before.st_uid!=os.geteuid() or before.st_nlink!=1 or stat.S_IMODE(before.st_mode)!=0o600:
+                    raise ValueError('unsafe SSD entry')
+                if name=='.lie-prefix.lock':continue
+                digest=hashlib.sha256()
+                while chunk:=f.read(8*1024*1024):
+                    check_thermal();digest.update(chunk)
+                after=os.fstat(f.fileno());live=os.stat(name,dir_fd=fd,follow_symlinks=False)
+                fields=lambda s:(s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+                if fields(before)!=fields(after) or fields(after)!=fields(live):raise ValueError('SSD inventory race')
+                entries[name]={'bytes':after.st_size,'sha256':digest.hexdigest()}
+        return entries
+    finally:os.close(fd)
+
+
+def bind_ssd(args,run,manifest,check_thermal=lambda:None):
+    """Bind new stores or sealed preceding sibling stores; called inside leases."""
+    options=dict(zip(args[::2],args[1::2]));declared=manifest.get('ssd_store')
+    keys=('--prefix-ssd-dir','--prefix-ssd-quota-mib','--prefix-ssd-staging-mib')
+    present=[k in options for k in keys]
+    if not any(present):
+        if declared is not None or '--state-ssd-mode' in options:raise ValueError('SSD manifest/options mismatch')
+        return args,None
+    if not all(present) or not isinstance(declared,dict) or options.get('--suite') not in ('core','state'):
+        raise ValueError('complete explicit SSD declaration required')
+    if declared.get('full_model_hash_authorized') is not True or declared.get('checkpoint_hash_authorized') is not True:
+        raise ValueError('SSD full-content hashing admission required')
+    if options[keys[0]]!='prefix-store':raise ValueError('SSD directory must use bound prefix-store name')
+    budgets=[]
+    for flag,field in zip(keys[1:],('quota_bytes','staging_bytes')):
+        value=options[flag]
+        if not value.isascii() or not value.isdecimal() or not 0<int(value)<=1048576:raise ValueError('invalid SSD budget')
+        n=int(value)*1024**2
+        if type(declared.get(field)) is not int or declared[field]!=n:raise ValueError('SSD budget declaration mismatch')
+        budgets.append(n)
+    if options['--suite']=='core':
+        ram=options.get('--prefix-cache-mib','4096')
+        if not ram.isascii() or not ram.isdecimal() or int(ram)>1048576:raise ValueError('invalid RAM reserve')
+        minimum=int(ram)*1024**2
+    else:
+        # State harness: 17 full-vocabulary rows plus one row and prompt IDs,
+        # bounded by the public harness limits (not a total process-fit claim).
+        minimum=80*1024**2
+    reserve=manifest.get('ram_cache_reserve_bytes',0)
+    if type(reserve) is not int or reserve<minimum:raise ValueError('SSD campaign RAM reserve is incomplete')
+    mode=declared.get('mode');run=Path(run).resolve()
+    if options['--suite']=='state' and options.get('--state-ssd-mode')!=('write' if mode=='create' else 'read'):
+        raise ValueError('state SSD mode mismatch')
+    if mode=='create':
+        if 'source_run' in declared or 'source_result_sha256' in declared:raise ValueError('new SSD store cannot have a source')
+        path=run/'prefix-store'
+        if os.path.lexists(path):raise ValueError('new SSD store already exists')
+        before={}
+    elif mode=='reuse':
+        name=declared.get('source_run')
+        if not isinstance(name,str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*',name) or name==run.name:
+            raise ValueError('SSD source must be a preceding sibling run')
+        source=run.parent/name
+        if source.resolve()!=source:raise ValueError('SSD source symlink')
+        receipt=source/'results/result.json'
+        if sha(receipt)!=declared.get('source_result_sha256'):raise ValueError('SSD source receipt identity mismatch')
+        prior=json.loads(receipt.read_text());path=source/'prefix-store'
+        if prior.get('state')!='SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION' or prior.get('child_exit_code')!=0 or prior.get('ssd_store',{}).get('path')!=str(path):
+            raise ValueError('SSD source was not a completed store producer')
+        if prior.get('ssd_store',{}).get('mode')!='create':raise ValueError('SSD reuse must bind the original producer')
+        if prior.get('ssd_store',{}).get('quota_bytes')!=budgets[0]:raise ValueError('SSD source quota mismatch')
+        before=ssd_inventory(path,check_thermal)
+        if not before or before!=prior.get('ssd_after'):raise ValueError('SSD checkpoint preservation mismatch')
+    else:raise ValueError('invalid SSD campaign mode')
+    parent=path.parent;space=os.statvfs(parent)
+    free=space.f_bavail*space.f_frsize
+    if free<budgets[0]:raise ValueError('SSD free-space reserve below explicit quota')
+    result=list(args);result[result.index(keys[0])+1]=str(path)
+    return result,{'path':str(path),'mode':mode,'quota_bytes':budgets[0],'staging_bytes':budgets[1],
+                   'before':before,'free_bytes':free,'os_file_cache':'uncontrolled; identity/inventory hashing warms file cache'}
+
+
 def validate_args(args):
     allowed={'--suite','--sizes','--depths','--users','--pp','--tg','--warmups','--repetitions','--execution'}
     if not isinstance(args,list) or len(args)%2 or any(type(x) is not str for x in args):
@@ -47,6 +178,9 @@ def validate_args(args):
                  '--context','--chunk','--timeout-ms','--prompt-file','--tokens-file','--prefix-cache-mib'}
     if options.get('--suite')=='state':
         allowed={'--suite','--context','--chunk','--pp','--tokens-file'}
+        allowed.add('--state-ssd-mode')
+    if options.get('--suite') in ('core','state'):
+        allowed.update(('--prefix-ssd-dir','--prefix-ssd-quota-mib','--prefix-ssd-staging-mib'))
     if len(set(keys))!=len(keys) or any(k not in allowed for k in keys):
         raise ValueError('unapproved/duplicate benchmark option')
     if not args or '--suite' not in keys:
@@ -141,6 +275,12 @@ def main():
             raise RuntimeError('preflight command failed')
         return p.stdout
 
+    def check_thermal():
+        rows=temperatures(ceiling=m.get('thermal_limit_c',85))
+        r['last_temperatures']=rows
+        require_cool(rows)
+        return rows
+
     try:
         for name in m['lock_order']:
             p = Path(name)
@@ -174,6 +314,12 @@ def main():
         for name, expected in m['files'].items():
             if sha(run / name) != expected:
                 raise RuntimeError('staged file identity mismatch: ' + name)
+        r['preflight_temperatures']=check_thermal()
+        benchmark_args=bind_args(m['benchmark_args'],run,m)
+        benchmark_args,r['ssd_store']=bind_ssd(benchmark_args,run,m,check_thermal)
+        staging=r['ssd_store']['staging_bytes'] if r['ssd_store'] else 0
+        if H['memory']()['MemAvailable']<=trunk+reserve+staging:
+            raise RuntimeError('SSD staging plus RAM reserve admission failed; no fit claim')
         env = {k: v for k, v in os.environ.items() if not k.startswith(('GUFO_', 'DS4_', 'HIP_', 'ROCR_', 'HSA_', 'CUDA_')) and k not in ('LD_PRELOAD', 'LD_LIBRARY_PATH')}
         for key, name in [('HOME', 'home'), ('XDG_CACHE_HOME', 'cache'), ('TMPDIR', 'tmp')]:
             p = run / name
@@ -181,7 +327,6 @@ def main():
             env[key] = str(p)
         env.update(LC_ALL='C', LD_BIND_NOW='1', ROCR_VISIBLE_DEVICES='0', HIP_VISIBLE_DEVICES='0')
         masked = dict(env, ROCR_VISIBLE_DEVICES='-1', HIP_VISIBLE_DEVICES='-1')
-        benchmark_args = bind_args(m['benchmark_args'],run,m)
         selected_suite = dict(zip(benchmark_args[::2],benchmark_args[1::2]))['--suite']
         info = json.loads(command([str(binary), *(['--suite',selected_suite] if selected_suite in ('core','state') else []), '--build-info'], masked))
         if info != m['build_info'] or info['synthetic'] or info['ownership'] != 'delegated':
@@ -204,6 +349,7 @@ def main():
             'scaling_governor', 'energy_performance_preference', 'power_dpm_force_performance_level', 'pp_power_profile_mode'))
         if interrupted or H['kfd']():
             raise RuntimeError('admission interrupted or foreign client appeared')
+        check_thermal()
         r['argv'] = [str(binary), '--model', m['models'][0]['path'], '--output', str(out / 'measurements.jsonl')]
         r['argv'] += benchmark_args
         register('start')
@@ -220,10 +366,14 @@ def main():
                 kfd = H['kfd']()
                 drm, denied = H['dri_clients']()
                 foreign = (kfd - {child.pid}) | (drm - baseline_dri - {child.pid})
+                thermal=temperatures(ceiling=m.get('thermal_limit_c',85));r['last_temperatures']=thermal
                 log.write(json.dumps({'at': now(), 'memory': H['memory'](), 'gpu': H['gpu'](),
                                       'kfd': sorted(kfd), 'dri': sorted(drm), 'dri_permission_denied': denied,
-                                      'process': H['process_status'](child.pid)}) + '\n')
+                                      'temperatures':thermal,'process': H['process_status'](child.pid)}) + '\n')
                 log.flush()
+                if any(t['value_c']>=t['limit_c'] for t in thermal):
+                    r['thermal_stop']=True
+                    raise RuntimeError('thermal limit; retiring owned child')
                 if foreign:
                     r['foreign_gpu_clients'] = sorted(foreign)
                     raise RuntimeError('foreign GPU client detected')
@@ -236,6 +386,8 @@ def main():
         data = [json.loads(x) for x in (out / 'measurements.jsonl').read_text().splitlines()]
         r['summary'] = REPORT['read_result'](out / 'measurements.jsonl')
         r['measurements_sha256'] = sha(out / 'measurements.jsonl')
+        if r['ssd_store']:
+            r['ssd_after']=ssd_inventory(Path(r['ssd_store']['path']),check_thermal)
         r['state'] = 'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION'
     except BaseException as ex:
         r['state'], r['error'] = 'FAILED', repr(ex)
@@ -244,7 +396,7 @@ def main():
             if child.poll() is None:
                 child.terminate()
                 try:
-                    child.wait(timeout=120)
+                    child.wait(timeout=5 if r.get('thermal_stop') else 120)
                 except subprocess.TimeoutExpired:
                     r['forced_owned_child_kill'] = True
                     child.kill()

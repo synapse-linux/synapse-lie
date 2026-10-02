@@ -50,8 +50,9 @@ device policy or execution configuration can miss even when a looser future
 contract might prove compatibility. No cross-HIP/CUDA or cross-build portability
 is claimed. Full weight hashing can be expensive and is counted in load-to-READY,
 not in request prefill. Shared GPU host admission must authorize that read too.
-The current lease supervisor deliberately rejects SSD flags until a dedicated
-SSD campaign manifest/resource policy is added; do not bypass its admission.
+The lease supervisor admits SSD only with an explicit campaign manifest for
+full-content hashing, separate RAM/staging/disk reserves and a new private store
+or a sealed preceding producer. See the [device protocol](SSD-GPU-PROTOCOL.md).
 
 The wire representation is **not a C struct dump**. Integers are little-endian;
 version 1 requires a little-endian IEEE binary32 host. F16 tensor bits are

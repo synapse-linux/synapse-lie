@@ -1,5 +1,26 @@
 # Isolated OpenAI reactive API increment
 
+## SSD restart qualification harness — 2026-10-02
+
+`synapse-lie-bench --suite state` now has explicit `--state-ssd-mode write|read`
+with independent directory/quota/staging options. Write requires a new empty
+store and a durable commit; a separate read process requires the exact frontier
+and compares all logits/tokens with fresh recomputation in three pairs. Missing,
+shorter and corrupted checkpoints cannot pass through a fallback. The shared
+store implementation is unchanged. Reporting separates hashing/write/read/upload.
+
+The leased benchmark supervisor binds new stores or sealed preceding producers,
+checks explicit full-content hashing and RAM/staging/disk admission, and records
+thermal telemetry with an 85 C or lower sensor ceiling. Q2's persistent release
+at 07:13:11.718 UTC was verified read-only: no KFD clients, CPU48.125/GPU46 C;
+the next GPU run still needs fresh leases. The [predeclared protocol](SSD-GPU-PROTOCOL.md)
+covers exact restart/extension through 128K followed by core off/RAM/SSD timings.
+
+Local [CPU receipts](benchmarks/2026-10-02/ssd-qualification/cpu-receipt.json):
+14/14 focused checks, full ASan/UBSan 30/30 (CPU77.75/GPU58 C), HIP server/bench
+compile/link exit 0 (CPU73/GPU58 C). All commands exit 0. No original-model SSD
+result is claimed by this preparation checkpoint.
+
 ## Optional SSD prefix persistence — 2026-10-02
 
 Implemented the version 1 component codec, conservative full-file identity,

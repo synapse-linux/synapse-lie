@@ -29,6 +29,15 @@ from agreed stable inputs, never racing their build output.
 
 ## Local non-performance tests — user authorization update
 
+Q2 subsequently completed HC exploration and recorded explicit release at
+2026-10-02 07:13:11.718 UTC in `run/q2-hc-window-release.json` and the shared
+register. Read-only SSD preparation verified that record, empty KFD, available
+memory/disk and CPU48.125/GPU46 C; no lease or model payload was touched. This
+thread takes the next coordinated SSD campaign, with fresh per-arm admission
+and thermal guard as specified in [SSD-GPU-PROTOCOL.md](SSD-GPU-PROTOCOL.md).
+Q2 continues local preparation. This update supersedes its earlier ownership
+of the window described below, without rewriting historical run evidence.
+
 The user now permits non-performance tests on the editing Strix Halo `.155` as
 well as `.157`, and explicitly requests temperature care. New local CPU builds
 and fixtures use `tools/thermal-run.py`, at most `-j2`, continuous sensor records

@@ -20,6 +20,36 @@ RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.p
 
 
 class CoreBench(unittest.TestCase):
+    def test_state_ssd_cross_process_exact_pairs_and_corruption(self):
+        with tempfile.TemporaryDirectory(prefix='lie-state-ssd-') as tmp:
+            root=Path(tmp);source=root/'tokens.json';source.write_text(json.dumps(list(range(12))))
+            store=root/'store'
+            def run(name,mode,checkpoint=8):
+                output=root/(name+'.jsonl')
+                p=subprocess.run([BINARY,'--suite','state','--model',':fixture:','--output',str(output),
+                                  '--tokens-file',str(source),'--pp',str(checkpoint),'--chunk','4','--context','128',
+                                  '--state-ssd-mode',mode,'--prefix-ssd-dir',str(store),
+                                  '--prefix-ssd-quota-mib','1','--prefix-ssd-staging-mib','1'],capture_output=True,text=True,timeout=15)
+                return p,output
+            p,path=run('write','write');self.assertEqual(p.returncode,0,p.stderr)
+            written=REPORT['read_result'](path);self.assertEqual(written['pairs'],[])
+            self.assertEqual(written['ssd_transfer']['writes'],1)
+            p,path=run('read','read');self.assertEqual(p.returncode,0,p.stderr)
+            restored=REPORT['read_result'](path)
+            self.assertEqual(restored['ssd']['stable_identity_sha256'],written['ssd']['stable_identity_sha256'])
+            self.assertEqual(len(restored['pairs']),3)
+            self.assertEqual(restored['pairs'][0]['new_tokens'],4)
+            self.assertEqual(restored['pairs'][0]['output_ids'],list(range(16)))
+            # A shorter available prefix is not sufficient for this exact gate.
+            p,path=run('wrong-frontier','read',12);self.assertEqual(p.returncode,1)
+            with self.assertRaises(ValueError):REPORT['read_result'](path)
+            p,path=run('nonempty-write','write');self.assertEqual(p.returncode,1)
+            checkpoint=next(store.glob('*.lie'))
+            with checkpoint.open('r+b') as f:
+                f.seek(-1,2);byte=f.read(1);f.seek(-1,2);f.write(bytes([byte[0]^1]))
+            p,path=run('corrupt','read');self.assertEqual(p.returncode,1)
+            with self.assertRaises(ValueError):REPORT['read_result'](path)
+
     def test_ssd_restart_accounting(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-ssd-') as tmp:
             root=Path(tmp);store=root/'store';results=[]
@@ -174,6 +204,50 @@ class CoreBench(unittest.TestCase):
         for cfg in [{'api_port':True},{'api_port':19880},{'management_port':65536}]:
             with self.assertRaises(ValueError):ports(cfg)
         self.assertGreaterEqual(int(RUNNER['H']['process_status'](os.getpid())['Threads']),1)
+
+    def test_ssd_supervisor_admission_and_sealed_restart(self):
+        with tempfile.TemporaryDirectory(prefix='lie-ssd-admission-') as tmp:
+            root=Path(tmp);producer=root/'writer';producer.mkdir();consumer=root/'reader';consumer.mkdir()
+            args=['--suite','core','--prefix-cache-mib','0','--prefix-ssd-dir','prefix-store',
+                  '--prefix-ssd-quota-mib','1','--prefix-ssd-staging-mib','1']
+            cfg={'ssd_store':{'mode':'create','quota_bytes':1024**2,'staging_bytes':1024**2,
+                              'full_model_hash_authorized':True,'checkpoint_hash_authorized':True}}
+            bound,record=RUNNER['bind_ssd'](args,producer,cfg)
+            self.assertEqual(bound[5],str(producer/'prefix-store'))
+            self.assertFalse((producer/'prefix-store').exists())
+            for change in ({'full_model_hash_authorized':False},{'staging_bytes':True},{'mode':'unknown'}):
+                bad=copy.deepcopy(cfg);bad['ssd_store'].update(change)
+                with self.assertRaises(ValueError):RUNNER['bind_ssd'](args,producer,bad)
+            with self.assertRaises(ValueError):RUNNER['bind_ssd'](args[:6],producer,cfg)
+            with self.assertRaises(ValueError):RUNNER['bind_ssd'](args[:2]+args[4:],producer,cfg) # Undeclared default RAM.
+            store=producer/'prefix-store';store.mkdir(mode=0o700)
+            payload=store/('a'*64+'.lie');payload.write_bytes(b'checkpoint fixture');payload.chmod(0o600)
+            inventory=RUNNER['ssd_inventory'](store)
+            results=producer/'results';results.mkdir();receipt=results/'result.json'
+            receipt.write_text(json.dumps({'state':'SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION',
+                                           'child_exit_code':0,'ssd_store':record,'ssd_after':inventory}))
+            cfg['ssd_store'].update(mode='reuse',source_run=producer.name,source_result_sha256=hashlib.sha256(receipt.read_bytes()).hexdigest())
+            bound,record=RUNNER['bind_ssd'](args,consumer,cfg);self.assertEqual(bound[5],str(store))
+            bad=copy.deepcopy(cfg);bad['ssd_store']['source_run']='../writer'
+            with self.assertRaises(ValueError):RUNNER['bind_ssd'](args,consumer,bad)
+            payload.write_bytes(b'changed checkpoint')
+            with self.assertRaises(ValueError):RUNNER['bind_ssd'](args,consumer,cfg)
+            payload.chmod(0o644)
+            with self.assertRaises(ValueError):RUNNER['ssd_inventory'](store)
+            link=root/'alias';link.symlink_to(store,target_is_directory=True)
+            with self.assertRaises(OSError):RUNNER['ssd_inventory'](link)
+
+    def test_supervisor_thermal_sensor_limits(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-admission-') as tmp:
+            root=Path(tmp);sensor=root/'hwmon0';sensor.mkdir()
+            (sensor/'name').write_text('k10temp\n');(sensor/'temp1_input').write_text('59000\n')
+            (sensor/'temp1_max').write_text('60000\n')
+            rows=RUNNER['temperatures'](root);RUNNER['require_cool'](rows)
+            (sensor/'temp1_input').write_text('61000\n')
+            with self.assertRaises(RuntimeError):RUNNER['require_cool'](RUNNER['temperatures'](root))
+            with self.assertRaises(ValueError):RUNNER['temperatures'](root,86)
+            (sensor/'name').write_text('amdgpu\n')
+            with self.assertRaises(ValueError):RUNNER['temperatures'](root)
 
     def test_port_probe_rejects_listener_but_allows_retired_tcp(self):
         probe=RUNNER['H']['probe_ports']

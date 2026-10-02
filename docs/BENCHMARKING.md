@@ -180,6 +180,16 @@ keys. Separate process invocations against the same private store exercise
 restart, and `ssd_drained` confirms final pending count and durable-write counters.
 Jobs/CSV separately report SSD reused tokens, read/validation and owner upload
 timing. Full hashing/index admission belongs to load-to-READY. The GPU lease
-supervisor currently refuses these new flags pending a dedicated SSD resource
-manifest; synthetic direct CLI tests are not GPU performance evidence. See
-[the SSD qualification boundary](SSD-PREFIX.md).
+supervisor requires a dedicated SSD resource manifest, hashing authorization and
+a new store or a SHA-bound preceding producer, with temperature monitoring.
+Synthetic direct CLI tests are not GPU performance evidence. See
+[the SSD qualification boundary](SSD-PREFIX.md) and [campaign protocol](SSD-GPU-PROTOCOL.md).
+
+For full-logit SSD qualification, add `--state-ssd-mode write` to `--suite state`
+with all three SSD options. This persists one checkpoint into an empty store;
+it does not claim numerical qualification. Run the same executable/configuration
+in a separate process with `--state-ssd-mode read`: a missing, corrupt or shorter
+checkpoint fails, and the three fresh/restored pairs must match exactly. The
+reader holds its staging reservation through owner upload and every pair.
+Identity hashing, durable write, file read and device restore have separate
+JSONL timings. `bench-report.py` validates both modes without performance ranking.
