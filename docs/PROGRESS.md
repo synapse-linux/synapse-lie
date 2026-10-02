@@ -66,10 +66,23 @@ a scaled F16 activation residual. Its C1 prefill improved by 34/50/64%, but the
 model-frontier KL reached 0.002809 against a 0.002 limit. All generated tokens
 matched; the numerical gate still failed. [Full experiment](Q2-DOWN-EXPERIMENT.md)
 retains values, graphs, rejected source, operator failures and actual exits.
-The active runtime patch is restored exactly to SHA-256
+Checkpoint `a4a2b8b` restored the runtime patch exactly to SHA-256
 `3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473`.
 No new UD control or long-context sweep was run after rejecting this candidate.
 
 The next PP hypothesis must preserve baseline activation quantization while
 improving layout/reuse. F16 HC down/up are a separate measured decode target.
 No deployment, merge, publication or full performance acceptance occurred.
+
+## Integer scheduling candidate — qualification pending
+
+[Q2-REGISTER-EXPERIMENT.md](Q2-REGISTER-EXPERIMENT.md) records a static compiler
+screen of register pressure. The initial UD-style token-tile barrier helped
+some widths but increased tile16 scratch. Bounding K-loop unrolling instead
+eliminated static scratch instructions for all five selected Q2 tile widths.
+This is local assembly analysis only, not a target performance or quality pass.
+The active runtime now contains that minimal RDNA3 candidate. The same extended
+operator harness can compare it with the frozen original Q2 source; exact
+operator and model-frontier bytes are mandatory. GPU qualification waits for
+the core thread to complete its current cache campaign and explicitly release
+the coordinated window. No Q2 remote work was started during that campaign.

@@ -252,6 +252,20 @@
  /// Converts `count` floats to BF16 (or F16) for a 16-bit hipBLAS GEMM.
  void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
                         hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp
+@@ -1728,6 +1728,11 @@
+ 
+     const int i0 = (wrow / ntx) * rows_per_warp;
+ 
++#if defined(AMD_WMMA_AVAILABLE) && defined(RDNA3)
++    // Bound fragment lifetimes without changing the Q2/Q8 arithmetic order.
++    // Full K-loop unrolling otherwise spills on the routed gfx1151 shapes.
++#pragma unroll 1
++#endif
+     for (int k01 = 0; k01 < MMQ_TILE_NE_K; k01 += 4) {
+         const int k0 = k00 + k01;
+ 
 --- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
 +++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
 @@ -149,6 +149,8 @@

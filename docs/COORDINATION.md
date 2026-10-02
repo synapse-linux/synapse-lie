@@ -33,3 +33,8 @@ limit observation; lease ownership is not universal device exclusivity proof.
 No DS4 source, service, build, cache, model or qualified evidence may be changed.
 No dependency installation, model conversion, foreign termination or tuning is
 authorized. Runtime tests stay on `.157`; source/report checks can be local.
+
+The next integer scheduling candidate is prepared locally while core owns
+state-gpu-r1. Device-only assembly analysis executes no GPU code. All new
+remote checks (including CPU fixtures) wait for the explicit handover; no
+background retry or implicit ownership of an idle gap is scheduled.

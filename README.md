@@ -11,7 +11,9 @@ decode than existing UD-Q4 in this screen. Do not promote this candidate yet.
 See the [complete results and plots](docs/Q2-RESULTS.md) and the now-qualified
 [Q2/UD phase profiles](docs/Q2-PROFILING.md). The first WMMA down
 [experiment](docs/Q2-DOWN-EXPERIMENT.md) improved PP by 34–64% but exceeded the
-saved-logit limit and was rejected. The active runtime is restored.
+saved-logit limit and was rejected. A new [integer scheduling candidate](docs/Q2-REGISTER-EXPERIMENT.md)
+bounds Q2 register lifetimes; GPU qualification is pending. The last qualified
+runtime remains checkpoint `a4a2b8b`.
 
 - [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)

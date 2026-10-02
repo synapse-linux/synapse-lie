@@ -29,7 +29,7 @@ def main():
     mode = sys.argv[1]
     model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    if mode not in ('cpu', 'hip-build', 'operators') and not model_mode:
+    if mode not in ('cpu', 'hip-build', 'operators', 'operators-reference') and not model_mode:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
               'pid': os.getpid(), 'commands': [], 'locks': [], 'model_access': False}
@@ -153,7 +153,7 @@ def main():
             if mode!='cpu':build_args+=['--target','q2_model' if model_mode else 'q2_operators']
             run(build_args,env)
             if mode=='cpu':run(['ctest','--test-dir',str(build),'--output-on-failure'],env)
-            elif mode=='operators':
+            elif mode in ('operators','operators-reference'):
                 gpu_env=dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0')
                 run([str(build/'cmake/hip/q2_operators')],gpu_env,120)
             elif model_mode:
@@ -168,6 +168,8 @@ def main():
                     run(['python3',str(ROOT/'source/tools/prof/prof.py'),'show',str(results/'profile/q2_results.db'),'--json'],env,120)
                     run(['python3',str(ROOT/'tools/analyze-q2-profile.py'),str(results/'profile/q2_results.db'),
                          str(results/'profile-phases.json')],env,120)
+                    run(['python3',str(ROOT/'tools/q2-resource-report.py'),str(results/'profile/q2_results.db'),
+                         str(results/'profile-resources.json')],env,120)
                 else:
                     run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)

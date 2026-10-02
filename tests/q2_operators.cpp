@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <fstream>
 #include <hip/hip_fp16.h>
 #include <hip/hip_runtime.h>
 #include <iostream>
@@ -111,10 +112,19 @@ void Compare(const std::vector<float> &got, const std::vector<double> &expected,
             << '\n';
   Check(rrms <= 0.002 && scaled_max <= 0.002,
         "independent operator tolerance exceeded");
+  auto filename = label;
+  std::replace(filename.begin(), filename.end(), '/', '-');
+  std::ofstream evidence("results/operator-" + filename + ".f32",
+                         std::ios::binary);
+  evidence.write(reinterpret_cast<const char *>(got.data()),
+                 static_cast<std::streamsize>(got.size() * sizeof(float)));
+  Check(bool(evidence), "Cannot save operator frontier");
 }
 
-void Case(int type, int tokens, bool tiled, bool tiny) {
-  const int rows = 5, experts = 512, used = 2;
+void Case(int type, int tokens, bool tiled, bool tiny, int rows = 5,
+          int tile_cols = 0) {
+  const int experts = 512, used = 2;
+  qfn_mmq_set_routed_tile_cols(tile_cols);
   const int k = type == 16 ? 2560 : 768;
   const int logical = type == 16 ? 2560 : 640;
   const int slots = tokens * used;
@@ -184,7 +194,9 @@ void Case(int type, int tokens, bool tiled, bool tiny) {
         ref_up[i] = b;
       }
   const auto name = std::to_string(type) + "/" + std::to_string(tokens) +
-                    (tiled ? "/PP" : "/TG") + (tiny ? "/small" : "/normal");
+                    (tiled ? "/PP" : "/TG") + (tiny ? "/small" : "/normal") +
+                    "/rows" + std::to_string(rows) + "/tile" +
+                    std::to_string(tile_cols);
   Compare(got, ref, name);
   if (type == 16 && tiled)
     Compare(other, ref_up, name + "/paired-up");
@@ -197,6 +209,14 @@ int main() {
       for (int tokens : {1, 3, 8, 9, 33})
         for (bool tiny : {false, true})
           Case(type, tokens, tokens > 8, tiny);
+    // The scheduling-only Q2 candidate must retain exact outputs at every
+    // routed width reachable on gfx1151, including aligned and ragged rows.
+    for (int tile : {16, 32, 48, 64, 80})
+      for (bool tiny : {false, true}) {
+        Case(10, 17, true, tiny, 64, tile);
+        Case(10, 65, true, tiny, 65, tile);
+      }
+    qfn_mmq_set_routed_tile_cols(0);
     // Every finite half value, including subnormals and signed zero, widens
     // exactly.
     std::vector<std::uint16_t> bits(65536);

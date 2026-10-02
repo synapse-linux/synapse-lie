@@ -1,0 +1,15 @@
+{
+  "hypothesis": "Reduce observed Q2 PP register spills by bounding K-loop fragment lifetimes, following the UD principle of bounded temporary register use.",
+  "change": "Disable automatic expansion of the Q2 integer K loop on RDNA3 only. No compiler barrier, allocation, precision, quantization, weight representation, tile geometry or explicit arithmetic change.",
+  "baseline": "a4a2b8b runtime; patch SHA256 3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+  "operator_gate": {
+    "independent_relative_rms_max": 0.002,
+    "independent_error_over_peak_max": 0.002,
+    "reference_comparison": "All recorded operator F32 bytes must match the same extended harness against the baseline. Original IQ2/Q2 checks plus Q2 tile16/32/48/64/80 with aligned64/ragged65 output rows and small/ordinary inputs."
+  },
+  "model_gate": "Every collected input/output/frontier file must match the corresponding original Q2 profile or benchmark. No KL relaxation for this scheduling-only candidate.",
+  "profile_gate": "Compare marked PP kernel durations and private-segment metadata against original trace; private bytes are a spill hypothesis, not proof of dynamic traffic or a wall-speed guarantee.",
+  "performance_gate": "A diagnostic gain must survive unprofiled Q2 C1 512/2048/8192 and a UD control; overall Q2 acceptance still requires no degradation versus UD.",
+  "coordination": "No remote load until core explicitly releases its active campaign; reacquire all four leases per GPU/build arm.",
+  "static_screen": "The token-tile barrier reduces spill metadata for some tiles but increases tile16. Disabling K-loop unrolling removes scratch instructions for all selected widths in local device-only assembly. This is not target performance or numerical evidence."
+}
