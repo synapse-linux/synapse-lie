@@ -148,6 +148,11 @@ admission and qualification remain specific to context and active sequence count
 
 ## Implemented component-state extension (state ABI 2)
 
+The additive store function `lie_store_write_prompt` accepts the original prompt
+length/key kind to protect a reusable prefix during generated-state persistence.
+It preserves existing struct layouts and file formats. See
+[prompt-retention admission](CACHE-PROMPT-RETENTION.md).
+
 `lie/state.h` is an additive C17 contract; executor ABI-2 structs stay unchanged.
 `describe(NULL)` plans capture; `describe(source)` validates a prospective restore
 into an empty sequence without mutating it. Sections carry role/layer, dtype,

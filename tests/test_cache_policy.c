@@ -140,8 +140,8 @@ int main(void){
                 request.cache=(lie_cache_metadata){.flags=LIE_CACHE_TOOL_MAP,.trailer=trailer,.trailer_bytes=sizeof(trailer)};
                 job=NULL;assert(!lie_core_submit(core,&request,&job));drain(job);
                 lie_job_info ji;lie_job_snapshot(job,&ji);
-                if(request_index){assert(ji.cached_tokens==4&&ji.prefill_tokens==1&&ji.prompt_tokens==5);
-                    assert(ji.ssd_cached_tokens==(process?4u:0u));
+                if(request_index){assert(ji.cached_tokens==(process?5u:4u)&&ji.prefill_tokens==(process?0u:1u)&&ji.prompt_tokens==5);
+                    assert(ji.ssd_cached_tokens==(process?5u:0u));
                     lie_cache_metadata got={0};assert(lie_job_cache_metadata(job,&got));
                     assert(got.flags==LIE_CACHE_TOOL_MAP&&got.trailer_bytes==sizeof(trailer)&&!memcmp(got.trailer,trailer,sizeof(trailer)));
                     lie_cache_metadata_clear(&got);

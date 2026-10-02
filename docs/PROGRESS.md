@@ -1,5 +1,29 @@
 # Isolated OpenAI reactive API increment
 
+## Complete prompt retention — 2026-10-02
+
+The owner authorizes publication to `https://github.com/synapse-linux/synapse-lie`.
+Configured `origin` and pushed only `feature/openai-reactive-api` at `89b1620`;
+no other branch, merge, release or deployment was published.
+
+The shared C17 core now captures the complete prompt before generation. Under
+RAM/SSD pressure, generated captures preserve the longest prefix reusable by
+that input; sufficient budgets still retain conversation continuations. The
+guard follows original visibility-key flags separately from generated metadata,
+and is local to a capture, not a permanent pin. SSD refusal precedes eviction
+and counts as a skip. Numerical kernels, KVC representation, thread count and
+reactive credit/cancellation remain unchanged. [Contract and GPU protocol](CACHE-PROMPT-RETENTION.md).
+
+Full ASan/UBSan/LeakSanitizer suite **39/39**; headless utility/compression/
+interchange-OFF suite **10/10**. Tiny native/KVC fixtures qualify one-record
+pressure, unaligned complete prompts, oversized fallback, continuation, key
+isolation, independent SSD process restart and RAM promotion. Existing held-I/O
+peer/cancellation tests pass. Local receipts retain four failed focused attempts:
+fixture chunk misuse and stale BPE expectations, fixture EOS count, the original
+visibility-key guard omission, and an SSD quota below the retained-state staging
+admission. Corrections pass without disabling sanitizers. No new original-weight
+performance claim is made until the separately coordinated GPU comparison.
+
 ## DS4 runtime GPU qualification and cost — 2026-10-02
 
 Frozen `a4008b9` completes 15/15 original-weight GPU arms on .157, all child/helper

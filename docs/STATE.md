@@ -78,11 +78,14 @@ not live states.
   eligible entries before capture; retained, in-progress capture and explicit
   codec buffers must fit the budget. LRU remains a compile-time alternative.
   Oversized checkpoints or a failed host allocation skip optional retention.
-- Default policy captures cold/continued/retirement/shutdown frontiers and can
+- Default policy captures cold/continued/complete-prompt/retirement/shutdown frontiers and can
   match rendered byte prefixes while retokenizing only the suffix. Exact saved
   physical history is preserved. `--cache-policy legacy` retains the earlier
   single aligned physical-prefix capture schedule. See
   [policy settings and qualification](CACHE-DS4-POLICY.md).
+  Generated captures preserve the longest prefix reusable by the original
+  prompt when both checkpoints cannot fit, without permanently pinning it.
+  [Admission rules and qualification](CACHE-PROMPT-RETENTION.md).
 - Each model open has a process-local domain. Same domain, context/chunk,
   component representation and shapes are checked before restore mutation.
   Because entries never leave the live model instance, they cannot cross model,

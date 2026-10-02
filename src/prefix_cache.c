@@ -141,8 +141,9 @@ lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const in
                                     size_t n,uint32_t chunk,unsigned *reused,lie_error *error){
     return lie_prefix_cache_restore_key(c,s,tokens,n,chunk,0,reused,error);
 }
-lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
-                                    size_t n,const lie_cache_metadata *metadata,lie_error *error){
+lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                    size_t n,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags,lie_error *error){
+    if(prompt_tokens>n||(prompt_flags&~15u))return LIE_INVALID;
     if(!c->info.budget_bytes)return LIE_OK;
     for(unsigned i=0;i<c->capacity;++i){const lie_state_layout *l=lie_state_description(c->entries[i].state);
         if(l&&l->token_count==n&&!memcmp(tokens,lie_state_tokens(c->entries[i].state),n*sizeof(*tokens))){
@@ -159,18 +160,30 @@ lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const
     if(metadata&&!lie_cache_metadata_valid(metadata))return LIE_INVALID;
     if(bytes>c->info.budget_bytes||extra>c->info.budget_bytes-bytes){++c->info.skipped;return LIE_OK;}
     bytes+=extra;
+    unsigned keep=UINT32_MAX;size_t longest=0;
+    if(prompt_tokens&&prompt_tokens<n){
+        for(unsigned i=0;i<c->capacity;++i){lie_prefix_entry *e=&c->entries[i];
+            const lie_state_layout *l=lie_state_description(e->state);
+            if(l&&l->token_count<=prompt_tokens&&l->token_count>longest&&
+               (e->metadata.flags&6u)==(prompt_flags&6u)&&
+               !memcmp(lie_state_tokens(e->state),tokens,l->token_count*sizeof(*tokens))){keep=i;longest=l->token_count;}
+        }
+        if(keep<c->capacity&&lie_state_bytes(c->entries[keep].state)+metadata_bytes(&c->entries[keep].metadata)>
+           c->info.budget_bytes-bytes){++c->info.skipped;return LIE_OK;}
+    }
     bool continued=continuation(c,tokens,n);
     bool full=true;for(unsigned i=0;i<c->capacity;++i)if(!c->entries[i].state)full=false;
     if(full)(void)grow(c);
     if(!c->capacity){++c->info.skipped;return LIE_OK;}
     unsigned slot=c->capacity;
     for(;;){
-        unsigned oldest=victim(c,tokens,n,metadata,c->capacity);
+        unsigned oldest=victim(c,tokens,n,metadata,keep);
         for(unsigned i=0;i<c->capacity;++i){
             if(!c->entries[i].state)slot=i;
         }
         if(slot<c->capacity&&bytes<=c->info.budget_bytes-c->info.retained_bytes)break;
-        assert(oldest<c->capacity);remove_entry(c,oldest);++c->info.evictions;
+        if(oldest==c->capacity){++c->info.skipped;return LIE_OK;}
+        remove_entry(c,oldest);++c->info.evictions;
     }
     /* Evict before allocating: retained plus in-progress capture stays within
      * the same byte budget. No extra full-size staging snapshot is created. */
@@ -190,6 +203,10 @@ lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const
     return LIE_OK;
 }
 
+lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                      size_t n,const lie_cache_metadata *metadata,lie_error *error){
+    return lie_prefix_cache_capture_prompt(c,s,tokens,n,metadata,0,0,error);
+}
 lie_status lie_prefix_cache_capture(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,size_t n,lie_error *error){
     return lie_prefix_cache_capture_ex(c,s,tokens,n,NULL,error);
 }

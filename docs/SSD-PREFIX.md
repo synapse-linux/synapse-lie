@@ -15,6 +15,11 @@ restart/C2/held-read/cancellation/slow-client fixtures and percentile exports;
 its original-weight R5 campaign passes. The later numeric-byte codec is
 qualified separately.
 
+The shared [prompt-retention repair](CACHE-PROMPT-RETENTION.md) now preserves a
+complete input checkpoint when generated state would evict its only reusable
+prefix. Its quota-pressure checks pass on native and synthetic KVC files;
+original-weight measurements remain a separately coordinated gate.
+
 RAM remains enabled by default, with its independent lazy 4 GiB budget.
 SSD remains disabled by default. Enable it explicitly with all three options:
 

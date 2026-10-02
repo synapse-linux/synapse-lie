@@ -24,6 +24,7 @@ executable, numerical archives and measurement protocol.
 | Lossless checkpoint packing | [R6/R7 cost and benefit gate](../../../../CACHE-COMPRESSION-GPU.md) | Exact compressed SSD restore at 128K; 15–16% saving has excessive restore cost; stricter admission passes matched ON/OFF regression, retaining raw states |
 | DS4-style cache policy | [Policy and retention measurements](../../../../CACHE-DS4-GPU.md) | Exact generated-frontier and context-growth restore; C1/C2 and 128K retention cost; these measurements use the legacy component representation |
 | DS4 runtime payload | [Paired runtime measurements](../../../../KVC-GPU-RESULT.md) |15/15 GPU arms,24 exact state pairs through128K; larger checkpoint and+19% median RAM-hit TTFT at128K; foreign DS4-produced restore remains unqualified |
+| Complete prompt retention | [Repair and qualification](../../../../CACHE-PROMPT-RETENTION.md) | RAM/SSD pressure and restart CPU fixtures pass; original-weight comparison pending |
 | HTTP capacity and Pi | [256K and tool receipt](../../../../HTTP-256K-PI.md) | Capacity and functional tool tests; not a 256K quality/performance campaign |
 
 Reports link full tables, graph exports and machine-readable samples. Preserve

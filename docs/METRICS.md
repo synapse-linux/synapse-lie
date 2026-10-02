@@ -254,6 +254,13 @@ and every core-bench policy setting are comparison keys. Historical records
 without checkpoint-policy fields retain legacy interpretation. No hit metric
 asserts DS4 file interoperability or a numerical/performance improvement.
 
+The prompt-retention repair counts complete-prompt captures in the same counters.
+Budget refusal to preserve a prompt increments RAM/SSD `skipped`; it is not a
+backend or disk error. The SSD worker may refuse after candidate capture/staging,
+so `cache_capture_ns` can remain nonzero even when no new file is written. No
+metric reclassifies reused tokens as executed prefill. Source/build identity
+distinguishes the repaired schedule from earlier `ds4` policy results.
+
 The offline [KVC tool](KVC.md) reports `memory_bytes`, text/payload/trailer sizes
 and optional Qwen structural-validation fields in its own JSON. These are not
 runtime cache hits, throughput or device qualification. Its completed operations

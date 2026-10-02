@@ -277,7 +277,8 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
     lie_status rc=restore?lie_prefix_cache_restore_key(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,&reused,error):
-        lie_prefix_cache_capture_ex(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,error);
+        lie_prefix_cache_capture_prompt(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
+                                        w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,error);
     if(!restore&&rc==LIE_OK&&w->store){
         lie_state *state=lie_prefix_cache_find(&w->cache,tokens,frontier),*temporary=NULL;
         if(!state){lie_state_layout layout;uint64_t bytes=0;
@@ -292,7 +293,8 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
                 state=temporary;
             }
         }
-        if(state)(void)lie_store_write_ex(w->store,state,&metadata);
+        if(state)(void)lie_store_write_prompt(w->store,state,&metadata,
+                                             w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags);
         lie_state_destroy(&temporary);
     }
     bool b=clock_ns(&end);
@@ -475,8 +477,11 @@ static bool step(lie_core *w, size_t index) {
             j->fed+=add;j->position=(uint32_t)j->fed;
             bool cold=!j->capture_checked&&j->checkpoint&&j->fed==j->checkpoint;
             bool continued=j->next_continued&&j->fed==j->next_continued;
+            /* Preserve a repeatable input frontier before decode extends the
+             * recurrent state beyond it. No rewind or additional prefill. */
+            bool prompt=w->options.cache_policy.enabled&&j->fed==j->tokens;
             if(continued)j->next_continued+=lie_cache_continued_step(&w->options.cache_policy);
-            if((w->options.prefix_cache_bytes||w->store)&&(cold||continued)&&
+            if((w->options.prefix_cache_bytes||w->store)&&(cold||continued||prompt)&&
                (!w->options.cache_policy.enabled||j->fed>=w->options.cache_policy.min_tokens)){
                 if(cold)j->capture_checked=true;
                 lie_store_info store;lie_store_snapshot(w->store,&store);

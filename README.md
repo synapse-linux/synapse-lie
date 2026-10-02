@@ -42,6 +42,9 @@ bounded dynamic indices. CPU sanitizers and original-weight state checks pass,
 including capture after generation and restore into a larger context. The
 [policy comparison](docs/CACHE-DS4-GPU.md) exposes a retention regression at 128K
 with the default 4 GiB budget; `--cache-policy legacy` remains available.
+The shared-core [prompt-retention repair](docs/CACHE-PROMPT-RETENTION.md) adds a
+complete input checkpoint and protects the reusable prompt against generated
+captures under RAM/SSD pressure. Its independent GPU comparison is pending.
 The shared C17 [DS4 KVC runtime path](docs/KVC.md#runtime-payload-and-ssd-binding)
 now replaces the Qwen cache representation in RAM and on optional SSD, selected
 by default with `LIE_DS4_RUNTIME_CACHE=ON`. Capture retains complete raw indices

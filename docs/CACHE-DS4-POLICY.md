@@ -12,7 +12,8 @@ GPU reports qualify their recorded builds, not this new policy automatically.
 | Capability | Current implementation |
 |---|---|
 | Persistent utility | Creation/use timestamps and hit counts survive SSD restart; six-hour half-life; purpose and superseded-prefix weighting |
-| Progressive checkpoints | Cold prefix, stable chat anchor, periodic prefill/decode frontier, normal retirement and graceful shutdown |
+| Progressive checkpoints | Cold prefix, stable chat anchor, periodic prefill/decode frontier, complete prompt, normal retirement and graceful shutdown |
+| Prompt preservation | Generated captures keep the longest prompt-reusable prefix under RAM/SSD pressure; extra records remain possible with sufficient budget |
 | Text-prefix reuse | Longest matching byte prefix, exact saved token history, suffix-only tokenization with vocabulary/context validation |
 | Extension metadata | Bounded owned text/trailer bytes and key-kind flags in RAM and SSD; client supplies protocol serialization |
 | Dynamic index | RAM and SSD tables grow geometrically inside explicit index bounds |
@@ -122,6 +123,9 @@ capture, context growth and policy comparisons. At 128K with 4 GiB RAM,
 progressive/final captures evict useful waypoints and significantly worsen
 identical-prompt latency. This is a retention tradeoff, not faster prefill.
 The previous schedule remains available with `--cache-policy legacy`.
+The subsequent [prompt-retention repair](CACHE-PROMPT-RETENTION.md) adds the
+complete prompt and protects it from generated captures when both cannot fit.
+It has separate qualification; the historical GPU result is not rewritten.
 
 The [C17 KVC codec](KVC.md) now implements envelope I/O and complete Qwen
 wire serialization with independent synthetic byte fixtures. Runtime model-state

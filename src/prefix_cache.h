@@ -19,6 +19,11 @@ void lie_prefix_cache_clear(lie_prefix_cache *);
 lie_state *lie_prefix_cache_match_text(lie_prefix_cache *,const char *,size_t,uint32_t,const lie_cache_metadata **);
 lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *,lie_sequence *,const int32_t *,size_t,
                                       const lie_cache_metadata *,lie_error *);
+/* A generated frontier may keep the longest reusable prompt prefix. Refuse
+ * optional retention before eviction when that prefix and the capture cannot
+ * coexist. Zero disables protection. This does not pin a job or add a loan. */
+lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *,lie_sequence *,const int32_t *,size_t,
+                                          const lie_cache_metadata *,size_t prompt_tokens,uint32_t prompt_flags,lie_error *);
 const lie_cache_metadata *lie_prefix_cache_record(lie_prefix_cache *,const lie_state *);
 bool lie_prefix_cache_metadata(lie_prefix_cache *,lie_state *,const lie_cache_metadata *);
 lie_state *lie_prefix_cache_find(lie_prefix_cache *,const int32_t *,size_t);

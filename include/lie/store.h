@@ -53,6 +53,11 @@ uint64_t lie_store_read_key(lie_store *,const int32_t *,size_t,uint32_t chunk,ui
 bool lie_store_can_write(lie_store *,uint64_t retained_bytes);
 bool lie_store_write(lie_store *,lie_state *);
 bool lie_store_write_ex(lie_store *,lie_state *,const lie_cache_metadata *);
+/* Asynchronous generated-state capture may preserve the longest stored prompt
+ * prefix (matching identity/tokens/key kind/context). Zero disables protection.
+ * If both records cannot fit, the I/O worker counts a skipped write; no error,
+ * no prompt eviction and no new staging allocation. Admission is not durability. */
+bool lie_store_write_prompt(lie_store *,lie_state *,const lie_cache_metadata *,size_t prompt_tokens,uint32_t prompt_flags);
 /* Text matching keeps the payload's exact token history. The owner must rebuild
  * and validate the suffix before restoring. All copied inputs are bounded. */
 uint64_t lie_store_read_text(lie_store *,const char *,size_t,uint32_t chunk);

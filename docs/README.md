@@ -43,6 +43,7 @@ an implemented test and a completed measurement.
 - [Checkpoint compression cost, exact restore and benefit admission](CACHE-COMPRESSION-GPU.md).
 - [DS4-style policy: exact state, prefill, retention pressure and GPU results](CACHE-DS4-GPU.md).
 - [DS4 runtime payload: exact restore, complete timings, memory and latency cost](KVC-GPU-RESULT.md).
+- [Complete prompt retention under RAM/SSD pressure and qualification protocol](CACHE-PROMPT-RETENTION.md).
 
 ## History and parallel work
 

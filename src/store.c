@@ -39,8 +39,8 @@ struct lie_store {
     lie_cache_metadata metadata;
     char *text;size_t text_bytes;
     int32_t *tokens;
-    size_t count;
-    uint32_t chunk, key_flags;
+    size_t count, prompt_tokens;
+    uint32_t chunk, key_flags, prompt_flags;
     lie_state *state;
     uint64_t elapsed;
 };
@@ -142,7 +142,7 @@ static bool scan(lie_store *s){
     if(ok)account(s);
     return ok;
 }
-static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *continued,unsigned protected_slot){
+static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *continued,unsigned protected_slot,unsigned prompt_slot){
     if(bytes>UINT64_MAX-(s->block_bytes-1))return false;
     uint64_t allocated=((bytes+s->block_bytes-1)/s->block_bytes)*s->block_bytes;
     if(bytes>s->info.quota_bytes||allocated>s->info.quota_bytes)return false;
@@ -160,19 +160,35 @@ static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *contin
             }
             if(superseded&&continued)*continued=true;
             double value=lie_retention_score(&e->utility,lie_cache_now(),e->tokens,cost,superseded);
-            if(i!=protected_slot&&(oldest==s->capacity||(LIE_CACHE_UTILITY?(value<score||(value==score&&e->age<s->entries[oldest].age)):
+            if(i!=protected_slot&&i!=prompt_slot&&(oldest==s->capacity||(LIE_CACHE_UTILITY?(value<score||(value==score&&e->age<s->entries[oldest].age)):
                                                                       e->age<s->entries[oldest].age))){oldest=i;score=value;}}
         if(free_slot==s->capacity&&grow(s))free_slot=s->capacity/2;
         if(free_slot<s->capacity&&used<=s->info.quota_bytes-bytes&&blocks<=s->info.quota_bytes-allocated){*slot=free_slot;return true;}
         if(oldest==s->capacity||!remove_entry(s,oldest))return false;
     }
 }
+/* Run on the existing I/O worker, with its immutable retained state. Text is
+ * insufficient here: different physical tokens can render the same bytes. */
+static unsigned prompt_prefix(lie_store *s){
+    unsigned best=UINT32_MAX,longest=0;
+    const lie_state_layout *l=lie_state_description(s->state);
+    if(!s->prompt_tokens||s->prompt_tokens>=l->token_count)return best;
+    for(unsigned i=0;i<s->capacity;++i){entry *e=&s->entries[i];
+        if(e->tokens>longest&&e->tokens<=s->prompt_tokens&&e->context<=l->context_tokens&&
+           (e->tokens==s->prompt_tokens||e->tokens%l->prefill_chunk==0)&&
+           (e->metadata.flags&6u)==(s->prompt_flags&6u)){
+            char key[65];if(lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,key)&&!strcmp(key,e->token_key)){
+                best=i;longest=e->tokens;}
+        }
+    }
+    return best;
+}
 static bool write_state(lie_store *s){
     char name[69]={0},key[65],temporary[78];const lie_state_layout *l=lie_state_description(s->state);
     if(!lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,key))return false;
     if(l->format==LIE_STATE_KVC){if(!text_name(&s->metadata,name))return false;}
     else{memcpy(name,key,64);memcpy(name+64,".lie",5);}
-    unsigned replacement=s->capacity;
+    unsigned replacement=UINT32_MAX;
     for(unsigned i=0;i<s->capacity;++i)if(!strcmp(s->entries[i].name,name)){
         /* Immutable tensor payload is deduplicated. Extension changes require
          * replacing the record so its digest still binds the new metadata. */
@@ -188,7 +204,20 @@ static bool write_state(lie_store *s){
     unsigned slot=0;uint64_t bytes=lie_state_file_bytes_ex(s->state,&s->metadata);
     uint64_t meta_bytes=metadata_bytes(&s->metadata);
     if(meta_bytes>s->info.index_budget_bytes-s->index_bytes)return false;
-    bool continued=false;if(!reserve_disk(s,bytes,&slot,&continued,replacement))return false;
+    unsigned keep=prompt_prefix(s);
+    if(keep<s->capacity){
+        uint64_t retained=s->entries[keep].bytes,allocated=s->entries[keep].allocated;
+        if(replacement<s->capacity&&replacement!=keep){retained+=s->entries[replacement].bytes;allocated+=s->entries[replacement].allocated;}
+        /* Include a replacement until atomic rename. Refuse before deleting
+         * any entry when the protected set plus the new file cannot fit. */
+        uint64_t needed=bytes>UINT64_MAX-(s->block_bytes-1)?UINT64_MAX:
+            ((bytes+s->block_bytes-1)/s->block_bytes)*s->block_bytes;
+        if(keep==replacement||bytes>s->info.quota_bytes||needed>s->info.quota_bytes||
+           retained>s->info.quota_bytes-bytes||allocated>s->info.quota_bytes-needed){
+            pthread_mutex_lock(&s->gate);++s->info.skipped;pthread_mutex_unlock(&s->gate);return true;
+        }
+    }
+    bool continued=false;if(!reserve_disk(s,bytes,&slot,&continued,replacement,keep))return false;
     if(replacement<s->capacity&&s->entries[replacement].name[0])slot=replacement;
     snprintf(temporary,sizeof(temporary),".pending-%s",name);
     int fd=openat(s->directory,temporary,O_RDWR|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0600);if(fd<0)return false;
@@ -289,7 +318,7 @@ lie_status lie_store_open(const lie_store_options *o,const lie_state_identity *i
     if(!scan(s))goto bad;
     /* Opening an explicitly enabled owned store enforces its current quota. */
     if(s->info.disk_bytes>o->quota_bytes||s->info.allocated_bytes>o->quota_bytes){
-        unsigned slot;bool continued=false;if(!reserve_disk(s,0,&slot,&continued,UINT32_MAX))goto bad;
+        unsigned slot;bool continued=false;if(!reserve_disk(s,0,&slot,&continued,UINT32_MAX,UINT32_MAX))goto bad;
     }
     s->notice=eventfd(0,EFD_CLOEXEC|EFD_NONBLOCK);
     if(s->notice<0||pthread_create(&s->thread,NULL,io_worker,s))goto bad;
@@ -343,8 +372,9 @@ bool lie_store_can_write(lie_store *s,uint64_t bytes){
     pthread_mutex_lock(&s->gate);bool ok=!s->stop&&!s->busy&&bytes<=s->info.staging_budget_bytes&&bytes<=s->info.quota_bytes;
     pthread_mutex_unlock(&s->gate);return ok;
 }
-bool lie_store_write_ex(lie_store *s,lie_state *state,const lie_cache_metadata *metadata){
+bool lie_store_write_prompt(lie_store *s,lie_state *state,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags){
     if(!s||!state||!lie_cache_metadata_valid(metadata))return false;
+    if(prompt_tokens>lie_state_description(state)->token_count||(prompt_flags&~15u))return false;
     if(lie_state_description(state)->format==LIE_STATE_KVC&&!metadata->text_bytes)return false;
     uint64_t bytes=lie_state_bytes(state);pthread_mutex_lock(&s->gate);
     bool ok=!s->stop&&!s->busy&&lie_state_description(state)->domain==s->domain&&
@@ -352,8 +382,12 @@ bool lie_store_write_ex(lie_store *s,lie_state *state,const lie_cache_metadata *
         lie_state_file_bytes_ex(state,metadata)<=s->info.quota_bytes&&lie_cache_metadata_copy(&s->metadata,metadata);
     if(ok){if(!s->metadata.created_at)s->metadata.created_at=lie_cache_now();
         if(!s->metadata.last_used)s->metadata.last_used=s->metadata.created_at;
-        lie_state_retain(state);s->state=state;admitted(s,bytes+metadata_bytes(metadata),false);}else ++s->info.skipped;
+        lie_state_retain(state);s->state=state;s->prompt_tokens=prompt_tokens;s->prompt_flags=prompt_flags;
+        admitted(s,bytes+metadata_bytes(metadata),false);}else ++s->info.skipped;
     pthread_mutex_unlock(&s->gate);return ok;
+}
+bool lie_store_write_ex(lie_store *s,lie_state *state,const lie_cache_metadata *metadata){
+    return lie_store_write_prompt(s,state,metadata,0,0);
 }
 bool lie_store_write(lie_store *s,lie_state *state){
     const lie_cache_metadata m={.reason=LIE_CACHE_COLD};return lie_store_write_ex(s,state,&m);
