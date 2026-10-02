@@ -2,6 +2,18 @@
 
 ## Strix Point fork — 2026-10-02
 
+The ROCm 10 Distrobox `multi` comparison on `.161` now passes LIE reactive,
+direct Gufo and LIE serial at C1/2/4/6/8: 60/60 full-output samples, with
+child/supervisor exit 0 in each arm. At C8, aggregate decode medians are
+32.837, 32.872 and 10.425 token/s, respectively; LIE reactive is 3.15× its
+serial control. All C2–C8 LIE measurements show 128 GPU batch calls and zero
+single-row decode calls. Same-stack inputs, outputs and frontiers match all
+three arms; ROCm 10 and ROCm 7.2 inputs match, but their outputs and frontiers
+differ. The [full multi-user report](benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md)
+has prefill/decode values and graphs. All 63 remote files were verified by
+SHA-256; router active, no LIE Distrobox, lease free. This is direct engine
+concurrency, not served HTTP clients.
+
 The Docker-managed Distrobox ROCm 10 `single` benchmark on `.161` now passes
 all eight occupied-prefix depths 0–128K with 16/16 full 128-token outputs.
 At 128K, LIE measures 357.117 prefill and 9.227 decode tokens/s for a 2,048
@@ -11,8 +23,9 @@ active and the private lease free. A failed Distrobox network-entry attempt is
 retained separately. The [raw report and graphs](benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
 include all eight points and 27 remote-file hashes. Physical inputs match the
 earlier ROCm 7.2 run, but output IDs and numerical frontiers differ at every
-depth; the kernel and container mode also changed. `fresh-128k`, `fresh-256k`
-and `multi` remain pending for ROCm 10.
+depth; the kernel and container mode also changed. `fresh-128k` and
+`fresh-256k` remain pending for ROCm 10; the later `multi` comparison above
+has now completed.
 
 The operator-requested `.161` Pop!_OS kernel update installed
 `7.1.5-76070105-generic` and kept `6.16.3-76061603-generic` in GRUB. With
@@ -21,8 +34,8 @@ diagnostics and the Fedora 43 LIE HIP/rocBLAS probe now pass. A bounded original
 UD model run also passes. Matched ROCm 10 LIE and direct Gufo tests at 0/4K
 return identical 128-token outputs and prefill/decode frontier hashes; these
 frontiers differ from the earlier ROCm 7.2 results, and output IDs diverge at
-both depths. This qualifies the runtime gate and same-stack parity, not
-cross-stack numerical equivalence or full performance. The
+both depths. Those bounded tests qualified the runtime gate and same-stack
+parity, not cross-stack numerical equivalence or full performance. The
 [updated report](STRIX-POINT-ROCM10.md) records the six clean passes, one
 preserved supervisor race failure, 80 verified files and restored .161 state.
 

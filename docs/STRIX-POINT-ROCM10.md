@@ -277,9 +277,9 @@ local tracing environment; both actual command exits are preserved under the
 same evidence directory.
 
 The new kernel clears the ROCm 10 runtime gate. The later Distrobox `single`
-campaign below covers all eight occupied-prefix depths; `fresh-128k`,
-`fresh-256k` and `multi` remain unmeasured on ROCm 10. The numerical
-discrepancy must be investigated or accepted explicitly before using
+and `multi` campaigns below cover the eight occupied-prefix depths and five
+concurrency levels; `fresh-128k` and `fresh-256k` remain unmeasured on ROCm 10.
+The numerical discrepancy must be investigated or accepted explicitly before using
 cross-stack throughput as a like-for-like quality comparison. The ROCm 7.2
 long-context report remains the qualified same-stack LIE/Gufo reference.
 The new local receipts are under `evidence/strix-point-kernel715-r1/` and
@@ -347,3 +347,42 @@ contain the full per-sample values and validation. The local full collection,
 including container home/cache files, is under
 `evidence/rocm10-point-distrobox-single-kernel715-{r1,r2}/`; the report bundle
 includes the relevant raw benchmark, telemetry and lifecycle receipts.
+
+## Multi-user direct inference in Distrobox
+
+Three further one-shot ROCm 10 windows ran the same original UD model and
+PP2048/TG128 `multi` profile at C1/2/4/6/8: LIE reactive, direct Gufo and a
+LIE serial interleaving control. Each completed one warmup and three measured
+full 128-token outputs at every point, with child and supervisor exits 0. The
+ROCm 7.2 direct benchmark used the same workloads on the earlier kernel.
+
+| Sessions | ROCm 10 LIE PP/TG tok/s | ROCm 10 Gufo PP/TG | ROCm 10 serial PP/TG | ROCm 7.2 LIE PP/TG |
+| ---: | ---: | ---: | ---: | ---: |
+| 1 | 479.881 / 10.440 | 476.834 / 10.417 | 476.564 / 10.435 | 465.708 / 10.295 |
+| 2 | 477.781 / 17.206 | 476.767 / 17.212 | 475.420 / 10.401 | 462.806 / 16.430 |
+| 4 | 475.646 / 24.899 | 475.791 / 24.892 | 475.374 / 10.439 | 467.093 / 23.808 |
+| 6 | 473.804 / 30.327 | 475.345 / 30.273 | 474.997 / 10.443 | 491.446 / 29.620 |
+| 8 | 474.092 / 32.837 | 474.397 / 32.872 | 474.994 / 10.425 | 497.795 / 32.184 |
+
+At C8, LIE reactive decode is 3.15× its ROCm 10 serial control and within
+0.11% of Gufo. Every measured C2–C8 LIE sample records 128 GPU decode batch
+calls, 128 × users rows and zero single-row calls. The multi profile measures
+concurrent inference-engine sessions, not simultaneous HTTP clients. It
+prefills peers before the common decode interval; near-flat prefill throughput
+therefore does not imply a fused multi-user prefill kernel.
+
+All physical inputs, generated IDs and PP/TG frontier hashes match among LIE,
+Gufo and serial **within** ROCm 10 at every point. The ROCm 7.2 arms likewise
+agree within their stack. ROCm 10 differs from ROCm 7.2 in output IDs and both
+frontiers at every point despite identical physical inputs. ROCm 10 C8 LIE
+decode is 2.03% higher and PP 4.76% lower than the earlier ROCm 7.2 result;
+kernel, ROCm and container mode changed, so these are cross-stack observations.
+
+All three windows retained unchanged model file identities, restored
+`llama-router.service` and released the private GPU lease. Fresh collection
+verified 63/63 remote files by SHA-256. Sampled CPU/GPU peaks were
+84.125/86 C for LIE, 84.375/86 C for Gufo and 82.875/86 C for serial.
+Postflight found the service active, its PID the only KFD client and no LIE
+Distrobox. The [portable full multi-user report, raw files and graphs](benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md)
+include all medians, observed min/max, resource peaks, batch counters and the
+offline reproducer.

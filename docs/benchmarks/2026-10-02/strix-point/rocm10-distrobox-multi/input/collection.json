@@ -1,0 +1,89 @@
+{
+  "schema": "synapse-lie.point-rocm10-distrobox-multi.v1",
+  "host": "pop@192.168.5.161",
+  "kernel": "7.1.5-76070105-generic",
+  "distrobox_version": "1.7.0",
+  "docker_image_id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "remote_files_verified": 63,
+  "hash_mismatches": 0,
+  "runs": {
+    "lie": {
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "samples": 20,
+      "duration_seconds": 891.327663,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "58910",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T20:32:57.687735+00:00",
+      "cleanup_failures": [],
+      "telemetry_samples": 855,
+      "temperature_max_c": {
+        "k10temp": 84.125,
+        "amdgpu": 86.0,
+        "nvme": 71.85
+      }
+    },
+    "gufo": {
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "samples": 20,
+      "duration_seconds": 896.371636,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "60579",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T20:48:27.886710+00:00",
+      "cleanup_failures": [],
+      "telemetry_samples": 861,
+      "temperature_max_c": {
+        "k10temp": 84.375,
+        "amdgpu": 86.0,
+        "nvme": 73.85
+      }
+    },
+    "serial": {
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "samples": 20,
+      "duration_seconds": 1505.52896,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "62642",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T21:14:31.977570+00:00",
+      "cleanup_failures": [],
+      "telemetry_samples": 1446,
+      "temperature_max_c": {
+        "k10temp": 82.875,
+        "amdgpu": 86.0,
+        "nvme": 72.85
+      }
+    }
+  },
+  "postflight": [
+    "7.1.5-76070105-generic",
+    "MainPID=62642",
+    "ActiveState=active",
+    "62642",
+    "ID           | NAME                 | STATUS             | IMAGE                         ",
+    "lease_exit:0"
+  ],
+  "collection_command_exits": {
+    "scp_lie_gufo": 0,
+    "scp_serial": 0,
+    "remote_sha256": 0,
+    "postflight_initial": 0,
+    "postflight_corrected": 0
+  }
+}

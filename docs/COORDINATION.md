@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
+reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full
+samples, child/supervisor exit 0 and unchanged model file identities. Each
+stopped/restored only the named authorized `llama-router.service` and released
+its own private GPU lease. Fresh collection verified 63/63 remote files by
+SHA-256. Final postflight found the service active, only its PID in KFD, no LIE
+Distrobox and the lease free. Sampled GPU temperature peaked at 86 C. See the
+[full multi-user report](benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md).
+No standing GPU ownership follows from these completed windows.
+
 The 2026-10-02 `.161` Docker-managed Distrobox ROCm 10 LIE `single` window is
 closed. The initial container network-entry attempt failed before benchmark
 execution; a fresh window passed all eight occupied-prefix depths with 16/16

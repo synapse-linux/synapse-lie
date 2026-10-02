@@ -51,9 +51,14 @@ short original-weight LIE/Gufo direct tests complete. Their ROCm 10 results
 match each other but differ numerically from ROCm 7.2 at 0/4K. The
 [Docker-managed Distrobox `single` report](docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
 now includes the complete eight-depth LIE occupied-prefix run to 128K, with
-prefill, decode, telemetry and graphs. The earlier ROCm 7.2 output IDs and
-numerical frontiers differ at every depth, so this is a cross-stack observation;
-ROCm 10 fresh full-prompt and multi-user comparisons remain pending.
+prefill, decode, telemetry and graphs. The
+[three-arm Distrobox multi-user report](docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md)
+compares LIE reactive, Gufo and serial C1/2/4/6/8 with the earlier ROCm 7.2
+results: at C8 ROCm 10 LIE reaches 32.837 aggregate decode token/s, 3.15× its
+serial control. These are direct engine sessions, not HTTP clients. The earlier
+ROCm 7.2 output IDs and numerical frontiers differ at every tested point, so
+the cross-stack throughput comparison does not establish quality equivalence.
+ROCm 10 fresh full-prompt and served HTTP comparisons remain pending.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151
