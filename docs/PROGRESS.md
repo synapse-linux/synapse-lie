@@ -2,6 +2,16 @@
 
 ## Strix Point fork — 2026-10-02
 
+Operator-authorized GPU diagnostic **passes** on .161: actual gfx1150 HIP
+allocation/copies and rocBLAS SGEMM, child/supervisor exit 0, owned container
+retired and llama restored. Initial KFD-retirement refusal is retained and the
+bounded wait is fixture-tested. Official UD download is in progress (about
+7.51 GB at 09:15 UTC); no model inference or performance result yet. Observed
+HIP capacity61.72 GiB is below the same UD's Halo resident estimate76.73 GiB;
+a 96 GiB TTM proposal is prepared but not authorized/applied. Core bench now
+preserves model-load errors; focused ASan/UBSan tests pass and the new R3
+candidate passes no-device startup. See [the evolving target report](STRIX-POINT.md).
+
 Follow-up: added a C17 HIP/rocBLAS diagnostic with explicit actual-device
 execution, separate from automatic tests. Its twenty synthetic error/lifetime
 cases pass ASan/UBSan locally and on .161; focused local CTest passes 2/2.
@@ -24,8 +34,8 @@ steps and server/bench/reference links pass; ten device ELF headers confirm
 gfx1150. No-model startup on .161 works with the existing runtime and isolated
 DSOs, without installing the missing target SDK. Loader failures are retained.
 
-GPU qualification has not run: the foreign `llama-router.service` holds KFD,
-the requested Flash Next UD shards were not found in known model directories,
+At initial checkpoint `123ea23`, GPU qualification had not run: the foreign
+`llama-router.service` held KFD, and the requested Flash Next UD shards were not found in known model directories,
 and no model was substituted. The target's native SDK is incomplete, but the
 prepared cross-host/container path passes its no-model checks. No foreign process stop,
 package install, weight download, tuning or

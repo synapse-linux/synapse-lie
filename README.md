@@ -46,12 +46,14 @@ device admission, preserving the shared C17 reactive core and default gfx1151
 target. CPU architecture checks and headless ASan/UBSan tests pass on
 `pop@192.168.5.161`; the gfx1150 numerical archives and executables compile/link,
 and no-model startup passes in the existing target container/runtime. The full
-local sanitizer suite passes 34/34. Original-weight UD GPU tests remain blocked
-by the existing GPU service and missing Flash Next shards.
+local sanitizer suite passes 34/34. After the operator's temporary service-stop
+grant, the real gfx1150 HIP allocation/copy/rocBLAS diagnostic passes and llama
+is restored. Original UD staging is in progress; model inference is still pending.
 The additional C17 HIP/rocBLAS diagnostic is compiled; its synthetic fault
 controls pass ASan/UBSan locally and on .161, and its no-device help path loads
-on the target. Real GPU execution remains pending. A pinned four-shard download
-plan is prepared from independent official metadata; weights are not yet staged.
+on the target. A pinned four-shard download is running with final SHA-256 checks.
+The observed HIP memory limit (61.72 GiB) is below the same UD's historical
+resident-weight estimate (76.73 GiB); a TTM increase is proposed, not applied.
 See [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
 
 ## Native tool API baseline

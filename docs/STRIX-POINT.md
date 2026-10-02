@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Strix Point UD port — .161
 
-Status: **gfx1150 compilation, link and no-model startup pass; original-weight
-GPU qualification blocked, not run**. This branch is `feature/strix-point-ud`, based
+Status: **gfx1150 compilation, link and real HIP/rocBLAS diagnostic pass;
+original-weight staging in progress, model qualification not run**. This branch is `feature/strix-point-ud`, based
 on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
 bench and HTTP composition; numerical execution remains delegated to the pinned
 Gufo adapter. No CPU model forward, re-quantization or architecture override.
@@ -143,6 +143,77 @@ services. [Condensed source-bound receipts](benchmarks/2026-10-02/strix-point/re
 identify retained local and remote evidence, including failures.
 
 ## Remaining gates
+
+### Authorized GPU diagnostic — 08:52 UTC
+
+The operator explicitly permitted stopping llama. `strix-point-gpu-probe-r2`
+acquired the persistent LIE-only campaign lease, stopped the named user service,
+waited for its known process/KFD identity to retire, and admitted the diagnostic.
+HIP reports `gfx1150`, Radeon 890M, driver/runtime `70226015`; a 48-byte device
+allocation, copies and rocBLAS SGEMM pass with four exact expected outputs.
+Child and supervisor exit 0. The owned container was removed, observed KFD was
+empty before restoration, and `llama-router.service` returned to active/running
+before lease release at **08:52:45.935940 UTC**. Sampled peak CPU36.5/GPU36 C.
+The [first-GPU receipt](benchmarks/2026-10-02/strix-point/first-gpu-receipt.json)
+retains exact runner snapshots, commands, telemetry, exits and source identities.
+The small missing `amdgpu.ids`
+diagnostic message is retained; no dependency was installed.
+
+R1 is retained as a **pre-launch refusal**, not a GPU failure: the kernel KFD
+entry briefly outlived the stopped service. The correction waits at most five
+seconds for that exact previous service identity, still rejecting any other new
+client. Synthetic supervision fixtures cover the delayed retirement, interruption,
+lease contention, restoration and evidence retention. No process other than the
+explicitly authorized service and LIE-owned children is signalled.
+
+This validates the target HIP/runtime/BLAS path, **not** Qwen quantized kernels,
+original-model outputs, model capacity or performance. `tools/strix-point-campaign.py`
+implements the bounded remote phases, with exclusive persistent receipts,
+source/artifact identity, 85 C temperature limit and service restoration in cleanup.
+`tools/strix-point-launch.py` stages immutable per-run source copies over SSH.
+Neither helper uses .157/.158 resources or treats a private lock as other owners'
+agreement; .161 admission derives from the operator's scoped handover.
+
+### UD transfer and memory finding — 09:15 UTC snapshot
+
+The official first shard is downloaded and SHA-256 verified. Sequential R1 was
+intentionally interrupted to improve transfer throughput; its supervisor exit 1,
+signal 15, partial data and successful service restoration are retained. Its
+older cleanup implementation did not record the interrupted child's actual exit;
+that value is unknown, not inferred. R2 rehashes the saved prefix and downloads
+up to eight ordered 16 MiB ranges, with at most eight queued payloads and full
+final SHA-256 before publication. Truncated, oversized or corrupt files retain
+only `.part` names. Source and weights stay under persistent LIE paths.
+
+At 09:15 UTC, R2 had staged about 7.51 GB of the 111.33 GB total; this is a progress
+snapshot, not a completion receipt. The target was around CPU40/GPU39 C, KFD
+empty, with llama temporarily inactive inside the admitted I/O window. The
+supervisor restores its original state on completion/error. No model inference
+has started. A faster read-only LAN copy was requested from the other owners;
+their .157 campaign is still active, so no .157 payload access has occurred.
+
+The real HIP probe reports total GPU memory **66272710656 bytes / 61.72 GiB**.
+The same UD's measured resident-weight estimate on Halo is **82384141824 bytes /
+76.73 GiB**, excluding session/scratch state. This predicts a capacity problem
+with the current limit; it is not an observed allocation failure on .161 yet.
+The kernel exposes TTM `pages_limit=16179861` with 4096-byte pages, matching the
+reported limit. A reviewed proposal, [96 GiB TTM configuration](../config/strix-point-ttm.conf.proposed),
+uses 25165824 pages and leaves about 27.44 GiB of total system RAM outside that
+limit. It raises a maximum, not a reservation. It has **not** been applied and
+the machine has **not** been rebooted; explicit system-change consent is pending.
+The proposed procedure writes only a new owned modprobe file, updates the current
+kernel's initramfs and reboots in an agreed window. Rollback removes that owned
+file, rebuilds the initramfs and reboots. AMD documents the
+[TTM limit and reboot requirement](https://rocm.docs.amd.com/en/docs-7.2.0/how-to/system-optimization/strixhalo.html);
+that Halo guidance alone does not qualify Point model fit.
+
+The prepared C1 phase uses the shared reactive core, context4096/chunk2048,
+one user, 32 output tokens, one warmup and three repetitions, with the default
+RAM cache policy. Warm hits and fresh prefill must be reported separately.
+`lie-bench` now preserves the backend's exact model-load error in failed output
+instead of hiding it behind `core readiness failed`. Its focused ASan/UBSan
+fixture passes. Candidate `strix-point-ud-r3` compiles/links against the same
+gfx1150 numerical archives and passes no-device startup on .161.
 
 ### Follow-up diagnostic and model plan — 08:37 UTC
 

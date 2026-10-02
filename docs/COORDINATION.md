@@ -2,6 +2,34 @@
 
 ## Additional target .161 — Strix Point fork
 
+The operator subsequently explicitly authorized stopping llama:
+`llama si può stoppaare`. This grants the previously proposed temporary
+`llama-router.service` stop/restore for the .161 diagnostic, pinned UD staging
+and tests. The previous no-foreign-stop rule is overridden only for that named
+service. Admission must still check current clients, thermal/resource state,
+and retain owned cleanup; restore the service if it was active before the window.
+A persistent LIE campaign lock under `/home/pop/workspace/synapse-lie` serializes
+our own work, with PID/start and inode identity recorded. It is not evidence of
+adoption by other applications: the window derives from the operator handover.
+No .157/.158 lease or resource is used. Historical observations below are retained.
+
+`strix-point-gpu-probe-r2` completed at 08:52:45 UTC with real HIP/rocBLAS exit0,
+owned container removed, KFD empty before restoration, llama active again and
+the unchanged persistent lock released. R1 retains a pre-launch refusal on the
+retiring service's transient kernel KFD entry; no foreign client was ignored.
+The known process is now given a bounded retirement wait before admission.
+
+At the 09:15 UTC snapshot, `strix-point-ud-download-r2` holds the next admitted
+LIE I/O window on .161; service inactive, KFD empty and CPU/GPU near40 C. The
+sequential first transfer was deliberately stopped through its verified owned
+supervisor pidfd; it restored llama and released the lease before R2 started.
+R2 verifies/resumes the partial in a bounded eight-range pipeline. Its cleanup
+must restore llama and release the lease on completion/error. A future LAN
+copy of original pinned weights was discussed with root/Q2/Spark; .157 is still
+owned by the root SSD campaign. No remote source access or payload copy from
+.157/.158 has been admitted. TTM modification/reboot consent is separately
+pending; the service-stop grant does not authorize system tuning.
+
 The owner requested the UD port and tests on `pop@192.168.5.161`; this fork owns
 only its `feature/strix-point-ud` work and persistent test directories under
 `/home/pop/workspace/synapse-lie`. Read-only inspection at 07:41 UTC on 2026-10-02

@@ -20,6 +20,13 @@ RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.p
 
 
 class CoreBench(unittest.TestCase):
+    def test_model_load_error_is_preserved(self):
+        with tempfile.TemporaryDirectory(prefix='lie-core-load-failure-') as tmp:
+            p,path=self.run_case(tmp,model=':load-failure:')
+            self.assertEqual(p.returncode,1,p.stderr)
+            rows=[json.loads(line) for line in path.read_text().splitlines()]
+            self.assertEqual(rows[-1]['error'],'core readiness failed: synthetic model allocation failure')
+
     def test_ssd_restart_accounting(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-ssd-') as tmp:
             root=Path(tmp);store=root/'store';results=[]
