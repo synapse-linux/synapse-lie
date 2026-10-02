@@ -11,7 +11,10 @@ Fedora 43 ROCm 10 tarball; a byte-identical ROCm 7.2 control passes on the same
 host. All one-shot runs release their lease and restore the named service.
 The [ROCm 10 report](STRIX-POINT-ROCM10.md) records exact image IDs, HIP codes,
 temperatures and evidence. Original-weight ROCm 10 performance remains
-unmeasured pending a passing runtime gate.
+unmeasured pending a passing runtime gate. The Fedora 43 `gfx1150` LIE probe
+was compiled and linked with ROCm 10 before execution; Fedora 44 has only a
+runtime diagnostic so far. Upstream gfx1150 issues #6191 and amdgpu #213 cover
+similar first-use failures, but neither matches our ROCm 10 errors and kernel.
 
 The fresh operator-approved 100 C `single` campaigns on .161 now pass **8/8
 occupied depths each** for LIE reactive C1 and direct Gufo C1, PP2048/TG128,

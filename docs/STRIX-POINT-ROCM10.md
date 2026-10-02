@@ -81,6 +81,10 @@ failed on the copy path (`copy_inputs: HIP status 1`), unchanged by
 `seccomp=unconfined`. The no-model diagnostic enumerated one device and a
 successful 48-byte `hipMalloc`, then reported `hipErrorOutOfMemory` from
 `hipMemset` and `hipErrorInvalidValue` from pageable and pinned `hipMemcpy`.
+That first GPU probe was the `lie-hip-probe` executable built and linked inside
+the Fedora 43 ROCm 10 container, not a binary carried over from ROCm 7.2.
+The build receipt records successful library, CMake and link exits and SHA-256
+for `synapse-lie-server`, `synapse-lie-bench`, the Gufo reference and the probe.
 
 The Fedora Minimal 44 RPM image build passed under a fresh .161 lease with
 Docker image ID `sha256:de9a979b0a53c91749d122b9f60712318175daca40fbdeac14e6793654a69a54`.
@@ -104,6 +108,12 @@ The Fedora 44 variants and ROCm 7.2 control use the same byte-identical bounded
 the earlier Fedora 43 run used its R1 version. All report 1 GPU with 96 GiB
 HIP total memory. The ROCm 7.2 control returns the exact eight input floats;
 all ROCm 10 variants fail the same primitive operations before model loading.
+The Fedora 44 experiment uses `ctypes` against its own `libamdhip64.so` and
+does not compile or execute a Fedora 44 LIE binary. The byte-identical
+diagnostic succeeds with the ROCm 7.2 runtime on the same host, checking its
+argument sequence against that stack; the independently compiled Fedora 43
+probe also fails at a primitive host-to-device copy. A native Fedora 44 build
+has not independently checked this runtime's ABI.
 The final Fedora 44 run omits the extra read-only, capability-drop and
 no-new-privileges settings while retaining a non-root user, private work mount,
 network isolation and the supervised lease. Every run retired its owned child
@@ -117,6 +127,20 @@ The host is Pop!_OS 24.04, kernel `6.16.3-76061603-generic`. AMD's
 does not qualify this host combination. This is a plausible compatibility
 lead, not a proven kernel root cause. No host kernel, driver, firmware, clocks
 or power settings were changed for this experiment.
+
+Upstream has reports in the same failure area, but no confirmed match for this
+exact stack. [ROCm issue #6191](https://github.com/ROCm/legacy-rocm-build/issues/6191)
+reports a Radeon 890M / `gfx1150` where `hipMalloc` succeeds and the first
+`hipMemset` hangs or faults; it uses ROCm 7.2.x and kernel 6.17 and records a
+`gfxhub` page fault. [amdgpu issue #213](https://github.com/ROCm/amdgpu/issues/213)
+reports `hipMemcpy` GPU page faults on `gfx1150` with ROCm 7.1.1 and kernel
+6.17, absent with kernel 6.14. Our ROCm 10 / Pop!_OS kernel 6.16.3 runs
+instead return HIP status 2 (`hipErrorOutOfMemory`) from a 48-byte `hipMemset`
+and status 1 (`hipErrorInvalidValue`) from copies. A read-only search of the
+accessible `.161` kernel journal over the probe windows found no `amdgpu`,
+KFD or `gfxhub` fault. These reports show that first-use HIP failures on this
+GPU are known, but neither identifies our root cause or establishes a fix for
+ROCm 10 on this host.
 
 There is **no valid ROCm 10 original-weight throughput comparison**: the
 primitive HIP gate fails, so the Fedora 44 LIE compile and the matched
