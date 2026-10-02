@@ -1,5 +1,28 @@
 # Isolated OpenAI reactive API increment
 
+## Shared engine core required before cache implementation — 2026-10-02
+
+The owner clarified that HTTP is a client/protocol layer; engine features must
+live in one C17 core reusable by `synapse-lie-bench` and future `lie-chat` and
+`lie-eval`. Corrected the architecture diagram, ownership contract and next-step
+order accordingly. The core owns lifecycle, scheduling, state/cache, MTP/vision,
+model semantics and typed execution observability. HTTP owns parsing and wire
+projection. Direct physical-token input preserves benchmark/evaluation semantics.
+
+Source audit confirms partial sharing today: `lie_inference` and `lie_flow` are
+common, while `lie_runtime` combines worker and protocol files. The worker owns
+`lie_chat_request`, including `json_owner` and transport options; the direct
+benchmark independently manages sequences. A shared dispatcher does not yet
+establish shared engine lifecycle/cache. The first implementation step is now
+the extraction plus an actual direct-core benchmark consumer, before RAM/SSD
+features. The executor diagnostic path remains a separately labelled scope.
+
+This checkpoint updates requirements and documented boundaries only. No new
+`lie_core` library, client, runtime API or cache implementation is claimed.
+Validation: local documentation links/anchors and Git whitespace checks; no
+runtime tests or GPU run in this increment. The ensuing ownership refactor
+requires direct and HTTP tests plus ASan/UBSan on `.157`.
+
 ## C17 separation and cache/MTP/vision assessment — 2026-10-02
 
 Documentation-only assessment: start separating engine policy, model-family

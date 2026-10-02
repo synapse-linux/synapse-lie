@@ -113,11 +113,19 @@ starting extraction now. The target separates three independent responsibilities
 
 ```mermaid
 flowchart TD
-    A["C17 engine: HTTP, scheduling, budgets, RAM/SSD cache"]
+    H["HTTP / OpenAI adapter"]
+    T["lie-bench direct client"]
+    U["Future lie-chat client"]
+    V["Future lie-eval client"]
+    A["Shared lie_core C17: sessions, scheduling, budgets, RAM/SSD cache"]
     B["C17 model family: binding, topology, hybrid state, MTP, vision"]
     C["Versioned C device/numerical boundary"]
     D["Qualified AMD provider"]
     E["Future qualified platform providers"]
+    H --> A
+    T --> A
+    U --> A
+    V --> A
     A --> B --> C
     C --> D
     C --> E
@@ -130,14 +138,69 @@ its actual operations and combinations. Preserve fused kernels and native batch
 granularity across the boundary. Porting model/control code to C17 is a distinct
 milestone from eliminating the retained C++/HIP numerical sources/dependencies.
 
-The first runtime extraction is C-owned prefix-cache policy with delegated,
-version-qualified complete hybrid capture/restore. Qualify RAM reuse and clone
-isolation, then optional SSD persistence and restart. Define MTP/vision state
-requirements before freezing payload framing. Device-owner capture/restore and
-bounded immutable disk jobs use the same cancellation/retirement/resource rules
-as inference. The [state design](STATE.md) and [future ABI requirements](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
-describe these unimplemented contracts. This sequence reduces duplicated prefill
-without making the entire executor rewrite a prerequisite.
+The first runtime extraction is a shared, transport-independent C core, used by
+the HTTP adapter and a direct engine benchmark path. Prefix policy and delegated,
+version-qualified complete hybrid capture/restore are then added to that core.
+Qualify RAM reuse and clone isolation, then optional SSD persistence and restart.
+Define MTP/vision state requirements before freezing payload framing. Device-owner
+capture/restore and bounded immutable disk jobs use the same cancellation,
+retirement and resource rules as inference. The [state design](STATE.md) and
+[future ABI requirements](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts)
+describe these unimplemented contracts.
+
+## Shared core and client boundary
+
+The owner requires engine features to be reusable by HTTP, `synapse-lie-bench`
+and future `lie-chat`/`lie-eval` clients. `lie_core` is the proposed shared C17
+library boundary; **it is not an implemented CMake target or stable API yet**.
+Clients consume the same core directly without starting an HTTP server.
+
+Current source audit:
+
+- `lie_flow` and `lie_inference` are already independent of HTTP. The production
+  worker and reactive direct benchmark share ready-row/credit batch dispatch.
+- `lie_runtime` currently combines `worker.c` with Chat/Responses parsing, tools
+  and wire code. `worker.h` accepts `lie_chat_request`, whose ownership includes
+  a `json_object` and whose fields include wire streaming options.
+- The benchmark creates/manages sequences itself through the executor ABI. Its
+  shared dispatch does not yet mean shared job/session/cache lifecycle.
+
+Required responsibility split:
+
+| Shared core | Client or protocol adapter |
+|---|---|
+| Engine/session lifecycle, capability admission, model selection at composition, scheduler, batching, cancellation, output credit and retirement | HTTP routing/status, request-body limits, JSON/SSE framing, sockets, connection deadlines and disconnect mapping |
+| Owned normalized inputs: messages/tools, physical tokens and future prepared images; tokenizer/template and model semantics | Parse OpenAI input into core descriptors; acquire CLI/corpus/image transport input and format client output |
+| Sampling, stop/tool semantics, MTP verification, vision execution, cache RAM/SSD and memory budgets | CLI flags/TUI, dataset iteration/scoring policy, benchmark repetitions, report/graph export |
+| Typed confirmed events, execution errors, usage, timings and resource snapshots | Map events/errors to OpenAI responses, terminal text or evaluation records; export JSON/Prometheus |
+
+Core request ownership must not retain an HTTP parser tree or streaming/SSE
+options. Copy or transfer explicitly owned C data with bounded lifetimes; opaque
+JSON schema strings can be model data, but a protocol parser's `json_object`
+cannot own an admitted core job. Public core headers expose no libuv/llhttp or
+protocol JSON types. The core must build/link without the server or HTTP adapter.
+
+Provide direct normalized-message and physical-token entry paths. The latter
+preserves benchmark/evaluation inputs without formatting a fake conversation;
+scoring/logit operations must be explicit bounded capabilities when introduced.
+Clients may configure admitted policies, but cannot bypass shared memory/cache
+accounting or independently schedule mutable backend work. They cannot consume
+Gufo classes or manage a second production session/cache implementation.
+
+Benchmark coverage has three explicit scopes: the shared core lifecycle, the
+HTTP path including transport cost, and low-level executor diagnostics/reference
+measurements. Preserve historical labels; an executor-only result does not
+qualify shared cache or job lifecycle. Add the direct core consumer as part of
+the extraction, rather than claiming a renamed library is sufficient.
+
+Extraction acceptance: headless core build; direct-message/token and HTTP paths
+using the same engine policy; matched physical inputs/outputs where semantics
+match; cancellation, pressure, ownership and retirement tests without sockets;
+HTTP regression tests and focused ASan/UBSan on `.157`. Later cache/MTP/vision
+features require direct-core tests as well as their HTTP projection tests.
+Original-weight GPU correctness/performance remain separate coordinated gates.
+Each engine instance owns its state and device worker; sharing a library does
+not implicitly share resident weights or mutable sessions across processes.
 
 ## Increment plan and departure from requested order
 

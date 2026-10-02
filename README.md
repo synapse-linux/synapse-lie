@@ -19,6 +19,10 @@ reuse, optional SSD state, MTP and vision remain implementation gaps. The
 the C17 engine/model ownership target and phased removal of C++ dependencies;
 the [RAM/SSD state contract](docs/STATE.md) requires independent RAM reuse and
 explicit opt-in persistence with directory, quota and bounded I/O controls.
+The [shared-core contract](docs/ARCHITECTURE.md#shared-core-and-client-boundary)
+places all engine features behind a common C17 API for HTTP, direct benchmark
+and future chat/eval clients. Today only the ready-row dispatcher is shared
+across those existing paths; full job/session ownership still needs extraction.
 
 ## Native tool API baseline
 
@@ -257,7 +261,8 @@ No service, deployment, merge or publication is implied.
 [State design—not implemented](docs/STATE.md) · [Baseline](docs/BASELINE.md) ·
 [DS4 coordination](docs/COORDINATION.md)
 
-Next: C-owned RAM prefix policy and complete hybrid capture/restore, followed by
+Next: extract a shared C core used directly by HTTP and benchmark clients, then
+C-owned RAM prefix policy and complete hybrid capture/restore, followed by
 optional SSD persistence, MTP/vision and measured T1/T2 extractions. Independent
 numerical/quality and GPU failure gates remain open; future platform providers
 require their own qualification. Native AR batching and real Pi read/edit/read

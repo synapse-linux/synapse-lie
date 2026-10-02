@@ -14,7 +14,9 @@ learning from real workloads; do not let the prototype define the final limits.
 ## Two implementations behind LIE-owned contracts
 
 ```text
-LIE HTTP/SSE, management, reactive admission and device-owner scheduling
+HTTP/SSE adapter, direct benchmark, future chat/eval clients
+                                  |
+        Shared LIE C17 core: sessions, reactive scheduling, cache and budgets
                                   |
                          LIE execution contracts
                                   |
@@ -140,7 +142,7 @@ leave that whole-engine dependency in place.
 
 | Boundary | C17 ownership target | What must remain explicit |
 |---|---|---|
-| Engine | Admission, lifecycle, reactive scheduling/credit, cancellation, resource budgets, RAM/SSD cache policy and metrics | One device owner, bounded queues, confirmed frontiers and failure retirement |
+| Shared engine core | Admission, lifecycle, reactive scheduling/credit, cancellation, resource budgets, RAM/SSD cache policy and typed metrics | One device owner, bounded queues, confirmed frontiers and failure retirement; HTTP, bench and future chat/eval are clients |
 | Model family | Configuration, tensor-role binding, topology/layer order, RoPE, attention/recurrent/PLE state, MTP and vision semantics | Required operations/state components and exact model/format identity; no Gufo classes |
 | Device/numerical provider | A versioned C boundary for buffers, kernels, memory, streams and completion | Dtypes, quantization packing, strides/alignment, arithmetic profile, native batching/fusion and qualified hardware capabilities |
 
@@ -150,6 +152,15 @@ format/codec and kernel capability, independently of model family and platform;
 support for GGUF alone does not qualify every tensor packing or dtype. The
 parallel official-Gufo compression audit can record these requirements without
 coupling its format changes to a simultaneous model-executor rewrite.
+
+All engine features belong to the shared core, including session/cache policy,
+MTP, vision execution and model output semantics. HTTP is an external protocol
+adapter; it owns JSON/SSE, sockets and wire errors, not engine decisions. Core
+requests/events and metrics snapshots use owned C data independent of HTTP
+parser lifetimes. The benchmark must exercise this same core directly; future
+chat/eval clients must not require an HTTP service or duplicate the engine.
+The [source audit and extraction gates](ARCHITECTURE.md#shared-core-and-client-boundary)
+distinguish today's shared decode dispatcher from the still-unshared lifecycle.
 
 Keep operations coarse enough to preserve efficient fused kernels and native
 multirow work. Avoid a callback per scalar/tensor operation or a universal graph
@@ -183,9 +194,12 @@ neither architectural separation nor a language change guarantees a speedup.
 
 ### First slices and feature order
 
-1. Define capability, state identity and completed-frontier contracts, using the
-   current adapter as an explicitly delegated reference. Add capture/restore
-   only for complete version-qualified state; no public unused framework.
+1. Extract shared C engine lifecycle from protocol parsing/wire ownership and
+   connect both the HTTP adapter and a direct core benchmark consumer. Define
+   owned normalized-message/physical-token inputs and typed completed events,
+   capability/state identity and frontier contracts. Use the current adapter as
+   an explicitly delegated reference; add capture/restore only for complete
+   version-qualified state. Do not introduce a public unused framework.
 2. Own prefix lookup, immutable entries, pinning/clone lifetime, eviction and
    shared-memory budgets in C17. Qualify RAM reuse first. Initially the payload
    may remain Gufo-specific; that does not qualify owned model state. Prefer
@@ -209,8 +223,9 @@ neither architectural separation nor a language change guarantees a speedup.
    qualified kernels through the C numerical boundary until their replacement
    separately passes the complete C++-removal gate.
 
-The first useful runtime deliverable is **RAM prefix reuse with measured avoided
-prefill**, followed by optional SSD restore. A two-turn 100K HTTP experiment
+The first feature deliverable after core extraction is **RAM prefix reuse through
+the same core in direct benchmark and HTTP**, with measured avoided prefill,
+followed by optional SSD restore. A two-turn 100K HTTP experiment
 currently re-prefills the whole history and takes 69.76/71.79s, making this a
 concrete observed limitation; it does not predict the cached result.
 See [full timings](FULL-PREFILL-HTTP-RESULT.md), [state contract](STATE.md),

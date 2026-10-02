@@ -114,6 +114,13 @@ batch dispatcher measurements in [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFEREN
 
 ## Required inference instrumentation (pending, not emitted as fake zero)
 
+Engine counters, resource accounting and execution snapshots belong to the
+shared C core, regardless of whether HTTP, benchmark or a future chat/eval client
+submitted the job. JSON/Prometheus serializers and transport counters are client
+projections. The planned core clock starts at core submission; distinguish its
+queue/first-confirmed-token latency from HTTP request admission and first SSE
+write. Direct-core and HTTP results must label these different timing scopes.
+
 At admission: accepted/rejected counters, active/queued gauges, input tokens.
 On worker start: queue duration. TTFT starts at full HTTP request admission,
 including tokenization and queue time, ends at first confirmed token ready for

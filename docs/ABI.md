@@ -152,6 +152,17 @@ or capabilities implemented by ABI 2**. Keep its completed scalar/batch semantic
 Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
 profiles explicitly; refusing an unsupported capability must precede mutation.
 
+The client-facing core API is distinct from this provider/executor ABI. The
+shared core owns jobs/sessions, scheduling and resource/cache policy; HTTP,
+direct benchmark and future chat/eval consume owned normalized inputs and typed
+events. Input paths must include physical tokens as well as messages, with
+explicit capability-gated scoring/logit operations for evaluation when added.
+Core headers and admitted jobs must not depend on HTTP parser trees, socket
+types, SSE options or wire status codes. Explicit copy/transfer/release rules
+replace the present worker's ownership of `lie_chat_request.json_owner`.
+Historical low-level executor diagnostics remain labelled separately from full
+core lifecycle tests. See [the core extraction contract](ARCHITECTURE.md#shared-core-and-client-boundary).
+
 - State: exact model/input identity, kind and payload version, bounded immutable
   capture, pure validation before mutating restore and explicit component
   completeness. Only the device owner captures/uploads model state; C cache and

@@ -42,13 +42,17 @@ Required configuration semantics, with spelling to be frozen during implementati
 | SSD directory and byte quota | Private LIE-owned path, validated quota; no implicit discovery of another engine's store |
 | Capture/read staging and queue budgets | Bound resident bytes and concurrent I/O jobs; reserve space before capture/read and retain buffers until completion |
 
-The C cache manager owns identity lookup, immutable entry lifecycle, pinning,
-eviction and budgets. A transitional adapter owns capture/restore of its tagged
+The C cache manager belongs to the shared engine core used by HTTP, direct
+benchmark and future chat/eval clients. It owns identity lookup, immutable entry
+lifecycle, pinning, eviction and budgets. A transitional adapter owns capture/restore of its tagged
 payload on the device owner. Cache entry ownership is not yet ownership of the
 model's state representation. Future C-owned model components replace that
 payload through an explicit version, not reinterpretation. RAM entries must
 clone/restore independent mutable sessions; active requests cannot mutate a
 shared checkpoint or share sampler/RNG state.
+Capture/restore must work through the same core without an HTTP request or server
+process. Transport identifiers and JSON ownership are not cache identity or
+state ownership. Core state events are projected into client-specific formats.
 
 ## Two distinct kinds
 
