@@ -1,28 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 correctness and performance gate
 
-**Required outcome: no PP or TG regression.** Q2 comes first. Status is
-`blocked_reference`; rates are null. This protocol does not authorize a GPU run.
+**Required outcome: no PP or TG regression.** Q2 comes first. The user approved starting the minimal port with independent operator
+oracles and the existing UD control, replacing the earlier requirement for a
+fully runnable independent Q2 model engine before implementation. The missing
+exact-file model comparator remains an explicit qualification limitation.
+This protocol alone does not authorize a GPU run.
 All actual tests run on `.157` after current coordination/leases; no foreign
 process, service, model, cache or qualified evidence may be changed.
 
 ## Comparators and preparation
 
-1. Independently establish an immutable reference that can execute this **exact
-   Q2 file** on `.157`. Record repository/commit, patch identity if any, compiler,
-   build flags, HIP/driver/device, model stat/header/historical identity and
-   physical prompt IDs. No audited candidate currently satisfies this gate.
-   A candidate under development cannot certify itself as that reference.
-2. Use official Gufo as the implementation foundation. Keep the selected Gufo
-   base fixed during the comparison; a pin upgrade is a separate variable.
-3. Freeze original UD-Q4_K_XL on the same Gufo base as the shared-code regression
-   control. Compare this exact UD file/build before and after changes. Q2 need
-   not numerically equal Q4, and a Q2-vs-UD speed table is not a same-file
-   implementation-regression verdict. Publish that cross-format comparison
-   separately to answer practical model-choice questions.
-4. Record numerical thresholds before changing the candidate, using independent
-   reference repeatability and operation error analysis. Thresholds are presently
-   unset, not silently infinite. Preserve the frozen reference and all raw data.
+1. Use independent scalar operator formulas for IQ2_XXS/Q2_K and exact F16
+   widening, with thresholds frozen before GPU execution. Initial thresholds:
+   relative RMS error <= 0.002 and maximum absolute error / maximum reference
+   magnitude <= 0.002. The IQ2 codebook is format data from the pinned source;
+   reference unpacking and accumulation are independent of the GPU implementation.
+2. Keep official Gufo base `f783fedb` fixed. A pin upgrade is a separate variable.
+3. Freeze original UD-Q4_K_XL on that base as the shared-code regression control.
+   Compare identical UD files, physical prompts and settings before/after the
+   patch. Q2 need not numerically equal Q4. Cross-format speed comparison is
+   separate from same-file implementation regression.
+4. Record exact file stat/header/historical identity, binary/source hashes,
+   compiler/runtime and physical token IDs. A full independent Q2 teacher is
+   still unavailable; semantic smoke and finite frontiers do not replace it.
 
 ## CPU and operator gates
 
@@ -115,5 +116,17 @@ on each arm. 1M, prefix cache, MTP and Q4 have separate capability/quality gates
 Plot all samples and separate PP/TG panels with context on the x-axis, reference
 and candidate shown explicitly; do not plot blocked values as zero throughput.
 
-Current numerical, operator, full-model, HTTP, concurrency and long-context
-results for this new workstream: **not run**.
+Current receipts and their exact scope are in [the implementation report](Q2-IMPLEMENTATION.md).
+
+The first C1 screen uses a single fresh process per arm, one warmup plus three
+measurements per profile. It is deliberately reported as an initial screen,
+not the interleaved paired-arm protocol or a formal zero-margin acceptance
+certificate. Each sample creates a new full hybrid session, preserving only
+model residency and the bounded upstream PLE row cache. Model output terminates
+on EOS. PP includes synchronous full-logit transfer per chunk; TG times decode
+forward plus finite-frontier scan and greedy selection, excluding saved-file
+I/O and text rendering. The first output token comes from PP; `decode_steps`
+counts subsequent executed forward calls, including a terminal EOS-producing
+call when present. Rates are named `decode_steps_s`, not silently relabeled
+emitted-output throughput. Input IDs and complete PP/final logit frontiers are
+retained for matched UD validation.

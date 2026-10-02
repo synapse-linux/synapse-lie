@@ -1,29 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Synapse LIE — Q2 compatibility audit
+# Synapse LIE — original Q2 support for official Gufo
 
-This workstream targets **official Gufo with the original antirez Q2 GGUF**.
-It does not use the antirez Qwen engine. The minimum acceptance requirement is
-no PP or TG regression under matched conditions; Q4 follows Q2.
+This isolated workstream adds the original antirez Q2 GGUF to official Gufo
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
+The minimum acceptance requirement remains **no prefill or decode regression**.
+The runtime patch is implemented; parser/sanitizer and independent synthetic
+HIP operator checks pass on `.157`. Full-model and performance qualification
+are in progress; successful operators do not establish those results.
 
-The source/layout audit and proposed format contract are complete. **Q2 runtime
-support and its performance qualification are not implemented on this branch.**
-The audited official Gufo cannot bind this file. The audited llama.cpp reference
-also requires a different down-projection shape; no ready, independent Q2
-reference for `.157` was established. See the concrete blockers before porting.
-
+- [Implementation and evidence](docs/Q2-IMPLEMENTATION.md)
 - [Audit and source pins](docs/ANTIREZ-Q2-AUDIT.md)
-- [Format, binding and packing contract](docs/Q2-FORMAT-CONTRACT.md)
-- [Correctness and no-regression protocol](docs/Q2-VALIDATION.md)
-- [Machine-readable audited layout](config/antirez-q2-contract.json)
-- [Progress and provenance](docs/PROGRESS.md)
+- [Format and storage contract](docs/Q2-FORMAT-CONTRACT.md)
+- [Correctness and performance protocol](docs/Q2-VALIDATION.md)
+- [Progress](docs/PROGRESS.md) and [third-party provenance](third_party/README.md)
 
-`feature/antirez-compat-audit` starts at `develop` (`ce3ce59`, an empty tree).
-The server worktree was not merged or copied. LIE checkpoint `c14ef26` supplies
-the historical inventory/restart protocol; `83d178a` supplies the newer C17
-engine/model-family/numerical-ABI contracts, read-only. This branch contains
-audit artifacts, not a replacement server or benchmark executable.
+The reviewable change is `patches/gufo-q2.patch`. Given the exact official
+archive recorded in `config/gufo-source.json`, reconstruct it with:
 
-Sources and receipts live persistently under this worktree's ignored `.deps/`
-and `evidence/`; they are not in `/tmp`. No model payload, conversion, GPU build,
-GPU run, deployment or DS4 mutation was performed. First-party work is MIT;
-third-party sources retain their own licenses.
+```sh
+python3 tools/prepare-gufo.py .deps/gufo-f783fedb.tar.gz .deps/gufo-q2-reconstructed
+```
+
+The qualification capsule builds the pinned upstream HIP executor and tests;
+it is not a replacement for the C17 LIE core or `synapse-lie-bench`. Run the
+fixed remote checks with `tools/q2-remote.py`; GPU modes acquire all four known
+nonblocking leases and refuse contention. Sources and evidence stay in persistent
+project directories. Models are read-only; no conversion, deployment or publication.
+
+Branch `feature/antirez-compat-audit` starts at empty `develop` (`ce3ce59`).
+The server/cache branch is separate. Q4, MXFP4 predictor execution, HTTP
+integration, concurrency qualification and long-context qualification remain
+separate gates. The original Q2 predictor descriptor is understood with MTP off.

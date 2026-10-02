@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Q2 format contract — proposal 1
+# Q2 format contract — implementation 1
 
 This is an implementation requirement, not a new exported C ABI. It applies to
 the transitional official-Gufo adapter and can later be implemented by the C17
@@ -9,8 +9,8 @@ types, HIP streams and kernel layouts stay inside the numerical implementation.
 ## Exact file and roles
 
 The [manifest](../config/antirez-q2-contract.json) derives from LIE's retained
-2026-10-01 header observation. No payload was read again and the historical full
-hash was not recomputed. Architecture `qwen4exp`: 49 stored layers, 1 predictor,
+2026-10-01 header observation. That observation did not read payloads or recompute the historical full hash.
+New run receipts state separately whether payload access occurred. Architecture `qwen4exp`: 49 stored layers, 1 predictor,
 48 AR layers, hidden width 2560, 512 experts, top-k 10, logical FF width 640,
 native context 262144. No YaRN or 1M capability follows from quantization support.
 

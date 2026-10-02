@@ -41,3 +41,23 @@ Validation scope: documentation/manifest consistency and Git whitespace checks
 only. No runtime change, CTest/ASan execution, remote build, model conversion,
 GPU run, new performance sample or deployment. Implementation tests remain
 required on `.157` when implementation begins.
+
+## Authorized implementation — 2026-10-02
+
+The user approved replacing the pre-implementation independent-Q2-engine gate
+with independent operator oracles and an unchanged UD control. The previous
+blocked-reference audit remains historical evidence, not the active work plan.
+
+Implemented a minimal patch from the independently downloaded official base:
+MXFP4 descriptor extent, strict 640/768 binding, IQ2/Q2 quantized HIP dispatch,
+paired/fused IQ2 gate/up, zero-padding inside existing activation quantization,
+and exact load-time F16 HC widening. Fixed the directly observed integer
+truncation of IQ2 fractional eighths in the inherited vector dot formula.
+No withdrawn source or sibling engine artifacts were restored.
+
+On `.157`, `q2-host-r1` passed four debug and four ASan/UBSan CTests.
+`q2-operators-r2` passed independent synthetic HIP checks; maximum measured
+relative RMS error was 0.000159285, under the predeclared 0.002 threshold.
+Full-model capsule qualification is in progress. Build failures and actual
+exit codes remain in local evidence. The official formatting check passes
+486 files. No performance or complete Q2 model-quality verdict yet.

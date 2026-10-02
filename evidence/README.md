@@ -13,3 +13,12 @@ actual exit codes; never replace absent inference metrics with zeros.
 Historical model metadata was read from the primary LIE checkout's retained
 `evidence/antirez-layout-readonly-r2/layouts.jsonl`. That earlier observation,
 including its header/full-hash distinctions, is not a new model read or test.
+
+Implementation receipts:
+
+- `q2-host-r1`: four debug and four sanitizer CTests, before legacy RoPE fallback.
+- `q2-operators-r1`: retained build failure; `q2-operators-r2`: synthetic GPU pass.
+- `q2-model-r1/r2`: retained CMake/link failures; `q2-model-r3`: metadata refusal.
+- `format-r1`, `reconstruction-r1`: local official format and exact patch reconstruction.
+- Each run directory retains its immutable source capsule, remote log and actual
+  transport exit. Collected results include hashes, commands and scoped telemetry.

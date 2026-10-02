@@ -1,6 +1,6 @@
 {
   "schema": "synapse-lie.q2-format-contract.v1",
-  "status": "audit_only_runtime_not_implemented",
+  "status": "runtime_patch_implemented_operator_pass_model_qualification_in_progress",
   "audit_date": "2026-10-02",
   "scope": "original antirez Q2 weights through official Gufo; no antirez Qwen engine",
   "source_identity": {
@@ -201,7 +201,7 @@
     "mtp_execution": false,
     "new_public_abi_defined": false,
     "no_regression_ratio_target": 1.0,
-    "performance_verdict": "blocked_reference",
+    "performance_verdict": "pending_measurements",
     "required_metrics": [
       "fresh_prefill_tok_s",
       "decode_tok_s"
@@ -215,7 +215,10 @@
     ],
     "max_emitted_output_tokens": 128,
     "physical_input_ids": null,
-    "numerical_tolerances": null,
+    "numerical_tolerances": {
+      "independent_operator_rrms_max": 0.002,
+      "independent_operator_scaled_max_error": 0.002
+    },
     "measured_prefill_tok_s": null,
     "measured_decode_tok_s": null
   }
