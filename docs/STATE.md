@@ -67,8 +67,9 @@ The [KVC runtime binding](KVC.md#runtime-payload-and-ssd-binding) selects exact
 DS4 Qwen text-AR payloads by default. Generic `lie_state` allocation and policy
 remain model-neutral; the Qwen C codec describes its wire offsets and the loaded
 provider binds model geometry and identity. Native aligned components remain an
-explicit build-time control. CPU fixtures cover both; the new provider still
-requires GPU qualification. Foreign unbound records are not live states.
+explicit build-time control. CPU fixtures cover both; [GPU checks](KVC-GPU-RESULT.md) establish exact restore
+through 128K with a reported memory/latency increase. Foreign unbound records are
+not live states.
 
 - A dynamically growing immutable checkpoint index, separately bounded to
   `min(cache budget, 16 MiB)`; payloads remain bounded by the configured total bytes.

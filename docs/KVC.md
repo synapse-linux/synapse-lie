@@ -7,9 +7,10 @@ RAM records and regular files. `LIE_KVC_INTERCHANGE=ON` builds it and the offlin
 in the state-capable HIP adapter. SSD remains an explicit opt-in.
 
 Runtime capture, binding, RAM reuse and KVC persistence are implemented. CPU
-fixtures and local HIP compilation pass; the new provider's GPU qualification
-is pending. Foreign DS4-to-LIE restore and bilateral interoperability remain
-separate gates. A parsed file or a synthetic round-trip does not authenticate
+fixtures, local HIP compilation and [15/15 GPU arms](KVC-GPU-RESULT.md) pass
+through 128K. The larger state has a measured RAM-hit latency cost at 128K;
+this is not an unconditional performance promotion. Foreign DS4-to-LIE restore
+and bilateral interoperability remain separate gates. A parsed file or a synthetic round-trip does not authenticate
 its model or prove equivalent next-token inference.
 
 The envelope/store is model-neutral. Qwen is the first typed payload codec and
@@ -153,7 +154,8 @@ The independently materialized Gufo `lie-ds4-state-v1` variant retains every raw
 index row (`bit_ceil(context)` capacity), included in `SessionBytes`, and pools
 completed groups of four before the sparse-selection threshold. The original
 kernels are reused, but pooling schedule and allocation have changed: numerical
-and cost qualification is required. Capture performs no second complete tensor
+and cost qualification is separate. The [completed experiment](KVC-GPU-RESULT.md)
+finds exact logits/tokens but a 128K latency regression. Capture performs no second complete tensor
 reformat and creates no new thread. `LIE_DS4_RUNTIME_CACHE=OFF` selects the old
 ring/native representation for a controlled comparison. Current runtime binding
 is Qwen Flash Next (DS4 model id 5), AR-only, with supported weight quantization

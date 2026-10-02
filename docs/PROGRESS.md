@@ -1,5 +1,29 @@
 # Isolated OpenAI reactive API increment
 
+## DS4 runtime GPU qualification and cost — 2026-10-02
+
+Frozen `a4008b9` completes 15/15 original-weight GPU arms on .157, all child/helper
+exits 0. There are 24 exact full-logit/token replay/restore pairs and 12 exact pairs
+across the legacy/KVC provider variants, including generated frontiers and SSD
+restart at 131072 tokens with context 139264→262144. Core C1/C4 outputs and cache
+accounting match. [Full report, values and plots](KVC-GPU-RESULT.md).
+
+At 128K, retained state grows 3.205→3.957 GiB (+23.46%); median RAM-hit TTFT grows
+224.815→267.929 ms (+19.18%) and restore 42.195→52.149 ms (+23.59%). Those exceed
+the predeclared 5% latency gate. PP/TG and complete-window throughput remain
+approximately unchanged in these samples. The requested DS4 format stays ON by
+default and its compile-time OFF control remains available. No overall performance
+promotion, high-ratio codec or improvement attributable to reactive scheduling is
+claimed. The existing default capture-policy retention regression is separate.
+
+Fresh closure 19:18:19.131870 UTC verifies 30 owned identities, controller and
+observer absent, KFD empty and four original leases free; 152 artifacts SHA-verify.
+Q2 and Point received explicit release. Independent 1747-sample thermal evidence
+records CPU 98.25 C / GPU 100 C peaks and their durations, without crash or disconnect.
+No model/DS4 mutation, remote build, tuning, deployment or publication. Foreign
+DS4-produced import/export and other real model families still need their own
+bindings and independent qualification.
+
 ## DS4 runtime payload replacement — 2026-10-02
 
 Default-ON `LIE_DS4_RUNTIME_CACHE` now selects exact DS4 Qwen AR payloads in RAM

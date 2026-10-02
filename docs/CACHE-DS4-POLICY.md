@@ -2,7 +2,9 @@
 
 Implementation checkpoint, 2026-10-02. This is C17 policy shared by HTTP,
 `--suite core` and future clients. The numerical executor remains the explicit
-Gufo adapter. **The native checkpoint file is not a DS4 KVC file.** Existing
+Gufo adapter. The historical native files described here are not DS4 KVC.
+The default runtime now selects the [DS4 payload binding](KVC.md#runtime-payload-and-ssd-binding),
+with separate qualification. Existing
 GPU reports qualify their recorded builds, not this new policy automatically.
 
 ## Implemented behavior
@@ -124,8 +126,10 @@ The previous schedule remains available with `--cache-policy legacy`.
 The [C17 KVC codec](KVC.md) now implements envelope I/O and complete Qwen
 wire serialization with independent synthetic byte fixtures. Runtime model-state
 conversion now has a C17 host mapper, with domain-zero projection and explicit
-auxiliary-history requirements for export. Current live captures cannot supply
-every wire component; identity binding and device qualification remain separate.
+auxiliary-history requirements for export. The new complete-history provider captures every required text-AR wire component
+directly and binds it to the loaded model. [Paired LIE GPU checks](KVC-GPU-RESULT.md)
+pass through 128K with a reported latency tradeoff; independent DS4-produced
+interoperability remains a separate gate.
 
 Remaining gates: live DS4 KVC/payload import/export and numerical qualification; cross-quantization reuse; and frontend
 serialization of DS4-specific tool/visible-thinking/session extensions. The core
@@ -141,8 +145,10 @@ benefit gate retain their current behavior; this clarification adds no memory
 saving claim or new codec acceptance gate.
 
 The inspected DS4 Qwen payload contains full raw index history, pooled keys,
-eight n-gram slots and position triples. LIE/Gufo retains an unpooled index tail,
-two n-gram slots and lazily produces pooled keys after the sparse boundary.
+eight n-gram slots and position tuples. The legacy LIE/Gufo representation retains
+an unpooled index tail, two n-gram slots and lazily produces pooled keys after
+the sparse boundary. The new KVC provider retains complete history, materializes
+pooled keys early and derives all eight n-gram slots from physical tokens.
 An envelope rename cannot translate that numerical representation. Implementing
 KVC import/export needs a model-specific converter and independent device
 qualification; emitting LIE tensors under a KVC header would be incompatible.

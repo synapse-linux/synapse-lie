@@ -47,10 +47,13 @@ now replaces the Qwen cache representation in RAM and on optional SSD, selected
 by default with `LIE_DS4_RUNTIME_CACHE=ON`. Capture retains complete raw indices
 and pooled keys in the provider and copies directly into the exact model payload.
 The SSD envelope adds a trailing LIE identity/integrity binding, outside the DS4
-payload. CPU/sanitizer fixtures pass; GPU numerical/performance qualification of
-this new provider variant is pending. Earlier GPU numbers describe the legacy
-representation. Foreign DS4-produced restore and cross-quantization reuse still
-require independent qualification and authenticated import.
+payload. CPU/sanitizer fixtures and [15/15 GPU arms](docs/KVC-GPU-RESULT.md) pass,
+including exact restored logits through 128K. At 128K the state grows 3.205→3.957 GiB
+and RAM-hit median TTFT grows 225→268 ms; the explicit OFF control remains
+available. Fresh PP/TG are approximately unchanged in the measured samples.
+Earlier GPU numbers describe the legacy representation. Foreign DS4-produced
+restore and cross-quantization reuse still require independent qualification
+and authenticated import.
 The [multi-model cache contract](docs/STATE.md#multi-model-requirement) keeps
 RAM/SSD policy shared and payload codecs specific to each model family; Qwen is
 the first implementation, with other families still requiring their own binding

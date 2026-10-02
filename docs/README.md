@@ -21,7 +21,7 @@ an implemented test and a completed measurement.
 - [Execution ABI](ABI.md), [reactive contracts](REACTIVE.md),
   [inference scheduling analysis](INFERENCE-REACTIVE.md) and [metrics](METRICS.md).
 - [RAM and hybrid state](STATE.md), [optional SSD persistence](SSD-PREFIX.md)
-  and [prefill analysis](PREFILL-ANALYSIS.md).
+  [DS4 runtime payload and interchange](KVC.md) and [prefill analysis](PREFILL-ANALYSIS.md).
 - [HTTP and SSE](HTTP.md), [OpenAI API scope](OPENAI-REACTIVE.md),
   [function tools and Pi](SERVER-TOOLS.md).
 
@@ -30,6 +30,7 @@ an implemented test and a completed measurement.
 - [Hardware ownership and leases](COORDINATION.md).
 - [Shared-core GPU protocol](CORE-GPU-PROTOCOL.md),
   [RAM state protocol](STATE-GPU-PROTOCOL.md),
+  [DS4 runtime comparison protocol](KVC-GPU-PROTOCOL.md),
   [SSD restart protocol](SSD-GPU-PROTOCOL.md),
   [SSD HTTP/restart/concurrency client and protocol](SSD-HTTP-PROTOCOL.md),
   [executor and HTTP performance protocol](PERFORMANCE-PROTOCOL.md).
@@ -41,6 +42,7 @@ an implemented test and a completed measurement.
 - [Cache build comparisons and HTTP SSD GPU results](CACHE-FEATURES-GPU.md).
 - [Checkpoint compression cost, exact restore and benefit admission](CACHE-COMPRESSION-GPU.md).
 - [DS4-style policy: exact state, prefill, retention pressure and GPU results](CACHE-DS4-GPU.md).
+- [DS4 runtime payload: exact restore, complete timings, memory and latency cost](KVC-GPU-RESULT.md).
 
 ## History and parallel work
 

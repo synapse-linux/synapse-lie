@@ -523,3 +523,13 @@ both HIP builds are complete; no remote build, dependency installation, model
 conversion or DS4 mutation. Owner-requested thermal observation retains exposed
 hardware bounds and NVMe guard, plus independent1Hz samples on .155. This
 handover is not a standing lease or a cross-engine qualification claim.
+
+`ssd-gpu-r12` completes all 15 arms at **19:16:14.347739 UTC**, every child/helper
+exit 0. Observer retires at **19:16:30.127576 UTC** with 1747 locally persisted
+samples. All 152 collected artifacts SHA-verify. Fresh closure at
+**19:18:19.131870 UTC** verifies 30 owned identities, controller and observer
+absent, empty KFD and all four original leases EX|NB/free. Record:
+`run/kvc-runtime-window-release.json` on .157, with matching shared
+`window_release` entry. Root returns the window to Q2 and notifies Point;
+no owned GPU job, waiter or automatic retry remains. Further work is local
+analysis/documentation. [Results and latency regression](KVC-GPU-RESULT.md).

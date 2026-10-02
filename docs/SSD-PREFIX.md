@@ -50,7 +50,8 @@ restore, then the provider validates semantics before device mutation. Ordinary
 foreign DS4 files without a trusted binding are refused. Existing `.lie` readers
 remain available for legacy states; the provider identity prevents accidental
 reuse across the changed representation. The earlier GPU evidence above uses
-legacy states; the new KVC provider awaits its own qualification.
+legacy states; [the separate KVC run](KVC-GPU-RESULT.md) now passes restart
+at 128K and context growth, with measured transfer and memory costs.
 
 ## Legacy identity and version 1 framing
 

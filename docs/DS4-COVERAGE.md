@@ -76,6 +76,9 @@ serializes/parses its Qwen payload, independently of HTTP and the device backend
 The shared host mapper also converts text AR payloads to detached native
 components and back, requiring explicit arrays for history absent from native
 state. Thirteen independent byte pairs pass with tiny synthetic geometry through
-131072 tokens. Live model binding, provider history capture and upstream-produced
-checkpoint GPU qualification remain open. This does not change the dated DS4
+131072 tokens. The subsequent default-ON runtime binding now captures full
+history directly into DS4 payloads, binds model identity and uses the shared
+RAM/SSD lifecycle. CPU fixtures, HIP linking and [15/15 paired GPU arms](KVC-GPU-RESULT.md) pass
+through 128K. Independent upstream-produced checkpoint restore remains a separate
+gate; the larger representation has a measured RAM-hit latency cost. This does not change the dated DS4
 Gufo port inspection above or establish cross-quantization cache reuse.

@@ -60,3 +60,8 @@ model/platform index keeps these separate from raw HTTP SSD qualification.
 [DS4-style checkpoint policy](../CACHE-DS4-GPU.md) additionally distinguishes
 progressive checkpoint correctness from retention performance under RAM pressure.
 Never substitute its trimmed/intermediate-prefix timings for a full cache hit.
+
+[DS4 runtime payload](../KVC-GPU-RESULT.md) compares the default KVC representation
+against the legacy provider: exact restore/restart through 128K, C1/C4, full
+PP/TG/TTFT values and measured memory/restore-latency cost. This is distinct from
+the DS4 capture-policy comparison and from foreign DS4 checkpoint interoperability.
