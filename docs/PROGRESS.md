@@ -366,3 +366,23 @@ CPU capsule, to run after core's R5 return. At 11:46:48 UTC the R5 controller
 2496414/start150632787 is still alive and seven of nine arms have completed;
 Q2 has no remote workload. This is preparation and verified waiting, not a new
 Q2 performance result or completion of the parity goal.
+
+## HC reader CPU fixtures pass; core retains GPU for R6 — 2026-10-02
+
+R5 completes 9/9 at 11:57:08 UTC. Fresh observation verifies its controller and
+last GPU processes absent, but core explicitly retains the enclosing window
+for R6 byte-plane/Zstd checkpoint work. This prevents Q2 GPU admission; completed
+R5 arms do not constitute a handover.
+
+At 12:02:42 UTC the five Python reader fixtures pass a focused CTest on `.157`
+in 0.10 s. Configuration and CTest exits are zero; two artifacts are collected
+and hash verified, tested sources match the checkpoint, and both command
+identities and the runner are retired. Pre/post KFD is empty. This small CPU
+check runs while core prepares R6, opens no model and builds no C/C++ code.
+[The receipt](../config/q2-hc-report-host.json) is separate from earlier native
+Debug/ASan/UBSan evidence and from the still-pending GPU operators.
+
+No further independent preparation is needed before testing the two isolated
+HC candidates. Their GPU operator, model replay and performance measurements
+await the external window return. Q2 remains at the measured packed checkpoint
+1250.45 PP/22.97 TG versus UD 1685.15/24.32; the full parity objective is unmet.

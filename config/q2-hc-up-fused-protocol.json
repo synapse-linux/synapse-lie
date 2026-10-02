@@ -11,6 +11,6 @@
   "numerical_policy": "Preserve every numerical mismatch and actual exit. Arithmetic-preserving replay is the candidate contract; owner-authorized performance exploration can proceed after memory/launch safety checks, without promotion or relabeling failures.",
   "static": "Current fused tile 181 VGPR, 0 private bytes, 18432 LDS bytes. First 256x128 tile 256 VGPR and 492 private bytes retained. Static metadata is not a speed measurement.",
   "cpu_host_receipt": "config/q2-hc-up-fused-host.json",
-  "report_reader": "tools/analyze-q2-hc-up.py verifies seven cases and nineteen full output pairs. Five new CPU reader fixtures are prepared and syntax parsed; target execution awaits core R5 return and is not covered by the earlier host receipt.",
-  "gpu_ownership": "Point reports verified release at11:11:58UTC; core directly accepts the next window for its cache/HTTP campaign. Q2 awaits core verified return, with no GPU job or automatic waiter. Each later arm requires fresh four-lease admission and 98C inclusive guard, or lower exposed strict hardware limit."
+  "report_reader": "tools/analyze-q2-hc-up.py verifies seven cases and nineteen full output pairs. Five Python CPU reader fixtures pass a focused CTest on .157; config/q2-hc-report-host.json records source identities, exits, collection and retirement. No new GPU result.",
+  "gpu_ownership": "Core R5 completes9/9 at11:57:08UTC; core explicitly retains the enclosing window for R6 byte-plane/Zstd checkpoint comparisons. Q2 has no remote process, GPU job/build or automatic waiter. GPU operators and model timing await core verified return and fresh four-lease admission."
 }

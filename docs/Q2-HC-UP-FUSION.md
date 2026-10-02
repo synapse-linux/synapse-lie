@@ -91,8 +91,12 @@ process exit. A complete numerical failure produces a report and exit 1;
 interrupted runs, missing output, runtime failures or inconsistent verdicts are
 refused. Exact equality, changed-value counts, maximum absolute differences and
 relative L2 are retained separately for mixed, half and inject outputs.
-Five CPU reader fixtures are prepared; their execution on `.157` awaits the
-core window's return to avoid disturbing its active timing measurements.
+Five Python CPU reader fixtures pass a focused CTest on `.157` at 12:02:42 UTC,
+after R5 terminates and while core prepares R6. Both command exits are zero,
+two artifacts are collected/hash verified, and runner/command retirement is
+checked. This subsecond fixture opens no model and uses no GPU or C/C++ build;
+pre/post KFD observations are empty. Its [receipt](../config/q2-hc-report-host.json)
+binds the tested reader and fixture sources. GPU qualification remains pending.
 
 ```sh
 python3 tools/analyze-q2-hc-up.py evidence/q2-hc-up-operators-r1 --output config/q2-hc-up-fused-operators.json
@@ -106,7 +110,7 @@ disables GPU visibility and opens no models. It does not exercise the new HIP
 operator. Initial source-generation and local report-summary parsing failures
 are retained under `evidence/q2-hc-up-fused-*`; neither is hidden as a runtime pass.
 
-After Point's copy and core's already-coordinated next window return, use fresh
+After core returns its retained R6 window, use fresh
 four-lease admission for the commands below. Nothing is queued automatically.
 
 ```sh

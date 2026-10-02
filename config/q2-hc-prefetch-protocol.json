@@ -13,5 +13,5 @@
   "numerical_policy": "Preserve every mismatch, failed arm and actual exit; no threshold changes. Exact replay against current packed baseline is the proposed contract. Earlier qualified-Q2 drift stays separate. Owner-authorized performance exploration may proceed after memory/launch safety checks without promoting a numerical failure.",
   "static": "Scheduled prefetch: 20 VGPR, 12 SGPR, zero private bytes, 16 LDS bytes. Baseline: 13 VGPR. Static scheduling does not establish a gain.",
   "cpu_host_receipt": "config/q2-hc-prefetch-host.json",
-  "gpu_ownership": "Core retains the enclosing window after Point release at11:11:58UTC. No Q2 GPU job/build or automatic waiter. Wait for verified core return, then fresh four-lease admission and 98C inclusive guard with lower strict exposed hardware limits."
+  "gpu_ownership": "Core R5 completes9/9 at11:57:08UTC; core explicitly retains the enclosing window for R6 checkpoint comparisons. No Q2 GPU job/build or automatic waiter. Wait for verified core return, then fresh four-lease admission and 98C inclusive guard with lower strict exposed hardware limits."
 }

@@ -380,3 +380,20 @@ Q2 acknowledges: no GPU build/test, heavy model I/O, CPU fixture run or automati
 waiter will interleave with these measurements. The new HC output-report reader
 is prepared locally; its five CPU fixtures will run after verified return.
 Outgoing acknowledgement again failed at HTTP transport; delivery is not claimed.
+
+Fresh read-only observation at11:57:19.533751 UTC finds core R5 terminal
+COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS, final HTTP reader PASS at11:57:08,
+controller2496414 and reader2500600 absent, KFD empty. Q2 awaits core's explicit
+verified enclosing-window return before GPU admission. No Q2 test/build has
+started. CPU report-reader fixtures and the HC up/prefetch comparisons are ready.
+
+Core explicitly confirms R5 9/9 PASS and retains the enclosing window for R6
+byte-plane4/Zstd lossless checkpoint experiments, preparing CPU checks before
+new8K/128K GPU comparisons. This is not a window return; Q2 will not interleave.
+While core prepares R6, Q2 performs only its bounded Python reader fixture
+`q2-hc-report-host-r1` at12:02:41–12:02:42 UTC. Fresh pre/post observations show
+KFD empty. No GPU, model, lease or C/C++ build is involved. Focused CTest1/1
+passes five methods, two command exits zero; two artifacts collected/hash
+verified. Read-only retirement at2026-10-02T12:04:19.787372+00:00 confirms its
+runner and two command identities/groups/sessions absent. Q2 retains no remote
+process or waiter. Both HC candidates await core's verified R6 return.
