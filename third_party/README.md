@@ -272,3 +272,12 @@ and all upstream notices. The generators and source-selection guards are
 first-party MIT; no sibling implementation, converted model or external
 artifact is imported. Neither geometry is selected after the measured
 component comparisons in `docs/Q2-HC-ROW-REUSE.md`.
+
+`experiments/q2-shared-overlap.patch` derives from the retained `hc-up-chains`
+source at the same independent official Gufo pin. It changes host dispatch
+and lifetime ordering while preserving all eight HIP/MMQ numerical sources.
+The C17 lifecycle, HIP callback adapter, synthetic fixture, generator and
+saved-evidence readers are independently written first-party MIT files.
+Existing upstream notices remain intact. No DS4/core-thread implementation,
+converted model or sibling artifact is imported. `docs/Q2-SHARED-OVERLAP.md`
+records the bounded experiment, buffer ownership and qualification limits.

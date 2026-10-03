@@ -1,0 +1,10 @@
+kernel,stream,start_ns,end_ns
+"void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",19,20091270,20298786
+__amd_rocclr_fillBufferAligned,18,20093251,20277767
+__amd_rocclr_fillBufferAligned,18,20280327,20286087
+"gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedPadBoundsKernel(unsigned int const*, int*, int*, unsigned int)",18,20288446,20297726
+"gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedScatterKernel(int const*, int const*, int*, int*, int*, unsigned int, unsigned int)",18,20300016,20307976
+"void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",19,20301156,20526111
+"void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",18,20310436,26294385
+"gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SwigluHalfKernel(float const*, float const*, __half*, unsigned long)",19,20528771,20562290
+"void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",19,20565450,21306274

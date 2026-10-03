@@ -251,6 +251,17 @@ int main(int argc, char **argv) {
         }
       }
     }
+#ifdef LIE_Q2_SHARED_FORK
+    const auto &fork = executor->SharedForkStats();
+    Require(fork.state == LIE_GPU_IDLE && fork.started == fork.joined &&
+                fork.drained == 0,
+            "Shared branch was not joined cleanly");
+    if (bench || profile)
+      Require(fork.started > 0, "Shared branch was not exercised");
+    std::cout << "{\"event\":\"shared_fork\",\"started\":" << fork.started
+              << ",\"joined\":" << fork.joined << ",\"drained\":" << fork.drained
+              << ",\"state\":\"idle\"}\n";
+#endif
     std::cout << "{\"event\":\"complete\",\"finite_frontiers\":true,\"semantic_"
                  "smoke\":true}\n";
   } catch (const std::exception &e) {

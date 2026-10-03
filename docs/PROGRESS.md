@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## C17 GPU fork/join is real but regresses prefill — 2026-10-03 UTC
+
+The [shared/routed experiment](Q2-SHARED-OVERLAP.md) adds a C17 one-branch
+lifecycle and a HIP stream/event adapter while retaining all numerical kernel
+sources and tensor allocations. Input readiness, consumer joins, partial
+launch errors and cancellation have explicit ownership boundaries. CPU Debug
+and ASan/UBSan each pass 13/13; all 32 synthetic GPU cases compare 315,498,496
+bytes exactly. Failed device synchronization/hardware recovery is unqualified.
+
+Fresh complete MMQ builds and original-model C1 pp2048/tg128 runs measure
+1336.259526 to 1322.513714 PP (-1.02868%) and 24.08694614 to 24.09063990 TG
+(+0.01534%). All 21 model files, eighteen within-arm replay checks and the
+retained checkpoint comparison are exact. The candidate records 192 clean
+starts/joins. Prefill ranges do not overlap; decode ranges do. No promotion
+or new UD arm follows. The selected source, earlier numerical qualification
+gap and full Q2/UD parity objective remain unchanged.
+
+A separate pp2048/tg16 profile proves 201.937 ms of distinct-stream overlap,
+with 1763 parent and 192 shared dispatches. All fifteen profile files reproduce
+the retained diagnostic. Sum of kernel durations is 1754.841 ms, union busy
+time 1552.903 ms and span 1557.448 ms; these are diagnostic quantities, not
+the unprofiled benchmark result. Readiness alone is insufficient for resource
+admission; hardware-counter attribution of the wall regression remains open.
+The report retains rates, durations, every sample, graphs and a stream timeline.
+
+Five runners, 24 zero command exits and 89 artifacts verify. Every capsule
+matches 1019/1022 source files and 50 guard/fixture files. GPU/CPU maxima are
+79/94.375 C. Release at 09:01:58 and independent observer retirement at
+09:02:30 verify all owned jobs absent, KFD empty and four leases free.
+No core-thread/DS4 source, deployment or publication changes occur.
+
 ## GPU dataflow audit and rejected F32 scatter — 2026-10-03 UTC
 
 The owner's reactive-GPU/code-organization inquiry now has a

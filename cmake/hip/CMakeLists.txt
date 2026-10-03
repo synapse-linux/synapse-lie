@@ -165,6 +165,18 @@ target_include_directories(q2_packed_bench SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_packed_bench PRIVATE hip::host OpenSSL::Crypto)
 
+add_executable(q2_shared_fork EXCLUDE_FROM_ALL ../../tests/q2_shared_fork.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_shared_fork PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_shared_fork PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_shared_fork PRIVATE "${GUFO_SOURCE}" "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(q2_shared_fork SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_shared_fork PRIVATE lie_gpu_fork hip::host OpenSSL::Crypto)
+
 # Original F16 HC up projection fused with the F32 mixer and half output.
 add_executable(q2_hc_up_fused EXCLUDE_FROM_ALL ../../tests/q2_hc_up_fused.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

@@ -82,15 +82,17 @@ after a launch returns. Cancellation must drain in-flight readers before reuse.
 |---|---|---|
 | Bounded PLE preparation overlapping GPU chunks | C17 two-slot experiment reduces first-access 8K prefill 10.982 → 7.791 s, exact saved frontiers; warm gain only 0.57%. | Integrate with the retained Q2 source, recheck complete replays and cold/warm timings. The latest HC-up source does not yet contain this experiment. |
 | Ready-sequence batching | Core/server `lie_inference_prepare/run` reserves flow credits and invokes scalar/native batch decode. | Measure native C2/C4/C8 complete-token throughput, C1 latency and memory with the same Q2 kernels; an outer dispatcher does not reschedule internal kernels. |
-| Shared/routed branches on separate GPU streams | Logical independence exists; current Q2 timing benefit is unmeasured. Official pinned Gufo records an exact but slower side-stream experiment for its other execution contract. | Audit all scratch/cache flags, use private transient storage and event joins, then paired complete-model timing and exact replay. The historical negative does not prove Q2 will also lose. |
+| Shared/routed branches on separate GPU streams | The [C17-controlled experiment](Q2-SHARED-OVERLAP.md) passes all 32 GPU lifecycle cases and 21 model-file comparisons, but lowers complete-model prefill 1.03%; decode is unchanged. | Retain the sequential path. The independent shared/routed buffers permit concurrency, but readiness alone is insufficient to select it profitably. |
 | Device-side route-map preparation | Current counts/event/CPU map is already partially hidden by shared work. | First attribute the CPU map/upload on the critical path; an extra setup kernel and excess grid must not outweigh the removed round trip. |
 | Buffer retirement/reuse | Source shows concrete aliases and unused-in-this-branch allocation. | Record live ranges, allocation peak and completed-consumer events; measure speed separately from memory savings. |
 
 A useful first GPU-reactive trial is therefore the shared/routed join, **after**
 scratch ownership is explicit. Admission should bound simultaneous regions by
 their measured resource demand, not by an arbitrary number of streams. Keep
-the sequential fallback for shapes where overlap loses. No scheduler or new
-GPU stream is claimed implemented by this audit.
+the sequential fallback for shapes where overlap loses. The subsequent bounded
+[fork/join trial](Q2-SHARED-OVERLAP.md) implements one side stream and two events,
+with no new tensor allocation; its measured regression prevents selection.
+The audit itself and the organization-only prototype change no runtime.
 
 ## Concrete code organization
 

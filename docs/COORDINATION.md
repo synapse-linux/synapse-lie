@@ -1810,3 +1810,61 @@ numerical drift. All this workstream's model runs use MTP off: no MTP/type39
 provider qualification or identity match to core's particular USB file is
 claimed. The direct answer again fails at outgoing transport; this read-only
 ledger is the fallback. Neither provider is silently installed in core.
+
+At **2026-10-03 08:39:50.803457 UTC**, fresh shared-overlap admission finds
+empty KFD, all four original leases EX|NB/free and the down-scatter release
+last in the registry. Q2 takes a bounded window for CPU Debug/ASan lifecycle
+checks and synthetic GPU fork/join/drain exactness checks. If these pass, the
+window admits a fresh retained/candidate C1 pp2048/tg128 comparison with full
+MMQ rebuilds, MTP/prefix off, capacity 9216, chunk2048, one warmup and three
+measured sessions, and the existing excluded 15-second idle. A separate short
+profile may verify actual stream overlap after model replay succeeds. Each arm
+takes fresh four-lease/process/thermal admission; 98 C inclusive or any lower
+exposed hardware limit applies. No model writes, conversion, foreign changes,
+installation, tuning, automatic retry or publication are admitted.
+
+This scheduling-only candidate preserves every numerical kernel and tensor
+allocation. A C17 bounded lifecycle controls a HIP side stream and two events
+for the independent shared-expert branch. Complete-model timing, byte-exact
+replay and observed stream overlap remain separate acceptance checks. No
+component timing gain is required for this scheduling hypothesis. Useful model
+gain may admit a fresh pristine UD arm; otherwise the candidate is rejected.
+
+Core reports MTP CPU/provider progress without original-weight runs. Q2 still
+claims no `.155` GPU/model use and has no MTP/type39 qualification to offer.
+The outgoing checkpoint/window reply fails at transport again; delivery is
+not claimed. This ledger and the shared registry remain the agreed fallback.
+
+The shared-overlap prerequisite arms pass: Debug and ASan/UBSan each 13/13,
+and all 32 original-shape GPU lifecycle cases compare 315,498,496 output bytes
+exactly. These include real submitted work followed by injected launch/join
+failure and cooperative cancellation. Packed inputs are invalidated before
+each case; the parent consumes output only after the join/drain. Hardware
+fault recovery is not qualified. The admitted fresh retained/candidate model
+pair now starts with full MMQ rebuilds and the fixed protocol above.
+
+The fresh shared-overlap model pair completes with all 21 files exact and all
+18 within-arm replays exact. Prefill median decreases 1.02868%; decode changes
++0.01534%. This candidate is not selected and no fresh UD arm is needed.
+The already admitted short candidate profile follows to determine whether
+cross-stream overlap actually occurs and where the extra critical-path cost
+appears. It is diagnostic pp2048/tg16 evidence, separate from wall benchmarks.
+
+The profile completes with all fifteen saved files exact against the retained
+Q2 diagnostic and 96 clean starts/joins. Its prefill trace contains 1763 parent
+dispatches and 192 shared-stream dispatches; distinct streams overlap for
+201.937 ms. This establishes real GPU concurrency, not a wall speedup. The
+unprofiled complete-model regression remains the selection verdict.
+
+Q2 releases the window at **2026-10-03 09:01:58.557499 UTC**: five runners and
+24 zero-exit commands are absent, KFD is empty and all four original leases
+are EX|NB/free. Persistent receipt `run/q2-shared-overlap-window-release.json`
+and the shared registry preserve handover. Independent observation at
+**09:02:30.258978 UTC** verifies observer PID 2941411, group/session 2941408,
+start ticks 158351269 absent. Both observer SSH commands exit zero. All 89
+artifacts verify, with 1019/1022 exact source files and 50 exact guard/fixture
+files per capsule. GPU/CPU maxima are 79/94.375 C and model witnesses remain
+unchanged. No GPU job, waiter, lease or automatic retry remains. Core may take
+the next window with fresh admission; Q2 continues local reporting/checkpoint.
+The outgoing release notification fails at transport, so delivery is not
+claimed. No `.155` GPU/model use or MTP/type39 qualification is claimed.

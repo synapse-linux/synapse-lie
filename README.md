@@ -4,8 +4,13 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
+and routed experts on separate streams with bounded buffer ownership. CPU
+Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model
+files are exact. Prefill falls 1336.260 to 1322.514 token/s (-1.03%); decode is
+unchanged. The variant is retained as evidence and is not selected.
 The [GPU dataflow/code-organization audit](docs/Q2-GPU-DATAFLOW.md) maps existing
-overlap, scratch lifetimes and the internal reactive scheduling still missing.
+overlap, scratch lifetimes and the limits of internal reactive scheduling.
 A 741-line routed-module extraction preserves all 146 compiled kernel bodies.
 The resulting [F32 scatter experiment](docs/Q2-DOWN-SCATTER.md) preserves every
 checked output but adds 2.376% component time; it is rejected without model runs.
