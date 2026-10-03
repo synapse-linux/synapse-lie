@@ -11,6 +11,7 @@ Implementation planning and validation, separate from user benchmarks.
 - [Environment and baseline admission](BASELINE.md).
 - [Complete prompt retention under cache pressure](CACHE-PROMPT-RETENTION.md).
 - [Shared reactive C core — first extraction](CORE-EXTRACTION.md).
+- [Shared core semantic event contract](../reference/EVENTS.md).
 - [Read-only DS4 coverage comparison](DS4-COVERAGE.md).
 - [Long-context prefill: measurements and optimization boundaries](PREFILL-ANALYSIS.md).
 - [Benchmark closure and the 1M context gate](TEST-COVERAGE-LONG-CONTEXT.md).

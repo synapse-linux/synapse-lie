@@ -30,7 +30,8 @@ model types remain inside the adapter.
 
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
-their meanings. The shared request advances to `LIE_CORE_REQUEST_ABI=3` for owned image spans.
+their meanings. Request ABI 3 introduced owned image spans; current
+`LIE_CORE_REQUEST_ABI=4` also owns the parallel-tool policy.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -112,8 +113,9 @@ role is appended; developer messages map to leading system messages in C.
 
 The C17 parser owns normalized JSON and message content. The HTTP shim copies
 normalized input into the core and frees/zeros the parsed request on successful
-admission; refusal preserves caller ownership. The UI retains a deep, independent
-schema copy. No admitted core job retains a json-c object. Adapter translation bounds aggregate spans/strings
+admission; refusal preserves caller ownership. Schema strings and parallel-tool
+policy belong to the core copy; HTTP retains only projected output. No admitted
+core job retains a json-c object. Adapter translation bounds aggregate spans/strings
 to 32 MiB (four times the body bound); HTTP requests have a separate 8 MiB cap. The native renderer applies its
 context-derived output bound (at least 1 MiB). The adapter validates the GGUF
 template before model load, then invokes the pinned Qwen renderer/tokenizer with
@@ -295,6 +297,10 @@ Language/build ownership and feature qualification remain separate; see the
 
 ## Shared core client API 1
 
+[Semantic event ABI 1](EVENTS.md) is the common output contract for HTTP, Responses
+and direct benchmarks. Current request ABI 4 adds `parallel_tool_calls=true` by
+default; using initialization and exact version/size checks remains required.
+
 `lie/core.h` is an experimental C client contract, distinct from executor ABI 2.
 `lie_core_request_init` sets required version/size tags, greedy generation
 (`temperature=0`, `top_p=1`, `seed=-1`) and output limit 128. The caller chooses
@@ -311,7 +317,8 @@ owner; asynchronous refusal is reported through the job terminal. No queue or
 provider call runs on a protocol-owned JSON tree.
 
 The core grants eight initial output credits. Clients release each output loan,
-then return demand through `lie_flow_request`; without more credit a row cannot
+then return demand through `lie_job_event_request` (or `lie_flow_request` for
+legacy raw clients); without more credit a row cannot
 advance. A job has one consumer reference plus the core's in-flight reference.
 `lie_job_release` cancels unfinished consumption; release outstanding output loans
 first. After `lie_core_stop`, wait for STOPPED, release all consumer references
@@ -326,7 +333,8 @@ not delivery; cancellation may discard an undelivered generated token. Physical
 prompt storage (up to context times four bytes) and output IDs (up to output limit
 times four bytes) remain until the last job reference. Retired jobs held by a
 client therefore retain memory; clients must release them. These witnesses are
-not reusable KV checkpoints. Request-copy storage is freed at retirement.
+not reusable KV checkpoints. Request-copy storage remains until the last job reference too, because semantic
+validation can follow numerical retirement.
 
 The HTTP legacy submit shim preserves its transfer-on-success interface by
 freeing the parsed request after the core accepts its independent copy. The

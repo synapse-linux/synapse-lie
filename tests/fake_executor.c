@@ -35,7 +35,9 @@ static const char *tool_outputs[]={
     "<tool_call>\n<function=read>\n<parameter=path>x</parameter>\n<parameter=offset>three</parameter>\n</function>\n</tool_call>",
     "Tool result received.",
     "<tool_call>\n<function=read>\n<parameter=path>\nlie-pi-fixture.txt\n</parameter>\n</function>\n</tool_call>",
-    "CPU fixture tool result received."
+    "CPU fixture tool result received.",
+    "Reading.\n<tool_call><function=read><parameter=path>  caffè 🙂.txt  </parameter><parameter=offset>3</parameter><parameter=options>{\"raw\":true}</parameter></function></tool_call>"
+    "<tool_call><function=read><parameter=path>  caffè 🙂.txt  </parameter><parameter=offset>3</parameter><parameter=options>{\"raw\":true}</parameter></function></tool_call>"
 };
 enum { BAD_POSITION=20, BAD_EMITTED, BAD_STOP, NO_PROGRESS, BAD_EOS_POSITION,
        NEGATIVE_TOKEN, LARGE_TOKEN, DECODE_REFUSAL, PREFILL_REFUSAL, TEXT_REFUSAL, TEXT_SIZE };
@@ -101,6 +103,7 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     for (unsigned i=0;i<sizeof(faults)/sizeof(*faults);++i) if (!strcmp(text,faults[i])) mode=BAD_POSITION+(int)i;
     const char *tool_modes[]={"TOOL","TOOL-TRUNCATED","TOOL-UNKNOWN","TOOL-DUPLICATE","TOOL-JSON-BAD","TOOL-RESULT","PI-SYNTHETIC-READ"};
     for (size_t i=0;i<sizeof(tool_modes)/sizeof(*tool_modes);++i) if (!strcmp(text,tool_modes[i])) mode=100+(int)i;
+    if(!strcmp(text,"TOOL-TWICE"))mode=108;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
     /* Synthetic physical-token count for HTTP admission/chunk boundaries.
      * This does not tokenize text or perform model computation. */
@@ -183,7 +186,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     if (s->mode==DECODE_REFUSAL) return error(e,LIE_INVALID,"synthetic_decode_refusal");
     if (s->mode==2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_mutating_failure"); }
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
-    if (s->mode>=100 && s->mode<=107) {
+    if (s->mode>=100 && s->mode<=108) {
         const char *text=tool_outputs[s->mode-100];
         bool done=s->step==strlen(text);
         *out=(lie_decode_result){.stop=done,.position=s->position};

@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 semantic output events for text, progress, validated function calls
+  and typed turn completion, consumed by HTTP, Responses and the direct benchmark.
+  Tool policy and UTF-8 decoding now belong to the core; confirmed-token credits
+  and cancellation apply to the same output loans.
+
 - Typed auxiliary checkpoint components in the shared C17 RAM/SSD store, with
   budgets, integrity checks and unchanged DS4 payload bytes.
 - Qwen MTP predictor tensors, residual/kept hidden state and adaptive-controller
@@ -63,6 +68,10 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- MTP text output uses a UTF-8 buffer sized for the admitted burst, including
+  full-size token pieces, rather than a single-token HTTP buffer.
+- Semantic completion waits for numerical/cache retirement. Parallel-tool policy
+  is copied into the shared request and invalid turns fail before publishing calls.
 - Reusable input checkpoints are protected from generated-state captures under
   RAM and SSD pressure. CPU and sanitizer checks pass; the separate GPU
   performance comparison remains pending.

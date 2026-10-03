@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Shared core semantic events — 2026-10-03
+
+`feature/core-semantic-events` imports MTP/vision checkpoint `01ff720` into a
+persistent Git Flow worktree from `develop`. Text, confirmed-token progress,
+validated complete tool calls and typed turn completion now use the shared
+C17 [event contract](reference/EVENTS.md). HTTP, Responses and the direct core
+benchmark consume it; model-output grammar and UTF-8 decoding belong to the
+core. Request ABI 4 owns parallel-tool policy. No inference thread was added.
+
+Native ASan/UBSan/LeakSanitizer tests pass **39/39**, including AR/two MTP
+geometries, byte-split UTF-8, complete/invalid/truncated tool turns, forbidden
+parallel calls, credit starvation with peer progress, retained loans, cancellation
+before pending calls and terminal retirement during prefill. Native Chat and
+Responses JSON/SSE fixtures verify calls, failure terminals and full-size burst
+pieces. The protocol-independent build with MTP/vision OFF passes **16/16**;
+it discovers/links no libuv, llhttp or json-c. Existing raw clients remain usable
+but a job refuses mixed raw/semantic consumption.
+
+The official pinned Gufo provider was fetched and rebuilt independently in this
+worktree. HIP server and benchmark compile/link, and metadata-only `--build-info`
+passes with GPU visibility masked. These are **NOT-INFERENCE** checks. The
+[source-bound receipt](development/validation/core-events-2026-10-03.json)
+preserves actual failures/exits and thermal evidence. No shutdown/deterioration,
+model load/hash/conversion, GPU run, remote build or performance campaign occurred.
+
+Semantic parsing runs in the core consumer API. Confirmed-token demand and device
+owner scheduling are preserved; this change makes no measured speedup claim.
+Original-weight tool behavior and GPU qualification remain open, as do incremental
+argument events, constrained generation, scoring/logits and chat/eval clients.
+
 ## MTP and vision integration — 2026-10-03
 
 `feature/mtp-vision-integration` combines the complete MTP checkpoint `7d85b2f`

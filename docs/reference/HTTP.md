@@ -77,8 +77,8 @@ cancellation, so write-half-close request semantics are not supported.
 
 - 64 connections; 16 KiB header field/value bytes, 8 MiB body, 2047-byte target;
   additional total-wire bound, including chunking overhead.
-- At most 18,878,512 bytes per response/write buffer (bounded UTF-8/JSON
-  expansion), not a preallocated resident allowance. Eight admitted jobs (queued
+- At most 32 MiB per response/write buffer (bounded UTF-8/JSON/SSE
+  projection), not a preallocated resident allowance. Eight admitted jobs (queued
   plus executing); overflow 429. One active sequence by default, optionally up to eight (`--max-active 1..8`).
   Ready sequences with output credit use the shared native-batch dispatcher;
   a lone ready sequence uses scalar decode.
@@ -166,7 +166,8 @@ then exactly one `data: [DONE]`. No enqueue-only/speculative output is exposed.
 
 When tools are declared (including choice `none`), **the entire response is
 buffered** after the initial SSE role. Native Qwen calls are parsed/validated in
-C17 before any executable tool delta is published. A valid response contains
+the shared C17 core before any executable tool delta is published. HTTP projects
+[core events](EVENTS.md) without interpreting model tags. A valid response contains
 `tool_calls` with stable ID, function name and JSON-string arguments; SSE adds
 consecutive zero-based indices. String values preserve significant whitespace;
 other typed arguments use JSON. Basic type/required/additional-property checks
@@ -176,14 +177,15 @@ budget-truncated call turns fail with JSON 502 `invalid_tool_output`, or an SSE
 error/DONE after headers, never success/usage/tool deltas. No parser repair or
 retry. Ordinary text with no recognized call can still finish `length`.
 
-Tool-enabled turns return flow credit as their bounded aggregation buffer is
-filled, not as individual network tokens drain. This is not argument-level
-streaming or the old text-stream backpressure profile. Model generation may be
-complete even when subsequent protocol validation fails. Those failures increment
-`llm.responses.tool_errors`; they do not poison a numerically healthy executor.
+Tool-enabled turns acknowledge core progress events while the bounded core turn
+buffer fills, rather than waiting for individual network tokens to drain. This
+is not argument-level streaming or the old text-stream backpressure profile. Model generation may be
+complete even when subsequent semantic validation fails. Those failures increment
+the core `output_validation_errors` counter and HTTP `llm.responses.tool_errors`;
+they do not poison a numerically healthy executor.
 All tools are executed by the requesting client, never by this server.
 
-Token byte boundaries need not be UTF-8 boundaries. One streaming decoder retains
+Token byte boundaries need not be UTF-8 boundaries. The shared core decoder retains
 up to three pending bytes and applies replacement decoding to invalid/incomplete
 sequences, including at length/EOS. Nonstream uses the same decoder. Output byte
 normalization is not a numerical oracle; model tokens/frontiers require separate

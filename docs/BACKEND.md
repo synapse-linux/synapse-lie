@@ -24,6 +24,7 @@ historical and unchanged.
 | `feature/mtp` | Verified bursts, demand/cancellation, complete predictor/controller checkpoints and stable predictor identity. | Original-weight correctness, continuation and AR comparison. |
 | `feature/vision` | Owned image inputs, physical context, semantic cache/MRoPE and actual projector identity. | Original-weight quality, continuation and resource fit. |
 | `feature/mtp-vision-integration` | Atomic joint admission in core/HTTP/bench and one complete RAM/SSD checkpoint. | Original-weight mixed image/text MTP, rejection/rollback, cache parity and resource qualification. |
+| `feature/core-semantic-events` | Shared C17 text/progress/tool/turn events; HTTP and direct benchmark consume the same output policy. | Original-weight tool behavior and performance; incremental argument streaming remains open. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,
@@ -184,8 +185,8 @@ parser lifetimes. The benchmark must exercise this same core directly; future
 chat/eval clients must not require an HTTP service or duplicate the engine.
 The [source audit and extraction gates](reference/ARCHITECTURE.md#shared-core-and-client-boundary)
 now cover the implemented `lie_core` lifecycle and direct `--suite core` consumer,
-not just the shared decode dispatcher. Structured tool-output semantics and
-RAM state/cache follows the same neutral core boundary.
+not just the shared decode dispatcher. [Structured tool-output events](reference/EVENTS.md)
+and RAM state/cache follow the same neutral core boundary.
 [MTP](development/MTP.md) and [vision](development/VISION.md) now share that
 core and complete extended state, including joint operation. Original-weight
 qualification remains pending.

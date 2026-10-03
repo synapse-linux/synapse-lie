@@ -46,12 +46,11 @@ struct connection {
     enum { WRITE_FINAL, WRITE_STREAM, WRITE_STREAM_END } write_kind;
     uv_poll_t output_poll;
     bool poll_initialized, loan;
-    lie_flow_event event;
+    lie_event event;
     lie_job *job;
-    lie_utf8_decoder utf8;
-    bool parse_tools, responses;
+    bool buffer_tool_turn, responses;
     uint64_t response_sequence;
-    lie_tool_policy tools;
+    json_object *calls;
     char request_id[96];
     int64_t created;
 };
@@ -96,9 +95,8 @@ static const char *reason(int code) {
 }
 static void release_loan(connection *c) {
     if (!c->loan) return;
-    lie_flow *flow=lie_job_flow(c->job);
-    if (lie_flow_release(flow,c->event.ticket)!=LIE_FLOW_OK) abort();
-    if (!c->closing) (void)lie_flow_request(flow,c->event.tokens);
+    if (lie_job_event_release(c->job,c->event.ticket)!=LIE_FLOW_OK) abort();
+    if (!c->closing && c->event.tokens) (void)lie_job_event_request(c->job,c->event.tokens);
     c->loan=false;
 }
 static void wrote(uv_write_t *w, int status) {
@@ -164,7 +162,7 @@ static bool backend_ready(server *s) {
 static void output_event(uv_poll_t *poll, int status, int events) {
     connection *c=poll->data;
     if (status<0 || !(events&UV_READABLE)) { close_connection(c); return; }
-    (void)lie_flow_drain(lie_job_flow(c->job),LIE_FLOW_OUTPUT_READY);
+    (void)lie_job_event_drain(c->job);
     pump_job(c);
 }
 static void pump_job(connection *c) {
@@ -175,7 +173,7 @@ static void pump_job(connection *c) {
     }
     if (c->streaming && !c->responded && info.prepared) {
         const char *header="HTTP/1.1 200 OK\r\nContent-Type: text/event-stream; charset=utf-8\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nX-Accel-Buffering: no\r\n\r\n";
-        char *intro=c->responses?lie_response_begin(c->request_id,c->owner->model_id,c->created,&c->response_sequence,!c->parse_tools):lie_wire_chunk(c->request_id,c->owner->model_id,c->created,"",0,true);
+        char *intro=c->responses?lie_response_begin(c->request_id,c->owner->model_id,c->created,&c->response_sequence,!c->buffer_tool_turn):lie_wire_chunk(c->request_id,c->owner->model_id,c->created,"",0,true);
         if (!intro) { close_connection(c); return; }
         size_t n=strlen(header)+strlen(intro); char *body=malloc(n+1);
         if (body) snprintf(body,n+1,"%s%s",header,intro);
@@ -184,75 +182,62 @@ static void pump_job(connection *c) {
     }
     if (c->streaming && !c->responded) return;
     for (;;) {
-        lie_flow_status status=lie_flow_next(lie_job_flow(c->job),&c->event);
+        lie_flow_status status=lie_job_event_next(c->job,&c->event);
         if (status==LIE_FLOW_WOULD_BLOCK || status==LIE_FLOW_CLOSED) return;
         if (status!=LIE_FLOW_OK) { close_connection(c); return; }
-        char text[LIE_CHAT_TOKEN_BYTES*3+8]; size_t bytes=0;
-        bool terminal=c->event.end!=LIE_FLOW_ACTIVE;
-        if (terminal) {
-            lie_job_snapshot(c->job,&info);
-            if (c->event.end==LIE_FLOW_CANCELLED) info.finish=LIE_FINISH_CANCEL;
-            else if (c->event.end==LIE_FLOW_ERROR && info.finish!=LIE_FINISH_INVALID) info.finish=LIE_FINISH_BACKEND;
-        } else c->loan=true;
-        if (!lie_utf8_feed(&c->utf8,(const char *)c->event.data,terminal?0:c->event.bytes,
-                           terminal,text,sizeof(text),&bytes)) { close_connection(c); release_loan(c); return; }
-        if (!c->streaming || c->parse_tools || c->responses) {
+        bool terminal=c->event.kind==LIE_EVENT_TURN_END;
+        if (!terminal) c->loan=true;
+        if (c->event.kind==LIE_EVENT_PROGRESS) { release_loan(c); continue; }
+        if (c->event.kind==LIE_EVENT_TOOL_CALL) {
+            json_object *call=lie_output_call_json(c->event.call);
+            if (!c->calls) c->calls=json_object_new_array();
+            if (!call || !c->calls) { json_object_put(call); close_connection(c); release_loan(c); return; }
+            json_object_array_add(c->calls,call);
+            release_loan(c); continue;
+        }
+        const char *text=c->event.text; size_t bytes=c->event.bytes;
+        if (terminal) info=c->event.info;
+        if (!c->streaming || c->buffer_tool_turn || c->responses) {
             if (bytes>MAX_TEXT-c->text_bytes) { close_connection(c); release_loan(c); return; }
-            memcpy(c->text+c->text_bytes,text,bytes); c->text_bytes+=bytes;
+            if (bytes) memcpy(c->text+c->text_bytes,text,bytes);
+            c->text_bytes+=bytes;
             if (!terminal) {
-                if (c->responses && c->streaming && !c->parse_tools && bytes) {
+                if (c->responses && c->streaming && !c->buffer_tool_turn && bytes) {
                     char *chunk=lie_response_delta(c->request_id,text,bytes,&c->response_sequence);
                     queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM); return;
                 }
                 release_loan(c); continue;
             }
-            if (c->parse_tools) {
-                json_object *message=NULL; char error[256]={0};
-                bool finished=info.finish==LIE_FINISH_STOP || info.finish==LIE_FINISH_LENGTH;
-                bool valid=finished && lie_tool_reply(&c->tools,c->text,c->text_bytes,
-                              info.finish==LIE_FINISH_STOP,c->request_id,&message,error);
-                if (!valid) {
-                    if (finished) {
-                        (void)lie_counter_add(c->owner->metrics,c->owner->tool_errors,1);
-                        info.finish=LIE_FINISH_INVALID; snprintf(info.error,sizeof(info.error),"%s",error);
-                    }
-                    if (!c->streaming) {
-                        if (finished) error_detail(c,502,"invalid_tool_output",info.error);
-                        else job_error(c,&info);
-                    } else {
-                        char *end=c->responses?lie_response_end(c->request_id,c->owner->model_id,c->created,"",0,NULL,&info,&c->response_sequence,false):lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,false);
-                        queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
-                    }
-                    return;
+            bool finished=info.finish==LIE_FINISH_STOP || info.finish==LIE_FINISH_LENGTH;
+            if (!finished) {
+                if (info.output_invalid) (void)lie_counter_add(c->owner->metrics,c->owner->tool_errors,1);
+                if (!c->streaming) {
+                    if (info.output_invalid) error_detail(c,502,"invalid_tool_output",info.error);
+                    else job_error(c,&info);
+                } else {
+                    char *end=c->responses?lie_response_end(c->request_id,c->owner->model_id,c->created,"",0,NULL,&info,&c->response_sequence,false):lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,false);
+                    queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
                 }
-                json_object *content=NULL,*calls=NULL;
-                (void)json_object_object_get_ex(message,"content",&content);
-                (void)json_object_object_get_ex(message,"tool_calls",&calls);
-                const char *prose=content?json_object_get_string(content):"";
-                size_t length=content?(size_t)json_object_get_string_len(content):0;
+                return;
+            }
+            if (c->buffer_tool_turn) {
+                json_object *message=json_object_new_object();
+                if (!message) { close_connection(c); return; }
+                json_object_object_add(message,"role",json_object_new_string("assistant"));
+                json_object_object_add(message,"content",c->text_bytes || !c->calls?json_object_new_string_len(c->text,(int)c->text_bytes):NULL);
+                if (c->calls) json_object_object_add(message,"tool_calls",json_object_get(c->calls));
                 char *response=c->responses?(c->streaming?
-                    lie_response_end(c->request_id,c->owner->model_id,c->created,prose,length,calls,&info,&c->response_sequence,false):
-                    json_text(lie_response_object(c->request_id,c->owner->model_id,c->created,prose,length,calls,&info))):
+                    lie_response_end(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,c->calls,&info,&c->response_sequence,false):
+                    json_text(lie_response_object(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,c->calls,&info))):
                     lie_wire_message(c->request_id,c->owner->model_id,c->created,message,&info,c->streaming,c->include_usage);
                 json_object_put(message);
                 if (c->streaming) queue_write(c,response,response?strlen(response):0,WRITE_STREAM_END);
                 else { respond(c,200,"application/json",response); free(response); }
                 return;
             }
-            if (info.finish!=LIE_FINISH_STOP && info.finish!=LIE_FINISH_LENGTH) {
-                if (c->responses && c->streaming) {
-                    char *end=lie_response_end(c->request_id,c->owner->model_id,c->created,"",0,NULL,&info,&c->response_sequence,false);
-                    queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END);
-                } else job_error(c,&info);
-                return;
-            }
             if (c->responses && c->streaming) {
-                char *tail=bytes?lie_response_delta(c->request_id,text,bytes,&c->response_sequence):strdup("");
                 char *end=lie_response_end(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,NULL,&info,&c->response_sequence,true);
-                if (!tail || !end) { free(tail); free(end); close_connection(c); return; }
-                size_t n=strlen(tail)+strlen(end); char *body=malloc(n+1);
-                if (body) snprintf(body,n+1,"%s%s",tail,end);
-                free(tail); free(end); queue_write(c,body,n,WRITE_STREAM_END); return;
+                queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END); return;
             }
             char *response=c->responses?json_text(lie_response_object(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,NULL,&info)):
                 lie_wire_completion(c->request_id,c->owner->model_id,c->created,c->text,c->text_bytes,&info);
@@ -263,12 +248,8 @@ static void pump_job(connection *c) {
             char *chunk=lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false);
             queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM); return;
         }
-        char *tail=bytes?lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false):strdup("");
         char *end=lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,c->include_usage);
-        if (!tail || !end) { free(tail); free(end); close_connection(c); return; }
-        size_t n=strlen(tail)+strlen(end); char *body=malloc(n+1);
-        if (body) snprintf(body,n+1,"%s%s",tail,end);
-        free(tail); free(end); queue_write(c,body,n,WRITE_STREAM_END); return;
+        queue_write(c,end,end?strlen(end):0,WRITE_STREAM_END); return;
     }
 }
 static void submit_chat(connection *c) {
@@ -282,11 +263,8 @@ static void submit_chat(connection *c) {
         error_response(c,400,error); return;
     }
     c->streaming=request.stream; c->include_usage=request.include_usage;
-    c->parse_tools=request.tool_count!=0 || request.tool_choice!=LIE_TOOLS_AUTO;
-    if (c->parse_tools && !lie_tool_policy_copy(&request,&c->tools)) {
-        lie_chat_free(&request); error_response(c,500,"allocation_failed"); return;
-    }
-    if (!c->streaming || c->parse_tools || c->responses) {
+    c->buffer_tool_turn=request.tool_count!=0 || request.tool_choice!=LIE_TOOLS_AUTO;
+    if (!c->streaming || c->buffer_tool_turn || c->responses) {
         c->text=malloc(MAX_TEXT);
         if (!c->text) { lie_chat_free(&request); error_response(c,500,"allocation_failed"); return; }
     }
@@ -297,7 +275,7 @@ static void submit_chat(connection *c) {
     }
     snprintf(c->request_id,sizeof(c->request_id),"%s%s-%llu",c->responses?"resp_":"chatcmpl-",s->instance,(unsigned long long)++s->request_counter);
     c->created=(int64_t)time(NULL);
-    if (uv_poll_init(&s->loop,&c->output_poll,lie_flow_fd(lie_job_flow(c->job),LIE_FLOW_OUTPUT_READY))) {
+    if (uv_poll_init(&s->loop,&c->output_poll,lie_job_event_fd(c->job))) {
         close_connection(c); return;
     }
     c->output_poll.data=c; c->poll_initialized=true; ++c->handles;
@@ -477,6 +455,7 @@ static char *llm_json(server *s) {
         json_object_object_add(scheduler,"completed",json_object_new_uint64(info.completed_requests));
         json_object_object_add(scheduler,"cancelled",json_object_new_uint64(info.cancelled_requests));
         json_object_object_add(scheduler,"failed",json_object_new_uint64(info.failed_requests));
+        json_object_object_add(scheduler,"output_validation_errors",json_object_new_uint64(info.output_validation_errors));
     }
     json_object_object_add(j,"scheduler",scheduler);
     if(!s->worker)json_object_object_add(j,"cache",NULL);
@@ -604,7 +583,7 @@ static void closed(uv_handle_t *h) {
     while (*p && *p!=c) p=&(*p)->next;
     if (*p) *p=c->next;
     --s->active; (void)lie_gauge_set(s->metrics,s->connections_meter,(double)s->active);
-    lie_tool_policy_free(&c->tools);
+    json_object_put(c->calls);
     free(c->body); free(c->text); free(c);
 }
 static void close_connection(connection *c) {

@@ -24,9 +24,10 @@ owner. It never executes model forward on the HTTP loop or on a CPU fallback.
 | Chat Completions | Text messages, developer/system, functions, choices, correlated results, JSON/SSE, usage | Single completion; no logprobs/logit bias or storage |
 | Sampling | Temperature 0–2, top_p >0–1, penalties −2–2, nonnegative seed | Provider sampler; deterministic seed is not a universal hardware guarantee |
 | Responses | Stateless text/function input, instructions, JSON response objects, typed sequenced SSE, usage, incomplete/failed terminals | No stored response retrieval, previous_response_id, background execution or server-side tools |
-| Function output | Complete-turn XML extraction, argument schema checks and stable call IDs | Strict constrained decoding and incremental argument streaming remain open |
+| Function output | Shared-core complete-turn extraction, basic argument checks and core-owned call IDs | Strict constrained decoding and incremental argument streaming remain open |
 | Structured output | Existing plain text | JSON object/schema constrained generation remains open |
-| Other modalities | Explicitly refused | No image, audio, video, embedding or vector model executor |
+| Images | Explicit projector admission, owned image inputs and semantic RAM/SSD state | Original-weight qualification remains pending |
+| Other modalities | Explicitly refused | Audio, video, embedding and vector execution remain open |
 
 Unsupported fields/capabilities are errors, never silently claimed as supported.
 This increment is **not the complete OpenAI platform API**. Modalities and stored
@@ -44,8 +45,8 @@ Sequence numbers start at zero and increase without gaps. There is no Chat
 `max_output_tokens`; a failed buffered tool turn publishes `response.failed`,
 never a callable partial function. The normal text stream holds its flow loan
 through the transport callback even though a separately bounded final text
-projection is retained for the terminal response. Tool-enabled streams consume
-into the existing bounded complete-turn validator.
+projection is retained for the terminal response. Tool-enabled streams acknowledge core progress events and project the validated
+[semantic core events](EVENTS.md). HTTP owns no model-output parser.
 
 Each request body is at most 8 MiB, with at most 1024 messages. Context admission
 is capped at 262144 physical prompt-plus-reserved-output tokens. A final text projection remains bounded by

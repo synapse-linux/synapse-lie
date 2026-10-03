@@ -599,3 +599,20 @@ foreign process was changed; no shutdown/deterioration was observed. The separat
 functional-GPU gate stays at 85 C with compatible complete weights and fresh
 coordinated ownership required. Initial compiler failures and actual exits remain
 under local `evidence/integration-*` and the source-bound integration receipt.
+
+## Semantic events host validation — 2026-10-03
+
+`feature/core-semantic-events` starts from `develop` and imports the completed
+MTP/vision integration checkpoint. This step is local CPU fixtures and host HIP
+compilation/linking only; GPU visibility is masked. The official recorded Gufo
+source was independently fetched into this persistent worktree and its provider
+rebuilt and verified. No model load/hash/conversion, GPU execution, remote build,
+new GPU/model reservation, deployment, installation or publication occurred.
+
+Builds use one job each, at most two concurrently, with a 95 C CPU guard within
+the owner's 98 C allowance and lower exposed hardware/NVMe guards. The source
+and measured peaks, actual compiler/test failures and exits are retained in the
+[event receipt](development/validation/core-events-2026-10-03.json) and local
+`evidence/events-*`. No fan, clock, power or foreign process changed; no shutdown
+or deterioration was observed. Functional GPU preparation retains its separate
+85 C gate and fresh coordinated ownership requirements.

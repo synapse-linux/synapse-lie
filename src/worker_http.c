@@ -8,6 +8,7 @@ int lie_worker_submit(lie_worker *w, lie_chat_request *r, lie_job **out) {
     input.images=r->image_count?r->images:NULL;input.image_count=r->image_count;
     input.max_tokens=r->max_tokens;
     input.tool_choice=r->tool_choice;
+    input.parallel_tool_calls=r->parallel_tools;
     input.named_tool=r->named_tool;
     /* Preserve default generation for legacy programmatic HTTP fixtures. */
     if (r->generation.abi_version) input.generation=r->generation;

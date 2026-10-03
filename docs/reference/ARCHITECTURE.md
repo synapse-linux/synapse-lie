@@ -167,25 +167,25 @@ Current source audit:
   primitives with `lie_flow` and `lie_inference`. Jobs own copied C descriptors,
   not `lie_chat_request.json_owner` or streaming flags. One device-owner thread
   handles formatting/tokenization, model calls, sampling and retirement.
-- `lie_runtime` now contains the protocol parsers, tool-output parser, wire
+- `lie_runtime` contains protocol parsers, event-to-JSON/SSE projection, wire
   formatting and `worker_http.c`. Its legacy `worker.h` shim translates requests,
   submits a core copy and frees the parsed request on success.
 - `synapse-lie-bench --suite core` is a direct core client, with the same jobs,
   demand, cancellation and witnesses. The historical executor suites retain
   their diagnostic/reference scope; they still manage low-level sequences.
 - Cross-request RAM caching and optional SSD persistence belong to the shared
-  core. Structured tool-output events, scoring/logit capability, MTP and vision
-  remain future core work. Current core output is confirmed token
-  text; HTTP still interprets tool frames. Future clients must not duplicate that
-  model-specific interpretation.
+  core, including complete MTP/vision state. [Semantic output events](EVENTS.md)
+  provide UTF-8 text, validated tool calls and typed terminals to HTTP and direct
+  clients. The Qwen output grammar is a core model binding; HTTP only projects
+  events. Scoring/logit clients and incremental tool arguments remain open.
 
-Required responsibility split (lifecycle and AR cache are implemented; MTP/vision
-and complete semantic events remain planned):
+Responsibility split (lifecycle, AR/MTP/vision cache and semantic events are implemented;
+original-weight qualification remains separate):
 
 | Shared core | Client or protocol adapter |
 |---|---|
 | Engine/session lifecycle, capability admission, model selection at composition, scheduler, batching, cancellation, output credit and retirement | HTTP routing/status, request-body limits, JSON/SSE framing, sockets, connection deadlines and disconnect mapping |
-| Owned normalized inputs: messages/tools, physical tokens and future prepared images; tokenizer/template and model semantics | Parse OpenAI input into core descriptors; acquire CLI/corpus/image transport input and format client output |
+| Owned normalized inputs: messages/tools, physical tokens and owned image inputs; tokenizer/template and model semantics | Parse OpenAI input into core descriptors; acquire CLI/corpus/image transport input and format client output |
 | Sampling, stop/tool semantics, MTP verification, vision execution, cache RAM/SSD and memory budgets | CLI flags/TUI, dataset iteration/scoring policy, benchmark repetitions, report/graph export |
 | Typed confirmed events, execution errors, usage, timings and resource snapshots | Map events/errors to OpenAI responses, terminal text or evaluation records; export JSON/Prometheus |
 

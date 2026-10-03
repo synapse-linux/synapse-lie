@@ -15,7 +15,7 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 3u
+#define LIE_CORE_REQUEST_ABI 4u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
 typedef struct {
     uint64_t budget_bytes, retained_bytes, peak_retained_bytes;
@@ -36,6 +36,7 @@ typedef struct {
     const lie_image_input *images;
     size_t image_count;
     lie_tool_choice tool_choice;
+    bool parallel_tool_calls;
     const char *named_tool;
     const int32_t *tokens;
     size_t token_count;
@@ -75,6 +76,7 @@ typedef struct {
     uint64_t cancel_during_prefill, cancel_during_decode;
     /* Completed model output, not client delivery. */
     uint64_t generated_tokens, completed_requests, cancelled_requests, failed_requests;
+    uint64_t output_validation_errors; /* Semantic output; executor counts stay physical. */
     uint64_t mtp_drafted, mtp_accepted;
     lie_prefix_cache_info cache;
     lie_cache_policy cache_policy;
@@ -88,6 +90,8 @@ typedef struct {
     unsigned prompt_tokens, output_tokens;
     lie_job_finish finish;
     bool prepared, retired;
+    bool semantic_checked, output_invalid;
+    unsigned tool_calls;
     /* Completed executor-call wall durations. Shared batch durations overlap
      * across jobs; they exclude queue/flow/client waits and are not GPU-only. */
     bool timing_valid;

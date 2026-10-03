@@ -42,7 +42,8 @@ Preload/postload stat witnesses reject file replacement or modification during
 loading; immutable-file checks continue through SSD hashing. No weight hashing
 occurs in RAM-only mode. A model without complete MTP state must explicitly disable caches;
 otherwise the core refuses readiness. Original-weight cache continuation and
-GPU numerical behavior remain unqualified. Image state is still refused here.
+GPU numerical behavior remain unqualified. Combined image state now follows
+the prepared scope/MRoPE binding described below.
 
 ## VISION development boundary
 

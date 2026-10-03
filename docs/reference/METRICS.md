@@ -322,3 +322,13 @@ projector and encoded image hash. Comparisons require matching image and physica
 input; differing AR/MTP policies remain visible so their costs can be compared.
 Image semantics used for cache identity still come from prepared provider input,
 not the benchmark's encoded-file hash. No additional device owner was introduced.
+
+## Semantic output observability
+
+The shared core counts `output_validation_errors` when a semantic client rejects
+a complete turn. `/actuator/llm.scheduler.output_validation_errors` exposes that
+count for direct clients and HTTP together. The existing HTTP tool-error meter
+counts errors projected to HTTP; physical completed/failed executor counters
+remain separate. No semantic parsing time is relabelled as GPU decode time.
+Job fields `semantic_checked`, `output_invalid` and `tool_calls`, plus the typed
+terminal reason, are specified in the [event contract](EVENTS.md).

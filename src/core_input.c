@@ -8,7 +8,7 @@
 void lie_core_request_init(lie_core_request *r) {
     if (!r) return;
     *r=(lie_core_request){.abi_version=LIE_CORE_REQUEST_ABI,.struct_bytes=sizeof(*r),
-        .kind=LIE_INPUT_MESSAGES,.max_tokens=128,
+        .kind=LIE_INPUT_MESSAGES,.max_tokens=128,.parallel_tool_calls=true,
         .generation={.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(lie_generation_options),.top_p=1,.seed=-1}};
 }
 typedef struct { unsigned char *data; size_t used, capacity; bool valid; } arena;

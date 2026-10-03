@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Direct client of the production C core. Reports client and executor scopes. */
 #include "lie/core.h"
+#include "lie/events.h"
 #include "bench_native.h"
 #include "lie/text.h"
 #include <errno.h>
@@ -77,17 +78,16 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         if(interrupted||!now()||now()>=deadline){snprintf(error,256,"interrupted or core deadline exceeded");goto done;}
         struct pollfd fds[LIE_CORE_JOBS];nfds_t count=0;
         for(unsigned i=0;i<users;++i)if(!rows[i].terminal){
-            lie_flow *flow=lie_job_flow(rows[i].job);
-            if(lie_flow_drain(flow,LIE_FLOW_OUTPUT_READY)!=LIE_FLOW_OK)goto done;
-            for(;;){lie_flow_event e;lie_flow_status rc=lie_flow_next(flow,&e);
+            if(lie_job_event_drain(rows[i].job)!=LIE_FLOW_OK)goto done;
+            for(;;){lie_event e;lie_flow_status rc=lie_job_event_next(rows[i].job,&e);
                 if(rc==LIE_FLOW_WOULD_BLOCK)break;
                 if(rc!=LIE_FLOW_OK){snprintf(error,256,"core output contract failure");goto done;}
                 uint64_t seen=now();
                 if(!seen||seen<rows[i].start){
-                    if(e.end==LIE_FLOW_ACTIVE)(void)lie_flow_release(flow,e.ticket);
+                    if(e.kind!=LIE_EVENT_TURN_END)(void)lie_job_event_release(rows[i].job,e.ticket);
                     snprintf(error,256,"clock failure");goto done;
                 }
-                if(e.end!=LIE_FLOW_ACTIVE){
+                if(e.kind==LIE_EVENT_TURN_END){
                     rows[i].terminal=true;rows[i].end=seen;last=seen;++finished;
                     if(e.end!=LIE_FLOW_COMPLETE){lie_job_info info;lie_job_snapshot(rows[i].job,&info);
                         snprintf(error,256,"core job failed: %.220s",info.error);goto done;}
@@ -96,10 +96,10 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
                 if(!rows[i].first && e.tokens)rows[i].first=seen;
                 bool ordered=e.token_offset==rows[i].tokens;
                 rows[i].tokens+=e.tokens;rows[i].bytes+=e.bytes;
-                if(lie_flow_release(flow,e.ticket)!=LIE_FLOW_OK||!ordered){snprintf(error,256,"core token order failure");goto done;}
-                (void)lie_flow_request(flow,e.tokens);
+                if(lie_job_event_release(rows[i].job,e.ticket)!=LIE_FLOW_OK||!ordered){snprintf(error,256,"core token order failure");goto done;}
+                if(e.tokens)(void)lie_job_event_request(rows[i].job,e.tokens);
             }
-            if(!rows[i].terminal)fds[count++]=(struct pollfd){lie_flow_fd(flow,LIE_FLOW_OUTPUT_READY),POLLIN,0};
+            if(!rows[i].terminal)fds[count++]=(struct pollfd){lie_job_event_fd(rows[i].job),POLLIN,0};
         }
         if(count && poll(fds,count,100)<0 && errno!=EINTR){snprintf(error,256,"core event wait failed");goto done;}
     }

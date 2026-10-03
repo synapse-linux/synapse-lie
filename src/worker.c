@@ -1,9 +1,11 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/core.h"
 #include "core_input.h"
+#include "core_events.h"
 #include "prefix_cache.h"
 #include "lie/inference.h"
 #include <errno.h>
+#include <openssl/rand.h>
 #include <poll.h>
 #include <pthread.h>
 #include <stdatomic.h>
@@ -20,8 +22,12 @@ struct lie_job {
     void *request_storage;
     int32_t *output_ids;
     lie_flow *flow;
+    lie_event_stream *events;
+    unsigned output_mode; /* Single consumer: 0 unset, 1 legacy raw, 2 semantic. */
+    char output_identity[64];
     atomic_uint refs;
     atomic_bool cancel;
+    atomic_bool semantic_active, semantic_done;
     /* Metadata synchronized separately from the model; never holds GPU work. */
     pthread_mutex_t gate;
     lie_job_info info;
@@ -49,6 +55,7 @@ struct lie_core {
     lie_core_info info;
     lie_core_options options;
     char *path;
+    char output_namespace[33]; /* Independent of HTTP; unique across core restarts. */
     char *mtp_path, *vision_path;
     lie_job *jobs[LIE_CORE_JOBS];
     unsigned preparing; /* Bounded admission copies, protected by gate. */
@@ -116,6 +123,7 @@ static void drain_fd(int fd) {
 }
 static void job_drop(lie_job *j) {
     if (atomic_fetch_sub(&j->refs,1)!=1) return;
+    lie_event_stream_destroy(j->events);
     if (lie_flow_destroy(&j->flow)!=LIE_FLOW_OK) abort();
     free(j->request_storage); free(j->output_ids); free(j->prompt);free(j->rendered);free(j->text_offsets);lie_cache_metadata_clear(&j->restored_metadata);
     pthread_mutex_destroy(&j->gate); free(j);
@@ -232,7 +240,8 @@ static void finish_job(lie_core *w, size_t index, lie_job_finish finish, const c
     }
     /* Keep immutable physical input/output witnesses until the last consumer
      * reference; protocol/parser storage never belonged to this job. */
-    free(j->request_storage); j->request_storage=NULL;
+    /* Input policy remains immutable until the last consumer releases the job:
+     * semantic events can be validated after the device owner retires. */
     pthread_mutex_lock(&j->gate);
     j->info.finish=finish; j->info.retired=true;
     if (message) snprintf(j->info.error,sizeof(j->info.error),"%s",message);
@@ -241,6 +250,9 @@ static void finish_job(lie_core *w, size_t index, lie_job_finish finish, const c
     else if (finish==LIE_FINISH_INVALID || finish==LIE_FINISH_BACKEND)
         (void)lie_flow_fail(j->flow,(int)finish);
     else (void)lie_flow_finish(j->flow);
+    /* Cancellation can expose a raw terminal during prefill. Semantic clients
+     * wait for retired metadata and must be woken after numerical retirement. */
+    signal_fd(lie_flow_fd(j->flow,LIE_FLOW_OUTPUT_READY));
     pthread_mutex_lock(&w->gate);
     w->jobs[index]=NULL;
     if (finish==LIE_FINISH_STOP || finish==LIE_FINISH_LENGTH) ++w->info.completed_requests;
@@ -606,6 +618,8 @@ static bool decode_ready(lie_core *w) {
                 (void)lie_flow_abort(j->flow,r->reservation.ticket,LIE_FINISH_BACKEND);
                 finish_job(w,indices[i],LIE_FINISH_BACKEND,error.message);continue;}
         }
+        /* The legacy raw flow can close at EOS. Semantic TURN_END additionally
+         * waits for finish_job to retire the sequence and cache work. */
         lie_flow_status f=lie_flow_commit(j->flow,r->reservation.ticket,bytes[i],d.emitted,end);
         if(f!=LIE_FLOW_OK&&f!=LIE_FLOW_CLOSED)abort();
         if(f==LIE_FLOW_CLOSED||atomic_load(&j->cancel))finish_job(w,indices[i],LIE_FINISH_CANCEL,"cancelled");
@@ -706,6 +720,10 @@ lie_core *lie_core_create(const lie_core_options *o) {
     if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
+    unsigned char output_nonce[16];
+    if(RAND_bytes(output_nonce,sizeof(output_nonce))!=1)goto fail;
+    for(unsigned k=0;k<sizeof(output_nonce);++k)
+        snprintf(w->output_namespace+2*k,3,"%02x",output_nonce[k]);
     if(o->mtp_model_path){w->mtp_path=strdup(o->mtp_model_path);if(!w->mtp_path)goto fail;w->options.mtp_model_path=w->mtp_path;}
     if(o->vision_model_path){w->vision_path=strdup(o->vision_model_path);if(!w->vision_path)goto fail;w->options.vision_model_path=w->vision_path;}
     if(o->ssd.directory){
@@ -754,7 +772,11 @@ int lie_core_submit(lie_core *w, const lie_core_request *request, lie_job **out)
         !(j->output_ids=calloc(j->request.max_tokens,sizeof(*j->output_ids))) ||
         lie_flow_create(&options,&j->flow)!=LIE_FLOW_OK) goto prepare_failed;
     if (pthread_mutex_init(&j->gate,NULL)) goto prepare_failed;
-    atomic_init(&j->refs,2); atomic_init(&j->cancel,false); j->owner=w;
+    atomic_init(&j->refs,2); atomic_init(&j->cancel,false);
+    atomic_init(&j->semantic_active,false);atomic_init(&j->semantic_done,false);j->owner=w;
+    static atomic_uint_fast64_t output_serial=1;
+    snprintf(j->output_identity,sizeof(j->output_identity),"lie-%s-%llu",
+             w->output_namespace,(unsigned long long)atomic_fetch_add(&output_serial,1));
     j->info.timing_valid=true;
     j->info.max_decode_output_tokens=w->mtp_path?w->info.mtp.max_output_tokens:1;
     (void)lie_flow_request(j->flow,LIE_OUTPUT_SLOTS);
@@ -782,10 +804,39 @@ prepare_failed:
     pthread_mutex_lock(&w->gate);--w->preparing;pthread_mutex_unlock(&w->gate);
     return 3;
 }
-lie_flow *lie_job_flow(lie_job *j) { return j->flow; }
+lie_flow *lie_job_flow(lie_job *j) {
+    if(!j||j->output_mode==2)return NULL;
+    j->output_mode=1;return j->flow;
+}
+static bool semantic_mode(lie_job *j) {
+    if(!j||j->output_mode==1)return false;
+    if(!j->events){lie_job_info info;lie_job_snapshot(j,&info);
+        j->events=lie_event_stream_create(j,j->flow,&j->request,info.max_decode_output_tokens,j->output_identity);}
+    if(!j->events)return false;
+    j->output_mode=2;atomic_store(&j->semantic_active,true);return true;
+}
+int lie_job_event_fd(lie_job *j){return semantic_mode(j)?lie_flow_fd(j->flow,LIE_FLOW_OUTPUT_READY):-1;}
+lie_flow_status lie_job_event_drain(lie_job *j){return semantic_mode(j)?lie_flow_drain(j->flow,LIE_FLOW_OUTPUT_READY):LIE_FLOW_INVALID;}
+lie_flow_status lie_job_event_request(lie_job *j,uint64_t n){return semantic_mode(j)?lie_flow_request(j->flow,n):LIE_FLOW_INVALID;}
+lie_flow_status lie_job_event_next(lie_job *j,lie_event *e){
+    if(!semantic_mode(j))return LIE_FLOW_INVALID;
+    lie_flow_status rc=lie_event_stream_next(j->events,e);
+    if(rc==LIE_FLOW_OK&&e->kind==LIE_EVENT_TURN_END)atomic_store(&j->semantic_done,true);
+    return rc;
+}
+lie_flow_status lie_job_event_release(lie_job *j,lie_event_ticket t){return semantic_mode(j)?lie_event_stream_release(j->events,t):LIE_FLOW_INVALID;}
+bool lie_job_semantic_cancelled(lie_job *j){return atomic_load(&j->cancel);}
+void lie_job_semantic_result(lie_job *j,unsigned calls,const char *error){
+    pthread_mutex_lock(&j->gate);
+    bool first=!j->info.semantic_checked;
+    if(first){j->info.semantic_checked=true;j->info.tool_calls=calls;
+        if(error){j->info.output_invalid=true;j->info.finish=LIE_FINISH_INVALID;snprintf(j->info.error,256,"%s",error);}}
+    pthread_mutex_unlock(&j->gate);
+    if(first&&error){pthread_mutex_lock(&j->owner->gate);++j->owner->info.output_validation_errors;pthread_mutex_unlock(&j->owner->gate);}
+}
 void lie_job_cancel(lie_job *j) {
     lie_flow_state state; (void)lie_flow_snapshot(j->flow,&state);
-    if (state.terminal_observed) return; /* Normal transport close is not cancellation. */
+    if (state.terminal_observed && (!atomic_load(&j->semantic_active)||atomic_load(&j->semantic_done))) return;
     bool first=!atomic_exchange(&j->cancel,true);
     pthread_mutex_lock(&j->gate);
     if (j->sequence) lie_sequence_cancel(j->sequence); /* ABI latch only, no wait. */
