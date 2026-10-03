@@ -44,6 +44,8 @@ int lie_state_validate(const lie_state_layout *l,uint64_t *bytes) {
             if(l->format!=LIE_STATE_KVC_AUX||aux++||!end||s->layer||s->dtype!=LIE_STATE_U8||s->rank!=1)return 0;
         }
         if(aux&&(s->role==LIE_STATE_TOKENS||s->role==LIE_STATE_LOGITS))return 0;
+        if(s->role==LIE_STATE_CACHE_SCOPE&&(s->layer||s->dtype!=LIE_STATE_U8||s->rank!=1||s->bytes!=32||
+           (l->format!=LIE_STATE_ALIGNED&&!aux)))return 0;
         if(s->role==LIE_STATE_TOKENS){++tokens;if(s->layer||s->dtype!=LIE_STATE_I32||s->rank!=1||s->shape[0]!=l->token_count||s->offset%4)return 0;}
         if(s->role==LIE_STATE_LOGITS){++logits;if(s->layer||s->dtype!=LIE_STATE_F32||s->rank!=1)return 0;}
         end=s->offset+n;

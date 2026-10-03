@@ -1,4 +1,36 @@
-# Isolated OpenAI reactive API increment
+<!-- SPDX-License-Identifier: MIT -->
+# Development progress
+
+## MTP and vision integration — 2026-10-03
+
+`feature/mtp-vision-integration` combines the complete MTP checkpoint `7d85b2f`
+and semantic vision checkpoint `806a790` in a persistent worktree created from
+`develop`. The shared C17 core admits target, predictor and projector together;
+HTTP and the direct benchmark use that same lifecycle and reactive dispatcher.
+A joint checkpoint includes the unchanged DS4 tensor payload, MTP controller,
+residual/hidden rows and the prepared vision scope. Prepared positions, scope and
+controller are checked before numerical restore; the destination sampler is fresh.
+RAM remains default-on and SSD opt-in. No new inference worker was added.
+
+Native ASan/UBSan/LeakSanitizer tests pass **36/36**. Coverage includes combined
+burst demand/cancellation, two fixture geometries, equal-token/different-image
+isolation, RAM reuse, SSD process restart and Chat/Responses JSON/SSE cache reuse.
+The option combinations MTP-OFF, vision-OFF and both-OFF pass **30/30**,
+**29/29** and **26/26** tests. Five focused changed identity/cache tests also pass.
+The combined synthetic core client exports native JSON/CSV/SVG/PNG.
+The official pinned provider was fetched and rebuilt independently with the
+combined source manifest; HIP server and benchmark compile and link. These are
+host/fixture checks, **not original-weight inference or performance evidence**.
+See [configuration](guides/USAGE.md#mtp-with-images) and the
+[source-bound receipt](development/validation/mtp-vision-integration-2026-10-03.json).
+
+Original-weight image/text MTP, numerical cache parity, sampled target behavior,
+rejection/rollback, resource fit and GPU measurements remain open. No GPU run,
+model hash/conversion/load, remote build, deployment or publication occurred.
+
+## Earlier feature checkpoints
+
+The entries below describe their dated branches before integration.
 
 ## Complete MTP RAM/SSD binding — 2026-10-03
 
@@ -62,6 +94,63 @@ state/identity and combined MTP+vision integration remain open. Benchmarks are
 postponed while these separate feature branches advance. See
 [usage and remaining gates](development/MTP.md) and the
 [validation receipt](development/validation/mtp-2026-10-03.json).
+
+
+## Vision semantic RAM/SSD cache binding — 2026-10-03
+
+The shared C17 cache now keys images separately from tokens. RAM lookup,
+deduplication, retention/protection and SSD filenames/index/restart use a typed
+semantic scope; equal tokens with different images produce a pre-upload miss.
+The Qwen binding validates prepared MRoPE positions and the actual loaded
+model/projector files. DS4 tensor payload and old AR framing remain unchanged.
+RAM keeps its normal default; SSD is opt-in. Clients resupply images after
+restart; full-prompt scope conservatively limits earlier-prefix reuse.
+
+Native ASan/UBSan/LeakSanitizer passes **30/30**. Tests cover two fixtures,
+KVC/aligned process restart and both HTTP APIs in JSON/SSE. The independently
+materialized provider and HIP server/bench compile/link. No model load, GPU
+run, weight hash or performance result is claimed. Earlier compiler errors and
+fixture assertions remain in local evidence with their actual exits. See
+[usage and limits](development/VISION.md) and the
+[source-bound receipt](development/validation/vision-cache-2026-10-03.json).
+
+
+## Shared auxiliary KV state and vision positions — 2026-10-03
+
+The C17 RAM/SSD store now retains typed auxiliary state with complete budget
+accounting and SHA-256 admission, preserving original DS4 payload offsets and
+version-1 AR files. Two unrelated fixture schemas exercise the same storage path.
+The Qwen codec adds MRoPE delta/physical rows and compares them against prepared
+input positions. Live vision KV reuse stays refused until image identity also
+covers lookup, deduplication, device layout and restart ownership.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **28/28**; HIP provider linking
+also passes. No model load, GPU run or performance campaign is claimed. Current
+functional-GPU authorization and metadata-only USB findings are recorded in
+[coordination](COORDINATION.md). Raw failures and actual exits remain under local
+`evidence/`; see the [source-bound state receipt](development/validation/vision-state-2026-10-03.json).
+
+
+## Vision model-neutral development slice — 2026-10-03
+
+Owned PNG/JPEG inputs, model-specific physical token expansion and encoder admission now run through the shared C17 core, Chat/Responses and core benchmark client. Fixtures use distinct image limits and expansion geometry; no Qwen positions or tensor types enter the public C contract.
+
+Native CPU ASan/UBSan/LeakSanitizer checks pass **27/27**, including both APIs,
+JSON/SSE, exact output budgets and early EOS. Final focused feature/dispatcher
+checks and the feature-OFF headless lifecycle also pass. The HIP adapter and
+clients compile/link against the independently verified Gufo pin. No model
+was loaded; .157 and GPU performance campaigns were not used. Direct synthetic
+core-client runs also produce JSON/CSV/SVG/PNG successfully. These are
+NOT-INFERENCE checks, not performance results.
+
+The feature is compiled ON by default but requires explicit model admission.
+Its complete extra state is not yet serializable: the development configuration
+requires both KV caches explicitly off, with unsupported state advertised as
+such. AR's RAM default is unchanged. Original-weight correctness, extended
+state/identity and combined MTP+vision integration remain open. Benchmarks are
+postponed while these separate feature branches advance. See
+[usage and remaining gates](development/VISION.md) and the
+[validation receipt](development/validation/vision-2026-10-03.json).
 
 
 ## Native build, benchmark clients and reports — 2026-10-03

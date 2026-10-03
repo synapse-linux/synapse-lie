@@ -23,7 +23,15 @@ source pin and ownership queries expose delegation; the explicit factory
 
 [MTP](../development/MTP.md) now has an additive, model-neutral C
 contract in `include/lie/mtp.h`. Executor ABI 2 scalar AR entry points retain
-their meanings. New capability structures have ABI 1 and an exact struct size;
+their meanings. Capabilities have ABI 1 and an exact struct size. Upstream
+model types remain inside the adapter.
+
+## Vision branch extension
+
+[VISION](../development/VISION.md) now has an additive, model-neutral C
+contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
+their meanings. The shared request advances to `LIE_CORE_REQUEST_ABI=3` for owned image spans.
+New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
 
@@ -39,7 +47,17 @@ version 2, require checksum admission and retain a fresh destination sampler.
 MTP advertises `prefix_state_supported=1` only with the verified complete-history
 DS4 provider. The legacy state variant advertises zero for MTP. Cache admission
 checks this per-model capability before readiness; unsupported models require
-RAM zero and no SSD directory. Vision state remains a separate integration gate.
+RAM zero and no SSD directory. Joint admission through `lie_backend_open_mtp_vision`
+requires both feature contracts on the same model; no extra inference worker or
+HTTP-owned continuation state is introduced.
+The vision binding now advertises complete prefix state only with the verified
+DS4 complete-history provider. Legacy providers advertise zero and require
+explicit cache-off configuration. The additive `LIE_STATE_CACHE_SCOPE` role and
+`lie_vision_prompt_cache_scope` function do not change existing structure layouts
+or enum values. Generic cache/SSD APIs gain scoped variants; existing wrappers
+continue to select text-only state. Scope extraction is nonmutating and requires
+an uncompressed U8[32] component. Generic layout validation rejects duplicate,
+misplaced or malformed scope sections. GPU qualification remains separate.
 
 ## Ownership and completion
 
@@ -226,7 +244,8 @@ all consumers to rebuild together. See [the codec contract](SSD-PREFIX.md#compre
 
 The remaining items below are requirements for future contracts. RAM prefix
 state is implemented by the separate extension above; SSD/exact resume, MTP
-and vision are separate capability contracts, outside scalar executor ABI 2. Keep completed scalar/batch semantics.
+and vision use additive capability contracts outside scalar executor ABI 2.
+Keep completed scalar/batch semantics.
 Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
 profiles explicitly; refusing an unsupported capability must precede mutation.
 

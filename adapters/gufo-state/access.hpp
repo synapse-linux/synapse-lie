@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include "src/models/qwen/vision/encoder.hpp"
 #ifdef LIE_DS4_RUNTIME_CACHE
 #include "lie/kvc_state.h"
 #ifndef LIE_GUFO_DS4_STATE
@@ -27,7 +28,7 @@ public:
   // Borrow only the actual readers retained by the admitted model. Reopening
   // the pathname would let a rename during load bind SSD to different weights.
   static auto ModelReaders(Model& m) {
-    return std::array<core::GgufReader*,2>{m.reader_.get(),m.mtp_reader_.get()};
+    return std::array<const core::GgufReader*,3>{m.reader_.get(),m.mtp_reader_.get(),m.vision_?&m.vision_->LieReader():nullptr};
   }
   static lie_kvc_qwen_geometry Geometry(Session& s) {
     const auto& c=s.model_->config();
@@ -39,32 +40,34 @@ public:
   static bool Describe(Session& s,uint64_t domain,uint32_t chunk,
                        const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0,uint32_t drafts=0) {
     auto& d=*s.session_;const auto& c=s.model_->config();
-    if(!s.valid_||s.image_prompt_||d.spec_tokens_||
+    if(!s.valid_||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
 #ifdef LIE_DS4_RUNTIME_CACHE
-    const bool mtp=s.MtpEnabled();
+    const bool mtp=s.MtpEnabled(),vision=bool(s.image_prompt_);
     if(mtp?(!drafts||drafts>LIE_KVC_QWEN_MTP_DEPTHS):drafts!=0)return false;
     if(d.index_capacity_<s.ContextSize()||c.compress_ratio!=4||c.ple_layer<0||
        (!source&&(d.blocks_!=s.Position()/4||
          (mtp&&(s.hidden_base_>s.Position()||d.mtp_.position<s.hidden_base_||
                 d.mtp_.position>s.Position()||d.mtp_.blocks!=d.mtp_.position/4)))))return false;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
-       source->prefill_chunk!=chunk||source->format!=(mtp?LIE_STATE_KVC_AUX:LIE_STATE_KVC)||
+       source->prefill_chunk!=chunk||source->format!=((mtp||vision)?LIE_STATE_KVC_AUX:LIE_STATE_KVC)||
        source->model_id!=5||source->quant_bits!=quant||(mtp&&source->model_data[4]!=drafts)))return false;
     const auto g=Geometry(s);
     const lie_kvc_qwen_frontier f{source?source->context_tokens:s.ContextSize(),chunk,
         source?source->model_data[0]:s.ContextSize(),source?source->token_count:s.Position(),
-        source?source->model_data[1]:(mtp?d.mtp_.position:0),0};
+        source?source->model_data[1]:(mtp?d.mtp_.position:0),vision?s.image_prompt_->rope.Delta():0};
     lie_error error{};
     const uint32_t hidden=mtp?(source?source->model_data[3]:s.KeptHiddenRows()):0;
     if(hidden>f.tokens||hidden>d.owner_->max_speculative()||(mtp&&f.mtp_tokens<f.tokens-hidden))return false;
-    const auto rc=mtp?lie_kvc_qwen_mtp_state_plan(&g,&f,domain,5,quant,hidden,drafts,&out,&error):
+    const auto rc=mtp&&vision?lie_kvc_qwen_mtp_vision_state_plan(&g,&f,domain,5,quant,hidden,drafts,&out,&error):
+        vision?lie_kvc_qwen_vision_state_plan(&g,&f,domain,5,quant,&out,&error):
+        mtp?lie_kvc_qwen_mtp_state_plan(&g,&f,domain,5,quant,hidden,drafts,&out,&error):
         lie_kvc_qwen_state_plan(&g,&f,domain,5,quant,&out,&error);
     return rc==LIE_OK&&
         (!source||lie_state_layout_equal(source,&out));
 #else
     (void)quant;(void)drafts;
-    if(s.MtpEnabled())return false;
+    if(s.MtpEnabled()||s.image_prompt_)return false;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
                 source->prefill_chunk!=chunk||source->representation_version!=LIE_QWEN_STATE_REPRESENTATION))return false;
     out={};out.domain=domain;out.context_tokens=source?source->context_tokens:s.ContextSize();out.prefill_chunk=chunk;
@@ -89,12 +92,34 @@ public:
     limits.cancelled=[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;};
     limits.userdata=const_cast<std::atomic<bool>*>(&cancelled);
     lie_error detail{};
+    const bool vision=bool(s.image_prompt_);
+    lie_kvc_span positions{};std::array<unsigned char,32> scope{};
+    if(vision){
+      if(s.image_prompt_->cache_identity.size()!=32){error="missing prepared vision scope";return LIE_INVALID;}
+      std::copy(s.image_prompt_->cache_identity.begin(),s.image_prompt_->cache_identity.end(),scope.begin());
+      const lie_state_section *part=nullptr;
+      for(unsigned i=0;i<layout.section_count;++i)if(layout.sections[i].role==LIE_KVC_QWEN_POSITIONS)part=&layout.sections[i];
+      if(!part||part->bytes!=16ull*layout.token_count){error="missing vision position section";return LIE_INVALID;}
+      auto* rows=static_cast<unsigned char*>(bytes)+part->offset;
+      // Validate each row against fresh prepared geometry before any upload.
+      // Capture uses the exact position-section alias: no N*16 scratch copy.
+      for(uint32_t i=0;i<layout.token_count;++i){
+        if(!(i%4096)&&cancelled.load()){error="cancelled vision position binding";return LIE_CANCELLED;}
+        const auto p=s.image_prompt_->rope.Position(i);const int32_t row[4]={p[0],p[1],p[2],0};
+        if(restore){if(std::memcmp(rows+16ull*i,row,16)){error="vision positions differ from prepared input";return LIE_INVALID;}}
+        else std::memcpy(rows+16ull*i,row,16);
+      }
+      positions={rows,static_cast<size_t>(part->bytes)};
+    }
+    const bool mtp=layout.model_data[3]!=0;
     auto controller=s.draft_length_;
     if(restore){
-      const auto rc=lie_kvc_qwen_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
+      const auto rc=mtp&&vision?lie_kvc_qwen_mtp_vision_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
+          {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},positions,scope.data(),&limits,&detail):vision?lie_kvc_qwen_vision_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
+          {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},positions,scope.data(),&limits,&detail):lie_kvc_qwen_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
           {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
-      if(layout.format==LIE_STATE_KVC_AUX){
+      if(mtp){
         lie_kvc_qwen_mtp_controller c{};
         const auto decoded=lie_kvc_qwen_mtp_state_controller(&layout,
             {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},&c,&detail);
@@ -113,6 +138,9 @@ public:
     // released. No borrowed buffer survives this call, even on cancellation.
     if(!checked(hipStreamSynchronize(stream)))return LIE_BACKEND_FAILED;
     if(restore){
+#ifdef LIE_DS4_RUNTIME_CACHE
+      if(vision)d.RestoreVisionLayout(s.image_prompt_->rope,stream);
+#endif
       s.tokens_.resize(layout.token_count);s.logits_.resize(s.model_->VocabSize());
       s.valid_=false; // No usable frontier until every component is committed.
       // A prefix destination has no useful speculative scratch. This releases
@@ -132,7 +160,7 @@ public:
       void* bound=nullptr;bool device=true;
       switch(part.role){
 #ifdef LIE_DS4_RUNTIME_CACHE
-        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:case LIE_STATE_AUXILIARY:continue;
+        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:case LIE_STATE_AUXILIARY:case LIE_STATE_CACHE_SCOPE:continue;
         case LIE_KVC_QWEN_MTP_RESIDUAL:bound=d.mtp_.h;break;
         case LIE_KVC_QWEN_MTP_HIDDEN:bound=d.mtp_.target_hidden;break;
         case LIE_STATE_NGRAM:
@@ -173,15 +201,17 @@ public:
 #ifdef LIE_DS4_RUNTIME_CACHE
     if(!restore){
       lie_status rc;
-      if(layout.format==LIE_STATE_KVC_AUX){
+      if(mtp){
         const auto state=s.draft_length_.State();lie_kvc_qwen_mtp_controller c{};
         std::copy(state.successes.begin(),state.successes.end(),std::begin(c.successes));
         std::copy(state.failures.begin(),state.failures.end(),std::begin(c.failures));
         c.retry_tokens=state.retry_tokens;c.probe_depth=state.probe_depth;c.explored_depth=state.explored_depth;
         c.probe_delay=state.probe_delay;c.failed_depths=state.failed_depths;
-        rc=lie_kvc_qwen_mtp_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,&c,
+        rc=vision?lie_kvc_qwen_mtp_vision_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,&c,positions,scope.data(),
+            bytes,static_cast<size_t>(payload),&limits,&detail):lie_kvc_qwen_mtp_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,&c,
             bytes,static_cast<size_t>(payload),&limits,&detail);
-      }else rc=lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
+      }else rc=vision?lie_kvc_qwen_vision_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,positions,scope.data(),
+          bytes,static_cast<size_t>(payload),&limits,&detail):lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
           bytes,static_cast<size_t>(payload),&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
     }
@@ -197,7 +227,7 @@ public:
 #ifdef LIE_DS4_RUNTIME_CACHE
       d.mtp_.position=layout.model_data[1];d.mtp_.blocks=d.mtp_.position/4;
       s.hidden_base_=layout.token_count-layout.model_data[3];
-      if(layout.format==LIE_STATE_KVC_AUX)s.draft_length_=controller;else s.draft_length_.Reset();
+      if(mtp)s.draft_length_=controller;else s.draft_length_.Reset();
 #else
       d.mtp_.position=0;d.mtp_.blocks=0;s.hidden_base_=layout.token_count;s.draft_length_.Reset();
 #endif

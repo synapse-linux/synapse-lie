@@ -7,6 +7,7 @@ Implementation planning and validation, separate from user benchmarks.
 [Progress](../PROGRESS.md) · [Reactive inference](../INFERENCE-REACTIVE.md)
 
 - [MTP development: usage, shared-core contract and remaining gates](MTP.md).
+- [VISION development: usage, shared-core contract and remaining gates](VISION.md).
 - [Environment and baseline admission](BASELINE.md).
 - [Complete prompt retention under cache pressure](CACHE-PROMPT-RETENTION.md).
 - [Shared reactive C core — first extraction](CORE-EXTRACTION.md).

@@ -306,3 +306,19 @@ and the admitted MTP capability advertise complete predictor state only for a
 state-capable composition. A true capability is implementation availability,
 not original-weight qualification or a throughput claim. No new inference
 worker or metric label is introduced by predictor transfers.
+## VISION development observability
+
+Vision prompt counts include image-expanded physical tokens. Executor prefill
+time includes encoder work inside the provider prefill call; CPU image decoding,
+resizing and prompt preparation occur before that interval and contribute to
+client latency. Existing metrics do not isolate encoder time or image memory;
+those measurements remain a qualification gate. Never label this combined
+prefill rate as text-only prefill throughput.
+
+Joint MTP/vision uses the same draft/acceptance and cache timing fields. Actuator
+`backend.prefix_state` requires complete support for every admitted capability.
+Core benchmark identity records `mode=mtp+vision`, predictor, draft request,
+projector and encoded image hash. Comparisons require matching image and physical
+input; differing AR/MTP policies remain visible so their costs can be compared.
+Image semantics used for cache identity still come from prepared provider input,
+not the benchmark's encoded-file hash. No additional device owner was introduced.

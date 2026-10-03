@@ -10,4 +10,5 @@ bool lie_state_kvc_probe(int,const lie_state_identity *,uint64_t *,unsigned *,un
 bool lie_state_kvc_metadata(int,const lie_state_identity *,uint64_t,lie_cache_metadata *);
 bool lie_state_kvc_touch(int,const lie_state_identity *,uint32_t,uint64_t);
 bool lie_state_kvc_token_key(int,const lie_state_identity *,char hex[65]);
+bool lie_state_kvc_scope(int,const lie_state_identity *,unsigned char scope[32]);
 #endif

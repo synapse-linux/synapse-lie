@@ -32,6 +32,11 @@ typedef struct {
 lie_status lie_backend_open_mtp(const char *, const lie_model_options *,
                                 uint32_t, const char *, uint32_t, lie_model **,
                                 lie_error *);
+/* Joint admission is atomic. Both capabilities and complete continuation state
+ * must refer to this same admitted target/predictor/encoder. */
+lie_status lie_backend_open_mtp_vision(const char *, const lie_model_options *,
+                                      uint32_t, const char *, uint32_t,
+                                      const char *, lie_model **, lie_error *);
 lie_status lie_sequences_decode_mtp(lie_sequence *const *, const uint32_t *,
                                     size_t, lie_mtp_outcome *, lie_error *);
 #ifdef __cplusplus

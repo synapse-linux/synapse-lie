@@ -11,8 +11,9 @@ Download the four GGUF shards from the
 [model directory](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL)
 and keep them together. Pass `Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf`
 to LIE; the loader discovers the other shards. Model weights have their own
-publisher terms. For the experimental MTP path, see
-[configuration, usage and current limits](../development/MTP.md).
+publisher terms. Experimental [MTP](../development/MTP.md) and
+[vision](../development/VISION.md) require compatible explicit predictor and
+projector files. Their original-weight and combined GPU qualification is pending.
 
 ## Start the server
 
@@ -69,10 +70,45 @@ curl --fail http://127.0.0.1:8000/v1/responses \
 
 Clients execute function tools and submit correlated tool results in the next
 request. Tool-enabled SSE publishes a complete validated turn; function arguments
-are not streamed incrementally. The current API is text-only, with thinking
-disabled. It implements Chat Completions and stateless Responses, rather than
+are not streamed incrementally. Thinking is disabled. Inline PNG/JPEG image
+parts are available with explicit vision admission; see the [vision guide](../development/VISION.md#use). It implements Chat Completions and stateless Responses, rather than
 all OpenAI services. See the [API reference](../reference/OPENAI-REACTIVE.md)
 for supported fields and error behavior.
+
+## MTP with images
+
+Configure both sidecars to use MTP verification on image-bearing requests:
+
+```sh
+build/release/synapse-lie-server \
+  --model /models/target-00001-of-00004.gguf \
+  --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
+  --model-vision /models/projector.gguf \
+  --model-id local-model --host 127.0.0.1 --port 8000 \
+  --context 4096 --max-active 2
+```
+
+The HTTP image request is the same as in the [vision guide](../development/VISION.md#use).
+RAM KV retention keeps its 4 GiB default; SSD remains opt-in through `--kv-disk-dir`
+and its budgets. Reuse after restart requires the matching images again.
+Changed images, placement, predictor, projector or draft policy cannot reuse
+that state. Prefix restore starts with the new request's sampler.
+
+The direct shared-core client accepts the same combination:
+
+```sh
+build/release/synapse-lie-bench --suite core \
+  --model /models/target-00001-of-00004.gguf \
+  --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
+  --model-vision /models/projector.gguf --image-file image.png \
+  --prompt-file prompt.txt --context 4096 --chunk 2048 \
+  --users 2 --tg 128 --repetitions 3 \
+  --output mtp-vision.jsonl --graphs mtp-vision-graphs
+```
+
+These commands describe the integrated development path. Compatible complete
+weights and coordinated GPU ownership are required for GPU qualification.
+The current integration is covered by native fixtures and HIP build/link tests.
 
 ## Context and concurrency
 

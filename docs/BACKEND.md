@@ -13,23 +13,24 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Active priority — 2026-10-03
 
-The owner postponed new performance campaigns to develop MTP and vision on
-separate branches, both based on the shared-core/native-tools checkpoint
-`a262902`. Existing benchmark results remain historical and unchanged.
+The owner postponed new performance campaigns while MTP and vision were built
+on separate feature branches from the shared-core/native-tools checkpoint
+`a262902`. `feature/mtp-vision-integration` now combines `feature/mtp` at
+`7d85b2f` and `feature/vision` at `806a790`. Existing benchmark results remain
+historical and unchanged.
 
-| Branch | Work | Integration gate |
+| Branch | Implementation | Remaining acceptance gate |
 | --- | --- | --- |
-| `feature/mtp` | Model-neutral verified bursts, credits, predictor admission and HTTP/core clients. | Complete C codec, device binding and predictor identity connected; qualify original-weight cache continuation, correctness and AR comparison. |
-| `feature/vision` | Model-neutral owned image inputs, physical context accounting and HTTP/core clients. | Complete image state/identity, original-weight quality and resource accounting. |
+| `feature/mtp` | Verified bursts, demand/cancellation, complete predictor/controller checkpoints and stable predictor identity. | Original-weight correctness, continuation and AR comparison. |
+| `feature/vision` | Owned image inputs, physical context, semantic cache/MRoPE and actual projector identity. | Original-weight quality, continuation and resource fit. |
+| `feature/mtp-vision-integration` | Atomic joint admission in core/HTTP/bench and one complete RAM/SSD checkpoint. | Original-weight mixed image/text MTP, rejection/rollback, cache parity and resource qualification. |
 
-MTP and vision are capabilities for multiple model families and platforms.
-The C17 core owns policy, scheduling, lifetimes and metrics. Each binding owns
-predictor/encoder semantics, tensor geometry and exact state contents. Qwen is
-the first provider binding, not a core assumption. CPU fixtures use different
-provider geometries to exercise that separation; they do not qualify another
-real model. Merge the branches and qualify combined operation before advertising
-MTP plus vision together. Keep benchmark gaps open until the deferred campaign.
-
+MTP and vision remain model-neutral capabilities. The C17 core owns policy,
+scheduling, lifetimes, storage and metrics; the model binding owns predictor,
+encoder, positions and numerical components. The combined Qwen binding is the
+first implementation, not a core assumption. Native fixtures cover different
+burst and image expansion geometries; they do not qualify another real model.
+Keep benchmark gaps open until the deferred campaign.
 
 ## Two implementations behind LIE-owned contracts
 
@@ -184,9 +185,10 @@ chat/eval clients must not require an HTTP service or duplicate the engine.
 The [source audit and extraction gates](reference/ARCHITECTURE.md#shared-core-and-client-boundary)
 now cover the implemented `lie_core` lifecycle and direct `--suite core` consumer,
 not just the shared decode dispatcher. Structured tool-output semantics and
-RAM state/cache follows the same neutral core boundary. This branch adds the
-[MTP development slice](development/MTP.md); complete extended state and
-original-weight qualification remain pending.
+RAM state/cache follows the same neutral core boundary.
+[MTP](development/MTP.md) and [vision](development/VISION.md) now share that
+core and complete extended state, including joint operation. Original-weight
+qualification remains pending.
 
 Keep operations coarse enough to preserve efficient fused kernels and native
 multirow work. Avoid a callback per scalar/tensor operation or a universal graph

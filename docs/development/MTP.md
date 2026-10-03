@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# MTP development branch
+# MTP development
 
 `feature/mtp` adds verified multi-token generation to the shared C17 core,
 HTTP server and core benchmark client. The contract is model-neutral; the first
@@ -8,8 +8,10 @@ rollback to the pinned Gufo Qwen3.8 Flash Next provider.
 
 **Status:** CPU contract tests and HIP compilation/linking only. Original-weight
 MTP correctness, memory fit and speed have not been qualified. GPU benchmarks
-are postponed at the owner's request. Vision is developed on `feature/vision`;
-these two feature branches are not yet combined.
+are postponed at the owner's request. The two feature checkpoints are combined
+on `feature/mtp-vision-integration`; [joint configuration](../guides/USAGE.md#mtp-with-images)
+uses the same core, reactive output flow and RAM/SSD state. Native combined checks
+and HIP linking do not qualify original-weight behavior.
 
 ## Use
 
@@ -78,7 +80,7 @@ The C state codec now describes DS4 predictor K/V, raw index and pooled keys,
 plus typed residual/kept hidden rows and a validated adaptive controller.
 The extra Gufo continuation components use the common authenticated auxiliary
 trailer; DS4 payload offsets and ordinary AR files remain unchanged. CPU fixtures
-exercise predictor frontiers at 0, 1, 3, 4 and 8 tokens, budget refusal, corruption,
+exercise predictor frontiers at 5–9 tokens and reject missing catch-up rows, budget refusal, corruption,
 capture/restore and SSD index reconstruction in a new live domain.
 
 The live binding now copies these components and commits both trunk and
@@ -115,7 +117,7 @@ sparse threshold and **has not been measured**. The current AR and MTP state
 schedule remains a correctness-first development variant, with a default-ON
 build option; it is not qualified as faster than pristine Gufo.
 
-Before integration: qualify greedy AR parity, sampled target behavior,
+Before GPU qualification: test greedy AR parity, sampled target behavior,
 rejection/rollback, capture immediately after prefill and verified bursts,
 RAM restore, independent SSD restart, context growth, cancellation and mixed
 concurrency on original weights. Then compare PP/TG, complete-window throughput
@@ -135,3 +137,6 @@ The subsequent state-codec checks are recorded separately in the
 
 Live cache integration checks are recorded in the
 [MTP cache validation receipt](validation/mtp-cache-2026-10-03.json).
+
+Combined integration validation is recorded in the
+[source-bound receipt](validation/mtp-vision-integration-2026-10-03.json).

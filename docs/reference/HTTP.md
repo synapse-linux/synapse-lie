@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # HTTP / SSE and monitor contract — native function tools
 
 The optional real provider is linked. A separately leased original-weight C1
@@ -7,12 +8,15 @@ Responses evidence](../archive/OPENAI-GPU.md), plus a [real Pi read/edit/read ru
 separate, clearly labelled synthetic executable. No model is configured by default and no synthetic provider can be
 selected in `synapse-lie-server`.
 
-## Experimental MTP path
+## Experimental MTP and vision
 
-See [MTP usage and bounds](../development/MTP.md). Chat Completions
-and Responses use the same shared-core admission and ownership as direct clients.
-JSON/SSE fixtures validate transport and counters; GPU correctness remains open.
-
+[MTP](../development/MTP.md) and [vision](../development/VISION.md) use the same
+shared-core admission and ownership as direct clients. Both can be enabled
+[together](../guides/USAGE.md#mtp-with-images). Chat Completions and Responses
+accept the standard vision request with no MTP-specific request fields.
+Native JSON/SSE fixtures validate combined transport, output budgets and cache
+reuse; original-weight correctness remains open. Backend metadata reports both
+capabilities and advertises prefix state only when all admitted features support it.
 
 ## Management listener
 
@@ -142,15 +146,15 @@ Ready `POST /v1/chat/completions` accepts this deliberately narrow JSON subset:
   most 128 UTF-8 bytes. Reserved Qwen argument delimiters are refused.
 - Temperature 0–2, top_p >0–1, frequency/presence penalties −2–2 and
   nonnegative seed configure the per-sequence sampler.
-- Unknown fields, custom/non-function tools, images, arbitrary stops, logprobs
+- Unknown fields, custom/non-function tools, unsupported image inputs, arbitrary stops, logprobs
   and invalid/unsupported sampling are errors, not ignored options.
 
 Malformed/unsupported requests are 400; bounded overload is 429. Preparation
 failures are 400 `invalid_request`; backend failures before headers are 503
 `inference_failed` with a diagnostic message. This is an OpenAI-shaped subset,
 not blanket compatibility. Each request creates a fresh session. Supplying prior
-messages re-prefills history; structured tool continuation is supported, but it
-is not retained session/prefix state.
+messages may reuse a compatible prefix checkpoint; the destination sampler
+is fresh. Structured tool continuation does not resume the previous session.
 
 ### Output and cancellation
 

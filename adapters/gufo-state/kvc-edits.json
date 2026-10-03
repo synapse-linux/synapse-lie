@@ -1,7 +1,7 @@
 {
   "schema": "synapse-lie.gufo-ds4-state.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "scope": "AR and MTP complete raw index retention and eager completed block pooling for exact DS4 payload capture. Device SessionBytes includes the larger index allocation. Existing kernels and model arithmetic are reused; numerical equivalence requires GPU qualification. Applied after state-access friends in an independent source variant.",
+  "scope": "Complete AR/MTP/vision index retention and eager scalar/batch pooling; actual target/predictor/projector reader access. Shared C codecs and cache policy remain LIE-owned. Original-weight combined operation requires GPU qualification.",
   "edits": [
     {
       "path": "src/models/qwen38_flash_next/engine.hpp",
@@ -67,6 +67,21 @@
       "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
       "old": "    if (item.session->mtp_.position > c.indexer_top_k)\n      item.session->mtp_.blocks =\n          item.session->mtp_.position / c.compress_ratio;",
       "new": "    item.session->mtp_.blocks =\n        item.session->mtp_.position / c.compress_ratio;"
+    },
+    {
+      "path": "src/models/qwen/vision/encoder.hpp",
+      "old": "#include \"src/core/image.hpp\"",
+      "new": "#include \"src/core/image.hpp\"\n#include \"src/core/gguf_reader.hpp\""
+    },
+    {
+      "path": "src/models/qwen/vision/encoder.hpp",
+      "old": "  [[nodiscard]] const std::string& identity() const;",
+      "new": "  [[nodiscard]] const std::string& identity() const;\n  [[nodiscard]] const core::GgufReader& LieReader() const;"
+    },
+    {
+      "path": "src/models/qwen/vision/encoder.hip",
+      "old": "const std::string& Encoder::identity() const {",
+      "new": "const core::GgufReader& Encoder::LieReader() const { return *impl_->reader; }\nconst std::string& Encoder::identity() const {"
     }
   ]
 }

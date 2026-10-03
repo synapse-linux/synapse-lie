@@ -9,8 +9,9 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP.
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports
 contexts up to 262,144 tokens and up to eight active sequences.
-This branch adds experimental [MTP](docs/development/MTP.md) through a
-model-neutral C core contract. CPU checks and HIP linking do not qualify its
+Experimental [MTP](docs/development/MTP.md) and
+[vision](docs/development/VISION.md) share model-neutral C core contracts and
+can be configured together. CPU checks and HIP linking do not qualify its
 original-weight behavior or performance; other real model bindings remain open.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
@@ -25,6 +26,10 @@ original-weight behavior or performance; other real model bindings remain open.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.
   GPU correctness and performance qualification remain pending.
+- Experimental [vision image inputs](docs/development/VISION.md),
+  with explicit model configuration and semantic RAM/SSD cache binding.
+  MTP and vision can run together through the same core and cache.
+  Original-weight vision and combined qualification remain pending.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency

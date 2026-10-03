@@ -26,6 +26,7 @@ struct lie_job {
     pthread_mutex_t gate;
     lie_job_info info;
     lie_sequence *sequence; /* worker only */
+    unsigned char cache_scope[32];
     int32_t *prompt;
     size_t tokens, fed;
     size_t checkpoint, next_continued, last_capture;
@@ -48,7 +49,7 @@ struct lie_core {
     lie_core_info info;
     lie_core_options options;
     char *path;
-    char *mtp_path;
+    char *mtp_path, *vision_path;
     lie_job *jobs[LIE_CORE_JOBS];
     unsigned preparing; /* Bounded admission copies, protected by gate. */
     int wake, notice;
@@ -277,18 +278,18 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
-    lie_status rc=restore?lie_prefix_cache_restore_key(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,&reused,error):
-        lie_prefix_cache_capture_prompt(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
-                                        w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,error);
+    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,j->cache_scope,&reused,error):
+        lie_prefix_cache_capture_scope(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
+                                        w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,j->cache_scope,error);
     if(!restore&&rc==LIE_OK&&w->store){
-        lie_state *state=lie_prefix_cache_find(&w->cache,tokens,frontier),*temporary=NULL;
+        lie_state *state=lie_prefix_cache_find_scope(&w->cache,tokens,frontier,j->cache_scope),*temporary=NULL;
         if(!state){lie_state_layout layout;uint64_t bytes=0;
             rc=lie_state_plan(j->sequence,&layout,&bytes,error);
             if(rc==LIE_OK&&layout.token_count!=frontier){rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token frontier mismatch");}
             if(rc==LIE_OK&&lie_store_can_write(w->store,bytes)){
                 rc=lie_state_capture(j->sequence,&layout,w->options.ssd.staging_bytes,&temporary,error);
                 if(rc==LIE_RESOURCE_LIMIT)rc=LIE_OK;
-                if(temporary&&memcmp(lie_state_tokens(temporary),tokens,frontier*sizeof(*tokens))){
+                if(temporary&&(!lie_state_scope_equal(temporary,j->cache_scope)||memcmp(lie_state_tokens(temporary),tokens,frontier*sizeof(*tokens)))){
                     lie_state_destroy(&temporary);rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token contents mismatch");}
                 if(temporary)(void)lie_state_compress(&temporary,w->options.ssd.staging_bytes);
                 state=temporary;
@@ -306,7 +307,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     if(restore&&rc==LIE_OK){j->fed=reused;j->position=reused;j->info.cached_tokens=reused;
         uint32_t interval=lie_cache_continued_step(&w->options.cache_policy);
         j->next_continued=interval?((reused/interval)+1)*(size_t)interval:0;
-        lie_state *state=lie_prefix_cache_find(&w->cache,j->prompt,reused);
+        lie_state *state=lie_prefix_cache_find_scope(&w->cache,j->prompt,reused,j->cache_scope);
         const lie_cache_metadata *m=lie_prefix_cache_record(&w->cache,state);
         if(m){lie_cache_metadata_clear(&j->restored_metadata);(void)lie_cache_metadata_copy(&j->restored_metadata,m);}
     }
@@ -333,7 +334,7 @@ static bool ssd_collect(lie_core *w){
         const lie_state_layout *layout=lie_state_description(result.state);
         /* Complete file validation precedes this model geometry check. Both
          * are nonmutating; only a compatible admitted upload is fatal on error. */
-        bool text_ok=!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata);
+        bool text_ok=lie_state_scope_equal(result.state,j->cache_scope)&&(!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata));
         lie_status rc=info.state==LIE_READY&&text_ok?lie_sequence_state_describe(j->sequence,layout,&expected,&error):LIE_INVALID;
         if(rc==LIE_OK&&lie_state_layout_equal(layout,&expected)){
             pthread_mutex_lock(&w->gate);w->dispatch=j;j->executing=true;w->info.executor_phase=LIE_EXECUTOR_RESTORE;pthread_mutex_unlock(&w->gate);
@@ -382,6 +383,13 @@ static bool step(lie_core *w, size_t index) {
         j->prompt=malloc((size_t)w->options.context*sizeof(*j->prompt));
         if (!j->prompt) { finish_job(w,index,LIE_FINISH_BACKEND,"allocation_failed"); return true; }
         lie_core_request *r=&j->request;
+        if(r->image_count){uint64_t pixels=0,bytes=0;
+            for(size_t k=0;k<r->image_count;++k){lie_image_dimensions d;
+                if(lie_image_inspect(&r->images[k],&d,&error)!=LIE_OK||!(wi.vision.format_mask&(1u<<r->images[k].format))){finish_job(w,index,LIE_FINISH_INVALID,"unsupported image encoding");return true;}
+                pixels+=(uint64_t)d.width*d.height;bytes+=r->images[k].bytes;
+            }
+            if(pixels>wi.vision.max_pixels||bytes>wi.vision.max_encoded_bytes){finish_job(w,index,LIE_FINISH_INVALID,"model image budget exceeded");return true;}
+        }
         const lie_chat_tool *tools=r->chat.tools;
         size_t tool_count=r->tool_choice==LIE_TOOLS_NONE?0:r->chat.tool_count;
         if (r->tool_choice==LIE_TOOLS_NAMED) {
@@ -389,7 +397,7 @@ static bool step(lie_core *w, size_t index) {
             if (k==r->chat.tool_count) { finish_job(w,index,LIE_FINISH_INVALID,"invalid_tool_choice"); return true; }
             tools=&r->chat.tools[k]; tool_count=1;
         }
-        lie_status rc=LIE_OK;
+        lie_status rc=LIE_OK;lie_vision_prompt *vision=NULL;
         if (r->kind==LIE_INPUT_TOKENS) {
             j->tokens=r->token_count;
             if (j->tokens>w->options.context) rc=LIE_BUFFER_SMALL;
@@ -399,25 +407,32 @@ static bool step(lie_core *w, size_t index) {
         } else {
             const lie_chat_template input={r->chat.messages,r->chat.details,r->chat.count,tools,tool_count,
                 r->tool_choice>=LIE_TOOLS_REQUIRED || r->chat.require_tool_call};
-            rc=lie_model_chat_tokens_ex(w->model,&input,j->prompt,w->options.context,&j->tokens,&error);
+            rc=r->image_count?lie_model_prepare_vision(w->model,&input,r->images,r->image_count,j->prompt,w->options.context,&j->tokens,&vision,&error):
+                lie_model_chat_tokens_ex(w->model,&input,j->prompt,w->options.context,&j->tokens,&error);
         }
         if (rc!=LIE_OK || !j->tokens || j->tokens>w->options.context ||
             j->request.max_tokens>w->options.context-j->tokens) {
+            if(vision)(void)lie_vision_prompt_close(&vision,NULL);
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,rc==LIE_BACKEND_FAILED?LIE_FINISH_BACKEND:LIE_FINISH_INVALID,
                        rc==LIE_OK || rc==LIE_BUFFER_SMALL?"context_budget_exceeded":error.message);
             return true;
         }
         for (size_t k=0;k<j->tokens;++k) if (j->prompt[k]<0 || (uint32_t)j->prompt[k]>=wi.model.vocab_tokens) {
+            if(vision)(void)lie_vision_prompt_close(&vision,NULL);
             finish_job(w,index,LIE_FINISH_INVALID,"invalid_prompt_token");return true;
         }
         lie_sequence *sequence=NULL;
         rc=lie_sequence_create(w->model,&sequence,&error);
         if (rc!=LIE_OK) {
+            if(vision)(void)lie_vision_prompt_close(&vision,NULL);
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,LIE_FINISH_BACKEND,error.message); return true;
         }
-        rc=lie_sequence_configure(sequence,&j->request.generation,&error);
+        rc=vision?lie_vision_prompt_cache_scope(vision,j->cache_scope,&error):LIE_OK;
+        if(rc==LIE_OK&&vision)rc=lie_sequence_attach_vision(sequence,vision,&error);
+        if(vision)(void)lie_vision_prompt_close(&vision,NULL);
+        if(rc==LIE_OK)rc=lie_sequence_configure(sequence,&j->request.generation,&error);
         if (rc!=LIE_OK) {
             lie_error close_error={0};
             lie_status closed=lie_sequence_close(&sequence,&close_error);
@@ -435,7 +450,7 @@ static bool step(lie_core *w, size_t index) {
         if(w->store||((w->options.prefix_cache_bytes||w->store)&&w->options.cache_policy.enabled&&
            w->options.cache_policy.text_prefix&&j->request.kind!=LIE_INPUT_TOKENS)){
             j->text_complete=render_prompt(w,j);
-            j->text_lookup=j->request.kind!=LIE_INPUT_TOKENS&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix&&
+            j->text_lookup=!j->request.image_count&&j->request.kind!=LIE_INPUT_TOKENS&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix&&
                 (j->text_complete||j->request.cache.text_bytes);
         }
         signal_fd(w->notice);
@@ -452,7 +467,7 @@ static bool step(lie_core *w, size_t index) {
         if(j->ssd_ticket)return false;
         size_t key_bytes;const char *key=lookup_text(j,&key_bytes);
         j->ssd_ticket=j->text_lookup?lie_store_read_text_key(w->store,key,key_bytes,w->options.chunk,j->request.cache.flags):
-            lie_store_read_key(w->store,j->prompt,j->tokens,w->options.chunk,j->request.cache.flags);
+            lie_store_read_scoped_key(w->store,j->prompt,j->tokens,w->options.chunk,j->request.cache.flags,j->cache_scope);
         if(j->ssd_ticket)return true;
         lie_store_info store;lie_store_snapshot(w->store,&store);
         if(store.pending)return false; /* Other rows may still prefill/decode. */
@@ -602,7 +617,11 @@ static void *work(void *arg) {
     lie_core *w=arg; lie_error error={0};
     lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk};
     lie_model_info model={0};lie_mtp_info mtp={.abi_version=LIE_MTP_ABI,.struct_bytes=sizeof(mtp)};
-    lie_status rc=w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
+    lie_vision_info vision={.abi_version=LIE_VISION_ABI,.struct_bytes=sizeof(vision)};
+    lie_status rc=w->mtp_path&&w->vision_path?
+        lie_backend_open_mtp_vision(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,w->vision_path,&w->model,&error):
+        w->vision_path?lie_backend_open_vision(w->path,&options,w->options.max_active,w->vision_path,&w->model,&error):
+        w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
         lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
     if(rc==LIE_OK&&w->mtp_path){
@@ -610,6 +629,17 @@ static void *work(void *arg) {
         if(rc==LIE_OK&&(!model.speculative_supported||mtp.abi_version!=LIE_MTP_ABI||mtp.struct_bytes!=sizeof(mtp)||
            !mtp.max_draft_tokens||!mtp.max_output_tokens||mtp.max_output_tokens>LIE_MTP_MAX_OUTPUT)){
             rc=LIE_BACKEND_FAILED;snprintf(error.message,sizeof(error.message),"invalid admitted MTP capabilities");}
+    }
+    if(rc==LIE_OK&&w->vision_path){
+        rc=lie_model_vision_info(w->model,&vision,&error);
+        if(rc==LIE_OK&&(vision.abi_version!=LIE_VISION_ABI||vision.struct_bytes!=sizeof(vision)||
+           !vision.max_images||vision.max_images>LIE_VISION_MAX_IMAGES||!vision.max_pixels||
+           vision.max_pixels>LIE_VISION_MAX_PIXELS||!vision.max_encoded_bytes||
+           vision.max_encoded_bytes>LIE_VISION_MAX_BYTES||!(vision.format_mask&6u))){
+            rc=LIE_BACKEND_FAILED;snprintf(error.message,sizeof(error.message),"invalid admitted vision capabilities");}
+    }
+    if(rc==LIE_OK&&w->vision_path&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!vision.prefix_state_supported){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"admitted vision model has no complete prefix-state support (semantic prefix state); rebuild with image state access or explicitly disable prefix caches");
     }
     if(rc==LIE_OK&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!lie_backend_prefix_state_supported()){
         rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable prefix caches");
@@ -624,7 +654,7 @@ static void *work(void *arg) {
     }
     lie_store_info initial_store;lie_store_snapshot(w->store,&initial_store);
     pthread_mutex_lock(&w->gate);
-    w->info.model=model;w->info.mtp=mtp;
+    w->info.model=model;w->info.mtp=mtp;w->info.vision=vision;
     w->info.ssd=initial_store;
     w->info.state=atomic_load(&w->stop)?LIE_STOPPING:rc==LIE_OK?LIE_READY:LIE_FAILED;
     if (rc!=LIE_OK) snprintf(w->info.error,sizeof(w->info.error),"%s",error.message);
@@ -673,9 +703,11 @@ lie_core *lie_core_create(const lie_core_options *o) {
     if(o->mtp_draft_tokens&&!o->mtp_model_path)return NULL;
     if(o->mtp_model_path&&(!LIE_MTP||!*o->mtp_model_path||
        o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT))return NULL;
+    if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     if(o->mtp_model_path){w->mtp_path=strdup(o->mtp_model_path);if(!w->mtp_path)goto fail;w->options.mtp_model_path=w->mtp_path;}
+    if(o->vision_model_path){w->vision_path=strdup(o->vision_model_path);if(!w->vision_path)goto fail;w->options.vision_model_path=w->vision_path;}
     if(o->ssd.directory){
         w->ssd_path=strdup(o->ssd.directory);w->options.ssd.directory=w->ssd_path;
         if(!w->ssd_path||*w->ssd_path!='/'||o->ssd.quota_bytes<4096||o->ssd.staging_bytes<32768||
@@ -692,7 +724,7 @@ lie_core *lie_core_create(const lie_core_options *o) {
 fail:
     if (w->wake>=0) close(w->wake);
     if (w->notice>=0) close(w->notice);
-    free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
+    free(w->vision_path);free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
 }
 void lie_core_stop(lie_core *w) {
     atomic_store(&w->stop,true);
@@ -703,15 +735,16 @@ void lie_core_stop(lie_core *w) {
 void lie_core_destroy(lie_core *w) {
     lie_core_info info; lie_core_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
     pthread_join(w->thread,NULL); close(w->wake); close(w->notice);
-    pthread_mutex_destroy(&w->gate);free(w->mtp_path);free(w->ssd_path); free(w->path); free(w);
+    pthread_mutex_destroy(&w->gate);free(w->vision_path);free(w->mtp_path);free(w->ssd_path); free(w->path); free(w);
 }
 int lie_core_fd(lie_core *w) { return w->notice; }
 void lie_core_drain(lie_core *w) { drain_fd(w->notice); }
 int lie_core_submit(lie_core *w, const lie_core_request *request, lie_job **out) {
-    if (!w || !request || !out || *out) return 3;
+    if (!w || !request || !out || *out || request->abi_version!=LIE_CORE_REQUEST_ABI || request->struct_bytes!=sizeof(*request)) return 3;
     pthread_mutex_lock(&w->gate);
     int result=w->info.state!=LIE_READY || atomic_load(&w->stop)?1:
         w->info.active+w->info.queued+w->preparing>=LIE_CORE_JOBS?2:0;
+    if(!result&&request->image_count&&(!w->vision_path||request->image_count>w->info.vision.max_images))result=3;
     if (!result) ++w->preparing;
     pthread_mutex_unlock(&w->gate);
     if (result) return result;

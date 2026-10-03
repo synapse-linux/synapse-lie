@@ -63,18 +63,14 @@ int main(int argc, char **argv) {
     execl(argv[1], argv[1], "--model", ":fixture:", "--model-id", "cpu-test-fixture",
 #if defined(TEST_VISION)
           "--model-vision", ":vision-a:",
-#else
+#endif
+#if defined(TEST_MTP)
           "--model-mtp", ":wide-fixture:",
 #endif
           "--host", "127.0.0.1", "--port", aps, "--management-port", mps,
           "--context", "128", "--prefill-chunk", "4", "--max-active", "2",
-          "--kv-cache-ram-mb",
-#if defined(TEST_VISION)
-          "0",
-#else
-          "1",
-#endif
-          "--kv-cache-min-tokens", "0", (char *)NULL);
+          "--kv-cache-ram-mb", "1", "--kv-cache-min-tokens", "1",
+          "--kv-cache-boundary-trim-tokens", "0", "--kv-cache-boundary-align-tokens", "0", "--kv-cache-capture-finish", "off", (char *)NULL);
     _exit(127);
   }
   bool ready = false;
@@ -95,10 +91,11 @@ int main(int argc, char **argv) {
   require(metadata != NULL, metadata_error.message);
   json_object *backend = nb_get(metadata, "backend");
 #if defined(TEST_VISION)
-  require(!json_object_get_boolean(nb_get(backend, "prefix_state")), "incomplete feature state advertised as cacheable");
+  require(json_object_get_boolean(nb_get(backend, "prefix_state")), "complete image state support missing");
   require(json_object_get_boolean(nb_get(backend, "vision")) &&
           nb_number(backend, "max_images") == 16, "vision capability");
-#else
+#endif
+#if defined(TEST_MTP)
   require(json_object_get_boolean(nb_get(backend, "prefix_state")), "complete MTP state support missing");
   require(json_object_get_boolean(nb_get(backend, "mtp")) &&
           nb_number(backend, "max_decode_output_tokens") == 13, "MTP capability");
@@ -131,12 +128,14 @@ int main(int argc, char **argv) {
       require(nb_number(o, "output_tokens") == (budget == 4 ? 4 : 8) &&
               *nb_string(o, "content"), "complete output");
 #if defined(TEST_VISION)
-      require(!nb_number(o, "cached_tokens"), "incomplete vision cache enabled");
+      require(nb_number(o, "cached_tokens") == (responses || stream || budget == 19 ? 7 : 0), "vision prompt cache reuse lost");
       require(nb_number(o, "prompt_tokens") == 7, "image tokens lost in HTTP admission");
 #else
       require(nb_number(o, "cached_tokens") == (responses || stream || budget == 19 ? 4 : 0),
               "MTP prompt cache reuse lost");
       require(nb_number(o, "prompt_tokens") == 4, "prompt count");
+#endif
+#if defined(TEST_MTP)
       if (!responses) {
         json_object *timings = nb_get(o, "server_timings");
         require((budget == 4 ? nb_number(timings, "decode_calls") == 1 :

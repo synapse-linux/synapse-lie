@@ -571,3 +571,31 @@ For CPU-only completion, one job and a 95 C guard were used within the owner's
 clock, power, system setting or foreign process was changed. This does not
 raise the separate 85 C functional-GPU preparation ceiling while local fans
 remain unconfigured. No shutdown or hardware deterioration was observed.
+
+## Vision semantic cache host validation — 2026-10-03
+
+This step uses CPU fixtures and host HIP compilation only on the editing `.155`.
+CPU build/test guards use 95 C under the owner's 98 C CPU allowance, with at most
+two simultaneous single-job builds, GPU visibility masked, and lower exposed
+hardware/NVMe limits retained. The provider build peaks at CPU92.125 C; the first
+full sanitizer suite peaks at CPU74.375 C. No fan/power/clock settings changed.
+Actual compiler/test failures and exits remain under `evidence/vision-cache-*`.
+There is no model weight hash/conversion/load, GPU execution, remote build,
+new lease or benchmark. Functional GPU preparation still uses its separate
+85 C gate and requires compatible complete models plus fresh coordinated leases.
+
+## Joint integration host validation — 2026-10-03
+
+`feature/mtp-vision-integration` owns its persistent source, independently fetched
+Gufo pin and new provider variant/build. The work is local CPU fixture testing
+and host HIP compilation/linking only, with GPU visibility masked. No GPU/model
+lease, model load/hash/conversion, remote build, deployment or publication occurs.
+
+Builds use one job each, at most two concurrently, and a 95 C child-only guard
+within the owner's 98 C CPU allowance; lower NVMe limits remain in force.
+The independently rebuilt provider records CPU90.375 C, the full sanitizer suite
+CPU69.875 C and the synthetic combined client CPU88.75 C. No fan, clock, power or
+foreign process was changed; no shutdown/deterioration was observed. The separate
+functional-GPU gate stays at 85 C with compatible complete weights and fresh
+coordinated ownership required. Initial compiler failures and actual exits remain
+under local `evidence/integration-*` and the source-bound integration receipt.

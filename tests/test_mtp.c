@@ -5,6 +5,10 @@
 #include "lie/inference.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#ifdef TEST_VISION
+#include "vision_fixture.h"
+#include <stdlib.h>
+#endif
 #include <assert.h>
 #include <poll.h>
 #include <pthread.h>
@@ -46,6 +50,9 @@ static void family(const char *predictor, unsigned burst) {
   lie_core_options_init(&o);
   o.model_path = ":fixture:";
   o.mtp_model_path = predictor;
+#ifdef TEST_VISION
+  o.vision_model_path = burst==13?":vision-b:":":vision-a:";
+#endif
   o.context = 128;
   o.chunk = 4;
   o.max_active = 2;
@@ -60,6 +67,12 @@ static void family(const char *predictor, unsigned burst) {
   r.tokens = tokens;
   r.token_count = 4;
   r.max_tokens = 19;
+#ifdef TEST_VISION
+  unsigned char *pixels=NULL;size_t bytes=0;lie_image_format format;
+  assert(lie_image_data_url(image_url,strlen(image_url),&pixels,&bytes,&format,NULL)==LIE_OK);
+  lie_image_input image={pixels,bytes,format,0,2};lie_chat_message message={LIE_CHAT_USER,"LONG",4};
+  r.kind=LIE_INPUT_MESSAGES;r.tokens=NULL;r.token_count=0;r.chat.messages=&message;r.chat.count=1;r.images=&image;r.image_count=1;
+#endif
   lie_job *a = NULL, *b = NULL;
   fake_barrier_arm_phase(FAKE_PREFILL);
   assert(!lie_core_submit(c, &r, &a));
@@ -68,6 +81,9 @@ static void family(const char *predictor, unsigned burst) {
   assert(lie_flow_request(lie_job_flow(a), 64) == LIE_FLOW_OK);
   assert(lie_flow_request(lie_job_flow(b), 64) == LIE_FLOW_OK);
   fake_barrier_release();
+#ifdef TEST_VISION
+  free(pixels);
+#endif
   lie_job *jobs[] = {a, b};
   for (unsigned i = 0; i < 2; ++i) {
     unsigned total = 0, maximum = 0;
@@ -140,6 +156,27 @@ static void cache_identity(void) {
   lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
   opts.prefix_cache_bytes=0;c=lie_core_create(&opts);assert(c);ready(c,LIE_READY);
   lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
+#ifdef TEST_VISION
+  const char *encoders[]={":vision-a:",":vision-b:",":vision-a:",":vision-a:"};
+  const char *joint_predictors[]={":fixture:",":fixture:",":wide-fixture:",":fixture:"};
+  uint32_t joint_drafts[]={2,2,2,3};lie_state_identity joint_ids[4];
+  for(unsigned i=0;i<4;++i){lie_model *m=NULL;uint64_t domain;
+    assert(lie_backend_open_mtp_vision(":fixture:",&o,2,joint_predictors[i],joint_drafts[i],encoders[i],&m,NULL)==LIE_OK);
+    assert(lie_model_state_identity(m,&joint_ids[i],&domain,NULL)==LIE_OK);
+    assert(lie_model_close(&m,NULL)==LIE_OK);
+    for(unsigned j=0;j<i;++j)assert(memcmp(&joint_ids[i],&joint_ids[j],sizeof(joint_ids[i])));
+  }
+  opts.vision_model_path=":vision-a:";opts.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES;
+  c=lie_core_create(&opts);assert(c);info=ready(c,LIE_FAILED);
+  assert(strstr(info.error,"complete prefix-state support"));
+  lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
+  opts.mtp_model_path=":fixture:";opts.vision_model_path=":vision-no-state:";
+  c=lie_core_create(&opts);assert(c);info=ready(c,LIE_FAILED);
+  assert(strstr(info.error,"semantic prefix state"));
+  lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
+  opts.prefix_cache_bytes=0;c=lie_core_create(&opts);assert(c);ready(c,LIE_READY);
+  lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
+#endif
 }
 typedef struct {
   lie_sequence *s;
@@ -157,25 +194,44 @@ static void dispatch(void) {
   lie_error e = {0};
   lie_model *m = NULL;
   lie_model_options o = {LIE_EXECUTOR_ABI, sizeof(o), 128, 4};
-  assert(lie_backend_open_mtp(":fixture:", &o, 2, ":wide-fixture:", 12, &m,
-                              &e) == LIE_OK);
+#ifdef TEST_VISION
+  assert(lie_backend_open_mtp_vision(":fixture:",&o,2,":wide-fixture:",12,":vision-b:",&m,&e)==LIE_OK);
+  unsigned char *pixels=NULL;size_t bytes=0;lie_image_format format;
+  assert(lie_image_data_url(image_url,strlen(image_url),&pixels,&bytes,&format,&e)==LIE_OK);
+  lie_image_input image={pixels,bytes,format,0,2};lie_chat_message message={LIE_CHAT_USER,"LONG",4};
+  lie_chat_template chat={.messages=&message,.count=1};int32_t prepared[128];size_t prompt_count=0;lie_vision_prompt *vision=NULL;
+  assert(lie_model_prepare_vision(m,&chat,&image,1,prepared,128,&prompt_count,&vision,&e)==LIE_OK);free(pixels);
+#else
+  assert(lie_backend_open_mtp(":fixture:", &o, 2, ":wide-fixture:", 12, &m,&e)==LIE_OK);
+  size_t prompt_count=4;
+#endif
   lie_sequence *s[2] = {0};
   lie_flow *f[2] = {0};
   lie_flow_options fo = {1, 4096, 32768};
   int32_t tokens[] = {1, 10, 10, 10};
+  (void)tokens;
   lie_inference_row rows[2] = {0};
   lie_inference_batch batch;
   for (unsigned i = 0; i < 2; ++i) {
     assert(lie_sequence_create(m, &s[i], &e) == LIE_OK);
+#ifdef TEST_VISION
+    assert(lie_sequence_attach_vision(s[i],vision,&e)==LIE_OK);
+    for(size_t n=4;n<prompt_count+4;n+=4){size_t at=n<prompt_count?n:prompt_count;
+      assert(lie_sequence_prefill(s[i],prepared,at,&e)==LIE_OK);if(at==prompt_count)break;}
+#else
     assert(lie_sequence_prefill(s[i], tokens, 4, &e) == LIE_OK);
+#endif
     assert(lie_flow_create(&fo, &f[i]) == LIE_FLOW_OK);
     rows[i] = (lie_inference_row){.sequence = s[i],
                                   .flow = f[i],
-                                  .position = 4,
+                                  .position = (uint32_t)prompt_count,
                                   .context = 128,
                                   .vocab = 2048,
                                   .step_tokens = 13};
   }
+  #ifdef TEST_VISION
+  assert(lie_vision_prompt_close(&vision,&e)==LIE_OK);
+  #endif
   fake_calls_reset();
   assert(lie_inference_prepare(rows, 2, 2, &batch, &e) == LIE_OK &&
          !batch.selected);
@@ -193,7 +249,7 @@ static void dispatch(void) {
   assert(!pthread_join(t, NULL));
   assert(rows[0].burst.status == LIE_CANCELLED && !rows[0].burst.emitted);
   assert(rows[1].burst.status == LIE_OK && rows[1].burst.emitted == 13 &&
-         rows[1].burst.position == 17);
+         rows[1].burst.position == prompt_count+13);
   for (unsigned i = 0; i < 2; ++i) {
     assert(lie_flow_abort(f[i], rows[i].reservation.ticket, 1) == LIE_FLOW_OK);
     assert(lie_sequence_close(&s[i], &e) == LIE_OK);

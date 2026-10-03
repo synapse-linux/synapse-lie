@@ -16,6 +16,14 @@ stable release is declared. Detailed validation history is in
   and an identity covering the actual target/predictor files and draft policy.
 
 - Experimental model-neutral [MTP core and HTTP path](docs/development/MTP.md),
+  with explicit predictor admission, bounded verified output and default-ON build support.
+- Vision cache reuse through the shared core: image semantics and MRoPE validation,
+  default RAM retention and optional SSD restart with caller-supplied matching images.
+  Original-weight GPU qualification remains pending.
+
+- Joint MTP/vision admission in the shared core, HTTP server and benchmark client,
+  with predictor/controller, prepared image scope and MRoPE in one RAM/SSD checkpoint.
+- Experimental model-neutral [vision core and HTTP path](docs/development/VISION.md),
   with default-ON build option, explicit model configuration and native client tests.
 
 - OpenAI-compatible Chat Completions and stateless Responses endpoints, with
@@ -71,9 +79,9 @@ stable release is declared. Detailed validation history is in
 ### Known limitations
 
 - Inference on this branch is qualified for Qwen3.8 Flash Next UD-Q4_K_XL on
-  AMD Strix Halo. The new MTP path is CPU-contract tested and HIP-linked,
-  but original-weight qualification and complete RAM/SSD state remain open.
-  Additional real model families, combined MTP/vision and 1M context remain future work.
+  AMD Strix Halo. MTP, vision and their combined RAM/SSD path have native
+  sanitizer coverage and link to HIP; original-weight qualification remains open.
+  Additional real model families and 1M context remain future work.
 - The numerical backend still uses the embedded Gufo C++/HIP provider.
 - Published benchmark coverage does not yet include the exact Gufo HTTP
   concurrency protocol, cold-file readiness or allocation-exact peak HIP memory.

@@ -20,4 +20,6 @@ lie_state *lie_state_file_read(int,const lie_state_identity *,uint64_t domain,ui
 /* Bounded metadata inspection; NOT checksum validation or restore admission. */
 bool lie_state_file_probe(int,const lie_state_identity *,uint64_t *file_bytes,unsigned *tokens,unsigned *context);
 bool lie_state_prefix_key(const lie_state_identity *,const int32_t *,size_t,char hex[65]);
+bool lie_state_scoped_prefix_key(const lie_state_identity *,const int32_t *,size_t,const unsigned char scope[32],char hex[65]);
+bool lie_state_file_scope(int,const lie_state_identity *,unsigned char scope[32]);
 #endif

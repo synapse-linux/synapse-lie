@@ -44,6 +44,25 @@ occurs in RAM-only mode. A model without complete MTP state must explicitly disa
 otherwise the core refuses readiness. Original-weight cache continuation and
 GPU numerical behavior remain unqualified. Image state is still refused here.
 
+## VISION development boundary
+
+This branch exposes [VISION inference inputs/output](../development/VISION.md),
+and its live complete-history provider now binds semantic image identity and
+MRoPE positions to shared RAM/SSD lookup and restore. `LIE_STATE_CACHE_SCOPE`
+is a model-neutral U8[32] component (layer zero), containing the full prepared
+image-prompt SHA-256. Text-only state has no scope section and uses the zero key.
+KVC scope resides after the AUXILIARY boundary; the DS4 tensor payload remains
+unchanged. Old AR files/names retain their existing framing.
+
+Lookup, deduplication, supersession and protected prefixes all compare scope.
+SSD indexes read only a bounded provisional scope; complete file digest/layout
+validation and scope revalidation still precede returning a usable state.
+Image jobs never use text-prefix reconstruction. Original images must be
+resupplied after restart; neither pixels nor embeddings are persisted. Changing
+future images conservatively prevents earlier-prefix reuse. The live Qwen
+binding checks prepared positions/scope before upload and preserves the fresh
+destination sampler. Default RAM is enabled for admitted complete-state vision;
+only SSD defaults off. Original-weight vision qualification remains open.
 
 ## Multi-model requirement
 
@@ -115,7 +134,8 @@ not live states.
 - A recipient is an empty independent sequence. Sampling, seed/RNG, penalties,
   output parsing and transport state belong to the new request. Completed prompt and generated-token
   frontiers may be captured; request-local sampling state is not resumed. Complete MTP checkpoints use the
-  extension above; vision state is still refused.
+  extension above; vision and joint MTP/vision also bind prepared positions and
+  the semantic image scope before device mutation.
 - The C model representation includes physical tokens, host logits, n-gram
   history, PLE history, convolution and recurrent state, attention K/V,
   chronological unpooled index keys and pooled block keys plus their frontier.
@@ -342,3 +362,14 @@ copy, and the HTTP adapter releases its parsed input after admission.
 A text stream may hold a bounded final response projection while its current
 flow loan stays pinned through write completion. Typed response terminals do
 not change the dispatch frontier, accounting or cancellation ownership.
+
+## Joint MTP/vision state
+
+The Qwen joint layout uses one `LIE_STATE_AUXILIARY` boundary: the existing
+100-byte MTP controller, residual/kept hidden rows, then U8[32] `CACHE_SCOPE`.
+The DS4 base and MTP-only/vision-only framing retain their existing meanings.
+Joint finish/check require independently prepared MRoPE positions and semantic
+scope; the ordinary text and vision-only entry points reject a joint state.
+Predictor catch-up requires retained hidden rows covering every missing position.
+The adapter commits trunk, predictor, controller and vision layout only after
+completed transfers. Cancellation/failure cannot publish a usable frontier.

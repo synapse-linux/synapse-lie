@@ -294,3 +294,30 @@ The numerical kernel implementations are unchanged, but launch scheduling has
 changed and needs original-weight GPU qualification. No DS4 source or sibling
 workspace artifact is imported. Shared storage/cache policy stays first-party
 MIT C17; upstream types remain confined to the adapter.
+## Vision cache reader binding — 2026-10-03
+
+The current `feature/vision` KVC variant adds Model friend access plus a const
+projector-reader getter to the independently pinned official source. These
+access-only additions expose the actual retained target/projector descriptors
+inside the transitional adapter; no numerical kernels or encoder arithmetic are
+changed by them. The complete-history pooling edits remain separately visible
+in `adapters/gufo-state/kvc-edits.json`. Existing provider trees are preserved.
+New source materialization and archive hashes are recorded by the CMake helper
+in `build/provider-vision-cache-r1/BUILD-RECEIPT.json` and the
+[validation receipt](../docs/development/validation/vision-cache-2026-10-03.json).
+No sibling DS4/CachyOS source or artifacts were imported.
+
+Semantic hashing and image preprocessing still use the official pinned Gufo
+vision implementation. LIE owns the generic scoped cache/SSD lifecycle and the
+C17 DS4 tensor/auxiliary framing. This is a transitional binding and host build,
+not an autonomous encoder or numerical/performance qualification.
+
+## Joint MTP/vision provider — 2026-10-03
+
+The integration independently fetches official Gufo at the same recorded pin and
+materializes the union of complete predictor-history and projector-reader edits.
+`ModelReaders` exposes the actual target, predictor and projector only inside the
+adapter. No source/artifact from DS4 or another workspace is imported; numerical
+kernels remain upstream. Launch scheduling changes still require original-weight
+qualification. The new private provider receipt and archive/source hashes are
+bound by the [integration receipt](../docs/development/validation/mtp-vision-integration-2026-10-03.json).

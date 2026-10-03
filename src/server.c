@@ -386,10 +386,12 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
     json_object_object_add(b,"max_request_bytes",json_object_new_int64(LIE_CHAT_BODY_BYTES));
     json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
+    json_object_object_add(b,"vision",json_object_new_boolean(info.vision.max_images!=0));
+    json_object_object_add(b,"max_images",json_object_new_int64(info.vision.max_images));
     json_object_object_add(b,"mtp",json_object_new_boolean(info.model.speculative_supported!=0));
     json_object_object_add(b,"max_decode_output_tokens",json_object_new_int64(info.model.speculative_supported?info.mtp.max_output_tokens:1));
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
-    json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()&&(!info.model.speculative_supported||info.mtp.prefix_state_supported)));
+    json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()&&(!info.model.speculative_supported||info.mtp.prefix_state_supported)&&(!info.vision.max_images||info.vision.prefix_state_supported)));
     json_object_object_add(b,"state_format",json_object_new_string(lie_backend_state_format()));
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
@@ -722,7 +724,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(key, "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR or explicit MTP with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in. MTP requires an explicit predictor; KV reuse requires complete admitted predictor state. Prefix restore uses fresh request sampling; no exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nAR, explicit MTP and vision (also combined) with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in. MTP requires an explicit predictor; KV reuse requires complete admitted predictor state. Prefix restore uses fresh request sampling; no exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -731,6 +733,7 @@ int main(int argc, char **argv) {
         else if (!strcmp(key, "--host")) host = argv[++i];
         else if (!strcmp(key, "--management-host")) management_host = argv[++i];
         else if (!strcmp(key, "--model")) options.model_path=argv[++i];
+        else if (!strcmp(key, "--model-vision")) options.vision_model_path=argv[++i];
         else if (!strcmp(key, "--model-mtp")) options.mtp_model_path=argv[++i];
         else if (!strcmp(key, "--mtp-draft-tokens")) options.mtp_draft_tokens=(uint32_t)number(argv[++i],LIE_MTP_MAX_DRAFT);
         else if (!strcmp(key, "--model-id")) model_id=argv[++i];
@@ -763,6 +766,7 @@ int main(int argc, char **argv) {
         !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
         fputs("Invalid model configuration\n",stderr); return 2;
     }
+    if(options.vision_model_path&&(!LIE_VISION||!*options.vision_model_path)){fputs("Vision admission is unavailable or empty\n",stderr);return 2;}
     if(options.mtp_draft_tokens&&!options.mtp_model_path){fputs("--mtp-draft-tokens requires --model-mtp\n",stderr);return 2;}
     if(options.mtp_model_path&&(!LIE_MTP||!*options.mtp_model_path)){
         fputs("MTP requires LIE_MTP=ON and a nonempty predictor path; KV cache requires complete admitted predictor state\n",stderr);return 2;

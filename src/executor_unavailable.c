@@ -2,6 +2,7 @@
 /* Link-time unavailable implementation. Never supplies model output. */
 #include "lie/executor.h"
 #include "lie/mtp.h"
+#include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include <stdio.h>
@@ -47,3 +48,13 @@ lie_status lie_backend_open_mtp(const char *p UNUSED,const lie_model_options *o 
 lie_status lie_sequences_decode_mtp(lie_sequence *const *s UNUSED,const uint32_t *l UNUSED,size_t n UNUSED,lie_mtp_outcome *o UNUSED,lie_error *e){return unavailable(e);}
 
 lie_status lie_model_mtp_info(lie_model *m UNUSED,lie_mtp_info *i UNUSED,lie_error *e){return unavailable(e);}
+
+lie_status lie_backend_open_vision(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,const char *v UNUSED,lie_model **m UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_model_vision_info(lie_model *m UNUSED,lie_vision_info *v UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_model_prepare_vision(lie_model *m UNUSED,const lie_chat_template *t UNUSED,const lie_image_input *i UNUSED,size_t n UNUSED,int32_t *p UNUSED,size_t c UNUSED,size_t *r UNUSED,lie_vision_prompt **o UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_attach_vision(lie_sequence *s UNUSED,const lie_vision_prompt *p UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_vision_prompt_close(lie_vision_prompt **p UNUSED,lie_error *e){return unavailable(e);}
+
+lie_status lie_vision_prompt_cache_scope(const lie_vision_prompt *p UNUSED,unsigned char o[32] UNUSED,lie_error *e){return unavailable(e);}
+
+lie_status lie_backend_open_mtp_vision(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,const char *d UNUSED,uint32_t n UNUSED,const char *v UNUSED,lie_model **m UNUSED,lie_error *e){return unavailable(e);}

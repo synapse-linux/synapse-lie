@@ -1,0 +1,929 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "date": "2026-10-03",
+  "feature": "mtp-vision-integration",
+  "branch": "feature/mtp-vision-integration",
+  "merge_parents": {
+    "mtp": "7d85b2f24c5886c1195fe2f4dfcdef6056a131d9",
+    "vision": "806a790e713efdd67f5bbb35ccb66c12ee6f280d"
+  },
+  "worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration",
+  "host": "cachyos-x8664",
+  "scope": "Local native synthetic contracts and independently rebuilt HIP provider/client linking only. NOT-INFERENCE; no original-weight model load, heavyweight model hash, conversion, GPU execution, remote build or performance campaign.",
+  "contracts": {
+    "executor_abi": 2,
+    "core_request_abi": 3,
+    "state_abi": 2,
+    "mtp_abi": 1,
+    "vision_abi": 1,
+    "joint_admission": "lie_backend_open_mtp_vision",
+    "joint_auxiliary": "100-byte MTP controller, optional residual, retained hidden rows, U8[32] semantic scope; unchanged DS4 base",
+    "ram_default_bytes": 4294967296,
+    "ssd_default_enabled": false,
+    "fresh_destination_sampler": true,
+    "new_inference_workers": 0
+  },
+  "checks": {
+    "native_sanitizers": {
+      "passed": 36,
+      "total": 36,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ],
+      "synthetic": true
+    },
+    "changed_identity_cache_recheck": {
+      "passed": 5,
+      "total": 5
+    },
+    "feature_matrix": {
+      "mtp_off": {
+        "passed": 30,
+        "total": 30
+      },
+      "vision_off": {
+        "passed": 29,
+        "total": 29
+      },
+      "both_off": {
+        "passed": 26,
+        "total": 26
+      },
+      "commands": [
+        {
+          "configuration": "mtp-off",
+          "argv": [
+            "cmake",
+            "-S",
+            ".",
+            "-B",
+            "build/integration-mtp-off",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DLIE_SANITIZERS=ON",
+            "-DBUILD_TESTING=ON",
+            "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+            "-DLIE_MTP=OFF",
+            "-DLIE_VISION=ON"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "mtp-off",
+          "argv": [
+            "cmake",
+            "--build",
+            "build/integration-mtp-off",
+            "-j1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "mtp-off",
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "build/integration-mtp-off",
+            "--output-on-failure",
+            "-j1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "vision-off",
+          "argv": [
+            "cmake",
+            "-S",
+            ".",
+            "-B",
+            "build/integration-vision-off",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DLIE_SANITIZERS=ON",
+            "-DBUILD_TESTING=ON",
+            "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+            "-DLIE_MTP=ON",
+            "-DLIE_VISION=OFF"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "vision-off",
+          "argv": [
+            "cmake",
+            "--build",
+            "build/integration-vision-off",
+            "-j1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "vision-off",
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "build/integration-vision-off",
+            "--output-on-failure",
+            "-j1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "features-off",
+          "argv": [
+            "cmake",
+            "-S",
+            ".",
+            "-B",
+            "build/integration-features-off",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DLIE_SANITIZERS=ON",
+            "-DBUILD_TESTING=ON",
+            "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+            "-DLIE_MTP=OFF",
+            "-DLIE_VISION=OFF"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "features-off",
+          "argv": [
+            "cmake",
+            "--build",
+            "build/integration-features-off",
+            "-j1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "configuration": "features-off",
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "build/integration-features-off",
+            "--output-on-failure",
+            "-j1"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    "combined_core_client": {
+      "users": 2,
+      "tg": 19,
+      "repetitions": 2,
+      "verified_output_tokens_per_sample": 38,
+      "second_sample_ram_hits": 2,
+      "exports": [
+        "JSON",
+        "CSV",
+        "SVG",
+        "PNG"
+      ],
+      "synthetic": true
+    },
+    "hip_provider_and_clients": "compiled and linked; help/build-info only; no model opened",
+    "final_review": {
+      "commands": 8,
+      "local_documentation_links": 261,
+      "png_dimensions": [
+        1440,
+        1300
+      ],
+      "different_image_comparison_refuses": true,
+      "status": "passed"
+    }
+  },
+  "source_sha256": {
+    "CHANGELOG.md": "04871e7f1266d857ddb03431d60255db619e25366056876b2f369d9fea009dc8",
+    "CMakeLists.txt": "44a63d68c046ed6c34490aa3dab4af30d18722da83e0b41549711fcf96a5c5b5",
+    "README.md": "82326dbe922f2de4d8360dc87c5b946c16c7957eef6dfe2a3d389237322f34d6",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/access.hpp": "f239082cd75c50de10c08a496e09478018b3dd5ccd1e8d9b31880d984d6c7d32",
+    "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+    "adapters/gufo.cpp": "5f09799735756e453147e8537b1f8384f02f0517c8ea309ec4f9bf1c5df0812d",
+    "adapters/gufo_binding.c": "de5b07e73a509666506574d8f2ebedabbbe479f77498f0c816b44792a5d4ab9b",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "6a82299b884c0dda36d9da48626d8a05a9375445e3e22885dec5c5648b97d5f1",
+    "cmake/provider/Build.cmake": "9f9df6f35c1e4c1227aea65b4ba3d5b8e798db75f7096334f4f1676ce2d8d929",
+    "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+    "cmake/provider/Source.cmake": "8710f67850560c2a5bc48986d3d9411b0aa55d717dc2295aa6d97aeee26b4d38",
+    "cmake/provider/Verify.cmake": "437dbbff2bb7098a1f531eb446636e0ce2adf34a2235fd5d64968ab143b8c93f",
+    "docs/BACKEND.md": "c124dd7c24836f6019e6b9597c7974991fbd3507708e17b3397df570bac009c9",
+    "docs/COORDINATION.md": "a2d165537eed94fd4643ced63dcffa388285cb851ab0b13ba1be57baaa214f08",
+    "docs/PROGRESS.md": "6ea7f3a04ad008e00e8338c605bedfe1be6de66c7a415901eeb0052b46127749",
+    "docs/development/MTP.md": "cf8a5be2f969558d122d8c93220adcd6de99ff692e0bba9694307a1cc6ced549",
+    "docs/development/README.md": "6d0d515351c190df1ff51aaa9d6d88b38a17aabdc6173723809e1a7b9cd25872",
+    "docs/development/VISION.md": "33f5b65b3a2f09f81eced64e65c64845d5b3328b9df3f12479c10c94910cb157",
+    "docs/guides/BUILD.md": "c3e4a1c80573a03106ac8e3bda070d2dccd284a209fe0d49f9ce76e4cc751d59",
+    "docs/guides/USAGE.md": "e4c08f4a4108112c0fe8170c4fed54daf3bc99cd36ef55bb71e56893d9f20fd7",
+    "docs/reference/ABI.md": "ee31dfa6f3d03f075212c44e8437c9224a317a7bebf1af91dea48cf193871392",
+    "docs/reference/HTTP.md": "a878b08ea088e8eef3bcb55cf3f499483548f9dffb23cc4419fa7ac7c0f44772",
+    "docs/reference/KVC.md": "6379fabb67ecbfbc511ec424b69efe8fe41ac491413caca199dfb88383ff4b3c",
+    "docs/reference/METRICS.md": "82d55bc17ad90aa5b7ac575b879ef3703e4b6d6bd54d505e0e6eb2c4a7f90881",
+    "docs/reference/STATE.md": "b7a7c9c6178afa59d146fedcceb9933cf042324c3601a8924f81540c1df1f846",
+    "include/lie/cache_policy.h": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26",
+    "include/lie/chat.h": "581f0f2ba73e234137c485d18ea31e1803210bf5ad8a741ffd817ad9b5b5ce17",
+    "include/lie/core.h": "9cbfbb34f8cdb292d40365b6c035d9e1f1893501400ee363793e5352687c6596",
+    "include/lie/executor.h": "dc152488cc29c2b5be928995ef6bb5c360ff423f8d4618fed500b287bd845d87",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8",
+    "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+    "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+    "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+    "include/lie/kvc_state.h": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/mtp.h": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/responses.h": "08a1aa5cb03fb1607cb41c2cdc400e730d4cae6176993a1256a220e328750643",
+    "include/lie/state.h": "d1ce59fab5b72dc8e23e7d3cdcc99676c0c51389516fc92818bbc1a8e880605a",
+    "include/lie/store.h": "76d577a9d4a1a6a784600eba0639323db18fd73ca0b30293ffceb18d7a7edf2a",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "493ba51cf04e8e18d173de0e30545a4c3fe1a47db0d2b0ce57a4f08016398316",
+    "include/lie/vision.h": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e",
+    "include/lie/wire.h": "63dc3cba8d66150ed338411045c1cfa72deb49f271cff023c22648a1397bc005",
+    "include/lie/worker.h": "49839ba31e97d278f25a5a3bc616aa176d04875363be61e30c600dfede5ac1ef",
+    "src/cache_policy.c": "92c4c0f0d62550608ed8555208ab9ab7fc6e7230991cc3dfd86ae451bb8a3d89",
+    "src/chat.c": "073399bc4c848b3f488f386e0a9660767ed09601fdbbbc713eaf1f37c013a12b",
+    "src/chat_tools.c": "7948ad171cd6f4f343f84f2cc78dfa813972bf4310353a8969a58ccc1ed48a30",
+    "src/core_input.c": "02ab0f3f1b39b0e4780453505d28b6c7db5dff173fd6cd8bee49c647673bd9a0",
+    "src/core_input.h": "0c6eedac2cd679dfb836fc22cbbd19e373e7acd2be6870d3283e5f99cf9b3793",
+    "src/executor_unavailable.c": "6f9fc1dcf793b443e11b96c7f3555ce44b911d3910117920a3cc9acd8e59d58b",
+    "src/flow.c": "b636727e479a7e97aeafc3bea22f8a14641fbaa93ce6f2c80e45192ebb10be90",
+    "src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a",
+    "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+    "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+    "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+    "src/models/kvc_qwen_state.c": "a45155ed46860a9c261b0585e796ae3efd0c43a1209c3ea7a74edee8a58a36d1",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/prefix_cache.c": "ca5f8b0a00e108d4e2690a20f94913c7dc220a48b97cdabd98b4e64523c63e26",
+    "src/prefix_cache.h": "b1a05a4384b876c543dff47e7e0218c002c5dc2404eef2c7721c74d304ddb5f7",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/responses.c": "ce35366cd1b4d27d6ebc91af8c70b8021256241641a7799cb77175ee7c91a161",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/server.c": "751a2adb32ecf438fe0e7c1808d715e4cf413f05338cc041b2409c5f4b396ecc",
+    "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+    "src/state_codec.c": "fabd9747dd03e55addf2aab78a1d24bc28d41f8ca29f5d1ff1f5d27b856e4775",
+    "src/state_codec.h": "9a6494cdbff31fdc0ee49e12993378cfb803c296485b0c62ba1a81dc06e5a11b",
+    "src/state_compression.c": "280166c315ba6b8da65fc7ed53906bc90d2455a7f4fcd0b4727f2b2e64ed3331",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/state_kvc.c": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a",
+    "src/state_kvc.h": "505c131a16461c85d3bcdaccdab4b4baf68b87323b5ba339667456f4c75aab5a",
+    "src/state_layout.c": "c6e7d7a0b1ca98f618e42c6bf09df66075b3b6f2e401c82f38bf5567090c156c",
+    "src/store.c": "ebd91d41cad88f0181d0fa325e441c677e6fc9dce72ef5906861477f34dcdfad",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2dfb7eada235f515151ecd9e5acf0df2dfa3e62c4032b4d4a1ae06c9574e43f9",
+    "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+    "src/wire.c": "c9e0de12d35b68c288a06afb269cb0dcfd1499ed00859a829436197e5455ad8a",
+    "src/worker.c": "ae947b428f73a4ad1a30e8d964508160414c3def39474085a1ea85d4ba2b0699",
+    "src/worker_http.c": "28ee5ad30de1bde7886197dc161664954812bfc48cf5a016dd7d661ba845e2e1",
+    "tests/bench_executor.c": "021b0acbe8fd4ef2a04bf701a0b7088f58ea02ae9e6bf52a117288f06269dcd7",
+    "tests/fake_executor.c": "fc2bf6481ab65030977587ae8c63725f0f623e9a2fdc4370db433fb7eaaeb388",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+    "tests/provider_contract.cmake": "982a30d492e37a0e8d8ca41ffa5300db4841a1533cac4e63971f6f966959b66e",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_cache_policy.c": "35e288bb84c43a19142bc2fdc22917b8548d8cb0082fac95e1908b04a7f16ba3",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_feature_http.c": "b9456e9e20f447341ca4f6ee62da92670a74c45ce9a0d6f7012b1c5881f0a54b",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+    "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+    "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_mtp.c": "634cdfa24d32a9277a62995c6e0a2fe298511c1dcde8839b39fe439ff0ce66bf",
+    "tests/test_native_bench.c": "aa2d56d0a75988889c76beba0845b00dbdc6c5c469bc503bcf876e95a3dd1f0b",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_state_aux.c": "3e894358d36a7ed6f19649adf7ddd70f64f49cbd89b767afdf0e9a370f7cb88c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_tools.c": "d858f7dfcb671844877562ade53fb05ba0c69c358a1aec3527c71b8b0ced11b5",
+    "tests/test_vision.c": "7c81a2df148e30d4f2be6ea96c39d7106ac938a9641dd268665c9ecd4c16f1dd",
+    "tests/test_vision_cache.c": "e46b7e2a5f1f35303b463eed35d0da0148369d477d410e2d1c85698fe2d0e895",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+    "third_party/README.md": "f6b360bfaabaf0f1920ef5f91597d38dbd0f4405037704bfb05c9eb26e6d7a01",
+    "tools/core-bench.c": "4c04d3bbc1941d393e7343058b3cb730018c0a3e0f552a6ad6af3dc16b085310",
+    "tools/executor-bench.c": "57186efe989f7fdbdc1e4b19034cefbe68bb21333ac92a9903e6064ae21ab45b",
+    "tools/lie-bench.c": "c9f8034f0120d0e41a1f98869ae08913d652566ff56fd9fbfe7bdf477ce3df3b",
+    "tools/lie-kvc.c": "869639c9cc576e8f8763022c8c91b03b24dbbf243bfc833ed009d0ebea17f6f7",
+    "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+    "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+    "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+    "tools/native/http_transport.c": "9f10a8f506e1fa44ba5a25e8591ea923e883fcb9a0eed838d2d76ae821ea5ba6",
+    "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+    "tools/native/report.c": "9cea8d9c331bc55122ff57da1b24907003a112ac857f11068081483408ecbb7d",
+    "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+    "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77",
+    "tools/state-bench.c": "453a34d99b088912d8b8c001d59babd366968207f38059287397106f4a278a38"
+  },
+  "executables_sha256": {
+    "build/integration-linked/synapse-lie-bench": "81d5f1321acf38e28043f750acbeedba45e50e8523d7b718277824d82c068768",
+    "build/integration-linked/synapse-lie-bench-gufo-reference": "fb663300517f5fc7cf4a69fd5858d89cf86e74cc6dbb8dd10370ed297a6180ad",
+    "build/integration-linked/synapse-lie-bench-report": "9219f343dbd90e6f26fdff8dd161b6feb3a6a3cc7602662a019a9ebebc8495ba",
+    "build/integration-linked/synapse-lie-kvc": "f7db2a6813a47f2d76f5a68c917e24928a7ba45c58bc65ec6e72c86287c9d3c5",
+    "build/integration-linked/synapse-lie-monitor": "7bd20ea1ee8af12b43be76a5bec88cf3e27998dc2be3f9a94e3f07f87b1b1127",
+    "build/integration-linked/synapse-lie-server": "7d25ad2cca05da2dcbeee172d2ae4e14b3a846e2bcca9777d254b51a05e64fbc",
+    "build/integration-sanitize/synapse-lie-bench": "c43bd46ced0aabb52a6f942e843e50bfd8b93da951318b081cd6d6273a8668eb",
+    "build/integration-sanitize/synapse-lie-bench-report": "956915b5896b3e0da785024df0970f4fc604a0e651f14ef24be17811f24e7961",
+    "build/integration-sanitize/synapse-lie-kvc": "5911f4ea61ce54c3f1ef595ba6fecc1997318bceb1eca1ba7db366d090a12c09",
+    "build/integration-sanitize/synapse-lie-monitor": "2b29bf253c7f6b676f95aaa78548c60e88642b5b803c5dc34ee1d187e68bf96b",
+    "build/integration-sanitize/synapse-lie-server": "862b7b4a32d22d0ba2a6d2d80ef7e1cba77849cd0944904ef5e16f8cb8da7e04",
+    "build/integration-sanitize/test-cache-policy": "d31c8ce5b158838d66a6e9f9c1d897b97c67bb70e17b673f8a7acf8ef8d9c852",
+    "build/integration-sanitize/test-chat": "ed4be1829bd08857624537eb48a358f9154e1e9160f69bd92f74f0233d9e9404",
+    "build/integration-sanitize/test-checkpoint-compression": "53f45c74af588b4fe3869b11f0b395ae0201a8ad4bdd606a02fc2e90a5ed7e67",
+    "build/integration-sanitize/test-core": "a86d1900de8db66b29be7b0c08f9e2ec101f5f94078aab6ce013c86b3c05e79d",
+    "build/integration-sanitize/test-core-ssd": "3631919610d9384cdb48b74456caeb49928b853e9fdac5132d671696166ff8a9",
+    "build/integration-sanitize/test-core-ssd-kvc": "2e06eedfb3ae9b8aba4acacdfd58ae1b412daeb665d78864a7747e0b98ef6086",
+    "build/integration-sanitize/test-executor-abi": "d4feacd1ba4b2a93f7b99d1bd07133aba46aa8b8242281b07b9332a36dcdf586",
+    "build/integration-sanitize/test-flow": "778058d15530112d2736ea0984f0d39e019e17a8340f8467a28ffd18e675b3f6",
+    "build/integration-sanitize/test-inference": "dc7f072f38f7ae437d2d9e07894a92b78772f876f9e91d15498483fcf9c2de5e",
+    "build/integration-sanitize/test-kvc": "cbb176cbfaff5194fd8a538ca53c7592afe83cbceec341eb86ce4e5c8270da88",
+    "build/integration-sanitize/test-kvc-fixtures": "a9de058a2b885912e63b5791c4a22b0add7e7839b25de52302754a3da318df5a",
+    "build/integration-sanitize/test-kvc-map": "5e1aed8b16b4cdd5c591695aabcf18c18fd7ef9d7b3fc1a0011e6f8d5a29330b",
+    "build/integration-sanitize/test-kvc-state": "552dfd06a50b1eff782f80c6584e1cebcaefdc19876b383de72b7899a427c90f",
+    "build/integration-sanitize/test-metrics": "c64417d4be0a7d631b04afeb407294348fb7c35115c24ed8f1cc84f577b1acdc",
+    "build/integration-sanitize/test-mtp": "ec0aec59e361a79706ec6b3e08884725fc31d7b83881651b25d7010c251b266f",
+    "build/integration-sanitize/test-mtp-http": "db66c0d9c35f2363c9699ca386fe6382477777228ed0587507b5dcad9d753356",
+    "build/integration-sanitize/test-mtp-ssd": "8e0a6ca67633e7bdc8e6f631db2f3ae15ed48e354c8092da67b55f1b8c0d3c04",
+    "build/integration-sanitize/test-mtp-vision-cache": "7995dd3a4501498ad52c75d3ba1dd8d5df3e4901034cc360e558dad1f5243706",
+    "build/integration-sanitize/test-mtp-vision-http": "c41d10bc00bd094809c3bb950fa1fd994d7744341ebf6cd051cea686d19acd0b",
+    "build/integration-sanitize/test-mtp-vision-reactive": "30c9691935286cdff1ce9f4860a7b3c2b49ace3920ec44fe58412ff495c14b8a",
+    "build/integration-sanitize/test-native-bench": "767eed4451dc2d1660d4d7bee56af53bb55ed16f2ffdcff490a1cd571e49b0b5",
+    "build/integration-sanitize/test-prefix-cache": "44749973a6f6867cba605e61bfde333441802fcd99309022f3394fa4f49abd53",
+    "build/integration-sanitize/test-prometheus": "b486a32c1eb22d9bcacecdcaaab3755826ec52e0f259e58f45a252932f3f916b",
+    "build/integration-sanitize/test-prompt-retention-kvc": "791f30f665566d17b0c6b620f01126a727f6a0efb8e4d4bb26543f79341d5d98",
+    "build/integration-sanitize/test-prompt-retention-native": "751eaba9ad233bc21fb5f89588faaac433557a96f5da7bcdf1e402d232fc3d20",
+    "build/integration-sanitize/test-ssd-http-server": "9921c7f64b5267292ea5e477e17ca65d9f497f14a2a25e8281ff2feff5dc3544",
+    "build/integration-sanitize/test-state": "41cd0ab1afed1a6e20985f28837173f62c8ed4e5437d6206a519e27f6ee5215a",
+    "build/integration-sanitize/test-state-aux": "6d2ebe17e615e95fa0568707457198d0dade9cdbd9caeeefce8f9a80f1e4b909",
+    "build/integration-sanitize/test-store": "db8f7bedb643f6aa67bb02956066fd91d4e43d56fade20033cb4564f249dce1a",
+    "build/integration-sanitize/test-synthetic-bench": "0e16fdd2d8fad76e1bdc0f1f506b98842dce2f8073c99275cc0455d45b11a308",
+    "build/integration-sanitize/test-synthetic-lie-bench": "393f25203e71591e661a93451d8049b4f64890e124e08f47ff2fe1d7398587cc",
+    "build/integration-sanitize/test-synthetic-server": "7c90c2c6085ecb0ff494acc748fd2de40d73d855ea9486332db67e0e8032de76",
+    "build/integration-sanitize/test-tools": "821af03353d39c6f492cee951a9aa3d75d0f5df39ec4136e61a0258667c67546",
+    "build/integration-sanitize/test-vision": "227fd2717bfcfbe5689af371ee441e5c26a2ea766f083bb37a3e261c3664f370",
+    "build/integration-sanitize/test-vision-cache": "5e9f78be2fbe21d87ad9f88c74674b2cc08af8ceb8c19f9e4e89c59ded013327",
+    "build/integration-sanitize/test-vision-cache-aligned": "d2ae921edfe4887053562d7a492e300b8c555882942e33095f7670b93cbee19d",
+    "build/integration-sanitize/test-vision-http": "dfed3f6cde55143bba0079540187687f69df5eacd367aab9decd41675a052f33",
+    "build/integration-sanitize/test-worker": "57470d5d1a6f3d65b351d144370166cb28b1eec7e015b420c991a08be72ec28d",
+    "build/integration-sanitize/test-worker-contract": "f9dab5d8bc2b0f4b11db91c9f260fcfeaeb5edd2509c9ecfa7ea6a5c4f75e65c",
+    "build/integration-sanitize/test-worker-timings": "f28138a150ed40cdeabc8301eb861d020a3796d6649063f00e7f404ec2388a0b"
+  },
+  "provider": {
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "source": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration/.deps/gufo-state-access-provider-mtp-vision-r1",
+    "receipt_path": "build/provider-mtp-vision-r1/BUILD-RECEIPT.json",
+    "receipt_sha256": "f47b84ddcefc6b353e5211b2cc8a9874745f3a9d227df7142d092c09d7c7e37b",
+    "state_access_edits_sha256": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "kvc_edits_sha256": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+    "archives_sha256": {
+      "libgufo_core.a": "64db1fcee8414e3350258070ee9a709b93e747e0ffcaa65a725b0d8cff250aad",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "5c3f5990e00a90b01d00b8a6afba7b0936f88006d015d2f0c71c76c289a11e7f",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "f799534a802a6788486d2c2eae1da4f53b291178d3d6cc8b6db98d514fdccfb3"
+    },
+    "kernel_implementations_changed": false,
+    "launch_schedule_changed": true,
+    "source_independently_fetched": true
+  },
+  "historical_validation_sha256": {
+    "docs/development/validation/docs-libuv-2026-10-02.json": "38a260797e7e1ee28cfc044f52961623902b90b144a16d5e625d6b6b4f624ea2",
+    "docs/development/validation/mtp-2026-10-03.json": "47972297ac44d79c613af1a54aca4c938b292e5725cf98446608133eb5b91c83",
+    "docs/development/validation/mtp-cache-2026-10-03.json": "54abda27af86212e9fd58e6384f1bed0e65d191a9e3facdfce99d383bada3ec2",
+    "docs/development/validation/mtp-state-2026-10-03.json": "27ee8c1fc7cb8be533ffcacb3b6812e5f9524c4b5b3fed57c38223350c597717",
+    "docs/development/validation/native-tools-2026-10-03.json": "02574d12d178ad0ecc0e40632884aa40b484849f319347c8053f211fe7f9d2b6",
+    "docs/development/validation/vision-2026-10-03.json": "1581448f82abaefe688dabca257bf99a69f90bfb9154e2a713e1734e351dceca",
+    "docs/development/validation/vision-cache-2026-10-03.json": "e7cd43960b82c645f59e7499675158cec8534f9f7e6d03d207db48e2d67a0a03",
+    "docs/development/validation/vision-state-2026-10-03.json": "659b8a6b595f4f8249607d644b916fe5562ba9d7d6a707dbb36a69ea12acdfce"
+  },
+  "evidence_sha256": {
+    "evidence/integration-client-r1/combined.jsonl": "f544d5462e6340f5c123491f586130ae3790e8300789b68ae8c70cd96c81ed9b",
+    "evidence/integration-client-r1/graphs/benchmark.png": "3fc32b3c0db6de99eabf4a42a87c607881a0b3295612dd526371cc49236d5b37",
+    "evidence/integration-client-r1/graphs/benchmark.svg": "06be37ace22d88edc7ee91b6159aa42ae8d6eb248d7eb7900d234b4b6f1ff06d",
+    "evidence/integration-client-r1/graphs/summary.csv": "6e579770c0e27e89ef1442c1f629ff3467a01906fe5f1e79a94d0377d4334de2",
+    "evidence/integration-client-r1/graphs/summary.json": "6ae4ffe30fe43544f53815214409b033c2b115e0bd18a389d7c1dd27dc6ff331",
+    "evidence/integration-client-r1/image.png": "d220355abb4483298addfcae6959dcadbb69552c422a0f005176197133fe6122",
+    "evidence/integration-client-r1/prompt.txt": "3991555be8878c4a316db67e9406295c329c74d8d1a3fa48d046127dd61887a8",
+    "evidence/integration-combined-client-r1/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/integration-combined-client-r1/plan.json": "68060cf73e14acb08ff88f04137d7c23c490c9a596847857bbc3f1836ae3d049",
+    "evidence/integration-combined-client-r1/result.json": "a7d25c1a5fac86d209cb7278022c8b4a41c1a1f12f98a81df5886c53b84269f6",
+    "evidence/integration-combined-client-r1/temperatures.jsonl": "69bb0732d41bfdfd531570e187c1e430e2118e33e1d4063eaf096157176f1f02",
+    "evidence/integration-feature-matrix-r1/command.log": "ecf8d36f2ac247ac09e35fcbdf5e5d3ae9d4e80c2419490375bb17944a9cd597",
+    "evidence/integration-feature-matrix-r1/plan.json": "a64c124b26fe1dc47f8d12c2c6abe7944cfa6b483fee66d9a429f9cd3e1d80b3",
+    "evidence/integration-feature-matrix-r1/result.json": "8691c53047746e8863555b82239e1666ebb8d8e6cf36a73d9d3ada08101c279b",
+    "evidence/integration-feature-matrix-r1/temperatures.jsonl": "6f2b7584d79b8c64a42749999d733eae6670149e2888424cffc0a3c880ce1b68",
+    "evidence/integration-focused-build-r1/command.log": "f850aa779b367a2dd3e21285a05f6a6abe016ff6f4fec843066fc9b0efb868fb",
+    "evidence/integration-focused-build-r1/plan.json": "e4c8e32d82465e02ffb7938765e073a04ef43edb227b0648d3528478b7883438",
+    "evidence/integration-focused-build-r1/result.json": "d293bb5e57da347ee23d58d916e8b264b3029610e022463bf2b07d2d8ebff5ee",
+    "evidence/integration-focused-build-r1/temperatures.jsonl": "861179a70553531e40f43a70b01fd360df0ab8464f981f24f7261c3518360068",
+    "evidence/integration-focused-ctest-r1/command.log": "b76029ea7e0b1ae330b9745143bb33fab6926ba6a333e926ac9177a49641b845",
+    "evidence/integration-focused-ctest-r1/plan.json": "752c990d019aaeab5a88db058b761e0d75e1ccc35b1efffeb42f943ed401cf1d",
+    "evidence/integration-focused-ctest-r1/result.json": "d2d7f9c4a6491e608f3bfd113af3e70f9ff3c9f9c26fe701395b7f7702178efe",
+    "evidence/integration-focused-ctest-r1/temperatures.jsonl": "9c828751b4468b798aa0cc296dddc4a367c69b909f0cfeb4273496657273fe0d",
+    "evidence/integration-linked-build-r1/command.log": "ecb59de0f27fa793cdd763f2aa6bf258e57d0ff87ac300b0ef5ea472cda8a184",
+    "evidence/integration-linked-build-r1/plan.json": "5d8ae14635cf35e5aa054f468a0eadb56ad6d99a054c534ae351c6cc91f40489",
+    "evidence/integration-linked-build-r1/result.json": "7ffdd474849684d050ed8644f8fb9549301d66d860c847f70dd527c8585e4ca1",
+    "evidence/integration-linked-build-r1/temperatures.jsonl": "563db3843cbfcc3792159a8f31746ac8fef5a07276984dcb4fcd4c42865b582c",
+    "evidence/integration-linked-build-r2/command.log": "dd35617d2a8f07650128aa6a04817e3a7c2fed0d0dd04f9b9c6fec9bc0038b98",
+    "evidence/integration-linked-build-r2/plan.json": "5d8ae14635cf35e5aa054f468a0eadb56ad6d99a054c534ae351c6cc91f40489",
+    "evidence/integration-linked-build-r2/result.json": "e881773913535e48713995879f02657c86b1fc9a5774a1e0506a89e90b49fb92",
+    "evidence/integration-linked-build-r2/temperatures.jsonl": "79deb6b61969e62ff72da4891cf23d41ccb21173a23dc21dfeecd8f28604069c",
+    "evidence/integration-linked-config-r1/command.log": "77f8009d14f223b847c331ffcd1e668a4df22fe5a4e70f24ef39c6a519a67960",
+    "evidence/integration-linked-config-r1/plan.json": "4b15835aad330d910d4abcc4a837179c30245ec563244d29faaddb1c039bd6df",
+    "evidence/integration-linked-config-r1/result.json": "17a0c86c290ced9cf91407dfab32ecac6051a3cba42f4901686340134fc263c1",
+    "evidence/integration-linked-config-r1/temperatures.jsonl": "f1104af989af76d535bdc45a873c990069568bd233051b7a6997da6ed3c5d8b4",
+    "evidence/integration-native-build-r1/command.log": "be60da6e2ebfd8caae1c19d85f64624b756618af0ec49fbe6d0fddb8f5bf0ec6",
+    "evidence/integration-native-build-r1/plan.json": "5272aaa0985c5cecdb29e54e893f39cadcf0e824c495b791aa3d95fd37406096",
+    "evidence/integration-native-build-r1/result.json": "36bc614d45e3a246d25b3cce598a5d7a3ba233c776d121cc41ba7275e4170a3a",
+    "evidence/integration-native-build-r1/temperatures.jsonl": "d4bbe025f49eee5f62a0fca38c8757bc086d07b8a810992e32116b628e210929",
+    "evidence/integration-native-build-r2/command.log": "b5fd975061d450bc8ac2687cf2f6336fc70d6791e5e11562fbd8048f6f7beb47",
+    "evidence/integration-native-build-r2/plan.json": "5272aaa0985c5cecdb29e54e893f39cadcf0e824c495b791aa3d95fd37406096",
+    "evidence/integration-native-build-r2/result.json": "48061ca8a5dc38b42f8e573019f2ae6020187f4842a2ebf9cd7eb0425230062f",
+    "evidence/integration-native-build-r2/temperatures.jsonl": "623b2cafc949a81495426b0e7a5cd1258609f3bbbeda208f37dd7fd79a453b0d",
+    "evidence/integration-native-config-r1/command.log": "6964be8a70cfd8b4a5b5d3f0064d3398079a008435eb0dd6e134d531486b3002",
+    "evidence/integration-native-config-r1/plan.json": "461760a9bd13c622fdd3eb2329bbab479d46ffe307561a1e5bed15f744c90557",
+    "evidence/integration-native-config-r1/result.json": "9f6be5f0a69adad7e907ee178318e1dd1ef7d0a534babbe1f09643e67867e33c",
+    "evidence/integration-native-config-r1/temperatures.jsonl": "b0747020aeced0a88ef1bd69da95bbee26458535f2660635889e027ecffdaeef",
+    "evidence/integration-native-ctest-r1/command.log": "21b5f7fd7a68cbd1cb1e5a369195dd8287308b3047c3e5f74f9d4047fe664611",
+    "evidence/integration-native-ctest-r1/plan.json": "52f64fa6264a6e7cd157a6bc63f231a5658c300891603b4bcc2f7f75918e7e59",
+    "evidence/integration-native-ctest-r1/result.json": "e2095f340652144868ac7ea64ee2c865443d66399980fa8ae26a6b3267e002fb",
+    "evidence/integration-native-ctest-r1/temperatures.jsonl": "7a730272ab868c6837aff8e4fd671fa559f8a90459486435ab044042fb80101d",
+    "evidence/integration-provider-fetch-r1/command.log": "cdad2f2bcc6d380c08b139afbb3ba4e2a009b5394332e0b028a067db7c250bee",
+    "evidence/integration-provider-fetch-r1/plan.json": "bb7afab28bd4ed59410e8a3bb80d93399fd774ef6ae9d243a4f09df2cae8897e",
+    "evidence/integration-provider-fetch-r1/result.json": "4c578a850bff9504dfb013859c0c50dd8ffc412aa7d3bb63b879c9ee8c1e4283",
+    "evidence/integration-provider-fetch-r1/temperatures.jsonl": "3ebbd568e1adcb67986c13372d8bcabdde44014854d2c059db0ebdb5640b0dfd",
+    "evidence/integration-provider-guard-r1/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/integration-provider-guard-r1/plan.json": "603f0befa168a076146efe04bdcab4bb0481f0b7f9651f9aa5fb08fcd54b8db1",
+    "evidence/integration-provider-guard-r1/result.json": "848b6568eb6671d5f29803e5741decf14e4d038c65223e203b97fda9b89e569f",
+    "evidence/integration-provider-guard-r1/temperatures.jsonl": "8a69c7daa07096d4406fb66a20282334bf82e73363600a016dd679343b81c9d5",
+    "evidence/integration-review-guard-r1/command.log": "65ace7163f604c9a86d8d10d8c54d5935b6166f24b6e324399d5216de42bfa4c",
+    "evidence/integration-review-guard-r1/plan.json": "8bab370182f13a5c3c6cf9ccf5d748fe415dd4bf167f6a435615db3a29da851e",
+    "evidence/integration-review-guard-r1/result.json": "c98798adca668eac33b3ff3620d4518502a15c7342e34b77e921ba94e65d4649",
+    "evidence/integration-review-guard-r1/temperatures.jsonl": "cd0de82eb45e9d5f67a1df0da69d41d7d0cc3b9ce11fe9f18c32e50cf29acd21",
+    "evidence/integration-review-guard-r2/command.log": "e60819944bdc33a1cb7c7a3b5018fb4d61c0e07dfd3c8646c0d37c0d98cf01d5",
+    "evidence/integration-review-guard-r2/plan.json": "e69fdcc0f36808e2b48dcf122f53e416ceee36611e061a57361682294c73de85",
+    "evidence/integration-review-guard-r2/result.json": "bdf485f71f8dd00c0991125fe00977f7e591fc42ccd8e3fe88cbf504e4d89ea3",
+    "evidence/integration-review-guard-r2/temperatures.jsonl": "52d3757425f19ba696a8e5ab0d1f1e1608fc4e78a7a05eb791245423852d30b1",
+    "evidence/integration-review-r1/commands.json": "6de60ad4a84b7726d5985a88f2580a9ba9515a48198ba68c8f8069c08116dac1",
+    "evidence/integration-review-r1/diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/integration-review-r1/different-image-refusal.log": "ce3bc564987ba6bb75ffd1a6b83813130b1ce96c30fd5410d91c9b43a973bf29",
+    "evidence/integration-review-r1/different-image.jsonl": "7070b0644c77a7b2c8fb9fb847837b3d5ba87a0cd15486909de707f377190856",
+    "evidence/integration-review-r1/documentation.json": "666d17ea7979dd39dfeeaa0f57be93de60d55bd187faadd0d46e7834cc558b7b",
+    "evidence/integration-review-r1/synapse-lie-bench--build-info.log": "88e84fea77ef45e7b357dee62fe46ae6f12dc460b503328d164ccf37ba03c896",
+    "evidence/integration-review-r1/synapse-lie-bench--help.log": "7ff8e2f2c959fe18584f938fbc276e96647beaec2ea207b8fb86d9595b902c6b",
+    "evidence/integration-review-r1/synapse-lie-bench-dynamic.log": "8039a3c16548b8ef05384d099f04b518e82284c15c203b153c51bcf22778cc79",
+    "evidence/integration-review-r1/synapse-lie-server--build-info.log": "a0bebb729ad24653be527d4e5cc3eca222d8e973ba9d61454dbca7728d85a75f",
+    "evidence/integration-review-r1/synapse-lie-server--help.log": "b6482e5718c2eaab60ea78944eafb15f3dfe4c5ec9e23bea5d002b547d90db64",
+    "evidence/integration-review-r1/synapse-lie-server-dynamic.log": "c3069a6eaa10aa04b481ea3f856bdee729362443e6129f986f595fbb881e2229",
+    "evidence/integration-review-r2/commands.json": "99dadc594e9fcb2db829815d8e177ffb125f01028f9baef8f48ae2683bac01ea",
+    "evidence/integration-review-r2/diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/integration-review-r2/different-image-refusal.log": "ce3bc564987ba6bb75ffd1a6b83813130b1ce96c30fd5410d91c9b43a973bf29",
+    "evidence/integration-review-r2/different-image.jsonl": "7070b0644c77a7b2c8fb9fb847837b3d5ba87a0cd15486909de707f377190856",
+    "evidence/integration-review-r2/documentation.json": "a2510ecbd566147ac863c49b929163e420b42d1447ecd46d28143a0df53ddcb5",
+    "evidence/integration-review-r2/synapse-lie-bench--build-info.log": "88e84fea77ef45e7b357dee62fe46ae6f12dc460b503328d164ccf37ba03c896",
+    "evidence/integration-review-r2/synapse-lie-bench--help.log": "7ff8e2f2c959fe18584f938fbc276e96647beaec2ea207b8fb86d9595b902c6b",
+    "evidence/integration-review-r2/synapse-lie-bench-dynamic.log": "8039a3c16548b8ef05384d099f04b518e82284c15c203b153c51bcf22778cc79",
+    "evidence/integration-review-r2/synapse-lie-server--build-info.log": "a0bebb729ad24653be527d4e5cc3eca222d8e973ba9d61454dbca7728d85a75f",
+    "evidence/integration-review-r2/synapse-lie-server--help.log": "b6482e5718c2eaab60ea78944eafb15f3dfe4c5ec9e23bea5d002b547d90db64",
+    "evidence/integration-review-r2/synapse-lie-server-dynamic.log": "c3069a6eaa10aa04b481ea3f856bdee729362443e6129f986f595fbb881e2229",
+    "evidence/integration-feature-matrix.json": "e47e12e175c54cd8b70f3f6a02843bcaabf2cb3d561bf577385494b39b519af0",
+    "evidence/integration-merge-result.json": "057883a81c4a7aa8e4e5044119048e03806eb754c948ba0eedb21afa694fa918",
+    "evidence/integration-receipt-helper-failure.json": "2b0d34af37fc85fd7d83a1fe9d4c51cd0a6571e1dff7b95649d8dbaaa2d00222"
+  },
+  "commands": [
+    {
+      "argv": [
+        "build/integration-sanitize/test-synthetic-lie-bench",
+        "--suite",
+        "core",
+        "--model",
+        ":fixture:",
+        "--model-mtp",
+        ":wide-fixture:",
+        "--mtp-draft-tokens",
+        "12",
+        "--model-vision",
+        ":vision-b:",
+        "--image-file",
+        "evidence/integration-client-r1/image.png",
+        "--prompt-file",
+        "evidence/integration-client-r1/prompt.txt",
+        "--context",
+        "128",
+        "--chunk",
+        "4",
+        "--users",
+        "2",
+        "--tg",
+        "19",
+        "--warmups",
+        "0",
+        "--repetitions",
+        "2",
+        "--kv-cache-min-tokens",
+        "1",
+        "--kv-cache-boundary-trim-tokens",
+        "0",
+        "--kv-cache-boundary-align-tokens",
+        "0",
+        "--kv-cache-capture-finish",
+        "off",
+        "--output",
+        "evidence/integration-client-r1/combined.jsonl",
+        "--graphs",
+        "evidence/integration-client-r1/graphs"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 88.75
+      },
+      "elapsed_s": 1.0870944121852517,
+      "evidence_directory": "evidence/integration-combined-client-r1"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/run_feature_matrix.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.625
+      },
+      "elapsed_s": 79.90891976933926,
+      "evidence_directory": "evidence/integration-feature-matrix-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-sanitize",
+        "--target",
+        "test-mtp",
+        "test-mtp-vision-reactive",
+        "test-mtp-vision-cache",
+        "test-vision-cache",
+        "test-vision-cache-aligned",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.0
+      },
+      "elapsed_s": 2.0823362078517675,
+      "evidence_directory": "evidence/integration-focused-build-r1"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-sanitize",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(mtp-model-neutral-reactive|mtp-vision-reactive|mtp-vision-semantic-cache|vision-semantic-cache|vision-semantic-cache-aligned)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.875
+      },
+      "elapsed_s": 1.1252567609772086,
+      "evidence_directory": "evidence/integration-focused-ctest-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-linked",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.75
+      },
+      "elapsed_s": 7.12925261259079,
+      "evidence_directory": "evidence/integration-linked-build-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-linked",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.0
+      },
+      "elapsed_s": 10.267726443707943,
+      "evidence_directory": "evidence/integration-linked-build-r2"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/integration-linked",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_MTP=ON",
+        "-DLIE_VISION=ON",
+        "-DLIE_BUILD_ID=mtp-vision-2026-10-03",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration/.deps/gufo-state-access-provider-mtp-vision-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration/build/provider-mtp-vision-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.875
+      },
+      "elapsed_s": 3.0669460063800216,
+      "evidence_directory": "evidence/integration-linked-config-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-sanitize",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+      },
+      "elapsed_s": 16.26698673609644,
+      "evidence_directory": "evidence/integration-native-build-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-sanitize",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.375
+      },
+      "elapsed_s": 2.0441498132422566,
+      "evidence_directory": "evidence/integration-native-build-r2"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/integration-sanitize",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_MTP=ON",
+        "-DLIE_VISION=ON"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.0
+      },
+      "elapsed_s": 1.0237927278503776,
+      "evidence_directory": "evidence/integration-native-config-r1"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-sanitize",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.875
+      },
+      "elapsed_s": 13.24052120000124,
+      "evidence_directory": "evidence/integration-native-ctest-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-P",
+        "cmake/provider/Fetch.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.125
+      },
+      "elapsed_s": 11.503353113308549,
+      "evidence_directory": "evidence/integration-provider-fetch-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-DLABEL=provider-mtp-vision-r1",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.375
+      },
+      "elapsed_s": 152.99845506530255,
+      "evidence_directory": "evidence/integration-provider-guard-r1"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/verify_integration.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.875
+      },
+      "elapsed_s": 1.1356852194294333,
+      "evidence_directory": "evidence/integration-review-guard-r1"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/verify_integration.py",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.75
+      },
+      "elapsed_s": 1.1394794378429651,
+      "evidence_directory": "evidence/integration-review-guard-r2"
+    }
+  ],
+  "preserved_failed_attempts": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-linked",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.75
+      },
+      "elapsed_s": 7.12925261259079,
+      "evidence_directory": "evidence/integration-linked-build-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-sanitize",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+      },
+      "elapsed_s": 16.26698673609644,
+      "evidence_directory": "evidence/integration-native-build-r1"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/verify_integration.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.875
+      },
+      "elapsed_s": 1.1356852194294333,
+      "evidence_directory": "evidence/integration-review-guard-r1"
+    }
+  ],
+  "thermal": {
+    "cpu_guard_c": 95,
+    "functional_gpu_gate_c": 85,
+    "max_concurrent_builds": 2,
+    "jobs_per_build": 1,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 90.375
+    },
+    "foreign_processes_or_system_tuning": false
+  },
+  "remaining": [
+    "Original-weight combined image/text MTP and sampled target correctness",
+    "Numerical cache-on/off continuation parity, rejection/rollback and independent SSD restart",
+    "GPU cancellation/fault and resource/memory fit qualification",
+    "Separate model/platform bindings and deferred performance campaigns"
+  ]
+}

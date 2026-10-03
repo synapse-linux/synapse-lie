@@ -3,6 +3,7 @@
 #define LIE_CORE_H
 #include "lie/executor.h"
 #include "lie/mtp.h"
+#include "lie/vision.h"
 #include "lie/flow.h"
 #include "lie/store.h"
 #include <stdbool.h>
@@ -14,7 +15,7 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 2u
+#define LIE_CORE_REQUEST_ABI 3u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
 typedef struct {
     uint64_t budget_bytes, retained_bytes, peak_retained_bytes;
@@ -32,6 +33,8 @@ typedef struct {
     uint32_t abi_version, struct_bytes;
     lie_input_kind kind;
     lie_chat_template chat;
+    const lie_image_input *images;
+    size_t image_count;
     lie_tool_choice tool_choice;
     const char *named_tool;
     const int32_t *tokens;
@@ -55,6 +58,7 @@ typedef struct {
     const char *model_path;
     const char *mtp_model_path; /* Explicit sidecar; NULL preserves AR. */
     uint32_t mtp_draft_tokens; /* Zero selects this model provider's default. */
+    const char *vision_model_path; /* Explicit encoder admission. */
     uint32_t context, chunk, max_active;
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
     lie_cache_policy cache_policy;
@@ -77,6 +81,7 @@ typedef struct {
     lie_store_info ssd;
     lie_model_info model;
     lie_mtp_info mtp;
+    lie_vision_info vision;
     char error[256];
 } lie_core_info;
 typedef struct {
