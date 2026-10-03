@@ -11,7 +11,8 @@ Download the four GGUF shards from the
 [model directory](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL)
 and keep them together. Pass `Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf`
 to LIE; the loader discovers the other shards. Model weights have their own
-publisher terms. MTP sidecars and vision projectors are not used by this branch.
+publisher terms. For the experimental vision path, see
+[configuration, usage and current limits](../development/VISION.md).
 
 ## Start the server
 

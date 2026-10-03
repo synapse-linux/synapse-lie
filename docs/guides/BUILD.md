@@ -94,6 +94,7 @@ cmake --build build/core -j2
 | `LIE_CHECKPOINT_COMPRESSION` | `ON` | Enable legacy checkpoint codecs; DS4 payloads bypass this extra codec. |
 | `LIE_SANITIZERS` | `OFF` | Instrument CPU code with ASan and UBSan. |
 | `BUILD_TESTING` | `ON` | Build and register native development tests. |
+| `LIE_VISION` | `ON` | Build the model-neutral vision feature; predictor/encoder admission remains explicit. |
 | `LIE_LEGACY_PYTHON_TESTS` | `OFF` | Additionally run independent historical Python test oracles; requires Python only when explicitly enabled. |
 
 KV disk persistence is selected at runtime, using an explicit directory and quotas.

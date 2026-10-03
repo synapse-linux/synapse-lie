@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Deterministic ABI fixture for benchmark accounting, never neural computation. */
 #include "lie/executor.h"
+#include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include <math.h>
@@ -8,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; int mode; };
+struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; unsigned vision; int mode; };
 struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; atomic_bool cancelled; };
 static atomic_uint_fast64_t domain_counter=1;
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
@@ -118,3 +119,27 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){
     (void)m;(void)t;(void)n;(void)e;*out=0;return LIE_OK;
 }
+
+struct lie_vision_prompt { lie_model *model;unsigned marker; };
+lie_status lie_backend_open_vision(const char *p,const lie_model_options *o,uint32_t width,const char *encoder,lie_model **m,lie_error *e){
+    unsigned count=!strcmp(encoder,":vision-a:")?16:!strcmp(encoder,":vision-b:")?2:0;if(!count)return LIE_INVALID;
+    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK)(*m)->vision=count;return rc;
+}
+lie_status lie_model_vision_info(lie_model *m,lie_vision_info *out,lie_error *e){
+    (void)e;if(!m||!out||!m->vision)return LIE_UNSUPPORTED;
+    *out=(lie_vision_info){LIE_VISION_ABI,sizeof(*out),m->vision,LIE_VISION_MAX_PIXELS,LIE_VISION_MAX_BYTES,6,0};return LIE_OK;
+}
+lie_status lie_model_prepare_vision(lie_model *m,const lie_chat_template *t,const lie_image_input *images,size_t count,
+    int32_t *tokens,size_t cap,size_t *n,lie_vision_prompt **out,lie_error *e){
+    if(!m||!t||!images||!count||count>m->vision||!out||*out)return LIE_INVALID;
+    lie_status rc=lie_model_chat_tokens_ex(m,t,tokens,cap,n,e);if(rc!=LIE_OK)return rc;
+    unsigned stride=m->vision==2?13:3;size_t extra=count*stride;
+    if(*n>cap||extra>cap-*n){*n+=extra;return LIE_BUFFER_SMALL;}
+    for(size_t i=0;i<count;++i){lie_image_dimensions d;if(lie_image_inspect(&images[i],&d,e)!=LIE_OK)return LIE_INVALID;
+        for(unsigned j=0;j<stride;++j)tokens[(*n)++]=images[i].data[images[i].bytes-1];}
+    *out=calloc(1,sizeof(**out));if(!*out)return LIE_RESOURCE_LIMIT;(*out)->model=m;return LIE_OK;
+}
+lie_status lie_sequence_attach_vision(lie_sequence *s,const lie_vision_prompt *p,lie_error *e){
+    (void)e;return s&&p&&s->m==p->model&&!s->position?LIE_OK:LIE_INVALID;
+}
+lie_status lie_vision_prompt_close(lie_vision_prompt **p,lie_error *e){(void)e;if(!p||!*p)return LIE_INVALID;free(*p);*p=NULL;return LIE_OK;}

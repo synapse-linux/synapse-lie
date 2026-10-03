@@ -23,6 +23,16 @@ complete raw index retention and eager pooled keys. Source/build hashes identify
 this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
+## VISION development boundary
+
+This branch exposes [VISION inference inputs/output](../development/VISION.md),
+but its KVC bindings still capture AR state only. The core refuses VISION
+configuration with either RAM retention or disk persistence enabled before model
+load. It does not silently drop predictor/image state or downgrade a failed
+restore to an equivalent cache hit. Complete model-specific extensions and
+identity qualification are required before lifting this development restriction.
+
+
 ## Multi-model requirement
 
 RAM and optional SSD prefix caching must serve every supported model family

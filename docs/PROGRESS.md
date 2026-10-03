@@ -1,5 +1,27 @@
 # Isolated OpenAI reactive API increment
 
+## Vision model-neutral development slice — 2026-10-03
+
+Owned PNG/JPEG inputs, model-specific physical token expansion and encoder admission now run through the shared C17 core, Chat/Responses and core benchmark client. Fixtures use distinct image limits and expansion geometry; no Qwen positions or tensor types enter the public C contract.
+
+Native CPU ASan/UBSan/LeakSanitizer checks pass **27/27**, including both APIs,
+JSON/SSE, exact output budgets and early EOS. Final focused feature/dispatcher
+checks and the feature-OFF headless lifecycle also pass. The HIP adapter and
+clients compile/link against the independently verified Gufo pin. No model
+was loaded; .157 and GPU performance campaigns were not used. Direct synthetic
+core-client runs also produce JSON/CSV/SVG/PNG successfully. These are
+NOT-INFERENCE checks, not performance results.
+
+The feature is compiled ON by default but requires explicit model admission.
+Its complete extra state is not yet serializable: the development configuration
+requires both KV caches explicitly off, with unsupported state advertised as
+such. AR's RAM default is unchanged. Original-weight correctness, extended
+state/identity and combined MTP+vision integration remain open. Benchmarks are
+postponed while these separate feature branches advance. See
+[usage and remaining gates](development/VISION.md) and the
+[validation receipt](development/validation/vision-2026-10-03.json).
+
+
 ## Native build, benchmark clients and reports — 2026-10-03
 
 Python is no longer required for the normal build, provider verification,

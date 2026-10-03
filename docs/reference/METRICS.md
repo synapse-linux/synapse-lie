@@ -289,3 +289,12 @@ write. KVC retained/expanded bytes are equal and restore workspace is zero.
 Full index allocation is included in provider session accounting; retained host
 bytes do not describe total device memory. No new worker, speedup or compression
 ratio is inferred from these format changes.
+
+## VISION development observability
+
+Vision prompt counts include image-expanded physical tokens. Executor prefill
+time includes encoder work inside the provider prefill call; CPU image decoding,
+resizing and prompt preparation occur before that interval and contribute to
+client latency. Existing metrics do not isolate encoder time or image memory;
+those measurements remain a qualification gate. Never label this combined
+prefill rate as text-only prefill throughput.

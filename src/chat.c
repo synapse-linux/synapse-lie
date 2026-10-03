@@ -15,6 +15,7 @@ void lie_chat_free(lie_chat_request *r) {
             free((void *)r->details[i].calls[k].arguments);
         free((void *)r->details[i].calls);
     }
+    for(size_t i=0;i<r->image_count;++i)free((void *)r->images[i].data);
     json_object_put(r->json_owner);
     memset(r, 0, sizeof(*r));
 }

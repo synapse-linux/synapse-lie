@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Experimental model-neutral [VISION core and HTTP path](docs/development/VISION.md),
+  with default-ON build option, explicit model configuration and native client tests.
+
 - OpenAI-compatible Chat Completions and stateless Responses endpoints, with
   JSON/SSE output, function calls and correlated tool results.
 - Direct HTTP access for Pi using its standard OpenAI provider.
@@ -62,8 +65,9 @@ stable release is declared. Detailed validation history is in
 ### Known limitations
 
 - Inference on this branch is qualified for Qwen3.8 Flash Next UD-Q4_K_XL on
-  AMD Strix Halo. MTP, vision, additional model families and 1M context remain
-  future work.
+  AMD Strix Halo. The new VISION path is CPU-contract tested and HIP-linked,
+  but original-weight qualification and complete RAM/SSD state remain open.
+  Additional real model families, combined MTP/vision and 1M context remain future work.
 - The numerical backend still uses the embedded Gufo C++/HIP provider.
 - Published benchmark coverage does not yet include the exact Gufo HTTP
   concurrency protocol, cold-file readiness or allocation-exact peak HIP memory.

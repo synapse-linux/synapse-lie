@@ -5,6 +5,7 @@ int lie_worker_submit(lie_worker *w, lie_chat_request *r, lie_job **out) {
     lie_core_request input;
     lie_core_request_init(&input);
     input.chat=(lie_chat_template){r->messages,r->details,r->count,r->tools,r->tool_count,0};
+    input.images=r->image_count?r->images:NULL;input.image_count=r->image_count;
     input.max_tokens=r->max_tokens;
     input.tool_choice=r->tool_choice;
     input.named_tool=r->named_tool;

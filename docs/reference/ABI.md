@@ -19,6 +19,16 @@ receipts remain historical. `lie_backend_open` is the selected composition bindi
 source pin and ownership queries expose delegation; the explicit factory
 `lie_gufo_open` remains available and is not relabelled as an owned engine.
 
+## Vision branch extension
+
+[VISION](../development/VISION.md) now has an additive, model-neutral C
+contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
+their meanings. The shared request advances to `LIE_CORE_REQUEST_ABI=3` for owned image spans.
+New capability structures have ABI 1 and an exact struct size;
+upstream model types stay inside the provider adapter. This is CPU-contract
+validation and provider linking, not original-weight qualification.
+
+
 ## Ownership and completion
 
 - `lie_gufo_open` creates a model handle. Output handles must initially be NULL.
@@ -203,7 +213,7 @@ all consumers to rebuild together. See [the codec contract](SSD-PREFIX.md#compre
 
 The remaining items below are requirements for future contracts. RAM prefix
 state is implemented by the separate extension above; SSD/exact resume, MTP
-and vision are not capabilities of executor ABI 2. Keep completed scalar/batch semantics.
+and vision use separate capability contracts, outside scalar executor ABI 2. Keep completed scalar/batch semantics.
 Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
 profiles explicitly; refusing an unsupported capability must precede mutation.
 

@@ -7,6 +7,13 @@ Responses evidence](../archive/OPENAI-GPU.md), plus a [real Pi read/edit/read ru
 separate, clearly labelled synthetic executable. No model is configured by default and no synthetic provider can be
 selected in `synapse-lie-server`.
 
+## Experimental VISION path
+
+See [VISION usage and bounds](../development/VISION.md). Chat Completions
+and Responses use the same shared-core admission and ownership as direct clients.
+JSON/SSE fixtures validate transport and counters; GPU correctness remains open.
+
+
 ## Management listener
 
 | Route | Behavior |

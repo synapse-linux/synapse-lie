@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Direct client of the production C core. Reports client and executor scopes. */
 #include "lie/core.h"
+#include "bench_native.h"
 #include "lie/text.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -161,17 +162,20 @@ done:
 }
 int lie_core_bench_main(int argc,char **argv) {
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
+    const char *encoder=NULL,*image_path=NULL;
     lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-vision ENCODER.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; vision requires a prompt file, explicit encoder, one image file and both KV caches off; MTP is separate.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
         if(!strcmp(key,"--suite")){bit=1u;if(strcmp(value,"core"))goto usage;}
         else if(!strcmp(key,"--model")){bit=2u;model=value;}
+        else if(!strcmp(key,"--model-vision")){bit=131072u;encoder=value;}
+        else if(!strcmp(key,"--image-file")){bit=262144u;image_path=value;}
         else if(!strcmp(key,"--output")){bit=4u;output=value;}
         else if(!strcmp(key,"--prompt-file")){bit=8u;prompt_path=value;}
         else if(!strcmp(key,"--tokens-file")){bit=16u;tokens_path=value;}
@@ -193,8 +197,9 @@ int lie_core_bench_main(int argc,char **argv) {
     }
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
+    if((encoder||image_path)&&(!LIE_VISION||!encoder||!*encoder||!image_path||!*image_path||!prompt_path||cache_mib||ssd.directory))goto usage;
     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");
-    text(identity,"execution","shared-reactive-core");text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
+    text(identity,"execution","shared-reactive-core");text(identity,"vision_model",encoder?encoder:"");text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
@@ -232,15 +237,28 @@ int lie_core_bench_main(int argc,char **argv) {
         if(!valid){free(ids);free(data);json_object_put(identity);goto usage;}
         request.kind=LIE_INPUT_TOKENS;request.tokens=ids;request.token_count=n;
     }
-    text(identity,"input_kind",prompt_path?"raw-text":"physical-tokens");
+    text(identity,"input_kind",image_path?"messages-with-image":prompt_path?"raw-text":"physical-tokens");
     struct sigaction sa={0};sa.sa_handler=stop_signal;sigemptyset(&sa.sa_mask);
     if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL)){free(ids);free(data);json_object_put(identity);return 1;}
     int fd=open(output,O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0600);
     if(fd<0){perror("exclusive core benchmark output");free(ids);free(data);json_object_put(identity);return 1;}
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
     int code=1;lie_core *core=NULL;char error[256]="core benchmark failed";witness w={0};
+    char *encoded=NULL;lie_image_input image={0};lie_chat_message message={0};
+    if(image_path){
+        size_t image_bytes=0;encoded=read_input(image_path,&image_bytes);
+        image=(lie_image_input){.data=(const unsigned char *)encoded,.bytes=image_bytes,.format=LIE_IMAGE_PNG};
+        lie_image_dimensions dimensions;
+        if(lie_image_inspect(&image,&dimensions,NULL)!=LIE_OK){image.format=LIE_IMAGE_JPEG;
+            if(lie_image_inspect(&image,&dimensions,NULL)!=LIE_OK){snprintf(error,256,"invalid PNG/JPEG image header or budget");emit(f,identity);goto done;}}
+        char image_hash[65];if(!nb_hash(encoded,image_bytes,image_hash)){emit(f,identity);goto done;}
+        text(identity,"image_sha256",image_hash);number(identity,"image_bytes",image_bytes);
+        message=(lie_chat_message){LIE_CHAT_USER,data,bytes};image.text_offset=bytes;
+        request.kind=LIE_INPUT_MESSAGES;request.text=NULL;request.text_bytes=0;
+        request.chat.messages=&message;request.chat.count=1;request.images=&image;request.image_count=1;
+    }
     if(!emit(f,identity))goto done;
-    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;
+    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;options.vision_model_path=encoder;
     options.chunk=chunk;options.max_active=users;options.prefix_cache_bytes=(uint64_t)cache_mib*1024u*1024u;options.ssd=ssd;options.cache_policy=policy;
     core=lie_core_create(&options);
     if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){snprintf(error,256,"core readiness failed");goto done;}
@@ -258,7 +276,7 @@ done:
     }}
     json_object *end=event(code?"failed":"complete");number(end,"exit_code",code);if(code)text(end,"error",error);
     bool written=emit(f,end);if(fclose(f)||!written)code=1;
-    free(w.prompt);free(ids);free(data);
+    free(encoded);free(w.prompt);free(ids);free(data);
     if(!code&&graphs)code=lie_bench_graphs(output,graphs,NULL);
     return code;
 usage:

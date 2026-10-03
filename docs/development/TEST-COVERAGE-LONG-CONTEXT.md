@@ -41,8 +41,8 @@ separate API objective, not something the benchmark suite establishes.
 
 ## A concrete extended-context client
 
-The C executable delegates `--suite http` to the adjacent Python harness. The
-new preset defaults to targets **258794, 524288, 786432, 1004581**, output budget
+The C executable implements `--suite http` natively; no adjacent script or
+Python interpreter is required. The preset defaults to targets **258794, 524288, 786432, 1004581**, output budget
 64, three measured repetitions, zero discarded warmups and a 3600-second HTTP
 socket timeout. The endpoint's own deadline and the supervising campaign deadline
 must also cover the work; a socket timeout is not a total campaign deadline.
@@ -52,7 +52,7 @@ Example for a separately admitted, already 1M-qualified endpoint:
 ```sh
 synapse-lie-bench --suite http --url http://192.168.5.157:8000/v1 \
   --model qwen3.8-flash-next --server-label 'exact build / weights / AR / YaRN4' \
-  --cache-policy off --preset long-context \
+  --server-kv-cache off --preset long-context \
   --context-capacity 1048576 --rope-scaling yarn4 \
   --corpus-seed 77 --export-requests long-corpus.jsonl \
   --output long.jsonl --graphs long-charts

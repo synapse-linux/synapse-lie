@@ -74,6 +74,15 @@ bool lie_responses_parse(const char *body,size_t bytes,const char *model,lie_cha
                     json_object *parts=json_object_new_array();
                     for (size_t j=0;j<json_object_array_length(content);++j) {
                         json_object *part=json_object_array_get_idx(content,j), *pt=get(part,"type");
+                        if(literal(pt,"input_image")){
+                            const char *const ik[]={"type","image_url","detail"};
+                            if(!fields(part,ik,3)||!json_object_is_type(get(part,"image_url"),json_type_string)){json_object_put(parts);json_object_put(m);goto fail;}
+                            json_object *image=json_object_new_object(),*p=json_object_new_object();
+                            json_object_object_add(p,"type",json_object_new_string("image_url"));json_object_object_add(p,"image_url",image);
+                            json_object_object_add(image,"url",json_object_get(get(part,"image_url")));
+                            if(get(part,"detail"))json_object_object_add(image,"detail",json_object_get(get(part,"detail")));
+                            json_object_array_add(parts,p);continue;
+                        }
                         if ((!literal(pt,"input_text") && !literal(pt,"output_text")) || !json_object_is_type(get(part,"text"),json_type_string)) {
                             json_object_put(parts); json_object_put(m); goto fail;
                         }

@@ -6,6 +6,7 @@
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
+#include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include "gufo_chat.hpp"
@@ -39,13 +40,14 @@ struct Runtime {
     std::thread::id owner{std::this_thread::get_id()};
     std::uint32_t chunk{}, width{1};
     uint8_t state_quant{};
-    bool failed{false};
+    bool failed{false}, vision_admitted{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
     struct StateFile { int fd;struct stat stat; };
     std::vector<StateFile> state_files;
     ~Runtime(){for(auto& f:state_files)::close(f.fd);}
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
+struct lie_vision_prompt { std::shared_ptr<Runtime> runtime;std::shared_ptr<const gufo::models::qwen::vision::Prompt> prompt; };
 struct lie_sequence {
     std::shared_ptr<Runtime> runtime;
     std::unique_ptr<qfn::Session> session;
@@ -92,7 +94,7 @@ extern "C" int lie_backend_prefix_state_supported(void) {
     return 0;
 #endif
 }
-extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_options *o, uint32_t width, lie_model **out, lie_error *e) {
+static lie_status open_model(const char *path,const lie_model_options *o,uint32_t width,const char *vision,lie_model **out,lie_error *e) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
         !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
@@ -102,7 +104,7 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         auto metadata = gufo::core::GgufReader::OpenFile(path, &template_error);
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
-        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;
+        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;r->vision_admitted=vision!=nullptr;
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
@@ -126,6 +128,7 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         }
         metadata.reset(); // Validation before GPU admission; no model forward on CPU.
         qfn::ModelOptions options;
+        if(vision)options.vision_model_path=vision;
         options.max_context = o->context_tokens;
         options.decode_concurrency = width;
         options.max_draft_tokens = 1; // No MTP sidecar and no speculative capability in this increment.
@@ -135,6 +138,12 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         *out = result.release(); if (e) e->message[0] = 0; return LIE_OK;
     } catch (const std::exception &ex) { return error(e, LIE_BACKEND_FAILED, ex.what()); }
       catch (...) { return error(e, LIE_BACKEND_FAILED, "unknown model load exception"); }
+}
+extern "C" lie_status lie_gufo_open_batch(const char *p,const lie_model_options *o,uint32_t width,lie_model **m,lie_error *e){return open_model(p,o,width,nullptr,m,e);}
+extern "C" lie_status lie_backend_open_vision(const char *p,const lie_model_options *o,uint32_t width,const char *encoder,lie_model **m,lie_error *e){
+    if(!LIE_VISION)return error(e,LIE_UNSUPPORTED,"Vision was disabled at build time");
+    if(!encoder||!*encoder)return error(e,LIE_INVALID,"explicit vision encoder required");
+    return open_model(p,o,width,encoder,m,e);
 }
 extern "C" lie_status lie_gufo_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     return lie_gufo_open_batch(path,o,1,out,e);
@@ -408,4 +417,55 @@ extern "C" lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_la
 }
 extern "C" lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *in,size_t bytes,lie_error *e) {
     return state_copy(s,l,const_cast<void*>(in),bytes,true,e);
+}
+
+extern "C" lie_status lie_model_vision_info(lie_model *m,lie_vision_info *out,lie_error *e){
+    if(!m||!out||out->abi_version!=LIE_VISION_ABI||out->struct_bytes!=sizeof(*out))return error(e,LIE_INVALID,"invalid vision capability output");
+    return guarded(m->runtime,e,[&]{
+        if(!m->runtime->vision_admitted||!m->runtime->model->VisionEncoder())return error(e,LIE_UNSUPPORTED,"vision encoder not admitted");
+        *out={LIE_VISION_ABI,sizeof(*out),LIE_VISION_MAX_IMAGES,LIE_VISION_MAX_PIXELS,LIE_VISION_MAX_BYTES,(1u<<LIE_IMAGE_PNG)|(1u<<LIE_IMAGE_JPEG),0};return LIE_OK;
+    });
+}
+extern "C" lie_status lie_model_prepare_vision(lie_model *m,const lie_chat_template *input,const lie_image_input *images,size_t n,
+    int32_t *tokens,size_t capacity,size_t *required,lie_vision_prompt **out,lie_error *e){
+    if(!m||!input||!images||!n||n>LIE_VISION_MAX_IMAGES||!required||!out||*out||(!tokens&&capacity))return error(e,LIE_INVALID,"invalid vision prompt input");
+    return guarded(m->runtime,e,[&]{
+        auto encoder=m->runtime->model->VisionEncoder();
+        if(!m->runtime->vision_admitted||!encoder)return error(e,LIE_UNSUPPORTED,"vision encoder not admitted");
+        try{
+            auto chat=lie_gufo::translate_chat(*input);if(!chat)return error(e,LIE_INVALID,"invalid vision chat template");
+            uint64_t pixels=0,bytes=0;
+            for(size_t i=0;i<n;++i){const auto &v=images[i];lie_image_dimensions dims{};
+                if(v.message_index>=input->count||input->messages[v.message_index].role!=LIE_CHAT_USER||
+                   v.text_offset>input->messages[v.message_index].bytes||
+                   (v.text_offset<input->messages[v.message_index].bytes&&(static_cast<unsigned char>(input->messages[v.message_index].content[v.text_offset])&0xc0)==0x80)||
+                   lie_image_inspect(&v,&dims,e)!=LIE_OK)return error(e,LIE_INVALID,"invalid image placement/header");
+                if(i&&(v.message_index<images[i-1].message_index||(v.message_index==images[i-1].message_index&&v.text_offset<images[i-1].text_offset)))return error(e,LIE_INVALID,"unordered image placement");
+                pixels+=static_cast<uint64_t>(dims.width)*dims.height;bytes+=v.bytes;
+                if(pixels>LIE_VISION_MAX_PIXELS||bytes>LIE_VISION_MAX_BYTES)return error(e,LIE_RESOURCE_LIMIT,"vision input budget exceeded");
+                auto owned=std::make_shared<const std::vector<uint8_t>>(v.data,v.data+v.bytes);
+                chat->messages[v.message_index].images.push_back({v.text_offset,std::move(owned)});
+            }
+            gufo::tokenization::ChatTemplateOptions opts;opts.enable_thinking=false;opts.require_tool_call=input->require_tool_call!=0;
+            opts.max_output_bytes=gufo::tokenization::RenderedPromptBoundBytes(m->runtime->model->MaxContext());
+            auto prompt=std::make_shared<gufo::models::qwen::vision::Prompt>(gufo::models::qwen::vision::Prepare(
+                m->runtime->model->tokenizer(),chat->messages,chat->tools,opts,encoder->identity(),m->runtime->model->MaxContext()));
+            *required=prompt->tokens.size();if(*required>capacity)return error(e,LIE_BUFFER_SMALL,"vision physical token budget exceeded");
+            auto result=std::make_unique<lie_vision_prompt>();result->runtime=m->runtime;result->prompt=std::move(prompt);
+            std::copy(result->prompt->tokens.begin(),result->prompt->tokens.end(),tokens);*out=result.release();return LIE_OK;
+        }catch(const std::bad_alloc&){return error(e,LIE_RESOURCE_LIMIT,"vision preparation allocation failed");}
+        catch(const std::exception& ex){return error(e,LIE_INVALID,ex.what());}
+    });
+}
+extern "C" lie_status lie_sequence_attach_vision(lie_sequence *s,const lie_vision_prompt *p,lie_error *e){
+    if(!s||!p||s->runtime!=p->runtime)return error(e,LIE_INVALID,"foreign vision prompt");
+    return guarded(s->runtime,e,[&]{
+        if(s->session->Position()||s->sampling_started||s->stopped)return error(e,LIE_INVALID,"vision attachment must precede prefill");
+        if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled before vision attachment");
+        s->session->ConfigureVision(p->prompt);return LIE_OK;
+    });
+}
+extern "C" lie_status lie_vision_prompt_close(lie_vision_prompt **p,lie_error *e){
+    if(!p||!*p)return error(e,LIE_INVALID,"invalid vision prompt handle");
+    auto rc=owner((*p)->runtime,e,true);if(rc!=LIE_OK)return rc;delete *p;*p=nullptr;return LIE_OK;
 }
