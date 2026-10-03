@@ -16,7 +16,8 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 F16/Q8_0-to-BF16 weight decoding and Qwen vision upload support.
   The default-ON build option preserves the BF16 GPU kernels and leaves model
-  files unchanged. CPU parity passes; original-weight vision qualification is pending.
+  files unchanged. Original-weight HTTP, image/cache and combined RAM/SSD
+  checkpoint checks pass; quality and performance qualification remain open.
 
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
   and reproducible random draws, with a default-ON build option and a separate
@@ -45,7 +46,8 @@ stable release is declared. Detailed validation history is in
   with explicit predictor admission, bounded verified output and default-ON build support.
 - Vision cache reuse through the shared core: image semantics and MRoPE validation,
   default RAM retention and optional SSD restart with caller-supplied matching images.
-  Original-weight GPU qualification remains pending.
+  Original-weight image/cache and process-restarted checkpoint checks pass;
+  quality and performance qualification remain open.
 
 - Joint MTP/vision admission in the shared core, HTTP server and benchmark client,
   with predictor/controller, prepared image scope and MRoPE in one RAM/SSD checkpoint.

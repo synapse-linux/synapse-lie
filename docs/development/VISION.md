@@ -6,14 +6,13 @@ Responses and the core benchmark client. The core contract is model-neutral.
 The first real binding delegates image expansion, MRoPE, encoder execution and
 model forward to the pinned Gufo Qwen3.8 Flash Next provider.
 
-**Status:** CPU contract tests and HIP compilation/linking pass. The first
-original-weight attempt on `.157` refused the available mixed Q8/F16 projector
-because the pinned encoder accepts BF16 dense weights. `feature/vision-q8` adds
-the C17 upload decoder below; original-weight image understanding, memory fit
-and speed still require a fresh GPU run. The two feature checkpoints are combined
-on `feature/mtp-vision-integration`; [joint configuration](../guides/USAGE.md#mtp-with-images)
-uses the same core, reactive output flow and RAM/SSD state. Native combined checks
-and HIP linking do not qualify original-weight behavior.
+**Status:** original-weight functional checks pass on `.157` with the mixed
+Q8/F16 projector and C17 upload decoder: image color semantics, image-scoped RAM
+reuse, combined MTP state and SSD restore in a new process. The
+[GPU receipt](validation/vision-mtp-gpu-2026-10-03.json) records the tested scope
+and retained failures. Independent quality, allocation-exact memory fit and
+performance qualification remain open. [Joint configuration](../guides/USAGE.md#mtp-with-images)
+uses the same core, reactive output flow and RAM/SSD state.
 
 ## Use
 
@@ -84,7 +83,7 @@ one dense tensor. GPU resource and performance qualification must measure these
 costs separately from prompt preparation, image encoding and decode throughput.
 
 `include/lie/vision.h` defines encoded PNG/JPEG spans, message placement and
-versioned provider capabilities. `lie_core_request` ABI 3 includes images and
+versioned provider capabilities. `lie_core_request` ABI 5 includes images and
 `lie_core_options.vision_model_path` configures admission. Submission deep-copies
 encoded bytes and text. `text_offset` is a UTF-8 byte boundary; equal offsets
 preserve image order. Input images belong to user messages.
@@ -152,12 +151,20 @@ JSON/SSE reuse. An independently materialized source variant builds and the HIP
 server/bench link. These are NOT-INFERENCE checks. See the
 [cache validation receipt](validation/vision-cache-2026-10-03.json).
 
-Remaining integration gates are original-weight image/text histories, quality,
-cache-on/off equivalence, cancellation/fault behavior and resource fit. Account
-decoded pixels, embeddings, encoder residency and workspace on the target;
-qualify the integrated MTP/vision path on original weights. Additional
-real models need their own image expansion/encoder bindings. GPU benchmarks
-remain postponed, and no fresh-prefill or reactive speedup is claimed.
+The original-weight follow-up passes **20 combined HTTP assertions**, including
+equal-length red/blue prompts, changed-image cache misses and exact same-image
+reuse. RAM and new-process SSD continuations preserve the full logits frontier,
+confirmed tokens and MTP counters. Greedy MTP also matches a fresh forced-AR
+control from the same provider. These checks use 256-pixel color fixtures and
+one prompt family; they do not establish general image understanding.
+
+Remaining gates are independent vision quality, image/text histories, image
+in-flight cancellation and fault behavior, allocation-exact resource fit and
+matched performance. Account decoded pixels, embeddings, BF16 encoder residency
+and workspace separately. The pinned encoder already reports a BF16-reference
+quality discrepancy in its [pinned upstream evaluation](https://github.com/gufo-org/gufo/blob/f783fedb9bea2ec7de941f6da4e02f4a4596b29e/docs/models/qwen3.8-flash-next/QUALITY.md); passing color fixtures
+does not resolve it. Additional real models need their own image bindings.
+No fresh-prefill or reactive speedup is claimed.
 
 The GPU numerical source remains official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the existing LIE state-access

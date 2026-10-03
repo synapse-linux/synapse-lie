@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight vision, MTP and reactive continuation — 2026-10-03
+
+Frozen checkpoint `bec0955` passes all seven declared functional arms on `.157`:
+combined HTTP, combined RAM state, MTP SSD write/read, combined SSD write/read
+and direct-core backpressure/cancellation. HTTP passes **20 assertions**, including
+red/blue semantics, image-scope isolation, same-image reuse and controlled AR
+fallback. The five state arms compare **228 paired dispatches** with full logits,
+confirmed tokens and counters; **120 greedy frontiers** also match a fresh forced
+target-AR control from the same provider. Sampled text includes three rejected
+drafts. SSD reads run in new processes with freshly admitted model identities.
+
+The direct-core arm completes a peer while another row is stalled at eight
+confirmed tokens, preserves its borrowed output through cancellation, and
+observes in-flight prefill/decode cancellation without late output. It has one
+device owner, no HTTP layer and no additional inference worker. This is
+functional evidence, not a speedup measurement or independent quality oracle.
+
+Three first attempts fail in private verification code: an omitted optional
+zero-cache usage field, missing required DS4 prompt-text metadata, and demand
+renewal after producer closure. Corrected consumers also retain cancellation
+offsets after a borrowed block. An untraced ASan/UBSan/LeakSanitizer fixture
+qualifies the consumer correction; the frozen runtime/numerical source is
+unchanged. Failed commands, exits and original artifacts remain preserved.
+
+The window closes at **20:44:19.723712 UTC**: 50 collected files hash-verify,
+20 owned PID/start identities retire, KFD is empty, the four original leases
+are unchanged and released, and six model file identities and all capsules
+remain unchanged. Sampled peaks are CPU80.625/GPU82/NVMe66.85 C; no thermal stop
+occurs. The [GPU receipt](development/validation/vision-mtp-gpu-2026-10-03.json)
+binds source, commands, exact comparisons and release. Independent quality,
+image cancellation/fault handling, allocation-exact fit and matched MTP/vision
+performance remain open.
+
 ## Vision projector storage admission — 2026-10-03
 
 `feature/vision-q8` starts from `develop` and advances to checkpoint `b72f4e8`

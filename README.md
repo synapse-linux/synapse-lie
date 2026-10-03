@@ -12,8 +12,9 @@ with an owned [C17 dense sampler](docs/development/C17-SAMPLING.md).
 contexts up to 262,144 tokens and up to eight active sequences.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and
-can be configured together. CPU checks and HIP linking do not qualify its
-original-weight behavior or performance; other real model bindings remain open.
+can be configured together. Original-weight functional checks cover HTTP,
+RAM/SSD checkpoints and reactive cancellation. Quality and performance gates
+remain open; other real model bindings remain open.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)
@@ -31,12 +32,14 @@ original-weight behavior or performance; other real model bindings remain open.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.
-  GPU correctness and performance qualification remain pending.
+  Original-weight checkpoint and cancellation checks pass; quality and performance
+  qualification remain open.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
   F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
   MTP and vision can run together through the same core and cache.
-  Original-weight vision and combined qualification remain pending.
+  Original-weight image/cache and combined checkpoint checks pass; quality and
+  performance qualification remain open.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency

@@ -6,12 +6,13 @@ HTTP server and core benchmark client. The contract is model-neutral; the first
 real binding delegates predictor execution, target verification, sampling and
 rollback to the pinned Gufo Qwen3.8 Flash Next provider.
 
-**Status:** CPU contract tests and HIP compilation/linking only. Original-weight
-MTP correctness, memory fit and speed have not been qualified. GPU benchmarks
-are postponed at the owner's request. The two feature checkpoints are combined
-on `feature/mtp-vision-integration`; [joint configuration](../guides/USAGE.md#mtp-with-images)
-uses the same core, reactive output flow and RAM/SSD state. Native combined checks
-and HIP linking do not qualify original-weight behavior.
+**Status:** original-weight functional checks pass on `.157`: verified output,
+greedy target-AR control, sampled rejection, RAM/SSD continuation and reactive
+backpressure/cancellation. The [GPU receipt](validation/vision-mtp-gpu-2026-10-03.json)
+records the tested scope and retained failures. Independent numerical/quality,
+allocation-exact memory fit and performance gates remain open.
+[Joint configuration](../guides/USAGE.md#mtp-with-images) uses the same core,
+reactive output flow and RAM/SSD state.
 
 ## Use
 
@@ -117,13 +118,19 @@ sparse threshold and **has not been measured**. The current AR and MTP state
 schedule remains a correctness-first development variant, with a default-ON
 build option; it is not qualified as faster than pristine Gufo.
 
-Before GPU qualification: test greedy AR parity, sampled target behavior,
-rejection/rollback, capture immediately after prefill and verified bursts,
-RAM restore, independent SSD restart, context growth, cancellation and mixed
-concurrency on original weights. Then compare PP/TG, complete-window throughput
-and memory with AR. Same sampling seed alone does not imply equal AR/speculative
-token streams. Additional real model families require their own bindings and
-qualification.
+Original-weight checks now cover greedy AR parity, capture after prefill and
+verified bursts, RAM restore and independent SSD restart. The sampled text
+case proposes 35 drafts, accepts 32 and rejects three, with exact restored
+tokens, counters and full logits. A separate direct-core test covers a stalled
+consumer with a retained output loan, peer completion and observed in-flight
+prefill/decode cancellations. It adds no HTTP layer or device owner thread.
+
+Remaining gates include an independent predictor/verification numerical oracle,
+broader rejection/rollback and long-context coverage, quality scoring, fault
+behavior, and matched PP/TG, complete-window throughput and allocation-exact
+memory comparisons with AR. Same sampling seed alone does not imply equal
+AR/speculative token streams. Additional real model families require their own
+bindings and qualification.
 
 The numerical source remains official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the hash-verified LIE state-access and complete predictor-history

@@ -268,7 +268,9 @@ record queue delay, p50/p95/p99 first output and inter-token gaps, batch occupan
 credit stalls and time spent in prefill. Only that evidence can justify a new
 prefill/decode fairness policy or different chunk size. Operator-level profiling
 is separately needed before changing internal synchronization or scratch reuse.
-MTP, PP batching and asynchronous forwards remain missing. RAM prefix reuse
+At the time of that baseline, MTP, PP batching and asynchronous forwards were
+missing. MTP has since entered the shared core; PP batching and asynchronous
+forwards remain open. RAM prefix reuse
 has now been added explicitly in the C core; it was not supplied by the existing
 reactive dispatcher.
 
@@ -294,3 +296,21 @@ C8 complete-wall throughput rises 51.14→106.02 tok/s, while per-job TG stays
 avoided prefill with unchanged batching/forward, not evidence that callbacks or
 additional CPU threads accelerate the numerical kernel. At 128K TTFT falls
 98.384→0.225 s for a full hit; fresh PP remains about 1335 tok/s in the off arm.
+
+## Original-weight MTP demand and cancellation check — 2026-10-03
+
+The direct-core probe at frozen checkpoint `bec0955` uses actual target and
+predictor weights without HTTP. Both rows exhaust their initial eight confirmed
+token credits. The consumer borrows a block from one row and drains the other
+to 128 tokens; the stalled row stays at eight and its loan bytes stay unchanged.
+Cancellation preserves those bytes until release. Separate cases observe an
+in-flight prefill or decode call, cancel that row, verify no additional confirmed
+output is published, and complete a new peer. Final active/queued/failed counters
+are zero; both cancellation-phase counters are positive.
+
+This validates credit-based scheduling and retirement inside inference. It
+does not measure GPU preemption, forward overlap, tail latency or throughput
+improvement. One device owner remains. The process reports 1–52 OS threads over
+load/run/retirement, including runtime helpers; that range is not the number of
+inference workers. The [GPU receipt](development/validation/vision-mtp-gpu-2026-10-03.json)
+retains the raw events, CPU-fixture consumer check and original failed verifier.

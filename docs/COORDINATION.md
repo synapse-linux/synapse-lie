@@ -636,3 +636,29 @@ and measured peaks, actual compiler/test failures and exits are retained in the
 `evidence/events-*`. No fan, clock, power or foreign process changed; no shutdown
 or deterioration was observed. Functional GPU preparation retains its separate
 85 C gate and fresh coordinated ownership requirements.
+
+## Original-weight vision/MTP window released — 2026-10-03
+
+Root accepts Q2's HC-window release at **20:00:42.449978 UTC** and records fresh
+admission at **20:09:05.752679 UTC**. Each arm acquires the original pipeline,
+download, qualification and shared lease identities EX|NB in their established
+order. The window covers the frozen `bec0955` runtime, private corrected probes,
+and full model-identity hashing for explicitly declared SSD arms. Models and
+numerical sources are not converted or modified; no remote build, installation,
+tuning or foreign termination occurs.
+
+Seven functional arms pass. Three initial private-verifier failures remain
+preserved. Final release at **20:44:19.723712 UTC** verifies 20 owned PID/start
+identities retired with empty child process groups, empty KFD, all four original
+leases unchanged/acquired nonblocking and released, six unchanged model stats,
+four unchanged capsules and 50 collected/hash-verified result files. Sampled
+peaks are CPU80.625/GPU82/NVMe66.85 C under the authorized 98 C CPU/GPU allowance
+and lower hardware/NVMe guards. No thermal stop, observer or restart remains.
+
+The `.157` receipt is `run/gpu-vision-bec-window-release.json`, SHA-256
+`58395a517da73ddf9eaf3e6aa6cb668ffbd350f85d963c0c0639b5b1940429aa`,
+with a matching registry `window_release`. Root returns the window to Q2 and
+notifies Point after local collection verification. The
+[GPU receipt](development/validation/vision-mtp-gpu-2026-10-03.json) binds the
+commands and scope. This handover is not a standing lease; later GPU work needs
+fresh admission.
