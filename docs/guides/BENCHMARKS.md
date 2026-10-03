@@ -153,6 +153,14 @@ Each export contains `benchmark.svg`, `benchmark.png`, `summary.csv` and
 `summary.json`. Throughput axes start at zero; prefill and generation have
 separate scales. Error bars show the observed minimum and maximum, with the
 median as the plotted value. Preserve raw JSONL and the build/model identities.
+Direct-suite CSV/JSON also include prefill/decode seconds with median, minimum
+and maximum. These durations are summarized independently of throughput.
+New raw direct samples carry monotonic phase bounds and a wall-clock sample
+start for correlation with thermal/device telemetry. Prefix construction ends
+before the prefill bound; frontier inspection and flow setup precede decode.
+Elapsed time always uses the monotonic clock. The exporter rejects incomplete,
+reversed or duration-inconsistent phase bounds and still reads older evidence
+without those fields. Graphs alone do not supply clock/power telemetry.
 A graph-export failure returns a nonzero exit code while retaining the measurement file.
 
 KV disk reports instead plot nearest-rank p50/p95/p99 latency distributions.

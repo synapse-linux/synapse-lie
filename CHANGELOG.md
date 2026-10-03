@@ -14,6 +14,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Native benchmark prefill/decode durations in CSV and JSON, with monotonic
+  phase bounds for telemetry correlation and validation of incomplete or
+  contradictory clocks. Retained evidence without clocks remains readable.
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
   and reproducible random draws, with a default-ON build option and a separate
   Gufo control. Original-weight GPU qualification remains pending.

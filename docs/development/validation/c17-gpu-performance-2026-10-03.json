@@ -502,6 +502,27 @@
   },
   "performance_acceptance": "UNRESOLVED: fresh1500 TG -16.64%, exceeds predeclared 5% loss investigation gate; all other measured TG medians within 1%.",
   "published_artifacts_sha256": {
+    "charts/current-depth.csv": "c49db62fd55750f8d4b8d1421eef52f22210808f2a80ba6a7281ed0829987a8d",
+    "charts/current-depth.json": "2198cdf4a777e631af1c1f6de64824e0c7cd33e2c80b022005b3db7be9b005ec",
+    "charts/current-depth.png": "2c079bf6849613d95a24f0ccbe02c136f5849d8ccccca2e6e49ff4c82e4aaca5",
+    "charts/current-depth.svg": "0090d9dd1fd372610708a89fa9a10f94e54e211b901512f8d949ec8185d50e62",
+    "charts/current-fresh.csv": "59035da1b133b1839d09eb39b49cca125ed10523fc633831227e1d1298c1fab2",
+    "charts/current-fresh.json": "55538c40c0b9ca5885ea9403f130f5594c7e24915228a03a0ee37098b789bab2",
+    "charts/current-fresh.png": "5594e82190265d7c88ea98484fd417d91f744af56ebd145fadb9c55ae6f9fd63",
+    "charts/current-fresh.svg": "6536a389d2450bc178e15ec5a4b9df1e39723484cd1a1dc40773b0a998577cc4",
+    "charts/current-multi.csv": "8abbb1967ef83f694063d5e3231cf843384a592f0b0b10f555706179deca1e43",
+    "charts/current-multi.json": "2cff32995439f52c221553ada0b60f728849b957a047b157977bb6000297b60a",
+    "charts/current-multi.png": "bf217f035ae949ca9746bc99086415cb847bba8453bc15daa7da5d8832d13450",
+    "charts/current-multi.svg": "175284dc9c308bb894ea3091d0f2e132256b945de46900d321e6d53be94ce210",
+    "charts/current-values.csv": "8d14e1a5b94608e3f68320f897b4b0df91b919aa1b7e19f74050c522888f95f7",
+    "data/current-depth-c17.jsonl.gz": "212cd4a03c909035cccdf77c8ea9e4f8617b23e96b4d0bd11b232d35da4d5a36",
+    "data/current-depth-cpp.jsonl.gz": "b3ffd98649c6be99f7d0b3f8894d1844f89e15e784b4d2f145726aeacc87e2d5",
+    "data/current-fresh-c17.jsonl.gz": "169e52287a4f1b9460db17640f539dbf1110654a4c677dc4c7849dbd369a1714",
+    "data/current-fresh-cpp.jsonl.gz": "106b738985f1cd9a383e45185ba6feeea8f6b07cca549571dac87d439393eb13",
+    "data/current-multi-c17.jsonl.gz": "f2121677540e9baf346dc31480f4ebca34560f674ada6f8c6d52e0f6fe862a0f",
+    "data/current-multi-cpp.jsonl.gz": "9b2c3e888e5050d3f008994cb783f73abe1a22ed59a9bcf2298173cce8621956"
+  },
+  "previous_export_sha256_before_duration_columns": {
     "charts/current-depth.csv": "026edab1cc3939ef82b1d25f28307b2051b7df0cd1b6566c04378c144eba6126",
     "charts/current-depth.json": "cd44b4b096ca70ee338955f9429f8de6b8ad6a1d71937b570af43c8487ea87e1",
     "charts/current-depth.png": "2c079bf6849613d95a24f0ccbe02c136f5849d8ccccca2e6e49ff4c82e4aaca5",
@@ -521,5 +542,10 @@
     "data/current-fresh-cpp.jsonl.gz": "106b738985f1cd9a383e45185ba6feeea8f6b07cca549571dac87d439393eb13",
     "data/current-multi-c17.jsonl.gz": "f2121677540e9baf346dc31480f4ebca34560f674ada6f8c6d52e0f6fe862a0f",
     "data/current-multi-cpp.jsonl.gz": "9b2c3e888e5050d3f008994cb783f73abe1a22ed59a9bcf2298173cce8621956"
+  },
+  "duration_export_upgrade": {
+    "scope": "Only native JSON/CSV duration columns added; all original comparison witnesses and SVG/PNG hashes unchanged",
+    "evidence": "evidence/bench-phase-clocks-r1",
+    "reporter_sha256": "8f8ae536ff2faf8eb13b213b15a093e71abe63bfd68a114a33fe74ef02e7fe31"
   }
 }

@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Benchmark phase clocks and durations — 2026-10-03
+
+Native direct benchmarks now record monotonic prefill/decode bounds and a
+wall-clock sample start for correlation with supervised telemetry. They exclude
+prefix construction, frontier copies and flow setup from the timed calls. The
+C report exports duration distributions in seconds to JSON/CSV, validates full
+ordered clock tuples and exact duration differences, and retains support for
+older raw data without a clock declaration. This is host timing, not a GPU
+kernel timeline or preemption claim.
+
+Focused ASan/UBSan/LeakSanitizer `native-benchmark-contract` passes, including
+four malformed clock cases, old-evidence compatibility and existing HTTP/SSD
+fixtures. Both pinned HIP compositions link with GPU visibility masked. The
+first build's incorrect helper name/exit1 is preserved and corrected. Re-export
+of all three original-weight datasets adds duration columns without changing
+any existing witness, comparison or SVG/PNG hash. The
+[source-bound receipt](development/validation/bench-phase-clocks-2026-10-03.json)
+records CPU-only validation; this does not resolve the 1500-token GPU slowdown.
+
 ## Local GPU thermal benchmark — 2026-10-03
 
 At the owner's request, the editing ASUS ROG Flow Z13 `.155` completes eight
