@@ -31,7 +31,8 @@ original-weight behavior or performance; other real model bindings remain open.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.
-  GPU correctness and performance qualification remain pending.
+  Original-weight prefix continuation passes; wider correctness and performance
+  qualification remain pending.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
   MTP and vision can run together through the same core and cache.

@@ -24,11 +24,28 @@ from trunk metadata. Its state geometry now binds the admitted predictor;
 the C17 codec, cache policy and DS4 payload framing remain unchanged. The
 original failed request/exit remain in `gpu-functional-f0-r3/mtp-http`.
 
-GPU requalification of the correction, combined vision, exact state/SSD
-continuation and matched performance remain in progress. The
-[declared protocol](development/protocols/C17-GPU-PROTOCOL.md) and private
-persistent evidence distinguish pending gates from passes. No source in `/tmp`,
-DS4 modification, model conversion, remote build, installation or tuning occurs.
+The corrected MTP HTTP/cache arm passes **12 assertions**, including actual
+2669-token prefix reuse. A C17 probe compares all 248320 logits and confirmed
+tokens/counters across fresh/restored predictor state: greedy 24 dispatches,
+47/47 accepted proposals; sampled 18 dispatches, 32/35 accepted. All restored
+frontiers match exactly, including three rejected proposals and cancellation.
+The destination sampler is fresh; this is prefix continuation, not live RNG
+session restoration. Peak CPU71.625/GPU61 C for the state probe.
+
+The legacy C++ sampler HTTP control also passes **32 assertions**; fifteen
+matched JSON cases have identical output, usage and logprobs. Client timings
+from these functional arms are not a paired performance result. Combined
+vision refuses the available Q8 projector before READY because the pinned
+encoder requires BF16 dense weights. The failed admission is retained; a
+separate `feature/vision-q8` checkpoint `bec0955` prepares C17 upload decoding.
+
+The [functional receipt](development/validation/c17-gpu-functional-2026-10-03.json)
+binds all eight passed/failed arms, observed OS threads, temperatures and raw
+artifact hashes. The [declared protocol](development/protocols/C17-GPU-PROTOCOL.md)
+keeps matched performance, process-restarted MTP/vision SSD, real reactive peer
+progress and independent numerical/quality gates separate. The enclosing GPU
+window remains active; no source in `/tmp`, DS4 modification, remote build,
+installation or tuning occurs.
 
 ## C17 dense sampling extraction — 2026-10-03
 

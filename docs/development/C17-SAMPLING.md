@@ -7,6 +7,13 @@ token selection and random draws with `src/sampling.c`, shared through
 core/worker path. The numerical model forward remains the transitional Gufo
 provider; this does not complete the autonomous C executor.
 
+Original-weight continuation on `.157` now passes the AR HTTP controls and
+fifteen C17/C++ output/usage/logprob comparisons. MTP prefix continuation also
+passes complete-logit replay after correcting separately admitted predictor
+geometry. [Functional evidence](validation/c17-gpu-functional-2026-10-03.json)
+records the failures and limits. Matched performance is a separate campaign;
+ordinary greedy can retain GPU argmax and does not isolate C dense-filter cost.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /

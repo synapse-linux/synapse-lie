@@ -6,9 +6,13 @@ HTTP server and core benchmark client. The contract is model-neutral; the first
 real binding delegates predictor execution, target verification, sampling and
 rollback to the pinned Gufo Qwen3.8 Flash Next provider.
 
-**Status:** CPU contract tests and HIP compilation/linking only. Original-weight
-MTP correctness, memory fit and speed have not been qualified. GPU benchmarks
-are postponed at the owner's request. The two feature checkpoints are combined
+**Status:** original-weight HTTP/cache checks and exact predictor-state
+continuation pass on `.157`. Greedy and sampled replay compare every full
+248320-logit frontier, confirmed burst and acceptance counter, including rejected
+proposals. Independent numerical qualification, process-restarted SSD, mixed-row
+cancellation and matched performance remain open. See the
+[functional receipt](validation/c17-gpu-functional-2026-10-03.json).
+The two feature checkpoints are combined
 on `feature/mtp-vision-integration`; [joint configuration](../guides/USAGE.md#mtp-with-images)
 uses the same core, reactive output flow and RAM/SSD state. Native combined checks
 and HIP linking do not qualify original-weight behavior.
