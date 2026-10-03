@@ -1,0 +1,100 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5945,6 +5945,83 @@
+   return true;
+ }
+ 
++// Original F16 HC down: load WMMA fragments directly into registers. The
++// same 64x128 tiles and two ordered K16 accumulation chains are retained;
++// LDS is used only for the final per-wave output transpose.
++__launch_bounds__(256) __global__
++    void HcDownF16DirectKernel(const __half* __restrict__ w,
++                               const __half* __restrict__ x,
++                               float* __restrict__ y, std::size_t batch) {
++  constexpr unsigned k = 10240, m = 320, bn = 128;
++  constexpr unsigned stride = 36;
++  __shared__ __attribute__((aligned(16))) float scratch[8 * 16 * stride];
++  const unsigned tid = threadIdx.x;
++  const unsigned wave = tid >> 5, lane = tid & 31;
++  const unsigned sub = lane & 15, half = lane >> 4;
++  const unsigned wave_row = wave / 4, wave_tok = wave % 4;
++  // Group all five row tiles around one input stripe, as in the reference.
++  const unsigned within = blockIdx.y * gridDim.x + blockIdx.x;
++  const unsigned row_block = (within % 5) * 64;
++  const std::size_t token_block = std::size_t(within / 5) * bn;
++  const __half* weights[2];
++  const __half* inputs[2];
++  bool live[2];
++#pragma unroll
++  for (unsigned i = 0; i < 2; ++i) {
++    const unsigned row = row_block + (wave_row * 2 + i) * 16 + sub;
++    weights[i] = w + std::size_t(row) * k;
++    const std::size_t token = token_block + (wave_tok * 2 + i) * 16 + sub;
++    live[i] = token < batch;
++    inputs[i] = live[i] ? x + token * k : x;
++  }
++  v8f low[2][2]{}, high[2][2]{};
++  for (unsigned offset = 0; offset < k; offset += 32) {
++    v16h a_low[2], a_high[2];
++#pragma unroll
++    for (unsigned i = 0; i < 2; ++i) {
++      a_low[i] = LoadFrag(weights[i] + offset);
++      a_high[i] = LoadFrag(weights[i] + offset + 16);
++    }
++#pragma unroll
++    for (unsigned j = 0; j < 2; ++j) {
++      const v16h b_low = live[j] ? LoadFrag(inputs[j] + offset) : v16h{};
++      const v16h b_high = live[j] ? LoadFrag(inputs[j] + offset + 16) : v16h{};
++#pragma unroll
++      for (unsigned i = 0; i < 2; ++i) {
++        low[i][j] = Wmma(a_low[i], b_low, low[i][j]);
++        high[i][j] = Wmma(a_high[i], b_high, high[i][j]);
++      }
++    }
++  }
++#pragma unroll
++  for (unsigned i = 0; i < 2; ++i) {
++#pragma unroll
++    for (unsigned j = 0; j < 2; ++j)
++      low[i][j] += high[i][j];
++  }
++  float* tile = scratch + wave * 16 * stride;
++#pragma unroll
++  for (unsigned j = 0; j < 2; ++j) {
++#pragma unroll
++    for (unsigned q = 0; q < 8; ++q) {
++      tile[sub * stride + 2 * q + half] = low[0][j][q];
++      tile[sub * stride + 16 + 2 * q + half] = low[1][j][q];
++    }
++    __builtin_amdgcn_wave_barrier();
++    const std::size_t token = token_block + (wave_tok * 2 + j) * 16 + lane / 2;
++    const unsigned row = row_block + wave_row * 32 + (lane & 1) * 16;
++    if (token < batch) {
++      const auto* src = reinterpret_cast<const float4*>(
++          tile + (lane / 2) * stride + (lane & 1) * 16);
++      auto* dst = reinterpret_cast<float4*>(y + token * m + row);
++#pragma unroll
++      for (unsigned q = 0; q < 4; ++q)
++        dst[q] = src[q];
++    }
++    __builtin_amdgcn_wave_barrier();
++  }
++}
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+@@ -5956,10 +6033,9 @@
+   if (batch >= 96 && m == 320 && k == 10240) {
+     // Group all five row tiles around one 128-token input stripe. The
+     // original F16 full-batch input alone exceeds the 32 MiB cache.
+-    hipLaunchKernelGGL(
+-        (DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>),
+-        dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w, x, out,
+-        batch, m, k);
++    hipLaunchKernelGGL(HcDownF16DirectKernel, dim3((batch + 127) / 128, 5),
++                       dim3(kThreads), 0, stream, static_cast<const __half*>(w),
++                       x, out, batch);
+     return true;
+   }
+   if (batch >= 96 && m == 10240 && k == 320) {

@@ -1028,3 +1028,75 @@ or automatic retry remains. Core may use the next window with fresh coordinated
 admission; Q2 continues local reporting/checkpointing only. The outgoing release
 message also fails at the MCP transport; this ledger, persistent receipt and
 registry record handover without claiming message delivery.
+
+The previous goal turn is progress: checkpoint `17919b2` completes the fresh
+Q2/UD profiling comparison and rejects both slower HC compiler barriers.
+Fresh read-only admission at **2026-10-02 23:24:37.905842 UTC** finds empty
+KFD, four original leases EX|NB/free and that prefill-gap release still last
+in the shared registry. Core's ledger has no newer campaign and its explicit
+direction remains canceled R13/local reporting. Q2 starts a bounded direct-
+register HC down window: updated CPU/sanitizer guards, fresh palette reference
+and candidate with the existing 22-case HC benchmark, then complete models only
+if a useful component gain warrants them. The candidate removes inner-loop LDS
+staging while retaining original F16 weights, tile mapping and both K16 chains;
+static VGPR falls 251 -> 138, with no runtime gain assumed. Four unchanged
+library numerical controls retain their actual failures and original limits.
+Every build/GPU arm acquires four fresh leases under the 98 C inclusive/lower
+exposed limits. No foreign change, standing lease or core interleaving is
+authorized. The agreed ledger records ownership while direct MCP transport
+remains unavailable; verified closure will release the window.
+
+The direct-register component is byte-exact in all 22 outputs but slows HC
+down 1200.213 -> 2136.573 us (+78.02%); it is rejected without a model run.
+Q2 extends this owned window to one separate paired-wave hypothesis from the
+same palette base. It retains LDS reuse and assigns the existing low/high K16
+chains to separate physical waves, preserving their ordered sums and final
+addition. Only HC down uses 512 threads; LDS remains 24 KiB, static VGPR152.
+Updated guards receive another CPU/sanitizer arm before the same independent
+HC fixture and rotating-weight benchmark. The fresh reference above remains
+the component control. All original numerical, ownership and thermal rules
+remain; complete-model comparison is conditional on useful component benefit.
+No core interleaving until the verified campaign release.
+
+The paired-wave arm preserves all 22 outputs and four original numerical
+failures but increases down median 4.59%. Inspection identifies a separate
+loading imbalance in this layout: only 128/512 threads load weights and
+256/512 load activations. One bounded follow-up distributes 16-byte chunks
+across all 512 threads, retaining staged LDS bytes and arithmetic. The combined
+source uses 129 VGPR, 24 KiB LDS and no private scratch. It receives updated
+CPU/sanitizer source-guard qualification before the existing HC component
+comparison against the same fresh reference. Runtime benefit is unproven;
+no change to original weights, limits, ownership or conditional model gate.
+
+The combined component completes with all 22 output/oracle records exact and
+the same four failing library controls. Its down median falls 1200.213 ->
+1139.751 us (-5.04% time), while unchanged up falls 1.68%. This relative
+advantage justifies the admitted complete-model screen: fresh affine-palette
+Q2, paired/coalesced Q2 and pristine UD, each pp2048/tg128 with full MMQ rebuild,
+one warmup plus three measured sessions and 15-second untimed idle before each.
+No component rate is promoted to model throughput. Each build/GPU arm obtains
+four fresh leases; the window remains owned until verified final closure.
+
+All ten HC data-reuse runners and 42 commands now finish. Three source-guard
+arms each pass 12/12 Debug and 12/12 ASan/UBSan. The four component commands
+retain their original numerical-control exit 1; every other command exits 0.
+All 291 artifacts verify. The paired/coalesced component gain does not survive
+the complete model: prefill 1314.803 -> 1310.904 tokens/s (-0.30%), with all
+21 reference/candidate output files exact. All three new candidates are
+rejected; the selected affine-palette development source remains unchanged.
+
+Q2 releases this window at **2026-10-03 00:04:15.591646 UTC**, verifying all
+ten runners and 42 command identities/groups/sessions absent, empty KFD,
+four original leases EX|NB/free and all five original-model stat witnesses
+unchanged. Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-data-reuse-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**00:04:44.987086 UTC** verifies observer PID 2757371, group/session 2757368
+and start ticks 155124982 absent, with empty KFD. Both observers exit 0.
+No Q2 remote job, waiter, lease or automatic retry remains. Core may take the
+next window with fresh coordinated admission. Q2 continues local reporting
+and checkpointing; the persistent receipt, registry and this ledger record
+handover while the direct MCP transport has been unavailable.
+The outgoing release notification also fails at that transport; delivery is
+not claimed. Local receipt validation confirms closure against all ten
+collected result hashes and the observer's actual exit 0.

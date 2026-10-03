@@ -1,0 +1,109 @@
+{
+  "scope": "Editing-host device-only compile; no GPU execution",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-direct",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-direct/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-direct-static-r1.s"
+  ],
+  "started_at": "2026-10-02T23:23:29.153275+00:00",
+  "finished_at": "2026-10-02T23:23:37.910600+00:00",
+  "exit_code": 0,
+  "assembly_sha256": "406ab185d130bdc104a48bbafd28033bdfe64adfe9531327e4ee812a24aa3fe7",
+  "resources": {
+    "reference": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 251,
+      "next_free_sgpr": 22
+    },
+    "candidate": {
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 138,
+      "next_free_sgpr": 15,
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm21HcDownF16DirectKernelEPK6__halfS5_Pfm"
+    }
+  },
+  "checks": [
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-direct.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-direct-reconstructed",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-direct-static-r1/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-direct/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-direct-static-r1/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-direct",
+      "exit_code": 1,
+      "log": "evidence/q2-hc-direct-static-r1/shared-format.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "instruction_count_limit": "Static emitted instruction counts; no dynamic traffic or occupancy inference",
+  "static_instruction_counts": {
+    "reference": {
+      "path": "evidence/q2-affine-palette-static-r1.s",
+      "assembly_sha256": "171fd66f12107e53d1c56e985db490f2f23b5b5165a6d52388b661ae9d04c52e",
+      "counts": {
+        "wmma": 16,
+        "global_load_128": 16,
+        "lds_read": 72,
+        "lds_write": 24,
+        "block_barriers": 2
+      }
+    },
+    "candidate": {
+      "path": "evidence/q2-hc-direct-static-r1.s",
+      "assembly_sha256": "406ab185d130bdc104a48bbafd28033bdfe64adfe9531327e4ee812a24aa3fe7",
+      "counts": {
+        "wmma": 8,
+        "global_load_128": 16,
+        "lds_read": 8,
+        "lds_write": 16,
+        "block_barriers": 0
+      }
+    }
+  }
+}

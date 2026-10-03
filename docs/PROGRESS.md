@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC data reuse rejected after complete-model comparison — 2026-10-03 UTC
+
+The [three HC down experiments](Q2-HC-DATA-REUSE.md) retain all 22 synthetic
+outputs per candidate. Direct global fragments regress component time 78.02%;
+paired low/high accumulation waves regress 4.59%. Combining paired waves with
+coalesced stage reads saves 5.04%, while the unchanged up control also improves
+1.68%. Static VGPR falls from 251 to 129 without changing F16 weights or the
+ordered sums. The component gain warrants a model comparison, not adoption.
+
+Fresh complete-model prefill changes 1314.803 -> 1310.904 tokens/s (-0.30%),
+with decode 24.065021 -> 24.096790 calls/s (+0.13%, unchanged decode path).
+All 21 reference/candidate files match exactly, as do all 21 fresh/retained
+palette files. No model benefit is demonstrated; all three candidates are
+rejected and palette remains selected. Fresh UD reaches 1658.287 / 24.314854,
+leaving the retained source 20.71% / 1.03% behind. The full report and new
+graph include all prefill/decode rates, durations and measured samples.
+
+Three source-guard arms each pass 12/12 Debug and 12/12 ASan/UBSan on `.157`.
+Ten runners and 42 commands finish; four component commands retain the same
+four original library numerical failures and actual exit 1. All 291 artifacts
+verify. Device-only compilation and exact reconstruction pass; three inherited
+upstream formatting exits 1 remain evidence. Verified closure at 00:04:15 UTC
+and observer retirement at 00:04:44 confirm all own processes absent, empty KFD,
+four original leases free and five original model witnesses unchanged. No Q2
+remote job, waiter or automatic retry remains; no runtime promotion occurs.
+
+The source audit identifies a separate hypothesis: the hipBLASLt fallback
+selects the first supported zero-workspace algorithm. The current large-HC
+path uses native WMMA, so that limit does not describe the selected kernel.
+A future bounded-workspace comparison needs independent output checks and the
+existing 100 MiB weight rotation; the official helper alone supplies neither
+that rotation size for HC nor a numerical oracle. No library gain is claimed.
+
 ## Fresh prefill gap profile and rejected HC barriers — 2026-10-02 UTC
 
 The [current Q2/UD profiles](Q2-PREFILL-GAP.md) reconcile 321.095 ms extra

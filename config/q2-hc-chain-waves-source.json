@@ -1,0 +1,16 @@
+{
+  "scope": "Prepared source; numerical replay and speed unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-chain-waves",
+  "base_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "candidate_sha256": "7c4721b5e2b37e8a7a2a0b9b7cc180ab0223b602e1fdff8443b83cdd2180d9a3",
+  "patch_sha256": "8e5ac314b09fa3a82c20611c316a431fc2b08cfba3ac23413e67afa0efc06949",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "mechanism": "One existing K16 accumulator chain per physical wave; pairs share the same logical output tile",
+  "dispatch": "Only F16 M320/K10240, n>=96, uses 512 threads; all other specializations retain 256",
+  "numeric_contract": "Same F16 bytes, low/high K16 sequences and final low+high F32 addition",
+  "unchanged": "64x128 tiles, BK2, five-row grouping, LDS stage data and allocations, model storage"
+}

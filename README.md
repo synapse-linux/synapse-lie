@@ -6,19 +6,25 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
-[Q2 affine palette](docs/Q2-AFFINE-PALETTE.md) reaches **1313.33 prefill
-tokens/s and 24.10 decode steps/s at 2K**. Prefill improves 1.35% over fresh
-HC16, with all saved logits and tokens byte-exact; decode medians differ by
--0.00062%. It retains the [HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md).
-**The performance requirement is not met:** fresh UD reaches 1660.10 PP/24.31 TG;
-Q2 trails by 20.89% and 0.86%. UD prefill remains below the earlier retained
+[Q2 affine palette](docs/Q2-AFFINE-PALETTE.md) retains a measured 1.35% prefill
+gain over fresh HC16, with all saved logits and tokens byte-exact and decode
+medians differing by -0.00062%. It preserves the
+[HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md). The latest fresh comparison
+measures **1314.80 prefill tokens/s and 24.065 decode calls/s at 2K**.
+**The performance requirement is not met:** fresh UD reaches 1658.29 PP/24.315
+TG; Q2 trails by 20.71% and 1.03%. UD prefill remains below the earlier retained
 1682.76 control. These short sequential screens do not establish zero-margin
 parity. Earlier checkpoint drift and independent model qualification remain
 unresolved; the qualified runtime patch is unchanged.
 The [fresh GPU profile and HC follow-up](docs/Q2-PREFILL-GAP.md) localize
 321.10 ms of additional Q2 prefill kernel time. Two compiler-boundary probes
 preserve all component outputs but regress time by 7.93% and 6.12%; both are
-rejected. The retained whole-model rates above are unchanged.
+rejected. The subsequent [HC data-reuse comparison](docs/Q2-HC-DATA-REUSE.md)
+rejects direct fragments and paired accumulation waves. Combining paired waves
+with coalesced reads saves 5.04% component time, but complete-model prefill
+changes -0.30%, with all 21 reference/candidate output files exact. The palette
+source remains selected. Complete rates, durations, samples and graphs are
+retained; a bounded hipBLASLt workspace comparison remains a future hypothesis.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.

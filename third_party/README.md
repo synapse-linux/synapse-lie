@@ -163,3 +163,16 @@ first-party MIT. Both candidates are measured and rejected for performance;
 their original numerical control failures remain explicit. No external engine
 or sibling artifact is imported. See `docs/Q2-PREFILL-GAP.md` and its source
 receipts for provenance, exact replay, limitations and artifact identities.
+
+`experiments/q2-hc-direct.patch` and `experiments/q2-hc-chain-waves.patch`
+independently derive from the measured affine palette on the same official
+Gufo pin. `experiments/q2-hc-chain-coalesced.patch` applies after the paired-wave
+delta. All three retain original F16 values, accumulation chains and upstream
+notices. Generators, orchestration and plot tools are first-party MIT; no
+external engine, DS4 source or sibling artifact is imported. The first two
+candidates fail the component performance gate and the combined path fails
+to improve complete-model prefill. Their exact output replays, source hashes,
+original numerical-control failures and rejection are in `docs/Q2-HC-DATA-REUSE.md`.
+The additional library audit reads only independently fetched official Gufo
+`blaslt.cpp` and `dense_blaslt_sweep.hip`; it adds no library implementation or
+performance claim.
