@@ -6,6 +6,8 @@
 #include <stddef.h>
 #include <stdint.h>
 struct json_object;
+struct json_object *lie_wire_logprobs(lie_job *,size_t offset,size_t count);
+char *lie_wire_reindex(char *owned,unsigned index,bool keep_done);
 /* Validated assistant message. Streaming tool arguments are published only
  * after complete-turn validation, followed by finish/optional usage/[DONE]. */
 char *lie_wire_message(const char *id, const char *model, int64_t created,

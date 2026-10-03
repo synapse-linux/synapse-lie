@@ -60,20 +60,20 @@ curl --fail --no-buffer http://127.0.0.1:8000/v1/chat/completions \
   -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Write a short greeting."}],"max_tokens":128,"temperature":0,"stream":true}'
 ```
 
-A stateless Responses request:
+A Responses request (`store=false` keeps this example stateless):
 
 ```sh
 curl --fail http://127.0.0.1:8000/v1/responses \
   -H 'Content-Type: application/json' \
-  -d '{"model":"qwen3.8-flash-next","input":"Write a short greeting.","max_output_tokens":128,"temperature":0}'
+  -d '{"model":"qwen3.8-flash-next","input":"Write a short greeting.","store":false,"max_output_tokens":128,"temperature":0}'
 ```
 
 Clients execute function tools and submit correlated tool results in the next
 request. Tool-enabled SSE publishes a complete validated turn; function arguments
 are not streamed incrementally. Thinking is disabled. Inline PNG/JPEG image
-parts are available with explicit vision admission; see the [vision guide](../development/VISION.md#use). It implements Chat Completions and stateless Responses, rather than
-all OpenAI services. See the [API reference](../reference/OPENAI-REACTIVE.md)
-for supported fields and error behavior.
+parts are available with explicit vision admission; see the
+[vision guide](../development/VISION.md#use). The
+[API reference](../reference/OPENAI-REACTIVE.md) lists supported fields and error behavior.
 
 ## MTP with images
 
@@ -217,3 +217,43 @@ on `192.168.5.157:8000`. This profile requires no Pi-specific server interface.
 
 Run `synapse-lie-server --help` or `synapse-lie-bench --help` for the complete
 option list. See [metrics](../reference/METRICS.md) for runtime diagnostics.
+
+## Generation controls and stored responses
+
+Chat accepts `n`, `stop`, `logit_bias`, `logprobs`, `top_logprobs`, and
+`response_format`. Responses uses `text.format` for JSON/schema constraints and
+`top_logprobs` for optional probability reporting. Strict functions use
+`strict:true` in their definition. Unsupported schema features are errors.
+
+```sh
+curl http://127.0.0.1:8000/v1/responses \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen3.8-flash-next","input":"Hello!","background":true}'
+
+# Replace RESPONSE_ID with the id returned by the request.
+curl http://127.0.0.1:8000/v1/responses/RESPONSE_ID
+curl -X POST http://127.0.0.1:8000/v1/responses/RESPONSE_ID/cancel
+curl -X DELETE http://127.0.0.1:8000/v1/responses/RESPONSE_ID
+```
+
+Continue a stored response by setting `previous_response_id` and supplying the
+next input; supply current instructions explicitly. Retrieve normalized inputs
+through `/v1/responses/RESPONSE_ID/input_items?limit=20&order=asc`. Pagination uses
+`after` with the previous page's `last_id`. Stored Chat completions also support
+GET/list, DELETE, metadata update and `/messages`. Filter completion lists with
+`?model=MODEL&metadata%5Btask%5D=VALUE&limit=20`.
+
+To reconnect to a response stream, supply the last received event number:
+
+```sh
+curl --no-buffer 'http://127.0.0.1:8000/v1/responses/RESPONSE_ID?stream=true&starting_after=12'
+```
+
+With `"truncation":"auto"`, LIE removes oldest complete conversation turns
+until the prompt and requested output fit. System instructions and the latest
+user turn remain. The default `"disabled"` policy returns a context error.
+
+Records use RAM and expire after one hour by default. Configure their independent
+bounds with `--response-store-ram-mb`, `--response-store-records` and
+`--response-store-ttl-seconds`; these options do not control the KV cache. Use
+`store:false` for repeated benchmarks. See the [API coverage and limits](../reference/OPENAI-REACTIVE.md).

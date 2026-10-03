@@ -34,3 +34,10 @@ redistributed packages. Gufo's MIT license does not replace those obligations.
 Model weights are not included. Operators acquire them separately under the
 publisher's terms. Python reference/evaluation tools and their models belong
 to the development environment, not the production Gufo installation.
+
+Synapse LIE's explicitly selected state-access variant applies independently
+recorded MIT source edits for state access, MTP/vision state and target sampling
+controls. adapters/gufo-state/sampling-edits.json identifies the exact pinned
+bias/reporting replacements; the build receipt and source inventory bind their
+hashes. Constrained grammar selection remains delegated Gufo implementation.
+No model weights or sibling-project source are imported by this recipe.

@@ -19,7 +19,10 @@ original-weight behavior or performance; other real model bindings remain open.
 
 ## Features
 
-- Chat Completions and stateless Responses, with JSON and SSE output.
+- Chat Completions and Responses, with JSON/SSE, multiple choices, token
+  probabilities and constrained JSON output.
+- Stored Responses, conversation continuation and cancellable background jobs;
+  history and resource limits live in the shared C core.
 - Function calls and tool results through the standard OpenAI protocol; Pi can
   connect directly over HTTP.
 - Shared C17 [output events](docs/reference/EVENTS.md) for HTTP and direct clients:

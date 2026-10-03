@@ -65,13 +65,54 @@ typedef struct {
 } lie_chat_template;
 /* Additive generation controls; default initialization is greedy. The caller
  * supplies ABI/version size; configuration occurs before any prefill/dispatch. */
-#define LIE_GENERATION_ABI 1u
+#define LIE_GENERATION_ABI 2u
+#define LIE_LOGIT_BIAS_MAX 1024u
+#define LIE_TOP_LOGPROBS_MAX 20u
 typedef struct {
-    uint32_t abi_version, struct_bytes;
-    double temperature, top_p, frequency_penalty, presence_penalty;
-    int64_t seed; /* -1 = provider entropy; nonnegative = reproducible draw seed. */
+  int32_t token;
+  double bias;
+} lie_logit_bias;
+typedef enum {
+  LIE_FORMAT_TEXT,
+  LIE_FORMAT_JSON_OBJECT,
+  LIE_FORMAT_JSON_SCHEMA
+} lie_output_format;
+typedef struct {
+  uint32_t abi_version, struct_bytes;
+  double temperature, top_p, frequency_penalty, presence_penalty;
+  int64_t
+      seed; /* -1 = provider entropy; nonnegative = reproducible draw seed. */
+  const lie_logit_bias *logit_bias;
+  size_t logit_bias_count;
+  uint32_t logprobs, top_logprobs;
 } lie_generation_options;
-lie_status lie_sequence_configure(lie_sequence *,const lie_generation_options *,lie_error *);
+lie_status lie_sequence_configure(lie_sequence *,
+                                  const lie_generation_options *, lie_error *);
+/* Model-neutral constrained sampling, compiled before prefill. Accepted target
+ * tokens obey the grammar, including speculative verification. Provider types
+ * and vocabulary tries remain inside the explicitly selected provider. */
+typedef struct {
+  lie_output_format format;
+  const char *schema_json;
+  uint32_t strict;
+  const lie_chat_tool *tools;
+  size_t tool_count;
+  uint32_t required, parallel;
+} lie_generation_constraints;
+lie_status lie_sequence_constrain(lie_sequence *,
+                                  const lie_generation_constraints *,
+                                  lie_error *);
+typedef struct {
+  int32_t token;
+  double logprob;
+  char text[256];
+  size_t bytes;
+} lie_token_probability;
+typedef struct {
+  lie_token_probability token;
+  lie_token_probability top[LIE_TOP_LOGPROBS_MAX];
+  uint32_t top_count;
+} lie_token_logprobs;
 /* Link-time selected provider, never an automatic failure fallback. */
 const char *lie_backend_name(void);
 const char *lie_backend_ownership(void);
@@ -121,6 +162,8 @@ typedef struct { lie_status status; lie_decode_result result; } lie_decode_outco
 lie_status lie_sequences_decode(lie_sequence *const *, size_t,
                                 lie_decode_outcome *, lie_error *);
 lie_status lie_sequence_logits(lie_sequence *, float *out, size_t capacity, size_t *required, lie_error *);
+/* Target logits after grammar/bias/penalties and temperature, before top-p. */
+lie_status lie_sequence_sampling_logits(lie_sequence *, float *, size_t, size_t *, lie_error *);
 /* Thread-safe latch only; no GPU preemption. In-flight work completes; its
  * output is suppressed on cancellation. Lifetime must be pinned externally. */
 void lie_sequence_cancel(lie_sequence *);

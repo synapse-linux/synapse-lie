@@ -15,7 +15,17 @@
 #include <string.h>
 #include <time.h>
 struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed, mtp; uint64_t domain; uint32_t drafts, predictor; bool mtp_state; unsigned vision; bool vision_state; };
-struct lie_sequence { lie_model *model; unsigned position, step; int mode; unsigned predictor_position; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
+struct lie_sequence {
+  lie_model *model;
+  unsigned position, step;
+  int mode;
+  unsigned predictor_position;
+  int32_t *prompt;
+  unsigned char scope[32];
+  atomic_bool cancelled;
+  const char *constrained_output;
+  float bias[2048];
+};
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
@@ -117,6 +127,12 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
 }
 lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *t, int32_t *out, size_t cap, size_t *needed, lie_error *e) {
     owner(m); assert(t && t->count && t->count<=LIE_CHAT_MAX_MESSAGES && t->tool_count<=LIE_CHAT_MAX_TOOLS);
+    if(t->messages[0].role==LIE_CHAT_SYSTEM&&!strcmp(t->messages[0].content,"TRUNCATION-FIXTURE")){
+        *needed=4;for(size_t i=1;i<t->count;++i)*needed+=t->messages[i].bytes;
+        if(*needed>cap)return error(e,LIE_BUFFER_SMALL,"fixture_history_bound");
+        for(size_t i=0;i<*needed;++i)out[i]=i?10:0;
+        return LIE_OK;
+    }
     if (t->messages[t->count-1].role==LIE_CHAT_TOOL) {
         assert(t->details && t->details[t->count-1].tool_call_id && t->count>=3);
         assert(t->details[t->count-2].call_count==1);
@@ -186,6 +202,18 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     if (s->mode==DECODE_REFUSAL) return error(e,LIE_INVALID,"synthetic_decode_refusal");
     if (s->mode==2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_mutating_failure"); }
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
+    if (s->constrained_output) {
+      const char *text = s->constrained_output;
+      bool done = s->step == strlen(text);
+      *out = (lie_decode_result){.stop = done, .position = s->position};
+      if (!done) {
+        out->token = 128 + (unsigned char)text[s->step++];
+        s->prompt[s->position] = out->token;
+        out->emitted = 1;
+        out->position = ++s->position;
+      }
+      return LIE_OK;
+    }
     if (s->mode>=100 && s->mode<=108) {
         const char *text=tool_outputs[s->mode-100];
         bool done=s->step==strlen(text);
@@ -197,6 +225,10 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     *out=(lie_decode_result){.stop=done,.position=s->position};
     if (!done) {
         out->token=s->mode==0?(int)s->step:s->mode==3?1001:s->mode==4?1002:s->mode==10?1003:1000;
+        if(s->mode==0){float best=2+s->bias[out->token];int32_t selected=out->token;
+            for(int32_t t=0;t<2048;++t){float value=-10+s->bias[t];if(value>best){best=value;selected=t;}}
+            out->token=selected;
+        }
         out->emitted=1; out->position=++s->position; ++s->step;
     }
     switch (s->mode) {
@@ -223,7 +255,38 @@ lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *
     (void)e; owner(s->model); assert(!s->position);
     /* Internal synthetic submissions historically use an all-zero request. */
     assert(!o->abi_version || (o->abi_version==LIE_GENERATION_ABI && o->struct_bytes==sizeof(*o)));
+    for (size_t i = 0; i < o->logit_bias_count; ++i) {
+      if (o->logit_bias[i].token >= 2048)
+        return LIE_INVALID;
+      s->bias[o->logit_bias[i].token] = (float)o->logit_bias[i].bias;
+    }
     return LIE_OK;
+}
+lie_status lie_sequence_constrain(lie_sequence *s,
+                                  const lie_generation_constraints *o,
+                                  lie_error *e) {
+  (void)e;
+  owner(s->model);
+  assert(!s->position);
+  if (o->format != LIE_FORMAT_TEXT)
+    s->constrained_output = "{\"ok\":true}";
+  if (o->tool_count)
+    s->constrained_output = "<tool_call>{\"name\":\"read\",\"arguments\":{"
+                            "\"path\":\"fixture.txt\"}}</tool_call>";
+  return LIE_OK;
+}
+lie_status lie_sequence_sampling_logits(lie_sequence *s, float *row,
+                                        size_t capacity, size_t *required,
+                                        lie_error *e) {
+  (void)e;
+  owner(s->model);
+  *required = 2048;
+  if (capacity < 2048)
+    return LIE_BUFFER_SMALL;
+  for (size_t i = 0; i < 2048; ++i)
+    row[i] = -10 + s->bias[i];
+  row[s->step % 8] = 2 + s->bias[s->step % 8];
+  return LIE_OK;
 }
 
 lie_status lie_backend_open_batch(const char *p,const lie_model_options *o,uint32_t w,lie_model **m,lie_error *e) {

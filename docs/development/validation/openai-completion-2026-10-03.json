@@ -1,0 +1,1660 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "SPDX-License-Identifier": "MIT",
+  "date": "2026-10-03",
+  "feature": "openai-completion",
+  "branch": "feature/openai-completion",
+  "git_flow_base": "develop",
+  "incorporated_checkpoint": "a3990520ca17cea531cc08b72a4fb6fc6b992185",
+  "worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-completion",
+  "host": "cachyos-x8664",
+  "scope": "Native C17 synthetic ASan/UBSan/LeakSanitizer contracts, independently fetched/rebuilt pinned Gufo provider, host grammar/sampler checks and HIP client compile/link. NOT-INFERENCE: no original weights, model hashing/conversion, GPU execution, remote build, deployment or benchmark qualification.",
+  "contracts": {
+    "executor_abi": 2,
+    "core_request_abi": 5,
+    "generation_abi": 2,
+    "event_abi": 1,
+    "state_abi": 2,
+    "ds4_payload": "unchanged",
+    "reactive_owner": "one device owner; foreground/background collector grants confirmed-token credits; replay observes bounded C journal; no additional inference threads",
+    "constraints": "neutral C controls and C structural/type/numeric validation; grammar compilation/masking and string lexical constraints remain transitional Gufo delegation"
+  },
+  "validation": {
+    "native_asan_ubsan_lsan": {
+      "passed": 42,
+      "total": 42,
+      "evidence": "evidence/openai-tests-final"
+    },
+    "headless_mtp_vision_off_asan_ubsan_lsan": {
+      "passed": 17,
+      "total": 17,
+      "evidence": "evidence/openai-headless-tests-r1"
+    },
+    "final_changed_headless_no_http": {
+      "passed": 1,
+      "total": 1,
+      "evidence": "evidence/openai-headless-test-final"
+    },
+    "final_quota_transfer_ownership": {
+      "passed": 1,
+      "total": 1,
+      "evidence": "evidence/openai-core-tests-final"
+    },
+    "host_provider_sampler_and_template": {
+      "passed": 2,
+      "total": 2,
+      "evidence": "evidence/openai-provider-host-tests-r2"
+    },
+    "native_http_provider_variants": [
+      "AR",
+      "MTP13"
+    ],
+    "creating_background_stream_disconnect": true,
+    "stored_function_result_roundtrip": true,
+    "live_and_resumed_response_replay": true,
+    "headless_discovers_links_http": false,
+    "python_product_dependency": false,
+    "hip_server_bench_linked": true,
+    "final_hip_build": "evidence/openai-hip-build-final-r2",
+    "metadata_only_build_info": "evidence/openai-linked-info-final",
+    "provider_receipt": "build/provider-openai-r1/BUILD-RECEIPT.json",
+    "provider_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "provider_sampling_edits_sha256": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+    "provider_library_identities": {
+      "libgufo_core.a": "a8f6a4c463036218933a192b839e6d095a481bdefdf4f8fd5e7154b961f97597",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "45e283ec9a920f6b8ac24c78d336f47af7e6855f48dcdc0f524e2dc90c86a433",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "6e4ad19fa4aea7cbbe609e6ee8fa5ff43b6e00298f2ab4b9bad4fdacd004ff4e"
+    }
+  },
+  "thermal": {
+    "cpu_guard_c": 95,
+    "owner_allowance_c": 98,
+    "maximum_observed_cpu_c": 93.375,
+    "maximum_observed_by_sensor_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 93.375
+    },
+    "shutdown_observed": false,
+    "deterioration_observed": false,
+    "fan_clock_power_tuning": false,
+    "owned_children_only": true,
+    "gpu_visibility_masked": true
+  },
+  "performance_boundary": "Stop, bias and target-logprob requests use one target token per step, including mixed batches; ordinary requests retain MTP and empty-bias/wire fast paths. No original-weight correctness, parity or speedup claim.",
+  "pending": [
+    "Original-weight generation controls, strict/structured output and joint MTP numerical/device/resource/performance qualification under fresh .157 coordination",
+    "Separate audio/video/embedding executors, hosted tools, named Conversations and compaction APIs",
+    "Autonomous C tokenizer/sampler/grammar/model forward replacement"
+  ],
+  "preserved_failures": [
+    {
+      "evidence": "evidence/openai-all-tests-r1",
+      "actual_exit_code": 8,
+      "command_log_sha256": "67a243cf21f93561cd33b1455d3f529162ebfd88f4a00c79864eb429ad5c6a88"
+    },
+    {
+      "evidence": "evidence/openai-build-r1",
+      "actual_exit_code": 1,
+      "command_log_sha256": "ab8738210ba3bad57a5a70bcb5e82652ee83c664bb0ff2413a9d67fa87b9d5a9"
+    },
+    {
+      "evidence": "evidence/openai-build-r10",
+      "actual_exit_code": 1,
+      "command_log_sha256": "9af6c73395fc8181eb39e0b5706d0c714501a407ca4e01d352bd396eee461578"
+    },
+    {
+      "evidence": "evidence/openai-build-r12",
+      "actual_exit_code": 1,
+      "command_log_sha256": "ec24a473a0526365f0ff9ddc63730f713609750a941a16e495bcdff9741bf764"
+    },
+    {
+      "evidence": "evidence/openai-build-r2",
+      "actual_exit_code": 1,
+      "command_log_sha256": "b55728083c869196e463ff7eba54d7988dad5615b6fac4ce14ef45c7801b7a79"
+    },
+    {
+      "evidence": "evidence/openai-build-r4",
+      "actual_exit_code": 1,
+      "command_log_sha256": "f1604fc5f2cb8a2e0213923f8d493cf60a57cb9a2d7ded489bbf29cea02677b9"
+    },
+    {
+      "evidence": "evidence/openai-controls-tests-r3",
+      "actual_exit_code": 8,
+      "command_log_sha256": "6a952229e32c9da0f1a67f2e84d7511a6b74e4beee36408f764b292eca588986"
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r1",
+      "actual_exit_code": 1,
+      "command_log_sha256": "240c14fadc3280406ac5eb10df82456e194595cb02235279ba0f66ed3e99050b"
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r2",
+      "actual_exit_code": 1,
+      "command_log_sha256": "a1fd24be52261f78391e18c01dc5b94bc58e33d10b9a3c46aa5331751d48899c"
+    }
+  ],
+  "source_sha256": {
+    "CHANGELOG.md": "8f4a66d82b2b10f61ae753a915920d6664e73da60e369f86183257d19dc59dbb",
+    "CMakeLists.txt": "fbaf373b3ca08ac5f12bd6a9ccae6550568f98caeaa5a1358358115876fd4838",
+    "README.md": "e72c6d55de8710280c504464ca9eb5396027fe937872ac6b949299c0eb0208b6",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/access.hpp": "f239082cd75c50de10c08a496e09478018b3dd5ccd1e8d9b31880d984d6c7d32",
+    "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+    "adapters/gufo-state/sampling-edits.json": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+    "adapters/gufo.cpp": "71982c8a33347c62fa1fc08d88d9380b8d7cec195654c305a2f5ead2459db062",
+    "adapters/gufo_binding.c": "de5b07e73a509666506574d8f2ebedabbbe479f77498f0c816b44792a5d4ab9b",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "6a82299b884c0dda36d9da48626d8a05a9375445e3e22885dec5c5648b97d5f1",
+    "cmake/gufo-runtime/CMakeLists.txt": "0e61c0be387b84998d548427b554616227291699f7f42a53a369f5bae877699a",
+    "cmake/provider/Build.cmake": "48e4254691e3a43fcafdd519b4059db4c31d6b74c04713d27c8198d5b418cfd6",
+    "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+    "cmake/provider/Source.cmake": "45953d71fdf06b48803baa24d5ac56fa1f758d2934b74599f044665f6c095214",
+    "cmake/provider/Verify.cmake": "c64873d8271a66181cbdd85df97cc2017a2f34aba6f5f2631d0be12ec709b53a",
+    "docs/BACKEND.md": "760ea79bbcf4ee07ad1ce9a52c8b9aac037bd37c8556fe952e6a41eb33cba343",
+    "docs/PROGRESS.md": "7c51a6594f9efb43a5a4b47323d6b863fb69ef1c83b67afe3a2d6154cdcd0911",
+    "docs/guides/USAGE.md": "9a2c87a5e7ef04185a42acd6c776dd451932f873d6ad2d33906e34576971811d",
+    "docs/reference/ABI.md": "56f10ba1cb8aa1f0b70ded91320ed317591ded25c3322169e3f24a6fe9f6ae79",
+    "docs/reference/EVENTS.md": "838270dc4d4754851da75a96073076c7d4735b9fc5ab988a49e98b293e1fb7e6",
+    "docs/reference/METRICS.md": "d0ff31b3b8347e998129645832a4ab1be757e5f6929e875ee5284db4277be70d",
+    "docs/reference/OPENAI-REACTIVE.md": "25efd202ae83923ae8aa2a66dc80ed60c3d360056bde771c85adbd1d2e61241c",
+    "docs/reference/STATE.md": "8a8ec9611ca0599c338a2fa7e01b10c3b9b2542d2a1e1c7c9a6469bf59824cb4",
+    "include/lie/cache_policy.h": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26",
+    "include/lie/chat.h": "e8700e3765655e630a1fc996bd55731b31d66031308e125b7248ec7a23e69ad7",
+    "include/lie/choices.h": "692388f217757e3cef0edd100a74929deec9e575bf79cdfbc5b729a4e37b6843",
+    "include/lie/core.h": "cafd3f0c951f6561ae33c3164cd9aa5b3cd1e07cee5bad75042bf7ac6a941d8b",
+    "include/lie/events.h": "12492509e511b1712b221632d7b83f1c9e442c01ab7e2b6dccf4793278763071",
+    "include/lie/executor.h": "4b65fbd019d9c650efdebecbd20680725f78a0da9a794554af114cc3c2144d31",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8",
+    "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+    "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+    "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+    "include/lie/kvc_state.h": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/mtp.h": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372",
+    "include/lie/output.h": "56d6a71dbd1aed70554c734c61582785f952c91c000da8cda0f7e35c75fefd8f",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/records.h": "04e4af98cd82d09b867fe5a9231429fe9428f71f31f07a8ec9d41a45ba7e701d",
+    "include/lie/responses.h": "30f4e04f69408f075dea4e4b038e75a05875d85ec7e3d232fe81baefb792924b",
+    "include/lie/state.h": "d1ce59fab5b72dc8e23e7d3cdcc99676c0c51389516fc92818bbc1a8e880605a",
+    "include/lie/store.h": "76d577a9d4a1a6a784600eba0639323db18fd73ca0b30293ffceb18d7a7edf2a",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408",
+    "include/lie/vision.h": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e",
+    "include/lie/wire.h": "0ad3bc0bc1135ecdbd435b5a3923dab5c3ba8817a4d3c77620862fdadef08a56",
+    "include/lie/worker.h": "d15c2ea05dae339341e61397eed9f6de2362cd14a3c2e3b3f1cec12888dd5a24",
+    "src/cache_policy.c": "92c4c0f0d62550608ed8555208ab9ab7fc6e7230991cc3dfd86ae451bb8a3d89",
+    "src/chat.c": "f8b5746ea4f0b9619db98312ab860902f1f349498eb1565cf4a8c9c6b8f2cfec",
+    "src/chat_tools.c": "95fdf18394c975841f4aefa54d18a021c62a4c550ee40863e3443fa8c56ab749",
+    "src/choices.c": "9543ece05b8527e08041f7f067bbabaf98d860716b72808ece06f1004e5ff492",
+    "src/core_events.c": "523a80ea432420fe8792c6ff42d073795c12ff2bb0b711ff2c523e331b95de68",
+    "src/core_events.h": "7fa32be31d8011175e17857d738d582e57863ccc40108d12806ef9840e91577f",
+    "src/core_input.c": "3fc9fd1f1e202b46ff2a890621b284bd2b8dfc485ba560d3cffeb8702bbc57b9",
+    "src/core_input.h": "7eecc43a594c88421a4b4c6ac3421384b56fd5ccc41a91fe6799c69908334689",
+    "src/executor_unavailable.c": "706a0ed5f2df9844bfa6163f7a3c57d1094c4647d4ea0bb91f6af27bf80991cf",
+    "src/flow.c": "c4259ee0444aa796aa4894c49ab290903f772a9177ce4265a049a6af18331a76",
+    "src/generation.c": "87881e37a4ad6fdd508f3c8890d980bcdaa93d9ad26448793ba204725f7bb08b",
+    "src/generation.h": "df339acb47301b631579b1ece7875f24289ce7a3ead859c058eb4b997977117e",
+    "src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a",
+    "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+    "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+    "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+    "src/models/kvc_qwen_state.c": "a45155ed46860a9c261b0585e796ae3efd0c43a1209c3ea7a74edee8a58a36d1",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/models/qwen_output.c": "e4150b125f015f43aa8a4dffb3bb398f783d0fa8af61cbebada5807a4f934035",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/output_json.c": "ecab6537052e7a5eafd89d57b0209491ac96c44e5872b59f9a2011fc8b783f11",
+    "src/output_json.h": "3ec7f533b58fe212807071de5183e966f12c14dde751acc21ef076e3e269393d",
+    "src/output_schema.c": "fc44b2e13a11a9da4fd93e852c593c9fd4c0256e1d33736c0e6b8ac7a1c8175d",
+    "src/prefix_cache.c": "ca5f8b0a00e108d4e2690a20f94913c7dc220a48b97cdabd98b4e64523c63e26",
+    "src/prefix_cache.h": "b1a05a4384b876c543dff47e7e0218c002c5dc2404eef2c7721c74d304ddb5f7",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/records.c": "d8cb2c7adbb88ce2f2f4341ce26005a214ee0279cdedd183c77ec5e223084022",
+    "src/responses.c": "c6722fc9172ce1aa009c54856ffca966c6d58dc1753506103256ccda03c6bc6f",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/server.c": "c606675c0bc580f217403e104586dc288295d2516a0f98ac3db5a51d602f5764",
+    "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+    "src/state_codec.c": "fabd9747dd03e55addf2aab78a1d24bc28d41f8ca29f5d1ff1f5d27b856e4775",
+    "src/state_codec.h": "9a6494cdbff31fdc0ee49e12993378cfb803c296485b0c62ba1a81dc06e5a11b",
+    "src/state_compression.c": "280166c315ba6b8da65fc7ed53906bc90d2455a7f4fcd0b4727f2b2e64ed3331",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/state_kvc.c": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a",
+    "src/state_kvc.h": "505c131a16461c85d3bcdaccdab4b4baf68b87323b5ba339667456f4c75aab5a",
+    "src/state_layout.c": "c6e7d7a0b1ca98f618e42c6bf09df66075b3b6f2e401c82f38bf5567090c156c",
+    "src/store.c": "ebd91d41cad88f0181d0fa325e441c677e6fc9dce72ef5906861477f34dcdfad",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2bd571b4508bf5b70f49c8462318dbd242b333149df741985ff348beecdc36c2",
+    "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+    "src/wire.c": "c9e0de12d35b68c288a06afb269cb0dcfd1499ed00859a829436197e5455ad8a",
+    "src/wire_history.c": "ca5d3704b8740c6d829ee1e5a5c396cc7888d4aa54d2ca73ce7c2b85b8b3e47a",
+    "src/wire_options.c": "50e587c329be58f20eb68d3137e296393683902a0b0eb931cf0204d50f56bbb5",
+    "src/worker.c": "a206116f4570a49892979d3b38ba5163e0e79a9fb85b4c27653eb01cef095585",
+    "src/worker_http.c": "ccc40c029290290d84c228843664b17b9de6f5b4e93a59be79973d8af769fe3a",
+    "tests/bench_executor.c": "a0dac1006242c781d54ed6c4dd1e48a2c8bed7485b16d879c920850cdb4e3e31",
+    "tests/fake_executor.c": "e6e42d2545d4a5bcf2b12e39466ab103b0a18bb0622d18c2b4ee65bdcca0d615",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+    "tests/provider_contract.cmake": "982a30d492e37a0e8d8ca41ffa5300db4841a1533cac4e63971f6f966959b66e",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_bench_http.py": "b62a331aaceb1554e54625d39901314098a1bb49f4421a980cce73712232b1b1",
+    "tests/test_cache_http.py": "e4c7bd91e240d3a501e1453d57b6cec01c2be440df08dbee716c4a823f5b5940",
+    "tests/test_cache_policy.c": "35e288bb84c43a19142bc2fdc22917b8548d8cb0082fac95e1908b04a7f16ba3",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_bench.py": "a183032edb87e844eac57bf2a558fe48c5a85fa52f398e56ddebef3cf29dd918",
+    "tests/test_core_events.c": "af1c69bb2e3f9fd27214bdb92440b4dd04f30750597e18c061364174483abac8",
+    "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+    "tests/test_event_http.c": "425e653f747f6ab57f8a015d23c2271d95923e18ecc01680991dc2f3ee5329a4",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+    "tests/test_feature_http.c": "b9456e9e20f447341ca4f6ee62da92670a74c45ce9a0d6f7012b1c5881f0a54b",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_gufo_sampling.cpp": "9ad9b3d0ea876e71808d085f2e41682dd92968b5faacf4a8d7cb7547f31cbff5",
+    "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+    "tests/test_kvc_fixture.py": "c0990b0f79ccc8e3da6c152c6fb0714bfe0764761980e04ea6ddc8b8b6ce015f",
+    "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+    "tests/test_kvc_map_fixture.py": "ba8806e1fd6457a2eca42802e68a782388a47e0a9fb53fd6726d47a1da553f70",
+    "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+    "tests/test_kvc_state_fixture.py": "f5f8c5ac8c4070db6bee9c60b0dadcbb53519ed241fbbc6ecd9dc138ba16a1cb",
+    "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_mtp.c": "634cdfa24d32a9277a62995c6e0a2fe298511c1dcde8839b39fe439ff0ce66bf",
+    "tests/test_native_bench.c": "aa2d56d0a75988889c76beba0845b00dbdc6c5c469bc503bcf876e95a3dd1f0b",
+    "tests/test_openai_core.c": "c0c9586017208f0235d0d46e143d3cbfb05579a2648ebf0f4e0c46560e96fa29",
+    "tests/test_openai_http.c": "2e28a150105fad2fc462f8409432a98e52b749040e175b480b4ddb9e6b132f4e",
+    "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+    "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+    "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+    "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+    "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+    "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+    "tests/test_ssd_http.py": "4e195e5f6b0a77d0c02347a30eb3c0cf7d8d4874d70bca2da600b8cac0d1fcc5",
+    "tests/test_ssd_serving_checks.py": "433bf5a977d4ff87bd4059a521e68af669fea11ad2bd7dcbe9ab16a77c893fe6",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_state_aux.c": "3e894358d36a7ed6f19649adf7ddd70f64f49cbd89b767afdf0e9a370f7cb88c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+    "tests/test_tools.c": "94bb9b9e60d917bf483dc1547dddfedb596e7d07fc32c0eec25a29dd04100950",
+    "tests/test_tools_http.py": "6ed41081735c8a64ed3fbdb1eea2b182a54a5a76a1e238971769b1f8bc1b4f26",
+    "tests/test_vision.c": "7c81a2df148e30d4f2be6ea96c39d7106ac938a9641dd268665c9ecd4c16f1dd",
+    "tests/test_vision_cache.c": "e46b7e2a5f1f35303b463eed35d0da0148369d477d410e2d1c85698fe2d0e895",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+    "third_party/gufo-NOTICE": "152a1954f015c6c573ffd40e62b3f8764f7ad404628d02cd94397b86181e9939",
+    "third_party/gufo-source.json": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "tools/bench-http.py": "723d7e34aaa6f6cf2d01caa81ae385f16b0fb0a39853d87bf35d9836cd63fa6f",
+    "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+    "tools/bench-report.py": "f809ecba197eb319dabda8a201a997940cca92bd3d9641549822e5c5a6a8a357",
+    "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "tools/build-gufo.py": "8458f5739cef9894f6e4f9077c0e44cf22d11fb6cea02642d7a645f5a49167d1",
+    "tools/check-gufo-build.py": "a5ba4f5cd9348501f1988cab0c98ba81c5eece80f33306508719757b38f1e349",
+    "tools/core-bench.c": "997db55edf0db7cbda03862584c0015a1c66e209d9ed39b27999b2a4a9e15b7d",
+    "tools/executor-bench.c": "57186efe989f7fdbdc1e4b19034cefbe68bb21333ac92a9903e6064ae21ab45b",
+    "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+    "tools/gufo_state_source.py": "10e266807a58fb9c98295d76e5779ae6ccf656dd108b69db9f6ea6133fd9a24f",
+    "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+    "tools/lie-bench.c": "c9f8034f0120d0e41a1f98869ae08913d652566ff56fd9fbfe7bdf477ce3df3b",
+    "tools/lie-kvc.c": "869639c9cc576e8f8763022c8c91b03b24dbbf243bfc833ed009d0ebea17f6f7",
+    "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+    "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+    "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+    "tools/native/http_transport.c": "9f10a8f506e1fa44ba5a25e8591ea923e883fcb9a0eed838d2d76ae821ea5ba6",
+    "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+    "tools/native/report.c": "9cea8d9c331bc55122ff57da1b24907003a112ac857f11068081483408ecbb7d",
+    "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+    "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77",
+    "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+    "tools/render-published-benchmarks.py": "72a11a20ecbc1ecdadcc8dde9e9f9e51be925f2b163fae638822f3a28d5882bb",
+    "tools/run-bench.py": "44ea564bca0baa2035525298737db2e82f6457863607abdbac9f28d9108e3be4",
+    "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+    "tools/state-bench.c": "453a34d99b088912d8b8c001d59babd366968207f38059287397106f4a278a38",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+    "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab"
+  },
+  "artifact_sha256": {
+    "build/openai-cpu/CMakeCache.txt": "bb1fd7da025b4ea89c26dadd1394046b20cdca7ac69ee46c43ecb5228f562178",
+    "build/openai-cpu/CTestTestfile.cmake": "ad7ab0afa62ac7083c4b52fd5b7ae2f33bf9a6cb2def39d226f7cae84b7d2604",
+    "build/openai-cpu/test-openai-core": "cb20353dd7e5d876f5e3a9c4d52f3450e531d00c19385d0f84e50154f99a5a49",
+    "build/openai-cpu/test-openai-http": "c970a8152a5be5650829c58844bcf9aa27c8cf55ce3529a1929bba6762dae69c",
+    "build/openai-cpu/test-synthetic-server": "722fa48887a94caf3c8f3259e75524b6cf858669146e06b3989d82e2641eb1c9",
+    "build/openai-headless/CMakeCache.txt": "32d8e8fa64a92799785e66662ac4c7cee2d043c2f9fc8100f328878884eedafa",
+    "build/openai-headless/CTestTestfile.cmake": "836afb06861446061d58227b6bddbe3948c1c3ba8e5a3296c614262b9c5b84ea",
+    "build/openai-headless/test-openai-core": "86a76af1bc69cf5dec9c76834c6ae36654b6f549833c69700e1d1d52479576a2",
+    "build/openai-hip/CMakeCache.txt": "b2e94ef24a1b2dc9dcee4f28a071be674ae602b93b8e8b73f3ca512849fe6fab",
+    "build/openai-hip/synapse-lie-server": "18e4330f3eb246cd6ca83a6e8f51f6ccf040ae31a283aad82c2bc0c47cfd511b",
+    "build/openai-hip/synapse-lie-bench": "5e199c11cfc97947fe608b0e4e0ab106f7ccc05e5a5e05550d9777bfc3ce957d",
+    "build/openai-hip/test-gufo-sampling": "9726be263b6042b0ee20f978aad3f2da17a682cc9c025da1d9c3f784ac7af7db",
+    "build/openai-hip/test-gufo-chat": "bab4619713606aed4294f95c8ca6051667d1b161758fd9d70bb03475e7f8eb4b",
+    "build/provider-openai-r1/BUILD-RECEIPT.json": "a4fa5062ac59f25e9ab1b64908c4e5dbed478cc24ab3b4e9ece6ea2e9e67c330"
+  },
+  "command_receipts": [
+    {
+      "evidence": "evidence/openai-all-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.5
+      },
+      "elapsed_s": 29.241983274929225,
+      "plan_sha256": "ae6faf90186daebf56e40270cbea0bdce901e6368eec7099dc1c861c7881d886",
+      "result_sha256": "9a1538d6f28a0445159870ee873a0d66ac68eadc35279394557ac2216a38a554",
+      "command_log_sha256": "67a243cf21f93561cd33b1455d3f529162ebfd88f4a00c79864eb429ad5c6a88",
+      "thermal_log_sha256": "a8dca5b912b50bdf31673ca18eaa5fc0aca18883a60b1b2e2a1e027322f43c64",
+      "thermal_samples": 30
+    },
+    {
+      "evidence": "evidence/openai-all-tests-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+      },
+      "elapsed_s": 28.478105772286654,
+      "plan_sha256": "804c01d0936dc81e817f7b1dcb96b66c826a5c2a63b4aa391e15074e94ff88df",
+      "result_sha256": "4348a5a3aa20bdd72d13b4c1d545a00f9fe0abe6f37b20ad491becfa8482e817",
+      "command_log_sha256": "8eb6113ebf791b560eeea84ecdce874effb91f99e4127b51868aa467fdc9b0a2",
+      "thermal_log_sha256": "4e21fa48dacf68363ec75caf36b83ab2a8e9710720778fb9f442eeb02f35b5ec",
+      "thermal_samples": 30
+    },
+    {
+      "evidence": "evidence/openai-all-tests-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.0
+      },
+      "elapsed_s": 29.22844001557678,
+      "plan_sha256": "62bea4129ac8f55c135ffb4c74e012ae3610ebb8677bb817bd09c9db08027d77",
+      "result_sha256": "e4978537ff648acb001f3cc27e4a176301b6d212504000b37745b020553a7ac7",
+      "command_log_sha256": "ab4267b88d5992bb1b855300395852450c1667732107a173e79af8464acac272",
+      "thermal_log_sha256": "72a6bb30e71c6c0fa145ba3e82dcc04524c0dc5677b1943685b9b2f5bba08585",
+      "thermal_samples": 30
+    },
+    {
+      "evidence": "evidence/openai-build-final-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.875
+      },
+      "elapsed_s": 2.1097349170595407,
+      "plan_sha256": "d561590aa31c5bcbcf5da997b292e4b7468cba57c68f38d5c1997b9cd82d1b4e",
+      "result_sha256": "7e20cf6611d09b8d23a9161cf9d6e5dce78cec28f12f0d6be9ba2ac2f3e06d21",
+      "command_log_sha256": "e40aafe4a5e36cbedc410eda90c0c97e25d161d0a6b6ee98ac381ba2a84c47af",
+      "thermal_log_sha256": "c46bc2b7a557fb69edd41fc5c5c97a26032bb30f33d5ddebd50e5f529f435786",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 64.375
+      },
+      "elapsed_s": 1.082427085377276,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "aef4752f9dcf4bde57ebb16c5b07dec2d8a31427feae0142fc6b2f8663038339",
+      "command_log_sha256": "ab8738210ba3bad57a5a70bcb5e82652ee83c664bb0ff2413a9d67fa87b9d5a9",
+      "thermal_log_sha256": "faa4e47e05f77f655fae27ec077ca342eafc0eaa816459dda61afeb97fe60485",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-build-r10",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.5
+      },
+      "elapsed_s": 2.10184477455914,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "360c497e258e6c74b7c386593b08523401195aaa5a8547617406a8e467051a60",
+      "command_log_sha256": "9af6c73395fc8181eb39e0b5706d0c714501a407ca4e01d352bd396eee461578",
+      "thermal_log_sha256": "4a1f533d432b8375880ea74ef3a27b5d9d93c2c02170c957c50b03a85b226511",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r11",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.625
+      },
+      "elapsed_s": 11.423752958886325,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "2f82e27043b4d273f82663ba52ccc5fe451f60f131c1f5b4cc99dbdef7cba428",
+      "command_log_sha256": "efffea80cfd605380afdc46af97396697e2cb07388070bccfcd8d2edf92b789b",
+      "thermal_log_sha256": "802233b86f2287d12fcc1e69811cdbc29d1d5b8162a73ea4cb3802fde97bb0f7",
+      "thermal_samples": 13
+    },
+    {
+      "evidence": "evidence/openai-build-r12",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.0
+      },
+      "elapsed_s": 5.229173185303807,
+      "plan_sha256": "d88255a66e6b2bf19cb948d8e2657732b248abfb1c800227f9415210c47e291b",
+      "result_sha256": "01b9854ebc7c0890894412d7b876d9babf6c33c9e2df4740c0e709eb1c12ee27",
+      "command_log_sha256": "ec24a473a0526365f0ff9ddc63730f713609750a941a16e495bcdff9741bf764",
+      "thermal_log_sha256": "1a8d1eb8c918aa362414e4a43f4c34c44eae98cbb605c41d7a27fdd65639c2ca",
+      "thermal_samples": 7
+    },
+    {
+      "evidence": "evidence/openai-build-r13",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.125
+      },
+      "elapsed_s": 6.317694496363401,
+      "plan_sha256": "d88255a66e6b2bf19cb948d8e2657732b248abfb1c800227f9415210c47e291b",
+      "result_sha256": "d2626fc5d7b0f8956381b257e702d2afa81422a6509efa18439a0986d27b029b",
+      "command_log_sha256": "fd03c703e3111f4a45b38f9d76a0594c73192f208d3b8949c710a65dcef2ed03",
+      "thermal_log_sha256": "d9cc1b0fa997307c517d07ff0503da9774319c70108427327bec532821f73745",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-build-r14",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.875
+      },
+      "elapsed_s": 2.142529545351863,
+      "plan_sha256": "69749e249d9bf97503912aaac99d1a332f236181d17f4b506a7b4cf7d194cab5",
+      "result_sha256": "51b72563e75e4fc2fcc9916771d6cc48c53fe28a1e2aa605402ad7c4b341279f",
+      "command_log_sha256": "123558f3b3d0ec6c52f0cf06bb8b7a6444c966e70bfe827d094872d609454672",
+      "thermal_log_sha256": "4b2b9cfea6084d6f5bd6311562c96c0f6fa131f438a8ad6f430508c6d551005b",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r15",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.5
+      },
+      "elapsed_s": 1.0634278366342187,
+      "plan_sha256": "d561590aa31c5bcbcf5da997b292e4b7468cba57c68f38d5c1997b9cd82d1b4e",
+      "result_sha256": "36b82e750a7448c6a31bd11292cf8ca9b3dfe388802d7074ff9a7f97b02f5281",
+      "command_log_sha256": "73ea949b9d2e68917da43f66b3b6624a270387cd773835c63d8b00a5eef3870c",
+      "thermal_log_sha256": "126a5bc02dfd1b3a4cb83c15ca571ccaab0f3c61d3f02d348697cb79d72e46db",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-build-r16",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.0
+      },
+      "elapsed_s": 2.092025488615036,
+      "plan_sha256": "d561590aa31c5bcbcf5da997b292e4b7468cba57c68f38d5c1997b9cd82d1b4e",
+      "result_sha256": "57cb6f5ab01b9e6601c88584bd7658077da9ae27e26c56a4767fe9ad9b7bd246",
+      "command_log_sha256": "7fc1da164eeade351975ac8a4a0c2137bba0586f1649d42c6a4253ca3f61304a",
+      "thermal_log_sha256": "af62b74bc09a80797531fedf4397855c5f4c3cd6727ca99d6ce08bdbc8ed08c2",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.625
+      },
+      "elapsed_s": 2.0701679112389684,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "5c313a0cb16f6670782aa6a458d9d9d67339e7245e20c0670b8cf1e87692460c",
+      "command_log_sha256": "b55728083c869196e463ff7eba54d7988dad5615b6fac4ce14ef45c7801b7a79",
+      "thermal_log_sha256": "63ce2bcaa5eae7e5fdcca1d995696f0c2312ff38dc0292f32695b2030983014e",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.125
+      },
+      "elapsed_s": 14.273433053866029,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "255b05ba5a321487380d1da5402e8bd8d0313f221cc4646ce8afbd33a20a3950",
+      "command_log_sha256": "6ab8169e5c8386ae27787e7b0edefdb6ee3ba3757808011ef9ebda1a49fd981f",
+      "thermal_log_sha256": "4d2a09d13ac0467ad3a9a48dab8d5a841e181157fc6c0e360710981fb8b0115e",
+      "thermal_samples": 16
+    },
+    {
+      "evidence": "evidence/openai-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.75
+      },
+      "elapsed_s": 6.106406517326832,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "8dd699f142cc2ede134dcf8895251e5a7ff8d1220e48da77815fc70e4d1bdff5",
+      "command_log_sha256": "f1604fc5f2cb8a2e0213923f8d493cf60a57cb9a2d7ded489bbf29cea02677b9",
+      "thermal_log_sha256": "4107d0983b57b5df1bf2535d4724da343b63b177488e5af117d0de6eab511a11",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.125
+      },
+      "elapsed_s": 6.3330542501062155,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "928ef057d9815b469b598dc172dc36e61f0ce0d165f09b92882b97360f15c8d1",
+      "command_log_sha256": "fd10f450998a9f42ad3180f13facd21d66c13c4ab2bc63ff9b59b6e9f543b7d1",
+      "thermal_log_sha256": "838a3a648631ca852595a5a128e3c4f93aa490604aaccb608fe069b943439757",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-build-r6",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.125
+      },
+      "elapsed_s": 6.206028223969042,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "32e5279d344f9cc4f877ef3fa92a54e7ce205917f17682e07f6c09d9180591d0",
+      "command_log_sha256": "16c80e6b592a6724cf28c07cd719e9f94f908f5d91cf7cb4ca36f02df58b5ddb",
+      "thermal_log_sha256": "8c108c804ad1e869e81d2df7e51d011e7741df5ed2bacd7f40218047862438b3",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-build-r7",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 88.625
+      },
+      "elapsed_s": 2.0989500181749463,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "1c406e44316186ead1863f32f1416e52fdc82b3eb9c72fb37a9d1506ab1c25ff",
+      "command_log_sha256": "e40aafe4a5e36cbedc410eda90c0c97e25d161d0a6b6ee98ac381ba2a84c47af",
+      "thermal_log_sha256": "e8ab13cfd8f864d5d7042dc6cd61f911e50875f0b7f43ee247c47591d223f536",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-build-r8",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.375
+      },
+      "elapsed_s": 6.229614997282624,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "732fc139a9ba90088aa2010235cdb013db24614a5c2f0f2a734f87f956684c8a",
+      "command_log_sha256": "393b164dd29b2b8621fd694ec0fc8f2afd0647aec1d292636eb7c53cf62fce96",
+      "thermal_log_sha256": "bcf995ba974a84b8c27c69c2f35e54f2a47781e41621bdcc7155658e2011a3d1",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-build-r9",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.25
+      },
+      "elapsed_s": 2.089300714433193,
+      "plan_sha256": "f426fd75e8b4953d485d7d3d7de6c98f220ab435ddf56490fa83fd15c100380c",
+      "result_sha256": "a8c9a19fb5a269573e8406d888ee621c4c6b321f4ded7d3395035f507aef0428",
+      "command_log_sha256": "6e067e976abbdafdefe0eb93f3ab775a1901b13f50161ac6d92be64a52a2d506",
+      "thermal_log_sha256": "b1cdebd0090d270de549e0ad4034e1bdd53811918cba34427e15ffee5a258af0",
+      "thermal_samples": 4
+    },
+    {
+      "evidence": "evidence/openai-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/openai-cpu",
+        "-G",
+        "Ninja",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_BUILD_ID=openai-completion-r1",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+      },
+      "elapsed_s": 1.057210959494114,
+      "plan_sha256": "d133adfeaeb282001fbb447798999c7bf98cd23df2fdcfc1f14d64a550cd6c1c",
+      "result_sha256": "bd92dc90f1bbdd8630554fe3f62d1564c34d1dfe219a807bbf4cb29921e5d29a",
+      "command_log_sha256": "44c897bcc6720d4982a6f5ff54ba85e98a109bbdbe5887d1aa710d853b7d832d",
+      "thermal_log_sha256": "edc94ca6f5d44947468fd996c4735b8322e94ec03881e28829f2e213bcaf9057",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-controls-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "openai-headless|core-semantic|semantic-http|function-tools",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.875
+      },
+      "elapsed_s": 11.630412839353085,
+      "plan_sha256": "13890cedb60f40430d68c8aaad6303aad66944def376932b41f89dc51d9a7f6b",
+      "result_sha256": "d4866cc94aa0469574f35d2ac185ab94999811a717a7dfca333542e63d412a7b",
+      "command_log_sha256": "f433d73ff6f13f2c56bad8e2fe47f4ddd40a7691015e67c48ac6b956736fc83f",
+      "thermal_log_sha256": "3abc9a927deb7c6360b052628ef9b36814dd487e99a883fd228677600c9fcbf9",
+      "thermal_samples": 13
+    },
+    {
+      "evidence": "evidence/openai-controls-tests-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "openai-|semantic-output|chat-wire|tools-",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.375
+      },
+      "elapsed_s": 7.418730131350458,
+      "plan_sha256": "d27808b0205dcb0f06334fad3e23fc3f08111ba898c4a9967370690703425ca6",
+      "result_sha256": "428ef5ab72857265450dddb1b7cee4cff1064e1cf312fe8e7865f87f20fb82c4",
+      "command_log_sha256": "6a952229e32c9da0f1a67f2e84d7511a6b74e4beee36408f764b292eca588986",
+      "thermal_log_sha256": "1b7adb62d34eb2eaf5540988eb42f125f614a7cb4e8f3c06ea255d3851de726d",
+      "thermal_samples": 9
+    },
+    {
+      "evidence": "evidence/openai-core-build-final",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--target",
+        "test-openai-core",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.75
+      },
+      "elapsed_s": 1.066290345042944,
+      "plan_sha256": "6c568340f006a0a6d0073323be5a5ad9c1f22cc64ca2d45ec5565aeb64a26e13",
+      "result_sha256": "8eae1123f4dfd01ae1c72e39ca5903c83961c9267b7b898f8740ef6426b9c22a",
+      "command_log_sha256": "83b655476aa282ad8365cc95f5ed39a69cbf10d30bdcaa21fcae827f1791f9ef",
+      "thermal_log_sha256": "ba2d3474d175835471d8b959936e44df3cdb83bf8e739e337fde50442f42c630",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-core-tests-final",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "^openai-headless-controls-state$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+      },
+      "elapsed_s": 1.126501209102571,
+      "plan_sha256": "09afefd220c4addd5a387042ce1fb7057ffa545da3f10cc2a6b6760e911189b0",
+      "result_sha256": "72471795986cad86b5abb06a5a6b3b0fff633b5444d3d2925c995bf1519336ce",
+      "command_log_sha256": "0402d4feaebd4db264c76289adbc8a7fa4a1ac31ae6c6c570a89ec6cfb2a4c7c",
+      "thermal_log_sha256": "a11aaafb04124aaeb3df0c71066eff6b5ef15269d0517693313c4f1d4c2480ff",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-core-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "core-semantic-events|flow-|tools|chat|core-headless|semantic-http",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.5
+      },
+      "elapsed_s": 11.582716015167534,
+      "plan_sha256": "7841e6f5713c867180b2a64f0e8bf1d704d0b4b278fe122e9335cba1fd30ef5f",
+      "result_sha256": "69da2e91780ddcbe3371c2edf4359f2eca87a36f7bf8aad2cc8230ed82d5ca07",
+      "command_log_sha256": "64ca10773a9ee1cf1e5acf93ecee26b23bfeb7110eb682602d011428d0c40b2a",
+      "thermal_log_sha256": "60c17f4c8d414bfd72a2b68384b6ad94348c7f510b91f43e970e1409963cbd10",
+      "thermal_samples": 13
+    },
+    {
+      "evidence": "evidence/openai-headless-build-final",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-headless",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.75
+      },
+      "elapsed_s": 1.0613567661494017,
+      "plan_sha256": "46ed2723bfc98f092cb4d3b48a413a9d38cc62ec41147bb6d6e4edb61a1e9655",
+      "result_sha256": "a589d7eea732b480767dc46df9f17aa5006a6e6438b84ac4500572143e8fa12f",
+      "command_log_sha256": "ee97d22e4a0e1df61eb1126c7f42b741dac878538737a6dff17524cb1d78901b",
+      "thermal_log_sha256": "a207576c8b32d3d8e937e8c43f84d0c9075a289c74426be3c3bf26a97aeb1c20",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-headless-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-headless",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 87.125
+      },
+      "elapsed_s": 6.247362803667784,
+      "plan_sha256": "ee3d347a7065d7d425c9f04418a8439820df4a53e148a4237c2abdd832ac09f2",
+      "result_sha256": "4be73e1d66c4074563cce1e013471f1d5521dd05d64dc5b8de331b0982886d0e",
+      "command_log_sha256": "8ff8e8afacefcc0eb80eb17e3216390aef2a1d9224f8b2a778fd7554ca9a206b",
+      "thermal_log_sha256": "0d39e8e0f5c999d58a541a3e2309adca3d9598ba8efe5130540557c42906695b",
+      "thermal_samples": 8
+    },
+    {
+      "evidence": "evidence/openai-headless-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-headless",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.875
+      },
+      "elapsed_s": 1.0584932463243604,
+      "plan_sha256": "46ed2723bfc98f092cb4d3b48a413a9d38cc62ec41147bb6d6e4edb61a1e9655",
+      "result_sha256": "368a74794cae05b3015eac213b69e23ac9255078cc7e90fb3d681cd060646f69",
+      "command_log_sha256": "83b655476aa282ad8365cc95f5ed39a69cbf10d30bdcaa21fcae827f1791f9ef",
+      "thermal_log_sha256": "3aaa15f4b341b1eb539395ae15861642851c90721a6886fc6576cbd541046354",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-headless-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/openai-headless",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_CORE_ONLY=ON",
+        "-DLIE_MTP=OFF",
+        "-DLIE_VISION=OFF",
+        "-DLIE_BUILD_ID=openai-headless-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.0
+      },
+      "elapsed_s": 1.1005027433857322,
+      "plan_sha256": "5824c40dc065305113828c229ccb05925e099241f6911a45a8695718fa607f00",
+      "result_sha256": "66a7cd56b43d0af8d13803d93b7d123815c35c13bbec39a900e23db1b247a0e2",
+      "command_log_sha256": "8b2b1524d26da8bf50749f58bad2047d2bffc3805da691e9df3f5d8fe1c6ec6a",
+      "thermal_log_sha256": "7ed5e0ae882ea888ac4886c87b3e9bef5084b764926ea22164b2cd78c71cc6f9",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-headless-test-final",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-headless",
+        "-R",
+        "^openai-headless-controls-state$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+      },
+      "elapsed_s": 1.127218666486442,
+      "plan_sha256": "ea701d01f223f2ccfe65668873ed835615cdbe1d52b19a2c5679a33223f69f03",
+      "result_sha256": "145f86d92646a7b731952ae6234656163bc9338745e6ecbcbe9803b98ad75afc",
+      "command_log_sha256": "53d9a4db859b2ea728472c9452e83c2a46dd6a4399a1fd86e8953343b1d41398",
+      "thermal_log_sha256": "1418d439ff1ca1dba23aac8066efcbe5c41dd0d9866dca18562b0137642be68c",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-headless-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-headless",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.875
+      },
+      "elapsed_s": 5.197471632622182,
+      "plan_sha256": "d966bf39aac962caf2d99fe33efb948341c3dd5bf5d15940cdf2eec68feaec55",
+      "result_sha256": "d899f04810ba987dd978506c3dc0be0dd76ec5038bb8b8e6ee338f4bad1f91c8",
+      "command_log_sha256": "25060052e38089ff2c515e7211f7a98f3f7d9d9e06d3119732cadd7f61b6691d",
+      "thermal_log_sha256": "048db9eba527df3020083f16040e80f2b9547264ba4839a91a070d50c1ea5da6",
+      "thermal_samples": 7
+    },
+    {
+      "evidence": "evidence/openai-hip-build-final",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-gufo-sampling",
+        "test-gufo-chat",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.125
+      },
+      "elapsed_s": 3.1162774423137307,
+      "plan_sha256": "886777752a6afbaf01efbdad173c3f77cc07fcbbdd848d50f0d5f35f9962ae90",
+      "result_sha256": "a18d4804511cbd74f3efd5911298da75684b21ad3fbe36d8a883398c2e63a548",
+      "command_log_sha256": "fe23895e88ae9c7a8ef99c7237605c83922e63b3ec4b6328229e5f7305d83fd1",
+      "thermal_log_sha256": "4b252c744da683daafdc6e23d341a896e3443d32a7d731fd295668e2318c423f",
+      "thermal_samples": 5
+    },
+    {
+      "evidence": "evidence/openai-hip-build-final-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-gufo-sampling",
+        "test-gufo-chat",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.875
+      },
+      "elapsed_s": 3.148954475298524,
+      "plan_sha256": "39820ae66177eff06b6e030dc3dfcdf69d64e81ce134a323b6f6db7f274c9217",
+      "result_sha256": "f93925ba90c6c4db76e6d7ab6d8c01aa2d014640a8d3fdd4dce0c6b9e669bfa5",
+      "command_log_sha256": "9df3376da21e4ae2e10d860c430709bf1806f2827276e6a07eb4a85aad80a9a1",
+      "thermal_log_sha256": "27581e248f44852c43219644627275d2d2b2944aabbc61e7cac04334cdd768df",
+      "thermal_samples": 5
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.875
+      },
+      "elapsed_s": 8.38480537943542,
+      "plan_sha256": "bbb57eba694b476b714505d7285da32f8f94b3c16693ea249bd37e740e99725a",
+      "result_sha256": "4ec17aaddeaeb22355c4f92c5e2cbe1f734fe611834c7103e8cc7c4a8bd491ff",
+      "command_log_sha256": "240c14fadc3280406ac5eb10df82456e194595cb02235279ba0f66ed3e99050b",
+      "thermal_log_sha256": "aa1fc03e1dd8796c0bbe53b4300cc6810fc3cb935de33406e9570662819ad311",
+      "thermal_samples": 10
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-gufo-sampling",
+        "test-gufo-chat",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.125
+      },
+      "elapsed_s": 15.696867764927447,
+      "plan_sha256": "fa0e1f12c2316cf2e0b100faaff26a148c5067ca271ebf148ddf3cefb0f22086",
+      "result_sha256": "c7cbaf91a86d9770d09d4489c86a5eec101b58f8f4a2bcc5c5c5cf61b46f92fc",
+      "command_log_sha256": "a1fd24be52261f78391e18c01dc5b94bc58e33d10b9a3c46aa5331751d48899c",
+      "thermal_log_sha256": "a044a19f93b8c50852d70a72ee608adbcb1e5e8c7512130dd16304e1d01912d7",
+      "thermal_samples": 17
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-gufo-sampling",
+        "test-gufo-chat",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.625
+      },
+      "elapsed_s": 12.181639124639332,
+      "plan_sha256": "fa0e1f12c2316cf2e0b100faaff26a148c5067ca271ebf148ddf3cefb0f22086",
+      "result_sha256": "6986c27a42063097fea8534782892840cc630d5af9780389d8c9ec010cc24de4",
+      "command_log_sha256": "2b48abda8a5bc5086d0ce0cdc9dcefae40e1e5174adec6478dbb141d68ed7ad7",
+      "thermal_log_sha256": "2077c2fba5470a197e07eef57055dc011b73c9a1a097ea4820e7e019333a18a6",
+      "thermal_samples": 14
+    },
+    {
+      "evidence": "evidence/openai-hip-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-hip",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-gufo-sampling",
+        "test-gufo-chat",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.25
+      },
+      "elapsed_s": 8.436980211175978,
+      "plan_sha256": "763e43391232aa99c2bc2554099960207f0f62f1cb52a797ec28211d7c19dc05",
+      "result_sha256": "aebbeec005da7dbcb9451a88d9cbf19d711649db2aedd0d8cc74cfbaec0663e4",
+      "command_log_sha256": "f1fe95f39e92fddc054298108b38668fbd557a6ab8e5a1ebc40fedaa21b95464",
+      "thermal_log_sha256": "7476e57b87efec95048347124010d5b5c5d4d1beba9d839dbbbd6d0fe2e35e2f",
+      "thermal_samples": 10
+    },
+    {
+      "evidence": "evidence/openai-hip-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/openai-hip",
+        "-G",
+        "Ninja",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-DGUFO_SOURCE=.deps/gufo-state-access-provider-openai-r1",
+        "-DGUFO_BUILD=build/provider-openai-r1",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_BUILD_ID=openai-hip-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.875
+      },
+      "elapsed_s": 3.1543478425592184,
+      "plan_sha256": "110d073ae57b06479e09a95b6674bcb2f4e055f763c297af2ebc4f1dc21a86f7",
+      "result_sha256": "5492279ee653c2434825e5a341b98bc5e52751c7eca61d998458d18d89f698c3",
+      "command_log_sha256": "ddd8d2981b41f94103bdaaf5ec31204b5c6b4f7deff6099ed088d7bc2190d752",
+      "thermal_log_sha256": "1d0c602b1a46680fc66d68010a98b0506852a08eb4105cf0b75cc736583c6c3f",
+      "thermal_samples": 5
+    },
+    {
+      "evidence": "evidence/openai-http-build-final-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--target",
+        "test-openai-http",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.0
+      },
+      "elapsed_s": 1.0583820044994354,
+      "plan_sha256": "2aad6c0e1cf5187503f32f7a5ebc26e120c36c0c1b0e96c0ac9824ab4b244e84",
+      "result_sha256": "3436537666bd889b324efb4a1c0650e8fb80ed431867d08526e04beea2bfa883",
+      "command_log_sha256": "7f0b872874e4d0abb8758bcab524bd7bd1a3c14c7c07517b072e8aa475f0e195",
+      "thermal_log_sha256": "44ed67ae3f17270b9557226b10558536481fa8bb2d1bce91d80438da2d43b10a",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-http-build-final-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/openai-cpu",
+        "--target",
+        "test-openai-http",
+        "--parallel",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 86.625
+      },
+      "elapsed_s": 1.135376556776464,
+      "plan_sha256": "2aad6c0e1cf5187503f32f7a5ebc26e120c36c0c1b0e96c0ac9824ab4b244e84",
+      "result_sha256": "163911013cbd6e2e7638b5b7729dec37c4db1f7075af08fc6cad38ced9bf8e96",
+      "command_log_sha256": "7f0b872874e4d0abb8758bcab524bd7bd1a3c14c7c07517b072e8aa475f0e195",
+      "thermal_log_sha256": "c3a2b3a73b6ed2f36f584ac0ce5a57ec4bdd08a849b2b581d8112f7d50fe4328",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-http-final",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "openai-generation-state-http|semantic-http-contract|tool-wire-http|native-benchmark-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.875
+      },
+      "elapsed_s": 13.646774463355541,
+      "plan_sha256": "64ffd054a82fab243b66e910436b39ff63cf7163dc4dae9dd2980fb74de9adc2",
+      "result_sha256": "39b0d5130dd983626350aa1c62c558da8911f12fe34c2bfaecdd8ef9c6c5ef9a",
+      "command_log_sha256": "0b91e60495a81e679cced51bc840b730da67b2a8154f26ea56a76513dd79686e",
+      "thermal_log_sha256": "77641839c650d24e74ea2eaf3cecd6062dcc5ac3c255183903c1afcb561c0dab",
+      "thermal_samples": 15
+    },
+    {
+      "evidence": "evidence/openai-http-test-final-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "^openai-generation-state-http$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.375
+      },
+      "elapsed_s": 1.1239496599882841,
+      "plan_sha256": "b928a80495cc0793adfe2585985ffb1f9508a37e309bff6525f1b8a5d6dd1739",
+      "result_sha256": "42fd7bd3a9563e2b14f19a7160967f021fc7aa0ba49c6d6ec64a8d0cefc33dac",
+      "command_log_sha256": "4acd16c9e4da9654755236d5692a80e69dff0a39a28f6fbea3411d06fcd6a3cc",
+      "thermal_log_sha256": "1bd1d98fb8d7d9fd795d9fe534ce6e0fb3d361fb8ceb1782b26c3662cc59cf18",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-http-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "-R",
+        "openai-generation-state-http|openai-headless",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+      },
+      "elapsed_s": 1.1177394054830074,
+      "plan_sha256": "e2d0ca976eb7427a62fa2433622a808dcd749e29b01803277822eb37d680bdfb",
+      "result_sha256": "57325f8ef76f97cd2839147b2437ed9fb396d5d67318219fa11b68f00cdfa080",
+      "command_log_sha256": "055fd1c89c23542ce7f90e026bd66af9e9e2d8fad650e70015248580e1726a1d",
+      "thermal_log_sha256": "646627863fdad0875b205affdf7eff20867d6545a06a4d4369384beb39944d58",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-linked-info-final",
+      "argv": [
+        "build/openai-hip/synapse-lie-server",
+        "--build-info"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.5
+      },
+      "elapsed_s": 1.0275991540402174,
+      "plan_sha256": "e69c35598f0bb7c18f815b6c26de3962a4878bd6bc2147192a9d5708a0ce05d0",
+      "result_sha256": "5e54ef7be04e2907fb19a314106c93d09cd3ae4fd63ed5187b44e63de8461a1d",
+      "command_log_sha256": "2a7a96eece700d70bb009e2a67176c6b4ba0159cb1b9b4ee577081ec5935076c",
+      "thermal_log_sha256": "414d7e144d8061aedb6078886c8a581e94331d10945f1aadbe93508339051128",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-provider-host-tests-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-hip",
+        "-R",
+        "gufo-(chat|constrained-sampler)-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.5
+      },
+      "elapsed_s": 1.1478269286453724,
+      "plan_sha256": "6a48e0fcf5a41c20db44cd52a3cfcf78f64329967355bc1a32c56e1ee7dbc4a7",
+      "result_sha256": "cc47d88ea95e06d132df778601c4c7176579621be98f127b93c92f4a22724a53",
+      "command_log_sha256": "598bd3365bf27e8fb4ae8aa4e3a61e3a82a0f91da9317095db9ea6a5f7202cab",
+      "thermal_log_sha256": "f9c87ffd35fcb0c740c219a0c11d2675314d4f8f73f22e7668010b8d928fdb59",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-provider-host-tests-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-hip",
+        "-R",
+        "gufo-(chat-template|constrained-sampler)-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 73.375
+      },
+      "elapsed_s": 1.0578502332791686,
+      "plan_sha256": "b1ade05cefd89453b60815beb289a3ae0e3cd8220d496e323bd7e839c6f02df3",
+      "result_sha256": "ef39abd73b8ecc85c2d3b62d1f70ad60404af1d81a62804d43048eb2dbe19fc7",
+      "command_log_sha256": "81854960b03098fc30f7ce00970e1f24a9d4221f0aa691eefd48046d821cec04",
+      "thermal_log_sha256": "69f5a405f4110ace1c094783097d1c7025e0b852ae55859a9919d05c47886c05",
+      "thermal_samples": 3
+    },
+    {
+      "evidence": "evidence/openai-provider-thermal-r1",
+      "argv": [
+        "cmake",
+        "-DLABEL=provider-openai-r1",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 92.5
+      },
+      "elapsed_s": 154.703194251284,
+      "plan_sha256": "97640aeb4c84bd026061fdf503bab8d4b56929afc347a91b59fcde07aab1147c",
+      "result_sha256": "9a79a6fce7fed47305a4efd379b9ed16c75930b5012d0a2da4ed612e251cc709",
+      "command_log_sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+      "thermal_log_sha256": "cc3ad4ddbb1810459f921f71d696be3dccc43fb09cd3359f0493e2154e889a0c",
+      "thermal_samples": 153
+    },
+    {
+      "evidence": "evidence/openai-source-fetch-r1",
+      "argv": [
+        "cmake",
+        "-P",
+        "cmake/provider/Fetch.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 84.0
+      },
+      "elapsed_s": 9.461881985887885,
+      "plan_sha256": "9101849a3ed7ec9f6f8aaad268e3da7d18c5949e9519e501e8dee1028a548cbf",
+      "result_sha256": "3848edb3e68f77ca18d74ba8f881017b4a59579112668164e0cd641db45b62d9",
+      "command_log_sha256": "f0a45f6036f599f1ce5931ff9d3450647bdc324e71378111417f223dc301461c",
+      "thermal_log_sha256": "82317d637d91d7dce57cd15565da4c5abcd985e8cb570fa05700b776e0e7f0d7",
+      "thermal_samples": 11
+    },
+    {
+      "evidence": "evidence/openai-tests-final",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/openai-cpu",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.5
+      },
+      "elapsed_s": 31.446100743487477,
+      "plan_sha256": "9d5140b5ac92736de59c7d3e770f530a69c253b43e684b913d4b0f5064b34ab4",
+      "result_sha256": "8fbbcc71c67a767304e90cbb26ac99908fd1e0657666c0f605728c67828a54c3",
+      "command_log_sha256": "f22fa5c15089733ed231b8fcaf2b2444990a067672dc5c541d81fec997bfbd33",
+      "thermal_log_sha256": "010682fa36b5a696c9d7f6ace798f1ebb828804492e6cb1a4f9570ff4694d034",
+      "thermal_samples": 32
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Opt-in transitional adapter; NOT the autonomous LIE backend.
 // Whole-model delegation is permitted for bootstrap, then refactored by contract.
-// First-party boundary over the unmodified pinned upstream API; no kernels copied.
+// First-party boundary over the pinned upstream API and the verified state/
+// sampler source variant. Numerical forward remains delegated; no kernels copied.
 #ifndef LIE_GUFO_ADAPTER_OPT_IN
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
@@ -50,6 +51,7 @@ struct Runtime {
     uint64_t state_domain{next_state_domain.fetch_add(1)};
     struct StateFile { int fd;struct stat stat; };
     std::vector<StateFile> state_files;
+    std::shared_ptr<const gufo::sampling::ConstraintVocabulary> vocabulary;
     ~Runtime(){for(auto& f:state_files)::close(f.fd);}
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
@@ -343,8 +345,113 @@ extern "C" lie_status lie_sequence_configure(lie_sequence *s,const lie_generatio
         gufo::sampling::SamplingConfig c;
         c.temperature=static_cast<float>(o->temperature); c.top_p=static_cast<float>(o->top_p);
         c.frequency_penalty=static_cast<float>(o->frequency_penalty); c.presence_penalty=static_cast<float>(o->presence_penalty);
-        c.seed=o->seed; s->sampler=gufo::sampling::SamplerState(c); return LIE_OK;
+        c.seed = o->seed;
+#ifdef LIE_GUFO_STATE_ACCESS
+        if (o->logit_bias_count) {
+          if (!o->logit_bias || o->logit_bias_count > LIE_LOGIT_BIAS_MAX)
+            return error(e, LIE_INVALID, "invalid logit bias");
+          c.logit_bias.resize(s->runtime->model->VocabSize());
+          for (size_t i = 0; i < o->logit_bias_count; ++i) {
+            const auto b = o->logit_bias[i];
+            if (b.token < 0 ||
+                static_cast<uint32_t>(b.token) >= c.logit_bias.size() ||
+                !std::isfinite(b.bias) || std::abs(b.bias) > 100)
+              return error(e, LIE_INVALID, "invalid logit bias token/value");
+            c.logit_bias[b.token] = static_cast<float>(b.bias);
+          }
+        }
+#else
+    if(o->logprobs)return error(e,LIE_UNSUPPORTED,"logprobs require verified sampling variant");
+    if (o->logit_bias_count)
+          return error(e, LIE_UNSUPPORTED,
+                       "logit bias requires verified sampling variant");
+#endif
+        s->sampler = gufo::sampling::SamplerState(c);
+        return LIE_OK;
     } catch (const std::exception &ex) { return error(e,LIE_INVALID,ex.what()); }
+}
+extern "C" lie_status
+lie_sequence_constrain(lie_sequence *s, const lie_generation_constraints *o,
+                       lie_error *e) {
+  if (!s || !o)
+    return error(e, LIE_INVALID, "invalid generation constraint");
+  auto rc = owner(s->runtime, e);
+  if (rc != LIE_OK)
+    return rc;
+  if (s->session->Position())
+    return error(e, LIE_INVALID, "generation already started");
+  try {
+    using gufo::sampling::JsonConstraint;
+    std::shared_ptr<const JsonConstraint> grammar;
+    if (o->format == LIE_FORMAT_JSON_OBJECT)
+      grammar = JsonConstraint::Object();
+    else if (o->format == LIE_FORMAT_JSON_SCHEMA) {
+      if (!o->schema_json)
+        return error(e, LIE_INVALID, "missing JSON schema");
+      grammar = JsonConstraint::Compile(gufo::json::parse(o->schema_json),
+                                        o->strict != 0);
+    }
+    std::vector<JsonConstraint::Tool> tools;
+    for (size_t i = 0; i < o->tool_count; ++i) {
+      auto schema = gufo::json::parse(o->tools[i].parameters_json);
+      auto def = gufo::json::parse(o->tools[i].definition_json);
+      const auto *fn = def.find("function");
+      const auto *strict = fn ? fn->find("strict") : nullptr;
+      tools.emplace_back(
+          o->tools[i].name,
+          JsonConstraint::Compile(schema, strict && strict->as_bool()));
+    }
+    grammar = JsonConstraint::WithTools(grammar, std::move(tools),
+                                        o->required != 0, o->parallel != 0);
+    if (!grammar)
+      return LIE_OK;
+    if (!s->runtime->vocabulary) {
+      auto model = s->runtime->model;
+      s->runtime->vocabulary =
+          std::make_shared<gufo::sampling::ConstraintVocabulary>(
+              model->VocabSize(), [model](uint32_t t) {
+                return gufo::sampling::ConstraintVocabulary::Piece{
+                    model->TokenText(static_cast<int32_t>(t)),
+                    model->IsStopToken(static_cast<int32_t>(t))};
+              });
+    }
+    auto constraint = std::make_shared<gufo::sampling::TokenConstraint>();
+    constraint->grammar = std::move(grammar);
+    constraint->vocabulary = s->runtime->vocabulary;
+    auto config = s->sampler.config();
+    config.constraint = std::move(constraint);
+    s->sampler = gufo::sampling::SamplerState(std::move(config));
+    return LIE_OK;
+  } catch (const std::exception &ex) {
+    return error(e, LIE_INVALID, ex.what());
+  }
+}
+extern "C" lie_status lie_sequence_sampling_logits(lie_sequence *s, float *out,
+                                                   size_t capacity,
+                                                   size_t *required,
+                                                   lie_error *e) {
+  if (!s || !required || (!out && capacity))
+    return error(e, LIE_INVALID, "invalid reporting destination");
+#ifdef LIE_GUFO_STATE_ACCESS
+  return guarded(s->runtime, e, [&] {
+    if (!s->sampling_started) {
+      const auto tokens=s->session->Tokens();
+      std::vector<gufo::sampling::TokenId> history(tokens.begin(),tokens.end());
+      s->sampler.ResetHistory(history);
+      s->sampling_started = true;
+    }
+    const auto row = s->sampler.ReportingLogits(s->session->Logits());
+    *required = row.size();
+    if (row.size() > capacity)
+      return error(e, LIE_BUFFER_SMALL, "reporting destination too small");
+    std::copy(row.begin(), row.end(), out);
+    return LIE_OK;
+  });
+#else
+  (void)capacity;
+  return error(e, LIE_UNSUPPORTED,
+               "logprobs require verified sampling variant");
+#endif
 }
 extern "C" lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     if (!s || !*s) return error(e, LIE_INVALID, "invalid sequence handle");

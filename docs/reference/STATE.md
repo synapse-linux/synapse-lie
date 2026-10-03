@@ -374,3 +374,17 @@ scope; the ordinary text and vision-only entry points reject a joint state.
 Predictor catch-up requires retained hidden rows covering every missing position.
 The adapter commits trunk, predictor, controller and vision layout only after
 completed transfers. Cancellation/failure cannot publish a usable frontier.
+
+## Response history is separate from KV retention
+
+`lie_records` retains normalized request history, validated output, a bounded
+semantic event journal and target-token witnesses in C17. This supports stored
+Chat/Responses, continuation, background cancellation and stream replay for any
+provider using the neutral contracts. Its independent record-count, RAM-byte
+and TTL bounds use `--response-store-*`; no record is persisted to SSD.
+The byte quota reserves worst-case output and job witness capacity before
+attachment. Deleted/expired records become invisible immediately; existing
+reactor pins remain charged until released. Worker scratch and numerical
+sequence state are released at device retirement; immutable witnesses remain
+until the final job reference. This store is separate from model weights,
+active KV state and the RAM/SSD reusable prefix cache.

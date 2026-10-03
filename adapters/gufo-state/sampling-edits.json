@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.gufo-sampling.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Opt-in dense token bias and target reporting logits. Empty bias preserves upstream fast paths; grammar and sampler remain transitional Gufo code.",
+  "edits": [
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  std::shared_ptr<const TokenConstraint> constraint;",
+      "new": "  std::shared_ptr<const TokenConstraint> constraint;\n  std::vector<float> logit_bias; // LIE opt-in; empty preserves upstream fast paths."
+    },
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  void DeferSample(TokenId token);",
+      "new": "  void DeferSample(TokenId token);\n  [[nodiscard]] std::vector<float> ReportingLogits(std::span<const float> logits) const;"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return repeat_penalty != 1.0F || frequency_penalty != 0.0F ||",
+      "new": "  return !logit_bias.empty() || repeat_penalty != 1.0F || frequency_penalty != 0.0F ||"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "double SamplerState::AdjustedLogit(TokenId token, float logit) const noexcept {\n  const auto found = std::ranges::lower_bound(penalty_counts_, token, {},\n                                              &TokenPenalty::token);\n  return found == penalty_counts_.end() || found->token != token\n             ? static_cast<double>(logit)\n             : Penalize(logit, config_, *found);\n}\n\n",
+      "new": "double SamplerState::AdjustedLogit(TokenId token, float logit) const noexcept {\n  const auto found = std::ranges::lower_bound(penalty_counts_, token, {},\n                                              &TokenPenalty::token);\n  const double bias = token < config_.logit_bias.size() ? config_.logit_bias[token] : 0.0;\n  return bias + (found == penalty_counts_.end() || found->token != token\n             ? static_cast<double>(logit)\n             : Penalize(logit, config_, *found));\n}\n\nstd::vector<float> SamplerState::ReportingLogits(std::span<const float> logits) const {\n  auto row = config_.constraint ? ConstrainedLogits(logits) : std::vector<float>(logits.begin(), logits.end());\n  const double temperature = config_.temperature > 0 ? config_.temperature : 1;\n  for (std::size_t i=0;i<row.size();++i) if(std::isfinite(row[i])) row[i]=static_cast<float>(AdjustedLogit(i,row[i])/temperature);\n  return row;\n}\n\n"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "if (penalty_counts_.empty()) {\n    float best_logit",
+      "new": "if (penalty_counts_.empty() && config_.logit_bias.empty()) {\n    float best_logit"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "const double value = penalty_counts_.empty()\n                             ?",
+      "new": "const double value = (penalty_counts_.empty() && config_.logit_bias.empty())\n                             ?"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "penalty_counts_.empty()\n            ?",
+      "new": "(penalty_counts_.empty() && config_.logit_bias.empty())\n            ?"
+    }
+  ]
+}

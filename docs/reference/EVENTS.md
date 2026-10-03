@@ -131,3 +131,9 @@ These are **CPU fixtures, NOT-INFERENCE**. Host HIP compilation/linking checks
 composition only. Original-weight tool correctness, GPU faults, resources and
 performance still require compatible models and a fresh coordinated GPU window.
 See the [source-bound receipt](../development/validation/core-events-2026-10-03.json).
+
+Stop matching runs on the device owner before raw publication. A final frame may
+flush bytes held from earlier confirmed tokens with zero new tokens; it carries
+a normal output loan and advances no token ordinal. UTF-8 normalization remains
+in the semantic consumer. Canonical JSON calls and the existing Qwen parameter
+tags project into the same neutral validated call event.

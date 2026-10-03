@@ -352,3 +352,21 @@ improves 4.11× with exact tested frontier/output equality, while C1 remains
 within 0.35% through occupied 128K. This closes the measured concurrent-dispatch
 gap; numerical ownership, internal asynchronous forward, MTP and the independent
 quality/fault gates remain separate.
+
+## OpenAI controls — 2026-10-03
+
+The shared C17 core now owns stop matching, target-probability normalization,
+structured-output validation, choice admission, response records, history,
+oldest-turn truncation and a retained semantic journal. HTTP projects these
+contracts and remains a libuv reactor; background/replay adds no model worker.
+The generation contract exposes sparse vocabulary bias, target reporting logits
+and JSON/tool constraints without upstream types.
+
+Constraint grammar compilation and token masking remain delegated to the
+pinned Gufo sampler. The independently fetched state variant also applies the
+exact `adapters/gufo-state/sampling-edits.json` recipe for bias and reporting;
+source inventory and `sampling_edits_sha256` are verified before linking.
+Empty bias preserves upstream fast paths. Bias uses AR steps because compact
+speculative distributions have not been ported to the new bias control.
+This extends the working transitional slice; it does not complete the C++
+executor replacement or qualify original-weight numerics/performance.

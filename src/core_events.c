@@ -2,6 +2,7 @@
 #include "core_events.h"
 #include "lie/output.h"
 #include "lie/text.h"
+#include "output_json.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,8 @@ struct lie_event_stream {
   lie_job *job;
   lie_flow *flow;
   lie_output_policy policy;
+  lie_output_format format;
+  const char *schema_json;
   char identity[64];
   lie_utf8_decoder utf8;
   char *scratch, *buffer;
@@ -33,7 +36,8 @@ lie_event_stream *lie_event_stream_create(lie_job *job, lie_flow *flow,
     return NULL;
   s->job = job;
   s->flow = flow;
-  s->capacity = ((size_t)burst * LIE_CORE_TOKEN_BYTES + 1) * 3 + 8;
+  s->capacity =
+      ((size_t)burst * LIE_CORE_TOKEN_BYTES + LIE_STOP_BYTES + 1) * 3 + 8;
   s->scratch = malloc(s->capacity);
   if (!s->scratch) {
     free(s);
@@ -45,6 +49,8 @@ lie_event_stream *lie_event_stream_create(lie_job *job, lie_flow *flow,
   if (r->chat.require_tool_call && s->policy.choice == LIE_TOOLS_AUTO)
     s->policy.choice = LIE_TOOLS_REQUIRED;
   s->tools = r->chat.tool_count || s->policy.choice != LIE_TOOLS_AUTO;
+  s->format = r->format;
+  s->schema_json = r->schema_json;
   s->limit = (size_t)r->max_tokens * LIE_CORE_TOKEN_BYTES * 3 + 8;
   snprintf(s->identity, sizeof(s->identity), "%s", identity);
   return s;
@@ -94,6 +100,21 @@ static void loan(lie_event_stream *s, lie_event *e) {
   s->borrowed = true;
   e->ticket = (lie_event_ticket){s->job, ++s->generation};
 }
+static bool structured_valid(lie_event_stream *s, const char *text,
+                             size_t bytes) {
+  if (s->format == LIE_FORMAT_TEXT)
+    return true;
+  oj_node *value = oj_parse(text, bytes),
+          *schema = s->schema_json
+                        ? oj_parse(s->schema_json, strlen(s->schema_json))
+                        : NULL;
+  bool ok = value && value->type == OJ_OBJECT &&
+            (s->format != LIE_FORMAT_JSON_SCHEMA ||
+             (schema && oj_schema_accepts(schema, value)));
+  oj_free(value);
+  oj_free(schema);
+  return ok;
+}
 lie_flow_status lie_event_stream_release(lie_event_stream *s,
                                          lie_event_ticket t) {
   if (!s || !s->borrowed || t.owner != s->job || t.generation != s->generation)
@@ -133,7 +154,8 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
       e->tokens = s->raw.tokens;
       e->token_offset = s->raw.token_offset;
       s->offset = s->raw.token_offset + s->raw.tokens;
-      bool buffered = !s->tools || s->failure || append(s, s->scratch, n);
+      bool buffered = (!s->tools && s->format == LIE_FORMAT_TEXT) ||
+                      s->failure || append(s, s->scratch, n);
       if (!buffered) {
         s->failure = "semantic_output_limit";
         lie_job_cancel(s->job);
@@ -172,12 +194,25 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
                      lie_output_parse(&s->policy, s->buffer, s->bytes,
                                       s->final.finish == LIE_FINISH_STOP,
                                       s->identity, &s->turn, error);
+        if (valid && s->final.finish == LIE_FINISH_STOP &&
+            (!s->turn.count || s->turn.bytes) &&
+            !structured_valid(s, s->turn.text, s->turn.bytes)) {
+          valid = false;
+          snprintf(error, sizeof(error), "invalid_structured_output");
+        }
         lie_job_semantic_result(
             s->job, valid ? (unsigned)s->turn.count : 0,
             valid ? NULL : (*error ? error : "semantic_output_limit"));
         lie_job_snapshot(s->job, &s->final);
       } else {
-        lie_job_semantic_result(s->job, 0, NULL);
+        const char *failure = NULL;
+        if (s->format != LIE_FORMAT_TEXT &&
+            s->final.finish == LIE_FINISH_STOP) {
+          bool ok = append(s, s->scratch, n);
+          if (!ok || !structured_valid(s, s->buffer, s->bytes))
+            failure = "invalid_structured_output";
+        }
+        lie_job_semantic_result(s->job, 0, failure);
         lie_job_snapshot(s->job, &s->final);
         if (n) {
           e->kind = LIE_EVENT_TEXT;

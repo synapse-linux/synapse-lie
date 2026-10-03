@@ -90,6 +90,18 @@ lie_status lie_model_token_text(lie_model *m,int32_t token,char *out,size_t cap,
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     (void)s;(void)e;return o->abi_version==LIE_GENERATION_ABI?LIE_OK:LIE_INVALID;
 }
+lie_status lie_sequence_constrain(lie_sequence *s,
+                                  const lie_generation_constraints *o,
+                                  lie_error *e) {
+  (void)s;
+  (void)o;
+  (void)e;
+  return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_sampling_logits(lie_sequence *s, float *p, size_t c,
+                                        size_t *n, lie_error *e) {
+  return lie_sequence_logits(s, p, c, n, e);
+}
 void lie_sequence_cancel(lie_sequence *s) { atomic_store(&s->cancelled,1); }
 lie_status lie_sequences_decode(lie_sequence *const *s,size_t n,lie_decode_outcome *o,lie_error *e) {
     for(size_t i=0;i<n;++i){o[i].status=lie_sequence_decode(s[i],&o[i].result,e);if(o[i].status!=LIE_OK)return o[i].status;}return LIE_OK;

@@ -19,6 +19,16 @@ typedef struct {
     size_t image_count;
     unsigned max_tokens;
     lie_generation_options generation;
+    lie_logit_bias bias[LIE_LOGIT_BIAS_MAX];
+    lie_output_format format;
+    const char *schema_json;
+    bool strict;
+    bool truncate_oldest;
+    const char *stop[LIE_STOP_MAX];
+    size_t stop_count;
+    unsigned choices;
+    bool store, background;
+    const char *previous_response_id;
     bool stream, include_usage, parallel_tools;
     lie_tool_choice tool_choice;
     const char *named_tool;

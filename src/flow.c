@@ -147,18 +147,24 @@ lie_flow_status lie_flow_commit(lie_flow *f, lie_flow_ticket ticket, size_t byte
     if (!matches(f, ticket, f->in_flight, SLOT_RUNNING)) goto done;
     size_t i = f->in_flight; slot *s = &f->slots[i];
     if (bytes > f->options.chunk_bytes || tokens > s->grant ||
-        (!tokens && (bytes || !finish)) || tokens > UINT64_MAX - f->published ||
-        (finish != 0 && finish != 1)) goto done;
+        (!tokens && !finish) || tokens > UINT64_MAX - f->published ||
+        (finish != 0 && finish != 1))
+      goto done;
     f->in_flight = NO_SLOT;
     if (f->end != LIE_FLOW_ACTIVE) {
         s->state = SLOT_FREE; status = LIE_FLOW_CLOSED; /* Late completed work: discard. */
     } else {
         if (f->demand != UINT64_MAX) f->demand = add_demand(f->demand, s->grant - tokens);
-        if (tokens) {
-            s->tokens = tokens; s->bytes = bytes; s->offset = f->published;
-            f->published += tokens; s->state = SLOT_QUEUED;
-            f->queue[(f->head + f->queued) % f->options.slots] = i; ++f->queued;
-        } else s->state = SLOT_FREE;
+        if (tokens || bytes) {
+          s->tokens = tokens;
+          s->bytes = bytes;
+          s->offset = f->published;
+          f->published += tokens;
+          s->state = SLOT_QUEUED;
+          f->queue[(f->head + f->queued) % f->options.slots] = i;
+          ++f->queued;
+        } else
+          s->state = SLOT_FREE;
         if (finish) { f->end = LIE_FLOW_COMPLETE; f->demand = 0; }
         status = LIE_FLOW_OK;
     }

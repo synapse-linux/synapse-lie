@@ -332,3 +332,20 @@ counts errors projected to HTTP; physical completed/failed executor counters
 remain separate. No semantic parsing time is relabelled as GPU decode time.
 Job fields `semantic_checked`, `output_invalid` and `tool_calls`, plus the typed
 terminal reason, are specified in the [event contract](EVENTS.md).
+
+## OpenAI controls and response lifetime
+
+Multiple Chat choices share the same worker, batching and token counters.
+Wire usage counts the prompt once and sums all choices' physical output tokens.
+Stop-hidden tokens still count as completed model work; they are excluded from
+returned content/logprob bytes. Reporting probabilities copies adjusted target
+logits on the device owner and normalizes them in C; it is an opt-in cost,
+not a GPU-time metric. Explicit stop, bias and logprob requests use AR steps
+while retaining native batching; ordinary requests keep their MTP width.
+
+History lookup, stream replay and observers add no generated tokens, decode
+calls or inference threads. Background cancellation waits for the same physical
+retirement barrier as foreground cancellation. JSON/schema violations use
+`output_validation_errors`; successful object compilation and host sampler
+checks do not mark `hardware_qualified` true. Response history has its own
+conservative RAM quota and TTL, independent of the KV cache statistics.

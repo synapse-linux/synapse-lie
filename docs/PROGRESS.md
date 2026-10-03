@@ -1,6 +1,50 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## OpenAI generation and retained responses — 2026-10-03
+
+`feature/openai-completion` starts from `develop` and incorporates semantic core
+checkpoint `a399052` in a persistent worktree. The C17 core now owns stop matching,
+probability normalization, structured-output validation, multiple-choice job
+admission, bounded response records/history, oldest-turn context truncation and
+an immutable semantic journal. Chat and Responses add token bias/logprobs,
+JSON/schema output, strict functions, stored CRUD/pagination, conversation
+continuation, background cancellation and Responses stream replay from a cursor.
+[Usage](guides/USAGE.md#generation-controls-and-stored-responses) gives HTTP
+commands on port 8000; [API coverage](reference/OPENAI-REACTIVE.md) records limits.
+Request ABI is **5**, generation ABI **2**, executor ABI remains **2**.
+
+The native ASan/UBSan/LeakSanitizer suite passes **42/42**. Final focused HTTP,
+semantic and native-bench checks pass **3/3** after preserving ordinary wire fast
+paths; a final headless quota/ownership check also passes. The protocol-independent
+MTP/vision-OFF configuration passes **17/17**, then passes the final changed
+headless test. The headless build discovers/links no HTTP libraries; the default
+HTTP and core builds require no Python. Native fixtures cover split-token stops, suppressed stop logprobs, bias, nested function
+schemas, strict canonical calls, multiple choices and aggregate SSE usage,
+retention quotas/TTL, metadata filters, stored history, automatic truncation,
+live/replayed/resumed response streams and idempotent cancellation. The OpenAI
+HTTP campaign runs both AR and a synthetic MTP13 provider; background streams
+continue after the creating client disconnects, including credit handover when
+a write finishes after that disconnect.
+
+The official Gufo pin was fetched independently and rebuilt with the exact
+`sampling-edits.json` state variant. HIP server and bench compile/link; host-only
+sampler/grammar and template checks pass **2/2**. Constraint compilation/masking
+remain delegated C++ through neutral C controls; this is not an autonomous C
+model executor. No inference thread was added. Explicit stop/bias/logprob requests
+use target AR steps; ordinary requests preserve MTP and bias-free sampler/wire
+fast paths. No measured performance gain or parity is claimed.
+
+The [source-bound receipt](development/validation/openai-completion-2026-10-03.json)
+preserves command exits, failures, source/provider identities and local thermal
+telemetry. The observed CPU peak is **93.375 C** under a 95 C owned-child guard;
+there was no shutdown, deterioration or fan/clock/power tuning. No original-weight
+model load/hash/conversion, GPU execution, remote build or performance campaign
+occurred. Original-weight controls, strict-output/MTP numerical behavior and
+resource/performance qualification on `.157` remain pending under coordination.
+Audio/video/embedding executors, hosted tools, named Conversations and compaction
+are outside the implemented serving surface; unknown fields fail explicitly.
+
 ## Shared core semantic events — 2026-10-03
 
 `feature/core-semantic-events` imports MTP/vision checkpoint `01ff720` into a

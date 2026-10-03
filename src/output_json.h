@@ -25,4 +25,5 @@ void oj_free(oj_node *);
 const oj_node *oj_field(const oj_node *, const char *);
 bool oj_type_is(const oj_node *, const char *);
 char *oj_quote(const char *, size_t);
+bool oj_schema_accepts(const oj_node *schema, const oj_node *value);
 #endif

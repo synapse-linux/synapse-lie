@@ -65,6 +65,32 @@ static bool marker(const char *s) {
          strstr(s, "<function=") || strstr(s, "</function") ||
          strstr(s, "<parameter=") || strstr(s, "</parameter");
 }
+static const char *json_end(const char *p) {
+  unsigned depth = 0;
+  bool string = false, escape = false;
+  for (; *p; ++p) {
+    if (string) {
+      if (escape)
+        escape = false;
+      else if (*p == '\\')
+        escape = true;
+      else if (*p == '"')
+        string = false;
+      continue;
+    }
+    if (*p == '"')
+      string = true;
+    else if (*p == '{' || *p == '[')
+      ++depth;
+    else if (*p == '}' || *p == ']') {
+      if (!depth)
+        return NULL;
+      if (!--depth)
+        return p + 1;
+    }
+  }
+  return NULL;
+}
 static const lie_chat_tool *definition(const lie_output_policy *p,
                                        const char *name) {
   if (p->choice == LIE_TOOLS_NONE ||
@@ -164,9 +190,19 @@ bool lie_output_parse(const lie_output_policy *policy, const char *text,
   memcpy(copy, text, bytes);
   copy[bytes] = 0;
   const char *first = strstr(copy, "<tool_call>");
+  bool json_answer = false;
+  const char *begin = copy;
+  spaces(&begin);
+  if (*begin == '{') {
+    oj_node *answer = oj_parse(begin, strlen(begin));
+    json_answer = answer && answer->type == OJ_OBJECT;
+    oj_free(answer);
+    if (json_answer)
+      first = NULL;
+  }
   size_t prose = first ? (size_t)(first - copy) : bytes;
   if (!first) {
-    if (marker(copy))
+    if (!json_answer && marker(copy))
       goto fail;
     if (policy->choice >= LIE_TOOLS_REQUIRED) {
       why = "required_tool_call_missing";
@@ -201,6 +237,56 @@ bool lie_output_parse(const lie_output_policy *policy, const char *text,
         goto fail;
       spaces(&cursor);
       char name[129];
+      if (*cursor == '{') {
+        const char *end = json_end(cursor);
+        if (!end)
+          goto fail;
+        parsed = oj_parse(cursor, (size_t)(end - cursor));
+        const oj_node *fn_name = oj_field(parsed, "name"),
+                      *arguments = oj_field(parsed, "arguments");
+        if (!parsed || parsed->type != OJ_OBJECT || !fn_name ||
+            fn_name->type != OJ_STRING || !name_valid(fn_name->string) ||
+            !arguments || arguments->type != OJ_OBJECT)
+          goto fail;
+        for (const oj_node *k = parsed->child; k; k = k->next->next)
+          if (strcmp(k->string, "name") && strcmp(k->string, "arguments"))
+            goto fail;
+        const lie_chat_tool *fn = definition(policy, fn_name->string);
+        if (!fn) {
+          why = "unknown_tool_call";
+          goto fail;
+        }
+        schema = oj_parse(fn->parameters_json, strlen(fn->parameters_json));
+        if (!schema || !oj_schema_accepts(schema, arguments)) {
+          why = "invalid_tool_arguments";
+          goto fail;
+        }
+        char id[160];
+        int n = snprintf(id, sizeof(id), "call-%s-%zu", identity, index);
+        if (n < 0 || n > 128) {
+          why = "tool_identity_too_long";
+          goto fail;
+        }
+        lie_output_call *call = &t.calls[t.count++];
+        call->id = strdup(id);
+        call->name = strdup(fn_name->string);
+        call->arguments_json = strndup(arguments->start, arguments->bytes);
+        call->arguments_bytes = arguments->bytes;
+        call->index = index;
+        if (!call->id || !call->name || !call->arguments_json) {
+          why = "allocation_failed";
+          goto fail;
+        }
+        oj_free(parsed);
+        parsed = NULL;
+        oj_free(schema);
+        schema = NULL;
+        cursor = end;
+        spaces(&cursor);
+        if (!take(&cursor, "</tool_call>"))
+          goto fail;
+        continue;
+      }
       if (!tag(&cursor, "<function=", name))
         goto fail;
       const lie_chat_tool *fn = definition(policy, name);
@@ -293,7 +379,8 @@ bool lie_output_parse(const lie_output_policy *policy, const char *text,
         goto fail;
       }
       parsed = oj_parse(args.data, args.bytes);
-      if (!parsed || !args_valid(schema, parsed)) {
+      if (!parsed || !args_valid(schema, parsed) ||
+          !oj_schema_accepts(schema, parsed)) {
         why = "invalid_tool_arguments";
         goto fail;
       }

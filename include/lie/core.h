@@ -15,7 +15,9 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 4u
+#define LIE_CORE_REQUEST_ABI 5u
+#define LIE_STOP_MAX 4u
+#define LIE_STOP_BYTES 256u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
 typedef struct {
     uint64_t budget_bytes, retained_bytes, peak_retained_bytes;
@@ -44,6 +46,12 @@ typedef struct {
     size_t text_bytes;
     unsigned max_tokens;
     lie_generation_options generation;
+    lie_output_format format;
+    const char *schema_json;
+    bool strict;
+    bool truncate_oldest; /* Preserve system messages and the latest user turn. */
+    const char *stop[LIE_STOP_MAX];
+    size_t stop_count;
     lie_cache_metadata cache; /* Optional client-owned visible key / extension bytes. */
 } lie_core_request;
 void lie_core_request_init(lie_core_request *);
@@ -128,6 +136,13 @@ bool lie_job_cache_metadata(lie_job *,lie_cache_metadata *);
  * BUFFER_SMALL reports required count; no partial copy or provider call. */
 lie_status lie_job_prompt_tokens(lie_job *, int32_t *, size_t, size_t *);
 lie_status lie_job_output_tokens(lie_job *, int32_t *, size_t, size_t *);
+/* Completed target logit witnesses. Opt-in: ordinary requests do not copy
+ * logits or change their speculative dispatch width. */
+lie_status lie_job_logprobs(lie_job *, size_t offset, lie_token_logprobs *,
+                            size_t capacity, size_t *required);
 /* Release any output loan first. In-flight work retains the core job. */
 void lie_job_release(lie_job *);
+lie_status lie_job_logprob(lie_job *,size_t index,lie_token_logprobs *);
+void lie_job_retain(lie_job *); /* Caller already owns a live reference. */
+size_t lie_job_retention_bytes(lie_job *); /* Conservative, excludes model/KV cache. */
 #endif

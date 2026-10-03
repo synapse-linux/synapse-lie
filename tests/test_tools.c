@@ -77,9 +77,9 @@ int main(void) {
     assert(r.details[1].call_count==2 && r.messages[2].role==LIE_CHAT_TOOL);
     assert(!strcmp(r.details[1].calls[0].arguments[0].value,"  x "));
     assert(!strcmp(r.details[1].calls[0].arguments[1].value,"[{\"oldText\":\" a \",\"newText\":\"b\"}]")); lie_chat_free(&r);
-    const char *extras[]={",\"tool_choice\":\"garbage\"",",\"parallel_tool_calls\":1",",\"max_tokens\":8,\"max_completion_tokens\":8",",\"store\":true"};
+    const char *extras[]={",\"tool_choice\":\"garbage\"",",\"parallel_tool_calls\":1",",\"max_tokens\":8,\"max_completion_tokens\":8",",\"store\":1"};
     for (size_t i=0;i<sizeof(extras)/sizeof(*extras);++i) assert(!parse(user,extras[i],&r));
-    assert(!parse("[{\"role\":\"user\",\"content\":\"x\"},{\"role\":\"system\",\"content\":\"late\"}]",NULL,&r));
+    assert(parse("[{\"role\":\"user\",\"content\":\"x\"},{\"role\":\"system\",\"content\":\"late\"}]",NULL,&r));lie_chat_free(&r);
     assert(!parse("[{\"role\":\"user\",\"content\":[{\"type\":\"image_url\",\"image_url\":{\"url\":\"x\"}}]}]",NULL,&r));
     const char *infinite="{\"nested\":[{\"bad\":1e999}]}";
     args=lie_json_parse(infinite,strlen(infinite),&valid); assert(!valid && !args);

@@ -9,6 +9,14 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- OpenAI generation controls: stop sequences across token boundaries, multiple
+  Chat choices, token bias, log-probabilities, JSON object/schema constraints
+  and strict function arguments.
+- Shared C response records, bounded RAM retention, Responses retrieval/deletion,
+  conversation continuation, background cancellation, stored Chat operations
+  paginated/filterable input/message lists, automatic conversation truncation
+  and resumable Responses streams.
+
 - Shared C17 semantic output events for text, progress, validated function calls
   and typed turn completion, consumed by HTTP, Responses and the direct benchmark.
   Tool policy and UTF-8 decoding now belong to the core; confirmed-token credits

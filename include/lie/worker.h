@@ -4,6 +4,7 @@
 #define LIE_WORKER_H
 #include "lie/core.h"
 #include "lie/chat.h"
+void lie_chat_core_request(const lie_chat_request *,lie_core_request *);
 typedef lie_core lie_worker;
 typedef lie_core_state lie_worker_state;
 typedef lie_core_options lie_worker_options;

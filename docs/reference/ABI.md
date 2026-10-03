@@ -31,7 +31,7 @@ model types remain inside the adapter.
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
 their meanings. Request ABI 3 introduced owned image spans; current
-`LIE_CORE_REQUEST_ABI=4` also owns the parallel-tool policy.
+`LIE_CORE_REQUEST_ABI=5` owns parallel-tool policy, output format, schema, stop sequences and oldest-turn truncation.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -146,7 +146,8 @@ completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](../INFERENCE-REA
 
 ## Additive generation configuration
 
-`lie_generation_options` has its own ABI 1 version and exact struct size.
+`lie_generation_options` has its own ABI 2 version and exact struct size
+(ABI 1 receipts describe earlier sampling-only checkpoints).
 `lie_sequence_configure` runs on the model owner before prefill; a started
 sequence or invalid/nonfinite/range-invalid option is refused. Existing ABI-2
 model/message layouts are unchanged. Parsed requests own their scalar controls;
@@ -298,7 +299,7 @@ Language/build ownership and feature qualification remain separate; see the
 ## Shared core client API 1
 
 [Semantic event ABI 1](EVENTS.md) is the common output contract for HTTP, Responses
-and direct benchmarks. Current request ABI 4 adds `parallel_tool_calls=true` by
+and direct benchmarks. Current request ABI 5 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
 `lie/core.h` is an experimental C client contract, distinct from executor ABI 2.
@@ -408,3 +409,33 @@ Export requires complete auxiliary index/pool spans where native retention has
 discarded them, with exact overlap checks against known native slices. Ordinary
 state, request and executor ABIs are unchanged. State layout helpers were moved
 unchanged to `state_layout.c` so offline mapping links without provider stubs.
+
+## OpenAI generation and response records
+
+Generation ABI 2 adds bounded token bias and optional target log-probability
+reporting. Request ABI 5 adds neutral JSON/schema controls, stop sequences and
+optional complete-turn truncation.
+All borrowed strings and bias entries are copied at admission. Executor ABI 2
+and DS4 state payloads retain their existing layouts. Constraints and vocabulary
+tries stay inside the explicitly selected transitional provider.
+
+`lie_core_submit_choices` owns independently seeded jobs on the same device
+worker. Failure cancels and releases its own admitted children. `lie_records`
+owns typed input/history, validated text/calls and bounded retention. One client
+reactor consumes each job, either through `lie_record_next` or background
+`lie_record_pump`. No HTTP type enters either interface. Acquired records must
+be released before destroying their store, and records before destroying the
+core. `lie_record_attach` transfers a job reference only on success.
+
+Logprob witnesses are copied under the job metadata gate. They correspond to
+the completed target frontier, not drafts or transport receipts. Ordinary
+requests allocate no scoring arrays and retain their existing burst width.
+
+Replay uses `lie_record_event_count` / `lie_record_replay`: immutable borrowed
+semantic views without loans or additional consumers. A pinned record retains
+the journal and owned text/calls. Observer disconnect releases that pin and
+never cancels the job. Live collection remains exclusively foreground or
+background; only that collector releases loans and grants confirmed-token
+credits. Stop-filtered probability copies omit hidden bytes while preserving
+physical token witnesses and token usage. Automatic truncation changes only the
+job-owned admission copy; the client retains the originally submitted history.
