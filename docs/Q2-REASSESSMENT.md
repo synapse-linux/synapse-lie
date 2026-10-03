@@ -9,6 +9,18 @@ the same work. The median wall-time gap is 308.028 ms per 2048-token prompt.
 These are sequential three-sample screens, not a zero-margin statistical
 acceptance result. The latest candidate has not completed the 128K–1M matrix.
 
+## Expert matrix instructions are already active
+
+The retained Q2 prefill does not depend on the rocWMMA C++ library. Its executor
+selects `RoutedGatedIQ2GemmPacked` for IQ2_XXS gate/up and `RoutedQ2GemmPacked`
+for Q2_K down at the qualified model dimensions. Both use custom HIP kernels
+calling `__builtin_amdgcn_wmma_f32_16x16x16_f16_w32` directly. The Q2 down path
+retains high/residual activation planes and F32 accumulators. Single-token
+decode instead follows the matrix-vector dispatch; small decode batches and
+prefill have distinct selection rules. The warm gap is therefore not explained
+by missing matrix instructions. Merely replacing the intrinsic wrapper with
+the rocWMMA API has no measured speed benefit in this workstream.
+
 ## What has improved
 
 | Checkpoint | Prefill tokens/s | Decode calls/s | Scope |

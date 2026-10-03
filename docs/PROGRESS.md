@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Deferred HC norm rejected after complete-cycle measurement — 2026-10-03 UTC
+
+The [deferred-normalization screen](Q2-HC-DEFERRED-NORM.md) stores four scales
+per token instead of an 80 MiB F32 norm at 2048 rows; both mix and injection
+reconstruct values. The complete ordinary cycle becomes 10.29% slower. MoE
+median time decreases 1.89% with overlapping ranges, but all 26 complete
+replays have new differences. Initial residual/F16/down outputs match; F32
+reconstruction and later consumers differ. All sampled normalization/consumer
+oracles pass unchanged limits; the known independent tiny-down failure remains.
+Actual numerical exit 1 is preserved after every timing. No variant is selected.
+
+Twenty original control assembly bodies remain identical, 1019 source files
+reconstruct, and Debug plus ASan/UBSan each pass 12/12 on `.157`. Two runners,
+nine command exits, 55 artifacts and twenty timings verify. No model is opened;
+runner guards refuse model modes for this source, which has no executor wiring.
+GPU/CPU maxima are 52/81.25 C. Release at 07:14:59 UTC and independent observer
+retirement at 07:15:31 confirm empty KFD, original leases free and owned jobs
+absent. Direct thread transport fails; the shared ledger preserves handover.
+The retained 1335.84 PP / 24.09 TG result and Q2/UD gap remain unchanged.
+
 ## Complete HC sequence rejects paired norm materialization — 2026-10-03 UTC
 
 The [producer/consumer experiment](Q2-HC-SEQUENCE.md) closes the missing scope

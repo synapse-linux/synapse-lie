@@ -4,7 +4,11 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The latest [complete HC sequence experiment](docs/Q2-HC-SEQUENCE.md) measures
+The latest [deferred HC normalization screen](docs/Q2-HC-DEFERRED-NORM.md) avoids
+the large F32 norm buffer but adds 10.29% ordinary cycle time and introduces
+new complete-output differences. A 1.89% MoE median decrease is unqualified;
+all timings and failures are retained, with no model run or promotion.
+The earlier [complete HC sequence experiment](docs/Q2-HC-SEQUENCE.md) measures
 the norm producer and its down consumer together. Paired F32/F16 output adds
 26.69% ordinary / 9.31% MoE time; the half-row geometry does not recover the
 regression. All complete outputs remain exact, with one common independent

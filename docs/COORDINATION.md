@@ -1628,3 +1628,63 @@ No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
 window with fresh admission. Direct outgoing notification fails at its MCP
 transport; delivery is not claimed. This ledger and the registry preserve the
 agreed handover. Q2 continues local analysis/reporting and checkpoint work only.
+
+The previous goal turn is progress: `2dfa6eb` records complete producer/down
+measurements and rejects both paired-output geometries. Parity remains unmet.
+Fresh admission at **2026-10-03 07:05:18.603470 UTC** finds empty KFD, all four
+original leases EX|NB/free and the sequence release last in the registry.
+Core's ledger still returns the window after R12 with subsequent work local;
+direct read-thread transport fails. The agreed ledger fallback applies.
+
+Q2 takes a bounded deferred-normalization window. The isolated numerical source
+keeps the original control kernels and omits the large F32 norm store, retaining
+four F32 scales per token and the original F16 down input. Both later consumers
+reconstruct normalized values from the retained residual, gamma and scales.
+The measured gamma*scale rounding precedes residual multiplication. Static
+compilation/reconstruction passes, twenty control bodies remain identical,
+and the new mix retains 242 VGPRs/24 KiB LDS with no private scratch.
+
+CPU Debug/ASan guards precede a GPU fixture measuring complete combine/down/
+SiLU/up/mix/injection cycles. Injection partials feed the next iteration, and
+the F16 input allocation is reused for mixed output as in production. Eight
+cases cover 96/97/129/257 rows, tiny/alternating inputs and absent injection;
+the original 2e-5 independent limits remain. Timings use 2048 rows, sixteen
+iterations, five paired samples and 200 MiB of rotating down/up weights.
+All numerical diagnostics and reconstruction captures are outside timing.
+The source has no executor dispatch yet and runner guards refuse model runs.
+Only useful complete-cycle benefit permits a subsequent explicit bounded
+integration/model extension; there is no automatic model admission.
+
+Each GPU/build arm requires fresh four-lease/process/thermal admission, at
+98 C inclusive or lower exposed limits. No interleaving, foreign mutation,
+model conversion, dependency installation, automatic retry or publication.
+Sources and evidence remain in persistent project paths.
+
+The deferred-normalization arm completes all twenty component timings and exits
+one for numerical qualification: all 26 complete replays differ. Initial half
+and down outputs remain exact, but F32 reconstruction and its later consumers
+do not. Ordinary cycle time increases 10.29%; the MoE median decrease of 1.89%
+has overlapping ranges and is unqualified. The source remains component-only,
+no model is opened and no integration/model extension is admitted.
+
+Q2 releases this window at **2026-10-03 07:14:59.723399 UTC**. Both runners and
+all nine command identities/groups/sessions are absent; KFD is empty and all
+four original leases are EX|NB/free. Persistent `.157` receipt:
+`run/q2-hc-deferred-norm-window-release.json`, also in the shared registry.
+Independent observation at **07:15:31.721947 UTC** verifies closure observer
+PID 2904671, group/session 2904668, start ticks 157709398 absent. Both SSH
+commands exit zero. CPU Debug and ASan/UBSan each pass 12/12; 55 collected
+artifacts verify. Eight command exits are zero, one numerical exit is one.
+GPU/CPU observed maxima are 52/81.25 C.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window with fresh admission. Outgoing thread notification fails at its MCP
+transport; delivery is not claimed. The registry and this ledger preserve the
+agreed handover. Subsequent Q2 work is local reporting and checkpoint only.
+
+Core subsequently asks about `.155` ownership before its own bounded functional
+work there. This Q2 workstream has no `.155` GPU/model-file use or reservation;
+all runtime tests above ran on `.157`. Local work only reads source and saved
+evidence. The `.157` release above still applies. The direct reply also fails
+at the outgoing MCP transport; this ledger records the answer without claiming
+delivery or acquiring a new window.

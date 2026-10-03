@@ -224,3 +224,15 @@ target_include_directories(q2_hc_sequence PRIVATE "${GUFO_SOURCE}")
 target_include_directories(q2_hc_sequence SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_sequence PRIVATE hip::host OpenSSL::Crypto)
+
+# Time complete HC cycles without materializing the F32 normalized tensor.
+add_executable(q2_hc_deferred_norm EXCLUDE_FROM_ALL ../../tests/q2_hc_deferred_norm.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
+target_compile_options(q2_hc_deferred_norm PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_deferred_norm PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_deferred_norm PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_deferred_norm SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_deferred_norm PRIVATE hip::host OpenSSL::Crypto)

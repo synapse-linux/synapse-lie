@@ -69,6 +69,16 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
+    def test_deferred_norm_requires_component_scope(self):
+        for variant in ('qualified', 'hc-up-chains', 'hc-sequence'):
+            self.refuse(['hc-deferred-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires the isolated hc-deferred-norm source')
+        for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'ud-bench2k'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-deferred-norm'],
+                        'not wired for model measurements')
+        self.refuse(['hc-deferred-bench', 'q2-fixture', '--source-variant',
+                     'hc-deferred-norm', '--rebuild-mmq'], 'requires bench2k')
+
     def test_sequence_requires_preserved_control_source(self):
         for variant in ('qualified', 'hc-up-chains', 'hc-norm-half'):
             self.refuse(['hc-sequence-bench', 'q2-fixture', '--source-variant', variant],
