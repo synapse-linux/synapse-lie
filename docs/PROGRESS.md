@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Interrupted Core-19 and engine feature audit — 2026-10-03
+
+Qualified full Core-19 stops at 12:25:27 UTC after the GPU reaches 99 C,
+exceeding the owner-approved 98 C inclusive limit. The owned session exits -15;
+container cleanup exits 0. Two first attempts finish: HTML-filter reward 0 and
+Cython reward 1. COBOL is interrupted after 31 agent steps; the other 16 tasks,
+conditional second attempts and retained/scaled full arms remain unmeasured.
+All 11 supervisor artifacts and 34 partial task files are collected/hash verified.
+Fresh closure at 12:30:15 confirms owned processes/containers absent, readable
+KFD empty and all four original leases free. No GPU restart is queued.
+
+The [engine audit](../config/q2-terminal-engine-audit.json) confirms thinking
+is fixed off in the frozen adapter and cannot be enabled through its API.
+This may affect absolute quality; it needs a separate matched comparison.
+The failed HTML task did receive its shell results through Terminus JSON.
+The agent invoked a pytest module as a plain script, executing no test, and
+mistook silence for success. The actual verifier observed no browser alert.
+Upstream instructions ambiguously suggest running that file directly. Neither
+this baseline failure nor the later thermal stop establishes scaled-input harm.
+See [diagnosis and limits](Q2-TERMINAL-BENCH.md#engine-feature-audit-and-interrupted-full-campaign).
+The dated observations below describe the earlier live campaign.
+
 ## Scaled-input gain and real task qualification — 2026-10-03
 
 The one-plane scaled Q2 component reduces measured packing/down time 20.97–22.25%
@@ -28,7 +50,7 @@ limits and separates POST success from unattributed GET errors. Full-run
 evidence collection now has a finite 2 GiB per-archive bound and streaming
 hashes, preserving long telemetry without whole-file allocations. Its `.157`
 CPU guards pass 15/15 Debug and sanitizer cases; seven artifacts verify. The
-active full baseline remains unchanged and its final task score is pending.
+then-active full baseline remained unchanged; it later stopped as recorded above.
 
 A [scaled Q2 tile128 component experiment](Q2-SCALED-TILES.md) is now prepared
 while Core-19 runs. Static compilation adds one kernel and preserves all 150

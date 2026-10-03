@@ -6,8 +6,9 @@ to test whether the scaled-input numerical error causes practical failures.
 The prepared comparison is qualified Q2, retained `hc-up-chains` Q2 and
 experimental `scaled-input` Q2, using the same original weights on `.157`.
 The paired smoke comparison is complete: **all three variants pass the one
-original git-leak-recovery task on attempt one**. Full Core-19 remains in
-progress. Neither that one task nor a KL threshold establishes general quality
+original git-leak-recovery task on attempt one**. The full Core-19 baseline
+was interrupted by its thermal guard after two completed tasks; retained/scaled
+full arms have not started. Neither that one smoke task nor a KL threshold establishes general quality
 equivalence or harm.
 
 ## Frozen benchmark and scoring
@@ -196,15 +197,15 @@ the missing-fixture unit-test sequence and 107/107 final success. Final Q2
 CTest/ASan/UBSan also passes 14/14, including six synthetic scoring guards.
 Those fixtures are not additional model-task passes.
 
-Full Core-19 is running in persistent job `q2-terminal-qualified-full-r1`.
+Full Core-19 started in persistent job `q2-terminal-qualified-full-r1`.
 The full server/MMQ build completed at 2026-10-03 10:52:24.873 UTC and the
 benchmark command started at 10:52:38.079 UTC. A live observation confirms
 Harbor has started the first task, `break-filter-js-from-html`, with 19 tasks
 selected and the owned supervisor alive. Retained and scaled full arms follow
 sequentially; they have not started. Each full arm uses the same serving limits
 and the original up-to-two-attempt policy. It may run for many hours; this
-report does not contain a completed 19-task score. The Q2 GPU
-window remains owned while the campaign is active; no release is claimed.
+report does not contain a completed 19-task score. The following observations
+precede the thermal stop and verified window release recorded below.
 
 At the 2026-10-03 10:59:36 UTC observation, the qualified baseline has completed
 one first attempt: `break-filter-js-from-html` receives reward 0 from its
@@ -219,3 +220,63 @@ first attempts out of 19, one pass and one verifier failure;
 `cobol-modernization` is active. The conditional second attempt and both other
 full arms remain pending. The [partial progress record](../config/q2-terminal-full-progress.json)
 preserves this timestamp and original outcomes without presenting a final score.
+
+## Engine feature audit and interrupted full campaign
+
+The owner asks whether missing engine features could explain the failure.
+In the frozen serving composition, `adapters/gufo.cpp` fixes
+`ChatTemplateOptions.enable_thinking` to false and `src/chat.c` rejects an
+`enable_thinking: true` request. This is an integration limitation, not an
+established limitation of the model. It could affect task quality; no paired
+thinking-on comparison has measured that effect. All three arithmetic arms
+share the same limitation, so their results apply only to this serving profile.
+The omitted temperature also defaults to greedy zero. Profile equality helps
+isolate arithmetic changes, but does not establish full model capability.
+
+Terminus requests JSON with analysis, plan, shell keystrokes and a completion
+flag. It executes those commands and sends terminal observations back to the
+model. This task does not require native API `tool_calls`: the ATIF trajectory
+normalizes its command protocol into tool-call records. The observed commands
+and their outputs are present. Missing native tool features therefore do not
+explain this failure. This run also does not qualify native tool compatibility.
+
+For `break-filter-js-from-html`, the qualified baseline reads both source files,
+creates an HTML candidate and twice invokes `python /app/test_outputs.py`.
+That file only defines a pytest test; it has no entry point that invokes it.
+The agent interprets the silent return to the shell as successful verification.
+The original task instruction suggests running that file to verify, without
+specifying pytest, so the instruction is ambiguous as well. The official
+verifier does invoke pytest, collects one test and observes no alert within
+five seconds. It reports one failure in 7.70 s, reward 0, no task exception.
+The precise browser-level reason for the missing alert is not established.
+No solution, correction or diagnosis is supplied to subsequent evaluated agents.
+
+This failed task reaches 4806 prompt tokens and 1771 output tokens, below the
+configured 262144/4096 ceilings. ATIF lacks finish_reason, so this is not a
+complete wire-level truncation audit. Cache, MTP and native batching are off;
+their absence is not an observed cause of this task failure. Any future thinking,
+template or core-feature experiment must use a separate matched cohort, retaining
+the original task instructions, graders and arithmetic comparison profile.
+
+At 2026-10-03 12:25:27.557 UTC the full baseline supervisor records FAILED:
+GPU 99 C exceeds 98 C; CPU 96.5 C remains within its limit. The session exits -15
+under the thermal guard and exact-task container cleanup exits 0. The older
+terminal-session receipt still says READY because termination interrupted its
+normal finalizer; the terminal supervisor receipt and fresh process checks
+determine the actual state. This is distinct from the earlier HTML task failure.
+Only two first attempts finish (one pass, one fail). COBOL is interrupted after
+31 agent steps, with peak prompt 57330 and peak output 1806. No final Core-19
+score, conditional second attempt or retained/scaled full result exists.
+
+All 11 supervisor artifacts and 34 raw job files are collected with verified
+hashes. The failed job archive is explicitly partial and has no normalized
+successful-run export. At 12:30:15 UTC, ten recorded PIDs and owned process
+groups are absent, no owned task containers remain, readable KFD is empty and
+all four original lease identities are acquired EX|NB and released. GPU 50 C,
+CPU 51.125 C. Restricted proc visibility remains recorded. The persistent remote
+`run/q2-terminal-thermal-window-release.json` and shared registry record release;
+the outgoing core-thread message failed at the local transport, so delivery is
+not claimed. No GPU restart or other arm is queued. The
+[audit receipt](../config/q2-terminal-engine-audit.json) preserves outcomes,
+collection identities, feature evidence and closure. Task data and scores remain
+unchanged; these documentation/evidence updates require no new runtime test.

@@ -9,7 +9,8 @@ The [scaled-input experiment](docs/Q2-SCALED-INPUT.md) improves C1 prefill
 remains 18.10% below fresh UD prefill. It is not promoted. The owner-requested
 [Terminal-Bench comparison](docs/Q2-TERMINAL-BENCH.md) now passes its original
 smoke task on all three variants (5/5 verifier checks each); the full Core-19
-comparison remains in progress. The candidate uses one extra agent step on
+baseline stopped at the 98 C thermal guard after two completed tasks (one pass,
+one verifier failure). The other full arms have not started. The candidate uses one extra agent step on
 that task, so this is no general quality or efficiency equivalence claim.
 The protocol documents all observed serving ceilings and bounded, streaming
 evidence collection for long runs; its host guards pass 15/15 on `.157`.

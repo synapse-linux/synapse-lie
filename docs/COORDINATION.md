@@ -2077,3 +2077,17 @@ processes. Baseline build-cython-ext finishes at 11:45:52.746 UTC with reward1
 and no exception, after32 agent steps. First-round progress is2/19 completed,
 one pass and one verifier failure; cobol-modernization is now active. The
 conditional second attempt, retained full and scaled full are pending.
+
+Qualified full Core-19 stops at 2026-10-03 12:25:27.557 UTC: GPU 99 C exceeds
+the 98 C inclusive guard, session exit -15, exact-task cleanup exit 0. Only two
+first attempts finish (HTML reward 0, Cython reward 1); COBOL is interrupted.
+All 11 supervisor artifacts and 34 partial job files are collected/hash verified.
+No retained/scaled full arm, restart or prepared component is launched/queued.
+At 12:30:15 UTC fresh closure verifies ten recorded PIDs and owned groups absent,
+no owned task containers, readable KFD empty, all four original lease identities
+free via EX|NB, GPU 50 C and CPU 51.125 C. Q2 releases this window; the durable
+remote run/q2-terminal-thermal-window-release.json and shared registry record
+window_release. Any new GPU build/run requires fresh coordinated admission.
+The core-thread update failed at local MCP transport; no delivery is claimed.
+The frozen adapter's thinking-off limitation and baseline failure diagnosis are
+recorded in config/q2-terminal-engine-audit.json without altering tasks or scores.
