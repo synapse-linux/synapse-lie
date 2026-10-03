@@ -118,6 +118,16 @@ set `NOCOMPRESS` bit on its UD file. Historical writes/preallocation and
 content-dependent compression remain possible explanations, not findings.
 Current flags do not describe all existing extents. No attribute is changed.
 
+The relevance of filesystem compression is the first access to nonresident
+data: retrieving a small PLE row may require reading and decompressing a larger
+extent. It is a possible contributor to the observed read amplification, not
+a demonstrated explanation for the warm Q2/UD GPU-kernel gap. Compression is
+not a property of the UD quantization format. Btrfs can store compressed and
+uncompressed extents on the same filesystem; content heuristics and write or
+preallocation history can affect the outcome. The [official compression
+documentation](https://btrfs.readthedocs.io/en/latest/Compression.html) describes
+these mechanisms, but does not establish which occurred for these model files.
+
 ## Validation and status
 
 Every pair compares all 36 complete vocabulary rows byte-for-byte, checks

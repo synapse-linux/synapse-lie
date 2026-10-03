@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC consumer narrowing rejected on the complete model — 2026-10-03 UTC
+
+The [consumer-side narrowing experiment](Q2-HC-INPUT.md) moves the existing
+F32-to-F16 rounding into HC down input loads. It preserves original weights,
+both ordered sum chains, buffer lifetimes and all 21 saved model output files.
+Ten new complete synthetic output pairs and five timed replays are byte-exact;
+all 22 original component controls are unchanged. One added tiny-input case
+fails the independent FP64 error/peak threshold on both identical paths, with
+the four original library-control failures retained. No limit is relaxed.
+
+The complete narrowing-plus-projection component saves **6.34%** time, but
+model prefill falls **1316.149 -> 1289.116 tokens/s (-2.05%)**. Decode is
+24.121957 -> 24.152722 calls/s (+0.13%) on an unchanged scalar path; this is
+not a causal decode improvement. Fresh UD reaches 1660.690 / 24.336113,
+leaving the selected palette reference 20.75% / 0.88% behind. The candidate
+is rejected and palette stays selected. Full rates, durations, all nine
+measured sessions and a graph are linked from the report.
+
+Fresh diagnostic profiles replay all 28 checks exactly. Removing 96 narrowing
+launches saves 60.191 ms, but HC down adds 90.674 ms. Total prefill kernel time
+increases 28.708 ms; inter-kernel gaps fall slightly. This locates the loss
+inside the projection without proving a cache or bandwidth explanation.
+
+The host capsule passes 12/12 Debug and 12/12 ASan/UBSan on `.157`. Seven
+runners, 35 commands and 205 hash-verified artifacts finish. One synthetic
+command retains numerical-failure exit 1; the other 34 commands exit 0.
+Maximum observed GPU/CPU temperatures are 83 C / 94.125 C. Closure at
+02:02:35 UTC and independent observer retirement at 02:03:10 verify all own
+processes absent, empty KFD, four original leases free and five model witnesses
+unchanged. No Q2 remote job or retry remains. The experiment changes no
+reactive scheduling, HTTP contract or model file; parity remains open.
+
 ## HC library algorithm improves speed, numerical gates remain open — 2026-10-03 UTC
 
 The [bounded HC library screen](Q2-HC-LIBRARY.md) evaluates the seven unique

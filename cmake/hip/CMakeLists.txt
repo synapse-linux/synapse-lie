@@ -102,6 +102,20 @@ target_include_directories(q2_hc_pp SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_pp PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
 
+# Consumer-side narrowing: retained HC oracles plus exact F32-input replay.
+add_executable(q2_hc_input EXCLUDE_FROM_ALL ../../tests/q2_hc_input.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_hc_input PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_input PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_input PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_input SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_input PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
+
 # Only built for experimental sources exposing the compensated routed entry.
 add_executable(q2_routed EXCLUDE_FROM_ALL ../../tests/q2_routed.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_tok_s,1,1317.124474
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_tok_s,2,1316.149464
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_tok_s,3,1313.402914
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_tok_s,1,1290.582075
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_tok_s,2,1285.566053
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_tok_s,3,1289.116329
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_tok_s,1,1612.272909
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_tok_s,2,1662.420924
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_tok_s,3,1660.689879
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_steps_s,1,24.12195698
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_steps_s,2,24.12442817
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_steps_s,3,24.09500714
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_steps_s,1,24.15272232
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_steps_s,2,24.14110924
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_steps_s,3,24.15338952
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_steps_s,1,24.33205859
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_steps_s,2,24.33611299
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_steps_s,3,24.34105877
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_s,1,1.554902396
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_s,2,1.556054275
+Q2 palette,evidence/q2-hc-input-model-ref-r1,prefill_s,3,1.559308251
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_s,1,1.586880865
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_s,2,1.593072558
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,prefill_s,3,1.588685175
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_s,1,1.270256412
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_s,2,1.231938296
+Fresh UD,evidence/q2-hc-input-ud-r1,prefill_s,3,1.233222425
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_s,1,5.264912797
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_s,2,5.264373484
+Q2 palette,evidence/q2-hc-input-model-ref-r1,decode_s,3,5.270801509
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_s,1,5.258206437
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_s,2,5.260735898
+Q2 consumer narrowing,evidence/q2-hc-input-model-r1,decode_s,3,5.258061188
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_s,1,5.219451513
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_s,2,5.21858195
+Fresh UD,evidence/q2-hc-input-ud-r1,decode_s,3,5.217521605

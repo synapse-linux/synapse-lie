@@ -10,9 +10,9 @@ operators and original-model C1 screens run on `.157`. The latest retained
 gain over fresh HC16, with all saved logits and tokens byte-exact and decode
 medians differing by -0.00062%. It preserves the
 [HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md). The latest fresh comparison
-measures **1314.35 prefill tokens/s and 24.099 decode calls/s at 2K**.
-**The performance requirement is not met:** fresh UD reaches 1665.65 PP/24.340
-TG; selected Q2 trails by 21.09% and 0.99%. UD prefill remains below the earlier retained
+measures **1316.15 prefill tokens/s and 24.122 decode calls/s at 2K**.
+**The performance requirement is not met:** fresh UD reaches 1660.69 PP/24.336
+TG; selected Q2 trails by 20.75% and 0.88%. UD prefill remains below the earlier retained
 1682.76 control. These short sequential screens do not establish zero-margin
 parity. Earlier checkpoint drift and independent model qualification remain
 unresolved; the qualified runtime patch is unchanged.
@@ -30,6 +30,14 @@ to **1341.37 tokens/s (+2.06%)**, still 19.47% below fresh UD. Greedy tokens
 match, but logits change and independent operator limits fail; it remains an
 isolated performance lead. Complete rates, durations, samples and graphs are
 retained. No numerical limit is relaxed or runtime promotion made.
+The subsequent [HC consumer-narrowing comparison](docs/Q2-HC-INPUT.md) preserves
+all 21 saved model outputs but lowers prefill to **1289.12 tokens/s (-2.05%)**,
+despite a 6.34% component time saving. It is rejected; complete rates, durations
+and every measured sample are retained with a graph. One additional synthetic
+FP64 case fails on both identical paths at the unchanged threshold. Fresh
+profiles locate the loss: removing 96 narrowing calls saves 60.19 ms, but the
+consuming HC down projection adds 90.67 ms. All 28 profile replay checks pass;
+the experiment does not establish a hardware cache cause.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.

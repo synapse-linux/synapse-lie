@@ -456,6 +456,7 @@ static unsigned LibrarySweep(rocm::BlasLt &native, unsigned m, unsigned k) {
             << ",\"failures\":" << failures << "}\n";
   return failures;
 }
+#ifndef Q2_HC_INPUT_CHECKS
 int main(int argc, char **argv) {
   try {
     Require(argc == 2, "Usage: q2_hc_pp operators|bench|library");
@@ -502,3 +503,4 @@ int main(int argc, char **argv) {
     return 1;
   }
 }
+#endif

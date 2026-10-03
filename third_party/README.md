@@ -189,3 +189,12 @@ original values. Algorithm index 7526 is installation-specific and exploratory;
 it has not passed the declared numerical gate. No antirez engine, DS4 code or
 sibling project artifact is imported. Source identity and measured scope are
 recorded in `docs/Q2-HC-LIBRARY.md`.
+
+`experiments/q2-hc-input.patch` is an independent MIT delta against the same
+measured palette and official Gufo pin. It moves the existing F32-to-F16 input
+rounding into HC down's load stage while retaining original F16 model values,
+WMMA geometry and both accumulation chains. The source generator, fixture,
+runner guards and analysis are first-party MIT. The fixture reuses this
+workstream's independent HC oracle; no external test implementation or sibling
+artifact is imported. Source identity, preserved numerical failures and the
+component/model scope are documented in `docs/Q2-HC-INPUT.md`.

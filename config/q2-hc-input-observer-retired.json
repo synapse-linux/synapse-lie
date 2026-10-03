@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T02:03:10.196809+00:00",
+  "expected": {
+    "pid": 2798982,
+    "state": "R",
+    "group": 2798979,
+    "session": 2798979,
+    "start_ticks": 155835003
+  },
+  "live": [],
+  "kfd": [],
+  "observer_retired": true
+}

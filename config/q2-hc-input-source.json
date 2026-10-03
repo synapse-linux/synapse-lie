@@ -1,0 +1,25 @@
+{
+  "scope": "Prepared isolated source; measured speed and numerical replay unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-input",
+  "patch_sha256": "9427b8a746a1631e10aaee115b51bdc4247cce534952581a34d9e7ac5dcdace0",
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "base_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+      "candidate_sha256": "8bbd06a782316f9f6a034f35d1660f5d1df13d50e3396596e37b3d1cc7339f21"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": {
+      "base_sha256": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+      "candidate_sha256": "3279a05b48d7a52c485b62581c5d9dd2419d0d1bcc13edf0d03963207885ff27"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
+      "base_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc",
+      "candidate_sha256": "85f01847deb496a213e2319c573a4a2794df96f0e3d9a03a1a4364c7f97a1b47"
+    }
+  },
+  "dispatch": "Only original F16 HC down on the existing fused-raw mixer route; M320/K10240 and n>=96",
+  "numerical_contract": "F32 input rounded to identical F16 operands at load; original weights, two ordered K16 chains, final F32 sum",
+  "new_allocation_bytes": 0,
+  "limit": "Repeated F32 reads and conversions may offset the removed narrowing pass; no speedup assumed"
+}

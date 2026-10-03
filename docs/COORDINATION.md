@@ -1152,3 +1152,67 @@ handover independently of direct thread-message transport.
 The outgoing release notification also fails at that MCP transport; delivery
 is not claimed. Local closure validation checks all nine collected result
 hashes and both observers' actual exit 0.
+
+The previous goal turn is progress: checkpoint `12c884b` measures a 2.06%
+exploratory library gain while retaining its numerical failures. Fresh read-only
+admission at **2026-10-03 01:27:21.137902 UTC** finds empty KFD, four original
+leases EX|NB/free and that campaign's release still last in the shared registry.
+Core's ledger has no later campaign and still records local reporting after
+R12; direct read-thread transport remains unavailable. Q2 takes a bounded
+consumer-narrowing window under the agreed ledger protocol: qualify updated
+CPU/sanitizer guards, then test the isolated HC down F32-input specialization
+against the original narrow-plus-GEMM path, retaining all 22 original FP64
+cases plus ten new exact/independent comparisons and rotating-weight timings.
+The candidate moves the existing IEEE F16 rounding into input loads, without
+changing original weights, tile geometry, either K16 sum chain or buffer
+ownership. Static resources remain 251 VGPR/24 KiB LDS/zero private scratch;
+no runtime speedup is assumed. Complete matched Q2/UD models follow only a
+useful component result. Each build/GPU arm takes four fresh leases under the
+98 C inclusive/lower exposed bounds. No core interleaving until verified
+release, no foreign modification and no automatic retry are authorized.
+
+The input-fusion component finishes with all 22 original controls unchanged,
+all ten new complete-output pairs byte-exact and all five timed replays exact.
+The new n129/tiny-input case exceeds error/peak at 2.17215e-5 on both identical
+paths; the 2e-5 limit and four earlier library-control failures remain unchanged.
+Actual command exit 1 is retained. Median complete narrow-plus-projection time
+falls 1907.280 -> 1786.319 us (-6.34%), with every alternating pair faster.
+Under the owner's standing authorization to measure performance while retaining
+numerical flags, Q2 proceeds to the admitted fresh palette/Q2-input/pristine-UD
+pp2048/tg128 comparison. Each source receives a full MMQ rebuild and one warmup
+plus three fresh sessions, with 15-second idle excluded from timing. Exact
+model replay remains required for this arithmetic-preserving change. The
+window stays owned until verified closure; every arm acquires four fresh leases.
+
+The complete Q2 candidate preserves all 21 saved files but regresses prefill
+1316.149 -> 1289.116 tokens/s (-2.05%). Its component gain does not survive
+the model; the candidate is rejected for performance and palette stays selected.
+Q2 extends this owned window by one bounded diagnostic pair: fresh palette and
+HC-input pp2048/tg16 profiles, each replayed against its own just-completed
+unprofiled arm. These full source builds and profiles still take four fresh
+leases; they attribute the regression and cannot replace unprofiled throughput.
+The already-planned UD arm completes first. No new tuning candidate or automatic
+retry is queued; verified closure follows all seven terminal runners.
+
+Both diagnostic profiles finish and replay 14 saved model/token comparisons
+each exactly. The candidate removes 96 narrowing launches and saves 60.191 ms
+there, but its HC down projection adds 90.674 ms; total prefill kernel time
+increases 28.708 ms. This attributes the measured regression without claiming
+a hardware cache cause. All seven runners, 35 command exits and 205 artifacts
+verify. The synthetic command retains numerical-failure exit 1; the other
+34 commands exit 0. No candidate promotion occurs.
+
+Q2 releases this window at **2026-10-03 02:02:35.780436 UTC**, verifying seven
+runners and 35 command identities/groups/sessions absent, empty KFD, four
+original leases EX|NB/free and five original-model stat witnesses unchanged.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-input-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**02:03:10.196809 UTC** verifies observer PID 2798982, group/session 2798979
+and start ticks 155835003 absent, with empty KFD. Both observers exit 0;
+all seven release result hashes match locally collected evidence. No Q2 remote
+job, waiter, lease or automatic retry remains. Core may take the next window
+with fresh coordinated admission; Q2 continues local reporting and checkpointing.
+The outgoing notification fails at the direct MCP HTTP transport; delivery is
+not claimed. The persistent receipt, shared registry and this ledger remain
+the recorded handover under the agreed fallback protocol.
