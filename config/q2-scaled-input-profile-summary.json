@@ -1,0 +1,22 @@
+{
+  "scope": "One separately profiled pp2048 interval; not wall benchmark",
+  "prefill_dispatches": 2003,
+  "kernel_sum_ns": 1511193353,
+  "span_ns": 1516548945,
+  "changed_route": [
+    {
+      "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, false, true>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(true)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+      "calls": 48,
+      "total_ns": 190310223,
+      "max_ns": 4252521,
+      "kernel_time_percent": 12.593373483426115
+    },
+    {
+      "kernel": "gufo::models::qwen38_flash_next::rocm::PackQ2ScaledRowsKernel(float const*, __half*, float*, unsigned long)",
+      "calls": 48,
+      "total_ns": 22097931,
+      "max_ns": 483422,
+      "kernel_time_percent": 1.4622834964256226
+    }
+  ]
+}

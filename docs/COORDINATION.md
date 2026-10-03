@@ -1868,3 +1868,131 @@ unchanged. No GPU job, waiter, lease or automatic retry remains. Core may take
 the next window with fresh admission; Q2 continues local reporting/checkpoint.
 The outgoing release notification fails at transport, so delivery is not
 claimed. No `.155` GPU/model use or MTP/type39 qualification is claimed.
+
+The previous goal turn is progress: checkpoint `177b89b` demonstrates real
+shared-stream overlap but rejects its 1.03% complete-model PP regression.
+At **2026-10-03 09:25:53.172098 UTC**, fresh read-only admission again finds
+KFD empty, all four original leases EX|NB/free and that window's release last
+in the registry. Core's latest incoming work remains CPU/provider preparation;
+outgoing read/notification still fails, so the agreed ledger fallback applies.
+Q2 claims no `.155` GPU/model use and no MTP/type39 qualification.
+
+Q2 takes a bounded scaled-input component window: CPU Debug/ASan guards, then
+18 independent original-operand GPU cases and three original-shape down
+benchmarks (512/128/64 active experts, >32 MiB active weights). The candidate
+normalizes each F32 SwiGLU slot by a power of two, uses one FP16 input plane
+and one F32 WMMA accumulator, then restores the scale. Weight bytes and
+independent FP64 limits remain unchanged. Representation differences are
+reported, never treated as exact replay. Packing is inside every candidate
+timing; all samples are retained after numerical threshold failures, which
+still return nonzero. GPU/runtime errors terminate rather than retry.
+
+Local device compilation, executor/fixture syntax and zero-fuzz reconstruction
+of all 1020 source files pass. One preparation anchor failure is preserved;
+no runtime attempt was made by that failure. Tile48 static VGPR/LDS changes
+144/24832 to 96/18560 with no private scratch; that is not a speed claim.
+The model path reuses existing `up_e` scratch, adding no tensor allocation.
+The component opens no model. Useful component gain plus independent numerical
+admission are required before an explicit model-window extension. Every build/
+GPU arm reacquires the original four leases and process/thermal gates, with
+98 C inclusive or lower exposed hardware thresholds. No foreign mutation,
+model conversion, installation, tuning, automatic retry or publication occurs.
+
+The component completes with actual exit one: all eighteen scaled operators
+exceed the unchanged independent limits (RMS 0.00559642778534, peak-scaled
+0.00267161428978). These errors are identical across the tested powers of two,
+so ordinary mantissa loss/cancellation, not only tiny-value underflow, remains.
+All three original-shape 1024-dot samples pass the same limits, complete
+outputs are finite and guarded, and the measured packing+down cycle is about
+21--22% faster. This is a numerical rejection, not qualified accuracy.
+
+The owner explicitly requested performance even when numerical flags remain.
+To assess propagation and the real speed ceiling, Q2 now extends the window
+to an exploratory fresh retained/candidate original-model pair despite that
+failed component gate. This revises the self-imposed component-first admission
+above; it does not relax a tolerance, replace a golden or admit promotion.
+Both arms fully rebuild MMQ and retain C1 pp2048/tg128, MTP/prefix off,
+capacity 9216, chunk2048, one warmup plus three measured sessions and 15-second
+excluded idle. Complete frontiers/tokens and the existing qualified numerical
+reference must be compared, with every difference and actual exit retained.
+A useful measured gain may justify one fresh UD control; quality and parity
+remain explicitly unproven. Each arm takes fresh four-lease/process/thermal
+admission. No source/weights conversion, foreign changes or automatic retry.
+
+The exploratory model pair completes with 18/18 within-arm replays and all
+nine token files exact, but all twelve logit buffers changed. Prefill median
+improves 1336.120648 to 1378.318646 (+3.15825%); decode changes +0.05628%.
+Maximum saved KL versus the retained path is 0.000579150 and versus the
+historical qualified Q2 reference 0.003770894, exceeding the unchanged 0.002
+limit. Histories match. Numerical rejection and no-promotion status remain.
+
+The useful measured speed gain admits one fresh unmodified UD bench2k control
+under the same full-build/timing protocol to measure the remaining gap. A
+bounded candidate pp2048/tg16 diagnostic profile is also admitted to verify
+execution/count of the new packing/down route and locate its cost; it cannot
+replace wall timing or clear the numerical failures. Fresh four-lease and
+thermal/process admission applies to each arm. No additional original-model
+sweep, tolerance change or automatic retry is admitted by this extension.
+
+The first offline model-analysis attempt exits one because the historical
+qualified reference additionally contains 512/8192 frontiers. The reader now
+requires every candidate frontier to exist in that reference and annotates
+matched token histories. Its second analysis exits zero; original runtime
+receipts and failed preparation/analysis observations remain preserved.
+
+The owner now explicitly requests real task quality using Terminal-Bench Mini.
+Pin 07034484346dc724d0e2c47c821fd196add1d6fb supplies unmodified Core-19
+1.0.0, Harbor 0.20.0 and Terminus-2. The owner explicitly approves the limited
+exception for isolated Harbor dependencies and benchmark Docker images; no
+system package, driver, service or foreign container changes are authorized.
+Initial extension admits pinned CPU fixture checks and three isolated server
+builds (qualified Q2, retained hc-up-chains, scaled-input), followed by matched
+endpoint qualification/smoke only. Core-19 full execution needs a documented
+extension after that admission, preserving two conditional attempts and all
+failure evidence. Fresh original leases remain mandatory per GPU build/run.
+
+The frozen core/server snapshot is first-party LIE commit
+ae9c34ef26b0bb12ae5c995cb2ec99131da5aefd, independently archived from the
+same repository. It is composed with the existing experimental model target
+under an explicit benchmark-only CMake target; core's qualified provider
+verification and other worktrees stay unchanged. No foreign sibling source or
+built artifact is imported. This scope uses C17 core/HTTP and the opt-in Gufo
+HIP adapter, MTP/prefix off, port 8000. Existing 4096-token output and 30-minute
+request ceilings must be recorded as serving-profile limits, not blamed on
+arithmetic; no uncapped benchmark equivalence is claimed.
+
+Core reports no GPU reservation while preparing vision/MTP offline. Outgoing
+coordination transport still fails; this ledger and original lease/registry
+protocol remain the fallback. Q2 does not claim its message was delivered.
+
+Preflight source inspection found two serving obstacles before any scored task:
+missing context metadata in /v1/models and a 128-token default when the client
+omits max_tokens. A shared three-file first-party variant publishes the actual
+worker context and defaults to the existing 4096 output ceiling. The associated
+parser assertion checks this intended behavior. Base/variant hashes and exact
+patch are preserved; numerical source, limits and goldens are untouched. The
+original frozen core passes 25/25 Debug and sanitizer checks; the shared serving
+variant must pass them again before endpoint qualification.
+
+Qualified-Q2 endpoint admission q2-terminal-qualified-probe-r1 completes at
+2026-10-03 10:14:09.590 UTC: full isolated server/MMQ build, real original-model
+HTTP answer 45 for 17+28, EOS after two tokens, correct advertised context262144
+and pinned Harbor doctor all pass. This 28-token prompt does not qualify a
+256K deep workload. Fresh postflight KFD is empty and lease identities match.
+The shared serving variant passes 25/25 Debug and sanitizer cases, and revised
+launch guards pass 13/13 in each profile. The bounded next step is the original
+Core-19 smoke task git-leak-recovery on qualified Q2, under a detached persistent
+supervisor and original four leases. Standard conditional second task attempts
+are part of the requested benchmark protocol; GPU/runtime failures never trigger
+model restart or automatic retry. Final cleanup targets only this capsule's
+exact Compose job names. Full-suite and candidate runs follow actual admission
+evidence, not a launched-process receipt.
+
+Qualified smoke completes its original git-leak-recovery task at
+2026-10-03 10:26:25.561 UTC: reward exactly1, first attempt, no exception,
+22068 input/1691 output tokens and no cached tokens. The persistent supervisor
+completes with no thermal/fault error. This admits matched retained and scaled
+smoke cohorts sequentially, still one task per model and not a Core-19 full
+score. Pinned task/verifier/agent, common serving settings and original model
+remain fixed. Every arm performs fresh leases/process/thermal admission and
+a complete server/MMQ build; there is no cross-variant binary reuse.

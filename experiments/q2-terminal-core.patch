@@ -1,0 +1,34 @@
+--- a/src/chat.c
++++ b/src/chat.c
+@@ -26,7 +26,7 @@
+ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
+                     lie_chat_request *out, char error[256]) {
+     if (!out || !error) return false;
+-    memset(out, 0, sizeof(*out)); out->max_tokens = 128;
++    memset(out, 0, sizeof(*out)); out->max_tokens = LIE_CHAT_MAX_OUTPUT;
+     out->generation=(lie_generation_options){.abi_version=LIE_GENERATION_ABI,.struct_bytes=sizeof(lie_generation_options),.top_p=1,.seed=-1};
+     const char *why = "invalid_json"; json_object *root = NULL;
+     if (!model_id) goto fail;
+--- a/tests/test_chat.c
++++ b/tests/test_chat.c
+@@ -22,7 +22,7 @@
+     lie_chat_free(&controls);
+     const char *valid="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"hello €\"}],\"temperature\":0,\"seed\":3,\"stream\":true,\"stream_options\":{\"include_usage\":true},\"chat_template_kwargs\":{\"enable_thinking\":false}}";
+     assert(lie_chat_parse(valid,strlen(valid),"m",&r,error));
+-    assert(r.count==1 && r.max_tokens==128 && r.stream && r.include_usage);
++    assert(r.count==1 && r.max_tokens==LIE_CHAT_MAX_OUTPUT && r.stream && r.include_usage);
+     assert(r.messages[0].bytes==strlen("hello €") && !strcmp(r.messages[0].content,"hello €")); lie_chat_free(&r);
+     rejects("{}"); rejects("{\"model\":\"m\",\"messages\":[]}"); rejects("[]"); rejects("null");
+     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"tool\",\"content\":\"x\"}]}");
+--- a/src/server.c
++++ b/src/server.c
+@@ -490,6 +490,9 @@
+                 json_object_object_add(m,"id",json_object_new_string(s->model_id));
+                 json_object_object_add(m,"object",json_object_new_string("model"));
+                 json_object_object_add(m,"owned_by",json_object_new_string(lie_backend_name()));
++                lie_worker_info model_info; lie_worker_snapshot(s->worker,&model_info);
++                json_object_object_add(m,"context_length",json_object_new_int64(model_info.model.context_tokens));
++                json_object_object_add(m,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
+                 json_object_array_add(data,m);
+             }
+             json_object_object_add(j,"data",data); char *body=json_text(j);

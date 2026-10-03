@@ -1,0 +1,188 @@
+[
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 82,
+    "lds": 11392,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 94,
+    "lds": 15488,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 102,
+    "lds": 17536,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 148,
+    "lds": 25728,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 82,
+    "lds": 11392,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 94,
+    "lds": 15488,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 102,
+    "lds": 17536,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 148,
+    "lds": 25728,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 16, 2, false, false, true>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(true)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 86,
+    "lds": 14464,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, false, true>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(true)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 96,
+    "lds": 18560,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 64, 2, false, false, true>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(true)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 104,
+    "lds": 20608,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 16, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 112,
+    "lds": 16640,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 144,
+    "lds": 24832,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 64, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 169,
+    "lds": 28928,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 16, 2, false, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 113,
+    "lds": 16640,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 144,
+    "lds": 24832,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 64, 2, false, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 169,
+    "lds": 28928,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)12, 128, 16, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)12)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 81,
+    "lds": 8192,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)7, 128, 16, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)7)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 76,
+    "lds": 8320,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)8, 128, 16, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)8)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 84,
+    "lds": 11392,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)13, 128, 16, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)13)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 91,
+    "lds": 8320,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)12, 128, 48, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)12)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 127,
+    "lds": 11392,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)7, 128, 48, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)7)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 95,
+    "lds": 12416,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)8, 128, 48, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)8)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 94,
+    "lds": 15488,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)13, 128, 48, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)13)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 145,
+    "lds": 12416,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)7, 128, 64, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)7)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 103,
+    "lds": 14464,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)8, 128, 64, 2, false, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)8)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 102,
+    "lds": 17536,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)12, 128, 128, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)12)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 170,
+    "lds": 21632,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)13, 128, 128, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)13)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 179,
+    "lds": 22656,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)12, 128, 64, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)12)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 124,
+    "lds": 13440,
+    "private": 0
+  },
+  {
+    "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)13, 128, 64, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)13)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+    "vgpr": 133,
+    "lds": 14464,
+    "private": 0
+  }
+]

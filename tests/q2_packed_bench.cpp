@@ -73,6 +73,9 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
           static_cast<int>(e | ((t / candidate_tile) << 16)));
   const auto compact_rows = q::RoutedCompactRows(slots, experts);
   Device wd(weights.size()), xd(x.size() * 4), pd(packed.size() * 4);
+#ifdef Q2_SCALED_BENCH
+  Device scaled(x.size() * 2), inverse(slots * 4);
+#endif
   Device id(ids.size() * 4), cd(counts.size() * 4), td(tiles.size() * 4);
   Device candidate_td(candidate_tiles.size() * 4);
   Device bounds((experts + 1) * 4), cursors(experts * 4);
@@ -105,14 +108,29 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
         use_packed ? candidate_td.data : td.data);
     const auto *b = static_cast<const std::int32_t *>(bounds.data);
     const auto *r = static_cast<const std::int32_t *>(row_slot.data);
-    if (use_packed)
+    if (use_packed) {
+#ifdef Q2_SCALED_BENCH
+      Check(q::PackQ2ScaledRows(static_cast<const float *>(xd.data),
+                                static_cast<__half *>(scaled.data),
+                                static_cast<float *>(inverse.data), slots,
+                                logical, nullptr),
+            "Scaled packing failed");
+      Check(q::RoutedQ2ScaledGemm(wd.data,
+                                  static_cast<const __half *>(scaled.data),
+                                  static_cast<const float *>(inverse.data), t,
+                                  candidate_tiles.size(), candidate_tile, b, r,
+                                  static_cast<float *>(candidate.data) + guard,
+                                  rows, logical, nullptr),
+            "Scaled dispatch failed");
+#else
       Check(q::RoutedQ2GemmPacked(
                 wd.data, static_cast<const std::uint32_t *>(pd.data), t,
                 candidate_tiles.size(), candidate_tile, b, r,
                 static_cast<float *>(candidate.data) + guard, rows, logical,
                 nullptr),
             "Packed dispatch failed");
-    else if (compare_tiles)
+#endif
+    } else if (compare_tiles)
       Check(q::RoutedQ2GemmPacked(
                 wd.data, static_cast<const std::uint32_t *>(pd.data), t,
                 tiles.size(), tile, b, r,
@@ -238,7 +256,14 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
   if (compare_tiles)
     std::cout << ",\"active_experts\":" << active_experts;
   std::cout << "}\n";
+#ifdef Q2_SCALED_BENCH
+  // Arithmetic representation experiment: retain differences and the original
+  // FP64-operand gate; no byte-exactness claim and no rounded replacement
+  // oracle.
+  return rms <= 0.002 && scaled_max <= 0.002;
+#else
   return exact && rms <= 0.002 && scaled_max <= 0.002;
+#endif
 }
 
 int main(int argc, char **argv) {

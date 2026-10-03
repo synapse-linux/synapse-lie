@@ -48,6 +48,8 @@ add_test(NAME q2_reuse COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_reuse_test.py)
 add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
+add_test(NAME q2_terminal_scores COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_terminal_test.py)
 add_test(NAME q2_profile COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_profile_test.py)
 add_test(NAME q2_hc_report COMMAND ${Python3_EXECUTABLE}
@@ -84,4 +86,8 @@ if(EXISTS "${GUFO_SOURCE}/q2_ple_io.hpp")
 endif()
 if(Q2_HIP)
   add_subdirectory(cmake/hip)
+  option(Q2_TERMINAL_SERVER "Build frozen C17 server with experimental Q2 provider" OFF)
+  if(Q2_TERMINAL_SERVER)
+    add_subdirectory(cmake/terminal)
+  endif()
 endif()

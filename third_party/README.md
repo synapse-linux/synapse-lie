@@ -281,3 +281,21 @@ saved-evidence readers are independently written first-party MIT files.
 Existing upstream notices remain intact. No DS4/core-thread implementation,
 converted model or sibling artifact is imported. `docs/Q2-SHARED-OVERLAP.md`
 records the bounded experiment, buffer ownership and qualification limits.
+
+`experiments/q2-scaled-input.patch` derives from the retained independently
+fetched official Gufo source. Its first-party packing include and test/report
+tools are MIT; existing upstream notices remain. It changes activation
+arithmetic and is numerically unqualified despite measured prefill gain.
+
+Terminal-Bench Mini is independently fetched from
+https://github.com/kyuz0/terminal-bench-mini at
+07034484346dc724d0e2c47c821fd196add1d6fb. The unmodified benchmark/tasks retain
+their Apache-2.0 license, NOTICE and upstream task attribution. Core-19 task
+revision is 5c8eadf1f393183288fa08b8f73ca9a469cc5e00. The task-owned Harbor
+0.20.0 environment retains its dependency licenses. No benchmark code is
+relabeled first-party MIT. Only first-party orchestration/preparation and the
+three-file serving patch use MIT. The serving base is same-repository LIE
+commit ae9c34ef26b0bb12ae5c995cb2ec99131da5aefd, archived without modifying
+its owner worktree; base and variant hashes are recorded. No sibling CachyOS
+project source or artifact is imported. Original upstream example results
+staged for runner unit tests are fixtures, never evidence of this Q2 cohort.

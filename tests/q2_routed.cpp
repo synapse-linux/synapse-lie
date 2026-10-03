@@ -4,14 +4,18 @@
 #ifdef Q2_PACKED_CHECKS
 #include "q2_packed_fixture.hpp"
 #endif
+#ifdef Q2_SCALED_CHECKS
+#include "q2_scaled_fixture.hpp"
+#endif
 
-void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
+void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny,
+                  int exponent_shift = 0) {
   namespace q = gufo::models::qwen38_flash_next::rocm;
   constexpr int experts = 512, used = 2, logical = 640, stored = 768;
   const int slots = tokens * used;
   auto w = Make(10, experts, rows, stored, 7);
   std::vector<float> x(std::size_t(slots) * logical);
-  const float scale = tiny ? std::ldexp(1.f, -14) : std::ldexp(1.f, -8);
+  const float scale = std::ldexp(1.f, (tiny ? -14 : -8) + exponent_shift);
   for (std::size_t i = 0; i < x.size(); ++i)
     x[i] = (float(int((i * 17 + 31) % 251) - 125) + 0.137f) * scale;
   std::vector<std::int32_t> ids(slots), tiles;
@@ -74,10 +78,22 @@ void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
             double(w.values[(std::size_t(ids[slot]) * rows + row) * stored +
                             col]) *
             x[std::size_t(slot) * logical + col];
-  Compare(got, expected,
-          "Q2 routed F16 tokens=" + std::to_string(tokens) + " rows=" +
-              std::to_string(rows) + " tile=" + std::to_string(tile_rows) +
-              (tiny ? " tiny" : " ordinary"));
+  Compare(
+      got, expected,
+      "Q2 routed F16 tokens=" + std::to_string(tokens) + " rows=" +
+          std::to_string(rows) + " tile=" + std::to_string(tile_rows) +
+          (tiny ? " tiny" : " ordinary") +
+          (exponent_shift ? " shift=" + std::to_string(exponent_shift) : ""));
+#ifdef Q2_SCALED_CHECKS
+  CheckScaledDown(wd.data, static_cast<const float *>(xd.data), x, expected,
+                  static_cast<const std::int32_t *>(td.data), tiles.size(),
+                  tile_rows, static_cast<const std::int32_t *>(bounds.data),
+                  static_cast<const std::int32_t *>(row_slot.data), rows, got,
+                  "n" + std::to_string(tokens) + "-m" + std::to_string(rows) +
+                      "-tile" + std::to_string(tile_rows) + "-shift" +
+                      std::to_string(exponent_shift) +
+                      (tiny ? "-tiny" : "-normal"));
+#endif
 #ifdef Q2_PACKED_CHECKS
   std::vector<std::uint32_t> packed(x.size());
   for (std::size_t i = 0; i < x.size(); ++i)
@@ -85,13 +101,14 @@ void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
   Device pd(packed.size() * 4);
   Hip(hipMemcpy(pd.data, packed.data(), packed.size() * 4,
                 hipMemcpyHostToDevice));
-  CheckPackedDown(wd.data, static_cast<const std::uint32_t *>(pd.data),
-                  static_cast<const std::int32_t *>(td.data), tiles.size(),
-                  tile_rows, static_cast<const std::int32_t *>(bounds.data),
-                  static_cast<const std::int32_t *>(row_slot.data), rows, got,
-                  "down-n" + std::to_string(tokens) + "-m" +
-                      std::to_string(rows) + "-tile" +
-                      std::to_string(tile_rows) + (tiny ? "-tiny" : "-normal"));
+  CheckPackedDown(
+      wd.data, static_cast<const std::uint32_t *>(pd.data),
+      static_cast<const std::int32_t *>(td.data), tiles.size(), tile_rows,
+      static_cast<const std::int32_t *>(bounds.data),
+      static_cast<const std::int32_t *>(row_slot.data), rows, got,
+      "down-n" + std::to_string(tokens) + "-m" + std::to_string(rows) +
+          "-tile" + std::to_string(tile_rows) + (tiny ? "-tiny" : "-normal") +
+          (exponent_shift ? "-shift" + std::to_string(exponent_shift) : ""));
 #endif
 }
 

@@ -4,6 +4,11 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The [scaled-input experiment](docs/Q2-SCALED-INPUT.md) improves C1 prefill
+1336.121 to 1378.319 token/s (+3.16%), but fails targeted numerical checks and
+remains 18.10% below fresh UD prefill. It is not promoted. The owner-requested
+[Terminal-Bench comparison](docs/Q2-TERMINAL-BENCH.md) now has a real Q2 HTTP
+endpoint and pinned harness admission; task-quality results are still pending.
 The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
 and routed experts on separate streams with bounded buffer ownership. CPU
 Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model

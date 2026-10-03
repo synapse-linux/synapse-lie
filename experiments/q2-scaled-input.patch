@@ -1,0 +1,278 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1671,17 +1671,22 @@
+       half_bf16_ = false;
+     }
+     const bool pair_map = n_tokens >= 1024 && routed_tile_rows_ == 48;
+-    if (!RoutedGatedIQ2GemmPacked(
++    // Original F32 SwiGLU feeds one scaled half plane. The unused up
++    // allocation owns the compact plane and its per-slot inverse scales.
++    auto* scaled = reinterpret_cast<__half*>(s_.up_e);
++    auto* inverse = reinterpret_cast<float*>(
++        scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
++    if (!RoutedGatedIQ2Gemm(
+             l.ffn_gate_exps.data, l.ffn_up_exps.data,
+             static_cast<const __half*>(s_.x_half),
+             s_.routed_tiles + (pair_map ? routed_pair_offset_ : 0),
+             pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+             pair_map ? routed_pair_rows_ : routed_tile_rows_, s_.routed_bounds,
+-            s_.rows_token, s_.rows_slot,
+-            reinterpret_cast<std::uint32_t*>(s_.gate_e), c.expert_ff,
+-            c.hidden_size, stream_) ||
+-        !RoutedQ2GemmPacked(l.ffn_down_exps.data,
+-                            reinterpret_cast<const std::uint32_t*>(s_.gate_e),
++            s_.rows_token, s_.rows_slot, s_.gate_e, c.expert_ff, c.hidden_size,
++            stream_) ||
++        !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
++                          c.expert_ff, stream_) ||
++        !RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+                             s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
+                             s_.routed_bounds, s_.rows_slot, s_.down_e,
+                             c.hidden_size, c.expert_ff, stream_)) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -3941,10 +3941,10 @@
+ }
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false>
++         bool kPacked = false, bool kScaled = false>
+ __launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+     const void* __restrict__ w,
+-    const std::conditional_t<kType == WeightType::kQ2_K, float,
++    const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+                              __half>* __restrict__ x,
+     const std::int32_t* __restrict__ tiles,
+     const std::int32_t* __restrict__ pad_bounds,
+@@ -3963,6 +3963,8 @@
+   constexpr bool kQ5K = kType == WeightType::kQ5_K;
+   constexpr bool kQ8 = kType == WeightType::kQ8_0;
+   constexpr bool kQ2 = kType == WeightType::kQ2_K;
++  constexpr bool kResidual = kQ2 && !kScaled;
++  static_assert(!kScaled || (kQ2 && !kPacked && !kPair));
+   constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
+   constexpr bool kSigned = kQ8 || kIQ2;
+   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
+@@ -3982,7 +3984,7 @@
+   // a token then land on eight bank groups when they are written.
+   constexpr int kActStride = BN + 1;
+   constexpr int kActPlaneBytes = BK * 4 * kActStride * 16;
+-  constexpr int kActBytes = (kQ2 ? 2 : 1) * kActPlaneBytes;
++  constexpr int kActBytes = (kResidual ? 2 : 1) * kActPlaneBytes;
+   // The epilogue transposes one 16x16 tile per wave through the same
+   // bytes (8 KB), which the narrow tile's stages do not reach.
+   constexpr int kStageBytes = kCodeBytes + kHighBytes + kScaleBytes + kActBytes;
+@@ -4060,7 +4062,7 @@
+   // strides, up to four for a 128-token tile.
+   constexpr int kActChunks = BN * BK * 4;
+   static_assert(kActChunks <= kActFetch * 256);
+-  using Activation = std::conditional_t<kQ2, float, __half>;
++  using Activation = std::conditional_t<kResidual, float, __half>;
+   const Activation* a_src[kActFetch];
+   int a_slot[kActFetch];
+ #pragma unroll
+@@ -4196,7 +4198,7 @@
+     }
+ #pragma unroll
+     for (int i = 0; i < kActFetch; ++i) {
+-      if constexpr (kQ2 && kPacked) {
++      if constexpr (kResidual && kPacked) {
+         // Eight existing 32-bit slots hold (half high, scaled half residual).
+         // Read each slot once; extracting halves replaces repeated conversion
+         // of the same F32 activation in every output-row block.
+@@ -4215,7 +4217,7 @@
+         const uint2 ah = high(a), bh = high(b), al = low(a), bl = low(b);
+         a_data[i] = make_uint4(ah.x, ah.y, bh.x, bh.y);
+         a_residual[i] = make_uint4(al.x, al.y, bl.x, bl.y);
+-      } else if constexpr (kQ2) {
++      } else if constexpr (kResidual) {
+         __half hi[8], lo[8];
+ #pragma unroll
+         for (int v = 0; v < 8; ++v) {
+@@ -4301,20 +4303,20 @@
+     for (int i = 0; i < kActFetch; ++i) {
+       if (a_slot[i] >= 0) {
+         s_act[a_slot[i]] = a_data[i];
+-        if constexpr (kQ2)
++        if constexpr (kResidual)
+           s_act[kActPlaneBytes / 16 + a_slot[i]] = a_residual[i];
+       }
+     }
+   };
+ 
+   v8f acc[kWaveRowTiles][kTokTiles];
+-  v8f acc_residual[kQ2 ? kWaveRowTiles : 1][kQ2 ? kTokTiles : 1];
++  v8f acc_residual[kResidual ? kWaveRowTiles : 1][kResidual ? kTokTiles : 1];
+ #pragma unroll
+   for (int u = 0; u < kWaveRowTiles; ++u) {
+ #pragma unroll
+     for (int j = 0; j < kTokTiles; ++j) {
+       acc[u][j] = v8f{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
+-      if constexpr (kQ2)
++      if constexpr (kResidual)
+         acc_residual[u][j] = acc[u][j];
+     }
+   }
+@@ -4390,8 +4392,8 @@
+           }
+         }
+         __half2 h[16];
+-        uint2 palette[kQ2 && kPacked ? 2 : 1];
+-        if constexpr (kQ2 && kPacked) {
++        uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
++        if constexpr (kQ2 && (kPacked || kScaled)) {
+           // A sixteen-element affine group has only four possible weights.
+           // Preserve each F32 FMA and F16 rounding, then select its exact
+           // half bits instead of repeating the affine for every element.
+@@ -4411,7 +4413,7 @@
+         }
+ #pragma unroll
+         for (int i = 0; i < 8; ++i) {
+-          if constexpr (kQ2 && kPacked) {
++          if constexpr (kQ2 && (kPacked || kScaled)) {
+             const uint2 values = palette[i / 4];
+             // Duplicate each two-bit code into the two byte selectors for
+             // its half; perm indices 0..3 read the second source word.
+@@ -4473,7 +4475,7 @@
+           acc[u][j] = Wmma(a_lo[u], b_lo, acc[u][j]);
+           acc[u][j] = Wmma(a_hi[u], b_hi, acc[u][j]);
+         }
+-        if constexpr (kQ2) {
++        if constexpr (kResidual) {
+ #pragma unroll
+           for (int q = 0; q < 4; ++q)
+             b[q] = frag[kActPlaneBytes / 16 + q * kActStride];
+@@ -4500,7 +4502,7 @@
+     __syncthreads();
+   }
+ 
+-  if constexpr (kQ2) {
++  if constexpr (kResidual) {
+ #pragma unroll
+     for (int u = 0; u < kWaveRowTiles; ++u)
+ #pragma unroll
+@@ -4671,7 +4673,10 @@
+               out_half[o] = __float2half(
+                   swiglu_gate != nullptr ? v * SiluF(swiglu_gate[o]) : v);
+             } else {
+-              out[o] = v;
++              if constexpr (kScaled)
++                out[o] = v * static_cast<const float*>(w_up)[dst];
++              else
++                out[o] = v;
+             }
+           }
+         }
+@@ -5090,6 +5095,8 @@
+       gate, up, x, tiles, n_tiles, tile_rows, bounds, rows_token, rows_slot,
+       reinterpret_cast<float*>(out), m, k, stream);
+ }
++
++#include "q2_scaled_input.inc"
+ 
+ template<int BN, bool kPacked = false>
+ void LaunchRoutedQ2(const void* w, const float* x, const std::int32_t* tiles,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -286,6 +286,14 @@
+                               std::size_t m, std::size_t k, hipStream_t stream);
+ 
+ /// Compensated activation slots: low half high value, high half residual *4096.
++// Experimental one-plane row scaling; not independent quality qualification.
++bool PackQ2ScaledRows(const float*, __half*, float*, std::uint32_t, std::size_t,
++                      hipStream_t);
++bool RoutedQ2ScaledGemm(const void*, const __half*, const float*,
++                        const std::int32_t*, std::uint32_t, std::uint32_t,
++                        const std::int32_t*, const std::int32_t*, float*,
++                        std::size_t, std::size_t, hipStream_t);
++
+ bool RoutedQ2GemmPacked(const void* w, const std::uint32_t* x,
+                         const std::int32_t* tiles, std::uint32_t n_tiles,
+                         std::uint32_t tile_rows, const std::int32_t* pad_bounds,
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
+@@ -0,0 +1,84 @@
++// SPDX-License-Identifier: MIT
++// Experimental activation representation; original encoded weights stay intact.
++__global__ void PackQ2ScaledRowsKernel(const float* x, __half* out,
++                                       float* inverse, std::size_t cols) {
++  const unsigned tid = threadIdx.x;
++  const unsigned lane = tid & 31, wave = tid >> 5;
++  const std::size_t row = blockIdx.x;
++  __shared__ float maxima[8];
++  __shared__ float multiplier;
++  float local = 0.0F;
++  for (std::size_t c = tid; c < cols; c += 256)
++    local = fmaxf(local, fabsf(x[row * cols + c]));
++  for (unsigned offset = 16; offset; offset >>= 1)
++    local = fmaxf(local, __shfl_down(local, offset, 32));
++  if (lane == 0)
++    maxima[wave] = local;
++  __syncthreads();
++  if (tid == 0) {
++    float peak = 0.0F;
++    for (unsigned i = 0; i < 8; ++i)
++      peak = fmaxf(peak, maxima[i]);
++    const unsigned bits = __builtin_bit_cast(unsigned, peak);
++    const int exponent = int((bits >> 23) & 255U) - 127;
++    // Normal finite rows target [8192,16384). Bounded power-of-two factors
++    // keep both scale and inverse finite. Zero rows retain signed zero.
++    int shift = peak == 0.0F ? 0 : 13 - exponent;
++    shift = shift < -120 ? -120 : shift > 120 ? 120 : shift;
++    multiplier = __builtin_bit_cast(float, unsigned(127 + shift) << 23);
++    inverse[row] = __builtin_bit_cast(float, unsigned(127 - shift) << 23);
++  }
++  __syncthreads();
++  for (std::size_t c = tid; c < cols; c += 256)
++    out[row * cols + c] = __float2half_rn(x[row * cols + c] * multiplier);
++}
++
++bool PackQ2ScaledRows(const float* x, __half* out, float* inverse,
++                      std::uint32_t rows, std::size_t cols,
++                      hipStream_t stream) {
++  if (!x || !out || !inverse || !rows || cols != 640)
++    return false;
++  hipLaunchKernelGGL(PackQ2ScaledRowsKernel, dim3(rows), dim3(256), 0, stream,
++                     x, out, inverse, cols);
++  return hipGetLastError() == hipSuccess;
++}
++
++template<int BN>
++void LaunchRoutedQ2Scaled(const void* w, const __half* x, const float* inverse,
++                          const std::int32_t* tiles, std::uint32_t n_tiles,
++                          const std::int32_t* bounds, const std::int32_t* slots,
++                          float* out, std::size_t m, std::size_t k,
++                          hipStream_t stream) {
++  hipLaunchKernelGGL(
++      (RoutedF16GEMMKernel<WeightType::kQ2_K, 128, BN, 2, false, false, true>),
++      dim3(static_cast<unsigned>((m + 127) / 128), n_tiles), dim3(256), 0,
++      stream, w, x, tiles, bounds, slots, slots, nullptr, out, nullptr, m, k,
++      inverse);
++}
++
++bool RoutedQ2ScaledGemm(const void* w, const __half* x, const float* inverse,
++                        const std::int32_t* tiles, std::uint32_t n_tiles,
++                        std::uint32_t tile_rows, const std::int32_t* bounds,
++                        const std::int32_t* slots, float* out, std::size_t m,
++                        std::size_t k, hipStream_t stream) {
++  if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
++      !n_tiles || k != 640)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchRoutedQ2Scaled<16>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    case 48:
++      LaunchRoutedQ2Scaled<48>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    case 64:
++      LaunchRoutedQ2Scaled<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}

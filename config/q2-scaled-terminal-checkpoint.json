@@ -1,0 +1,197 @@
+{
+  "scope": "Offline validation of completed capsules; active Terminal-Bench smoke is excluded, no GPU-window release claim.",
+  "arms": [
+    {
+      "label": "q2-scaled-input-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "62889e9b63a75c2b313bbfe176495d0f0571bf6e1449cbbc00f457466ac657dc",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-scaled-input-component-r1",
+      "state": "FAILED",
+      "exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 43,
+      "capsule_sha256": "f1b86167b565513f5a9f704fceba8561752cfd010d0c029d08873022eee26419",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-scaled-input-reference-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "c1a0b20e657ecad396dcaabd651931d84efe1081b8c2a89e04cbea0f501601d6",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-scaled-input-candidate-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "a8fe340b9965d54dd05b34806c755e854cdd9b36537959171ed95662513c6605",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-scaled-input-ud-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "ba27746feb1d153823186e3fea052598b0d52f49ce5a778019dec98ca26a727a",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-scaled-input-profile-r1",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "9ab8e6f8072b97fc201a3655d6ec1f2534cc64510e6734814f9e0a72efb18390",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "59c600ae82dd096d1d0c12a890bff265184774ae6f08b27d6a10cac9ba9b236c",
+        "tools/q2-remote.py": "880c4d2656439e5e5cf85cb9e6349f8b4a1b8b4dc59853620fccf30c889ea240"
+      }
+    },
+    {
+      "label": "q2-terminal-guards-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "6bcf464b28adea1f26bcf6af028552fb1b8f07ec1e870e7243e2ce5728deee72",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "bfcf279e34c3e4e8964653fdc4e2d163b3be8e94028f15701dc4ab59456e2b83",
+        "tools/q2-remote.py": "90793222607ae56a79c8f1df4c6485c020e1aff840e4861b3bf45db473757098"
+      }
+    },
+    {
+      "label": "q2-terminal-guards-r2",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "0ab5913b1f3098a573dd76f79c7f3f949bcbb40a79e3dc4f26f964652220640f",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "3afe8e79ab3d158d57a22744fab72fb04963c2c47fa8808cf79a6d97d6b12d6d",
+        "tools/q2-remote.py": "8633981c6185f4e59b4a07f6b63afabad0eccc52994f629f7df7a820bfd800dc"
+      }
+    },
+    {
+      "label": "q2-terminal-core-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "6546621cf2ef564e775296c847a09b9e2adce6d79a638aa189efed6cf6324a3f",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "bfcf279e34c3e4e8964653fdc4e2d163b3be8e94028f15701dc4ab59456e2b83",
+        "tools/q2-remote.py": "90793222607ae56a79c8f1df4c6485c020e1aff840e4861b3bf45db473757098"
+      }
+    },
+    {
+      "label": "q2-terminal-core-host-r2",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "250aa84e82d5384a21e2dbd97c2e66465ca8874156a8b64eafff5cd044914240",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "bfcf279e34c3e4e8964653fdc4e2d163b3be8e94028f15701dc4ab59456e2b83",
+        "tools/q2-remote.py": "5ec56f42bf126f6ad3b82f9ddf0c648992c3649f4b91524b4ddf8b7775fec01e"
+      }
+    },
+    {
+      "label": "q2-terminal-qualified-probe-r1",
+      "state": "TERMINAL_ENDPOINT_PROBE_COMPLETE_NOT_TASK_SCORE",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 9,
+      "capsule_sha256": "a5d0dbc5c6c8344523aa6d79bc27d0767e7adaf4f7afd056c8177e86af6cb6f9",
+      "guard_hashes_in_own_capsule": {
+        "tools/q2-runner.py": "69732df0f9ade518d715936850eb558e3753663ffa303ea8a72012f80f1667c6",
+        "tools/q2-remote.py": "b5a4f2e2ca49a468d000650e2d73e4484c084a02e5ae6d8405c2875f7a3f9115"
+      }
+    }
+  ],
+  "verified_artifacts": 191,
+  "numerical_failure_preserved": true,
+  "goal_met": false
+}

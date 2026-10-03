@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Scaled-input gain and real task qualification — 2026-10-03
+
+The one-plane scaled Q2 component reduces measured packing/down time 20.97–22.25%
+but fails all 18 targeted independent operator checks. Full original-model
+C1 pp2048/tg128 gives 1336.120648 → 1378.318646 PP (+3.15825%), with decode
+24.09013277 → 24.10368965 calls/s. Fresh UD reaches 1682.975427 PP and
+24.32964050 decode calls/s: remaining candidate gaps are 18.10227% and 0.92871%.
+All nine token files match but twelve logits differ; maximum qualified-reference
+KL is 0.003770894 against the unchanged 0.002 limit. No numerical promotion.
+A separate profile confirms 48 scaled-down and 48 packing calls. See
+[complete values, failures and plots](Q2-SCALED-INPUT.md).
+
+The owner selected pinned Terminal-Bench Mini/Core-19 for actual task quality
+and approved isolated Harbor/container dependencies. C17 LIE endpoint admission
+with original Q2 weights and the upstream doctor passes. Shared context metadata
+and default-output corrections pass 25/25 Debug and sanitizer checks. Scored
+smoke has a persistent supervisor; three-arm task quality is not complete.
+See [protocol, limits and job paths](Q2-TERMINAL-BENCH.md). Existing numerical
+rejection, long-context/concurrency work and Q2/UD parity remain open.
+
 ## C17 GPU fork/join is real but regresses prefill — 2026-10-03 UTC
 
 The [shared/routed experiment](Q2-SHARED-OVERLAP.md) adds a C17 one-branch

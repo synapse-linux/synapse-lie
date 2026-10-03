@@ -58,6 +58,17 @@ class RemoteGuardTests(unittest.TestCase):
             run.assert_not_called()
             mkdir.assert_not_called()
 
+    def test_terminal_tasks_require_persistent_supervision(self):
+        for mode in ('q2-terminal-smoke', 'q2-terminal-full'):
+            self.refuse([mode, 'q2-fixture'], 'require the persistent supervisor')
+        self.refuse(['cpu', 'q2-fixture', '--detach'], 'limited to Terminal-Bench task runs')
+
+    def test_terminal_variants_are_frozen(self):
+        for mode in ('terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'shared-overlap'],
+                        'three frozen Q2 variants')
+            self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
     def test_ple_source_is_fixed(self):
         for mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access'):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-moe-fused'],
@@ -65,7 +76,7 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
 
     def test_changed_executor_header_cannot_reuse_mmq(self):
-        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
@@ -96,6 +107,11 @@ class RemoteGuardTests(unittest.TestCase):
         self.refuse(['iq2-pair-operators', 'q2-fixture'], 'require the isolated IQ2 source')
         self.refuse(['routed-operators', 'q2-fixture'], 'require the isolated stack source')
 
+    def test_scaled_input_source_guard(self):
+        for variant in ('qualified', 'hc-up-chains', 'shared-overlap'):
+            self.refuse(['scaled-input-check', 'q2-fixture', '--source-variant', variant],
+                        'Scaled checks require the isolated scaled-input source')
+
     def test_shared_fork_source_guard(self):
         for variant in ('qualified', 'hc-up-chains', 'down-scatter'):
             self.refuse(['shared-fork-check', 'q2-fixture', '--source-variant', variant],
@@ -111,7 +127,7 @@ class RemoteGuardTests(unittest.TestCase):
 
     def test_packed_tiles_bench_requires_retained_source(self):
         for mode in ('packed-tiles-bench', 'packed-tiles16-bench'):
-            for variant in ('qualified', 'packed', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'hc-down-wide'):
+            for variant in ('qualified', 'packed', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-down-wide'):
                 self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                             'requires retained hc-up-chains source')
             self.refuse([mode, 'q2-fixture', '--source-variant',
@@ -132,7 +148,7 @@ class RemoteGuardTests(unittest.TestCase):
                      'hc-up-chains', '--rebuild-mmq'], 'requires bench2k')
 
     def test_hc_library_requires_current_native_control(self):
-        for variant in ('qualified', 'staged-palette', 'down-scatter', 'shared-overlap', 'hc-moe-fused', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+        for variant in ('qualified', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-moe-fused', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
             self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant', variant],
                         'requires the measured affine-palette source')
         self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant',
@@ -157,7 +173,7 @@ class RemoteGuardTests(unittest.TestCase):
                             'require the isolated hc-moe-fused source')
 
     def test_q2_source_cannot_replace_ud_control(self):
-        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
             self.refuse(['ud-bench2k', 'q2-fixture', '--source-variant', variant],
                         'Stack source requires')
 
