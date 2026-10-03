@@ -16,6 +16,11 @@ HOST = 'paperboy@192.168.5.157'
 REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 
 
+def file_sha256(path):
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
 def collection_receipt(archive):
     members = archive.getmembers()
     names = set()
@@ -32,7 +37,10 @@ def collection_receipt(archive):
     receipt = json.load(archive.extractfile(receipts[0]))
     # Eight complete 36-row outputs alone occupy 286 MB in this fixed probe.
     # Keep other modes at their existing bound and retain a finite total cap.
-    limit = 384000000 if receipt.get('mode') == 'q2-ple-first-access' else 128000000
+    # Full Core-19 permits 19 x two three-hour attempts. Preserve its two-second
+    # telemetry samples instead of silently dropping them after a short-run cap.
+    limits = {'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3}
+    limit = limits.get(receipt.get('mode'), 128000000)
     if sum(member.size for member in members) > limit:
         raise ValueError('Oversized collection')
     return receipt
@@ -134,10 +142,10 @@ def main():
             a.extractall(out,filter='data')
         for name,meta in receipt.get('artifacts',{}).items():
             if Path(name).is_absolute() or '..' in Path(name).parts: raise ValueError('Unsafe artifact name')
-            payload=(out/'results'/name).read_bytes()
-            if len(payload)!=meta['bytes'] or hashlib.sha256(payload).hexdigest()!=meta['sha256']:
+            payload=out/'results'/name
+            if payload.stat().st_size!=meta['bytes'] or file_sha256(payload)!=meta['sha256']:
                 raise ValueError('Artifact integrity mismatch')
-        collected={'collected':str(archive_path),'sha256':hashlib.sha256(archive_path.read_bytes()).hexdigest(),
+        collected={'collected':str(archive_path),'sha256':file_sha256(archive_path),
                    'verified_artifacts':len(receipt.get('artifacts',{})),
                    'existing_archive':args.existing_collection}
         (out/'collection.json').write_text(json.dumps(collected,indent=2)+'\n')
@@ -147,7 +155,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':

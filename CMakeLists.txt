@@ -50,6 +50,8 @@ add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
 add_test(NAME q2_terminal_scores COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_terminal_test.py)
+add_test(NAME q2_terminal_collection COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_terminal_collection_test.py)
 add_test(NAME q2_profile COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_profile_test.py)
 add_test(NAME q2_hc_report COMMAND ${Python3_EXECUTABLE}

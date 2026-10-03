@@ -23,6 +23,13 @@ started sequentially under persistent supervision; its scores remain pending.
 See [protocol, limits and job paths](Q2-TERMINAL-BENCH.md). Existing numerical
 rejection, long-context/concurrency work and Q2/UD parity remain open.
 
+The live serving audit records body/message ceilings alongside output/context
+limits and separates POST success from unattributed GET errors. Full-run
+evidence collection now has a finite 2 GiB per-archive bound and streaming
+hashes, preserving long telemetry without whole-file allocations. Its `.157`
+CPU guards pass 15/15 Debug and sanitizer cases; seven artifacts verify. The
+active full baseline remains unchanged and its final task score is pending.
+
 A [scaled Q2 tile128 component experiment](Q2-SCALED-TILES.md) is now prepared
 while Core-19 runs. Static compilation adds one kernel and preserves all 150
 existing instruction bodies after documented label/comment normalization.

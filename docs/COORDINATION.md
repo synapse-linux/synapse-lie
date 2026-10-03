@@ -2042,3 +2042,24 @@ GPU workload. CPU-only q2-scaled-tiles-host-r1 completes at 2026-10-03
 GPU lease claim. The numerical component is not launched or queued; it waits
 for a separately recorded admission after the three frozen Core-19 arms.
 Core-19 model/kernel/agent settings remain unchanged. Q2 retains the window.
+
+At 2026-10-03 11:37:34 UTC, qualified full supervisor 3003240, session
+3005085, server 3005086 and benchmark wrapper 3005292 remain live with their
+expected parent/group/session identities. One first attempt is complete with
+reward 0 and no task exception; build-cython-ext has 26 recorded agent steps.
+Conditional retries and retained/scaled full arms are still pending. A separate
+11:25 serving snapshot records 26 completed POST 2xx, no POST errors or
+scheduler cancellations/failures, and prompt depth up to 28883. These are
+timestamped partial observations, not full scores or deep-context qualification.
+
+The host-only q2-terminal-collection-host-r1 finishes at 11:41:23 UTC with
+15/15 Debug and sanitizer tests and seven collected/hash-verified artifacts.
+The collection caps grow only for full Core-19 and hashes stream; the live
+runner, kernel, telemetry cadence and benchmark profile remain frozen.
+CPU checks do not take a GPU lease or release Q2's enclosing ownership window.
+
+Core reports checkpoint a399052 (feature/core-semantic-events), based on
+01ff720, with offline semantic-event integration and no .157 GPU reservation.
+Q2 continues using the frozen ae9c34ef serving composition for all paired
+arms. The outbound status attempt around 11:41 again fails at the local TUI
+transport; receipt of core's message does not establish delivery of Q2's reply.

@@ -50,6 +50,18 @@ request timeout ceiling is **1800 seconds**. These limits are recorded in the
 profile: this is not an uncapped serving comparison. Truncation must never be
 attributed to arithmetic without further evidence.
 
+The running server also reports an **8 MiB request body** ceiling and at most
+**1024 messages**, preserved in the timestamped
+[serving observation](../config/q2-terminal-serving-observation.json).
+At 11:25:25 UTC on 2026-10-03, 26 POST requests have completed with 2xx status,
+no POST 4xx/5xx, and no scheduler failure or cancellation. The separately
+counted 132 GET 4xx have no path attribution. Recorded trajectories reach
+28883 prompt tokens and at most 1771 output tokens per response; none reaches
+4096. ATIF does not retain finish_reason here, and metrics/trajectory reads
+are consecutive snapshots. These observations do not qualify the advertised
+262144-token depth. HTTP latency includes acceptance through response enqueue,
+so it cannot be reported as separate prefill/decode timing.
+
 The [source manifest](../config/q2-terminal-core-source.json) preserves both
 base and serving-variant hashes; the [patch](../experiments/q2-terminal-core.patch)
 and [preparation tool](../tools/prepare-q2-terminal-core.py) reproduce the
@@ -72,6 +84,31 @@ with its Python runtime under `run/q2-terminal-bench/python`. Sources, jobs,
 transcripts and reports are outside `/tmp`. The launcher requires a detached
 persistent supervisor for scored task runs. A successful launch receipt says
 `DETACHED_STARTED_NOT_COMPLETE`, never that the benchmark passed.
+
+Completed supervisor and task evidence are collected separately:
+
+```sh
+python3 tools/q2-remote.py collect q2-terminal-qualified-full-r1
+python3 tools/collect-q2-terminal.py q2-terminal-qualified-full-r1
+```
+
+Full Core-19 collections permit at most **2 GiB of uncompressed file content
+per archive**, plus up to 1 MB of task-manifest overhead for the second command.
+The mode-specific bound accommodates long telemetry and task transcripts
+without truncation; exceeding it still fails. Short supervisor collections
+retain 128 MB (the existing PLE first-access exception is 384 MB); smoke task
+content retains 256 MB. File digests stream through bounded memory. The task
+collector requires matching completed local/remote modes, exact export tags,
+regular safe archive paths and file hashes, and refuses overwrites.
+
+On `.157`, `q2-terminal-collection-host-r1` passes 15/15 Debug and ASan/UBSan
+checks, including seven synthetic task-collection cases. The GiB boundary tests
+use synthetic member sizes; the archive round trip uses small real files and
+a mocked SSH transport. No real GiB campaign archive has yet been collected.
+All seven host-run artifacts are collected/hash verified; see the
+[test receipt](../config/q2-terminal-collection-host.json). CPU checks run
+during the task-quality campaign, another reason not to interpret task wall
+times as controlled kernel-performance measurements.
 
 Qualified Q2 endpoint admission `q2-terminal-qualified-probe-r1` passed on
 2026-10-03: full server/MMQ build, original-model HTTP response `45` to `17+28`,

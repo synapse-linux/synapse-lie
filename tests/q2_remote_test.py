@@ -2,12 +2,14 @@
 # SPDX-License-Identifier: MIT
 """Refuse unsafe experiment/archive combinations before any staging or SSH."""
 import contextlib
+import hashlib
 import importlib.util
 import io
 import json
 from pathlib import Path
 import sys
 import tarfile
+import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
@@ -31,7 +33,13 @@ class RemoteGuardTests(unittest.TestCase):
             return result
         self.assertEqual(remote.collection_receipt(archive('q2-ple-first-access', 320000000))['mode'],
                          'q2-ple-first-access')
+        self.assertEqual(remote.collection_receipt(archive('q2-terminal-full', 1024**3))['mode'],
+                         'q2-terminal-full')
         for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000)]:
+            with self.assertRaisesRegex(ValueError, 'Oversized collection'):
+                remote.collection_receipt(archive(mode, size))
+        for mode, size in [('q2-terminal-full', 2 * 1024**3),
+                           ('q2-terminal-smoke', 129000000), ('cpu', 129000000)]:
             with self.assertRaisesRegex(ValueError, 'Oversized collection'):
                 remote.collection_receipt(archive(mode, size))
         for name, kind in [('../escape', tarfile.REGTYPE), ('/absolute', tarfile.REGTYPE),
@@ -41,6 +49,14 @@ class RemoteGuardTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Unsafe collection'):
                 remote.collection_receipt(value)
             value.extractfile.assert_not_called()
+
+    def test_streamed_artifact_digest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'telemetry.jsonl'
+            payload = b'bounded observation\n' * 100000
+            path.write_bytes(payload)
+            with patch.object(Path, 'read_bytes', side_effect=AssertionError('No whole-file read')):
+                self.assertEqual(remote.file_sha256(path), hashlib.sha256(payload).hexdigest())
 
     def test_existing_collection_cannot_launch_model(self):
         self.refuse(['q2-ple-first-access', 'q2-fixture', '--existing-collection'],
