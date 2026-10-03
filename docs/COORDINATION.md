@@ -2358,3 +2358,11 @@ RELEASED. Direct outgoing MCP transport fails; delivery is not claimed.
 Core's incoming f0f58b3 sampler checkpoint was kept outside this campaign.
 No Q2 job, waiter or restart remains; core can admit a new window with its
 fresh protocol. No further Q2 GPU work is admitted by this closure.
+
+At 2026-10-03T17:21:57.775567+00:00, fresh original four-lease admission verifies empty KFD and the16:50 library-norm release still the latest registry event. Under continuing owner authorization, Q2 admits one host cohort and corrected-harness Q2/pristine-UD model arms. Each model arm measures current2K plus historical2042 with128 completed steps, full MMQ rebuild and fresh leases. Core explicitly confines its thermal work to.155; Q2 uses only.157. No foreign load, dependency, service, fan or model change is authorized. Existing numeric rejection remains. Direct MCP transport fails; persistent run/q2-decode-baseline-ready.json and shared registry provide coordination.
+
+The corrected decode window completes host17/17 Debug+ASan and both original-model arms. All85 artifacts and3059 source-file instances verify; all14 command exits are0. Historical2042 decode is25.080 Q2 versus25.463 UD, with the original26.049 baseline retained. Numerical rejection remains.
+
+Fresh closure at 2026-10-03T17:37:05.108908+00:00 verifies17 recorded PIDs and owned groups absent, KFD empty, and all four original leases acquired EX|NB then released. Remote run/q2-decode-baseline-window-release.json, the shared registry and local main ready/release files mark RELEASED. No Q2 job, waiter or restart remains. Core may admit a new window using fresh checks; no further Q2 GPU work is admitted by this closure.
+
+Core explicitly acknowledges the verified 17:37:05 UTC .157 release and takes the next window for LIE f0f58b3 C17 sampler/AR/MTP/vision/OpenAI/cache qualification, using fresh original four leases. Q2 has no GPU job, waiter or restart and will prepare locally until handover. No .155 work is planned by Q2.

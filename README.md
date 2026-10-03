@@ -4,24 +4,31 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The latest [paired norm/library experiment](docs/Q2-LIBRARY-NORM.md) raises
-prefill from **1411.691 to 1439.264 token/s (+1.9532%)**, saving 27.793 ms per
-2048-token request. All 21 saved token/logit files match the fresh control.
-Fresh UD measures 1666.902 PP token/s and 24.318 decode calls/s; Q2 reaches
-24.097 decode calls/s, remaining 13.656% below UD PP and 0.911% below decode.
-The existing scaled/library numerical rejection remains unchanged (maximum
-qualified-reference KL 0.002996 > 0.002); the source remains experimental.
-Both host cohorts pass 16/16 Debug and 16/16 ASan/UBSan; 132 artifacts and 6119
-source-file instances verify. Full samples, durations, graphs and decode
-priorities are documented; the GPU window is released. Q2/UD parity is not met.
+The latest [corrected decode benchmark](docs/Q2-DECODE-BASELINE.md) removes
+248320 unnecessary temporary-string allocations per token, preserving every
+finite check and all 21 previously saved files for each model. Q2 measures
+**25.089 decode calls/s** on the current 2048-token prompt (+4.120% from the
+harness correction), versus fresh UD **25.475**. This is removed benchmark
+cost, not a GPU-kernel speedup.
 
-The earlier LIE decode baseline remains **26.049 token/s**, not the current
-24.318 diagnostic control. A new [host-only investigation](docs/Q2-LIBRARY-NORM.md)
-finds 248320 unnecessary string allocations per token in the current harness's
-finite-logit checks. Removing only message construction reduces that host
-pass 2.579 to 0.777 ms, with all checks preserved. This is not a GPU gain or a
-replacement model timing. A prepared correction and an aligned fresh Q2/UD
-comparison are required; the historical decode target is not lowered.
+On the original 2042-token prompt with 128 completed steps, Q2 reaches
+**25.080** and UD **25.463 calls/s**: Q2 remains **1.505% slower**, costing
+about **0.60 ms/token**. UD reproduces all original token and frontier hashes;
+the original **26.049 token/s** baseline remains the target. The stricter
+in-timer finite scan and different sampling boundary still distinguish this
+fixture from the original production benchmark.
+
+Q2 prefill remains **1438.975 token/s** at 2048 tokens. Fresh UD varies
+1611.173–1672.432 (median 1613.123), so the smaller raw deficit is not a new
+prefill gain. At the historical 2042-token shape, Q2/UD measure
+1372.865/1662.672 token/s. The paired norm/library route is now bound to its
+measured 2048-token shape; other shapes retain the original producer.
+Existing operator failures and qualified-reference KL **0.002996 > 0.002**
+remain rejected. Both host configurations pass **17/17** tests; **85 artifacts**
+and **3059 source-file instances** verify. All samples, durations, graphs and
+measurement boundaries are recorded. The GPU window is released; parity is
+not met. The preceding [paired norm/library addition](docs/Q2-LIBRARY-NORM.md)
+retains its separate **+1.953% prefill** evidence.
 
 The preceding [composed Q2/UD profile](docs/Q2-SCALED-LIBRARY-PROFILE.md)
 locates 70.29% of the then-remaining extra prefill kernel time in activation

@@ -14,6 +14,8 @@
 #include <thread>
 #include <vector>
 
+#include "q2_argmax.hpp"
+#include "q2_historical_input.hpp"
 #include "src/core/crypto/sha256.hpp"
 #include "src/models/qwen/chat_template.hpp"
 #include "src/models/qwen/tokenizer.hpp"
@@ -55,12 +57,6 @@ static void Save(const std::string &name, std::span<const T> v) {
           std::streamsize(v.size_bytes()));
   Require(bool(f), "Cannot save evidence");
 }
-static std::uint32_t Argmax(const std::vector<float> &logits) {
-  for (float x : logits)
-    Require(std::isfinite(x), "Non-finite logit frontier");
-  return std::uint32_t(std::max_element(logits.begin(), logits.end()) -
-                       logits.begin());
-}
 static std::vector<std::int32_t> Prompt(const tok::QwenTokenizer &tokenizer,
                                         const std::string &text) {
   std::string error;
@@ -98,8 +94,11 @@ SizedPrompt(const tok::QwenTokenizer &tokenizer, std::size_t target) {
 
 int main(int argc, char **argv) {
   try {
-    Require(argc == 3, "Usage: q2_model MODEL smoke|bench|bench2k|profile");
-    const bool bench2k = std::string(argv[2]) == "bench2k";
+    Require(
+        argc == 3,
+        "Usage: q2_model MODEL smoke|bench|bench2k|profile|decode-baseline");
+    const bool historical = std::string(argv[2]) == "decode-baseline";
+    const bool bench2k = std::string(argv[2]) == "bench2k" || historical;
     const bool bench = std::string(argv[2]) == "bench" || bench2k;
     const bool profile = std::string(argv[2]) == "profile";
     Require(bench || profile || std::string(argv[2]) == "smoke",
@@ -137,7 +136,7 @@ int main(int argc, char **argv) {
         << ",\"mtp\":false,\"max_context\":9216,\"prefill_chunk\":2048}\n";
     auto sample = [&](const std::string &label,
                       const std::vector<std::int32_t> &input, int rep,
-                      int limit) {
+                      int limit, bool completed_output = false) {
       auto session = executor->CreateSession(
           gufo::core::SessionMode::kAutoregressive, 9216, &error);
       Require(bool(session), error);
@@ -166,13 +165,18 @@ int main(int argc, char **argv) {
       int steps = 0;
       if (trace)
         Q2ProfileMarker(2);
+      const auto decode_start = Clock::now();
       while (int(output.size()) < limit) {
+        // Historical C17 scope samples then completes every emitted token.
+        // Retain finite validation inside sampling even in this aligned scope.
+        if (completed_output)
+          next = Argmax(logits);
         if (tokenizer->IsStopToken(next)) {
           eos = true;
           break;
         }
         output.push_back(next);
-        if (int(output.size()) == limit)
+        if (!completed_output && int(output.size()) == limit)
           break;
         const std::int32_t token = std::int32_t(next);
         const auto step = Clock::now();
@@ -180,10 +184,20 @@ int main(int argc, char **argv) {
                                   logits.data(), Exec::ForwardMode::kDecode,
                                   &error),
                 error);
-        next = Argmax(logits);
-        tg += Seconds(step);
+        if (!completed_output) {
+          next = Argmax(logits);
+          tg += Seconds(step);
+        }
         ++steps;
       }
+      if (completed_output) {
+        tg = Seconds(decode_start);
+        (void)Argmax(logits); // Validate the final completed frontier, untimed.
+      }
+      Require(session->position() == input.size() + std::size_t(steps),
+              "Completed decode position mismatch");
+      Require(!completed_output || std::size_t(steps) == output.size(),
+              "Output token was not completed");
       if (trace)
         Q2ProfileMarker(3);
       Save<float>(prefix + "-last.f32", logits);
@@ -196,6 +210,9 @@ int main(int argc, char **argv) {
                 << ",\"warmup\":" << (rep == 0 ? "true" : "false")
                 << ",\"prompt_tokens\":" << input.size()
                 << ",\"output_tokens\":" << output.size()
+                << ",\"completed_output\":"
+                << (completed_output ? "true" : "false")
+                << ",\"final_position\":" << session->position()
                 << ",\"decode_steps\":" << steps << ",\"prefill_s\":" << pp
                 << ",\"decode_s\":" << tg
                 << ",\"prefill_tok_s\":" << input.size() / pp
@@ -250,6 +267,18 @@ int main(int argc, char **argv) {
           sample("pp" + std::to_string(input.size()), input, rep, 128);
         }
       }
+      if (historical) {
+        const std::vector<std::int32_t> input(kHistoricalInput.begin(),
+                                              kHistoricalInput.end());
+        Save<std::int32_t>("historical2042-input.i32", input);
+        for (int rep = 0; rep < 4; ++rep) {
+          std::cout << "{\"event\":\"cooldown\",\"seconds\":15,\"before_"
+                       "historical_rep\":"
+                    << rep << "}\n";
+          std::this_thread::sleep_for(std::chrono::seconds(15));
+          sample("historical2042", input, rep, 128, true);
+        }
+      }
     }
 #ifdef LIE_Q2_SHARED_FORK
     const auto &fork = executor->SharedForkStats();
@@ -259,8 +288,8 @@ int main(int argc, char **argv) {
     if (bench || profile)
       Require(fork.started > 0, "Shared branch was not exercised");
     std::cout << "{\"event\":\"shared_fork\",\"started\":" << fork.started
-              << ",\"joined\":" << fork.joined << ",\"drained\":" << fork.drained
-              << ",\"state\":\"idle\"}\n";
+              << ",\"joined\":" << fork.joined
+              << ",\"drained\":" << fork.drained << ",\"state\":\"idle\"}\n";
 #endif
     std::cout << "{\"event\":\"complete\",\"finite_frontiers\":true,\"semantic_"
                  "smoke\":true}\n";

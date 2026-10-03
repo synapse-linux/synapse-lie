@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Corrected decode harness and historical baseline replay — 2026-10-03
+
+The obsolete per-logit string construction is removed with all finite checks,
+tie behavior and exception text preserved. Fresh Q2 current2K decode is
+25.089 calls/s (+4.120%); UD is 25.475 (+4.757%). This is benchmark overhead
+removed, not an inference-kernel improvement. All 21 old saved files match for
+each model. Two scopes per model pass 36/36 internal replay checks in total.
+
+The added immutable historical2042 prompt completes 128 forwards per 128 output
+tokens, final position 2170. Q2 reaches 25.080 and UD 25.463 calls/s, a 1.505% deficit
+or 0.60013ms/token. UD matches all 12 original token/frontier witnesses, but the
+full finite scan and sampling boundary still differ from the original 26.049
+baseline. That production target is not lowered. Q2 prefill at 2048 remains
+1438.975 token/s; UD varies 1611.173–1672.432, so the smaller raw PP deficit is
+not a Q2 optimization. Historical2042 PP is 1372.865/1662.672 Q2/UD. Numerical
+rejection remains: operator failures and KL 0.002996 >0.002; no task-quality,
+HTTP, concurrency or long-context promotion follows.
+
+The paired norm source is bound to n2048 where its actual library consumer
+runs; all GPU kernels and 1019 other source files remain unchanged. Each model
+receives a full MMQ rebuild. Debug and ASan/UBSan both pass 17/17 tests on `.157`.
+All 85 artifacts, 3059 source-file instances and 14 successful command exits
+verify. The shared formatter retains exactly the parent's five untouched
+upstream-test violations; changed first-party C++ files pass formatting.
+Maximum model-run CPU 82.5 C/GPU 74 C. Public ABI and state formats do not change;
+experimental evidence adds explicit completed_output and final_position.
+
+[Full samples, durations, hashes, graphs and boundary analysis](Q2-DECODE-BASELINE.md)
+are recorded. Closure at 17:37:05.108908 UTC verifies 17 recorded PIDs/groups
+retired, KFD empty and four original leases free. Persistent remote/shared/local
+release receipts provide the handover while outgoing MCP transport remains
+unavailable. No job, waiter or restart remains. The goal remains open.
+
 ## Paired norm/library composition improves complete prefill — 2026-10-03
 
 The actual library consumer retains the paired producer's saving: complete
