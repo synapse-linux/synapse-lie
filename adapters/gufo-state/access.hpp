@@ -32,7 +32,11 @@ public:
   }
   static lie_kvc_qwen_geometry Geometry(Session& s) {
     const auto& c=s.model_->config();
-    return {c.num_layers,c.num_layers_all-c.num_layers,c.full_attention_interval,c.num_kv_heads,c.head_dim,
+    // A separate predictor can be admitted with trunk-only GGUF metadata.
+    // Bind the loaded predictor, rather than inferring its presence solely
+    // from block_count/nextn_predict_layers in the trunk metadata.
+    const uint32_t predictor_layers=s.MtpEnabled()?1u:c.num_layers_all-c.num_layers;
+    return {c.num_layers,predictor_layers,c.full_attention_interval,c.num_kv_heads,c.head_dim,
         c.indexer_head_dim,c.ssm_num_v_heads,c.ssm_head_dim,c.ssm_conv_kernel-1,c.SsmConvChannels(),
         c.PleConvHistory(),c.HcDim(),c.vocab_size};
   }

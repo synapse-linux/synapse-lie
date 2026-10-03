@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight GPU continuation — 2026-10-03
+
+After the Q2 thread's verified release at 17:37:05 UTC, root takes the `.157`
+window under fresh four-lease admission for each arm. Checkpoint `f0f58b3`
+passes **32 AR HTTP assertions** with the original UD weights: new sampling
+controls, strict schemas/functions, correlated tools, retained Chat/Responses,
+stream/replay/cursors, cancellation, truncation and RAM reuse. Child/helper
+exit 0. Sampled peaks are CPU74.375/GPU76 C. This is same-provider functional
+evidence, not an independent numerical or performance qualification.
+
+The first two attempts preserve verifier failures: nullable logprobs when a
+stop hides every token, and the deliberately rejected over-context request
+incrementing `failed`. Their servers retire cleanly; no runtime change masks
+these outcomes. The successful AR arm is `gpu-functional-f0-r3/ar-http`.
+
+The following MTP arm confirms completed TG128, 95 proposed/accepted tokens
+and controlled target-AR fallback, then fails on long-prefix capture. The UD
+metadata declares **48 trunk blocks and no nextn field**, while a separate Q8
+predictor is actually admitted. The adapter inferred zero predictor layers
+from trunk metadata. Its state geometry now binds the admitted predictor;
+the C17 codec, cache policy and DS4 payload framing remain unchanged. The
+original failed request/exit remain in `gpu-functional-f0-r3/mtp-http`.
+
+GPU requalification of the correction, combined vision, exact state/SSD
+continuation and matched performance remain in progress. The
+[declared protocol](development/protocols/C17-GPU-PROTOCOL.md) and private
+persistent evidence distinguish pending gates from passes. No source in `/tmp`,
+DS4 modification, model conversion, remote build, installation or tuning occurs.
+
 ## C17 dense sampling extraction — 2026-10-03
 
 `feature/c17-sampling` starts from `develop` in a persistent worktree and

@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+### Fixed
+
+- Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
+  when the trunk GGUF metadata has no embedded predictor block.
+
 ### Added
 
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
