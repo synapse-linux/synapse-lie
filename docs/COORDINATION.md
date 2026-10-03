@@ -1996,3 +1996,41 @@ smoke cohorts sequentially, still one task per model and not a Core-19 full
 score. Pinned task/verifier/agent, common serving settings and original model
 remain fixed. Every arm performs fresh leases/process/thermal admission and
 a complete server/MMQ build; there is no cross-variant binary reuse.
+
+Core reports integration checkpoint01ff720 (feature/mtp-vision-integration),
+36/36 sanitizer checks and no GPU reservation. Its .155 work remains separate.
+Q2 still owns the .157 Terminal-Bench window. Outgoing status messages continue
+to fail at the local TUI transport; no handover delivery is claimed.
+
+Retained smoke completes at 2026-10-03 10:37:03.728 UTC with reward1 on its
+first attempt, no exception, 24097 input/1792 output tokens, peak context4645
+and eight agent steps. Its runtime and 23 task/export artifacts are collected
+and hash verified. The scalar/compensated and retained trajectories differ
+but both satisfy all five independent verifier checks. Scaled-input smoke
+q2-terminal-scaled-smoke-r1 is now running under fresh leases; task quality
+is still an open comparison until its verifier and attempt policy finish.
+
+Scaled smoke completes at 2026-10-03 10:46:10.875 UTC with first-attempt
+reward1, no exception and all five original verifier checks passing. The task
+uses31174 input/2159 output tokens, peak context5374, nine agent steps and
+304.758 s. Qualified/retained/scaled task provenance and complete serving/agent
+profiles match after removing only the arm tag. All69 task/export files are
+collected and hash verified. No observed task failure in this single case;
+the candidate uses more tokens/steps, and numerical rejection is unchanged.
+
+The complete real-task path now admits the owner-requested full Core-19 cohort
+sequentially: qualified Q2, retained hc-up-chains and scaled-input. Each arm
+has19 original tasks, concurrency1, up to two conditional attempts, unchanged
+three-hour agent timeout, common context262144 and output4096 serving profile.
+A task verifier failure is a recorded outcome; hardware/runtime/thermal errors
+stop the owned arm with no model restart. Fresh four-lease admission and full
+source/MMQ compilation apply per arm. Persistent supervisors retain live state
+and durable job paths. This is a long quality campaign, not an unprofiled
+throughput comparison, and no idle gap releases Q2's coordinated window.
+
+Qualified full supervisor PID 3003240 starts at 2026-10-03 10:49:27 UTC.
+Its full server/MMQ build completes at 10:52:24.873 UTC, doctor exits zero
+and Harbor starts Core-19 at 10:52:38.079 UTC. A live observation confirms
+the owned supervisor, the exact Harbor job and the first task
+break-filter-js-from-html. Retained/scaled full arms have not started; this
+is an active campaign, not a completed score or GPU-window release.

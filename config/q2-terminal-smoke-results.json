@@ -1,0 +1,270 @@
+{
+  "scope": "Completed paired real-task results; no numerical-equivalence proof",
+  "tier": "smoke",
+  "arms": {
+    "qualified": {
+      "path": "evidence/q2-terminal-qualified-smoke-r1/terminal-benchmark/export",
+      "tasks": {
+        "git-leak-recovery": {
+          "pass_at_1": true,
+          "pass_at_2": true,
+          "attempts": [
+            {
+              "attempt": 1,
+              "reward": 1.0,
+              "exception": null,
+              "duration_ms": 325667,
+              "tokens": {
+                "input": 22068,
+                "cached": 0,
+                "output": 1691,
+                "peak_context": 4113
+              },
+              "transcript": "transcript-git-leak-recovery.json"
+            }
+          ],
+          "profile": {
+            "benchmark": "Terminal-Bench-Local",
+            "harbor_version": "0.20.0",
+            "model_id": "qwen3.8-flash-next-q2",
+            "model_metadata": {
+              "id": "qwen3.8-flash-next-q2",
+              "object": "model",
+              "owned_by": "gufo-embedded-f783fedb",
+              "context_length": 262144,
+              "max_output_tokens": 4096
+            },
+            "endpoint": "http://127.0.0.1:8000/v1",
+            "engine": "synapse-lie-q2-experiment",
+            "engine_version": "ae9c34ef-gufo-f783fedb",
+            "backend": "rocm",
+            "backend_version": null,
+            "quant": "Q2",
+            "inference_profile": "ar-thinking-off-prefix-off-output4096",
+            "tag": "q2-terminal-qualified-smoke-r1",
+            "agent": {
+              "name": "terminus-2",
+              "version": "2.0.0",
+              "context_length": 262144,
+              "context_summarization": true,
+              "summarization_free_tokens": 8000
+            },
+            "agent_timeout_seconds": 10800,
+            "model_request_timeout_seconds": 10800,
+            "suite": {
+              "schema_version": 1,
+              "id": "core19",
+              "version": "1.0.0",
+              "task_hash_algorithm": "terminal-bench-local-task-tree-v1",
+              "manifest_hash": "8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7"
+            }
+          },
+          "provenance": {
+            "id": "git-leak-recovery",
+            "source": "terminal-bench-2.1",
+            "upstream_name": "terminal-bench/git-leak-recovery",
+            "content_sha256": "sha256:fd44b219fb2a5f9a06fab7204b9bd6d04f4273d7a9692973e24de6b3367e13b6",
+            "upstream_digest": "sha256:22a9ec10dbd4cd8b99477b70e1944103775ca41de9b9e0025ec4898cd17bd334",
+            "provenance": {
+              "dataset": "terminal-bench/terminal-bench-2-1",
+              "version": "2.1",
+              "repository": "https://github.com/harbor-framework/terminal-bench-2-1.git",
+              "revision": "5c8eadf1f393183288fa08b8f73ca9a469cc5e00"
+            }
+          }
+        }
+      },
+      "pass_at_1": 1,
+      "pass_at_2": 1,
+      "denominator": 1
+    },
+    "retained": {
+      "path": "evidence/q2-terminal-retained-smoke-r1/terminal-benchmark/export",
+      "tasks": {
+        "git-leak-recovery": {
+          "pass_at_1": true,
+          "pass_at_2": true,
+          "attempts": [
+            {
+              "attempt": 1,
+              "reward": 1.0,
+              "exception": null,
+              "duration_ms": 279337,
+              "tokens": {
+                "input": 24097,
+                "cached": 0,
+                "output": 1792,
+                "peak_context": 4645
+              },
+              "transcript": "transcript-git-leak-recovery.json"
+            }
+          ],
+          "profile": {
+            "benchmark": "Terminal-Bench-Local",
+            "harbor_version": "0.20.0",
+            "model_id": "qwen3.8-flash-next-q2",
+            "model_metadata": {
+              "id": "qwen3.8-flash-next-q2",
+              "object": "model",
+              "owned_by": "gufo-embedded-f783fedb",
+              "context_length": 262144,
+              "max_output_tokens": 4096
+            },
+            "endpoint": "http://127.0.0.1:8000/v1",
+            "engine": "synapse-lie-q2-experiment",
+            "engine_version": "ae9c34ef-gufo-f783fedb",
+            "backend": "rocm",
+            "backend_version": null,
+            "quant": "Q2",
+            "inference_profile": "ar-thinking-off-prefix-off-output4096",
+            "tag": "q2-terminal-retained-smoke-r1",
+            "agent": {
+              "name": "terminus-2",
+              "version": "2.0.0",
+              "context_length": 262144,
+              "context_summarization": true,
+              "summarization_free_tokens": 8000
+            },
+            "agent_timeout_seconds": 10800,
+            "model_request_timeout_seconds": 10800,
+            "suite": {
+              "schema_version": 1,
+              "id": "core19",
+              "version": "1.0.0",
+              "task_hash_algorithm": "terminal-bench-local-task-tree-v1",
+              "manifest_hash": "8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7"
+            }
+          },
+          "provenance": {
+            "id": "git-leak-recovery",
+            "source": "terminal-bench-2.1",
+            "upstream_name": "terminal-bench/git-leak-recovery",
+            "content_sha256": "sha256:fd44b219fb2a5f9a06fab7204b9bd6d04f4273d7a9692973e24de6b3367e13b6",
+            "upstream_digest": "sha256:22a9ec10dbd4cd8b99477b70e1944103775ca41de9b9e0025ec4898cd17bd334",
+            "provenance": {
+              "dataset": "terminal-bench/terminal-bench-2-1",
+              "version": "2.1",
+              "repository": "https://github.com/harbor-framework/terminal-bench-2-1.git",
+              "revision": "5c8eadf1f393183288fa08b8f73ca9a469cc5e00"
+            }
+          }
+        }
+      },
+      "pass_at_1": 1,
+      "pass_at_2": 1,
+      "denominator": 1
+    },
+    "candidate": {
+      "path": "evidence/q2-terminal-scaled-smoke-r1/terminal-benchmark/export",
+      "tasks": {
+        "git-leak-recovery": {
+          "pass_at_1": true,
+          "pass_at_2": true,
+          "attempts": [
+            {
+              "attempt": 1,
+              "reward": 1.0,
+              "exception": null,
+              "duration_ms": 304758,
+              "tokens": {
+                "input": 31174,
+                "cached": 0,
+                "output": 2159,
+                "peak_context": 5374
+              },
+              "transcript": "transcript-git-leak-recovery.json"
+            }
+          ],
+          "profile": {
+            "benchmark": "Terminal-Bench-Local",
+            "harbor_version": "0.20.0",
+            "model_id": "qwen3.8-flash-next-q2",
+            "model_metadata": {
+              "id": "qwen3.8-flash-next-q2",
+              "object": "model",
+              "owned_by": "gufo-embedded-f783fedb",
+              "context_length": 262144,
+              "max_output_tokens": 4096
+            },
+            "endpoint": "http://127.0.0.1:8000/v1",
+            "engine": "synapse-lie-q2-experiment",
+            "engine_version": "ae9c34ef-gufo-f783fedb",
+            "backend": "rocm",
+            "backend_version": null,
+            "quant": "Q2",
+            "inference_profile": "ar-thinking-off-prefix-off-output4096",
+            "tag": "q2-terminal-scaled-smoke-r1",
+            "agent": {
+              "name": "terminus-2",
+              "version": "2.0.0",
+              "context_length": 262144,
+              "context_summarization": true,
+              "summarization_free_tokens": 8000
+            },
+            "agent_timeout_seconds": 10800,
+            "model_request_timeout_seconds": 10800,
+            "suite": {
+              "schema_version": 1,
+              "id": "core19",
+              "version": "1.0.0",
+              "task_hash_algorithm": "terminal-bench-local-task-tree-v1",
+              "manifest_hash": "8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7"
+            }
+          },
+          "provenance": {
+            "id": "git-leak-recovery",
+            "source": "terminal-bench-2.1",
+            "upstream_name": "terminal-bench/git-leak-recovery",
+            "content_sha256": "sha256:fd44b219fb2a5f9a06fab7204b9bd6d04f4273d7a9692973e24de6b3367e13b6",
+            "upstream_digest": "sha256:22a9ec10dbd4cd8b99477b70e1944103775ca41de9b9e0025ec4898cd17bd334",
+            "provenance": {
+              "dataset": "terminal-bench/terminal-bench-2-1",
+              "version": "2.1",
+              "repository": "https://github.com/harbor-framework/terminal-bench-2-1.git",
+              "revision": "5c8eadf1f393183288fa08b8f73ca9a469cc5e00"
+            }
+          }
+        }
+      },
+      "pass_at_1": 1,
+      "pass_at_2": 1,
+      "denominator": 1
+    }
+  },
+  "paired_outcomes": {
+    "qualified": {
+      "pass_at_1": {
+        "baseline_only": [],
+        "candidate_only": []
+      },
+      "pass_at_2": {
+        "baseline_only": [],
+        "candidate_only": []
+      }
+    },
+    "retained": {
+      "pass_at_1": {
+        "baseline_only": [],
+        "candidate_only": []
+      },
+      "pass_at_2": {
+        "baseline_only": [],
+        "candidate_only": []
+      }
+    }
+  },
+  "matrix": [
+    {
+      "task": "git-leak-recovery",
+      "qualified_pass_at_1": true,
+      "qualified_pass_at_2": true,
+      "retained_pass_at_1": true,
+      "retained_pass_at_2": true,
+      "candidate_pass_at_1": true,
+      "candidate_pass_at_2": true
+    }
+  ],
+  "numerical_gates_waived": false,
+  "promoted": false,
+  "goal_met": false
+}

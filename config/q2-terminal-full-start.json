@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-10-03T10:59:36.051254+00:00",
+  "label": "q2-terminal-qualified-full-r1",
+  "supervisor_state": "RUNNING",
+  "job": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-terminal-bench/benchmark/jobs/q2-terminal-qualified-full-r1",
+  "evidence_file": "evidence/q2-terminal-qualified-full-start-observation.json",
+  "evidence_sha256": "0bad625b01a8af3dada0fa56b871e003a22f56db2425d533fbbce78f96072c98",
+  "completed_first_attempts": 1,
+  "confirmed_first_attempt_passes": 0,
+  "first_attempt_verifier_failure": [
+    "break-filter-js-from-html"
+  ],
+  "conditional_second_attempt_pending": true,
+  "original_task_denominator": 19,
+  "retained_full_started": false,
+  "scaled_full_started": false,
+  "claim_scope": "Partial live observation only; no final score or paired quality verdict"
+}

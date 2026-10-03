@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "state": "THREE_ARM_SMOKE_IN_PROGRESS",
+  "state": "THREE_ARM_SMOKE_COMPLETE_QUALIFIED_FULL_RUNNING",
   "repository": "https://github.com/kyuz0/terminal-bench-mini",
   "revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
   "manifest": "suites/core19.json",
@@ -55,10 +55,10 @@
   "prefix_cache": false,
   "context_policy": "Use same real endpoint-advertised capacity for all arms; no runner override. Target 262144 after real endpoint qualification.",
   "status_notes": [
-    "Harbor 0.20.0 installed in the approved private uv cache.",
-    "Pinned benchmark unit tests: 107/107 pass after staging original docs/result fixtures; two incomplete-staging failures retained.",
-    "Qualified original-Q2 HTTP admission and benchmark doctor pass; input 28 tokens, not a deep-context qualification.",
-    "Qualified smoke passed first attempt, five original verifier tests pass; retained smoke is running."
+    "All three original-Q2 arithmetic variants pass git-leak-recovery on first attempt, five original verifier checks each.",
+    "Three-arm task/agent/serving protocol equality validated; 69 task files collected and hash verified.",
+    "Candidate uses nine agent steps and 2159 output tokens; retained uses eight and 1792. One task does not establish general equivalence.",
+    "Qualified full Core-19 has started Harbor and its first task after a complete server/MMQ build; retained/scaled full arms follow sequentially and have not started. Numerical gates remain unchanged."
   ],
   "scoring": [
     "Report pass@1 and pass@2 separately, task by task.",
@@ -93,7 +93,9 @@
   },
   "jobs": {
     "qualified_smoke": "q2-terminal-qualified-smoke-r1",
-    "retained_smoke": "q2-terminal-retained-smoke-r1"
+    "retained_smoke": "q2-terminal-retained-smoke-r1",
+    "scaled_smoke": "q2-terminal-scaled-smoke-r1",
+    "qualified_full": "q2-terminal-qualified-full-r1"
   },
   "qualified_smoke_result": {
     "task": "git-leak-recovery",
@@ -109,5 +111,6 @@
     "agent_steps": 8,
     "verifier_tests_passed": 5,
     "claim_scope": "One original smoke task only; not a full benchmark or candidate-quality verdict."
-  }
+  },
+  "smoke_report": "config/q2-terminal-smoke-results.json"
 }

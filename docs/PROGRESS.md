@@ -16,8 +16,10 @@ A separate profile confirms 48 scaled-down and 48 packing calls. See
 The owner selected pinned Terminal-Bench Mini/Core-19 for actual task quality
 and approved isolated Harbor/container dependencies. C17 LIE endpoint admission
 with original Q2 weights and the upstream doctor passes. Shared context metadata
-and default-output corrections pass 25/25 Debug and sanitizer checks. Scored
-smoke has a persistent supervisor; three-arm task quality is not complete.
+and default-output corrections pass 25/25 Debug and sanitizer checks. The real smoke
+task passes on all three variants, five verifier checks each. Candidate uses
+nine steps/2159 output tokens versus retained eight/1792. Full Core-19 is
+started sequentially under persistent supervision; its scores remain pending.
 See [protocol, limits and job paths](Q2-TERMINAL-BENCH.md). Existing numerical
 rejection, long-context/concurrency work and Q2/UD parity remain open.
 

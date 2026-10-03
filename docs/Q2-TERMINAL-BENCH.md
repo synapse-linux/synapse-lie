@@ -5,8 +5,10 @@ The owner selected [Terminal-Bench Mini](https://github.com/kyuz0/terminal-bench
 to test whether the scaled-input numerical error causes practical failures.
 The prepared comparison is qualified Q2, retained `hc-up-chains` Q2 and
 experimental `scaled-input` Q2, using the same original weights on `.157`.
-There is **no completed task-quality comparison yet**. Neither identical short
-greedy output nor a KL threshold establishes practical task success or harm.
+The paired smoke comparison is complete: **all three variants pass the one
+original git-leak-recovery task on attempt one**. Full Core-19 remains in
+progress. Neither that one task nor a KL threshold establishes general quality
+equivalence or harm.
 
 ## Frozen benchmark and scoring
 
@@ -109,27 +111,66 @@ python3 terminal_bench.py run --endpoint http://127.0.0.1:8000/v1 --tier smoke \
   --tag q2-terminal-qualified-smoke-r1 --job-name q2-terminal-qualified-smoke-r1
 ```
 
-Core-19 full and the other two arms remain pending admission of this complete
-request/agent/container/verifier path. The [frozen plan](../config/q2-terminal-bench-plan.json)
-records the intended paired comparison, not invented scores.
+The three smoke arms now establish the complete request/agent/container/
+verifier path. The [plan](../config/q2-terminal-bench-plan.json) records the
+sequential full-suite comparison; full-suite scores remain pending.
 
 The saved-export [comparison tool](../tools/analyze-q2-terminal.py) refuses
 incomplete denominators, missing conditional attempts, changed task provenance
 and mismatched agent/serving settings. It computes exact-reward pass@1/pass@2,
 baseline-only/candidate-only outcomes and a task matrix in JSON/CSV; it does
-not modify the upstream scores or waive numerical gates. No three-arm export
-is available to this reader yet.
+not modify the upstream scores or waive numerical gates. The completed three-arm smoke export is validated in
+[JSON](../config/q2-terminal-smoke-results.json) and
+[CSV](../config/q2-terminal-smoke-results.csv).
 
-### First real task result
+## Completed paired smoke result
 
-Qualified Q2 completes `git-leak-recovery` at 2026-10-03 10:26:25.561 UTC,
-reward **1.0 on attempt one**, with all five original verifier checks passing:
-recovery output, clean committed history, preservation of legitimate commits,
-clean unreachable objects, and repository contents checksum. The task takes
-325.667 s, eight agent steps, 22068 total input and 1691 output tokens, with
-maximum observed context4113 and no cached tokens or exception. All 23 raw
-job/export files are collected and hash verified. This establishes the complete
-real task path. It does not yet compare numerical variants or qualify deep
-context. Retained smoke `q2-terminal-retained-smoke-r1` is running; scaled smoke
-and full Core-19 remain pending. Six synthetic scoring-guard tests pass on
-`.157`; those fixtures are not additional model-task passes.
+Each variant passes all five original verifier checks: recovery output, clean
+committed history, preservation of legitimate commits, clean unreachable
+objects, and repository contents checksum.
+
+| Arithmetic route | Pass@1 | Original verifier checks | Agent steps | Output tokens | Peak context | Task seconds |
+|---|---:|---:|---:|---:|---:|---:|
+| Qualified Q2 | 1/1 | 5/5 | 8 | 1691 | 4113 | 325.667 |
+| Retained hc-up-chains | 1/1 | 5/5 | 8 | 1792 | 4645 | 279.337 |
+| Scaled input | 1/1 | 5/5 | 9 | 2159 | 5374 | 304.758 |
+
+Pass@2 is also 1/1, because a first-attempt pass skips the conditional second
+attempt. This is **one task across three implementations**, not three distinct
+tasks or five independent benchmark tasks. All 69 raw job/export files and 33
+supervisor artifacts are collected/hash verified. No exception, GPU/thermal
+stop, model stat change or postflight KFD client is observed. All three
+model/agent/serving profiles and task provenance agree after removing only the
+arm tag. Maximum per-response output is 302/327/358 tokens, below 4096.
+
+The candidate has no observed functional regression on this task, while using
+one extra agent step and 20.48% more output tokens than the retained path.
+Trajectories differ. This is not evidence that every numerical difference is
+harmless, nor a general efficiency improvement. Task durations include agent
+commands, environment preparation and verifier work; the first run also pulls
+the image. Do not substitute these times for the controlled C1 PP/TG results.
+The maximum exercised context here is 5374, not 256K or 128K.
+
+The runtime inventory records ROCm 7.2.4, kernel 7.2.2-1-cachyos, Python 3.12.13
+and all 90 private Harbor packages in
+[environment metadata](../config/q2-terminal-harbor-environment.json). The
+[setup record](../config/q2-terminal-bench-setup.json) preserves exits 1/1/0 for
+the missing-fixture unit-test sequence and 107/107 final success. Final Q2
+CTest/ASan/UBSan also passes 14/14, including six synthetic scoring guards.
+Those fixtures are not additional model-task passes.
+
+Full Core-19 is running in persistent job `q2-terminal-qualified-full-r1`.
+The full server/MMQ build completed at 2026-10-03 10:52:24.873 UTC and the
+benchmark command started at 10:52:38.079 UTC. A live observation confirms
+Harbor has started the first task, `break-filter-js-from-html`, with 19 tasks
+selected and the owned supervisor alive. Retained and scaled full arms follow
+sequentially; they have not started. Each full arm uses the same serving limits
+and the original up-to-two-attempt policy. It may run for many hours; this
+report does not contain a completed 19-task score. The Q2 GPU
+window remains owned while the campaign is active; no release is claimed.
+
+At the 2026-10-03 10:59:36 UTC observation, the qualified baseline has completed
+one first attempt: `break-filter-js-from-html` receives reward 0 from its
+original verifier, with no task exception. `build-cython-ext` is next. The
+conditional second attempt is pending; this partial outcome is neither a final
+Core-19 score nor evidence of a scaled-input regression.
