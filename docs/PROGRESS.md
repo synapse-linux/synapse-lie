@@ -1,6 +1,41 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Scaled and HC-library composition measured — 2026-10-03
+
+The two arithmetic experiments now run together, changing only `blaslt.cpp`
+in the cumulative scaled source. HC-down M320/K10240/n2048 uses the previously
+measured zero-workspace library algorithm 7526; the other 1019 source files
+stay exact. The additional vector-conversion/PLE paths from the preceding
+screen are excluded because they showed no useful warm gain.
+
+Fresh same-fan C1 pp2048/tg128 full-MMQ builds measure scaled Q2 1386.762,
+scaled + HC library 1412.563 and pristine UD 1660.059 prefill token/s. The
+composition gains 1.8605%, saving 26.974 ms of prefill, and remains 14.9089%
+below UD. Decode measures 24.081 / 24.117 / 24.273 calls/s; the composition
+remains 0.6421% below UD. This is a C1 2K result, not parity at other contexts,
+concurrency or HTTP. See [all rates, durations, samples and graphs](Q2-SCALED-LIBRARY.md).
+
+Component HC-down time falls 1196.711 to 988.426 us (-17.4047%). Both unchanged
+22-case fixtures complete with actual exit 1 and four/five numerical failures.
+Only the selected shape changes; all 22 candidate hashes match the prior library
+experiment. All nine token files match the fresh scaled base, eight logit files
+change, and every compared frontier has matched token history. Maximum KL
+against the historical qualified Q2 reference falls 0.003771 to 0.002996 but
+still exceeds 0.002. This narrow diagnostic proves no task-quality improvement;
+inherited scaled operator failures remain. No source is promoted.
+
+Host Debug/ASan each pass 16/16 on `.157`. Six capsules verify 181 artifacts,
+6119 source-file instances and all frozen fixtures; models and built binaries
+keep their witnesses. Observed CPU/GPU maxima are 84.625/74 C. Model candidate
+finishes at 15:43:12 UTC (17:43 Europe/Rome), UD at 15:47:49 UTC.
+
+Fresh closure at 15:54:18.022 UTC verifies 30 recorded processes/groups absent,
+KFD empty and original four leases free, then records remote/shared/local
+release. Direct core-thread delivery again fails at the MCP transport; the
+persistent coordination fallback is updated. No Q2 job or restart is queued.
+The performance objective and full quality comparison remain open.
+
 ## Cumulative optimizations measured — 2026-10-03
 
 The owner asks to combine improvements. The previously measured scaled source

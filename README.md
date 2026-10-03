@@ -4,7 +4,17 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The new [cumulative comparison](docs/Q2-COMBINED.md) tests the compatible
+The latest [scaled + HC-library comparison](docs/Q2-SCALED-LIBRARY.md) combines
+two separate arithmetic improvements and measures another **1.86% prefill gain**:
+1386.762 to 1412.563 token/s, with prefill falling 1.476821 to 1.449847 seconds.
+Fresh UD reaches 1660.059 token/s: Q2 remains **14.909% below UD** in prefill
+and 0.642% below its 24.273 decode calls/s. All nine token files match the
+scaled base, but eight logit files change and the qualified-reference KL maximum
+is 0.002996, above the unchanged 0.002 limit. The source remains experimental.
+Every sample, duration and numerical failure is preserved with graphs and CSV;
+181 artifacts verify and the GPU window is released. Q2/UD parity is not met.
+
+The preceding [cumulative comparison](docs/Q2-COMBINED.md) tests the compatible
 retained optimizations together with exact vector conversion and prepared PLE.
 Fresh same-fan 2K controls show no additional gain: retained PP changes
 1344.795 to 1341.148 (-0.271%), scaled PP 1388.492 to 1383.503 (-0.359%).
@@ -25,12 +35,13 @@ one verifier failure). The other full arms have not started. The candidate uses 
 that task, so this is no general quality or efficiency equivalence claim.
 The protocol documents all observed serving ceilings and bounded, streaming
 evidence collection for long runs; its host guards pass 15/15 on `.157`.
-The latest [HC160 algorithmic reduction](docs/Q2-HC-ROW160-INSTRUCTIONS.md)
+The earlier [HC160 algorithmic reduction](docs/Q2-HC-ROW160-INSTRUCTIONS.md)
 keeps160 rows and removes14.7% of emitted main-loop instructions. Two `.157`
 comparisons show no useful speed gain, with all22 outputs exact and inherited
-numerical failures retained. No model change is selected. The last full-model
-candidate gain remains the scaled-input mechanism: +3.16% in its first cohort
-and +3.25% in the fresh control, still outside the numerical gate.
+numerical failures retained. No model change is selected from that screen.
+Scaled-input previously gained +3.16% in its first cohort and +3.25% in a fresh
+control; the later library composition above gains another measured +1.86%,
+still outside the numerical gate.
 The [measured tile experiment](docs/Q2-SCALED-TILES.md) rejects global 64/128-row
 selection: tile128 adds 18.09–22.18% component time; tile64 only saves 4.49%
 in the 64-active-expert routing. All tile outputs agree exactly, while 48

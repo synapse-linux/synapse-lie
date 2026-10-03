@@ -1,0 +1,135 @@
+{
+  "at": "2026-10-03T15:54:18.022541+00:00",
+  "state": "Q2_SCALED_LIBRARY_WINDOW_RELEASED",
+  "labels": [
+    "q2-scaled-library-component-reference-r1",
+    "q2-scaled-library-component-candidate-r1",
+    "q2-scaled-library-model-reference-r1",
+    "q2-scaled-library-model-candidate-r1",
+    "q2-scaled-library-model-ud-r1",
+    "q2-scaled-library-host-r1"
+  ],
+  "command_exits": {
+    "q2-scaled-library-component-reference-r1": [
+      0,
+      0,
+      1
+    ],
+    "q2-scaled-library-component-candidate-r1": [
+      0,
+      0,
+      1
+    ],
+    "q2-scaled-library-model-reference-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-model-candidate-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-model-ud-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3128140,
+    3128142,
+    3128213,
+    3128328,
+    3128565,
+    3128639,
+    3128767,
+    3129310,
+    3129311,
+    3129538,
+    3129677,
+    3130120,
+    3130121,
+    3130317,
+    3130460,
+    3131291,
+    3131292,
+    3131500,
+    3132571,
+    3132576,
+    3133251,
+    3133253,
+    3133455,
+    3134592,
+    3134597,
+    3135353,
+    3135354,
+    3135562,
+    3136476,
+    3136481
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 37000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 38750,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "restart_scheduled": false,
+  "model_access": true,
+  "qualification": "Composed scaled/library C1 model timing; component numerical failures retained, no promotion or Q2/UD parity"
+}

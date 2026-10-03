@@ -2264,3 +2264,44 @@ receipt is explicitly marked RELEASED. No Q2 workload/waiter/restart remains.
 The outgoing core-thread handoff again fails at MCP transport; no delivery is
 claimed. Core can observe the persistent fallback and admit its own window
 with fresh preflight/leases. No further Q2 GPU job is admitted by this closure.
+
+At 2026-10-03 15:26:36 UTC, fresh observation finds KFD empty, the cumulative
+15:12 release still the latest registry event, and all original four leases
+free. No core/server GPU admission or controller is recorded; core's latest
+message explicitly continues CPU extraction after its earlier occupied preflight.
+Under the owner's continuing Q2-only authorization and performance objective,
+Q2 admits a bounded scaled/library composition window: host guards, fresh
+scaled-input and scaled-library HC component checks, then a separately recorded
+performance decision. A fresh C1 scaled/library/UD model trio may follow only
+when component behavior matches the known arithmetic change and motivates it.
+Every build/GPU arm takes original four leases afresh; fan82, CPU98 inclusive,
+exposed GPU bounds, unchanged models and numeric failures remain. No Core-19,
+foreign workload, dependency or service action is queued. Outgoing coordination
+fails at MCP transport; persistent run receipts and this ledger are the fallback.
+
+The fresh component pair completes at15:31 UTC with the inherited4/5 numerical
+failures and real exits0/0/1. Only M320/K10240/n2048 changes, and all22 candidate
+output hashes exactly reproduce the earlier library experiment. Down median
+1196.711 to988.426us saves17.404%; unchanged up differs+0.604% with overlapping
+samples. Under the owner's explicit arithmetic performance exploration,
+the current bounded window now admits fresh scaled-input, scaled-library and
+pristine UD pp2048/tg128 model arms, each with full MMQ rebuild and fresh original
+four leases. Keep numerical failures, matched-history KL and task-quality limits;
+no Terminal-Bench/server deployment follows automatically.
+
+The scaled/library campaign completes all six runners, ending with pristine
+UD at 2026-10-03 15:47:49.916 UTC. Fresh C1 prefill measures 1386.762 scaled,
+1412.563 composed and 1660.059 UD token/s; the composition gains 1.86% but
+remains 14.91% below UD. Component exits 1, existing operator failures and
+qualified-reference KL 0.002996 > 0.002 remain numerical rejection. All 181
+artifacts and 6119 source-file instances verify against their frozen capsules.
+
+Fresh closure at 15:54:18.022 UTC verifies 30 recorded processes and owned
+groups absent, KFD empty and original four leases acquired EX|NB then released.
+CPU is 38.75 C and GPU 37 C. Durable remote
+`run/q2-scaled-library-window-release.json`, the shared registry, and local
+main-repository release/ready receipts record the window as RELEASED. No Q2
+workload, waiter or automatic restart remains. The outgoing core-thread
+handoff again fails at MCP transport; no delivery is claimed. Core can observe
+these persistent receipts and admit a new window using its fresh protocol.
+No further Q2 GPU job is admitted by this closure.
