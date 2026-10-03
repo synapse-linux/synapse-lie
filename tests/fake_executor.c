@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed; uint64_t domain; unsigned vision; };
-struct lie_sequence { lie_model *model; unsigned position, step; int mode; int32_t *prompt; atomic_bool cancelled; };
+struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed; uint64_t domain; unsigned vision; bool vision_state; };
+struct lie_sequence { lie_model *model; unsigned position, step; int mode; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
@@ -250,6 +250,12 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
     shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));
     shape=atomic_load(&state_padding);if(shape)assert(lie_state_add(out,LIE_STATE_MODEL_COMPONENT,0,LIE_STATE_U8,1,&shape));
+    unsigned char zero[32]={0};if(memcmp(s->scope,zero,32)){
+#ifdef LIE_TEST_KVC_STATE
+        out->format=LIE_STATE_KVC_AUX;shape=8;assert(lie_state_add(out,LIE_STATE_AUXILIARY,0,LIE_STATE_U8,1,&shape));
+#endif
+        shape=32;assert(lie_state_add(out,LIE_STATE_CACHE_SCOPE,0,LIE_STATE_U8,1,&shape));
+    }
     if(atomic_load(&state_fault)==1)out->sections[0].bytes++;
     return LIE_OK;
 }
@@ -260,17 +266,25 @@ lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,voi
     memcpy((char*)bytes+l->sections[0].offset,s->prompt,l->sections[0].bytes);
     const float logits[]={1,2,3,4};memcpy((char*)bytes+l->sections[1].offset,logits,sizeof(logits));
     const int32_t recurrent[]={s->mode,(int32_t)s->step};memcpy((char*)bytes+l->sections[2].offset,recurrent,sizeof(recurrent));
-    if(l->section_count==4)memset((char*)bytes+l->sections[3].offset,0x5a,(size_t)l->sections[3].bytes);
+    for(unsigned i=3;i<l->section_count;++i){const lie_state_section *part=&l->sections[i];
+        if(part->role==LIE_STATE_CACHE_SCOPE)memcpy((char*)bytes+part->offset,s->scope,32);
+        else memset((char*)bytes+part->offset,0x5a,(size_t)part->bytes);
+    }
     return LIE_OK;
 }
 lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
     owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected&&!s->position);
+    for(unsigned i=3;i<l->section_count;++i){const lie_state_section *part=&l->sections[i];
+        if(part->role==LIE_STATE_CACHE_SCOPE&&memcmp((const char*)bytes+part->offset,s->scope,32))return error(e,LIE_INVALID,"fixture semantic scope mismatch before mutation");
+    }
     atomic_fetch_add(&restore_calls,1);barrier(FAKE_RESTORE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     s->position=l->token_count;
     if(atomic_load(&state_fault)==3){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic mutating state write fault");}
     memcpy(s->prompt,(const char*)bytes+l->sections[0].offset,l->sections[0].bytes);
     int32_t recurrent[2];memcpy(recurrent,(const char*)bytes+l->sections[2].offset,sizeof(recurrent));
-    if(l->section_count==4)for(uint64_t i=0;i<l->sections[3].bytes;++i)assert(((const unsigned char *)bytes)[l->sections[3].offset+i]==0x5a);
+    for(unsigned i=3;i<l->section_count;++i){const lie_state_section *part=&l->sections[i];
+        if(part->role!=LIE_STATE_CACHE_SCOPE)for(uint64_t k=0;k<part->bytes;++k)assert(((const unsigned char*)bytes)[part->offset+k]==0x5a);
+    }
     s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
 }
 
@@ -278,14 +292,14 @@ lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *
     (void)m;(void)t;(void)n;(void)e;*out=0;return LIE_OK;
 }
 
-struct lie_vision_prompt { lie_model *model;unsigned marker; };
+struct lie_vision_prompt { lie_model *model;unsigned char scope[32]; };
 lie_status lie_backend_open_vision(const char *p,const lie_model_options *o,uint32_t width,const char *encoder,lie_model **m,lie_error *e){
-    unsigned count=!strcmp(encoder,":vision-a:")?16:!strcmp(encoder,":vision-b:")?2:0;if(!count)return LIE_INVALID;
-    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK)(*m)->vision=count;return rc;
+    unsigned count=!strcmp(encoder,":vision-a:")?16:!strcmp(encoder,":vision-b:")?2:!strcmp(encoder,":vision-no-state:")?16:0;if(!count)return LIE_INVALID;
+    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK){(*m)->vision=count;(*m)->vision_state=strcmp(encoder,":vision-no-state:")!=0;}return rc;
 }
 lie_status lie_model_vision_info(lie_model *m,lie_vision_info *out,lie_error *e){
     (void)e;if(!m||!out||!m->vision)return LIE_UNSUPPORTED;
-    *out=(lie_vision_info){LIE_VISION_ABI,sizeof(*out),m->vision,LIE_VISION_MAX_PIXELS,LIE_VISION_MAX_BYTES,6,0};return LIE_OK;
+    *out=(lie_vision_info){LIE_VISION_ABI,sizeof(*out),m->vision,LIE_VISION_MAX_PIXELS,LIE_VISION_MAX_BYTES,6,m->vision_state};return LIE_OK;
 }
 lie_status lie_model_prepare_vision(lie_model *m,const lie_chat_template *t,const lie_image_input *images,size_t count,
     int32_t *tokens,size_t cap,size_t *n,lie_vision_prompt **out,lie_error *e){
@@ -295,9 +309,19 @@ lie_status lie_model_prepare_vision(lie_model *m,const lie_chat_template *t,cons
     if(*n>cap||extra>cap-*n){*n+=extra;return LIE_BUFFER_SMALL;}
     for(size_t i=0;i<count;++i){lie_image_dimensions d;if(lie_image_inspect(&images[i],&d,e)!=LIE_OK)return LIE_INVALID;
         for(unsigned j=0;j<stride;++j)tokens[(*n)++]=images[i].data[images[i].bytes-1];}
-    *out=calloc(1,sizeof(**out));if(!*out)return LIE_RESOURCE_LIMIT;(*out)->model=m;return LIE_OK;
+    *out=calloc(1,sizeof(**out));if(!*out)return LIE_RESOURCE_LIMIT;(*out)->model=m;
+    /* Deliberately non-cryptographic fixture identity; production Qwen hashes
+     * decoded/resized pixels, grid/preprocessor and actual encoder identity. */
+    uint64_t hash=UINT64_C(1469598103934665603)^m->vision;
+    for(size_t i=0;i<count;++i){for(size_t j=0;j<images[i].bytes;++j)hash=(hash^images[i].data[j])*UINT64_C(1099511628211);
+        hash=(hash^images[i].text_offset)*UINT64_C(1099511628211);hash=(hash^images[i].message_index)*UINT64_C(1099511628211);
+    }
+    for(unsigned i=0;i<32;++i)(*out)->scope[i]=(unsigned char)(hash>>(8*(i%8)));
+    return LIE_OK;
 }
 lie_status lie_sequence_attach_vision(lie_sequence *s,const lie_vision_prompt *p,lie_error *e){
-    (void)e;return s&&p&&s->model==p->model&&!s->position?LIE_OK:LIE_INVALID;
+    (void)e;if(!s||!p||s->model!=p->model||s->position)return LIE_INVALID;memcpy(s->scope,p->scope,32);return LIE_OK;
 }
 lie_status lie_vision_prompt_close(lie_vision_prompt **p,lie_error *e){(void)e;if(!p||!*p)return LIE_INVALID;free(*p);*p=NULL;return LIE_OK;}
+
+lie_status lie_vision_prompt_cache_scope(const lie_vision_prompt *p,unsigned char out[32],lie_error *e){(void)e;if(!p||!out)return LIE_INVALID;memcpy(out,p->scope,32);return LIE_OK;}

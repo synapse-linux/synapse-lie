@@ -554,3 +554,16 @@ lacks `per_layer_token_embd.weight`; it cannot qualify the complete loaded model
 The other Qwen trunks need the ongoing quantization compatibility work. No model
 weights were hashed, converted or loaded; no GPU was initialized or leased here.
 Inventory and stat witnesses remain under local `evidence/usb-qwen-*` on MTP.
+
+
+## Vision semantic cache host validation — 2026-10-03
+
+This step uses CPU fixtures and host HIP compilation only on the editing `.155`.
+CPU build/test guards use 95 C under the owner's 98 C CPU allowance, with at most
+two simultaneous single-job builds, GPU visibility masked, and lower exposed
+hardware/NVMe limits retained. The provider build peaks at CPU92.125 C; the first
+full sanitizer suite peaks at CPU74.375 C. No fan/power/clock settings changed.
+Actual compiler/test failures and exits remain under `evidence/vision-cache-*`.
+There is no model weight hash/conversion/load, GPU execution, remote build,
+new lease or benchmark. Functional GPU preparation still uses its separate
+85 C gate and requires compatible complete models plus fresh coordinated leases.

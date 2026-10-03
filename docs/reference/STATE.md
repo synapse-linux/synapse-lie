@@ -26,15 +26,22 @@ remain delegated; this does not claim an autonomous C model executor.
 ## VISION development boundary
 
 This branch exposes [VISION inference inputs/output](../development/VISION.md),
-and its C codec now retains and validates model-bound multimodal positions.
-The live provider still captures AR state only: image/encoder/preprocessing
-identity must first cover lookup, deduplication, device binding and restart.
-The core refuses VISION
-configuration with either RAM retention or disk persistence enabled before model
-load. It does not silently drop predictor/image state or downgrade a failed
-restore to an equivalent cache hit. Complete model-specific extensions and
-identity qualification are required before lifting this development restriction.
+and its live complete-history provider now binds semantic image identity and
+MRoPE positions to shared RAM/SSD lookup and restore. `LIE_STATE_CACHE_SCOPE`
+is a model-neutral U8[32] component (layer zero), containing the full prepared
+image-prompt SHA-256. Text-only state has no scope section and uses the zero key.
+KVC scope resides after the AUXILIARY boundary; the DS4 tensor payload remains
+unchanged. Old AR files/names retain their existing framing.
 
+Lookup, deduplication, supersession and protected prefixes all compare scope.
+SSD indexes read only a bounded provisional scope; complete file digest/layout
+validation and scope revalidation still precede returning a usable state.
+Image jobs never use text-prefix reconstruction. Original images must be
+resupplied after restart; neither pixels nor embeddings are persisted. Changing
+future images conservatively prevents earlier-prefix reuse. The live Qwen
+binding checks prepared positions/scope before upload and preserves the fresh
+destination sampler. Default RAM is enabled for admitted complete-state vision;
+only SSD defaults off. Original-weight vision qualification remains open.
 
 ## Multi-model requirement
 

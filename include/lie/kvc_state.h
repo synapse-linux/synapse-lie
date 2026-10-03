@@ -31,6 +31,12 @@ lie_status lie_kvc_qwen_state_finish_positions(const lie_kvc_qwen_geometry *,con
 lie_status lie_kvc_qwen_state_check_positions(const lie_kvc_qwen_geometry *,const lie_state_layout *,
                                               uint32_t eos,lie_kvc_span payload,lie_kvc_span positions,
                                               const lie_kvc_limits *,lie_error *);
+/* Vision keeps the DS4 tensor payload unchanged and appends a typed semantic
+ * scope. Positions and scope must come from the independently prepared prompt.
+ * Combined MTP/vision is deliberately refused by this binding. */
+lie_status lie_kvc_qwen_vision_state_plan(const lie_kvc_qwen_geometry *,const lie_kvc_qwen_frontier *,uint64_t,uint8_t,uint8_t,lie_state_layout *,lie_error *);
+lie_status lie_kvc_qwen_vision_state_finish(const lie_kvc_qwen_geometry *,const lie_state_layout *,uint32_t,lie_kvc_span,const unsigned char scope[32],void *,size_t,const lie_kvc_limits *,lie_error *);
+lie_status lie_kvc_qwen_vision_state_check(const lie_kvc_qwen_geometry *,const lie_state_layout *,uint32_t,lie_kvc_span,lie_kvc_span,const unsigned char scope[32],const lie_kvc_limits *,lie_error *);
 /* Qwen-specific continuation binding. The core's auxiliary storage is model
  * neutral; these roles and controller limits belong to this model codec.
  * KVC predictor tensors retain DS4 offsets. Residual/kept hidden rows and the

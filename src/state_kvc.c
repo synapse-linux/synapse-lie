@@ -92,7 +92,7 @@ bool lie_state_kvc_write(int fd,const lie_state_identity *id,const lie_state *s,
     memcpy(f+32,id->bytes,32);for(unsigned i=0;i<8;++i)kvc_put32(f+96+4*i,s->layout.model_data[i]);
     kvc_put64(f+128,m->trailer_bytes);kvc_put64(f+136,payload);
     if(aux){kvc_put64(f+176,aux);kvc_put32(f+184,LIE_STATE_KVC_AUX);}
-    char key[65];if(!lie_state_prefix_key(id,lie_state_tokens(s),s->layout.token_count,key))return false;
+    unsigned char scope[32];char key[65];if(!lie_state_cache_scope(s,scope)||!lie_state_scoped_prefix_key(id,lie_state_tokens(s),s->layout.token_count,scope,key))return false;
     for(unsigned i=0;i<32;++i){unsigned hi=(unsigned)(key[2*i]<='9'?key[2*i]-'0':key[2*i]-'a'+10);
         unsigned lo=(unsigned)(key[2*i+1]<='9'?key[2*i+1]-'0':key[2*i+1]-'a'+10);f[144+i]=(unsigned char)(hi*16+lo);}
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return false;
@@ -162,4 +162,20 @@ bool lie_state_kvc_token_key(int fd,const lie_state_identity *id,char hex[65]){
     static const char digits[]="0123456789abcdef";
     for(unsigned i=0;i<32;++i){hex[2*i]=digits[r.f[144+i]>>4];hex[2*i+1]=digits[r.f[144+i]&15];}
     hex[64]=0;return true;
+}
+
+bool lie_state_kvc_scope(int fd,const lie_state_identity *id,unsigned char scope[32]){
+    frame r;if(!scope||!inspect(fd,id,&r))return false;
+    memset(scope,0,32);unsigned found=0;
+    unsigned char b[SECTION];
+    for(unsigned i=0;i<kvc_u32(r.f+24);++i){
+        if(!io(fd,b,SECTION,r.table+(uint64_t)i*SECTION,false,NULL,NULL))return false;
+        if(kvc_u32(b)!=LIE_STATE_CACHE_SCOPE)continue;
+        uint64_t off=kvc_u64(b+56);
+        if(found++||!r.aux||kvc_u32(b+4)||kvc_u32(b+8)!=LIE_STATE_U8||kvc_u32(b+12)!=1||
+           kvc_u64(b+16)!=32||kvc_u64(b+24)||kvc_u64(b+32)||kvc_u64(b+40)||kvc_u64(b+48)!=32||
+           off<r.payload||off-r.payload>r.aux||32>r.aux-(off-r.payload))return false;
+        if(!io(fd,scope,32,52+r.text+r.payload+r.client+(off-r.payload),false,NULL,NULL))return false;
+    }
+    return true;
 }

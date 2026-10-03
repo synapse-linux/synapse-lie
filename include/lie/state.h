@@ -20,6 +20,7 @@ typedef enum {
     LIE_STATE_INDEX, LIE_STATE_BLOCK_KEYS,
     LIE_STATE_HEADER, LIE_STATE_SCALAR,
     LIE_STATE_AUXILIARY, /* First section after the unchanged KVC model payload. */
+    LIE_STATE_CACHE_SCOPE, /* Optional model-neutral SHA-256 semantic input key. */
     LIE_STATE_MODEL_COMPONENT=65536
 } lie_state_role;
 typedef enum { LIE_STATE_ALIGNED=0, LIE_STATE_KVC=1, LIE_STATE_KVC_AUX=2 } lie_state_format;
@@ -78,6 +79,11 @@ const char *lie_state_compression_codec(void);
 bool lie_state_compress(lie_state **,uint64_t peak_budget);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);
+/* Zero identifies text-only state. A scope binds the complete prepared image
+ * prompt (pixels, placement, preprocessing and encoder), separately from tokens.
+ * Providers publish it as one U8[32], layer-zero section. */
+bool lie_state_cache_scope(const lie_state *,unsigned char out[32]);
+bool lie_state_scope_equal(const lie_state *,const unsigned char scope[32]);
 /* Shared layout builder/validator for model providers, CPU fixtures and core.
  * ALIGNED sections use 8-byte alignment. KVC sections exactly partition the
  * model payload, including header/scalar fields, without inserted padding.

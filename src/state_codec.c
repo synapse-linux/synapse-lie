@@ -233,7 +233,7 @@ lie_state *lie_state_file_read(int fd,const lie_state_identity *id,uint64_t doma
     if(!ok||stopped(cancel))lie_state_destroy(&s);
     return s;
 }
-bool lie_state_prefix_key(const lie_state_identity *id,const int32_t *tokens,size_t n,char hex[65]){
+bool lie_state_scoped_prefix_key(const lie_state_identity *id,const int32_t *tokens,size_t n,const unsigned char scope[32],char hex[65]){
     if(!id||!tokens||!n||n>UINT32_MAX||!hex)return false;
     EVP_MD_CTX *ctx=EVP_MD_CTX_new();if(!ctx)return false;
     unsigned char b[4096],digest[32];unsigned count=0;put64(b,n);
@@ -242,7 +242,33 @@ bool lie_state_prefix_key(const lie_state_identity *id,const int32_t *tokens,siz
     for(size_t i=0;ok&&i<n;){size_t batch=n-i;if(batch>sizeof(b)/4)batch=sizeof(b)/4;
         for(size_t k=0;k<batch;++k)put32(b+4*k,(uint32_t)tokens[i+k]);
         ok=EVP_DigestUpdate(ctx,b,batch*4)==1;i+=batch;}
+    unsigned char zero[32]={0};
+    if(scope&&memcmp(scope,zero,32))ok=ok&&EVP_DigestUpdate(ctx,"LIE-semantic-scope-v1",21)==1&&EVP_DigestUpdate(ctx,scope,32)==1;
     ok=ok&&EVP_DigestFinal_ex(ctx,digest,&count)==1&&count==32;
     EVP_MD_CTX_free(ctx);if(ok)for(unsigned i=0;i<32;++i)snprintf(hex+2*i,3,"%02x",digest[i]);
     return ok;
+}
+
+bool lie_state_prefix_key(const lie_state_identity *id,const int32_t *tokens,size_t n,char hex[65]){
+    return lie_state_scoped_prefix_key(id,tokens,n,NULL,hex);
+}
+/* Provisional index key only. Full checksum/layout validation still precedes
+ * returning state; an untrusted key can cause a miss, never device mutation. */
+bool lie_state_file_scope(int fd,const lie_state_identity *id,unsigned char scope[32]){
+    if(!scope)return false;
+    memset(scope,0,32);
+    if(lie_state_kvc_detect(fd))return lie_state_kvc_scope(fd,id,scope);
+    unsigned char h[LIE_STATE_DISK_HEADER],b[LIE_STATE_DISK_SECTION];uint64_t size;
+    if(!read_header(fd,id,h,&size))return false;
+    uint64_t begin=LIE_STATE_DISK_HEADER+(uint64_t)u32(h+20)*LIE_STATE_DISK_SECTION;
+    unsigned found=0;
+    for(unsigned i=0;i<u32(h+20);++i){
+        if(!transfer(fd,b,sizeof(b),LIE_STATE_DISK_HEADER+(uint64_t)i*sizeof(b),false,NULL,NULL))return false;
+        if(u32(b)!=LIE_STATE_CACHE_SCOPE)continue;
+        uint64_t off=u64(b+56);
+        if(found++||u32(h+36)||u32(b+4)||u32(b+8)!=LIE_STATE_U8||u32(b+12)!=1||u64(b+16)!=32||
+           u64(b+24)||u64(b+32)||u64(b+40)||u64(b+48)!=32||off>u64(h+40)||32>u64(h+40)-off)return false;
+        if(!transfer(fd,scope,32,begin+off,false,NULL,NULL))return false;
+    }
+    return true;
 }

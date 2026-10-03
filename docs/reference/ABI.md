@@ -37,8 +37,14 @@ role without changing existing structure layouts or enum values.
 DS4-payload and auxiliary lengths. Invalid descriptors refuse before allocation
 or transfer. Old AR files retain footer version 1; new auxiliary files use
 version 2, require checksum admission and retain a fresh destination sampler.
-The feature adapters still advertise unsupported prefix state until their
-complete model binding and identity checks are connected.
+The vision binding now advertises complete prefix state only with the verified
+DS4 complete-history provider. Legacy providers advertise zero and require
+explicit cache-off configuration. The additive `LIE_STATE_CACHE_SCOPE` role and
+`lie_vision_prompt_cache_scope` function do not change existing structure layouts
+or enum values. Generic cache/SSD APIs gain scoped variants; existing wrappers
+continue to select text-only state. Scope extraction is nonmutating and requires
+an uncompressed U8[32] component. Generic layout validation rejects duplicate,
+misplaced or malformed scope sections. GPU qualification remains separate.
 
 ## Ownership and completion
 

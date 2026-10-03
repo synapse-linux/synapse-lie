@@ -34,4 +34,7 @@ lie_status lie_prefix_cache_restore_key(lie_prefix_cache *,lie_sequence *,const 
                                     size_t tokens,uint32_t chunk,uint32_t flags,unsigned *reused,lie_error *);
 lie_status lie_prefix_cache_capture(lie_prefix_cache *,lie_sequence *,const int32_t *,
                                     size_t tokens,lie_error *);
+lie_state *lie_prefix_cache_find_scope(lie_prefix_cache *,const int32_t *,size_t,const unsigned char scope[32]);
+lie_status lie_prefix_cache_restore_scope(lie_prefix_cache *,lie_sequence *,const int32_t *,size_t,uint32_t,uint32_t,const unsigned char scope[32],unsigned *,lie_error *);
+lie_status lie_prefix_cache_capture_scope(lie_prefix_cache *,lie_sequence *,const int32_t *,size_t,const lie_cache_metadata *,size_t,uint32_t,const unsigned char scope[32],lie_error *);
 #endif

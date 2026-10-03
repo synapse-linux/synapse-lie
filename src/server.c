@@ -721,7 +721,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(key, "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-vision ENCODER.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText and optional inline-image AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in. Vision requires --kv-cache-ram-mb 0 without disk persistence until multimodal state caching is supported; no MTP or exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-vision ENCODER.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText and optional inline-image AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in. Vision caching requires an admitted complete-state provider; no MTP or exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -761,8 +761,8 @@ int main(int argc, char **argv) {
         !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
         fputs("Invalid model configuration\n",stderr); return 2;
     }
-    if(options.vision_model_path&&(!LIE_VISION||options.prefix_cache_bytes||options.ssd.directory)){
-        fputs("Vision requires LIE_VISION=ON and explicit KV caches off until multimodal state persistence is implemented\n",stderr);return 2;
+    if(options.vision_model_path&&!LIE_VISION){
+        fputs("Vision requires LIE_VISION=ON\n",stderr);return 2;
     }
     server s = {0}; s.started = lie_monotonic_ns(); s.model_id=model_id; s.max_active=options.max_active;
     s.inference_timeout_ns=(uint64_t)timeout_ms*1000000;

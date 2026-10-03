@@ -9,6 +9,7 @@
 #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
 #include <atomic>
 #include <cstring>
+#include <array>
 #ifdef LIE_DS4_RUNTIME_CACHE
 #include "lie/kvc_state.h"
 #ifndef LIE_GUFO_DS4_STATE
@@ -19,6 +20,9 @@ namespace gufo::models::qwen38_flash_next {
 class LieStateAccess {
 public:
 #ifdef LIE_DS4_RUNTIME_CACHE
+  static auto ModelReaders(Model& m) {
+    return std::array<core::GgufReader*,2>{m.reader_.get(),m.vision_?const_cast<core::GgufReader*>(&m.vision_->LieReader()):nullptr};
+  }
   static lie_kvc_qwen_geometry Geometry(Session& s) {
     const auto& c=s.model_->config();
     return {c.num_layers,c.num_layers_all-c.num_layers,c.full_attention_interval,c.num_kv_heads,c.head_dim,
@@ -29,20 +33,22 @@ public:
   static bool Describe(Session& s,uint64_t domain,uint32_t chunk,
                        const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0) {
     auto& d=*s.session_;const auto& c=s.model_->config();
-    if(!s.valid_||s.MtpEnabled()||s.image_prompt_||d.spec_tokens_||
+    if(!s.valid_||s.MtpEnabled()||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
 #ifdef LIE_DS4_RUNTIME_CACHE
     if(d.index_capacity_<s.ContextSize()||c.compress_ratio!=4||c.ple_layer<0||
        (!source&&d.blocks_!=s.Position()/4))return false;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
-       source->prefill_chunk!=chunk||source->format!=LIE_STATE_KVC||source->model_id!=5||source->quant_bits!=quant))return false;
+       source->prefill_chunk!=chunk||source->format!=(s.image_prompt_?LIE_STATE_KVC_AUX:LIE_STATE_KVC)||source->model_id!=5||source->quant_bits!=quant))return false;
     const auto g=Geometry(s);
     const lie_kvc_qwen_frontier f{source?source->context_tokens:s.ContextSize(),chunk,
-        source?source->model_data[0]:s.ContextSize(),source?source->token_count:s.Position(),0,0};
+        source?source->model_data[0]:s.ContextSize(),source?source->token_count:s.Position(),0,s.image_prompt_?s.image_prompt_->rope.Delta():0};
     lie_error error{};
-    return lie_kvc_qwen_state_plan(&g,&f,domain,5,quant,&out,&error)==LIE_OK&&
+    return (s.image_prompt_?lie_kvc_qwen_vision_state_plan(&g,&f,domain,5,quant,&out,&error):
+        lie_kvc_qwen_state_plan(&g,&f,domain,5,quant,&out,&error))==LIE_OK&&
         (!source||lie_state_layout_equal(source,&out));
 #else
+    if(s.image_prompt_)return false;
     (void)quant;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
                 source->prefill_chunk!=chunk||source->representation_version!=LIE_QWEN_STATE_REPRESENTATION))return false;
@@ -68,8 +74,28 @@ public:
     limits.cancelled=[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;};
     limits.userdata=const_cast<std::atomic<bool>*>(&cancelled);
     lie_error detail{};
+    const bool vision=bool(s.image_prompt_);
+    lie_kvc_span positions{};std::array<unsigned char,32> scope{};
+    if(vision){
+      if(s.image_prompt_->cache_identity.size()!=32){error="missing prepared vision scope";return LIE_INVALID;}
+      std::copy(s.image_prompt_->cache_identity.begin(),s.image_prompt_->cache_identity.end(),scope.begin());
+      const lie_state_section *part=nullptr;
+      for(unsigned i=0;i<layout.section_count;++i)if(layout.sections[i].role==LIE_KVC_QWEN_POSITIONS)part=&layout.sections[i];
+      if(!part||part->bytes!=16ull*layout.token_count){error="missing vision position section";return LIE_INVALID;}
+      auto* rows=static_cast<unsigned char*>(bytes)+part->offset;
+      // Validate each row against fresh prepared geometry before any upload.
+      // Capture uses the exact position-section alias: no N*16 scratch copy.
+      for(uint32_t i=0;i<layout.token_count;++i){
+        if(!(i%4096)&&cancelled.load()){error="cancelled vision position binding";return LIE_CANCELLED;}
+        const auto p=s.image_prompt_->rope.Position(i);const int32_t row[4]={p[0],p[1],p[2],0};
+        if(restore){if(std::memcmp(rows+16ull*i,row,16)){error="vision positions differ from prepared input";return LIE_INVALID;}}
+        else std::memcpy(rows+16ull*i,row,16);
+      }
+      positions={rows,static_cast<size_t>(part->bytes)};
+    }
     if(restore){
-      const auto rc=lie_kvc_qwen_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
+      const auto rc=vision?lie_kvc_qwen_vision_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
+          {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},positions,scope.data(),&limits,&detail):lie_kvc_qwen_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
           {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
     }
@@ -79,6 +105,9 @@ public:
     // released. No borrowed buffer survives this call, even on cancellation.
     if(!checked(hipStreamSynchronize(stream)))return LIE_BACKEND_FAILED;
     if(restore){
+#ifdef LIE_DS4_RUNTIME_CACHE
+      if(vision)d.RestoreVisionLayout(s.image_prompt_->rope,stream);
+#endif
       s.tokens_.resize(layout.token_count);s.logits_.resize(s.model_->VocabSize());
       s.valid_=false; // No usable frontier until every component is committed.
     }
@@ -95,7 +124,8 @@ public:
       void* bound=nullptr;bool device=true;
       switch(part.role){
 #ifdef LIE_DS4_RUNTIME_CACHE
-        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:continue;
+        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:
+        case LIE_STATE_AUXILIARY:case LIE_STATE_CACHE_SCOPE:continue;
         case LIE_STATE_NGRAM:
           if(restore){for(size_t j=0;j<d.ngram_.prev.size();++j){
               int32_t token=-1;if(j<layout.token_count)std::memcpy(&token,host+4*j,4);d.ngram_.prev[j]=token;}}
@@ -133,7 +163,8 @@ public:
     }
 #ifdef LIE_DS4_RUNTIME_CACHE
     if(!restore){
-      auto rc=lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
+      auto rc=vision?lie_kvc_qwen_vision_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,positions,scope.data(),
+          bytes,static_cast<size_t>(payload),&limits,&detail):lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
           bytes,static_cast<size_t>(payload),&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
     }

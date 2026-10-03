@@ -177,7 +177,11 @@ adds an authenticated auxiliary-byte length and format tag. Its disk order is
 The header payload length still describes only the DS4 payload. In RAM, typed
 auxiliary sections follow that payload in the same immutable allocation; every
 byte counts toward retention and staging budgets. Model-specific codecs own
-auxiliary geometry; the store has no predictor or image topology.
+auxiliary geometry; the store has no predictor or image topology. Vision uses
+an 8-byte `LIESCP1` marker plus a typed 32-byte semantic scope. Scoped files keep
+the normal SHA-1 text-name shape, hashing the text plus a versioned scope domain
+and scope; text-only names keep exactly their prior SHA-1 input. The token index
+also adds scope only when nonzero. Neither changes the DS4 tensor payload.
 It records state ABI/representation/chunk, model frontier data, exact stable
 identity, token-prefix key, client-trailer length and SHA-256 integrity. The hash
 covers envelope, text, payload, client trailer, auxiliary components, descriptors and footer, excluding

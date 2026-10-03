@@ -68,7 +68,13 @@ int main(int argc, char **argv) {
 #endif
           "--host", "127.0.0.1", "--port", aps, "--management-port", mps,
           "--context", "128", "--prefill-chunk", "4", "--max-active", "2",
-          "--kv-cache-ram-mb", "0", (char *)NULL);
+          "--kv-cache-ram-mb",
+#if defined(TEST_VISION)
+          "1", "--kv-cache-min-tokens", "1", "--kv-cache-boundary-trim-tokens", "0", "--kv-cache-boundary-align-tokens", "0", "--kv-cache-capture-finish", "off",
+#else
+          "0",
+#endif
+          (char *)NULL);
     _exit(127);
   }
   bool ready = false;
@@ -88,7 +94,11 @@ int main(int argc, char **argv) {
   json_object *metadata = nb_http_get(health, 1, &metadata_error);
   require(metadata != NULL, metadata_error.message);
   json_object *backend = nb_get(metadata, "backend");
+#if defined(TEST_VISION)
+  require(json_object_get_boolean(nb_get(backend, "prefix_state")), "complete vision state not advertised");
+#else
   require(!json_object_get_boolean(nb_get(backend, "prefix_state")), "incomplete feature state advertised as cacheable");
+#endif
 #if defined(TEST_VISION)
   require(json_object_get_boolean(nb_get(backend, "vision")) &&
           nb_number(backend, "max_images") == 16, "vision capability");
@@ -121,7 +131,13 @@ int main(int argc, char **argv) {
           .responses = responses, .stream = stream, .strict = true};
       json_object *o = nb_http_request(&opts, request, &error);
       require(o != NULL, error.message);
-      require(nb_number(o, "output_tokens") == (budget == 4 ? 4 : 8) && !nb_number(o, "cached_tokens") &&
+      require(nb_number(o, "output_tokens") == (budget == 4 ? 4 : 8) &&
+#if defined(TEST_VISION)
+              nb_number(o, "cached_tokens") == (responses||stream||budget==19 ? 7 : 0) &&
+#else
+              !nb_number(o, "cached_tokens") &&
+#endif
+
               *nb_string(o, "content"), "complete uncached output");
 #if defined(TEST_VISION)
       require(nb_number(o, "prompt_tokens") == 7, "image tokens lost in HTTP admission");

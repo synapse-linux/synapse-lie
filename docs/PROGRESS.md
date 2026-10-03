@@ -1,5 +1,24 @@
 # Isolated OpenAI reactive API increment
 
+## Vision semantic RAM/SSD cache binding — 2026-10-03
+
+The shared C17 cache now keys images separately from tokens. RAM lookup,
+deduplication, retention/protection and SSD filenames/index/restart use a typed
+semantic scope; equal tokens with different images produce a pre-upload miss.
+The Qwen binding validates prepared MRoPE positions and the actual loaded
+model/projector files. DS4 tensor payload and old AR framing remain unchanged.
+RAM keeps its normal default; SSD is opt-in. Clients resupply images after
+restart; full-prompt scope conservatively limits earlier-prefix reuse.
+
+Native ASan/UBSan/LeakSanitizer passes **30/30**. Tests cover two fixtures,
+KVC/aligned process restart and both HTTP APIs in JSON/SSE. The independently
+materialized provider and HIP server/bench compile/link. No model load, GPU
+run, weight hash or performance result is claimed. Earlier compiler errors and
+fixture assertions remain in local evidence with their actual exits. See
+[usage and limits](development/VISION.md) and the
+[source-bound receipt](development/validation/vision-cache-2026-10-03.json).
+
+
 ## Shared auxiliary KV state and vision positions — 2026-10-03
 
 The C17 RAM/SSD store now retains typed auxiliary state with complete budget

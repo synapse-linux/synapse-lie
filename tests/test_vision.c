@@ -125,13 +125,12 @@ static void family(const char *encoder, unsigned max_images,
   o.context = 128;
   o.chunk = 4;
   o.max_active = 2;
-  assert(!lie_core_create(&o));
   o.prefix_cache_bytes = 0;
   lie_core *c = lie_core_create(&o);
   assert(c);
   lie_core_info ci = ready(c, LIE_READY);
   assert(ci.vision.max_images == max_images &&
-         !ci.vision.prefix_state_supported);
+         ci.vision.prefix_state_supported);
   lie_core_request block;
   lie_core_request_init(&block);
   int32_t ids[] = {0, 10, 10, 10};

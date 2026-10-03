@@ -23,7 +23,8 @@ original-weight behavior or performance; other real model bindings remain open.
   connect directly over HTTP.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [vision image inputs](docs/development/VISION.md),
-  with explicit model configuration; feature KV reuse is still under development.
+  with explicit model configuration and semantic RAM/SSD cache binding.
+  Original-weight vision qualification remains pending.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency

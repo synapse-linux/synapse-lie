@@ -20,8 +20,7 @@ default build option; `-DLIE_VISION=OFF` prevents image-job admission.
 build/release/synapse-lie-server \
   --model /models/target-00001-of-00004.gguf \
   --model-vision /models/encoder.gguf \
-  --model-id local-model --port 8000 --context 4096 --max-active 2 \
-  --kv-cache-ram-mb 0
+  --model-id local-model --port 8000 --context 4096 --max-active 2
 ```
 
 Create a request from a local PNG using standard shell tools:
@@ -47,7 +46,7 @@ build/release/synapse-lie-bench --suite core \
   --model /models/target-00001-of-00004.gguf \
   --model-vision /models/encoder.gguf --image-file image.png \
   --prompt-file prompt.txt --context 4096 --chunk 2048 \
-  --users 2 --tg 128 --repetitions 3 --kv-cache-ram-mb 0 \
+  --users 2 --tg 128 --repetitions 3 \
   --output vision.jsonl --graphs vision-graphs
 ```
 
@@ -90,20 +89,50 @@ path. Fixtures reject changed rows, reserved/negative lanes, truncated input and
 overlapping capture spans, and retain the complete position payload across SSD
 restart. Typed auxiliary storage is shared with other model features.
 
-The live cache still needs consumed-image/grid/preprocessing/encoder identity in
-lookup, deduplication and persistence, plus matching provider image layout and
-restart input ownership. Equal positions alone do not establish equal images.
-Vision
-therefore requires **explicit `--kv-cache-ram-mb 0` and no `--kv-disk-dir`**;
-incompatible configurations are refused before loading a model. AR retains its
-normal RAM-cache default. Text placeholders are never sufficient image identity.
+RAM retention now uses its normal 4 GiB default for a complete-state vision
+provider. Only SSD persistence is opt-in. Configure `--kv-disk-dir`,
+`--kv-disk-space-mb` and `--kv-disk-staging-mb` as in the
+[cache guide](../reference/SSD-PREFIX.md). An incomplete provider refuses READY
+when either cache is enabled; explicitly setting RAM to zero permits uncached
+vision. There is no implicit downgrade.
 
-Before integration: extend model-specific state and pixel/encoder/preprocessing
-identity through the shared RAM/SSD lifecycle; qualify image/text histories,
-physical positions, quality, cancellation, same-image reuse, different-image
-refusal and restart on original weights. Account decoded pixels, embeddings,
-encoder residency and temporary workspace on the target. Additional real model
-families need their own image expansion/encoder bindings, not Qwen logic in core.
+The model-neutral `LIE_STATE_CACHE_SCOPE` component binds the entire prepared
+image prompt. Qwen obtains its SHA-256 from decoded/resized pixels, ordered grid
+placements, the preprocessing version and the actual encoder identity. Tokens
+remain a separate key. RAM lookup, deduplication, retention/protection and SSD
+filenames/index/restart all compare this scope. A changed image with identical
+physical tokens produces a miss before device mutation. Text-prefix suffix
+retokenization is disabled for image jobs, since it cannot rebuild image input.
+
+Full-prompt scope is deliberately conservative: changing a future image also
+prevents reuse of an earlier prefix. This version does not persist pixels or
+encoder embeddings. After restart, the client must supply the matching images;
+the prepared prompt remains owned by its destination sequence. The binding
+validates every saved position against that prompt and restores the device MRoPE
+layout before publishing a usable frontier. Generated rows use the same prepared
+layout and delta. Numerical uploads complete on the existing device owner,
+with the destination's fresh sampler/RNG. No request thread is added.
+
+The RAM representation is `[unchanged DS4 tensor payload][8-byte LIESCP1
+marker][32-byte semantic scope]`. On SSD the unchanged client trailer precedes
+that typed auxiliary extension and the existing authenticated table/footer.
+All bytes are charged. Plain AR files and their names remain byte-compatible.
+KVC state stays raw, as required by DS4; aligned synthetic scoped state also
+bypasses optional packing so its scope remains available without expansion.
+
+Native ASan/UBSan/LeakSanitizer checks pass **30/30**, including two model
+fixtures, equal-token/different-image and placement misses, RAM hits, process
+restart for both KVC and aligned storage, MRoPE/scope rejection and Chat/Responses
+JSON/SSE reuse. An independently materialized source variant builds and the HIP
+server/bench link. These are NOT-INFERENCE checks. See the
+[cache validation receipt](validation/vision-cache-2026-10-03.json).
+
+Remaining integration gates are original-weight image/text histories, quality,
+cache-on/off equivalence, cancellation/fault behavior and resource fit. Account
+decoded pixels, embeddings, encoder residency and workspace on the target;
+qualify combined MTP/vision after integrating their separate branches. Additional
+real models need their own image expansion/encoder bindings. GPU benchmarks
+remain postponed, and no fresh-prefill or reactive speedup is claimed.
 
 The numerical source remains official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the existing LIE state-access

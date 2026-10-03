@@ -280,3 +280,21 @@ The original [LICENSE](libuv/LICENSE), [additional notices](libuv/LICENSE-extra)
 and [AUTHORS](libuv/AUTHORS) are retained. LIE's first-party MIT license does not
 replace those terms. The wrapper preserves upstream compiler settings while
 inheriting LIE's requested sanitizer instrumentation.
+
+## Vision cache reader binding — 2026-10-03
+
+The current `feature/vision` KVC variant adds Model friend access plus a const
+projector-reader getter to the independently pinned official source. These
+access-only additions expose the actual retained target/projector descriptors
+inside the transitional adapter; no numerical kernels or encoder arithmetic are
+changed by them. The complete-history pooling edits remain separately visible
+in `adapters/gufo-state/kvc-edits.json`. Existing provider trees are preserved.
+New source materialization and archive hashes are recorded by the CMake helper
+in `build/provider-vision-cache-r1/BUILD-RECEIPT.json` and the
+[validation receipt](../docs/development/validation/vision-cache-2026-10-03.json).
+No sibling DS4/CachyOS source or artifacts were imported.
+
+Semantic hashing and image preprocessing still use the official pinned Gufo
+vision implementation. LIE owns the generic scoped cache/SSD lifecycle and the
+C17 DS4 tensor/auxiliary framing. This is a transitional binding and host build,
+not an autonomous encoder or numerical/performance qualification.

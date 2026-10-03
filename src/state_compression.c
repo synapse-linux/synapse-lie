@@ -87,6 +87,8 @@ bool lie_state_unpack_payload(const lie_state *p,void *out,size_t bytes){
     return in==p->storage_bytes;
 }
 bool lie_state_compress_cancel(lie_state **handle,uint64_t budget,const atomic_bool *cancel){
+    if(handle&&*handle)for(unsigned i=0;i<(*handle)->layout.section_count;++i)
+        if((*handle)->layout.sections[i].role==LIE_STATE_CACHE_SCOPE)return false;
     if(handle&&*handle&&(*handle)->layout.format!=LIE_STATE_ALIGNED)return false;
 #if LIE_CHECKPOINT_COMPRESSION
     if(!handle||!*handle||(cancel&&atomic_load(cancel)))return false;

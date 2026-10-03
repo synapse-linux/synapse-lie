@@ -71,3 +71,18 @@ const int32_t *lie_state_tokens(const lie_state *p){
         return (const int32_t *)(p->payload+p->layout.sections[i].offset);
     return NULL;
 }
+bool lie_state_cache_scope(const lie_state *p,unsigned char out[32]){
+    if(!p||!out)return false;
+    memset(out,0,32);
+    for(unsigned i=0;i<p->layout.section_count;++i){const lie_state_section *s=&p->layout.sections[i];
+        if(s->role==LIE_STATE_CACHE_SCOPE){
+            if(p->codec||s->bytes!=32||s->offset>p->storage_bytes||32>p->storage_bytes-s->offset)return false;
+            memcpy(out,p->payload+s->offset,32);break;
+        }
+    }
+    return true;
+}
+bool lie_state_scope_equal(const lie_state *p,const unsigned char scope[32]){
+    unsigned char actual[32],zero[32]={0};
+    return lie_state_cache_scope(p,actual)&&!memcmp(actual,scope?scope:zero,32);
+}

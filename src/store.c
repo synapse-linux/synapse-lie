@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <openssl/evp.h>
 
-typedef struct { char name[69],token_key[65];uint64_t bytes,allocated,age;unsigned tokens,context;lie_retention utility;lie_cache_metadata metadata; } entry;
+typedef struct { char name[69],token_key[65];unsigned char scope[32];uint64_t bytes,allocated,age;unsigned tokens,context;lie_retention utility;lie_cache_metadata metadata; } entry;
 struct lie_store {
     pthread_t thread;
     pthread_mutex_t gate;
@@ -32,6 +32,7 @@ struct lie_store {
     atomic_bool cancel;
     uint64_t domain,ticket,clock,block_bytes;
     lie_state_identity identity;
+    unsigned char scope[32];
     lie_store_info info;
     entry *entries;
     unsigned capacity;
@@ -54,12 +55,14 @@ static bool hex_name(const char *s){
     for(size_t i=0;i<digits;++i)if(!((s[i]>='0'&&s[i]<='9')||(s[i]>='a'&&s[i]<='f')))return false;
     return true;
 }
-static bool text_name(const lie_cache_metadata *m,char name[69]){
+static bool text_name(const lie_cache_metadata *m,const unsigned char scope[32],char name[69]){
     if(!m->text_bytes||!m->text)return false;
     unsigned char digest[20];unsigned n=0;EVP_MD_CTX *ctx=EVP_MD_CTX_new();
     if(!ctx)return false;
-    bool ok=EVP_DigestInit_ex(ctx,EVP_sha1(),NULL)==1&&EVP_DigestUpdate(ctx,m->text,m->text_bytes)==1&&
-        EVP_DigestFinal_ex(ctx,digest,&n)==1&&n==20;EVP_MD_CTX_free(ctx);
+    bool ok=EVP_DigestInit_ex(ctx,EVP_sha1(),NULL)==1&&EVP_DigestUpdate(ctx,m->text,m->text_bytes)==1;
+    unsigned char zero[32]={0};
+    if(memcmp(scope,zero,32))ok=ok&&EVP_DigestUpdate(ctx,"LIE-semantic-scope-v1",21)==1&&EVP_DigestUpdate(ctx,scope,32)==1;
+    ok=ok&&EVP_DigestFinal_ex(ctx,digest,&n)==1&&n==20;EVP_MD_CTX_free(ctx);
     if(ok){for(unsigned i=0;i<20;++i)snprintf(name+2*i,3,"%02x",digest[i]);memcpy(name+40,".kv",4);}return ok;
 }
 static bool owned_file(int fd,struct stat *s){return !fstat(fd,s)&&S_ISREG(s->st_mode)&&s->st_uid==geteuid()&&s->st_nlink==1&&(s->st_mode&0777)==0600&&s->st_size>=0&&s->st_blocks>=0;}
@@ -123,6 +126,7 @@ static bool scan(lie_store *s){
         entry *e=&s->entries[count++];memcpy(e->name,name,strlen(name)+1);e->bytes=(uint64_t)st.st_size;
         e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;uint64_t bytes=0;
         if(!lie_state_file_probe(fd,&s->identity,&bytes,&e->tokens,&e->context))e->tokens=0;
+        if(e->tokens&&!lie_state_file_scope(fd,&s->identity,e->scope))e->tokens=0;
         if(strlen(name)==43){
             if(e->tokens&&!lie_state_kvc_token_key(fd,&s->identity,e->token_key))e->tokens=0;
         }else{memcpy(e->token_key,name,64);e->token_key[64]=0;}
@@ -152,10 +156,10 @@ static bool reserve_disk(lie_store *s,uint64_t bytes,unsigned *slot,bool *contin
             used+=e->bytes;blocks+=e->allocated;
             uint64_t cost=e->bytes;
             bool superseded=false;
-            if(layout&&layout->context_tokens<=e->context&&(e->metadata.flags&6u)==(s->metadata.flags&6u)){
+            if(layout&&!memcmp(e->scope,s->scope,32)&&layout->context_tokens<=e->context&&(e->metadata.flags&6u)==(s->metadata.flags&6u)){
                 if(s->metadata.text_bytes&&e->metadata.text_bytes)
                     superseded=e->metadata.text_bytes<s->metadata.text_bytes&&!memcmp(e->metadata.text,s->metadata.text,e->metadata.text_bytes);
-                else if(!s->metadata.text_bytes&&!e->metadata.text_bytes&&e->tokens<layout->token_count){char key[69]={0};if(lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,key)){
+                else if(!s->metadata.text_bytes&&!e->metadata.text_bytes&&e->tokens<layout->token_count){char key[69]={0};if(lie_state_scoped_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,s->scope,key)){
                     superseded=!strcmp(key,e->token_key);}}
             }
             if(superseded&&continued)*continued=true;
@@ -174,10 +178,10 @@ static unsigned prompt_prefix(lie_store *s){
     const lie_state_layout *l=lie_state_description(s->state);
     if(!s->prompt_tokens||s->prompt_tokens>=l->token_count)return best;
     for(unsigned i=0;i<s->capacity;++i){entry *e=&s->entries[i];
-        if(e->tokens>longest&&e->tokens<=s->prompt_tokens&&e->context<=l->context_tokens&&
+        if(!memcmp(e->scope,s->scope,32)&&e->tokens>longest&&e->tokens<=s->prompt_tokens&&e->context<=l->context_tokens&&
            (e->tokens==s->prompt_tokens||e->tokens%l->prefill_chunk==0)&&
            (e->metadata.flags&6u)==(s->prompt_flags&6u)){
-            char key[65];if(lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,key)&&!strcmp(key,e->token_key)){
+            char key[65];if(lie_state_scoped_prefix_key(&s->identity,lie_state_tokens(s->state),e->tokens,s->scope,key)&&!strcmp(key,e->token_key)){
                 best=i;longest=e->tokens;}
         }
     }
@@ -185,8 +189,8 @@ static unsigned prompt_prefix(lie_store *s){
 }
 static bool write_state(lie_store *s){
     char name[69]={0},key[65],temporary[78];const lie_state_layout *l=lie_state_description(s->state);
-    if(!lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,key))return false;
-    if(l->format!=LIE_STATE_ALIGNED){if(!text_name(&s->metadata,name))return false;}
+    if(!lie_state_scoped_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,s->scope,key))return false;
+    if(l->format!=LIE_STATE_ALIGNED){if(!text_name(&s->metadata,s->scope,name))return false;}
     else{memcpy(name,key,64);memcpy(name+64,".lie",5);}
     unsigned replacement=UINT32_MAX;
     for(unsigned i=0;i<s->capacity;++i)if(!strcmp(s->entries[i].name,name)){
@@ -229,7 +233,7 @@ static bool write_state(lie_store *s){
         ok=(uint64_t)st.st_size==bytes&&allocated<=s->info.quota_bytes&&used<=s->info.quota_bytes-allocated;
     }
     if(ok){ok=renameat(s->directory,temporary,s->directory,name)==0;renamed=ok;}
-    if(renamed){entry *e=&s->entries[slot];memcpy(e->name,name,sizeof(name));memcpy(e->token_key,key,sizeof(key));
+    if(renamed){entry *e=&s->entries[slot];memcpy(e->name,name,sizeof(name));memcpy(e->token_key,key,sizeof(key));memcpy(e->scope,s->scope,32);
         e->bytes=(uint64_t)st.st_size;e->allocated=(uint64_t)st.st_blocks*512;e->age=++s->clock;e->tokens=l->token_count;e->context=l->context_tokens;
         s->index_bytes-=metadata_bytes(&e->metadata);lie_cache_metadata_clear(&e->metadata);
         e->metadata=s->metadata;memset(&s->metadata,0,sizeof(s->metadata));s->index_bytes+=meta_bytes;
@@ -244,13 +248,13 @@ static lie_state *read_state(lie_store *s){
     uint64_t ceiling=UINT64_MAX;unsigned prior=UINT32_MAX;
     for(unsigned attempt=0;attempt<s->capacity&&!atomic_load(&s->cancel);++attempt){
         unsigned best=s->capacity;uint64_t length=0;
-        for(unsigned i=0;i<s->capacity;++i){entry *e=&s->entries[i];if(!e->tokens)continue;
+        for(unsigned i=0;i<s->capacity;++i){entry *e=&s->entries[i];if(!e->tokens||memcmp(e->scope,s->scope,32))continue;
             uint64_t n=s->text?e->metadata.text_bytes:e->tokens;
             if(n>ceiling||(n==ceiling&&i>=prior))continue;
             bool match=false;
             if(s->text)match=(e->metadata.flags&6u)==(s->key_flags&6u)&&n&&n<=s->text_bytes&&!memcmp(e->metadata.text,s->text,(size_t)n);
             else if((e->metadata.flags&6u)==(s->key_flags&6u)&&e->tokens<=s->count&&(e->tokens==s->count||e->tokens%s->chunk==0)){
-                char name[69]={0};if(lie_state_prefix_key(&s->identity,s->tokens,e->tokens,name)){
+                char name[69]={0};if(lie_state_scoped_prefix_key(&s->identity,s->tokens,e->tokens,s->scope,name)){
                     match=!strcmp(e->token_key,name);}}
             if(match&&(best==s->capacity||n>length||(n==length&&i>best))){best=i;length=n;}
         }
@@ -262,7 +266,7 @@ static lie_state *read_state(lie_store *s){
         lie_state *state=fd<0?NULL:lie_state_file_read(fd,&s->identity,s->domain,s->info.staging_budget_bytes-input,&s->cancel);
         if(fd>=0)close(fd);
         if(state){const lie_state_layout *l=lie_state_description(state);
-            if(l->token_count!=e->tokens||l->prefill_chunk!=s->chunk||
+            if(!lie_state_scope_equal(state,s->scope)||l->token_count!=e->tokens||l->prefill_chunk!=s->chunk||
                (!s->text&&memcmp(lie_state_tokens(state),s->tokens,e->tokens*sizeof(*s->tokens))))lie_state_destroy(&state);
         }
         if(state&&!lie_cache_metadata_copy(&s->metadata,&e->metadata))lie_state_destroy(&state);
@@ -340,16 +344,20 @@ static void admitted(lie_store *s,uint64_t bytes,bool read){
     if(bytes>s->info.peak_staging_bytes)s->info.peak_staging_bytes=bytes;
     pthread_cond_signal(&s->ready);
 }
-uint64_t lie_store_read_key(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk,uint32_t flags){
+uint64_t lie_store_read_scoped_key(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk,uint32_t flags,const unsigned char scope[32]){
     if(!s||!tokens||!n||n>UINT32_MAX||!chunk||n>SIZE_MAX/sizeof(*tokens)||(flags&~15u))return 0;
     pthread_mutex_lock(&s->gate);uint64_t ticket=0;
     if(!s->stop&&!s->busy&&n*sizeof(*tokens)<s->info.staging_budget_bytes){
         s->tokens=malloc(n*sizeof(*tokens));
         if(s->tokens){memcpy(s->tokens,tokens,n*sizeof(*tokens));s->count=n;s->chunk=chunk;s->key_flags=flags;
+            memset(s->scope,0,32);if(scope)memcpy(s->scope,scope,32);
             /* Reserve the entire staging cap before asynchronous allocation. */
             admitted(s,s->info.staging_budget_bytes,true);++s->info.lookups;ticket=s->ticket;}
     }
     pthread_mutex_unlock(&s->gate);return ticket;
+}
+uint64_t lie_store_read_key(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk,uint32_t flags){
+    return lie_store_read_scoped_key(s,tokens,n,chunk,flags,NULL);
 }
 uint64_t lie_store_read(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk){
     return lie_store_read_key(s,tokens,n,chunk,0);
@@ -359,7 +367,7 @@ uint64_t lie_store_read_text_key(lie_store *s,const char *text,size_t n,uint32_t
     pthread_mutex_lock(&s->gate);uint64_t ticket=0;
     if(!s->stop&&!s->busy&&n<s->info.staging_budget_bytes){
         s->text=malloc(n);
-        if(s->text){memcpy(s->text,text,n);s->text_bytes=n;s->count=0;s->chunk=chunk;s->key_flags=flags;
+        if(s->text){memcpy(s->text,text,n);s->text_bytes=n;s->count=0;s->chunk=chunk;s->key_flags=flags;memset(s->scope,0,32);
             admitted(s,s->info.staging_budget_bytes,true);++s->info.lookups;ticket=s->ticket;}
     }
     pthread_mutex_unlock(&s->gate);return ticket;
@@ -376,13 +384,14 @@ bool lie_store_write_prompt(lie_store *s,lie_state *state,const lie_cache_metada
     if(!s||!state||!lie_cache_metadata_valid(metadata))return false;
     if(prompt_tokens>lie_state_description(state)->token_count||(prompt_flags&~15u))return false;
     if(lie_state_description(state)->format!=LIE_STATE_ALIGNED&&!metadata->text_bytes)return false;
+    unsigned char scope[32];if(!lie_state_cache_scope(state,scope))return false;
     uint64_t bytes=lie_state_bytes(state);pthread_mutex_lock(&s->gate);
     bool ok=!s->stop&&!s->busy&&lie_state_description(state)->domain==s->domain&&
         bytes<=s->info.staging_budget_bytes&&metadata_bytes(metadata)<=s->info.staging_budget_bytes-bytes&&
         lie_state_file_bytes_ex(state,metadata)<=s->info.quota_bytes&&lie_cache_metadata_copy(&s->metadata,metadata);
     if(ok){if(!s->metadata.created_at)s->metadata.created_at=lie_cache_now();
         if(!s->metadata.last_used)s->metadata.last_used=s->metadata.created_at;
-        lie_state_retain(state);s->state=state;s->prompt_tokens=prompt_tokens;s->prompt_flags=prompt_flags;
+        memcpy(s->scope,scope,32);lie_state_retain(state);s->state=state;s->prompt_tokens=prompt_tokens;s->prompt_flags=prompt_flags;
         admitted(s,bytes+metadata_bytes(metadata),false);}else ++s->info.skipped;
     pthread_mutex_unlock(&s->gate);return ok;
 }

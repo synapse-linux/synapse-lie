@@ -26,16 +26,16 @@ static void remove_entry(lie_prefix_cache *c,unsigned i){
     lie_cache_metadata_clear(&e->metadata);
     --c->info.entries;lie_state_destroy(&e->state);e->age=0;
 }
-static bool extends(const lie_state *old,const int32_t *tokens,size_t n){
+static bool extends(const lie_state *old,const int32_t *tokens,size_t n,const unsigned char *scope){
     const lie_state_layout *l=lie_state_description(old);
-    return l&&tokens&&l->token_count<n&&!memcmp(lie_state_tokens(old),tokens,l->token_count*sizeof(*tokens));
+    return l&&lie_state_scope_equal(old,scope)&&tokens&&l->token_count<n&&!memcmp(lie_state_tokens(old),tokens,l->token_count*sizeof(*tokens));
 }
-static unsigned victim(lie_prefix_cache *c,const int32_t *tokens,size_t n,const lie_cache_metadata *m,unsigned protected_slot){
+static unsigned victim(lie_prefix_cache *c,const int32_t *tokens,size_t n,const lie_cache_metadata *m,unsigned protected_slot,const unsigned char *scope){
     unsigned best=c->capacity;double score=0;
     for(unsigned i=0;i<c->capacity;++i){lie_prefix_entry *e=&c->entries[i];
         if(!e->state||i==protected_slot)continue;
-        bool superseded=extends(e->state,tokens,n);
-        if(m&&(m->text_bytes||e->metadata.text_bytes))superseded=(m->flags&6u)==(e->metadata.flags&6u)&&
+        bool superseded=extends(e->state,tokens,n,scope);
+        if(m&&(m->text_bytes||e->metadata.text_bytes))superseded=lie_state_scope_equal(e->state,scope)&&(m->flags&6u)==(e->metadata.flags&6u)&&
             e->metadata.text_bytes&&e->metadata.text_bytes<m->text_bytes&&!memcmp(e->metadata.text,m->text,e->metadata.text_bytes);
         double value=lie_retention_score(&e->utility,lie_cache_now(),lie_state_description(e->state)->token_count,
                                          lie_state_bytes(e->state)+metadata_bytes(&e->metadata),superseded);
@@ -44,9 +44,9 @@ static unsigned victim(lie_prefix_cache *c,const int32_t *tokens,size_t n,const 
     }
     return best;
 }
-static bool continuation(lie_prefix_cache *c,const int32_t *tokens,size_t n){
+static bool continuation(lie_prefix_cache *c,const int32_t *tokens,size_t n,const unsigned char *scope){
     if(!LIE_CACHE_UTILITY)return false;
-    for(unsigned i=0;i<c->capacity;++i)if(extends(c->entries[i].state,tokens,n))return true;
+    for(unsigned i=0;i<c->capacity;++i)if(extends(c->entries[i].state,tokens,n,scope))return true;
     return false;
 }
 static void installed(lie_prefix_cache *c,unsigned slot,lie_state *state,bool continued){
@@ -83,27 +83,29 @@ bool lie_prefix_cache_metadata(lie_prefix_cache *c,lie_state *state,const lie_ca
 lie_state *lie_prefix_cache_match_text(lie_prefix_cache *c,const char *text,size_t bytes,uint32_t flags,const lie_cache_metadata **metadata){
     lie_prefix_entry *best=NULL;
     for(unsigned i=0;i<c->capacity;++i){lie_prefix_entry *e=&c->entries[i];
-        if(e->state&&(e->metadata.flags&6u)==(flags&6u)&&e->metadata.text_bytes&&e->metadata.text_bytes<=bytes&&
+        if(e->state&&lie_state_scope_equal(e->state,NULL)&&(e->metadata.flags&6u)==(flags&6u)&&e->metadata.text_bytes&&e->metadata.text_bytes<=bytes&&
            (!best||e->metadata.text_bytes>best->metadata.text_bytes)&&!memcmp(e->metadata.text,text,e->metadata.text_bytes))best=e;
     }
     if(metadata)*metadata=best?&best->metadata:NULL;
     return best?best->state:NULL;
 }
-lie_state *lie_prefix_cache_find(lie_prefix_cache *c,const int32_t *tokens,size_t n){
+lie_state *lie_prefix_cache_find_scope(lie_prefix_cache *c,const int32_t *tokens,size_t n,const unsigned char scope[32]){
     for(unsigned i=0;i<c->capacity;++i){lie_state *s=c->entries[i].state;const lie_state_layout *l=lie_state_description(s);
-        if(l&&l->token_count==n&&!memcmp(lie_state_tokens(s),tokens,n*sizeof(*tokens)))return s;}
+        if(l&&lie_state_scope_equal(s,scope)&&l->token_count==n&&!memcmp(lie_state_tokens(s),tokens,n*sizeof(*tokens)))return s;}
     return NULL;
 }
+lie_state *lie_prefix_cache_find(lie_prefix_cache *c,const int32_t *tokens,size_t n){return lie_prefix_cache_find_scope(c,tokens,n,NULL);}
 void lie_prefix_cache_insert(lie_prefix_cache *c,lie_state *state){
+    unsigned char scope[32];if(!lie_state_cache_scope(state,scope))return;
     const lie_state_layout *l=lie_state_description(state);uint64_t bytes=lie_state_bytes(state);
     if(!l||bytes>c->info.budget_bytes||lie_state_restore_workspace(state)>c->info.budget_bytes-bytes||
-       lie_prefix_cache_find(c,lie_state_tokens(state),l->token_count))return;
-    bool continued=continuation(c,lie_state_tokens(state),l->token_count);
+       lie_prefix_cache_find_scope(c,lie_state_tokens(state),l->token_count,scope))return;
+    bool continued=continuation(c,lie_state_tokens(state),l->token_count,scope);
     bool full=true;for(unsigned i=0;i<c->capacity;++i)if(!c->entries[i].state)full=false;
     if(full)(void)grow(c);
     if(!c->capacity){++c->info.skipped;return;}
     unsigned slot=c->capacity;
-    for(;;){unsigned oldest=victim(c,lie_state_tokens(state),l->token_count,NULL,c->capacity);
+    for(;;){unsigned oldest=victim(c,lie_state_tokens(state),l->token_count,NULL,c->capacity,scope);
         for(unsigned i=0;i<c->capacity;++i){if(!c->entries[i].state)slot=i;
         }
         if(slot<c->capacity&&bytes<=c->info.budget_bytes-c->info.retained_bytes)break;
@@ -111,15 +113,15 @@ void lie_prefix_cache_insert(lie_prefix_cache *c,lie_state *state){
     }
     lie_state_retain(state);installed(c,slot,state,continued);
 }
-lie_status lie_prefix_cache_restore_key(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
-                                    size_t n,uint32_t chunk,uint32_t flags,unsigned *reused,lie_error *error){
+lie_status lie_prefix_cache_restore_scope(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                    size_t n,uint32_t chunk,uint32_t flags,const unsigned char scope[32],unsigned *reused,lie_error *error){
     if(!c||!s||!tokens||!n||!chunk||!reused)return LIE_INVALID;
     *reused=0;if(!c->info.budget_bytes)return LIE_OK;
     ++c->info.lookups;touch(c);unsigned best=c->capacity;size_t longest=0;
     for(unsigned i=0;i<c->capacity;++i){const lie_state_layout *l=lie_state_description(c->entries[i].state);
         /* Extending an unaligned checkpoint would change prefill chunk shapes.
          * Only an exact hit may reuse a short, non-chunk-aligned checkpoint. */
-        if(l&&(c->entries[i].metadata.flags&6u)==(flags&6u)&&l->token_count<=n&&l->token_count>longest&&(l->token_count==n||l->token_count%chunk==0)&&
+        if(l&&lie_state_scope_equal(c->entries[i].state,scope)&&(c->entries[i].metadata.flags&6u)==(flags&6u)&&l->token_count<=n&&l->token_count>longest&&(l->token_count==n||l->token_count%chunk==0)&&
            !memcmp(tokens,lie_state_tokens(c->entries[i].state),l->token_count*sizeof(*tokens))){best=i;longest=l->token_count;}
     }
     if(best==c->capacity){++c->info.misses;return LIE_OK;}
@@ -127,7 +129,7 @@ lie_status lie_prefix_cache_restore_key(lie_prefix_cache *c,lie_sequence *s,cons
      * Keep the selected checkpoint pinned while evicting only other entries. */
     uint64_t workspace=lie_state_restore_workspace(c->entries[best].state);
     while(workspace>c->info.budget_bytes-c->info.retained_bytes){
-        unsigned evict=victim(c,NULL,0,NULL,best);
+        unsigned evict=victim(c,NULL,0,NULL,best,NULL);
         if(evict==c->capacity){++c->info.misses;return LIE_OK;}
         remove_entry(c,evict);++c->info.evictions;
     }
@@ -137,16 +139,19 @@ lie_status lie_prefix_cache_restore_key(lie_prefix_cache *c,lie_sequence *s,cons
     c->entries[best].metadata.hits=c->entries[best].utility.hits;c->entries[best].metadata.last_used=c->entries[best].utility.touched;
     ++c->info.hits;c->info.reused_tokens+=longest;*reused=(unsigned)longest;return LIE_OK;
 }
+lie_status lie_prefix_cache_restore_key(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,size_t n,uint32_t chunk,uint32_t flags,unsigned *reused,lie_error *error){
+    return lie_prefix_cache_restore_scope(c,s,tokens,n,chunk,flags,NULL,reused,error);
+}
 lie_status lie_prefix_cache_restore(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
                                     size_t n,uint32_t chunk,unsigned *reused,lie_error *error){
     return lie_prefix_cache_restore_key(c,s,tokens,n,chunk,0,reused,error);
 }
-lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
-                                    size_t n,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags,lie_error *error){
+lie_status lie_prefix_cache_capture_scope(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
+                                    size_t n,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags,const unsigned char scope[32],lie_error *error){
     if(prompt_tokens>n||(prompt_flags&~15u))return LIE_INVALID;
     if(!c->info.budget_bytes)return LIE_OK;
     for(unsigned i=0;i<c->capacity;++i){const lie_state_layout *l=lie_state_description(c->entries[i].state);
-        if(l&&l->token_count==n&&!memcmp(tokens,lie_state_tokens(c->entries[i].state),n*sizeof(*tokens))){
+        if(l&&lie_state_scope_equal(c->entries[i].state,scope)&&l->token_count==n&&!memcmp(tokens,lie_state_tokens(c->entries[i].state),n*sizeof(*tokens))){
             if(metadata){lie_cache_metadata m=*metadata;
                 m.hits=c->entries[i].metadata.hits;m.created_at=c->entries[i].metadata.created_at;m.last_used=c->entries[i].metadata.last_used;
                 if(!lie_prefix_cache_metadata(c,c->entries[i].state,&m))++c->info.skipped;}
@@ -164,20 +169,20 @@ lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,c
     if(prompt_tokens&&prompt_tokens<n){
         for(unsigned i=0;i<c->capacity;++i){lie_prefix_entry *e=&c->entries[i];
             const lie_state_layout *l=lie_state_description(e->state);
-            if(l&&l->token_count<=prompt_tokens&&l->token_count>longest&&
+            if(l&&lie_state_scope_equal(e->state,scope)&&l->token_count<=prompt_tokens&&l->token_count>longest&&
                (e->metadata.flags&6u)==(prompt_flags&6u)&&
                !memcmp(lie_state_tokens(e->state),tokens,l->token_count*sizeof(*tokens))){keep=i;longest=l->token_count;}
         }
         if(keep<c->capacity&&lie_state_bytes(c->entries[keep].state)+metadata_bytes(&c->entries[keep].metadata)>
            c->info.budget_bytes-bytes){++c->info.skipped;return LIE_OK;}
     }
-    bool continued=continuation(c,tokens,n);
+    bool continued=continuation(c,tokens,n,scope);
     bool full=true;for(unsigned i=0;i<c->capacity;++i)if(!c->entries[i].state)full=false;
     if(full)(void)grow(c);
     if(!c->capacity){++c->info.skipped;return LIE_OK;}
     unsigned slot=c->capacity;
     for(;;){
-        unsigned oldest=victim(c,tokens,n,metadata,keep);
+        unsigned oldest=victim(c,tokens,n,metadata,keep,scope);
         for(unsigned i=0;i<c->capacity;++i){
             if(!c->entries[i].state)slot=i;
         }
@@ -190,7 +195,7 @@ lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,c
     lie_state *state=NULL;rc=lie_state_capture(s,&layout,c->info.budget_bytes-c->info.retained_bytes,&state,error);
     if(rc==LIE_RESOURCE_LIMIT){++c->info.skipped;return LIE_OK;}
     if(rc!=LIE_OK)return rc;
-    if(memcmp(tokens,lie_state_tokens(state),n*sizeof(*tokens))){lie_state_destroy(&state);
+    if(!lie_state_scope_equal(state,scope)||memcmp(tokens,lie_state_tokens(state),n*sizeof(*tokens))){lie_state_destroy(&state);
         if(error)snprintf(error->message,sizeof(error->message),"captured token contents mismatch");
         return LIE_BACKEND_FAILED;
     }
@@ -203,6 +208,9 @@ lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,c
     return LIE_OK;
 }
 
+lie_status lie_prefix_cache_capture_prompt(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,size_t n,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags,lie_error *error){
+    return lie_prefix_cache_capture_scope(c,s,tokens,n,metadata,prompt_tokens,prompt_flags,NULL,error);
+}
 lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *c,lie_sequence *s,const int32_t *tokens,
                                       size_t n,const lie_cache_metadata *metadata,lie_error *error){
     return lie_prefix_cache_capture_prompt(c,s,tokens,n,metadata,0,0,error);

@@ -26,6 +26,7 @@ struct lie_job {
     pthread_mutex_t gate;
     lie_job_info info;
     lie_sequence *sequence; /* worker only */
+    unsigned char cache_scope[32];
     int32_t *prompt;
     size_t tokens, fed;
     size_t checkpoint, next_continued, last_capture;
@@ -277,18 +278,18 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
-    lie_status rc=restore?lie_prefix_cache_restore_key(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,&reused,error):
-        lie_prefix_cache_capture_prompt(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
-                                        w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,error);
+    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,j->cache_scope,&reused,error):
+        lie_prefix_cache_capture_scope(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
+                                        w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,j->cache_scope,error);
     if(!restore&&rc==LIE_OK&&w->store){
-        lie_state *state=lie_prefix_cache_find(&w->cache,tokens,frontier),*temporary=NULL;
+        lie_state *state=lie_prefix_cache_find_scope(&w->cache,tokens,frontier,j->cache_scope),*temporary=NULL;
         if(!state){lie_state_layout layout;uint64_t bytes=0;
             rc=lie_state_plan(j->sequence,&layout,&bytes,error);
             if(rc==LIE_OK&&layout.token_count!=frontier){rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token frontier mismatch");}
             if(rc==LIE_OK&&lie_store_can_write(w->store,bytes)){
                 rc=lie_state_capture(j->sequence,&layout,w->options.ssd.staging_bytes,&temporary,error);
                 if(rc==LIE_RESOURCE_LIMIT)rc=LIE_OK;
-                if(temporary&&memcmp(lie_state_tokens(temporary),tokens,frontier*sizeof(*tokens))){
+                if(temporary&&(!lie_state_scope_equal(temporary,j->cache_scope)||memcmp(lie_state_tokens(temporary),tokens,frontier*sizeof(*tokens)))){
                     lie_state_destroy(&temporary);rc=LIE_BACKEND_FAILED;snprintf(error->message,sizeof(error->message),"SSD capture token contents mismatch");}
                 if(temporary)(void)lie_state_compress(&temporary,w->options.ssd.staging_bytes);
                 state=temporary;
@@ -306,7 +307,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     if(restore&&rc==LIE_OK){j->fed=reused;j->position=reused;j->info.cached_tokens=reused;
         uint32_t interval=lie_cache_continued_step(&w->options.cache_policy);
         j->next_continued=interval?((reused/interval)+1)*(size_t)interval:0;
-        lie_state *state=lie_prefix_cache_find(&w->cache,j->prompt,reused);
+        lie_state *state=lie_prefix_cache_find_scope(&w->cache,j->prompt,reused,j->cache_scope);
         const lie_cache_metadata *m=lie_prefix_cache_record(&w->cache,state);
         if(m){lie_cache_metadata_clear(&j->restored_metadata);(void)lie_cache_metadata_copy(&j->restored_metadata,m);}
     }
@@ -333,7 +334,7 @@ static bool ssd_collect(lie_core *w){
         const lie_state_layout *layout=lie_state_description(result.state);
         /* Complete file validation precedes this model geometry check. Both
          * are nonmutating; only a compatible admitted upload is fatal on error. */
-        bool text_ok=!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata);
+        bool text_ok=lie_state_scope_equal(result.state,j->cache_scope)&&(!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata));
         lie_status rc=info.state==LIE_READY&&text_ok?lie_sequence_state_describe(j->sequence,layout,&expected,&error):LIE_INVALID;
         if(rc==LIE_OK&&lie_state_layout_equal(layout,&expected)){
             pthread_mutex_lock(&w->gate);w->dispatch=j;j->executing=true;w->info.executor_phase=LIE_EXECUTOR_RESTORE;pthread_mutex_unlock(&w->gate);
@@ -428,7 +429,8 @@ static bool step(lie_core *w, size_t index) {
             if (rc==LIE_BACKEND_FAILED) poison(w,&error);
             finish_job(w,index,LIE_FINISH_BACKEND,error.message); return true;
         }
-        rc=vision?lie_sequence_attach_vision(sequence,vision,&error):LIE_OK;
+        rc=vision?lie_vision_prompt_cache_scope(vision,j->cache_scope,&error):LIE_OK;
+        if(rc==LIE_OK&&vision)rc=lie_sequence_attach_vision(sequence,vision,&error);
         if(vision)(void)lie_vision_prompt_close(&vision,NULL);
         if(rc==LIE_OK)rc=lie_sequence_configure(sequence,&j->request.generation,&error);
         if (rc!=LIE_OK) {
@@ -448,7 +450,7 @@ static bool step(lie_core *w, size_t index) {
         if(w->store||((w->options.prefix_cache_bytes||w->store)&&w->options.cache_policy.enabled&&
            w->options.cache_policy.text_prefix&&j->request.kind!=LIE_INPUT_TOKENS)){
             j->text_complete=render_prompt(w,j);
-            j->text_lookup=j->request.kind!=LIE_INPUT_TOKENS&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix&&
+            j->text_lookup=!j->request.image_count&&j->request.kind!=LIE_INPUT_TOKENS&&w->options.cache_policy.enabled&&w->options.cache_policy.text_prefix&&
                 (j->text_complete||j->request.cache.text_bytes);
         }
         signal_fd(w->notice);
@@ -465,7 +467,7 @@ static bool step(lie_core *w, size_t index) {
         if(j->ssd_ticket)return false;
         size_t key_bytes;const char *key=lookup_text(j,&key_bytes);
         j->ssd_ticket=j->text_lookup?lie_store_read_text_key(w->store,key,key_bytes,w->options.chunk,j->request.cache.flags):
-            lie_store_read_key(w->store,j->prompt,j->tokens,w->options.chunk,j->request.cache.flags);
+            lie_store_read_scoped_key(w->store,j->prompt,j->tokens,w->options.chunk,j->request.cache.flags,j->cache_scope);
         if(j->ssd_ticket)return true;
         lie_store_info store;lie_store_snapshot(w->store,&store);
         if(store.pending)return false; /* Other rows may still prefill/decode. */
@@ -616,6 +618,9 @@ static void *work(void *arg) {
            !vision.max_encoded_bytes||vision.max_encoded_bytes>LIE_VISION_MAX_BYTES||!vision.max_pixels||vision.max_pixels>LIE_VISION_MAX_PIXELS||!(vision.format_mask&6u))){
             rc=LIE_BACKEND_FAILED;snprintf(error.message,sizeof(error.message),"invalid admitted vision capabilities");}
     }
+    if(rc==LIE_OK&&w->vision_path&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!vision.prefix_state_supported){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"admitted vision model lacks complete semantic prefix state; explicitly disable KV caches");
+    }
     if(rc==LIE_OK&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!lie_backend_prefix_state_supported()){
         rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable prefix caches");
     }
@@ -670,7 +675,7 @@ lie_core *lie_core_create(const lie_core_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
-    if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path||o->prefix_cache_bytes||o->ssd.directory))return NULL;
+    if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     if(o->vision_model_path){w->vision_path=strdup(o->vision_model_path);if(!w->vision_path)goto fail;w->options.vision_model_path=w->vision_path;}

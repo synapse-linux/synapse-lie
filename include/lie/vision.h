@@ -52,6 +52,10 @@ lie_status lie_model_prepare_vision(lie_model *, const lie_chat_template *,
 lie_status lie_sequence_attach_vision(lie_sequence *, const lie_vision_prompt *,
                                       lie_error *);
 lie_status lie_vision_prompt_close(lie_vision_prompt **, lie_error *);
+/* Immutable full prepared-prompt key, independent of token frontier. Different
+ * future images conservatively prevent prefix reuse, even before their tokens.
+ * Never an encoded-file hash supplied by HTTP. */
+lie_status lie_vision_prompt_cache_scope(const lie_vision_prompt *, unsigned char out[32], lie_error *);
 #ifdef __cplusplus
 }
 #endif

@@ -41,6 +41,7 @@ static void roundtrip(const char *root,unsigned index,const lie_state_layout *l,
     assert(lie_state_capture(&producer,&plan,retained,&s,&e)==LIE_OK);
     assert(!lie_state_compress(&s,UINT64_MAX)&&lie_state_restore_workspace(s)==0);
     assert(lie_state_restore(&clone,s,&e)==LIE_OK&&lie_state_restore(&clone,s,&e)==LIE_INVALID);
+    unsigned char scope[32];assert(lie_state_cache_scope(s,scope));
     lie_state_identity id={{1}},wrong={{2}};lie_cache_metadata meta={.text="aux fixture",.text_bytes=11,
         .trailer="client",.trailer_bytes=6,.reason=LIE_CACHE_COLD,.created_at=3};
     char path[4096];assert(snprintf(path,sizeof(path),"%s/%u.kv",root,index)<(int)sizeof(path));
@@ -67,10 +68,11 @@ static void roundtrip(const char *root,unsigned index,const lie_state_layout *l,
     clone.empty=1;assert(lie_state_restore(&clone,loaded,&e)==LIE_OK);lie_state_destroy(&loaded);
     lie_cache_metadata got;assert(lie_state_file_metadata(fd,&id,64,&got));
     assert(got.trailer_bytes==6&&!memcmp(got.trailer,"client",6));lie_cache_metadata_clear(&got);
+    unsigned char probed[32];assert(lie_state_file_scope(fd,&id,probed)&&!memcmp(scope,probed,32));
     assert(lie_state_file_touch(fd,&id,3,19));loaded=lie_state_file_read(fd,&id,l->domain,retained,NULL);assert(loaded);lie_state_destroy(&loaded);
     /* Auxiliary tensors and framing are in the checksum; length mismatches
      * must be rejected before allocation or publication. */
-    off_t offsets[]={52+11+(off_t)base+6,(off_t)disk_bytes-16,(off_t)disk_bytes-8,(off_t)disk_bytes-1};
+    off_t offsets[]={52+11+(off_t)base+6+(off_t)aux-1,(off_t)disk_bytes-16,(off_t)disk_bytes-8,(off_t)disk_bytes-1};
     for(unsigned i=0;i<4;++i){unsigned char b;assert(pread(fd,&b,1,offsets[i])==1);unsigned char bad=b^1;
         assert(pwrite(fd,&bad,1,offsets[i])==1&&!lie_state_file_read(fd,&id,l->domain,retained,NULL));
         assert(pwrite(fd,&b,1,offsets[i])==1);
@@ -82,12 +84,14 @@ static void roundtrip(const char *root,unsigned index,const lie_state_layout *l,
     assert(lie_store_write_ex(store,s,&meta));lie_store_result result={0};wait_store(store,&result);
     lie_store_result_release(store,&result);lie_store_info info;lie_store_snapshot(store,&info);assert(info.writes==1&&!info.errors);
     lie_store_close(&store);assert(lie_store_open(&options,&id,l->domain+1,&store,&e)==LIE_OK);
-    assert(lie_store_read(store,lie_state_tokens(s),l->token_count,l->prefill_chunk));result=(lie_store_result){0};wait_store(store,&result);
+    assert(lie_store_read_scoped_key(store,lie_state_tokens(s),l->token_count,l->prefill_chunk,0,scope));result=(lie_store_result){0};wait_store(store,&result);
     assert(result.state&&lie_state_description(result.state)->format==l->format&&lie_state_description(result.state)->domain==l->domain+1);
     lie_store_result_release(store,&result);lie_store_close(&store);lie_state_destroy(&s);
     /* Only test-owned known cache paths are removed. */
     unsigned char digest[20];unsigned digest_bytes=0;char name[41];
-    assert(EVP_Digest(meta.text,meta.text_bytes,digest,&digest_bytes,EVP_sha1(),NULL)==1&&digest_bytes==20);
+    EVP_MD_CTX *hash=EVP_MD_CTX_new();assert(hash&&EVP_DigestInit_ex(hash,EVP_sha1(),NULL)==1&&EVP_DigestUpdate(hash,meta.text,meta.text_bytes)==1);
+    unsigned char zero[32]={0};if(memcmp(scope,zero,32))assert(EVP_DigestUpdate(hash,"LIE-semantic-scope-v1",21)==1&&EVP_DigestUpdate(hash,scope,32)==1);
+    assert(EVP_DigestFinal_ex(hash,digest,&digest_bytes)==1&&digest_bytes==20);EVP_MD_CTX_free(hash);
     for(unsigned i=0;i<20;++i)snprintf(name+2*i,3,"%02x",digest[i]);
     assert(snprintf(path,sizeof(path),"%s/%s.kv",directory,name)<(int)sizeof(path)&&!unlink(path));
     assert(snprintf(path,sizeof(path),"%s/.lie-prefix.lock",directory)<(int)sizeof(path)&&!unlink(path));
@@ -123,6 +127,29 @@ int main(void){
         lie_kvc_limits small=lie_kvc_default_limits(base);
         assert(lie_kvc_qwen_state_check(&g,&l,31,(lie_kvc_span){p,(size_t)(base+aux)},&small,&e)==LIE_RESOURCE_LIMIT);
         roundtrip(root,index++,&l,p,(size_t)(base+aux));free(p);
+    }
+    /* Model-bound MRoPE + semantic image scope, before/inside/after image rows.
+     * Equal positions do not admit different pixels or encoder identities. */
+    for(unsigned count=1;count<=9;count+=4){
+        lie_kvc_qwen_frontier f={.context_tokens=64,.prefill_tokens=8,.graph_capacity=64,.tokens=count,.mrope_delta=-2};
+        lie_state_layout l;assert(lie_kvc_qwen_vision_state_plan(&g,&f,42,5,4,&l,&e)==LIE_OK);
+        uint64_t n;assert(lie_state_validate(&l,&n));unsigned char *p=calloc(1,(size_t)n);assert(p);
+        unsigned char positions[9*16]={0},scope[32]={1};
+        for(unsigned i=0;i<count;++i){uint32_t row[4]={i,i/2,i/3,0};memcpy(positions+16*i,row,16);}
+        for(unsigned i=0;i<l.section_count;++i)if(l.sections[i].role==LIE_STATE_TOKENS){for(unsigned j=0;j<count;++j){int32_t id=(int32_t)j+1;memcpy(p+l.sections[i].offset+4*j,&id,4);}}
+        lie_kvc_span at={positions,16*count},raw={p,(size_t)n};
+        assert(lie_kvc_qwen_vision_state_finish(&g,&l,31,at,scope,p,(size_t)n,&limits,&e)==LIE_OK);
+        assert(lie_kvc_qwen_vision_state_check(&g,&l,31,raw,at,scope,&limits,&e)==LIE_OK);
+        scope[1]=1;assert(lie_kvc_qwen_vision_state_check(&g,&l,31,raw,at,scope,&limits,&e)==LIE_INVALID);scope[1]=0;
+        positions[0]^=1;assert(lie_kvc_qwen_vision_state_check(&g,&l,31,raw,at,scope,&limits,&e)==LIE_INVALID);positions[0]^=1;
+        assert(lie_kvc_qwen_state_check(&g,&l,31,raw,&limits,&e)==LIE_INVALID);
+        assert(lie_kvc_qwen_state_check_positions(&g,&l,31,raw,at,&limits,&e)==LIE_INVALID);
+        lie_state_layout invalid=l;invalid.section_count=UINT32_MAX;
+        assert(lie_kvc_qwen_state_check(&g,&invalid,31,raw,&limits,&e)==LIE_INVALID);
+        assert(lie_kvc_qwen_vision_state_check(&g,&invalid,31,raw,at,scope,&limits,&e)==LIE_INVALID);
+        invalid=l;invalid.sections[invalid.section_count-1].layer=1;
+        assert(lie_kvc_qwen_vision_state_check(&g,&invalid,31,raw,at,scope,&limits,&e)==LIE_INVALID);
+        roundtrip(root,index++,&l,p,(size_t)n);free(p);
     }
     /* Two unrelated synthetic model schemas use the same core auxiliary path. */
     for(unsigned family=0;family<2;++family){
@@ -164,5 +191,5 @@ int main(void){
     assert(lie_kvc_qwen_state_finish_positions(&g,&vl,31,(lie_kvc_span){vp+position_offset,sizeof(positions)},vp,(size_t)vn,&limits,&e)==LIE_OK);
     lie_kvc_qwen_layout decoded;assert(lie_kvc_qwen_decode(payload,&g,&limits,&decoded,&e)==LIE_OK&&decoded.frontier.mrope_delta==-2&&!decoded.text_positions);
     roundtrip(root,index++,&vl,vp,(size_t)vn);free(vp);
-    assert(writes==16&&!rmdir(root));puts("Typed KVC auxiliary and multimodal position RAM/SSD state: PASS (NOT-INFERENCE)");return 0;
+    assert(writes==22&&!rmdir(root));puts("Typed KVC auxiliary and multimodal position RAM/SSD state: PASS (NOT-INFERENCE)");return 0;
 }

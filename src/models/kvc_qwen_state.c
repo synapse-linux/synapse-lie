@@ -54,6 +54,20 @@ lie_status lie_kvc_qwen_mtp_state_plan(const lie_kvc_qwen_geometry *g,const lie_
     *out=l;return LIE_OK;
 bad:return kvc_fail(e,LIE_INVALID,"invalid MTP auxiliary component layout");
 }
+static const lie_state_section *scope_part(const lie_state_layout *l){
+    if(!l||l->section_count>LIE_STATE_MAX_SECTIONS)return NULL;
+    for(unsigned i=0;i<l->section_count;++i)if(l->sections[i].role==LIE_STATE_CACHE_SCOPE)return &l->sections[i];
+    return NULL;
+}
+lie_status lie_kvc_qwen_vision_state_plan(const lie_kvc_qwen_geometry *g,const lie_kvc_qwen_frontier *f,uint64_t domain,uint8_t model,uint8_t quant,lie_state_layout *out,lie_error *e){
+    if(!f||f->mtp_tokens)return kvc_fail(e,LIE_UNSUPPORTED,"combined MTP/vision state is not admitted");
+    lie_state_layout l;lie_status rc=lie_kvc_qwen_state_plan(g,f,domain,model,quant,&l,e);if(rc!=LIE_OK)return rc;
+    l.format=LIE_STATE_KVC_AUX;uint64_t n=8;
+    if(!lie_state_add(&l,LIE_STATE_AUXILIARY,0,LIE_STATE_U8,1,&n))return kvc_fail(e,LIE_INVALID,"vision auxiliary framing overflow");
+    n=32;if(!lie_state_add(&l,LIE_STATE_CACHE_SCOPE,0,LIE_STATE_U8,1,&n))return kvc_fail(e,LIE_INVALID,"vision scope overflow");
+    uint64_t bytes;if(!lie_state_validate(&l,&bytes)||!out)return kvc_fail(e,LIE_INVALID,"invalid vision auxiliary layout");
+    *out=l;return LIE_OK;
+}
 static lie_status expected(const lie_kvc_qwen_geometry *g,const lie_state_layout *l,size_t bytes,
                             lie_kvc_qwen_layout *w,lie_error *e){
     uint64_t n,aux;if(!lie_state_kvc_parts(l,&n,&aux)||n+aux!=bytes)
@@ -61,7 +75,8 @@ static lie_status expected(const lie_kvc_qwen_geometry *g,const lie_state_layout
     lie_kvc_qwen_frontier f={.tokens=l->token_count,.context_tokens=l->context_tokens,
         .prefill_tokens=l->prefill_chunk,.graph_capacity=l->model_data[0],.mtp_tokens=l->model_data[1]};
     memcpy(&f.mrope_delta,&l->model_data[2],sizeof(f.mrope_delta));
-    lie_state_layout want;lie_status rc=aux?
+    lie_state_layout want;lie_status rc=scope_part(l)?
+        lie_kvc_qwen_vision_state_plan(g,&f,l->domain,(uint8_t)l->model_id,(uint8_t)l->quant_bits,&want,e):aux?
         lie_kvc_qwen_mtp_state_plan(g,&f,l->domain,(uint8_t)l->model_id,(uint8_t)l->quant_bits,l->model_data[3],l->model_data[4],&want,e):
         lie_kvc_qwen_state_plan(g,&f,l->domain,(uint8_t)l->model_id,(uint8_t)l->quant_bits,&want,e);
     if(rc!=LIE_OK)return rc;
@@ -198,16 +213,37 @@ static lie_status check(const lie_kvc_qwen_geometry *g,const lie_state_layout *l
     const lie_state_section *t=find(&w,LIE_STATE_TOKENS),*h=find(&w,LIE_STATE_NGRAM);
     for(unsigned i=0;i<8;++i){uint32_t want=i<l->token_count?kvc_u32(src.data+t->offset+4ull*(l->token_count-1-i)):eos;
         if(kvc_u32(src.data+h->offset+4*i)!=want)return kvc_fail(e,LIE_INVALID,"KVC ngram history differs from physical tokens");}
+    if(scope_part(l)){
+        const lie_state_section *a=auxiliary(l);
+        if(a->bytes!=8||memcmp(src.data+a->offset,"LIESCP1",8))return kvc_fail(e,LIE_INVALID,"invalid vision semantic framing");
+        return LIE_OK;
+    }
     if(aux){lie_kvc_qwen_mtp_controller c;return lie_kvc_qwen_mtp_state_controller(l,src,&c,e);}
     return LIE_OK;
 }
 lie_status lie_kvc_qwen_state_check(const lie_kvc_qwen_geometry *g,const lie_state_layout *l,
                                     uint32_t eos,lie_kvc_span src,const lie_kvc_limits *limits,lie_error *e){
+    if(l&&scope_part(l))return kvc_fail(e,LIE_INVALID,"vision state requires matching semantic input");
     return check(g,l,eos,src,(lie_kvc_span){0},limits,e);
 }
 lie_status lie_kvc_qwen_state_check_positions(const lie_kvc_qwen_geometry *g,const lie_state_layout *l,
                                               uint32_t eos,lie_kvc_span src,lie_kvc_span positions,
                                               const lie_kvc_limits *limits,lie_error *e){
-    if(!positions.data)return kvc_fail(e,LIE_INVALID,"position restore requires a model-bound span");
+    if(!positions.data||!l||scope_part(l))return kvc_fail(e,LIE_INVALID,"position restore requires a model-bound span and vision scope when present");
     return check(g,l,eos,src,positions,limits,e);
+}
+
+static bool scope_valid(const unsigned char *scope){unsigned char zero[32]={0};return scope&&memcmp(scope,zero,32);}
+lie_status lie_kvc_qwen_vision_state_finish(const lie_kvc_qwen_geometry *g,const lie_state_layout *l,uint32_t eos,lie_kvc_span positions,const unsigned char scope[32],void *raw,size_t bytes,const lie_kvc_limits *limits,lie_error *e){
+    if(!l||!scope_part(l)||!positions.data||!scope_valid(scope))return kvc_fail(e,LIE_INVALID,"vision capture requires prepared semantic scope and positions");
+    unsigned char key[32];memcpy(key,scope,32);
+    lie_status rc=finish(g,l,eos,positions,raw,bytes,limits,e);if(rc!=LIE_OK)return rc;
+    memcpy((unsigned char *)raw+auxiliary(l)->offset,"LIESCP1",8);
+    memcpy((unsigned char *)raw+scope_part(l)->offset,key,32);return LIE_OK;
+}
+lie_status lie_kvc_qwen_vision_state_check(const lie_kvc_qwen_geometry *g,const lie_state_layout *l,uint32_t eos,lie_kvc_span raw,lie_kvc_span positions,const unsigned char scope[32],const lie_kvc_limits *limits,lie_error *e){
+    if(!l||!scope_part(l)||!positions.data||!scope_valid(scope))return kvc_fail(e,LIE_INVALID,"vision restore requires prepared semantic scope and positions");
+    lie_status rc=check(g,l,eos,raw,positions,limits,e);if(rc!=LIE_OK)return rc;
+    if(memcmp(raw.data+scope_part(l)->offset,scope,32))return kvc_fail(e,LIE_INVALID,"vision semantic scope differs from prepared input");
+    return LIE_OK;
 }
