@@ -22,6 +22,9 @@ The [shared-palette follow-up](docs/Q2-STAGED-PALETTE.md) halves those duplicate
 mixed-half FMA instructions at equal tile48 register/LDS counts and preserves
 all checked outputs, but component time rises **0.98%**. It is not selected;
 full samples, numerical evidence and closure are retained.
+The [HC row-reuse comparison](docs/Q2-HC-ROW-REUSE.md) also preserves outputs:
+320-row tiles add 3.18% component time, while a 160-row tile's initial -1.33%
+changes to +0.44% in reverse-order confirmation. Neither variant is selected.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
 development candidate, [paired HC up](docs/Q2-HC-UP-CHAINS.md), builds on the

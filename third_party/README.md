@@ -262,3 +262,13 @@ The generator and source-selection guards are first-party MIT; upstream
 notices remain intact. Exact numerical evidence and the component result are
 recorded in `docs/Q2-STAGED-PALETTE.md`. The candidate supplies no measured
 speed gain and is not promoted to the selected or qualified runtime.
+
+`experiments/q2-hc-full-row.patch` derives from this workstream's retained
+paired-HC-up source at the same independent official Gufo pin. It changes
+only the original-F16 HC-down geometry and a bounded isolated output epilogue.
+`experiments/q2-hc-half-row.patch` is the incremental 160-row geometry change
+on that isolated source. Both preserve the two original accumulation chains
+and all upstream notices. The generators and source-selection guards are
+first-party MIT; no sibling implementation, converted model or external
+artifact is imported. Neither geometry is selected after the measured
+component comparisons in `docs/Q2-HC-ROW-REUSE.md`.

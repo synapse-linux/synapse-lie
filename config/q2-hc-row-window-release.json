@@ -1,0 +1,299 @@
+{
+  "at": "2026-10-03T05:54:12.255241+00:00",
+  "state": "Q2_HC_ROW_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872436,
+      "absent": true,
+      "finished_at": "2026-10-03T05:40:28.147193+00:00"
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r1",
+      "pid": 2874187,
+      "absent": true,
+      "finished_at": "2026-10-03T05:43:47.994722+00:00"
+    },
+    {
+      "label": "q2-hc-full-row-micro-r1",
+      "pid": 2874740,
+      "absent": true,
+      "finished_at": "2026-10-03T05:44:44.848823+00:00"
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2875987,
+      "absent": true,
+      "finished_at": "2026-10-03T05:48:22.949321+00:00"
+    },
+    {
+      "label": "q2-hc-half-row-micro-r1",
+      "pid": 2876959,
+      "absent": true,
+      "finished_at": "2026-10-03T05:49:10.932456+00:00"
+    },
+    {
+      "label": "q2-hc-half-row-micro-r2",
+      "pid": 2877906,
+      "absent": true,
+      "finished_at": "2026-10-03T05:51:40.447377+00:00"
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r2",
+      "pid": 2878514,
+      "absent": true,
+      "finished_at": "2026-10-03T05:52:50.144291+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872465,
+      "start_ticks": 157139675,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872538,
+      "start_ticks": 157139728,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872651,
+      "start_ticks": 157140180,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872851,
+      "start_ticks": 157140834,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2872921,
+      "start_ticks": 157140886,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r1",
+      "pid": 2873061,
+      "start_ticks": 157141590,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r1",
+      "pid": 2874190,
+      "start_ticks": 157160317,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r1",
+      "pid": 2874385,
+      "start_ticks": 157160520,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r1",
+      "pid": 2874522,
+      "start_ticks": 157161925,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-r1",
+      "pid": 2874748,
+      "start_ticks": 157166003,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-r1",
+      "pid": 2874949,
+      "start_ticks": 157166206,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-r1",
+      "pid": 2875079,
+      "start_ticks": 157167610,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2875994,
+      "start_ticks": 157187155,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2876064,
+      "start_ticks": 157187208,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2876162,
+      "start_ticks": 157187661,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2876390,
+      "start_ticks": 157188314,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2876460,
+      "start_ticks": 157188367,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-host-r2",
+      "pid": 2876538,
+      "start_ticks": 157189070,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r1",
+      "pid": 2876960,
+      "start_ticks": 157192611,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r1",
+      "pid": 2877161,
+      "start_ticks": 157192814,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r1",
+      "pid": 2877305,
+      "start_ticks": 157194219,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r2",
+      "pid": 2877935,
+      "start_ticks": 157207561,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r2",
+      "pid": 2878130,
+      "start_ticks": 157207764,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-half-row-micro-r2",
+      "pid": 2878276,
+      "start_ticks": 157209170,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r2",
+      "pid": 2878516,
+      "start_ticks": 157214525,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r2",
+      "pid": 2878739,
+      "start_ticks": 157214728,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-full-row-micro-ref-r2",
+      "pid": 2878854,
+      "start_ticks": 157216140,
+      "exit_code": 1,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2879283,
+    "state": "R",
+    "group": 2879280,
+    "session": 2879280,
+    "start_ticks": 157224651
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-hc-full-row-host-r1": "94305ba8113909cb812c3b506062fc5debf1b20a5157c9fcdbd5b616a6bd8dda",
+    "q2-hc-full-row-micro-ref-r1": "4337f3f927508bcce65d01449d6a5ec9dce035e0f45c248c0ea24061c4830e48",
+    "q2-hc-full-row-micro-r1": "2cab46abd0c05fd659bae95606b531e8dde629739b9dca2465bf3212bd92d4a9",
+    "q2-hc-full-row-host-r2": "1040cf493efa2052bdaaee91a32b3ba4210dccc825cc7a38db5086c8d653a511",
+    "q2-hc-half-row-micro-r1": "b8c3999184763dfc224638484c55ab687f6f9cae87d8ca774eb3b3b996cd819f",
+    "q2-hc-half-row-micro-r2": "22e1e65e3aa4bbc119a1c2c74d344435c0fc58c812c06c8e1fc9da4b3a686578",
+    "q2-hc-full-row-micro-ref-r2": "0c1fe9198a40feda5a8f0950533a6d143b37cc7dd5f7221de8ff2899d0e6f61e"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "46250",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}

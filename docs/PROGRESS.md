@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC row reuse has no confirmed speed benefit — 2026-10-03 UTC
+
+The [row-reuse campaign](Q2-HC-ROW-REUSE.md) tests original-F16 HC down with
+320x32 and 160x64 tiles while preserving both K16 accumulation chains. The
+first lowers logical input replication fivefold but raises weight staging
+fourfold; component median time increases 3.18%. The second balances those
+costs at 28 KiB LDS and 210 VGPRs: its first -1.33% time change becomes +0.44%
+in an explicit reverse-order pair. Unchanged controls vary +1.01%, +0.24% and
++0.23% respectively. No consistent useful gain admits a model benchmark.
+
+All 22 complete operator output hashes remain exact across five component arms.
+The same four fallback cases fail unchanged independent limits in each arm;
+their actual exits 1 are retained. Both CPU cohorts pass 12/12 Debug and
+12/12 ASan/UBSan. Seven runners, 27 commands, 254 artifacts and fifty timing
+samples verify. The 320-row final epilogue and its 160-row derivative preserve
+all eleven other dense assembly bodies, after an earlier generic version
+changed control code and was isolated before GPU execution.
+
+Neither variant is selected; the retained 1335.84 PP / 24.09 TG result and
+Q2/UD gap remain unchanged. The next scope is producer/consumer interaction:
+the earlier exact norm-copy change shifted saved narrowing time into its
+following projection. A zero-fuzz dry run confirms source compatibility, with
+no combined GPU run or promotion. Both this HC fixture and production HC
+weights use `hipMalloc`. This confirms the same allocation API, without proving
+equal placement or cache history.
+
+Release at 05:54:12 UTC and independent observer retirement at 05:55:21 verify
+empty KFD, four original leases free and every owned identity absent. GPU/CPU
+maxima are 49 / 81 C; no model is opened. No GPU job or automatic retry remains.
+
 ## Shared Q2 palette is exact without a speed gain — 2026-10-03 UTC
 
 The [shared-palette experiment](Q2-STAGED-PALETTE.md) computes four rounded

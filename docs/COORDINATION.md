@@ -1504,3 +1504,68 @@ window after fresh coordinated admission. The outgoing notification fails at
 the direct MCP HTTP transport; no delivery is claimed. The agreed registry/
 ledger fallback preserves this handover. Q2 continues local reporting and
 checkpoint work only.
+
+The previous goal turn is progress: checkpoint `0856bd5` preserves exact
+staged-palette results and rejects its 0.98% component regression. Q2/UD parity
+remains unmet. Fresh read-only admission at **2026-10-03 05:38:28.390742 UTC**
+finds KFD empty, the four original leases EX|NB/free and staged-palette release
+last in the registry. Core's ledger still records local work after R12; direct
+read-thread transport fails. The agreed ledger fallback applies.
+
+Q2 takes a bounded full-row HC-down window: CPU Debug/ASan guards followed by
+fresh retained/candidate `hc-pp-bench` arms with 100 MiB rotating weights,
+22 independent FP64 cases and exact saved-buffer replay. Only useful component
+benefit admits the documented full-build C1 retained/candidate/UD model screen.
+The candidate covers M320/K10240 with BM320/BN32/BK2, preserving the two ordered
+K16 accumulation chains. At n2048, input stage replication falls fivefold while
+weight staging rises fourfold and blocks fall 80 to 64; those are logical counts,
+not measured traffic. Compiled resources are 241 VGPRs, 44 KiB LDS and no private
+scratch. The first static command mistakenly compiled the previous source; its
+actual exits are preserved, and corrected source-bound commands pass. Inherited
+full-format failures remain separate from the passing changed-file check.
+
+Every build/GPU arm reacquires all four original leases and validates process
+and thermal state, retaining 98 C inclusive or lower exposed limits. No gap
+interleaving, model conversion, dependency installation, foreign mutation,
+automatic retry or publication. All sources and evidence remain persistent.
+
+The full-row component completes all timings and reproduces the 22 complete
+operator hashes, with the same four inherited fallback failures and actual
+exit 1. Its median down time increases 3.18%; the unchanged up control increases
+1.01%. No model arm follows this candidate. This window admits one focused
+follow-up: BM160/BN64/BK2 with two row groups, the same 64 blocks at n2048 and
+28 KiB LDS instead of 44 KiB. This halves logical weight staging relative to
+full-row while retaining two input copies instead of the reference's five.
+Both accumulation chains and the isolated bounded epilogue are preserved.
+Updated CPU guards precede the new component arm. The same fresh reference
+remains the control; useful component gain and exact replay are still required
+before any model arm. No unbounded variant sweep or automatic retry is queued.
+
+The half-row arm also reproduces all operator hashes and preserves only the
+four inherited fallback failures. Its down median is 1.33% lower while its
+unchanged control is 0.24% higher, but observed down ranges overlap. One
+explicit reverse-order pair (half-row, then retained reference) is admitted
+to resolve this small-benefit uncertainty. Source and fixtures are frozen;
+fresh four-lease admission remains mandatory per arm. These are additional
+measurements of a completed experiment, not retries of missing or live work.
+
+The reverse-order pair preserves all operator hashes and existing failures,
+but half-row median time now increases 0.44% (up control +0.23%). Neither
+geometry supplies a consistent useful gain; no model arm is admitted.
+All fifty timing samples and 254 artifacts are retained. Both CPU cohorts pass
+12/12 Debug and 12/12 ASan/UBSan; five component exits 1 preserve only the
+four inherited numerical failures, and all other 22 command exits are zero.
+
+Q2 releases the row-reuse window at **2026-10-03 05:54:12.255241 UTC**.
+Seven runners and 27 command identities/groups/sessions are absent, KFD is
+empty and the four original leases are EX|NB/free. No model was opened.
+Persistent receipt: `run/q2-hc-row-window-release.json` on `.157`; the shared
+registry records `window_release`. Independent observation at
+**05:55:21.869301 UTC** verifies observer PID 2879283, group/session 2879280,
+start ticks 157224651 absent. Both observers exit zero and all seven remote
+result hashes match the collected receipts.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window after fresh admission. Direct thread notification fails at its MCP
+transport; no delivery is claimed. This ledger and the shared registry preserve
+the agreed handover. Q2 continues local reporting/checkpoint work only.

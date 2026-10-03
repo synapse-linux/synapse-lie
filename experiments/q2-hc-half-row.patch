@@ -1,0 +1,28 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5787,7 +5787,7 @@
+   }
+ 
+   if constexpr (kHalfWeights && !kHcMix && !kSsmConv && !kAttention &&
+-                !kHcUpChains && BM == 320 && BN == 32) {
++                !kHcUpChains && BM == 160 && BN == 64) {
+     // Five row tiles per wave: the final tile has only sixteen rows.
+     // Keep the original epilogue untouched in every other specialization.
+     static_assert(kWaveRowTiles == 5 && kWaveTokTiles == 1);
+@@ -6015,12 +6015,12 @@
+   // unquantized router. Retain the two FP32 K16 accumulation chains; only
+   // macro-tile geometry differs. The caller has already narrowed inputs.
+   if (batch >= 96 && m == 320 && k == 10240) {
+-    // One row tile shares every input stripe across all 320 outputs.
+-    // Narrower token tiles retain 64 independent blocks at n2048.
++    // Two row tiles share each input stripe across 160 outputs each.
++    // At n2048, 64 independent blocks use 28 KiB of shared memory.
+     // Both ordered K16 accumulator chains and original weights remain.
+     hipLaunchKernelGGL(
+-        (DenseF16GEMMKernel<320, 32, 2, 4, 2, 1, false, false, false, true>),
+-        dim3((batch + 31) / 32, 1), dim3(kThreads), 0, stream, w, x, out, batch,
++        (DenseF16GEMMKernel<160, 64, 2, 2, 4, 2, false, false, false, true>),
++        dim3((batch + 63) / 64, 2), dim3(kThreads), 0, stream, w, x, out, batch,
+         m, k);
+     return true;
+   }

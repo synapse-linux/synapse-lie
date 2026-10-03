@@ -1,0 +1,28 @@
+{
+  "scope": "Prepared half-row HC source; exactness and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-full-row",
+  "candidate": ".deps/gufo-q2-bench-hc-half-row",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "dc94fbb95cdd4e9d3ddd58c12f2dbdb689854e4f2945da9169a812571a7c3445",
+  "candidate_sha256": "9aec24c8c20817bd619a62ba369cfa15729b51ebe22028d11d1f99748534242c",
+  "patch_sha256": "d015d0c4ee43c3589a8c1b6a58bf719836453b2bb3d2bffbcadd1c7a5c37a703",
+  "dispatch": "Original F16 HC down M320/K10240, n>=96; BM160/BN64/BK2/WM2/WN4, 256 threads",
+  "arithmetic": "Both original ordered K16 accumulation chains and bounded five-tile epilogue retained",
+  "mechanism": "Two row blocks instead of five retained blocks or one full-row block; balance input and weight staging",
+  "logical_staging_n2048": {
+    "reference_input_bytes": 209715200,
+    "reference_weight_bytes": 104857600,
+    "full_row_input_bytes": 41943040,
+    "full_row_weight_bytes": 419430400,
+    "candidate_input_bytes": 83886080,
+    "candidate_weight_bytes": 209715200
+  },
+  "resources": "64 blocks at n2048, 28672 LDS bytes; physical traffic, occupancy and speed unmeasured",
+  "unchanged": "Paired HC up, scalar decode, routed IQ2/Q2, PLE, original models and public ABI",
+  "numerical_limits_changed": false,
+  "model_conversion": false,
+  "promoted": false
+}
