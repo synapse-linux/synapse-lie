@@ -47,12 +47,15 @@ new prompt and does not use a retained KV prefix.
 | 32,768 | 429.730 | 429.114 | 76.252 | 76.362 | 10.342 | 10.337 |
 | 131,072 | 401.949 | 402.066 | 326.091 | 325.996 | 10.061 | 10.062 |
 
-![ROCm 10 Strix Point fresh-prompt prefill and decode](charts/rocm10-fresh128-detail.svg)
+![ROCm 10 Strix Point fresh-prompt prefill and decode](charts/rocm10-fresh128.svg)
 
-The [complete median/min/max and duration CSV](charts/rocm10-fresh128.csv),
-[verification and thermal receipt](charts/rocm10-fresh128.json),
-[zero-axis SVG](charts/rocm10-fresh128.svg),
-[detail PNG](charts/rocm10-fresh128-detail.png) and original
+The native C17 reporter produced the
+[complete median/min/max and duration CSV](charts/rocm10-fresh128.csv),
+[comparison JSON](charts/rocm10-fresh128-summary.json),
+[zero-axis PNG](charts/rocm10-fresh128.png) and SVG above. Exact LIE/Gufo
+differences are in the table and CSV; the zero-axis graph shows their shared
+context trend. The [collection and thermal receipt](charts/rocm10-fresh128-collection.json)
+and original
 [LIE](data/rocm10-fresh128-lie.tar.gz) and
 [Gufo](data/rocm10-fresh128-gufo.tar.gz) campaign bundles are included.
 The bundles retain every measurement row, supervisor/child exit, model-stat
@@ -60,11 +63,31 @@ and service/lease record, telemetry and source runner. Fresh collection
 verified 21/21 remote files by SHA-256 in each arm; the portable bundles omit
 transient container home/cache files. Sampled maxima were CPU/GPU/NVMe
 82.375/85/65.85 C for LIE and 83/86/71.85 C for Gufo, below the authorized
-100 C ceiling and lower sensor limits. Reproduce the table and plots offline:
+100 C ceiling and lower sensor limits. Reproduce the verified comparison and
+plots offline with the C17 benchmark, from a repository root with a new run
+directory:
 
 ```sh
-python3 -B docs/benchmarks/models/qwen3.8-flash-next/strix-point/render-rocm10-fresh.py fresh128
+cmake -S . -B build/point-report -G Ninja -DBUILD_TESTING=OFF
+cmake --build build/point-report --target synapse-lie-bench -j2
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-rocm10-fresh128/lie run/point-rocm10-fresh128/gufo
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz \
+  -C run/point-rocm10-fresh128/lie measurements.jsonl
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-gufo.tar.gz \
+  -C run/point-rocm10-fresh128/gufo measurements.jsonl
+build/point-report/synapse-lie-bench --suite report \
+  run/point-rocm10-fresh128/lie/measurements.jsonl \
+  --compare run/point-rocm10-fresh128/gufo/measurements.jsonl \
+  --label 'LIE ROCm10' --reference-label 'Gufo ROCm10' \
+  --output run/point-rocm10-fresh128/report
 ```
+
+The native reporter validates complete physical IDs, sample counts, output
+budgets, rates and pairwise numerical frontiers before writing CSV/JSON/SVG/PNG.
+The frozen collection receipt additionally records service/lease closure and
+the 21/21 remote-file hash checks made before publication; portable archives
+omit transient container cache files.
 
 The pre-integration binary at source checkpoint `1877b03` has no newly added
 prefill/decode phase clocks. The two samples per point show observed variation,
