@@ -43,7 +43,8 @@ remain open; other real model bindings remain open.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
-  measurements, with CSV, JSON, SVG and PNG exports.
+  measurements, including separate prefill/decode durations, with CSV, JSON,
+  SVG and PNG exports.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 

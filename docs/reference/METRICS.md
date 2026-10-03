@@ -130,6 +130,19 @@ queueing, inference and consumption; its first-token clock is not first SSE writ
 An internal core queue-duration clock and complete resource accounting remain
 pending. Direct-core and HTTP results must label these different timing scopes.
 
+The direct `single`/`multi`/`fresh` benchmark records `timing_clock` as
+`CLOCK_MONOTONIC`. A sample carries `sample_begin_monotonic_ns`,
+`sample_begin_wall_time_ns` (CLOCK_REALTIME, correlation only),
+`prefill_begin_monotonic_ns`, `prefill_end_monotonic_ns`,
+`decode_begin_monotonic_ns` and `decode_end_monotonic_ns`.
+The two phase differences equal `prefill_ns` and `decode_ns` exactly; ordered
+bounds exclude prefix construction, frontier copies and flow setup from the
+timed GPU calls. These host bounds do not identify individual device kernels
+or constitute preemption evidence. They are optional only for older raw
+records with no clock declaration; partial or contradictory new bounds are
+rejected by the native report. `prefill_seconds`/`decode_seconds` distributions
+and `pp_*_s`/`tg_*_s` CSV columns expose measured duration separately from rate.
+
 At admission: accepted/rejected counters, active/queued gauges, input tokens.
 On worker start: queue duration. TTFT starts at full HTTP request admission,
 including tokenization and queue time, ends at first confirmed token ready for

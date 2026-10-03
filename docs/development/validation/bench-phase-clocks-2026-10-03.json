@@ -1,0 +1,206 @@
+{
+  "schema": "synapse-lie.benchmark-phase-clocks.v1",
+  "at": "2026-10-03T20:17:47.948929+00:00",
+  "source_parent_checkpoint": "b39b11d",
+  "scope": "Native C benchmark/report metadata and parsing; CPU fixtures and GPU-masked HIP linking, NOT ORIGINAL-WEIGHT INFERENCE",
+  "source_sha256": {
+    "tools/lie-bench.c": "6cd6dc9bf03bd60936c87f7ea398fb9f9f864961c1478ade1d610ee750412b93",
+    "tools/native/report.c": "1aa84569fc9e9d5476c48fbf97c1d7db091c296f158828ff5a2b3a948856acff",
+    "tests/test_native_bench.c": "3c87ca7c79850bf57671d3f18749ab8d559338caf367f0777003a584a9fb977a"
+  },
+  "qualification": {
+    "build": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-debug",
+        "--target",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench-report",
+        "-j1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.625
+      },
+      "elapsed_s": 1.0574022876098752
+    },
+    "build-r2": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-debug",
+        "--target",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench-report",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.625
+      },
+      "elapsed_s": 1.0602271230891347
+    },
+    "ctest": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/c17-debug",
+        "-R",
+        "^native-benchmark-contract$",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.5
+      },
+      "elapsed_s": 8.458720391616225
+    },
+    "hip-on": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-hip",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 62.5
+      },
+      "elapsed_s": 1.0211641313508153
+    },
+    "hip-off": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-off-hip",
+        "--target",
+        "synapse-lie-bench",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.125
+      },
+      "elapsed_s": 1.0619764411821961
+    }
+  },
+  "native_legacy_report_commands": [
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-depth/results/measurements.jsonl",
+        "--output",
+        "evidence/bench-phase-clocks-r1/report-depth",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-depth/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T20:10:29.990668+00:00"
+    },
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-multi/results/measurements.jsonl",
+        "--output",
+        "evidence/bench-phase-clocks-r1/report-multi",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-multi/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T20:10:30.010902+00:00"
+    },
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-fresh/results/measurements.jsonl",
+        "--output",
+        "evidence/bench-phase-clocks-r1/report-fresh",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-fresh/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T20:10:30.105678+00:00"
+    }
+  ],
+  "model_access": false,
+  "gpu_execution": false,
+  "asan_ubsan_leak_sanitizer": true,
+  "focused_ctest": "native-benchmark-contract 1/1 PASS; valid native clocks, four forged/partial/domain failures rejected, old evidence accepted; reorder-invariant comparisons and existing HTTP/SSD contract preserved",
+  "new_fields": [
+    "sample_begin_monotonic_ns",
+    "sample_begin_wall_time_ns",
+    "prefill_begin_monotonic_ns",
+    "prefill_end_monotonic_ns",
+    "decode_begin_monotonic_ns",
+    "decode_end_monotonic_ns"
+  ],
+  "duration_outputs": [
+    "prefill_seconds",
+    "decode_seconds",
+    "pp_median_s",
+    "pp_min_s",
+    "pp_max_s",
+    "tg_median_s",
+    "tg_min_s",
+    "tg_max_s"
+  ],
+  "limits": [
+    "Host phase bounds are not device kernel timestamps or preemption evidence.",
+    "Wall clock is correlation-only and may adjust; durations are monotonic.",
+    "The b72 GPU raw files retain their original lack of timestamps; no retrospectively synthesized bounds.",
+    "The first1500 TG anomaly remains unresolved."
+  ],
+  "failure_note": "First build failed with implicit nb_text declaration. Corrected to json-c public string insertion; original exit1/log retained."
+}

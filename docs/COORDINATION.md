@@ -263,6 +263,36 @@ answer is recorded. The service has not been changed. Additional synthetic
 diagnostic controls and no-device startup passed, and only 1391 bytes of official
 model repository metadata were fetched. No model payload, GPU initialization,
 device probe `--run`, lease acquisition or implicit background waiter occurred.
+## Completed root GPU window and local thermal test — 2026-10-03
+
+Root's `.157` functional/state/performance window closes at **19:41:04.028239
+UTC**. `run/gpu-functional-c17-window-release.json` and the shared register
+record all 28 owned supervisor/child identities retired, SSH controller exit 0,
+empty KFD and all four original lease identities unchanged/free via EX|NB.
+Six model stat witnesses and every used source capsule are unchanged. All
+thirty files from the six performance arms are collected and SHA-verified.
+There is no observer, automatic restart or waiter. Q2 receives the release;
+future admission remains fresh. The seven-arm `gpu-vision-bec-r1` continuation
+is prepared locally only, not staged or run.
+
+The owner explicitly requests a local `.155` thermal benchmark and has already
+authorized maximum fan curves from 60 C. These instructions supersede the
+earlier local non-performance-only scope and the historical no-fan-tuning
+statement below. This run changes no hardware setting. The verified host is
+the ASUS ROG Flow Z13, distinct from `.157`'s Bosgame despite matching hostnames.
+Existing local `/tmp/ds4.lock` **dev54/inode22093645** is held EX|NB, with FD/path
+identity checks, afresh for each of eight sequential synthetic GEMM trials.
+Other threads are notified of the local window; no DS4 ACK or universal
+exclusivity is claimed. No model payload, hash or conversion is performed.
+
+All eight child/helper exits are 0; the 201.79 s campaign completes at
+**19:41:56 UTC** without a 98 C guard stop. Sampled peaks are CPU93.5/GPU97 C.
+Postflight verifies sixteen owned identities retired, empty KFD and unchanged,
+free local lease. Temperature/fan/frequency/thread data and actual exits remain
+in `evidence/gpu-thermal-155-20261003T1940Z`, bound by the
+[local thermal receipt](development/validation/local-thermal-155-2026-10-03.json).
+No original-weight inference performance is inferred from this operator test.
+
 ## C17 sampling fallback — 2026-10-03
 
 The owner requests functional GPU tests if `.157` is available, otherwise the

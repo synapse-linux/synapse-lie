@@ -72,3 +72,27 @@ Desktop activity, denied FDs and absence of formal DS4 ACK limit isolation claim
 Closure must verify owned process retirement, empty KFD, unchanged/free leases,
 unchanged file/model identities and collected hashes before returning the window.
 Per-arm lease release does not invite interleaving into this enclosing campaign.
+
+## Prepared clocked performance follow-up
+
+`gpu-perf-clocked-r1` is prepared at runtime checkpoint `15c6082`, with GPU
+admission disabled. Renew its handover witness and notify peers before staging
+or running it; the previous root vision window has been returned to Q2.
+
+The first two arms fill the missing 12288-token depth for C17 and the compiled
+C++ control: PP2048/TG128, one warmup and three samples, capacity 133760. The
+following eight arms isolate the prior PP1500/TG128 slowdown at fixed capacity
+262144. No-warmup processes follow C17/CPP/CPP/C17; two-warmup processes follow
+CPP/C17/C17/CPP. Each has three measured samples and fresh sequence state.
+Keep first-process samples and subsequent repetitions separate in the analysis.
+Do not flush OS caches or change device policy; no cold-file claim is permitted.
+
+Native sample records bind complete monotonic PP/TG intervals. The private
+supervisor records read-only optional clock/power/busy fields, CPU frequencies,
+load and temperature in the same monotonic domain; missing fields are explicit.
+Require exact input/output/full-frontier witnesses and validated phase durations
+before comparison. Preserve all samples and failures. A newer run cannot erase
+the retained 16.64% slowdown, and greedy GPU argmax does not isolate dense host
+sampler cost. Sampler cost, MTP/vision performance and matched HTTP concurrency
+remain separate gates. See the
+[preparation receipt](../validation/performance-followup-preparation-2026-10-03.json).

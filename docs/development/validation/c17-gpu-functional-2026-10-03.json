@@ -1,0 +1,1015 @@
+{
+  "schema": "synapse-lie.c17-gpu.functional.v1",
+  "scope": "Original weights, same pinned delegated numerical provider; functional API/cache and complete-logit continuation, not independent quality/performance",
+  "source_checkpoints": [
+    "f0f58b3c6adc1c2b22078af6dd8b7951f9b9d91e",
+    "b72f4e80aab890862c8402d34dce7e05b6af6c28"
+  ],
+  "host": "192.168.5.157 AMD Strix Halo Bosgame AXB35-02",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "arms": [
+    {
+      "campaign": "gpu-functional-f0-r1",
+      "arm": "ar-http",
+      "state": "FAILED",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 1,
+      "finished_at": "2026-10-03T17:55:00.510693+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 58.25,
+      "peak_gpu_c": 58.0,
+      "peak_nvme_c": 60.85,
+      "sampled_os_thread_counts": [
+        2,
+        36,
+        52
+      ],
+      "error": "AssertionError('functional checks failed')",
+      "checks": {
+        "exit_code": 1,
+        "error": "TypeError(\"'NoneType' object is not subscriptable\")"
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r1/ar-http/results/http.jsonl": "854913249d9f20effa01a55dca3e4ca95466cbf6cf3c84bef649d90e50368e80",
+        "evidence/gpu-functional-f0-r1/ar-http/results/result.json": "c3568823708741985f8cb2f41a02c81d991edcdc97c11ba7d1d0e6fe3f0debb6",
+        "evidence/gpu-functional-f0-r1/ar-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r1/ar-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r1/ar-http/results/telemetry.jsonl": "5da1ecce6351731a2222186ec0ebf9bd708bfd58ad8a72fa9ea36b3f9b516cc9"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "seeded filtered sampling repeatability",
+          "pass": true
+        },
+        {
+          "name": "dense token bias",
+          "pass": true
+        },
+        {
+          "name": "finite confirmed logprobs",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-functional-f0-r2",
+      "arm": "ar-http",
+      "state": "FAILED",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 1,
+      "finished_at": "2026-10-03T17:57:46.846170+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 73.375,
+      "peak_gpu_c": 76.0,
+      "peak_nvme_c": 61.85,
+      "sampled_os_thread_counts": [
+        1,
+        36,
+        52
+      ],
+      "error": "AssertionError('functional checks failed')",
+      "checks": {
+        "exit_code": 1,
+        "error": "AssertionError('healthy device owner')",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r2/capsule/supervise.py\", line 79, in checks\n    runpy.run_path(str(base/'checks.py'))['run'](m,out,lambda: child.poll() is None and not interrupted);check_result['exit_code']=0\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r2/capsule/checks.py\", line 128, in run\n    check('healthy device owner',final['ready'] and final['scheduler']['failed']==0 and final['scheduler']['active']==0)\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r2/capsule/checks.py\", line 19, in check\n    record(dict(event='assertion',name=name,pass_=bool(condition)));assert condition,name\n                                                                           ^^^^^^^^^\nAssertionError: healthy device owner\n"
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r2/ar-http/results/http.jsonl": "64f3f3471f0691c659e7f4f93632e68010feed372c37253e90b210c3218fe247",
+        "evidence/gpu-functional-f0-r2/ar-http/results/result.json": "5e6d4746339a9f3a1a88763dfa12c5d35e0f42aa4e1741587148ae49f7040b42",
+        "evidence/gpu-functional-f0-r2/ar-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r2/ar-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r2/ar-http/results/telemetry.jsonl": "0f90e67980640b83355ae91ae0bf6db7066e76ac06a0477c99dc17c3fdc23eb7"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "seeded filtered sampling repeatability",
+          "pass": true
+        },
+        {
+          "name": "dense token bias",
+          "pass": true
+        },
+        {
+          "name": "finite confirmed logprobs",
+          "pass": true
+        },
+        {
+          "name": "stop token suppression",
+          "pass": true
+        },
+        {
+          "name": "three actual choices",
+          "pass": true
+        },
+        {
+          "name": "stored completion retrieval",
+          "pass": true
+        },
+        {
+          "name": "completion metadata mutation",
+          "pass": true
+        },
+        {
+          "name": "stored completion filter",
+          "pass": true
+        },
+        {
+          "name": "multi-choice SSE terminals",
+          "pass": true
+        },
+        {
+          "name": "constrained JSON schema",
+          "pass": true
+        },
+        {
+          "name": "strict complete function arguments",
+          "pass": true
+        },
+        {
+          "name": "correlated tool result continuation",
+          "pass": true
+        },
+        {
+          "name": "stored Responses original inference",
+          "pass": true
+        },
+        {
+          "name": "Responses retrieval",
+          "pass": true
+        },
+        {
+          "name": "Responses immutable replay",
+          "pass": true
+        },
+        {
+          "name": "Responses cursor",
+          "pass": true
+        },
+        {
+          "name": "Responses live semantic text",
+          "pass": true
+        },
+        {
+          "name": "retained conversation continuation",
+          "pass": true
+        },
+        {
+          "name": "background cancellation",
+          "pass": true
+        },
+        {
+          "name": "idempotent cancellation",
+          "pass": true
+        },
+        {
+          "name": "automatic oldest-turn truncation",
+          "pass": true
+        },
+        {
+          "name": "completion delete",
+          "pass": true
+        },
+        {
+          "name": "response delete",
+          "pass": true
+        },
+        {
+          "name": "RAM prefix exact output",
+          "pass": true
+        },
+        {
+          "name": "RAM reuse actual accounting",
+          "pass": true
+        },
+        {
+          "name": "healthy device owner",
+          "pass": false
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-functional-f0-r3",
+      "arm": "ar-http",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "finished_at": "2026-10-03T18:00:56.861157+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 74.375,
+      "peak_gpu_c": 76.0,
+      "peak_nvme_c": 64.85,
+      "sampled_os_thread_counts": [
+        1,
+        36,
+        52
+      ],
+      "error": null,
+      "checks": {
+        "exit_code": 0
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r3/ar-http/results/http.jsonl": "9dad17782f72d9f15c9f1ffb68258e9f156feb6ad3787a35dfab5246b0f2c311",
+        "evidence/gpu-functional-f0-r3/ar-http/results/result.json": "bedab0c361098252be0117f1c7445e41eb4e20d943a527da0a5c43a11261efb6",
+        "evidence/gpu-functional-f0-r3/ar-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r3/ar-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r3/ar-http/results/telemetry.jsonl": "0b1bbb9aabaedac7abd784545a1ef79d505cf59e10ba0c88eac28cbc484e0fdd"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "seeded filtered sampling repeatability",
+          "pass": true
+        },
+        {
+          "name": "dense token bias",
+          "pass": true
+        },
+        {
+          "name": "finite confirmed logprobs",
+          "pass": true
+        },
+        {
+          "name": "stop token suppression",
+          "pass": true
+        },
+        {
+          "name": "three actual choices",
+          "pass": true
+        },
+        {
+          "name": "stored completion retrieval",
+          "pass": true
+        },
+        {
+          "name": "completion metadata mutation",
+          "pass": true
+        },
+        {
+          "name": "stored completion filter",
+          "pass": true
+        },
+        {
+          "name": "multi-choice SSE terminals",
+          "pass": true
+        },
+        {
+          "name": "constrained JSON schema",
+          "pass": true
+        },
+        {
+          "name": "strict complete function arguments",
+          "pass": true
+        },
+        {
+          "name": "correlated tool result continuation",
+          "pass": true
+        },
+        {
+          "name": "stored Responses original inference",
+          "pass": true
+        },
+        {
+          "name": "Responses retrieval",
+          "pass": true
+        },
+        {
+          "name": "Responses immutable replay",
+          "pass": true
+        },
+        {
+          "name": "Responses cursor",
+          "pass": true
+        },
+        {
+          "name": "Responses live semantic text",
+          "pass": true
+        },
+        {
+          "name": "retained conversation continuation",
+          "pass": true
+        },
+        {
+          "name": "background cancellation",
+          "pass": true
+        },
+        {
+          "name": "idempotent cancellation",
+          "pass": true
+        },
+        {
+          "name": "automatic oldest-turn truncation",
+          "pass": true
+        },
+        {
+          "name": "completion delete",
+          "pass": true
+        },
+        {
+          "name": "response delete",
+          "pass": true
+        },
+        {
+          "name": "RAM prefix exact output",
+          "pass": true
+        },
+        {
+          "name": "RAM reuse actual accounting",
+          "pass": true
+        },
+        {
+          "name": "healthy device owner",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-functional-f0-r3",
+      "arm": "mtp-http",
+      "state": "FAILED",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 1,
+      "finished_at": "2026-10-03T18:01:34.240094+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 74.5,
+      "peak_gpu_c": 78.0,
+      "peak_nvme_c": 68.85,
+      "sampled_os_thread_counts": [
+        1,
+        36,
+        52
+      ],
+      "error": "AssertionError('functional checks failed')",
+      "checks": {
+        "exit_code": 1,
+        "error": "AssertionError(('/v1/chat/completions', 503, '{\"error\":{\"type\":\"server_error\",\"param\":null,\"code\":\"inference_failed\",\"message\":\"unsupported, foreign or non-prefix state\"}}'))",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r3/capsule/supervise.py\", line 79, in checks\n    runpy.run_path(str(base/'checks.py'))['run'](m,out,lambda: child.poll() is None and not interrupted);check_result['exit_code']=0\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r3/capsule/checks.py\", line 123, in run\n    a=chat(prompt);b=chat(prompt)\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r3/capsule/checks.py\", line 33, in chat\n    q.update(extra);return request('/v1/chat/completions',q)\n                           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r3/capsule/checks.py\", line 15, in request\n    assert r.status==status,(path,r.status,text[:2000])\n           ^^^^^^^^^^^^^^^^\nAssertionError: ('/v1/chat/completions', 503, '{\"error\":{\"type\":\"server_error\",\"param\":null,\"code\":\"inference_failed\",\"message\":\"unsupported, foreign or non-prefix state\"}}')\n"
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r3/mtp-http/results/http.jsonl": "4cbf71b0ff0e4ec9251f6296b851e8b4111158037f2f45d3369a00f5ec3d9627",
+        "evidence/gpu-functional-f0-r3/mtp-http/results/result.json": "2058821ebb325ca4d7cee7c9ff88ca9c91c589819e4d5dfcceb436d2b3643fc3",
+        "evidence/gpu-functional-f0-r3/mtp-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r3/mtp-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r3/mtp-http/results/telemetry.jsonl": "fb95ca5761a804286ea3a7724343ba27c4ed55d9e3c7965aef7657378de0d8ca"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "MTP complete output",
+          "pass": true
+        },
+        {
+          "name": "MTP has drafted and accepted tokens",
+          "pass": true
+        },
+        {
+          "name": "MTP provider controlled AR fallback",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-functional-f0-r4",
+      "arm": "mtp-http",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "finished_at": "2026-10-03T18:12:14.800433+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 71.375,
+      "peak_gpu_c": 77.0,
+      "peak_nvme_c": 61.85,
+      "sampled_os_thread_counts": [
+        36,
+        52
+      ],
+      "error": null,
+      "checks": {
+        "exit_code": 0
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r4/mtp-http/results/http.jsonl": "5eb813975513ca43d53a926b45b6dbcee04b026948f30599748df73feabfebe8",
+        "evidence/gpu-functional-f0-r4/mtp-http/results/result.json": "c2484b686e03b69792b764c7a22942c2fdaa5191b158d7c2f8214816b4e6cce5",
+        "evidence/gpu-functional-f0-r4/mtp-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r4/mtp-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r4/mtp-http/results/telemetry.jsonl": "7aac9becaf6f763a0a401c2354848c2c2f90c185076c1bff46b3f97c5801c7a8"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "MTP complete output",
+          "pass": true
+        },
+        {
+          "name": "MTP has drafted and accepted tokens",
+          "pass": true
+        },
+        {
+          "name": "MTP provider controlled AR fallback",
+          "pass": true
+        },
+        {
+          "name": "RAM prefix exact output",
+          "pass": true
+        },
+        {
+          "name": "RAM reuse actual accounting",
+          "pass": true
+        },
+        {
+          "name": "healthy device owner",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-functional-f0-r4",
+      "arm": "combined-http",
+      "state": "FAILED",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 1,
+      "finished_at": "2026-10-03T18:17:18.088442+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 48.125,
+      "peak_gpu_c": 41.0,
+      "peak_nvme_c": 61.85,
+      "sampled_os_thread_counts": [
+        1,
+        2
+      ],
+      "error": "AssertionError('functional checks failed')",
+      "checks": {
+        "exit_code": 1,
+        "error": "AssertionError('readiness deadline')",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r4/capsule/checks.py\", line 24, in run\n    if request('/actuator/health/readiness',port=19880)['status']=='UP':break\n       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r4/capsule/checks.py\", line 15, in request\n    assert r.status==status,(path,r.status,text[:2000])\n           ^^^^^^^^^^^^^^^^\nAssertionError: ('/actuator/health/readiness', 503, '{\"status\":\"OUT_OF_SERVICE\"}')\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r4/capsule/supervise.py\", line 79, in checks\n    runpy.run_path(str(base/'checks.py'))['run'](m,out,lambda: child.poll() is None and not interrupted);check_result['exit_code']=0\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-functional-f0-r4/capsule/checks.py\", line 26, in run\n    assert time.monotonic()<deadline,'readiness deadline';time.sleep(.25)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: readiness deadline\n"
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r4/combined-http/results/http.jsonl": "a1c76462f5634cbfa64440e4f200b642620ce0dd99764f311d2aa291cf7137b5",
+        "evidence/gpu-functional-f0-r4/combined-http/results/result.json": "250491c59441971d75079ce0520d400455d53d35e16b309b77e0acfd67cc6ec6",
+        "evidence/gpu-functional-f0-r4/combined-http/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r4/combined-http/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r4/combined-http/results/telemetry.jsonl": "8ac82cf9f962cc7369075c6bd842207d6b8c309910829f13d74dfbe176ee2dca"
+      },
+      "assertions": []
+    },
+    {
+      "campaign": "gpu-functional-f0-r4",
+      "arm": "ar-gufo-control",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "finished_at": "2026-10-03T18:18:36.685818+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 73.75,
+      "peak_gpu_c": 77.0,
+      "peak_nvme_c": 60.85,
+      "sampled_os_thread_counts": [
+        1,
+        36,
+        52
+      ],
+      "error": null,
+      "checks": {
+        "exit_code": 0
+      },
+      "summary": null,
+      "artifacts": {
+        "evidence/gpu-functional-f0-r4/ar-gufo-control/results/http.jsonl": "c5dcaf9292e7544e84bef2b856541b3978f97dbc28e1f1ac1c8648beb171848f",
+        "evidence/gpu-functional-f0-r4/ar-gufo-control/results/result.json": "15b6c00757cdfb7f5f2a6687ed90aaf2e08a07bc1bcd25604a633ab4a4b5bd6b",
+        "evidence/gpu-functional-f0-r4/ar-gufo-control/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-functional-f0-r4/ar-gufo-control/results/stdout.log": "9dc90362509bd372e783a3fb8d6b9021c4090d875cc4d7efd305de1c9228d3fe",
+        "evidence/gpu-functional-f0-r4/ar-gufo-control/results/telemetry.jsonl": "b0e76941adb87a0653226c87bb7e3b1cb59310e7f9bccebd76efce92387436e5"
+      },
+      "assertions": [
+        {
+          "name": "C17 dense sampler identity",
+          "pass": true
+        },
+        {
+          "name": "real model list",
+          "pass": true
+        },
+        {
+          "name": "model detail",
+          "pass": true
+        },
+        {
+          "name": "original-weight arithmetic",
+          "pass": true
+        },
+        {
+          "name": "physical input/output usage",
+          "pass": true
+        },
+        {
+          "name": "AR JSON/SSE equivalence",
+          "pass": true
+        },
+        {
+          "name": "seeded filtered sampling repeatability",
+          "pass": true
+        },
+        {
+          "name": "dense token bias",
+          "pass": true
+        },
+        {
+          "name": "finite confirmed logprobs",
+          "pass": true
+        },
+        {
+          "name": "stop token suppression",
+          "pass": true
+        },
+        {
+          "name": "three actual choices",
+          "pass": true
+        },
+        {
+          "name": "stored completion retrieval",
+          "pass": true
+        },
+        {
+          "name": "completion metadata mutation",
+          "pass": true
+        },
+        {
+          "name": "stored completion filter",
+          "pass": true
+        },
+        {
+          "name": "multi-choice SSE terminals",
+          "pass": true
+        },
+        {
+          "name": "constrained JSON schema",
+          "pass": true
+        },
+        {
+          "name": "strict complete function arguments",
+          "pass": true
+        },
+        {
+          "name": "correlated tool result continuation",
+          "pass": true
+        },
+        {
+          "name": "stored Responses original inference",
+          "pass": true
+        },
+        {
+          "name": "Responses retrieval",
+          "pass": true
+        },
+        {
+          "name": "Responses immutable replay",
+          "pass": true
+        },
+        {
+          "name": "Responses cursor",
+          "pass": true
+        },
+        {
+          "name": "Responses live semantic text",
+          "pass": true
+        },
+        {
+          "name": "retained conversation continuation",
+          "pass": true
+        },
+        {
+          "name": "background cancellation",
+          "pass": true
+        },
+        {
+          "name": "idempotent cancellation",
+          "pass": true
+        },
+        {
+          "name": "automatic oldest-turn truncation",
+          "pass": true
+        },
+        {
+          "name": "completion delete",
+          "pass": true
+        },
+        {
+          "name": "response delete",
+          "pass": true
+        },
+        {
+          "name": "RAM prefix exact output",
+          "pass": true
+        },
+        {
+          "name": "RAM reuse actual accounting",
+          "pass": true
+        },
+        {
+          "name": "healthy device owner",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "campaign": "gpu-state-b72-r1",
+      "arm": "mtp-state",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "finished_at": "2026-10-03T18:21:37.266151+00:00",
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "capsule_unchanged": true,
+      "peak_cpu_c": 71.625,
+      "peak_gpu_c": 61.0,
+      "peak_nvme_c": 62.85,
+      "sampled_os_thread_counts": [
+        1,
+        35,
+        51
+      ],
+      "error": null,
+      "checks": null,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 18,
+            "drafted": 35,
+            "accepted": 32,
+            "rejected": 3
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "59da040f925ed7f92d3dc1c9aec1f8917d541d9ed301bb1b293993830ee2e39f"
+      },
+      "artifacts": {
+        "evidence/gpu-state-b72-r1/mtp-state/results/measurements.jsonl": "59da040f925ed7f92d3dc1c9aec1f8917d541d9ed301bb1b293993830ee2e39f",
+        "evidence/gpu-state-b72-r1/mtp-state/results/result.json": "1214b11e6d8bb1c549067da3b713e88d47b622523b090e630c9d1eeb5e709dfb",
+        "evidence/gpu-state-b72-r1/mtp-state/results/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-state-b72-r1/mtp-state/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evidence/gpu-state-b72-r1/mtp-state/results/telemetry.jsonl": "913b73251803560ab301ada3a38daace97e9aed54d33d5acac25f5dbf1f01d8b"
+      }
+    }
+  ],
+  "c17_cpp_comparison": {
+    "scope": "Same-model functional C17/CPP comparison; f0 AR versus b72 CPP geometry fix only affects MTP; not matched performance. Dynamic identities removed; output and usage retained.",
+    "cases": [
+      {
+        "case": 0,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.3745561877731234,
+          0.34189839102327824
+        ]
+      },
+      {
+        "case": 1,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.889231642941013,
+          0.7687272478360683
+        ]
+      },
+      {
+        "case": 2,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.789430224802345,
+          0.7565896939486265
+        ]
+      },
+      {
+        "case": 3,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.3442921359091997,
+          0.3170313579030335
+        ]
+      },
+      {
+        "case": 4,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.23279770696535707,
+          0.23099171207286417
+        ]
+      },
+      {
+        "case": 5,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.4915711230132729,
+          0.4933359120041132
+        ]
+      },
+      {
+        "case": 6,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.8818029859103262,
+          0.7418830289971083
+        ]
+      },
+      {
+        "case": 7,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          1.334103407803923,
+          1.089026371948421
+        ]
+      },
+      {
+        "case": 8,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.5751259808894247,
+          0.5658760839141905
+        ]
+      },
+      {
+        "case": 9,
+        "path": "/v1/responses",
+        "equal": {
+          "output": true,
+          "usage": true,
+          "status": true
+        },
+        "client_s": [
+          0.18711687391623855,
+          0.18182904203422368
+        ]
+      },
+      {
+        "case": 10,
+        "path": "/v1/responses",
+        "equal": {
+          "output": true,
+          "usage": true,
+          "status": true
+        },
+        "client_s": [
+          0.2304840839933604,
+          0.2180850540753454
+        ]
+      },
+      {
+        "case": 11,
+        "path": "/v1/responses",
+        "equal": {
+          "output": true,
+          "usage": true,
+          "status": true
+        },
+        "client_s": [
+          0.0005247369408607483,
+          0.0005329339765012264
+        ]
+      },
+      {
+        "case": 12,
+        "path": "/v1/responses",
+        "equal": {
+          "output": true,
+          "usage": true,
+          "status": true
+        },
+        "client_s": [
+          0.18697660695761442,
+          0.18105468712747097
+        ]
+      },
+      {
+        "case": 13,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          1.8667223181109875,
+          1.864099723054096
+        ]
+      },
+      {
+        "case": 14,
+        "path": "/v1/chat/completions",
+        "equal": {
+          "choices": true,
+          "usage": true
+        },
+        "client_s": [
+          0.05403947690501809,
+          0.05389462900348008
+        ]
+      }
+    ],
+    "all_equal": true
+  },
+  "collection_note": "R3 first collection merged two identical results basenames; retained separately in collection-merged-results. Authoritative per-arm directories were recollected independently.",
+  "window_state": {
+    "state": "RELEASED",
+    "at": "2026-10-03T19:41:04.028239+00:00",
+    "receipt": "evidence/gpu-functional-f0-r1/window-release.json",
+    "receipt_sha256": "3b3a42bc2728fa44025a95452faba72a0a185f85c7bbdb7204d2091c0337dcaf",
+    "owned_identities_retired": 28,
+    "kfd_empty": true,
+    "four_original_leases_unchanged_free": true,
+    "six_model_stat_witnesses_unchanged": true,
+    "all_used_source_capsules_unchanged": true,
+    "ssh_controller_exit_code": 0,
+    "observer_started": false,
+    "restart_scheduled": false,
+    "performance_arms_completed": 6,
+    "performance_result_files_collected_sha256_verified": 30,
+    "unlaunched_next_campaign": "gpu-vision-bec-r1"
+  },
+  "pending": [
+    "Matched direct C17/C++ performance published: resolve 1500-token fresh slowdown, add missing 12288 depth and host-sampler cost/scratch measurements",
+    "Vision Q8 admission/state/cache/restart (feature/vision-q8 bec0955)",
+    "Process-restarted MTP SSD and real core cancellation/backpressure",
+    "Independent numerical/quality and allocation-exact memory gates"
+  ]
+}

@@ -9,6 +9,8 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Combined benchmark CSV duration columns now explicitly use seconds.
+
 - Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
   when the trunk GGUF metadata has no embedded predictor block.
 
@@ -19,6 +21,9 @@ stable release is declared. Detailed validation history is in
   files unchanged. Original-weight HTTP, image/cache and combined RAM/SSD
   checkpoint checks pass; quality and performance qualification remain open.
 
+- Native benchmark prefill/decode durations in CSV and JSON, with monotonic
+  phase bounds for telemetry correlation and validation of incomplete or
+  contradictory clocks. Retained evidence without clocks remains readable.
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
   and reproducible random draws, with a default-ON build option and a separate
   Gufo control. Original-weight GPU qualification remains pending.

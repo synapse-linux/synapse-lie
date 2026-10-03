@@ -243,6 +243,76 @@ static void parsers(void) {
   require(ids && nb_ids_hash(ids, hash), "physical ID digest");
   json_object_put(ids);
 }
+static void direct_clock_contract(json_object *rows) {
+  const char *keys[] = {"sample_begin_monotonic_ns", "sample_begin_wall_time_ns",
+                        "prefill_begin_monotonic_ns", "prefill_end_monotonic_ns",
+                        "decode_begin_monotonic_ns", "decode_end_monotonic_ns"};
+  require(!strcmp(nb_string(json_object_array_get_idx(rows, 0), "timing_clock"),
+                   "CLOCK_MONOTONIC"), "direct clock domain");
+  for (unsigned mode = 0; mode < 5; ++mode) {
+    json_object *copy = NULL;
+    require(!json_object_deep_copy(rows, &copy, NULL), "clock evidence copy");
+    json_object *identity = json_object_array_get_idx(copy, 0), *first = NULL;
+    for (size_t i = 0; i < json_object_array_length(copy); ++i) {
+      json_object *r = json_object_array_get_idx(copy, i);
+      if (strcmp(nb_string(r, "event"), "sample"))
+        continue;
+      if (!first)
+        first = r;
+      for (size_t k = 0; k < sizeof(keys) / sizeof(*keys); ++k)
+        require(nb_count(r, keys[k], 1, INT64_MAX, NULL), "missing native phase timestamp");
+      if (mode == 4)
+        for (size_t k = 0; k < sizeof(keys) / sizeof(*keys); ++k)
+          json_object_object_del(r, keys[k]);
+    }
+    require(first != NULL, "clock evidence sample");
+    if (mode == 0)
+      nb_num(first, keys[3], nb_number(first, keys[3]) + 1);
+    else if (mode == 1)
+      json_object_object_del(first, keys[4]);
+    else if (mode == 2)
+      nb_num(first, keys[0], nb_number(first, keys[2]) + 1);
+    else if (mode == 3)
+      json_object_object_add(identity, "timing_clock", json_object_new_string("CLOCK_REALTIME"));
+    else
+      json_object_object_del(identity, "timing_clock");
+    char name[80], input[2400], directory[2400];
+    snprintf(name, sizeof(name), "clock-%u.jsonl", mode);
+    path(input, name);
+    FILE *f = fopen(input, "w");
+    require(f != NULL, "clock evidence file");
+    for (size_t i = 0; i < json_object_array_length(copy); ++i)
+      require(nb_emit(f, json_object_array_get_idx(copy, i)), "clock evidence write");
+    require(!fclose(f), "clock evidence close");
+    json_object_put(copy);
+    snprintf(name, sizeof(name), "clock-%u-graphs", mode);
+    path(directory, name);
+    nb_error error = {0};
+    int rc = nb_report(input, directory, "fixture", NULL, "reference", false, &error);
+    if (mode == 4) {
+      require(!rc, "retained evidence without clock fields must remain readable");
+      graph_files(name);
+    } else {
+      require(rc && strstr(error.message, "monotonic phase"), "forged phase clock accepted");
+      struct stat st;
+      require(lstat(directory, &st) && errno == ENOENT, "invalid phase evidence published graphs");
+    }
+  }
+  json_object *summary = read_json("direct-graphs/summary.json", false);
+  json_object *point = json_object_array_get_idx(nb_get(nb_get(summary, "primary"), "configurations"), 0);
+  require(nb_number(nb_get(point, "prefill_seconds"), "n") == 2 &&
+          json_object_get_double(nb_get(nb_get(point, "prefill_seconds"), "median")) > 0 &&
+          nb_number(nb_get(point, "decode_seconds"), "n") == 2,
+          "missing measured duration distributions");
+  json_object_put(summary);
+  char csvpath[2400], header[1024];
+  path(csvpath, "direct-graphs/summary.csv");
+  FILE *f = fopen(csvpath, "r");
+  require(f && fgets(header, sizeof(header), f) &&
+          strstr(header, "pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s"),
+          "CSV does not expose phase duration distributions");
+  require(!fclose(f), "duration CSV close");
+}
 static void reordered_comparison(json_object *rows, const char *original) {
   json_object *inputs = json_object_new_array();
   for (size_t i = 0; i < json_object_array_length(rows); i++) {
@@ -335,6 +405,7 @@ int main(int argc, char **argv) {
   run(direct, 0);
   graph_files("direct-graphs");
   json_object *rows = read_json("direct.jsonl", true);
+  direct_clock_contract(rows);
   reordered_comparison(rows, output);
   json_object *sample = NULL;
   for (size_t i = 0; i < json_object_array_length(rows); i++) {

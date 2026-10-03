@@ -28,7 +28,8 @@
 #define PAD_BYTES (2u*1024u*1024u)
 static volatile sig_atomic_t interrupted;
 static void stop(int sig) {(void)sig;interrupted=1;}
-static uint64_t ns(void) {struct timespec t;if(clock_gettime(CLOCK_MONOTONIC,&t))return 0;return (uint64_t)t.tv_sec*1000000000u+(uint64_t)t.tv_nsec;}
+static uint64_t clock_ns(clockid_t clock) {struct timespec t;if(clock_gettime(clock,&t))return 0;return (uint64_t)t.tv_sec*1000000000u+(uint64_t)t.tv_nsec;}
+static uint64_t ns(void) {return clock_ns(CLOCK_MONOTONIC);}
 static void num(json_object *j,const char *k,int64_t v) {json_object_object_add(j,k,json_object_new_int64(v));}
 static void str(json_object *j,const char *k,const char *v) {json_object_object_add(j,k,json_object_new_string(v));}
 static json_object *event(const char *kind) {json_object *j=json_object_new_object();str(j,"event",kind);return j;}
@@ -55,6 +56,8 @@ static json_object *identity(const struct config *c) {
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
     num(j,"prefill_chunk",2048);
+    str(j,"timing_clock","CLOCK_MONOTONIC");
+    str(j,"wall_clock_scope","CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds");
     str(j,"unsupported","MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle");
 #ifdef LIE_BENCH_REFERENCE
     str(j,"execution","upstream-native-batch");
@@ -154,11 +157,16 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     int32_t *output=calloc((size_t)users*c->tg,sizeof(*output));float *logits=malloc((size_t)vocab*sizeof(*logits));
     unsigned counts[MAX_USERS]={0},stopped[MAX_USERS]={0};char pp_hash[65],tg_hash[65];bool ok=false;
     if(!output||!logits)goto done;
-    json_object *begin=event("sample_begin");num(begin,"point",point);num(begin,"rep",rep);num(begin,"depth",depth);num(begin,"users",users);num(begin,"warmup",warmup);if(!emit(f,begin))goto done;
+    uint64_t sample_begin=ns(),wall_begin=clock_ns(CLOCK_REALTIME);
+    if(!sample_begin||!wall_begin){snprintf(e->message,sizeof(e->message),"benchmark clock unavailable");goto done;}
+    json_object *begin=event("sample_begin");num(begin,"point",point);num(begin,"rep",rep);num(begin,"depth",depth);num(begin,"users",users);num(begin,"warmup",warmup);
+    num(begin,"monotonic_ns",(int64_t)sample_begin);num(begin,"wall_time_ns",(int64_t)wall_begin);if(!emit(f,begin))goto done;
     for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,e))goto done;
     uint64_t pp_begin=ns();
     for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,e))goto done;
-    uint64_t pp_ns=ns()-pp_begin;
+    uint64_t pp_end=ns();
+    if(!pp_begin||pp_end<=pp_begin){snprintf(e->message,sizeof(e->message),"invalid prefill clock interval");goto done;}
+    uint64_t pp_ns=pp_end-pp_begin;
     if(!frontier(seq[0],logits,vocab,pp_hash,e))goto done;
 #ifndef LIE_BENCH_REFERENCE
     if(reactive)for(unsigned i=0;i<users;++i){lie_flow_options o={1,1,4096};if(lie_flow_create(&o,&flows[i])!=LIE_FLOW_OK||lie_flow_request(flows[i],1)!=LIE_FLOW_OK)goto done;}
@@ -182,7 +190,9 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
             stopped[i]=d.stop;
         }if(!active)break;
     }
-    uint64_t tg_ns=ns()-tg_begin;
+    uint64_t tg_end=ns();
+    if(!tg_begin||tg_end<=tg_begin){snprintf(e->message,sizeof(e->message),"invalid decode clock interval");goto done;}
+    uint64_t tg_ns=tg_end-tg_begin;
     if(!frontier(seq[0],logits,vocab,tg_hash,e))goto done;
     for(unsigned i=1;i<handles;++i){char other[65];if(counts[i]!=counts[0]||stopped[i]!=stopped[0]||memcmp(output+(size_t)i*c->tg,output,counts[0]*sizeof(*output))||!frontier(seq[i],logits,vocab,other,e)||strcmp(other,tg_hash)){snprintf(e->message,sizeof(e->message),"identical-input peer mismatch");goto done;}}
     if(w->set){if(strcmp(w->pp,pp_hash)||strcmp(w->tg,tg_hash)||w->count!=counts[0]||w->stop!=stopped[0]||memcmp(w->ids,output,counts[0]*sizeof(*output))){snprintf(e->message,sizeof(e->message),"repeatability mismatch");goto done;}}
@@ -190,6 +200,9 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     json_object *j=event("sample");num(j,"point",point);num(j,"rep",rep);num(j,"warmup",warmup);num(j,"depth",depth);num(j,"users",users);
     num(j,"prompt_tokens",(int64_t)p->n);num(j,"cache_tokens",depth);num(j,"prefill_tokens_per_user",(int64_t)p->n-depth);num(j,"output_tokens_per_user",counts[0]);num(j,"output_tokens",counts[0]*users);
     num(j,"prefill_ns",(int64_t)pp_ns);num(j,"decode_ns",(int64_t)tg_ns);num(j,"stop",stopped[0]);num(j,"finite_frontiers",1);num(j,"identical_input_peers_verified",1);
+    num(j,"sample_begin_monotonic_ns",(int64_t)sample_begin);num(j,"sample_begin_wall_time_ns",(int64_t)wall_begin);
+    num(j,"prefill_begin_monotonic_ns",(int64_t)pp_begin);num(j,"prefill_end_monotonic_ns",(int64_t)pp_end);
+    num(j,"decode_begin_monotonic_ns",(int64_t)tg_begin);num(j,"decode_end_monotonic_ns",(int64_t)tg_end);
     str(j,"prefill_logits_sha256",pp_hash);str(j,"decode_logits_sha256",tg_hash);json_object_object_add(j,"output_ids",ids_json(output,counts[0]));
     json_object_object_add(j,"prefill_tps",json_object_new_double((double)(p->n-depth)*users*1e9/(double)pp_ns));json_object_object_add(j,"decode_tps",json_object_new_double((double)counts[0]*users*1e9/(double)tg_ns));
 #ifndef LIE_BENCH_REFERENCE

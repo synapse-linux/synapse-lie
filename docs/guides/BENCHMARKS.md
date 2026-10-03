@@ -87,6 +87,26 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+MTP is integrated in the shared-core suite. Add an explicit compatible predictor
+and draft budget to separate runs (one cohort size per invocation):
+
+```sh
+for LIE_USERS in 1 2 4 6 8; do
+  "$LIE_BENCH" --model "$LIE_MODEL" --suite core \
+    --model-mtp /path/to/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf \
+    --mtp-draft-tokens 3 --prompt-file prompt.txt \
+    --context 32768 --chunk 2048 --users "$LIE_USERS" \
+    --tg 128 --warmups 1 --repetitions 3 --kv-cache-ram-mb 0 \
+    --output "results/core-mtp-c$LIE_USERS.jsonl" || break
+done
+```
+
+The core suite records cohort wall time, individual job timings and actual
+proposed/accepted tokens. It does not use Gufo's all-prefilled HTTP decode barrier
+or its sum of individual request rates. The direct `single`/`multi`/`fresh`
+suites currently support AR only; using `core` does not complete those MTP
+comparison workloads.
+
 ## HTTP workloads
 
 Start the server first. This suite uses the native C HTTP client:
@@ -133,6 +153,14 @@ Each export contains `benchmark.svg`, `benchmark.png`, `summary.csv` and
 `summary.json`. Throughput axes start at zero; prefill and generation have
 separate scales. Error bars show the observed minimum and maximum, with the
 median as the plotted value. Preserve raw JSONL and the build/model identities.
+Direct-suite CSV/JSON also include prefill/decode seconds with median, minimum
+and maximum. These durations are summarized independently of throughput.
+New raw direct samples carry monotonic phase bounds and a wall-clock sample
+start for correlation with thermal/device telemetry. Prefix construction ends
+before the prefill bound; frontier inspection and flow setup precede decode.
+Elapsed time always uses the monotonic clock. The exporter rejects incomplete,
+reversed or duration-inconsistent phase bounds and still reads older evidence
+without those fields. Graphs alone do not supply clock/power telemetry.
 A graph-export failure returns a nonzero exit code while retaining the measurement file.
 
 KV disk reports instead plot nearest-rank p50/p95/p99 latency distributions.
@@ -148,7 +176,7 @@ Use a new output directory for each report: existing artifacts are not replaced.
 | --- | --- |
 | AR single user at eight prefix depths. | Simplified direct suite and local Gufo control measured through 128K. |
 | AR multiple users. | Native batching measured through eight users. Exact HTTP per-request-rate summation is still missing. |
-| MTP single and multiple users. | MTP is not integrated. |
+| MTP single and multiple users. | MTP is integrated in `core`; matching mixed/repetitive performance campaigns and the exact published HTTP protocol remain pending. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |
 | Peak HIP memory. | Still missing; `memory` exports provider estimates, not allocation-exact peak usage. |
 

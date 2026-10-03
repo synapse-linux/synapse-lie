@@ -1,0 +1,405 @@
+{
+  "schema": "synapse-lie.sampling-host-cost.v1",
+  "at": "2026-10-03T21:40:17.103448+00:00",
+  "classification": "NOT-INFERENCE; CPU sampler operator measurements",
+  "host": "ROG Flow Z13 GZ302EAC local 192.168.5.155 Ryzen AI Max+ 395",
+  "base_checkpoint": "4ad583d250e190532f102ca3ccd25e9c95719a8a",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "controls": {
+    "reference": "Independently fetched unmodified official Gufo sampler",
+    "candidate": "LIE C17 dense selection enabled",
+    "fallback": "Same generated provider layout with LIE_C17_SAMPLING=OFF"
+  },
+  "matrix": {
+    "vocabularies": [
+      256,
+      32768,
+      248320
+    ],
+    "geometries": [
+      "flat",
+      "sine",
+      "staircase"
+    ],
+    "filters": [
+      "greedy",
+      "unfiltered-temperature-0.7",
+      "top-p-0.95",
+      "top-k-32-top-p-0.8-min-p-0.1",
+      "min-p-0.9-min-keep-5",
+      "top-k-32-repeat-1.2-frequency-0.2-presence-0.1"
+    ],
+    "cases": 54,
+    "cost_invocations_per_arm": 3,
+    "warmups_per_case": 1,
+    "measured_repetitions_per_invocation": 7,
+    "iterations_per_repetition": {
+      "256": 64,
+      "32768": 8,
+      "248320": 3
+    },
+    "timed_rows": 486,
+    "measured_repetition_values": 3402,
+    "allocation_rows": 162,
+    "asan_cost_smoke_rows": 162
+  },
+  "method": {
+    "timed_scope": "Distribution construction, one random draw and distribution destruction",
+    "excluded": "Generated logit inputs, prompt/history construction, witness copies, JSON output",
+    "order": [
+      "reference",
+      "candidate",
+      "fallback",
+      "candidate",
+      "fallback",
+      "reference",
+      "fallback",
+      "reference",
+      "candidate"
+    ],
+    "statistic": "Median of 21 per-call repetition averages for each arm/case",
+    "gpu_masked": true,
+    "untraced": true,
+    "observed_threads_per_probe": 1,
+    "allocation_probe_separate_and_untimed": true,
+    "allocation_scope": "Requested C++ new bytes during distribution and witness; excludes malloc outside new, allocator overhead, prepared logits/history and RSS",
+    "allocation_counter_fixture": "17-byte ordinary plus 33-byte 64-aligned allocation: two calls, 50 requested/peak bytes, zero after deletion",
+    "limitations": "Host .155, short generated-logit loops, no CPU affinity isolation or controlled OS/background load; no model/GPU throughput, GPU memory peak or 1500-token regression attribution"
+  },
+  "checks": {
+    "all_54_witness_entry_draw_rng_cases_equal": true,
+    "all_162_counted_allocation_scopes_retire": true,
+    "ctest_asan_ubsan_lsan": "17/17",
+    "additional_cost_smoke_arms": "3/3",
+    "all_12_measurement_children_exit_zero_and_retire": true
+  },
+  "regression": {
+    "no_slowdown_gate_passed": false,
+    "candidate_reference_time_ratio": {
+      "min": 0.5460361747161825,
+      "median_across_cases": 1.713551336495887,
+      "max": 3.4338212536917987
+    },
+    "conclusion": "C17 is slower in multiple full-vocabulary cases; top-k often reduces allocations. Optimization and original-weight sampled qualification remain open."
+  },
+  "measurements_peak_c": {
+    "nvme": 34.85,
+    "amdgpu": 55.0,
+    "k10temp": 82.5
+  },
+  "commands": {
+    "configure-release": {
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-cost-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_SANITIZERS=OFF",
+        "-DLIE_SAMPLING_PERFORMANCE=ON"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.75
+      },
+      "elapsed_s": 2.1327332304790616
+    },
+    "build-release": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-cost-release",
+        "--target",
+        "reference-cost",
+        "candidate-cost",
+        "fallback-cost",
+        "reference-allocation",
+        "candidate-allocation",
+        "fallback-allocation",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.25
+      },
+      "elapsed_s": 35.472224267199636
+    },
+    "build-release-r2": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-cost-release",
+        "--target",
+        "reference-cost",
+        "candidate-cost",
+        "fallback-cost",
+        "reference-allocation",
+        "candidate-allocation",
+        "fallback-allocation",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.0
+      },
+      "elapsed_s": 4.186019277200103
+    },
+    "configure-asan": {
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-cost-asan",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_SAMPLING_PERFORMANCE=ON"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.75
+      },
+      "elapsed_s": 2.0998215852305293
+    },
+    "build-asan": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-cost-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 91.375
+      },
+      "elapsed_s": 62.67292386107147
+    },
+    "ctest-asan": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/sampling-cost-asan",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 94.5
+      },
+      "elapsed_s": 111.85648650396615
+    },
+    "asan-cost-smoke": {
+      "argv": [
+        "cmake",
+        "-P",
+        "evidence/sampling-cost-r1/asan-cost-smoke.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 91.75
+      },
+      "elapsed_s": 17.6928868656978
+    }
+  },
+  "preserved_preparation_failure": [
+    {
+      "argv": [
+        "python3",
+        "tools/thermal-run.py",
+        "--output-dir",
+        "evidence/sampling-cost-r1/configure-release",
+        "--limit-c",
+        "98",
+        "--timeout",
+        "180",
+        "--",
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-cost-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_SANITIZERS=OFF",
+        "-DLIE_SAMPLING_PERFORMANCE=ON"
+      ],
+      "exit_code": 2,
+      "reason": "Thermal guard uses --output, not --output-dir; no configure or child execution"
+    }
+  ],
+  "preserved_build_warnings": {
+    "initial_release": "GCC sort-array bounds and misleading indentation; corrected in r2",
+    "asan": "Pinned upstream missing constraint initializer warnings; upstream retained unmodified"
+  },
+  "complete_values": "docs/development/validation/sampling-cost-2026-10-03.csv",
+  "sources_and_raw_sha256": {
+    "adapters/gufo-state/dense-sampling-edits.json": "efe8c548937eacaab05381c30d95244ec44b05ad456b2f63777cb1e4bfe88949",
+    "adapters/gufo_sampling.hpp": "f941372906ceaab4d1171472f830fadefddc094d3d3bf48b6440e42ac0835212",
+    "cmake/provider/Source.cmake": "1ee754b940cf3847a1a8d378202938019abbb124318da7ee44f13b8467e9ca6a",
+    "docs/development/validation/sampling-cost-2026-10-03.csv": "703615e2dacc07f980ed87940e70b69d2207e68ef1bd36f5f9a91d3ccbd489d9",
+    "evidence/analyze-sampling-cost.py": "abb4e18c34cd7af7a827bec973a41efcd131e3150d3f51b13456e6ae7d428899",
+    "evidence/run-sampling-cost.py": "aad2ddd9c1e03b4e9ccfe463e33e3a037cf7dc6addf044ca33920005d3d55817",
+    "evidence/sampling-cost-r1/asan-cost-candidate.exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/sampling-cost-r1/asan-cost-candidate.jsonl": "d31b30fa7938178417056801ab3e0d21e55b6b04ec0de6d72cd20308c6168852",
+    "evidence/sampling-cost-r1/asan-cost-candidate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/asan-cost-fallback.exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/sampling-cost-r1/asan-cost-fallback.jsonl": "aed8d5a23996c91f10e23d7890ff49364c9c9868021b66ebff37f68e99009cba",
+    "evidence/sampling-cost-r1/asan-cost-fallback.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/asan-cost-reference.exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/sampling-cost-r1/asan-cost-reference.jsonl": "63aacddf7dce717627a9cee8f10ccb881e0935a071a736e60836b53a07ba7994",
+    "evidence/sampling-cost-r1/asan-cost-reference.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/asan-cost-smoke/command.log": "a10814b4243bf6a5092564e6dda5c973a64cf5e3a34fd70b520c214c55b49599",
+    "evidence/sampling-cost-r1/asan-cost-smoke/plan.json": "6f3f76f6abdc367745c38c4004e234d8213ba1f0697ac20ffeca1b9ac974e634",
+    "evidence/sampling-cost-r1/asan-cost-smoke/result.json": "ca67285335bd8d314728ebeaa8d15942fe57e661b5ead95701b00d6325ad71a6",
+    "evidence/sampling-cost-r1/asan-cost-smoke/temperatures.jsonl": "8fb02f1bbbedaa602a380888809f67f0fd78fa9f8dc1e78bd0019ad59e2946f5",
+    "evidence/sampling-cost-r1/asan-cost-smoke.cmake": "54e9bb4fea461bf3a27bc8c1a318bca3f84c5d0ca9474afc969f5a7a0a34a750",
+    "evidence/sampling-cost-r1/build-asan/command.log": "f838a82e3fccb64c636a62ecd2611200c81b82ba68a0a1abbc97d198f1d611ea",
+    "evidence/sampling-cost-r1/build-asan/plan.json": "340c0e291967ab3bc57dcc1d254afaab10c56a5df3af9893a1f7936609bedefb",
+    "evidence/sampling-cost-r1/build-asan/result.json": "a95c2fb8e4aba86745553bb366fed515afb34d3f822ae9308a5a236c571f96b9",
+    "evidence/sampling-cost-r1/build-asan/temperatures.jsonl": "359879eee51c6b900578e8e03fe4a094fbf83460f2d7faad48a17f6289db5efe",
+    "evidence/sampling-cost-r1/build-release/command.log": "45c9f0dc44f1e06203ea7b19a20484769ce054a78e0eb8bac20cb63a8c8a2630",
+    "evidence/sampling-cost-r1/build-release/plan.json": "e5647f352c0c336d00c9479ed85d3c1c9bb37184b39248e9c921e9167c484ae9",
+    "evidence/sampling-cost-r1/build-release/result.json": "f57f3046c38f6c9fc416c6c0926273bddbf7082f7b5204049e52f59fc822bdcf",
+    "evidence/sampling-cost-r1/build-release/temperatures.jsonl": "3b00374cd3ae6869156c72ecfd937161d42ec8fcc53aa521c4b0b05dafcdbe37",
+    "evidence/sampling-cost-r1/build-release-r2/command.log": "a46f3b23252bf9dc95e3ca1bd3fd21c390fa2779e2f8ce1569d947b76a049538",
+    "evidence/sampling-cost-r1/build-release-r2/plan.json": "3c7df66e424ef1aa713f27b9fcdf62aafa2d480f127d19d502be640d24d18252",
+    "evidence/sampling-cost-r1/build-release-r2/result.json": "683d43c7e573ab20bd01c83c4fdf45a3f28294ebe95c9cc429ddc8f8e705f23b",
+    "evidence/sampling-cost-r1/build-release-r2/temperatures.jsonl": "142df31131e63c69c5287da671da5a165dc4fd612492272e19cad98ccdfa9ed1",
+    "evidence/sampling-cost-r1/configure-asan/command.log": "a0191b84a253f61d706d9fa861e40656d48292c42d48fc0fc595c903fd20edc4",
+    "evidence/sampling-cost-r1/configure-asan/plan.json": "0e9b6857fa039ff60f7c3e6a8621658c0c3d25e776b9cdc4bfaecef03d26c6b9",
+    "evidence/sampling-cost-r1/configure-asan/result.json": "e6b0d20b73292e06c663874dbb3861d173a9d1156da157750d0cfad19025e507",
+    "evidence/sampling-cost-r1/configure-asan/temperatures.jsonl": "2533ca3b4db08aa3123dad1cc9478b71a888552e9a44db2f05804c592a3b4d64",
+    "evidence/sampling-cost-r1/configure-release/command.log": "517440a36b731e2971ebad9c9b18280c98d928fc495d3080ee1b6b8f46c0ce8a",
+    "evidence/sampling-cost-r1/configure-release/plan.json": "8832e00de87e651667d8364f23c2f87da85c13cabbcf4d742fb0feec4c7a2bf1",
+    "evidence/sampling-cost-r1/configure-release/result.json": "b422cd1d3c5cffd2f617dfc59e72ba557233c045149e05a342365673a5f58488",
+    "evidence/sampling-cost-r1/configure-release/temperatures.jsonl": "9996ff266503130977a7624e32248f370dcb4a1c1bb5d50f3ac18e459405c18c",
+    "evidence/sampling-cost-r1/ctest-asan/command.log": "c52eed45bd4647389bdf0cf763d563c66e7d441dc919b79d6c6e3173a4e2f1f4",
+    "evidence/sampling-cost-r1/ctest-asan/plan.json": "71fc72ef34aa17a14a0f8c0d747591e395dc7337e1a39cbd22fa702c7e8d5df8",
+    "evidence/sampling-cost-r1/ctest-asan/result.json": "2fc7816b69ec64f043a030ebdc0c1073724d6c2d2b9cf6a3f75b48c572c434d0",
+    "evidence/sampling-cost-r1/ctest-asan/temperatures.jsonl": "ac592abc041b9f600fa6ede4e3f5d640d0fa0c4ddc1513df1b699c499cf00afa",
+    "evidence/sampling-cost-r1/elf-dependencies.json": "d69e65ae869276404833374aaa5082d008929e61f1517c636d85ea84ea36a95b",
+    "evidence/sampling-cost-r1/measurements/allocation-candidate/result.json": "799643acfb7051226fe6f23745e55dec9cb4db880fc9d1d30a1fe379f58c9b81",
+    "evidence/sampling-cost-r1/measurements/allocation-candidate/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/allocation-candidate/stdout.jsonl": "2e8e447a8c1330c1d83069d7da534f38fbec0f332a56fd17d087d417babba48d",
+    "evidence/sampling-cost-r1/measurements/allocation-candidate/telemetry.jsonl": "05eb8185d6efab976fc9a45d11d84b5a242e960297ee87ac823b0995c60d34fa",
+    "evidence/sampling-cost-r1/measurements/allocation-fallback/result.json": "1539886360f26744a5909e82b9a348ada400340bcbba2330831986679dbe5c42",
+    "evidence/sampling-cost-r1/measurements/allocation-fallback/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/allocation-fallback/stdout.jsonl": "42174ab918000bca24a1537a305fc1a6c1c35925c138e54b9328964bdb44a6fb",
+    "evidence/sampling-cost-r1/measurements/allocation-fallback/telemetry.jsonl": "a6492445d15af3fac878b86fd6ec32c401dfaf08d1d03f889583962933a42714",
+    "evidence/sampling-cost-r1/measurements/allocation-reference/result.json": "5705894beb7d8b25a0f15f457411e70605a7be3d4676078849e90fccb8f9074c",
+    "evidence/sampling-cost-r1/measurements/allocation-reference/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/allocation-reference/stdout.jsonl": "177f44cd16108908d8e570ce4691ae43586434d84164f5f5ab64733be881aaa1",
+    "evidence/sampling-cost-r1/measurements/allocation-reference/telemetry.jsonl": "6c4cdb4e5441f0c97563d20d2130f10c3bcf67a8737b3333e2d30f851ed42c9f",
+    "evidence/sampling-cost-r1/measurements/cycle-0-candidate/result.json": "09abab73ab8c3652934f500b691824ec36493e7d7abd008f321e710656bf28c7",
+    "evidence/sampling-cost-r1/measurements/cycle-0-candidate/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-0-candidate/stdout.jsonl": "26a5745f6fec8f227b1ee4b86b6974c20681f6a140879f97c0fee1aa76d3e0ec",
+    "evidence/sampling-cost-r1/measurements/cycle-0-candidate/telemetry.jsonl": "3c1d49ee8ce399568eb6e4692542274195a8b4be862c408cea54a39b332cebfa",
+    "evidence/sampling-cost-r1/measurements/cycle-0-fallback/result.json": "2fe40f5df59d4d2bf926d8db5bca06708489781d5ca000a0211b902680568c84",
+    "evidence/sampling-cost-r1/measurements/cycle-0-fallback/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-0-fallback/stdout.jsonl": "d55a7f8e224b48d34bc8517b3cea15701ba6840b53017b3f18c1b4b5472d6e47",
+    "evidence/sampling-cost-r1/measurements/cycle-0-fallback/telemetry.jsonl": "e048e7c4d964e2a98a41a368e9de7587c4c3f7e19df96d027d76416674f800e1",
+    "evidence/sampling-cost-r1/measurements/cycle-0-reference/result.json": "bb3cedf7a440a7662ae7dc53553393b191c026eb16273a7ff070fba2608562e7",
+    "evidence/sampling-cost-r1/measurements/cycle-0-reference/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-0-reference/stdout.jsonl": "1c438391486bbd0a14d47e0c75da60fa4160950f83b0b9903a3108d86ac904a3",
+    "evidence/sampling-cost-r1/measurements/cycle-0-reference/telemetry.jsonl": "79fb736d19d2438ffe06e3d60095bfb4b9bbb77179e39c077d1b6f7d41897372",
+    "evidence/sampling-cost-r1/measurements/cycle-1-candidate/result.json": "9ffc97d52eda21ae3a7e543fb352611cbb3ca0d2cfcb52d51d9636facca2ca91",
+    "evidence/sampling-cost-r1/measurements/cycle-1-candidate/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-1-candidate/stdout.jsonl": "75f42f28fe4a64a4671c3fb4324f58c050feba054fd8848c619114ba7417d138",
+    "evidence/sampling-cost-r1/measurements/cycle-1-candidate/telemetry.jsonl": "3875830ba6f5723de1012fa0e82d2bdb1404f50c2a465eb5ad8734613509270c",
+    "evidence/sampling-cost-r1/measurements/cycle-1-fallback/result.json": "0aa1fde5d800b13e2369caf850a706c5b6f44a3792217b0b72801fa5f8a955f9",
+    "evidence/sampling-cost-r1/measurements/cycle-1-fallback/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-1-fallback/stdout.jsonl": "bf77f1cc01de8979ab1526020d81599fbadea4114f5af6eb20a7f9e60a31150e",
+    "evidence/sampling-cost-r1/measurements/cycle-1-fallback/telemetry.jsonl": "0aa5471961cb9b3636aeb77b365c3c0ce8e39e09700e7bbaee762128e16ed674",
+    "evidence/sampling-cost-r1/measurements/cycle-1-reference/result.json": "39d53ee666732e66556b698fd1b1f640b86299b323876e3fdaf2653de3adc63c",
+    "evidence/sampling-cost-r1/measurements/cycle-1-reference/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-1-reference/stdout.jsonl": "e94ee14009f2eb0d95373ca85e767d12b41dd689ffc6121c3689ca407f564ba2",
+    "evidence/sampling-cost-r1/measurements/cycle-1-reference/telemetry.jsonl": "79fdf321b83263106ec4bbf78996532b3343b8ffb4938161f4232e21f12be8ca",
+    "evidence/sampling-cost-r1/measurements/cycle-2-candidate/result.json": "dce4edeab1b1afe1149ce5ce3d2b21945a0c230c1d75df287d068dfff345fea1",
+    "evidence/sampling-cost-r1/measurements/cycle-2-candidate/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-2-candidate/stdout.jsonl": "4647d50833da35d965c6ced3c005cc5bb27e0c079e9d5795ecdfb72edce5f00e",
+    "evidence/sampling-cost-r1/measurements/cycle-2-candidate/telemetry.jsonl": "89b324d4d4ca8d68fc57255d321f46c0afe662daf9ccf05ddd0380dfe142f8ad",
+    "evidence/sampling-cost-r1/measurements/cycle-2-fallback/result.json": "d0cd780f04c941dc58e7900c5407a5f035c286c892f30188c76bbc5378bc138a",
+    "evidence/sampling-cost-r1/measurements/cycle-2-fallback/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-2-fallback/stdout.jsonl": "83d520e30674f7aab3c0356165b549d9da1e0bebaadfefb9b161f59c5224ecd6",
+    "evidence/sampling-cost-r1/measurements/cycle-2-fallback/telemetry.jsonl": "1318874fd2fac16bf40f11b7e838cb5759beb3c8084733aa917fc242f8df1ae1",
+    "evidence/sampling-cost-r1/measurements/cycle-2-reference/result.json": "b30dbe6a364e148d726d0e96dc720b68f146c531296adcfc58558dab14ada905",
+    "evidence/sampling-cost-r1/measurements/cycle-2-reference/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/sampling-cost-r1/measurements/cycle-2-reference/stdout.jsonl": "e7131e5d0d3e6fc94ee84a2855cd17099f757587c014decf8a107c52e07bbf86",
+    "evidence/sampling-cost-r1/measurements/cycle-2-reference/telemetry.jsonl": "384f4aed1d5003d5cf592b1e9c1387eed2974536fabf1f7f0e952ca0e9a1c682",
+    "evidence/sampling-cost-r1/measurements/plan.json": "546ab2cd842a52df99acf2126976df0e678a7922e9d7214f0ac218cccaccd1d4",
+    "evidence/sampling-cost-r1/measurements/results.json": "40a1c4a4af109840e07937f0c609b64064ce665db08a88f6bafaaf7fd37f0a22",
+    "evidence/sampling-cost-r1/preliminary-analysis.json": "c05af6fe05ca3ec396ee71600808aa4c795b42cb6e4e8f05b889428044d38a2f",
+    "evidence/sampling-cost-r1/preparation-failures.json": "4efb2dd6ce42f2b30c3280ebb0a4c43b29a2a676668d2a53d197fff21a114722",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "src/sampling.c": "83ab54d3fea14e529467e8226b92735e466535616c3f57024d2a9fbe5e2e75c7",
+    "tests/sampling/CMakeLists.txt": "51ef39de74468fc5067768365279fa7bf8175ed6c9277c219beba5507fbeb92a",
+    "tests/sampling/allocation_counter.cpp": "b2d573dd970320f0e370990ffa10b97e092bbd4c6c210042e9f53e855c4a92fd",
+    "tests/sampling/allocation_counter.hpp": "385e62824cf6bd255b4e630aa38340630ce6dcf7813b941f7b04ca3eb8861fbb",
+    "tests/sampling/performance.cpp": "886997849f9946f47dfc4b427ac5afbeb44b9a5aa5316f90a5c18fd3841b6b67",
+    "third_party/gufo-source.json": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+  },
+  "binary_sha256": {
+    "build/sampling-cost-release/reference-cost": "a3002a16c509154817fd00abd00f17b89586ac485a658ac23e92a880a82aef05",
+    "build/sampling-cost-release/reference-allocation": "78095082d11678aaf8dafaae13f44491ee09bfc9b63576cbee055d6b01577c25",
+    "build/sampling-cost-release/candidate-cost": "d0626200cf6f2ed364f2c42684f5efd842cf2dbfce1da735e1e04776c1b28619",
+    "build/sampling-cost-release/candidate-allocation": "29fdebbb83fa86153defe77763ebde8f6590482e845b329cd856daec950b465e",
+    "build/sampling-cost-release/fallback-cost": "3c9cf9f329ebb16bbaef9ff8e9f773611d4aeebbcfb691e031ff8b75f5735f52",
+    "build/sampling-cost-release/fallback-allocation": "3ea5e4a912a3cd2450bb2e5dccd26eef8e2324ad73a364d6484ea34899da2d79",
+    "build/sampling-cost-asan/reference-cost": "94b865b1c2b213c9c09ae23b846b08769a6d294de1d8772d97f133c03a559e95",
+    "build/sampling-cost-asan/reference-allocation": "10da90e63bbc86f2a502f6526e31d12d059873a7ab85fe0daae74c8c6b9fc59e",
+    "build/sampling-cost-asan/candidate-cost": "934f3dc09a9f6cbab3c493bf923320c53500e3492173182a130458f658c3ac2a",
+    "build/sampling-cost-asan/candidate-allocation": "e0699cf6a302a3f4ef31ef22b334ec75757c2e33e8956299cd663712039f30af",
+    "build/sampling-cost-asan/fallback-cost": "3844febac72fc9815e2208e6af32c102352ae8b40c276a7c6919c525e512cc93",
+    "build/sampling-cost-asan/fallback-allocation": "0aab3835bb34654bfa32b49098ee78a3cb161542926ab3493b1a5cb90fb4a27a"
+  },
+  "no_model_access_or_gpu_run": true,
+  "no_runtime_source_change": true,
+  "remaining_gates": [
+    "Dense CPU cost optimization",
+    "Original-weight sampled cost on .157",
+    "12K depth and 1500-token direct GPU diagnosis",
+    "Gufo HTTP and MTP/vision performance",
+    "Independent quality and allocation-exact GPU peak"
+  ]
+}

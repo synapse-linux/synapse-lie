@@ -14,6 +14,13 @@ After updating those expectations, both focused tests pass. The initial
 sandboxed 21 HTTP failures were loopback-denied fixtures, not serving results.
 The first long-context ROCm 10 `.161` baseline remains a separately pinned
 pre-integration binary; new runtime/device qualification is pending.
+The subsequent frozen `bea50d3` merge adds validated prefill/decode phase
+clocks to the native benchmark and report. On the Point branch, the C/HTTP
+rebuild and five focused native/HTTP/provider tests pass; the ASan/UBSan
+native/provider subset passes 2/2. The
+[Point benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+links the complete already-published direct results and keeps new-runtime
+measurement pending.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 
@@ -73,6 +80,95 @@ vision/state/cache/SSD/resource qualification remains open, while the separate
 sampling performance campaign continues on `.157` from its frozen checkpoint.
 The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
 binds source, providers, command exits and CPU thermal observations.
+## Dense sampler host cost measured — 2026-10-03
+
+The editing Strix Halo `.155` completes the host-only 54-case sampler matrix:
+three generated-logit vocabulary sizes, three shapes and six configurations.
+Pristine official Gufo, C17 and the same-layout OFF control use three balanced
+process orders, seven measured repetitions each. All distributions, draws and
+RNG witnesses match. Expanded ASan/UBSan/LeakSanitizer CTest passes **17/17**;
+three additional cost-probe sanitizer smokes pass. All twelve measurement
+children exit0 and retire, and all 162 counted allocation scopes reach zero.
+
+The **cost acceptance gate fails**: C17/reference per-call time ratios range
+from 0.55 to 3.43, with a median across cases of 1.71. Several full-vocabulary
+filters regress; top-k often reduces allocations. Complete values, exact scope
+and reproducible native commands are in the
+[sampler cost section](development/C17-SAMPLING.md#host-cost-and-temporary-allocations)
+and its [receipt](development/validation/sampling-cost-2026-10-03.json).
+These CPU operator measurements perform no model forward or GPU execution.
+They do not attribute the earlier 1500-token GPU regression, whose ordinary
+greedy path retains device argmax. Runtime source is unchanged in this checkpoint.
+
+Measurement peaks are CPU82.5/GPU55/NVMe34.85 C; the sanitizer suite peaks at
+CPU94.5 C. No thermal stop or hardware shutdown occurs. The failed preparation
+argument and initial compiler warnings remain retained; corrected builds and
+all validation commands exit0. No GPU run/staging on `.157` occurs: its Q2
+reservation remains in force. The owner separately resumes the existing Strix
+Point thread for `.161` qualification and current-core integration; historical
+target results remain bound to their original binaries.
+
+## Clocked performance follow-up prepared — 2026-10-03
+
+Ten arms are prepared locally at frozen runtime checkpoint `15c6082`: the
+missing 12288-token depth pair at capacity 133760, then balanced C17/control
+orders for fresh PP1500/TG128 at capacity 262144. Four arms use no model warmup
+and four use two warmups, with three measured samples each. First and later
+samples remain distinct; OS file cache is uncontrolled, so these are not
+cold-file measurements.
+
+The private supervisor adds read-only optional GPU clock/power and CPU-frequency
+snapshots with monotonic bounds, correlated with the new native PP/TG clocks.
+GPU-masked build-info/help exits are zero and all ten capsule manifests verify.
+**No GPU run, model load/hash or remote staging occurs; admission remains
+disabled until a new Q2 handover.** The
+[preparation receipt](development/validation/performance-followup-preparation-2026-10-03.json)
+binds source, binaries, commands and the planned acceptance checks. The earlier
+1500-token slowdown remains unresolved.
+
+The combined published CSV duration headers now correctly say `seconds` rather
+than `ns`. All 17 rows and their data bytes remain unchanged; 204 duration cells
+match the native summaries. Raw measurements and figures remain unchanged.
+
+## Benchmark phase clocks and durations — 2026-10-03
+
+Native direct benchmarks now record monotonic prefill/decode bounds and a
+wall-clock sample start for correlation with supervised telemetry. They exclude
+prefix construction, frontier copies and flow setup from the timed calls. The
+C report exports duration distributions in seconds to JSON/CSV, validates full
+ordered clock tuples and exact duration differences, and retains support for
+older raw data without a clock declaration. This is host timing, not a GPU
+kernel timeline or preemption claim.
+
+Focused ASan/UBSan/LeakSanitizer `native-benchmark-contract` passes, including
+four malformed clock cases, old-evidence compatibility and existing HTTP/SSD
+fixtures. Both pinned HIP compositions link with GPU visibility masked. The
+first build's incorrect helper name/exit1 is preserved and corrected. Re-export
+of all three original-weight datasets adds duration columns without changing
+any existing witness, comparison or SVG/PNG hash. The
+[source-bound receipt](development/validation/bench-phase-clocks-2026-10-03.json)
+records CPU-only validation; this does not resolve the 1500-token GPU slowdown.
+
+## Local GPU thermal benchmark — 2026-10-03
+
+At the owner's request, the editing ASUS ROG Flow Z13 `.155` completes eight
+consecutive rocBLAS FP16 GEMM4096 trials, each with five warmups and 4000 timed
+iterations. All child/supervisor exits are 0. The campaign lasts **201.79 s**,
+including **185.99 s** in the timed GEMM loops. Median throughput is
+**23.766 TFLOP/s**; the last trial is **0.79%** below the first. Sampled peaks
+are **CPU93.5/GPU97/NVMe38.85 C**, with no 98 C guard stop, hardware shutdown
+or deterioration observed. The last trials generally remain around 92–94 C
+under load, with brief GPU peaks. Both existing fan curves select PWM255 from
+60 C; loaded fans run at 8700–8900 RPM. No settings change during the benchmark.
+
+This is a **synthetic matrix workload**, not LIE inference or a model token-rate
+comparison. Eight short processes do not qualify longer steady-state operation;
+there is no controlled comparison with earlier fan settings. The independent
+local lease is acquired afresh for each arm. All sixteen owned process identities
+retire, KFD is empty and the original lease inode is unchanged/free afterwards.
+The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
+binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
+and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
 
 ## Original-weight GPU continuation — 2026-10-03
 
@@ -97,11 +193,40 @@ from trunk metadata. Its state geometry now binds the admitted predictor;
 the C17 codec, cache policy and DS4 payload framing remain unchanged. The
 original failed request/exit remain in `gpu-functional-f0-r3/mtp-http`.
 
-GPU requalification of the correction, combined vision, exact state/SSD
-continuation and matched performance remain in progress. The
-[declared protocol](development/protocols/C17-GPU-PROTOCOL.md) and private
-persistent evidence distinguish pending gates from passes. No source in `/tmp`,
-DS4 modification, model conversion, remote build, installation or tuning occurs.
+The corrected MTP HTTP/cache arm passes **12 assertions**, including actual
+2669-token prefix reuse. A C17 probe compares all 248320 logits and confirmed
+tokens/counters across fresh/restored predictor state: greedy 24 dispatches,
+47/47 accepted proposals; sampled 18 dispatches, 32/35 accepted. All restored
+frontiers match exactly, including three rejected proposals and cancellation.
+The destination sampler is fresh; this is prefix continuation, not live RNG
+session restoration. Peak CPU71.625/GPU61 C for the state probe.
+
+The legacy C++ sampler HTTP control also passes **32 assertions**; fifteen
+matched JSON cases have identical output, usage and logprobs. Client timings
+from these functional arms are not a paired performance result. Combined
+vision refuses the available Q8 projector before READY because the pinned
+encoder requires BF16 dense weights. The failed admission is retained; a
+separate `feature/vision-q8` checkpoint `bec0955` prepares C17 upload decoding.
+
+The [functional receipt](development/validation/c17-gpu-functional-2026-10-03.json)
+binds all eight passed/failed arms, observed OS threads, temperatures and raw
+artifact hashes. The [declared protocol](development/protocols/C17-GPU-PROTOCOL.md)
+keeps matched performance, process-restarted MTP/vision SSD, real reactive peer
+progress and independent numerical/quality gates separate. All six declared
+C17/C++ performance arms finish with child/helper exits 0 through full fresh
+prefill at 258794 tokens. Their thirty collected result files SHA-verify. All
+46 measured and 12 warmup pairs have identical physical IDs, outputs, counters
+and full frontier hashes. Native C figures, CSV/JSON and raw compressed JSONL
+are now in the single [Strix Halo benchmark page](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md).
+TG differs by less than 1% except the retained un-warmed 1500-token point,
+which loses 16.64% and keeps the performance gate open. The missing 12288 depth
+and exact Gufo HTTP/MTP protocols remain explicit. The `.157` window releases
+at **19:41:04 UTC**: all 28 owned process identities retire, KFD is empty, the
+four original leases are unchanged/free, and six model stat witnesses and all
+used source capsules are unchanged. The controller exits 0; there is no observer,
+queued restart or waiter. The prepared vision/SSD/reactive continuation has not
+run. No source in `/tmp`, DS4 modification, remote build, installation or tuning
+occurs.
 
 ## C17 dense sampling extraction — 2026-10-03
 

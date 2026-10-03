@@ -80,6 +80,27 @@ static bool repetition_config(json_object *id) {
          nb_count(id, "output_limit", 1, 65536, NULL) &&
          json_object_is_type(nb_get(id, "synthetic"), json_type_boolean);
 }
+static bool direct_phase_bounds(json_object *id, json_object *row) {
+  const char *keys[] = {"sample_begin_monotonic_ns", "sample_begin_wall_time_ns",
+                        "prefill_begin_monotonic_ns", "prefill_end_monotonic_ns",
+                        "decode_begin_monotonic_ns", "decode_end_monotonic_ns"};
+  bool present = false;
+  for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
+    present |= nb_get(row, keys[i]) != NULL;
+  if (!present)
+    return nb_get(id, "timing_clock") == NULL; /* Retained v1 evidence. */
+  if (!eqs(id, "timing_clock", "CLOCK_MONOTONIC"))
+    return false;
+  for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
+    if (!nb_count(row, keys[i], 1, INT64_MAX, NULL))
+      return false;
+  int64_t begin = nb_number(row, keys[0]), pp_begin = nb_number(row, keys[2]),
+          pp_end = nb_number(row, keys[3]), tg_begin = nb_number(row, keys[4]),
+          tg_end = nb_number(row, keys[5]);
+  return begin <= pp_begin && pp_begin < pp_end && pp_end <= tg_begin &&
+         tg_begin < tg_end && pp_end - pp_begin == nb_number(row, "prefill_ns") &&
+         tg_end - tg_begin == nb_number(row, "decode_ns");
+}
 #define CHECK(test, message)                                                   \
   do {                                                                         \
     if (!(test)) {                                                             \
@@ -165,6 +186,7 @@ static json_object *direct(json_object *rows, nb_error *e) {
               rate(r, "prefill_tps", pp * users, nb_number(r, "prefill_ns")) &&
               rate(r, "decode_tps", tg * users, nb_number(r, "decode_ns")),
           "Invalid direct timing or rate");
+      CHECK(direct_phase_bounds(id, r), "Invalid direct monotonic phase bounds");
       if (eqs(id, "execution", "LIE-reactive-ready-batch")) {
         int64_t singles = nb_number(r, "decode_single_calls"),
                 batches = nb_number(r, "decode_batches"),
@@ -193,6 +215,10 @@ static json_object *direct(json_object *rows, nb_error *e) {
                            metric(group, "prefill_tps", 1, true));
     json_object_object_add(point, "decode_tps",
                            metric(group, "decode_tps", 1, true));
+    json_object_object_add(point, "prefill_seconds",
+                           metric(group, "prefill_ns", 1e-9, true));
+    json_object_object_add(point, "decode_seconds",
+                           metric(group, "decode_ns", 1e-9, true));
     json_object_object_del(point, "_rows");
   }
   json_object_put(input);
@@ -888,7 +914,7 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
   else
     fputs("label,depth,users,context_capacity,prompt_tokens,repetitions,full_"
           "output_budget,pp_median_tps,pp_min_tps,pp_max_tps,tg_median_tps,tg_"
-          "min_tps,tg_max_tps\n",
+          "min_tps,tg_max_tps,pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s\n",
           f);
   json_object *series[] = {a, b};
   const char *labels[] = {label, ref};
@@ -948,6 +974,9 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
         for (unsigned k = 0; k < 2; k++)
           for (unsigned j = 0; j < 3; j++)
             csv_stat(f, r, k ? "decode_tps" : "prefill_tps", stats[j], 1);
+        for (unsigned k = 0; k < 2; k++)
+          for (unsigned j = 0; j < 3; j++)
+            csv_stat(f, r, k ? "decode_seconds" : "prefill_seconds", stats[j], 1);
       }
       fputc('\n', f);
     }
