@@ -2222,3 +2222,45 @@ requires a new bounded admission and fresh original leases.
 The final direct core-thread update again fails at the local MCP HTTP transport;
 no delivery is claimed. The durable receipt and shared registry remain the
 agreed handover fallback.
+
+At14:30:36 UTC, fresh read-only `.157` observation finds KFD empty and the
+HC-schedule release still the latest registry event. Under the owner's request
+to combine improvements and the continuing Q2-only window policy, Q2 admits a
+bounded cumulative campaign: updated host guards, exact conversion checks,
+then fresh C1 pp2048/tg128 retained/cumulative-retained/cumulative-scaled/UD
+arms with full MMQ rebuilds. Multi-chunk PLE validation uses the unchanged8K
+native/serial/C17-lookahead fixture on the cumulative source; it is separate
+from single-chunk2K timing. Each GPU/build arm acquires all original four leases
+fresh/nonblocking, with CPU98 C inclusive/exposed GPU thresholds and fan82.
+No foreign work, cache eviction, model conversion or new dependency is allowed.
+The scaled numerical rejection remains; no Terminal-Bench restart is queued.
+
+Core reports local checkpoint8992c0b and the new sampling-edits receipt contract;
+its GPU qualification remains unstarted. Q2's acknowledgment/update fails again
+at the local outgoing MCP transport. Main-repository
+`run/q2-combined-window-active.json` plus the shared running-arm registry provide
+the fallback. The old14:17 release is superseded by this campaign's admission.
+Current tests use independent Gufo and do not reuse or mutate core's libraries.
+
+The retained combination finishes with all21 model files exact but PP-0.271%.
+To isolate the same addition on scaled kernels under the current fan82 policy,
+the bounded window includes one fresh scaled-input bench2k control after the
+combined-scaled arm. The earlier scaled-only run predates fan82 and cannot
+attribute conversion's incremental performance here. Fresh original four leases,
+full MMQ rebuild, unchanged2K/128 protocol and numerical rejection still apply.
+Core confirms it observed the active registry and continues its CPU-only work.
+
+The cumulative campaign completes five fresh 2K model arms and the unchanged
+8K native/serial/C17 fixture, with all nine runners exiting0. Additions preserve
+21 model files per base but do not improve2K timing; warm PLE changes+0.122%
+versus native, all432frontiers exact and cancellation/drain passing. All176
+artifacts and9181 source files verify; no source is promoted.
+
+Fresh closure at2026-10-03 15:12:14.894 UTC verifies45 recorded processes and
+groups absent, KFD empty, original four leases acquired EX|NB then released,
+CPU44.375 C/GPU42 C. Durable `run/q2-combined-window-release.json`, the shared
+registry and local main-repository run copy record release. The local active
+receipt is explicitly marked RELEASED. No Q2 workload/waiter/restart remains.
+The outgoing core-thread handoff again fails at MCP transport; no delivery is
+claimed. Core can observe the persistent fallback and admit its own window
+with fresh preflight/leases. No further Q2 GPU job is admitted by this closure.

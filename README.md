@@ -4,9 +4,20 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The [scaled-input experiment](docs/Q2-SCALED-INPUT.md) improves C1 prefill
+The new [cumulative comparison](docs/Q2-COMBINED.md) tests the compatible
+retained optimizations together with exact vector conversion and prepared PLE.
+Fresh same-fan 2K controls show no additional gain: retained PP changes
+1344.795 to 1341.148 (-0.271%), scaled PP 1388.492 to 1383.503 (-0.359%).
+All 21 files match each addition's own base. Fresh UD reaches 1659.557 PP;
+combined scaled remains 16.634% below it, with its existing numerical rejection.
+Complete rates, prefill/decode durations and every sample have graphs and CSV.
+At 8K, C17 lookahead overlaps preparation but improves only 0.122%
+over native, with overlapping samples; all 432 frontiers and cancellation pass.
+Nine runners and 176 artifacts verify, and the GPU window is released.
+
+The earlier [scaled-input experiment](docs/Q2-SCALED-INPUT.md) improved C1 prefill
 1336.121 to 1378.319 token/s (+3.16%), but fails targeted numerical checks and
-remains 18.10% below fresh UD prefill. It is not promoted. The owner-requested
+trailed its contemporary UD reference by 18.10%. It is not promoted. The owner-requested
 [Terminal-Bench comparison](docs/Q2-TERMINAL-BENCH.md) now passes its original
 smoke task on all three variants (5/5 verifier checks each); the full Core-19
 baseline stopped at the 98 C thermal guard after two completed tasks (one pass,
@@ -18,7 +29,8 @@ The latest [HC160 algorithmic reduction](docs/Q2-HC-ROW160-INSTRUCTIONS.md)
 keeps160 rows and removes14.7% of emitted main-loop instructions. Two `.157`
 comparisons show no useful speed gain, with all22 outputs exact and inherited
 numerical failures retained. No model change is selected. The last full-model
-candidate gain remains scaled-input's+3.16%, still outside the numerical gate.
+candidate gain remains the scaled-input mechanism: +3.16% in its first cohort
+and +3.25% in the fresh control, still outside the numerical gate.
 The [measured tile experiment](docs/Q2-SCALED-TILES.md) rejects global 64/128-row
 selection: tile128 adds 18.09–22.18% component time; tile64 only saves 4.49%
 in the 64-active-expert routing. All tile outputs agree exactly, while 48
@@ -31,8 +43,9 @@ At the owner's request, `.157` now uses [fans reaching 100% at 82 C](docs/Q2-FAN
 persisted through the AXB35 configuration and fan-only startup loader.
 The 98 C software limit is corrected to CPU only. New Q2/UD performance arms
 must share this cooling policy; no gain is yet attributed to it.
-Both component runs are collected/hash verified; the GPU window is released
-after fresh process/KFD/lease closure. Full Core-19 and Q2/UD parity remain open.
+Those component runs are collected/hash verified and their window was released.
+The later cumulative campaign has its own coordination record. Full Core-19
+and Q2/UD parity remain open.
 The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
 and routed experts on separate streams with bounded buffer ownership. CPU
 Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model

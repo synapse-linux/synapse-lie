@@ -1,0 +1,82 @@
+{
+  "scope": "Cumulative Q2 experiment; no combined speed claim before matched measurements",
+  "cumulative_ancestry": [
+    {
+      "candidate": ".deps/gufo-q2-bench-scaled-input",
+      "base": ".deps/gufo-q2-bench-hc-up-chains",
+      "manifest": "config/q2-scaled-input-source.json"
+    },
+    {
+      "candidate": ".deps/gufo-q2-bench-hc-up-chains",
+      "base": ".deps/gufo-q2-bench-affine-palette",
+      "manifest": "config/q2-hc-up-chains-source.json"
+    },
+    {
+      "candidate": ".deps/gufo-q2-bench-affine-palette",
+      "base": ".deps/gufo-q2-bench-hc-decode16",
+      "manifest": "config/q2-affine-palette-source.json"
+    },
+    {
+      "candidate": ".deps/gufo-q2-bench-hc-decode16",
+      "base": ".deps/gufo-q2-bench-hc-moe-fused",
+      "manifest": "config/q2-hc-decode16-source.json"
+    }
+  ],
+  "variants": [
+    "combined-retained",
+    "combined-scaled"
+  ],
+  "full_model_protocol": {
+    "machine": "192.168.5.157",
+    "concurrency": 1,
+    "prompt": 2048,
+    "output": 128,
+    "warmups": 1,
+    "measured_sessions": 3,
+    "idle_seconds_outside_timer": 15,
+    "context_capacity": 9216,
+    "prefill_chunk": 2048,
+    "full_mmq_rebuild": true,
+    "fan_policy": "100 percent at82C",
+    "cpu_limit_c": 98
+  },
+  "model_arms": [
+    {
+      "label": "q2-combined-reference-r1",
+      "source": "hc-up-chains"
+    },
+    {
+      "label": "q2-combined-retained-model-r1",
+      "source": "combined-retained"
+    },
+    {
+      "label": "q2-combined-scaled-model-r1",
+      "source": "combined-scaled"
+    },
+    {
+      "label": "q2-combined-scaled-control-r1",
+      "source": "scaled-input",
+      "reason": "Fresh same-fan control isolates the incremental conversion/PLE-hook effect on scaled kernels"
+    },
+    {
+      "label": "q2-combined-ud-r1",
+      "source": "pristine upstream UD"
+    }
+  ],
+  "reactive_protocol": {
+    "fixture": "tests/q2_ple_lookahead.cpp",
+    "prompt": 8192,
+    "chunk": 2048,
+    "forced_decode": 32,
+    "modes": [
+      "native",
+      "prepared_serial",
+      "lookahead"
+    ],
+    "unchanged_frozen_fixture": true,
+    "scope": "Joint conversion/kernels plus multi-chunk C17 PLE scheduling; independent from single-chunk2K timing"
+  },
+  "numeric_policy": "Require exact replay of additions versus their own base; inherited scaled-input operator/KL rejection remains",
+  "promoted": false,
+  "goal_met": false
+}

@@ -1,6 +1,40 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Cumulative optimizations measured — 2026-10-03
+
+The owner asks to combine improvements. The previously measured scaled source
+already includes the expert/HC/packed/palette work. Two isolated compositions
+add exact vector narrowing and the prepared hook for C17 PLE, preserving all
+146/150 existing kernel bodies and fully rebuilding MMQ on `.157`.
+
+Five fresh C1 pp2048/tg128 arms use the same fan82 policy. Adding the new paths
+changes retained PP 1344.795 to 1341.148 (-0.271%) and scaled PP 1388.492 to
+1383.503 (-0.359%, overlapping ranges). All 21 files match each addition's own
+base; all 45 within-arm replay checks pass. Fresh UD reaches 1659.557 PP /
+24.304 decode calls/s. Combined scaled remains 16.634% below UD PP and 0.834%
+below decode, with inherited numerical rejection unchanged. No new source is
+selected. See [complete rates, durations, samples and graphs](Q2-COMBINED.md).
+
+On the cumulative scaled source at 8K, C17 lookahead overlaps 170.863–178.520 ms
+of preparation with preceding forward/drain callbacks. It improves 2.3225%
+versus explicit prepared-serial, but only 0.1220% versus native: 1324.119 to
+1325.734 PP, with overlapping ranges. All 432 frontiers and complete arrays
+match; slot ordering and real cancellation/drain pass. First ordered observations
+have different cache histories and do not establish a cold-access speedup.
+
+Host Debug/ASan each pass 16/16. Each source passes 192 GPU conversion cases
+and two complete consumers. All nine runners exit 0; 176 artifacts and 9181
+source files verify, with CPU/GPU maxima 88.125/84 C. Public C contracts, the
+original C17 flow and the serving deployment remain unchanged. These are C1
+2K and synthetic-varied 8K results, not long-context or task-quality acceptance.
+
+Fresh 15:12:14.894 UTC closure retires 45 recorded processes/groups, verifies
+KFD empty and original four leases free, then records remote/shared/local
+release. Direct thread messaging again fails at the MCP transport; the fallback
+is updated. No Q2 workload or automatic restart remains. Full Core-19 and the
+Q2/UD parity objective remain open.
+
 ## HC160 instruction reduction measured — 2026-10-03
 
 The owner clarifies that the160-row geometry should remain under investigation

@@ -150,6 +150,17 @@ class RemoteGuardTests(unittest.TestCase):
                      '--source-variant', 'narrow-vector'],
                     'requires one of its three frozen Q2 variants')
 
+    def test_combined_source_boundaries(self):
+        for variant in ('combined-retained', 'combined-scaled'):
+            self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
+                        'requires a full MMQ rebuild')
+            for mode in ('q2-bench', 'ud-bench2k', 'q2-profile', 'q2-ple', 'operators', 'cpu'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'requires its explicit Q2 model or conversion checks')
+            self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                         '--source-variant', variant],
+                        'requires one of its three frozen Q2 variants')
+
     def test_phased_hc_component_only(self):
         for variant in ('hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads'):
             for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'operators', 'hc-input-bench'):

@@ -57,7 +57,9 @@ def main():
     for extension in ('.svg', '.png'):
         fig.savefig(args.output.with_suffix(extension), dpi=150)
     svg = args.output.with_suffix('.svg')
-    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines()) + '\n')
+    lines = svg.read_text().splitlines()
+    lines.insert(1, '<!-- SPDX-License-Identifier: MIT -->')
+    svg.write_text('\n'.join(line.rstrip() for line in lines) + '\n')
     with args.output.with_suffix('.csv').open('w') as file:
         writer = csv.DictWriter(file, fieldnames=list(report['samples'][0]), lineterminator='\n')
         writer.writeheader()
