@@ -1,0 +1,81 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5335,7 +5335,8 @@
+ /// and use the same ordered K16 products. y is [batch][m].
+ template<int BM, int BN, int BK, int WM, int WN, int kRowGroup = 1,
+          bool kHcMix = false, bool kSsmConv = false, bool kAttention = false,
+-         bool kHalfWeights = false, bool kHcUpChains = false>
++         bool kHalfWeights = false, bool kHcUpChains = false,
++         bool kHcSingleChain = false>
+ __launch_bounds__(kHcUpChains ? 512 : 256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+     float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
+@@ -5353,6 +5354,9 @@
+   // stage's block count is idle.
+   static_assert(!kHcUpChains ||
+                 (kHalfWeights && kHcMix && BM == 256 && BN == 128));
++  static_assert(!kHcSingleChain ||
++                (kHalfWeights && !kHcUpChains && !kHcMix && !kSsmConv &&
++                 !kAttention && BM == 64 && BN == 128));
+   constexpr int kBlockThreads = kHcUpChains ? 512 : 256;
+   constexpr int kAUnits = BM * BK;
+   constexpr int kBUnits = BN * BK;
+@@ -5513,10 +5517,13 @@
+   };
+ 
+   v8f acc[kWaveRowTiles][kWaveTokTiles];
+-  // Separate K16 chains reduce FP32 accumulation error for the sensitive
+-  // unquantized router/gate projections, with the same order in every chunk.
+-  v8f acc_high[(kHalfWeights && !kHcUpChains) ? kWaveRowTiles : 1]
+-              [(kHalfWeights && !kHcUpChains) ? kWaveTokTiles : 1]{};
++  // HC down may explicitly select one chain: low/high K16 products
++  // update the same accumulator in order. This changes FP32 rounding;
++  // all other raw-half projections retain their original two chains.
++  v8f acc_high[(kHalfWeights && !kHcUpChains && !kHcSingleChain) ? kWaveRowTiles
++                                                                 : 1]
++              [(kHalfWeights && !kHcUpChains && !kHcSingleChain) ? kWaveTokTiles
++                                                                 : 1]{};
+ #pragma unroll
+   for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5568,7 +5575,7 @@
+ #pragma unroll
+         for (int i = 0; i < kWaveRowTiles; ++i) {
+           acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
+-          if constexpr (kHalfWeights && !kHcUpChains)
++          if constexpr (kHalfWeights && !kHcUpChains && !kHcSingleChain)
+             acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
+           else if constexpr (!kHcUpChains)
+             acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
+@@ -5578,7 +5585,7 @@
+     __syncthreads();
+   }
+ 
+-  if constexpr (kHalfWeights && !kHcUpChains) {
++  if constexpr (kHalfWeights && !kHcUpChains && !kHcSingleChain) {
+ #pragma unroll
+     for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5975,15 +5982,16 @@
+   if (m == 0 || batch == 0 || k == 0 || k % 32 != 0)
+     return false;
+   // Original F16 HC weights use the same raw-half WMMA pipeline as the
+-  // unquantized router. Retain the two FP32 K16 accumulation chains; only
+-  // macro-tile geometry differs. The caller has already narrowed inputs.
++  // unquantized router. Only the admitted HC down shape selects a single
++  // FP32 K16 chain; other shapes keep their existing reduction order.
++  // The caller has already narrowed inputs; model weights are unchanged.
+   if (batch >= 96 && m == 320 && k == 10240) {
+     // Group all five row tiles around one 128-token input stripe. The
+     // original F16 full-batch input alone exceeds the 32 MiB cache.
+-    hipLaunchKernelGGL(
+-        (DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>),
+-        dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w, x, out,
+-        batch, m, k);
++    hipLaunchKernelGGL((DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false,
++                                           false, true, false, true>),
++                       dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream,
++                       w, x, out, batch, m, k);
+     return true;
+   }
+   if (batch >= 96 && m == 10240 && k == 320) {

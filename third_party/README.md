@@ -233,3 +233,22 @@ DS4 qualification documents and result metadata read-only, as permitted
 reference evidence. Their paths/hashes are in `config/q2-reassessment.json`;
 no DS4 source, archive payload, compiled object or test implementation is
 imported. The proposed precision-boundary comparisons are hypotheses only.
+
+`experiments/q2-hc-single-chain.patch` independently derives a single ordered
+HC down accumulator from the retained paired-up source at the same official
+pin. It changes the reduction grouping, with original model bytes and input
+narrowing preserved. Historical DS4 reports motivate the hypothesis only;
+neither their code nor acceptance result is imported. The candidate is rejected
+for component regression and additional FP64 failures, as recorded in
+`docs/Q2-HC-SINGLE-CHAIN.md`. The generator, offline classification correction,
+regression fixtures and plot-label extensions are first-party MIT. Existing
+upstream notices remain intact and the qualified runtime is unchanged.
+
+`experiments/q2-bitfield-isa.hip.cpp` is an independently written first-party
+MIT static probe responding to the owner's representation proposal. It compares
+unsigned extraction and bounded IEEE floating construction with the installed
+HIP compiler; it imports no external implementation and is not a model runtime
+or measured GPU benchmark. The documented retained `CodesToHalves` mechanism
+belongs to the independently fetched official-Gufo-derived source. Probe
+provenance and the distinction from the measured affine-palette optimization
+are recorded in `docs/Q2-BIT-CONVERSION.md`.

@@ -18,8 +18,29 @@ spec = importlib.util.spec_from_file_location('resource_analysis',
 resources = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(resources)
 
+spec = importlib.util.spec_from_file_location('expert_analysis',
+    Path(__file__).resolve().parents[1] / 'tools/analyze-q2-expert-profile.py')
+expert = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(expert)
+
 
 class ProfileTests(unittest.TestCase):
+    def test_hc_weight_type_survives_appended_accumulation_flags(self):
+        cases = [
+            ('64, 128, 2, 2, 4, 5, false, false, false, true', 'hc_down_f16_wmma'),
+            ('64, 128, 2, 2, 4, 5, false, false, false, true, false', 'hc_down_f16_wmma'),
+            ('64, 128, 2, 2, 4, 5, false, false, false, true, false, true', 'hc_down_f16_wmma'),
+            ('256, 128, 1, 4, 2, 8, true, false, false, true, true', 'hc_up_f16_fused'),
+            ('256, 128, 1, 4, 2, 8, true, false, false', 'hc_up_q8_fused'),
+            ('256, 128, 1, 4, 2, 8, true, false, false, false, false', 'hc_up_q8_fused'),
+            ('256, 128, 1, 4, 2, 8, false, true, false, true, false', 'other'),
+            ('64, 128, 2, 2, 4, 5, false, false, false, unknown', 'other'),
+        ]
+        for arguments, expected in cases:
+            with self.subTest(arguments=arguments):
+                symbol = 'void gufo::rocm::DenseF16GEMMKernel<' + arguments + '>(void const*)'
+                self.assertEqual(expert.category(symbol), expected)
+
     def test_union_is_not_sum(self):
         result = profile.summarize([('a', 10, 30), ('b', 20, 40), ('a', 50, 60)])
         self.assertEqual(result['kernel_sum_ns'], 50)

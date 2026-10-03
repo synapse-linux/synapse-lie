@@ -1,0 +1,146 @@
+{
+  "scope": "Rejected single-chain HC plus refreshed diagnostic Q2/UD traces",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "runs": {
+    "q2-hc-single-chain-host-r1": {
+      "mode": "cpu",
+      "host_cohort": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "ef60e7b066ee89d29ed98a2275a622e5ccb195e6fd902b9064c1b96aaf309e15",
+      "collection_sha256": "28d5333574893340624004fc1a6d67b54ac5c917257b6752f061d7733a9f72bf",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76875
+      }
+    },
+    "q2-hc-single-chain-q2-profile-r1": {
+      "mode": "q2-profile",
+      "host_cohort": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "2ad39c4c8f46e385af9be6908a2b2a0daf8b47c8a3b86e7709355c2e9cf21570",
+      "collection_sha256": "3f86facc7f10cae25f529fe44952f99239096b5a557fd8bdf59b6828d1c8e543",
+      "thermal_max_mc": {
+        "amdgpu": 78000,
+        "k10temp": 92875
+      }
+    },
+    "q2-hc-single-chain-ud-profile-r1": {
+      "mode": "ud-profile",
+      "host_cohort": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "2eda66a4e90851e91732676ecf4b3c4fa36d1b189e0d8687ad76146c265d54a5",
+      "collection_sha256": "8e49fb57704cc83b68f0de66bf69405709bb5e46c744c626e3d83e59a7a50a5c",
+      "thermal_max_mc": {
+        "amdgpu": 79000,
+        "k10temp": 91625
+      }
+    },
+    "q2-hc-single-chain-host-r2": {
+      "mode": "cpu",
+      "host_cohort": 2,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "57b97f72f2f157457514e25afc1181b69c6c399da23d7a0477c214bd7d750d33",
+      "collection_sha256": "81b496750f69191b011662123352ffcf18e7a34ae91e248c925a015638746bb8",
+      "thermal_max_mc": {
+        "amdgpu": 47000,
+        "k10temp": 75250
+      }
+    },
+    "q2-hc-single-chain-micro-ref-r1": {
+      "mode": "hc-pp-bench",
+      "host_cohort": 2,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "e9a8fa254cfef96bb9f70c034b4fb8064c961a418e4b422c64e861a01bf2bcda",
+      "collection_sha256": "1f2492631a27f96f3cb9d816346ae0098e929d44dcab28dab10e1b48e383005d",
+      "thermal_max_mc": {
+        "amdgpu": 47000,
+        "k10temp": 80250
+      }
+    },
+    "q2-hc-single-chain-micro-r1": {
+      "mode": "hc-pp-bench",
+      "host_cohort": 2,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_source_files_exact": 1019,
+      "capsule_sha256": "ad34f258be2a579a4f931aea4f3201d52be8e77a4dc2d39d6c46540af3db8f3a",
+      "collection_sha256": "4218ea2d09f2be7878a69ddcec8681e7eec1237b851bd5a4d16dfec0724bfc36",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 76000
+      }
+    }
+  },
+  "closure": {
+    "released_at": "2026-10-03T05:04:19.071141+00:00",
+    "observer_retired_at": "2026-10-03T05:05:39.030000+00:00",
+    "model_stat_witnesses": 5,
+    "original_leases_free": 4,
+    "absent_runners": 6,
+    "absent_command_groups": 32
+  },
+  "checks": {
+    "exit_code": 0,
+    "runners": 6,
+    "commands": 32,
+    "zero_exits": 30,
+    "expected_numerical_exits_1": 2,
+    "artifacts": 162,
+    "host_tests": "Two cohorts, each 12/12 Debug and 12/12 ASan/UBSan on .157",
+    "profile_replay_exact": 28,
+    "operators_per_arm": 22,
+    "timing_samples": 20,
+    "candidate_rejected": true,
+    "full_model_benchmark_run": false,
+    "full_format": "Known baseline violations unchanged; actual exit 1 retained"
+  }
+}

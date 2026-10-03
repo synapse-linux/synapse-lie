@@ -37,16 +37,28 @@ def category(name):
             return 'routed_down'
         if match and int(match[1]) in (12, 13, 16):
             return 'routed_gate_up'
-    if 'DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>' in name:
-        return 'hc_down_f16_wmma'
-    if 'DenseF16GEMMKernel<128, 128, 1, 4, 2, 8, false, false, false, true>' in name:
-        return 'hc_up_f16_wmma'
+    dense = re.search(r'DenseF16GEMMKernel<([^<>]+)>', name)
+    if dense:
+        args = tuple(part.strip() for part in dense[1].split(','))
+        # The owned F16 and accumulation experiments append template flags.
+        # Classify by the actual weight flag, not a prefix shared with Q8.
+        if (9 <= len(args) <= 12 and
+                all(flag in ('true', 'false') for flag in args[6:])):
+            shape, operations = args[:6], args[6:9]
+            half_weights = len(args) >= 10 and args[9] == 'true'
+            if half_weights and operations == ('false', 'false', 'false'):
+                if shape == ('64', '128', '2', '2', '4', '5'):
+                    return 'hc_down_f16_wmma'
+                if shape == ('128', '128', '1', '4', '2', '8'):
+                    return 'hc_up_f16_wmma'
+            if operations == ('true', 'false', 'false'):
+                if half_weights and shape in (('128', '64', '1', '4', '2', '8'),
+                                              ('256', '128', '1', '4', '2', '8')):
+                    return 'hc_up_f16_fused'
+                if not half_weights and shape == ('256', '128', '1', '4', '2', '8'):
+                    return 'hc_up_q8_fused'
     if 'W8A8BlockedWmmaGEMMKernel<64, 128, 4, 2, 4, true>' in name:
         return 'hc_down_q8_wmma'
-    if 'DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>' in name:
-        return 'hc_up_f16_fused'
-    if 'DenseF16GEMMKernel<256, 128, 1, 4, 2, 8, true,' in name:
-        return 'hc_up_q8_fused'
     if 'HcDownF16VecKernel' in name:
         return 'hc_down_f16_gemv'
     if 'qfn_q8_hc_down_kernel' in name:

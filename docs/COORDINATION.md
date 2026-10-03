@@ -1396,3 +1396,58 @@ at the direct MCP HTTP transport; delivery is not claimed. The persistent
 receipt, registry and this ledger retain the handover under the agreed fallback.
 Q2 continues local reassessment, including read-only historical DS4 qualification
 reports at the owner's request; no foreign source or artifact is imported.
+
+
+The previous goal turn is progress: checkpoint `3e0fa93` verifies the tile64
+rejection and identifies different activation/reduction contracts in historical
+DS4 evidence, with fused attention already active. Fresh admission at
+**2026-10-03 04:39:43.850831 UTC** finds empty KFD, four original leases
+EX|NB/free and the routed-tile release last in the registry. Core's ledger
+still records local analysis after R12; direct read-thread transport fails.
+The agreed ledger fallback applies; no later foreign campaign is observed.
+
+Q2 takes the bounded Q2 single-chain HC window: CPU/ASan guards; fresh retained
+Q2 and pristine UD marked profiles replayed against their saved unprofiled
+controls; then retained/candidate HC component arms with 22 original independent
+FP64 cases and 100 MiB rotating weights. Only F16 HC down M320/K10240/n>=96
+changes from separate K16 chains plus final addition to one sequential chain.
+This deliberately changes rounding, not original model bytes or activation
+precision. Static resources are 219 VGPR / 24 KiB LDS / zero private scratch,
+versus retained down 251 VGPR; paired HC up stays at 242 VGPR. This is no speed
+claim. The full format check reproduces the same preexisting failures in two
+unmodified upstream test files; changed-file format, host/device syntax and
+exact 1019-file patch reconstruction pass. Original failures remain recorded.
+
+Useful component improvement admits fresh full-build Q2 reference/candidate/UD
+pp2048/tg128 under the owner's authorization to measure speed while retaining
+numerical flags. No threshold is relaxed; model distribution changes will be
+reported. Every build/GPU arm takes four fresh leases and current thermal/
+process checks, with 98 C inclusive or lower exposed bounds. No core
+interleaving until verified closure, foreign mutation, deployment or automatic
+retry. Source and evidence remain in persistent project paths.
+
+The fresh Q2/UD profiles finish with 28/28 exact replay checks. An additional
+host cohort qualifies a correction to offline HC template classification;
+both cohorts pass 12/12 Debug and 12/12 ASan/UBSan. The component reference and
+candidate finish with actual numerical exits 1, preserving 4 and 12 failures
+respectively and every timing sample. Single-chain down is 14.14% slower,
+while its unchanged control changes -0.17%; it is rejected. The conditional
+full-model benchmark arms are not admitted. The owner's bitfield question
+produces a separate local device-only compilation probe, with no GPU run or
+model change and no runtime performance verdict.
+
+Q2 releases this window at **2026-10-03 05:04:19.071141 UTC**. Six runners
+and 32 command identities/groups/sessions are absent, KFD is empty and the
+four original leases are EX|NB/free. Five original model stat witnesses agree.
+The persistent receipt is `run/q2-hc-single-chain-window-release.json` under
+the `.157` LIE project; the shared registry records `window_release`. All
+162 collected artifacts and six result hashes verify. Thirty command exits
+are zero; the two recorded numerical exits are one. Independent observation
+at **05:05:39.030000 UTC** verifies closure observer PID 2860991, group/session
+2860988 and start ticks 156925332 absent. Both observers exit zero.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window with fresh coordinated admission. The direct outgoing notification
+again fails at the MCP HTTP transport; delivery is not claimed. The agreed
+registry/ledger fallback retains this handover. Q2 continues local reporting
+and checkpoint work only.

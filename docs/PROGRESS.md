@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Single HC chain rejected; bit conversion inspected — 2026-10-03 UTC
+
+The [single-chain HC experiment](Q2-HC-SINGLE-CHAIN.md), independently derived
+from the retained source after consulting historical DS4 reports, reduces
+static down VGPRs from 251 to 219 but increases component median time
+**14.14%**, from 1161.768 to 1326.033 us. The unchanged up control changes
+-0.17%. Eight changed down cases newly exceed the original FP64 limits;
+failures rise from 4 to 12. Both numerical exits 1 and all twenty timing
+samples are preserved, with graph and CSV. No complete-model benchmark follows
+this rejection; paired HC up and the prior 1335.84 PP / 24.09 TG remain selected.
+
+Fresh retained Q2/UD diagnostic traces pass 28/28 replay checks. Their prefill
+kernel-time difference is 319.490 ms: HC down +89.885, routed down +84.604,
+explicit packing/narrowing +64.949, HC up +25.762 and gate/up +23.995 ms.
+The offline classifier now handles appended template flags and distinguishes
+F16 HC up from Q8 correctly. Trace artifacts are unchanged. Both `.157` host
+cohorts pass 12/12 Debug and 12/12 ASan/UBSan, including the new classification
+regressions in the second cohort. Six runners, 32 commands and 162 artifacts
+verify; release at 05:04:19 UTC and independent observer retirement at 05:05:39
+confirm no owned process, GPU job or lease remains. Model stat witnesses agree.
+
+At the owner's suggestion, the [static bitfield probe](Q2-BIT-CONVERSION.md)
+compares shift extraction, union/bitfield representation and direct floating
+construction for gfx1151. Extraction compiles identically; bounded packed-half
+construction uses five data instructions versus seven for scalar conversions.
+The union/bitfield FP32 construction equals explicit integer construction in
+assembly. These findings neither measure speed nor reject bit manipulation as
+a technique. The retained executor already uses mantissa construction and the
+Q2 affine palette; further replacement requires an actual hot-path benefit.
+
 ## Reassessment and routed tile rejection — 2026-10-03 UTC
 
 The owner requests a recap and points to historical DS4 results. The
