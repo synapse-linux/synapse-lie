@@ -39,26 +39,28 @@ the earlier independent-model numerical qualification gap.
 
 ## The remaining warm GPU cost
 
-The latest Q2/UD diagnostic pair predates the final paired-HC-up improvement.
-It measures 1582.091 versus 1260.996 ms of prefill kernel work, a 321.095 ms
-difference. Only 5.278/4.468 ms lies between kernels in the measured GPU spans.
-This attributes that workload to GPU work rather than hundreds of milliseconds
-of scheduler gaps; it is not a complete CPU/wall decomposition.
+The refreshed selected-Q2/UD diagnostic pair measures 1560.398 versus
+1240.908 ms of prefill kernel work, a 319.490 ms difference. Only 5.289/4.417 ms
+lies between kernels in the measured GPU spans. The additional time is mostly
+inside kernels. Busy time does not establish compute or bandwidth saturation,
+and this is not a complete CPU/wall decomposition.
 
 | Recognized kernel family | Additional Q2 time, ms |
 |---|---:|
-| HC down projection | 87.062 |
-| Routed expert down | 69.570 |
-| Explicit activation packing/conversion | 65.212 |
-| HC up projection | 52.785 |
-| Routed gate/up | 23.784 |
-| Other, net | 22.681 |
+| HC down projection | 89.885 |
+| Routed expert down | 84.604 |
+| Explicit activation packing/conversion | 64.949 |
+| HC up projection | 25.762 |
+| Routed gate/up | 23.995 |
+| Other, net | 30.296 |
 
-The first four groups account for 85.53% of that historical kernel difference.
-The subsequent HC-up change saves 26.766 ms in an unprofiled complete request;
-subtracting it from individual old profile groups would not constitute a new
-profile. Refresh the selected-source attribution before sizing the next change.
-The grouping has explicit fallback limits: [profile report](Q2-PREFILL-GAP.md).
+The first three groups account for 74.94% of the extra kernel time. All 28
+profile replay checks match their respective unprofiled controls. These fresh
+traces use pp2048/tg16 with fifteen decode calls; they are diagnostic timings,
+separate from the pp2048/tg128 throughput protocol. The grouping retains explicit
+fallback limits: [fresh profile](Q2-HC-SINGLE-CHAIN.md#fresh-diagnostic-q2ud-profiles).
+The [GPU dataflow audit](Q2-GPU-DATAFLOW.md) maps the next scheduling and
+code-organization hypotheses without claiming measured saturation.
 
 Lower-bit model storage does not imply less work at every boundary. This Q2
 model contains IQ2_XXS gate/up, Q2_K down, F16 HC and BF16 PLE. Its routed down
@@ -83,7 +85,7 @@ or bandwidth effect by the available counters.
 The retained Gufo backend dispatches `WmmaCausalAttention` for wide batches.
 Its tiled WMMA kernel uses online softmax, staged K/V and fused output gating.
 The saved marked 2K prefill contains **12 calls in each model**:
-**44.252 ms Q2 versus 45.696 ms UD**. This component does not explain the
+**44.662 ms Q2 versus 43.526 ms UD** in the refreshed profile. This component does not explain the
 measured Q2 deficit. These counts exclude warmup and smoke, unlike a search
 over the whole trace. This verifies execution in the integrated Gufo backend,
 not completion of LIE's eventual autonomous C model executor or performance
@@ -122,9 +124,10 @@ Two documented numerical/dataflow differences deserve further investigation:
 2. **One HC accumulation chain.** DS4's isolated F16 HC wave32 study records
    a single K16 chain, 78 VGPRs, 24 KiB LDS and exact replay against its own
    library baseline. Our retained HC has two chains to preserve a different
-   reduction order. A separately derived one-chain experiment could reduce
-   register pressure, but would change that order and needs fresh numerical
-   and complete-model evidence. DS4's exactness does not transfer to our source.
+   reduction order. The subsequent independently derived
+   [single-chain experiment](Q2-HC-SINGLE-CHAIN.md) reduces register pressure
+   but takes 14.14% longer and adds eight numerical failures. It is rejected;
+   DS4's exactness does not transfer to our source.
 
 The historical reports are `GUFO-FORMATS-RESULT-r2.md`,
 `qualification/gufo-packed-audit-r1/REPORT.md` and

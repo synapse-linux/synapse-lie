@@ -1,0 +1,18 @@
+{
+  "scope": "Prepared source; GPU exactness and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-down-scatter",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "candidate_sha256": "96e408b48b9f738214b78f322bb2dace9c91a35cdf6d9249b4cee08209fefc39",
+  "patch_sha256": "51e7e8df8bae60082ffd2828fd174f10f1301ee163b14d98f1a4a20d368466a8",
+  "mechanism": "Packed Q2 BN48/64 uses padded block-wide F32 transpose and float2 scatter in existing LDS",
+  "arithmetic": "Original affine palette, high/residual planes, ordered WMMA accumulation and final correction retained",
+  "unchanged": "Weight/model bytes, activation layout, allocation sizes, raw F32-input control, BN16, IQ2 gate/up, HC, scalar decode and public ABI",
+  "qualification": "Complete exact output replay, existing independent FP64 checks and useful complete-model benefit required",
+  "model_conversion": false,
+  "persistent_decoded_weight_cache": false
+}

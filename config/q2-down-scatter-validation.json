@@ -1,0 +1,82 @@
+{
+  "scope": "Down-scatter component campaign on .157, not model throughput",
+  "goal_met": false,
+  "promoted": false,
+  "runs": {
+    "q2-down-scatter-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "commands": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_files_exact": 1019,
+      "guard_files_exact": 42,
+      "capsule_sha256": "1f2d9fd0aa42b99e1866e3dc757ba12f7716ca018754e1901d1dc68f6058ed05",
+      "collection_sha256": "ea0c608a584fb44e43b8b4f26064247133061fe2fa683c2bfbefffe61b725972",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76625
+      }
+    },
+    "q2-down-scatter-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 66,
+      "source_files_exact": 1019,
+      "guard_files_exact": 42,
+      "capsule_sha256": "4e8c74e55ec1ee7837e5c91545175f04f016126abb067269c1082e1a94edab32",
+      "collection_sha256": "6d4511f3ea4a3f20d24c9eddae4aeb8f7f8330e8c36d50a61ac1d7d6295b3177",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80750
+      }
+    },
+    "q2-down-scatter-reference-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 5,
+      "source_files_exact": 1019,
+      "guard_files_exact": 42,
+      "capsule_sha256": "7fc07b992045c092bd0432ed7079cad2d7046779bfe15850dbd343f5e82fff75",
+      "collection_sha256": "e8fea60b8b0e6ea5a6168ec45ec2801865bbc2efa5a71899cea1372ac2aa8606",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80750
+      }
+    },
+    "q2-down-scatter-candidate-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 5,
+      "source_files_exact": 1019,
+      "guard_files_exact": 42,
+      "capsule_sha256": "a60974c5aa0c98df15d29cabb779f81f3da7a2f298b648455d7cdc0fd8492df1",
+      "collection_sha256": "539bb56898a0200b07bb3e2c760f6217c747e40a860b7ed591a22a83b4026b25",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79500
+      }
+    }
+  },
+  "commands": 15,
+  "verified_artifacts": 83,
+  "closure": "2026-10-03T08:12:19.882695+00:00",
+  "observer_retired": true
+}

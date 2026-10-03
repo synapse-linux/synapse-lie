@@ -1,0 +1,26 @@
+{
+  "scope": "Organization-only source view; no runtime dispatch or performance claim",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-routed-organization",
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "candidate_sha256": "f1aa22ba700acc718722e3e54004a386a5a208ca551bfbf02a95f98bfe6f3c2c",
+  "extracted_sha256": "d9abbb2b2ad25909d83533e6397ad52ebc10c5c8fff1418ce43e234d996b8f72",
+  "patch_sha256": "f24e2c8f98e84ad5cecd312b9a36e04ea85275d4cca86de79240b1550db798ae",
+  "extracted_file": "src/models/qwen38_flash_next/kernels/rocm/routed_gemm.inc",
+  "extracted_original_lines": 741,
+  "textual_reconstruction_exact": true,
+  "regions": {
+    "dispatch_geometry_and_LDS": 20,
+    "routing_and_buffer_views": 62,
+    "weight_and_activation_prefetch": 150,
+    "LDS_staging_and_affine_metadata": 302,
+    "WMMA_compute": 388,
+    "stage_pipeline": 556,
+    "compensated_result": 567,
+    "paired_gate_up_epilogue": 575,
+    "F16_block_scatter": 659,
+    "F32_wave_scatter": 709
+  },
+  "remaining_work": "Compare all compiled device functions and metadata; runtime source stays unchanged"
+}

@@ -4,7 +4,12 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The latest [80-row HC down experiment](docs/Q2-HC-ROW80.md) lowers isolated
+The [GPU dataflow/code-organization audit](docs/Q2-GPU-DATAFLOW.md) maps existing
+overlap, scratch lifetimes and the internal reactive scheduling still missing.
+A 741-line routed-module extraction preserves all 146 compiled kernel bodies.
+The resulting [F32 scatter experiment](docs/Q2-DOWN-SCATTER.md) preserves every
+checked output but adds 2.376% component time; it is rejected without model runs.
+The earlier [80-row HC down experiment](docs/Q2-HC-ROW80.md) lowers isolated
 projection time 5.71%, but complete-model prefill changes only +0.104% with
 overlapping ranges. All 21 model files remain exact; the candidate is not
 selected. Full rates, durations, samples and graphs are retained.

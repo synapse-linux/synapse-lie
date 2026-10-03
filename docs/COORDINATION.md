@@ -1759,3 +1759,54 @@ window with fresh admission. No `.155` GPU/model-file ownership is claimed.
 Outgoing release notification again fails at its transport; this ledger and
 registry preserve the agreed handover. Q2 continues local reporting/checkpoint
 only, with the full parity objective still unmet.
+
+The previous goal turn is progress: `e494804` closes row80 with complete-model
+evidence and keeps the retained source selected. At **2026-10-03 08:02:44.790321
+UTC**, fresh read-only admission finds empty KFD, all four original leases
+EX|NB/free and row80 release last in the registry. Core's latest incoming
+message explicitly reserves no `.157` work. Outgoing read/reply transport still
+fails; the agreed ledger fallback applies. Q2 claims no `.155` GPU/model use.
+
+Q2 takes a bounded down-scatter component window: CPU Debug/ASan guards,
+packed operators, then retained/candidate original-shape packed benchmarks.
+Only packed Q2 BN48/64 F32 output scatter changes: a padded block-wide
+transpose and float2 stores reuse the existing LDS allocation. Both WMMA
+accumulations, residual correction, input/weight bytes and buffers stay fixed.
+Static device compilation, host fixture syntax, changed-file formatting and
+1019-file reconstruction pass. Existing raw-input and BN16 controls remain.
+Complete outputs, awkward tails and independent FP64 limits are checked before
+any model admission. Performance remains a measured hypothesis.
+
+Each GPU/build arm takes fresh original four-lease/process/thermal admission,
+with 98 C inclusive or lower exposed limits. No original model is opened by
+the component arms. Useful exact component benefit is required before an
+explicit bounded model extension. No foreign mutation, conversion, tuning,
+installation, automatic retry or publication is authorized. The owner's new
+reactive-GPU/code-organization inquiry is analyzed locally against current
+dependency/buffer ownership; no core-thread source is changed.
+
+The down-scatter window finishes without model admission: all 62 saved operator
+buffers and 52,428,800 shaped outputs are exact, but packed median time rises
+2.376% while the unchanged raw control shifts +0.906%. The candidate is rejected.
+Four runners and fifteen commands finish with exit zero; Debug/ASan each pass
+12/12 and all 83 artifacts verify. Observed GPU/CPU maxima are 49/80.75 C.
+
+Release at **2026-10-03 08:12:19.882695 UTC** verifies every owned runner/command
+identity/group/session absent, KFD empty and four original leases EX|NB/free.
+Persistent receipt `run/q2-down-scatter-window-release.json` and the shared
+registry record the handover. Independent observation at **08:12:57.917570 UTC**
+verifies observer PID 2924755, group/session 2924752, start ticks 158053414 absent.
+Both SSH commands exit zero. No job, waiter, lease or automatic retry remains.
+Core may take the next window with fresh admission. Subsequent organization and
+dataflow work is local static analysis only; neither model files nor `.155` GPU
+are used. Outgoing notification still fails; delivery is not claimed.
+
+Core subsequently asks about `.155` and a USB antirez Q2 provider for its MTP
+binding work. Q2 confirms no `.155` GPU/model-file reservation or use. The
+qualified `patches/gufo-q2.patch` / `.deps/gufo-q2` port has original-Q2 AR
+evidence on `.157`, including logical/stored down K640/768 and disk-backed BF16
+PLE. The faster `hc-up-chains` development source retains its earlier unresolved
+numerical drift. All this workstream's model runs use MTP off: no MTP/type39
+provider qualification or identity match to core's particular USB file is
+claimed. The direct answer again fails at outgoing transport; this read-only
+ledger is the fallback. Neither provider is silently installed in core.

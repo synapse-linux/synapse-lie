@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## GPU dataflow audit and rejected F32 scatter — 2026-10-03 UTC
+
+The owner's reactive-GPU/code-organization inquiry now has a
+[dependency and buffer map](Q2-GPU-DATAFLOW.md). It identifies current CPU/GPU
+route-map overlap, largely sequential internal GPU work, the C dispatcher
+boundary and concrete scratch lifetimes. Busy GPU time is not saturation.
+The isolated 741-line routed-module extraction retains all 146 kernel bodies
+and metadata exactly except for the HIP compilation-unit identifier; 1020
+source files reconstruct. No internal GPU scheduler is claimed implemented.
+
+The [padded F32 scatter screen](Q2-DOWN-SCATTER.md) follows the exposed F16/F32
+epilogue asymmetry. It preserves all 62 saved operator buffers and 52,428,800
+shaped output values, with unchanged independent limits, but packed-Q2 median
+time rises 5375.014 to 5502.722 us (+2.376%); unchanged raw input shifts +0.906%.
+Only two of 28 routed assembly bodies change. No model run or promotion follows.
+The selected Q2 source and unmet full Q2/UD parity objective remain unchanged.
+
+Debug/ASan each pass 12/12. Four runners, fifteen zero command exits and 83
+artifacts verify; every capsule matches 1019 source and 42 guard/fixture files.
+GPU/CPU maxima are 49/80.75 C. Release at 08:12:19 and independent observer
+retirement at 08:12:57 verify empty KFD, original leases free and owned jobs
+absent. The next reactive investigation must isolate shared/routed scratch
+before introducing concurrent GPU regions; no core-thread source is modified.
+
 ## Row80 reduces component time without a confirmed model gain — 2026-10-03 UTC
 
 The [80-row HC down experiment](Q2-HC-ROW80.md) retains 128-token tiles and
