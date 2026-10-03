@@ -1,0 +1,134 @@
+{
+  "scope": "Source/report preparation, no runtime or model performance result",
+  "frozen_files": {
+    "LICENSE": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d",
+    "tools/executor-bench.c": "27e2df5af26319df5f8d650cb610b1c754e7b82db79b9733f8f2fa5e0996066d",
+    "include/lie/executor.h": "e7f18980248e38376404f2029c8b22717c91217983c379513995bd7365db9fe9",
+    "adapters/gufo.cpp": "6385ad9a215b1670eafdb680b596b8897a6f9fd60c8431c63beaea0ab1cd82d1",
+    "adapters/gufo_binding.c": "e9e9bb8d70faed72030f1f51ba0b4943105386010ceb9b8ef4ab7b76213a4d28",
+    "adapters/gufo_device.cpp": "1b18751a11cd2758df53f83ca5bb29d1709624ff64fc3da4d9b86acb081b2e89"
+  },
+  "historical_git_commit": "7f85ef8090506c32998780a8249aa0e10cd9e091",
+  "commands": [
+    {
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-fsyntax-only",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-D_POSIX_C_SOURCE=200809L",
+        "-DLIE_BUILD_ID=\"q2-original-baseline-experiment\"",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/tools/executor-bench.c",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo_binding.c"
+      ],
+      "started_at": "2026-10-03T18:36:21.904392+00:00",
+      "exit_code": 0,
+      "log": "evidence/q2-original-baseline-static/01.log"
+    },
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-library-norm-bound",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo.cpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo_device.cpp"
+      ],
+      "started_at": "2026-10-03T18:36:21.932777+00:00",
+      "exit_code": 0,
+      "log": "evidence/q2-original-baseline-static/02.log"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-original-baseline-configure",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DQ2_HIP=ON",
+        "-DQ2_ORIGINAL_BASELINE=ON",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-library-norm-bound"
+      ],
+      "started_at": "2026-10-03T18:36:23.632979+00:00",
+      "exit_code": 0,
+      "log": "evidence/q2-original-baseline-static/03.log"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-original-baseline-configure",
+        "--target",
+        "q2_original_baseline",
+        "--",
+        "-n"
+      ],
+      "started_at": "2026-10-03T18:40:46.474846+00:00",
+      "exit_code": 0,
+      "log": "evidence/q2-original-baseline-static/04-dry-run.log",
+      "scope": "Build graph only, no compilation/link/runtime"
+    }
+  ],
+  "inputs": {
+    "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+    "cmake/hip/CMakeLists.txt": "1beabb0219c98ff58fd755a950450093bed607bd5c2b98c5b028b7424d2a578c",
+    "cmake/original-baseline/CMakeLists.txt": "1cc19208f6424e72de4b8b9ebed457b37ce79da87f2c1c9669f82fcf194ff9f6",
+    "tests/q2_remote_test.py": "2b51b0b8a5d51a65ee4d595afee164401d2001c2342640d03b735c235790a65f",
+    "tools/q2-remote.py": "72cbff11a0c8bc03517a5345c2c78a402dcdb2c45ac49358a1221f67e63bf96b",
+    "tools/q2-runner.py": "0249be78964e89a632ba52cc968ab6278d5b46d5315fb265dd9d810e85ca4598",
+    "tools/prepare-q2-original-baseline.py": "b52d6923390a2c34a42e8041956592f53866665e3b76685a99019665df338ae2",
+    "tools/analyze-q2-original-baseline.py": "b927c80c3d0ba989823581bb6399c25b93b31eb55cae09773e0d8af1f223fbf3",
+    "config/q2-original-baseline-source.json": "5d20b6cd8cc92e5d8ceff13d308994a4fac6dc1b885fe557b1c71073f1b32b1e"
+  },
+  "logs": {
+    "evidence/q2-original-baseline-static/01.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-original-baseline-static/02.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-original-baseline-static/03.log": "347bea8312ed3303030e422f8afbfa0d082d68311f49017a8e0c75cb5386b7a4",
+    "evidence/q2-original-baseline-static/04-dry-run.log": "8455e070a000809fd89a790dd2b6df2c60eddac1abd4592ebbe97d926e80f4c9",
+    "evidence/q2-original-baseline-static/historical-summary.json": "f36022cce8064b352375c3b14edd947bed0676bcc29970e23b94690561692419"
+  },
+  "historical_receipt_summary": {
+    "512": {
+      "physical_tokens": 502,
+      "medians": {
+        "prefill_tok_s": 988.6777490746114,
+        "decode_tok_s": 26.851351194384907
+      }
+    },
+    "2048": {
+      "physical_tokens": 2042,
+      "medians": {
+        "prefill_tok_s": 1642.6521064558135,
+        "decode_tok_s": 26.049385991367725
+      }
+    },
+    "8192": {
+      "physical_tokens": 8191,
+      "medians": {
+        "prefill_tok_s": 1607.1315301478323,
+        "decode_tok_s": 25.964753258830196
+      }
+    }
+  },
+  "runtime_pending": true,
+  "goal_met": false
+}

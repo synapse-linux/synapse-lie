@@ -1,6 +1,45 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Corrected decode measurement and the original UD baseline
 
+## Original C17 comparison prepared — runtime pending
+
+The private `q2_original_baseline` target now rebuilds the actual benchmark
+behind UD's **26.049385991 token/s** reference. The benchmark, ABI header, adapter, binding,
+failure drain and MIT license are byte-exact first-party files from clean LIE
+commit `7f85ef8090506c32998780a8249aa0e10cd9e091`. Their hashes are checked at
+configuration. Numerical code comes from the independently pinned Gufo source;
+no old binary or MMQ archive is reused. This historical ABI exists only inside
+the benchmark composition and does not replace the current serving contract.
+
+This preserves the actual physical inputs **502/2042/8191**, context 9216,
+chunk 2048, production greedy sampler, EOS behavior, 128 completed-token budget,
+one warmup per prompt and three measured rounds in ascending/descending/ascending
+order. The complete original C17 timing loops and checks are unchanged. It will
+measure Q2 `library-norm-bound` and pristine UD through the same original ABI.
+The existing strict diagnostic executable remains unchanged; its different
+sampling cost must not be called a GPU optimization.
+
+The original sampler skips isolated nonfinite logits. Original full-vocabulary
+checks at PP/final TG endpoints, exact warmup replay and hashes stay outside
+timing. This replica is an absolute-performance control, not a substitute for
+strict per-step diagnostic checks, independent operators or task quality.
+Inherited Q2 operator failures and KL rejection remain.
+
+Strict C17 and C++/HIP host-only syntax checks, local CMake configuration,
+historical source verification and a 46-command build-graph dry run pass. Reprocessing
+the historical receipt reproduces its twelve samples and published medians.
+No new binary has been linked or run: CTest/ASan, remote full builds and GPU
+measurements await core's verified `.157` handover and fresh four-lease admission.
+The scalar HC reduction stays component-only until its own comparison passes.
+
+- [Historical source manifest](../config/q2-original-baseline-source.json)
+- [Static command/source evidence](../config/q2-original-baseline-static.json)
+- [Runtime plan and exact commands](../config/q2-original-baseline-plan.json)
+- [Frozen-source generator](../tools/prepare-q2-original-baseline.py)
+- [Fresh-versus-historical analyzer](../tools/analyze-q2-original-baseline.py)
+
+## Corrected diagnostic results
+
 The target remains the historical UD rate of **26.049385991 token/s** on `.157`.
 The preceding diagnostic control at 24.318 token/s does not lower that target.
 This experiment removes benchmark overhead and aligns a second measurement

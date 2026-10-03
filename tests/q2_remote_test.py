@@ -228,6 +228,29 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'library-norm-bound'],
                         'requires the Q2 decode baseline experiment')
 
+    def test_original_baseline_scope(self):
+        for mode, variant in (('q2-original-baseline', 'library-norm-bound'),
+                              ('ud-original-baseline', 'qualified')):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Original baseline requires a full MMQ rebuild')
+            for wrong in ('scaled-library', 'library-norm-cycle',
+                          'qualified' if variant != 'qualified' else 'library-norm-bound'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', wrong,
+                             '--rebuild-mmq'], 'Original baseline requires its fixed Q2 or pristine UD source')
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-decode-reduce',
+                         '--rebuild-mmq'], 'HC decode reduction is component-only')
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant,
+                         '--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            argv = [str(path), mode, 'q2-fixture', '--source-variant', variant,
+                    '--rebuild-mmq']
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
     def test_combined_source_boundaries(self):
         for variant in ('combined-retained', 'combined-scaled'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],

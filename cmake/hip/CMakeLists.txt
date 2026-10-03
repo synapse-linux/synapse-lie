@@ -89,7 +89,7 @@ target_include_directories(q2_hc PRIVATE "${GUFO_SOURCE}")
 target_include_directories(q2_hc SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc PRIVATE hip::host)
-add_executable(q2_hc_decode_reduce ../../tests/q2_hc_decode_reduce.cpp
+add_executable(q2_hc_decode_reduce EXCLUDE_FROM_ALL ../../tests/q2_hc_decode_reduce.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
 target_compile_options(q2_hc_decode_reduce PRIVATE

@@ -4,6 +4,11 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+An [exact historical C17 benchmark composition](docs/Q2-DECODE-BASELINE.md)
+is now prepared to resolve the remaining timing-scope difference against UD's
+26.049 token/s reference. The original benchmark/ABI/adapter are frozen unchanged;
+fresh Q2/UD linking and runtime measurements still await the `.157` handover.
+
 A [scalar HC reduction candidate](docs/Q2-HC-DECODE-REDUCTION.md) is prepared:
 123 to 91 static instructions, with the same registers and multiply/load loop.
 It has no GPU performance or numerical acceptance yet. Its paired component

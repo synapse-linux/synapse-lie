@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HOST = 'paperboy@192.168.5.157'
 REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
+ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
 
 
 def file_sha256(path):
@@ -49,13 +50,13 @@ def collection_receipt(archive):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce'],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--detach', action='store_true', help='Persistent supervisor for Terminal-Bench tasks only')
     p.add_argument('--rebuild-mmq', action='store_true',
-                   help='Recompile all MMQ sources for bench2k or decode-baseline; no prior archive reuse')
+                   help='Recompile all MMQ sources for bench2k, decode-baseline or original-baseline; no prior archive reuse')
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
@@ -71,14 +72,20 @@ def main():
         p.error('HC decode reduction requires its preserved-control source')
     if args.source_variant == 'hc-decode-reduce' and args.mode != 'hc-decode-reduce-bench':
         p.error('HC decode reduction is component-only')
+    if args.mode in ORIGINAL_BASELINE_MODES:
+        expected = 'library-norm-bound' if args.mode.startswith('q2-') else 'qualified'
+        if args.source_variant != expected:
+            p.error('Original baseline requires its fixed Q2 or pristine UD source')
+        if not args.rebuild_mmq:
+            p.error('Original baseline requires a full MMQ rebuild')
     if args.mode in ('q2-decode-baseline', 'ud-decode-baseline'):
         expected = 'library-norm-bound' if args.mode.startswith('q2-') else 'qualified'
         if args.source_variant != expected:
             p.error('Decode baseline requires its fixed Q2 or pristine UD source')
         if not args.rebuild_mmq:
             p.error('Decode baseline requires a full MMQ rebuild')
-    if args.source_variant == 'library-norm-bound' and args.mode != 'q2-decode-baseline':
-        p.error('Bound library norm requires the Q2 decode baseline experiment')
+    if args.source_variant == 'library-norm-bound' and args.mode not in ('q2-decode-baseline', 'q2-original-baseline'):
+        p.error('Bound library norm requires the Q2 decode baseline experiment or original baseline')
     if args.mode == 'hc-library-norm-bench' and args.source_variant != 'library-norm-cycle':
         p.error('Library norm cycle requires its preserved-control source')
     if args.source_variant == 'library-norm-cycle':
@@ -99,8 +106,8 @@ def main():
             p.error('Combined source requires a full MMQ rebuild for bench2k')
     if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access') and args.source_variant != 'qualified' and not (args.source_variant in COMBINED_VARIANTS and args.mode in ('q2-ple-lookahead', 'q2-ple-first-access')):
         p.error('PLE diagnostics select their fixed instrumented Q2/UD source')
-    if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline'):
-        p.error('Full MMQ rebuild selection requires bench2k or decode-baseline')
+    if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES):
+        p.error('Full MMQ rebuild selection requires bench2k or decode-baseline or original-baseline')
     if args.source_variant in ('hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads') and args.mode not in ('hc-pp-operators', 'hc-pp-bench'):
         p.error('Phased HC source is component-only; no model dispatch')
     if args.mode == 'narrow-vector-check' and args.source_variant not in ('narrow-vector', *COMBINED_VARIANTS):
@@ -194,7 +201,7 @@ def main():
     with tarfile.open(capsule, 'w:gz') as archive:
         for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
-        source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
+        source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline','ud-original-baseline') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
             source = '.deps/gufo-q2-bench-' + args.source_variant
         if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple'):
@@ -206,6 +213,8 @@ def main():
         if args.mode in ('ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access') and args.source_variant == 'qualified':
             source = '.deps/gufo-q2-bench-ple-lookahead'
         archive.add(ROOT / source, arcname='source')
+        if args.mode in ORIGINAL_BASELINE_MODES:
+            archive.add(ROOT / 'experiments/original-baseline', arcname='experiments/original-baseline')
         if args.mode in ('terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full'):
             archive.add(ROOT / '.deps/lie-terminal-core-bench', arcname='terminal-core')
     dest = REMOTE + args.label

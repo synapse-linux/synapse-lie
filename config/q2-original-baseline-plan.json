@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-03T18:44:50.129315+00:00",
+  "state": "PREPARED_NO_REMOTE_JOB",
+  "previous_goal_turn": "Progress: HC scalar reduction saved in 973b391 with source/assembly verification; runtime awaited core window.",
+  "scope": "Original historical C17 benchmark, ABI and adapter linked afresh to the measured Q2 source and pristine independently fetched UD provider. No numerical kernel change in this step.",
+  "historical_commit": "7f85ef8090506c32998780a8249aa0e10cd9e091",
+  "frozen_files_exact": 6,
+  "original_source_unchanged": true,
+  "providers": {
+    "q2": "library-norm-bound",
+    "ud": "qualified"
+  },
+  "core_window": "gpu-perf-b72-r1 explicitly retained until campaign and observers retire",
+  "gpu_reserved": false,
+  "remote_workload_scheduled": false,
+  "restart_scheduled": false,
+  "protocol": {
+    "context": 9216,
+    "prefill_chunk": 2048,
+    "output_limit": 128,
+    "concurrency": 1,
+    "mtp": false,
+    "warmups_per_profile": 1,
+    "measured_rounds": 3,
+    "order": "warmups ascending; measured rounds ascending, descending, ascending",
+    "EOS": "honored; retain actual completed count; no replacement runs",
+    "timing": "Original synchronous C17 calls include production Session/Sampler and completed-token accounting; full PP/final TG logit copy/finite/hash checks outside intervals",
+    "numeric_scope": "Production sampler skips isolated nonfinite entries. Strict diagnostic Argmax is unchanged. Original endpoint gates are retained byte-exact; neither route clears independent operator/KL rejection.",
+    "model_build": "Full MMQ source rebuild, no borrowed binary/archive",
+    "host_gate": "17 CTest cases in Debug and ASan/UBSan on .157; may share one unchanged host capsule with HC component",
+    "HC_gate": "HC candidate remains component-only; its exactness/performance gate is unchanged"
+  },
+  "historical": {
+    "512": {
+      "physical_tokens": 502,
+      "medians": {
+        "prefill_tok_s": 988.6777490746114,
+        "decode_tok_s": 26.851351194384907
+      }
+    },
+    "2048": {
+      "physical_tokens": 2042,
+      "medians": {
+        "prefill_tok_s": 1642.6521064558135,
+        "decode_tok_s": 26.049385991367725
+      }
+    },
+    "8192": {
+      "physical_tokens": 8191,
+      "medians": {
+        "prefill_tok_s": 1607.1315301478323,
+        "decode_tok_s": 25.964753258830196
+      }
+    }
+  },
+  "commands_after_handover": [
+    "python3 tools/q2-remote.py cpu q2-hc-decode-reduce-host-r1",
+    "python3 tools/q2-remote.py collect q2-hc-decode-reduce-host-r1",
+    "python3 tools/q2-remote.py q2-original-baseline q2-original-baseline-q2-r1 --source-variant library-norm-bound --rebuild-mmq",
+    "python3 tools/q2-remote.py collect q2-original-baseline-q2-r1",
+    "python3 tools/q2-remote.py ud-original-baseline q2-original-baseline-ud-r1 --rebuild-mmq",
+    "python3 tools/q2-remote.py collect q2-original-baseline-ud-r1",
+    "python3 tools/analyze-q2-original-baseline.py --q2 evidence/q2-original-baseline-q2-r1 --ud evidence/q2-original-baseline-ud-r1 --host evidence/q2-hc-decode-reduce-host-r1 --output config/q2-original-baseline-results.json"
+  ],
+  "validation": {
+    "scope": "Local source/report checks only, no model/GPU/runtime fixture execution",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "strict_c_syntax": true,
+    "strict_cpp_host_syntax": true,
+    "cmake_configure": true,
+    "build_graph_dry_run": true,
+    "historical_report_parse": "12 original samples reproduce published medians",
+    "runtime_tests": "Pending verified .157 handover"
+  },
+  "candidate_runtime_speedup": null,
+  "numerical_pass": false,
+  "promoted": false,
+  "goal_met": false
+}

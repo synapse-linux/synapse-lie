@@ -29,6 +29,9 @@ def now():
 
 def main():
     mode = sys.argv[1]
+    original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')
+    if original_mode and '--rebuild-mmq' not in sys.argv[2:]:
+        raise SystemExit('Original baseline requires a full MMQ rebuild')
     terminal_run = mode in ('q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
     terminal_build = mode in ('q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
     terminal_cpu = mode == 'terminal-cpu'
@@ -36,7 +39,7 @@ def main():
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
-    model_mode = terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
+    model_mode = original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
     hc_mode = mode in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
     hc_target = 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode == 'hc-library-norm-bench' else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
@@ -46,6 +49,8 @@ def main():
               'pid': os.getpid(), 'commands': [], 'locks': [], 'model_access': False}
     if mode.endswith('decode-baseline'):
         result['timed_scope'] = 'pp2048/tg127-forward legacy scope plus historical2042/tg128-completed; full finite checks retained in both; no MTP'
+    if original_mode:
+        result['timed_scope'] = 'Unchanged historical C17 ABI benchmark: physical prompts up to 512/2048/8192, 128 completed steps, production greedy, EOS honored; finite frontier checks outside timers'
     results = ROOT/'results'; results.mkdir()
     held = []
     model_paths = []
@@ -194,11 +199,11 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
-            if not cpu_mode:build_args+=['--target','synapse-lie-server' if terminal_build else 'q2_ple_io' if io_mode else ple_target if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
+            if not cpu_mode:build_args+=['--target','synapse-lie-server' if terminal_build else 'q2_original_baseline' if original_mode else 'q2_ple_io' if io_mode else ple_target if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
             run(build_args,env)
             if cpu_mode:run(['ctest','--test-dir',str(build),'--output-on-failure'],env)
             elif terminal_build:
@@ -217,6 +222,19 @@ def main():
                         1800 if mode.endswith('probe') else 2*10800*(19 if mode.endswith('full') else 1)+3600)
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                     if result['binary_sha256']!=result['binary_sha256_after']: raise RuntimeError('Binary changed')
+            elif original_mode:
+                binary=build/'cmake/original-baseline/q2_original_baseline'
+                result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                try:
+                    run(['ldd',str(binary)],env,30)
+                    run([str(binary),'--build-info'],env,30)
+                    result['model_access']=True
+                    save()
+                    run([str(binary),'--model',model_paths[0],'--output',str(results/'measurements.jsonl')],
+                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                finally:
+                    result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                    if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
             elif io_mode:
                 binary=build/'q2_ple_io'
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -265,6 +283,7 @@ def main():
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if cpu_mode else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if terminal_build: result['state']='TERMINAL_SERVER_BUILT_NO_MODEL_EXECUTION'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
+        if original_mode: result['state']='ORIGINAL_C17_BASELINE_COMPLETE_NOT_QUALITY_VERDICT'
         if terminal_run: result['state']='TERMINAL_ENDPOINT_PROBE_COMPLETE_NOT_TASK_SCORE' if mode.endswith('probe') else 'TERMINAL_BENCH_COMMAND_COMPLETE_INSPECT_REWARDS'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'

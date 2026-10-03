@@ -2377,3 +2377,13 @@ thread read fail at the MCP transport. The persistent main ready receipt
 records the pending handover request and no workload or restart. The previous
 user-facing baseline clarification was informational only; current source
 review and checkpoint preserve the prepared experiment, with runtime pending.
+
+At 2026-10-03T18:46:51.995805+00:00, the original C17 baseline composition is prepared locally.
+The unchanged historical benchmark/adapter from 7f85ef8 will compare the measured
+Q2 source with pristine UD through the same completed-work timing path. Core's
+`gpu-perf-b72-r1` registry records `cpp-depth`;
+PID 3194473 is freshly verified live with start ticks 161817863.
+Core explicitly retains the campaign through its depth/concurrency/256K checks.
+Q2 performs no remote build/test, reserves no GPU window and schedules no restart.
+The next host cohort can cover both prepared launchers; the HC reduction remains
+component-only. Main `run/q2-original-baseline-ready.json` records this fallback.

@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Original C17 baseline composition prepared — 2026-10-03
+
+The previous goal turn saved the scalar HC experiment in `973b391`. Core's
+`gpu-perf-b72-r1` still owns `.157`, so this increment prepares the exact
+production timing comparison locally. It does not claim a new throughput gain.
+
+Six first-party files are frozen byte-for-byte from historical clean commit
+`7f85ef8090506c32998780a8249aa0e10cd9e091`: the original C17 benchmark, ABI header,
+adapter/binding/failure drain and MIT license. A private CMake composition links
+them to freshly built pinned Gufo providers. It does not replace the current
+server ABI or import a numerical archive. The launcher permits only measured
+`library-norm-bound` Q2 and pristine UD, with full MMQ rebuilds. The new HC
+reduction remains component-only and requires its separate measured gate.
+
+Strict C/C++ host syntax, CMake configuration and a 46-command build-graph dry
+run pass. All six historical files match their Git blobs. Report parsing of the
+original twelve samples reproduces UD TG26.851/26.049/25.965 and
+PP988.678/1642.652/1607.132 at physical502/2042/8191. These are historical values,
+not new measurements. Host CTest/ASan, full linking and GPU runs remain pending.
+
+The original production sampler's treatment of isolated nonfinite logits and
+the original full-frontier endpoint checks are explicitly recorded. The strict
+diagnostic Argmax and existing operator/KL rejection remain unchanged. Source,
+actual command exits and the runtime plan are linked in
+[the baseline report](Q2-DECODE-BASELINE.md). The HC-specific target is also
+excluded from unrelated default builds because its preserved-control symbol
+exists only in that isolated source. No Q2 remote job or restart is scheduled.
+
 ## Scalar HC down reduction prepared; runtime pending — 2026-10-03
 
 The previous goal turn made verified progress in e6f425e by correcting benchmark
