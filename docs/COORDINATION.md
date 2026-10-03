@@ -2366,3 +2366,14 @@ The corrected decode window completes host17/17 Debug+ASan and both original-mod
 Fresh closure at 2026-10-03T17:37:05.108908+00:00 verifies17 recorded PIDs and owned groups absent, KFD empty, and all four original leases acquired EX|NB then released. Remote run/q2-decode-baseline-window-release.json, the shared registry and local main ready/release files mark RELEASED. No Q2 job, waiter or restart remains. Core may admit a new window using fresh checks; no further Q2 GPU work is admitted by this closure.
 
 Core explicitly acknowledges the verified 17:37:05 UTC .157 release and takes the next window for LIE f0f58b3 C17 sampler/AR/MTP/vision/OpenAI/cache qualification, using fresh original four leases. Q2 has no GPU job, waiter or restart and will prepare locally until handover. No .155 work is planned by Q2.
+
+Q2 prepares the scalar HC reduction experiment locally only. Read-only registry observation finds core start 2026-10-03T18:00:58.962169Z, PID3183085 live and KFD3183100. Core then explicitly retains its window for an MTP/cache geometry correction, although its servers/helpers have retired. Q2 does not treat that idle interval as a handover. Persistent main run/q2-hc-decode-reduce-ready.json records the pending host/component plan, gpu_reserved:false and no scheduled workload/restart. Direct outgoing MCP transport fails. No remote Q2 test or build is admitted until verified core handover.
+
+Read-only revalidation at 2026-10-03T18:23:38Z finds core's newer
+`gpu-state-b72-r1/mtp-state` terminal at 18:21:37.267145Z, its previous
+3183085/3183100 processes absent and KFD empty. No explicit core-window
+release is recorded, so this does not admit Q2. Both outgoing message and
+thread read fail at the MCP transport. The persistent main ready receipt
+records the pending handover request and no workload or restart. The previous
+user-facing baseline clarification was informational only; current source
+review and checkpoint preserve the prepared experiment, with runtime pending.

@@ -16,7 +16,7 @@
 #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
 
 namespace rocm = gufo::models::qwen38_flash_next::rocm;
-static void Require(bool ok, const char* why) {
+static void Require(bool ok, const char *why) {
   if (!ok)
     throw std::runtime_error(why);
 }
@@ -24,14 +24,14 @@ static void Hip(hipError_t status) {
   Require(status == hipSuccess, hipGetErrorString(status));
 }
 struct Device {
-  void* data{};
+  void *data{};
   explicit Device(std::size_t bytes) { Hip(hipMalloc(&data, bytes)); }
   ~Device() {
     if (data)
       (void)hipFree(data);
   }
-  Device(const Device&) = delete;
-  Device& operator=(const Device&) = delete;
+  Device(const Device &) = delete;
+  Device &operator=(const Device &) = delete;
 };
 struct Random {
   std::uint32_t state;
@@ -45,7 +45,7 @@ struct Random {
 static std::vector<__half> Weights(unsigned m, unsigned k, unsigned seed) {
   Random rng{seed};
   std::vector<__half> w(std::size_t(m) * k);
-  for (auto& v : w)
+  for (auto &v : w)
     v = __float2half(rng.Next() * 0.03125f);
   return w;
 }
@@ -72,8 +72,8 @@ static void Case(unsigned m, unsigned k, unsigned tokens, unsigned pattern) {
   Hip(hipMemcpy(yd.data, got.data(), got.size() * sizeof(float),
                 hipMemcpyHostToDevice));
   rocm::SmallGemm(wd.data, rocm::WeightType::kF16,
-                  static_cast<const float*>(xd.data),
-                  static_cast<float*>(yd.data) + guard, tokens, m, k, nullptr);
+                  static_cast<const float *>(xd.data),
+                  static_cast<float *>(yd.data) + guard, tokens, m, k, nullptr);
   Hip(hipGetLastError());
   Hip(hipDeviceSynchronize());
   Hip(hipMemcpy(got.data(), yd.data, got.size() * sizeof(float),
@@ -107,7 +107,7 @@ static void Case(unsigned m, unsigned k, unsigned tokens, unsigned pattern) {
             << ",\"error_over_peak\":" << scaled_max
             << ",\"max_abs_error\":" << maximum << "}\n";
   std::ofstream output("results/hc-" + label + ".f32", std::ios::binary);
-  output.write(reinterpret_cast<const char*>(got.data() + guard),
+  output.write(reinterpret_cast<const char *>(got.data() + guard),
                static_cast<std::streamsize>(count * sizeof(float)));
   Require(bool(output), "Cannot save operator frontier");
   Require(rrms <= 0.00002 && scaled_max <= 0.00002,
@@ -125,19 +125,20 @@ static void Bench(bool up) {
       yd(m * sizeof(float));
   for (unsigned i = 0; i < matrices; ++i) {
     const auto w = Weights(m, k, i + 431);
-    Hip(hipMemcpy(static_cast<char*>(wd.data) + matrix_bytes * i, w.data(),
+    Hip(hipMemcpy(static_cast<char *>(wd.data) + matrix_bytes * i, w.data(),
                   matrix_bytes, hipMemcpyHostToDevice));
   }
   std::vector<float> x(k);
   Random rng{179};
-  for (auto& v : x)
+  for (auto &v : x)
     v = rng.Next();
   Hip(hipMemcpy(xd.data, x.data(), x.size() * sizeof(float),
                 hipMemcpyHostToDevice));
   auto launch = [&](unsigned i) {
-    rocm::SmallGemm(static_cast<char*>(wd.data) + matrix_bytes * (i % matrices),
-                    rocm::WeightType::kF16, static_cast<const float*>(xd.data),
-                    static_cast<float*>(yd.data), 1, m, k, nullptr);
+    rocm::SmallGemm(static_cast<char *>(wd.data) +
+                        matrix_bytes * (i % matrices),
+                    rocm::WeightType::kF16, static_cast<const float *>(xd.data),
+                    static_cast<float *>(yd.data), 1, m, k, nullptr);
   };
   for (unsigned i = 0; i < matrices; ++i)
     launch(i);
@@ -174,7 +175,7 @@ static void Bench(bool up) {
   Hip(hipEventDestroy(end));
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   try {
     Require(argc == 2, "Usage: q2_hc operators|bench|bench-up");
     const std::string mode = argv[1];
@@ -193,7 +194,8 @@ int main(int argc, char** argv) {
     if (mode == "bench" || mode == "bench-up")
       Bench(mode == "bench-up");
     std::cout << "PASS synthetic F16 HC checks; no model inference\n";
-  } catch (const std::exception& ex) {
+    return 0;
+  } catch (const std::exception &ex) {
     std::cerr << ex.what() << '\n';
     return 1;
   }

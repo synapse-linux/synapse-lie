@@ -187,6 +187,25 @@ class RemoteGuardTests(unittest.TestCase):
                 mkdir.assert_called_once()
                 run.assert_not_called()
 
+    def test_hc_decode_reduction_scope(self):
+        for variant in ('qualified', 'library-norm-bound', 'library-norm-cycle'):
+            self.refuse(['hc-decode-reduce-bench', 'q2-fixture', '--source-variant', variant],
+                        'HC decode reduction requires its preserved-control source')
+        for mode in ('q2-bench2k', 'ud-bench2k', 'q2-profile', 'cpu', 'hc-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-decode-reduce'],
+                        'HC decode reduction is component-only')
+        self.refuse(['hc-decode-reduce-bench', 'q2-fixture', '--source-variant',
+                     'hc-decode-reduce', '--rebuild-mmq'], 'requires bench2k')
+        argv = [str(path), 'hc-decode-reduce-bench', 'q2-fixture',
+                '--source-variant', 'hc-decode-reduce']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
     def test_decode_baseline_scope(self):
         for mode, variant in (('q2-decode-baseline', 'library-norm-bound'),
                               ('ud-decode-baseline', 'qualified')):

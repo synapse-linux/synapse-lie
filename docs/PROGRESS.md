@@ -1,6 +1,42 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Scalar HC down reduction prepared; runtime pending — 2026-10-03
+
+The previous goal turn made verified progress in e6f425e by correcting benchmark
+cost and reproducing the original UD output/frontier hashes. This turn targets
+engine decode itself: the historical-prompt deficit is about 0.60 ms/token.
+
+The current HC down load loop already uses vector loads. The candidate instead
+replaces two five-stage dynamic wave reductions with immediate XOR16 and row-DPP
+XOR8/4/2/1. Explicit RN additions preserve the descending sum tree; original
+weights, FMA loop, 16-wave geometry, barrier and cache invalidation remain.
+Generated assembly is 123 versus 91 static instructions, with 13 VGPR, 12 SGPR,
+64-byte LDS and no private scratch in both. The control assembly and complete
+multiply/load loop are exact. Static counts establish no runtime gain.
+
+A component fixture preserves the original GPU control in the same binary,
+keeps eleven independent FP64 cases and adds six special-value full-buffer
+pairs. Sixteen rotating matrices use 100 MiB; five 128-launch pairs alternate
+order. Every matrix and timing endpoint is saved, for 27 complete pairs and
+65 data files. Numerical failures remain exit 1 while performance is retained.
+The launcher is restricted to this component; no model promotion is admitted.
+
+All 1020 files reconstruct exactly through the patch; two files change and
+1018 are unchanged. Device-only compilation, strict host-only fixture syntax,
+changed-file formatting and Python syntax pass. Shared formatting retains the
+parent's five existing upstream-test violations. The initial reused-main return
+warning is preserved and corrected with an explicit successful return.
+Runtime CTest/ASan, GPU exactness/oracles and performance are pending on `.157`.
+
+Core explicitly retains the `.157` window for its MTP/cache correction after
+its sampler tests. A read-only observation confirms an active core process/KFD
+client; the later core message reports its servers retired but explicitly keeps
+ownership. Q2 performs local preparation only; no remote job, waiter or restart
+is scheduled. The persistent ready file is the coordination fallback while
+outgoing thread transport fails. [Source, static evidence and qualification
+plan](Q2-HC-DECODE-REDUCTION.md) are recorded. The full goal remains active.
+
 ## Corrected decode harness and historical baseline replay — 2026-10-03
 
 The obsolete per-logit string construction is removed with all finite checks,
