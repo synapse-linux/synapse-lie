@@ -26,7 +26,10 @@ remain delegated; this does not claim an autonomous C model executor.
 ## VISION development boundary
 
 This branch exposes [VISION inference inputs/output](../development/VISION.md),
-but its KVC bindings still capture AR state only. The core refuses VISION
+and its C codec now retains and validates model-bound multimodal positions.
+The live provider still captures AR state only: image/encoder/preprocessing
+identity must first cover lookup, deduplication, device binding and restart.
+The core refuses VISION
 configuration with either RAM retention or disk persistence enabled before model
 load. It does not silently drop predictor/image state or downgrade a failed
 restore to an equivalent cache hit. Complete model-specific extensions and

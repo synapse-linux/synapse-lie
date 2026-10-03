@@ -1,5 +1,21 @@
 # Isolated OpenAI reactive API increment
 
+## Shared auxiliary KV state and vision positions — 2026-10-03
+
+The C17 RAM/SSD store now retains typed auxiliary state with complete budget
+accounting and SHA-256 admission, preserving original DS4 payload offsets and
+version-1 AR files. Two unrelated fixture schemas exercise the same storage path.
+The Qwen codec adds MRoPE delta/physical rows and compares them against prepared
+input positions. Live vision KV reuse stays refused until image identity also
+covers lookup, deduplication, device layout and restart ownership.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **28/28**; HIP provider linking
+also passes. No model load, GPU run or performance campaign is claimed. Current
+functional-GPU authorization and metadata-only USB findings are recorded in
+[coordination](COORDINATION.md). Raw failures and actual exits remain under local
+`evidence/`; see the [source-bound state receipt](development/validation/vision-state-2026-10-03.json).
+
+
 ## Vision model-neutral development slice — 2026-10-03
 
 Owned PNG/JPEG inputs, model-specific physical token expansion and encoder admission now run through the shared C17 core, Chat/Responses and core benchmark client. Fixtures use distinct image limits and expansion geometry; no Qwen positions or tensor types enter the public C contract.

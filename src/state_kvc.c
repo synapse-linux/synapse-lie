@@ -13,7 +13,7 @@
 #include <unistd.h>
 #define FOOTER 192u
 #define SECTION 64u
-typedef struct {unsigned char h[52],f[FOOTER];uint64_t size,payload,text,client,table;} frame;
+typedef struct {unsigned char h[52],f[FOOTER];uint64_t size,payload,aux,text,client,table;} frame;
 static bool stopped(const atomic_bool *c){return c&&atomic_load(c);}
 static bool io(int fd,void *p,size_t n,uint64_t offset,bool write,const atomic_bool *c,EVP_MD_CTX *hash){
     unsigned char *at=p;
@@ -39,20 +39,26 @@ static bool inspect(int fd,const lie_state_identity *id,frame *r){
     const unsigned char *h=r->h,*f=r->f;unsigned q=h[4];
     if(memcmp(h,"KVC\1",4)||h[20]!=2||(q!=2&&q!=4&&q!=5&&q!=6&&q!=8)||
        !kvc_u32(h+8)||kvc_u32(h+8)>kvc_u32(h+16)||h[5]>LIE_CACHE_AGENT_SESSION||(h[6]&~15u)||
-       memcmp(f,"LIEKVC1",8)||kvc_u32(f+8)!=1||kvc_u32(f+12)!=FOOTER||
+       memcmp(f,"LIEKVC1",8)||(kvc_u32(f+8)!=1&&kvc_u32(f+8)!=2)||kvc_u32(f+12)!=FOOTER||
        memcmp(f+32,id->bytes,32)||!kvc_u32(f+16)||!kvc_u32(f+20)||
        !kvc_u32(f+24)||kvc_u32(f+24)>LIE_STATE_MAX_SECTIONS||kvc_u32(f+28)!=LIE_STATE_ABI)return false;
     for(unsigned i=21;i<24;++i)if(h[i])return false;
-    for(unsigned i=176;i<FOOTER;++i)if(f[i])return false;
+    r->aux=0;
+    if(kvc_u32(f+8)==1){for(unsigned i=176;i<FOOTER;++i)if(f[i])return false;}
+    else{
+        r->aux=kvc_u64(f+176);
+        if(!r->aux||r->aux>SIZE_MAX||kvc_u32(f+184)!=LIE_STATE_KVC_AUX||kvc_u32(f+188))return false;
+    }
     r->text=kvc_u32(h+48);r->payload=kvc_u64(h+40);r->client=kvc_u64(f+128);
     uint64_t table=(uint64_t)kvc_u32(f+24)*SECTION;
     if(r->text>LIE_CACHE_TEXT_MAX||!r->payload||r->payload>SIZE_MAX||r->client>LIE_CACHE_TRAILER_MAX||
-       r->payload!=kvc_u64(f+136)||r->size<52+FOOTER+table+r->text+r->client||
-       r->size-52-FOOTER-table-r->text-r->client!=r->payload)return false;
-    r->table=52+r->text+r->payload+r->client;return true;
+       r->payload>SIZE_MAX-r->aux||r->payload!=kvc_u64(f+136)||r->size<52+FOOTER+table+r->text+r->client||
+       r->size-52-FOOTER-table-r->text-r->client!=r->payload+r->aux)return false;
+    r->table=52+r->text+r->payload+r->client+r->aux;return true;
 }
 uint64_t lie_state_kvc_bytes(const lie_state *s,const lie_cache_metadata *m){
-    if(!s||s->layout.format!=LIE_STATE_KVC||s->codec||s->storage_bytes!=s->payload_bytes||
+    uint64_t model,aux;
+    if(!s||!lie_state_kvc_parts(&s->layout,&model,&aux)||model+aux!=s->payload_bytes||s->codec||s->storage_bytes!=s->payload_bytes||
        (m&&!lie_cache_metadata_valid(m)))return UINT64_MAX;
     uint64_t overhead=52+FOOTER+(uint64_t)s->layout.section_count*SECTION+(m?m->text_bytes+m->trailer_bytes:0);
     return s->payload_bytes>UINT64_MAX-overhead?UINT64_MAX:s->payload_bytes+overhead;
@@ -73,18 +79,19 @@ static bool hash_header(EVP_MD_CTX *hash,const unsigned char h[52]){
 }
 bool lie_state_kvc_write(int fd,const lie_state_identity *id,const lie_state *s,const lie_cache_metadata *meta,const atomic_bool *c){
     lie_cache_metadata empty={0};const lie_cache_metadata *m=meta?meta:&empty;
-    uint64_t size=0,payload=0;
-    if(!id||!s||!regular(fd,&size)||size||!lie_state_validate(&s->layout,&payload)||payload!=s->payload_bytes||
+    uint64_t size=0,payload=0,aux=0;
+    if(!id||!s||!regular(fd,&size)||size||!lie_state_kvc_parts(&s->layout,&payload,&aux)||payload+aux!=s->payload_bytes||
        lie_state_kvc_bytes(s,m)>INT64_MAX)return false;
     unsigned char h[52]={0},f[FOOTER]={0},b[SECTION];
     memcpy(h,"KVC\1",4);h[4]=(uint8_t)s->layout.quant_bits;h[5]=(uint8_t)m->reason;
     h[6]=(uint8_t)m->flags;h[7]=(uint8_t)s->layout.model_id;h[20]=2;
     kvc_put32(h+8,s->layout.token_count);kvc_put32(h+12,m->hits);kvc_put32(h+16,s->layout.context_tokens);
     kvc_put64(h+24,m->created_at);kvc_put64(h+32,m->last_used);kvc_put64(h+40,payload);kvc_put32(h+48,(uint32_t)m->text_bytes);
-    memcpy(f,"LIEKVC1",8);kvc_put32(f+8,1);kvc_put32(f+12,FOOTER);kvc_put32(f+16,s->layout.representation_version);
+    memcpy(f,"LIEKVC1",8);kvc_put32(f+8,aux?2:1);kvc_put32(f+12,FOOTER);kvc_put32(f+16,s->layout.representation_version);
     kvc_put32(f+20,s->layout.prefill_chunk);kvc_put32(f+24,s->layout.section_count);kvc_put32(f+28,LIE_STATE_ABI);
     memcpy(f+32,id->bytes,32);for(unsigned i=0;i<8;++i)kvc_put32(f+96+4*i,s->layout.model_data[i]);
     kvc_put64(f+128,m->trailer_bytes);kvc_put64(f+136,payload);
+    if(aux){kvc_put64(f+176,aux);kvc_put32(f+184,LIE_STATE_KVC_AUX);}
     char key[65];if(!lie_state_prefix_key(id,lie_state_tokens(s),s->layout.token_count,key))return false;
     for(unsigned i=0;i<32;++i){unsigned hi=(unsigned)(key[2*i]<='9'?key[2*i]-'0':key[2*i]-'a'+10);
         unsigned lo=(unsigned)(key[2*i+1]<='9'?key[2*i+1]-'0':key[2*i+1]-'a'+10);f[144+i]=(unsigned char)(hi*16+lo);}
@@ -94,6 +101,7 @@ bool lie_state_kvc_write(int fd,const lie_state_identity *id,const lie_state *s,
     ok=ok&&io(fd,(void *)m->text,m->text_bytes,at,true,c,hash);at+=m->text_bytes;
     ok=ok&&io(fd,(void *)s->payload,(size_t)payload,at,true,c,hash);at+=payload;
     ok=ok&&io(fd,(void *)m->trailer,m->trailer_bytes,at,true,c,hash);at+=m->trailer_bytes;
+    ok=ok&&io(fd,(void *)(s->payload+payload),(size_t)aux,at,true,c,hash);at+=aux;
     for(unsigned i=0;ok&&i<s->layout.section_count;++i){encode(b,&s->layout.sections[i]);ok=io(fd,b,SECTION,at,true,c,hash);at+=SECTION;}
     unsigned n=0;
     ok=ok&&EVP_DigestUpdate(hash,f,FOOTER)==1&&EVP_DigestFinal_ex(hash,f+64,&n)==1&&n==32&&io(fd,f,FOOTER,at,true,c,NULL);
@@ -105,21 +113,22 @@ static bool hash_range(int fd,uint64_t at,uint64_t bytes,const atomic_bool *c,EV
         bytes-=n;at+=n;}return true;
 }
 lie_state *lie_state_kvc_read(int fd,const lie_state_identity *id,uint64_t domain,uint64_t budget,const atomic_bool *c){
-    frame r;if(!domain||stopped(c)||!inspect(fd,id,&r)||r.payload>budget||sizeof(lie_state)>budget-r.payload)return NULL;
-    lie_state_layout l={.abi_version=LIE_STATE_ABI,.domain=domain,.format=LIE_STATE_KVC,
+    frame r;if(!domain||stopped(c)||!inspect(fd,id,&r)||r.payload+r.aux>budget||sizeof(lie_state)>budget-r.payload-r.aux)return NULL;
+    lie_state_layout l={.abi_version=LIE_STATE_ABI,.domain=domain,.format=r.aux?LIE_STATE_KVC_AUX:LIE_STATE_KVC,
         .model_id=r.h[7],.quant_bits=r.h[4],.representation_version=kvc_u32(r.f+16),.prefill_chunk=kvc_u32(r.f+20),
         .section_count=kvc_u32(r.f+24),.token_count=kvc_u32(r.h+8),.context_tokens=kvc_u32(r.h+16)};
     for(unsigned i=0;i<8;++i)l.model_data[i]=kvc_u32(r.f+96+4*i);
     unsigned char table[LIE_STATE_MAX_SECTIONS*SECTION];size_t table_bytes=l.section_count*SECTION;
     if(!io(fd,table,table_bytes,r.table,false,c,NULL))return NULL;
     for(unsigned i=0;i<l.section_count;++i)decode(&l.sections[i],table+i*SECTION);
-    uint64_t bytes;if(!lie_state_validate(&l,&bytes)||bytes!=r.payload)return NULL;
+    uint64_t model,aux;if(!lie_state_kvc_parts(&l,&model,&aux)||model!=r.payload||aux!=r.aux)return NULL;
     lie_state *s=lie_state_allocate(&l,budget);if(!s)return NULL;
     EVP_MD_CTX *hash=EVP_MD_CTX_new();unsigned char want[32],actual[32];unsigned n=0;
     memcpy(want,r.f+64,32);memset(r.f+64,0,32);
     bool ok=hash&&EVP_DigestInit_ex(hash,EVP_sha256(),NULL)==1&&hash_header(hash,r.h)&&
         hash_range(fd,52,r.text,c,hash)&&io(fd,s->payload,(size_t)r.payload,52+r.text,false,c,hash)&&
-        hash_range(fd,52+r.text+r.payload,r.client,c,hash)&&EVP_DigestUpdate(hash,table,table_bytes)==1&&
+        hash_range(fd,52+r.text+r.payload,r.client,c,hash)&&
+        io(fd,s->payload+r.payload,(size_t)r.aux,52+r.text+r.payload+r.client,false,c,hash)&&EVP_DigestUpdate(hash,table,table_bytes)==1&&
         EVP_DigestUpdate(hash,r.f,FOOTER)==1&&EVP_DigestFinal_ex(hash,actual,&n)==1&&n==32&&!memcmp(want,actual,32);
     EVP_MD_CTX_free(hash);
     const int32_t *tokens=lie_state_tokens(s);

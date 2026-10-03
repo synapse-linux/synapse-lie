@@ -83,7 +83,17 @@ claimed from adding this input path.
 
 ## Cache and remaining gates
 
-Current KVC state lacks the complete multimodal continuation state. Vision
+The C state codec now retains the DS4 MRoPE delta and physical position rows,
+and requires an exact comparison with independently prepared expected positions
+before restore admission. Noncanonical states cannot enter the ordinary text-only
+path. Fixtures reject changed rows, reserved/negative lanes, truncated input and
+overlapping capture spans, and retain the complete position payload across SSD
+restart. Typed auxiliary storage is shared with other model features.
+
+The live cache still needs consumed-image/grid/preprocessing/encoder identity in
+lookup, deduplication and persistence, plus matching provider image layout and
+restart input ownership. Equal positions alone do not establish equal images.
+Vision
 therefore requires **explicit `--kv-cache-ram-mb 0` and no `--kv-disk-dir`**;
 incompatible configurations are refused before loading a model. AR retains its
 normal RAM-cache default. Text placeholders are never sufficient image identity.
@@ -101,3 +111,5 @@ variant. No numerical kernels or DS4 project files were changed. Two synthetic
 providers with different image limits and token expansion exercise the generic
 contract; these fixtures are **NOT-INFERENCE**. See the
 [validation receipt](validation/vision-2026-10-03.json).
+The subsequent state-codec checks are recorded separately in the
+[state validation receipt](validation/vision-state-2026-10-03.json).

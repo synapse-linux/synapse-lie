@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Typed auxiliary checkpoint components in the shared C17 RAM/SSD store, with
+  budgets, integrity checks and unchanged DS4 payload bytes.
+- Qwen multimodal position capture and comparison against prepared input;
+  live vision cache admission remains pending image identity and device binding.
+
 - Experimental model-neutral [VISION core and HTTP path](docs/development/VISION.md),
   with default-ON build option, explicit model configuration and native client tests.
 

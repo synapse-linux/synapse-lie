@@ -38,7 +38,7 @@ static bool regular(int fd,uint64_t *bytes){
 }
 uint64_t lie_state_file_bytes(const lie_state *s){
     if(!s)return 0;
-    if(s->layout.format==LIE_STATE_KVC)return lie_state_kvc_bytes(s,NULL);
+    if(s->layout.format!=LIE_STATE_ALIGNED)return lie_state_kvc_bytes(s,NULL);
     uint64_t framing=LIE_STATE_DISK_HEADER+(uint64_t)s->layout.section_count*LIE_STATE_DISK_SECTION;
     return s->storage_bytes>UINT64_MAX-framing?UINT64_MAX:framing+s->storage_bytes;
 }
@@ -113,7 +113,7 @@ bool lie_state_file_touch(int fd,const lie_state_identity *id,uint32_t hits,uint
     return transfer(fd,usage,sizeof(usage),offset+8,true,NULL,NULL);
 }
 uint64_t lie_state_file_bytes_ex(const lie_state *s,const lie_cache_metadata *m){
-    if(s&&s->layout.format==LIE_STATE_KVC)return lie_state_kvc_bytes(s,m);
+    if(s&&s->layout.format!=LIE_STATE_ALIGNED)return lie_state_kvc_bytes(s,m);
     uint64_t n=lie_state_file_bytes(s);
     if(!m)return n;
     uint64_t extra=64ull+m->text_bytes+m->trailer_bytes;
@@ -157,7 +157,7 @@ static void decode_section(lie_state_section *s,const unsigned char *b){
     s->bytes=u64(b+48);s->offset=u64(b+56);
 }
 bool lie_state_file_write_ex(int fd,const lie_state_identity *id,const lie_state *s,const lie_cache_metadata *m,const atomic_bool *cancel){
-    if(s&&s->layout.format==LIE_STATE_KVC)return platform()&&lie_state_kvc_write(fd,id,s,m,cancel);
+    if(s&&s->layout.format!=LIE_STATE_ALIGNED)return platform()&&lie_state_kvc_write(fd,id,s,m,cancel);
     uint64_t bytes=0,payload=0;
     if(!platform()||!id||!s||!regular(fd,&bytes)||bytes||!lie_state_validate(&s->layout,&payload)||
        payload!=s->payload_bytes||lie_state_file_bytes_ex(s,m)>INT64_MAX||s->codec>2||

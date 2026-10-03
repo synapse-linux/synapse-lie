@@ -19,8 +19,8 @@ separate branches, both based on the shared-core/native-tools checkpoint
 
 | Branch | Work | Integration gate |
 | --- | --- | --- |
-| `feature/mtp` | Model-neutral verified bursts, credits, predictor admission and HTTP/core clients. | Complete predictor state, original-weight correctness and AR comparison. |
-| `feature/vision` | Model-neutral owned image inputs, physical context accounting and HTTP/core clients. | Complete image state/identity, original-weight quality and resource accounting. |
+| `feature/mtp` | Model-neutral verified bursts, credits, predictor admission and HTTP/core clients. | Connect the implemented C state codec to the device binding and predictor identity; then qualify correctness and AR comparison. |
+| `feature/vision` | Model-neutral owned image inputs, physical context accounting and HTTP/core clients. | Connect image identity and the implemented C position codec to cache/device binding; then qualify quality and resources. |
 
 MTP and vision are capabilities for multiple model families and platforms.
 The C17 core owns policy, scheduling, lifetimes and metrics. Each binding owns

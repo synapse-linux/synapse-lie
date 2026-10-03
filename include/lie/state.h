@@ -19,9 +19,10 @@ typedef enum {
     LIE_STATE_CONV, LIE_STATE_RECURRENT, LIE_STATE_PLE, LIE_STATE_NGRAM,
     LIE_STATE_INDEX, LIE_STATE_BLOCK_KEYS,
     LIE_STATE_HEADER, LIE_STATE_SCALAR,
+    LIE_STATE_AUXILIARY, /* First section after the unchanged KVC model payload. */
     LIE_STATE_MODEL_COMPONENT=65536
 } lie_state_role;
-typedef enum { LIE_STATE_ALIGNED=0, LIE_STATE_KVC=1 } lie_state_format;
+typedef enum { LIE_STATE_ALIGNED=0, LIE_STATE_KVC=1, LIE_STATE_KVC_AUX=2 } lie_state_format;
 typedef struct {
     uint32_t role, layer, dtype, rank;
     uint64_t shape[LIE_STATE_MAX_RANK];
@@ -80,10 +81,17 @@ const int32_t *lie_state_tokens(const lie_state *);
 /* Shared layout builder/validator for model providers, CPU fixtures and core.
  * ALIGNED sections use 8-byte alignment. KVC sections exactly partition the
  * model payload, including header/scalar fields, without inserted padding.
+ * KVC_AUX appends a typed auxiliary partition in RAM; disk writes keep that
+ * partition in the trailer, after the original client extension.
  * TOKENS must remain 4-byte aligned for the shared prefix index. */
 int lie_state_add(lie_state_layout *, uint32_t role, uint32_t layer,
                   lie_state_dtype, uint32_t rank, const uint64_t *shape);
 int lie_state_validate(const lie_state_layout *, uint64_t *payload_bytes);
+/* Exact KVC model payload and LIE-only auxiliary bytes. The latter remain
+ * typed state components, charged to RAM/SSD budgets and authenticated. They
+ * follow the client trailer on disk, so DS4 never sees altered tensor framing.
+ * Returns zero for malformed or non-KVC layouts. */
+int lie_state_kvc_parts(const lie_state_layout *,uint64_t *model_bytes,uint64_t *aux_bytes);
 int lie_state_layout_equal(const lie_state_layout *,const lie_state_layout *);
 #ifdef __cplusplus
 }

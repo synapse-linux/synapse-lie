@@ -16,7 +16,7 @@ static int section_size(const lie_state_section *s,uint64_t *bytes) {
 }
 int lie_state_add(lie_state_layout *l,uint32_t role,uint32_t layer,lie_state_dtype dtype,
                   uint32_t rank,const uint64_t *shape) {
-    if(!l||!shape||!rank||rank>LIE_STATE_MAX_RANK||l->section_count>=LIE_STATE_MAX_SECTIONS||l->format>LIE_STATE_KVC)return 0;
+    if(!l||!shape||!rank||rank>LIE_STATE_MAX_RANK||l->section_count>=LIE_STATE_MAX_SECTIONS||l->format>LIE_STATE_KVC_AUX)return 0;
     lie_state_section s={.role=role,.layer=layer,.dtype=dtype,.rank=rank};
     memcpy(s.shape,shape,rank*sizeof(*shape));if(!section_size(&s,&s.bytes))return 0;
     if(l->section_count){const lie_state_section *last=&l->sections[l->section_count-1];
@@ -30,22 +30,34 @@ int lie_state_add(lie_state_layout *l,uint32_t role,uint32_t layer,lie_state_dty
 int lie_state_validate(const lie_state_layout *l,uint64_t *bytes) {
     if(!l||!bytes||l->abi_version!=LIE_STATE_ABI||!l->representation_version||!l->domain||
        !l->token_count||l->token_count>l->context_tokens||!l->prefill_chunk||
-       !l->section_count||l->section_count>LIE_STATE_MAX_SECTIONS||l->format>LIE_STATE_KVC)return 0;
-    if(l->format==LIE_STATE_KVC){
+       !l->section_count||l->section_count>LIE_STATE_MAX_SECTIONS||l->format>LIE_STATE_KVC_AUX)return 0;
+    if(l->format!=LIE_STATE_ALIGNED){
         if(l->model_id>255||(l->quant_bits!=2&&l->quant_bits!=4&&l->quant_bits!=5&&l->quant_bits!=6&&l->quant_bits!=8))return 0;
     }else if(l->model_id||l->quant_bits)return 0;
-    uint64_t end=0;unsigned tokens=0,logits=0;
+    uint64_t end=0;unsigned tokens=0,logits=0,aux=0;
     for(unsigned i=0;i<l->section_count;++i){const lie_state_section *s=&l->sections[i];uint64_t n;
         uint64_t next=end;
         if(l->format==LIE_STATE_ALIGNED){if(end>UINT64_MAX-7)return 0;next=(end+7)&~UINT64_C(7);}
         if(!section_size(s,&n)||n!=s->bytes||s->offset!=next||n>UINT64_MAX-s->offset)return 0;
         for(unsigned j=0;j<i;++j)if(s->role==l->sections[j].role&&s->layer==l->sections[j].layer)return 0;
+        if(s->role==LIE_STATE_AUXILIARY){
+            if(l->format!=LIE_STATE_KVC_AUX||aux++||!end||s->layer||s->dtype!=LIE_STATE_U8||s->rank!=1)return 0;
+        }
+        if(aux&&(s->role==LIE_STATE_TOKENS||s->role==LIE_STATE_LOGITS))return 0;
         if(s->role==LIE_STATE_TOKENS){++tokens;if(s->layer||s->dtype!=LIE_STATE_I32||s->rank!=1||s->shape[0]!=l->token_count||s->offset%4)return 0;}
         if(s->role==LIE_STATE_LOGITS){++logits;if(s->layer||s->dtype!=LIE_STATE_F32||s->rank!=1)return 0;}
         end=s->offset+n;
     }
-    if(tokens!=1||logits!=1||end>SIZE_MAX-sizeof(lie_state))return 0;
+    if(tokens!=1||logits!=1||aux!=(l->format==LIE_STATE_KVC_AUX)||end>SIZE_MAX-sizeof(lie_state))return 0;
     *bytes=end;return 1;
+}
+int lie_state_kvc_parts(const lie_state_layout *l,uint64_t *model,uint64_t *aux){
+    uint64_t total;if(!model||!aux||!lie_state_validate(l,&total)||l->format==LIE_STATE_ALIGNED)return 0;
+    *model=total;*aux=0;
+    for(unsigned i=0;i<l->section_count;++i)if(l->sections[i].role==LIE_STATE_AUXILIARY){
+        *model=l->sections[i].offset;*aux=total-*model;break;
+    }
+    return 1;
 }
 int lie_state_layout_equal(const lie_state_layout *a,const lie_state_layout *b) {
     if(!a||!b||a->section_count>LIE_STATE_MAX_SECTIONS||b->section_count>LIE_STATE_MAX_SECTIONS)return false;
