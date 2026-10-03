@@ -21,40 +21,48 @@ static void CheckScaledTiles(const void *weights, const float *input,
                              const std::vector<float> &reference,
                              const std::string &label) {
   Check(tile_rows == 48, "Unexpected reference tile");
-  std::vector<std::int32_t> host_bounds(513), wide_tiles;
+  std::vector<std::int32_t> host_bounds(513);
   Hip(hipMemcpy(host_bounds.data(), bounds, host_bounds.size() * 4,
                 hipMemcpyDeviceToHost));
-  for (int e = 0; e < 512; ++e)
-    for (int offset = 0; offset < host_bounds[e + 1] - host_bounds[e];
-         offset += 128)
-      wide_tiles.push_back(e | ((offset / 128) << 16));
-  Device wide(wide_tiles.size() * 4);
-  Hip(hipMemcpy(wide.data, wide_tiles.data(), wide_tiles.size() * 4,
-                hipMemcpyHostToDevice));
-  for (bool candidate : {false, true}) {
+  std::vector<char> control;
+  for (int width : {48, 64, 128}) {
+    std::vector<std::int32_t> descriptors;
+    for (int e = 0; e < 512; ++e)
+      for (int offset = 0; offset < host_bounds[e + 1] - host_bounds[e];
+           offset += width)
+        descriptors.push_back(e | ((offset / width) << 16));
+    Device device_tiles(descriptors.size() * 4);
+    Hip(hipMemcpy(device_tiles.data, descriptors.data(), descriptors.size() * 4,
+                  hipMemcpyHostToDevice));
+    const auto suffix =
+        width == 48 ? "-ref48" : "-wide" + std::to_string(width);
     try {
-      CheckScaledDown(weights, input, host_input, expected,
-                      candidate ? static_cast<const std::int32_t *>(wide.data)
-                                : tiles,
-                      candidate ? wide_tiles.size() : n_tiles,
-                      candidate ? 128 : tile_rows, bounds, slots, rows,
-                      reference, label + (candidate ? "-wide128" : "-ref48"));
+      CheckScaledDown(
+          weights, input, host_input, expected,
+          width == 48 ? tiles
+                      : static_cast<const std::int32_t *>(device_tiles.data),
+          width == 48 ? n_tiles : descriptors.size(), width, bounds, slots,
+          rows, reference, label + suffix);
     } catch (const std::exception &e) {
       if (std::string(e.what()) != "independent operator tolerance exceeded")
         throw;
       ++numerical_failures;
       std::cout << "NUMERICAL_FAILURE: " << e.what() << '\n';
     }
+    auto output = ReadOutput(label + suffix);
+    Check(output.size() == reference.size() * sizeof(float),
+          "Incomplete scaled tile output");
+    if (width == 48) {
+      control = std::move(output);
+      continue;
+    }
+    const bool exact = control == output;
+    tile_mismatches += !exact;
+    std::cout << "{\"event\":\"scaled_tile_operator_replay\",\"label\":\""
+              << label << "\",\"values\":" << reference.size()
+              << ",\"reference_tile\":48,\"candidate_tile\":" << width
+              << ",\"exact\":" << (exact ? "true" : "false") << "}\n";
   }
-  const auto a = ReadOutput(label + "-ref48");
-  const auto b = ReadOutput(label + "-wide128");
-  Check(a.size() == reference.size() * sizeof(float) && b.size() == a.size(),
-        "Incomplete scaled tile output");
-  const bool exact = a == b;
-  tile_mismatches += !exact;
-  std::cout << "{\"event\":\"scaled_tile_operator_replay\",\"label\":\""
-            << label << "\",\"values\":" << reference.size()
-            << ",\"exact\":" << (exact ? "true" : "false") << "}\n";
 }
 
 // Reuse original encoded-weight/F32-input FP64 oracles and packing checks.
@@ -76,13 +84,15 @@ int main() {
     Hip(hipSetDevice(0));
     std::cout << std::unitbuf;
     std::cout.precision(12);
-    for (int tokens : {17, 127, 128, 129, 257})
+    for (int tokens : {17, 63, 64, 65, 127, 128, 129, 257})
       for (bool tiny : {false, true})
         RoutedQ2Case(tokens, 129, 48, tiny);
     unsigned benchmark_failures = 0;
     for (unsigned active : {512u, 128u, 64u})
-      benchmark_failures += !Bench(active, true, 128);
-    std::cout << "{\"event\":\"scaled_tile_summary\",\"operator_cases\":10"
+      for (unsigned width : {64u, 128u})
+        benchmark_failures += !Bench(active, true, width);
+    std::cout << "{\"event\":\"scaled_tile_summary\",\"operator_cases\":16"
+              << ",\"candidate_tiles\":[64,128],\"benchmark_cohorts\":6"
               << ",\"independent_failures\":" << numerical_failures
               << ",\"tile_mismatches\":" << tile_mismatches
               << ",\"benchmark_failures\":" << benchmark_failures

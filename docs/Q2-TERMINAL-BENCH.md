@@ -211,3 +211,11 @@ one first attempt: `break-filter-js-from-html` receives reward 0 from its
 original verifier, with no task exception. `build-cython-ext` is next. The
 conditional second attempt is pending; this partial outcome is neither a final
 Core-19 score nor evidence of a scaled-input regression.
+
+At 2026-10-03 11:56:34 UTC, the same supervisor/session/server/wrapper remain
+live. `build-cython-ext` has completed with reward 1 and no exception at
+11:45:52.746 UTC after 32 agent steps. The baseline now has two completed
+first attempts out of 19, one pass and one verifier failure;
+`cobol-modernization` is active. The conditional second attempt and both other
+full arms remain pending. The [partial progress record](../config/q2-terminal-full-progress.json)
+preserves this timestamp and original outcomes without presenting a final score.

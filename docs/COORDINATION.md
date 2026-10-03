@@ -2063,3 +2063,17 @@ Core reports checkpoint a399052 (feature/core-semantic-events), based on
 Q2 continues using the frozen ae9c34ef serving composition for all paired
 arms. The outbound status attempt around 11:41 again fails at the local TUI
 transport; receipt of core's message does not establish delivery of Q2's reply.
+
+While qualified Core-19 remains live, a read-only analysis of the already
+collected scaled trace motivates adding existing tile64 to the prepared
+component comparison. The fixture now covers 16 operator inputs and six
+paired timing cohorts, with local HIP syntax checks only. All 1020 kernel
+source files remain unchanged; no GPU build, launch, queue or model-profile
+change follows. Any component execution still waits until the three frozen
+Core-19 arms finish and receives separate ledger admission plus fresh leases.
+
+The 11:56:34 UTC live observation still identifies all four expected campaign
+processes. Baseline build-cython-ext finishes at 11:45:52.746 UTC with reward1
+and no exception, after32 agent steps. First-round progress is2/19 completed,
+one pass and one verifier failure; cobol-modernization is now active. The
+conditional second attempt, retained full and scaled full are pending.

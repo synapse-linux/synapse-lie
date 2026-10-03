@@ -36,6 +36,16 @@ existing instruction bodies after documented label/comment normalization.
 The `.157` host guards pass 14/14 Debug and sanitizer cases. No new GPU/model
 arm is launched or queued; tile performance and numerical replay are pending.
 
+Read-only analysis of the retained scaled trace now records all 48 routed
+dispatch pairs: tile48 down uses 512–712 descriptors, while gate/up selects
+64 rows in 29 layers and 128 in 19. The pending down fixture now compares
+both widths against tile48, including 63/64/65-row boundaries. Tile64 uses
+104 VGPR versus tile128's 169 and tile48's 96. Kernel source remains unchanged;
+the expanded fixture passes local syntax/format checks, with no GPU result.
+Packing/down is only 14.056% of the diagnostic kernel sum, so the 18.102%
+unprofiled wall reduction needed for UD parity also motivates other stages.
+These distinct timing scopes do not constitute a throughput prediction.
+
 ## C17 GPU fork/join is real but regresses prefill — 2026-10-03 UTC
 
 The [shared/routed experiment](Q2-SHARED-OVERLAP.md) adds a C17 one-branch
