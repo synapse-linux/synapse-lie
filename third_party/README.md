@@ -209,3 +209,17 @@ checks, adds partial tiles and repeated rows, and rotates 100 MiB of synthetic
 weights. No external engine, DS4 source or sibling artifact is imported.
 Source identities, numerical checks and measured scope are in
 `docs/Q2-HC-UP-CHAINS.md`; upstream notices remain intact.
+
+`experiments/q2-hc-down-wide.patch` and its `-k1` companion derive from the
+retained paired-HC-up source at the same independently fetched official pin.
+They generalize the existing exact wave-pair arithmetic to a wider F16 HC down
+tile, with separate one/two-block staging experiments. The additional
+`experiments/q2-hc-down-wide-coalesced.patch` derives from the wider BK2 tree
+and changes global stage-fetch ownership while retaining the LDS layout and
+ordered arithmetic. Its generator adapts this workstream's earlier contiguous
+stage-read experiment. No weight conversion, external engine source or sibling
+artifact is imported. The generators, source selection guards and component
+plotting tool are first-party MIT. Existing
+independent HC fixtures retain their original limits and failures. Source
+identities and measured scope are in `docs/Q2-HC-DOWN-WIDE.md`; upstream notices
+remain intact.

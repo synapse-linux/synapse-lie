@@ -1217,6 +1217,8 @@ The outgoing notification fails at the direct MCP HTTP transport; delivery is
 not claimed. The persistent receipt, shared registry and this ledger remain
 the recorded handover under the agreed fallback protocol.
 
+
+
 The previous goal turn is progress: checkpoint `c796ab5` rejects consumer
 narrowing and attributes its lost model benefit to HC down. Fresh read-only
 admission at **2026-10-03 02:21:49.237883 UTC** finds empty KFD, all four original
@@ -1266,3 +1268,67 @@ with fresh coordinated admission; Q2 continues local reporting and checkpointing
 The outgoing notification fails at the direct MCP HTTP transport; delivery is
 not claimed. The persistent receipt, shared registry and this ledger remain
 the recorded handover under the agreed fallback protocol.
+
+The previous goal turn is progress: checkpoint `d2e4121` retains exact paired
+HC up and a measured 1.75% complete-prefill gain, with parity still unmet.
+Fresh read-only admission at **2026-10-03 03:10:13.012027 UTC** finds empty
+KFD, all four original leases EX|NB/free and the paired-up release last in the
+registry. Core's ledger still records local analysis after R12 and no later
+campaign; direct read-thread transport remains unavailable. Under the agreed
+fallback protocol Q2 takes a bounded wider HC-down window: updated CPU/ASan
+guards, then fresh retained/candidate HC component arms with the existing
+22 independent cases and 100 MiB rotating weights. The candidate preserves
+both K16 sequences while using 128x128/BK2 tiles and physical wave pairs;
+three row blocks replace five, with padded final rows. Static resources are
+204 VGPR / 32 KiB LDS / zero private scratch. The retained HC-up specialization
+keeps its 242 VGPR / 24 KiB LDS / zero scratch. Complete-model Q2/UD comparison
+follows only a useful component gain. Existing numerical-control failures and
+the owner's authorization to measure performance with those flags remain
+explicit. Every build/GPU arm takes four fresh leases and the 98 C inclusive
+or lower exposed bounds. No interleaving, foreign mutation or automatic retry;
+Q2 owns the window through verified closure.
+
+The wider BK2 down component retains all 22 complete output hashes and the
+same four numerical-control failures, with actual exit 1. Median down time
+changes 1149.699 -> 1140.452 us (-0.80%); ranges overlap, and the unchanged up
+control differs +2.19%. No useful model gain is established. Q2 admits one
+bounded follow-up in this owned window: the identical wider tile with BK1,
+reducing shared-memory staging while doubling stage barriers. Updated source
+guards receive fresh CPU/ASan qualification before its GPU arm. The original
+K16 sequence and all existing checks remain fixed. Complete models still
+require a useful component result; every build/GPU arm takes fresh leases.
+
+The BK1 follow-up preserves all 22 outputs and original numerical verdicts,
+but median down time rises to 3382.034 us versus 1149.699 us (+194.17%).
+It is rejected despite 161 VGPR / 18 KiB LDS / zero private scratch. Q2 admits
+one final bounded component probe in this window: retain wider BK2 and stage
+each adjacent 16-byte weight/input chunk through neighboring lanes. All 512
+threads participate in stage fetches; LDS layout, both ordered chains and the
+epilogue remain fixed. The retained fused-up specialization is excluded.
+Fresh CPU/ASan guards precede the GPU arm, with all existing exact/FP64 checks,
+100 MiB weight rotation and fresh leases. Models remain conditional on a useful
+component gain. No next tuning candidate or automatic retry is queued.
+
+
+The final contiguous-read variant preserves all 22 operator outputs and the
+same four numerical failures, but increases median down time by 9.74%.
+None of the three wider-down sources is selected; the paired-up development
+candidate remains unchanged. Seven runners, 30 command exits and 213 artifacts
+verify: four component commands retain exit 1, the other 26 commands exit 0.
+Three host guard cohorts each pass 12/12 Debug and 12/12 ASan/UBSan on .157.
+No original model was opened; no complete-model arm was admitted.
+
+Q2 releases this window at **2026-10-03 03:29:32.419115 UTC**, verifying seven
+runners and 30 command identities/groups/sessions absent, empty KFD and four
+original leases EX|NB/free. Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-down-wide-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**03:36:11.200633 UTC** verifies observer PID 2829677, group/session 2829674
+and start ticks 156356667 absent, with empty KFD. Both observers exit 0;
+all seven release result hashes match locally collected evidence. No Q2 remote
+job, waiter, lease or automatic retry remains. Core may take the next window
+with fresh coordinated admission; Q2 continues local reporting and checkpointing.
+The outgoing notification fails at the direct MCP HTTP transport; delivery is
+not claimed. The persistent receipt, shared registry and this ledger remain
+the recorded handover under the agreed fallback protocol. No further remote
+experiment is queued in this released window.

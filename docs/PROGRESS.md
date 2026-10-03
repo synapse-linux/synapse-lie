@@ -1,6 +1,40 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Wider HC down variants add no useful gain — 2026-10-03 UTC
+
+The [wider HC down screen](Q2-HC-DOWN-WIDE.md) preserves the original two
+ordered K16 chains while changing the tile from 64x128 to 128x128. At 2048
+tokens, 48 blocks replace 80 and each input stripe is staged three times
+instead of five, with 20% extra padded matrix work. Separate variants reduce
+stage depth to BK1 or distribute contiguous 16-byte stage reads across lanes.
+Static down VGPR counts are 204 / 161 / 135, all without private scratch.
+
+The reference median is 1149.699 us. Wider BK2 reaches 1140.452 us (-0.80%),
+with overlapping samples and a +2.19% difference in the unchanged plain-up
+control. BK1 regresses to 3382.034 us (+194.17%); contiguous BK2 regresses to
+1261.692 us (+9.74%). None is selected or followed by a complete-model run.
+The retained paired-up candidate and its prior +1.75% full-prefill gain remain
+unchanged. Lower register use alone has not improved HC down. The next
+diagnostic priority returns to routed-expert down and activation packing.
+
+All 22 complete operator hashes and 44 saved value/coordinate files agree
+for each candidate. The same four independent FP64 library controls fail in
+all four arms at the original limits, retaining actual exit 1. Timed samples
+complete with finite/checksum checks; no full timed-buffer hash is claimed.
+Three host guard cohorts each pass 12/12 Debug and 12/12 ASan/UBSan on `.157`.
+Seven runners, 30 command exits and 213 artifacts verify: four expected
+component exits 1 and 26 exits 0. All three generators reproduce their complete
+1019-file trees and patches exactly. Maximum GPU/CPU temperatures are
+50 C / 81.375 C. Three graphs, CSVs and all 40 unique timing values are saved.
+
+Closure at 03:29:32 UTC and independent observer retirement at 03:36:11 verify
+all own processes absent, empty KFD and four original leases free. No original
+model was opened, and no remote Q2 job or retry remains. Source, capsules and
+evidence stay in persistent project directories. These experiments change no
+reactive scheduling or public C contract; broader performance and quality
+acceptance remain open.
+
 ## Paired HC up improves complete prefill with exact outputs — 2026-10-03 UTC
 
 The [paired HC up experiment](Q2-HC-UP-CHAINS.md) assigns the existing two

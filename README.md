@@ -16,6 +16,13 @@ with overlapping sample ranges and unchanged scalar source.
 TG; selected Q2 trails by 20.09% and 0.99%. These short sequential screens
 do not establish zero-margin parity. Earlier checkpoint drift and independent
 model qualification remain unresolved; the qualified runtime patch is unchanged.
+The subsequent [wider HC down screen](docs/Q2-HC-DOWN-WIDE.md) preserves all
+22 operator outputs but selects none of its three variants. Component time
+changes -0.80% with overlapping samples, +194.17% with one-block staging,
+and +9.74% with contiguous stage reads. All four arms retain the same four
+numerical-control failures. No original-model run was justified by these
+results; paired HC up remains selected. Complete samples, graphs and CSVs
+are retained, and the GPU window is released.
 The [fresh GPU profile and HC follow-up](docs/Q2-PREFILL-GAP.md) localize
 321.10 ms of additional Q2 prefill kernel time. Two compiler-boundary probes
 preserve all component outputs but regress time by 7.93% and 6.12%; both are

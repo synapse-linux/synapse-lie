@@ -1,0 +1,320 @@
+{
+  "at": "2026-10-03T03:29:32.419115+00:00",
+  "state": "Q2_HC_DOWN_WIDE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821484,
+      "absent": true,
+      "finished_at": "2026-10-03T03:12:01.253122+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-micro-ref-r1",
+      "pid": 2822687,
+      "absent": true,
+      "finished_at": "2026-10-03T03:13:50.400430+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-micro-r1",
+      "pid": 2823291,
+      "absent": true,
+      "finished_at": "2026-10-03T03:14:49.961591+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2824811,
+      "absent": true,
+      "finished_at": "2026-10-03T03:19:29.920662+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-k1-micro-r1",
+      "pid": 2826020,
+      "absent": true,
+      "finished_at": "2026-10-03T03:21:15.208561+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827419,
+      "absent": true,
+      "finished_at": "2026-10-03T03:25:24.065040+00:00"
+    },
+    {
+      "label": "q2-hc-down-wide-coalesced-micro-r1",
+      "pid": 2828809,
+      "absent": true,
+      "finished_at": "2026-10-03T03:27:49.956654+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821485,
+      "start_ticks": 156248986,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821560,
+      "start_ticks": 156249039,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821631,
+      "start_ticks": 156249491,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821864,
+      "start_ticks": 156250145,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2821934,
+      "start_ticks": 156250197,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r1",
+      "pid": 2822048,
+      "start_ticks": 156250900,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-ref-r1",
+      "pid": 2822717,
+      "start_ticks": 156260558,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-ref-r1",
+      "pid": 2822914,
+      "start_ticks": 156260761,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-ref-r1",
+      "pid": 2823059,
+      "start_ticks": 156262165,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-r1",
+      "pid": 2823292,
+      "start_ticks": 156266565,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-r1",
+      "pid": 2823487,
+      "start_ticks": 156266717,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-micro-r1",
+      "pid": 2823629,
+      "start_ticks": 156268121,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2824812,
+      "start_ticks": 156293802,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2824910,
+      "start_ticks": 156293855,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2824986,
+      "start_ticks": 156294307,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2825187,
+      "start_ticks": 156294961,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2825259,
+      "start_ticks": 156295014,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r2",
+      "pid": 2825387,
+      "start_ticks": 156295767,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-k1-micro-r1",
+      "pid": 2826022,
+      "start_ticks": 156304989,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-k1-micro-r1",
+      "pid": 2826227,
+      "start_ticks": 156305192,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-k1-micro-r1",
+      "pid": 2826364,
+      "start_ticks": 156306596,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827420,
+      "start_ticks": 156329218,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827490,
+      "start_ticks": 156329270,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827588,
+      "start_ticks": 156329723,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827816,
+      "start_ticks": 156330377,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827886,
+      "start_ticks": 156330429,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-host-r3",
+      "pid": 2827995,
+      "start_ticks": 156331182,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-coalesced-micro-r1",
+      "pid": 2828810,
+      "start_ticks": 156344463,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-coalesced-micro-r1",
+      "pid": 2829035,
+      "start_ticks": 156344667,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-down-wide-coalesced-micro-r1",
+      "pid": 2829149,
+      "start_ticks": 156346071,
+      "exit_code": 1,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2829677,
+    "state": "R",
+    "group": 2829674,
+    "session": 2829674,
+    "start_ticks": 156356667
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-hc-down-wide-host-r1": "b21a8af4c63c1b9bec1034a1c22a5f27030ccc2c5ff60640fb524f907f81a658",
+    "q2-hc-down-wide-micro-ref-r1": "27be9ca7f6f56f7265494d87aad0b31d3ce3c6108587524308c41f54e9a0d22c",
+    "q2-hc-down-wide-micro-r1": "4ed5d6b52357ae32f38d85194df061a7dbaebad366718fca08a9b3a9818009d4",
+    "q2-hc-down-wide-host-r2": "7c3417f7090e20bebd904f6c3f57dc561034b91b858fb005ebfc8c6b85bed1f3",
+    "q2-hc-down-wide-k1-micro-r1": "68dc617d4782332d208ef4aa7e28b2565b709532dff5aa0ca2f523553ff539d1",
+    "q2-hc-down-wide-host-r3": "de7e84389436ca6a78109119b214cf1d25a7b1c0b0582c5952885e4dd88a3f87",
+    "q2-hc-down-wide-coalesced-micro-r1": "88713be60f40858d418aabf898e805b586b4513dc57f4d82c9da806eeb4fcfea"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "47500",
+    "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+  }
+}
