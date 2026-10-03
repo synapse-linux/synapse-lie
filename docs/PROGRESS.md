@@ -57,7 +57,17 @@ ASan/UBSan build has no LZ4 cache or direct dynamic dependency; focused
 checkpoint/store/reactive CTest passes 3/3 with leak detection disabled in
 this ptrace sandbox. The first LeakSanitizer attempt failed because LSan
 cannot operate under ptrace, not because of a test assertion. Modern GPU
-MTP/AR qualification remains pending a new build and copied predictor.
+The predictor has since been copied directly from `.157` to `.161`: all
+2,786,568,256 bytes match the recorded SHA-256, the source inode/stat is
+unchanged, both private leases were released, and both services restored.
+The second modern build (with LZ4 removed) again passed its provider stage;
+configure failed with exit 1 solely because the pinned Fedora image lacks
+`zstd.h`. Its remote logs were copied and SHA-256 checked locally; child and
+supervisor both exited 1, `llama-router.service` was restored, and the lease
+released at 23:46:01.238465 UTC. The next isolated capsule will stage the
+host's Zstandard 1.5.7 header pair and BSD license against the image's
+matching 1.5.7 runtime library, preserving compression ON. Modern GPU MTP/AR
+qualification remains pending that build.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 

@@ -136,6 +136,7 @@ def main():
   if watcher: watcher.join(timeout=5)
   if watch_error: r['watch_error']=watch_error; r['exit_code']=1; r['state']='FAILED'
   if campaign:
+   campaign.r.update(state='PASSED' if r['exit_code']==0 else 'FAILED',exit_code=r['exit_code'])
    campaign.finish(); r['campaign']=campaign.r
    if campaign.r.get('cleanup_failures'): r['exit_code']=1; r['state']='FAILED'
   if registered:

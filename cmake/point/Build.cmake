@@ -14,6 +14,33 @@ string(STRIP "${recorded_commit}" recorded_commit)
 if(NOT recorded_commit STREQUAL SOURCE_COMMIT)
   message(FATAL_ERROR "Source capsule commit identity mismatch")
 endif()
+# The pinned runtime image has libzstd 1.5.7 but no development headers.
+# Stage matching distribution headers in the sealed source capsule; do not
+# install packages or silently disable checkpoint compression.
+set(zstd_dev "${root}/third_party/point-zstd-dev")
+foreach(name IN ITEMS zstd.h zstd_errors.h LICENSE)
+  if(NOT EXISTS "${zstd_dev}/${name}")
+    message(FATAL_ERROR "Missing staged Zstandard development file: ${name}")
+  endif()
+endforeach()
+file(READ "${zstd_dev}/zstd.h" zstd_header)
+if(NOT zstd_header MATCHES "#define ZSTD_VERSION_MAJOR +1([^0-9]|$)" OR
+   NOT zstd_header MATCHES "#define ZSTD_VERSION_MINOR +5([^0-9]|$)" OR
+   NOT zstd_header MATCHES "#define ZSTD_VERSION_RELEASE +7([^0-9]|$)")
+  message(FATAL_ERROR "The staged Zstandard header must be version 1.5.7")
+endif()
+set(zstd_library "/usr/lib64/libzstd.so.1")
+if(NOT EXISTS "${zstd_library}")
+  message(FATAL_ERROR "Pinned image lacks the Zstandard runtime library")
+endif()
+file(REAL_PATH "${zstd_library}" zstd_library_real)
+if(NOT zstd_library_real MATCHES "libzstd\\.so\\.1\\.5\\.7$")
+  message(FATAL_ERROR "Pinned image Zstandard runtime is not version 1.5.7")
+endif()
+file(SHA256 "${zstd_dev}/zstd.h" zstd_header_sha256)
+file(SHA256 "${zstd_dev}/zstd_errors.h" zstd_errors_sha256)
+file(SHA256 "${zstd_dev}/LICENSE" zstd_license_sha256)
+file(SHA256 "${zstd_library}" zstd_library_sha256)
 set(provider "${LABEL}-provider")
 set(runtime "${LABEL}-runtime")
 set(out "${root}/evidence/${LABEL}-compile")
@@ -49,6 +76,7 @@ run_stage(configure
   -DLIE_DS4_RUNTIME_CACHE=ON -DLIE_C17_SAMPLING=ON
   -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_CHECKPOINT_COMPRESSION=ON
   -DLIE_MTP=ON -DLIE_VISION=ON -DLIE_HIP_ARCHITECTURE=gfx1150
+  "-DZSTD_INCLUDE_DIR=${zstd_dev}" "-DZSTD_LIBRARY=${zstd_library}"
   "-DLIE_BUILD_ID=${runtime}"
   "-DGUFO_SOURCE=${root}/.deps/gufo-state-access-${provider}"
   "-DGUFO_BUILD=${root}/build/${provider}")
@@ -63,4 +91,4 @@ foreach(name IN ITEMS synapse-lie-server synapse-lie-bench
   string(JSON binaries SET "${binaries}" "${name}" "\"${hash}\"")
 endforeach()
 file(WRITE "${out}/result.json"
-  "{\"state\":\"BUILT_NOT_GPU_TESTED\",\"source_commit\":\"${SOURCE_COMMIT}\",\"label\":\"${LABEL}\",\"hip_architecture\":\"gfx1150\",\"checkpoint_compression\":true,\"exit_code\":0,\"binaries\":${binaries}}\n")
+  "{\"state\":\"BUILT_NOT_GPU_TESTED\",\"source_commit\":\"${SOURCE_COMMIT}\",\"label\":\"${LABEL}\",\"hip_architecture\":\"gfx1150\",\"checkpoint_compression\":true,\"zstd_header_sha256\":\"${zstd_header_sha256}\",\"zstd_errors_sha256\":\"${zstd_errors_sha256}\",\"zstd_license_sha256\":\"${zstd_license_sha256}\",\"zstd_library_sha256\":\"${zstd_library_sha256}\",\"exit_code\":0,\"binaries\":${binaries}}\n")

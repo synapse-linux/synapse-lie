@@ -18,8 +18,15 @@ build compiled its gfx1150 provider but stopped at CMake configure because
 the Fedora image lacks `lz4.h`. Its child/supervisor exit 1 and logs are
 preserved; the service was restored and lease released at 23:24:26.943766 UTC.
 LZ4 belonged to a removed checkpoint reader, so current source removes that
-requirement while retaining default-ON Zstandard compression. No modern GPU
-inference has yet occurred. See the
+requirement while retaining default-ON Zstandard compression. A second modern
+device-free build passed the provider stage but failed configure because the
+pinned image lacks `zstd.h` (child/supervisor exit 1). Its remote files match
+local SHA-256, the named service was restored, and the lease released at
+23:46:01.238465 UTC. A matched Zstandard 1.5.7 header/license pair will be
+staged into the sealed capsule for the next build; no package installation is
+planned. The MTP predictor has been copied directly from `.157` to `.161` with
+its original SHA-256 and unchanged source stat. All leases and services were
+released/restored. No modern GPU inference has yet occurred. See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
