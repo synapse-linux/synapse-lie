@@ -1,0 +1,163 @@
+{
+  "scope": "Static source/ISA checks; no GPU execution",
+  "checks": [
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-row80",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-row80/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-row80-static/kernels.s"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-row80/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-row80",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_pp.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-row80.patch"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "source_files_reconstructed": 1019,
+  "mismatches": [],
+  "unchanged_dense_bodies": 11,
+  "changed_dense_bodies": [],
+  "assembly_path": "evidence/q2-hc-row80-static/kernels.s",
+  "assembly_sha256": "7e47f834fea77035376730e0d5e12b8e5627ddc2395164bb632a33f526d1bb0c",
+  "reference_assembly_sha256": "335f902e4830be16d898df41896613f259da0f41db30cecbaad76904cfba7c93",
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm17HcDownRow80KernelEPKvPK6__halfPfmmm",
+      "group_segment_fixed_size": 26624,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 137,
+      "next_free_sgpr": 26
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 37
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 225,
+      "next_free_sgpr": 28
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 242,
+      "next_free_sgpr": 27
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 84,
+      "next_free_vgpr": 256,
+      "next_free_sgpr": 22
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi64ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 184,
+      "next_free_sgpr": 22
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 212,
+      "next_free_sgpr": 21
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 224,
+      "next_free_sgpr": 22
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 23
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 224,
+      "next_free_sgpr": 24
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi64ELi4ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 244,
+      "next_free_sgpr": 23
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 23
+    }
+  ],
+  "source_checks_pass": true
+}

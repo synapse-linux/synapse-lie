@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Row80 reduces component time without a confirmed model gain — 2026-10-03 UTC
+
+The [80-row HC down experiment](Q2-HC-ROW80.md) retains 128-token tiles and
+both ordered K16 sums, reducing logical input staging 200 to 160 MiB without
+increasing weight staging. Paired waves use 137 VGPRs and 26 KiB LDS, with no
+scratch; eleven other dense bodies stay assembly-identical. All 22 operator
+hashes are exact, with the four inherited fallback failures unchanged.
+Component down median time falls 5.71%; the plain up control changes +0.475%.
+
+Fresh full MMQ builds and complete-model tests measure 1335.933710 to
+1337.325450 PP (+0.104%) and 24.09672252 to 24.08888365 TG (-0.0325%), both with
+overlapping ranges. All 21 model files match, the reference reproduces the
+retained checkpoint, and eighteen within-arm replay checks pass. No useful
+model gain is established, so row80 is not selected and no fresh UD arm follows.
+The retained paired-HC-up source and unresolved Q2/UD target stay unchanged.
+
+Debug and ASan/UBSan each pass 12/12. Five runners, twenty command exits and
+155 artifacts verify; the two inherited component exits remain one. GPU/CPU
+maxima are 82/92.75 C. Release at 07:40:59 UTC and observer retirement at
+07:42:53 confirm empty KFD, original leases free and owned jobs absent. The
+shared registry/ledger preserve handover while outgoing thread transport fails.
+
 ## Deferred HC norm rejected after complete-cycle measurement — 2026-10-03 UTC
 
 The [deferred-normalization screen](Q2-HC-DEFERRED-NORM.md) stores four scales

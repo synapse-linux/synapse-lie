@@ -1,0 +1,387 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5969,6 +5969,367 @@
+   return true;
+ }
+ 
++// Isolated 80-row original-F16 HC down specialization.
++__launch_bounds__(512) __global__
++    void HcDownRow80Kernel(const void* __restrict__ w,
++                           const __half* __restrict__ x, float* __restrict__ y,
++                           std::size_t batch, std::size_t m, std::size_t k) {
++  constexpr int BM = 80, BN = 128, BK = 2, WM = 1, WN = 8, kRowGroup = 4;
++  constexpr bool kHalfWeights = true, kHcChainWaves = true, kHcMix = false,
++                 kSsmConv = false, kAttention = false;
++  static_assert(WM * WN == 8, "256 threads is 8 waves");
++  static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
++  constexpr int kRowTiles = BM / 16;
++  constexpr int kTokTiles = BN / 16;
++  constexpr int kWaveRowTiles = kRowTiles / WM;
++  constexpr int kWaveTokTiles = kTokTiles / WN;
++  // Weight and activation K blocks staged per thread; a unit past the
++  // stage's block count is idle.
++  constexpr int kBlockThreads = kHcChainWaves ? 512 : 256;
++  constexpr int kAUnits = BM * BK;
++  constexpr int kBUnits = BN * BK;
++  constexpr int kAPer = (kAUnits + kBlockThreads - 1) / kBlockThreads;
++  constexpr int kBPer = (kBUnits + kBlockThreads - 1) / kBlockThreads;
++  // Only the measured original-F16 HC down specialization changes fetch
++  // ownership. Nearby lanes load nearby uint4 chunks, instead of assigning
++  // all four chunks of a K32 row to one lane. LDS and math stay unchanged.
++  constexpr bool kChunkedHcDown =
++      kHalfWeights && !kHcMix && !kSsmConv && !kAttention && BM == 80 &&
++      BN == 128 && BK == 2 && WM == 1 && WN == 8 && kRowGroup == 4;
++  constexpr int kAChunkPer = (kAUnits * 4 + kBlockThreads - 1) / kBlockThreads;
++  constexpr int kBChunkPer = (kBUnits * 4 + kBlockThreads - 1) / kBlockThreads;
++
++  // One K block of one row or token is four 16-byte chunks; the chunks of
++  // nearby rows are permuted so a fragment read (one row per lane, 64-byte
++  // stride) covers all bank groups.
++  constexpr int kLdsChunks = BK * (BM + BN) * 4;
++  constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
++  constexpr int kLdsStorage =
++      kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
++  static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
++  __shared__ __attribute__((aligned(16))) uint4 s_lds[kLdsStorage];
++  auto* s_a = reinterpret_cast<uint4(*)[BM][4]>(s_lds);
++  auto* s_b = reinterpret_cast<uint4(*)[BN][4]>(s_lds + (BK * BM * 4));
++  const auto swizzle = [](int row, int c) { return c ^ ((row >> 1) & 3); };
++
++  const int num_kb = static_cast<int>(k / 32);
++  const int m_i = static_cast<int>(m);
++  const auto* w_bytes = static_cast<const std::uint8_t*>(w);
++
++  const int tid = static_cast<int>(threadIdx.x);
++  const int wave_id = (tid >> 5) / (kHcChainWaves ? 2 : 1);
++  const int chain = (tid >> 5) & 1;
++  const int lane_id = tid & 31;
++  const int sub_lane = lane_id & 15;
++  const int half_id = lane_id >> 4;
++  const int wave_row = wave_id / WN;
++  const int wave_tok = wave_id % WN;
++  // Group row tiles for the narrow HC up projection. The tile grid's row
++  // count is divisible by kRowGroup; every dot product keeps its K order.
++  const unsigned row_group = blockIdx.y / kRowGroup;
++  const unsigned within = (blockIdx.y % kRowGroup) * gridDim.x + blockIdx.x;
++  const int r_block = (row_group * kRowGroup + within % kRowGroup) * BM;
++  const int t_block = (within / kRowGroup) * BN;
++
++  // Weight fetch unit p of a thread: row (p * 256 + tid) / BK, K block
++  // (p * 256 + tid) % BK of the stage; rows past m read the last row with
++  // a zero scale.
++  const std::uint8_t* a_ptr[kAPer];
++  bool a_live[kAPer];
++#pragma unroll
++  for (int p = 0; p < kAPer; ++p) {
++    const int idx = (p * kBlockThreads) + tid;
++    const int r = r_block + (idx / BK);
++    a_live[p] = idx < kAUnits && r < m_i;
++    // Interleave the four gate streams within the tile, without repacking
++    // weights. Each group of four rows produces one mixed hidden element.
++    const int weight_row = kHcMix ? (r % 4) * (m_i / 4) + r / 4 : r;
++    a_ptr[p] = w_bytes +
++               static_cast<std::size_t>(a_live[p] ? weight_row : (m_i - 1)) *
++                   static_cast<std::size_t>(num_kb) * (kHalfWeights ? 64 : 34);
++  }
++  const __half* b_ptr[kBPer];
++#pragma unroll
++  for (int p = 0; p < kBPer; ++p) {
++    const int idx = (p * kBlockThreads) + tid;
++    const int t = t_block + (idx / BK);
++    b_ptr[p] = idx < kBUnits && t < static_cast<int>(batch)
++                   ? x + (static_cast<std::size_t>(t) * k)
++                   : nullptr;
++  }
++  uint4 a_codes[kAPer][2];
++  uint4 a_half[kHalfWeights ? kAPer : 1][4];
++  std::uint32_t a_d[kAPer];
++  uint4 b_data[kBPer][4];
++  uint4 a_chunk[kChunkedHcDown ? kAChunkPer : 1];
++  uint4 b_chunk[kChunkedHcDown ? kBChunkPer : 1];
++
++  const auto fetch_stage = [&](int kb0) {
++    if constexpr (kChunkedHcDown) {
++
++#pragma unroll
++      for (int p = 0; p < kAChunkPer; ++p) {
++        const int chunk = p * kBlockThreads + tid;
++        const int unit = chunk / 4;
++        const int row = r_block + unit / BK;
++        const int kb = kb0 + unit % BK;
++        if (unit < kAUnits && row < m_i && kb < num_kb) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              w_bytes + (static_cast<std::size_t>(row) * num_kb + kb) * 64);
++          a_chunk[p] = src[chunk & 3];
++        } else {
++          a_chunk[p] = make_uint4(0u, 0u, 0u, 0u);
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBChunkPer; ++p) {
++        const int chunk = p * kBlockThreads + tid;
++        const int unit = chunk / 4;
++        const int token = t_block + unit / BK;
++        const int kb = kb0 + unit % BK;
++        if (unit < kBUnits && token < static_cast<int>(batch) && kb < num_kb) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              x + static_cast<std::size_t>(token) * k + kb * 32);
++          b_chunk[p] = src[chunk & 3];
++        } else {
++          b_chunk[p] = make_uint4(0u, 0u, 0u, 0u);
++        }
++      }
++    } else {
++
++#pragma unroll
++      for (int p = 0; p < kAPer; ++p) {
++        const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
++        const bool live = a_live[p] && kb < num_kb;
++        if constexpr (kHalfWeights) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              a_ptr[p] + static_cast<std::size_t>(kb) * 64);
++#pragma unroll
++          for (int c = 0; c < 4; ++c)
++            a_half[p][c] = live ? src[c] : make_uint4(0u, 0u, 0u, 0u);
++        } else {
++          const std::uint8_t* blk =
++              a_ptr[p] +
++              (static_cast<std::size_t>(live ? kb : (num_kb - 1)) * 34);
++          a_d[p] = live ? *reinterpret_cast<const std::uint16_t*>(blk) : 0U;
++          __builtin_memcpy(&a_codes[p][0], blk + 2, 16);
++          __builtin_memcpy(&a_codes[p][1], blk + 18, 16);
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBPer; ++p) {
++        const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
++        if (b_ptr[p] != nullptr && kb < num_kb) {
++          const auto* src =
++              reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            b_data[p][c] = src[c];
++          }
++        } else {
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            b_data[p][c] = make_uint4(0u, 0u, 0u, 0u);
++          }
++        }
++      }
++    }
++  };
++
++  const __half2 magic = __floats2half2_rn(-1152.0F, -1152.0F);
++  const __half2 zero2 = __floats2half2_rn(0.0F, 0.0F);
++  const auto commit_stage = [&]() {
++    if constexpr (kChunkedHcDown) {
++
++#pragma unroll
++      for (int p = 0; p < kAChunkPer; ++p) {
++        const int chunk = p * kBlockThreads + tid;
++        const int unit = chunk / 4;
++        if (unit < kAUnits) {
++          const int row = unit / BK;
++          s_a[unit % BK][row][swizzle(row, chunk & 3)] = a_chunk[p];
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBChunkPer; ++p) {
++        const int chunk = p * kBlockThreads + tid;
++        const int unit = chunk / 4;
++        if (unit < kBUnits) {
++          const int token = unit / BK;
++          s_b[unit % BK][token][swizzle(token, chunk & 3)] = b_chunk[p];
++        }
++      }
++    } else {
++
++#pragma unroll
++      for (int p = 0; p < kAPer; ++p) {
++        const int idx = (p * kBlockThreads) + tid;
++        if (idx >= kAUnits) {
++          break;
++        }
++        const int row = idx / BK;
++        const int kk = idx % BK;
++        if constexpr (kHalfWeights) {
++#pragma unroll
++          for (int c = 0; c < 4; ++c)
++            s_a[kk][row][swizzle(row, c)] = a_half[p][c];
++        } else {
++          // Q8_0 codes are signed; flipping the sign bit carries q + 128, which
++          // the 1152 magic takes back out.
++          const std::uint32_t words[8] = {a_codes[p][0].x, a_codes[p][0].y,
++                                          a_codes[p][0].z, a_codes[p][0].w,
++                                          a_codes[p][1].x, a_codes[p][1].y,
++                                          a_codes[p][1].z, a_codes[p][1].w};
++          const __half2 scale2 = __half2half2(
++              __builtin_bit_cast(__half, static_cast<std::uint16_t>(a_d[p])));
++          __half2 h[16];
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            CodesToHalves(words[i] ^ 0x80808080U, magic, scale2, zero2,
++                          h[2 * i], h[2 * i + 1]);
++          }
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            uint4 v;
++            __builtin_memcpy(&v, &h[4 * c], 16);
++            s_a[kk][row][swizzle(row, c)] = v;
++          }
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBPer; ++p) {
++        const int idx = (p * kBlockThreads) + tid;
++        if (idx >= kBUnits) {
++          break;
++        }
++        const int t = idx / BK;
++        const int kk = idx % BK;
++#pragma unroll
++        for (int c = 0; c < 4; ++c) {
++          s_b[kk][t][swizzle(t, c)] = b_data[p][c];
++        }
++      }
++    }
++  };
++
++  v8f acc[kWaveRowTiles][kWaveTokTiles];
++  // Separate K16 chains reduce FP32 accumulation error for the sensitive
++  // unquantized router/gate projections, with the same order in every chunk.
++  v8f acc_high[(kHalfWeights && !kHcChainWaves) ? kWaveRowTiles : 1]
++              [(kHalfWeights && !kHcChainWaves) ? kWaveTokTiles : 1]{};
++#pragma unroll
++  for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++    for (int j = 0; j < kWaveTokTiles; ++j) {
++      acc[i][j] = v8f{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
++    }
++  }
++
++  fetch_stage(0);
++  for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
++    commit_stage();
++    __syncthreads();
++    if (kb0 + BK < num_kb) {
++      fetch_stage(kb0 + BK);
++    }
++    // Keeps the next stage's loads ahead of the matrix work: scheduled
++    // freely, the compiler sinks them below it and the commit waits on
++    // the full memory latency.
++    __builtin_amdgcn_sched_barrier(0);
++#pragma unroll
++    for (int kb = 0; kb < BK; ++kb) {
++      v16h a_lo[kWaveRowTiles];
++      v16h a_hi[kWaveRowTiles];
++#pragma unroll
++      for (int i = 0; i < kWaveRowTiles; ++i) {
++        const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++        uint4 c[4];
++#pragma unroll
++        for (int q = 0; q < (kHcChainWaves ? 2 : 4); ++q) {
++          c[q] =
++              s_a[kb][row][swizzle(row, q + (kHcChainWaves ? chain * 2 : 0))];
++        }
++        __builtin_memcpy(&a_lo[i], &c[0], 32);
++        if constexpr (!kHcChainWaves)
++          __builtin_memcpy(&a_hi[i], &c[2], 32);
++      }
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; ++j) {
++        const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++        uint4 c[4];
++#pragma unroll
++        for (int q = 0; q < (kHcChainWaves ? 2 : 4); ++q) {
++          c[q] = s_b[kb][t][swizzle(t, q + (kHcChainWaves ? chain * 2 : 0))];
++        }
++        v16h b_lo;
++        v16h b_hi;
++        __builtin_memcpy(&b_lo, &c[0], 32);
++        if constexpr (!kHcChainWaves)
++          __builtin_memcpy(&b_hi, &c[2], 32);
++#pragma unroll
++        for (int i = 0; i < kWaveRowTiles; ++i) {
++          acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
++          if constexpr (kHalfWeights && !kHcChainWaves)
++            acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
++          else if constexpr (!kHcChainWaves)
++            acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++        }
++      }
++    }
++    __syncthreads();
++  }
++
++  if constexpr (kHalfWeights && !kHcChainWaves) {
++#pragma unroll
++    for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; ++j)
++        acc[i][j] += acc_high[i][j];
++    }
++  }
++
++  // Each pair retains the two original K16 sums. Share low through the
++  // now-dead staging allocation, then high adds low+high in the same order.
++  // Five row tiles per logical wave require a bounded final 16-row store.
++  constexpr unsigned stride = 36;
++  float* tile = reinterpret_cast<float*>(s_lds) + wave_id * 16 * stride;
++#pragma unroll
++  for (unsigned i = 0; i < kWaveRowTiles; i += 2) {
++    if (chain == 0) {
++#pragma unroll
++      for (unsigned l = 0; l < 8; ++l) {
++        tile[sub_lane * stride + 2 * l + half_id] = acc[i][0][l];
++        if (i + 1 < kWaveRowTiles)
++          tile[sub_lane * stride + 16 + 2 * l + half_id] = acc[i + 1][0][l];
++      }
++    }
++    __syncthreads();
++    if (chain == 1) {
++#pragma unroll
++      for (unsigned l = 0; l < 8; ++l) {
++        const unsigned lo = sub_lane * stride + 2 * l + half_id;
++        tile[lo] = tile[lo] + acc[i][0][l];
++        if (i + 1 < kWaveRowTiles)
++          tile[lo + 16] = tile[lo + 16] + acc[i + 1][0][l];
++      }
++      __builtin_amdgcn_wave_barrier();
++      const std::size_t token = t_block + wave_tok * 16 + lane_id / 2;
++      const unsigned row_l = (lane_id & 1) * 16;
++      const unsigned row = r_block + i * 16 + row_l;
++      if (token < batch && row + 16 <= m &&
++          (i + 1 < kWaveRowTiles || row_l == 0)) {
++        const auto* src = reinterpret_cast<const float4*>(
++            tile + (lane_id / 2) * stride + row_l);
++        auto* dst = reinterpret_cast<float4*>(y + token * m + row);
++#pragma unroll
++        for (unsigned q = 0; q < 4; ++q)
++          dst[q] = src[q];
++      }
++    }
++    __syncthreads();
++  }
++}
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+@@ -5978,12 +6339,10 @@
+   // unquantized router. Retain the two FP32 K16 accumulation chains; only
+   // macro-tile geometry differs. The caller has already narrowed inputs.
+   if (batch >= 96 && m == 320 && k == 10240) {
+-    // Group all five row tiles around one 128-token input stripe. The
+-    // original F16 full-batch input alone exceeds the 32 MiB cache.
+-    hipLaunchKernelGGL(
+-        (DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>),
+-        dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w, x, out,
+-        batch, m, k);
++    // Four row blocks share each 128-token input stripe. The original
++    // F16 operands and ordered K16 sums are retained by wave pairs.
++    hipLaunchKernelGGL(HcDownRow80Kernel, dim3((batch + 127) / 128, 4),
++                       dim3(512), 0, stream, w, x, out, batch, m, k);
+     return true;
+   }
+   if (batch >= 96 && m == 10240 && k == 320) {

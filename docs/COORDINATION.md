@@ -1688,3 +1688,74 @@ all runtime tests above ran on `.157`. Local work only reads source and saved
 evidence. The `.157` release above still applies. The direct reply also fails
 at the outgoing MCP transport; this ledger records the answer without claiming
 delivery or acquiring a new window.
+
+The previous goal turn is progress: checkpoint `4bc9b17` records the rejected
+deferred-norm cycle and leaves the selected Q2 source unchanged. Q2/UD parity
+remains unmet. Fresh admission at **2026-10-03 07:25:38.412381 UTC** finds empty
+KFD, four original leases EX|NB/free and the deferred-norm release last in the
+registry. Core's latest received message reserves no `.157` work; its functional
+plans concern `.155`. Direct read-thread still fails at the outgoing transport.
+The documented coordination-ledger fallback applies.
+
+Q2 takes a bounded HC row80 component window: CPU Debug/ASan guards followed
+by one retained and one candidate `hc-pp-bench` arm. Only original-F16 HC down
+M320/K10240/n>=96 changes. The isolated kernel uses BM80/BN128/BK2/WM1/WN8,
+512 threads and four row blocks. It preserves both ordered K16 wave sums and
+their low+high F32 addition. Logical input staging falls 200 to 160 MiB at
+n2048 without increasing the 100 MiB logical weight staging. Physical traffic
+and speed remain unmeasured. Static compilation gives 137 VGPR, 26 KiB LDS,
+zero private scratch; eleven other dense bodies are assembly-identical.
+
+The existing 22-case independent FP64 fixture and all output hashes remain;
+each timing shape rotates sixteen matrices over 100 MiB for five samples.
+Numerical failures retain their actual exits, with unchanged 2e-5 limits.
+A useful exact component gain is required before a separately recorded bounded
+model comparison. Each runtime/build arm reacquires fresh four-lease/process/
+thermal admission; 98 C inclusive or lower exposed limits remain. No model is
+opened by these component arms, no foreign resources are modified, and no
+unbounded sweep, retry, conversion, tuning, installation or publication occurs.
+
+The row80 component comparison completes with all 22 full-output hashes exact
+and the same four inherited fallback FP64 failures; both actual numerical exits
+are one after all timing samples. Down median changes 1199.119 to 1130.607 us
+(-5.7135%); unchanged up changes +0.4749%. Sample ranges overlap. This is a
+screening lead, not a confirmed causal or complete-model speed gain.
+
+Q2 extends this same bounded window to fresh retained/candidate `q2-bench2k`
+arms, both with full MMQ rebuilds. C1 pp2048/tg128, one warmup and three measured
+fresh sessions, MTP/prefix off, capacity 9216, chunk2048 and the existing
+15-second excluded idle remain fixed. Original model files are read in place;
+no conversion or write is admitted. All saved logits/input/output files must
+be compared, and actual exits/thermals preserved. A useful complete-model gain
+permits one fresh pristine UD control; a regression ends this candidate.
+Each model/build arm takes fresh four-lease/process/thermal admission. This
+adds no long-context, independent quality, serving or parity claim by itself.
+
+Core repeats its `.155` ownership/local-model inquiry while this model pair is
+running. Q2 again confirms no `.155` GPU/model-file use or reservation and no
+verified local original-weight paths to offer. Local work is static compilation
+and saved-evidence analysis only. This workstream's live model job is on `.157`.
+The outgoing direct reply again fails at transport; delivery is not claimed.
+
+The complete row80 comparison finishes with all 21 reference/candidate model
+files exact and eighteen within-arm replay checks passed. Prefill median moves
+1335.933710 to 1337.325450 (+0.104%); decode moves 24.09672252 to 24.08888365
+(-0.0325%). Both ranges overlap. No useful complete-model gain is established,
+so the candidate is not selected and no fresh UD arm follows. The reference
+also reproduces all 21 files of the retained paired-up checkpoint.
+
+Q2 releases the row80 window at **2026-10-03 07:40:59.295813 UTC**. Five runners
+and twenty command identities/groups/sessions are absent; KFD is empty and
+all four original leases are EX|NB/free. Persistent `.157` receipt:
+`run/q2-hc-row80-window-release.json`, also recorded in the shared registry.
+Independent observation at **07:42:53.752001 UTC** verifies closure observer
+PID 2914497, group/session 2914494, start ticks 157865355 absent. Both observer
+SSH commands exit zero. All 155 artifacts verify. Eighteen command exits are
+zero and the two inherited component numerical exits are one; Debug/ASan
+each pass 12/12. Model witnesses are unchanged, GPU/CPU maxima 82/92.75 C.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window with fresh admission. No `.155` GPU/model-file ownership is claimed.
+Outgoing release notification again fails at its transport; this ledger and
+registry preserve the agreed handover. Q2 continues local reporting/checkpoint
+only, with the full parity objective still unmet.

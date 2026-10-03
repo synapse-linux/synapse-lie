@@ -18,7 +18,9 @@ def main():
     args = parser.parse_args()
     model = json.loads(args.report.read_text())['model']
     arms = [(args.reference_label, model['reference']),
-            (args.candidate_label, model['candidate']), ('Fresh UD', model['ud'])]
+            (args.candidate_label, model['candidate'])]
+    if 'ud' in model:
+        arms.append(('Fresh UD', model['ud']))
     metrics = [('prefill_tok_s', 'Prefill rate', 'Tokens / second'),
                ('decode_steps_s', 'Decode rate', 'Calls / second'),
                ('prefill_s', 'Prefill duration', 'Seconds'),
@@ -37,7 +39,7 @@ def main():
     for ax, (key, title, unit) in zip(axes.flat, metrics):
         medians = [arm['measurements'][key]['median'] for _, arm in arms]
         bars = ax.bar([label for label, _ in arms], medians,
-                      color=['#376fbd', '#49895d', '#cf7738'])
+                      color=['#376fbd', '#49895d', '#cf7738'][:len(arms)])
         decimals = 3 if key in ('prefill_s', 'decode_s') else 2
         ax.bar_label(bars, labels=[f'{v:.{decimals}f}' for v in medians], padding=4)
         largest = max(medians)

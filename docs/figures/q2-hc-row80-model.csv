@@ -1,0 +1,25 @@
+arm,source,metric,repetition,value
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_tok_s,1,1335.630934
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_tok_s,2,1337.397019
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_tok_s,3,1335.93371
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_tok_s,1,1339.652362
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_tok_s,2,1337.32545
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_tok_s,3,1336.725609
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_steps_s,1,24.10157819
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_steps_s,2,24.09672252
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_steps_s,3,24.09488433
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_steps_s,1,24.10789467
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_steps_s,2,24.07134853
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_steps_s,3,24.08888365
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_s,1,1.533357717
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_s,2,1.531332858
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,prefill_s,3,1.533010197
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_s,1,1.528754816
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_s,2,1.53141481
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,prefill_s,3,1.532102016
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_s,1,5.26936448
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_s,2,5.270426296
+Retained Q2,evidence/q2-hc-row80-reference-model-r1,decode_s,3,5.270828375
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_s,1,5.267983859
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_s,2,5.275981936
+Q2 row80,evidence/q2-hc-row80-candidate-model-r1,decode_s,3,5.272141369
