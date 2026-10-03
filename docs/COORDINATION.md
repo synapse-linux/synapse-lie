@@ -2116,3 +2116,42 @@ cohorts, and no older score or thermal abort is rewritten.
 The outbound core-thread fan-policy update again fails at the local MCP
 transport; delivery is not claimed. The persistent fan receipt, shared registry
 and this coordination record provide the agreed fallback.
+
+At 2026-10-03 13:09:02 UTC fresh read-only observation confirms KFD empty,
+CPU39.375 C/GPU38 C and all three requested fan curves still active. The latest
+registry entry is Q2's fan update; no intervening owner admission is recorded.
+With Core-19 terminal/incomplete and the CPU/GPU policy distinction corrected,
+Q2 takes a bounded component window for narrow-vector-check before planning
+the next long quality cohort. This supersedes the earlier component-after-three-
+full-arms ordering; frozen model/task evidence is preserved. No full model is
+opened by this component. The runner must acquire the original four leases
+fresh/nonblocking, enforce CPU98 C/exposed thresholds and record actual exits.
+No foreign work is interrupted. A model arm requires a successful component
+check and a separately recorded decision; it is not queued by this admission.
+
+Narrow-vector-r1 completes at 13:09:55 UTC: all192 conversion cases and two
+complete consumer outputs pass bitwise replay and unchanged independent bounds.
+The conversion alone saves3.6–3.9% time; full cycles overlap with only0.8–1.4%
+median reductions. No model dispatch is admitted from this weak end-to-end
+component result. Four artifacts are collected/hash verified; KFD postflight
+is empty. Q2 extends this bounded component window to the already prepared
+scaled-tiles-check (48/64/128 rows), with fresh four-lease admission. Existing
+scaled arithmetic failures must retain their actual nonzero exit while the
+unchanged fixture completes its separate timing cohorts. No model is opened,
+no numerical tolerance changes, and no Terminal-Bench restart is queued.
+
+Scaled-tiles-r1 finishes at 13:12:51 UTC with configuration/build/fixture exits
+0/0/1. All six timing cohorts complete, all outputs agree between tile widths,
+and 48 inherited independent operator failures retain the nonzero verdict.
+Tile128 adds18.09–22.18% time; tile64 improves only the64-active routing by4.49%.
+No model dispatch is selected. All94 artifacts across both components are
+collected/hash verified, along with capsules and frozen source/fixture hashes.
+
+Fresh closure at 2026-10-03 13:25:01.255 UTC verifies eight recorded processes
+and their owned groups absent, readable KFD empty, all original four lease
+identities acquired EX|NB then released, CPU37.25 C/GPU36 C. The durable
+`run/q2-component-fan82-window-release.json` and shared registry record release;
+a local main-repository `run/` copy supplies the agreed coordination fallback.
+The outgoing core-thread update again fails at local MCP HTTP transport; no
+delivery is claimed. No Q2 remote job, waiter or automatic model/Core-19 restart
+remains. A new GPU workload needs separately recorded admission and fresh leases.

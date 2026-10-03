@@ -14,16 +14,20 @@ one verifier failure). The other full arms have not started. The candidate uses 
 that task, so this is no general quality or efficiency equivalence claim.
 The protocol documents all observed serving ceilings and bounded, streaming
 evidence collection for long runs; its host guards pass 15/15 on `.157`.
-The [next tile experiment](docs/Q2-SCALED-TILES.md) compares 64/128-row tiles
-against 48 for greater weight reuse in scaled Q2 down; it is statically checked
-and has no GPU timing result yet.
-The [conversion experiment](docs/Q2-NARROW-VECTOR.md) prepares wider F32/F16
-memory access and full consumer checks; all 150 existing compiled kernel bodies
-remain unchanged, with GPU replay/timing pending.
+The [measured tile experiment](docs/Q2-SCALED-TILES.md) rejects global 64/128-row
+selection: tile128 adds 18.09–22.18% component time; tile64 only saves 4.49%
+in the 64-active-expert routing. All tile outputs agree exactly, while 48
+inherited original-input numerical failures remain (actual exit 1).
+The [conversion experiment](docs/Q2-NARROW-VECTOR.md) passes all 192 GPU cases
+and both complete consumer outputs. Conversion alone saves 3.6–3.9% time;
+complete cycles overlap at only 0.8–1.4% median reductions. No model change
+is selected. Both reports include every sample and standalone graphs.
 At the owner's request, `.157` now uses [fans reaching 100% at 82 C](docs/Q2-FAN-CURVE.md),
 persisted through the AXB35 configuration and fan-only startup loader.
 The 98 C software limit is corrected to CPU only. New Q2/UD performance arms
 must share this cooling policy; no gain is yet attributed to it.
+Both component runs are collected/hash verified; the GPU window is released
+after fresh process/KFD/lease closure. Full Core-19 and Q2/UD parity remain open.
 The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
 and routed experts on separate streams with bounded buffer ownership. CPU
 Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model

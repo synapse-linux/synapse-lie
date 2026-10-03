@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Conversion and scaled-tile GPU measurements — 2026-10-03
+
+Under the owner's persistent fan82 policy, `q2-narrow-vector-r1` completes
+with exits 0/0/0, all 192 conversion cases passing and both complete consumer
+outputs exact. Conversion-only time falls 3.609–3.888%; complete consumer
+cycles only fall 0.812–1.375%, with overlapping ranges and mixed paired signs.
+No model dispatch is justified. See [every sample and graph](Q2-NARROW-VECTOR.md).
+
+`q2-scaled-tiles-r1` completes all six paired cohorts and preserves exits 0/0/1.
+Tile128 regresses 18.090–22.176%; tile64 changes +0.396%, +3.507%, -4.491%
+for 512/128/64 active experts respectively. All tile outputs agree exactly;
+the 16 original-input cases still fail for all three widths (48 failures).
+No global selector is promoted. See [timing and numerical results](Q2-SCALED-TILES.md).
+
+Offline analysis verifies all 94 collected artifacts, both source capsules,
+2041 source files, frozen fixtures and saved shaped FP64 errors. Complete JSON,
+CSV and SVG/PNG reports retain every cohort and the failed numerical verdict.
+Observed CPU/GPU maxima are 69.5/40 C for conversion and 68.625/52 C for tiles,
+including builds; these short components do not measure cooling's benefit.
+
+Fresh closure at 13:25:01 UTC finds eight owned processes and their groups
+retired, KFD empty and all four original lease identities free, CPU37.25 C/
+GPU36 C. The remote/shared registry and local `run/` receipt record release.
+The direct core-thread update fails at the local MCP transport; no delivery
+is claimed. No model/Core-19 restart is queued. The full quality comparison,
+historical numerical failures and Q2/UD performance requirement remain open.
+
 ## Fan policy corrected and conversion experiment prepared — 2026-10-03
 
 The owner clarifies 98 C as a CPU limit and requests maximum fans at 82 C.
@@ -24,7 +51,8 @@ the interrupted Core-19 cohort or close the Q2/UD throughput gap.
 ## Interrupted Core-19 and engine feature audit — 2026-10-03
 
 Qualified full Core-19 stops at 12:25:27 UTC after the GPU reaches 99 C,
-exceeding the owner-approved 98 C inclusive limit. The owned session exits -15;
+exceeding the then-shared 98 C guard, later corrected to CPU-only as above.
+The owned session exits -15;
 container cleanup exits 0. Two first attempts finish: HTML-filter reward 0 and
 Cython reward 1. COBOL is interrupted after 31 agent steps; the other 16 tasks,
 conditional second attempts and retained/scaled full arms remain unmeasured.

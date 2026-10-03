@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Vector memory access for F32 to F16 conversion
 
-This prepared component experiment changes memory access in the F16 activation
+This measured component experiment changes memory access in the F16 activation
 conversion, preserving per-value arithmetic and existing model dispatch.
 In the separately marked scaled-input pp2048 profile, the scalar F16 kernel
 runs 193 times for 61.239276 ms, 4.0524% of the diagnostic kernel sum. This is
@@ -50,6 +50,41 @@ transfers, oracle calculation and validation remain outside the GPU timer.
 
 The isolated launcher mode `narrow-vector-check --source-variant narrow-vector`
 selects only the component target. Guards refuse model, profile and Terminal-Bench
-dispatch with this source. Host guards pass on `.157`; GPU linking, replay and
-timing remain pending. There is no speedup or quality claim yet. Only a measured,
-correct component improvement justifies a separately qualified model change.
+dispatch with this source. Host guards pass on `.157`. The admitted GPU run
+`q2-narrow-vector-r1` finishes at 2026-10-03 13:09:55 UTC with build/configuration/
+fixture exits 0/0/0. All 192 conversion cases pass, including 321536 special
+input values. Both complete consumers remain bitwise exact: 2621440 HC output
+values and 4202496 router values. Their independent relative RMS errors are
+3.457862e-6 and 6.818156e-7, within the unchanged 2e-5 bounds.
+
+## Measured result
+
+| Shape and timed scope | Scalar median, us | Vector median, us | Time change |
+| --- | ---: | ---: | ---: |
+| HC 320x10240, conversion | 552.312374 | 530.837893 | -3.8881% |
+| HC, conversion plus consumer | 1917.540669 | 1891.181231 | -1.3746% |
+| Router 513x2560, conversion | 140.051872 | 134.996995 | -3.6093% |
+| Router, conversion plus consumer | 429.660112 | 426.170260 | -0.8122% |
+
+Conversion-only savings appear in all five paired samples for both shapes.
+Complete consumer ranges overlap and paired changes have mixed signs. This
+does not justify a model-dispatch change; no full-model run or speedup is
+claimed. Reducing a component representing 4.05% of the diagnostic kernel sum
+by roughly 4% also leaves the main Q2/UD gap unexplained. That observation is
+not an end-to-end throughput prediction.
+
+![Every paired conversion and consumer sample](assets/q2-narrow-vector-results.svg)
+
+The [complete report](../config/q2-narrow-vector-results.json) and
+[raw timing table](../config/q2-narrow-vector-results.csv) retain all samples,
+independent consumer errors, source/binary identities and actual exits.
+Reproduce offline with `python3 tools/analyze-q2-component-followups.py` and
+`python3 tools/plot-q2-component-followups.py`. The analyzer verifies all four
+collected artifacts, the source capsule, 1021 source files and frozen fixture.
+
+Both components use the owner's [fan82 policy](Q2-FAN-CURVE.md), with CPU98 C
+inclusive and exposed GPU thresholds. Observed maxima, including compilation,
+are CPU69.5 C/GPU40 C. These short runs do not quantify cooling's effect.
+Fresh closure at 13:25:01 UTC verifies both components' eight recorded processes
+and groups absent, KFD empty and original four leases free. The durable receipt
+is `run/q2-component-fan82-window-release.json`; no model restart is queued.
