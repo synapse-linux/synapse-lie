@@ -567,3 +567,17 @@ process termination occurred. The separate 85 C functional-GPU preparation
 ceiling remains while editing-host fans are unconfigured. A Q2 thread update
 was sent; neither transport success nor silence establishes a GPU lease or
 original-weight compatibility. Vision identity/device binding remains next.
+
+
+## Vision semantic-cache checkpoint — 2026-10-03
+
+`feature/vision` checkpoint `806a790` connects semantic images and MRoPE state to
+the shared RAM/SSD lifecycle. Local `.155` CPU-only validation passes 30/30
+sanitizer tests, 3/3 feature-OFF checks and HIP host linking. At most two
+single-job builds ran concurrently, with GPU visibility masked and a 95 C CPU
+guard within the owner's 98 C allowance. Provider-build CPU peak92.125 C;
+final full-suite CPU peak71.25 C. Actual failure receipts remain preserved.
+No model hash/load/conversion, GPU execution, remote build, lease, tuning,
+new benchmark or feature merge occurred. Compatible complete original-weight
+inputs and fresh coordination still gate functional GPU qualification;
+that preparation retains its separate 85 C limit while fans are unconfigured.

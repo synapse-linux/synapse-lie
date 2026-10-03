@@ -19,10 +19,20 @@ MTP-OFF checks pass 3/3; server/bench HIP linking and native core-client
 CSV/SVG/PNG exports pass. The source-bound receipt is
 `docs/development/validation/mtp-cache-2026-10-03.json` on `feature/mtp`.
 
-Vision stays at **`3434504`**: owned images, physical context accounting and the
-C MRoPE/position codec are implemented, with 28/28 CPU sanitizer checks and HIP
-linking. Semantic image identity in cache lookup/persistence and matching device
-bindings are the next development step; its live KV reuse remains refused.
+Vision is now **`806a790`**. Semantic image identity covers the shared RAM/SSD
+lookup, deduplication, retention/protection and process restart. The model-neutral
+scope component stays outside the unchanged DS4 tensor payload; the Qwen adapter
+validates prepared MRoPE positions and actual admitted target/projector file
+witnesses. RAM retains its normal default and SSD remains opt-in. Full-prompt
+scope conservatively prevents earlier-prefix reuse when future images change;
+clients resupply matching images after restart. No pixels/embeddings are persisted.
+Native CPU ASan/UBSan/LeakSanitizer passes **30/30**, including equal-token image
+isolation, two fixture families, KVC/aligned process restart and Chat/Responses
+JSON/SSE cache reuse. Vision-OFF checks pass 3/3, HIP server/bench linking passes,
+and the native core-client smoke exports JSON/CSV/SVG/PNG. The receipt is
+`docs/development/validation/vision-cache-2026-10-03.json` on `feature/vision`.
+CPU-only guards remain at 95 C; the new provider build peaks at CPU92.125 C and
+the final full suite at CPU71.25 C. Raw failed compiler/fixture exits are preserved.
 
 No original-weight model load, GPU execution, heavy model hash or feature merge
 occurred in this slice. USB metadata showed that usable inputs still require
