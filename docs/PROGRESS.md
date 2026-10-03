@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Full Gufo workload pair measured over C17 HTTP — 2026-10-04
+
+The first corrected campaign measures both original models at all eight
+cached-prefix depths 0–128K on `.157`. The client imports the pinned Gufo prose
+generator, calibration and ordered depth recipe unchanged; an independent
+analyzer reconstructs every accepted request. All 16 continuations have 128
+outputs and 128 completed AR calls. Both models share a frozen C17 HTTP core
+and completed-executor timer; this is workload equivalence, not a claim that
+the published Gufo scheduler timer is identical.
+
+Q2/UD PP is 829.074/1540.945 at depth 0 (-46.197%) and 1107.664/1114.494
+at 128K (-0.613%). TG is 25.033/25.737 at depth 0 and 24.406/24.071 at 128K.
+Q2 still misses PP parity at every point and TG parity at the first seven.
+The [report](Q2-CANONICAL-HTTP.md) includes all rates, physical counts,
+durations, cache costs, HTTP wall time, CSV and standalone figures. These are
+one warmed observation per point; reversing model order and repeating the
+same curve is the next check for cache/order sensitivity. PLE gathering is
+a concrete profiling hypothesis, not an established cause from these timings.
+The older 1411–1439 counting rates remain outside the curve.
+
+Both host cohorts pass 18/18 Debug and 18/18 ASan/UBSan. All 22 command exits
+are0;74 artifacts and4745 source-file instances verify. Initial static exit 1
+for omitted feature macros is preserved, followed by successful strict Q2/UD
+syntax checks. The HTTP composition introduces no new numerical kernel change;
+the Q2 candidate's existing operator/position/KL rejection remains.
+
+Fresh release at 2026-10-03T22:06:58.501157+00:00 verifies 30 recorded processes
+and owned groups absent, empty KFD and all four original lease inodes free.
+Persistent remote/main receipts and the registry record closure. Direct
+outgoing MCP transport failed; delivery is not claimed. No Q2 GPU job, waiter
+or restart remains; further remote work requires fresh coordination.
+
 ## Canonical whole-curve target restored; ragged diagnostic closed — 2026-10-03
 
 The owner requires parity at every short and long point, in both PP and TG.

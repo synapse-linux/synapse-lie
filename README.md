@@ -7,9 +7,16 @@ The acceptance target is **Q2 at least as fast as UD in both prefill and decode
 at every point of the requested context curve**. The
 [canonical comparison contract](docs/Q2-CURVE-PARITY.md) restores Gufo's HTTP
 pp2048/tg128 prose workload and ordered cached-prefix depths from 0 to 128K.
-The complete Q2/UD curve has not yet been measured. Historical counting-prompt
-tests, including the 1411→1439 prefill result, are diagnostics with a different
-workload and timing scope; they do not fill cells in that curve.
+The [complete first paired curve](docs/Q2-CANONICAL-HTTP.md) is now measured on
+`.157`, with every physical token count, PP/TG duration, graph and CSV.
+Q2 trails UD by **46.197% PP at depth 0** and **0.613% PP at 128K**; TG is
+2.737% below at depth 0 and 1.392% above at 128K in this single observation.
+Whole-curve parity remains unmet. Both models use the same C17 executor-call
+timer; published Gufo scheduler timing is not asserted identical.
+Historical counting-prompt tests, including the 1411→1439 prefill result,
+remain separate diagnostics. Both host configurations pass 18/18; all 74 campaign
+artifacts verify and the GPU window is released. Existing numerical rejection
+remains; the next attribution must retain the full canonical workload.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

@@ -2460,3 +2460,26 @@ The remote receipt, shared registry and main-repository release/ready records
 contain the closure. Outgoing MCP delivery fails; no delivery is claimed.
 Q2 has no reserved GPU window, waiter or restart. The canonical curve plan is
 local preparation only and requires fresh coordination before any runtime work.
+
+At 2026-10-03T21:36:09.357878+00:00, a fresh admission checks the previous 36
+recorded PIDs absent, empty KFD and all four original lease inodes EX|NB.
+Core explicitly confirms `.157` remains with Q2 and performs no staging/run;
+its later `.161` work does not transfer this window. The bounded campaign
+admits host Debug/ASan and sequential Q2/UD full canonical prose HTTP curves
+with capacity 133760, C1 AR, no SSD/MTP/vision. A second host cohort incorporates
+the preparatory-EOS parser correction before either model arm. No dependency,
+tuning, model/service mutation, foreign termination or `.155` runtime occurs.
+
+Both host cohorts pass 18/18 Debug and 18/18 ASan/UBSan. Q2 and UD each complete
+the full 0–128K grid, all 128-output continuations and all commands exit 0.
+The frozen C17 server uses identical completed-executor timing for both;
+published Gufo scheduler timing is not claimed identical. Whole-curve parity
+and existing numerical acceptance remain unmet.
+
+Verified release at 2026-10-03T22:06:58.501157+00:00 checks 30 recorded process
+identities and owned groups absent, empty KFD and original four leases free.
+Receipt SHA256 is 60e678ace6251dedb700b15054bd0a1597daa5765d16a596a37dd248db14cba9.
+Remote/main `run/q2-canonical-curve-window-release.json`, main ready/active
+records and the shared registry record closure. No Q2 job, waiter or restart
+remains. Core may admit its next window with fresh checks. Outgoing MCP
+transport fails again; no delivery is claimed and no permission is requested.

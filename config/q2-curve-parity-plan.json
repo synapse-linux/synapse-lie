@@ -1,7 +1,7 @@
 {
   "at": "2026-10-03T21:16:22.753947+00:00",
   "objective": "Q2 prefill and decode at least equal UD at every short/medium/long context point; no compensation across points or metrics",
-  "state": "CANONICAL_HTTP_CURVE_REQUIRED_HARNESS_EQUIVALENCE_PENDING_RUNTIME_NOT_ADMITTED",
+  "state": "CANONICAL_HTTP_WORKLOAD_PAIR_MEASURED_FULL_CURVE_PARITY_UNMET",
   "gpu_reserved": false,
   "restart_scheduled": false,
   "remote_workload_scheduled": false,
@@ -124,8 +124,8 @@
     "short_regression_controls_scope": "Historical native counting-prompt diagnostics only; never substitute for canonical cells"
   },
   "work_order": [
-    "Qualify the Q2 and UD HTTP benchmark/server composition against the pinned Gufo prose, calibration, cache-frontier and timing protocol. Existing C17 project-notes/counting fixtures do not establish equivalence.",
-    "Establish the same ordered canonical depth curve on both models from0 through128K, retaining exact requests, actual counts and phase timings; published UD numbers are historical context, not fresh paired measurements.",
+    "Completed: qualify pinned Gufo workload on common C17 HTTP; completed executor-call scope explicitly differs from historical Gufo scheduler scope.",
+    "Completed: establish all eight Q2/UD observations0..128K with exact requests, actual counts and durations. Full-curve parity remains unmet; repeat before acceptance.",
     "Attribute Q2 minus UD costs at canonical points that miss parity before choosing the next kernel change; native traces remain separately labelled diagnostics.",
     "Apply one targeted change and verify both PP and TG across the entire curve, including short and long points; preserve independent numerical and task-quality gates.",
     "Add separate fresh-ingestion and near-256K suites with validated actual token budgets. 512K/1M needs a common engine/context extension and numerical/resource qualification."
@@ -136,7 +136,7 @@
     "pp2048_later_replay": 1438.974691,
     "original_c17_ud_tg2042": 26.049385991367725
   },
-  "coordination": "Q2 released .157 at2026-10-03T21:11:50.582832+00:00; core may admit its clocked campaign; Q2 local preparation only until a fresh coordinated window",
+  "coordination": "Fresh admission21:36:09UTC; pair completes on .157; verified release2026-10-03T22:06:58.501157+00:00 checks30 PIDs/groups absent, emptyKFD and original fourleasesfree; no further workload/restart reserved. Core can admit fresh window.",
   "goal_met": false,
   "method_corrected_at": "2026-10-03T21:22:28.376022+00:00",
   "canonical_reference": {
@@ -176,7 +176,8 @@
       "better": "higher"
     },
     "workload": "Pinned deterministic synthetic prose plus summary/story instruction; preserve seeds, calibration and sweep order",
-    "canonical_curve_measured": false
+    "canonical_curve_measured": true,
+    "measurement_limit": "Workload matches pinned Gufo; both Q2 and UD use the common C17 synchronous_executor_calls timer. Published Gufo scheduler timing is not asserted identical."
   },
   "additional_suites": {
     "fresh_prompt_targets": [
@@ -195,5 +196,7 @@
     "boundary_requirement": "Choose and verify calibration margin from actual cached/new/output counts before admitting any near-capacity request",
     "status": "Supplemental fresh-ingestion and near-256K coverage; cannot replace the canonical curve"
   },
-  "priority_correction": "Restoring the original C17 26-token/s decode control led to optimizing its ragged HC prefill. Promoting that diagnostic to the main target was a prioritization error; exact2048 counting is not canonical either."
+  "priority_correction": "Restoring the original C17 26-token/s decode control led to optimizing its ragged HC prefill. Promoting that diagnostic to the main target was a prioritization error; exact2048 counting is not canonical either.",
+  "measured_results": "config/q2-canonical-http-results.json",
+  "next_measurement": "Reverse model order and repeat identical ordered HTTP curve, then attribute PLE gather/wait/cache hits/physical reads and GPU phases at failing canonical points. Requires fresh ownership admission."
 }

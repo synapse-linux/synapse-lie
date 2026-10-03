@@ -79,8 +79,31 @@ finds the same nominal 262144 limit and byte-identical attention dispatch and
 session-accounting source slices in the inspected Q2/UD providers. This does
 not prove long-context memory fit, numerical quality or performance parity.
 
-No canonical Q2/UD depth sweep has been run by this correction. The completed
-ragged experiment is retained as a diagnostic; further kernel work should be
-chosen from deficits measured on the canonical curve. Arithmetic and task
-quality remain independent acceptance gates. No GPU run is scheduled or
-reserved by this plan; a new run requires fresh coordinated ownership.
+The first paired implementation uses the pinned workload on the common C17
+HTTP server. Its composition and results are recorded in
+[the HTTP curve report](Q2-CANONICAL-HTTP.md). The completed ragged experiment
+is retained as a diagnostic; further kernel work should be chosen from deficits
+measured on the whole curve. Arithmetic and task quality remain independent
+acceptance gates.
+
+## Workload equivalence and timer boundary
+
+`tools/q2-canonical-http.py` imports the pinned Gufo `Tokenizer`,
+`synthetic_text`, `turn_prompt` and `_measure_depth` behavior rather than
+substituting another text generator. Both providers use the same frozen C17
+HTTP/worker/state composition. The analyzer independently reconstructs each
+accepted request, including its calibration attempt and actual eight-token
+prefix reply, and checks the raw usage, cache frontier and completed outputs.
+
+The current server exposes `synapse-lie.request-timings.v1`, with scope
+`synchronous_executor_calls`: the sum of completed prefill/decode executor
+calls. Cache capture/restore, tokenization, queueing and HTTP transport are
+outside those rates. Raw responses retain cache timings, and the report also
+exports client request wall time. At C1 the decode attribution has no shared
+batch overlap. This contract is unchanged in the frozen core.
+
+Consequently, the **workload** matches Gufo's canonical graph and the fresh
+Q2/UD pair has a common timer; the published Gufo scheduler timer is not claimed
+identical. Neither historical Gufo values nor native counting-fixture rates
+are used to fill this measured curve. Direct reproduction of the published
+server's timing remains a separate check if needed for cross-server claims.

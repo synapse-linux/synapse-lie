@@ -299,3 +299,21 @@ commit ae9c34ef26b0bb12ae5c995cb2ec99131da5aefd, archived without modifying
 its owner worktree; base and variant hashes are recorded. No sibling CachyOS
 project source or artifact is imported. Original upstream example results
 staged for runner unit tests are fixtures, never evidence of this Q2 cohort.
+
+The paired HTTP context-curve experiment freezes the same-repository C17 core
+at `15c6082152c3df0cb1f40d89ba5329692f307d7b`, including its state adapter and
+MIT license. `config/q2-curve-source.json` binds all 333 core files and the
+independently fetched official Gufo providers at the pin above. The measured
+cumulative Q2 parent and pristine UD parent each receive the identical four-file
+friend-access and optional sampling/reporting edits from that frozen core;
+their numerical sources remain unchanged from their respective parents.
+The optional dense C17 sampler, KVC, SSD, MTP and vision paths are disabled.
+No DS4 or sibling CachyOS project implementation is imported.
+
+The first-party composition, HTTP client, evidence analyzer and plotting tools
+are MIT. The client imports official Gufo's pinned deterministic prose,
+calibration and depth algorithm without copying or relabeling that code.
+Original Gufo licenses and notices remain in both private source trees.
+The source manifest describes preparation; measured runtime qualification is
+separately recorded in `config/q2-canonical-http-results.json`. Neither the
+composition nor successful serving changes existing numerical rejection.

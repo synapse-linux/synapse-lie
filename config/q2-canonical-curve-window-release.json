@@ -1,0 +1,127 @@
+{
+  "at": "2026-10-03T22:06:58.501157+00:00",
+  "state": "Q2_CANONICAL_HTTP_CURVE_WINDOW_RELEASED",
+  "labels": [
+    "q2-curve-host-r1",
+    "q2-curve-host-r2",
+    "q2-canonical-http-q2-r1",
+    "q2-canonical-http-ud-r1"
+  ],
+  "command_exits": {
+    "q2-curve-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-curve-host-r2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-http-q2-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-http-ud-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3251901,
+    3251905,
+    3251980,
+    3252074,
+    3252313,
+    3252383,
+    3252515,
+    3253225,
+    3253226,
+    3253296,
+    3253421,
+    3253648,
+    3253719,
+    3253845,
+    3254348,
+    3254384,
+    3254795,
+    3256343,
+    3256344,
+    3256345,
+    3256346,
+    3256463,
+    3261449,
+    3261480,
+    3261943,
+    3263427,
+    3263428,
+    3263430,
+    3263431,
+    3263594
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 43000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 44625,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "qualification": "Full pinned Gufo prose depth workload measured on Q2 and UD over common C17 HTTP; same completed-executor timer. One observation per point, no numerical promotion or parity acceptance; historical counting results remain separate."
+}
