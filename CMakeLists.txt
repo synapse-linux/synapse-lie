@@ -53,6 +53,12 @@ add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
 add_test(NAME q2_canonical_http COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_canonical_http_test.py)
+add_executable(test_q2_curve_profile tests/q2_curve_profile.cpp)
+target_include_directories(test_q2_curve_profile PRIVATE experiments tests)
+target_compile_options(test_q2_curve_profile PRIVATE -Wall -Wextra -Werror -Wpedantic)
+target_link_libraries(test_q2_curve_profile PRIVATE Threads::Threads)
+add_test(NAME q2_curve_profile COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_curve_profile_test.py $<TARGET_FILE:test_q2_curve_profile>)
 add_test(NAME q2_terminal_scores COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_terminal_test.py)
 add_test(NAME q2_terminal_collection COMMAND ${Python3_EXECUTABLE}

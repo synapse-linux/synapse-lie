@@ -44,6 +44,29 @@ def artifacts(root):
     return receipt
 
 
+def validate_recipe(request, curve, row, curve_dir, client, upstream):
+    payload = request['payload']
+    # Independently rebuild accepted prompts from the pinned recipe and
+    # retained calibration/attempt, including the actual prefix reply.
+    depth = row['depth']
+    requests = row['accepted_request']-row['first_request']
+    attempt = (requests-1)//2 if depth else requests
+    require(0 <= attempt < 4 and (not depth or requests % 2 == 1), 'Invalid calibration history')
+    overhead = curve['initial_calibration']['overhead']
+    turn = upstream.turn_prompt(2048-overhead, row['ratio'], task='prose', depth=depth,
+                                repetition=0, attempt=attempt)
+    messages = [{'role':'user','content':turn}]
+    if depth:
+        prefix = upstream.synthetic_text(1+depth, max(1,round((depth-overhead-8)/row['ratio'])))
+        preparation = read(curve_dir/f'request-{row["accepted_request"]-1:04d}.json')
+        require(preparation['payload']['messages'] == [{'role':'user','content':prefix}] and
+                preparation['payload']['max_tokens'] == 8 and not preparation['payload']['stream'],
+                'Prefix preparation differs from canonical recipe')
+        _, reply = client.parse_reply(preparation['response'], False)
+        messages = [{'role':'user','content':prefix}, {'role':'assistant','content':reply}, *messages]
+    require(payload['messages'] == messages, 'Measured workload differs from canonical recipe')
+
+
 def model(root, key, host_root, manifest, client, upstream):
     r = artifacts(root)
     require(r['state'] == 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT' and
@@ -57,7 +80,7 @@ def model(root, key, host_root, manifest, client, upstream):
     with tarfile.open(root/'source.tar.gz') as archive, tarfile.open(host_root/'source.tar.gz') as host:
         for name in FIXTURES:
             raw = archive.extractfile(name).read()
-            require(raw == (ROOT/name).read_bytes() == host.extractfile(name).read(),
+            require(raw == host.extractfile(name).read(),
                     'Runtime/host fixture differs: '+name)
         for prefix, files in [('source', manifest['variants'][key]['files']),
                               ('curve-core', manifest['core_files'])]:
@@ -73,6 +96,7 @@ def model(root, key, host_root, manifest, client, upstream):
     curve = read(curve_dir/'curve.json')
     require(curve['state'] == 'MEASURED_NOT_PARITY_OR_QUALITY_VERDICT' and curve['variant'] == key and
             curve['depths'] == client.DEPTHS and curve['full_grid'] is True and
+            not curve.get('instrumentation') and
             curve['context_capacity'] == 133760 and curve['new_prompt_target'] == 2048 and
             curve['output_tokens'] == 128 and curve['timing_scope'] == client.TIMING_SCOPE,
             'Different or incomplete curve protocol')
@@ -85,25 +109,7 @@ def model(root, key, host_root, manifest, client, upstream):
         require(hashlib.sha256(json.dumps(payload).encode()).hexdigest() == request['payload_sha256'],
                 'Request identity changed')
         sample, _ = client.parse_reply(request['response'], True)
-        # Independently rebuild accepted prompts from the pinned recipe and
-        # retained calibration/attempt, including the actual prefix reply.
-        depth = row['depth']
-        requests = row['accepted_request']-row['first_request']
-        attempt = (requests-1)//2 if depth else requests
-        require(0 <= attempt < 4 and (not depth or requests % 2 == 1), 'Invalid calibration history')
-        overhead = curve['initial_calibration']['overhead']
-        turn = upstream.turn_prompt(2048-overhead, row['ratio'], task='prose', depth=depth,
-                                    repetition=0, attempt=attempt)
-        messages = [{'role':'user','content':turn}]
-        if depth:
-            prefix = upstream.synthetic_text(1+depth, max(1,round((depth-overhead-8)/row['ratio'])))
-            preparation = read(curve_dir/f'request-{row["accepted_request"]-1:04d}.json')
-            require(preparation['payload']['messages'] == [{'role':'user','content':prefix}] and
-                    preparation['payload']['max_tokens'] == 8 and not preparation['payload']['stream'],
-                    'Prefix preparation differs from canonical recipe')
-            _, reply = client.parse_reply(preparation['response'], False)
-            messages = [{'role':'user','content':prefix}, {'role':'assistant','content':reply}, *messages]
-        require(payload['messages'] == messages, 'Measured workload differs from canonical recipe')
+        validate_recipe(request, curve, row, curve_dir, client, upstream)
         require(all(row[k] == v for k,v in vars(sample).items()), 'Reported row differs from raw server response')
         require(sample.completion_tokens == sample.decode_calls == 128 and
                 abs(sample.prefill_tokens-2048) <= 32 and
@@ -140,7 +146,9 @@ def main():
     require(host['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and not host['model_access'],
             'Host fixtures failed or accessed models')
     for name in ('03.log','06.log'):
-        require('100% tests passed out of 18' in (args.host/'results'/name).read_text(), 'Missing Debug/ASan checks')
+        log = (args.host/'results'/name).read_text()
+        require(any('100% tests passed out of '+str(n) in log for n in (18,19)) and
+                'q2_canonical_http' in log, 'Missing Debug/ASan checks')
     manifest = read(ROOT/'config/q2-curve-source.json')
     upstream, _ = client.load_upstream(ROOT/'.deps/gufo-base')
     reports = {k:model(getattr(args,k),k,args.host,manifest,client,upstream) for k in ('q2','ud')}

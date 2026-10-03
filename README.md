@@ -18,6 +18,12 @@ remain separate diagnostics. Both host configurations pass 18/18; all 74 campaig
 artifacts verify and the GPU window is released. Existing numerical rejection
 remains; the next attribution must retain the full canonical workload.
 
+The [canonical PLE attribution](docs/Q2-CURVE-PROFILE.md) is now prepared and
+passes 19/19 Debug and ASan/UBSan host checks on `.157`. It preserves the full
+HTTP workload, independently aligns completed Forward calls with requests,
+and keeps instrumented timings outside the performance comparison. A fresh
+coordinated window is executing the reverse-order uninstrumented pair first.
+
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only
 **1.975% full-model prefill gain at 2042 tokens**, with no measured decode gain.

@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Canonical PLE attribution prepared; reversed pair running — 2026-10-04
+
+The first whole curve is retained in checkpoint97f4281. Its 1.136713-second
+short-context prefill gap now drives attribution on the same HTTP workload.
+The diagnostic source adds host Forward intervals and PLE counters only;
+all 134 Q2 / 133 UD other kernel-path files remain exact. Every observation
+must match its request's monotonic interval, cached frontier and completed
+prefill/decode counts. Summed worker times are not GPU wall time and host
+waiting is not automatically recoverable GPU idle time.
+
+Five syntax checks pass. The earlier curve reanalyzes to identical JSON data.
+The new host cohort passes19/19 Debug and19/19 ASan/UBSan on `.157`, including
+parallel counter observation, failed Forward rejection and request-frontier
+checks. The profile has a distinct server identity and is rejected by the
+ordinary performance analyzer. No numerical kernel improvement is claimed.
+
+Fresh admission at22:26:44 UTC follows two read-only observations without an
+intervening core admission, then original four-lease and retired-process
+checks. The admitted sequence is uninstrumented UD→Q2 over the complete grid,
+then separate Q2/UD profiles. The first UD arm is running at this checkpoint;
+the GPU window remains active. [Method and limits](Q2-CURVE-PROFILE.md).
+
 ## Full Gufo workload pair measured over C17 HTTP — 2026-10-04
 
 The first corrected campaign measures both original models at all eight

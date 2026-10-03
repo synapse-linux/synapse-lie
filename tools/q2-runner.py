@@ -29,7 +29,8 @@ def now():
 
 def main():
     mode = sys.argv[1]
-    curve_mode = mode in ('q2-curve', 'ud-curve')
+    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple')
+    curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
     original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')
@@ -235,7 +236,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud'],
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--profile-ple'] if curve_profile else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -302,7 +303,7 @@ def main():
         if terminal_build: result['state']='TERMINAL_SERVER_BUILT_NO_MODEL_EXECUTION'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if original_mode: result['state']='ORIGINAL_C17_BASELINE_COMPLETE_NOT_QUALITY_VERDICT'
-        if curve_mode: result['state']='CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT'
+        if curve_mode: result['state']='CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if curve_profile else 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT'
         if terminal_run: result['state']='TERMINAL_ENDPOINT_PROBE_COMPLETE_NOT_TASK_SCORE' if mode.endswith('probe') else 'TERMINAL_BENCH_COMMAND_COMPLETE_INSPECT_REWARDS'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'

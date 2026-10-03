@@ -317,3 +317,11 @@ Original Gufo licenses and notices remain in both private source trees.
 The source manifest describes preparation; measured runtime qualification is
 separately recorded in `config/q2-canonical-http-results.json`. Neither the
 composition nor successful serving changes existing numerical rejection.
+
+The canonical-workload PLE profile derives from those measured provider
+compositions. Its new first-party MIT header and tools add host observations
+only; the copied `q2_ple_diag.hpp` is this repository's existing MIT diagnostic.
+Official Gufo numerical kernels remain byte-identical to each parent. The
+two source patches retain upstream licenses and are bound by
+`config/q2-curve-profile-source.json`. No external implementation or artifact
+is introduced by this instrumentation.

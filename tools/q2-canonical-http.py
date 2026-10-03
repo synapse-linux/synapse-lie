@@ -198,14 +198,15 @@ def loopback_url(value):
     return value.rstrip('/')
 
 
-def check_backend(info):
+def check_backend(info, profile_ple=False):
     require(isinstance(info, dict) and info.get('schema') == 'synapse-lie.llm.v1' and
             info.get('ready') is True, 'Model is not ready')
     backend = info.get('backend', {})
     require(backend.get('synthetic') is False and backend.get('mtp') is False and
             backend.get('vision') is False and backend.get('prefix_state') is True and
             backend.get('model') == 'bench' and backend.get('context_tokens') == 133760 and
-            backend.get('build_id') == 'q2-canonical-curve-experiment' and
+            backend.get('build_id') == ('q2-canonical-curve-ple-profile' if profile_ple else
+                                        'q2-canonical-curve-experiment') and
             backend.get('source_pin') == 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e',
             'Endpoint is not the admitted C1 AR curve composition')
     require(number(info.get('cache', {}), 'budget_bytes', True) > 0,
@@ -223,6 +224,8 @@ def main():
     parser.add_argument('--gufo-source', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--variant', choices=('q2', 'ud'), required=True)
+    parser.add_argument('--profile-ple', action='store_true',
+                        help='Diagnostic instrumentation; rates are not benchmark evidence')
     parser.add_argument('--depths', default=','.join(map(str, DEPTHS)))
     parser.add_argument('--timeout', type=float, default=1800)
     args = parser.parse_args()
@@ -236,6 +239,8 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     report = dict(schema='synapse-lie.canonical-http-curve.v1', variant=args.variant,
         state='RUNNING', timing_scope=TIMING_SCOPE, context_capacity=133760,
+        instrumentation='ple-forward' if args.profile_ple else None,
+        headline_eligible=not args.profile_ple,
         new_prompt_target=2048, output_tokens=128, depths=depths,
         full_grid=depths == DEPTHS, rows=[], goal_met=False,
         comparison_scope='Pinned Gufo canonical workload over common C17 HTTP; LIE completed executor-call timings. Published Gufo scheduler rates remain historical, not an identical timer.',
@@ -248,7 +253,7 @@ def main():
             data = response.read(MAX_REPLY+1)
             require(len(data) <= MAX_REPLY, 'Oversized backend response')
             report['backend_before'] = json.loads(data)
-        check_backend(report['backend_before'])
+        check_backend(report['backend_before'], args.profile_ple)
         session = Session(serving, args.output, args.timeout)
         tokenizer = llm.Tokenizer(session, base_url)
         session.request(base_url, llm.synthetic_text(8888, tokenizer.words_for(2048)), 16)

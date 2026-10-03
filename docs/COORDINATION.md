@@ -2483,3 +2483,15 @@ Remote/main `run/q2-canonical-curve-window-release.json`, main ready/active
 records and the shared registry record closure. No Q2 job, waiter or restart
 remains. Core may admit its next window with fresh checks. Outgoing MCP
 transport fails again; no delivery is claimed and no permission is requested.
+
+Read-only revalidation at 22:12:46 and 22:25:37 UTC finds the 22:06:58 Q2
+release still the latest registry event, no recorded live runner and empty KFD.
+No core admission has started. Under continuing owner authorization, fresh
+admission at 2026-10-03T22:26:44.209344+00:00 rechecks all 30 retired identities
+and the original four unchanged lease inodes. The bounded Q2 window covers
+19-test host Debug/ASan, reversed UD/Q2 full HTTP curves, then separately
+instrumented PLE profiles on the same workload. Core must not overlap this
+recorded window; no foreign process is stopped. Persistent main
+`run/q2-curve-profile-window-active.json`, remote admission and the shared
+registry are the agreed fallback; outgoing MCP delivery again fails.
+The host cohort passes 19/19 in both configurations before the first UD arm.

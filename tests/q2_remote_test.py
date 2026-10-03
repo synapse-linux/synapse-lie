@@ -22,10 +22,13 @@ spec.loader.exec_module(remote)
 class RemoteGuardTests(unittest.TestCase):
     def test_canonical_curve_scope(self):
         for mode, variant in [('q2-curve', 'qualified'), ('ud-curve', 'curve-q2'),
-                              ('q2-curve', 'curve-ud'), ('q2-bench', 'curve-q2')]:
+                              ('q2-curve', 'curve-ud'), ('q2-bench', 'curve-q2'),
+                              ('q2-curve-ple','curve-q2'), ('ud-curve','curve-ple-ud'),
+                              ('q2-curve-ple','curve-ple-ud')]:
             self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                         'Canonical curve requires its matched Q2 or UD composition')
-        for mode, variant in [('q2-curve', 'curve-q2'), ('ud-curve', 'curve-ud')]:
+        for mode, variant in [('q2-curve', 'curve-q2'), ('ud-curve', 'curve-ud'),
+                              ('q2-curve-ple','curve-ple-q2'), ('ud-curve-ple','curve-ple-ud')]:
             self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                         'Canonical curve requires a full MMQ rebuild')
             self.refuse([mode, 'q2-fixture', '--source-variant', variant,

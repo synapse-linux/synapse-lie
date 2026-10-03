@@ -25,6 +25,20 @@ def reply():
 
 
 class MetricsContract(unittest.TestCase):
+    def test_profile_cannot_impersonate_uninstrumented_server(self):
+        info = dict(schema='synapse-lie.llm.v1',ready=True,
+                    backend=dict(synthetic=False,mtp=False,vision=False,prefix_state=True,
+                        model='bench',context_tokens=133760,build_id='q2-canonical-curve-experiment',
+                        source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+                    cache=dict(budget_bytes=1024),scheduler=dict(queued=0,active=0,max_active=1))
+        client.check_backend(info)
+        with self.assertRaises(ValueError):
+            client.check_backend(info,True)
+        info['backend']['build_id'] = 'q2-canonical-curve-ple-profile'
+        client.check_backend(info,True)
+        with self.assertRaises(ValueError):
+            client.check_backend(info)
+
     def test_completed_executor_scope(self):
         sample, text = client.parse_reply(reply(), True)
         self.assertEqual(text, 'Example')

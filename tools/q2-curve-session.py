@@ -21,11 +21,15 @@ def identity(process):
 
 
 def main():
-    binary, model, variant = sys.argv[1:]
+    binary, model, variant, *flags = sys.argv[1:]
+    if flags not in ([], ['--profile-ple']):
+        raise ValueError('Unknown diagnostic flags')
+    profile = bool(flags)
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
     result = ROOT/'results'
-    receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns())
+    receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
+                   instrumentation='ple-forward' if profile else None)
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
@@ -71,7 +75,7 @@ def main():
             argv = [sys.executable, '-B', str(ROOT/'tools/q2-canonical-http.py'),
                 '--base-url', 'http://127.0.0.1:8000', '--management-url', f'http://127.0.0.1:{management}',
                 '--gufo-source', str(ROOT/'source'), '--output', str(result/'canonical-curve'),
-                '--variant', variant]
+                '--variant', variant, *flags]
             command = dict(argv=argv, started_ns=time.monotonic_ns())
             receipt['commands'].append(command)
             with (result/'curve-client.log').open('xb') as client_log:
@@ -83,7 +87,8 @@ def main():
                 save()
                 if command['exit_code']:
                     raise RuntimeError('Canonical curve client failed; raw evidence retained')
-            receipt['state'] = 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT'
+            receipt['state'] = ('CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if profile else
+                                'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT')
     except Exception as error:
         receipt.update(state='FAILED', error=str(error))
         raise
