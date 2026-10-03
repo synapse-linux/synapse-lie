@@ -78,13 +78,13 @@ Prepare a UTF-8 text file and select enough context for its tokens plus output:
 "$LIE_BENCH" --model "$LIE_MODEL" --suite core \
   --prompt-file prompt.txt --context 32768 --chunk 2048 \
   --users 1 --tg 128 --warmups 0 --repetitions 3 \
-  --prefix-cache-mib 0 --output results/core-fresh.jsonl
+  --kv-cache-ram-mb 0 --output results/core-fresh.jsonl
 ```
 
-Use `--prefix-cache-mib 4096 --warmups 1` with a separate output file to measure
+Use `--kv-cache-ram-mb 4096 --warmups 1` with a separate output file to measure
 repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
-recomputation. SSD options match those in the [server guide](USAGE.md#ram-and-ssd-cache).
+recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
 ## HTTP workloads
 
@@ -94,13 +94,13 @@ Start the server first. This suite uses a Python HTTP helper:
 "$LIE_BENCH" --suite http \
   --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
   --preset prefill --sizes 1500,8000,32768,131072 \
-  --tg 128 --warmups 0 --repetitions 3 --cache-policy off \
+  --tg 128 --warmups 0 --repetitions 3 --server-kv-cache off \
   --server-label lie --output results/http-prefill.jsonl \
   --export-requests results/http-requests.json
 ```
 
-Here `--cache-policy off` **records the server's declared configuration**; it
-does not change the server. Start the server with `--prefix-cache-mib 0` and
+Here `--server-kv-cache off` **records the server's declared configuration**; it
+does not change the server. Start the server with `--kv-cache-ram-mb 0` and
 without SSD options for that measurement. Other presets are `decode`,
 `conversation` and `long-context`; use `--requests FILE` to replay a saved
 corpus. The long-context generator can prepare larger inputs, but does not

@@ -26,6 +26,12 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Cache options now use an explicit `--kv-*` namespace, including DS4's
+  `--kv-disk-dir`, `--kv-disk-space-mb` and checkpoint-boundary controls.
+  `--model-*` is reserved for model controls, including future weight storage.
+  Existing cache option names remain accepted as aliases.
+- The HTTP benchmark declares the remote server's cache configuration with
+  `--server-kv-cache off|on|unknown`; the old `--cache-policy` alias still works.
 - The HTTP context ceiling is 262,144 tokens for the supported Qwen provider.
 - RAM retention defaults to a lazily allocated 4 GiB budget. SSD persistence
   remains an explicit runtime option.

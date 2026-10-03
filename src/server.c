@@ -711,45 +711,46 @@ int main(int argc, char **argv) {
     lie_worker_options options;lie_core_options_init(&options);
     int timeout_ms=(int)(INFERENCE_TIMEOUT_NS/1000000);
     for (int i = 1; i < argc; ++i) {
-        if (!strcmp(argv[i],"--build-info")) {
+        const char *key=lie_cache_option_name(argv[i]);
+        if (!strcmp(key,"--build-info")) {
             printf("{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\",\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":\"%s\",\"ds4_cache_policy\":%s,\"state_format\":\"%s\"}\n",
                    LIE_BUILD_ID,lie_backend_name(),lie_backend_source_pin(),lie_backend_ownership(),
                    LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru",lie_state_compression_enabled()?"true":"false",lie_state_compression_codec(),LIE_DS4_CACHE_POLICY?"true":"false",lie_backend_state_format());
             return 0;
         }
-        if (!strcmp(argv[i], "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096] [--cache-policy ds4|legacy]\n  [--cache-min-tokens 512] [--cache-cold-max-tokens 30000] [--cache-continued-tokens 10000]\n  [--cache-trim-tokens 32] [--cache-align-tokens 2048] [--cache-text-prefix on|off] [--cache-capture-finish on|off]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. SSD prefix persistence is opt-in; no MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+        if (!strcmp(key, "--help")) {
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in; no MTP or exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
-        if (!strcmp(argv[i], "--port")) port = port_number(argv[++i]);
-        else if (!strcmp(argv[i], "--management-port")) management_port = port_number(argv[++i]);
-        else if (!strcmp(argv[i], "--host")) host = argv[++i];
-        else if (!strcmp(argv[i], "--management-host")) management_host = argv[++i];
-        else if (!strcmp(argv[i], "--model")) options.model_path=argv[++i];
-        else if (!strcmp(argv[i], "--model-id")) model_id=argv[++i];
-        else if (!strcmp(argv[i], "--context")) options.context=(uint32_t)number(argv[++i],LIE_WORKER_MAX_CONTEXT);
-        else if (!strcmp(argv[i], "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
-        else if (!strcmp(argv[i], "--max-active")) options.max_active=(uint32_t)port_number(argv[++i]);
-        else if (!strcmp(argv[i], "--prefix-cache-mib")) {
+        if (!strcmp(key, "--port")) port = port_number(argv[++i]);
+        else if (!strcmp(key, "--management-port")) management_port = port_number(argv[++i]);
+        else if (!strcmp(key, "--host")) host = argv[++i];
+        else if (!strcmp(key, "--management-host")) management_host = argv[++i];
+        else if (!strcmp(key, "--model")) options.model_path=argv[++i];
+        else if (!strcmp(key, "--model-id")) model_id=argv[++i];
+        else if (!strcmp(key, "--context")) options.context=(uint32_t)number(argv[++i],LIE_WORKER_MAX_CONTEXT);
+        else if (!strcmp(key, "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(key, "--max-active")) options.max_active=(uint32_t)port_number(argv[++i]);
+        else if (!strcmp(key, "--kv-cache-ram-mb")) {
             const char *v=argv[++i];int mib=!strcmp(v,"0")?0:number(v,1048576);
-            if(mib<0){fputs("Invalid prefix cache budget\n",stderr);return 2;}
+            if(mib<0){fputs("Invalid KV RAM cache budget\n",stderr);return 2;}
             options.prefix_cache_bytes=(uint64_t)mib*1024u*1024u;
         }
-        else if (!strcmp(argv[i], "--prefix-ssd-dir")) options.ssd.directory=argv[++i];
-        else if (!strcmp(argv[i], "--prefix-ssd-quota-mib") || !strcmp(argv[i], "--prefix-ssd-staging-mib")) {
-            bool quota=!strcmp(argv[i],"--prefix-ssd-quota-mib");int mib=number(argv[++i],1048576);
-            if(mib<0){fputs("Invalid SSD budget\n",stderr);return 2;}
+        else if (!strcmp(key, "--kv-disk-dir")) options.ssd.directory=argv[++i];
+        else if (!strcmp(key, "--kv-disk-space-mb") || !strcmp(key, "--kv-disk-staging-mb")) {
+            bool quota=!strcmp(key,"--kv-disk-space-mb");int mib=number(argv[++i],1048576);
+            if(mib<0){fputs("Invalid KV disk budget\n",stderr);return 2;}
             if(quota)options.ssd.quota_bytes=(uint64_t)mib*1024u*1024u;
             else options.ssd.staging_bytes=(uint64_t)mib*1024u*1024u;
         }
-        else if (!strcmp(argv[i], "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
-        else {int rc=lie_cache_policy_option(&options.cache_policy,argv[i],argv[i+1]);
-            if(rc!=1){fputs(rc?"Invalid cache policy value\n":"Unknown option\n",stderr);return 2;}++i;}
+        else if (!strcmp(key, "--request-timeout-ms")) timeout_ms=number(argv[++i],1800000);
+        else {int rc=lie_cache_policy_option(&options.cache_policy,key,argv[i+1]);
+            if(rc!=1){fputs(rc?"Invalid KV cache policy value\n":"Unknown option\n",stderr);return 2;}++i;}
     }
     if((options.ssd.directory&&(!options.model_path||*options.ssd.directory!='/'||!options.ssd.quota_bytes||!options.ssd.staging_bytes))||
        (!options.ssd.directory&&(options.ssd.quota_bytes||options.ssd.staging_bytes))){
-        fputs("SSD requires --model, an absolute --prefix-ssd-dir, --prefix-ssd-quota-mib and --prefix-ssd-staging-mib\n",stderr);return 2;
+        fputs("KV disk persistence requires --model, an absolute --kv-disk-dir, --kv-disk-space-mb and --kv-disk-staging-mb\n",stderr);return 2;
     }
     if (port < 0 || management_port < 0 || (port == management_port && !strcmp(host, management_host))) { fputs("Invalid listener configuration\n", stderr); return 2; }
     if (options.context<128 || options.context>LIE_WORKER_MAX_CONTEXT || options.chunk<1 || options.chunk>2048 ||

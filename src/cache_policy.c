@@ -39,19 +39,41 @@ void lie_cache_metadata_clear(lie_cache_metadata *m){
     if(m){free((void *)m->text);free((void *)m->trailer);memset(m,0,sizeof(*m));}
 }
 
+const char *lie_cache_option_name(const char *key){
+    static const struct { const char *old, *canonical; } aliases[]={
+        {"--prefix-cache-mib","--kv-cache-ram-mb"},
+        {"--prefix-ssd-dir","--kv-disk-dir"},
+        {"--prefix-ssd-quota-mib","--kv-disk-space-mb"},
+        {"--prefix-ssd-staging-mib","--kv-disk-staging-mb"},
+        {"--state-ssd-mode","--kv-disk-mode"},
+        {"--cache-policy","--kv-cache-policy"},
+        {"--cache-min-tokens","--kv-cache-min-tokens"},
+        {"--cache-cold-max-tokens","--kv-cache-cold-max-tokens"},
+        {"--cache-continued-tokens","--kv-cache-continued-interval-tokens"},
+        {"--cache-trim-tokens","--kv-cache-boundary-trim-tokens"},
+        {"--cache-align-tokens","--kv-cache-boundary-align-tokens"},
+        {"--cache-text-prefix","--kv-cache-text-prefix"},
+        {"--cache-capture-finish","--kv-cache-capture-finish"}
+    };
+    for(size_t i=0;i<sizeof(aliases)/sizeof(aliases[0]);++i)
+        if(!strcmp(key,aliases[i].old))return aliases[i].canonical;
+    return key;
+}
+
 int lie_cache_policy_option(lie_cache_policy *p,const char *key,const char *value){
-    if(!strcmp(key,"--cache-policy")){
+    key=lie_cache_option_name(key);
+    if(!strcmp(key,"--kv-cache-policy")){
         if(strcmp(value,"ds4")&&strcmp(value,"legacy"))return -1;
         p->enabled=!strcmp(value,"ds4");return 1;
     }
-    bool *flag=!strcmp(key,"--cache-text-prefix")?&p->text_prefix:
-        !strcmp(key,"--cache-capture-finish")?&p->capture_finish:NULL;
+    bool *flag=!strcmp(key,"--kv-cache-text-prefix")?&p->text_prefix:
+        !strcmp(key,"--kv-cache-capture-finish")?&p->capture_finish:NULL;
     if(flag){if(strcmp(value,"on")&&strcmp(value,"off"))return -1;*flag=!strcmp(value,"on");return 1;}
-    uint32_t *number=!strcmp(key,"--cache-min-tokens")?&p->min_tokens:
-        !strcmp(key,"--cache-cold-max-tokens")?&p->cold_max_tokens:
-        !strcmp(key,"--cache-continued-tokens")?&p->continued_interval_tokens:
-        !strcmp(key,"--cache-trim-tokens")?&p->boundary_trim_tokens:
-        !strcmp(key,"--cache-align-tokens")?&p->boundary_align_tokens:NULL;
+    uint32_t *number=!strcmp(key,"--kv-cache-min-tokens")?&p->min_tokens:
+        !strcmp(key,"--kv-cache-cold-max-tokens")?&p->cold_max_tokens:
+        !strcmp(key,"--kv-cache-continued-interval-tokens")?&p->continued_interval_tokens:
+        !strcmp(key,"--kv-cache-boundary-trim-tokens")?&p->boundary_trim_tokens:
+        !strcmp(key,"--kv-cache-boundary-align-tokens")?&p->boundary_align_tokens:NULL;
     if(!number)return 0;
     uint64_t n=0;if(!*value)return -1;
     for(const char *c=value;*c;++c){if(*c<'0'||*c>'9'||n>(UINT32_MAX-(unsigned)(*c-'0'))/10u)return -1;n=n*10+(unsigned)(*c-'0');}

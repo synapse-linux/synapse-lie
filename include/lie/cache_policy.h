@@ -30,6 +30,9 @@ typedef struct {
 } lie_cache_metadata;
 /* 0 unknown option, 1 accepted, -1 invalid value. */
 int lie_cache_policy_option(lie_cache_policy *,const char *,const char *);
+/* Canonical KV CLI spelling. Legacy names remain accepted by all clients.
+ * Unrecognized names are returned unchanged; model-weight options are separate. */
+const char *lie_cache_option_name(const char *);
 void lie_cache_policy_init(lie_cache_policy *);
 uint64_t lie_cache_now(void);
 uint32_t lie_cache_store_len(const lie_cache_policy *,uint32_t);

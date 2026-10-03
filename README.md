@@ -20,8 +20,8 @@ other model/platform combinations are not yet supported on this branch.
 - Function calls and tool results through the standard OpenAI protocol; Pi can
   connect directly over HTTP.
 - Native GPU decode batching, driven by sequence readiness and output credits.
-- Shared RAM prefix cache, enabled by default with a 4 GiB budget. SSD persistence
-  is optional and uses an explicit directory and quota.
+- Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
+  Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, with CSV, JSON, SVG and PNG exports.
 

@@ -72,9 +72,9 @@ int lie_state_bench_main(int argc,char **argv){
     const char *ssd_mode=NULL;lie_store_options ssd={0};
     for(int i=1;i<argc;++i){
         if(!strcmp(argv[i],"--build-info")){info=true;continue;}
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite state --model FIRST-SHARD --output NEW-JSONL --tokens-file JSON-IDS --pp CHECKPOINT [--context 262144] [--chunk 2048]\nThree fresh/restored pairs: greedy, seeded sampling, independent greedy clone; full logits at every step.\nOptional SSD: --state-ssd-mode write|read --prefix-ssd-dir PRIVATE-PATH --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N.\nWrite requires an empty store and durably saves one checkpoint; read requires an exact checkpoint from an earlier process and runs the three pairs.\nPrefix checkpoint must align to chunks unless it is the whole prompt. Optional RAM-only --capture-decode 1..256 captures after generated tokens; requires --pp equal to the input length and runs three greedy replay/restore pairs. Replay time is separate from prefill. RAM capture budget: 4 GiB. MTP/vision unsupported. Shared GPU requires leased supervisor.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite state --model FIRST-SHARD --output NEW-JSONL --tokens-file JSON-IDS --pp CHECKPOINT [--context 262144] [--chunk 2048]\nThree fresh/restored pairs: greedy, seeded sampling, independent greedy clone; full logits at every step.\nOptional KV disk persistence: --kv-disk-mode write|read --kv-disk-dir PRIVATE-PATH --kv-disk-space-mb N --kv-disk-staging-mb N.\nWrite requires an empty store and durably saves one checkpoint; read requires an exact checkpoint from an earlier process and runs the three pairs.\nPrefix checkpoint must align to chunks unless it is the whole prompt. Optional RAM-only --capture-decode 1..256 captures after generated tokens; requires --pp equal to the input length and runs three greedy replay/restore pairs. Replay time is separate from prefill. RAM capture budget: 4 GiB. MTP/vision unsupported. Shared GPU requires leased supervisor.");return 0;}
         if(i+1==argc)goto usage;
-        const char *k=argv[i],*v=argv[++i];unsigned bit=0;
+        const char *k=lie_cache_option_name(argv[i]),*v=argv[++i];unsigned bit=0;
         if(!strcmp(k,"--suite")){bit=1;if(strcmp(v,"state"))goto usage;}
         else if(!strcmp(k,"--model")){bit=2;model=v;}
         else if(!strcmp(k,"--output")){bit=4;output=v;}
@@ -83,10 +83,10 @@ int lie_state_bench_main(int argc,char **argv){
         else if(!strcmp(k,"--chunk")){bit=32;if(!integer(v,&chunk)||chunk>2048)goto usage;}
         else if(!strcmp(k,"--pp")){bit=64;if(!integer(v,&checkpoint))goto usage;}
         else if(!strcmp(k,"--capture-decode")){bit=2048;if(!integer(v,&capture_decode)||capture_decode>256)goto usage;}
-        else if(!strcmp(k,"--state-ssd-mode")){bit=128;ssd_mode=v;if(strcmp(v,"write")&&strcmp(v,"read"))goto usage;}
-        else if(!strcmp(k,"--prefix-ssd-dir")){bit=256;ssd.directory=v;if(*v!='/')goto usage;}
-        else if(!strcmp(k,"--prefix-ssd-quota-mib")){unsigned value;bit=512;if(!integer(v,&value))goto usage;ssd.quota_bytes=(uint64_t)value*1024*1024;}
-        else if(!strcmp(k,"--prefix-ssd-staging-mib")){unsigned value;bit=1024;if(!integer(v,&value))goto usage;ssd.staging_bytes=(uint64_t)value*1024*1024;}
+        else if(!strcmp(k,"--kv-disk-mode")){bit=128;ssd_mode=v;if(strcmp(v,"write")&&strcmp(v,"read"))goto usage;}
+        else if(!strcmp(k,"--kv-disk-dir")){bit=256;ssd.directory=v;if(*v!='/')goto usage;}
+        else if(!strcmp(k,"--kv-disk-space-mb")){unsigned value;bit=512;if(!integer(v,&value))goto usage;ssd.quota_bytes=(uint64_t)value*1024*1024;}
+        else if(!strcmp(k,"--kv-disk-staging-mb")){unsigned value;bit=1024;if(!integer(v,&value))goto usage;ssd.staging_bytes=(uint64_t)value*1024*1024;}
         else goto usage;
         if(seen&bit)goto usage;
         seen|=bit;

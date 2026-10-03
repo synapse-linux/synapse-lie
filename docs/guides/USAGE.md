@@ -88,18 +88,18 @@ that length plus output. Each active sequence needs its own runtime state;
 higher concurrency and larger contexts increase memory requirements.
 `--max-active` controls sequences, not the number of inference worker threads.
 
-## RAM and SSD cache
+## KV cache in RAM and on disk
 
 RAM retention uses a lazily allocated 4 GiB budget by default. Use
-`--prefix-cache-mib 0` to disable it, or a larger value for more retained
+`--kv-cache-ram-mb 0` to disable it, or a larger value for more retained
 checkpoints. This cache reuses matching prompts; it does not eliminate the
 prefill of a new prompt.
 
-To enable SSD persistence, add the following options to the server command:
+To persist KV checkpoints on disk, add these options to the server command:
 
 ```sh
---prefix-ssd-dir /absolute/path/to/lie-cache \
---prefix-ssd-quota-mib 16384 --prefix-ssd-staging-mib 8192
+--kv-disk-dir /absolute/path/to/lie-cache \
+--kv-disk-space-mb 16384 --kv-disk-staging-mb 8192
 ```
 
 LIE creates the final private directory; its parent must already exist.
@@ -108,8 +108,33 @@ the staging budget bounds in-flight state transfers. Keep enough staging space
 for one checkpoint. RAM and SSD can be enabled independently. SSD persistence
 is **off unless explicitly configured**.
 
-The default `--cache-policy ds4` captures reusable prompt checkpoints and applies
-utility-based retention. `--cache-policy legacy` selects the earlier capture
+All `--kv-*` options configure inference state, never model weights. Budget
+options ending in `-mb` use binary MiB (1,048,576 bytes). These names also apply
+to `synapse-lie-bench --suite core`; the state suite accepts the disk options
+and `--kv-disk-mode write|read`.
+
+| Option | Purpose | Default |
+| --- | --- | --- |
+| `--kv-cache-ram-mb N` | Retained KV checkpoints in RAM; zero disables retention. | `4096` |
+| `--kv-disk-dir PATH` | Private directory for persistent KV checkpoints. | Disabled |
+| `--kv-disk-space-mb N` | Maximum retained KV disk space. | Required with directory |
+| `--kv-disk-staging-mb N` | RAM budget for KV disk transfers. | Required with directory |
+| `--kv-cache-min-tokens N` | Minimum reusable prefix length. | `512` |
+| `--kv-cache-cold-max-tokens N` | Cold checkpoint capture threshold. | `30000` |
+| `--kv-cache-continued-interval-tokens N` | Interval between continued checkpoints. | `10000` |
+| `--kv-cache-boundary-trim-tokens N` | Tail tokens excluded from stable boundaries. | `32` |
+| `--kv-cache-boundary-align-tokens N` | Alignment of stable boundaries. | `2048` |
+
+The disk and boundary names follow [DS4's server options](https://github.com/antirez/ds4/blob/main/docs/SERVER.md#disk-kv-cache).
+The RAM and staging budgets are LIE controls. Retention budgets do not limit the
+live state required by active requests. The old `--prefix-cache-mib`,
+`--prefix-ssd-*` and `--cache-*` spellings remain compatibility aliases.
+
+Future persistence or streaming of **model weights** will use the separate
+`--model-*` namespace. It is not implemented or enabled by any KV option.
+
+The default `--kv-cache-policy ds4` captures reusable prompt checkpoints and applies
+utility-based retention. `--kv-cache-policy legacy` selects the earlier capture
 schedule. The DS4 runtime payload is retained in RAM and written to SSD with a
 LIE identity/integrity extension. This is not an extra high-ratio compression
 codec, and importing arbitrary DS4 checkpoints is not yet qualified.

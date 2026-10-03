@@ -166,10 +166,10 @@ int lie_core_bench_main(int argc,char **argv) {
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--prefix-cache-mib 4096] [--cache-policy ds4|legacy]\n  [--cache-min-tokens 512] [--cache-cold-max-tokens 30000] [--cache-continued-tokens 10000]\n  [--cache-trim-tokens 32] [--cache-align-tokens 2048] [--cache-text-prefix on|off] [--cache-capture-finish on|off]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero MiB disables); SSD prefix persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
-        const char *key=argv[i],*value=argv[++i];unsigned bit=0;
+        const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
         if(!strcmp(key,"--suite")){bit=1u;if(strcmp(value,"core"))goto usage;}
         else if(!strcmp(key,"--model")){bit=2u;model=value;}
         else if(!strcmp(key,"--output")){bit=4u;output=value;}
@@ -183,10 +183,10 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--warmups")){bit=1024u;if(!integer(value,0,10,&warmups))goto usage;}
         else if(!strcmp(key,"--timeout-ms")){bit=2048u;if(!integer(value,1,3600000,&timeout))goto usage;}
         else if(!strcmp(key,"--graphs")){bit=4096u;graphs=value;}
-        else if(!strcmp(key,"--prefix-cache-mib")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
-        else if(!strcmp(key,"--prefix-ssd-dir")){bit=16384u;ssd.directory=value;}
-        else if(!strcmp(key,"--prefix-ssd-quota-mib")){unsigned mib;bit=32768u;if(!integer(value,1,1048576,&mib))goto usage;ssd.quota_bytes=(uint64_t)mib*1024u*1024u;}
-        else if(!strcmp(key,"--prefix-ssd-staging-mib")){unsigned mib;bit=65536u;if(!integer(value,1,1048576,&mib))goto usage;ssd.staging_bytes=(uint64_t)mib*1024u*1024u;}
+        else if(!strcmp(key,"--kv-cache-ram-mb")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
+        else if(!strcmp(key,"--kv-disk-dir")){bit=16384u;ssd.directory=value;}
+        else if(!strcmp(key,"--kv-disk-space-mb")){unsigned mib;bit=32768u;if(!integer(value,1,1048576,&mib))goto usage;ssd.quota_bytes=(uint64_t)mib*1024u*1024u;}
+        else if(!strcmp(key,"--kv-disk-staging-mb")){unsigned mib;bit=65536u;if(!integer(value,1,1048576,&mib))goto usage;ssd.staging_bytes=(uint64_t)mib*1024u*1024u;}
         else if(lie_cache_policy_option(&policy,key,value)!=1)goto usage;
         if(seen&bit)goto usage;
         seen|=bit;

@@ -1,5 +1,24 @@
 # Isolated OpenAI reactive API increment
 
+## KV option names and future weight storage — 2026-10-03
+
+Server and shared-core/state benchmark CLIs now use `--kv-*` for inference
+checkpoints: `--kv-cache-ram-mb`, `--kv-disk-dir`, `--kv-disk-space-mb` and
+`--kv-disk-staging-mb`. Disk and boundary names follow the official DS4 server
+CLI. Old names remain aliases in a shared C normalizer, preserving existing
+qualified recipes. The HTTP benchmark uses `--server-kv-cache` for its remote
+configuration declaration, distinct from `--kv-cache-policy ds4|legacy`.
+Future weight persistence/streaming belongs to `--model-*`; it is not implemented
+by these cache controls. RAM remains enabled and disk persistence opt-in.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **5/5**, including RAM reuse,
+KV disk restart across new/old spellings, core/state clients and HTTP benchmark
+declarations. Build exit 0, tests exit 0; observed peaks 76.625 C and 72.875 C.
+The initial sandboxed test attempt exited 8 because private sockets and
+LeakSanitizer were restricted; the failure is retained. Receipts are under
+`evidence/kv-cli-names-{build,test,test-unsandboxed}-20261003/`. No GPU run or
+performance claim. The separate Python dependency removal remains in progress.
+
 ## Complete prompt retention — 2026-10-02
 
 The owner authorizes publication to `https://github.com/synapse-linux/synapse-lie`.

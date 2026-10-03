@@ -52,6 +52,24 @@ int main(void){
     assert(lie_cache_policy_option(&policy,"--cache-min-tokens","-1")==-1);
     assert(lie_cache_policy_option(&policy,"--cache-min-tokens","4294967296")==-1);
     assert(lie_cache_policy_option(&policy,"--cache-text-prefix","off")==1&&!policy.text_prefix);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-policy","legacy")==1&&!policy.enabled);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-policy","ds4")==1&&policy.enabled);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-policy","off")==-1);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-text-prefix","on")==1&&policy.text_prefix);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-capture-finish","off")==1&&!policy.capture_finish);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-min-tokens","512")==1&&policy.min_tokens==512);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-min-tokens","4294967296")==-1);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-min-tokens","-1")==-1);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-cold-max-tokens","30000")==1&&policy.cold_max_tokens==30000);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-continued-interval-tokens","10000")==1&&lie_cache_continued_step(&policy)==10240);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-boundary-trim-tokens","32")==1&&policy.boundary_trim_tokens==32);
+    assert(lie_cache_policy_option(&policy,"--kv-cache-boundary-align-tokens","2048")==1&&lie_cache_store_len(&policy,8192)==6144);
+    assert(lie_cache_policy_option(&policy,"--model-disk-dir","/unused")==0);
+    assert(!strcmp(lie_cache_option_name("--prefix-cache-mib"),"--kv-cache-ram-mb"));
+    assert(!strcmp(lie_cache_option_name("--prefix-ssd-dir"),"--kv-disk-dir"));
+    assert(!strcmp(lie_cache_option_name("--prefix-ssd-quota-mib"),"--kv-disk-space-mb"));
+    assert(!strcmp(lie_cache_option_name("--prefix-ssd-staging-mib"),"--kv-disk-staging-mb"));
+    assert(!strcmp(lie_cache_option_name("--model-disk-dir"),"--model-disk-dir"));
     if(LIE_CACHE_UTILITY){
         lie_retention p={.created=100,.touched=100,.hits=10,.reason=LIE_CACHE_COLD};
         assert(fabs(lie_retention_score(&p,100,100,100,false)-22)<1e-12);

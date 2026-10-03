@@ -28,7 +28,8 @@ class CoreBench(unittest.TestCase):
                 output=root/(name+'.jsonl')
                 p=subprocess.run([BINARY,'--suite','state','--model',':fixture:','--output',str(output),
                                   '--tokens-file',str(source),'--pp',str(checkpoint),'--chunk','4','--context','128',
-                                  '--state-ssd-mode',mode,'--prefix-ssd-dir',str(store),
+                                  ('--kv-disk-mode' if mode=='write' else '--state-ssd-mode'),mode,
+                                  ('--kv-disk-dir' if mode=='write' else '--prefix-ssd-dir'),str(store),
                                   '--prefix-ssd-quota-mib','1','--prefix-ssd-staging-mib','1'],capture_output=True,text=True,timeout=15)
                 return p,output
             p,path=run('write','write');self.assertEqual(p.returncode,0,p.stderr)
@@ -94,7 +95,7 @@ class CoreBench(unittest.TestCase):
         root=Path(root);source=root/'input';output=root/'result.jsonl'
         source.write_text(text if text is not None else json.dumps(tokens or [0,1,2,3]))
         kind='--prompt-file' if text is not None else '--tokens-file'
-        p=subprocess.run([BINARY,'--suite','core','--cache-policy','legacy','--model',model,'--output',str(output),kind,str(source),
+        p=subprocess.run([BINARY,'--suite','core','--kv-cache-policy','legacy','--model',model,'--output',str(output),kind,str(source),
                           '--tg','16','--repetitions','2',*(['--prefix-cache-mib',cache] if cache is not None else []),*args],capture_output=True,text=True,timeout=15)
         return p,output
 

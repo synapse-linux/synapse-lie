@@ -18,12 +18,12 @@ def run(binary, enabled, policy='legacy'):
     with tempfile.TemporaryDirectory(prefix='lie-cache-http-') as tmp:
         logpath = Path(tmp)/'server.log'
         with logpath.open('wb') as log:
-            proc = subprocess.Popen([binary, '--model', ':fixture:', '--cache-policy', policy,
-                                     '--cache-min-tokens', '4', '--cache-cold-max-tokens', '4',
-                                     '--cache-trim-tokens', '0', '--cache-align-tokens', '4',
-                                     '--cache-capture-finish', 'off', '--port', str(api),
+            proc = subprocess.Popen([binary, '--model', ':fixture:', '--kv-cache-policy', policy,
+                                     '--kv-cache-min-tokens', '4', '--kv-cache-cold-max-tokens', '4',
+                                     '--kv-cache-boundary-trim-tokens', '0', '--kv-cache-boundary-align-tokens', '4',
+                                     '--kv-cache-capture-finish', 'off', '--port', str(api),
                                      '--management-port', str(management), '--context', '128',
-                                     '--prefill-chunk', '4', *([] if enabled else ['--prefix-cache-mib', '0'])],
+                                     '--prefill-chunk', '4', *([] if enabled else ['--kv-cache-ram-mb', '0'])],
                                     stdout=log, stderr=log)
             try:
                 deadline = time.monotonic()+5

@@ -18,9 +18,10 @@ def run(binary, root, index, ram):
     with log_path.open('wb') as log:
         proc = subprocess.Popen([binary, '--model', ':fixture:', '--cache-policy', 'legacy', '--port', str(api),
                                  '--management-port', str(management), '--context', '128',
-                                 '--prefill-chunk', '4', '--prefix-cache-mib', str(ram),
-                                 '--prefix-ssd-dir', str(root/'store'), '--prefix-ssd-quota-mib', '1',
-                                 '--prefix-ssd-staging-mib', '1'], stdout=log, stderr=log)
+                                 '--prefill-chunk', '4', ('--kv-cache-ram-mb' if index==0 else '--prefix-cache-mib'), str(ram),
+                                 ('--kv-disk-dir' if index==0 else '--prefix-ssd-dir'), str(root/'store'),
+                                 ('--kv-disk-space-mb' if index==0 else '--prefix-ssd-quota-mib'), '1',
+                                 ('--kv-disk-staging-mb' if index==0 else '--prefix-ssd-staging-mib'), '1'], stdout=log, stderr=log)
         try:
             deadline = time.monotonic()+5
             while True:

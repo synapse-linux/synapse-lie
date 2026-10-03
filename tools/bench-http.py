@@ -209,7 +209,7 @@ def main(argv=None):
     p.add_argument('--rope-scaling',choices=['unknown','native','yarn2','yarn4'],default='unknown',help='Operator declaration, never a server setting; required for long-context')
     p.add_argument('--corpus-seed',type=int,default=0,help='Deterministic long-context corpus seed, independent of sampling')
     p.add_argument('--turns',type=int,default=20);p.add_argument('--repetitions',type=int,default=3);p.add_argument('--warmups',type=int,default=0)
-    p.add_argument('--cache-policy',choices=['off','on','unknown'],required=True,help='Operator declaration; this client does not toggle server cache')
+    p.add_argument('--server-kv-cache','--cache-policy',dest='cache_policy',choices=['off','on','unknown'],required=True,help='Operator declaration; this client does not toggle server cache')
     p.add_argument('--request-options',help='JSON object for explicit server-supported sampling/drafter options')
     p.add_argument('--export-requests',help='Exclusive corpus export for exact replay on another server')
     p.add_argument('--graphs');p.add_argument('--compare');p.add_argument('--timeout',type=float,help='HTTP socket timeout in seconds: long-context 3600, otherwise 630')
@@ -222,7 +222,7 @@ def main(argv=None):
     except ValueError:p.error('sizes must be integers')
     if not 1<=args.repetitions<=100 or not 0<=args.warmups<=10 or not 1<=args.turns<=100 or not 1<=args.tg<=65536 or not math.isfinite(args.timeout) or not 0<args.timeout<=7200 or not args.sizes or len(args.sizes)>32 or any(not 128<=x<=1048576 for x in args.sizes) or (args.compare and not args.graphs):p.error('invalid workload bounds')
     if not 0 <= args.corpus_seed < 2**64 or (args.context_capacity is not None and not 128 <= args.context_capacity <= 1048576): p.error('invalid corpus seed or context capacity')
-    if long_context and (args.context_capacity is None or args.rope_scaling == 'unknown' or args.cache_policy != 'off'): p.error('long-context requires --context-capacity, --rope-scaling and --cache-policy off; declarations do not enable server support')
+    if long_context and (args.context_capacity is None or args.rope_scaling == 'unknown' or args.cache_policy != 'off'): p.error('long-context requires --context-capacity, --rope-scaling and --server-kv-cache off; declarations do not enable server support')
     if long_context and any(n+args.tg > args.context_capacity for n in args.sizes): p.error('prompt target plus output budget exceeds declared context capacity')
     args.options=json.loads(Path(args.request_options).read_text()) if args.request_options else {}
     if not isinstance(args.options,dict):p.error('request options must be an object')
