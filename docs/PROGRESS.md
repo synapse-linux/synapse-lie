@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Dense sampler host cost measured — 2026-10-03
+
+The editing Strix Halo `.155` completes the host-only 54-case sampler matrix:
+three generated-logit vocabulary sizes, three shapes and six configurations.
+Pristine official Gufo, C17 and the same-layout OFF control use three balanced
+process orders, seven measured repetitions each. All distributions, draws and
+RNG witnesses match. Expanded ASan/UBSan/LeakSanitizer CTest passes **17/17**;
+three additional cost-probe sanitizer smokes pass. All twelve measurement
+children exit0 and retire, and all 162 counted allocation scopes reach zero.
+
+The **cost acceptance gate fails**: C17/reference per-call time ratios range
+from 0.55 to 3.43, with a median across cases of 1.71. Several full-vocabulary
+filters regress; top-k often reduces allocations. Complete values, exact scope
+and reproducible native commands are in the
+[sampler cost section](development/C17-SAMPLING.md#host-cost-and-temporary-allocations)
+and its [receipt](development/validation/sampling-cost-2026-10-03.json).
+These CPU operator measurements perform no model forward or GPU execution.
+They do not attribute the earlier 1500-token GPU regression, whose ordinary
+greedy path retains device argmax. Runtime source is unchanged in this checkpoint.
+
+Measurement peaks are CPU82.5/GPU55/NVMe34.85 C; the sanitizer suite peaks at
+CPU94.5 C. No thermal stop or hardware shutdown occurs. The failed preparation
+argument and initial compiler warnings remain retained; corrected builds and
+all validation commands exit0. No GPU run/staging on `.157` occurs: its Q2
+reservation remains in force. The owner separately resumes the existing Strix
+Point thread for `.161` qualification and current-core integration; historical
+target results remain bound to their original binaries.
+
 ## Clocked performance follow-up prepared — 2026-10-03
 
 Ten arms are prepared locally at frozen runtime checkpoint `15c6082`: the

@@ -27,6 +27,10 @@ CMake verifies the provider sources and archives. HTTP benchmark clients and
 CSV/JSON/SVG/PNG exports are first-party C17 code; PNG encoding links libpng.
 Python is used only by explicitly selected legacy test oracles and historical
 development/qualification scripts, outside the normal build and runtime.
+The optional `tests/sampling` cost/allocation project compares the pristine
+official sampler with generated LIE ON/OFF variants, without HIP or model
+forward. Its first-party C++20 QA probes link ICU and libm; allocation hooks
+belong only to separate untimed probes. Runtime dependency scope is unchanged.
 The new first-party C17 SSD codec/identity/store also uses installed OpenSSL
 Crypto SHA-256. No upstream snapshot codec or disk-cache code was imported;
 upstream source/archive pins are unchanged by this increment.
