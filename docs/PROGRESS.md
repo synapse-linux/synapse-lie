@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## First sampler cost optimization — 2026-10-03 UTC
+
+The C17 ranked selector replaces full heapsort with bounded introsort, preserving
+its deterministic logit/token order and heap fallback. Linear selection tracks
+the maximum while preparing candidates; ordinary host greedy checks improvement
+before eligibility. No API, ABI, reactive scheduling, worker or device change.
+
+ASan/UBSan/LeakSanitizer passes **17/17** host-reference tests, **1/1** native
+C contract and three cost smokes. The expanded full-vocabulary matrix contains
+24 cases, including adversarial orderings. All 54 measured distribution/draw/RNG
+witnesses match controls and the original baseline; all 162 allocation scopes
+retire, twelve measurement processes exit0 and retire. New control-relative
+median case cost falls from **1.71 to 1.07**, but the worst ratio remains **2.00**.
+The performance acceptance gate stays open, with original-weight sampled GPU
+qualification still pending. Complete retained baseline/current values are in
+the [optimization report](development/C17-SAMPLING.md#first-cost-optimization)
+and [source-bound receipt](development/validation/sampling-optimization-2026-10-03.json).
+Measurement CPU/GPU/NVMe peaks are 77.875/52/34.85 C, with no guard stop.
+
+The existing Strix Point thread runs its missing ROCm10 fresh128 baseline on
+`.161` using the old qualified source `1877b03`; this is not qualification of
+the newer runtime. Separately it commits current core/MTP/vision/gfx1150
+integration at `b8a3c73` and frozen `bea50d3` phase-clock/QA integration at
+`a049bcc`, retaining target-specific receipts and the central benchmark page.
+Point's next runtime GPU window remains separately admitted; root accesses
+neither remote GPU during this CPU increment.
+
 ## Dense sampler host cost measured — 2026-10-03
 
 The editing Strix Halo `.155` completes the host-only 54-case sampler matrix:

@@ -70,6 +70,10 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- C17 ranked sampling uses bounded introsort, and linear selection avoids a
+  repeated maximum scan. Host witnesses match the controls; remaining cost
+  regressions and sampled GPU qualification are documented in the sampler guide.
+
 - Build verification, HTTP benchmark clients and CSV/JSON/SVG/PNG reports run
   without Python. Provider helpers use CMake; benchmark tools use C17 and libpng.
 - Default tests use native fixtures. Historical Python oracles remain available

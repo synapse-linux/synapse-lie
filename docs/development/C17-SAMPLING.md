@@ -127,7 +127,7 @@ The [receipt](validation/sampling-cost-2026-10-03.json) and
 [complete 54-case values](validation/sampling-cost-2026-10-03.csv) retain controls,
 raw hashes, exits and observed thermal limits.
 
-The **cost gate remains open**. Across these cases C17/reference time ratios
+The **initial cost gate fails**. Across these cases C17/reference time ratios
 range from 0.55 to 3.43, with a median ratio of 1.71. For the 248320-entry sine
 shape, per-call medians are:
 
@@ -164,6 +164,34 @@ build/sampling-cost/candidate-allocation
 This option belongs to the host QA project and defaults OFF. Normal builds and
 clients need no new dependency. Private qualification supervision scripts are
 outside the product build and benchmark path.
+
+## First cost optimization
+
+C17 now sorts ranked rows with median-pivot partitioning, insertion sort for
+small partitions and a depth-bounded heapsort fallback. Only the smaller
+partition recurses, keeping stack growth bounded. The total logit/token order,
+workspace allocation and filter arithmetic stay the same. The linear path
+collects its maximum while preparing candidates instead of scanning them again;
+greedy tests a possible improvement before checking the optional mask/finite
+predicate. No device call, thread, HTTP field or ABI changes.
+
+Expanded ASan/UBSan/LeakSanitizer checks pass **17/17** host-reference tests,
+**1/1** native C contract and three additional cost smokes. Full-vocabulary
+witnesses now cover 24 cases, including decreasing, organ-pipe and interleaved
+logits. The new 54-case cost matrix matches both controls and the original
+baseline exactly in distribution/draw/RNG witnesses; all allocation scopes
+retire. New results and original results remain separate:
+[optimization receipt](validation/sampling-optimization-2026-10-03.json),
+[complete before/current values](validation/sampling-optimization-2026-10-03.csv).
+
+The median case time ratio against Gufo falls from **1.71 to 1.07**, but the
+worst case remains **2.00**, so the performance gate remains open. At full
+vocabulary with flat logits, top-p costs 5810 µs versus 5786 µs for Gufo;
+min-p costs 3714 µs versus 3804 µs. Host greedy and unfiltered distributions
+still regress. This is an independent CPU repetition of the same generated-logit
+method, with uncontrolled affinity/background load; original-weight sampled
+GPU qualification remains pending. Measurement peaks are CPU77.875/GPU52 /
+NVMe34.85 C; no software thermal stop occurs.
 
 Next gates on this branch: original-weight vision/combined continuation and
 restarted MTP/vision SSD, the missing 12288 depth, first-prompt regression
