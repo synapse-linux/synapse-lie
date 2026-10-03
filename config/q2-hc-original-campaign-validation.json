@@ -104,9 +104,9 @@
   ],
   "q2_strict_replay_audit_sha256": "74b83659cc9928a24a63536d61355ec9e95331be84e8a1acddc319866456b39c",
   "export_sha256": {
-    "docs/figures/q2-original-baseline.csv": "3479889224e7b14f29e10da12eb9d53097f87e4326f02dc4d240c3b027b10680",
+    "docs/figures/q2-original-baseline.csv": "95417ed89c510cd29dd2b573f557c83e3149a4c386afda1dcd97e3df35e89d6b",
     "docs/figures/q2-original-baseline.png": "1a15486168f520b40870945c77cbe8add29c570d78fc45222893505ec007ff63",
-    "docs/figures/q2-original-baseline.svg": "74f662ffeeb3b2bdfeb5f60f88d41accf29053987f81e203764c0536edde0929"
+    "docs/figures/q2-original-baseline.svg": "3ef14e715b08e4ae232ab55818861ef23e087193eebb441120e33b4d9a4b8cb4"
   },
   "csv_samples_including_warmup": 36,
   "warmup_samples": 9,

@@ -26,7 +26,7 @@ def main():
               'prefill_logits_sha256','decode_logits_sha256')
     count = 0
     with destination.with_suffix('.csv').open('w',newline='') as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator='\n')
         writer.writeheader()
         for name,model in groups:
             for target in targets:
@@ -78,6 +78,8 @@ def main():
              fontsize=9,color='#52606d')
     fig.subplots_adjust(top=.86,bottom=.14,hspace=.35,wspace=.24)
     fig.savefig(destination.with_suffix('.svg'))
+    svg_path = destination.with_suffix('.svg')
+    svg_path.write_text('\n'.join(line.rstrip() for line in svg_path.read_text().splitlines())+'\n')
     fig.savefig(destination.with_suffix('.png'),dpi=170)
     plt.close(fig)
     print(json.dumps({'csv_rows':count,'svg':str(destination.with_suffix('.svg')),
