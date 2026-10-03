@@ -14,6 +14,14 @@ After updating those expectations, both focused tests pass. The initial
 sandboxed 21 HTTP failures were loopback-denied fixtures, not serving results.
 The first long-context ROCm 10 `.161` baseline remains a separately pinned
 pre-integration binary; new runtime/device qualification is pending.
+Its paired fresh-prompt ROCm 10 LIE/Gufo arms now pass 10/10 samples each from
+1,500 through 131,072 physical tokens, with identical physical input IDs,
+outputs and full prefill/decode frontiers at every pair. Both child/supervisor
+exits are 0; 21/21 files per arm match remote SHA-256, models are unchanged,
+`llama-router.service` is restored and the private lease released. At 128K,
+LIE/Gufo median prefill is 401.949/402.066 tok/s and decode is
+10.061/10.062 tok/s. The [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+contains full values, charts, raw bundles and the offline verifier.
 The subsequent frozen `bea50d3` merge adds validated prefill/decode phase
 clocks to the native benchmark and report. On the Point branch, the C/HTTP
 rebuild and five focused native/HTTP/provider tests pass; the ASan/UBSan

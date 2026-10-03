@@ -67,7 +67,8 @@ results: at C8 ROCm 10 LIE reaches 32.837 aggregate decode token/s, 3.15× its
 serial control. These are direct engine sessions, not HTTP clients. The earlier
 ROCm 7.2 output IDs and numerical frontiers differ at every tested point, so
 the cross-stack throughput comparison does not establish quality equivalence.
-ROCm 10 fresh full-prompt and served HTTP comparisons remain pending.
+The paired ROCm 10 [fresh full-prompt comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#fresh-full-prompt-prefill-through-128k)
+now passes through 128K. Near-256K ROCm 10 and served HTTP comparisons remain pending.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151

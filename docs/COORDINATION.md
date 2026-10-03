@@ -1,5 +1,16 @@
 # DS4 / synapse-lie coordination
 
+The `.161` ROCm 10 Distrobox `fresh-128k` baseline closes in two serial GPU
+windows on 2026-10-03. LIE and direct Gufo each pass 10/10 original UD samples
+with child/supervisor exit 0, unchanged model file identities, service
+restoration and private lease release. Fresh local collection verifies 21/21
+remote files by SHA-256 per arm. The LIE window releases at 22:03:20.532953 UTC
+and Gufo at 22:23:05.922791 UTC. Their full-prompt physical IDs, output IDs
+and full prefill/decode frontier hashes match pairwise. Both use the old
+`1877b03` binary; the newly merged C17 phase-clock runtime is untested on
+`.161`. The separate `fresh-256k` LIE baseline is currently under its own
+new GPU lease. See the [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
 reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full
 samples, child/supervisor exit 0 and unchanged model file identities. Each
