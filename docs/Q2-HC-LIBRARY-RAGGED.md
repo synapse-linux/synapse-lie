@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # HC library dispatch for incomplete prefill batches
 
+This completed experiment is a component/native-model diagnostic. It does not
+implement the [canonical HTTP context curve](Q2-CURVE-PARITY.md), which remains
+the Q2/UD acceptance target. The [full-model comparison](Q2-HC-LIBRARY-RAGGED-MODEL.md)
+measures only 1.975% PP gain at physical 2042, with no decode gain or promotion.
+
 The original-C17 comparison confirms Q2 at 1362.819 prefill token/s versus UD
 1663.579 for 2042 physical prompt tokens: an 18.079% deficit. The current
 experimental library consumer and paired producer are restricted to exactly
@@ -8,7 +13,7 @@ experimental library consumer and paired producer are restricted to exactly
 consumer. This source fact identifies an unmeasured dispatch boundary; it does
 not explain the entire model deficit or establish a speedup.
 
-This next component experiment extends only the existing HC-down library
+This component experiment extends only the existing HC-down library
 selection to **96 through 2048 rows**, M320/K10240, F16 weights/input and F32
 output. It still requires algorithm 7526 to pass the installed library's
 support check with zero workspace. Selection still examines the original
@@ -21,8 +26,10 @@ the executor, native GPU kernels and the producer's n2048 restriction.
 
 The [source manifest](../config/q2-hc-library-ragged-source.json) and
 [two-predicate patch](../experiments/q2-hc-library-ragged.patch) preserve the
-measured parent. This is a component-only source; its remote guard refuses
-model runs, MMQ reuse options, persistent launch and other experiment modes.
+measured parent. The initial component-only guard is preserved in its source
+capsule. After the measured component decision, the remote guard also permits
+the explicit original-C17 Q2 comparison with a full MMQ rebuild. It refuses
+other model modes, MMQ reuse and persistent launch.
 No public C ABI, state format, allocation or reactive-scheduling policy changes.
 Scalar decode is outside the new dispatch range and receives no speed claim.
 
@@ -66,25 +73,71 @@ unchanged. No dependency installation or hardware tuning is involved.
 
 ## Current validation and next gate
 
+The component has now run on `.157`: all seven shapes support the selected
+library algorithm. Five alternating pairs per timed shape and path yield:
+
+| Rows | Path | Native cycle ms | Library cycle ms | Time change |
+|---:|---|---:|---:|---:|
+| 502 | Ordinary | 0.798420 | 0.796070 | -0.294% |
+| 502 | MoE | 0.978557 | 0.991017 | +1.273% |
+| 2042 | Ordinary | 5.760764 | 3.006450 | -47.812% |
+| 2042 | MoE | 6.622996 | 3.897816 | -41.147% |
+| 2047 | Ordinary | 5.712737 | 3.012495 | -47.267% |
+| 2047 | MoE | 6.639228 | 3.915409 | -41.026% |
+| 2048 | Ordinary control | 5.730309 | 3.006620 | -47.531% |
+| 2048 | MoE control | 6.694967 | 3.906902 | -41.644% |
+
+All twenty n2042/n2047 timing pairs favor the library. n502 has no useful
+gain, and n2048 already uses the library in the current experimental model.
+The numbers time the complete producer/narrowing/down cycle, not just GEMM.
+[All 80 samples](figures/q2-hc-library-ragged-component.csv),
+[verified report](../config/q2-hc-library-ragged-results.json),
+[SVG](figures/q2-hc-library-ragged-component.svg) and
+[PNG](figures/q2-hc-library-ragged-component.png) retain the complete evidence.
+
+![Ragged HC component timings](figures/q2-hc-library-ragged-component.svg)
+
+Numerical qualification **fails** with the actual fixture and analyzer exit 1.
+The original producer remains byte-exact in all 72 comparisons, and all 32
+full-row independent norm checks pass. Native down passes all sixteen sampled
+FP64 cases (maximum relative RMS 1.6490e-5, peak-scaled error 1.9226e-5).
+Library down fails all sixteen at the unchanged 2e-5 limits (maxima 3.3883e-5
+and 4.2075e-5). Fifty-six full comparisons fail; none is relabelled as success.
+All four native repeated-row probes are exact. The library changes 65/1978/
+1983/1984 rows at n97/2042/2047/2048, with maximum absolute delta 5.1767e-5.
+All forty saved output arrays are finite and hash-verified. No runtime,
+guard, thermal or collection failure occurred.
+
+The [recorded component decision](../config/q2-hc-library-ragged-model-decision.json)
+admits an exploratory full-model comparison under the owner's prior performance
+authorization. It does not clear arithmetic or task-quality rejection.
+Fresh model guards pass 17/17 Debug and 17/17 ASan/UBSan on `.157`; the original
+C17 control, ragged candidate and pristine UD use physical502/2042/8191,
+context9216/chunk2048 and 128 completed steps with one warmup and three rounds.
+Scalar decode source remains unchanged. The completed
+[full-model results](Q2-HC-LIBRARY-RAGGED-MODEL.md) retain all samples and gaps;
+the component saving does not translate into a similar model-rate improvement.
+
 Strict library and HIP host-only fixture syntax, changed-file formatting,
 CMake configuration and the five-command build-graph dry run pass locally.
 The complete 1020-file source reconstructs through the patch with zero fuzz.
-No new binary has been linked or run. The first strict fixture syntax check
+The first strict fixture syntax check
 found two unused helpers inherited through the existing fixture includes;
 explicit address references resolve the warning without running those helpers.
 The failed and corrected commands are retained. The shared upstream formatter
 retains the same five untouched failures as the measured parent, with identical
-logs. [Static evidence](../config/q2-hc-library-ragged-static.json) distinguishes
-these checks from pending runtime qualification.
+logs. [Static evidence](../config/q2-hc-library-ragged-static.json) retains
+the prepared-source checkpoint separately from the runtime measurements.
 
-Core owns the next `.157` campaign (`gpu-vision-bec-r1`). Its latest observed
-arm was terminal at 20:16:49 UTC; that does not release the enclosing window.
-Core subsequently explicitly confirms that it retains the window for the
-remaining SSD and reactive checks. Q2 has no GPU job, reservation, waiter or restart. Host CTest/ASan and this
-component require core's verified handover and fresh original four leases.
-The [runtime plan](../config/q2-hc-library-ragged-plan.json) records that boundary.
+Core released its enclosing `.157` campaign at 20:44:19 UTC. Q2 admission at
+20:46:48 UTC rechecks all twenty core process identities retired, empty KFD
+and all four original leases. After the model comparison, release at
+21:11:50.582832 UTC verifies all 36 recorded processes/groups retired, KFD
+empty and all four leases free. Q2 has no reservation, waiter or restart. The original
+[preparation plan](../config/q2-hc-library-ragged-plan.json) retains the earlier
+handover dependency without rewriting its historical state.
 
-After handover, use fresh labels and preserve actual exits, including exit 1:
+Reproduction requires fresh ownership and unused labels; preserve exit 1:
 
 ```sh
 python3 tools/q2-remote.py cpu q2-hc-library-ragged-host-r1
@@ -99,8 +152,9 @@ artifacts, both host configurations, complete output arrays, numerical verdicts,
 position drift, every sample and the alternating order. It reports numerical
 rejection separately from any measured timing benefit. A useful complete-cycle
 result is required before admitting a model comparison. Such a comparison must
-reuse the unchanged original-C17 Q2/UD benchmark and retained physical inputs;
-the historical 26.049 UD decode reference is not lowered.
+reuse the unchanged original-C17 Q2/UD benchmark and retained physical inputs
+to isolate this diagnostic delta; the historical 26.049 UD decode reference
+is not lowered. It cannot replace the canonical HTTP sweep.
 
 Official Gufo pin remains `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`.
 Upstream licenses/notices are preserved; first-party delta and fixture are MIT.

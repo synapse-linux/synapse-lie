@@ -70,15 +70,15 @@ def main():
         p.error('Existing collection requires collect mode')
     if args.mode == 'hc-library-ragged-bench' and args.source_variant != 'hc-library-ragged':
         p.error('Ragged HC library requires its isolated source')
-    if args.source_variant == 'hc-library-ragged' and args.mode != 'hc-library-ragged-bench':
-        p.error('Ragged HC library is component-only')
+    if args.source_variant == 'hc-library-ragged' and args.mode not in ('hc-library-ragged-bench', 'q2-original-baseline'):
+        p.error('Ragged HC library requires its component or original Q2 baseline experiment')
     if args.mode == 'hc-decode-reduce-bench' and args.source_variant != 'hc-decode-reduce':
         p.error('HC decode reduction requires its preserved-control source')
     if args.source_variant == 'hc-decode-reduce' and args.mode != 'hc-decode-reduce-bench':
         p.error('HC decode reduction is component-only')
     if args.mode in ORIGINAL_BASELINE_MODES:
-        expected = 'library-norm-bound' if args.mode.startswith('q2-') else 'qualified'
-        if args.source_variant != expected:
+        expected = ('library-norm-bound', 'hc-library-ragged') if args.mode.startswith('q2-') else ('qualified',)
+        if args.source_variant not in expected:
             p.error('Original baseline requires its fixed Q2 or pristine UD source')
         if not args.rebuild_mmq:
             p.error('Original baseline requires a full MMQ rebuild')

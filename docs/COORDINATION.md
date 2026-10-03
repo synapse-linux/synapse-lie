@@ -2428,3 +2428,35 @@ Core subsequently explicitly retains `gpu-vision-bec-r1` for the remaining
 four SSD arms and reactive qualification after correcting its private probes.
 Q2 acknowledges that retained ownership and continues locally. The outgoing
 MCP message fails at transport; the persistent ready receipt is the fallback.
+
+Core releases gpu-vision-bec-window at 2026-10-03T20:44:19.723712+00:00,
+receipt SHA256 58395a517da73ddf9eaf3e6aa6cb668ffbd350f85d963c0c0639b5b1940429aa.
+Fresh Q2 admission at 2026-10-03T20:46:48.918050+00:00 rechecks all 20 core
+PID/start identities retired, KFD empty and all original four lease inodes
+EX|NB. The admitted window covers host Debug/ASan and ragged HC native/library
+complete cycles only; a model arm requires its component decision. Core
+explicitly remains on host-only work until verified handover. No .155 work,
+model mutation, dependency/service/fan changes or automatic restart is admitted.
+Both host configurations pass 17/17 before the component launches. Main
+run/q2-hc-library-ragged-window-active.json and shared registry mark admission;
+outgoing MCP delivery failed and is not claimed.
+
+At 2026-10-03T20:53:05.836245+00:00, the verified ragged component admits its
+exploratory original-C17 model comparison: all geometries supported, n2042/2047
+complete cycles save 41–48% time, and every numerical/position failure retains
+exit1. The fresh model admission guards pass 17/17 Debug and 17/17 ASan/UBSan
+before the control launches. Q2 retains the enclosing window for sequential
+current-Q2, ragged-Q2 and pristine-UD arms with full MMQ builds and fresh
+original leases. No arithmetic/quality promotion is implied. Persistent
+run/q2-hc-library-ragged-model-decision.json and main window-active/ready
+records contain the decision. Direct outgoing MCP delivery fails again;
+no delivery is claimed and no core handover has occurred.
+
+Final ragged campaign release at 2026-10-03T21:11:50.582832+00:00 verifies
+all six cohorts terminal and collected, all 36 recorded processes/groups
+retired, KFD empty and all four original lease inodes EX|NB/free. Release
+SHA256 is 3daee0b46dc5a62e38a770a5fea27f6f9ee38384acfa80cfcbd20016cf164cbb.
+The remote receipt, shared registry and main-repository release/ready records
+contain the closure. Outgoing MCP delivery fails; no delivery is claimed.
+Q2 has no reserved GPU window, waiter or restart. The canonical curve plan is
+local preparation only and requires fresh coordination before any runtime work.

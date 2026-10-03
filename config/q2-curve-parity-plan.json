@@ -1,0 +1,199 @@
+{
+  "at": "2026-10-03T21:16:22.753947+00:00",
+  "objective": "Q2 prefill and decode at least equal UD at every short/medium/long context point; no compensation across points or metrics",
+  "state": "CANONICAL_HTTP_CURVE_REQUIRED_HARNESS_EQUIVALENCE_PENDING_RUNTIME_NOT_ADMITTED",
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "remote_workload_scheduled": false,
+  "header_audit": {
+    "exit_code": 0,
+    "receipt_sha256": "76fd2088f6f2d2560ea2a0dd6887af7f69ca452513a696537ad04463e5281e67",
+    "model_stats_freshly_verified": true,
+    "header_bytes_read": [
+      11025350,
+      10946618
+    ],
+    "tensor_payload_read": false,
+    "full_weight_hash": false,
+    "metadata": {
+      "qwen4exp.context_length": [
+        262144,
+        262144
+      ],
+      "qwen4exp.attention.head_count": [
+        24,
+        24
+      ],
+      "qwen4exp.attention.head_count_kv": [
+        2,
+        2
+      ],
+      "qwen4exp.attention.key_length": [
+        256,
+        256
+      ],
+      "qwen4exp.attention.value_length": [
+        256,
+        256
+      ],
+      "qwen4exp.full_attention_interval": [
+        4,
+        4
+      ],
+      "qwen4exp.attention.indexer.head_count": [
+        4,
+        4
+      ],
+      "qwen4exp.attention.indexer.key_length": [
+        128,
+        128
+      ],
+      "qwen4exp.attention.indexer.top_k": [
+        2048,
+        2048
+      ],
+      "qwen4exp.rope.freq_base": [
+        10000000.0,
+        10000000.0
+      ]
+    }
+  },
+  "shared_source": {
+    "attention": {
+      "byte_exact": true,
+      "ud_sha256": "81bbf500b3467d2e1f67454409200be1d010f390516e7ccbda7f6a21c5a6ec3a",
+      "q2_sha256": "81bbf500b3467d2e1f67454409200be1d010f390516e7ccbda7f6a21c5a6ec3a"
+    },
+    "session_bytes": {
+      "byte_exact": true,
+      "ud_sha256": "09f897432be6d3ec3adf2718cd440afb0ba82632f76ab50470e5e7471416e3b8",
+      "q2_sha256": "09f897432be6d3ec3adf2718cd440afb0ba82632f76ab50470e5e7471416e3b8"
+    }
+  },
+  "nominal_context_capacity": 262144,
+  "capacity_parity_nominal": true,
+  "performance_parity_proven": false,
+  "source_limits": {
+    "engine": "Model::Load rejects max_context above GGUF context_length for both models",
+    "existing_synapse_lie_bench_commit": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+    "single_suite_max_depth": 131072,
+    "single_suite_capacity": 133760,
+    "fresh_suite_capacity": 262144
+  },
+  "required_curve": {
+    "cached_prefix_depths": [
+      0,
+      4096,
+      8192,
+      12288,
+      16384,
+      32768,
+      65536,
+      131072
+    ],
+    "continuation_tokens": 2048,
+    "concurrency": 1,
+    "mtp": false,
+    "short_regression_controls": [
+      502,
+      2042,
+      8191
+    ],
+    "repetitions": 1,
+    "warmups": 1,
+    "calibration": "Use pinned Tokenizer, synthetic_text, turn_prompt and _measure_depth behavior; retain ordered calibration, actual cache_n/prompt_n/predicted_n and request histories; tolerance max(32, floor(target*0.005)); reject short outputs and overflow",
+    "metric_floor_ratio": 1.0,
+    "headline": [
+      "server_continuation_prefill_tok_s",
+      "server_decode_tok_s"
+    ],
+    "supporting": [
+      "phase_wall_ns",
+      "session_memory_estimate",
+      "memory_observation",
+      "clock_power_samples",
+      "finite_frontiers",
+      "same_build_replay"
+    ],
+    "quality": "Independent arithmetic and existing task-quality failures remain separate acceptance gates; never relax tolerances",
+    "context_capacity": 133760,
+    "output_tokens": 128,
+    "repetition_policy": "Match the published one-warmed-sample method first; repeat paired ordered sweeps for concrete discrepancies and report mean/standard deviation",
+    "prefix_reply_tokens": 8,
+    "history_identity": "Same generation recipe, seeds, server settings and depth order; generated prefix replies may differ between quantizations and must be recorded. Byte-identical fixed-token controls are separate diagnostics.",
+    "short_regression_controls_scope": "Historical native counting-prompt diagnostics only; never substitute for canonical cells"
+  },
+  "work_order": [
+    "Qualify the Q2 and UD HTTP benchmark/server composition against the pinned Gufo prose, calibration, cache-frontier and timing protocol. Existing C17 project-notes/counting fixtures do not establish equivalence.",
+    "Establish the same ordered canonical depth curve on both models from0 through128K, retaining exact requests, actual counts and phase timings; published UD numbers are historical context, not fresh paired measurements.",
+    "Attribute Q2 minus UD costs at canonical points that miss parity before choosing the next kernel change; native traces remain separately labelled diagnostics.",
+    "Apply one targeted change and verify both PP and TG across the entire curve, including short and long points; preserve independent numerical and task-quality gates.",
+    "Add separate fresh-ingestion and near-256K suites with validated actual token budgets. 512K/1M needs a common engine/context extension and numerical/resource qualification."
+  ],
+  "historical_rates": {
+    "pp2048_scaled_library_control": 1411.691465,
+    "pp2048_paired_candidate": 1439.264244,
+    "pp2048_later_replay": 1438.974691,
+    "original_c17_ud_tg2042": 26.049385991367725
+  },
+  "coordination": "Q2 released .157 at2026-10-03T21:11:50.582832+00:00; core may admit its clocked campaign; Q2 local preparation only until a fresh coordinated window",
+  "goal_met": false,
+  "method_corrected_at": "2026-10-03T21:22:28.376022+00:00",
+  "canonical_reference": {
+    "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "table": "single-ar",
+    "protocol": "HTTP on both sides; server phase timings, not client wall time or direct-executor timings",
+    "files_sha256": {
+      "docs/models/qwen3.8-flash-next/BENCHMARKS.md": "5c9a7e72b7d0035101efcaa042f4bd126b7c4fd473b0157257a7033a2f4f9885",
+      "docs/models/qwen3.8-flash-next/QUALITY.md": "c77b6a5ad7d5f05dee7266874925a89cc6f9c78d26df1f958b8da59ead2b3410",
+      "docs/models/qwen3.8-flash-next/artifacts/bench.json": "a8c70e48be58ff68e54651014030deb6298589e42fee0530e6463bd467cd9ff3",
+      "tools/gufo/model_bench/llm.py": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+      ".agents/skills/benchmark-model/SKILL.md": "ce3c3ee24c50664883634ecd820289983f2417a87ac6664df6f1059e759b72bc"
+    },
+    "table_spec": {
+      "title": "Single user, autoregressive",
+      "per_variant": false,
+      "prompt_tokens": 2048,
+      "output_tokens": 128,
+      "depths": [
+        0,
+        4096,
+        8192,
+        12288,
+        16384,
+        32768,
+        65536,
+        131072
+      ],
+      "context": 133760,
+      "depth_tolerance": 0.005,
+      "prefix": {
+        "generator": "synthetic-paragraphs",
+        "seed": 1
+      },
+      "repetitions": 1,
+      "metric": "tok/s",
+      "better": "higher"
+    },
+    "workload": "Pinned deterministic synthetic prose plus summary/story instruction; preserve seeds, calibration and sweep order",
+    "canonical_curve_measured": false
+  },
+  "additional_suites": {
+    "fresh_prompt_targets": [
+      512,
+      2048,
+      8192,
+      16384,
+      32768,
+      65536,
+      131072,
+      262016
+    ],
+    "fresh_max_budget": "262016 prompt +128 output =262144",
+    "nominal_near_capacity_prefix_target": 259968,
+    "near_capacity_admitted": false,
+    "boundary_requirement": "Choose and verify calibration margin from actual cached/new/output counts before admitting any near-capacity request",
+    "status": "Supplemental fresh-ingestion and near-256K coverage; cannot replace the canonical curve"
+  },
+  "priority_correction": "Restoring the original C17 26-token/s decode control led to optimizing its ragged HC prefill. Promoting that diagnostic to the main target was a prioritization error; exact2048 counting is not canonical either."
+}

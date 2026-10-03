@@ -1,6 +1,73 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Canonical whole-curve target restored; ragged diagnostic closed — 2026-10-03
+
+The owner requires parity at every short and long point, in both PP and TG.
+The investigation had instead followed the historical C17 decode control
+into a ragged HC prefill optimization. That was a priority error: both the
+exact-2048 counting fixture and historical 2042-token fixture differ from
+Gufo's HTTP prose/cached-prefix sweep. Exact token length alone does not make
+a benchmark canonical. [The corrected contract](Q2-CURVE-PARITY.md) pins the
+workload, ordered 0–128K depth grid, calibration, HTTP scope and evidence gates.
+The canonical Q2/UD curve remains unmeasured; no new run is scheduled.
+
+The completed original-C17 diagnostic gives Q2 control/candidate/UD at physical
+2042: **1359.654 / 1386.506 / 1661.359 PP** and **25.527 / 25.513 / 26.036 TG**
+token/s. The candidate gains 1.975% PP over its control, with no decode gain;
+it still trails UD by 16.544% PP and 2.010% TG. All three prompt sizes,
+samples, durations and graphs are in the [full-model report](Q2-HC-LIBRARY-RAGGED-MODEL.md).
+Twelve candidate/control output sequences match but 24 logit hashes differ.
+All 36 historical UD witnesses replay; arithmetic/quality rejection remains.
+
+The six-cohort campaign retains the actual component exit1 and all model
+command exits0. Release at 21:11:50.582832 UTC verifies all 36 recorded process
+identities/groups retired, KFD empty and the four original leases free.
+Q2 holds no GPU reservation, waiter or restart. Header/source inspection finds
+the same nominal 262144 capacity; that is not measured long-context parity.
+
+## Ragged HC component measurement and model admission — 2026-10-03
+
+Core's 20:44:19 UTC release is rechecked under the original four leases at
+20:46:48 UTC. The host cohort passes 17/17 Debug and 17/17 ASan/UBSan on `.157`.
+All seven ragged library geometries are supported. At n2042, complete-cycle
+time falls 47.812% ordinary and 41.147% MoE; n2047 saves 47.267% and 41.026%.
+All twenty pairs favor the library. n502 has no useful gain; n2048 is an
+existing library control, not a new model gain.
+
+The component's actual exit1 is numerical: all 32 norm checks pass and
+all sixteen native down cases pass, while all sixteen library down cases
+fail their unchanged FP64 limits. Four library repeated-row probes drift;
+all native probes are exact. Full arrays, hashes and all eighty timings are
+retained. [Results and graphs](Q2-HC-LIBRARY-RAGGED.md) distinguish arithmetic
+rejection from speed. Forty-four component artifacts verify.
+
+The recorded 20:53:05 UTC decision admits only a fresh original-C17 model
+comparison with full MMQ builds. Updated launcher guards pass another 17/17
+Debug and 17/17 ASan/UBSan. The control completes and verifies at 20:59:15 UTC:
+Q2 at 2042 is 1359.654 PP and 25.527 TG token/s. Candidate and pristine UD
+subsequently complete; final results and verified release are recorded above.
+No .155 work or policy/model/service changes occur in this campaign.
+
+## Scalar decode HC attribution recovered — 2026-10-03
+
+The preceding turn prepared the ragged prefill experiment in `c40f80f`.
+Fresh observation at 20:37:19 UTC verifies core PID 3230896/start ticks
+162518815 live in `gpu-vision-bec-r3/combined-ssd-write`; Q2 does not enter
+that active window. The later SSD and reactive arms become terminal, but no
+enclosing release is recorded at 20:43:21 UTC. No Q2 remote work starts.
+
+While awaiting handover, the existing decode traces are reattributed using
+the frozen HC launch sequence. All 1455 Q2 and 1455 UD HC-up calls are
+identified between SiLU and mix, including UD's preceding quantization.
+Q2 costs 2.915551 ms/token versus UD 1.912672 including preparation, a
+1.002879 ms difference. HC down adds another 1.296157 ms/token; routed experts
+are already faster. The prior symbol-only groups hid HC up in Q2 `other` and
+UD generic Q8. Every dispatch and total is preserved, including the unchanged
+8.411433 ms net phase difference. This changes optimization priorities rather
+than throughput. [Full attribution and limits](Q2-HC-DECODE-ATTRIBUTION.md)
+retain database/capsule hashes and every HC dispatch identity.
+
 ## Ragged HC library dispatch prepared — 2026-10-03
 
 The previous goal turn completed the original-C17 baseline and scalar-HC

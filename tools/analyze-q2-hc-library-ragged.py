@@ -23,6 +23,22 @@ FIXTURES = ('CMakeLists.txt', 'cmake/hip/CMakeLists.txt', 'tools/q2-remote.py',
             'tools/q2-runner.py', 'tools/q2_process.py', 'tools/q2_thermal.py',
             'tests/q2_remote_test.py', 'tests/q2_hc_library_ragged.cpp',
             'tests/q2_hc_sequence.cpp', 'tests/q2_hc_norm_half.cpp', 'tests/q2_hc_moe_fused.cpp')
+# The measured component used c40f80f's component-only admission guards.
+# Later model admission must not invalidate or silently replace that evidence.
+COMPONENT_GUARDS = {
+    'tools/q2-remote.py': 'e1dfa33c465a00c3301d3c1ebe89e316e0a8ffdcfe0dcbe7d0796ddb1add528e',
+    'tests/q2_remote_test.py': '600952fda3124c40d567cadfd014b2837678f0979c6691aadfa6428952bde4fc',
+}
+
+
+def audit_component_capsule(path):
+    result = original.audit.audit_capsule(path, [n for n in FIXTURES if n not in COMPONENT_GUARDS])
+    with tarfile.open(path/'source.tar.gz') as capsule:
+        for name, frozen in COMPONENT_GUARDS.items():
+            digest = hashlib.sha256(capsule.extractfile(name).read()).hexdigest()
+            require(digest in (frozen, original.audit.digest(ROOT/name)), 'Unknown component guard')
+            result['fixtures_sha256'][name] = digest
+    return result
 
 
 def main():
@@ -58,8 +74,8 @@ def main():
     with tarfile.open(args.directory/'source.tar.gz') as candidate, tarfile.open(args.host/'source.tar.gz') as control:
         for name in FIXTURES:
             require(candidate.extractfile(name).read() == control.extractfile(name).read(), 'Host fixture differs')
-    validation = dict(component=original.audit.audit_capsule(args.directory,FIXTURES),
-                      host=original.audit.audit_capsule(args.host,FIXTURES))
+    validation = dict(component=audit_component_capsule(args.directory),
+                      host=audit_component_capsule(args.host))
     manifest = json.loads((ROOT/'config/q2-hc-library-ragged-source.json').read_text())
     source = ROOT/manifest['candidate']
     require({str(p.relative_to(source)):original.audit.digest(p) for p in source.rglob('*') if p.is_file()} ==

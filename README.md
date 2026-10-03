@@ -3,12 +3,26 @@
 
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
-The minimum acceptance requirement remains **no prefill or decode regression**.
-The next [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is prepared
-locally: the faster HC-down dispatch currently applies only at exactly 2048
-rows. Its bounded extension keeps the original producer and tests incomplete
-prefill batches with independent checks and complete-cycle timing. Runtime
-qualification awaits core's verified `.157` handover; no new speedup is claimed.
+The acceptance target is **Q2 at least as fast as UD in both prefill and decode
+at every point of the requested context curve**. The
+[canonical comparison contract](docs/Q2-CURVE-PARITY.md) restores Gufo's HTTP
+pp2048/tg128 prose workload and ordered cached-prefix depths from 0 to 128K.
+The complete Q2/UD curve has not yet been measured. Historical counting-prompt
+tests, including the 1411→1439 prefill result, are diagnostics with a different
+workload and timing scope; they do not fill cells in that curve.
+
+The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
+Its 41–48% component time saving at 2042/2047 rows translates to only
+**1.975% full-model prefill gain at 2042 tokens**, with no measured decode gain.
+The [three-point diagnostic comparison](docs/Q2-HC-LIBRARY-RAGGED-MODEL.md)
+still misses UD parity. Library FP64 and row-position checks fail at unchanged
+limits; the candidate is not promoted. The `.157` window has been released.
+
+A [decode sequence audit](docs/Q2-HC-DECODE-ATTRIBUTION.md) now separates HC up
+from generic kernel groups in the retained traces. Q2 HC up plus preparation
+costs 1.003 ms/token more than UD, alongside 1.296 ms/token extra HC down.
+Routed experts are already faster there. These are diagnostic stage costs,
+not a new throughput result or guaranteed recoverable savings.
 
 The [exact historical C17 benchmark comparison](docs/Q2-DECODE-BASELINE.md)
 now confirms UD's original **26.049 token/s** reference: fresh UD measures

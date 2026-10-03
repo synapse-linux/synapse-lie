@@ -206,13 +206,13 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_called_once()
             run.assert_not_called()
 
-    def test_ragged_library_component_only(self):
+    def test_ragged_library_scope(self):
         for variant in ('qualified', 'library-norm-bound', 'hc-decode-reduce'):
             self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant', variant],
                         'Ragged HC library requires its isolated source')
-        for mode in ('cpu', 'q2-original-baseline', 'q2-bench2k', 'q2-profile', 'hc-library-norm-bench'):
+        for mode in ('cpu', 'ud-original-baseline', 'q2-decode-baseline', 'q2-bench2k', 'q2-profile', 'hc-library-norm-bench'):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-library-ragged'],
-                        'Ragged HC library is component-only')
+                        'Ragged HC library requires its component or original Q2 baseline experiment')
         self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
                      'hc-library-ragged', '--rebuild-mmq'], 'requires bench2k')
         self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
@@ -251,6 +251,7 @@ class RemoteGuardTests(unittest.TestCase):
 
     def test_original_baseline_scope(self):
         for mode, variant in (('q2-original-baseline', 'library-norm-bound'),
+                              ('q2-original-baseline', 'hc-library-ragged'),
                               ('ud-original-baseline', 'qualified')):
             self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                         'Original baseline requires a full MMQ rebuild')

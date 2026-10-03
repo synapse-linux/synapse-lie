@@ -15,6 +15,11 @@ All fourteen saved replay checks per arm match its preceding unprofiled model
 control: 28/28 total. This qualifies the instrumentation against those controls,
 not the experimental arithmetic against an independent teacher.
 
+The later [decode sequence audit](Q2-HC-DECODE-ATTRIBUTION.md) separates Q2's
+HC-up kernel from `other` and UD's HC-up calls from the generic Q8 group.
+Its per-stage comparison retains every original dispatch and phase total;
+the existing symbol-grouped decode data below remains historical evidence.
+
 The unprofiled result remains [1412.563 versus 1660.059 PP token/s](Q2-SCALED-LIBRARY.md),
 14.909% below UD. This profiling campaign introduces no new throughput result.
 
