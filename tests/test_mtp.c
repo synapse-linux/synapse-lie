@@ -3,6 +3,8 @@
 #include "fake_executor.h"
 #include "lie/core.h"
 #include "lie/inference.h"
+#include "lie/state.h"
+#include "lie/store.h"
 #include <assert.h>
 #include <poll.h>
 #include <pthread.h>
@@ -47,13 +49,10 @@ static void family(const char *predictor, unsigned burst) {
   o.context = 128;
   o.chunk = 4;
   o.max_active = 2;
-  assert(
-      !lie_core_create(&o)); /* Cannot disguise incomplete AR state as MTP. */
-  o.prefix_cache_bytes = 0;
   lie_core *c = lie_core_create(&o);
   assert(c);
   lie_core_info ci = ready(c, LIE_READY);
-  assert(ci.model.speculative_supported && ci.mtp.max_output_tokens == burst);
+  assert(ci.model.speculative_supported && ci.mtp.max_output_tokens == burst && ci.mtp.prefix_state_supported);
   int32_t tokens[] = {1, 10, 10, 10};
   lie_core_request r;
   lie_core_request_init(&r);
@@ -101,6 +100,46 @@ static void family(const char *predictor, unsigned burst) {
   lie_core_stop(c);
   ready(c, LIE_STOPPED);
   lie_core_destroy(c);
+}
+static void cache_state(const char *predictor) {
+  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};lie_error e={0};
+  lie_model *m=NULL;assert(lie_backend_open_mtp(":fixture:",&o,2,predictor,0,&m,&e)==LIE_OK);
+  lie_sequence *source=NULL;assert(lie_sequence_create(m,&source,&e)==LIE_OK);
+  int32_t tokens[]={1,10,10,10};assert(lie_sequence_prefill(source,tokens,4,&e)==LIE_OK);
+  for(unsigned frontier=0;frontier<2;++frontier){
+    if(frontier){lie_mtp_outcome result;uint32_t budget=3;
+      assert(lie_sequences_decode_mtp(&source,&budget,1,&result,&e)==LIE_OK&&result.emitted==3);}
+    lie_state_layout plan;uint64_t retained=0;assert(lie_state_plan(source,&plan,&retained,&e)==LIE_OK);
+    lie_state *state=NULL;assert(lie_state_capture(source,&plan,retained-1,&state,&e)==LIE_RESOURCE_LIMIT&&!state);
+    assert(lie_state_capture(source,&plan,retained,&state,&e)==LIE_OK);
+    lie_sequence *a=NULL,*b=NULL;assert(lie_sequence_create(m,&a,&e)==LIE_OK&&lie_sequence_create(m,&b,&e)==LIE_OK);
+    assert(lie_state_restore(a,state,&e)==LIE_OK&&lie_state_restore(b,state,&e)==LIE_OK);
+    assert(lie_state_restore(a,state,&e)==LIE_INVALID); /* Destination must be pristine. */
+    lie_sequence *rows[]={a,b};uint32_t budgets[]={3,3};lie_mtp_outcome results[2];
+    assert(lie_sequences_decode_mtp(rows,budgets,2,results,&e)==LIE_OK);
+    assert(results[0].emitted==3&&results[1].emitted==3&&results[0].position==plan.token_count+3);
+    assert(!memcmp(results[0].tokens,results[1].tokens,3*sizeof(int32_t)));
+    lie_state_destroy(&state);assert(lie_sequence_close(&a,&e)==LIE_OK&&lie_sequence_close(&b,&e)==LIE_OK);
+  }
+  assert(lie_sequence_close(&source,&e)==LIE_OK&&lie_model_close(&m,&e)==LIE_OK);
+}
+static void cache_identity(void) {
+  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};
+  const char *predictors[]={":fixture:",":wide-fixture:",":fixture:"};
+  uint32_t drafts[]={2,2,3};lie_state_identity ids[3];
+  for(unsigned i=0;i<3;++i){lie_model *m=NULL;uint64_t domain;
+    assert(lie_backend_open_mtp(":fixture:",&o,2,predictors[i],drafts[i],&m,NULL)==LIE_OK);
+    assert(lie_model_state_identity(m,&ids[i],&domain,NULL)==LIE_OK);
+    assert(lie_model_close(&m,NULL)==LIE_OK);
+    for(unsigned j=0;j<i;++j)assert(memcmp(&ids[i],&ids[j],sizeof(ids[i])));
+  }
+  lie_core_options opts;lie_core_options_init(&opts);opts.model_path=":fixture:";
+  opts.mtp_model_path=":no-state-fixture:";opts.context=128;opts.chunk=4;
+  lie_core *c=lie_core_create(&opts);assert(c);lie_core_info info=ready(c,LIE_FAILED);
+  assert(strstr(info.error,"complete prefix-state support"));
+  lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
+  opts.prefix_cache_bytes=0;c=lie_core_create(&opts);assert(c);ready(c,LIE_READY);
+  lie_core_stop(c);ready(c,LIE_STOPPED);lie_core_destroy(c);
 }
 typedef struct {
   lie_sequence *s;
@@ -195,6 +234,9 @@ static void invalid_burst(void) {
 int main(void) {
   family(":fixture:", 8);
   family(":wide-fixture:", 13);
+  cache_state(":fixture:");
+  cache_state(":wide-fixture:");
+  cache_identity();
   dispatch();
   invalid_burst();
   puts("Model-neutral MTP bursts, credits, cancellation and output bounds: "

@@ -23,7 +23,8 @@ original-weight behavior or performance; other real model bindings remain open.
   connect directly over HTTP.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
-  with explicit model configuration; feature KV reuse is still under development.
+  with explicit model configuration and complete predictor checkpoints.
+  GPU correctness and performance qualification remain pending.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency

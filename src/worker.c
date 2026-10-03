@@ -614,6 +614,9 @@ static void *work(void *arg) {
     if(rc==LIE_OK&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!lie_backend_prefix_state_supported()){
         rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable prefix caches");
     }
+    if(rc==LIE_OK&&w->mtp_path&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!mtp.prefix_state_supported){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"admitted MTP model has no complete prefix-state support; rebuild with predictor state access or explicitly disable prefix caches");
+    }
     if(rc==LIE_OK&&w->options.ssd.directory){
         lie_state_identity identity;uint64_t domain=0;
         rc=lie_model_state_identity(w->model,&identity,&domain,&error);
@@ -665,11 +668,11 @@ lie_core *lie_core_create(const lie_core_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
-    /* AR checkpoints omit predictor/rollback state. Refuse before model load,
-     * never silently serialize an incomplete MTP frontier as an AR cache hit. */
+    /* Prefix support is model-specific and checked after capability admission.
+     * A provider without predictor state may run only with caches disabled. */
     if(o->mtp_draft_tokens&&!o->mtp_model_path)return NULL;
     if(o->mtp_model_path&&(!LIE_MTP||!*o->mtp_model_path||
-       o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT||o->prefix_cache_bytes||o->ssd.directory))return NULL;
+       o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     if(o->mtp_model_path){w->mtp_path=strdup(o->mtp_model_path);if(!w->mtp_path)goto fail;w->options.mtp_model_path=w->mtp_path;}

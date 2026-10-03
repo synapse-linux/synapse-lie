@@ -39,7 +39,8 @@ lie_status lie_kvc_qwen_mtp_state_plan(const lie_kvc_qwen_geometry *g,const lie_
                                       uint64_t domain,uint8_t model_id,uint8_t quant_bits,
                                       uint32_t hidden_rows,uint32_t draft_limit,lie_state_layout *out,lie_error *e){
     if(!g||!f||!out||g->mtp_layers!=1||!draft_limit||draft_limit>LIE_KVC_QWEN_MTP_DEPTHS||
-       !hidden_rows||hidden_rows>f->tokens||hidden_rows>LIE_KVC_QWEN_MTP_DEPTHS+1)
+       !hidden_rows||hidden_rows>f->tokens||hidden_rows>LIE_KVC_QWEN_MTP_DEPTHS+1||
+       f->mtp_tokens<f->tokens-hidden_rows)
         return kvc_fail(e,LIE_INVALID,"invalid Qwen MTP continuation frontier");
     lie_state_layout l;lie_status rc=lie_kvc_qwen_state_plan(g,f,domain,model_id,quant_bits,&l,e);
     if(rc!=LIE_OK)return rc;

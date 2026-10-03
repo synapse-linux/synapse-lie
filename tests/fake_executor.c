@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed, mtp; uint64_t domain; uint32_t drafts; };
-struct lie_sequence { lie_model *model; unsigned position, step; int mode; int32_t *prompt; atomic_bool cancelled; };
+struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed, mtp; uint64_t domain; uint32_t drafts, predictor; bool mtp_state; };
+struct lie_sequence { lie_model *model; unsigned position, step; int mode; unsigned predictor_position; int32_t *prompt; atomic_bool cancelled; };
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condition=PTHREAD_COND_INITIALIZER;
 static bool held, entered;
@@ -72,6 +72,10 @@ int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
     (void)e;owner(m);memset(id,0,sizeof(*id));
     memcpy(id->bytes,"NOT-INFERENCE-state-v1",22);
+    if(m->mtp){memcpy(id->bytes,"NOT-INFERENCE-MTP-v1",20);
+        unsigned values[]={m->chunk,m->width,m->predictor,m->drafts};
+        for(unsigned i=0;i<4;++i)for(unsigned k=0;k<3;++k)id->bytes[20+i*3+k]=(unsigned char)(values[i]>>(8*k));
+        *domain=m->domain;return LIE_OK;}
     unsigned values[]={1,m->chunk,m->width};
     for(unsigned i=0;i<3;++i)for(unsigned k=0;k<3;++k)id->bytes[22+i*3+k]=(unsigned char)(values[i]>>(8*k));
     *domain=m->domain;return LIE_OK;
@@ -170,7 +174,7 @@ lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t c
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (s->mode==PREFILL_REFUSAL) return error(e,LIE_INVALID,"synthetic_prefill_refusal");
     if (s->mode==7 && count>2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_prefill_failure"); }
-    memcpy(s->prompt,tokens,count*sizeof(*tokens));s->position=(unsigned)count; return LIE_OK;
+    memcpy(s->prompt,tokens,count*sizeof(*tokens));s->position=(unsigned)count;s->predictor_position=(unsigned)count-1; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
     owner(s->model); assert(!s->model->failed); atomic_fetch_add(&decode_calls,1); barrier(FAKE_DECODE);
@@ -203,6 +207,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
         case TEXT_SIZE: out->token=1010; break;
     }
     if(out->emitted==1&&out->position<=s->model->context)s->prompt[out->position-1]=out->token;
+    if(s->model->mtp)s->predictor_position=s->position-1;
     return LIE_OK;
 }
 lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
@@ -246,10 +251,22 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
      * Qwen geometry, numerical computation or model inference claims. */
     out->format=LIE_STATE_KVC;out->model_id=250;out->quant_bits=8;
 #endif
+    if(s->model->mtp){
+        if(!s->model->mtp_state)return LIE_UNSUPPORTED;
+        out->model_data[0]=s->model->predictor;out->model_data[1]=s->model->drafts;
+    }
     uint64_t shape=out->token_count;assert(lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape));
     shape=4;assert(lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape));
     shape=2;assert(lie_state_add(out,LIE_STATE_RECURRENT,0,LIE_STATE_I32,1,&shape));
     shape=atomic_load(&state_padding);if(shape)assert(lie_state_add(out,LIE_STATE_MODEL_COMPONENT,0,LIE_STATE_U8,1,&shape));
+    if(s->model->mtp){
+#ifdef LIE_TEST_KVC_STATE
+        out->format=LIE_STATE_KVC_AUX;
+        shape=4;assert(lie_state_add(out,LIE_STATE_AUXILIARY,0,LIE_STATE_U8,1,&shape));
+#endif
+        shape=4;assert(lie_state_add(out,LIE_STATE_MODEL_COMPONENT+9,0,LIE_STATE_I32,1,&shape));
+    }
+    if(from&&!lie_state_layout_equal(from,out))return error(e,LIE_INVALID,"fixture predictor state mismatch");
     if(atomic_load(&state_fault)==1)out->sections[0].bytes++;
     return LIE_OK;
 }
@@ -260,17 +277,31 @@ lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,voi
     memcpy((char*)bytes+l->sections[0].offset,s->prompt,l->sections[0].bytes);
     const float logits[]={1,2,3,4};memcpy((char*)bytes+l->sections[1].offset,logits,sizeof(logits));
     const int32_t recurrent[]={s->mode,(int32_t)s->step};memcpy((char*)bytes+l->sections[2].offset,recurrent,sizeof(recurrent));
-    if(l->section_count==4)memset((char*)bytes+l->sections[3].offset,0x5a,(size_t)l->sections[3].bytes);
+    for(unsigned i=3;i<l->section_count;++i){const lie_state_section *p=&l->sections[i];
+        if(p->role==LIE_STATE_MODEL_COMPONENT+9){
+            const unsigned predictor[]={s->predictor_position,s->step,s->model->drafts,s->model->predictor};
+            memcpy((char*)bytes+p->offset,predictor,sizeof(predictor));
+        }else memset((char*)bytes+p->offset,0x5a,(size_t)p->bytes);
+    }
     return LIE_OK;
 }
 lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
     owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected&&!s->position);
     atomic_fetch_add(&restore_calls,1);barrier(FAKE_RESTORE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
+    for(unsigned i=3;i<l->section_count;++i)if(l->sections[i].role==LIE_STATE_MODEL_COMPONENT+9){
+        unsigned predictor[4];memcpy(predictor,(const char *)bytes+l->sections[i].offset,sizeof(predictor));
+        if(predictor[0]!=l->token_count-1||predictor[2]!=s->model->drafts||predictor[3]!=s->model->predictor)
+            return error(e,LIE_INVALID,"fixture predictor payload mismatch");
+        s->predictor_position=predictor[0];
+    }
     s->position=l->token_count;
     if(atomic_load(&state_fault)==3){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic mutating state write fault");}
     memcpy(s->prompt,(const char*)bytes+l->sections[0].offset,l->sections[0].bytes);
     int32_t recurrent[2];memcpy(recurrent,(const char*)bytes+l->sections[2].offset,sizeof(recurrent));
-    if(l->section_count==4)for(uint64_t i=0;i<l->sections[3].bytes;++i)assert(((const unsigned char *)bytes)[l->sections[3].offset+i]==0x5a);
+    for(unsigned j=3;j<l->section_count;++j){const lie_state_section *p=&l->sections[j];
+        if(p->role==LIE_STATE_MODEL_COMPONENT+9){unsigned predictor[4];memcpy(predictor,(const char *)bytes+p->offset,sizeof(predictor));assert(predictor[1]==(unsigned)recurrent[1]);}
+        else for(uint64_t i=0;i<p->bytes;++i)assert(((const unsigned char *)bytes)[p->offset+i]==0x5a);
+    }
     s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
 }
 
@@ -280,10 +311,10 @@ lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *
 
 lie_status lie_backend_open_mtp(const char *p,const lie_model_options *o,uint32_t width,const char *predictor,uint32_t drafts,lie_model **m,lie_error *e){
     if(!predictor)return LIE_INVALID;
-    uint32_t cap=!strcmp(predictor,":wide-fixture:")?12:!strcmp(predictor,":fixture:")?7:0;
+    uint32_t cap=!strcmp(predictor,":wide-fixture:")?12:(!strcmp(predictor,":fixture:")||!strcmp(predictor,":no-state-fixture:"))?7:0;
     if(!cap||drafts>cap)return LIE_INVALID;
     if(!drafts)drafts=cap;
-    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK){(*m)->mtp=true;(*m)->drafts=drafts;}return rc;
+    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK){(*m)->mtp=true;(*m)->drafts=drafts;(*m)->predictor=cap==12?2:1;(*m)->mtp_state=strcmp(predictor,":no-state-fixture:")!=0;}return rc;
 }
 lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const uint32_t *limits,size_t n,lie_mtp_outcome *out,lie_error *e){
     if(!rows||!limits||!out||!n||n>LIE_DECODE_MAX_ROWS)return LIE_INVALID;
@@ -303,5 +334,5 @@ lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const uint32_t *li
 
 lie_status lie_model_mtp_info(lie_model *m,lie_mtp_info *out,lie_error *e){
     (void)e;if(!m||!out||!m->mtp)return LIE_UNSUPPORTED;
-    *out=(lie_mtp_info){LIE_MTP_ABI,sizeof(*out),m->drafts,m->drafts+1,0};return LIE_OK;
+    *out=(lie_mtp_info){LIE_MTP_ABI,sizeof(*out),m->drafts,m->drafts+1,m->mtp_state};return LIE_OK;
 }

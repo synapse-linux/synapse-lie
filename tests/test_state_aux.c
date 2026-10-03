@@ -99,8 +99,11 @@ int main(void){
     const lie_kvc_qwen_geometry g={4,1,2,1,4,3,2,3,2,5,2,6,32};
     const uint32_t counts[]={0,1,3,4,8};
     for(unsigned k=0;k<5;++k){
-        lie_kvc_qwen_frontier f={.context_tokens=64,.prefill_tokens=8,.graph_capacity=64,.tokens=9,.mtp_tokens=counts[k]};
+        lie_kvc_qwen_frontier f={.context_tokens=64,.prefill_tokens=8,.graph_capacity=64,.tokens=counts[k]+4,.mtp_tokens=counts[k]};
         lie_state_layout l;assert(lie_kvc_qwen_mtp_state_plan(&g,&f,42,5,4,4,7,&l,&e)==LIE_OK);
+        lie_state_layout refused=l;
+        assert(lie_kvc_qwen_mtp_state_plan(&g,&f,42,5,4,3,7,&refused,&e)==LIE_INVALID&&
+               lie_state_layout_equal(&l,&refused)); /* Missing catch-up hidden row, no publication. */
         uint64_t n,base,aux;assert(lie_state_validate(&l,&n)&&lie_state_kvc_parts(&l,&base,&aux));
         unsigned char *p=calloc(1,(size_t)n);assert(p);
         for(unsigned i=0;i<l.section_count;++i){const lie_state_section *s=&l.sections[i];

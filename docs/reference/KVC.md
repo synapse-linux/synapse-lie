@@ -148,7 +148,8 @@ layout around the exact DS4 Qwen payload. Capture writes directly to those offse
 F16 K/V, F32 recurrent/conv/PLE/index/pool state and logits retain their bits.
 Tokens supply all eight n-gram slots and canonical text positions. Restore
 validates geometry, frontier, positions and EOS history before device mutation.
-MTP and adjusted/vision positions remain refused by this runtime binding.
+MTP uses the typed auxiliary continuation extension; adjusted/vision positions
+remain refused by this branch's runtime binding.
 
 The independently materialized Gufo `lie-ds4-state-v1` variant retains every raw
 index row (`bit_ceil(context)` capacity), included in `SessionBytes`, and pools
@@ -158,7 +159,7 @@ and cost qualification is separate. The [completed experiment](../archive/KVC-GP
 finds exact logits/tokens but a 128K latency regression. Capture performs no second complete tensor
 reformat and creates no new thread. `LIE_DS4_RUNTIME_CACHE=OFF` selects the old
 ring/native representation for a controlled comparison. Current runtime binding
-is Qwen Flash Next (DS4 model id 5), AR-only, with supported weight quantization
+is Qwen Flash Next (DS4 model id 5), AR and explicit MTP, with supported weight quantization
 labels 2/4/5/6/8. It is not a binding for every DS4 model.
 
 The shared C store retains the payload unchanged in RAM and SSD. KVC payloads

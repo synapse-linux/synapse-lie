@@ -1,5 +1,31 @@
 # Isolated OpenAI reactive API increment
 
+## Complete MTP RAM/SSD binding — 2026-10-03
+
+The C17 codec and shared cache now connect to live predictor transfers, residual
+and kept hidden rows, and the adaptive controller. Missing hidden catch-up rows
+refuse in both the C codec and device admission. The independently rebuilt Gufo
+variant materializes completed MTP pooled keys in scalar/batch paths. SSD identity
+pins the actual admitted target/predictor readers and includes the draft policy;
+RAM-only startup performs no weight hash. Default RAM retention is preserved.
+Unsupported models refuse readiness unless caches are explicitly disabled.
+
+CPU ASan/UBSan/LeakSanitizer checks pass **29/29**, including two synthetic model
+families, prompt/verified-frontier clones, budgets, cancellation, SSD process
+restart, predictor/draft identity changes and Chat/Responses JSON/SSE cache reuse.
+The MTP-OFF lifecycle/cache checks pass **3/3**. HIP libraries and server/bench
+compile/link; the synthetic core client also checks default RAM hits and native
+CSV/SVG/PNG export. These are **NOT-INFERENCE** results. The source/evidence-bound
+[cache receipt](development/validation/mtp-cache-2026-10-03.json) preserves the
+initial stale HTTP assertion and every thermal interruption/refusal.
+
+No original-weight model load, GPU execution, heavy model hash, conversion or
+`.157` performance run occurred. The CPU build peak was 94.625 C under a 95 C
+child-only guard; GPU functional preparation retains its separate 85 C guard.
+Original-weight MTP/cache continuation and sampled correctness remain required.
+Vision semantic cache identity and device binding are the next separate branch
+integration task; the current vision checkpoint remains `3434504`.
+
 ## Shared auxiliary KV state and MTP codec — 2026-10-03
 
 The C17 RAM/SSD store now retains typed auxiliary state with complete budget

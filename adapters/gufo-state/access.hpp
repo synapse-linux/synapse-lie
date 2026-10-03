@@ -8,17 +8,27 @@
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
 #include <atomic>
+#include <algorithm>
+#include <array>
 #include <cstring>
 #ifdef LIE_DS4_RUNTIME_CACHE
 #include "lie/kvc_state.h"
 #ifndef LIE_GUFO_DS4_STATE
 #error "DS4 runtime cache requires the verified complete-history provider variant"
 #endif
+#ifndef LIE_GUFO_DS4_MTP_STATE
+#error "MTP state access requires the verified complete predictor-history variant"
+#endif
 #endif
 namespace gufo::models::qwen38_flash_next {
 class LieStateAccess {
 public:
 #ifdef LIE_DS4_RUNTIME_CACHE
+  // Borrow only the actual readers retained by the admitted model. Reopening
+  // the pathname would let a rename during load bind SSD to different weights.
+  static auto ModelReaders(Model& m) {
+    return std::array<core::GgufReader*,2>{m.reader_.get(),m.mtp_reader_.get()};
+  }
   static lie_kvc_qwen_geometry Geometry(Session& s) {
     const auto& c=s.model_->config();
     return {c.num_layers,c.num_layers_all-c.num_layers,c.full_attention_interval,c.num_kv_heads,c.head_dim,
@@ -27,23 +37,34 @@ public:
   }
 #endif
   static bool Describe(Session& s,uint64_t domain,uint32_t chunk,
-                       const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0) {
+                       const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0,uint32_t drafts=0) {
     auto& d=*s.session_;const auto& c=s.model_->config();
-    if(!s.valid_||s.MtpEnabled()||s.image_prompt_||d.spec_tokens_||
+    if(!s.valid_||s.image_prompt_||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
 #ifdef LIE_DS4_RUNTIME_CACHE
+    const bool mtp=s.MtpEnabled();
+    if(mtp?(!drafts||drafts>LIE_KVC_QWEN_MTP_DEPTHS):drafts!=0)return false;
     if(d.index_capacity_<s.ContextSize()||c.compress_ratio!=4||c.ple_layer<0||
-       (!source&&d.blocks_!=s.Position()/4))return false;
+       (!source&&(d.blocks_!=s.Position()/4||
+         (mtp&&(s.hidden_base_>s.Position()||d.mtp_.position<s.hidden_base_||
+                d.mtp_.position>s.Position()||d.mtp_.blocks!=d.mtp_.position/4)))))return false;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
-       source->prefill_chunk!=chunk||source->format!=LIE_STATE_KVC||source->model_id!=5||source->quant_bits!=quant))return false;
+       source->prefill_chunk!=chunk||source->format!=(mtp?LIE_STATE_KVC_AUX:LIE_STATE_KVC)||
+       source->model_id!=5||source->quant_bits!=quant||(mtp&&source->model_data[4]!=drafts)))return false;
     const auto g=Geometry(s);
     const lie_kvc_qwen_frontier f{source?source->context_tokens:s.ContextSize(),chunk,
-        source?source->model_data[0]:s.ContextSize(),source?source->token_count:s.Position(),0,0};
+        source?source->model_data[0]:s.ContextSize(),source?source->token_count:s.Position(),
+        source?source->model_data[1]:(mtp?d.mtp_.position:0),0};
     lie_error error{};
-    return lie_kvc_qwen_state_plan(&g,&f,domain,5,quant,&out,&error)==LIE_OK&&
+    const uint32_t hidden=mtp?(source?source->model_data[3]:s.KeptHiddenRows()):0;
+    if(hidden>f.tokens||hidden>d.owner_->max_speculative()||(mtp&&f.mtp_tokens<f.tokens-hidden))return false;
+    const auto rc=mtp?lie_kvc_qwen_mtp_state_plan(&g,&f,domain,5,quant,hidden,drafts,&out,&error):
+        lie_kvc_qwen_state_plan(&g,&f,domain,5,quant,&out,&error);
+    return rc==LIE_OK&&
         (!source||lie_state_layout_equal(source,&out));
 #else
-    (void)quant;
+    (void)quant;(void)drafts;
+    if(s.MtpEnabled())return false;
     if(source&&(source->domain!=domain||source->context_tokens>s.ContextSize()||
                 source->prefill_chunk!=chunk||source->representation_version!=LIE_QWEN_STATE_REPRESENTATION))return false;
     out={};out.domain=domain;out.context_tokens=source?source->context_tokens:s.ContextSize();out.prefill_chunk=chunk;
@@ -60,7 +81,7 @@ public:
   }
   static lie_status Copy(Session& s,const lie_state_layout& layout,void* bytes,bool restore,
                    const std::atomic<bool>& cancelled,std::string& error) {
-    auto& d=*s.session_;auto stream=d.owner_->stream();
+    auto& d=*s.session_;const auto& c=s.model_->config();auto stream=d.owner_->stream();
 #ifdef LIE_DS4_RUNTIME_CACHE
     const auto geometry=Geometry(s);uint64_t payload=0;
     if(!lie_state_validate(&layout,&payload)){error="invalid DS4 component layout";return LIE_INVALID;}
@@ -68,10 +89,23 @@ public:
     limits.cancelled=[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;};
     limits.userdata=const_cast<std::atomic<bool>*>(&cancelled);
     lie_error detail{};
+    auto controller=s.draft_length_;
     if(restore){
       const auto rc=lie_kvc_qwen_state_check(&geometry,&layout,s.model_->config().ple_eos_token,
           {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
+      if(layout.format==LIE_STATE_KVC_AUX){
+        lie_kvc_qwen_mtp_controller c{};
+        const auto decoded=lie_kvc_qwen_mtp_state_controller(&layout,
+            {static_cast<const unsigned char*>(bytes),static_cast<size_t>(payload)},&c,&detail);
+        if(decoded!=LIE_OK){error=detail.message;return decoded;}
+        MtpLengthState state{};
+        std::copy(std::begin(c.successes),std::end(c.successes),state.successes.begin());
+        std::copy(std::begin(c.failures),std::end(c.failures),state.failures.begin());
+        state.retry_tokens=c.retry_tokens;state.probe_depth=c.probe_depth;
+        state.explored_depth=c.explored_depth;state.probe_delay=c.probe_delay;state.failed_depths=c.failed_depths;
+        if(!controller.Restore(state)){error="MTP controller does not fit destination";return LIE_INVALID;}
+      }
     }
 #endif
     auto checked=[&](hipError_t rc){if(rc==hipSuccess)return true;error=hipGetErrorString(rc);return false;};
@@ -81,6 +115,9 @@ public:
     if(restore){
       s.tokens_.resize(layout.token_count);s.logits_.resize(s.model_->VocabSize());
       s.valid_=false; // No usable frontier until every component is committed.
+      // A prefix destination has no useful speculative scratch. This releases
+      // existing rollback rows only; the next decode admits what it needs.
+      d.TrimRollback(0);
     }
     auto transfer=[&](void* bound,unsigned char* host,size_t size,bool device){
       if(!bound){error="missing bound state component";return false;}
@@ -95,7 +132,9 @@ public:
       void* bound=nullptr;bool device=true;
       switch(part.role){
 #ifdef LIE_DS4_RUNTIME_CACHE
-        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:continue;
+        case LIE_STATE_HEADER:case LIE_STATE_SCALAR:case LIE_KVC_QWEN_POSITIONS:case LIE_STATE_AUXILIARY:continue;
+        case LIE_KVC_QWEN_MTP_RESIDUAL:bound=d.mtp_.h;break;
+        case LIE_KVC_QWEN_MTP_HIDDEN:bound=d.mtp_.target_hidden;break;
         case LIE_STATE_NGRAM:
           if(restore){for(size_t j=0;j<d.ngram_.prev.size();++j){
               int32_t token=-1;if(j<layout.token_count)std::memcpy(&token,host+4*j,4);d.ngram_.prev[j]=token;}}
@@ -109,12 +148,12 @@ public:
         case LIE_STATE_PLE:bound=d.ple_history_;break;
         case LIE_STATE_CONV:bound=d.linear_.at(part.layer).conv_state;break;
         case LIE_STATE_RECURRENT:bound=d.linear_.at(part.layer).state;break;
-        case LIE_STATE_K:bound=d.attention_.at(part.layer).k_cache;break;
-        case LIE_STATE_V:bound=d.attention_.at(part.layer).v_cache;break;
-        case LIE_STATE_BLOCK_KEYS:bound=d.attention_.at(part.layer).block_k;break;
+        case LIE_STATE_K:bound=part.layer==c.num_layers?d.mtp_.k_cache:d.attention_.at(part.layer).k_cache;break;
+        case LIE_STATE_V:bound=part.layer==c.num_layers?d.mtp_.v_cache:d.attention_.at(part.layer).v_cache;break;
+        case LIE_STATE_BLOCK_KEYS:bound=part.layer==c.num_layers?d.mtp_.block_k:d.attention_.at(part.layer).block_k;break;
         case LIE_STATE_INDEX:{
 #ifdef LIE_DS4_RUNTIME_CACHE
-          bound=d.attention_.at(part.layer).index_k;break;
+          bound=part.layer==c.num_layers?d.mtp_.index_k:d.attention_.at(part.layer).index_k;break;
 #else
           const auto width=part.shape[1];const auto rows=part.shape[0];
           const auto begin=layout.model_data[0]*s.model_->config().compress_ratio;
@@ -133,7 +172,16 @@ public:
     }
 #ifdef LIE_DS4_RUNTIME_CACHE
     if(!restore){
-      auto rc=lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
+      lie_status rc;
+      if(layout.format==LIE_STATE_KVC_AUX){
+        const auto state=s.draft_length_.State();lie_kvc_qwen_mtp_controller c{};
+        std::copy(state.successes.begin(),state.successes.end(),std::begin(c.successes));
+        std::copy(state.failures.begin(),state.failures.end(),std::begin(c.failures));
+        c.retry_tokens=state.retry_tokens;c.probe_depth=state.probe_depth;c.explored_depth=state.explored_depth;
+        c.probe_delay=state.probe_delay;c.failed_depths=state.failed_depths;
+        rc=lie_kvc_qwen_mtp_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,&c,
+            bytes,static_cast<size_t>(payload),&limits,&detail);
+      }else rc=lie_kvc_qwen_state_finish(&geometry,&layout,s.model_->config().ple_eos_token,
           bytes,static_cast<size_t>(payload),&limits,&detail);
       if(rc!=LIE_OK){error=detail.message;return rc;}
     }
@@ -145,8 +193,15 @@ public:
 #else
       d.blocks_=layout.model_data[0];
 #endif
-      d.spec_base_=layout.token_count;d.spec_tokens_=0;d.mtp_.position=0;d.mtp_.blocks=0;
-      s.hidden_base_=layout.token_count;s.draft_token_=0;s.draft_length_.Reset();s.stats_={};s.valid_=true;
+      d.spec_base_=layout.token_count;d.spec_tokens_=0;
+#ifdef LIE_DS4_RUNTIME_CACHE
+      d.mtp_.position=layout.model_data[1];d.mtp_.blocks=d.mtp_.position/4;
+      s.hidden_base_=layout.token_count-layout.model_data[3];
+      if(layout.format==LIE_STATE_KVC_AUX)s.draft_length_=controller;else s.draft_length_.Reset();
+#else
+      d.mtp_.position=0;d.mtp_.blocks=0;s.hidden_base_=layout.token_count;s.draft_length_.Reset();
+#endif
+      s.draft_token_=0;s.stats_={};s.valid_=true;
     }
     return LIE_OK;
   }

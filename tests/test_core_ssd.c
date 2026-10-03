@@ -14,6 +14,10 @@
 #include <unistd.h>
 
 static atomic_bool held,entered;
+#ifdef TEST_MTP_CACHE
+static const char *test_predictor=":fixture:";
+static unsigned test_drafts;
+#endif
 static void pause_short(void){struct timespec t={0,1000000};nanosleep(&t,NULL);}
 ssize_t __real_pread(int,void *,size_t,off_t);
 ssize_t __wrap_pread(int fd,void *out,size_t bytes,off_t offset){
@@ -28,6 +32,9 @@ static lie_core_info wait_state(lie_core *c,lie_core_state target){
 }
 static lie_core *start(const char *path,uint64_t ram){
     lie_core_options o;lie_core_options_init(&o);o.cache_policy.enabled=false;o.model_path=":fixture:";o.context=128;o.chunk=4;o.max_active=2;
+#ifdef TEST_MTP_CACHE
+    o.mtp_model_path=test_predictor;o.mtp_draft_tokens=test_drafts;
+#endif
     o.prefix_cache_bytes=ram;if(path)o.ssd=(lie_store_options){path,1024*1024,65536};
     lie_core *c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);return c;
 }
@@ -61,6 +68,10 @@ static void clean(const char *path){
 int main(int argc,char **argv){
     int32_t a[]={0,10,10,10,20,20,20,20},b[]={1,30,30,30};lie_job_info i;
     if(argc==3){
+#ifdef TEST_MTP_CACHE
+        if(!strcmp(argv[1],"different-predictor"))test_predictor=":wide-fixture:";
+        if(!strcmp(argv[1],"different-drafts"))test_drafts=2;
+#endif
         lie_core *c=start(argv[2],0);i=consume(submit(c,a,4,8),LIE_FLOW_COMPLETE);
         bool restore=!strcmp(argv[1],"restore");assert(i.ssd_cached_tokens==(restore?4u:0u)&&i.prefill_tokens==(restore?0u:4u));
         lie_core_info ci=stop(c);assert(restore?ci.ssd.hits==1:ci.ssd.writes==1);return 0;
@@ -68,6 +79,13 @@ int main(int argc,char **argv){
     assert(argc==1);char cwd[2048],base[2200],path[2300];assert(getcwd(cwd,sizeof(cwd)));
     snprintf(base,sizeof(base),"%s/ssd-core-XXXXXX",cwd);assert(mkdtemp(base));snprintf(path,sizeof(path),"%s/store",base);
     child(argv[0],"seed",path);child(argv[0],"restore",path); /* Real process exit/restart. */
+#ifdef TEST_MTP_CACHE
+    /* Same text/tokens must miss before upload when predictor weights/config
+     * change. Each child opens a new live model domain and rebuilds the index. */
+    child(argv[0],"different-predictor",path);child(argv[0],"seed",path);
+    child(argv[0],"different-drafts",path);child(argv[0],"seed",path);
+    child(argv[0],"restore",path);
+#endif
     fake_calls_reset();lie_core *c=start(path,0);
     i=consume(submit(c,a,8,8),LIE_FLOW_COMPLETE);assert(i.ssd_cached_tokens==4&&i.prefill_tokens==4&&i.ssd_read_ns&&i.cache_restore_ns);
     lie_core_info ci=stop(c);assert(ci.ssd.writes==1&&!ci.cache.entries&&fake_calls_snapshot().restore==1);
@@ -91,6 +109,9 @@ int main(int argc,char **argv){
         /* min_tokens=0 must still skip an empty live sequence when graceful
          * stop races its first SSD read. No empty backend capture is valid. */
         lie_core_options o;lie_core_options_init(&o);o.model_path=":fixture:";o.context=128;o.chunk=4;o.max_active=2;
+#ifdef TEST_MTP_CACHE
+        o.mtp_model_path=test_predictor;o.mtp_draft_tokens=test_drafts;
+#endif
         o.prefix_cache_bytes=0;o.ssd=(lie_store_options){path,1024*1024,65536};o.cache_policy.min_tokens=0;
         fake_calls_reset();c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
         atomic_store(&entered,false);atomic_store(&held,true);pending=submit(c,a,8,8);wait_read();

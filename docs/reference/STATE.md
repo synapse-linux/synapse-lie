@@ -25,15 +25,24 @@ remain delegated; this does not claim an autonomous C model executor.
 
 ## MTP development boundary
 
-This branch exposes [MTP inference inputs/output](../development/MTP.md),
-and its C codec now retains predictor tensors, residual/kept hidden rows and
-adaptive-controller state. The live provider still captures AR state only,
-pending device transfer bindings, complete pooled predictor keys and stable
-predictor identity. The core refuses MTP
-configuration with either RAM retention or disk persistence enabled before model
-load. It does not silently drop predictor/image state or downgrade a failed
-restore to an equivalent cache hit. Complete model-specific extensions and
-identity qualification are required before lifting this development restriction.
+The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw
+index and completed pooled keys, plus Gufo-required residual/kept target hidden
+rows and adaptive-controller state in the shared typed auxiliary trailer. Only
+completed verified frontiers are admitted; pending speculation, missing hidden
+history and incompatible draft limits refuse before transfer. Controller,
+geometry, token/ngram history and positions are validated before GPU upload.
+Successful restore commits predictor/trunk positions and hidden-base together,
+resets per-request statistics, and preserves the destination sampler/RNG.
+
+RAM retains its default budget. SSD is opt-in; identity pins descriptors from
+the **actual readers used by the admitted model**, then hashes target and predictor
+files in order with draft limit, concurrency and provider arithmetic policy.
+Pathname replacement cannot bind a different metadata reader to SSD.
+Preload/postload stat witnesses reject file replacement or modification during
+loading; immutable-file checks continue through SSD hashing. No weight hashing
+occurs in RAM-only mode. A model without complete MTP state must explicitly disable caches;
+otherwise the core refuses readiness. Original-weight cache continuation and
+GPU numerical behavior remain unqualified. Image state is still refused here.
 
 
 ## Multi-model requirement
@@ -105,7 +114,8 @@ not live states.
   device, build or process reopen. This is not a stable disk compatibility ID.
 - A recipient is an empty independent sequence. Sampling, seed/RNG, penalties,
   output parsing and transport state belong to the new request. Completed prompt and generated-token
-  frontiers may be captured; request-local sampling state is not resumed. MTP/vision states are refused.
+  frontiers may be captured; request-local sampling state is not resumed. Complete MTP checkpoints use the
+  extension above; vision state is still refused.
 - The C model representation includes physical tokens, host logits, n-gram
   history, PLE history, convolution and recurrent state, attention K/V,
   chronological unpooled index keys and pooled block keys plus their frontier.

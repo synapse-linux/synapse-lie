@@ -35,6 +35,11 @@ extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
 extern "C" int lie_gufo_device_identity(char *,size_t) noexcept;
 namespace qfn = gufo::models::qwen38_flash_next;
 static std::atomic<uint64_t> next_state_domain{1};
+static bool same_file_snapshot(const struct stat& a,const struct stat& b) noexcept {
+    return b.st_nlink&&a.st_dev==b.st_dev&&a.st_ino==b.st_ino&&a.st_size==b.st_size&&
+        a.st_mtim.tv_sec==b.st_mtim.tv_sec&&a.st_mtim.tv_nsec==b.st_mtim.tv_nsec&&
+        a.st_ctim.tv_sec==b.st_ctim.tv_sec&&a.st_ctim.tv_nsec==b.st_ctim.tv_nsec;
+}
 struct Runtime {
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
@@ -107,6 +112,7 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
+        const auto precheck_quant=expert->type;
         using Q=gufo::core::GgmlType;
         switch(expert->type){
           case Q::kQ2_K:case Q::kIQ2_XXS:r->state_quant=2;break;
@@ -119,12 +125,40 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
 #endif
         // Retain only descriptors/stat witnesses, not a second mapped payload.
         // No weight hashing unless the shared core explicitly admits SSD.
-        for(const auto& region:metadata->GetMappedRegions()){
-            int fd=::fcntl(region.file_descriptor,F_DUPFD_CLOEXEC,0);struct stat st{};
-            if(fd<0)return error(e,LIE_RESOURCE_LIMIT,"cannot pin model identity file");
-            if(::fstat(fd,&st)){::close(fd);return error(e,LIE_INVALID,"cannot inspect model identity file");}
-            try{r->state_files.push_back({fd,st});}catch(...){::close(fd);throw;}
+#ifdef LIE_DS4_RUNTIME_CACHE
+        std::vector<struct stat> witnesses;
+        auto witness_files=[&](const gufo::core::GgufReader& reader){
+            for(const auto& region:reader.GetMappedRegions()){
+                struct stat st{};if(::fstat(region.file_descriptor,&st)||!st.st_nlink)
+                    return error(e,LIE_INVALID,"cannot witness model file before load");
+                witnesses.push_back(st);
+            }
+            return LIE_OK;
+        };
+        auto witnessed=witness_files(*metadata);if(witnessed!=LIE_OK)return witnessed;
+        if(mtp_path){
+            auto predictor=gufo::core::GgufReader::OpenFile(mtp_path,&template_error);
+            if(!predictor)return error(e,LIE_INVALID,template_error.c_str());
+            witnessed=witness_files(*predictor);if(witnessed!=LIE_OK)return witnessed;
         }
+#endif
+        auto pin_files=[&](const gufo::core::GgufReader& reader){
+            for(const auto& region:reader.GetMappedRegions()){
+                int fd=::fcntl(region.file_descriptor,F_DUPFD_CLOEXEC,0);struct stat st{};
+                if(fd<0)return error(e,LIE_RESOURCE_LIMIT,"cannot pin model identity file");
+                if(::fstat(fd,&st)){::close(fd);return error(e,LIE_INVALID,"cannot inspect model identity file");}
+#ifdef LIE_DS4_RUNTIME_CACHE
+                if(r->state_files.size()>=witnesses.size()||!same_file_snapshot(witnesses[r->state_files.size()],st)){
+                    ::close(fd);return error(e,LIE_INVALID,"target or predictor files changed during load");
+                }
+#endif
+                try{r->state_files.push_back({fd,st});}catch(...){::close(fd);throw;}
+            }
+            return LIE_OK;
+        };
+#ifndef LIE_DS4_RUNTIME_CACHE
+        auto pinned=pin_files(*metadata);if(pinned!=LIE_OK)return pinned;
+#endif
         metadata.reset(); // Validation before GPU admission; no model forward on CPU.
         qfn::ModelOptions options;
         options.max_context = o->context_tokens;
@@ -133,6 +167,16 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         if(mtp_path)options.mtp_model_path=mtp_path;
         std::string message; r->model = qfn::Model::Load(path, options, &message);
         if (!r->model) return error(e, LIE_BACKEND_FAILED, message.c_str());
+#ifdef LIE_DS4_RUNTIME_CACHE
+        const auto readers=qfn::LieStateAccess::ModelReaders(*r->model);
+        if(!readers[0]||bool(readers[1])!=bool(mtp_path))return error(e,LIE_INVALID,"admitted model readers incomplete");
+        // The metadata precheck may have observed an earlier pathname target.
+        const auto* admitted_expert=readers[0]->FindTensor("blk.0.ffn_gate_exps.weight");
+        if(!admitted_expert||admitted_expert->type!=precheck_quant)
+            return error(e,LIE_INVALID,"model quantization changed during load");
+        for(const auto* reader:readers)if(reader){auto pinned=pin_files(*reader);if(pinned!=LIE_OK)return pinned;}
+        if(r->state_files.size()!=witnesses.size())return error(e,LIE_INVALID,"admitted model file set changed during load");
+#endif
         auto result = std::make_unique<lie_model>(); result->runtime = std::move(r);
         *out = result.release(); if (e) e->message[0] = 0; return LIE_OK;
     } catch (const std::exception &ex) { return error(e, LIE_BACKEND_FAILED, ex.what()); }
@@ -154,22 +198,26 @@ extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *
     if(!m||!id||!domain)return error(e,LIE_INVALID,"invalid SSD identity output");
     return guarded(m->runtime,e,[&]{
         if(!lie_backend_prefix_state_supported())return error(e,LIE_UNSUPPORTED,"component state access required for SSD");
+#ifndef LIE_DS4_RUNTIME_CACHE
+        if(m->runtime->drafts)return error(e,LIE_UNSUPPORTED,"complete predictor state required for MTP SSD identity");
+#endif
         std::vector<int> fds;
-        for(const auto& f:m->runtime->state_files){struct stat st{};const auto& old=f.stat;
-            if(::fstat(f.fd,&st)||!st.st_nlink||st.st_dev!=old.st_dev||st.st_ino!=old.st_ino||st.st_size!=old.st_size||
-               st.st_mtim.tv_sec!=old.st_mtim.tv_sec||st.st_mtim.tv_nsec!=old.st_mtim.tv_nsec||
-               st.st_ctim.tv_sec!=old.st_ctim.tv_sec||st.st_ctim.tv_nsec!=old.st_ctim.tv_nsec)
+        for(const auto& f:m->runtime->state_files){struct stat st{};
+            if(::fstat(f.fd,&st)||!same_file_snapshot(f.stat,st))
                 return error(e,LIE_INVALID,"model files changed after load; SSD identity refused");
             fds.push_back(f.fd);
         }
-        char device[1024],policy[2048];if(!lie_gufo_device_identity(device,sizeof(device)))return error(e,LIE_INVALID,"SSD device identity unavailable");
+        char device[1024],policy[2048],mtp_policy[128]={};if(!lie_gufo_device_identity(device,sizeof(device)))return error(e,LIE_INVALID,"SSD device identity unavailable");
 #ifdef LIE_DS4_RUNTIME_CACHE
         const char *format="ds4-qwen-payload-v2/full-index/eager-pool";
 #else
         const char *format="qwen-ar-v1";
 #endif
-        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/%s/text-only/thinking-off/context-growth-v1/chunk=%u/width=%u/%s",format,
-            m->runtime->chunk,m->runtime->width,device);
+        // Target then predictor descriptors are hashed in that order. Draft
+        // bounds/concurrency affect the adaptive controller, never alias AR.
+        if(m->runtime->drafts)std::snprintf(mtp_policy,sizeof(mtp_policy),"/mode=mtp/drafts=%u/predictor-history-v1",m->runtime->drafts);
+        int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/%s/text-only/thinking-off/context-growth-v1/chunk=%u/width=%u%s/%s",format,
+            m->runtime->chunk,m->runtime->width,mtp_policy,device);
         if(n<0||static_cast<size_t>(n)>=sizeof(policy))return error(e,LIE_INVALID,"SSD policy identity overflow");
         auto rc=lie_state_identity_files(fds.data(),fds.size(),policy,id,e);if(rc==LIE_OK)*domain=m->runtime->state_domain;return rc;
     });
@@ -431,7 +479,7 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
 #ifdef LIE_GUFO_STATE_ACCESS
         /* Captures own only the completed token frontier, never sampler/RNG
          * state. Restoring still requires a fresh unstarted destination. */
-        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant))
+        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant,s->runtime->drafts))
             return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
         return LIE_OK;
 #else
@@ -476,6 +524,12 @@ extern "C" lie_status lie_model_mtp_info(lie_model *m,lie_mtp_info *out,lie_erro
     if(!m||!out||out->abi_version!=LIE_MTP_ABI||out->struct_bytes!=sizeof(*out))return error(e,LIE_INVALID,"invalid MTP capability output");
     return guarded(m->runtime,e,[&]{
         if(!m->runtime->model->HasMtp())return error(e,LIE_UNSUPPORTED,"predictor not admitted");
-        *out={LIE_MTP_ABI,sizeof(*out),m->runtime->drafts,m->runtime->drafts+1,0};return LIE_OK;
+        *out={LIE_MTP_ABI,sizeof(*out),m->runtime->drafts,m->runtime->drafts+1,
+#ifdef LIE_DS4_RUNTIME_CACHE
+            1
+#else
+            0
+#endif
+        };return LIE_OK;
     });
 }

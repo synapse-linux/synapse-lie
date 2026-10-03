@@ -280,3 +280,17 @@ The original [LICENSE](libuv/LICENSE), [additional notices](libuv/LICENSE-extra)
 and [AUTHORS](libuv/AUTHORS) are retained. LIE's first-party MIT license does not
 replace those terms. The wrapper preserves upstream compiler settings while
 inheriting LIE's requested sanitizer instrumentation.
+
+## Complete MTP state binding — 2026-10-03
+
+The MTP branch extends `adapters/gufo-state/kvc-edits.json` with eager completed
+predictor pooling in scalar/batch paths and a narrow `Model` friend declaration.
+`LieStateAccess` borrows the actual model-owned target/predictor readers for
+identity pinning, binds predictor components to HIP storage, and translates the
+adaptive controller to/from LIE's C codec. Source variants are independently
+materialized from the same official pin; old qualified source/archives remain
+untouched. CMake provider helpers are the current build/verification path.
+The numerical kernel implementations are unchanged, but launch scheduling has
+changed and needs original-weight GPU qualification. No DS4 source or sibling
+workspace artifact is imported. Shared storage/cache policy stays first-party
+MIT C17; upstream types remain confined to the adapter.

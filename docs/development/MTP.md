@@ -21,8 +21,7 @@ selection enables MTP. Omitting it preserves AR execution.
 build/release/synapse-lie-server \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
-  --model-id local-model --port 8000 --context 4096 --max-active 2 \
-  --kv-cache-ram-mb 0
+  --model-id local-model --port 8000 --context 4096 --max-active 2
 ```
 
 Use ordinary Chat Completions or Responses requests; no MTP-specific HTTP request
@@ -38,7 +37,7 @@ build/release/synapse-lie-bench --suite core \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
   --prompt-file prompt.txt --context 4096 --chunk 2048 \
-  --users 2 --tg 128 --repetitions 3 --kv-cache-ram-mb 0 \
+  --users 2 --tg 128 --repetitions 3 \
   --output mtp.jsonl --graphs mtp-graphs
 ```
 
@@ -82,26 +81,57 @@ trailer; DS4 payload offsets and ordinary AR files remain unchanged. CPU fixture
 exercise predictor frontiers at 0, 1, 3, 4 and 8 tokens, budget refusal, corruption,
 capture/restore and SSD index reconstruction in a new live domain.
 
-The live provider still requires binding these components and pinning predictor
-weights/configuration into the stable identity. Its existing MTP path also pools
-keys only when sparse attention starts; complete pooled capture must be implemented
-without presenting uninitialized history as state. MTP therefore still requires
-**explicit `--kv-cache-ram-mb 0` and no `--kv-disk-dir`**;
-incompatible configurations are refused before loading a model. AR retains its
-normal RAM-cache default. No incomplete state is presented as a cache hit.
+The live binding now copies these components and commits both trunk and
+predictor frontiers after complete upload. It validates the controller and
+available hidden history before mutation, retires partial/cancelled transfers,
+and leaves the new request's sampler/RNG untouched. This is prefix reuse;
+exact generation-session resume is not implemented.
 
-Before integration: connect the model-specific predictor state and identity to
-the common RAM/SSD lifecycle; qualify greedy AR parity, sampled target behavior,
-rejection/rollback, cancellation and mixed concurrency on original weights;
-then compare PP/TG, complete-window throughput and memory with AR. Same sampling
-seed alone does not imply equal AR/speculative token streams. Additional real
-model families require their own bindings and qualification.
+RAM caching keeps its default 4 GiB budget. SSD remains explicit opt-in:
+
+```sh
+build/release/synapse-lie-server \
+  --model /models/target-00001-of-00004.gguf \
+  --model-mtp /models/predictor.gguf --mtp-draft-tokens 7 \
+  --port 8000 --context 4096 --max-active 2 \
+  --kv-disk-dir /absolute/kv-mtp --kv-disk-space-mb 16384 \
+  --kv-disk-staging-mb 4096
+```
+
+The bound identity uses the actual model-owned target/predictor descriptors,
+not a pathname reopened for hashing, and includes the admitted draft limit and
+concurrency. Preload/postload file witnesses reject replacement or modification
+during model loading. Changed predictors or draft policies cannot restore a matching-text
+record. Weight hashing occurs only for explicit SSD admission and still requires
+coordinated ownership on shared hardware. Incompatible providers advertise
+`prefix_state_supported=0`: use RAM zero/no disk directory for those builds, or
+startup refuses readiness. `LIE_DS4_RUNTIME_CACHE=OFF` retains this refusal for
+MTP while allowing its uncached execution.
+
+The independently rebuilt provider variant now pools completed MTP groups of
+four in scalar and batch paths before sparse selection. Existing kernels are
+reused; no uninitialized pooled history is captured. This adds work before the
+sparse threshold and **has not been measured**. The current AR and MTP state
+schedule remains a correctness-first development variant, with a default-ON
+build option; it is not qualified as faster than pristine Gufo.
+
+Before integration: qualify greedy AR parity, sampled target behavior,
+rejection/rollback, capture immediately after prefill and verified bursts,
+RAM restore, independent SSD restart, context growth, cancellation and mixed
+concurrency on original weights. Then compare PP/TG, complete-window throughput
+and memory with AR. Same sampling seed alone does not imply equal AR/speculative
+token streams. Additional real model families require their own bindings and
+qualification.
 
 The numerical source remains official Gufo
-`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the existing LIE state-access
-variant. No numerical kernels or DS4 project files were changed. Two synthetic
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the hash-verified LIE state-access and complete predictor-history
+variant. Numerical kernel implementations and DS4 project files were not changed;
+pooling launch schedules and descriptor access were changed. Two synthetic
 provider geometries (8- and 13-token bursts) exercise the generic contract;
 these fixtures are **NOT-INFERENCE**. See the
 [validation receipt](validation/mtp-2026-10-03.json).
 The subsequent state-codec checks are recorded separately in the
 [state validation receipt](validation/mtp-state-2026-10-03.json).
+
+Live cache integration checks are recorded in the
+[MTP cache validation receipt](validation/mtp-cache-2026-10-03.json).

@@ -12,7 +12,8 @@ stable release is declared. Detailed validation history is in
 - Typed auxiliary checkpoint components in the shared C17 RAM/SSD store, with
   budgets, integrity checks and unchanged DS4 payload bytes.
 - Qwen MTP predictor tensors, residual/kept hidden state and adaptive-controller
-  codec; live MTP cache admission remains pending device binding and identity.
+  codec and device binding; RAM/SSD admission uses complete model capabilities
+  and an identity covering the actual target/predictor files and draft policy.
 
 - Experimental model-neutral [MTP core and HTTP path](docs/development/MTP.md),
   with default-ON build option, explicit model configuration and native client tests.

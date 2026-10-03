@@ -36,8 +36,10 @@ role without changing existing structure layouts or enum values.
 DS4-payload and auxiliary lengths. Invalid descriptors refuse before allocation
 or transfer. Old AR files retain footer version 1; new auxiliary files use
 version 2, require checksum admission and retain a fresh destination sampler.
-The feature adapters still advertise unsupported prefix state until their
-complete model binding and identity checks are connected.
+MTP advertises `prefix_state_supported=1` only with the verified complete-history
+DS4 provider. The legacy state variant advertises zero for MTP. Cache admission
+checks this per-model capability before readiness; unsupported models require
+RAM zero and no SSD directory. Vision state remains a separate integration gate.
 
 ## Ownership and completion
 

@@ -299,3 +299,10 @@ The actuator executor snapshot includes aggregate draft/acceptance counts.
 which can exceed calls. Proposed/rejected tokens never enter output throughput.
 Counts exclude suppressed cancelled results. Core clients access the same job
 snapshots. These are host completed-call timings, not GPU event measurements.
+
+MTP cache reuse uses the existing `cached_tokens`, `ssd_cached_tokens`,
+capture/restore timing and RAM/SSD accounting fields. `backend.prefix_state`
+and the admitted MTP capability advertise complete predictor state only for a
+state-capable composition. A true capability is implementation availability,
+not original-weight qualification or a throughput claim. No new inference
+worker or metric label is introduced by predictor transfers.

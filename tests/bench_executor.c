@@ -18,6 +18,7 @@ const char *lie_backend_source_pin(void) { return "synthetic"; }
 int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
     (void)e;memset(id,0,sizeof(*id));memcpy(id->bytes,"BENCH-SSD-v1",12);
+    if(m->mtp){memcpy(id->bytes,"BENCH-MTP-v1",12);id->bytes[12]=(unsigned char)m->drafts;}
     unsigned values[]={m->context,m->chunk,m->width,(unsigned)m->mode};
     for(unsigned i=0;i<4;++i)for(unsigned k=0;k<4;++k)id->bytes[16+i*4+k]=(unsigned char)(values[i]>>(8*k));
     *domain=m->domain;return LIE_OK;
@@ -101,6 +102,7 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=2,.domain=s->m->domain,
         .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->m->chunk};
     out->model_data[0]=from?from->model_data[0]:s->step;
+    out->model_data[1]=s->m->drafts;if(from&&from->model_data[1]!=out->model_data[1])return LIE_INVALID;
     uint64_t shape=out->token_count;if(!lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape))return LIE_INVALID;
     shape=256;return lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape)?LIE_OK:LIE_INVALID;
 }
@@ -145,5 +147,5 @@ lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const uint32_t *li
 
 lie_status lie_model_mtp_info(lie_model *m,lie_mtp_info *out,lie_error *e){
     (void)e;if(!m||!out||!m->mtp)return LIE_UNSUPPORTED;
-    *out=(lie_mtp_info){LIE_MTP_ABI,sizeof(*out),m->drafts,m->drafts+1,0};return LIE_OK;
+    *out=(lie_mtp_info){LIE_MTP_ABI,sizeof(*out),m->drafts,m->drafts+1,1};return LIE_OK;
 }

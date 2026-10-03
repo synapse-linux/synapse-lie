@@ -107,7 +107,10 @@ LIE creates the final private directory; its parent must already exist.
 The directory holds LIE-owned checkpoints. Its quota limits retained disk usage;
 the staging budget bounds in-flight state transfers. Keep enough staging space
 for one checkpoint. RAM and SSD can be enabled independently. SSD persistence
-is **off unless explicitly configured**.
+is **off unless explicitly configured**. Experimental MTP follows the same
+cache defaults when its provider admits complete predictor state; see the
+[MTP guide](../development/MTP.md#cache-and-remaining-gates) for configuration
+and qualification limits.
 
 All `--kv-*` options configure inference state, never model weights. Budget
 options ending in `-mb` use binary MiB (1,048,576 bytes). These names also apply

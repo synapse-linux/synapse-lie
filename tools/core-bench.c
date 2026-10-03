@@ -169,7 +169,7 @@ int lie_core_bench_main(int argc,char **argv) {
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor and both KV caches off; vision is separate.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision is separate.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
@@ -197,7 +197,7 @@ int lie_core_bench_main(int argc,char **argv) {
         seen|=bit;
     }
     if(mtp_drafts&&!mtp)goto usage;
-    if(mtp&&(!LIE_MTP||!*mtp||cache_mib||ssd.directory))goto usage;
+    if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");

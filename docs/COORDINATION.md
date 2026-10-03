@@ -554,3 +554,20 @@ lacks `per_layer_token_embd.weight`; it cannot qualify the complete loaded model
 The other Qwen trunks need the ongoing quantization compatibility work. No model
 weights were hashed, converted or loaded; no GPU was initialized or leased here.
 Inventory and stat witnesses remain under local `evidence/usb-qwen-*` on MTP.
+
+## MTP cache CPU checkpoint — 2026-10-03
+
+This slice runs only local CPU fixtures and HIP compilation/linking, with all
+GPU visibility variables masked. No GPU/model reservation is consumed; `.157`
+benchmark work remains postponed. A status update was sent to the Q2 thread;
+no new cross-thread GPU ACK or model compatibility is inferred from silence.
+
+The initial 85 C CPU guard interrupted two provider builds and one fixture
+build, and refused two further provider starts. A subsequent 90 C attempt
+stopped at 91.625 C. These actual exit-125 records remain in local evidence.
+For CPU-only completion, one job and a 95 C guard were used within the owner's
+98 C Strix Halo allowance; the provider peak was 94.625 C, final sanitizer suite
+69.5 C and final HIP client relink is recorded in the cache receipt. No fan,
+clock, power, system setting or foreign process was changed. This does not
+raise the separate 85 C functional-GPU preparation ceiling while local fans
+remain unconfigured. No shutdown or hardware deterioration was observed.

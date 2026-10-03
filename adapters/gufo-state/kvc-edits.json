@@ -1,12 +1,17 @@
 {
   "schema": "synapse-lie.gufo-ds4-state.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "scope": "AR-only complete raw index retention and eager completed block pooling for exact DS4 payload capture. Device SessionBytes includes the larger index allocation. Existing kernels and model arithmetic are reused; numerical equivalence requires GPU qualification. Applied after state-access friends in an independent source variant.",
+  "scope": "AR and MTP complete raw index retention and eager completed block pooling for exact DS4 payload capture. Device SessionBytes includes the larger index allocation. Existing kernels and model arithmetic are reused; numerical equivalence requires GPU qualification. Applied after state-access friends in an independent source variant.",
   "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "private:\n  Model() = default;",
+      "new": "private:\n  friend class LieStateAccess;\n  Model() = default;"
+    },
     {
       "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
       "old": "#define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_",
-      "new": "#define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_\n#define LIE_GUFO_DS4_STATE 1"
+      "new": "#define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_\n#define LIE_GUFO_DS4_STATE 1\n#define LIE_GUFO_DS4_MTP_STATE 1"
     },
     {
       "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
@@ -42,6 +47,26 @@
       "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
       "old": "    if (sparse[i]) {\n      items[i].session->blocks_ = complete[i];\n    }",
       "new": "    items[i].session->blocks_ = complete[i];"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  const auto pool = sparse ? complete - session.mtp_.blocks : 0;",
+      "new": "  const auto pool = complete - session.mtp_.blocks;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  if (sparse)\n    session.mtp_.blocks = complete;",
+      "new": "  session.mtp_.blocks = complete;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "      const auto pool = sparse ? complete - session.mtp_.blocks : 0;",
+      "new": "      const auto pool = complete - session.mtp_.blocks;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "    if (item.session->mtp_.position > c.indexer_top_k)\n      item.session->mtp_.blocks =\n          item.session->mtp_.position / c.compress_ratio;",
+      "new": "    item.session->mtp_.blocks =\n        item.session->mtp_.position / c.compress_ratio;"
     }
   ]
 }
