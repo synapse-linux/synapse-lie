@@ -7,6 +7,13 @@ Responses evidence](../archive/OPENAI-GPU.md), plus a [real Pi read/edit/read ru
 separate, clearly labelled synthetic executable. No model is configured by default and no synthetic provider can be
 selected in `synapse-lie-server`.
 
+## Experimental MTP path
+
+See [MTP usage and bounds](../development/MTP.md). Chat Completions
+and Responses use the same shared-core admission and ownership as direct clients.
+JSON/SSE fixtures validate transport and counters; GPU correctness remains open.
+
+
 ## Management listener
 
 | Route | Behavior |
@@ -71,7 +78,8 @@ cancellation, so write-half-close request semantics are not supported.
   plus executing); overflow 429. One active sequence by default, optionally up to eight (`--max-active 1..8`).
   Ready sequences with output credit use the shared native-batch dispatcher;
   a lone ready sequence uses scalar decode.
-- Eight 256-byte token slots per flow. The pinned vocabulary's documented maximum
+- Eight output slots per flow: 256 bytes in AR, or admitted burst × 256 bytes
+  in MTP (core maximum 32 tokens per slot). The pinned vocabulary's documented maximum
   rendered entry is 128 bytes; the larger slot is checked before publication.
   UTF-8 expansion and JSON/SSE writes are independently bounded.
 - One outstanding uv_write per connection. Request 16 KiB socket send buffer

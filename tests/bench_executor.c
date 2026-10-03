@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Deterministic ABI fixture for benchmark accounting, never neural computation. */
 #include "lie/executor.h"
+#include "lie/mtp.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include <math.h>
@@ -8,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; int mode; };
+struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; };
 struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; atomic_bool cancelled; };
 static atomic_uint_fast64_t domain_counter=1;
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
@@ -30,7 +31,7 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_get_info(lie_model *m,lie_model_info *i,lie_error *e) {
-    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048,.native_batch_capacity=m->width}; return LIE_OK;
+    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
 }
 lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message *msg,size_t count,int32_t *p,size_t cap,size_t *n,lie_error *e) {
     (void)count;
@@ -117,4 +118,32 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
 
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){
     (void)m;(void)t;(void)n;(void)e;*out=0;return LIE_OK;
+}
+
+lie_status lie_backend_open_mtp(const char *p,const lie_model_options *o,uint32_t width,const char *predictor,uint32_t drafts,lie_model **m,lie_error *e){
+    if(!predictor)return LIE_INVALID;
+    uint32_t cap=!strcmp(predictor,":wide-fixture:")?12:!strcmp(predictor,":fixture:")?7:0;
+    if(!cap||drafts>cap)return LIE_INVALID;
+    if(!drafts)drafts=cap;
+    lie_status rc=lie_backend_open_batch(p,o,width,m,e);if(rc==LIE_OK){(*m)->mtp=true;(*m)->drafts=drafts;}return rc;
+}
+lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const uint32_t *limits,size_t n,lie_mtp_outcome *out,lie_error *e){
+    if(!rows||!limits||!out||!n||n>LIE_DECODE_MAX_ROWS)return LIE_INVALID;
+    for(size_t i=0;i<n;++i){
+        out[i]=(lie_mtp_outcome){.status=LIE_OK};
+        if(!limits[i]||limits[i]>LIE_MTP_MAX_OUTPUT)return LIE_INVALID;
+        for(uint32_t k=0;k<limits[i];++k){lie_decode_result d={0};lie_status rc=lie_sequence_decode(rows[i],&d,e);
+            if(rc!=LIE_OK){out[i]=(lie_mtp_outcome){.status=rc};if(rc!=LIE_CANCELLED)return rc;break;}
+            out[i].stop=d.stop;out[i].position=d.position;
+            if(d.emitted){out[i].tokens[out[i].emitted++]=d.token;if(d.emitted>1)out[i].emitted=limits[i]+1;}
+            if(d.stop||d.emitted!=1)break;
+        }
+        if(out[i].emitted){out[i].drafted=out[i].emitted-1;out[i].accepted=out[i].drafted;}
+    }
+    return LIE_OK;
+}
+
+lie_status lie_model_mtp_info(lie_model *m,lie_mtp_info *out,lie_error *e){
+    (void)e;if(!m||!out||!m->mtp)return LIE_UNSUPPORTED;
+    *out=(lie_mtp_info){LIE_MTP_ABI,sizeof(*out),m->drafts,m->drafts+1,0};return LIE_OK;
 }

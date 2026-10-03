@@ -19,6 +19,15 @@ receipts remain historical. `lie_backend_open` is the selected composition bindi
 source pin and ownership queries expose delegation; the explicit factory
 `lie_gufo_open` remains available and is not relabelled as an owned engine.
 
+## MTP branch extension
+
+[MTP](../development/MTP.md) now has an additive, model-neutral C
+contract in `include/lie/mtp.h`. Executor ABI 2 scalar AR entry points retain
+their meanings. New capability structures have ABI 1 and an exact struct size;
+upstream model types stay inside the provider adapter. This is CPU-contract
+validation and provider linking, not original-weight qualification.
+
+
 ## Ownership and completion
 
 - `lie_gufo_open` creates a model handle. Output handles must initially be NULL.
@@ -40,8 +49,8 @@ source pin and ownership queries expose delegation; the explicit factory
   position plus emitted count, including un-emitted EOS (no position advance).
   Emitted tokens must be within the model vocabulary. The worker checks these
   invariants before token lookup/publication and fails closed on a contract
-  violation. Reported token-text size must fit its caller buffer. MTP is not
-  advertised; native AR multirow submission uses the additive contract below.
+  violation. Reported token-text size must fit its caller buffer. MTP is admitted through its separate capability and burst entry point;
+  native AR multirow submission uses the additive contract below.
 - The inspected upstream Forward completes `hipStreamSynchronize` before
   returning host logits. This is a synchronous completion API, not enqueue.
   It must run off the HTTP loop. There is no exported async ticket/poll API yet.
@@ -80,7 +89,8 @@ template before model load, then invokes the pinned Qwen renderer/tokenizer with
 thinking disabled, structured calls/results and real tool declarations. Buffer/
 physical-context refusal precedes session mutation. Plain formatting remains
 byte-identical in the CPU formatter test. Raw tokenization remains distinct.
-No tool code executes here. Snapshots and MTP remain absent. Native decode batching uses the additive contract below.
+No tool code executes here. Exact-session snapshots remain absent;
+MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately
 qualified GGUF template/reasoning/tool semantics. Do not fabricate ChatML, normalize input
 to gain cache hits, or leak upstream Model types into the HTTP/scheduler contract.
@@ -203,7 +213,7 @@ all consumers to rebuild together. See [the codec contract](SSD-PREFIX.md#compre
 
 The remaining items below are requirements for future contracts. RAM prefix
 state is implemented by the separate extension above; SSD/exact resume, MTP
-and vision are not capabilities of executor ABI 2. Keep completed scalar/batch semantics.
+and vision are separate capability contracts, outside scalar executor ABI 2. Keep completed scalar/batch semantics.
 Negotiate state, MTP, vision, format/dtype, native batch capacity and context/RoPE
 profiles explicitly; refusing an unsupported capability must precede mutation.
 

@@ -289,3 +289,13 @@ write. KVC retained/expanded bytes are equal and restore workspace is zero.
 Full index allocation is included in provider session accounting; retained host
 bytes do not describe total device memory. No new worker, speedup or compression
 ratio is inferred from these format changes.
+
+## MTP development observability
+
+Completed MTP calls report `decode_mode`, `max_decode_output_tokens`,
+`mtp_drafted_tokens` and `mtp_accepted_tokens` in Chat `lie_timings`.
+The actuator executor snapshot includes aggregate draft/acceptance counts.
+`decode_calls` counts per-row calls; `decode_tokens` counts confirmed output,
+which can exceed calls. Proposed/rejected tokens never enter output throughput.
+Counts exclude suppressed cancelled results. Core clients access the same job
+snapshots. These are host completed-call timings, not GPU event measurements.

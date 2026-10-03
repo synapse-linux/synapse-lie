@@ -48,6 +48,7 @@ struct lie_core {
     lie_core_info info;
     lie_core_options options;
     char *path;
+    char *mtp_path;
     lie_job *jobs[LIE_CORE_JOBS];
     unsigned preparing; /* Bounded admission copies, protected by gate. */
     int wake, notice;
@@ -503,7 +504,10 @@ static bool decode_ready(lie_core *w) {
         pthread_mutex_lock(&w->gate);lie_job *j=w->jobs[i];pthread_mutex_unlock(&w->gate);
         if(j&&j->sequence&&j->fed==j->tokens&&!j->capture_pending&&!j->finish_pending&&!atomic_load(&j->cancel)&&!atomic_load(&w->stop)){
             indices[n]=i;rows[n++]=(lie_inference_row){.sequence=j->sequence,.flow=j->flow,
-                .position=j->position,.context=w->options.context,.vocab=wi.model.vocab_tokens};
+                .position=j->position,.context=w->options.context,.vocab=wi.model.vocab_tokens,
+                .step_tokens=wi.model.speculative_supported?
+                    (j->request.max_tokens-j->info.output_tokens<wi.mtp.max_output_tokens?
+                     j->request.max_tokens-j->info.output_tokens:wi.mtp.max_output_tokens):1};
         }
     }
     if(!n)return false;
@@ -537,8 +541,12 @@ static bool decode_ready(lie_core *w) {
     /* Validate all rows before exposing any output from a shared call. */
     for(size_t i=0;i<n&&rc==LIE_OK;++i)if(rows[i].selected&&rows[i].outcome.status==LIE_OK&&rows[i].outcome.result.emitted){
         lie_inference_row *r=&rows[i];
-        rc=lie_model_token_text(w->model,r->outcome.result.token,(char *)r->reservation.data,r->reservation.capacity,&bytes[i],&error);
-        if(rc==LIE_OK&&bytes[i]>r->reservation.capacity){snprintf(error.message,sizeof(error.message),"invalid_token_text_size");rc=LIE_BACKEND_FAILED;}
+        for(size_t t=0;t<r->burst.emitted&&rc==LIE_OK;++t){
+            size_t part=0;
+            rc=lie_model_token_text(w->model,r->burst.tokens[t],(char *)r->reservation.data+bytes[i],r->reservation.capacity-bytes[i],&part,&error);
+            if(rc==LIE_OK&&(part>r->reservation.capacity-bytes[i]||part>LIE_CORE_TOKEN_BYTES)){snprintf(error.message,sizeof(error.message),"invalid_token_text_size");rc=LIE_BACKEND_FAILED;}
+            if(rc==LIE_OK)bytes[i]+=part;
+        }
     }
     if(rc!=LIE_OK){
         if(!error.message[0])snprintf(error.message,sizeof(error.message),"executor_dispatch_failed");
@@ -559,12 +567,13 @@ static bool decode_ready(lie_core *w) {
         if(!r->selected)continue;
         lie_decode_result d=r->outcome.result;j->position=d.position;
         pthread_mutex_lock(&j->gate);
-        if (d.emitted) j->output_ids[j->info.output_tokens]=d.token;
+        for(size_t t=0;t<d.emitted;++t)j->output_ids[j->info.output_tokens+t]=r->burst.tokens[t];
+        j->info.mtp_drafted+=r->burst.drafted;j->info.mtp_accepted+=r->burst.accepted;
         j->info.output_tokens+=d.emitted;
         bool end=d.stop||j->info.output_tokens>=j->request.max_tokens;
         if(end)j->info.finish=d.stop?LIE_FINISH_STOP:LIE_FINISH_LENGTH;
         pthread_mutex_unlock(&j->gate);
-        pthread_mutex_lock(&w->gate);w->info.generated_tokens+=d.emitted;pthread_mutex_unlock(&w->gate);
+        pthread_mutex_lock(&w->gate);w->info.generated_tokens+=d.emitted;w->info.mtp_drafted+=r->burst.drafted;w->info.mtp_accepted+=r->burst.accepted;pthread_mutex_unlock(&w->gate);
         if(j->text_complete&&j->text_offsets&&d.emitted){
             if(!append_text(j,(const char *)r->reservation.data,bytes[i])){j->text_lookup=false;j->text_complete=false;}
             else j->text_offsets[j->position]=j->rendered_bytes;
@@ -592,9 +601,16 @@ static bool decode_ready(lie_core *w) {
 static void *work(void *arg) {
     lie_core *w=arg; lie_error error={0};
     lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk};
-    lie_model_info model={0};
-    lie_status rc=lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
+    lie_model_info model={0};lie_mtp_info mtp={.abi_version=LIE_MTP_ABI,.struct_bytes=sizeof(mtp)};
+    lie_status rc=w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
+        lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
+    if(rc==LIE_OK&&w->mtp_path){
+        rc=lie_model_mtp_info(w->model,&mtp,&error);
+        if(rc==LIE_OK&&(!model.speculative_supported||mtp.abi_version!=LIE_MTP_ABI||mtp.struct_bytes!=sizeof(mtp)||
+           !mtp.max_draft_tokens||!mtp.max_output_tokens||mtp.max_output_tokens>LIE_MTP_MAX_OUTPUT)){
+            rc=LIE_BACKEND_FAILED;snprintf(error.message,sizeof(error.message),"invalid admitted MTP capabilities");}
+    }
     if(rc==LIE_OK&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!lie_backend_prefix_state_supported()){
         rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"provider has no component-state support; rebuild with state access or explicitly disable prefix caches");
     }
@@ -605,7 +621,7 @@ static void *work(void *arg) {
     }
     lie_store_info initial_store;lie_store_snapshot(w->store,&initial_store);
     pthread_mutex_lock(&w->gate);
-    w->info.model=model;
+    w->info.model=model;w->info.mtp=mtp;
     w->info.ssd=initial_store;
     w->info.state=atomic_load(&w->stop)?LIE_STOPPING:rc==LIE_OK?LIE_READY:LIE_FAILED;
     if (rc!=LIE_OK) snprintf(w->info.error,sizeof(w->info.error),"%s",error.message);
@@ -642,15 +658,21 @@ static void *work(void *arg) {
     signal_fd(w->notice); return NULL;
 }
 void lie_core_options_init(lie_core_options *o){
-    if(o){*o=(lie_core_options){.context=4096,.chunk=2048,.max_active=1,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
+    if(o){*o=(lie_core_options){.context=4096,.chunk=2048,.max_active=1,.mtp_draft_tokens=0,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
         lie_cache_policy_init(&o->cache_policy);o->cache_policy.enabled=LIE_DS4_CACHE_POLICY!=0;}
 }
 lie_core *lie_core_create(const lie_core_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
+    /* AR checkpoints omit predictor/rollback state. Refuse before model load,
+     * never silently serialize an incomplete MTP frontier as an AR cache hit. */
+    if(o->mtp_draft_tokens&&!o->mtp_model_path)return NULL;
+    if(o->mtp_model_path&&(!LIE_MTP||!*o->mtp_model_path||
+       o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT||o->prefix_cache_bytes||o->ssd.directory))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
+    if(o->mtp_model_path){w->mtp_path=strdup(o->mtp_model_path);if(!w->mtp_path)goto fail;w->options.mtp_model_path=w->mtp_path;}
     if(o->ssd.directory){
         w->ssd_path=strdup(o->ssd.directory);w->options.ssd.directory=w->ssd_path;
         if(!w->ssd_path||*w->ssd_path!='/'||o->ssd.quota_bytes<4096||o->ssd.staging_bytes<32768||
@@ -667,7 +689,7 @@ lie_core *lie_core_create(const lie_core_options *o) {
 fail:
     if (w->wake>=0) close(w->wake);
     if (w->notice>=0) close(w->notice);
-    free(w->ssd_path);free(w->path); free(w); return NULL;
+    free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
 }
 void lie_core_stop(lie_core *w) {
     atomic_store(&w->stop,true);
@@ -678,7 +700,7 @@ void lie_core_stop(lie_core *w) {
 void lie_core_destroy(lie_core *w) {
     lie_core_info info; lie_core_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
     pthread_join(w->thread,NULL); close(w->wake); close(w->notice);
-    pthread_mutex_destroy(&w->gate);free(w->ssd_path); free(w->path); free(w);
+    pthread_mutex_destroy(&w->gate);free(w->mtp_path);free(w->ssd_path); free(w->path); free(w);
 }
 int lie_core_fd(lie_core *w) { return w->notice; }
 void lie_core_drain(lie_core *w) { drain_fd(w->notice); }
@@ -691,13 +713,14 @@ int lie_core_submit(lie_core *w, const lie_core_request *request, lie_job **out)
     pthread_mutex_unlock(&w->gate);
     if (result) return result;
     lie_job *j=calloc(1,sizeof(*j));
-    lie_flow_options options={LIE_OUTPUT_SLOTS,LIE_CORE_TOKEN_BYTES,65536};
+    lie_flow_options options={LIE_OUTPUT_SLOTS,LIE_CORE_TOKEN_BYTES*(w->mtp_path?w->info.mtp.max_output_tokens:1),131072};
     if (!j || !lie_core_input_copy(request,&j->request,&j->request_storage) ||
         !(j->output_ids=calloc(j->request.max_tokens,sizeof(*j->output_ids))) ||
         lie_flow_create(&options,&j->flow)!=LIE_FLOW_OK) goto prepare_failed;
     if (pthread_mutex_init(&j->gate,NULL)) goto prepare_failed;
     atomic_init(&j->refs,2); atomic_init(&j->cancel,false); j->owner=w;
     j->info.timing_valid=true;
+    j->info.max_decode_output_tokens=w->mtp_path?w->info.mtp.max_output_tokens:1;
     (void)lie_flow_request(j->flow,LIE_OUTPUT_SLOTS);
     pthread_mutex_lock(&w->gate);
     --w->preparing;

@@ -2,6 +2,7 @@
 #ifndef LIE_CORE_H
 #define LIE_CORE_H
 #include "lie/executor.h"
+#include "lie/mtp.h"
 #include "lie/flow.h"
 #include "lie/store.h"
 #include <stdbool.h>
@@ -52,6 +53,8 @@ typedef enum { LIE_FINISH_NONE, LIE_FINISH_STOP, LIE_FINISH_LENGTH, LIE_FINISH_C
                LIE_FINISH_INVALID, LIE_FINISH_BACKEND } lie_job_finish;
 typedef struct {
     const char *model_path;
+    const char *mtp_model_path; /* Explicit sidecar; NULL preserves AR. */
+    uint32_t mtp_draft_tokens; /* Zero selects this model provider's default. */
     uint32_t context, chunk, max_active;
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
     lie_cache_policy cache_policy;
@@ -68,10 +71,12 @@ typedef struct {
     uint64_t cancel_during_prefill, cancel_during_decode;
     /* Completed model output, not client delivery. */
     uint64_t generated_tokens, completed_requests, cancelled_requests, failed_requests;
+    uint64_t mtp_drafted, mtp_accepted;
     lie_prefix_cache_info cache;
     lie_cache_policy cache_policy;
     lie_store_info ssd;
     lie_model_info model;
+    lie_mtp_info mtp;
     char error[256];
 } lie_core_info;
 typedef struct {
@@ -82,6 +87,8 @@ typedef struct {
      * across jobs; they exclude queue/flow/client waits and are not GPU-only. */
     bool timing_valid;
     unsigned prefill_tokens, prefill_calls, decode_calls;
+    uint32_t max_decode_output_tokens; /* Admitted completed burst, AR = 1. */
+    uint64_t mtp_drafted, mtp_accepted;
     uint64_t prefill_ns, decode_ns;
     unsigned cached_tokens;
     uint64_t cache_capture_ns, cache_restore_ns;

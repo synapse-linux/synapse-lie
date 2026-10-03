@@ -364,12 +364,22 @@ static bool timing_contract(json_object *t, int64_t pp, int64_t tg,
   for (unsigned i = 0; i < 6; i++)
     if (!nb_count(t, counts[i], 0, INT64_MAX, NULL))
       return nb_fail(e, "Invalid executor count");
+  bool mtp = !strcmp(nb_string(t, "decode_mode"), "mtp");
+  int64_t burst = 1, calls = nb_number(t, "decode_calls");
+  if (mtp && (!nb_count(t, "max_decode_output_tokens", 2, 32, &burst) ||
+              !nb_count(t, "mtp_drafted_tokens", 0, INT64_MAX, NULL) ||
+              !nb_count(t, "mtp_accepted_tokens", 0,
+                        nb_number(t, "mtp_drafted_tokens"), NULL)))
+    return nb_fail(e, "Invalid MTP executor bounds");
+  if (*nb_string(t, "decode_mode") && !mtp &&
+      strcmp(nb_string(t, "decode_mode"), "ar"))
+    return nb_fail(e, "Unknown executor decode mode");
   if (nb_number(t, "cached_tokens") != cached ||
       nb_number(t, "prefill_tokens") != pp - cached ||
       nb_number(t, "decode_tokens") != tg ||
       nb_number(t, "ssd_cached_tokens") > cached ||
-      (nb_number(t, "decode_calls") != tg &&
-       nb_number(t, "decode_calls") != tg + 1))
+      (mtp ? (calls < tg / burst + (tg % burst != 0) || calls > tg + 1)
+           : (calls != tg && calls != tg + 1)))
     return nb_fail(e, "Cache/executor accounting mismatch");
   const char *phases[] = {"prefill", "decode"};
   for (unsigned i = 0; i < 2; i++) {

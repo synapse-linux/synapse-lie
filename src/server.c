@@ -386,9 +386,10 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
     json_object_object_add(b,"max_request_bytes",json_object_new_int64(LIE_CHAT_BODY_BYTES));
     json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
-    json_object_object_add(b,"mtp",json_object_new_boolean(false));
+    json_object_object_add(b,"mtp",json_object_new_boolean(info.model.speculative_supported!=0));
+    json_object_object_add(b,"max_decode_output_tokens",json_object_new_int64(info.model.speculative_supported?info.mtp.max_output_tokens:1));
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
-    json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()));
+    json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()&&(!info.model.speculative_supported||info.mtp.prefix_state_supported)));
     json_object_object_add(b,"state_format",json_object_new_string(lie_backend_state_format()));
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
@@ -404,6 +405,8 @@ static json_object *executor_json(const lie_worker_info *i) {
     json_object_object_add(o,"prefill_returned",json_object_new_uint64(i->prefill_returned));
     json_object_object_add(o,"decode_started",json_object_new_uint64(i->decode_started));
     json_object_object_add(o,"decode_returned",json_object_new_uint64(i->decode_returned));
+    json_object_object_add(o,"mtp_drafted_tokens",json_object_new_uint64(i->mtp_drafted));
+    json_object_object_add(o,"mtp_accepted_tokens",json_object_new_uint64(i->mtp_accepted));
     json_object_object_add(o,"decode_batches",json_object_new_uint64(i->decode_batches));
     json_object_object_add(o,"decode_batch_rows",json_object_new_uint64(i->decode_batch_rows));
     json_object_object_add(o,"decode_single_calls",json_object_new_uint64(i->decode_single_calls));
@@ -719,7 +722,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (!strcmp(key, "--help")) {
-            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in; no MTP or exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
+            puts("Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR or explicit MTP with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero disables it. KV disk persistence is opt-in. MTP requires an explicit predictor and --kv-cache-ram-mb 0 without disk persistence until predictor state caching is supported; no exact-session resume.\nCache budget MB units are binary MiB (1048576 bytes). Legacy --prefix-* and --cache-* aliases remain accepted.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.");
             return 0;
         }
         if (i + 1 == argc) { fputs("Missing option value\n", stderr); return 2; }
@@ -728,6 +731,8 @@ int main(int argc, char **argv) {
         else if (!strcmp(key, "--host")) host = argv[++i];
         else if (!strcmp(key, "--management-host")) management_host = argv[++i];
         else if (!strcmp(key, "--model")) options.model_path=argv[++i];
+        else if (!strcmp(key, "--model-mtp")) options.mtp_model_path=argv[++i];
+        else if (!strcmp(key, "--mtp-draft-tokens")) options.mtp_draft_tokens=(uint32_t)number(argv[++i],LIE_MTP_MAX_DRAFT);
         else if (!strcmp(key, "--model-id")) model_id=argv[++i];
         else if (!strcmp(key, "--context")) options.context=(uint32_t)number(argv[++i],LIE_WORKER_MAX_CONTEXT);
         else if (!strcmp(key, "--prefill-chunk")) options.chunk=(uint32_t)port_number(argv[++i]);
@@ -757,6 +762,10 @@ int main(int argc, char **argv) {
         options.max_active<1 || options.max_active>LIE_DECODE_MAX_ROWS || timeout_ms<100 || !*model_id || strlen(model_id)>128 ||
         !lie_utf8_valid(model_id,strlen(model_id),false) || (options.model_path && !*options.model_path)) {
         fputs("Invalid model configuration\n",stderr); return 2;
+    }
+    if(options.mtp_draft_tokens&&!options.mtp_model_path){fputs("--mtp-draft-tokens requires --model-mtp\n",stderr);return 2;}
+    if(options.mtp_model_path&&(!LIE_MTP||options.prefix_cache_bytes||options.ssd.directory)){
+        fputs("MTP requires LIE_MTP=ON, a model-supported draft bound and explicit KV caches off (predictor state is not yet serializable)\n",stderr);return 2;
     }
     server s = {0}; s.started = lie_monotonic_ns(); s.model_id=model_id; s.max_active=options.max_active;
     s.inference_timeout_ns=(uint64_t)timeout_ms*1000000;

@@ -395,7 +395,7 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object *point = json_object_new_object();
   json_object_array_add(points, point);
   fields(point, id,
-         "users context_capacity prefill_chunk input_kind output_limit "
+         "mode mtp_model mtp_draft_tokens_requested users context_capacity prefill_chunk input_kind output_limit "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
          "checkpoint_compression checkpoint_codec checkpoint_policy "
          "state_format ssd_quota_bytes ssd_staging_bytes");

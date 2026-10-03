@@ -2,6 +2,7 @@
 #ifndef LIE_INFERENCE_H
 #define LIE_INFERENCE_H
 #include "lie/executor.h"
+#include "lie/mtp.h"
 #include "lie/flow.h"
 #include <stdbool.h>
 /* Device-owner C inference dispatcher, independent of HTTP. The caller retains
@@ -13,6 +14,8 @@ typedef struct {
     lie_sequence *sequence;
     lie_flow *flow;
     uint32_t position, context, vocab;
+    uint32_t step_tokens; /* Zero retains one-token AR dispatch. */
+    lie_mtp_outcome burst;
     bool reserved, selected, blocked;
     lie_flow_reservation reservation;
     lie_decode_outcome outcome;

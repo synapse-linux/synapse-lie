@@ -6,6 +6,7 @@
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
+#include "lie/mtp.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include "gufo_chat.hpp"
@@ -37,7 +38,7 @@ static std::atomic<uint64_t> next_state_domain{1};
 struct Runtime {
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
-    std::uint32_t chunk{}, width{1};
+    std::uint32_t chunk{}, width{1}, drafts{};
     uint8_t state_quant{};
     bool failed{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
@@ -92,7 +93,7 @@ extern "C" int lie_backend_prefix_state_supported(void) {
     return 0;
 #endif
 }
-extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_options *o, uint32_t width, lie_model **out, lie_error *e) {
+static lie_status open_model(const char *path, const lie_model_options *o, uint32_t width, const char *mtp_path, uint32_t drafts, lie_model **out, lie_error *e) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
         !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
@@ -102,7 +103,7 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         auto metadata = gufo::core::GgufReader::OpenFile(path, &template_error);
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
-        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;
+        auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;r->drafts=mtp_path?drafts:0;
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
@@ -128,13 +129,23 @@ extern "C" lie_status lie_gufo_open_batch(const char *path, const lie_model_opti
         qfn::ModelOptions options;
         options.max_context = o->context_tokens;
         options.decode_concurrency = width;
-        options.max_draft_tokens = 1; // No MTP sidecar and no speculative capability in this increment.
+        options.max_draft_tokens = mtp_path?drafts:1;
+        if(mtp_path)options.mtp_model_path=mtp_path;
         std::string message; r->model = qfn::Model::Load(path, options, &message);
         if (!r->model) return error(e, LIE_BACKEND_FAILED, message.c_str());
         auto result = std::make_unique<lie_model>(); result->runtime = std::move(r);
         *out = result.release(); if (e) e->message[0] = 0; return LIE_OK;
     } catch (const std::exception &ex) { return error(e, LIE_BACKEND_FAILED, ex.what()); }
       catch (...) { return error(e, LIE_BACKEND_FAILED, "unknown model load exception"); }
+}
+extern "C" lie_status lie_gufo_open_batch(const char *p,const lie_model_options *o,uint32_t width,lie_model **m,lie_error *e) {
+    return open_model(p,o,width,nullptr,0,m,e);
+}
+extern "C" lie_status lie_backend_open_mtp(const char *p,const lie_model_options *o,uint32_t width,const char *predictor,uint32_t drafts,lie_model **m,lie_error *e) {
+    if(!LIE_MTP)return error(e,LIE_UNSUPPORTED,"MTP was disabled at build time");
+    if(!drafts)drafts=qfn::kMaxMtpDraftTokens;
+    if(!predictor||!*predictor||drafts>qfn::kMaxMtpDraftTokens||drafts>=LIE_MTP_MAX_OUTPUT)return error(e,LIE_INVALID,"invalid explicit MTP predictor/options");
+    return open_model(p,o,width,predictor,drafts,m,e);
 }
 extern "C" lie_status lie_gufo_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     return lie_gufo_open_batch(path,o,1,out,e);
@@ -167,8 +178,8 @@ extern "C" lie_status lie_model_get_info(lie_model *m, lie_model_info *info, lie
     if (!m || !info) return error(e, LIE_INVALID, "invalid model/info");
     return guarded(m->runtime, e, [&] {
         const auto &model = m->runtime->model;
-        *info = {LIE_EXECUTOR_ABI, model->MaxContext(), model->VocabSize(), model->PrefillCapacity(), m->runtime->width, 0,
-                 model->ResidentBytes(), model->SessionBytes(gufo::core::SessionMode::kAutoregressive, model->MaxContext()),
+        *info = {LIE_EXECUTOR_ABI, model->MaxContext(), model->VocabSize(), model->PrefillCapacity(), m->runtime->width, model->HasMtp()?1u:0u,
+                 model->ResidentBytes(), model->SessionBytes(model->HasMtp()?gufo::core::SessionMode::kSpeculative:gufo::core::SessionMode::kAutoregressive, model->MaxContext()),
                  model->DeferredScratchBytes()};
         return LIE_OK;
     });
@@ -246,7 +257,7 @@ extern "C" lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_
     return guarded(m->runtime, e, [&] {
         auto result = std::make_unique<lie_sequence>(); result->runtime = m->runtime;
         std::string message;
-        result->session = m->runtime->model->CreateSession(gufo::core::SessionMode::kAutoregressive,
+        result->session = m->runtime->model->CreateSession(m->runtime->model->HasMtp()?gufo::core::SessionMode::kSpeculative:gufo::core::SessionMode::kAutoregressive,
                                                          m->runtime->model->MaxContext(), &message);
         if (!result->session) return failed(m->runtime, e, message);
         *out = result.release(); return LIE_OK;
@@ -350,6 +361,57 @@ extern "C" lie_status lie_sequences_decode(lie_sequence *const *rows,size_t n,li
     if(status!=LIE_OK)for(size_t i=0;i<n;++i)out[i]={status,{}};
     return status;
 }
+extern "C" lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const uint32_t *limits,size_t n,lie_mtp_outcome *out,lie_error *e) {
+    if(!rows||!limits||!out||!n||n>LIE_DECODE_MAX_ROWS||!rows[0])return error(e,LIE_INVALID,"invalid batch");
+    for(size_t i=0;i<n;++i){out[i]={};out[i].status=LIE_INVALID;}
+    auto r=rows[0]->runtime;
+    auto status=owner(r,e);if(status!=LIE_OK)return status;
+    for(size_t i=0;i<n;++i)if(!limits[i]||limits[i]>r->drafts+1||limits[i]>LIE_MTP_MAX_OUTPUT)return error(e,LIE_INVALID,"invalid verified-output reservation");
+    if(!r->model->HasMtp())return error(e,LIE_UNSUPPORTED,"predictor not admitted");
+    if(n>r->width)return error(e,LIE_INVALID,"batch exceeds admitted capacity");
+    for(size_t i=0;i<n;++i){
+        if(!rows[i]||rows[i]->runtime!=r)return error(e,LIE_INVALID,"batch model mismatch");
+        for(size_t j=0;j<i;++j)if(rows[i]==rows[j])return error(e,LIE_INVALID,"duplicate batch sequence");
+        if(!rows[i]->cancelled.load()&&(rows[i]->stopped||!rows[i]->session->IsValid()||
+           !rows[i]->session->Position()||rows[i]->session->Position()>=rows[i]->session->ContextSize()))
+            return error(e,LIE_INVALID,"batch frontier unavailable/full/stopped");
+    }
+    status=guarded(r,e,[&]{
+        std::array<qfn::Session::DecodeResult,LIE_DECODE_MAX_ROWS> results;
+        std::array<qfn::Session::BatchOutcome,LIE_DECODE_MAX_ROWS> outcomes;
+        std::array<qfn::Session::DecodeRequest,LIE_DECODE_MAX_ROWS> requests;
+        std::array<qfn::Session::SpeculativeStats,LIE_DECODE_MAX_ROWS> before{};
+        std::array<size_t,LIE_DECODE_MAX_ROWS> map{};size_t active=0;
+        for(size_t i=0;i<n;++i){
+            auto s=rows[i];out[i]={};out[i].status=LIE_CANCELLED;
+            if(s->cancelled.load())continue;
+            if(!s->sampling_started){auto ids=s->session->Tokens();
+                std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
+                s->sampler.ResetHistory(history);s->sampling_started=true;}
+            before[active]=s->session->Statistics();
+            map[active]=i;requests[active]={s->session.get(),limits[i],&s->sampler,&results[active],true,&outcomes[active]};++active;
+        }
+        std::string message;
+        if(active==1){auto &q=requests[0];
+            if(!q.session->DecodeStep(q.max_tokens,*q.sampler,q.result,&message,true))return failed(r,e,message);
+            outcomes[0].completed=true;
+        }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
+        for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];
+            if(!outcomes[k].completed||d.tokens.size()>limits[i])return failed(r,e,"unconfirmed batch outcome");
+            s->stopped=d.stop;
+            if(s->cancelled.load())continue;
+            auto after=s->session->Statistics();
+            if(after.drafted<before[k].drafted||after.accepted<before[k].accepted)return failed(r,e,"MTP counters went backwards");
+            out[i]={};out[i].status=LIE_OK;out[i].emitted=static_cast<uint32_t>(d.tokens.size());
+            out[i].stop=d.stop?1u:0u;out[i].position=s->session->Position();
+            out[i].drafted=after.drafted-before[k].drafted;out[i].accepted=after.accepted-before[k].accepted;
+            std::copy(d.tokens.begin(),d.tokens.end(),out[i].tokens);
+        }
+        return LIE_OK;
+    });
+    if(status!=LIE_OK)for(size_t i=0;i<n;++i){out[i]={};out[i].status=status;}
+    return status;
+}
 extern "C" lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
     if (!s || !required || (!out && capacity)) return error(e, LIE_INVALID, "invalid logit destination");
     return guarded(s->runtime, e, [&] {
@@ -408,4 +470,12 @@ extern "C" lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_la
 }
 extern "C" lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *in,size_t bytes,lie_error *e) {
     return state_copy(s,l,const_cast<void*>(in),bytes,true,e);
+}
+
+extern "C" lie_status lie_model_mtp_info(lie_model *m,lie_mtp_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_MTP_ABI||out->struct_bytes!=sizeof(*out))return error(e,LIE_INVALID,"invalid MTP capability output");
+    return guarded(m->runtime,e,[&]{
+        if(!m->runtime->model->HasMtp())return error(e,LIE_UNSUPPORTED,"predictor not admitted");
+        *out={LIE_MTP_ABI,sizeof(*out),m->runtime->drafts,m->runtime->drafts+1,0};return LIE_OK;
+    });
 }

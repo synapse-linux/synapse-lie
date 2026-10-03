@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Link-time unavailable implementation. Never supplies model output. */
 #include "lie/executor.h"
+#include "lie/mtp.h"
 #include "lie/state.h"
 #include "lie/store.h"
 #include <stdio.h>
@@ -41,3 +42,8 @@ lie_status lie_sequence_state_read(lie_sequence *s UNUSED,const lie_state_layout
 lie_status lie_sequence_state_write(lie_sequence *s UNUSED,const lie_state_layout *l UNUSED,const void *p UNUSED,size_t n UNUSED,lie_error *e) { return unavailable(e); }
 
 lie_status lie_model_chat_anchor(lie_model *m UNUSED,const int32_t *t UNUSED,size_t n UNUSED,size_t *o UNUSED,lie_error *e){return unavailable(e);}
+
+lie_status lie_backend_open_mtp(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,const char *d UNUSED,uint32_t n UNUSED,lie_model **m UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequences_decode_mtp(lie_sequence *const *s UNUSED,const uint32_t *l UNUSED,size_t n UNUSED,lie_mtp_outcome *o UNUSED,lie_error *e){return unavailable(e);}
+
+lie_status lie_model_mtp_info(lie_model *m UNUSED,lie_mtp_info *i UNUSED,lie_error *e){return unavailable(e);}

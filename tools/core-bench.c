@@ -130,6 +130,8 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         number(job,"prefill_tokens",info.prefill_tokens);number(job,"prefill_ns",info.prefill_ns);number(job,"decode_ns",info.decode_ns);
         number(job,"cached_tokens",info.cached_tokens);number(job,"cache_capture_ns",info.cache_capture_ns);number(job,"cache_restore_ns",info.cache_restore_ns);
         number(job,"ssd_cached_tokens",info.ssd_cached_tokens);number(job,"ssd_read_ns",info.ssd_read_ns);
+        number(job,"max_decode_output_tokens",info.max_decode_output_tokens);
+        number(job,"mtp_drafted_tokens",info.mtp_drafted);number(job,"mtp_accepted_tokens",info.mtp_accepted);
         number(job,"prefill_calls",info.prefill_calls);number(job,"decode_calls",info.decode_calls);
         number(job,"total_ns",rows[i].end-rows[i].start);
         json_object_object_add(job,"first_token_ns",rows[i].first?json_object_new_uint64(rows[i].first-rows[i].start):NULL);
@@ -160,17 +162,20 @@ done:
     return ok;
 }
 int lie_core_bench_main(int argc,char **argv) {
+    const char *mtp=NULL;unsigned mtp_drafts=0;
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
     lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor and both KV caches off; vision is separate.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
         if(!strcmp(key,"--suite")){bit=1u;if(strcmp(value,"core"))goto usage;}
+        else if(!strcmp(key,"--model-mtp")){bit=131072u;mtp=value;}
+        else if(!strcmp(key,"--mtp-draft-tokens")){bit=262144u;if(!integer(value,0,LIE_MTP_MAX_DRAFT,&mtp_drafts))goto usage;}
         else if(!strcmp(key,"--model")){bit=2u;model=value;}
         else if(!strcmp(key,"--output")){bit=4u;output=value;}
         else if(!strcmp(key,"--prompt-file")){bit=8u;prompt_path=value;}
@@ -191,10 +196,12 @@ int lie_core_bench_main(int argc,char **argv) {
         if(seen&bit)goto usage;
         seen|=bit;
     }
+    if(mtp_drafts&&!mtp)goto usage;
+    if(mtp&&(!LIE_MTP||!*mtp||cache_mib||ssd.directory))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");
-    text(identity,"execution","shared-reactive-core");text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
+    text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?"mtp":"ar");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
@@ -240,7 +247,7 @@ int lie_core_bench_main(int argc,char **argv) {
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
     int code=1;lie_core *core=NULL;char error[256]="core benchmark failed";witness w={0};
     if(!emit(f,identity))goto done;
-    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;
+    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;options.mtp_model_path=mtp;options.mtp_draft_tokens=mtp_drafts;
     options.chunk=chunk;options.max_active=users;options.prefix_cache_bytes=(uint64_t)cache_mib*1024u*1024u;options.ssd=ssd;options.cache_policy=policy;
     core=lie_core_create(&options);
     if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){snprintf(error,256,"core readiness failed");goto done;}

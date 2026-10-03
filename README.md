@@ -8,8 +8,10 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports
-contexts up to 262,144 tokens and up to eight active sequences. MTP, vision and
-other model/platform combinations are not yet supported on this branch.
+contexts up to 262,144 tokens and up to eight active sequences.
+This branch adds experimental [MTP](docs/development/MTP.md) through a
+model-neutral C core contract. CPU checks and HIP linking do not qualify its
+original-weight behavior or performance; other real model bindings remain open.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)

@@ -36,6 +36,10 @@ static json_object *timings(const lie_job_info *i) {
     json_object_object_add(t,"cache_restore_ms",i->timing_valid?json_object_new_double((double)i->cache_restore_ns/1e6):NULL);
     json_object_object_add(t,"ssd_cached_tokens",json_object_new_int64(i->ssd_cached_tokens));
     json_object_object_add(t,"ssd_read_ms",i->timing_valid?json_object_new_double((double)i->ssd_read_ns/1e6):NULL);
+    json_object_object_add(t,"decode_mode",json_object_new_string(i->max_decode_output_tokens>1?"mtp":"ar"));
+    json_object_object_add(t,"max_decode_output_tokens",json_object_new_int64(i->max_decode_output_tokens?i->max_decode_output_tokens:1));
+    json_object_object_add(t,"mtp_drafted_tokens",json_object_new_int64(i->mtp_drafted));
+    json_object_object_add(t,"mtp_accepted_tokens",json_object_new_int64(i->mtp_accepted));
     json_object_object_add(t,"decode_tokens",json_object_new_int64(i->output_tokens));
     json_object_object_add(t,"prefill_calls",json_object_new_int64(i->prefill_calls));
     json_object_object_add(t,"decode_calls",json_object_new_int64(i->decode_calls));
