@@ -19,7 +19,7 @@ separate branches, both based on the shared-core/native-tools checkpoint
 
 | Branch | Work | Integration gate |
 | --- | --- | --- |
-| `feature/mtp` | Model-neutral bursts/clients; C predictor, hidden/controller state codec and shared auxiliary persistence. | Device binding, complete pooled predictor history and stable predictor identity; then GPU correctness and AR comparison. |
+| `feature/mtp` (`7d85b2f`) | Model-neutral bursts/clients; complete C predictor/hidden/controller codec, device transfers, pooled history and actual-reader identity; shared RAM/SSD admission connected. | Original-weight cache continuation and sampled/greedy correctness, then AR comparison and memory/cost qualification. |
 | `feature/vision` | Owned images/clients; C MRoPE/physical-position state codec and shared auxiliary persistence. | Image identity in lookup/persistence and matching device/restart inputs; then GPU quality and resource checks. |
 
 MTP and vision are capabilities for multiple model families and platforms.

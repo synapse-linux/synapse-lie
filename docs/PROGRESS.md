@@ -2,22 +2,37 @@
 
 ## MTP and vision branches — 2026-10-03
 
-At the owner's request, new performance campaigns are deferred. Short functional
-GPU checks are now permitted on the editing Strix Halo `.155`, with thermal care.
-Development
+At the owner's request, new performance campaigns remain deferred. Development
 continues in persistent `worktrees/mtp` (`feature/mtp`) and `worktrees/vision`
-(`feature/vision`), each based on checkpoint `a262902`. Local checkpoints are
-`dfd8f22` (MTP) and `3434504` (vision). Both expose model-neutral
-C17 core contracts and shared HTTP/core clients; Qwen is the initial delegated
-binding. Their CPU contracts and HIP linkage do not qualify original-weight
-behavior. Both add typed auxiliary RAM/SSD state with unchanged DS4 payloads;
-MTP has a predictor/hidden/controller codec and vision has prepared-position
-validation. CPU ASan/UBSan/LeakSanitizer checks pass 28/28 per branch, with HIP
-linking. Live device binding and predictor/image identity, GPU correctness and
-combined integration remain open; feature KV reuse stays refused. USB metadata
-checks found an incomplete PLE-free Qwen artifact and other formats requiring
-the active compatibility work. No GPU run or feature-code merge is claimed here.
-The [backend roadmap](BACKEND.md#active-priority--2026-10-03) records this order.
+(`feature/vision`), both based on the shared-core/native-tools checkpoint
+`a262902`. Feature code is not merged into this documentation/control branch.
+
+The MTP checkpoint is now **`7d85b2f`**. Its complete C predictor/hidden/controller
+codec connects to device transfers, scalar/batch pooled history and stable
+identity from the actual admitted target/predictor readers. Preload/postload
+witnesses reject changing files; only explicit SSD admission hashes weights.
+RAM retains its default budget; unsupported per-model state refuses readiness
+unless caches are explicitly disabled. Native CPU ASan/UBSan/LeakSanitizer tests
+pass **29/29**, including two synthetic model families, cache clones, SSD process
+restart, changed predictor/draft identity and Chat/Responses JSON/SSE reuse.
+MTP-OFF checks pass 3/3; server/bench HIP linking and native core-client
+CSV/SVG/PNG exports pass. The source-bound receipt is
+`docs/development/validation/mtp-cache-2026-10-03.json` on `feature/mtp`.
+
+Vision stays at **`3434504`**: owned images, physical context accounting and the
+C MRoPE/position codec are implemented, with 28/28 CPU sanitizer checks and HIP
+linking. Semantic image identity in cache lookup/persistence and matching device
+bindings are the next development step; its live KV reuse remains refused.
+
+No original-weight model load, GPU execution, heavy model hash or feature merge
+occurred in this slice. USB metadata showed that usable inputs still require
+the active compatibility work; the incomplete PLE-free artifact is not used.
+CPU-only completion used one job with a 95 C guard (within the owner's 98 C
+allowance), peaking at 94.625 C; all prior thermal refusals/interruption exits
+remain preserved. Local functional-GPU preparation retains its separate 85 C
+ceiling while fans are unconfigured. Original-weight MTP/cache/vision correctness,
+combined operation and performance remain open. The
+[backend roadmap](BACKEND.md#active-priority--2026-10-03) records these gates.
 
 
 ## Native build, benchmark clients and reports — 2026-10-03

@@ -554,3 +554,16 @@ lacks `per_layer_token_embd.weight`; it cannot qualify the complete loaded model
 The other Qwen trunks need the ongoing quantization compatibility work. No model
 weights were hashed, converted or loaded; no GPU was initialized or leased here.
 Inventory and stat witnesses remain under local `evidence/usb-qwen-*` on MTP.
+
+## MTP cache checkpoint — 2026-10-03
+
+`feature/mtp` checkpoint `7d85b2f` connects complete predictor state to shared
+RAM/SSD caching. Local work is CPU fixtures and HIP compilation/linking only:
+no model load/hash, GPU execution or `.157` campaign. Source-bound validation
+and all actual thermal/CTest failure exits remain on that branch. CPU-only
+completion used one job with a 95 C guard within the owner's 98 C Strix Halo
+allowance; the provider peaked at 94.625 C. No hardware tuning or foreign
+process termination occurred. The separate 85 C functional-GPU preparation
+ceiling remains while editing-host fans are unconfigured. A Q2 thread update
+was sent; neither transport success nor silence establishes a GPU lease or
+original-weight compatibility. Vision identity/device binding remains next.
