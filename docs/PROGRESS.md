@@ -1,5 +1,28 @@
 # Isolated OpenAI reactive API increment
 
+## Native build, benchmark clients and reports — 2026-10-03
+
+Python is no longer required for the normal build, provider verification,
+benchmark clients, graph exports or default tests. CMake fetches and verifies
+the independently pinned provider and builds its existing state variant.
+The HTTP and KV disk benchmark clients, JSON/CSV reports and SVG/PNG renderer
+now run in C17; libpng is a documented full-build dependency. Historical Python
+oracles remain optional through `LIE_LEGACY_PYTHON_TESTS=ON` (default OFF).
+
+The native tests cover KVC bytes and state mapping, malformed evidence,
+request replay, Chat/Responses JSON/SSE, disk restart, C2 consumers and owned
+I/O-barrier cancellation/peer witnesses. Report comparisons align physical
+workloads even when reference files reorder them. Separate zero-based axes
+preserve prefill/generation scale; absent metrics are not plotted as zero.
+
+Local ASan/UBSan/LeakSanitizer checks pass **25/25** with Python discovery
+disabled and **44/44** with historical oracles enabled; the final graph fix
+passes **3/3** focused checks. Official source fetch, complete provider build
+and final HIP link also pass without Python helpers. All are CPU checks or
+compilation: no model execution, GPU performance claim or change to inference
+scheduling. Initial HTTP failure-marker and relative KVC fixture-path failures
+are retained with their exit codes and corrected. [Validation receipt](development/validation/native-tools-2026-10-03.json).
+
 ## KV option names and future weight storage — 2026-10-03
 
 Server and shared-core/state benchmark CLIs now use `--kv-*` for inference

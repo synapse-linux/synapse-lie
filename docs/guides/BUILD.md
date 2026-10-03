@@ -18,16 +18,15 @@ manager. Package names vary; CMake checks the dependencies below.
 | OpenSSL Crypto | State identity, integrity and KVC interchange. | Always. |
 | LZ4 and Zstandard | Legacy checkpoint codecs. | `LIE_CHECKPOINT_COMPRESSION=ON` (default). |
 | pkg-config, json-c and llhttp (`libllhttp.pc`) | HTTP parsing, protocol and tools. | Full build. |
-| libcurl | Monitor client and coupled provider helpers. | Full build. |
+| libcurl | Monitor, native HTTP benchmark clients and provider helpers. | Full build. |
+| libpng | Native benchmark PNG exports and provider components. | Full build. |
 | libuv 1.52.1 | Event loop and network lifecycle. | Bundled by default; no system package required. |
 | C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS and hipCUB/rocPRIM | Transitional GPU provider. | `LIE_GUFO_RUNTIME=ON`. |
-| ICU, PNG and JPEG | Coupled provider components. | GPU provider build. |
-| Python 3 | Source/build verification and test harnesses. | GPU build helpers or `BUILD_TESTING=ON`. |
-| Matplotlib | PNG/SVG benchmark exports. | Graph generation only. |
+| ICU and JPEG | Coupled provider components. | GPU provider build. |
 
-`libsynapse-core` is not currently a dependency. The server and shared C core
-run without Python. Direct benchmark suites run in C; `--suite http`,
-`--suite http-ssd` and graph export invoke Python helpers.
+`libsynapse-core` is not currently a dependency. Source/archive verification
+uses CMake. All benchmark clients, CSV/JSON reports and SVG/PNG exports use C17.
+The default build and CTest suite do not discover or require Python.
 
 libuv is included as unmodified upstream sources at version 1.52.1 and built as
 a static library. Configure `-DLIE_SYSTEM_LIBUV=ON` to use system libuv ≥ 1.52.1.
@@ -39,8 +38,8 @@ Run from the repository root. Choose unused labels when preserving an existing
 build; the source fetcher refuses to replace an existing source directory.
 
 ```sh
-python3 -B tools/fetch-gufo.py
-python3 -B tools/build-gufo.py qwen-hip --qwen-only --state-access --ds4-state
+cmake -P cmake/provider/Fetch.cmake
+cmake -DLABEL=qwen-hip -P cmake/provider/Build.cmake
 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-qwen-hip" \
@@ -53,7 +52,8 @@ creates a separate state-access variant for the default DS4 runtime cache;
 source and archive hashes are verified before linking. The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.
-Keep the benchmark Python helpers beside the executable when copying a build.
+`synapse-lie-bench-report` is also available for offline reporting. The benchmark
+executables do not need adjacent scripts or a Python interpreter.
 
 No service is installed or started. Continue with the [usage guide](USAGE.md).
 On the project's shared GPU host, use the [coordination protocol](../COORDINATION.md)
@@ -71,7 +71,7 @@ env HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1 \
   ctest --test-dir build/debug --output-on-failure
 ```
 
-For the shared C core alone, without HTTP dependencies or Python test harnesses:
+For the shared C core alone, without HTTP dependencies:
 
 ```sh
 cmake -S . -B build/core -DCMAKE_BUILD_TYPE=Release \
@@ -93,8 +93,9 @@ cmake --build build/core -j2
 | `LIE_CACHE_UTILITY` | `ON` | Select utility-based retention; `OFF` selects LRU. |
 | `LIE_CHECKPOINT_COMPRESSION` | `ON` | Enable legacy checkpoint codecs; DS4 payloads bypass this extra codec. |
 | `LIE_SANITIZERS` | `OFF` | Instrument CPU code with ASan and UBSan. |
-| `BUILD_TESTING` | `ON` | Build and register development tests. |
+| `BUILD_TESTING` | `ON` | Build and register native development tests. |
+| `LIE_LEGACY_PYTHON_TESTS` | `OFF` | Additionally run independent historical Python test oracles; requires Python only when explicitly enabled. |
 
-SSD persistence is selected at runtime, using an explicit directory and quotas.
+KV disk persistence is selected at runtime, using an explicit directory and quotas.
 It is disabled by default. RAM caching is enabled by default in state-capable
 inference builds.

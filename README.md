@@ -32,14 +32,12 @@ See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 | Component | Requirement |
 | --- | --- |
 | System | Linux, a C17 compiler, CMake 3.21 or newer, and pkg-config. |
-| C libraries | OpenSSL Crypto, json-c, llhttp and libcurl development files; LZ4 and Zstandard for the default checkpoint build. |
+| C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; LZ4 and Zstandard for the default checkpoint build. |
 | Event loop | **libuv 1.52.1 is included** and linked statically. A system-library option is available. |
 | GPU backend | AMD Strix Halo, C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM, ICU, PNG and JPEG. |
-| Build/test tools | Python 3 verifies the optional Gufo build and runs test harnesses. |
-| Optional benchmark tools | Python 3 for HTTP benchmark suites; Matplotlib for graph export. |
 
-The server and shared core do not require Python at runtime. `libsynapse-core`
-is not currently linked. Detailed dependencies and build options are in the
+Build, server, benchmarks, graphs and the default tests run without Python.
+`libsynapse-core` is not currently linked. Detailed dependencies and build options are in the
 [build guide](docs/guides/BUILD.md).
 
 ## Build
@@ -47,8 +45,8 @@ is not currently linked. Detailed dependencies and build options are in the
 From a fresh checkout, with the dependencies above installed:
 
 ```sh
-python3 -B tools/fetch-gufo.py
-python3 -B tools/build-gufo.py qwen-hip --qwen-only --state-access --ds4-state
+cmake -P cmake/provider/Fetch.cmake
+cmake -DLABEL=qwen-hip -P cmake/provider/Build.cmake
 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-qwen-hip" \

@@ -17,6 +17,7 @@ page states which measurements exist and which are still missing.
 | `fresh` | The cost of processing a complete new prompt. | Full prompt prefill from an empty sequence, then decode. |
 | `core` | The shared C engine, including admission and cache behavior. | Per-job TTFT, executed prefill, decode and output over cohort wall time. |
 | `http` | Client-visible API latency and replayable conversation workloads. | HTTP request wall time and reported executor timings. |
+| `http-kv-disk` | KV checkpoint persistence across a server restart, including concurrent consumers. | HTTP latency, actual restored tokens and disk accounting. |
 
 Prefill (PP) is prompt processing; generation (TG) is token decoding. Rates use
 **tokens per second**. TTFT is time to first token. A full cache hit has no new
@@ -88,7 +89,7 @@ recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cac
 
 ## HTTP workloads
 
-Start the server first. This suite uses a Python HTTP helper:
+Start the server first. This suite uses the native C HTTP client:
 
 ```sh
 "$LIE_BENCH" --suite http \
@@ -104,7 +105,15 @@ does not change the server. Start the server with `--kv-cache-ram-mb 0` and
 without SSD options for that measurement. Other presets are `decode`,
 `conversation` and `long-context`; use `--requests FILE` to replay a saved
 corpus. The long-context generator can prepare larger inputs, but does not
-extend the model's context limit.
+extend the model's context limit. `--timeout` is the deadline in seconds for a
+complete HTTP request, including response streaming.
+
+For KV disk restart checks, use `--suite http-kv-disk --help`. Run the `write`
+phase, restart the server against the same KV directory, then run `read` with
+`--reference` pointing to the write phase's `.summary.json`. This suite requires
+RAM retention off and disk retention on; it never starts or restarts the server.
+The old `http-ssd` suite name remains an alias. These checks concern KV state,
+not model-weight storage.
 
 ## Generate graphs
 
@@ -112,10 +121,10 @@ Add `--graphs results/charts` to a run, or export afterwards without loading
 the model:
 
 ```sh
-python3 tools/bench-report.py results/single.jsonl \
+"$LIE_BENCH" --suite report results/single.jsonl \
   --output results/single-charts --label 'LIE'
 
-python3 tools/bench-report.py results/multi.jsonl \
+"$LIE_BENCH" --suite report results/multi.jsonl \
   --output results/multi-charts --label 'LIE reactive' \
   --compare results/gufo-multi.jsonl --reference-label 'Gufo local control'
 ```
@@ -124,10 +133,14 @@ Each export contains `benchmark.svg`, `benchmark.png`, `summary.csv` and
 `summary.json`. Throughput axes start at zero; prefill and generation have
 separate scales. Error bars show the observed minimum and maximum, with the
 median as the plotted value. Preserve raw JSONL and the build/model identities.
-A graph-export failure returns exit code 3 while retaining the measurement file.
+A graph-export failure returns a nonzero exit code while retaining the measurement file.
 
-Python 3 and Matplotlib are needed for plots. They are not required to run the
-server or the C direct-executor benchmark suites without graph export.
+KV disk reports instead plot nearest-rank p50/p95/p99 latency distributions.
+Their CSV includes sample counts, executed prefill and generation rates. Missing
+measurements are omitted and labeled when an entire plotted series is unavailable.
+
+SVG and PNG are generated directly in C; Python and Matplotlib are not needed.
+Use a new output directory for each report: existing artifacts are not replaced.
 
 ## Coverage of Gufo's published campaign
 

@@ -173,7 +173,7 @@ on `192.168.5.157:8000`. This profile requires no Pi-specific server interface.
 | Context-limit error. | Reduce the prompt or requested output, or raise `--context` within the supported limit. |
 | No RAM cache hit. | The input must match a retained prefix; inspect the cache budget and eviction metrics. |
 | No SSD checkpoint. | Check the absolute directory, quota and staging budget. Oversized states can be skipped. |
-| No graph files. | Graph export requires Python and Matplotlib; the raw JSONL result remains available. |
+| No graph files. | Read the native report error and select a new output directory. Failed evidence is rejected; raw JSONL remains available. |
 
 Run `synapse-lie-server --help` or `synapse-lie-bench --help` for the complete
 option list. See [metrics](../reference/METRICS.md) for runtime diagnostics.

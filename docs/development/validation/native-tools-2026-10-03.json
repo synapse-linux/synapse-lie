@@ -1,0 +1,471 @@
+{
+  "schema": "synapse-lie.native-tools-validation.v1",
+  "date": "2026-10-03",
+  "baseline_commit": "e125048d15c496e740de4c1bac0f911e6e16efab",
+  "scope": "Local CPU correctness, sanitizers, native reporting and provider compilation; NOT-INFERENCE. No model was loaded or GPU inference run.",
+  "host": "Local Strix Halo (.155); .157 was not used.",
+  "python_dependency": {
+    "normal_build": false,
+    "provider_helpers": false,
+    "bench_clients_and_reports": false,
+    "default_tests": false,
+    "historical_oracles": "Optional, LIE_LEGACY_PYTHON_TESTS=ON; default OFF. Existing Python thermal supervision used only for development evidence."
+  },
+  "source_sha256": {
+    "CHANGELOG.md": "a8299d52dfaa83785f46e8b7d5abb754a8c19bda23aabd803abc50f237951ceb",
+    "CMakeLists.txt": "4e9b2634f8457122e771f5414e8dd657eef6e9b2407d9cdd805f049edd23fe40",
+    "README.md": "b41672354a5b3b9a8dec4d43ac5d8d689bc2463e652f6f094f55ff4df3610e2d",
+    "cmake/provider/Build.cmake": "9f9df6f35c1e4c1227aea65b4ba3d5b8e798db75f7096334f4f1676ce2d8d929",
+    "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+    "cmake/provider/Source.cmake": "8710f67850560c2a5bc48986d3d9411b0aa55d717dc2295aa6d97aeee26b4d38",
+    "cmake/provider/Verify.cmake": "437dbbff2bb7098a1f531eb446636e0ce2adf34a2235fd5d64968ab143b8c93f",
+    "docs/PROGRESS.md": "0ebc91b2c1af83090c1375682ba5ae135dc38669956f1a2ec81b5092fab99af1",
+    "docs/development/protocols/SSD-HTTP-PROTOCOL.md": "0cac0f52ef1fe12e44fbf615da076f757e6db2bf2aac3eada31dbf8f0bb322bd",
+    "docs/guides/BENCHMARKS.md": "448ac0c489771c4e82abdcb4bace392c0f1da1569d60e3a825212b7347cc70cd",
+    "docs/guides/BUILD.md": "c9c9cbea592351a6a86ba4fff6ecef778713e249f245b59b1e887d880ca1bd87",
+    "docs/guides/USAGE.md": "fcf1f7ade1679aa7b3d5a58136813b96ae46ca91ee0f353e3f56a4e869802185",
+    "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+    "tests/provider_contract.cmake": "982a30d492e37a0e8d8ca41ffa5300db4841a1533cac4e63971f6f966959b66e",
+    "tests/test_native_bench.c": "aa2d56d0a75988889c76beba0845b00dbdc6c5c469bc503bcf876e95a3dd1f0b",
+    "third_party/README.md": "2d452297f981c9392bf1c195327c43793879f1f0625b7306a208eaee0e5adedd",
+    "tools/lie-bench.c": "c9f8034f0120d0e41a1f98869ae08913d652566ff56fd9fbfe7bdf477ce3df3b",
+    "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+    "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+    "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+    "tools/native/http_transport.c": "cf04eb03bcfa82f5a763d3af8819a9b6881af5bd859838580a329993484c85b6",
+    "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+    "tools/native/report.c": "29443033b426f97dd83a20d26d98044680c0d2960d0fc4afc52a849867424fcc",
+    "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+    "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77"
+  },
+  "executables_sha256": {
+    "build/native-no-python/synapse-lie-server": "99ae6a3bbea8109e2766ab5e65c2b4d763f85e7ee1ce4fdd5d70e4cebf301ebf",
+    "build/native-no-python/synapse-lie-bench": "4112a8dbf7398804e70f43838ebb2ad2ffc5324c3709900113ad732de3cf012b",
+    "build/native-no-python/synapse-lie-bench-report": "8aca16668846795431ed3675f90ec532692b33f25bee95c8b35c1264ba1e10a9",
+    "build/native-no-python/test-native-bench": "5a0f96022995abca0b575383cae918aae2d84e4d435279a16ea0b3a7b737d5c7",
+    "build/native-no-python/test-kvc-fixtures": "78dd99270591f085c463b80378a4d7acf80a6bb6cc64823a0278bd0910223167",
+    "build/native-linked/synapse-lie-server": "e47eb3f100e82479c4038cfadc869c715d1c033eedd499b991b7cd22827f683f",
+    "build/native-linked/synapse-lie-bench": "95372463d1e6de4f6c1aebed0845db7e60832b085d85f4e3197321e2f88b4565",
+    "build/native-linked/synapse-lie-bench-gufo-reference": "c9455799c90c09470a9b90e2eb3dd87b58206d2bcb9bf8b04a7287e8bb482f39",
+    "build/native-linked/synapse-lie-bench-report": "28e64b9b57758f5123f98542e165ba5263e1fd3bf2dc29d5242a6507b701e752"
+  },
+  "checks": {
+    "default": {
+      "passed": 25,
+      "total": 25,
+      "build": "build/native-no-python",
+      "CMAKE_DISABLE_FIND_PACKAGE_Python3": true,
+      "LIE_LEGACY_PYTHON_TESTS": false,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ]
+    },
+    "extended": {
+      "passed": 44,
+      "total": 44,
+      "build": "build/native-sanitize",
+      "LIE_LEGACY_PYTHON_TESTS": true,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ]
+    },
+    "after_final_graph_fix": {
+      "passed": 3,
+      "total": 3,
+      "tests": [
+        "native-benchmark-contract",
+        "core-bench-contract",
+        "simplified-bench-contract"
+      ],
+      "includes": "Byte-identical SVG and PNG when reference workload order changes; native contract child PATH has no interpreter or external graph tool."
+    },
+    "provider": {
+      "official_fetch_exit_code": 0,
+      "files_verified": 1019,
+      "build_exit_code": 0,
+      "link_exit_code": 0,
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "receipt_sha256": "35c92b103046cdffb27dfc567dcfbf1de40fe4d358b4c7c42712edb668265f67",
+      "source_variant": "lie-ds4-state-v1",
+      "libraries_sha256": {
+        "libgufo_core.a": "c801a2dc3585288866282063e56e111fdfd61f0f32cf581e1ef9ad1534773f7e",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "ecb4e9fe6145824b32a4f764d18e849f85aa1389b8c4a3d15c88e5c28ea6d47a",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "6438a4e6e4db1f36f45d794e2202ff6b3d85a70fceeb003ee75a173b8a24de86"
+      },
+      "gpu_execution": false
+    },
+    "native_fixture_scope": [
+      "Independent KVC wire/native/state byte oracles",
+      "Malformed UTF-8/JSON/NUL and invalid counts",
+      "HTTP deterministic corpus, replay and actual usage/output",
+      "Chat and Responses JSON/SSE",
+      "KV disk producer, server restart, consumer and C2 cohorts",
+      "Held pread: peer progress and cancellation before disk completion",
+      "Unread client: actual backpressure with peer completion",
+      "Median and nearest-rank percentile distinction",
+      "Cached executed prefill is absent, never zero-rate evidence"
+    ]
+  },
+  "failures_preserved": [
+    {
+      "receipt": "evidence/native-http-first-20261003/result.json",
+      "cause": "HTTP failure emitted complete instead of failed. Corrected; final historical HTTP oracle passes."
+    },
+    {
+      "receipt": "evidence/native-tests-first-20261003/result.json",
+      "cause": "Native KVC fixture used relative store path. Corrected to owned absolute path; final native and historical oracles pass."
+    },
+    {
+      "record": "evidence/native-docs-before-receipt-20261003.json",
+      "exit_code": 1,
+      "cause": "Progress linked this receipt before creation. Final document check follows receipt creation."
+    }
+  ],
+  "plot_review": {
+    "scope": "Synthetic plot fixture only, no performance evidence",
+    "png": "evidence/native-plot-final-20261003/benchmark.png",
+    "svg": "evidence/native-plot-final-20261003/benchmark.svg",
+    "png_sha256": "38682d24f958fca55f3139733e4ba3eb5fab824222c21bdb2e07b66642817673",
+    "svg_sha256": "f260be7f0e1c68a716a740f0043d95470681173c0e5ef11c5e1dca565da7236f",
+    "manual_visual_check": "Separate zero-based panels: 1100 tokens/s prefill visible near 86% of its axis; labels and legends do not overlap."
+  },
+  "runs": [
+    {
+      "receipt": "evidence/native-build-first-20261003/result.json",
+      "receipt_sha256": "6cad84d9d7ffaafdef1c2e270c37cd2ff464d7d4830ea9bd5656aa056245e017",
+      "argv": [
+        "sh",
+        "run/configure-native.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 7.239,
+      "peak_c": 81.875,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "18e8be648e1996ddcf6a06adcea7d85e69a454a6f67e429f656305aa1d00ca71",
+        "plan.json": "7039411a323a964392eaaec17d696886c3a339cb26e99816369cd02617c35c8a",
+        "temperatures.jsonl": "3639d79538622000171f35514888c5ebbc875355bcbfdcebef6eb3f196156ff7"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake -S . -B build/native-sanitize -G Ninja -DLIE_SANITIZERS=ON -DLIE_LEGACY_PYTHON_TESTS=ON -DPython3_EXECUTABLE=/usr/bin/python3 -DLIE_BUILD_ID=native-tools-candidate\ncmake --build build/native-sanitize --parallel 2\n"
+    },
+    {
+      "receipt": "evidence/native-build-kvc-20261003/result.json",
+      "receipt_sha256": "59167f856cf8a166d035337c01186b0878893f5128475da2071bd9e1f82d324c",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/native-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 1.021,
+      "peak_c": 62.875,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "54abf2f85139e5214949b7faa47f29936b2d092e90ade9e4f28db00075b5ebb9",
+        "plan.json": "7158939ce06938cc4a62bfb131863170615682f20b35db4d351ed4b95a03b095",
+        "temperatures.jsonl": "ac03f58430897a4813673fe698c89ee8d4da2fd2f3c9cc5655d6be3f97a59234"
+      }
+    },
+    {
+      "receipt": "evidence/native-contract-build-20261003/result.json",
+      "receipt_sha256": "60e4c3bad4662c688b43f3fe29529f1984e0d2ab2262ca0e7c16609e802d1392",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/native-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 1.055,
+      "peak_c": 66.625,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "db0b5e18e850edbfc2a8d575fd05440bcef9798f5e72a2d22349a96c93bd1ee2",
+        "plan.json": "73ef56781a3291ec757f13f3e6ea001f8b2fcd96b657c51eca7304cadd46cf5c",
+        "temperatures.jsonl": "7f841ecc96ef91b560d780c2caf68c6e7f1f39f2516d3282ffed020ff06947cc"
+      }
+    },
+    {
+      "receipt": "evidence/native-contract-first-20261003/result.json",
+      "receipt_sha256": "b8cfb09ab497cfc6bba28ff265c75b3c2318d1c3df9e66818a9b24f7f700c72e",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/native-sanitize",
+        "--output-on-failure",
+        "-R",
+        "native-benchmark-contract|kvc-runtime-state$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 8.125,
+      "peak_c": 64.25,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "aa1319928f4a79b8cb587c75228c995ccff011de467f9d36d0294fffb3418750",
+        "plan.json": "8e877c55c6e48c9abb63360b05687d3b1ae14f1aa1fe12e1dcde25db990b98be",
+        "temperatures.jsonl": "cae807bc3d65c7ccfe8e71af50b7e95bea72ab6ed8c18c7947364e19646a3983"
+      }
+    },
+    {
+      "receipt": "evidence/native-final-build-20261003/result.json",
+      "receipt_sha256": "3fc071df76717c2ba73a7e84127053f7cf59298eacfafe43e5fd5c33359e6d65",
+      "argv": [
+        "sh",
+        "run/native-final-build.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 6.242,
+      "peak_c": 81.0,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "787dcb60cf4852719990cd62ae444d146b98fea3e01ab2a6e7b322febfde9398",
+        "plan.json": "9d1ae0225d1f52d389cf4f112a420fb081219dd15d6cf4d707d2d1c030ef7505",
+        "temperatures.jsonl": "0cab9363237ec42a6d07f6204b4cccc897017d34c0c83f32782baf61dd4e9b41"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake --build build/native-no-python --parallel 2\ncmake --build build/native-sanitize --parallel 2\ncmake -S . -B build/native-linked -DGUFO_SOURCE=\"$PWD/.deps/gufo-state-access-native-provider-cmake-r1\" -DGUFO_BUILD=\"$PWD/build/native-provider-cmake-r1\"\ncmake --build build/native-linked --parallel 2\n"
+    },
+    {
+      "receipt": "evidence/native-final-tests-20261003/result.json",
+      "receipt_sha256": "312abf56e81f24096524b11668a4dccbac55630c967ee80453dcd61677f56194",
+      "argv": [
+        "sh",
+        "run/native-final-tests.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 61.014,
+      "peak_c": 84.625,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "2d32f19d40e6b683038611934c7b1ddbaedeaafe2d8d712f0c480e6623984259",
+        "plan.json": "c8c2b9faed6b1c298a85851db61919a48906b369e197ad0fea2bf48daeab25dd",
+        "temperatures.jsonl": "a23c4ddfef2869e43b01597182b7f5c8724c65600947927ff622814e83b625c0"
+      },
+      "script": "#!/bin/sh\nset -eu\nctest --test-dir build/native-no-python --output-on-failure\nctest --test-dir build/native-sanitize --output-on-failure\nbuild/native-dev/plot-preview\n"
+    },
+    {
+      "receipt": "evidence/native-graph-fix-build-20261003/result.json",
+      "receipt_sha256": "ed1254a4204ef8565057c7959768c4ea3af83c6f110b90e757a6ca55e3a1293b",
+      "argv": [
+        "sh",
+        "run/native-final-build.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 3.148,
+      "peak_c": 76.0,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "fe055bdad695045b289063526a0a92daeb1e3989df842ab04b7685e1a31d4d1c",
+        "plan.json": "283024e70037dbd665f27ceb4005ae51a682f7be659871b1ae6f219915ba7c46",
+        "temperatures.jsonl": "64b5239ba3418e7b628b5eabea0daef0983ac4b526a82a8a039e4258c4389b77"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake --build build/native-no-python --parallel 2\ncmake --build build/native-sanitize --parallel 2\ncmake -S . -B build/native-linked -DGUFO_SOURCE=\"$PWD/.deps/gufo-state-access-native-provider-cmake-r1\" -DGUFO_BUILD=\"$PWD/build/native-provider-cmake-r1\"\ncmake --build build/native-linked --parallel 2\n"
+    },
+    {
+      "receipt": "evidence/native-graph-fix-tests-20261003/result.json",
+      "receipt_sha256": "d725db0b6efe847c9c76c241476d80e022dfab21ea84d5a5f05c885b38fe11e3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/native-sanitize",
+        "--output-on-failure",
+        "-R",
+        "^(native-benchmark-contract|core-bench-contract|simplified-bench-contract)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 10.446,
+      "peak_c": 88.0,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "2b667813a7e4e70fc325b33651c0cb0b853bfe801822ff885a407f9a2227b847",
+        "plan.json": "1e896f41c8d174fb5599ceb0c8b009eb3c921a3d641263005d97a0b21ae66dc1",
+        "temperatures.jsonl": "a35fab64147deb80021fa78d108df1de12fb7762b84a31645af9436b1ea17940"
+      }
+    },
+    {
+      "receipt": "evidence/native-http-first-20261003/result.json",
+      "receipt_sha256": "932a415b6aaf81fbb356dea10537391cae088bfd614599ec0e09b8d7c2b74e46",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "tests/test_bench_http.py",
+        "build/native-dev/http-smoke"
+      ],
+      "exit_code": 1,
+      "child_exit_code": 1,
+      "elapsed_s": 4.115,
+      "peak_c": 70.0,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "cb7036ef9ca28cd01b6cca9bd020aeb58706af94fb0f35738d145ee3731aba55",
+        "plan.json": "5a8c225291b05079ea761087336ddf04b806e4fbbb1f5be38409c5c4bfd17d8c",
+        "temperatures.jsonl": "f157197b7e372de8f65f1fb44bdbad53b99470cbae3ce4f2cf0a660c2bd6dc9b"
+      }
+    },
+    {
+      "receipt": "evidence/native-no-python-build-20261003/result.json",
+      "receipt_sha256": "8057b38598c1797f15299b46d4b48deb0a6c0ff6d4cb75463c323845894c7bde",
+      "argv": [
+        "sh",
+        "run/no-python-build.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 6.262,
+      "peak_c": 80.125,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "d18cd4d478c0eb1fff748c2e4dd06af7f0706aabdcc3e834a59edd325a4b9b69",
+        "plan.json": "da4348fb1fffe5903ecc1fa918a98dc57aafa341b4e6ab3ce362d3f5a10b1d2f",
+        "temperatures.jsonl": "4050d5ba8d41f556c2e2f824e55c28b6f94e06519c85d947bf18015357b2cab4"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake -S . -B build/native-no-python -G Ninja -DLIE_SANITIZERS=ON -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE -DLIE_BUILD_ID=native-no-python\ncmake --build build/native-no-python --parallel 2\n"
+    },
+    {
+      "receipt": "evidence/native-overlap-first-20261003/result.json",
+      "receipt_sha256": "c6e14ef34611566f15a89bcb63901f7fab2520d685c60bba77fd72508d542e93",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/native-sanitize",
+        "--output-on-failure",
+        "-R",
+        "native-benchmark-contract|native-provider-verification"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 8.397,
+      "peak_c": 61.5,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "c8272d4c196ecb27d6c5639a18e78ddf8bc58a22b0115ef99680e79a8488a880",
+        "plan.json": "4f1c908a8991829f53ff7f5dad1d5c0ed80a952116bf5e0818056754b1574f2e",
+        "temperatures.jsonl": "88ddf4b1f881ba563a433b520741cff811759c198e7412b0bddce62f4f966a0e"
+      }
+    },
+    {
+      "receipt": "evidence/native-probes-build-20261003/result.json",
+      "receipt_sha256": "83a6645074b0e94261880fb729f93d26dc96fb3fdd84427915698ac3c7e05076",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/native-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 1.128,
+      "peak_c": 64.875,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "8f989b8375255effc92ea5126df7e96a188c5a463a01647411bc508704d82f83",
+        "plan.json": "73ef56781a3291ec757f13f3e6ea001f8b2fcd96b657c51eca7304cadd46cf5c",
+        "temperatures.jsonl": "767503add02c1825367bc72c6b7516c6edd6e9b672e816481c0149f34523d5b7"
+      }
+    },
+    {
+      "receipt": "evidence/native-provider-builder-20261003/result.json",
+      "receipt_sha256": "180fd8e409fabfad119fd01c8b2b08866bc6878bee51079a3913624e9950a4d7",
+      "argv": [
+        "cmake",
+        "-DLABEL=native-provider-cmake-r1",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 148.234,
+      "peak_c": 83.625,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+        "plan.json": "5d8c3dc5d5377be4ae28c9784a2d6f7f4374205b6464d3a4c3b7733854c96dc2",
+        "temperatures.jsonl": "3db5e83d55593850a4c44652c1a7e5ca174f7067e23e3978f4d9e8a4616b725b"
+      }
+    },
+    {
+      "receipt": "evidence/native-provider-fetch-20261003/result.json",
+      "receipt_sha256": "1ffe825951a77244662e5c3925bf5f1a5b5cb54d35da51d90027a4bed3d7b360",
+      "argv": [
+        "cmake",
+        "-P",
+        "run/fetch-native-provider.cmake"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 11.512,
+      "peak_c": 77.625,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "8f44c8e5a88fe9b81997a6693a250b6a5e812caa8a524418c2b6dfddc572a1e5",
+        "plan.json": "501f86c342025afe9236124bf391d720cd4bb86ceebdd217f90544d8591c5076",
+        "temperatures.jsonl": "9342c2235b2cdc5210abf1650250ca69d01eec356031832e3b1d4ae08d0372e3"
+      }
+    },
+    {
+      "receipt": "evidence/native-provider-link-20261003/result.json",
+      "receipt_sha256": "91fd1103b58be6dccb7b925fd6496e0b8b92af399238c9c2af71b95537bd9128",
+      "argv": [
+        "sh",
+        "run/native-linked-build.sh"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "elapsed_s": 9.351,
+      "peak_c": 79.875,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "16a5e97c4eef8407824f0a13c14c8b1fe1855c64dda3e5e7f86a9ed0f5522cfa",
+        "plan.json": "77c93403a6a88b03ec1da32c12dfc00ce4212deff5e0d34b2631ca851dc31701",
+        "temperatures.jsonl": "ff8fd350c3c78a96f79a9ba3c0e2382c386b9031559454d1336301f530ea14f5"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake -S . -B build/native-linked -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON -DLIE_BUILD_ID=native-tools-linked -DGUFO_SOURCE=\"$PWD/.deps/gufo-state-access-kvc-runtime-provider-r1\" -DGUFO_BUILD=\"$PWD/build/kvc-runtime-provider-r1\"\ncmake --build build/native-linked --parallel 2\n"
+    },
+    {
+      "receipt": "evidence/native-tests-first-20261003/result.json",
+      "receipt_sha256": "50746f0b803d66a6a14d7ee773a5c63c88588e52aea25a1000a51220c30cdff7",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/native-sanitize",
+        "--output-on-failure"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "elapsed_s": 41.814,
+      "peak_c": 71.375,
+      "reason": null,
+      "logs_sha256": {
+        "command.log": "7c8f7f9ba2662ed8a9e8e7924acd2f1a403fd7cb8416d04709fcbbee2b669e3b",
+        "plan.json": "ce8d36c3638ca0113496a5ecab66e9183aff3f05e6d1a6d55624e280b67490f4",
+        "temperatures.jsonl": "7d6502334c1670b3e86e005391886f99c00edf7d834154fc276f556f158f9c8f"
+      }
+    }
+  ],
+  "publication": "Existing feature/openai-reactive-api branch only; dated benchmark artifacts unchanged.",
+  "documentation": {
+    "markdown_files": 93,
+    "shell_snippets": 19,
+    "broken_links": [],
+    "broken_fragments": [],
+    "bundled_libuv_files_verified": 127,
+    "published_csv_rows": 37,
+    "dated_evidence_unchanged": true,
+    "exit_code": 0
+  }
+}

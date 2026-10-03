@@ -26,6 +26,10 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Build verification, HTTP benchmark clients and CSV/JSON/SVG/PNG reports run
+  without Python. Provider helpers use CMake; benchmark tools use C17 and libpng.
+- Default tests use native fixtures. Historical Python oracles remain available
+  through explicit `LIE_LEGACY_PYTHON_TESTS=ON`.
 - Cache options now use an explicit `--kv-*` namespace, including DS4's
   `--kv-disk-dir`, `--kv-disk-space-mb` and checkpoint-boundary controls.
   `--model-*` is reserved for model controls, including future weight storage.
@@ -45,8 +49,9 @@ stable release is declared. Detailed validation history is in
 - Reusable input checkpoints are protected from generated-state captures under
   RAM and SSD pressure. CPU and sanitizer checks pass; the separate GPU
   performance comparison remains pending.
-- CPU correctness tests remain usable without Matplotlib; only optional graph
-  checks are skipped when it is absent.
+- Benchmark graphs no longer require Matplotlib or adjacent helper scripts.
+- Comparison plots align reference values by workload even when the reference
+  file lists the workloads in a different order.
 - Direct benchmark throughput charts use zero-based axes, preventing large
   prefill rates from appearing close to zero.
 - Concurrency results distinguish LIE native batching from the earlier serial

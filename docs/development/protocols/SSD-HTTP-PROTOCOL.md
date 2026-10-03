@@ -1,10 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
-# SSD HTTP restart and reactive consumer checks
+# KV disk HTTP restart and reactive consumer checks
 
-`synapse-lie-bench --suite http-ssd` exercises the shared C core through Chat
-and Responses, in JSON and SSE. Python measures the external client; checkpoint
+`synapse-lie-bench --suite http-kv-disk` exercises the shared C core through Chat
+and Responses, in JSON and SSE. A native C client measures requests; checkpoint
 ownership, disk waits, cancellation and output credits stay in `lie_core`.
-This increment changes no engine or numerical behavior.
+The earlier `http-ssd` name remains an alias. These are KV checkpoints, separate
+from future model-weight storage. The client changes no engine or numerical behavior.
 
 Status, 2026-10-02: CPU fixtures and the original-weight R5 campaign pass.
 R5 uses source `3b20903`: producer/restarted reader, 30 samples, three C2
@@ -23,7 +24,7 @@ For an already admitted server on port 8000, configured with RAM off, SSD on,
 two active slots, chunk2048 and an empty private store:
 
 ```sh
-synapse-lie-bench --suite http-ssd \
+synapse-lie-bench --suite http-kv-disk \
   --url http://127.0.0.1:8000/v1 --management-url http://127.0.0.1:19880 \
   --model qwen3.8-flash-next --provider gufo-embedded-f783fedb \
   --cases cases.json --phase write --chunk 2048 --timeout 600 \
@@ -34,7 +35,7 @@ After the supervisor retires the server and starts the same executable and
 configuration against the sealed store:
 
 ```sh
-synapse-lie-bench --suite http-ssd \
+synapse-lie-bench --suite http-kv-disk \
   --url http://127.0.0.1:8000/v1 --management-url http://127.0.0.1:19880 \
   --model qwen3.8-flash-next --provider gufo-embedded-f783fedb \
   --cases cases.json --phase read --reference write.jsonl.summary.json \
@@ -44,18 +45,19 @@ synapse-lie-bench --suite http-ssd \
 
 The client never starts/reconfigures a server or acquires hardware leases.
 Outputs are exclusive new files/directories. JSONL retains failures; success
-ends with `complete`, with all phase samples in `.summary.json`. Matplotlib is
-optional for charts and never installed automatically. Synthetic charts say
-NOT-INFERENCE. Individual requests have socket timeouts; the supervisor also
+ends with `complete`, with all phase samples in `.summary.json`. Native C code
+exports SVG and PNG without Python or Matplotlib. Synthetic charts say
+NOT-INFERENCE. `--timeout` covers each complete request; the supervisor also
 enforces a one-hour campaign deadline.
 
 ## Acceptance and metric scope
 
 The producer completes one fresh Chat JSON request per case, waiting for each
 durable write. A restarted reader matches provider/configuration, corpus,
-prompt/output counts, finish and full text. It must reuse the largest eligible
-chunk-aligned prefix, or the whole prompt when shorter than a chunk. Unaligned
-tails execute real prefill. RAM is off so Responses' cached-token usage cannot
+prompt/output counts, finish and full text. With the current DS4 checkpoint
+policy it must reuse the complete prompt. Legacy policy requires the largest
+eligible chunk-aligned prefix, or the whole prompt when shorter than a chunk.
+Uncached tails execute real prefill. RAM is off so Responses' cached-token usage cannot
 be mistaken for a RAM hit.
 
 Each reader repetition executes four API variants per case, then a two-client
@@ -89,7 +91,9 @@ This probe currently requires plain HTTP.
 
 ## Leased supervisor and next device campaign
 
-`tools/run-bench.py` adds these pairwise manifest arguments:
+The optional historical `tools/run-bench.py` supervisor uses these pairwise
+manifest arguments. They retain the original aliases for qualified recipes;
+this supervisor is separate from the native benchmark executable.
 
 ```text
 --suite http-ssd --cases-file cases.json --context 262144 --chunk 2048
@@ -126,6 +130,11 @@ received samples locally is required for shutdown observation; remote telemetry
 alone cannot establish an exact failure temperature.
 
 ## Local functional evidence
+
+The C17 migration passes the native contract and the historical Python oracles
+with ASan/UBSan/LeakSanitizer. It also checks equivalent graphs when comparison
+workloads are reordered. See the [2026-10-03 native tool receipt](../validation/native-tools-2026-10-03.json).
+The following evidence belongs to the earlier 2026-10-02 campaign.
 
 `test-ssd-http-server` links a test-only `pread` barrier. It proves peer progress
 and cancellation during a held read; production binaries have no delay switch.
