@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # F32 HC norm with its F16 consumer copy
 
+The later [complete sequence experiment](Q2-HC-SEQUENCE.md) preserves original
+producer controls and includes the consuming down projection in each timing.
+It confirms a regression with two down geometries; the earlier isolated
+producer saving below does not justify selecting this mechanism.
+
 The isolated HC norm candidate removes a full-width activation read and one
 narrowing launch before each eligible raw-F16 HC down projection. Original
 weights, the F32 normalized tensor and the consumer's F16 precision are retained.

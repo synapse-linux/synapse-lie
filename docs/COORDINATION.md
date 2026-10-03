@@ -1569,3 +1569,62 @@ No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
 window after fresh admission. Direct thread notification fails at its MCP
 transport; no delivery is claimed. This ledger and the shared registry preserve
 the agreed handover. Q2 continues local reporting/checkpoint work only.
+
+The intervening owner clarification on bitfields is a no-progress turn for
+Q2/UD parity. Fresh admission at **2026-10-03 06:21:45.523684 UTC** finds KFD
+empty, four original leases EX|NB/free and the row-reuse release last in the
+registry. Core's ledger still returns the window after R12 and records local
+work only. Direct read-thread transport fails; the agreed ledger fallback applies.
+
+Q2 takes a bounded HC producer/consumer window: CPU Debug/ASan guards followed
+by the new complete combine/narrow/down fixture. The paired-output source is
+rebased onto retained HC-up chains while keeping original ordinary and MoE
+combine kernels for interleaved controls. Six independent norm/down cases cover
+96/97/129 rows and normal/tiny/alternating inputs. Timings cover ordinary and
+MoE complete sequences at 2048 rows, five paired samples with rotating 100 MiB
+weights; arm order and output allocations alternate. GPU event timing surrounds
+the complete sequence without intermediate synchronization. All F32/F16 buffers
+are compared, with unchanged 2e-5 independent operator limits and scalar narrowing.
+
+This is a diagnostic of the previous producer saving/consumer regression, not
+an automatic promotion or admission of another full-model run of the rejected
+norm-copy mechanism. A further mechanism needs evidence and an explicit bounded
+extension here. Each build/GPU arm requires fresh four-lease/process/thermal
+admission at 98 C inclusive or lower exposed limits. No interleaving, foreign
+mutation, model conversion, dependency installation, automatic retry or publication.
+All source and evidence remain under persistent project paths.
+
+The sequence arm completes at **06:25:27.734011 UTC**. All six complete
+reference/candidate frontiers and ten timed replays are exact. One tiny-input
+ordinary-down case exceeds the unchanged independent peak-scaled limit on both
+identical outputs (2.16019e-5 versus 2e-5); actual exit 1 is preserved. Complete
+median time rises 26.69% ordinary and 9.32% MoE with paired output. No model arm
+is admitted. This window adds one focused half-row interaction arm: apply the
+previous bounded BM160/BN64 down geometry after each producer, using the same
+fixture and all original numerical limits. Updated host guards precede it.
+The test resolves whether lower logical input staging helps this consumer after
+producer writes; isolated-GEMM results did not answer that question. Source and
+fixtures stay isolated, all fresh lease/thermal rules remain, and no unbounded
+sweep or automatic retry is queued.
+
+The half-row sequence retains all full-buffer outputs and the same tiny-input
+independent failure. It does not recover the producer-copy regression: paired
+ordinary/MoE sequence time increases 26.86%/13.38% versus its separate-producer
+control. Neither paired-output geometry is promoted and no model arm follows.
+All forty timings, 128 within-arm full-buffer hash pairs, 64 cross-geometry
+hash pairs and 36 saved buffer pairs verify. Both CPU cohorts pass 12/12 Debug
+and 12/12 ASan/UBSan. All 94 artifacts verify; sixteen command exits are zero
+and the two numerical exits are one. Model access is false for every arm.
+
+Q2 releases the sequence window at **2026-10-03 06:35:11.147429 UTC**.
+Four runners and eighteen command identities/groups/sessions are absent,
+KFD is empty and all four original leases are EX|NB/free. Persistent receipt:
+`run/q2-hc-sequence-window-release.json` on `.157`, also recorded in the shared
+registry. Independent observation at **06:35:35.885265 UTC** verifies closure
+observer PID 2892605, group/session 2892602, start ticks 157470514 absent.
+Both SSH commands exit zero. GPU/CPU observed maxima are 61/79.625 C.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window with fresh admission. Direct outgoing notification fails at its MCP
+transport; delivery is not claimed. This ledger and the registry preserve the
+agreed handover. Q2 continues local analysis/reporting and checkpoint work only.

@@ -1,0 +1,187 @@
+{
+  "scope": "Static compilation only; no GPU execution",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-sequence-static/kernels.s"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "host",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_sequence.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence/third_party/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-sequence/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "old-fixture",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-norm-half/third_party/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_norm_half.cpp"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "control_bodies": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_121HcCombineMoeF32KernelEPfPKfS6_S6_S6_jjS6_jS6_S4_jf",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119HcCombineVec4KernelIfEEvPfPKfS7_jS7_PT_Pvjf",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi64ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi64ELi4ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    }
+  ],
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_122HcCombineF32HalfKernelEPfPKfS6_jS6_S4_P6__halfjf",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 84,
+      "next_free_sgpr": 28
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125HcCombineMoeF32HalfKernelEPfPKfS6_S6_S6_jjS6_jS6_S4_jfP6__half",
+      "group_segment_fixed_size": 10368,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 84,
+      "next_free_sgpr": 30
+    }
+  ],
+  "full_format": {
+    "exit_code": 1,
+    "stdout": "evidence/q2-hc-sequence-static/format.stdout",
+    "stderr": "evidence/q2-hc-sequence-static/format.stderr"
+  },
+  "changed_format_exit": 0,
+  "reconstruction": {
+    "exit_code": 0,
+    "files": 1019,
+    "mismatches": []
+  },
+  "assembly_sha256": "c62eba3864492484ecba41310f8373ddf3e35465dbcff5ad1024505b72a91884",
+  "compiled_source_sha256": "b832e97c62d682874acca9dad06adaa10787b77c823debe634694b9516953194",
+  "reference_assembly_sha256": "335f902e4830be16d898df41896613f259da0f41db30cecbaad76904cfba7c93",
+  "source_checks_pass": true
+}

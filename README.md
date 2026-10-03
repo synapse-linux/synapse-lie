@@ -4,6 +4,13 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The latest [complete HC sequence experiment](docs/Q2-HC-SEQUENCE.md) measures
+the norm producer and its down consumer together. Paired F32/F16 output adds
+26.69% ordinary / 9.31% MoE time; the half-row geometry does not recover the
+regression. All complete outputs remain exact, with one common independent
+tiny-input failure retained. Neither variant is selected. Full samples,
+graphs and the buffer-lifetime analysis are recorded; no reactive or model
+speedup is inferred from these synthetic tests.
 The [reassessment](docs/Q2-REASSESSMENT.md) reconciles the warm GPU
 gap, measured reactive PLE benefit and read-only historical DS4 results.
 Fused WMMA attention is already active in both Q2 and UD. New exact tile48/64

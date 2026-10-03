@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Complete HC sequence rejects paired norm materialization — 2026-10-03 UTC
+
+The [producer/consumer experiment](Q2-HC-SEQUENCE.md) closes the missing scope
+between the previous norm-only component gain and full-model regression.
+At 2048 rows with 100 MiB rotating weights, paired F32/F16 norm output adds
+26.69% ordinary / 9.31% MoE sequence time. Combining it with the previous
+half-row geometry still adds 26.86% / 13.38%. Original control kernels remain
+available and assembly-identical, with order and output allocations alternated.
+No variant is selected and no original-model benchmark is admitted.
+
+All 128 within-arm complete-output hash pairs, 64 cross-geometry pairs and
+36 saved file pairs match. Independent full-norm checks pass; ordinary n97
+tiny-input down exceeds the unchanged peak-scaled limit at 2.16019e-5 on both
+identical outputs. Both actual component exits 1 are retained. Two host cohorts
+pass 12/12 Debug and 12/12 ASan/UBSan. Forty timing samples and 94 artifacts
+verify, with sixteen other command exits 0. The new isolated fixture, source
+generators, patches, analyzer, complete results and graphs are retained.
+
+The memory-lifetime review answers the owner's reactive question: F32 norm
+must survive down until fused up/mix/injection consumes it. The F16 scratch is
+already reused by the next producer on the same stream. Removing a launch
+does not remove either allocation. A next hypothesis is to avoid materializing
+the F32 norm and reconstruct its exact values in the later consumer, retaining
+residual/scales and every rounding boundary. This is unimplemented; a complete
+mix/injection comparison is required. No reactive benefit is claimed here.
+
+Q2/UD parity remains unmet; the selected 1335.84 PP / 24.09 TG result is unchanged.
+Fresh closure at 06:35:11 UTC verifies all four runners/eighteen commands absent,
+KFD empty and four original leases free. Independent observer retirement is
+verified at 06:35:35 UTC. No model was opened, and no GPU job, waiter or retry
+remains. GPU/CPU observed maxima are 61/79.625 C. The shared ledger records the
+release while direct thread transport is unavailable.
+
 ## HC row reuse has no confirmed speed benefit — 2026-10-03 UTC
 
 The [row-reuse campaign](Q2-HC-ROW-REUSE.md) tests original-F16 HC down with

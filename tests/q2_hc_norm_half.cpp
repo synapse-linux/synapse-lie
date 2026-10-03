@@ -42,6 +42,7 @@ static void SaveHalf(const std::string& name,
   Require(bool(out), "Cannot save half norm output");
 }
 
+#ifndef Q2_HC_SEQUENCE_CHECKS
 static bool LaunchNorm(Inputs& in, Output& res, Output& norm, HalfOutput& half,
                        Device& block, bool moe, bool candidate) {
   if (moe) {
@@ -217,3 +218,4 @@ int main(int argc, char** argv) {
     return 1;
   }
 }
+#endif
