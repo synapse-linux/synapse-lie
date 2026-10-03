@@ -50,6 +50,8 @@ class Guard(unittest.TestCase):
             self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
             with self.assertRaisesRegex(RuntimeError,'thermal limit'):
                 bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo'))
+            with self.assertRaisesRegex(RuntimeError,'thermal limit'):
+                bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo',True))
 
     def test_explicit_strix_halo_ceiling_preserves_ssd_limit(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-halo-') as tmp:

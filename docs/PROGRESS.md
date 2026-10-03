@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Integrated HIP compositions linked — 2026-10-03 UTC
+
+The `.155` host builds three source-bound `gfx1151` providers and their clients:
+sampler/decoder ON/ON, OFF/ON and ON/OFF. All nine configure/build steps exit0,
+and twelve masked identity/help commands pass without opening a model. Fifteen
+linked client hashes and provider archives are bound by the
+[link receipt](development/validation/c17-vision-link-2026-10-03.json).
+These are NOT-INFERENCE checks; no new original-weight runtime qualification
+is inferred. The private receipt assembler's incorrect completion-enum failure
+is preserved and corrected; actual provider builds remain successful.
+
+Five focused sensor/lifetime tests also pass. Legacy observation manifests remain
+readable but their flag cannot remove the CPU guard in new helpers. GPU readings
+remain observation-only. Build/test peaks are CPU92/GPU63/NVMe37.85 C, without
+thermal stop. The separate `.157` clocked campaign still uses frozen `15c6082`,
+and Point's newer-runtime qualification remains in its own target thread.
+
 ## CPU-only thermal stop policy — 2026-10-03 UTC
 
 At the owner's correction, new qualification helpers stop at the selected CPU

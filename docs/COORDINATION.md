@@ -10,6 +10,8 @@ limit. No fan, power, clock, firmware or hardware protection setting changes.
 Three synthetic sensor/lifetime tests verify GPU101 C continues, CPU98 C refuses,
 SSD limits and termination of owned children only. Historical capsules retain
 their original policies and results.
+Two additional legacy-manifest sensor checks pass; the old observation flag
+cannot disable the CPU guard when interpreted by new helpers.
 
 Root's `gpu-perf-clocked-r2` starts after Q2's release at
 **23:03:30.243030 UTC** and fresh admission at **23:06:11.225623 UTC**. The C17

@@ -348,21 +348,23 @@ class CoreBench(unittest.TestCase):
             (sensor/'name').write_text('amdgpu\n')
             with self.assertRaises(ValueError):RUNNER['temperatures'](root)
 
-    def test_explicit_temperature_observation_preserves_hardware_and_ssd_bounds(self):
+    def test_legacy_observation_flag_preserves_cpu_and_ssd_guard(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-observe-') as tmp:
             root=Path(tmp);cpu=root/'cpuinfo';cpu.write_text('AMD Ryzen AI Max+ 395\n')
             sensor=root/'hwmon0';sensor.mkdir();(sensor/'name').write_text('k10temp\n')
             (sensor/'temp1_input').write_text('99000\n')
             rows=RUNNER['temperatures'](root,98,cpu,True)
-            self.assertIsNone(rows[0]['limit_c']);RUNNER['require_cool'](rows)
+            self.assertEqual(rows[0]['limit_c'],98)
+            with self.assertRaises(RuntimeError):RUNNER['require_cool'](rows)
             with self.assertRaises(RuntimeError):RUNNER['require_cool'](RUNNER['temperatures'](root,98,cpu))
             (sensor/'temp1_crit').write_text('99000\n')
             with self.assertRaises(RuntimeError):RUNNER['require_cool'](RUNNER['temperatures'](root,98,cpu,True))
-            (sensor/'temp1_crit').unlink()
+            (sensor/'temp1_crit').unlink();(sensor/'temp1_input').write_text('97000\n')
             gpu=root/'hwmon1';gpu.mkdir();(gpu/'name').write_text('amdgpu\n');(gpu/'temp1_input').write_text('101000\n')
             RUNNER['require_cool'](RUNNER['temperatures'](root,98,cpu,True))
             (gpu/'temp1_max').write_text('100000\n')
-            with self.assertRaises(RuntimeError):RUNNER['require_cool'](RUNNER['temperatures'](root,98,cpu,True))
+            rows=RUNNER['temperatures'](root,98,cpu,True);RUNNER['require_cool'](rows)
+            self.assertIsNone(next(r for r in rows if r['name']=='amdgpu')['limit_c'])
             (gpu/'temp1_max').unlink()
             disk=root/'hwmon2';disk.mkdir();(disk/'name').write_text('nvme\n');(disk/'temp1_input').write_text('85000\n')
             with self.assertRaises(RuntimeError):RUNNER['require_cool'](RUNNER['temperatures'](root,98,cpu,True))
