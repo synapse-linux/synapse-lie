@@ -1,7 +1,9 @@
 # Provenance and dependency boundaries
 
-First-party runtime, tools, tests, ABI and adapter: independently written for
-synapse-lie, MIT (`../LICENSE`). No sibling DS4/CachyOS project sources, recipes,
+First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
+owned dense sampler is an attributed C17 port of independently fetched official
+Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
+No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only
 under their publisher's terms. A C API wrapper does not relicense its dependencies.
@@ -18,10 +20,13 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
 | ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |
 
-Libraries are already installed system dependencies, not vendored/repackaged.
+libuv is bundled as described below. The other libraries are system dependencies.
 Build receipts record compiler/pkg-config versions. A distributable package will
 need its normal dependency-license audit; this increment installs/publishes none.
-Python is a development/test helper, not an inference dependency.
+CMake verifies the provider sources and archives. HTTP benchmark clients and
+CSV/JSON/SVG/PNG exports are first-party C17 code; PNG encoding links libpng.
+Python is used only by explicitly selected legacy test oracles and historical
+development/qualification scripts, outside the normal build and runtime.
 The new first-party C17 SSD codec/identity/store also uses installed OpenSSL
 Crypto SHA-256. No upstream snapshot codec or disk-cache code was imported;
 upstream source/archive pins are unchanged by this increment.
@@ -63,7 +68,7 @@ is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualific
 
 The owner withdrew this experiment. Active overlays/tools are removed; the
 following provenance applies to preserved historical evidence and build artifacts,
-not to current source or runtime support. See [the new plan](../docs/REPLAN.md).
+not to current source or runtime support. See [the new plan](../docs/archive/REPLAN.md).
 
 `adapters/gufo-q2/host-edits.json` contains first-party, exact hash-guarded edits
 against six existing Gufo files, materialized only in a fresh private build source
@@ -71,7 +76,7 @@ tree. The source copier retains all upstream files/licenses/notices. This modifi
 storage/configuration/binding and adds an explicit device-upload refusal; it does
 not import or reimplement the GPU kernels/model forward. Pristine `.deps` and the
 original archives stay unchanged. The variant is not accepted by the production
-link checker; [Q2 host scope](../docs/Q2-COMPATIBILITY.md) is not GPU support.
+link checker; [Q2 host scope](../docs/archive/Q2-COMPATIBILITY.md) is not GPU support.
 
 Official `Qwen/Qwen3.8-Flash-Next` configuration at
 `de4b8e4d43b917e7706784d8bb445c9af86a3540` and its **Qwen Community License 1.0**
@@ -81,10 +86,10 @@ The assets retain their separate license (including commercial-service condition
 MIT runtime code does not relicense model/configuration assets or authorize release.
 No model values were fetched, converted or redistributed.
 
-The subsequent [Q2 HIP candidate](../docs/Q2-HIP.md) adds a separately hashed
+The subsequent [Q2 HIP candidate](../docs/archive/Q2-HIP.md) adds a separately hashed
 eight-file overlay and three first-party boundary files. It instantiates the
 licensed Gufo/llama.cpp MMQ IQ2/Q2 helpers, with scoped IQ2 fractional-eighth and
-Q2 MMA FP32-product corrections documented in [extended evidence](../docs/Q2-EXTENDED.md).
+Q2 MMA FP32-product corrections documented in [extended evidence](../docs/archive/Q2-EXTENDED.md).
 The test codebook generator retains the pinned MMQ table's MIT attribution.
 Other first-party work
 covers routing, reserved workspace, source geometry and zero-safe quantization
@@ -124,7 +129,7 @@ expected archive. That refusal was not worked around by relaxing the hash.
 - DS4: inherited stable reference `c05cd8e2bd35047196d95709f89d0ea2aff96df2`;
   modified port numerical baseline `982bffea86fd5568759a420c4808c5b2123161c8`.
   Cache/session/conversation lessons; the DS4 agent owns integration there.
-  For the [antirez model format gate](../docs/ANTIREZ-BENCHMARKS.md), LICENSE,
+  For the [antirez model format gate](../docs/archive/ANTIREZ-BENCHMARKS.md), LICENSE,
   `ds4.c` and `ds4.h` at c05cd8e2 were independently retrieved from official
   `raw.githubusercontent.com/antirez/ds4/` into ignored local evidence, with URL,
   HTTP status and SHA256 receipts. Only storage facts (MXFP4 id 39, 32 elements /
@@ -198,3 +203,147 @@ receipt and runtime admission. Numerical files, licenses, wave64 translation
 unit flags and the optional state-access variant retain their existing
 provenance. This is experimental platform support, not upstream release or
 original-weight GPU qualification; see [STRIX-POINT.md](../docs/STRIX-POINT.md).
+
+The KV disk HTTP client and report exporter in `tools/native/` are first-party
+MIT C17, linked to libcurl, json-c, OpenSSL Crypto and libpng. SVG primitives and
+PNG display glyphs are generated by first-party code without an external renderer.
+The test-only `pread` barrier and independent native KVC fixture generator are
+also first-party MIT. Historical Python supervisors/oracles remain optional
+development tools. The 2026-10-02 cache-policy comparison reads
+official `antirez/ds4` upstream code as a behavioral reference; no implementation
+or local DS4 artifact is imported. It does not claim DS4 cache-policy or
+compression equivalence. LIE retains its existing component representation.
+
+
+The optional default-ON checkpoint codec links installed C libraries: Zstandard
+under its [BSD-3-Clause option](zstd-NOTICE), plus [LZ4 BSD-2-Clause](lz4-NOTICE)
+for legacy decoding. No library source is copied or installed by LIE. Disabling
+`LIE_CHECKPOINT_COMPRESSION` removes both dependencies. The byte permutation,
+framing and retention policy remain first-party MIT C17. OpenSSL Crypto is now
+a shared state-store dependency, including core-only builds.
+
+## DS4 cache-policy behavior reference — 2026-10-02
+
+Official `https://github.com/antirez/ds4/blob/main/ds4_kvstore.c` and its header
+were read as public behavioral specifications for purpose codes, default
+checkpoint limits, six-hour utility, prefix matching and optional extensions.
+The implementation in `cache_policy.c`, `retention.c`, `prefix_cache.c` and
+`store.c` is first-party MIT C17. No DS4 source or artifact was imported and no
+local DS4 checkout was modified. This is a dated moving-main review, not an
+immutable upstream source dependency. DS4 binary payload compatibility and
+cross-quantization reuse are not claimed; native metadata remains LIE-owned.
+
+## DS4 wire interoperability reference — 2026-10-02
+
+`src/kvc.c` and `src/models/kvc_qwen.c` are first-party MIT C17 codecs written
+against observed wire facts; no DS4 source/artifact was imported. Qwen payload
+and public constants were read in official upstream revision
+`0aaea5a238fb41a35106a551e73c8409dfb751ac`, obtained with read-only `git ls-remote`.
+The outer envelope was separately inspected at
+`6289c516273979173abbc062209a81dd3706b804` and in the dated main review for extended
+quantization values. The older pin contains no Qwen path. OpenSSL's EVP SHA-1
+supplies text filenames; no upstream digest implementation was copied.
+[Exact scope, source links and remaining integration gates](../docs/reference/KVC.md).
+
+`src/models/kvc_qwen_map.c` is an original MIT host-layout transformation, not
+a model forward or upstream source port. DS4's public Metal Qwen source was
+reviewed read-only via the dated main web view on 2026-10-02; the pinned fetch
+was unavailable. GPU GDN layout is value-major, unlike the CPU reference.
+Gufo destination facts come from the existing independently fetched `f783fedb`
+source. Synthetic mapping checks are not cross-engine numerical qualification.
+No local DS4 source, cache or qualified artifact was imported or modified.
+
+## Complete-history runtime KVC variant — 2026-10-02
+
+`adapters/gufo-state/kvc-edits.json` layers exact edits on the existing friend
+manifest at independent upstream pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`.
+The resulting four-file variant retains full raw index arrays, includes their
+capacity in `SessionBytes`, and pools completed AR keys before sparse selection
+in scalar and batch paths. It reuses upstream kernels but changes scheduling
+and memory usage, requiring independent GPU regression tests. `build-gufo.py`
+and `check-gufo-build.py` require explicit `--state-access --ds4-state`, source
+variant `lie-ds4-state-v1` and both manifest hashes. Previous source/archive trees
+are preserved. No DS4 implementation is copied.
+
+`src/models/kvc_qwen_state.c`, `src/state_kvc.c` and generic integration remain
+original MIT C17. Public DS4 constants at `0aaea5a238fb41a35106a551e73c8409dfb751ac`
+identify Qwen Flash Next as model id 5; the dated official store/server review
+accepts opaque trailers after the model payload. LIE adds its own identity and
+integrity extension there. This layout does not itself prove DS4 will restore a
+LIE checkpoint; bilateral device qualification remains pending.
+
+
+## Bundled libuv 1.52.1
+
+The HTTP event loop links the bundled static `uv_a` target by default. Configure
+`-DLIE_SYSTEM_LIBUV=ON` to use system libuv instead. Headless core builds do not
+link either version.
+
+Sources come directly from [official libuv](https://github.com/libuv/libuv/tree/1cfa32ff59c076ffb6ed735bbc8c18361558661f),
+commit `1cfa32ff59c076ffb6ed735bbc8c18361558661f` (tag `v1.52.1`). The
+[acquisition manifest](libuv-source.json) records the archive SHA-256, every
+retained file hash and every omission. The 127 retained files are unmodified:
+CMake, all platform sources and public headers, package templates, version metadata, authors,
+changelog and notices. Upstream tests, documentation, CI and alternative build
+systems are omitted. LIE's CMake wrapper lives outside the upstream directory.
+
+The original [LICENSE](libuv/LICENSE), [additional notices](libuv/LICENSE-extra)
+and [AUTHORS](libuv/AUTHORS) are retained. LIE's first-party MIT license does not
+replace those terms. The wrapper preserves upstream compiler settings while
+inheriting LIE's requested sanitizer instrumentation.
+
+## Complete MTP state binding — 2026-10-03
+
+The MTP branch extends `adapters/gufo-state/kvc-edits.json` with eager completed
+predictor pooling in scalar/batch paths and a narrow `Model` friend declaration.
+`LieStateAccess` borrows the actual model-owned target/predictor readers for
+identity pinning, binds predictor components to HIP storage, and translates the
+adaptive controller to/from LIE's C codec. Source variants are independently
+materialized from the same official pin; old qualified source/archives remain
+untouched. CMake provider helpers are the current build/verification path.
+The numerical kernel implementations are unchanged, but launch scheduling has
+changed and needs original-weight GPU qualification. No DS4 source or sibling
+workspace artifact is imported. Shared storage/cache policy stays first-party
+MIT C17; upstream types remain confined to the adapter.
+## Vision cache reader binding — 2026-10-03
+
+The current `feature/vision` KVC variant adds Model friend access plus a const
+projector-reader getter to the independently pinned official source. These
+access-only additions expose the actual retained target/projector descriptors
+inside the transitional adapter; no numerical kernels or encoder arithmetic are
+changed by them. The complete-history pooling edits remain separately visible
+in `adapters/gufo-state/kvc-edits.json`. Existing provider trees are preserved.
+New source materialization and archive hashes are recorded by the CMake helper
+in `build/provider-vision-cache-r1/BUILD-RECEIPT.json` and the
+[validation receipt](../docs/development/validation/vision-cache-2026-10-03.json).
+No sibling DS4/CachyOS source or artifacts were imported.
+
+Semantic hashing and image preprocessing still use the official pinned Gufo
+vision implementation. LIE owns the generic scoped cache/SSD lifecycle and the
+C17 DS4 tensor/auxiliary framing. This is a transitional binding and host build,
+not an autonomous encoder or numerical/performance qualification.
+
+## Joint MTP/vision provider — 2026-10-03
+
+The integration independently fetches official Gufo at the same recorded pin and
+materializes the union of complete predictor-history and projector-reader edits.
+`ModelReaders` exposes the actual target, predictor and projector only inside the
+adapter. No source/artifact from DS4 or another workspace is imported; numerical
+kernels remain upstream. Launch scheduling changes still require original-weight
+qualification. The new private provider receipt and archive/source hashes are
+bound by the [integration receipt](../docs/development/validation/mtp-vision-integration-2026-10-03.json).
+
+## C17 vision weight decoding — 2026-10-03
+
+`src/weight_decode.c` and its public header are first-party MIT buffer code.
+The format contract is GGML Q8_0 (32 signed bytes with a little-endian F16
+scale) and F16; the implementation is checked against independently fetched
+official Gufo `f783fedb` quantization and vision rounding code. No DS4 project
+source or artifacts are imported. Existing upstream licenses/notices apply to
+the pinned C++/HIP encoder and its unchanged GPU kernels.
+
+`adapters/gufo-state/vision-weight-edits.json` describes exact upload/admission
+edits in a fresh source variant. Provider receipts bind this manifest, owned
+decoder files, build selection and archives. The pristine source remains intact;
+models are external and read-only. BF16 expansion occurs in memory on explicit
+vision admission and does not recreate unquantized model values.

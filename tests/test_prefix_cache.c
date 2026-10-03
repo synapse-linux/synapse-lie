@@ -14,7 +14,7 @@ static lie_core_info wait_state(lie_core *c,lie_core_state state){
     assert(!"state deadline");return i;
 }
 static lie_core *start(uint64_t budget){
-    fake_calls_reset();lie_core_options o;lie_core_options_init(&o);
+    fake_calls_reset();lie_core_options o;lie_core_options_init(&o);o.cache_policy.enabled=false;
     assert(o.prefix_cache_bytes==LIE_PREFIX_CACHE_DEFAULT_BYTES);
     o.model_path=":fixture:";o.context=128;o.chunk=4;o.max_active=2;o.prefix_cache_bytes=budget;
     lie_core *c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);return c;
@@ -75,6 +75,21 @@ int main(void){
     assert(ci.cache.skipped==2&&!ci.cache.entries&&!fake_calls_snapshot().capture);stop(c);
     c=start(one);run(c,a,4);run(c,b,4);run(c,a,4);lie_core_snapshot(c,&ci);
     assert(ci.cache.evictions==2&&ci.cache.entries==1&&ci.cache.peak_retained_bytes==one);stop(c);
+
+    /* A repeatedly reused prefix survives a newer one-use prefix under utility
+     * pressure; compiling the feature out restores the ordinary LRU choice. */
+    c=start(one*2);run(c,a,4);
+    for(unsigned k=0;k<8;++k)assert(run(c,a,4).cached_tokens==4);
+    run(c,b,4);int32_t third[]={0,30,30,30};run(c,third,4);
+    i=run(c,a,4);assert(i.cached_tokens==(LIE_CACHE_UTILITY?4u:0u));stop(c);
+
+    /* Exercise real capture/expansion/provider writes, not only codec helpers. */
+    c=start(16u*1024u*1024u);fake_state_padding(2u*1024u*1024u);
+    run(c,a,4);lie_core_snapshot(c,&ci);
+    assert(ci.cache.compressed_captures==(LIE_CHECKPOINT_COMPRESSION?1u:0u));
+    assert((ci.cache.expanded_bytes>ci.cache.retained_bytes)==(LIE_CHECKPOINT_COMPRESSION!=0));
+    assert(run(c,a,4).cached_tokens==4);assert(run(c,a,9).cached_tokens==4);
+    stop(c);fake_state_padding(0);
 
     /* Cancellation while a completed transfer is pinned must retire only its
      * own sequence. A peer uses the checkpoint and fresh generation state. */

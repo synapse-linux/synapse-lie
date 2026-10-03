@@ -17,8 +17,12 @@ def main():
     parser.add_argument('source',type=Path)
     parser.add_argument('build',type=Path)
     parser.add_argument('--state-access',action='store_true')
+    parser.add_argument('--ds4-state',action='store_true')
     parser.add_argument('--hip-arch',choices=('gfx1150','gfx1151'),default='gfx1151')
     args=parser.parse_args()
+    if args.ds4_state and not args.state_access:
+        parser.error('--ds4-state requires --state-access')
+    kvc=args.ds4_state
     state_access=args.state_access
     source,build=args.source.resolve(),args.build.resolve()
     if not source.is_relative_to(root/'.deps') or not build.is_relative_to(root/'build'):
@@ -34,9 +38,11 @@ def main():
     files=manifest['files']
     if state_access:
         from gufo_state_source import expected as state_files
-        files,_=state_files(root)
-        if receipt.get('source_variant')!='lie-state-access-v1' or receipt.get('state_access_edits_sha256')!=sha(root/'adapters/gufo-state/access-edits.json') or receipt.get('variant_files')!=files:
+        files,_=state_files(root,kvc)
+        variant='lie-ds4-state-v1' if kvc else 'lie-state-access-v1'
+        if receipt.get('source_variant')!=variant or receipt.get('state_access_edits_sha256')!=sha(root/'adapters/gufo-state/access-edits.json') or receipt.get('variant_files')!=files:
             raise ValueError('state access variant mismatch')
+        if kvc and receipt.get('kvc_edits_sha256')!=sha(root/'adapters/gufo-state/kvc-edits.json'):raise ValueError('KVC state variant mismatch')
     elif receipt.get('source_variant'):
         raise ValueError('modified provider requires explicit state access selection')
     for name,expected in files.items():

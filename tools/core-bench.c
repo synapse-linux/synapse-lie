@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: MIT */
 /* Direct client of the production C core. Reports client and executor scopes. */
 #include "lie/core.h"
+#include "lie/events.h"
+#include "bench_native.h"
 #include "lie/text.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -76,17 +78,16 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         if(interrupted||!now()||now()>=deadline){snprintf(error,256,"interrupted or core deadline exceeded");goto done;}
         struct pollfd fds[LIE_CORE_JOBS];nfds_t count=0;
         for(unsigned i=0;i<users;++i)if(!rows[i].terminal){
-            lie_flow *flow=lie_job_flow(rows[i].job);
-            if(lie_flow_drain(flow,LIE_FLOW_OUTPUT_READY)!=LIE_FLOW_OK)goto done;
-            for(;;){lie_flow_event e;lie_flow_status rc=lie_flow_next(flow,&e);
+            if(lie_job_event_drain(rows[i].job)!=LIE_FLOW_OK)goto done;
+            for(;;){lie_event e;lie_flow_status rc=lie_job_event_next(rows[i].job,&e);
                 if(rc==LIE_FLOW_WOULD_BLOCK)break;
                 if(rc!=LIE_FLOW_OK){snprintf(error,256,"core output contract failure");goto done;}
                 uint64_t seen=now();
                 if(!seen||seen<rows[i].start){
-                    if(e.end==LIE_FLOW_ACTIVE)(void)lie_flow_release(flow,e.ticket);
+                    if(e.kind!=LIE_EVENT_TURN_END)(void)lie_job_event_release(rows[i].job,e.ticket);
                     snprintf(error,256,"clock failure");goto done;
                 }
-                if(e.end!=LIE_FLOW_ACTIVE){
+                if(e.kind==LIE_EVENT_TURN_END){
                     rows[i].terminal=true;rows[i].end=seen;last=seen;++finished;
                     if(e.end!=LIE_FLOW_COMPLETE){lie_job_info info;lie_job_snapshot(rows[i].job,&info);
                         snprintf(error,256,"core job failed: %.220s",info.error);goto done;}
@@ -95,10 +96,10 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
                 if(!rows[i].first && e.tokens)rows[i].first=seen;
                 bool ordered=e.token_offset==rows[i].tokens;
                 rows[i].tokens+=e.tokens;rows[i].bytes+=e.bytes;
-                if(lie_flow_release(flow,e.ticket)!=LIE_FLOW_OK||!ordered){snprintf(error,256,"core token order failure");goto done;}
-                (void)lie_flow_request(flow,e.tokens);
+                if(lie_job_event_release(rows[i].job,e.ticket)!=LIE_FLOW_OK||!ordered){snprintf(error,256,"core token order failure");goto done;}
+                if(e.tokens)(void)lie_job_event_request(rows[i].job,e.tokens);
             }
-            if(!rows[i].terminal)fds[count++]=(struct pollfd){lie_flow_fd(flow,LIE_FLOW_OUTPUT_READY),POLLIN,0};
+            if(!rows[i].terminal)fds[count++]=(struct pollfd){lie_job_event_fd(rows[i].job),POLLIN,0};
         }
         if(count && poll(fds,count,100)<0 && errno!=EINTR){snprintf(error,256,"core event wait failed");goto done;}
     }
@@ -130,6 +131,8 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         number(job,"prefill_tokens",info.prefill_tokens);number(job,"prefill_ns",info.prefill_ns);number(job,"decode_ns",info.decode_ns);
         number(job,"cached_tokens",info.cached_tokens);number(job,"cache_capture_ns",info.cache_capture_ns);number(job,"cache_restore_ns",info.cache_restore_ns);
         number(job,"ssd_cached_tokens",info.ssd_cached_tokens);number(job,"ssd_read_ns",info.ssd_read_ns);
+        number(job,"max_decode_output_tokens",info.max_decode_output_tokens);
+        number(job,"mtp_drafted_tokens",info.mtp_drafted);number(job,"mtp_accepted_tokens",info.mtp_accepted);
         number(job,"prefill_calls",info.prefill_calls);number(job,"decode_calls",info.decode_calls);
         number(job,"total_ns",rows[i].end-rows[i].start);
         json_object_object_add(job,"first_token_ns",rows[i].first?json_object_new_uint64(rows[i].first-rows[i].start):NULL);
@@ -145,9 +148,14 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     number(point,"decode_single_calls",after.decode_single_calls-before.decode_single_calls);
     number(point,"cache_hits",after.cache.hits-before.cache.hits);number(point,"cache_misses",after.cache.misses-before.cache.misses);
     number(point,"cache_captures",after.cache.captures-before.cache.captures);number(point,"cache_evictions",after.cache.evictions-before.cache.evictions);
+    number(point,"cache_skipped",after.cache.skipped-before.cache.skipped);
     number(point,"cache_retained_bytes",after.cache.retained_bytes);number(point,"cache_budget_bytes",after.cache.budget_bytes);
+    number(point,"cache_expanded_bytes",after.cache.expanded_bytes);
+    number(point,"cache_compressed_captures",after.cache.compressed_captures-before.cache.compressed_captures);
     number(point,"ssd_hits",after.ssd.hits-before.ssd.hits);number(point,"ssd_misses",after.ssd.misses-before.ssd.misses);
     number(point,"ssd_writes",after.ssd.writes-before.ssd.writes);number(point,"ssd_read_ns",after.ssd.read_ns-before.ssd.read_ns);
+    number(point,"ssd_evictions",after.ssd.evictions-before.ssd.evictions);number(point,"ssd_skipped",after.ssd.skipped-before.ssd.skipped);
+    number(point,"ssd_errors",after.ssd.errors-before.ssd.errors);
     number(point,"ssd_write_ns",after.ssd.write_ns-before.ssd.write_ns);number(point,"ssd_disk_bytes",after.ssd.disk_bytes);
     ok=emit(f,point);
 done:
@@ -155,18 +163,24 @@ done:
     return ok;
 }
 int lie_core_bench_main(int argc,char **argv) {
+    const char *mtp=NULL;unsigned mtp_drafts=0;
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
-    lie_store_options ssd={0};
+    const char *encoder=NULL,*image_path=NULL;
+    lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--prefix-cache-mib 4096]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero MiB disables); SSD prefix persistence is opt-in; no MTP/vision.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
-        const char *key=argv[i],*value=argv[++i];unsigned bit=0;
+        const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
         if(!strcmp(key,"--suite")){bit=1u;if(strcmp(value,"core"))goto usage;}
+        else if(!strcmp(key,"--model-mtp")){bit=131072u;mtp=value;}
+        else if(!strcmp(key,"--mtp-draft-tokens")){bit=262144u;if(!integer(value,0,LIE_MTP_MAX_DRAFT,&mtp_drafts))goto usage;}
         else if(!strcmp(key,"--model")){bit=2u;model=value;}
+        else if(!strcmp(key,"--model-vision")){bit=524288u;encoder=value;}
+        else if(!strcmp(key,"--image-file")){bit=1048576u;image_path=value;}
         else if(!strcmp(key,"--output")){bit=4u;output=value;}
         else if(!strcmp(key,"--prompt-file")){bit=8u;prompt_path=value;}
         else if(!strcmp(key,"--tokens-file")){bit=16u;tokens_path=value;}
@@ -178,22 +192,36 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--warmups")){bit=1024u;if(!integer(value,0,10,&warmups))goto usage;}
         else if(!strcmp(key,"--timeout-ms")){bit=2048u;if(!integer(value,1,3600000,&timeout))goto usage;}
         else if(!strcmp(key,"--graphs")){bit=4096u;graphs=value;}
-        else if(!strcmp(key,"--prefix-cache-mib")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
-        else if(!strcmp(key,"--prefix-ssd-dir")){bit=16384u;ssd.directory=value;}
-        else if(!strcmp(key,"--prefix-ssd-quota-mib")){unsigned mib;bit=32768u;if(!integer(value,1,1048576,&mib))goto usage;ssd.quota_bytes=(uint64_t)mib*1024u*1024u;}
-        else if(!strcmp(key,"--prefix-ssd-staging-mib")){unsigned mib;bit=65536u;if(!integer(value,1,1048576,&mib))goto usage;ssd.staging_bytes=(uint64_t)mib*1024u*1024u;}
-        else goto usage;
+        else if(!strcmp(key,"--kv-cache-ram-mb")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
+        else if(!strcmp(key,"--kv-disk-dir")){bit=16384u;ssd.directory=value;}
+        else if(!strcmp(key,"--kv-disk-space-mb")){unsigned mib;bit=32768u;if(!integer(value,1,1048576,&mib))goto usage;ssd.quota_bytes=(uint64_t)mib*1024u*1024u;}
+        else if(!strcmp(key,"--kv-disk-staging-mb")){unsigned mib;bit=65536u;if(!integer(value,1,1048576,&mib))goto usage;ssd.staging_bytes=(uint64_t)mib*1024u*1024u;}
+        else if(lie_cache_policy_option(&policy,key,value)!=1)goto usage;
         if(seen&bit)goto usage;
         seen|=bit;
     }
+    if(mtp_drafts&&!mtp)goto usage;
+    if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
+    if((encoder||image_path)&&(!LIE_VISION||!encoder||!*encoder||!image_path||!*image_path||!prompt_path))goto usage;
     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");
-    text(identity,"execution","shared-reactive-core");text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
+    text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?(encoder?"mtp+vision":"mtp"):(encoder?"vision":"ar"));text(identity,"vision_model",encoder?encoder:"");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
+    text(identity,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
     text(identity,"cache_policy",ssd.directory?(cache_mib?"ram+ssd":"ssd"):(cache_mib?"ram":"off"));number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);
+    text(identity,"cache_retention_policy",LIE_CACHE_UTILITY?"ds4-time-token-byte-utility-v1":"lru");
+    json_object_object_add(identity,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
+    text(identity,"checkpoint_codec",lie_state_compression_codec());
+    text(identity,"state_format",lie_backend_state_format());
+    text(identity,"checkpoint_policy",policy.enabled?"ds4":"legacy");
+    number(identity,"cache_min_tokens",policy.min_tokens);number(identity,"cache_cold_max_tokens",policy.cold_max_tokens);
+    number(identity,"cache_continued_tokens",policy.continued_interval_tokens);number(identity,"cache_trim_tokens",policy.boundary_trim_tokens);
+    number(identity,"cache_align_tokens",policy.boundary_align_tokens);
+    json_object_object_add(identity,"cache_text_prefix",json_object_new_boolean(policy.text_prefix));
+    json_object_object_add(identity,"cache_capture_finish",json_object_new_boolean(policy.capture_finish));
     number(identity,"ssd_quota_bytes",ssd.quota_bytes);number(identity,"ssd_staging_bytes",ssd.staging_bytes);
     number(identity,"context_capacity",context);number(identity,"prefill_chunk",chunk);number(identity,"users",users);
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);
@@ -217,15 +245,30 @@ int lie_core_bench_main(int argc,char **argv) {
         if(!valid){free(ids);free(data);json_object_put(identity);goto usage;}
         request.kind=LIE_INPUT_TOKENS;request.tokens=ids;request.token_count=n;
     }
-    text(identity,"input_kind",prompt_path?"raw-text":"physical-tokens");
+    text(identity,"input_kind",image_path?"messages-with-image":prompt_path?"raw-text":"physical-tokens");
     struct sigaction sa={0};sa.sa_handler=stop_signal;sigemptyset(&sa.sa_mask);
     if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL)){free(ids);free(data);json_object_put(identity);return 1;}
     int fd=open(output,O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0600);
     if(fd<0){perror("exclusive core benchmark output");free(ids);free(data);json_object_put(identity);return 1;}
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
     int code=1;lie_core *core=NULL;char error[256]="core benchmark failed";witness w={0};
+    char *encoded=NULL;lie_image_input image={0};lie_chat_message message={0};
+    if(image_path){
+        size_t image_bytes=0;encoded=read_input(image_path,&image_bytes);
+        image=(lie_image_input){.data=(const unsigned char *)encoded,.bytes=image_bytes,.format=LIE_IMAGE_PNG};
+        lie_image_dimensions dimensions;
+        if(lie_image_inspect(&image,&dimensions,NULL)!=LIE_OK){image.format=LIE_IMAGE_JPEG;
+            if(lie_image_inspect(&image,&dimensions,NULL)!=LIE_OK){snprintf(error,256,"invalid PNG/JPEG image header or budget");emit(f,identity);goto done;}}
+        char image_hash[65];if(!nb_hash(encoded,image_bytes,image_hash)){emit(f,identity);goto done;}
+        text(identity,"image_sha256",image_hash);number(identity,"image_bytes",image_bytes);
+        message=(lie_chat_message){LIE_CHAT_USER,data,bytes};image.text_offset=bytes;
+        request.kind=LIE_INPUT_MESSAGES;request.text=NULL;request.text_bytes=0;
+        request.chat.messages=&message;request.chat.count=1;request.images=&image;request.image_count=1;
+    }
     if(!emit(f,identity))goto done;
-    uint64_t started=now();lie_core_options options={model,context,chunk,users,(uint64_t)cache_mib*1024u*1024u,ssd};core=lie_core_create(&options);
+    uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;options.vision_model_path=encoder;options.mtp_model_path=mtp;options.mtp_draft_tokens=mtp_drafts;
+    options.chunk=chunk;options.max_active=users;options.prefix_cache_bytes=(uint64_t)cache_mib*1024u*1024u;options.ssd=ssd;options.cache_policy=policy;
+    core=lie_core_create(&options);
     if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){
         snprintf(error,256,"core readiness failed");
         if(core){lie_core_info info;lie_core_snapshot(core,&info);
@@ -239,12 +282,14 @@ done:
     if(core){lie_core_stop(core);if(!wait_core(core,LIE_STOPPED,0))code=1;else {
         if(ssd.directory){lie_core_info info;lie_core_snapshot(core,&info);json_object *store=event("ssd_drained");
             number(store,"writes",info.ssd.writes);number(store,"errors",info.ssd.errors);number(store,"disk_bytes",info.ssd.disk_bytes);
+            number(store,"evictions",info.ssd.evictions);number(store,"skipped",info.ssd.skipped);
+            number(store,"allocated_bytes",info.ssd.allocated_bytes);number(store,"entries",info.ssd.entries);
             number(store,"write_ns",info.ssd.write_ns);number(store,"pending",info.ssd.pending);if(!emit(f,store))code=1;}
         lie_core_destroy(core);
     }}
     json_object *end=event(code?"failed":"complete");number(end,"exit_code",code);if(code)text(end,"error",error);
     bool written=emit(f,end);if(fclose(f)||!written)code=1;
-    free(w.prompt);free(ids);free(data);
+    free(encoded);free(w.prompt);free(ids);free(data);
     if(!code&&graphs)code=lie_bench_graphs(output,graphs,NULL);
     return code;
 usage:

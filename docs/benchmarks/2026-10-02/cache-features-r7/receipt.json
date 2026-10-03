@@ -1,0 +1,135 @@
+{
+  "schema": "synapse-lie.cache-campaign.v1",
+  "revision": "r7",
+  "source_variants": {
+    "off": {
+      "commit": "71a4599b41644813f2d23eef0eb8d7a1a9690e33",
+      "build_id": "cache-benefit-off-linked-r1",
+      "features": {
+        "LIE_CACHE_UTILITY": false,
+        "LIE_CHECKPOINT_COMPRESSION": false
+      },
+      "codec": "none",
+      "minimum_retained_saving": 0.5,
+      "probe_bytes_max": 49152
+    },
+    "on": {
+      "commit": "71a4599b41644813f2d23eef0eb8d7a1a9690e33",
+      "build_id": "cache-benefit-on-linked-r1",
+      "features": {
+        "LIE_CACHE_UTILITY": true,
+        "LIE_CHECKPOINT_COMPRESSION": true
+      },
+      "codec": "byte-plane4-zstd1-v1",
+      "minimum_retained_saving": 0.5,
+      "probe_bytes_max": 49152
+    }
+  },
+  "raw_files_verified": 50,
+  "closure": {
+    "at": "2026-10-02T12:37:26.556477+00:00",
+    "owned_processes": [
+      {
+        "pid": 2513310,
+        "expected_start_ticks": 150966570,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2513353,
+        "expected_start_ticks": 150966726,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2513624,
+        "expected_start_ticks": 150971454,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2513633,
+        "expected_start_ticks": 150971594,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2513907,
+        "expected_start_ticks": 150976340,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2513916,
+        "expected_start_ticks": 150976473,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2514602,
+        "expected_start_ticks": 150990220,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2514611,
+        "expected_start_ticks": 150990354,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  },
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T12:37:42.541409+00:00",
+    "ssh_exit_code": 0,
+    "samples": 373,
+    "power_failure_proven": false
+  },
+  "artifacts": {
+    "summary.json": "733c3b650c3f62b9eb3ebd73b94ceb8e622e9c0760689e83bf12cb5faabcba7f",
+    "summary.csv": "6b50e0d71e2cadf0988d3437b697ec4f823b9d84ebed6ce55d7760321b3b45d3",
+    "cache-features.svg": "8e7bd70cc0eb2290d04011ee5f4bd551e52587b0ffa2fccc40abc32474a63051",
+    "cache-features.png": "0d34465b0698c81dca976a8d07241eeb54533cbc837d07ca828b2d622aa89c52",
+    "thermal-summary.json": "1d9465e9c2f1bd6c81d0b042ddde4ac16fdb8f8495b5c8d505b76ed3c66d3817",
+    "thermal.svg": "5b65175b4b4e1ea7476caa310087decfa624a8d60f8b823fe3a5bbc28a7ffa74",
+    "thermal.png": "d5eec45225e1da5dbb4c63e9751060dc783011b458040475dcd8b8ac92c9621c",
+    "analyze.py": "b2adb388a1efb67908c340d026698d1e12011d2706aa39201f19278c01baff41",
+    "analyze-thermal.py": "d0da5171c7dca5691bc0c3e0e53a131751faab556e742b2ef4dcc90af79861d7",
+    "bench-report.py": "3df98c398a99901463883ec657505bdf0e6836d3fe624242ba855a67ca3e08d7",
+    "bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "evidence.tar.gz": "0606f4f86c77374cc99790026c708f251eb5c1c310a609bcf4b020115499e97c",
+    "README.md": "9b9261e557c7189ef5260bf6cd206667b02263b181de3c7cf9c8046dbde18ca2"
+  }
+}

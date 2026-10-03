@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Simplified Gufo-style workloads over completed GPU executor calls. */
 #include "lie/executor.h"
+#include "native/bench_native.h"
 #include "lie/inference.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -46,24 +47,10 @@ static bool list(const char *s,unsigned maximum,unsigned *values,unsigned *count
     free(copy);return ok&&*count>0;
 }
 struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
-int lie_bench_graphs(const char *output,const char *directory,const char *compare) {
-    char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
-    if(n<0)return 3;
-    script[n]=0;char *slash=strrchr(script,'/');if(!slash)return 3;
-    size_t prefix=(size_t)(slash-script)+1;
-    if(prefix+strlen("synapse-lie-bench-report.py")>=sizeof(script))return 3;
-    strcpy(script+prefix,"synapse-lie-bench-report.py");
-    char *args[]={"python3",script,(char *)output,"--output",(char *)directory,"--compare",(char *)compare,NULL};
-    if(!compare)args[5]=NULL;
-    extern char **environ;pid_t pid;int status;
-    if(posix_spawnp(&pid,"python3",NULL,NULL,args,environ))return 3;
-    while(waitpid(pid,&status,0)<0)if(errno!=EINTR)return 3;
-    if(!WIFEXITED(status)||WEXITSTATUS(status)){fputs("Graph export failed; benchmark JSONL is preserved\n",stderr);return 3;}
-    return 0;
-}
 static json_object *identity(const struct config *c) {
     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
+    str(j,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
@@ -217,20 +204,6 @@ done:
     for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
     free(output);free(logits);return ok;
 }
-/* HTTP is an explicitly separate Python client harness, like the plot exporter.
- * It opens no model/device and never starts or reconfigures a server. */
-static int http_harness(int argc,char **argv,int suite_index) {
-    char script[PATH_MAX];ssize_t n=readlink("/proc/self/exe",script,sizeof(script)-1);
-    if(n<0)return 3;
-    script[n]=0;char *slash=strrchr(script,'/');if(!slash)return 3;
-    size_t prefix=(size_t)(slash-script)+1;
-    if(prefix+strlen("synapse-lie-bench-http.py")>=sizeof(script))return 3;
-    strcpy(script+prefix,"synapse-lie-bench-http.py");
-    char **args=calloc((size_t)argc+2,sizeof(*args));if(!args)return 3;
-    unsigned at=0;args[at++]="python3";args[at++]=script;
-    for(int i=1;i<argc;++i)if(i!=suite_index&&i!=suite_index+1)args[at++]=argv[i];
-    execvp(args[0],args);perror("HTTP benchmark harness");free(args);return 3;
-}
 int main(int argc,char **argv) {
 #ifndef LIE_BENCH_REFERENCE
     extern int lie_core_bench_main(int,char **);
@@ -238,11 +211,15 @@ int main(int argc,char **argv) {
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"core"))return lie_core_bench_main(argc,argv);
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"state"))return lie_state_bench_main(argc,argv);
 #endif
-    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")&&!strcmp(argv[i+1],"http"))return http_harness(argc,argv,i);
+    for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")){
+        if(!strcmp(argv[i+1],"http"))return nb_http_main(argc,argv);
+        if(!strcmp(argv[i+1],"http-ssd")||!strcmp(argv[i+1],"http-kv-disk"))return nb_ssd_main(argc,argv);
+        if(!strcmp(argv[i+1],"report"))return nb_report_main(argc,argv);
+    }
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
     struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nCore: --suite core --help (shared C engine, no HTTP).\nHTTP: --suite http --help (separate Python client harness, requires a running authorized server).\nGraphs use the adjacent Python report helper and matplotlib; no package installation.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nCore: --suite core --help (shared C engine, no HTTP).\nHTTP: --suite http --help (native C client, requires a running authorized server).\nKV disk HTTP: --suite http-kv-disk --help (restart, cache accounting and concurrent consumers).\nReports: --suite report --help. Native C CSV/JSON/SVG/PNG export; no Python.");return 0;}
         if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];

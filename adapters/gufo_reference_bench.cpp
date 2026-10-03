@@ -36,6 +36,7 @@ template<class F> lie_status protect(lie_error *e,F f) {
 extern "C" const char *lie_backend_name(void) {return reference_width==1?"gufo-direct-c1-reference":"gufo-direct-c2-batch-reference";}
 extern "C" const char *lie_backend_source_pin(void) {return "f783fedb9bea2ec7de941f6da4e02f4a4596b29e";}
 extern "C" const char *lie_backend_ownership(void) {return "delegated";}
+extern "C" const char *lie_backend_dense_sampling(void) {return "gufo";}
 extern "C" int lie_backend_is_synthetic(void) {return 0;}
 extern "C" lie_status lie_backend_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     const auto status = lie_gufo_device_validate(e);

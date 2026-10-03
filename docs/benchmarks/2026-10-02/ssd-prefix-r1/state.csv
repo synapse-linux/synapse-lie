@@ -1,0 +1,3 @@
+arm,mode,prompt_tokens,checkpoint_tokens,model_load_ms,identity_hash_ms,retained_bytes,peak_staging_bytes,capture_ms,write_ms,read_ms,pairs,fresh_prefill_median_ms,restore_median_ms,tail_prefill_median_ms
+state-p512-k512-write,write,512,512,20558.985633,60058.549552,134778968,134778968,7.97681,1852.212254,0.0,0,,,
+state-p512-k512-read,read,512,512,25244.686843,52769.649634,134778968,4294967296,0.0,0.0,61.51724,3,627.891816,4.38819,0.00015

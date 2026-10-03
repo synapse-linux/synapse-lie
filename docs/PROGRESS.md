@@ -1,4 +1,867 @@
-# Isolated OpenAI reactive API increment
+<!-- SPDX-License-Identifier: MIT -->
+# Development progress
+
+## Strix Point core integration checkpoint — 2026-10-03
+
+`feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
+vision contracts while retaining explicit `gfx1150` build receipts and HIP
+device admission. The provider build now selects and records one HIP target;
+the server verifies the receipt, cache and target-policy hash before link.
+The local full C/HTTP build passes. Headless CTest passes 25/25 and focused
+ASan/UBSan tests pass 26/26. The legacy HTTP suite passes 69/71 on its first
+unrestricted run; its two stale expectations rejected supported OpenAI options.
+After updating those expectations, both focused tests pass. The initial
+sandboxed 21 HTTP failures were loopback-denied fixtures, not serving results.
+The first long-context ROCm 10 `.161` baseline remains a separately pinned
+pre-integration binary; new runtime/device qualification is pending.
+
+## Original-weight vision, MTP and reactive continuation — 2026-10-03
+
+Frozen checkpoint `bec0955` passes all seven declared functional arms on `.157`:
+combined HTTP, combined RAM state, MTP SSD write/read, combined SSD write/read
+and direct-core backpressure/cancellation. HTTP passes **20 assertions**, including
+red/blue semantics, image-scope isolation, same-image reuse and controlled AR
+fallback. The five state arms compare **228 paired dispatches** with full logits,
+confirmed tokens and counters; **120 greedy frontiers** also match a fresh forced
+target-AR control from the same provider. Sampled text includes three rejected
+drafts. SSD reads run in new processes with freshly admitted model identities.
+
+The direct-core arm completes a peer while another row is stalled at eight
+confirmed tokens, preserves its borrowed output through cancellation, and
+observes in-flight prefill/decode cancellation without late output. It has one
+device owner, no HTTP layer and no additional inference worker. This is
+functional evidence, not a speedup measurement or independent quality oracle.
+
+Three first attempts fail in private verification code: an omitted optional
+zero-cache usage field, missing required DS4 prompt-text metadata, and demand
+renewal after producer closure. Corrected consumers also retain cancellation
+offsets after a borrowed block. An untraced ASan/UBSan/LeakSanitizer fixture
+qualifies the consumer correction; the frozen runtime/numerical source is
+unchanged. Failed commands, exits and original artifacts remain preserved.
+
+The window closes at **20:44:19.723712 UTC**: 50 collected files hash-verify,
+20 owned PID/start identities retire, KFD is empty, the four original leases
+are unchanged and released, and six model file identities and all capsules
+remain unchanged. Sampled peaks are CPU80.625/GPU82/NVMe66.85 C; no thermal stop
+occurs. The [GPU receipt](development/validation/vision-mtp-gpu-2026-10-03.json)
+binds source, commands, exact comparisons and release. Independent quality,
+image cancellation/fault handling, allocation-exact fit and matched MTP/vision
+performance remain open.
+
+## Vision projector storage admission — 2026-10-03
+
+`feature/vision-q8` starts from `develop` and advances to checkpoint `b72f4e8`
+in a persistent worktree. The initial original-weight combined arm refuses the
+available Q8 projector before READY: pinned vision requires BF16 dense tensors.
+Metadata-only inspection finds 83 Q8_0, 27 F16 and 224 F32 tensors; the F16
+feed-forward down-projections have a 4304-wide input, not a Q8 block multiple.
+No original model values were converted or changed during this inspection.
+
+The shared C17 decoder now handles both storage types during the first GPU
+upload, one bounded staging tensor at a time. It synchronizes each borrowed
+buffer before retirement; GPU kernels, reactive device ownership and the DS4
+state format remain unchanged. `LIE_VISION_WEIGHT_DECODE` defaults ON with an
+explicit BF16-only OFF control. New provider receipts bind the exact edits,
+owned source, selected option, recipe and archives.
+
+ASan/UBSan/LeakSanitizer native tests pass **44/44**. An independently fetched
+official Gufo control matches all **63,488** finite F16 values and **16,252,928**
+Q8 values at the BF16 rounding boundary. Providers ON/OFF and HIP clients build;
+these are **NOT-INFERENCE** checks. The first failed admission remains preserved
+in `gpu-functional-f0-r4/combined-http` on the sampling worktree. Original-weight
+vision/state/cache/SSD/resource qualification remains open, while the separate
+sampling performance campaign continues on `.157` from its frozen checkpoint.
+The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
+binds source, providers, command exits and CPU thermal observations.
+
+## Original-weight GPU continuation — 2026-10-03
+
+After the Q2 thread's verified release at 17:37:05 UTC, root takes the `.157`
+window under fresh four-lease admission for each arm. Checkpoint `f0f58b3`
+passes **32 AR HTTP assertions** with the original UD weights: new sampling
+controls, strict schemas/functions, correlated tools, retained Chat/Responses,
+stream/replay/cursors, cancellation, truncation and RAM reuse. Child/helper
+exit 0. Sampled peaks are CPU74.375/GPU76 C. This is same-provider functional
+evidence, not an independent numerical or performance qualification.
+
+The first two attempts preserve verifier failures: nullable logprobs when a
+stop hides every token, and the deliberately rejected over-context request
+incrementing `failed`. Their servers retire cleanly; no runtime change masks
+these outcomes. The successful AR arm is `gpu-functional-f0-r3/ar-http`.
+
+The following MTP arm confirms completed TG128, 95 proposed/accepted tokens
+and controlled target-AR fallback, then fails on long-prefix capture. The UD
+metadata declares **48 trunk blocks and no nextn field**, while a separate Q8
+predictor is actually admitted. The adapter inferred zero predictor layers
+from trunk metadata. Its state geometry now binds the admitted predictor;
+the C17 codec, cache policy and DS4 payload framing remain unchanged. The
+original failed request/exit remain in `gpu-functional-f0-r3/mtp-http`.
+
+GPU requalification of the correction, combined vision, exact state/SSD
+continuation and matched performance remain in progress. The
+[declared protocol](development/protocols/C17-GPU-PROTOCOL.md) and private
+persistent evidence distinguish pending gates from passes. No source in `/tmp`,
+DS4 modification, model conversion, remote build, installation or tuning occurs.
+
+## C17 dense sampling extraction — 2026-10-03
+
+`feature/c17-sampling` starts from `develop` in a persistent worktree and
+incorporates checkpoint `8992c0b`. The shared C17 library now owns dense greedy
+selection, penalties/bias, top-k/top-p/min-p, normalization and random draws.
+The verified provider enables it by default; `LIE_C17_SAMPLING=OFF` retains the
+C++ control. HTTP and direct clients use the same core. Reactive demand,
+cancellation, batching, MTP and the one device-owner worker are preserved.
+Sampler ABI is **1**; existing executor/request/generation/state ABIs are unchanged.
+History, grammar compilation, compact speculative distributions and model
+forward remain delegated; this is the first slice of the autonomous C executor.
+See [ownership and build instructions](development/C17-SAMPLING.md).
+
+Final ASan/UBSan/LeakSanitizer suites pass **43/43** native tests, **18/18**
+headless MTP/vision-OFF tests and **14/14** host reference tests. Complete
+distribution/draw/RNG witnesses agree for **1200** configurations against the
+independently fetched official Gufo pin and the legacy control, another **1200**
+biased configurations against the prior C++ bias variant, and **12** complete
+248320-logit synthetic rows. The pinned HIP provider and server/bench compile
+and link. A symbol/metadata audit confirms the direct Gufo reference excludes
+the C selector while server and LIE bench include it. These checks are
+**NOT-INFERENCE**; no original weights or GPU execution were used.
+
+Read-only admission found `.157` reserved by an enclosing Q2 campaign, so this
+turn took the owner's development fallback without a lease or GPU/model access.
+The [source-bound receipt](development/validation/c17-sampling-2026-10-03.json)
+preserves final identities, actual failures/exits and thermal evidence. Two
+owned build children were stopped by a **95 C software guard**; no hardware
+shutdown or deterioration was observed. Later serialized provider builds used
+the owner's 98 C CPU allowance and stayed below it; there was no fan/clock/power
+tuning. Original-weight continuation/cache correctness and matched performance
+qualification on `.157` remain open. No speedup is claimed.
+
+## OpenAI generation and retained responses — 2026-10-03
+
+`feature/openai-completion` starts from `develop` and incorporates semantic core
+checkpoint `a399052` in a persistent worktree. The C17 core now owns stop matching,
+probability normalization, structured-output validation, multiple-choice job
+admission, bounded response records/history, oldest-turn context truncation and
+an immutable semantic journal. Chat and Responses add token bias/logprobs,
+JSON/schema output, strict functions, stored CRUD/pagination, conversation
+continuation, background cancellation and Responses stream replay from a cursor.
+[Usage](guides/USAGE.md#generation-controls-and-stored-responses) gives HTTP
+commands on port 8000; [API coverage](reference/OPENAI-REACTIVE.md) records limits.
+Request ABI is **5**, generation ABI **2**, executor ABI remains **2**.
+
+The native ASan/UBSan/LeakSanitizer suite passes **42/42**. Final focused HTTP,
+semantic and native-bench checks pass **3/3** after preserving ordinary wire fast
+paths; a final headless quota/ownership check also passes. The protocol-independent
+MTP/vision-OFF configuration passes **17/17**, then passes the final changed
+headless test. The headless build discovers/links no HTTP libraries; the default
+HTTP and core builds require no Python. Native fixtures cover split-token stops, suppressed stop logprobs, bias, nested function
+schemas, strict canonical calls, multiple choices and aggregate SSE usage,
+retention quotas/TTL, metadata filters, stored history, automatic truncation,
+live/replayed/resumed response streams and idempotent cancellation. The OpenAI
+HTTP campaign runs both AR and a synthetic MTP13 provider; background streams
+continue after the creating client disconnects, including credit handover when
+a write finishes after that disconnect.
+
+The official Gufo pin was fetched independently and rebuilt with the exact
+`sampling-edits.json` state variant. HIP server and bench compile/link; host-only
+sampler/grammar and template checks pass **2/2**. Constraint compilation/masking
+remain delegated C++ through neutral C controls; this is not an autonomous C
+model executor. No inference thread was added. Explicit stop/bias/logprob requests
+use target AR steps; ordinary requests preserve MTP and bias-free sampler/wire
+fast paths. No measured performance gain or parity is claimed.
+
+The [source-bound receipt](development/validation/openai-completion-2026-10-03.json)
+preserves command exits, failures, source/provider identities and local thermal
+telemetry. The observed CPU peak is **93.375 C** under a 95 C owned-child guard;
+there was no shutdown, deterioration or fan/clock/power tuning. No original-weight
+model load/hash/conversion, GPU execution, remote build or performance campaign
+occurred. Original-weight controls, strict-output/MTP numerical behavior and
+resource/performance qualification on `.157` remain pending under coordination.
+Audio/video/embedding executors, hosted tools, named Conversations and compaction
+are outside the implemented serving surface; unknown fields fail explicitly.
+
+## Shared core semantic events — 2026-10-03
+
+`feature/core-semantic-events` imports MTP/vision checkpoint `01ff720` into a
+persistent Git Flow worktree from `develop`. Text, confirmed-token progress,
+validated complete tool calls and typed turn completion now use the shared
+C17 [event contract](reference/EVENTS.md). HTTP, Responses and the direct core
+benchmark consume it; model-output grammar and UTF-8 decoding belong to the
+core. Request ABI 4 owns parallel-tool policy. No inference thread was added.
+
+Native ASan/UBSan/LeakSanitizer tests pass **39/39**, including AR/two MTP
+geometries, byte-split UTF-8, complete/invalid/truncated tool turns, forbidden
+parallel calls, credit starvation with peer progress, retained loans, cancellation
+before pending calls and terminal retirement during prefill. Native Chat and
+Responses JSON/SSE fixtures verify calls, failure terminals and full-size burst
+pieces. The protocol-independent build with MTP/vision OFF passes **16/16**;
+it discovers/links no libuv, llhttp or json-c. Existing raw clients remain usable
+but a job refuses mixed raw/semantic consumption.
+
+The official pinned Gufo provider was fetched and rebuilt independently in this
+worktree. HIP server and benchmark compile/link, and metadata-only `--build-info`
+passes with GPU visibility masked. These are **NOT-INFERENCE** checks. The
+[source-bound receipt](development/validation/core-events-2026-10-03.json)
+preserves actual failures/exits and thermal evidence. No shutdown/deterioration,
+model load/hash/conversion, GPU run, remote build or performance campaign occurred.
+
+Semantic parsing runs in the core consumer API. Confirmed-token demand and device
+owner scheduling are preserved; this change makes no measured speedup claim.
+Original-weight tool behavior and GPU qualification remain open, as do incremental
+argument events, constrained generation, scoring/logits and chat/eval clients.
+
+## MTP and vision integration — 2026-10-03
+
+`feature/mtp-vision-integration` combines the complete MTP checkpoint `7d85b2f`
+and semantic vision checkpoint `806a790` in a persistent worktree created from
+`develop`. The shared C17 core admits target, predictor and projector together;
+HTTP and the direct benchmark use that same lifecycle and reactive dispatcher.
+A joint checkpoint includes the unchanged DS4 tensor payload, MTP controller,
+residual/hidden rows and the prepared vision scope. Prepared positions, scope and
+controller are checked before numerical restore; the destination sampler is fresh.
+RAM remains default-on and SSD opt-in. No new inference worker was added.
+
+Native ASan/UBSan/LeakSanitizer tests pass **36/36**. Coverage includes combined
+burst demand/cancellation, two fixture geometries, equal-token/different-image
+isolation, RAM reuse, SSD process restart and Chat/Responses JSON/SSE cache reuse.
+The option combinations MTP-OFF, vision-OFF and both-OFF pass **30/30**,
+**29/29** and **26/26** tests. Five focused changed identity/cache tests also pass.
+The combined synthetic core client exports native JSON/CSV/SVG/PNG.
+The official pinned provider was fetched and rebuilt independently with the
+combined source manifest; HIP server and benchmark compile and link. These are
+host/fixture checks, **not original-weight inference or performance evidence**.
+See [configuration](guides/USAGE.md#mtp-with-images) and the
+[source-bound receipt](development/validation/mtp-vision-integration-2026-10-03.json).
+
+Original-weight image/text MTP, numerical cache parity, sampled target behavior,
+rejection/rollback, resource fit and GPU measurements remain open. No GPU run,
+model hash/conversion/load, remote build, deployment or publication occurred.
+
+## Earlier feature checkpoints
+
+The entries below describe their dated branches before integration.
+
+## Complete MTP RAM/SSD binding — 2026-10-03
+
+The C17 codec and shared cache now connect to live predictor transfers, residual
+and kept hidden rows, and the adaptive controller. Missing hidden catch-up rows
+refuse in both the C codec and device admission. The independently rebuilt Gufo
+variant materializes completed MTP pooled keys in scalar/batch paths. SSD identity
+pins the actual admitted target/predictor readers and includes the draft policy;
+RAM-only startup performs no weight hash. Default RAM retention is preserved.
+Unsupported models refuse readiness unless caches are explicitly disabled.
+
+CPU ASan/UBSan/LeakSanitizer checks pass **29/29**, including two synthetic model
+families, prompt/verified-frontier clones, budgets, cancellation, SSD process
+restart, predictor/draft identity changes and Chat/Responses JSON/SSE cache reuse.
+The MTP-OFF lifecycle/cache checks pass **3/3**. HIP libraries and server/bench
+compile/link; the synthetic core client also checks default RAM hits and native
+CSV/SVG/PNG export. These are **NOT-INFERENCE** results. The source/evidence-bound
+[cache receipt](development/validation/mtp-cache-2026-10-03.json) preserves the
+initial stale HTTP assertion and every thermal interruption/refusal.
+
+No original-weight model load, GPU execution, heavy model hash, conversion or
+`.157` performance run occurred. The CPU build peak was 94.625 C under a 95 C
+child-only guard; GPU functional preparation retains its separate 85 C guard.
+Original-weight MTP/cache continuation and sampled correctness remain required.
+Vision semantic cache identity and device binding are the next separate branch
+integration task; the current vision checkpoint remains `3434504`.
+
+## Shared auxiliary KV state and MTP codec — 2026-10-03
+
+The C17 RAM/SSD store now retains typed auxiliary state with complete budget
+accounting and SHA-256 admission, preserving original DS4 payload offsets and
+version-1 AR files. Two unrelated fixture schemas exercise the same storage path.
+The Qwen codec adds predictor K/V, index/pooled keys, residual/kept hidden
+rows and adaptive-controller state. Device binding, complete predictor pooling
+and stable predictor identity remain pending; live MTP KV reuse stays refused.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **28/28**; HIP provider linking
+also passes. No model load, GPU run or performance campaign is claimed. Current
+functional-GPU authorization and metadata-only USB findings are recorded in
+[coordination](COORDINATION.md). Raw failures and actual exits remain under local
+`evidence/`; see the [source-bound state receipt](development/validation/mtp-state-2026-10-03.json).
+
+
+## MTP model-neutral development slice — 2026-10-03
+
+Verified output bursts, per-row credits, explicit predictor admission and draft/acceptance metrics now run through the shared C17 core, HTTP and core benchmark client. The Qwen limit stays inside its provider; fixtures admit both 8- and 13-token bursts.
+
+Native CPU ASan/UBSan/LeakSanitizer checks pass **27/27**, including both APIs,
+JSON/SSE, exact output budgets and early EOS. Final focused feature/dispatcher
+checks and the feature-OFF headless lifecycle also pass. The HIP adapter and
+clients compile/link against the independently verified Gufo pin. No model
+was loaded; .157 and GPU performance campaigns were not used. Direct synthetic
+core-client runs also produce JSON/CSV/SVG/PNG successfully. These are
+NOT-INFERENCE checks, not performance results.
+
+The feature is compiled ON by default but requires explicit model admission.
+Its complete extra state is not yet serializable: the development configuration
+requires both KV caches explicitly off, with unsupported state advertised as
+such. AR's RAM default is unchanged. Original-weight correctness, extended
+state/identity and combined MTP+vision integration remain open. Benchmarks are
+postponed while these separate feature branches advance. See
+[usage and remaining gates](development/MTP.md) and the
+[validation receipt](development/validation/mtp-2026-10-03.json).
+
+
+## Vision semantic RAM/SSD cache binding — 2026-10-03
+
+The shared C17 cache now keys images separately from tokens. RAM lookup,
+deduplication, retention/protection and SSD filenames/index/restart use a typed
+semantic scope; equal tokens with different images produce a pre-upload miss.
+The Qwen binding validates prepared MRoPE positions and the actual loaded
+model/projector files. DS4 tensor payload and old AR framing remain unchanged.
+RAM keeps its normal default; SSD is opt-in. Clients resupply images after
+restart; full-prompt scope conservatively limits earlier-prefix reuse.
+
+Native ASan/UBSan/LeakSanitizer passes **30/30**. Tests cover two fixtures,
+KVC/aligned process restart and both HTTP APIs in JSON/SSE. The independently
+materialized provider and HIP server/bench compile/link. No model load, GPU
+run, weight hash or performance result is claimed. Earlier compiler errors and
+fixture assertions remain in local evidence with their actual exits. See
+[usage and limits](development/VISION.md) and the
+[source-bound receipt](development/validation/vision-cache-2026-10-03.json).
+
+
+## Shared auxiliary KV state and vision positions — 2026-10-03
+
+The C17 RAM/SSD store now retains typed auxiliary state with complete budget
+accounting and SHA-256 admission, preserving original DS4 payload offsets and
+version-1 AR files. Two unrelated fixture schemas exercise the same storage path.
+The Qwen codec adds MRoPE delta/physical rows and compares them against prepared
+input positions. Live vision KV reuse stays refused until image identity also
+covers lookup, deduplication, device layout and restart ownership.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **28/28**; HIP provider linking
+also passes. No model load, GPU run or performance campaign is claimed. Current
+functional-GPU authorization and metadata-only USB findings are recorded in
+[coordination](COORDINATION.md). Raw failures and actual exits remain under local
+`evidence/`; see the [source-bound state receipt](development/validation/vision-state-2026-10-03.json).
+
+
+## Vision model-neutral development slice — 2026-10-03
+
+Owned PNG/JPEG inputs, model-specific physical token expansion and encoder admission now run through the shared C17 core, Chat/Responses and core benchmark client. Fixtures use distinct image limits and expansion geometry; no Qwen positions or tensor types enter the public C contract.
+
+Native CPU ASan/UBSan/LeakSanitizer checks pass **27/27**, including both APIs,
+JSON/SSE, exact output budgets and early EOS. Final focused feature/dispatcher
+checks and the feature-OFF headless lifecycle also pass. The HIP adapter and
+clients compile/link against the independently verified Gufo pin. No model
+was loaded; .157 and GPU performance campaigns were not used. Direct synthetic
+core-client runs also produce JSON/CSV/SVG/PNG successfully. These are
+NOT-INFERENCE checks, not performance results.
+
+The feature is compiled ON by default but requires explicit model admission.
+Its complete extra state is not yet serializable: the development configuration
+requires both KV caches explicitly off, with unsupported state advertised as
+such. AR's RAM default is unchanged. Original-weight correctness, extended
+state/identity and combined MTP+vision integration remain open. Benchmarks are
+postponed while these separate feature branches advance. See
+[usage and remaining gates](development/VISION.md) and the
+[validation receipt](development/validation/vision-2026-10-03.json).
+
+
+## Native build, benchmark clients and reports — 2026-10-03
+
+Python is no longer required for the normal build, provider verification,
+benchmark clients, graph exports or default tests. CMake fetches and verifies
+the independently pinned provider and builds its existing state variant.
+The HTTP and KV disk benchmark clients, JSON/CSV reports and SVG/PNG renderer
+now run in C17; libpng is a documented full-build dependency. Historical Python
+oracles remain optional through `LIE_LEGACY_PYTHON_TESTS=ON` (default OFF).
+
+The native tests cover KVC bytes and state mapping, malformed evidence,
+request replay, Chat/Responses JSON/SSE, disk restart, C2 consumers and owned
+I/O-barrier cancellation/peer witnesses. Report comparisons align physical
+workloads even when reference files reorder them. Separate zero-based axes
+preserve prefill/generation scale; absent metrics are not plotted as zero.
+
+Local ASan/UBSan/LeakSanitizer checks pass **25/25** with Python discovery
+disabled and **44/44** with historical oracles enabled; the final graph fix
+passes **3/3** focused checks. Official source fetch, complete provider build
+and final HIP link also pass without Python helpers. All are CPU checks or
+compilation: no model execution, GPU performance claim or change to inference
+scheduling. Initial HTTP failure-marker and relative KVC fixture-path failures
+are retained with their exit codes and corrected. [Validation receipt](development/validation/native-tools-2026-10-03.json).
+
+## KV option names and future weight storage — 2026-10-03
+
+Server and shared-core/state benchmark CLIs now use `--kv-*` for inference
+checkpoints: `--kv-cache-ram-mb`, `--kv-disk-dir`, `--kv-disk-space-mb` and
+`--kv-disk-staging-mb`. Disk and boundary names follow the official DS4 server
+CLI. Old names remain aliases in a shared C normalizer, preserving existing
+qualified recipes. The HTTP benchmark uses `--server-kv-cache` for its remote
+configuration declaration, distinct from `--kv-cache-policy ds4|legacy`.
+Future weight persistence/streaming belongs to `--model-*`; it is not implemented
+by these cache controls. RAM remains enabled and disk persistence opt-in.
+
+Local CPU ASan/UBSan/LeakSanitizer checks pass **5/5**, including RAM reuse,
+KV disk restart across new/old spellings, core/state clients and HTTP benchmark
+declarations. Build exit 0, tests exit 0; observed peaks 76.625 C and 72.875 C.
+The initial sandboxed test attempt exited 8 because private sockets and
+LeakSanitizer were restricted; the failure is retained. Receipts are under
+`evidence/kv-cli-names-{build,test,test-unsandboxed}-20261003/`. No GPU run or
+performance claim. The separate Python dependency removal remains in progress.
+
+## Complete prompt retention — 2026-10-02
+
+The owner authorizes publication to `https://github.com/synapse-linux/synapse-lie`.
+Configured `origin` and pushed only `feature/openai-reactive-api` at `89b1620`;
+no other branch, merge, release or deployment was published.
+
+The shared C17 core now captures the complete prompt before generation. Under
+RAM/SSD pressure, generated captures preserve the longest prefix reusable by
+that input; sufficient budgets still retain conversation continuations. The
+guard follows original visibility-key flags separately from generated metadata,
+and is local to a capture, not a permanent pin. SSD refusal precedes eviction
+and counts as a skip. Numerical kernels, KVC representation, thread count and
+reactive credit/cancellation remain unchanged. [Contract and GPU protocol](development/CACHE-PROMPT-RETENTION.md).
+
+Full ASan/UBSan/LeakSanitizer suite **39/39**; headless utility/compression/
+interchange-OFF suite **10/10**. Tiny native/KVC fixtures qualify one-record
+pressure, unaligned complete prompts, oversized fallback, continuation, key
+isolation, independent SSD process restart and RAM promotion. Existing held-I/O
+peer/cancellation tests pass. Local receipts retain four failed focused attempts:
+fixture chunk misuse and stale BPE expectations, fixture EOS count, the original
+visibility-key guard omission, and an SSD quota below the retained-state staging
+admission. Corrections pass without disabling sanitizers. No new original-weight
+performance claim is made until the separately coordinated GPU comparison.
+
+## DS4 runtime GPU qualification and cost — 2026-10-02
+
+Frozen `a4008b9` completes 15/15 original-weight GPU arms on .157, all child/helper
+exits 0. There are 24 exact full-logit/token replay/restore pairs and 12 exact pairs
+across the legacy/KVC provider variants, including generated frontiers and SSD
+restart at 131072 tokens with context 139264→262144. Core C1/C4 outputs and cache
+accounting match. [Full report, values and plots](archive/KVC-GPU-RESULT.md).
+
+At 128K, retained state grows 3.205→3.957 GiB (+23.46%); median RAM-hit TTFT grows
+224.815→267.929 ms (+19.18%) and restore 42.195→52.149 ms (+23.59%). Those exceed
+the predeclared 5% latency gate. PP/TG and complete-window throughput remain
+approximately unchanged in these samples. The requested DS4 format stays ON by
+default and its compile-time OFF control remains available. No overall performance
+promotion, high-ratio codec or improvement attributable to reactive scheduling is
+claimed. The existing default capture-policy retention regression is separate.
+
+Fresh closure 19:18:19.131870 UTC verifies 30 owned identities, controller and
+observer absent, KFD empty and four original leases free; 152 artifacts SHA-verify.
+Q2 and Point received explicit release. Independent 1747-sample thermal evidence
+records CPU 98.25 C / GPU 100 C peaks and their durations, without crash or disconnect.
+No model/DS4 mutation, remote build, tuning, deployment or publication. Foreign
+DS4-produced import/export and other real model families still need their own
+bindings and independent qualification.
+
+## DS4 runtime payload replacement — 2026-10-02
+
+Default-ON `LIE_DS4_RUNTIME_CACHE` now selects exact DS4 Qwen AR payloads in RAM
+and optional SSD, through state ABI 2 and the shared C17 core. The model binding
+captures directly into wire offsets; the generic store writes KVC `.kv` files
+with an opaque trailing LIE stable-identity/integrity extension. Foreign files
+without an authenticated binding remain offline. Qwen geometry stays in its
+model codec; an additional synthetic family exercises the generic lifecycle.
+
+The independently materialized Gufo variant keeps complete raw index history
+and pools completed keys before sparse selection, with full device allocation
+included in session admission. Existing kernels are reused; changed scheduling
+and memory cost require GPU qualification. Legacy runtime remains compile-time
+selectable. SSD remains default-off; KVC bypasses additional Zstandard packing.
+Reactive ownership stays one device worker and one optional bounded I/O worker.
+
+ASan/UBSan/LeakSanitizer: full **37/37**, headless interchange/compression OFF
+**8/8**, final report/supervisor contract **1/1**. Independent tiny wire fixtures
+cover 1/3/4/2048/2049/131072 tokens, exact payload, restart, client trailers,
+identity/integrity refusal and budget/cancellation boundaries. These are
+NOT-INFERENCE. Both DS4 and legacy HIP compositions compile and link locally.
+Retained failures: store-name compiler warning (exit2), old report ABI/event
+expectations (35/36, exit8), and invoking the Release all-target build on assert-
+based test fixtures (exit2); corrected focused builds/tests pass. Peak local
+CPU was95.125 C during provider compilation and93.375 C during the full suite.
+Source/binary-bound [CPU receipt](benchmarks/2026-10-02/kvc-runtime/cpu-receipt.json).
+
+Next is the [paired GPU campaign](development/protocols/KVC-GPU-PROTOCOL.md) on .157 after Q2's verified
+release. No GPU numerical/performance result is yet claimed for this variant.
+DS4-produced import/export, cross-quantization reuse and other real model families
+remain separate gates. [Runtime format and precise boundaries](reference/KVC.md).
+
+## Multi-model cache requirement — 2026-10-02
+
+The owner confirms that KV/prefix caching must also serve other model families.
+Recorded an explicit [multi-model contract](reference/STATE.md#multi-model-requirement):
+shared C17 RAM/SSD policy, resource and reactive lifecycle; model-specific
+component geometry, complete frontier capture and exact KVC payload codecs.
+The loaded-model binding must select and authenticate a codec before restore;
+Qwen-specific history must not enter generic cache/storage policy. Second-family
+RAM/SSD lifecycle and numerical qualification are acceptance gates, not existing
+support. Different models do not share otherwise incompatible checkpoints.
+
+Source review confirms separate generic state/store/envelope and Qwen model
+modules. This checkpoint changes documentation only; no runtime, ABI, model or
+GPU work, and no new test execution is needed.
+
+## C17 Qwen KVC/native component mapping — 2026-10-02
+
+Added shared `lie_qwen_kvc`: allocation-free projection of validated text AR
+KVC records into native QF1 components, plus exact reverse serialization when
+the caller supplies missing index/pool history. It preserves GPU GDN orientation,
+PLE order and tensor bits, translates EOS/unset n-gram history and handles both
+sides of the index-pooling threshold. Generic layout helpers were extracted
+unchanged from device capture/restore, so this library links without a provider.
+
+Independent Python wire and native byte oracles pass thirteen complete
+wire→native→wire pairs, including 2047/2048/2049 and 131072 tokens with tiny
+synthetic geometry. These are NOT-INFERENCE checks, not full-model memory or
+performance measurements. The suite also checks cancellation, budgets, aliasing,
+malformed state and refusal of incomplete auxiliary history. Initial headless
+suite: 9/9; final full composition: 35/35; interchange-OFF: 7/7. All use ASan/UBSan
+with LeakSanitizer enabled; all nine configuration/build/test commands exit 0.
+Persistent receipts: `evidence/kvc-map-*`. Local sampled CPU peak 84.625 C
+during the OFF build; full-suite peak 78.875 C. No GPU/model work or window request.
+
+Projected layouts deliberately have domain zero and cannot be restored into a
+live model. Provider capture of discarded history, model/tokenizer identity
+binding and bilateral GPU qualification using a DS4-produced checkpoint remain
+open. Runtime RAM/SSD formats, reactive scheduling and inference work are
+unchanged. The mapper is built by default under optional `LIE_KVC_INTERCHANGE`;
+SSD remains opt-in. [Contracts, source audit and next gates](reference/KVC.md).
+
+## C17 KVC envelope and Qwen payload codecs — 2026-10-02
+
+Added default-ON, independently optional `LIE_KVC_INTERCHANGE`: a shared C17
+wire library and `synapse-lie-kvc inspect/copy`, also available without HTTP.
+Owned RAM records and file I/O retain KVC v1/ABI2 bytes, bounded text/extensions
+and interoperable text filenames. The typed Qwen codec validates and serializes
+complete payload components, including full index history, MTP rows and position
+metadata, without inventing missing data or changing numerical precision.
+
+An independent Python wire oracle checks C decode/re-encode byte equality.
+The suite covers truncation at every byte, size/geometry/token corruption,
+4,000 deterministic mutations, cancellation, short I/O/EINTR/ENOSPC, source
+mutation, budgets and exclusive output publication. Headless ON: 8/8; complete
+HTTP/core composition: 34/34; headless interchange OFF: 7/7, all ASan/UBSan with
+LeakSanitizer enabled. All build/configuration/test child exits are 0. Persistent
+receipts: `evidence/kvc-*`; local CPU peak 74.875 C. No GPU or model work.
+
+This is wire-format support, not a qualified live-state converter. Native RAM
+and `LIEPFX1` SSD serving remain unchanged; there is no new inference thread or
+prefill work. Gufo's discarded index history and differing state layout still
+require a provider bridge, an independently produced DS4 checkpoint and a
+coordinated numerical GPU test. Cross-quant reuse and frontend-specific history
+serialization remain open. High-ratio compression beyond reviewed upstream
+capability stays deferred. [API, tool, provenance and next gates](reference/KVC.md).
+
+## High-ratio compression deferred to upstream capability — 2026-10-02
+
+The owner explicitly permits skipping high-ratio compression for now when it
+is absent from antirez's implementation. The reviewed DS4 Qwen path uses F16/F32
+state without an additional high-ratio codec; developing a new one is removed
+from the active parity scope. The requirement for DS4-compatible RAM/SSD state
+and KVC files remains. KVC conversion, cross-quant reuse and frontend history
+serialization retain their separate implementation/qualification gates.
+
+Existing optional packing and the measured raw fallback remain available.
+This is a documentation/scope checkpoint; no runtime changes or new GPU tests.
+
+## DS4 policy GPU qualification and retention regression — 2026-10-02
+
+Frozen `f11ab7f` completes 15 GPU child arms across R9/R10/R11 on `.157`:
+six exact full-logit/token state pairs, five matched legacy/DS4 core comparisons,
+and automatic SSD producer/restarted-reader output equality. Capture after
+128 generated tokens and restoring a checkpoint from capacity 131072 into 262144
+pass. The later `fffaabb` cache-disabled shortcut retains its separate CPU check.
+
+At 128K/4 GiB, DS4 scheduling keeps only 28672 reusable tokens and recomputes 102400;
+warm TTFT is 79.195 s versus legacy 0.227 s. At 8 GiB it keeps 122880 tokens, with TTFT
+6.738 s versus matched legacy 0.231 s, retaining 7.524 GB. No high compression or
+reactive speedup is claimed. Default-ON features remain independently optional;
+runtime `--cache-policy legacy` is available. [Tables, graphs and limits](archive/CACHE-DS4-GPU.md).
+
+R9 retains FAILED controller status for the mistaken 122880-token expectation
+under 4 GiB pressure; all nine device children exit 0 and offline outputs match.
+R10 retains its mistaken 8231-token expectation for a legacy aligned 8192-token
+checkpoint, child exit 0. R11 runs only missing arms and completes successfully.
+R8's original adapter refusal and every actual exit remain in the archive.
+
+Final R11 closure 14:56:30.025088 UTC confirms ten owned identities absent,
+empty KFD and four unchanged/free leases. Controller is absent; observer exits 0
+at 14:56:45.219419 UTC; all 58 collected files verify. Root returns the window
+to Q2 and notifies Point, with no GPU job or waiter remaining. Whole-process
+inference observations are 36 threads for RAM and 37 with SSD, including provider
+threads. `.157` supervisor peaks CPU 98.25/GPU 100 C; no observed crash/reboot.
+Independent sampled thermal durations are preserved separately. DS4 binary KVC
+conversion, cross-quant reuse and DS4-specific frontend history serializers
+remain unimplemented; this is shared policy parity, not full format parity.
+
+## DS4 policy GPU refusal and repair — 2026-10-02
+
+R8 passes native-v3 SSD producer and context131072→262144 reader, with three
+exact full-logit/token pairs, then the 8K legacy core control. The first DS4
+core arm fails at end-of-generation capture: the adapter still rejected
+`sampling_started` sources. Its exit1 and empty surfaced job error are retained.
+The repair allows completed capture after decode while restore still requires
+an empty unstarted destination, and publishes capture failure before waking a
+flow consumer. A zero-frontier shutdown edge is also corrected. The state bench
+adds `--capture-decode` to qualify exact live generated frontiers independently.
+
+R8 closes at 14:06:00.539460 UTC with eight owned identities absent, empty KFD,
+four unchanged/free leases. Observer retires at 14:06:16.094468, exit 0; all 49 collected
+files verify. Root retains the coordinated window for a freshly admitted R9
+following local CPU qualification. The incomplete R8 is not a policy pass.
+
+## Shared DS4 cache policy — 2026-10-02
+
+Implemented persistent six-hour utility, bounded dynamic indices, startup quota
+eviction, text-prefix/suffix retokenization, owned opaque extensions and
+progressive cold/continued/retirement/shutdown captures in the shared C17 core.
+One busy SSD operation parks the affected row; peers remain schedulable.
+The server and core bench expose matching options and accounting. Request ABI
+is now 2. The adapter admits smaller saved contexts after shape validation.
+
+Complete CPU sanitizer suite: 33/33, including failed-write preservation and
+shutdown captures; optional-feature OFF checks also pass. Peak CPU in the full
+run was 75.25 C on .155, no GPU work in those tests. Retained failed attempts
+and successful receipts live in `evidence/ds4-policy-*`. GPU qualification is
+prepared after Q2 release at 13:37:03.673156 UTC, with fresh per-arm leases.
+**DS4 KVC import/export and cross-quant reuse remain pending.** Native v3 files
+persist policy metadata but are not DS4-compatible files.
+[Implementation, controls and remaining gates](reference/CACHE-DS4-POLICY.md).
+
+## DS4 format constraint for RAM and SSD — 2026-10-02
+
+The owner requires DS4's compression representation in both memory and SSD,
+with higher savings and restore latency close to raw state. The earlier idea
+of a separate lossy Q4/Q8 format is therefore not pursued as an equivalent.
+Read-only upstream tracing confirms RAM snapshots share the Qwen persistence
+serializer; the inspected path retains F16 KV/F32 recurrent tensors without an
+extra high-ratio stream. The exact alternative DS4 function/version remains
+unidentified. [Source trace and constraint](reference/STATE.md#requested-ds4-representation-parity--clarification-2026-10-02).
+No runtime code or numerical precision changes, model reads, new GPU jobs or
+DS4 mutations in this clarification. Q2 still owns its separately admitted work.
+
+
+## Compression cost measured; strict admission qualified — 2026-10-02
+
+R6 passes all six GPU arms, including restarted compressed SSD state at 128K
+with three exact full-logit/token pairs. The codec saves 15.35% at 8K and 15.71%
+at 128K, but 128K warm restore rises 42.46 to 1228.78 ms and output/wall falls 24.38
+to 19.87 tok/s. The owner rejects that tradeoff; this is retained negative evidence.
+
+R7 source `71a4599` passes 4/4 matched ON/OFF arms. Both tested Qwen states fail
+the stricter benefit gate and remain raw. At 128K, warm restore 42.41 ms and
+output/wall 24.36 tok/s match the OFF control closely; no high compression is
+claimed. One cold capture 129.15 versus 118.00 ms remains visible. All 16 jobs
+reach 128 identical tokens across matched builds. [Full tables and graphs](archive/CACHE-COMPRESSION-GPU.md).
+
+R6 CPU/GPU peaks 97.875/99 C; R7 peaks 98/100 C, with the 100 C GPU reading confined
+to one sampled point bracketed within 2.018 s. No observed crash/reboot/device
+failure. R7 closure 12:37:26.556477 UTC confirms eight owned identities absent,
+KFD empty, four unchanged/free leases; controller and observer retire, all 50
+collected files verify. Root releases the coordinated window to Q2 and informs
+Point. Sources, evidence, CSV and graph artifacts remain persistent and local.
+
+
+## Reject low-benefit checkpoint compression — 2026-10-02
+
+The owner rejects the measured 15–16% checkpoint saving as insufficient for its
+capture/restore cost. New default admission requires at least 50% saving of the
+complete retained allocation, including its descriptor. A deterministic probe
+of at most 48 KiB rejects likely low-benefit data before candidate allocation;
+the full result still has to meet the strict size gate. The probe may skip useful
+packing but never changes the state or permits lossy conversion. Existing v1/v2
+readers remain compatible. Both cache build options remain ON; SSD remains opt-in.
+
+Thirteen focused ON suites and six OFF suites pass ASan/UBSan; local Release
+variants link against the unchanged numerical engine. Tests include modest
+savings rejected and misleadingly compressible samples that fail final admission.
+[CPU source-bound receipt](benchmarks/2026-10-02/cache-benefit-cpu/receipt.json).
+The new GPU comparison is pending a fresh per-arm admission after R6 closes.
+
+The upstream Qwen payload audit corrects the earlier architectural generalization:
+DS4 supports Qwen, but its reviewed Qwen path writes live F16 KV and F32 recurrent
+state without a generic high-compression stream. LIE's independent host codec is
+not the same algorithm. High-ratio compression of real Qwen state and low-bit
+active KV are not achieved by raising the admission threshold. See the precise
+[model/policy boundary](reference/STATE.md#retention-policy-and-compression-boundary).
+
+
+## Numeric-byte codec follow-up after R5 — 2026-10-02
+
+R5 closes 9/9 original-weight arms at 11:57:08 UTC: six ON/OFF core comparisons,
+three exact 8K state pairs, and HTTP SSD producer/restarted reader with 30
+samples, three C2 cohorts, natural read cancellation and slow-client isolation.
+All states remain raw: LZ4 does not provide an admitted 12.5% payload saving.
+At 128K, capture increases 119.638 to 205.906 ms without memory savings; warm
+aggregate throughput stays near 24.04 tok/s. [Full R5 result](archive/CACHE-FEATURES-GPU.md).
+
+The follow-up groups numeric byte positions before Zstandard level-1 compression,
+using fixed static contexts inside the workspace budget. It preserves every bit,
+keeps legacy LZ4 decoding, names the selected codec in metrics/reports and remains
+behind default-ON `LIE_CHECKPOINT_COMPRESSION`. Thirteen focused ON suites, six
+OFF headless suites and the final report check pass ASan/UBSan; Release variants
+link locally. [CPU receipt](benchmarks/2026-10-02/cache-features-zstd-cpu/receipt.json).
+Original-model compression benefit is pending a distinct R6 admission. This is
+checkpoint storage, not an active KV precision/kernel change. R6 declares 8 GiB
+workspace for the 128K packing comparison and lower context capacity 133120 to
+bound active-session allocation; matched ON/OFF settings and exact SSD restart
+will be checked separately from R5's default-budget result.
+
+
+## Default-on utility and lossless checkpoint compression — 2026-10-02
+
+Implemented independent CMake switches `LIE_CACHE_UTILITY` and
+`LIE_CHECKPOINT_COMPRESSION`, both ON by default. Shared C17 RAM/SSD utility
+retention ages reuse and scores saved tokens per stored byte, distinguishes
+anchors/continuations and deterministically breaks ties. OFF selects LRU.
+The C-owned checkpoint codec preserves every byte with bounded 1 MiB LZ4/raw
+blocks, a 12.5% minimum saving, raw fallback and explicit working-memory
+admission. Tokens remain directly readable. Raw v1 persists; compressed SSD
+files use separately validated v2 framing. SSD alone remains runtime opt-in.
+
+Metrics and benchmark JSON/CSV distinguish expanded/retained memory and build
+features. An explicit `--compare-cache-build` enables matched ON/OFF reports;
+ordinary comparisons reject those differences. State qualification applies the
+same codec before full-logit/token checks. No kernel, active KV format, thread
+count or HTTP-owned engine policy was introduced. Host packing/expansion can
+add owner latency; active Qwen KV remains F16 and DS4's learned architectural
+compression is not claimed.
+
+Thirteen focused ASan/UBSan CPU suites pass with features ON; all six headless
+suites pass with both OFF and without LZ4. The first reporting attempt selected
+Python without matplotlib and failed two suites; that evidence is preserved.
+Using the already installed system interpreter fixes both. Release ON/OFF
+executables link the unchanged pinned numerical engine locally; no local GPU
+inference. The next `.157` campaign follows Point's verified 11:11:58 UTC
+handover, fresh root checks and independent four-lease admission per arm.
+GPU performance of these new defaults is not yet claimed at this checkpoint.
+
+
+## SSD HTTP consumer suite and explicit cache boundary — 2026-10-02
+
+Added `synapse-lie-bench --suite http-ssd`: producer/restarted-reader output
+comparison, Chat/Responses JSON/SSE, repeated C2 cohorts, cache-aware PP/TG,
+first-text latency and text-event gap distributions, CSV/JSON and SVG/PNG.
+Natural disk-wait cancellation and slow-client checks require observed states;
+missed windows are INCONCLUSIVE. A test-only held pread proves peer progress
+and cancellation deterministically through the real C core and HTTP stack.
+The production core/model/ABI are unchanged.
+
+The existing four-lease supervisor now owns the HTTP server and retires its
+checker, binds corpus and restarted producer/store/summary identities, and
+retains resource/thermal admission. Four focused ASan/UBSan CTest suites pass
+(including 16 core-bench, six HTTP-client and two thermal-guard checks), followed
+by a passing expanded supervisor/client fixture. R3 tests peak at CPU80.25/GPU57 C;
+R4 at CPU71.75/GPU55 C. Commands exit0. [Protocol and receipt](development/protocols/SSD-HTTP-PROTOCOL.md).
+The final R5 source repeats the four focused suites with leak detection and
+halt-on-error sanitizer settings: 4/4 pass, CPU75.625/GPU54 C, exit0.
+No original-model HTTP SSD result is claimed; `.157` is coordinated for the
+owner's direct model copy to `.161` following Q2, with no core interleaving.
+
+The owner clarified `antirez/ds4` as the cache reference. LIE's current LRU
+retention and F16 KV checkpoints do not implement DS4's disk utility priorities
+or a generic high-compression active KV codec. These are explicitly separate
+remaining core/model/provider work in [STATE.md](reference/STATE.md#retention-policy-and-compression-boundary).
+
+## Completed SSD GPU continuation and thermal timeline — 2026-10-02
+
+R4 completes 10/10 arms, closing 128K exact SSD restart and core C1 off/RAM/SSD
+at 8K/128K. All 24 core jobs (four warmups) emit 128 identical tokens across
+policies; three state pairs each match every logit frontier and 16 output tokens.
+R2's exact 8K and 4K-to-8K extension passes remain separate from its failed
+128K reader. R1/R2/R3 failures and actual exits are retained without rewriting.
+
+At 128K, median core TTFT is 98.583 s off, 0.226 s RAM, 2.186 s restarted SSD;
+fresh PP is 1332.098 tok/s and native C1 TG about 25 tok/s. Full hits execute no
+PP; startup hashing and write durability have separate measurements. The bench
+graphs/CSV expose complete samples and min/max, not just headline rates.
+
+The 1 Hz observer retains 1743 samples: CPU peak 98.125 C, GPU peak 100 C in three
+isolated samples. GPU episodes at/above 98 C are bracketed within 3.036 s, while
+95 C plateaus last longer. No crash/reboot/device error was observed. Matched
+128K fresh PP falls about 2.08% across three samples; there is no controlled
+thermal A/B to attribute that variation solely to temperature. No hardware
+settings changed. The core adds one optional I/O worker; C1 does not establish
+reactive concurrency speedup. [Full result and reproducible evidence](archive/SSD-GPU-COMPLETION.md).
+
+Closure at 09:39:08.072 UTC confirms twenty owned helper/child identities absent,
+KFD empty and four unchanged/free leases. Controller and observer retired;
+all 106 collected files SHA-verify. The window was returned to Q2 and Point was
+notified after collection. HTTP/concurrent SSD GPU tests, fault injection,
+256K checkpoint fit, 1M, MTP and vision remain separate roadmap items.
+
+## Owner requested transient-temperature observation — 2026-10-02
+
+R2 closes with five successful SSD state arms and a software thermal stop at
+GPU99 C on the 128K reader. R3 stops its first 8K core arm at GPU98 C; neither
+is a hardware crash, and its chunk512 alternative never launches. The owner
+clarified the dynamic-fan behavior and explicitly requested recording transient
+peaks and any performance deterioration/shutdown. An opt-in supervisor policy
+now observes CPU/GPU temperatures without the earlier software ceiling, retains
+reported hardware bounds and SSD guards, and leaves hardware settings untouched.
+Both focused CTest suites pass (15 core-bench and 2 thermal checks), all exits0,
+with ASan/UBSan fixture binaries. [Receipt](benchmarks/2026-10-02/ssd-qualification/thermal-observation.json).
+The resumed R4 protocol uses the original chunk2048 and a 1 Hz observer that
+persists received samples on the editing host. No R4 result is claimed yet.
+
+## Documentation navigation and benchmark scope — 2026-10-02
+
+Added a documentation index and benchmark navigation by model, platform and
+weight format. Current UD Strix Halo campaigns link their original reports and
+artifacts; other platform/format work is explicitly not integrated evidence.
+Corrected stale current-contract statements about RAM/SSD, shared-core ownership,
+actual-model tools, Crypto dependencies and local non-performance checks. Dated
+result files and hash-bound assets retain their original scope and contents.
+The Gufo-style multiuser result remains a simplified direct-executor measurement;
+it does not reproduce the published HTTP corpus and per-request-rate aggregation.
+
+## User-authorized Strix Halo temperature revision — 2026-10-02
+
+The 85 C R1 ceiling was an assistant-selected precaution. Following the user's
+98 C clarification and AMD's 100 C CPU Tjmax specification, helpers now support
+an explicit 98 C CPU/GPU ceiling on the verified 395 host. Lower hardware limits
+remain enforced, NVMe stays at 85 C or lower and defaults remain 85 C elsewhere.
+No numerical/core source or hardware policy changes. Both focused ASan/UBSan
+CTest suites pass, including 14 bench checks and two guard tests, at CPU91.875 /
+GPU65 C. The preceding sandbox attempt retains its LeakSanitizer/loopback
+restrictions and exit 8. [Thermal revision receipt](benchmarks/2026-10-02/ssd-qualification/thermal-revision.json).
+
+The remaining 14 SSD arms are prepared for a separate continuation; Q2 owns
+`.157`, so no new GPU run or heavyweight hash starts before its release.
+
+## First original-weight SSD restart — 2026-10-02
+
+`ssd-gpu-r1` records two successful arms: 512-token durable write and a separate
+restart reader with three exact fresh/restored logit/token pairs. Early EOS
+limits each pair to two decode calls and one emitted token. File read takes
+61.517 ms, median owner upload 4.388 ms; median fresh PP 627.892 ms. Startup model
+load and 52.770–60.059 s full-content hashing remain separate, not request latency.
+
+The next 8K producer stops during PP at GPU86/CPU84 C under the initial 85 C
+policy, child/supervisor exits 1/1, without forced kill. The campaign remains
+FAILED/INCOMPLETE; 13 arms never launched, so there is no long-prefix SSD or core
+performance result. All 39 collected files verify. Closure 07:39:00.622 UTC:
+six owned identities/controller retired, KFD empty, four unchanged/free leases.
+The window was returned to Q2. [Complete timings, failure and scope](archive/SSD-GPU-RESULT.md).
+
+## SSD restart qualification harness — 2026-10-02
+
+`synapse-lie-bench --suite state` now has explicit `--state-ssd-mode write|read`
+with independent directory/quota/staging options. Write requires a new empty
+store and a durable commit; a separate read process requires the exact frontier
+and compares all logits/tokens with fresh recomputation in three pairs. Missing,
+shorter and corrupted checkpoints cannot pass through a fallback. The shared
+store implementation is unchanged. Reporting separates hashing/write/read/upload.
+
+The leased benchmark supervisor binds new stores or sealed preceding producers,
+checks explicit full-content hashing and RAM/staging/disk admission, and records
+thermal telemetry with an 85 C or lower sensor ceiling. Q2's persistent release
+at 07:13:11.718 UTC was verified read-only: no KFD clients, CPU48.125/GPU46 C;
+the next GPU run still needs fresh leases. The [predeclared protocol](development/protocols/SSD-GPU-PROTOCOL.md)
+covers exact restart/extension through 128K followed by core off/RAM/SSD timings.
+
+Local [CPU receipts](benchmarks/2026-10-02/ssd-qualification/cpu-receipt.json):
+14/14 focused checks, full ASan/UBSan 30/30 (CPU77.75/GPU58 C), HIP server/bench
+compile/link exit 0 (CPU73/GPU58 C). All commands exit 0. No original-model SSD
+result is claimed by this preparation checkpoint.
 
 ## Strix Point fork — 2026-10-02
 
@@ -229,7 +1092,7 @@ asynchronous I/O worker in C17. The shared core integrates disk waits through it
 existing event loop while runnable inference peers retain their flow credits.
 RAM remains default-on; SSD is opt-in with explicit directory, quota and staging
 limits. Server and direct core bench expose the same facility and separate disk /
-owner transfer timings. See [SSD-PREFIX.md](SSD-PREFIX.md).
+owner transfer timings. See [SSD-PREFIX.md](reference/SSD-PREFIX.md).
 
 Local non-performance tests are now explicitly user-authorized. Headless R5
 passes 5/5 and full Debug R9 passes 29/29, including actual synthetic-process
@@ -276,7 +1139,7 @@ is a C model module. HTTP and `--suite core` share the same engine cache.
 No opaque Gufo serializer is used. The explicit friend-access variant changes
 three declarations in two pinned headers, rebuilt separately; active numerical
 execution remains delegated. Exact-generation resume, SSD, MTP and vision remain
-pending. [State contract](STATE.md), [ABI](ABI.md) and [provenance](../third_party/README.md)
+pending. [State contract](reference/STATE.md), [ABI](reference/ABI.md) and [provenance](../third_party/README.md)
 record this boundary.
 
 New coverage includes headless capture/restore, domain/layout rejection,
@@ -291,14 +1154,14 @@ the successful HIP link receipts; no test or model ran on the editing host.
 
 `--suite state` adds paired full-logit qualification (greedy, seeded sampling,
 independent clone) with completed capture/restore/tail timings. GPU campaign
-`state-gpu-r1` now passes **16/16 arms** under the [predeclared protocol](STATE-GPU-PROTOCOL.md).
+`state-gpu-r1` now passes **16/16 arms** under the [predeclared protocol](development/protocols/STATE-GPU-PROTOCOL.md).
 Exact logits/output pass at 512/8192/131072 tokens and 4096-to-8192 extension;
 cache-off frontiers match the pristine historical provider. Core warm-cache
 TTFT falls from 98384.31 to 224.93 ms at 128K; whole-request throughput rises
 from 1.24 to 24.08 tok/s. C8 aggregate complete-wall throughput rises from 51.14
 to 106.02 tok/s, with effectively unchanged per-job TG and no added threads.
 These are repeated identical-prefix savings, not faster fresh PP. Default-on
-HTTP passes on port 8000. [Full values, cold samples, graphs and limits](STATE-GPU-RESULT.md)
+HTTP passes on port 8000. [Full values, cold samples, graphs and limits](archive/STATE-GPU-RESULT.md)
 are retained; SSD/MTP/vision remain pending.
 
 Runtime checkpoint `4fe6231`; 153 GPU evidence files SHA-verified. Final postflight
@@ -328,7 +1191,7 @@ CPU headless/Debug/ASan checks already pass on `.157` (`reactive-cpu-r9`). All
 owned identities retired, empty KFD, four unchanged/free leases; the controller
 and port 8000 are also retired. The window was returned to the Q2 thread.
 Full tables, ranges, thread census, retained preflight failure and graphs:
-[GPU result](CORE-GPU-RESULT.md). Pi itself was not rerun; numerical ownership,
+[GPU result](archive/CORE-GPU-RESULT.md). Pi itself was not rerun; numerical ownership,
 RAM/SSD reuse, MTP/vision and 1M remain open. Earlier entries below are historical.
 
 ## First core GPU regression campaign prepared — 2026-10-02
@@ -343,7 +1206,7 @@ checks cover malformed, ambiguous, changed and symlinked input declarations.
 `.157` receipt `reactive-cpu-r8` passes headless 1/1, Debug 23/23 and ASan/UBSan
 23/23; all nine configure/build/test exits are 0. The core benchmark suite now
 has seven checks. No new engine/provider code changed after `81c2f60`.
-The predeclared [GPU protocol](CORE-GPU-PROTOCOL.md) covers HTTP lifecycle and
+The predeclared [GPU protocol](development/protocols/CORE-GPU-PROTOCOL.md) covers HTTP lifecycle and
 latency, C1/2/4/8 and fresh 8192/131072-token prefill with exact physical replay.
 GPU results are pending; source-bound CPU evidence is not GPU qualification.
 
@@ -379,7 +1242,7 @@ ASan/UBSan 23/23; all nine commands exit 0. The six core benchmark tests include
 actual graph export. Original-weight execution did not run; Pi/node were not
 available to the private CPU runner. Full logs, exact source SHA-256 inventory
 and runner remain under local `evidence/reactive-cpu-r7/`. See
-[scope, limitations and next gates](CORE-EXTRACTION.md).
+[scope, limitations and next gates](development/CORE-EXTRACTION.md).
 
 Next: bind the core input manifest in the coordinated supervisor, qualify the
 refactor with the GPU, then implement RAM prefix reuse and complete hybrid state,
@@ -451,8 +1314,8 @@ and platform support remain independent qualification axes; the parallel format
 audit does not require a simultaneous engine rewrite.
 
 Updated [backend assessment](BACKEND.md#separation-assessment--2026-10-02),
-[architecture](ARCHITECTURE.md), [planned ABI](ABI.md#planned-state-mtp-vision-and-owned-execution-contracts),
-[state design](STATE.md), metrics and README. Corrected stale one-row/no-batching
+[architecture](reference/ARCHITECTURE.md), [planned ABI](reference/ABI.md#planned-state-mtp-vision-and-owned-execution-contracts),
+[state design](reference/STATE.md), metrics and README. Corrected stale one-row/no-batching
 and pending-Pi statements against existing evidence. Validation is documentation
 consistency and Git whitespace/link checks only; no source/build/model/GPU work,
 new CPU fixture result or numerical/performance claim in this increment.
@@ -473,7 +1336,7 @@ usage case, exact corpus replay, output-room rejection and scaling mismatch.
 [CPU receipt](benchmarks/2026-10-02/long-context-cpu-receipt.json).
 These are wire/accounting fixtures, not real million-token inference.
 
-The [closure matrix](TEST-COVERAGE-LONG-CONTEXT.md) lists missing repetitions,
+The [closure matrix](development/TEST-COVERAGE-LONG-CONTEXT.md) lists missing repetitions,
 HTTP/cache protocols, MTP/quality/vision/loading/memory tests and the real 1M
 implementation gates. It also explicitly distinguishes the measured 4.11x gain
 over scalar interleaving from the unproven benefit over existing native batching.
@@ -492,7 +1355,7 @@ The latter takes 69.76/71.79s, confirming full-history re-prefill without cache.
 Three calibration requests per applicable HTTP preset stay outside averages.
 All helper/model/client exits 0; controller/children absent, KFD empty, four
 unchanged leases free. Thirty-three collected files match their hashes.
-[Full values, times, plots and limits](FULL-PREFILL-HTTP-RESULT.md).
+[Full values, times, plots and limits](archive/FULL-PREFILL-HTTP-RESULT.md).
 
 
 ## HTTP 256K and direct Pi acceptance — completed with retained harness failures
@@ -511,7 +1374,7 @@ HTTP `.157:8000` in 24.02 s, without a tunnel. Pi/Node remain absent on `.157`.
 The firewall-blocked 19879 attempt and a later SCP-marker collection race are
 retained as failed campaigns despite their separately passed capacity/Pi checks.
 Both servers retired with exit 0, empty KFD and four unchanged free leases.
-See [HTTP-256K-PI.md](HTTP-256K-PI.md) for exact evidence and limits.
+See [HTTP-256K-PI.md](archive/HTTP-256K-PI.md) for exact evidence and limits.
 
 
 ## Reactive inference GPU comparison passed and persistent checkpoint
@@ -546,7 +1409,7 @@ All five helpers and GPU children exit 0; final postflight observes unchanged/fr
 leases, absent owned processes and empty KFD. All 43 archived files and 67 bound
 source files verify. The earlier `reactive-suite-r1` refusal at 18:51:29 UTC
 (occupied pipeline lease, exit 1, no model attempt) remains preserved.
-See [REACTIVE-INFERENCE-RESULT.md](REACTIVE-INFERENCE-RESULT.md).
+See [REACTIVE-INFERENCE-RESULT.md](archive/REACTIVE-INFERENCE-RESULT.md).
 
 ## Earlier simplified 128K and concurrency comparison
 
@@ -566,8 +1429,8 @@ ran only missing arms and completed PASS (all six helper/child exits 0).
 Final owned PIDs are absent and no known lease holder is observed. These are
 simplified direct AR measurements, not HTTP
 128K/cache support, MTP or independent numerical qualification. See
-[BENCHMARK-RESULTS.md](BENCHMARK-RESULTS.md) and
-[CONTEXT-COMPARISON.md](CONTEXT-COMPARISON.md).
+[BENCHMARK-RESULTS.md](archive/BENCHMARK-RESULTS.md) and
+[CONTEXT-COMPARISON.md](archive/CONTEXT-COMPARISON.md).
 
 ## Earlier serial-runtime performance and DS4 coverage
 
@@ -584,9 +1447,9 @@ Direct PP medians are 999.65 / 1648.11 / 1608.97 token/s for physical prompt
 counts 502 / 2042 / 8191; TG medians 26.87 / 26.07 / 25.98 token/s. C2 serving
 roughly doubles request latency with similar aggregate throughput: no reactive
 inference speedup is demonstrated. Full timings, sampled resources and limitations
-are in [PERFORMANCE-RESULT.md](PERFORMANCE-RESULT.md).
+are in [PERFORMANCE-RESULT.md](archive/PERFORMANCE-RESULT.md).
 
-[DS4-COVERAGE.md](DS4-COVERAGE.md) records the read-only comparison. Coverage is
+[DS4-COVERAGE.md](development/DS4-COVERAGE.md) records the read-only comparison. Coverage is
 not equivalent: vision, MTP, native batching, prefix/snapshot state, extended
 sampling and long-context qualification remain among LIE's missing capabilities.
 Neither API completeness nor DS4 historical numerical qualification is inherited.
@@ -604,7 +1467,7 @@ User direction: general OpenAI functionality, compatible clients through their
 ordinary protocol; C reactive execution, tests on `.157` with GPU. New Responses
 normalization/wire and sequence sampling build on the typed native tool API and
 existing bounded flow. General API coverage remains incomplete; see
-[the exact capability matrix](OPENAI-REACTIVE.md).
+[the exact capability matrix](reference/OPENAI-REACTIVE.md).
 
 Remote `openai-reactive-cpu-r3`: all 16 CTest suites pass in debug and with
 ASan/UBSan. Local HIP link succeeds against the pinned LIE-owned upstream build.
@@ -614,7 +1477,7 @@ sampler history) and its actual exit code are retained under
 history. Original-weight GPU runs `openai-reactive-gpu-r2/r3` passed lifecycle, Responses
 JSON/SSE, seeded sampling and a native function round trip. Final server/helper
 exits are 0; all four unchanged leases are free and KFD empty at postflight.
-See [the precise result and limits](OPENAI-GPU.md).
+See [the precise result and limits](archive/OPENAI-GPU.md).
 These statements do not qualify independent numerics, performance or deployment.
 
 # Resumption — original-weight serving smoke and C1 baseline, numerical gate open
@@ -632,7 +1495,7 @@ making the current Unsloth-backed runtime usable from Pi. Active implementation
 was restored to **`4307486`**, removing Q2 overlays, fixtures and build helpers.
 C17 runtime/server and the original UD adapter are retained unchanged. Historical
 reports/evidence and qualified builds are preserved, not active Q2 support.
-The [replacement plan](REPLAN.md) puts Pi tool operation first and any future Q2
+The [replacement plan](archive/REPLAN.md) puts Pi tool operation first and any future Q2
 reference measurement before another port. No new GPU result is implied by rollback.
 
 Rollback is committed as **`ffca17e`**. A proportional baseline check passed 13
@@ -664,7 +1527,7 @@ uses matching server/client context 32768, without changing Pi itself.
 The actual Unsloth tool session, 32768-context memory/correctness and updated
 serving/PP/TG behavior remain untested. No model/GPU run, remote staging, permanent
 listener or new lease was started. Current coordination is required before that
-next gate. [Exact scope and setup](SERVER-TOOLS.md).
+next gate. [Exact scope and setup](archive/SERVER-TOOLS.md).
 
 The Q2 sections below are dated records of the now-withdrawn experiment.
 
@@ -689,7 +1552,7 @@ no source-SHA inventory was added. All four leases, current preflight and start/
 registration were used; child/supervisor exited 0 and model stat/artifacts stayed
 unchanged. At **10:18:10 UTC** both identities were retired, KFD empty and the four
 unchanged leases free. No pending GPU job or standing authorization remains.
-See [scope, timings and evidence](Q2-FIRST-MODEL.md). Next is matched UD/Q2
+See [scope, timings and evidence](archive/Q2-FIRST-MODEL.md). Next is matched UD/Q2
 performance and independent quality, not another synthetic-only model verdict.
 
 ## Earlier Q2 preflight change closed — local build/tests only
@@ -711,7 +1574,7 @@ At that preflight closure, Q2 model loading and PP/TG were **NOT RUN**;
 executor/model integration and necessary memory admission remained unfinished. The previous 24+64 GPU results
 belong to their recorded binaries, not this newly compiled candidate. No remote
 work, GPU run, model access, DS4 change or publication occurred in this closure.
-Details: [Q2-HIP.md](Q2-HIP.md#latest-source-closure--executor-profile-preflight).
+Details: [Q2-HIP.md](archive/Q2-HIP.md#latest-source-closure--executor-profile-preflight).
 
 ## Q2 extended operators — two fixes, 24 + 64 controls pass
 
@@ -731,7 +1594,7 @@ These are operator fixtures, not original-UD model regression or model inference
 
 A stale source-receipt SHA field in three cloned manifests is explicitly retained
 and documented, with additive verified build/source bindings; the audit is not
-an unqualified manifest-consistency PASS. See [Q2-EXTENDED.md](Q2-EXTENDED.md).
+an unqualified manifest-consistency PASS. See [Q2-EXTENDED.md](archive/Q2-EXTENDED.md).
 At 08:14:28 UTC the four GPU attempts' process identities were retired, KFD empty
 and all four unchanged leases free. No model payload, benchmark, deployment,
 remote build, tuning or DS4 change occurred. Executor integration, arbitrary
@@ -758,7 +1621,7 @@ install, tuning or DS4 changes. Full GPU output arrays were not emitted.
 small ragged output shapes and tiled width 16. Full codebook/shape qualification,
 Executor/RowScratch integration, matched UD regression, role-aware memory
 admission and independent full-model parity remain. Model upload/runtime gates
-stay closed; antirez and new-server PP/TG remain not run. See [Q2-HIP.md](Q2-HIP.md).
+stay closed; antirez and new-server PP/TG remain not run. See [Q2-HIP.md](archive/Q2-HIP.md).
 
 ## Earlier Q2 HIP implementation — compiled, before the GPU run
 
@@ -785,7 +1648,7 @@ At this implementation receipt, GPU work was still **not run**. The later
 covers Q2 affine blocks and IQ2 grid-zero sign/scale cases, not the full codebook.
 Runtime admission remains disabled pending broader format/shape checks,
 full-model memory admission/reference qualification and PP/TG. See
-[Q2-HIP.md](Q2-HIP.md). No reactive speedup or cache capability is claimed.
+[Q2-HIP.md](archive/Q2-HIP.md). No reactive speedup or cache capability is claimed.
 
 ## Q2 compatibility started — private host path passes, GPU path remains closed
 
@@ -812,7 +1675,7 @@ qualification or a benchmark.** Runtime linkage is expressly forbidden for this
 host variant and device upload has a pre-allocation Q2 refusal. The subsequent
 HIP candidate above implements the routing/padding; GPU qualification,
 role-aware memory admission and numerical/model/performance gates remain. See
-[Q2-COMPATIBILITY.md](Q2-COMPATIBILITY.md). Cache work stays behind this path.
+[Q2-COMPATIBILITY.md](archive/Q2-COMPATIBILITY.md). Cache work stays behind this path.
 
 ## Antirez prefill/decode benchmark — format admission work
 
@@ -834,7 +1697,7 @@ it occurs in both actual files. Binder restrictions (including F16 HC inject),
 padded geometry and routed PP/TG dispatch need additional implementation and
 qualification. **Antirez LIE PP/TG remains NOT RUN / blocked**, not zero and not
 inherited from a DS4 run. No GPU attempt was made against a known parser blocker.
-The [per-format benchmark gate](ANTIREZ-BENCHMARKS.md) specifies full fresh PP
+The [per-format benchmark gate](archive/ANTIREZ-BENCHMARKS.md) specifies full fresh PP
 512/2048/8192 targets and TG128, C1 direct-ABI and separate HTTP/server lanes,
 matched references, numerical/admission gates and all-sample retention.
 
@@ -868,7 +1731,7 @@ All 228 lifecycle events, raw responses and 29 telemetry samples are retained;
 offline audit exit 0. This is a scoped real-model server result, **not** kernel
 preemption, native batching, independent numerical equivalence, capacity testing
 or a fresh performance baseline. Neither RAM prefix reuse nor SSD is implemented.
-Details/identities: [T0-LIFECYCLE.md](T0-LIFECYCLE.md). No deployment or retry left.
+Details/identities: [T0-LIFECYCLE.md](archive/T0-LIFECYCLE.md). No deployment or retry left.
 
 ## Source increment — executor guards and lifecycle protocol
 
@@ -895,7 +1758,7 @@ prefill/decode dispatch, sustained TCP backpressure, matching fresh/interleaved
 peer responses and clean recovery/accounting. Missed windows are INCONCLUSIVE;
 all observations and failures are retained. Hash/settings gates precede model
 launch. CPU synthetic coverage passes; the subsequent real-model result is
-recorded separately above. Protocol and exact boundaries: [T0-LIFECYCLE.md](T0-LIFECYCLE.md).
+recorded separately above. Protocol and exact boundaries: [T0-LIFECYCLE.md](archive/T0-LIFECYCLE.md).
 
 The default-off optional SSD requirement is retained in commit `7f6a32`, with
 RAM reuse independent of persistence. Neither prefix reuse nor SSD is implemented
@@ -922,7 +1785,7 @@ nonblocking lease acquisition/admission or claiming global exclusivity.
 User direction: definitive `synapse-lie-bench` in C17; Python may serve intermediate
 development/graphs while server functionality takes priority. Pinned Gufo method
 review: `fd1710b5fd090880722e0681a868df2006595c73`, separate from the unchanged
-provider pin. [BENCHMARKING.md](BENCHMARKING.md) records exact experiment semantics
+provider pin. [BENCHMARKING.md](archive/BENCHMARKING.md) records exact experiment semantics
 and current gaps. No upstream benchmark script was run; the complete named tool
 is not implemented. Antirez Q2/Q4 discovery remains unqualified and separate;
 the previously written `tools/gguf-layout.py` is still an untested draft.
@@ -965,7 +1828,7 @@ Child/helper exit 0, original stats and artifact hashes unchanged, no foreign GP
 client observed, KFD empty after retirement. Existing governor `powersave`, EPP
 `balance_performance`, GPU DPM `auto` were retained. This is a C1 embedded-provider
 baseline, not independent numerical qualification or a reactive speedup. Exact
-scope, ranges and all conditions: [C1-BASELINE.md](C1-BASELINE.md).
+scope, ranges and all conditions: [C1-BASELINE.md](archive/C1-BASELINE.md).
 
 `t0-c1-perf-r1` had failed before model launch on an absent optional sysfs power
 attribute, not a GPU/model error. Its failure and the focused CPU RED/GREEN are
@@ -991,7 +1854,7 @@ clean retirement and server/helper exit 0. Totals: six completed requests, ten
 emitted tokens, zero failed/cancelled. No foreign GPU clients were observed;
 KFD was empty after shutdown, and binary/model identities were unchanged.
 Executed build remains `t0-linked-r4`; no C/C++ runtime source changed.
-See [T0-SMOKE.md](T0-SMOKE.md) and its exact receipts. No pristine numerical,
+See [T0-SMOKE.md](archive/T0-SMOKE.md) and its exact receipts. No pristine numerical,
 broad quality, concurrency, cancellation-in-flight or performance qualification follows.
 
 ## Previous target admissions — 2026-09-30 18:53 UTC
@@ -1004,7 +1867,7 @@ No target model/DSO smoke or inference was performed. At 18:53 a DS4 `native-per
 warm-up was using the GPU at 98%, with download/qualification/shared locks held.
 Do not enter between its benchmark phases. No background retry is scheduled.
 
-See [T0-SMOKE.md](T0-SMOKE.md) for the exact operator-window scope, predeclared
+See [T0-SMOKE.md](archive/T0-SMOKE.md) for the exact operator-window scope, predeclared
 requests, observations and preserved `t0-model-smoke-r1/r2` receipts. Staging a
 private test binary is not a service installation or a working-model result.
 
@@ -1137,7 +2000,7 @@ hardware or SSH alone is not authorization. See COORDINATION.md.
    MTP remain separate gates; CUDA follows qualified AMD work. SSD save/restore is
    a required **optional, default-off** feature with explicit enable, private
    directory and quota controls; RAM prefix reuse must work independently. The
-   clarified [state contract](STATE.md) is design only, not a working CLI flag.
+   clarified [state contract](reference/STATE.md) is design only, not a working CLI flag.
 
 Do not reintroduce the historical assistant-imposed 32 GiB reserve as a user
 requirement, call the DS4 300K stop an OOM, or import DS4's benchmarks/quality into
@@ -1168,3 +2031,54 @@ candidates, including causal block scoring and repeated host prefix scans,
 without claiming a profile or implementing speculative optimizations. The
 user-requested external comparison research is retained privately in
 `evidence/prefill-research-r1/`; public product documentation stays independent.
+
+## 2026-10-02 — Documentation, published charts and bundled libuv
+
+The README now introduces the project, dependencies, build and first request.
+Separate [build](guides/BUILD.md), [usage](guides/USAGE.md) and
+[benchmark](guides/BENCHMARKS.md) guides replace the previous scattered setup
+instructions. [CHANGELOG.md](../CHANGELOG.md) records user-visible changes.
+Contracts live under `reference/`, development protocols under `development/`,
+and historical implementation reports under `archive/`. Ten small legacy-path
+pointers preserve links from immutable dated measurement records.
+
+The [Qwen/Strix Halo page](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md)
+contains the eight-depth AR table, concurrent PP/TG and full fresh prefill through
+258,794 tokens, with embedded figures and full-precision CSV. Throughput axes
+start at zero. The LIE serial control, later reactive result and earlier Gufo
+reference are explicitly identified; 4.11× refers to LIE batching versus its
+serial control. No new GPU measurement or matched-current-Gufo claim is made.
+`tools/render-published-benchmarks.py` regenerates the page and figures from
+hash-bound retained summaries. Dated evidence files remain byte-identical.
+
+Official libuv 1.52.1 is bundled at commit
+`1cfa32ff59c076ffb6ed735bbc8c18361558661f`, with 127 unmodified files, full retained
+license notices and a SHA-256 acquisition inventory. The default static link
+removes the server's `libuv.so` dependency. `LIE_SYSTEM_LIBUV=ON` selects system
+libuv. The shared headless core still does not link libuv. No package was
+installed, no service deployed, and the Gufo provider and model files were not
+changed. Python remains a build/test/HTTP-benchmark/plot helper, with no server
+runtime dependency; `libsynapse-core` is not linked by this branch.
+
+The pending core-benchmark accounting work is complete: skipped RAM captures,
+SSD evictions/skips/errors and final drained allocation/entry counters are now
+exported. CPU fixtures reject negative admission counters and check drained
+store values. Existing graph-dependent fixtures now skip only their plot checks
+when Matplotlib is absent.
+
+Validation: 39/39 CTests pass with ASan, UBSan and LeakSanitizer against bundled
+libuv; six focused HTTP tests pass with system libuv. The release server and
+benchmark link successfully against the existing verified HIP provider, with
+GPU visibility masked for help-only checks. No model is opened. Documentation
+checks cover all local Markdown links/fragments and 19 shell examples; source
+hashes, CSV rows and graph axes were verified. Local peak CPU temperature was
+92.625 °C, below the configured 98 °C ceiling.
+
+Preserved failed attempts: the first vendor configure omitted `configure.ac`,
+which upstream CMake reads for its version; two initial CTests found accidental
+mandatory Matplotlib use; the first fixture correction missed a dependent CSV
+assertion. All were corrected and rechecked. The earlier wrong-target bench
+build failure is retained as well. The [CPU receipt](development/validation/docs-libuv-2026-10-02.json)
+records commands, actual exits and artifact hashes; raw logs remain under local
+`evidence/docs-*`. GPU prompt-retention performance qualification remains pending;
+the `.157` preparation window was released before this documentation work.

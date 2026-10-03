@@ -1,9 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Strix Point UD port — .161
 
-Status: **gfx1150 original UD short-prompt inference passes; all four copied
-shards verified, source files retained unchanged**. Long-context, independent
-numerical parity and comparative performance remain unqualified.
+Status: **gfx1150 original UD direct inference passes through near-256K physical
+prompts; all four copied shards are verified and source files retained**.
+Same-stack LIE/Gufo frontiers match in the recorded direct campaigns. Served
+HTTP performance, cross-stack numerical equivalence and the newly integrated
+MTP/vision/runtime composition remain unqualified on `.161`.
 The [full qualification report](STRIX-POINT-RESULT.md) consolidates all recorded
 samples, prefill/cache/decode timings, resource and thread graphs, validation,
 failures and remaining coverage. Its portable CSV/JSON/PNG/SVG bundle reproduces
@@ -28,10 +30,13 @@ The override is manifest-scoped and retains lower sensor max/critical limits,
 including the two NVMe composite max readings of 89.85 C. Historical 85 C
 results are not relabelled. Each new campaign obtained fresh GPU admission,
 exited 0, retired their owned processes and restored the named service.
-This branch is `feature/strix-point-ud`, based
-on shared-core checkpoint `02a9464`. It retains the C17 reactive engine, direct
-bench and HTTP composition; numerical execution remains delegated to the pinned
-Gufo adapter. No CPU model forward, re-quantization or architecture override.
+This branch is `feature/strix-point-ud`. Its initial platform baseline was
+shared-core checkpoint `02a9464`; the current merge incorporates the newer
+C17 core, MTP and vision contracts. Local CPU checks pass, while all previously
+published `.161` measurements are from the older, explicitly recorded binary.
+The C17 reactive engine, direct bench and HTTP composition remain; numerical
+execution still uses the pinned Gufo adapter. No CPU model forward,
+re-quantization or architecture override.
 
 ## Target and model identity
 

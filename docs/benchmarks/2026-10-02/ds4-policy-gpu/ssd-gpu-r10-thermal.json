@@ -1,0 +1,243 @@
+{
+  "scope": "1 Hz read-only telemetry during SSD qualification; received samples persisted on editing host. No fan RPM exposed. Clocks are reported snapshots, not an independent thermal-throttling detector.",
+  "source_sha256": "3698656927c2dde84e464484419f7c3cf2f98ffb217afe25ac124d942e71e723",
+  "samples": 47,
+  "duration_s": 46.61510132998228,
+  "boot_ids": [
+    "01a007d1-8d99-4d24-b5ea-3788970135c3"
+  ],
+  "last_campaign": {
+    "state": "FAILED",
+    "current_arm": "core-ptext-c1-legacy",
+    "error": "AssertionError((8231, [(8192, 39), (8192, 39), (8192, 39)]))"
+  },
+  "max_sample_gap_s": 1.077328383922577,
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T14:45:05.154928+00:00",
+    "ssh_exit_code": 0,
+    "samples": 47,
+    "power_failure_proven": false
+  },
+  "temperatures": {
+    "cpu_c": {
+      "max_c": 93.375,
+      "peak_first_at": "2026-10-02T14:44:47.879817+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "gpu_c": {
+      "max_c": 94.0,
+      "peak_first_at": "2026-10-02T14:44:26.723698+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "nvme_composite_c": {
+      "max_c": 58.85,
+      "peak_first_at": "2026-10-02T14:44:21.649524+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "nvme_hottest_sensor_c": {
+      "max_c": 76.85,
+      "peak_first_at": "2026-10-02T14:44:19.557925+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 4,
+          "longest_consecutive_samples": 4,
+          "longest_observed_span_s": 3.1420443020761013,
+          "bracketed_episodes": 0,
+          "total_episodes": 1,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    }
+  },
+  "jobs": [
+    {
+      "observed_elapsed_s": 14.258309232071042,
+      "arm": "core-ptext-c1-legacy",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 79.0,
+      "cpu_c_at_observation": 89.625,
+      "prefill_tps": 1540.58733359367,
+      "decode_tps": 25.92492513379866,
+      "output_tokens": 128,
+      "first_token_ms": 5544.477579
+    },
+    {
+      "observed_elapsed_s": 19.300611063139513,
+      "arm": "core-ptext-c1-legacy",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 63.0,
+      "cpu_c_at_observation": 90.375,
+      "prefill_tps": 220.81875733723402,
+      "decode_tps": 25.976699692259498,
+      "output_tokens": 128,
+      "first_token_ms": 362.229892
+    },
+    {
+      "observed_elapsed_s": 25.343974237097427,
+      "arm": "core-ptext-c1-legacy",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 78.0,
+      "cpu_c_at_observation": 91.25,
+      "prefill_tps": 120.15418850938876,
+      "decode_tps": 25.94583684896129,
+      "output_tokens": 128,
+      "first_token_ms": 512.144023
+    },
+    {
+      "observed_elapsed_s": 30.380058114184067,
+      "arm": "core-ptext-c1-legacy",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 62.0,
+      "cpu_c_at_observation": 86.125,
+      "prefill_tps": 220.58777240914273,
+      "decode_tps": 25.981822455691425,
+      "output_tokens": 128,
+      "first_token_ms": 365.032806
+    }
+  ],
+  "timing_limit": "Threshold spans are bounded by observed sample timestamps, with gaps over 2.5 s split. Completed-job rates are associated with receipt time, up to sampling/delivery delay after completion. Events at arm transitions may be missed: full benchmark files are authoritative. A connection loss alone does not prove a crash."
+}

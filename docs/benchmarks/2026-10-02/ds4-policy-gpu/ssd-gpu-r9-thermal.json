@@ -1,0 +1,579 @@
+{
+  "scope": "1 Hz read-only telemetry during SSD qualification; received samples persisted on editing host. No fan RPM exposed. Clocks are reported snapshots, not an independent thermal-throttling detector.",
+  "source_sha256": "010a67b70557646f86934e1f53f07c041908795864769c2997b2983204564873",
+  "samples": 1057,
+  "duration_s": 1081.0919094169512,
+  "boot_ids": [
+    "01a007d1-8d99-4d24-b5ea-3788970135c3"
+  ],
+  "last_campaign": {
+    "state": "FAILED",
+    "current_arm": "core-p131072-c1-ds4",
+    "error": "AssertionError((122880, [(28672, 102400), (28672, 102400), (28672, 102400)]))"
+  },
+  "max_sample_gap_s": 1.5251412249635905,
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T14:42:26.574409+00:00",
+    "ssh_exit_code": 0,
+    "samples": 1057,
+    "power_failure_proven": false
+  },
+  "temperatures": {
+    "cpu_c": {
+      "max_c": 98.125,
+      "peak_first_at": "2026-10-02T14:32:57.989856+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 326,
+          "longest_consecutive_samples": 90,
+          "longest_observed_span_s": 89.72688813600689,
+          "bracketed_episodes": 29,
+          "total_episodes": 29,
+          "longest_below_threshold_bracket_s": 91.74259444116615
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 6,
+          "longest_consecutive_samples": 3,
+          "longest_observed_span_s": 2.015826023183763,
+          "bracketed_episodes": 3,
+          "total_episodes": 3,
+          "longest_below_threshold_bracket_s": 4.032272337004542
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "gpu_c": {
+      "max_c": 100.0,
+      "peak_first_at": "2026-10-02T14:34:39.634835+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 274,
+          "longest_consecutive_samples": 55,
+          "longest_observed_span_s": 54.45148565620184,
+          "bracketed_episodes": 63,
+          "total_episodes": 63,
+          "longest_below_threshold_bracket_s": 56.46788944397122
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 47,
+          "longest_consecutive_samples": 3,
+          "longest_observed_span_s": 2.015261984895915,
+          "bracketed_episodes": 40,
+          "total_episodes": 40,
+          "longest_below_threshold_bracket_s": 4.030909508932382
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 14,
+          "longest_consecutive_samples": 1,
+          "longest_observed_span_s": 0.0,
+          "bracketed_episodes": 14,
+          "total_episodes": 14,
+          "longest_below_threshold_bracket_s": 2.0180041908752173
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 5,
+          "longest_consecutive_samples": 1,
+          "longest_observed_span_s": 0.0,
+          "bracketed_episodes": 5,
+          "total_episodes": 5,
+          "longest_below_threshold_bracket_s": 2.0180041908752173
+        }
+      ]
+    },
+    "nvme_composite_c": {
+      "max_c": 65.85,
+      "peak_first_at": "2026-10-02T14:30:55.612951+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "nvme_hottest_sensor_c": {
+      "max_c": 81.85,
+      "peak_first_at": "2026-10-02T14:30:43.085834+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 371,
+          "longest_consecutive_samples": 111,
+          "longest_observed_span_s": 115.34036792791449,
+          "bracketed_episodes": 10,
+          "total_episodes": 10,
+          "longest_below_threshold_bracket_s": 117.3565952309873
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 31,
+          "longest_consecutive_samples": 20,
+          "longest_observed_span_s": 19.91314895194955,
+          "bracketed_episodes": 5,
+          "total_episodes": 5,
+          "longest_below_threshold_bracket_s": 21.982568126171827
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    }
+  },
+  "jobs": [
+    {
+      "observed_elapsed_s": 337.64963697385974,
+      "arm": "core-p8192-c1-legacy",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 78.0,
+      "cpu_c_at_observation": 88.375,
+      "prefill_tps": 1493.1601984919896,
+      "decode_tps": 20.897633886839564,
+      "output_tokens": 128,
+      "first_token_ms": 5694.631232
+    },
+    {
+      "observed_elapsed_s": 342.7230155270081,
+      "arm": "core-p8192-c1-legacy",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 91.625,
+      "prefill_tps": null,
+      "decode_tps": 23.926802871927343,
+      "output_tokens": 128,
+      "first_token_ms": 194.17749
+    },
+    {
+      "observed_elapsed_s": 348.80826081498526,
+      "arm": "core-p8192-c1-legacy",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 79.0,
+      "cpu_c_at_observation": 90.875,
+      "prefill_tps": null,
+      "decode_tps": 23.8026046721679,
+      "output_tokens": 128,
+      "first_token_ms": 189.786372
+    },
+    {
+      "observed_elapsed_s": 353.87462084693834,
+      "arm": "core-p8192-c1-legacy",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 66.0,
+      "cpu_c_at_observation": 90.375,
+      "prefill_tps": null,
+      "decode_tps": 23.771030883100657,
+      "output_tokens": 128,
+      "first_token_ms": 198.027873
+    },
+    {
+      "observed_elapsed_s": 397.241172258975,
+      "arm": "core-p8192-c1-ds4",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 66.0,
+      "cpu_c_at_observation": 87.25,
+      "prefill_tps": 1463.0336105749225,
+      "decode_tps": 20.663157404008945,
+      "output_tokens": 128,
+      "first_token_ms": 5795.988133
+    },
+    {
+      "observed_elapsed_s": 405.40511931688525,
+      "arm": "core-p8192-c1-ds4",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 93.0,
+      "cpu_c_at_observation": 90.625,
+      "prefill_tps": 1477.771594900724,
+      "decode_tps": 21.94245639837203,
+      "output_tokens": 128,
+      "first_token_ms": 1583.496604
+    },
+    {
+      "observed_elapsed_s": 412.81218283693306,
+      "arm": "core-p8192-c1-ds4",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 93.0,
+      "cpu_c_at_observation": 91.125,
+      "prefill_tps": 1477.3017732892822,
+      "decode_tps": 21.51857669659327,
+      "output_tokens": 128,
+      "first_token_ms": 1579.327807
+    },
+    {
+      "observed_elapsed_s": 418.85835067299195,
+      "arm": "core-p8192-c1-ds4",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 64.0,
+      "cpu_c_at_observation": 90.25,
+      "prefill_tps": 1477.469001008628,
+      "decode_tps": 25.97380499639848,
+      "output_tokens": 128,
+      "first_token_ms": 1570.12231
+    },
+    {
+      "observed_elapsed_s": 460.27116782288067,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 80.0,
+      "cpu_c_at_observation": 91.75,
+      "prefill_tps": 1514.4270445821105,
+      "decode_tps": 22.60577606920159,
+      "output_tokens": 128,
+      "first_token_ms": 11400.085471
+    },
+    {
+      "observed_elapsed_s": 460.27116782288067,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 80.0,
+      "cpu_c_at_observation": 91.75,
+      "prefill_tps": 1480.7675319974176,
+      "decode_tps": 22.60577606920159,
+      "output_tokens": 128,
+      "first_token_ms": 11400.057942
+    },
+    {
+      "observed_elapsed_s": 466.31512618996203,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 92.625,
+      "prefill_tps": null,
+      "decode_tps": 22.871068740505876,
+      "output_tokens": 128,
+      "first_token_ms": 462.565139
+    },
+    {
+      "observed_elapsed_s": 466.31512618996203,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 92.625,
+      "prefill_tps": null,
+      "decode_tps": 22.871068740505876,
+      "output_tokens": 128,
+      "first_token_ms": 462.553619
+    },
+    {
+      "observed_elapsed_s": 472.36190430796705,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 82.0,
+      "cpu_c_at_observation": 91.75,
+      "prefill_tps": null,
+      "decode_tps": 22.260027532252447,
+      "output_tokens": 128,
+      "first_token_ms": 359.519419
+    },
+    {
+      "observed_elapsed_s": 472.36190430796705,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 82.0,
+      "cpu_c_at_observation": 91.75,
+      "prefill_tps": null,
+      "decode_tps": 22.260027532252447,
+      "output_tokens": 128,
+      "first_token_ms": 359.49018
+    },
+    {
+      "observed_elapsed_s": 478.407384858001,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 65.0,
+      "cpu_c_at_observation": 89.375,
+      "prefill_tps": null,
+      "decode_tps": 22.86661426185333,
+      "output_tokens": 128,
+      "first_token_ms": 386.945809
+    },
+    {
+      "observed_elapsed_s": 478.407384858001,
+      "arm": "core-p8192-c2-legacy",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 65.0,
+      "cpu_c_at_observation": 89.375,
+      "prefill_tps": null,
+      "decode_tps": 22.86661426185333,
+      "output_tokens": 128,
+      "first_token_ms": 386.917229
+    },
+    {
+      "observed_elapsed_s": 518.5849514638539,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 92.75,
+      "prefill_tps": 1512.5121474370371,
+      "decode_tps": 22.69283266289806,
+      "output_tokens": 128,
+      "first_token_ms": 11081.551236
+    },
+    {
+      "observed_elapsed_s": 518.5849514638539,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 92.75,
+      "prefill_tps": 1540.6302674981268,
+      "decode_tps": 22.69283266289806,
+      "output_tokens": 128,
+      "first_token_ms": 11081.534667
+    },
+    {
+      "observed_elapsed_s": 527.6550633199513,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 95.0,
+      "cpu_c_at_observation": 93.125,
+      "prefill_tps": 1486.9789234503774,
+      "decode_tps": 22.872500164434513,
+      "output_tokens": 128,
+      "first_token_ms": 3301.323916
+    },
+    {
+      "observed_elapsed_s": 527.6550633199513,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 95.0,
+      "cpu_c_at_observation": 93.125,
+      "prefill_tps": 1470.537414195192,
+      "decode_tps": 22.872500164434513,
+      "output_tokens": 128,
+      "first_token_ms": 3301.313527
+    },
+    {
+      "observed_elapsed_s": 536.7234561198857,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 96.0,
+      "cpu_c_at_observation": 93.875,
+      "prefill_tps": 1473.4353954836542,
+      "decode_tps": 22.25309795907793,
+      "output_tokens": 128,
+      "first_token_ms": 3274.543494
+    },
+    {
+      "observed_elapsed_s": 536.7234561198857,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 96.0,
+      "cpu_c_at_observation": 93.875,
+      "prefill_tps": 1368.213167563405,
+      "decode_tps": 22.25309795907793,
+      "output_tokens": 128,
+      "first_token_ms": 3274.515085
+    },
+    {
+      "observed_elapsed_s": 545.791506648995,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 66.0,
+      "cpu_c_at_observation": 88.25,
+      "prefill_tps": 1474.9147436623093,
+      "decode_tps": 22.86788606751084,
+      "output_tokens": 128,
+      "first_token_ms": 3189.621104
+    },
+    {
+      "observed_elapsed_s": 545.791506648995,
+      "arm": "core-p8192-c2-ds4",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 66.0,
+      "cpu_c_at_observation": 88.25,
+      "prefill_tps": 1466.2264170072258,
+      "decode_tps": 22.86788606751084,
+      "output_tokens": 128,
+      "first_token_ms": 3189.591184
+    },
+    {
+      "observed_elapsed_s": 668.6202578688972,
+      "arm": "core-p131072-c1-legacy",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 70.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": 1378.94679880029,
+      "decode_tps": 24.882813650404888,
+      "output_tokens": 128,
+      "first_token_ms": 95357.079356
+    },
+    {
+      "observed_elapsed_s": 674.6727201519534,
+      "arm": "core-p131072-c1-legacy",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 81.0,
+      "cpu_c_at_observation": 93.125,
+      "prefill_tps": null,
+      "decode_tps": 24.955299185889416,
+      "output_tokens": 128,
+      "first_token_ms": 227.60027
+    },
+    {
+      "observed_elapsed_s": 679.7085317948367,
+      "arm": "core-p131072-c1-legacy",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 81.0,
+      "cpu_c_at_observation": 93.0,
+      "prefill_tps": null,
+      "decode_tps": 24.95268463654148,
+      "output_tokens": 128,
+      "first_token_ms": 226.275166
+    },
+    {
+      "observed_elapsed_s": 684.7460276049096,
+      "arm": "core-p131072-c1-legacy",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 67.0,
+      "cpu_c_at_observation": 93.5,
+      "prefill_tps": null,
+      "decode_tps": 24.951615323686553,
+      "output_tokens": 128,
+      "first_token_ms": 227.310002
+    },
+    {
+      "observed_elapsed_s": 810.6381323598325,
+      "arm": "core-p131072-c1-ds4",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 89.0,
+      "cpu_c_at_observation": 93.75,
+      "prefill_tps": 1372.5761084995822,
+      "decode_tps": 24.61962757146937,
+      "output_tokens": 128,
+      "first_token_ms": 96919.064714
+    },
+    {
+      "observed_elapsed_s": 895.3217823989689,
+      "arm": "core-p131072-c1-ds4",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 96.0,
+      "cpu_c_at_observation": 96.125,
+      "prefill_tps": 1316.7344162674026,
+      "decode_tps": 24.647264638791093,
+      "output_tokens": 128,
+      "first_token_ms": 79106.858452
+    },
+    {
+      "observed_elapsed_s": 980.2060639599804,
+      "arm": "core-p131072-c1-ds4",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 95.0,
+      "cpu_c_at_observation": 96.5,
+      "prefill_tps": 1312.9575949019534,
+      "decode_tps": 24.851900231130884,
+      "output_tokens": 128,
+      "first_token_ms": 79301.113579
+    },
+    {
+      "observed_elapsed_s": 1063.8867383708712,
+      "arm": "core-p131072-c1-ds4",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 74.0,
+      "cpu_c_at_observation": 96.375,
+      "prefill_tps": 1314.607948709013,
+      "decode_tps": 24.868771785039225,
+      "output_tokens": 128,
+      "first_token_ms": 79195.414672
+    }
+  ],
+  "timing_limit": "Threshold spans are bounded by observed sample timestamps, with gaps over 2.5 s split. Completed-job rates are associated with receipt time, up to sampling/delivery delay after completion. Events at arm transitions may be missed: full benchmark files are authoritative. A connection loss alone does not prove a crash."
+}

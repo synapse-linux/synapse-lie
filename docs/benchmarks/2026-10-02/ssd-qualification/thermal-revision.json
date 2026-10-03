@@ -1,0 +1,79 @@
+{
+  "scope": "Strix Halo 395 explicit98C operating guard; defaults and NVMe85C preserved; no inference/core/numerical change",
+  "vendor_reference": {
+    "url": "https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-plus-395.html",
+    "cpu_tjmax_c": 100,
+    "separate_gpu_rating_claimed": false
+  },
+  "source_base": "89d5c4eff62df07bc2eceb3a07549f2fc9d00719",
+  "source_sha256": {
+    "tools/run-bench.py": "9d242350696cb6d52ecce3933db566fe1998acb5562fc8e992ee4b3f4d29391b",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tests/test_core_bench.py": "5870816d994485cbc21796a83feed7141bce8d5856bf82ddb6395fe516abc02d",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c"
+  },
+  "commands": [
+    {
+      "directory": "evidence/ssd-qualification-r3/test",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "thermal-owned-process-guard|core-bench-contract"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.625
+        },
+        "elapsed_s": 4.187803137116134
+      },
+      "sha256": {
+        "plan.json": "fec328d8f94782a85658c838f0177d7abbe7d044b4271ee81ae7a19232ef33fd",
+        "temperatures.jsonl": "8b1b787cc299bcc10ea875b2e816a79d9ceaa5cad3144eb2baafac249b4eeaa1",
+        "command.log": "abb1d5e3313f6924d3800f381e739c5e418076181f99abac6e472897fb25523e",
+        "result.json": "13e5acd6739d25e81b7288b1636da58910349280935123572993e56a79f9bd45"
+      }
+    },
+    {
+      "directory": "evidence/ssd-qualification-r4/test",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "thermal-owned-process-guard|core-bench-contract"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 91.875
+        },
+        "elapsed_s": 5.3215065989643335
+      },
+      "sha256": {
+        "plan.json": "ad48efef1776de1fc90815760b67344c71b1c4c3f0619850a4e18dd9dbb0b153",
+        "temperatures.jsonl": "31725ed8a37ea83f1fa89a771b1b2a0cc6cae53a8c9d070caaece55ed144d852",
+        "command.log": "5f1e4244f608711c953f89b75a583ac29e0bfdb34839edaa99af4001013896bc",
+        "result.json": "9e5ec96487884d7e0fe429a7dbcac0ea329eb56298fdfe7e91d91eac88591695"
+      }
+    }
+  ],
+  "unchanged_numerical_executable_sha256": "057a877e9511160ed0dcfed583cee9434418bf5ea119d903b02b9ff0755fbe76",
+  "inference_source_reference": "0e1387d784997c0cb3bb09db51c400c5b14dfdb3"
+}

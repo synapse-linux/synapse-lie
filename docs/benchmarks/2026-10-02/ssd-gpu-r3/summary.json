@@ -1,0 +1,76 @@
+{
+  "scope": "Matched same-provider SSD checkpoint qualification; OS file cache uncontrolled; state pairs are correctness, core timings include distinct policy costs",
+  "campaign_state": "FAILED",
+  "state": [],
+  "state_pairs": [],
+  "jobs": [],
+  "resources": [],
+  "failed": [
+    {
+      "arm": "core-p8192-off",
+      "error": "RuntimeError('thermal limit; retiring owned child')",
+      "exit": 1
+    }
+  ],
+  "not_run": [
+    "core-p8192-ram",
+    "core-p8192-ssd-write",
+    "core-p8192-ssd-read",
+    "state-p131072-k131072-write-c512",
+    "state-p131072-k131072-read-c512",
+    "core-p131072-off-c512",
+    "core-p131072-ram-c512",
+    "core-p131072-ssd-write-c512",
+    "core-p131072-ssd-read-c512"
+  ],
+  "identities": [],
+  "complete": false,
+  "postflight": {
+    "at": "2026-10-02T08:57:27.575719+00:00",
+    "owned_processes": [
+      {
+        "pid": 2446701,
+        "expected_start_ticks": 149678629,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2446710,
+        "expected_start_ticks": 149678749,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  }
+}

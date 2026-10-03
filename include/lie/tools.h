@@ -2,6 +2,7 @@
 #ifndef LIE_TOOLS_H
 #define LIE_TOOLS_H
 #include "lie/chat.h"
+#include "lie/events.h"
 #include <json-c/json.h>
 /* JSON/text only. No tool code or process is ever executed by the server. */
 bool lie_tool_name(const char *);
@@ -25,4 +26,6 @@ void lie_tool_policy_free(lie_tool_policy *);
 bool lie_tool_reply(const lie_tool_policy *, const char *text, size_t bytes,
                     bool completed, const char *request_id, json_object **message,
                     char error[256]);
+/* Projection of an already validated shared-core call; no output parsing. */
+json_object *lie_output_call_json(const lie_output_call *);
 #endif

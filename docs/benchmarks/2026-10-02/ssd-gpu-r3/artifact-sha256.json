@@ -1,0 +1,12 @@
+{
+  "archive.json": "a2703b7c6fc6661741ed12c370b45d56a408924ae0d2a54da15a104fc78066e7",
+  "collection-sha256.json": "684e8f835839e1d1ff3811064a0056c435b66ea8ce959d9fd8fed8989de4fd0d",
+  "evidence.tar.gz": "923b350234b08536e02351aaac1f215ba122eadfe5ead78fec39dc2cd8cf8143",
+  "failed-measurements.jsonl": "a9fb991871fea6b47a22b46390e7f7f0f643fc8d265e4c143e30f3b7de779f99",
+  "failed-result.json": "d00a03dad495e2f1089e4eda67a9b0f7a01fad135f8aaabfabc3e1b6736eb4db",
+  "failed-telemetry.jsonl": "86d477f538981fee3994261c3cf78b37237846c01c3bd3b95ae02d0be487e326",
+  "postflight.json": "155e9d922cc07c8c22b3e5f5d55cb6617338ce347bbbd502d5ab04aae0bc9b8f",
+  "state.json": "1980fb9e3587dcaa4350c7230813df233bb0a2ac0167fcf93114be315ef74632",
+  "suite-manifest.json": "b29734a1889da2c732e14900558777f40ce5d07d68d62a7a774b7a5fcbf5a4ed",
+  "summary.json": "b2d2818eb44299fcdbdf2b7290a1c6f3eedb95f6b442ce27ee6d7e3b640286c0"
+}

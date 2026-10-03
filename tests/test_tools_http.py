@@ -58,7 +58,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='lie-tools-http-') as d:
         log = Path(d) / 'server.log'
         with log.open('wb') as f:
-            p = subprocess.Popen([sys.argv[1], '--model', ':fixture:', '--port', str(a),
+            p = subprocess.Popen([sys.argv[1], '--model', ':fixture:', '--cache-policy', 'legacy', '--port', str(a),
                                   '--management-port', str(m)], stdout=f, stderr=f)
             try:
                 deadline = time.monotonic() + 5
@@ -116,7 +116,9 @@ def main():
                 # Refusals before model work and transcript identity checks.
                 invalid = []
                 q = request(); q['tools'][0]['function']['strict'] = True
-                invalid.append(json.loads(json.dumps(q))); del TOOLS[0]['function']['strict']
+                strict_request = json.loads(json.dumps(q)); del TOOLS[0]['function']['strict']
+                status, body = exchange(a, '/v1/chat/completions', strict_request)
+                assert status == 200, (status, body)
                 q = request(); q['messages'] = [{'role': 'tool', 'tool_call_id': 'orphan', 'content': 'x'}]; invalid.append(q)
                 q = request(); q['messages'] += [full['choices'][0]['message']]; invalid.append(q)
                 q = request(); q['messages'] += [full['choices'][0]['message'], {'role': 'tool', 'tool_call_id': 'wrong', 'content': 'x'}]; invalid.append(q)

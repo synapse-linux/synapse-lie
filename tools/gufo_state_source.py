@@ -9,10 +9,14 @@ def sha(path):
     with Path(path).open('rb') as f:
         return hashlib.file_digest(f,'sha256').hexdigest()
 
-def expected(root):
+def expected(root,kvc=False):
     manifest=json.loads((root/'third_party/gufo-source.json').read_text())
     path=root/'adapters/gufo-state/access-edits.json'
     edits=json.loads(path.read_text())
+    if kvc:
+        extra=json.loads((root/'adapters/gufo-state/kvc-edits.json').read_text())
+        if extra['source_pin']!=edits['source_pin']:raise ValueError('KVC source pin mismatch')
+        edits['edits']+=extra['edits']
     if edits['source_pin']!='f783fedb9bea2ec7de941f6da4e02f4a4596b29e':
         raise ValueError('state access source pin mismatch')
     changed={}
@@ -27,8 +31,8 @@ def expected(root):
     for name,data in changed.items():files[name]=hashlib.sha256(data.encode()).hexdigest()
     return files,changed
 
-def materialize(root,label):
-    files,changed=expected(root);source=root/'.deps'/('gufo-state-access-'+label)
+def materialize(root,label,kvc=False):
+    files,changed=expected(root,kvc);source=root/'.deps'/('gufo-state-access-'+label)
     source.mkdir()
     pristine=root/'.deps/gufo-f783fedb'
     manifest=json.loads((root/'third_party/gufo-source.json').read_text())

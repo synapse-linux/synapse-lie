@@ -1,0 +1,2987 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "date": "2026-10-03",
+  "branch": "feature/c17-sampling",
+  "base_checkpoint": "8992c0b0b167494ce9f9dd35f533227b6eb6c9e3",
+  "worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+  "scope": "First C17 model-executor slice: dense host sampling math/RNG; NOT-INFERENCE",
+  "provenance": {
+    "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "acquisition": "independent official upstream fetch; no sibling source/artifact import",
+    "license": "MIT; attributed numerical port"
+  },
+  "ownership": {
+    "dense_sampling": "lie-c17-dense",
+    "dense_sampling_abi": 1,
+    "backend": "delegated",
+    "remaining_cpp": [
+      "history/count state",
+      "grammar compilation/masking",
+      "compact speculative distributions/residual construction",
+      "entropy acquisition",
+      "tokenizer",
+      "model/session/forward",
+      "eligible GPU argmax shortcuts"
+    ],
+    "reactive_flow_preserved": true,
+    "device_owner_workers": 1,
+    "additional_workers": 0
+  },
+  "build_selection": {
+    "LIE_C17_SAMPLING": true,
+    "default": true,
+    "explicit_off_control": "legacy C++ dense math/RNG",
+    "provider_application_selection_verified": true,
+    "reference_control_symbols_separate": true,
+    "executor_abi": 2,
+    "request_abi": 5,
+    "generation_abi": 2,
+    "state_abi": 2
+  },
+  "gpu_admission": {
+    "schema": "synapse-lie.gpu-decision.v1",
+    "owner_message": "procedi con i test sella gpu \u00e8 libera, senn\u00f2 vai al punto 5",
+    "observed_connection": "192.168.5.155 -> 192.168.5.157:22",
+    "observations_utc": [
+      "2026-10-03T14:46:26Z",
+      "2026-10-03T14:47:27Z",
+      "2026-10-03T14:48Z"
+    ],
+    "shared_register_last_start": {
+      "event": "start",
+      "owner": "synapse-lie-q2",
+      "label": "q2-combined-retained-model-r1",
+      "pid": 3113099,
+      "start_ticks": "160420486",
+      "at": "2026-10-03T14:46:50.902440+00:00",
+      "mode": "q2-bench2k",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "model_access": false,
+      "state": "RUNNING"
+    },
+    "decision": "C17 development fallback; enclosing Q2 campaign, no gap interleaving",
+    "gpu_attempted": false,
+    "lease_acquired": false,
+    "model_payload_read": false,
+    "model_hash_or_conversion": false,
+    "remote_build": false,
+    "messages_sent_to_existing_q2_thread": 2,
+    "preflight_failures": [
+      {
+        "exit_code": 255,
+        "stderr": "Bad owner or permissions on /etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf",
+        "resolution": "Use explicit ssh -F /dev/null, no system configuration mutation"
+      },
+      {
+        "exit_code": 255,
+        "stderr": "socket: Operation not permitted; connect to host 192.168.5.157 port 22: failure",
+        "resolution": "Authorized read-only SSH passed automatic escalation review"
+      }
+    ]
+  },
+  "final_suites": [
+    {
+      "directory": "evidence/c17-debug-tests-final",
+      "passed": 43,
+      "total": 43,
+      "sanitizers": [
+        "AddressSanitizer",
+        "UndefinedBehaviorSanitizer",
+        "LeakSanitizer"
+      ],
+      "scope": "host/synthetic; NOT-INFERENCE",
+      "result_sha256": "4434461bc03f4b070b7624414dfde4c9d089cfaab11009393c7cb4775b7c8742",
+      "command_log_sha256": "3dbdc93d178fe946ee57102034c6b7d4d8b09c043db74d832ed9896639e09765"
+    },
+    {
+      "directory": "evidence/c17-headless-tests-final",
+      "passed": 18,
+      "total": 18,
+      "sanitizers": [
+        "AddressSanitizer",
+        "UndefinedBehaviorSanitizer",
+        "LeakSanitizer"
+      ],
+      "scope": "host/synthetic; NOT-INFERENCE",
+      "result_sha256": "bbd9725af380add357558de4d11b0b8364e89c0053f2c84980312a4c2646707c",
+      "command_log_sha256": "209b11e894203352f0380f4a8b6d722821fea8e488aab728bf23a2d8188385ea"
+    },
+    {
+      "directory": "evidence/c17-host-tests-final",
+      "passed": 14,
+      "total": 14,
+      "sanitizers": [
+        "AddressSanitizer",
+        "UndefinedBehaviorSanitizer",
+        "LeakSanitizer"
+      ],
+      "scope": "host/synthetic; NOT-INFERENCE",
+      "result_sha256": "121c2bd30eb3d9cf2ba0a6a514cff468e87cc7a356c6818ca57a36d8197b5fab",
+      "command_log_sha256": "f4f80afa744305764ce1b33305c6c5f8fd3d91d9216969636f37a32be040fb8e"
+    }
+  ],
+  "sampling_parity": [
+    {
+      "directory": "build/c17-host/parity",
+      "cases": 1200,
+      "control": "pristine official Gufo and same-layout C++ OFF variant",
+      "comparison": "exact complete witness equality; full-vocabulary rows compactly hash every entry/draw/RNG state",
+      "vocabulary_size": "varied synthetic",
+      "artifacts_sha256": {
+        "build/c17-host/parity/CANDIDATE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/parity/CANDIDATE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/parity/CANDIDATE.txt": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331",
+        "build/c17-host/parity/FALLBACK.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/parity/FALLBACK.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/parity/FALLBACK.txt": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331",
+        "build/c17-host/parity/REFERENCE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/parity/REFERENCE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/parity/REFERENCE.txt": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+      }
+    },
+    {
+      "directory": "build/c17-host/biased-parity",
+      "cases": 1200,
+      "control": "same-layout legacy C++ bias variant; pristine has no bias",
+      "comparison": "exact complete witness equality; full-vocabulary rows compactly hash every entry/draw/RNG state",
+      "vocabulary_size": "varied synthetic",
+      "artifacts_sha256": {
+        "build/c17-host/biased-parity/CANDIDATE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/biased-parity/CANDIDATE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/biased-parity/CANDIDATE.txt": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2",
+        "build/c17-host/biased-parity/REFERENCE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/biased-parity/REFERENCE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/biased-parity/REFERENCE.txt": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+      }
+    },
+    {
+      "directory": "build/c17-host/vocabulary-parity",
+      "cases": 12,
+      "control": "pristine official Gufo and same-layout C++ OFF variant",
+      "comparison": "exact complete witness equality; full-vocabulary rows compactly hash every entry/draw/RNG state",
+      "vocabulary_size": 248320,
+      "artifacts_sha256": {
+        "build/c17-host/vocabulary-parity/CANDIDATE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/vocabulary-parity/CANDIDATE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/vocabulary-parity/CANDIDATE.txt": "2293440ad7e754db01b2e890277d9dec6baee36bde8401aec2aa5497527bedce",
+        "build/c17-host/vocabulary-parity/FALLBACK.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/vocabulary-parity/FALLBACK.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/vocabulary-parity/FALLBACK.txt": "2293440ad7e754db01b2e890277d9dec6baee36bde8401aec2aa5497527bedce",
+        "build/c17-host/vocabulary-parity/REFERENCE.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "build/c17-host/vocabulary-parity/REFERENCE.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build/c17-host/vocabulary-parity/REFERENCE.txt": "2293440ad7e754db01b2e890277d9dec6baee36bde8401aec2aa5497527bedce"
+      }
+    }
+  ],
+  "provider": {
+    "build": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+    "c17_sampling": true,
+    "cmake_cache_sha256": "0306d23dcd66bf39e21a175121eea32486e1e56a05149acf6f6e3f28af97a6a0",
+    "commands": [
+      {
+        "argv": [
+          "/usr/bin/cmake",
+          "-S",
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/cmake/gufo-runtime",
+          "-B",
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+          "-G",
+          "Ninja",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r5",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DGUFO_BUILD_TOOLS=OFF",
+          "-DENGINE_ENABLE_HIP=ON",
+          "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+          "-DLIE_C17_SAMPLING=ON",
+          "-DCMAKE_CXX_FLAGS=-include chrono",
+          "-DCMAKE_HIP_FLAGS=-include chrono",
+          "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "/usr/bin/cmake",
+          "--build",
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+          "--target",
+          "gufo_qwen38_flash_next",
+          "--parallel",
+          "1"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "dense_sampling_edits_sha256": "efe8c548937eacaab05381c30d95244ec44b05ad456b2f63777cb1e4bfe88949",
+    "gpu_execution": false,
+    "installation": false,
+    "kvc_edits_sha256": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+    "libraries": {
+      "libgufo_core.a": "93939560fd663fd8b538d0510925269a392c2ffcda74202b01d7dc6a3de8e606",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "9ff64678e7ce3685426485cc418a6f87f2412d105f62057780caa3eb738df620",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "9ada68cdb17739f53846eacc56dbdac8d42a87440ef94c0c86b9ddf76900678c"
+    },
+    "owned_sampling_files": {
+      "adapters/gufo_sampling.hpp": "f941372906ceaab4d1171472f830fadefddc094d3d3bf48b6440e42ac0835212",
+      "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+      "src/sampling.c": "83ab54d3fea14e529467e8226b92735e466535616c3f57024d2a9fbe5e2e75c7"
+    },
+    "sampling_edits_sha256": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+    "scope": "lie-qwen-only-source-subset",
+    "source": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r5",
+    "source_manifest_sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "source_variant": "lie-ds4-state-v1",
+    "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED",
+    "state_access_edits_sha256": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "subset_cmake_sha256": "30a8d57548368f118f2b978e646c85837a3990bb10cb28082b7884e7b9e90443"
+  },
+  "linked_program_identity": {
+    "synapse-lie-server": {
+      "build_id": "c17-sampling-r1",
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "dense_sampling": "lie-c17-dense",
+      "hardware_qualified": false,
+      "cache_retention_policy": "ds4-time-token-byte-utility-v1",
+      "checkpoint_compression": true,
+      "checkpoint_codec": "byte-plane4-zstd1-v1",
+      "ds4_cache_policy": true,
+      "state_format": "ds4-kvc-payload"
+    },
+    "synapse-lie-bench": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "c17-sampling-r1",
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "dense_sampling": "lie-c17-dense",
+      "synthetic": false,
+      "suite": "single",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 1,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "prefill_chunk": 2048,
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "LIE-reactive-ready-batch"
+    },
+    "synapse-lie-bench-gufo-reference": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "c17-sampling-r1",
+      "engine": "gufo-direct-c1-reference",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "dense_sampling": "gufo",
+      "synthetic": false,
+      "suite": "single",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 1,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "prefill_chunk": 2048,
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "upstream-native-batch"
+    }
+  },
+  "composition": {
+    "scope": "metadata and linked-symbol audit; NOT-INFERENCE",
+    "kfd_before": [],
+    "programs": [
+      {
+        "name": "synapse-lie-server",
+        "exit_code": 0,
+        "stdout": "{\"build_id\":\"c17-sampling-r1\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"dense_sampling\":\"lie-c17-dense\",\"hardware_qualified\":false,\"cache_retention_policy\":\"ds4-time-token-byte-utility-v1\",\"checkpoint_compression\":true,\"checkpoint_codec\":\"byte-plane4-zstd1-v1\",\"ds4_cache_policy\":true,\"state_format\":\"ds4-kvc-payload\"}\n",
+        "stderr": "",
+        "dense_symbols": [
+          "lie_sampling_build",
+          "lie_sampling_draw",
+          "lie_sampling_greedy"
+        ]
+      },
+      {
+        "name": "synapse-lie-bench",
+        "exit_code": 0,
+        "stdout": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"c17-sampling-r1\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"dense_sampling\":\"lie-c17-dense\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"LIE-reactive-ready-batch\"}\n",
+        "stderr": "",
+        "dense_symbols": [
+          "lie_sampling_build",
+          "lie_sampling_draw",
+          "lie_sampling_greedy"
+        ]
+      },
+      {
+        "name": "synapse-lie-bench-gufo-reference",
+        "exit_code": 0,
+        "stdout": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"c17-sampling-r1\",\"engine\":\"gufo-direct-c1-reference\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"dense_sampling\":\"gufo\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"upstream-native-batch\"}\n",
+        "stderr": "",
+        "dense_symbols": []
+      }
+    ],
+    "kfd_after": []
+  },
+  "command_results": [
+    {
+      "directory": "evidence/c17-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 76.5
+        },
+        "elapsed_s": 17.753697810694575
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 76.0
+        },
+        "elapsed_s": 12.626411302015185
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-composition-thermal",
+      "result": {
+        "argv": [
+          "python3",
+          "evidence/c17-composition/audit.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 59.875
+        },
+        "elapsed_s": 1.1224544160068035
+      },
+      "plan": {
+        "argv": [
+          "python3",
+          "evidence/c17-composition/audit.py"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-configure-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-debug",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_BUILD_ID=c17-sampling-host-r1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 59.5
+        },
+        "elapsed_s": 1.0614904668182135
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-debug",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_BUILD_ID=c17-sampling-host-r1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-debug-build-final",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.125
+        },
+        "elapsed_s": 1.125427427701652
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-debug-build-final-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.375
+        },
+        "elapsed_s": 2.1363191455602646
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-debug",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-debug-tests-final",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.125
+        },
+        "elapsed_s": 32.34573726914823
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2396415,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-headless-build-final",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.0
+        },
+        "elapsed_s": 4.165969668887556
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-headless-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 76.25
+        },
+        "elapsed_s": 6.277770144864917
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-headless-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 95.0
+        },
+        "elapsed_s": 3.0786766270175576
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-headless",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-headless-configure-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-headless",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_CORE_ONLY=ON",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_MTP=OFF",
+          "-DLIE_VISION=OFF"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 59.75
+        },
+        "elapsed_s": 1.1267308043316007
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-headless",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_CORE_ONLY=ON",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_MTP=OFF",
+          "-DLIE_VISION=OFF"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-headless-tests-final",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-headless",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 86.625
+        },
+        "elapsed_s": 5.10428158659488
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-headless",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2401379,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-hip-build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-hip",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.5
+        },
+        "elapsed_s": 9.430325950495899
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-hip",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-hip-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-hip",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.125
+        },
+        "elapsed_s": 15.662399103865027
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-hip",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-hip-configure",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-hip",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r4",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r4",
+          "-DLIE_BUILD_ID=c17-sampling-r1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.875
+        },
+        "elapsed_s": 2.097601318731904
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-hip",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r4",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r4",
+          "-DLIE_BUILD_ID=c17-sampling-r1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-hip-configure-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-hip",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r5",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+          "-DLIE_BUILD_ID=c17-sampling-r1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.125
+        },
+        "elapsed_s": 2.177725330926478
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/c17-hip",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r5",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+          "-DLIE_BUILD_ID=c17-sampling-r1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-build-final",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 76.375
+        },
+        "elapsed_s": 38.04513494577259
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-build-final-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.375
+        },
+        "elapsed_s": 20.863978633657098
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-build-final-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.25
+        },
+        "elapsed_s": 19.92233746126294
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 79.625
+        },
+        "elapsed_s": 50.93020812980831
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 92.5
+        },
+        "elapsed_s": 20.776814284734428
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/c17-host",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-configure-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/c17-host",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.125
+        },
+        "elapsed_s": 2.0673707695677876
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/c17-host",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-configure-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/c17-host",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 84.25
+        },
+        "elapsed_s": 2.1145643228664994
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/c17-host",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-tests-final",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-host",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.75
+        },
+        "elapsed_s": 104.48076081648469
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-host",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2371765,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-host-tests-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-host",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 92.625
+        },
+        "elapsed_s": 76.05901092104614
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-host",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 600.0,
+        "pid": 2325025,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-tests-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 79.25
+        },
+        "elapsed_s": 9.147672076709569
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/c17-tests-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.5
+        },
+        "elapsed_s": 31.249620916321874
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/c17-debug",
+          "--output-on-failure",
+          "--parallel",
+          "1"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 180.0,
+        "pid": 2324821,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/provider-c17-r1",
+      "scope": "provider build; NOT-INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/cmake/gufo-runtime",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r1",
+            "-G",
+            "Ninja",
+            "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r1",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DBUILD_TESTING=OFF",
+            "-DGUFO_BUILD_TOOLS=OFF",
+            "-DENGINE_ENABLE_HIP=ON",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+            "-DLIE_C17_SAMPLING=ON",
+            "-DCMAKE_CXX_FLAGS=-include chrono",
+            "-DCMAKE_HIP_FLAGS=-include chrono",
+            "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r1",
+            "--target",
+            "gufo_qwen38_flash_next",
+            "--parallel",
+            "1"
+          ],
+          "exit_code": 1
+        }
+      ],
+      "state": "FAILED"
+    },
+    {
+      "directory": "evidence/provider-c17-r1-thermal",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r1",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 83.625
+        },
+        "elapsed_s": 120.08733600471169
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r1",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 5400.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/provider-c17-r2-thermal",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r2",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 95.0
+        },
+        "elapsed_s": 4.079707373864949
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r2",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 95.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 95.0
+          }
+        ],
+        "timeout_s": 5400.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/provider-c17-r3",
+      "scope": "provider build; NOT-INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/cmake/gufo-runtime",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r3",
+            "-G",
+            "Ninja",
+            "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r3",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DBUILD_TESTING=OFF",
+            "-DGUFO_BUILD_TOOLS=OFF",
+            "-DENGINE_ENABLE_HIP=ON",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+            "-DLIE_C17_SAMPLING=ON",
+            "-DCMAKE_CXX_FLAGS=-include chrono",
+            "-DCMAKE_HIP_FLAGS=-include chrono",
+            "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r3",
+            "--target",
+            "gufo_qwen38_flash_next",
+            "--parallel",
+            "1"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED"
+    },
+    {
+      "directory": "evidence/provider-c17-r3-thermal",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r3",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 81.625
+        },
+        "elapsed_s": 146.6586972605437
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r3",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 5400.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/provider-c17-r4",
+      "scope": "provider build; NOT-INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/cmake/gufo-runtime",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r4",
+            "-G",
+            "Ninja",
+            "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r4",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DBUILD_TESTING=OFF",
+            "-DGUFO_BUILD_TOOLS=OFF",
+            "-DENGINE_ENABLE_HIP=ON",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+            "-DLIE_C17_SAMPLING=ON",
+            "-DCMAKE_CXX_FLAGS=-include chrono",
+            "-DCMAKE_HIP_FLAGS=-include chrono",
+            "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r4",
+            "--target",
+            "gufo_qwen38_flash_next",
+            "--parallel",
+            "1"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED"
+    },
+    {
+      "directory": "evidence/provider-c17-r4-thermal",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r4",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 84.125
+        },
+        "elapsed_s": 145.09004272520542
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r4",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 5400.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    },
+    {
+      "directory": "evidence/provider-c17-r5",
+      "scope": "provider build; NOT-INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/cmake/gufo-runtime",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+            "-G",
+            "Ninja",
+            "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-provider-c17-r5",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DBUILD_TESTING=OFF",
+            "-DGUFO_BUILD_TOOLS=OFF",
+            "-DENGINE_ENABLE_HIP=ON",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+            "-DLIE_C17_SAMPLING=ON",
+            "-DCMAKE_CXX_FLAGS=-include chrono",
+            "-DCMAKE_HIP_FLAGS=-include chrono",
+            "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "/usr/bin/cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/provider-c17-r5",
+            "--target",
+            "gufo_qwen38_flash_next",
+            "--parallel",
+            "1"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED"
+    },
+    {
+      "directory": "evidence/provider-c17-r5-thermal",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r5",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 84.25
+        },
+        "elapsed_s": 146.4604819091037
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-c17-r5",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 5400.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      }
+    }
+  ],
+  "preserved_failures": [
+    {
+      "directory": "evidence/c17-readonly-admission",
+      "exit_codes": [
+        255,
+        255
+      ],
+      "cause": "system SSH config permissions, then sandbox network denial; no config mutation"
+    },
+    {
+      "directory": "evidence/c17-tests-r1",
+      "exit_code": 8,
+      "cause": "LeakSanitizer ptrace restriction; final untraced ASan/UBSan/LSan run passes"
+    },
+    {
+      "directory": "evidence/provider-c17-r1-thermal",
+      "exit_code": 1,
+      "cause": "C header include path private; corrected to public"
+    },
+    {
+      "directory": "evidence/provider-c17-r2-thermal",
+      "exit_code": 125,
+      "child_exit_code": -15,
+      "cause": "95 C software guard; no provider build began"
+    },
+    {
+      "directory": "evidence/c17-headless-build-r2",
+      "exit_code": 125,
+      "child_exit_code": -15,
+      "cause": "95 C software guard"
+    },
+    {
+      "directory": "evidence/c17-build-r2",
+      "exit_code": 1,
+      "cause": "missing benchmark fixture query; supplied stub"
+    },
+    {
+      "directory": "evidence/c17-hip-build",
+      "exit_code": 1,
+      "cause": "anonymous C typedef C++ linkage diagnostic; named struct tags restored ABI/layout"
+    }
+  ],
+  "thermal": {
+    "maximum_observed_c": 95.0,
+    "hardware_shutdown_observed": false,
+    "hardware_deterioration_observed": false,
+    "software_guard_stops": 2,
+    "later_serialized_provider_cpu_guard_c": 98,
+    "final_provider_cpu_peak_c": 84.25,
+    "no_fan_clock_power_tuning": true
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "f93d1b7ed8fb90363c89a4e4269c47967a973d128a48a902be79ffe4639fbe7a",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/access.hpp": "f239082cd75c50de10c08a496e09478018b3dd5ccd1e8d9b31880d984d6c7d32",
+    "adapters/gufo-state/dense-sampling-edits.json": "efe8c548937eacaab05381c30d95244ec44b05ad456b2f63777cb1e4bfe88949",
+    "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+    "adapters/gufo-state/sampling-edits.json": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+    "adapters/gufo.cpp": "71982c8a33347c62fa1fc08d88d9380b8d7cec195654c305a2f5ead2459db062",
+    "adapters/gufo_binding.c": "52159224b8cc235d8d26a76dd168a27e5cf88d0b00327b5386ae03d031d272f0",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "feae7ed9ab4d0b58a009b115339c60153516be8a18d83d50a49a1c9b2a761993",
+    "adapters/gufo_sampling.hpp": "f941372906ceaab4d1171472f830fadefddc094d3d3bf48b6440e42ac0835212",
+    "cmake/gufo-runtime/CMakeLists.txt": "30a8d57548368f118f2b978e646c85837a3990bb10cb28082b7884e7b9e90443",
+    "cmake/provider/Build.cmake": "35eccee9529cb3a7ce4cb50816a3028dd70d75ecfc85f3372a3a0a9f4932af13",
+    "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+    "cmake/provider/Source.cmake": "1ee754b940cf3847a1a8d378202938019abbb124318da7ee44f13b8467e9ca6a",
+    "cmake/provider/Verify.cmake": "2515e1058733cf30ed47cb46f74f5c27bab091b3f8891b1f57928e2fd5fb51c6",
+    "include/lie/cache_policy.h": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26",
+    "include/lie/chat.h": "e8700e3765655e630a1fc996bd55731b31d66031308e125b7248ec7a23e69ad7",
+    "include/lie/choices.h": "692388f217757e3cef0edd100a74929deec9e575bf79cdfbc5b729a4e37b6843",
+    "include/lie/core.h": "cafd3f0c951f6561ae33c3164cd9aa5b3cd1e07cee5bad75042bf7ac6a941d8b",
+    "include/lie/events.h": "12492509e511b1712b221632d7b83f1c9e442c01ab7e2b6dccf4793278763071",
+    "include/lie/executor.h": "f5e256c3175544480a06a733ea2a24036bad41a0b3479aa10f12fd1dc64525bb",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8",
+    "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+    "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+    "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+    "include/lie/kvc_state.h": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/mtp.h": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372",
+    "include/lie/output.h": "56d6a71dbd1aed70554c734c61582785f952c91c000da8cda0f7e35c75fefd8f",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/records.h": "04e4af98cd82d09b867fe5a9231429fe9428f71f31f07a8ec9d41a45ba7e701d",
+    "include/lie/responses.h": "30f4e04f69408f075dea4e4b038e75a05875d85ec7e3d232fe81baefb792924b",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/state.h": "d1ce59fab5b72dc8e23e7d3cdcc99676c0c51389516fc92818bbc1a8e880605a",
+    "include/lie/store.h": "76d577a9d4a1a6a784600eba0639323db18fd73ca0b30293ffceb18d7a7edf2a",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408",
+    "include/lie/vision.h": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e",
+    "include/lie/wire.h": "0ad3bc0bc1135ecdbd435b5a3923dab5c3ba8817a4d3c77620862fdadef08a56",
+    "include/lie/worker.h": "d15c2ea05dae339341e61397eed9f6de2362cd14a3c2e3b3f1cec12888dd5a24",
+    "src/cache_policy.c": "92c4c0f0d62550608ed8555208ab9ab7fc6e7230991cc3dfd86ae451bb8a3d89",
+    "src/chat.c": "f8b5746ea4f0b9619db98312ab860902f1f349498eb1565cf4a8c9c6b8f2cfec",
+    "src/chat_tools.c": "95fdf18394c975841f4aefa54d18a021c62a4c550ee40863e3443fa8c56ab749",
+    "src/choices.c": "9543ece05b8527e08041f7f067bbabaf98d860716b72808ece06f1004e5ff492",
+    "src/core_events.c": "523a80ea432420fe8792c6ff42d073795c12ff2bb0b711ff2c523e331b95de68",
+    "src/core_events.h": "7fa32be31d8011175e17857d738d582e57863ccc40108d12806ef9840e91577f",
+    "src/core_input.c": "3fc9fd1f1e202b46ff2a890621b284bd2b8dfc485ba560d3cffeb8702bbc57b9",
+    "src/core_input.h": "7eecc43a594c88421a4b4c6ac3421384b56fd5ccc41a91fe6799c69908334689",
+    "src/executor_unavailable.c": "61403977e2d550f857848bf56a9afaba3682e5a07bbf3ad7c45ed3695746c6e4",
+    "src/flow.c": "c4259ee0444aa796aa4894c49ab290903f772a9177ce4265a049a6af18331a76",
+    "src/generation.c": "87881e37a4ad6fdd508f3c8890d980bcdaa93d9ad26448793ba204725f7bb08b",
+    "src/generation.h": "df339acb47301b631579b1ece7875f24289ce7a3ead859c058eb4b997977117e",
+    "src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a",
+    "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+    "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+    "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+    "src/models/kvc_qwen_state.c": "a45155ed46860a9c261b0585e796ae3efd0c43a1209c3ea7a74edee8a58a36d1",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/models/qwen_output.c": "e4150b125f015f43aa8a4dffb3bb398f783d0fa8af61cbebada5807a4f934035",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/output_json.c": "ecab6537052e7a5eafd89d57b0209491ac96c44e5872b59f9a2011fc8b783f11",
+    "src/output_json.h": "3ec7f533b58fe212807071de5183e966f12c14dde751acc21ef076e3e269393d",
+    "src/output_schema.c": "fc44b2e13a11a9da4fd93e852c593c9fd4c0256e1d33736c0e6b8ac7a1c8175d",
+    "src/prefix_cache.c": "ca5f8b0a00e108d4e2690a20f94913c7dc220a48b97cdabd98b4e64523c63e26",
+    "src/prefix_cache.h": "b1a05a4384b876c543dff47e7e0218c002c5dc2404eef2c7721c74d304ddb5f7",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/records.c": "d8cb2c7adbb88ce2f2f4341ce26005a214ee0279cdedd183c77ec5e223084022",
+    "src/responses.c": "c6722fc9172ce1aa009c54856ffca966c6d58dc1753506103256ccda03c6bc6f",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/sampling.c": "83ab54d3fea14e529467e8226b92735e466535616c3f57024d2a9fbe5e2e75c7",
+    "src/server.c": "35ab18ed8a917d92d7ca12ae7e56a85743f1292c539b1e3ea312216f4a3f9a42",
+    "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+    "src/state_codec.c": "fabd9747dd03e55addf2aab78a1d24bc28d41f8ca29f5d1ff1f5d27b856e4775",
+    "src/state_codec.h": "9a6494cdbff31fdc0ee49e12993378cfb803c296485b0c62ba1a81dc06e5a11b",
+    "src/state_compression.c": "280166c315ba6b8da65fc7ed53906bc90d2455a7f4fcd0b4727f2b2e64ed3331",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/state_kvc.c": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a",
+    "src/state_kvc.h": "505c131a16461c85d3bcdaccdab4b4baf68b87323b5ba339667456f4c75aab5a",
+    "src/state_layout.c": "c6e7d7a0b1ca98f618e42c6bf09df66075b3b6f2e401c82f38bf5567090c156c",
+    "src/store.c": "ebd91d41cad88f0181d0fa325e441c677e6fc9dce72ef5906861477f34dcdfad",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2bd571b4508bf5b70f49c8462318dbd242b333149df741985ff348beecdc36c2",
+    "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+    "src/wire.c": "c9e0de12d35b68c288a06afb269cb0dcfd1499ed00859a829436197e5455ad8a",
+    "src/wire_history.c": "ca5d3704b8740c6d829ee1e5a5c396cc7888d4aa54d2ca73ce7c2b85b8b3e47a",
+    "src/wire_options.c": "50e587c329be58f20eb68d3137e296393683902a0b0eb931cf0204d50f56bbb5",
+    "src/worker.c": "a206116f4570a49892979d3b38ba5163e0e79a9fb85b4c27653eb01cef095585",
+    "src/worker_http.c": "ccc40c029290290d84c228843664b17b9de6f5b4e93a59be79973d8af769fe3a",
+    "tests/bench_executor.c": "8af61fefa7ad34dc09114e9b3d3a4fe10a2c45fa34852fe4710e3f39517175d7",
+    "tests/fake_executor.c": "43fe7df6b2d2b99c5348c84170b80bb8e79572f5e09fca64216b85999a3dadb5",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+    "tests/provider_contract.cmake": "41601bc651141aea05ec97699e8a81e59d63566d61cdbdd05870bb5240db09ec",
+    "tests/sampling/CMakeLists.txt": "887fff160a439fad9186f9f943c2b480a9adf34781b1d03af00a19b3d8728efe",
+    "tests/sampling/compare.cmake": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db",
+    "tests/sampling/probe.cpp": "761a0c4995847d1b0a05fa1e7773c166e1b3c0c1e24085083996ad6d9781fe4a",
+    "tests/sampling/vocabulary.cpp": "c04bcf04162d9e521609344fb5ff59c3218e0b7acc4bc239ca2fad2a1b37811d",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_bench_http.py": "b62a331aaceb1554e54625d39901314098a1bb49f4421a980cce73712232b1b1",
+    "tests/test_cache_http.py": "e4c7bd91e240d3a501e1453d57b6cec01c2be440df08dbee716c4a823f5b5940",
+    "tests/test_cache_policy.c": "35e288bb84c43a19142bc2fdc22917b8548d8cb0082fac95e1908b04a7f16ba3",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_bench.py": "a183032edb87e844eac57bf2a558fe48c5a85fa52f398e56ddebef3cf29dd918",
+    "tests/test_core_events.c": "af1c69bb2e3f9fd27214bdb92440b4dd04f30750597e18c061364174483abac8",
+    "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+    "tests/test_event_http.c": "425e653f747f6ab57f8a015d23c2271d95923e18ecc01680991dc2f3ee5329a4",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+    "tests/test_feature_http.c": "b9456e9e20f447341ca4f6ee62da92670a74c45ce9a0d6f7012b1c5881f0a54b",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_gufo_sampling.cpp": "9ad9b3d0ea876e71808d085f2e41682dd92968b5faacf4a8d7cb7547f31cbff5",
+    "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+    "tests/test_kvc_fixture.py": "c0990b0f79ccc8e3da6c152c6fb0714bfe0764761980e04ea6ddc8b8b6ce015f",
+    "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+    "tests/test_kvc_map_fixture.py": "ba8806e1fd6457a2eca42802e68a782388a47e0a9fb53fd6726d47a1da553f70",
+    "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+    "tests/test_kvc_state_fixture.py": "f5f8c5ac8c4070db6bee9c60b0dadcbb53519ed241fbbc6ecd9dc138ba16a1cb",
+    "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_mtp.c": "634cdfa24d32a9277a62995c6e0a2fe298511c1dcde8839b39fe439ff0ce66bf",
+    "tests/test_native_bench.c": "aa2d56d0a75988889c76beba0845b00dbdc6c5c469bc503bcf876e95a3dd1f0b",
+    "tests/test_openai_core.c": "c0c9586017208f0235d0d46e143d3cbfb05579a2648ebf0f4e0c46560e96fa29",
+    "tests/test_openai_http.c": "2e28a150105fad2fc462f8409432a98e52b749040e175b480b4ddb9e6b132f4e",
+    "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+    "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+    "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+    "tests/test_sampling.c": "e16bc769d6be32526afa203f00b09432077b968f3eff439df0b1246baa6f6c77",
+    "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+    "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+    "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+    "tests/test_ssd_http.py": "4e195e5f6b0a77d0c02347a30eb3c0cf7d8d4874d70bca2da600b8cac0d1fcc5",
+    "tests/test_ssd_serving_checks.py": "433bf5a977d4ff87bd4059a521e68af669fea11ad2bd7dcbe9ab16a77c893fe6",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_state_aux.c": "3e894358d36a7ed6f19649adf7ddd70f64f49cbd89b767afdf0e9a370f7cb88c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+    "tests/test_tools.c": "94bb9b9e60d917bf483dc1547dddfedb596e7d07fc32c0eec25a29dd04100950",
+    "tests/test_tools_http.py": "6ed41081735c8a64ed3fbdb1eea2b182a54a5a76a1e238971769b1f8bc1b4f26",
+    "tests/test_vision.c": "7c81a2df148e30d4f2be6ea96c39d7106ac938a9641dd268665c9ecd4c16f1dd",
+    "tests/test_vision_cache.c": "e46b7e2a5f1f35303b463eed35d0da0148369d477d410e2d1c85698fe2d0e895",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+    "third_party/CMakeLists.txt": "119bf070bb8d70b285204d865889ad03f8d80afa09e92148b895f28db52cb224",
+    "third_party/README.md": "a04fa58ac54396e118c7cca3b9c6bee68b9d3355d8165dab7d66f7528f560721",
+    "third_party/gufo-LICENSE": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001",
+    "third_party/gufo-NOTICE": "d3025f7f268e405ced3b3c101793868ab70b477cd68f251e0bb4dfe240e168d9",
+    "third_party/gufo-THIRD_PARTY_NOTICES.md": "8d7e1bc9c37d5e0d456c8e9ef9ef5bfaf5b95b5e7960cae3f346d99744643116",
+    "third_party/gufo-source.json": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "third_party/libuv/AUTHORS": "215addc20f9d61eb4fdcfdb5b11296cb869d0e648b3fd1b32c9c4450f1c80642",
+    "third_party/libuv/CMakeLists.txt": "332ce2132588ba703f2e2efe9c3bdd5cdff4e70ae079720bc963ed6b9b0b051d",
+    "third_party/libuv/ChangeLog": "7ed222b49541efd538c256cf425e24dc6739c1f7b52394b51662ee19fa737941",
+    "third_party/libuv/LICENSE": "16de0c32b265cb7d46a6d3bd614f259dd4d693a5e26b3407b04aae8d73041f0c",
+    "third_party/libuv/LICENSE-extra": "262c44bd2cdba037e6d2a82fba15f5800d292bc993a6f5d6b6ea487744d02836",
+    "third_party/libuv/configure.ac": "96f9b0dbe140042419d900d0497a6593579f10f8d761cbec5d0ccda2e87478d5",
+    "third_party/libuv/include/uv/aix.h": "bed77e4cf6c06f1224e681cbe607eff04713ca0c1e1f4a102e6a6565ee3f02aa",
+    "third_party/libuv/include/uv/bsd.h": "963533ff4b16f72a204a8c760896a857c54d0ac50570f1793e3bef1f2ae8b35f",
+    "third_party/libuv/include/uv/darwin.h": "222b6dd3ce67cfbb735b14b1662f065fc23570d6969acf463b39d946b7590d8c",
+    "third_party/libuv/include/uv/errno.h": "4242edf790e4569ef349026ab4c6e31093334ee5fc02b16ed7a0d9fbacdffd16",
+    "third_party/libuv/include/uv/linux.h": "adce0ed0821c8466a87a0a4c9e0df9ea7e4a4b24d099c7d7ed196f72a13f669d",
+    "third_party/libuv/include/uv/os390.h": "98388ae32ce2c4390b82c3529539d2a476c44f590e960ed30a79f72b807ecd02",
+    "third_party/libuv/include/uv/posix.h": "e9d7218b34e6e89b7b412891b7e2aa8b3a561c5ce9714c1f4def6c8a8593a6a6",
+    "third_party/libuv/include/uv/sunos.h": "29d4b4ef48dc3c3ab32d75e0a85bcb80e084d42b32aae40d67fc1d882b93298a",
+    "third_party/libuv/include/uv/threadpool.h": "09ae41099af710289155be012df45c2fce04da6a02e813278b4558935e645938",
+    "third_party/libuv/include/uv/tree.h": "34393c74082c71ddd5bd9ec4afe30ef03df7fa7bb64be5a50ae070cdfebb5c43",
+    "third_party/libuv/include/uv/unix.h": "06ccd9e0f3f312b610a7e7a8ff16596988e02796e7a0c81a62e29d5f6abe4613",
+    "third_party/libuv/include/uv/version.h": "a859f2c21f7887d45b0372109ebc91759a6f8c408c7cbf2a12f9bbe579be403b",
+    "third_party/libuv/include/uv/win.h": "9ad5dd7d5d4d51981f40edfc65a53ab94e91f6a2e73f2bf897e0e697fd9e8233",
+    "third_party/libuv/include/uv.h": "bb9ed99b80cd22c58361bffdfbb2aa7029ce0391cde616745c0072a6f3c03219",
+    "third_party/libuv/libuv-static.pc.in": "2ec52a0b39abc4edea141386333d960e0bac8c94764500c95c3d11c2b5699551",
+    "third_party/libuv/libuv.pc.in": "207211332937097fdedb8b76cf230a06c039b695bb049a05bc9478fdc8f35bb5",
+    "third_party/libuv/src/fs-poll.c": "e4869036bc54bc5a881794ca6aac044c9c567361fff48dd7f02f3a4640e6d271",
+    "third_party/libuv/src/heap-inl.h": "e8dbafbe40150143a740e9b1aff03c4e623ebfe5d6b5e1834a09626a303ddbc2",
+    "third_party/libuv/src/idna.c": "01da9dc1b716f1320089706ae8fe0998bc73e456ff5bb71f32704868152bc74c",
+    "third_party/libuv/src/idna.h": "d72fc711db6309e6c6ec0fc777cb0bcbcfa3942262be25d315ac469db2787559",
+    "third_party/libuv/src/inet.c": "5fedd5da664c70aa539ae0f0fa10b28ea092c892f9516e95cf1bb782016d52f2",
+    "third_party/libuv/src/queue.h": "abdeddeefb025fcdeff7737d4d465d89081ab2c3cc08a423c042ee2093b8695a",
+    "third_party/libuv/src/random.c": "025d67c8249a9917964167ba17b325489e5fb8fbd26cff5f4eac6354e0cc5d4d",
+    "third_party/libuv/src/strscpy.c": "0058568b1a47d2a35ce3dd32d52463af5e066c1065fbb6dc28dd68107a978c1c",
+    "third_party/libuv/src/strscpy.h": "e3e5f81613b169ccd76eee4972d37e7cd5d875ac20d578467b2e42ee5c7f4051",
+    "third_party/libuv/src/strtok.c": "fdcd8971cef7aff15ed950c8d71521888eb57ab48b62196e1f4170b4cf522d2c",
+    "third_party/libuv/src/strtok.h": "2bb2ed731c7afb0efb14670854bc47fe435d72e93cb7b5a1ba99fc5d0548467f",
+    "third_party/libuv/src/thread-common.c": "0ce1ce99b53c1e453439fae0be62c417fca8a1850cd97be65ace5b36b306a7b9",
+    "third_party/libuv/src/threadpool.c": "28b4db439ee75e1bbb0661fcb1bf7619fd4414e69fb6e9bf348f6b887a7fcbe4",
+    "third_party/libuv/src/timer.c": "5a2326203a3ac21b16093e0928db393e00caf919c1ede5316ac7174b72daf217",
+    "third_party/libuv/src/unix/aix-common.c": "61a1cbb342c5e334622ba194927ec9cff8642e5dea7c5972c17f531123c3ebcf",
+    "third_party/libuv/src/unix/aix.c": "05a25cfc6956445d676cd600ae50f6d343828d3c6e415a534606debe31b5cffa",
+    "third_party/libuv/src/unix/async.c": "36e631e4c64ed1102ee82a4aadb329abb0ffa1397058f149a90b606bd61bf199",
+    "third_party/libuv/src/unix/bsd-ifaddrs.c": "4ef5cd279dad0f334fe3db09e6d48c35325d7f25e8c534f919eae68651b829ce",
+    "third_party/libuv/src/unix/bsd-proctitle.c": "1897f0eb92302dd75a1f2ea48118aaaae2c275ea9ed2f102007bb3debdbffb00",
+    "third_party/libuv/src/unix/core.c": "18bfd5f2045417f8ace5d76e222bf7441b31ead5fc2cbaf6225965e0afea8767",
+    "third_party/libuv/src/unix/cygwin.c": "57f86ce72120bf5af78891a69132564582deee3cb1cc988ef3bf4ac77a259318",
+    "third_party/libuv/src/unix/darwin-proctitle.c": "f68470f2a5ee9361d49083f0ec4c42e2a01a082907f9be983f31ab405e77b49d",
+    "third_party/libuv/src/unix/darwin-stub.h": "d397fe8920a057dbf335b5eb91c82122e0f0b61281cd0dcb9fd45420bd9de7d8",
+    "third_party/libuv/src/unix/darwin-syscalls.h": "9edc5b8872c8c718cffd43b02ff9730276f7f55d7585f9c080e0065c08aaa872",
+    "third_party/libuv/src/unix/darwin.c": "d3ffb6997fa61127feaa67ee2b9d0fda2796e58c0b1094a066bc017e648867cb",
+    "third_party/libuv/src/unix/dl.c": "fe5d987911461b7f680474ee3886884a6f3325dff0a4bc038734a088ee227ff1",
+    "third_party/libuv/src/unix/freebsd.c": "360960be1874bcd5c5f221d9e7cc6613cd0e4c51df004912c52ee86dbff63453",
+    "third_party/libuv/src/unix/fs.c": "7406d729f667053febfac84fa1fed6f9423ecead70ec2d05b060f92f360ed19c",
+    "third_party/libuv/src/unix/fsevents.c": "6d6b9e50ac30ce6c4d0ac046352fc308229f36774b092c3e4e99f434f50d5ca3",
+    "third_party/libuv/src/unix/getaddrinfo.c": "937dea83a24092bb80a7409e65f39c4bfd3fc8c8ed94deb7d80f9fbf13a740c4",
+    "third_party/libuv/src/unix/getnameinfo.c": "558b560c07b47db60cd04b182cbe10ced589753a904197a9120440fc23be61e5",
+    "third_party/libuv/src/unix/haiku.c": "5f056eace7dcf9021a1e6ad1b410ace855715f8942e5d643bf4616c52b9d652d",
+    "third_party/libuv/src/unix/hurd.c": "94442eee81f3bad7ec1ba82861695755d8256d48634251f581b2c4bd12dacde2",
+    "third_party/libuv/src/unix/ibmi.c": "f7475ea1203fcc1832f4811d25f4731fe6c2f2a05f17e2b982d2cdfce273972a",
+    "third_party/libuv/src/unix/internal.h": "959e3ce94dd0a1c12f090f40aac1f0cc9287b199eff4ed6dd9e2e944963a06ff",
+    "third_party/libuv/src/unix/kqueue.c": "d535fbed2b9beeb3c7afb939ff066601db98cecfb4642396732fff3d83d82660",
+    "third_party/libuv/src/unix/linux.c": "215185d94697e05cd75ba9466bb9ea93076769a7767218d4183eaf0723ccf2d2",
+    "third_party/libuv/src/unix/loop-watcher.c": "352e6272f340f424fba5ff6e28705b0b22c3a8903913d0ea6bbb6ba7c2293fb5",
+    "third_party/libuv/src/unix/loop.c": "2226f6b5747b90d9013238ac9de70d63dc084dce2fc60005af99412a4ee670e4",
+    "third_party/libuv/src/unix/netbsd.c": "4d8b26f699aaffde0851ccf7ae415f30fedc9ab0ab86a020ac1fc14808f16e63",
+    "third_party/libuv/src/unix/no-fsevents.c": "9d91a46c8477fd7145eac8b668da1041a69f5b12812b18888ad3eae85397d987",
+    "third_party/libuv/src/unix/no-proctitle.c": "65a37c263a39f59943856e3d6bf2119692cfaacdde13f05112411cd3edd15ec5",
+    "third_party/libuv/src/unix/openbsd.c": "0d7f6a5f10fcf4201541d2c14d73b05015577d8d1bcc0a4c581cde8b6532ca12",
+    "third_party/libuv/src/unix/os390-proctitle.c": "627cd81bf8925ced5e39ededce1fa50c9b77dba581a35383113a1520e015478d",
+    "third_party/libuv/src/unix/os390-syscalls.c": "76c5779fa2be1665b8d82c1e010eb37a9b216f8bdbdbd1a48f8c4f8985edc3d6",
+    "third_party/libuv/src/unix/os390-syscalls.h": "a0f585c827df219b526b9786caebc8c21fd4db9ea8d568c07264f24a266cd4f9",
+    "third_party/libuv/src/unix/os390.c": "a3baca96a03da1d7703cac57182baaa382fb455305d3ae8e6e79a10bda99b0e9",
+    "third_party/libuv/src/unix/pipe.c": "b338d8c1e72706281079aaf2ddbfb94512cef4dc2253c24b7af82a4f3f487b42",
+    "third_party/libuv/src/unix/poll.c": "1251826732affd254647829bb43bcdf5bc251915dac601b9eadea13f237b7c79",
+    "third_party/libuv/src/unix/posix-hrtime.c": "e0b6901588b417222c48c6b321d642f53f6b3ccd2512d86f3f5898dcd95b3671",
+    "third_party/libuv/src/unix/posix-poll.c": "38fc6a7020e482fedf29ab82b5fd77308748b9d1b4179e733672befafbcb9f16",
+    "third_party/libuv/src/unix/process.c": "e79f9bd90787011d59d9395f46658caca2ca01d1daad84c36e3b86eba50a4a52",
+    "third_party/libuv/src/unix/procfs-exepath.c": "56136e384f79f6691f8cc2976cd01d0a02019802d4be619d7c91cb21d413ada6",
+    "third_party/libuv/src/unix/proctitle.c": "16ff3c208dcce3798dc80bf596828a93f6ac42b1732e1ba75c331dfa3e90fffe",
+    "third_party/libuv/src/unix/qnx.c": "87a496ec783adca221bc598338762448c3255a1ff1af14e3ad7f68cf786010fa",
+    "third_party/libuv/src/unix/random-devurandom.c": "e774597ce4da739ad57317041aa0aaf00ae48b04f2359940188ab04475613420",
+    "third_party/libuv/src/unix/random-getentropy.c": "9bf7967967b6609810f42c72229edd086890864d4b78ed8c3269064a72769fe3",
+    "third_party/libuv/src/unix/random-getrandom.c": "149b6b2b9b9213f1355651c618e17b4dd2599ccafa1619ac3a8d7916a471f2a5",
+    "third_party/libuv/src/unix/random-sysctl-linux.c": "c5a344dfdd20029700c0686c3ca685e8e67931fa2a35d84b01b10b5a8ad812a0",
+    "third_party/libuv/src/unix/signal.c": "d6e74aa544ea4adfd57a6fbbf452f831a0fb3030873dd37e65205610174fbc94",
+    "third_party/libuv/src/unix/stream.c": "736cd948a28acdb1544dd683becd78fb744e79de55562229da54923b20f41c7c",
+    "third_party/libuv/src/unix/sunos.c": "3f259374d58aa19cb4a6fe36261ab50b7973f950224eb1a2c14a24a17279e845",
+    "third_party/libuv/src/unix/sysinfo-loadavg.c": "cd11de556cfa6371860a694e2d302037349d94b7b446506e721d412e97ea0334",
+    "third_party/libuv/src/unix/sysinfo-memory.c": "d0fc16262a6406a9dd547044895475d9a3b1f1e11bb3b23e4880cf5945121272",
+    "third_party/libuv/src/unix/tcp.c": "ab401c3846448501842b4c5a1973beceab00955aebecbbc05e64b71472f19053",
+    "third_party/libuv/src/unix/thread.c": "ff6670ab46d110e819ec788d8bb52ce4ec9e571b005157497c887b625e0d9a29",
+    "third_party/libuv/src/unix/tty.c": "65b98df1215c32ddd87e7b89e2d8d78c7e79a02e2bf4a53e1860f61d00bf431a",
+    "third_party/libuv/src/unix/udp.c": "81c58307bb111bfd09cbfa91d206b4bf4d4179e422e2fc174ae88e111bbe36b1",
+    "third_party/libuv/src/uv-common.c": "77a095249d0ff54053f435a7cc28daade68f8e67ad6f7ac95105901edce7fdf8",
+    "third_party/libuv/src/uv-common.h": "6ddce7ca203fe0dd293d1eec658745ca6a2d24386b3a02edaf2a15cf94732ee6",
+    "third_party/libuv/src/uv-data-getter-setters.c": "ce7fab84519adc0f9b63c268fcb5a73e643a4d9a22db125cf58db88a6acd38ee",
+    "third_party/libuv/src/version.c": "53296d9934d952545064673758e3ed46c10ab52e34ce540fbab4c595a0b44bfa",
+    "third_party/libuv/src/win/async.c": "cfb1f1e500e3b012f80b90a1e55a45b5f9c5fe7d070368a2a95e0eff661450d1",
+    "third_party/libuv/src/win/core.c": "b4e4f38d30c8c50cc5c2850c2512cb2fb43865236f3b7cfddc566b60ce9918a1",
+    "third_party/libuv/src/win/detect-wakeup.c": "914143627a1a97fafbf64a71564dce389a877b2e5aa9797f12dbc2811bd71d7a",
+    "third_party/libuv/src/win/dl.c": "2b5c586518c6e3b02108e5a47c0ae481a5059dbd2af4031bcc5402b16b013048",
+    "third_party/libuv/src/win/error.c": "c804f3da1436393d1170688cb9d0210638174c0f1af03013360a7d0a7eb945a8",
+    "third_party/libuv/src/win/fs-event.c": "f9916b4ceea11409e34908e79254c029f55f493f4338b49d557cd55e7922c0aa",
+    "third_party/libuv/src/win/fs-fd-hash-inl.h": "2baf0886b443d529c5c70f3ff85be0f667da59582d93603b64f6a54ca92ac14b",
+    "third_party/libuv/src/win/fs.c": "41633b8f58bb08c21f2dc8daa32990365e2df7154bb167a076e470339a218d18",
+    "third_party/libuv/src/win/getaddrinfo.c": "b2d85b2bf70dffd307fd13de2119702ee57746419ac35920fb6eff1aebe6a81a",
+    "third_party/libuv/src/win/getnameinfo.c": "c002f8d434ea01952671117dcc4f36bcb74cebcaf4f16b60de997afecfdac39b",
+    "third_party/libuv/src/win/handle-inl.h": "e590c46ef6bf5110be61015db784d515fcef34f9dfde61b674af1c28413eabc0",
+    "third_party/libuv/src/win/handle.c": "36778077a3ad0fb0ee55ccdba904e7393f74601be72be989110be4ee26ff753d",
+    "third_party/libuv/src/win/internal.h": "28de9aed84ec2dbb75e7eb18f270fa6fa3f080b16034e6a3d0b349a7d14bfe1a",
+    "third_party/libuv/src/win/loop-watcher.c": "b349a8ebf8f330418f7d15739441fdbd648b96ae7c4161a3d1145494a0c46c3a",
+    "third_party/libuv/src/win/pipe.c": "a712502b4bc71ad994e1c639fcba386ac1748ab8dcb693038d0203dbdbfe107a",
+    "third_party/libuv/src/win/poll.c": "d0711a1433e870d5a776def8b4934a2b60cb3ed17e86aa77f5f97aa4ef4d36bb",
+    "third_party/libuv/src/win/process-stdio.c": "7367280da2315b8cf16d42870a972164763b1967f8e39bd141b27726237872d8",
+    "third_party/libuv/src/win/process.c": "3613437d5b1511789fe4ea9ba6c3ab228c9d42a8d2eec56227f6d6919e917d91",
+    "third_party/libuv/src/win/req-inl.h": "45e14fd58e531759c8130f1617cbccac69b463e8ab980664dc16202bb0600742",
+    "third_party/libuv/src/win/signal.c": "7cbe1ec895c1fa5c974e6d59e55e6a6d7180e9c83ffbffa12691c24c44fdf1f0",
+    "third_party/libuv/src/win/snprintf.c": "2596b168ad64f54e94b95779f654326c107f43e0645efa11185f8e9b04ec2f6f",
+    "third_party/libuv/src/win/stream-inl.h": "071341e25de533dc19eeb3ee3ff3985caae7578c8da9109ffcf08b6574584712",
+    "third_party/libuv/src/win/stream.c": "f93f5f69b8538adee8a830bf4ed61ce666eb777cf3bfb364f26796b51a3f71e8",
+    "third_party/libuv/src/win/tcp.c": "86b3e81df0dd401cee22bfa921e9ef44ceceb62cd01b3a3f0cf830c61361c9a1",
+    "third_party/libuv/src/win/thread.c": "672c9fe0ac40b9b87c0c4eb8b9320ab9410385ddf0aa57ac071f33d86a3cfb91",
+    "third_party/libuv/src/win/tty.c": "5df3f88899bc4c6d85f80b54d4f4f14453359996a2c42693de38ef90c5b9941d",
+    "third_party/libuv/src/win/udp.c": "18266936d7b2dd7a84efc019a47d1aa620c09eaf29fba67ff185ab39b4272591",
+    "third_party/libuv/src/win/util.c": "cf857ce678c492c52b79782c980156e38b98f3167d117f0db1c3287be605a9a5",
+    "third_party/libuv/src/win/winapi.c": "9a54878daa60d6ca1acc3dc6032dee8803325cf9cd1c0aaa241a5c8d510ed201",
+    "third_party/libuv/src/win/winapi.h": "d44fed6bb0c7576eb20706d69a975ea1359f9cfcd017df6ae6cf7e4adbb60f54",
+    "third_party/libuv/src/win/winsock.c": "f9621966b332d29926ac6471b0aa08ef4f46be0b58cde852155592dc4de88590",
+    "third_party/libuv/src/win/winsock.h": "ab759f6d8dc22dbffae7e4eceebd1aaffa31173f64f135c0f51e9eebff11e0e5",
+    "third_party/libuv/uv_win_longpath.manifest": "b6890e27512e19bc7461589465f297d669ed4432a0b55d735916c0954f7ac678",
+    "third_party/libuv-source.json": "34c48ca08ba53bc393182c20cca3a089ac392bfd6e6c2c4413c6c08d44362f3f",
+    "third_party/lz4-NOTICE": "5199410e6d8d4eb97b4817ff959ec760a706d81b62b6a873fd804b4e17d90e55",
+    "third_party/zstd-NOTICE": "725efd07d1998c73c1b8b44beac42d10f8496ea2283455ff96d45839d7a72634",
+    "tools/bench-http.py": "723d7e34aaa6f6cf2d01caa81ae385f16b0fb0a39853d87bf35d9836cd63fa6f",
+    "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+    "tools/bench-report.py": "f809ecba197eb319dabda8a201a997940cca92bd3d9641549822e5c5a6a8a357",
+    "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "tools/build-gufo.py": "8458f5739cef9894f6e4f9077c0e44cf22d11fb6cea02642d7a645f5a49167d1",
+    "tools/check-gufo-build.py": "a5ba4f5cd9348501f1988cab0c98ba81c5eece80f33306508719757b38f1e349",
+    "tools/core-bench.c": "061c5eeae854536076cfc61797e38cba79195a38a5eacd44628c7223d115211c",
+    "tools/executor-bench.c": "c1dd8562b0b97f9fe0fe844010b1f9a94c5a49a9e14af5a525173e782e69caff",
+    "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+    "tools/gufo_state_source.py": "10e266807a58fb9c98295d76e5779ae6ccf656dd108b69db9f6ea6133fd9a24f",
+    "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+    "tools/lie-bench.c": "b730dd056aee8424e6552d0d47b848358edf7287ca457b5c1b86bc6b7cd9427b",
+    "tools/lie-kvc.c": "869639c9cc576e8f8763022c8c91b03b24dbbf243bfc833ed009d0ebea17f6f7",
+    "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+    "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+    "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+    "tools/native/http_transport.c": "9f10a8f506e1fa44ba5a25e8591ea923e883fcb9a0eed838d2d76ae821ea5ba6",
+    "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+    "tools/native/report.c": "9cea8d9c331bc55122ff57da1b24907003a112ac857f11068081483408ecbb7d",
+    "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+    "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77",
+    "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+    "tools/render-published-benchmarks.py": "72a11a20ecbc1ecdadcc8dde9e9f9e51be925f2b163fae638822f3a28d5882bb",
+    "tools/run-bench.py": "44ea564bca0baa2035525298737db2e82f6457863607abdbac9f28d9108e3be4",
+    "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+    "tools/state-bench.c": "62e4eba5349a0666fc27eaa46d02d38ed8de5b03b41e1c5c466b0e345a656926",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+    "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab"
+  },
+  "changed_files_sha256": {
+    "CHANGELOG.md": "f0cc04fd84f5858b5b8e1f613586e33d4333ee7078ecd77116884976ce73f1b8",
+    "CMakeLists.txt": "f93d1b7ed8fb90363c89a4e4269c47967a973d128a48a902be79ffe4639fbe7a",
+    "README.md": "1cc462e5bd88c23e03a1a798b9bca00548031dbbb817f3df9977c271bb9c8acf",
+    "adapters/gufo-state/dense-sampling-edits.json": "efe8c548937eacaab05381c30d95244ec44b05ad456b2f63777cb1e4bfe88949",
+    "adapters/gufo_binding.c": "52159224b8cc235d8d26a76dd168a27e5cf88d0b00327b5386ae03d031d272f0",
+    "adapters/gufo_reference_bench.cpp": "feae7ed9ab4d0b58a009b115339c60153516be8a18d83d50a49a1c9b2a761993",
+    "adapters/gufo_sampling.hpp": "f941372906ceaab4d1171472f830fadefddc094d3d3bf48b6440e42ac0835212",
+    "cmake/gufo-runtime/CMakeLists.txt": "30a8d57548368f118f2b978e646c85837a3990bb10cb28082b7884e7b9e90443",
+    "cmake/provider/Build.cmake": "35eccee9529cb3a7ce4cb50816a3028dd70d75ecfc85f3372a3a0a9f4932af13",
+    "cmake/provider/Source.cmake": "1ee754b940cf3847a1a8d378202938019abbb124318da7ee44f13b8467e9ca6a",
+    "cmake/provider/Verify.cmake": "2515e1058733cf30ed47cb46f74f5c27bab091b3f8891b1f57928e2fd5fb51c6",
+    "docs/BACKEND.md": "a42ec4ad244403fb66f5dc0de5cef724db36c5da7419d69ef31afa3c9712c6c4",
+    "docs/COORDINATION.md": "1ed12028c4ea28822ffa55f6fc89ebd398fb253795fb1867609c7afac756de87",
+    "docs/PROGRESS.md": "6284faa9fe4906fcc3987bb2a5629f3b28a96124dafa7b92ceb963268dea117b",
+    "docs/development/C17-SAMPLING.md": "07d90140bca2642fa0a48f7d8015ee7febd46d1035585813b3f3d2ae10087c7c",
+    "docs/development/README.md": "3f7b59228733039e023f90e8925026699ff65355825e2fb03d24d9507789b76f",
+    "docs/guides/BUILD.md": "f7c2ef39e7f663e6bdedee950d45804fdca3e066746b6009f90e78dfca2bab5c",
+    "docs/reference/ABI.md": "d0f6f89fc778355a1cca1a6bb4d50c65c625cf047895b4033f9d00eb004d9570",
+    "docs/reference/METRICS.md": "55c86aef45716c3ac3f4bbc542c94f667620e6679016fe6920dd4bf25429f0b1",
+    "include/lie/executor.h": "f5e256c3175544480a06a733ea2a24036bad41a0b3479aa10f12fd1dc64525bb",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "src/executor_unavailable.c": "61403977e2d550f857848bf56a9afaba3682e5a07bbf3ad7c45ed3695746c6e4",
+    "src/sampling.c": "83ab54d3fea14e529467e8226b92735e466535616c3f57024d2a9fbe5e2e75c7",
+    "src/server.c": "35ab18ed8a917d92d7ca12ae7e56a85743f1292c539b1e3ea312216f4a3f9a42",
+    "tests/bench_executor.c": "8af61fefa7ad34dc09114e9b3d3a4fe10a2c45fa34852fe4710e3f39517175d7",
+    "tests/fake_executor.c": "43fe7df6b2d2b99c5348c84170b80bb8e79572f5e09fca64216b85999a3dadb5",
+    "tests/provider_contract.cmake": "41601bc651141aea05ec97699e8a81e59d63566d61cdbdd05870bb5240db09ec",
+    "tests/sampling/CMakeLists.txt": "887fff160a439fad9186f9f943c2b480a9adf34781b1d03af00a19b3d8728efe",
+    "tests/sampling/compare.cmake": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db",
+    "tests/sampling/probe.cpp": "761a0c4995847d1b0a05fa1e7773c166e1b3c0c1e24085083996ad6d9781fe4a",
+    "tests/sampling/vocabulary.cpp": "c04bcf04162d9e521609344fb5ff59c3218e0b7acc4bc239ca2fad2a1b37811d",
+    "tests/test_sampling.c": "e16bc769d6be32526afa203f00b09432077b968f3eff439df0b1246baa6f6c77",
+    "third_party/README.md": "a04fa58ac54396e118c7cca3b9c6bee68b9d3355d8165dab7d66f7528f560721",
+    "third_party/gufo-NOTICE": "d3025f7f268e405ced3b3c101793868ab70b477cd68f251e0bb4dfe240e168d9",
+    "tools/core-bench.c": "061c5eeae854536076cfc61797e38cba79195a38a5eacd44628c7223d115211c",
+    "tools/executor-bench.c": "c1dd8562b0b97f9fe0fe844010b1f9a94c5a49a9e14af5a525173e782e69caff",
+    "tools/lie-bench.c": "b730dd056aee8424e6552d0d47b848358edf7287ca457b5c1b86bc6b7cd9427b",
+    "tools/state-bench.c": "62e4eba5349a0666fc27eaa46d02d38ed8de5b03b41e1c5c466b0e345a656926"
+  },
+  "evidence_sha256": {
+    "evidence/c17-build-r1/command.log": "6b248ad9f461e1007fa0b305ca74bb1aacdc90caced559144d789575bcb3b95b",
+    "evidence/c17-build-r1/plan.json": "b26a77a03c2a7604f8b38cfd2d7c05b5ec3ec00784e7ec5f0485206bfbd49070",
+    "evidence/c17-build-r1/result.json": "5b63f2f6755ae9c6f28b640061cdadd52cb2331c66dca76e80bd1fab08838a81",
+    "evidence/c17-build-r1/temperatures.jsonl": "84d921ee55bd20794af64cf51b35f4df8f11f3d589017e8b2a518db75c671a6d",
+    "evidence/c17-build-r2/command.log": "b932ebee37bcc85f1d23752598a54cfd121a6fd9a7986e1cafa0bf82bf2773e8",
+    "evidence/c17-build-r2/plan.json": "510e5b38a5b5cc0b25d786030964b9a81cdb51a626910df0f231a3684a4b7aca",
+    "evidence/c17-build-r2/result.json": "ecb494c4e95f0f4bc3db7058b6aa7126fae820bae1bd52113eb3d69761bc1720",
+    "evidence/c17-build-r2/temperatures.jsonl": "8f8ea6b66f3d9360405f99d4755b8d9429b4f31544dc84363b99dad609070dab",
+    "evidence/c17-composition/audit.py": "6fee36b203db00484c1302d7ee00bf8226f79f68e7fc191a3f2e643af2adfda9",
+    "evidence/c17-composition/result.json": "225b7d02e66309bce39fcc8e09f1c18e1b8d849d0724097282c44c86efd94505",
+    "evidence/c17-composition-thermal/command.log": "9d3828b331bd611cd1480f1493b3d79ced4529301f3d1d84f586aa983261d0a2",
+    "evidence/c17-composition-thermal/plan.json": "d8b1d02b842f2e5da9e3606570bbcae3f495135d75eb5ad418820888bfdc40a8",
+    "evidence/c17-composition-thermal/result.json": "1d0d4a03e98ee28023ebbb0cf7a8af49a0d2da09bb89c92902e7dc87124a8a16",
+    "evidence/c17-composition-thermal/temperatures.jsonl": "11b35bfb64024692aa23e73e654fb16dff2d5b5a430cc7df3b764944245f1ab6",
+    "evidence/c17-configure-r1/command.log": "2c71f4af4faa5817665665bb4d0bacc7ded78c1b29d5b54511ab2ab812cb510b",
+    "evidence/c17-configure-r1/plan.json": "b65e3fc1eab1fd00faba8229c099eff911c0edcbb46299d3c41f0727fe258cc1",
+    "evidence/c17-configure-r1/result.json": "d22c5d6952dfdd2467f5b5707448a16154b6c5630c8febe275182579104d9dbd",
+    "evidence/c17-configure-r1/temperatures.jsonl": "cc6875948bee0c256b88dba14801eaebc466f3adb27aa703bb7141d2ba36347d",
+    "evidence/c17-debug-build-final/command.log": "dbcee7f1907786395d925f7a54238b7be5686afee08f33f05a58feccdb65ccce",
+    "evidence/c17-debug-build-final/plan.json": "510e5b38a5b5cc0b25d786030964b9a81cdb51a626910df0f231a3684a4b7aca",
+    "evidence/c17-debug-build-final/result.json": "0c45add5044cf70ce80556674006bcf2e204d0c7d1a796fb0580aead5f854ade",
+    "evidence/c17-debug-build-final/temperatures.jsonl": "451729304a3e6fad461c29c2bbbe69f377f1db5407b1055494455f8c0fe83ed8",
+    "evidence/c17-debug-build-final-r2/command.log": "b751cd205c1d24971bfab60dc302c980cf59fa5e6b86a9781b320399c0eb1c35",
+    "evidence/c17-debug-build-final-r2/plan.json": "510e5b38a5b5cc0b25d786030964b9a81cdb51a626910df0f231a3684a4b7aca",
+    "evidence/c17-debug-build-final-r2/result.json": "a9556dc481ad9171e532907de9fe27ae91dea2d533928c4c508a99c852530d29",
+    "evidence/c17-debug-build-final-r2/temperatures.jsonl": "7c87531fc944ec17926c0eeaf4bbb32c2c2ce1611cba46b5ec7dd601faa69844",
+    "evidence/c17-debug-tests-final/command.log": "3dbdc93d178fe946ee57102034c6b7d4d8b09c043db74d832ed9896639e09765",
+    "evidence/c17-debug-tests-final/plan.json": "6db0b5a4b81c3b3e2caaecff920beb68cb984a061b4f2163844447393b043a43",
+    "evidence/c17-debug-tests-final/result.json": "4434461bc03f4b070b7624414dfde4c9d089cfaab11009393c7cb4775b7c8742",
+    "evidence/c17-debug-tests-final/temperatures.jsonl": "c6a1d0e2148710ff1e2640c4e2bec4fbccd4bc778654ae57b6a0740fea130bd9",
+    "evidence/c17-headless-build-final/command.log": "48c0dd49fcdcdbddcb81a8cbf96377662c722e8ba9975ca35f6d34bc1eebf301",
+    "evidence/c17-headless-build-final/plan.json": "0e49f7baafaf4a18ba3092ebcb5637639a501b4e02ab47e0776fd201b0fc9549",
+    "evidence/c17-headless-build-final/result.json": "8db3c8de810a63d0c3415a778e340ccdbcdb7ee2f127d4a5eeca4350cb241800",
+    "evidence/c17-headless-build-final/temperatures.jsonl": "d655300f402fbd8a6c556a8997940826be29cab4e1b41b4981517b3040fb2613",
+    "evidence/c17-headless-build-r1/command.log": "9c21f136bfbfc9d8b422318f631cb31905e20de873f8183e495222b2de5d20aa",
+    "evidence/c17-headless-build-r1/plan.json": "94babfffca94413bd1440a34da74dcb844c4f701f4b124604ec7bd0910c7c46e",
+    "evidence/c17-headless-build-r1/result.json": "aa2cf05b14d3071376bc2f78df3a8f422ae5a8bde68783e55c5f8ddae2607066",
+    "evidence/c17-headless-build-r1/temperatures.jsonl": "36a2238b3a77cc35f2547c513dff9dc525cf05cc05e06e5c900f463afb40b145",
+    "evidence/c17-headless-build-r2/command.log": "9c5a3f49816fc53ecf6f46b957eb73f21508d6177bdb3017e4362f5f420787a6",
+    "evidence/c17-headless-build-r2/plan.json": "0e49f7baafaf4a18ba3092ebcb5637639a501b4e02ab47e0776fd201b0fc9549",
+    "evidence/c17-headless-build-r2/result.json": "73a53ca37cf09c77b60d42fd4414be39604c5f045f2ccc1b6e70134bf62fb98d",
+    "evidence/c17-headless-build-r2/temperatures.jsonl": "32dc17855ed4347f7f0e41cd7b479ce5b98ec07a700283cc90790882a824fdbe",
+    "evidence/c17-headless-configure-r1/command.log": "8dc898fe4c0f209634ee8f0253f761d2cf63d178fe9612d2f0645d25c1548a14",
+    "evidence/c17-headless-configure-r1/plan.json": "fc24f3a2722b7b32bdf2d3ed135a8bc42057cd3a26e41afd32f34f53c6189f99",
+    "evidence/c17-headless-configure-r1/result.json": "90023ae614669b80068be553d4f2dd9510e04a467b18eea9512b2ff13db95b06",
+    "evidence/c17-headless-configure-r1/temperatures.jsonl": "873f7c658e0b3486f9169150d792bcdc661bf83e7492f05a83e0a0dded0e31ad",
+    "evidence/c17-headless-tests-final/command.log": "209b11e894203352f0380f4a8b6d722821fea8e488aab728bf23a2d8188385ea",
+    "evidence/c17-headless-tests-final/plan.json": "ba34bea4cd40662c1a88e3d17423b6c14afd844ad4f0f2a2d878a93b5ca79730",
+    "evidence/c17-headless-tests-final/result.json": "bbd9725af380add357558de4d11b0b8364e89c0053f2c84980312a4c2646707c",
+    "evidence/c17-headless-tests-final/temperatures.jsonl": "1ee6fbf330aa44d825b91e49126c5b86469c62d4bba22c6989fcaadebfd8c9a7",
+    "evidence/c17-hip-build/command.log": "4d3e7da481ed001ef9774cbd1e76a4687b5533102f4740ad9922af1b0aefec22",
+    "evidence/c17-hip-build/plan.json": "e50d6d40e7ce9b0690f3cd9bc30f56108f75cc31a87f637ed6bf823ec867c326",
+    "evidence/c17-hip-build/result.json": "fc3d5dd8ed93070818695243a34918a23d3cde83ec68d0af934283f36e84bb68",
+    "evidence/c17-hip-build/temperatures.jsonl": "1908017da0e9ac81968472ec004a84348253cb8030c7bbef7e60838a914004cb",
+    "evidence/c17-hip-build-r2/command.log": "5dbbf93a6910b47fb9517b6e1d66ac5e9100b8cb123113f271c03cdedec49705",
+    "evidence/c17-hip-build-r2/plan.json": "e50d6d40e7ce9b0690f3cd9bc30f56108f75cc31a87f637ed6bf823ec867c326",
+    "evidence/c17-hip-build-r2/result.json": "61fb85816cd95f7ea4b14273c7777b2f613fe826eb93ece1948975b7a381e812",
+    "evidence/c17-hip-build-r2/temperatures.jsonl": "2aec58c20bd02e271763946fb05e99fda755d61b9dae7b689ac33123bd5d1466",
+    "evidence/c17-hip-configure/command.log": "a572059404d48eba70db3a2f48a610f77e131f9bbc99a27932a3d6bd311418fa",
+    "evidence/c17-hip-configure/plan.json": "b4216614090b305b77ae76d6a8604e084b1f6283d25e1b7f329792904450fec3",
+    "evidence/c17-hip-configure/result.json": "4458397a21d13ac3e4a009792c9d922b0fc36c9f0c9ba95455952539721e2486",
+    "evidence/c17-hip-configure/temperatures.jsonl": "32b29a99a6906906d6623cfb8fde6a9c1f010cf5301fcadf96fc938cab7066cc",
+    "evidence/c17-hip-configure-r2/command.log": "bf38bc6ed9dad3dcd4f8c2059130509b84620a0a55dce6a9e70403e80335dff0",
+    "evidence/c17-hip-configure-r2/plan.json": "e807d9cf0b396d76590603100a642a1965b2daacbbefb7a1843e17845cdef944",
+    "evidence/c17-hip-configure-r2/result.json": "5a554e6dfc302166cff6f9a4d678cb5abdcb1240fe7d7d02422d605752a31e2e",
+    "evidence/c17-hip-configure-r2/temperatures.jsonl": "a97b38aeee1a336bc51e7b9bfa349df06a176beeeea16188d65208571861fcb7",
+    "evidence/c17-host-build-final/command.log": "a8b6dc13b7f7c083bc3ee1223883f9d081faa93ba1e1a25e50778c3415580ad2",
+    "evidence/c17-host-build-final/plan.json": "44fbe004e68a53488b139b35f2be822eee95e0be75a3a504f49c30329518186b",
+    "evidence/c17-host-build-final/result.json": "104ddca52b1f63829934e1a9e1d3705d981a23a33c60060093fa020eb8a5d0a9",
+    "evidence/c17-host-build-final/temperatures.jsonl": "25e4e1e9d7878ec3be78db95914d69d07e9df865da4189666c1bb6955c3b5dc1",
+    "evidence/c17-host-build-final-r2/command.log": "80fc15aa29a5bf4677afde222e79f3e8f9a303b800321dc7d858d7afab7fae0a",
+    "evidence/c17-host-build-final-r2/plan.json": "be6b3dd546f4d81d168cbb7dc047424eef8564b159a24cc10843541d426d30c7",
+    "evidence/c17-host-build-final-r2/result.json": "1adac3a4525e4f8012202713646fc5b6d1f011f379e97010d9044b416ebc3f60",
+    "evidence/c17-host-build-final-r2/temperatures.jsonl": "078ea5282467d9416c60d5398f9158103e8e3403810641bb328f8737a0783050",
+    "evidence/c17-host-build-final-r3/command.log": "c5e0eaa4750c947326f3401f84ecd3ddad5ce5afda91467021de3fa3c1132a1b",
+    "evidence/c17-host-build-final-r3/plan.json": "44fbe004e68a53488b139b35f2be822eee95e0be75a3a504f49c30329518186b",
+    "evidence/c17-host-build-final-r3/result.json": "d5b03891a9ac6ebf6fdaf9ed7a4dda490543e236ee3604a17f5a4fb3853621ea",
+    "evidence/c17-host-build-final-r3/temperatures.jsonl": "9ce666e442824a90779859d150fb8a4a7bf4a16d38f60e9e93ab382ff37fd166",
+    "evidence/c17-host-build-r1/command.log": "8d010b245da2db4d5ed1e3119df515fb7e3b92ed3a627e97d96b4af2b76ad63c",
+    "evidence/c17-host-build-r1/plan.json": "44fbe004e68a53488b139b35f2be822eee95e0be75a3a504f49c30329518186b",
+    "evidence/c17-host-build-r1/result.json": "ec5541135295bd03e981389063cd118374d04b7edfba17a1169da5375aaec229",
+    "evidence/c17-host-build-r1/temperatures.jsonl": "a8496e1bc2dfc20b4e21f5be4bf4ef65f2d360dc1d31ee93accc45d60c0cccdf",
+    "evidence/c17-host-build-r2/command.log": "0bc259b5368383d3154e664c1a088bd31769d92866c3bf699baf28098e3acfbe",
+    "evidence/c17-host-build-r2/plan.json": "44fbe004e68a53488b139b35f2be822eee95e0be75a3a504f49c30329518186b",
+    "evidence/c17-host-build-r2/result.json": "4b47f6a4b2c067b41679136e13396abe2ee2fd48b84752dd31935fbe41d19fb8",
+    "evidence/c17-host-build-r2/temperatures.jsonl": "7d01ae34b2c22a896d713e807df9e3a98caba534392e6add4a31076598d2c8b1",
+    "evidence/c17-host-configure-r1/command.log": "cd72dd86bd9a9fb0dd39ebb9e2f8f215087bb6f206c04065bba100963f1c4ae7",
+    "evidence/c17-host-configure-r1/plan.json": "c1a016217079570c1ed299e25c72202d7cf898c83ddd8a6cf88e6100bede0a72",
+    "evidence/c17-host-configure-r1/result.json": "d676cb636ddd48d222fd7098f6a4c2b1caccb67277e5909271ffadd94ee849d0",
+    "evidence/c17-host-configure-r1/temperatures.jsonl": "9ac708d321ea6dbb3d02b6d24ad9d84a29a1aaaa181e134383232f0de240d4e1",
+    "evidence/c17-host-configure-r2/command.log": "c12623dafd20976b73d9e48f44b06b99aafca0c46b5bf0c37c159c5a5f474677",
+    "evidence/c17-host-configure-r2/plan.json": "c1a016217079570c1ed299e25c72202d7cf898c83ddd8a6cf88e6100bede0a72",
+    "evidence/c17-host-configure-r2/result.json": "54458ab43f4fe8165c252a44423938f25f7a7a2f88f88424c574c019db551945",
+    "evidence/c17-host-configure-r2/temperatures.jsonl": "a974c9c5f2a7138b902eb2a074aa7e3844533c7e15a5e47daf5d31120c9b36c0",
+    "evidence/c17-host-tests-final/command.log": "f4f80afa744305764ce1b33305c6c5f8fd3d91d9216969636f37a32be040fb8e",
+    "evidence/c17-host-tests-final/plan.json": "0d3470e1320d7d76dc0f6d50dd983cf88a7d104d323e75bc2d2b4ddc794642ff",
+    "evidence/c17-host-tests-final/result.json": "121c2bd30eb3d9cf2ba0a6a514cff468e87cc7a356c6818ca57a36d8197b5fab",
+    "evidence/c17-host-tests-final/temperatures.jsonl": "f96fef6817578b8e87f75231d85ce8123ccc9087817eb57859aac486a8f110f7",
+    "evidence/c17-host-tests-r1/command.log": "7a30eee4c0337ee5cbeaf270f7e9f91458daf584c3d087ae22251f5b85cf4dc1",
+    "evidence/c17-host-tests-r1/plan.json": "5fdbff0f9e1be88d8a6de7482db2ef1a108f7e3adb50da4a592b9a8f5d132c34",
+    "evidence/c17-host-tests-r1/result.json": "083efce533c8c3791085976b9226790930f518c79d1e623b40c86823d5e44dd7",
+    "evidence/c17-host-tests-r1/temperatures.jsonl": "8047896d74e01931d98a4d1ac67136d259d58065e995a329931c4314d44c35ba",
+    "evidence/c17-readonly-admission/decision.json": "bc883b6302938bf90d7a2e56e28ff243dcd2489e30fc86ff7b32d57049c24801",
+    "evidence/c17-sampling-prepare/recipe-count.json": "e96be4aa6b411fca3961c24e6b4c5e603a08774ff163aba1232d5a6cce8bc399",
+    "evidence/c17-tests-r1/command.log": "1eb6c7174fd2899da83dc84a3d22e8818b95e8605e4aa0f35124afaa1862127c",
+    "evidence/c17-tests-r1/plan.json": "864ac79b9b9a55204e68955155ec17f0fd35e5b166e186bd27495c57b3a6419c",
+    "evidence/c17-tests-r1/result.json": "23f817e6fd62c3710d5b3356b2cd30f15be629cb040030c2e9759cc8d6603e2c",
+    "evidence/c17-tests-r1/temperatures.jsonl": "8e92d1995f6ee1cb46170d8c69c2a1aa745116b5e51c02afb0a5809ee4886200",
+    "evidence/c17-tests-r2/command.log": "24893fd5b1dabdaa54fd3d41d26d27a2e6371fdf33947cdeafeeec2df6130adb",
+    "evidence/c17-tests-r2/plan.json": "f1527f3f167986b312fcf277db301b1627ffaecb33852386def84e82277869b3",
+    "evidence/c17-tests-r2/result.json": "2c46c72add616c71b40f2d945b577bb60b058a59c6c828c75f21b1ac6e920f6f",
+    "evidence/c17-tests-r2/temperatures.jsonl": "2b87f3fc6ed7490aaf66b18dec44f270f14dc46f8e4a2d3019ee991d1fbd713a",
+    "evidence/provider-c17-r1/build.log": "e6e6d57dc7719bd33d9d3fe801f2565ec07c17d5a816ba4e990c6d7dce0ef7a8",
+    "evidence/provider-c17-r1/configure.log": "92919f7ac25f2236a3ea40278b26cfc1d4c295dee62d282ebb7ef8b1565a4ebd",
+    "evidence/provider-c17-r1/result.json": "73d8f5de6285e724c081bd68562c68a43b77093390cd202f09ddef3a80396003",
+    "evidence/provider-c17-r1-thermal/command.log": "3817156709b5b47de32f92912430ddc290da3a908b01df285b9102ad995844ff",
+    "evidence/provider-c17-r1-thermal/plan.json": "3c35aeeef1915cbd6c72f7c1f8acfe9256dd03f7ccf3db7de7a7857d1b25c94c",
+    "evidence/provider-c17-r1-thermal/result.json": "e3dabf7e7608d305b0aff7ad367388ec26b1620117c1ebd4c83777ab4f7fe4ed",
+    "evidence/provider-c17-r1-thermal/temperatures.jsonl": "40c49a125fe3384a7572877e734f752b89e21ce50b35238acd6e9d79dd77f87a",
+    "evidence/provider-c17-r2-thermal/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/provider-c17-r2-thermal/plan.json": "df82a99e8cbd77dd7373368c39ed4a2fe49de078231898f95c142e765c01419e",
+    "evidence/provider-c17-r2-thermal/result.json": "282481731a9e8c88d6122e8b848389ad828b3d6bab2bb9ff4661afad7fb00d50",
+    "evidence/provider-c17-r2-thermal/temperatures.jsonl": "49eda6691c9f0f000d6e651ff18e8bf3bd5a08d150f05db8add691952fffb59b",
+    "evidence/provider-c17-r3/build.log": "3a797a259e1c6ffe41aa4a534151089e2dedbfc9e5f770034f804052d4738b94",
+    "evidence/provider-c17-r3/configure.log": "62021bdd6e1c1a9c0564d757f7a70983db2ce4374d13b298f704b843671e6401",
+    "evidence/provider-c17-r3/result.json": "1e9ea38bf76259658011caa51e1eba46d3fc5116bd32b5d1608df86f24a595f2",
+    "evidence/provider-c17-r3-thermal/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/provider-c17-r3-thermal/plan.json": "540a19e135c0930b694240cf72f25fc5b169877d60072e88aae68e0fa544e789",
+    "evidence/provider-c17-r3-thermal/result.json": "4b284251ace5a28f830ac39bcde0aabcabada9842c3672bbfb6e10b2d381df19",
+    "evidence/provider-c17-r3-thermal/temperatures.jsonl": "f272c7e66bfc6c769aebc5dc5fd8e1b7b2306651fcc931b88379343faba30e6e",
+    "evidence/provider-c17-r4/build.log": "74de43976a0fcb786a483cf833262e505852199fdc4c0d463604d2faaf4ba8ea",
+    "evidence/provider-c17-r4/configure.log": "b8b348b92debfc5faa3c1144af97c7b9e6802d0641f2402c50e5695954c82cfb",
+    "evidence/provider-c17-r4/result.json": "af9bb47f2521395ab527d366613b2c0c983436978d150ed5230202abaebf5de6",
+    "evidence/provider-c17-r4-thermal/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/provider-c17-r4-thermal/plan.json": "03ea52b31e21839184fa5099fa1743554686f0a45d6848cad4b6946c7d4dd54e",
+    "evidence/provider-c17-r4-thermal/result.json": "a1641c8cc02ddffdfef5c8001f5b810e8e750b079c486975c0e7f619ec8a0da1",
+    "evidence/provider-c17-r4-thermal/temperatures.jsonl": "4591df2c36183cab3ab02d94dd30b406dbb05554f96c0f47711c1191137c722b",
+    "evidence/provider-c17-r5/build.log": "1079d22b727767e282986086f0db07139d64461b4622c770a0abd5d35f36b59c",
+    "evidence/provider-c17-r5/configure.log": "5ddad8496a3d363fd9de3273fa921b182723be91e271c5fafac55b247f41dce5",
+    "evidence/provider-c17-r5/result.json": "c7507014b6759556cb83b8d16e84543173d201f7af2010bb285dc756ddd7583a",
+    "evidence/provider-c17-r5-thermal/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/provider-c17-r5-thermal/plan.json": "667bcb7dec29f27bd69d9e323e3ccda6f8871e7f8d89e37a66bd8a8942edade3",
+    "evidence/provider-c17-r5-thermal/result.json": "9f1993dcb63b2d583ab5f30f51708eb2801a849022dfc42c038a57aca4d1bced",
+    "evidence/provider-c17-r5-thermal/temperatures.jsonl": "ff73486d3756ec03f8323f9f7132492e7cfb53836583e83b342ce5e0e224dd77"
+  },
+  "artifact_sha256": {
+    "build/c17-debug/CMakeCache.txt": "3b1cda2139dc40cf6d64e823b1d7ec8d02dfacf0e54d3b03a87dec677634ee97",
+    "build/c17-headless/CMakeCache.txt": "a0645daf10077a72e8b74ff2a718dbfc853a37fa6858bfb21956bd3aebef6453",
+    "build/c17-hip/CMakeCache.txt": "8e11d340324e70e54db7f66fb13a4b017b520261f1bac1eee441a8cc8a0f89fa",
+    "build/c17-hip/synapse-lie-bench": "cde50f34bda1bf1514001b1f32ce8185bde861f974163ba0e676a380fb6e1ef2",
+    "build/c17-hip/synapse-lie-bench-gufo-reference": "ebf9f811402d70fc9d41d4345e2bdb91cda95bafc6d1edf38550df1dbd4d7153",
+    "build/c17-hip/synapse-lie-server": "00836dc91199de9573c42dde08b9ee7626e6af9e52a6f3198981b2e35af8322c",
+    "build/c17-host/CMakeCache.txt": "0e4b326309681f7b9a2bd8454ce6f2d642c14b563aff2c02820e92a38970f168",
+    "build/c17-host/variant-files.json": "8795b7893042b7f0553b909508916248d25c4b3fa9e18391d99b33d0bc88c6eb",
+    "build/provider-c17-r5/BUILD-RECEIPT.json": "c7507014b6759556cb83b8d16e84543173d201f7af2010bb285dc756ddd7583a",
+    "build/provider-c17-r5/CMakeCache.txt": "0306d23dcd66bf39e21a175121eea32486e1e56a05149acf6f6e3f28af97a6a0"
+  },
+  "limits": [
+    "No GPU execution, original-weight loading/hash/conversion, remote build or performance campaign",
+    "No complete autonomous C executor or speedup claim",
+    "Original-weight AR/MTP/vision continuation, cache equivalence and matched GPU resource/performance qualification remain pending",
+    "Only metadata queries ran the HIP-linked programs; operator fixtures use synthetic logits",
+    "Python here is an optional private validation utility; normal C build/tests/benchmark have no Python dependency"
+  ],
+  "publication": {
+    "push": false,
+    "merge": false,
+    "deploy": false
+  }
+}

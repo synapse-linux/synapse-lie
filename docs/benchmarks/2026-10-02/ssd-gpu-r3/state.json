@@ -1,0 +1,19 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-02T08:56:31.844275+00:00",
+  "pid": 2446686,
+  "start_ticks": 149678610,
+  "runs": [
+    {
+      "arm": "core-p8192-off",
+      "pid": 2446701,
+      "start_ticks": 149678629,
+      "started_at": "2026-10-02T08:56:32.003120+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-02T08:57:27.572719+00:00"
+    }
+  ],
+  "current_arm": "core-p8192-off",
+  "error": "RuntimeError('arm failed: core-p8192-off')",
+  "finished_at": "2026-10-02T08:57:27.575457+00:00"
+}

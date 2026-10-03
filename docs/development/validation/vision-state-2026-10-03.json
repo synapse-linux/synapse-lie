@@ -1,0 +1,210 @@
+{
+  "schema": "synapse-lie.state-validation.v1",
+  "date": "2026-10-03",
+  "feature": "vision",
+  "branch": "feature/vision",
+  "prior_checkpoint": "2cb1130f9f254bb9ebd85bd5877517ef183de117",
+  "host": "editing Strix Halo .155; .157 not used",
+  "scope": "CPU fixture state capture/restore, RAM/SSD framing and host HIP compile/link only. NOT-INFERENCE. No model load, tensor hash, conversion, GPU run, new GPU lease, tuning or performance campaign.",
+  "source_sha256": {
+    "CHANGELOG.md": "af02ed2ec1ca9e7f29ddf611f17c9c1b1789c390df3b56d6991e7199b228ba32",
+    "CMakeLists.txt": "70505e4b1ef41c7357d08666ee736a122d679d5bfad862bb13fa441228a5181b",
+    "README.md": "1611a3e4cc5d8163570a8cbae118516a411a588c6119554bffced1056873e751",
+    "docs/BACKEND.md": "80a93ce595f6c60695580513cef468c10d601281bd9d2a86ba1144b5a834d686",
+    "docs/COORDINATION.md": "ae6c48be36d060bd27e158217ff14f1d736d8ef49df83644c27b1aa9ede1d438",
+    "docs/PROGRESS.md": "f11e40685dbae3d772af4a5b40abace8c29d5db860468b4862ce7541acb8c28f",
+    "docs/development/VISION.md": "b7916657d53d9cd85dae6bfbdad13eddfdfb72412601f455429457994ff1e329",
+    "docs/reference/ABI.md": "b92d7699b7c8643503c9b326d77c9763e029a393268442651c2a430a97589183",
+    "docs/reference/KVC.md": "d5fc2e3c88daa72a27acfbb87f8826dcd7d3628045aa665c4b591c20db201a69",
+    "docs/reference/STATE.md": "7b7c7333ff8a88328e3cbc9da08133d4640e41605216831f4df855003710b102",
+    "include/lie/kvc_state.h": "ec38224273fcb8827f6efd98ff819c5600b098f28198b52fff6819bc89f6b2c9",
+    "include/lie/state.h": "f7a71421c8810a16d8275ec6ae57065dc4c9d99ee46f73e525415ecc7bb426e4",
+    "src/models/kvc_qwen_state.c": "0f662f997bf8792828b45ac975aa2bd2f1060e9c445ee6f18f3689b624ac0402",
+    "src/state_codec.c": "ddde6c00a20b6b907ac4dc5018cc1b3682f796301191f15dbf8b3672accb5298",
+    "src/state_compression.c": "89297463dba1e49ea60201a5bb94c4d0cf39636589c7711e57af41750de2f846",
+    "src/state_kvc.c": "e279330f01d9976e37255cf2c3be1bc15344b391a20738a807c5a64ed787e092",
+    "src/state_layout.c": "bc2e18fb144ea83c8d7bb2bbf270338dc612deee422b5fdf63e591a0004c84a9",
+    "src/store.c": "e6ac42069d150e764d7c54aa64a7660435161912847e5e62d1644fd12a556406",
+    "tests/test_state_aux.c": "f4b7bb79f3d2bb8308e3f59e8004abab8edaedab88bf7bff1e902eb91a79069e"
+  },
+  "executables_sha256": {
+    "build/vision-sanitize/test-state-aux": "1175db5140d28ecc40fa73f5fe8c5e9a14380ee2a88262ff785c6d65b0bb684d",
+    "build/vision-sanitize/test-kvc-state": "e25285bc86899dfe5986f917909666f5da0cd5724055370c5e56d8a6ecfabc31",
+    "build/vision-linked/synapse-lie-server": "f82719d363861a17054d63abfc8c95fbc954d1158bd4f3ad0d63191dc914331d",
+    "build/vision-linked/synapse-lie-bench": "49803aa778873e631dca88506e0c1abe5b1fae7eeacacd7e09ed337bb855bcff"
+  },
+  "provider": {
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "receipt_sha256": "35c92b103046cdffb27dfc567dcfbf1de40fe4d358b4c7c42712edb668265f67",
+    "numerical_sources_changed": false,
+    "adapter_changed": false
+  },
+  "checks": {
+    "native_suite": {
+      "passed": 28,
+      "total": 28,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ],
+      "python_discovery": false
+    },
+    "hip_link": "passed; not GPU execution",
+    "plain_AR_wire_oracle": "Existing independent native byte oracle still passes through synthetic 128K; version-1 footer/payload unchanged",
+    "shared_auxiliary_storage": "Capture/clone, charged budgets, no expansion, DS4 view exact payload/client trailer, integrity rejection and bounded SSD worker reopen with new domain; two unrelated fixture schemas",
+    "Qwen_MTP_codec": "Predictor positions 0/1/3/4/8; typed residual and hidden rows; finite/nonnegative controller bounds; incompatible frontier and insufficient budget refusal",
+    "Qwen_positions": "MRoPE delta and rows persisted; exact prepared-position comparison; changed/negative/reserved/truncated/overlapping spans refused before capture mutation; final focused checks pass 3/3"
+  },
+  "runtime_limit": "The feature provider still advertises prefix_state_supported=0 and requires explicit RAM retention zero/no disk directory. Existing AR defaults preserved.",
+  "remaining": [
+    "Image/grid/preprocessing/encoder identity through lookup, deduplication and SSD namespace",
+    "Matching image layout/device binding and restart input ownership",
+    "Original-weight vision correctness and cache continuation"
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.875
+      },
+      "elapsed_s": 9.243639279156923,
+      "receipt": "evidence/vision-kvc-build-r1/result.json",
+      "receipt_sha256": "377e60539658a20c8e549a396d96619b939f852bbb526668e92b81069c8dc10d",
+      "evidence_sha256": {
+        "command.log": "fd0904ed198674cf8f628d530bbaea4aeb11df52b830062c96aae6f9b7fde101",
+        "plan.json": "a709d7bc21e45aa77c0c744ced25001dd3f22f62ca149dc56f659b767e07334d",
+        "temperatures.jsonl": "d2d4778b0af18612289bfde5695f18f226b1a7318d67e60f2facaa40bcda7a06"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--target",
+        "test-state-aux",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.0
+      },
+      "elapsed_s": 2.0618233419954777,
+      "receipt": "evidence/vision-kvc-final-build-r1/result.json",
+      "receipt_sha256": "4bbdc270b107505e419c0f4783ef067b175b0cad10da12b392a238cf3f501da6",
+      "evidence_sha256": {
+        "command.log": "667abb543427c8565576ded1b3b4fcfe7e05330708b5c8413d33214c3615030e",
+        "plan.json": "de3cbabb3375b549d7b7be1652ace20b7c05816fd6c745b4a39ff4077ae5fde8",
+        "temperatures.jsonl": "15e5ed55a33718621442192fa86a176a0210ee45c5c71150ba680e37fa825a03"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "-R",
+        "state-kvc-auxiliary|kvc-runtime-state|vision-http-contract",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.875
+      },
+      "elapsed_s": 1.1596723701804876,
+      "receipt": "evidence/vision-kvc-final-tests-r1/result.json",
+      "receipt_sha256": "da0c85677dd8501b0d4d4f90890f27334179a798c63e1208efa7996929405468",
+      "evidence_sha256": {
+        "command.log": "5720a29eea61d1f57ce3e26eddb0e45b345f6d09f5f368055a7c553e4a9220fc",
+        "plan.json": "00a5d75152e4720ad611b53224e93e98e213040fc4947f10b131335afa691675",
+        "temperatures.jsonl": "c5786044d2a634210c46aebc561359f883f49168bf52e86e61bd83231d2f8091"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-linked",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.75
+      },
+      "elapsed_s": 9.441943778656423,
+      "receipt": "evidence/vision-kvc-linked-r1/result.json",
+      "receipt_sha256": "1eb0e15e8aa754f3d2fc756b89022ac56f8e2072a88bff1f81b6996765f311cf",
+      "evidence_sha256": {
+        "command.log": "604e1e8b374c6730cc78b3a2c149a99fbaaed0f679c8d4c1bb5503d7a6c63137",
+        "plan.json": "0e23a01de72d4053f0cf8610b5f6e274ceb3474b7d80f03c68af23a73172ba28",
+        "temperatures.jsonl": "b31e3313b5291338c77974f2fb8051daecdcb6ababc30b5ac8bc407620054a71"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.875
+      },
+      "elapsed_s": 11.472316673025489,
+      "receipt": "evidence/vision-kvc-tests-r1/result.json",
+      "receipt_sha256": "73740c71a70a6ee6ce9b93405d4422337400e61a5b7e0b6967d2964fb9783a84",
+      "evidence_sha256": {
+        "command.log": "33156a8a779913159d33d8254bf5612ec2f20cb552068d68db68ac49ee8b8021",
+        "plan.json": "f7c133780bddd91e8187add75ec968dd46989d8c8c2f817a8891e6157fe1a386",
+        "temperatures.jsonl": "5151bf27865542f7a35e7e182a2eb40d4f78463130fd9b045ab44281ec64664a"
+      }
+    }
+  ],
+  "failed_attempts": [],
+  "reference_inspection": {
+    "DS4_kvstore": "https://github.com/antirez/ds4/blob/main/ds4_kvstore.c",
+    "scope": "Read-only design reference; no DS4 project edits/code/artifact imports or adoption of DS4 model execution"
+  },
+  "publication": "Local feature checkpoint only; no merge or push"
+}

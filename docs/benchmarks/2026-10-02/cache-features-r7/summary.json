@@ -1,0 +1,137 @@
+{
+  "scope": "Matched build-feature ablation; one cold warmup and three measured warm cohorts per arm. No confidence interval or kernel/reactive causal speedup claim.",
+  "core": [
+    {
+      "arm": "core-p131072-c1-off",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "context_capacity": 133120,
+      "cache_budget_bytes": 8589934592,
+      "checkpoint_codec": "none",
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1387.5136856662427,
+      "cold_capture_ms": 118.002865,
+      "hot_ttft_ms": 159.836542,
+      "hot_restore_ms": 42.251031,
+      "hot_executor_tg_tps": 24.931754070976837,
+      "hot_output_wall_tps": 24.36681172138309,
+      "retained_bytes": 3441461344,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p131072-c1-on",
+      "users": 1,
+      "prompt_tokens": 131072,
+      "context_capacity": 133120,
+      "cache_budget_bytes": 8589934592,
+      "checkpoint_codec": "byte-plane4-zstd1-v1",
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1382.6275157621435,
+      "cold_capture_ms": 129.148375,
+      "hot_ttft_ms": 159.022787,
+      "hot_restore_ms": 42.414179,
+      "hot_executor_tg_tps": 24.927555683731836,
+      "hot_output_wall_tps": 24.361782688118563,
+      "retained_bytes": 3441461344,
+      "expanded_bytes": 3441461344,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c1-off",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "context_capacity": 262144,
+      "cache_budget_bytes": 4294967296,
+      "checkpoint_codec": "none",
+      "retention": "lru",
+      "compression": false,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1514.9041193660416,
+      "cold_capture_ms": 14.52187,
+      "hot_ttft_ms": 185.75224,
+      "hot_restore_ms": 5.733808,
+      "hot_executor_tg_tps": 25.951504339093653,
+      "hot_output_wall_tps": 25.195239158156625,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    },
+    {
+      "arm": "core-p8192-c1-on",
+      "users": 1,
+      "prompt_tokens": 8192,
+      "context_capacity": 262144,
+      "cache_budget_bytes": 4294967296,
+      "checkpoint_codec": "byte-plane4-zstd1-v1",
+      "retention": "decaying-token-byte-utility-v1",
+      "compression": true,
+      "jobs": 4,
+      "cold_executed_pp_tps": 1518.9295630780161,
+      "cold_capture_ms": 14.368612,
+      "hot_ttft_ms": 187.024044,
+      "hot_restore_ms": 5.650789,
+      "hot_executor_tg_tps": 25.97153252244691,
+      "hot_output_wall_tps": 25.20358247399433,
+      "retained_bytes": 326699104,
+      "expanded_bytes": 326699104,
+      "compressed_captures": 0,
+      "saved_fraction": 0.0
+    }
+  ],
+  "comparisons": [
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "byte-plane4-zstd1-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 0.999793611354574,
+      "primary": "core-p131072-c1-on",
+      "reference": "core-p131072-c1-off"
+    },
+    {
+      "tokens_equal": true,
+      "eligible": true,
+      "cache_build_comparison": true,
+      "build_setting_differences": {
+        "cache_retention_policy": {
+          "primary": "decaying-token-byte-utility-v1",
+          "reference": "lru"
+        },
+        "checkpoint_compression": {
+          "primary": true,
+          "reference": false
+        },
+        "checkpoint_codec": {
+          "primary": "byte-plane4-zstd1-v1",
+          "reference": "none"
+        }
+      },
+      "output_per_total_wall_ratio": 1.0003311465227749,
+      "primary": "core-p8192-c1-on",
+      "reference": "core-p8192-c1-off"
+    }
+  ],
+  "state": [],
+  "http": []
+}

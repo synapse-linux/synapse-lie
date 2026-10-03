@@ -1,0 +1,180 @@
+{
+  "state": "FAILED",
+  "current_arm": "state-p8192-k8192-write",
+  "error": "RuntimeError('arm failed: state-p8192-k8192-write')",
+  "started_at": "2026-10-02T07:34:47.559745+00:00",
+  "finished_at": "2026-10-02T07:39:00.622217+00:00",
+  "runs": [
+    {
+      "arm": "state-p512-k512-write",
+      "pid": 2418929,
+      "start_ticks": 149188202,
+      "started_at": "2026-10-02T07:34:47.733706+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T07:36:16.471826+00:00"
+    },
+    {
+      "arm": "state-p512-k512-read",
+      "pid": 2419409,
+      "start_ticks": 149197086,
+      "started_at": "2026-10-02T07:36:16.570363+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T07:37:42.161635+00:00",
+      "stable_identity_equal": true
+    },
+    {
+      "arm": "state-p8192-k8192-write",
+      "pid": 2419893,
+      "start_ticks": 149205656,
+      "started_at": "2026-10-02T07:37:42.276735+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-02T07:39:00.621707+00:00"
+    }
+  ],
+  "current": {
+    "state": "FAILED",
+    "error": "RuntimeError('thermal limit; retiring owned child')",
+    "model_attempted": true,
+    "child_pid": 2419902,
+    "child_exit_code": 1,
+    "thermal_stop": true,
+    "last_temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp1_input",
+        "value_c": 53.85,
+        "limit_c": 82.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp2_input",
+        "value_c": 68.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp3_input",
+        "value_c": 52.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp4_input",
+        "value_c": 52.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp6_input",
+        "value_c": 53.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp7_input",
+        "value_c": 51.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp8_input",
+        "value_c": 51.85,
+        "limit_c": 85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon1/temp9_input",
+        "value_c": 52.85,
+        "limit_c": 85
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "value_c": 86.0,
+        "limit_c": 85
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 84.0,
+        "limit_c": 85
+      }
+    ]
+  },
+  "measurements.jsonl": "{\"event\":\"failed\",\"exit_code\":1,\"error\":\"state qualification bounds, interrupted, allocation or I\\/O failure\"}",
+  "telemetry.jsonl": "{\"at\": \"2026-10-02T07:39:00.269960+00:00\", \"memory\": {\"MemTotal\": 134145568768, \"MemAvailable\": 33889144832, \"SwapTotal\": 134145372160, \"SwapFree\": 128282386432}, \"gpu\": {\"gpu_busy_percent\": \"92\", \"mem_info_gtt_used\": \"92070162432\", \"mem_info_vram_used\": \"381521920\"}, \"kfd\": [2419902], \"dri\": [1543, 1596, 1605, 1656, 2017, 2178786, 2419902], \"dri_permission_denied\": 475, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp1_input\", \"value_c\": 53.85, \"limit_c\": 82.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp2_input\", \"value_c\": 68.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp3_input\", \"value_c\": 52.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp4_input\", \"value_c\": 52.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp6_input\", \"value_c\": 53.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp7_input\", \"value_c\": 51.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp8_input\", \"value_c\": 51.85, \"limit_c\": 85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp9_input\", \"value_c\": 52.85, \"limit_c\": 85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon2/temp1_input\", \"value_c\": 86.0, \"limit_c\": 85}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 84.0, \"limit_c\": 85}], \"process\": {\"Threads\": \"36\", \"VmRSS\": \"534728 kB\", \"VmHWM\": \"780496 kB\", \"voluntary_ctxt_switches\": \"7118\", \"nonvoluntary_ctxt_switches\": \"4175\"}}",
+  "stderr.log": "",
+  "controller_alive": false,
+  "postflight": {
+    "at": "2026-10-02T07:39:00.622454+00:00",
+    "owned_processes": [
+      {
+        "pid": 2418929,
+        "expected_start_ticks": 149188202,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2418938,
+        "expected_start_ticks": 149188461,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419409,
+        "expected_start_ticks": 149197086,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419427,
+        "expected_start_ticks": 149197328,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419893,
+        "expected_start_ticks": 149205656,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2419902,
+        "expected_start_ticks": 149205828,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  }
+}

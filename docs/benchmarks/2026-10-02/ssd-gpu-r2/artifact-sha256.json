@@ -1,0 +1,13 @@
+{
+  "archive.json": "07a92e555aaa96167d406b3808f1d68f7de0449adefd883187b3c65005103c5b",
+  "collection-sha256.json": "e49ddca3dc8725a07b40b6fec313d4cd0019a735e7da8ee7b72ccc32191299bd",
+  "evidence.tar.gz": "9c0fda1a912f61621c949e1da11cd134a325e390b65aa663e266beb78f469c97",
+  "failed-measurements.jsonl": "92ed56f3bc54e330c12e015c2cf7517562d641bb8007e245fb668b5b367cdf10",
+  "failed-result.json": "12f29035e57645ff3290ea9dd18a6c1eb4122e6f2369f1bcf89fc1428b2ffaa2",
+  "failed-telemetry.jsonl": "af7b0660580f668a49b6920563bcbc9ccf6451b553915fc1b87d7ecbbb800015",
+  "postflight.json": "116f4c36067ef483af7b92aed227555a3ccd48fabc82eaedae6762f78e97e3d4",
+  "state.csv": "adf227e32b345b53cb285aabeb2c880209b41fe86841a107f22110870903d7f7",
+  "state.json": "700a9a098e817a388d51c7c113892c15476234d7f9022fa52eedefc48871038c",
+  "suite-manifest.json": "31ecde4d8950983c5d9b33119d1ffe64b2b273d62cb6778f0c2bbe740d88a616",
+  "summary.json": "273633914c37216fa883804373faaf3d730c7a419c6e3c5885d33b0a55745939"
+}

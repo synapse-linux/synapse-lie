@@ -11,16 +11,19 @@ from test_tools_http import exchange, port
 from test_responses_http import events
 
 
-def run(binary, enabled):
+def run(binary, enabled, policy='legacy'):
     api, management = port(), port()
     while management == api:
         management = port()
     with tempfile.TemporaryDirectory(prefix='lie-cache-http-') as tmp:
         logpath = Path(tmp)/'server.log'
         with logpath.open('wb') as log:
-            proc = subprocess.Popen([binary, '--model', ':fixture:', '--port', str(api),
+            proc = subprocess.Popen([binary, '--model', ':fixture:', '--kv-cache-policy', policy,
+                                     '--kv-cache-min-tokens', '4', '--kv-cache-cold-max-tokens', '4',
+                                     '--kv-cache-boundary-trim-tokens', '0', '--kv-cache-boundary-align-tokens', '4',
+                                     '--kv-cache-capture-finish', 'off', '--port', str(api),
                                      '--management-port', str(management), '--context', '128',
-                                     '--prefill-chunk', '4', *([] if enabled else ['--prefix-cache-mib', '0'])],
+                                     '--prefill-chunk', '4', *([] if enabled else ['--kv-cache-ram-mb', '0'])],
                                     stdout=log, stderr=log)
             try:
                 deadline = time.monotonic()+5
@@ -63,6 +66,9 @@ def run(binary, enabled):
                 assert cache['hits'] == (2 if enabled else 0), cache
                 assert cache['captures'] == (1 if enabled else 0), cache
                 assert cache['retained_bytes'] <= cache['budget_bytes']
+                assert cache['index_bytes'] <= cache['index_budget_bytes']
+                assert cache['checkpoint_policy']['kind'] == policy
+                assert cache['checkpoint_policy']['capture_finish'] is False
             finally:
                 proc.terminate()
                 try:
@@ -75,3 +81,6 @@ def run(binary, enabled):
 if __name__ == '__main__':
     run(sys.argv[1], True)
     run(sys.argv[1], False)
+    info=json.loads(subprocess.check_output([sys.argv[1], '--build-info'],text=True,timeout=5))
+    if info['ds4_cache_policy']:
+        run(sys.argv[1], True, 'ds4')

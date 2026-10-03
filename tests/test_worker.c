@@ -51,7 +51,7 @@ static unsigned consume(lie_job *j) {
 }
 static void stop(lie_worker *w) { lie_worker_stop(w); wait_state(w,LIE_STOPPED); lie_worker_destroy(w); }
 int main(void) {
-    lie_worker_options opts={":fixture:",1024,2,2,0,{0}};
+    lie_worker_options opts={.model_path=":fixture:",.context=1024,.chunk=2,.max_active=2};
     lie_worker *w=lie_worker_create(&opts); assert(w); wait_state(w,LIE_READY);
     lie_chat_request invalid=request("normal",0); lie_job *none=NULL;
     assert(lie_worker_submit(w,&invalid,&none)==3 && !none && invalid.count==1);

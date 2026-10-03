@@ -41,7 +41,7 @@ class HttpBench(unittest.TestCase):
     def tearDown(self):
         self.server.shutdown();self.server.server_close();self.thread.join();self.tmp.cleanup()
     def command(self,*args):
-        return subprocess.run([BINARY,'--suite','http','--url',f'http://127.0.0.1:{self.server.server_port}/v1','--model','NOT-INFERENCE','--output',str(self.root/'out.jsonl'),'--server-label','CPU wire fixture','--cache-policy','off','--repetitions','2',*args],capture_output=True,text=True,timeout=20)
+        return subprocess.run([BINARY,'--suite','http','--url',f'http://127.0.0.1:{self.server.server_port}/v1','--model','NOT-INFERENCE','--output',str(self.root/'out.jsonl'),'--server-label','CPU wire fixture','--server-kv-cache','off','--repetitions','2',*args],capture_output=True,text=True,timeout=20)
     def test_physical_full_prefill_and_export(self):
         p=self.command('--preset','prefill','--sizes','8192,131072','--export-requests',str(self.root/'corpus.jsonl'))
         self.assertEqual(p.returncode,0,p.stderr+p.stdout)

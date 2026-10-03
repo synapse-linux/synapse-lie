@@ -1,0 +1,706 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "date": "2026-10-03",
+  "feature": "mtp-cache-binding",
+  "branch": "feature/mtp",
+  "base_commit": "dfd8f22b41cfffe7e928ecaed54fc4004aa5a993",
+  "host": "local Strix Halo (.155); .157 not used",
+  "scope": "CPU synthetic contracts and HIP compilation/linking only; NOT-INFERENCE. No model loading, heavyweight model hashing, model conversion, GPU execution or performance campaign.",
+  "source_sha256": {
+    "CHANGELOG.md": "abbfb3b12c420090f35ddffac544b9e1b68941ab734a9a41b4688eccf1cbea64",
+    "CMakeLists.txt": "7fe0ef12e4bc96889c7be6925dc2da62875d567e240ceda362d7482ffedf0c34",
+    "README.md": "98784103790a4667fbf8c893d541f2a1b2d4880fd7d4c89421887b9fb2fcf1b2",
+    "adapters/gufo-state/access.hpp": "18ce5775e58a25b8420cef13b1dc1e085636961654dee0e3bb362a7cb25cc8f4",
+    "adapters/gufo-state/kvc-edits.json": "94a80314ee7bedc201bd7c4d51b750dde073b42a39130d79d0113915825a6cfc",
+    "adapters/gufo.cpp": "c2958fbf50792093a2d86e6cccaf9d29233c069782b89610f0c47f6439ca4a6e",
+    "docs/BACKEND.md": "6cfe8c3b8c7116e323b012d5e58a674c633a0eb3a430c60e00dc862aabb03780",
+    "docs/COORDINATION.md": "b8a9015252daefb6ad42ab0cec5ad38a7c387a5c6cb45ec15991e74519577b2f",
+    "docs/PROGRESS.md": "ba1b7e521b6e9cfd72a985025629808a116842395d8adc74df8560618ee1ee6f",
+    "docs/development/MTP.md": "55dc3f0db8e5cd54a2abcbbb52a09374acd06f865841909820ab2a75234beeb6",
+    "docs/guides/USAGE.md": "1140922ffb6983b82c6c68349301c9d5486c0c88278d196fcb7020771ffbe517",
+    "docs/reference/ABI.md": "71a476c9cfc821c3737781b8e13aa5fe5b1eb109ea807f2df0750869935c4659",
+    "docs/reference/KVC.md": "ca5a521a34125ee3f76b2e5def6d7d04eddbdd454aa1daa40c35b6f04941c547",
+    "docs/reference/METRICS.md": "3554d58b588a5ce914bdc520c463c14cb494e98c27967f6d975c678fe09dffb2",
+    "docs/reference/STATE.md": "e95c625c63defc1c110704bce6ff631f81c3962114328ca9f41b7babc34bcc0e",
+    "src/models/kvc_qwen_state.c": "254671e95380be7764160df45c2820066c126d5f5b58acf7cb73aaa58f58d466",
+    "src/server.c": "b2a1303ae3705a8f6dd3e457dfb5d800bedec84a1cfe5f11005abf3a0913d0d1",
+    "src/worker.c": "6ed894a147935b8753373c091450647c17e201e2370d4ea83bc63a326988b44d",
+    "tests/bench_executor.c": "58376cd28d79adabe3f3280293ae53bbaca9a42841081663e3691c77c839726d",
+    "tests/fake_executor.c": "d797b61c3bc18f82a7e36bf1f78acb892e47c839886a36dcd23e7696e1750d0d",
+    "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+    "tests/test_feature_http.c": "11e388ce5e24371db95f2609e30c490473f8b082a5ee6221b219915b6b2017c7",
+    "tests/test_mtp.c": "a0e27406b6155f8246f3aedf53e7af9a166695da4e95bf4e22358685d5646fe8",
+    "tests/test_state_aux.c": "d5deca01fc10793a4e111d8d79b0e6cc171f9a8ea505b0315a89c5d1071b31b1",
+    "third_party/README.md": "bd74a715b379c58d9632857ab13f53ce24c00dae1ea316a947c842cb7d7ffc6c",
+    "tools/core-bench.c": "9392d58ddd1f4633f8b56edc580ea80c9a400cf9396c50c7408f4a2abaf6af63"
+  },
+  "executables_sha256": {
+    "build/mtp-sanitize/test-mtp": "db1ec68af2328b8f4b69f4c2df15c792172585ad100d2b4ee4c0f609a944a240",
+    "build/mtp-sanitize/test-mtp-ssd": "e96a6de886dc3c653166f1b62b2868e3e12e9ad64df0fd1d48cf703765e60a0f",
+    "build/mtp-sanitize/test-state-aux": "afa0a68fe1f9a1e4215605ed7c05b563180832d68a16272eace380f15de9909e",
+    "build/mtp-sanitize/test-feature-http": "50ba76a862034458de18d684a7d4bf5910030ea2183198451e9adf636e1c6982",
+    "build/mtp-sanitize/test-synthetic-server": "dcfe8328b811763d2241da503032444d97611d0262ca27ac74c20980718dce55",
+    "build/mtp-sanitize/test-synthetic-lie-bench": "dbcefbb763e390b2a347e161126dc1e0d5995278c4d4b5b42038bb91470508d5",
+    "build/mtp-cache-linked/synapse-lie-server": "84d037adf60659645e507c952d79b8783fd333607c725d454aaa1d447bd4cc04",
+    "build/mtp-cache-linked/synapse-lie-bench": "166c7c7bed25423a4e35499c1af63924a22e0396a89c22c0e1b7749d1cc7ec69"
+  },
+  "provider": {
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "receipt_path": "build/provider-mtp-cache-r4/BUILD-RECEIPT.json",
+    "receipt_sha256": "12f00a49e9b21b96aa258fabb8c7c46df5543a421a6f4dfb676f2059fd1776ce",
+    "archives_sha256": {
+      "libgufo_core.a": "e70cca5b68215cae6e939e006ae2b784446bf43ddc5b3cf9f00b8f1d1ee608ca",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "a9a506e1f8493f37d76fb0042e305d0e29811bd290242b7559e02efaa4bd1a22",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "9515b9f3b84adcb248eafa5540c5d71c9146fc010813afbb9eb5e6b92cc0c358"
+    },
+    "kernel_implementations_changed": false,
+    "launch_schedule_changed": true,
+    "changes": "Complete scalar/batch MTP pooling and narrow Model friend access; prior AR full-index allocation/schedule preserved."
+  },
+  "checks": {
+    "native_suite": {
+      "passed": 29,
+      "total": 29,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ],
+      "python_discovery": false
+    },
+    "mtp_off_focused": {
+      "passed": 3,
+      "total": 3
+    },
+    "hip_link": "Passed; no GPU initialization or inference",
+    "prefix_frontiers": "Two synthetic families (8/13 output bursts); prefill and verified-burst clones, budget refusal, fresh destinations, cancellation/poisoning, missing kept hidden row refusal before publication",
+    "ssd_restart": "Synthetic KVC auxiliary state: new processes/domains, predictor/draft policy changes refuse before upload, RAM promotion, held read permits peer progress and cancellation",
+    "http": "Chat/Responses JSON/SSE; first prompt miss and all seven repeats reuse four prompt tokens; complete output and MTP metrics",
+    "native_core_client": "Four synthetic jobs, 19 outputs each, 13-token burst capacity, default RAM budget and cached_tokens=0/4/4/4; native JSON/CSV/SVG/PNG",
+    "sampler_scope": "Actual adapter sampler/config/RNG is deliberately untouched by restore; synthetic fixtures do not qualify real sampled continuation",
+    "weight_identity_scope": "Actual model-owned target/predictor descriptors, preload/postload stat witnesses and complete SSD content identity; original-weight integration still requires GPU/model admission"
+  },
+  "failures_preserved": [
+    "Thermal exits/refusals 125 at 85/90 C; no foreign process terminated",
+    "Initial HTTP test retained an obsolete uncached-only assertion (exit 8); replaced with explicit cache reuse assertions, full final suite passes"
+  ],
+  "thermal": {
+    "cpu_completion_guard_c": 95,
+    "provider_cpu_peak_c": 94.625,
+    "final_native_suite_cpu_peak_c": 69.5,
+    "final_hip_relink_cpu_peak_c": 73.375,
+    "gpu_functional_preparation_guard_c": 85,
+    "hardware_tuning": false
+  },
+  "remaining": [
+    "Original-weight MTP cache capture/restore after prefill and accepted/rejected bursts",
+    "Greedy/sampled correctness, cancellation, mixed concurrency, SSD restart and context growth on GPU",
+    "Performance and memory cost of eager predictor pooling",
+    "Vision semantic cache identity/device binding and combined MTP+vision qualification",
+    "Antirez USB Q2/MTP loader integration from separately owned compatibility branch"
+  ],
+  "evidence_sha256": {
+    "evidence/mtp-cache-bench-r1/plan.json": "af52b5c2e21d6281de74269da150c381decd01a4b42eb89bc3955cba6d460be0",
+    "evidence/mtp-cache-bench-r1/result.json": "f8aaad912f8564bbe55737c595d07e8e1a1147379966b848f443749d33213406",
+    "evidence/mtp-cache-bench-r1/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-cache-bench-r1/temperatures.jsonl": "e8142c0aceb8fad917c2cc5fe3226c4ba75095151a1f797aaf7113164f31e985",
+    "evidence/mtp-cache-bench-r1/check.json": "1bfe0ac91b3bf29d9a91f3b2dcb21860d3af9d0e7e3b4908b61c1236a18b80b8",
+    "evidence/mtp-cache-bench-r1/bench.jsonl": "80ab39e1f5e96a53ba1803d2d723b3b326e17e0a8a6fa03e609188968390b215",
+    "evidence/mtp-cache-bench-r1/graphs/summary.json": "4965290153c678cddccdc700de07bf704f861bdc35c024b86d2cb059de9aee23",
+    "evidence/mtp-cache-bench-r1/graphs/summary.csv": "0a2c98bbfc2f79d05b6197f64fce74707bbfaaca8fc20c16449d69857f1f79a5",
+    "evidence/mtp-cache-bench-r1/graphs/benchmark.svg": "1a9efc2337d8d702221bb8a8deaf2cd9725e5297bb6cffd202a4bf3bce132ebe",
+    "evidence/mtp-cache-bench-r1/graphs/benchmark.png": "eb33756359f5288234b2c31e16e3ea93d467608ffdc49dfeed685ec432053412",
+    "evidence/mtp-cache-bench-r2/plan.json": "9eb683e5e349ef8dc9c61af26f9f9459e5339c5a1c11d78be3930be3d809fcdc",
+    "evidence/mtp-cache-bench-r2/result.json": "ef15f43d80c194fe73568e2a54a51e1a8e168e771ca9663c56422cbd982a9bf2",
+    "evidence/mtp-cache-bench-r2/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-cache-bench-r2/temperatures.jsonl": "224026e9a7ed3f9344063a82340fb1402b1c10e60db06b066c67176b24e5bb2b",
+    "evidence/mtp-cache-bench-r2/check.json": "3918d99b26448d36fd488336c581ce730095da0d501aaea0fdeedd8b5d8248d4",
+    "evidence/mtp-cache-bench-r2/bench.jsonl": "7f65c043476ddc48854a841b26493a06300bfd55fc46c72260d097b5efcf4931",
+    "evidence/mtp-cache-bench-r2/graphs/summary.json": "d2e0bc31d0f3ea54d6172c87e3d8b38e769d05bb6d81cbed094130cea2f4080b",
+    "evidence/mtp-cache-bench-r2/graphs/summary.csv": "4d6d547a52c4f3035417c8ed60355267f1dbff4aec692e1d5aee3c6d40942081",
+    "evidence/mtp-cache-bench-r2/graphs/benchmark.svg": "cadfaf231a5b33537014bf488caba29252a72c316aebb1e930410eb6e23fe4c4",
+    "evidence/mtp-cache-bench-r2/graphs/benchmark.png": "bf83132a168c32143ad2738dda661d7cc4bfec20e83db724c4a2cf054b851d7f",
+    "evidence/mtp-cache-build-r1/plan.json": "9e8e612470fc3777160d1496ab3bd72345cee1be790e881057008ee800cc34ab",
+    "evidence/mtp-cache-build-r1/result.json": "1f110d8b2d64585bd4e9706bcea3d76267446a36e9502fc7a5c99f11cd9be385",
+    "evidence/mtp-cache-build-r1/command.log": "0bd0792ae8510ddc03df8859e8bdd894e262a514810977662d27d538b7cac16d",
+    "evidence/mtp-cache-build-r1/temperatures.jsonl": "b66593025afaaba01af58611f0a0fdd2c0cf15beaa4ef669dc948fd303ed6fa5",
+    "evidence/mtp-cache-build-r2/plan.json": "9e8e612470fc3777160d1496ab3bd72345cee1be790e881057008ee800cc34ab",
+    "evidence/mtp-cache-build-r2/result.json": "62e5986b6700d606e78c8783d55e4e9dace8f56bc1145d10350b6bb44a5f2ac4",
+    "evidence/mtp-cache-build-r2/command.log": "315c8985d42268508111e2a1f2fa26252fd6a07fe630f79a0613c358b50ce49e",
+    "evidence/mtp-cache-build-r2/temperatures.jsonl": "7e52ec26fb3dda3a51c6e25997ae52a24a875189ab980df79b832e0c58c60561",
+    "evidence/mtp-cache-build-r3/plan.json": "988cc2ed1cff9dd2c585753aa3d077ba72359e6e59860ba5bde1f50c7a9ab209",
+    "evidence/mtp-cache-build-r3/result.json": "cb2a3cd62a34a9cf3c1508ef3fdf3b78c338d50083c12595d1d913cd8622f9dd",
+    "evidence/mtp-cache-build-r3/command.log": "921c23c84914f2c9c0f8f6ac605f461cdb2872067920404ed6345993a4dd03cb",
+    "evidence/mtp-cache-build-r3/temperatures.jsonl": "bb3477579e0f5404af977cbfb2a3562ee2163242bc9286bde7386386e13b9307",
+    "evidence/mtp-cache-final-build-r1/plan.json": "988cc2ed1cff9dd2c585753aa3d077ba72359e6e59860ba5bde1f50c7a9ab209",
+    "evidence/mtp-cache-final-build-r1/result.json": "77e7e68dadd374e75a03f48c73504483a2af2ea7fcd0573537556f56060e2b78",
+    "evidence/mtp-cache-final-build-r1/command.log": "f79f571065e1f2003f7614261db3523837a815053d0c9c47badbea66d6fe0c12",
+    "evidence/mtp-cache-final-build-r1/temperatures.jsonl": "e186ca2eb3e40bd3e3c0106d83c8638a1262d25af615c96a2c769fc5963be325",
+    "evidence/mtp-cache-final-tests-r1/plan.json": "48ccfbf962a9ef90a1b2a6af895f82ac8575540a05f1ff8f2ed6d9f1df22b98c",
+    "evidence/mtp-cache-final-tests-r1/result.json": "eb4b0eceacd24fd74416d9848ca398b7340be5cc5229720cd5608e22fcb1453e",
+    "evidence/mtp-cache-final-tests-r1/command.log": "00c9bb064674652e547ef95518ce35a80a781b9785efc491e47e21d138a3be9d",
+    "evidence/mtp-cache-final-tests-r1/temperatures.jsonl": "679ac817110b0a177b99363842edf89877aa3baa60f57bbc2911a3ca51b4c0d1",
+    "evidence/mtp-cache-linked-build-r1/plan.json": "1a0a147e6e7cba1d7c383ded71431ee9b40e7e538ca3a9fa902631efe3d0ec73",
+    "evidence/mtp-cache-linked-build-r1/result.json": "895cac6588aadfe301d1aa9cdafaa6206a1723d958f4f886719607cbdbd36845",
+    "evidence/mtp-cache-linked-build-r1/command.log": "6105f35b2ed61ff064bee9ba002ec0dc7a73b767c70dbc88cd697e051148bb45",
+    "evidence/mtp-cache-linked-build-r1/temperatures.jsonl": "d04c1546da66fb4e4a97be36cd9daa422899be764b7e032b191780593c5d6c6f",
+    "evidence/mtp-cache-linked-build-r2/plan.json": "1a0a147e6e7cba1d7c383ded71431ee9b40e7e538ca3a9fa902631efe3d0ec73",
+    "evidence/mtp-cache-linked-build-r2/result.json": "eee794cac6ad0ac2cbfe1ed816e7efd38b6763adcd77cd6361eb4e1c3eb4b3e1",
+    "evidence/mtp-cache-linked-build-r2/command.log": "89d32448050d37f403b8aed4e18279422759257eca02c1abc77c0cb745caa2ea",
+    "evidence/mtp-cache-linked-build-r2/temperatures.jsonl": "8d88878eca1766f9165a8117be3bd711f661256335cf5794a1be057b76cd5c60",
+    "evidence/mtp-cache-linked-build-r3/plan.json": "1a0a147e6e7cba1d7c383ded71431ee9b40e7e538ca3a9fa902631efe3d0ec73",
+    "evidence/mtp-cache-linked-build-r3/result.json": "6c3ffade575ff304119687e4f23fd729eb3aff87ae02cfa0872fed6788b5f56f",
+    "evidence/mtp-cache-linked-build-r3/command.log": "432ed1608079d3feb794130c482c1470e7f868ed6aab6d86d5aa588c8ce5bf9f",
+    "evidence/mtp-cache-linked-build-r3/temperatures.jsonl": "e4bb7137c69dba0ec5d22a5f4311a1befc54e84f1da020cf2adc6832a708bc72",
+    "evidence/mtp-cache-linked-config-r1/plan.json": "77bcd78a1a1506735fc9736bb729ed8323cedeb1fe18740b2da2ed875d34824a",
+    "evidence/mtp-cache-linked-config-r1/result.json": "88ae3379324551c88d4468b3967eabae09ce22c40dcfa83c31ef4db0f6e132a0",
+    "evidence/mtp-cache-linked-config-r1/command.log": "7882de9d8e5040458e3dfc8e028f1b1757ffd2026919eba0c7714009d2156227",
+    "evidence/mtp-cache-linked-config-r1/temperatures.jsonl": "63cf37b0ae91d2e8e9f72269484d594811f2a0fdf8e36443ca295ea81fba386d",
+    "evidence/mtp-cache-off-build-r1/plan.json": "0d4f454c5d58972356c0a4e0fad4dd0f82b3b01b40172b1088a326ef438b3aeb",
+    "evidence/mtp-cache-off-build-r1/result.json": "b641efe4278ce0b9153ce9597a209b6685aa289be8d1551d2a4938721a31e2af",
+    "evidence/mtp-cache-off-build-r1/command.log": "cc069c7548e13e7a3e7c142433ffced755a1ad4cedcdf44e271245749fc43db8",
+    "evidence/mtp-cache-off-build-r1/temperatures.jsonl": "6e8117879e50da15fc31507ac4a9222c119f529f2e9e8b48b3d21b84e85fefe2",
+    "evidence/mtp-cache-off-tests-r1/plan.json": "aefca8fa46d30bd92f686fb185f5c0963f62408ba2aaa9c29c0c280cf7316685",
+    "evidence/mtp-cache-off-tests-r1/result.json": "c429da0d8ca32fc1af81f4dd36a6ad2caaa17c7ca1027aead6d67e4c8cd38f3b",
+    "evidence/mtp-cache-off-tests-r1/command.log": "ebca3868799fad2c043181a5327868d4101979d414b3b580d6e46b170eb3bf51",
+    "evidence/mtp-cache-off-tests-r1/temperatures.jsonl": "bf33fa5dee405343387418ab1d844ad8c7496a63622d78efa3e7da3a34084132",
+    "evidence/mtp-cache-tests-r1/plan.json": "20703492079e0ebb12751de6cc14ff7f95d815e0f16f63c7aeefb024ba59ca4e",
+    "evidence/mtp-cache-tests-r1/result.json": "8fadd2c4018527a4265bc18c6a3bf1e9b1cc87d7b57e9c109337988a7d38bf21",
+    "evidence/mtp-cache-tests-r1/command.log": "4a28fa8f9f232c00c37815cc66917573f7b1ecc77330686600cd9c47a4005494",
+    "evidence/mtp-cache-tests-r1/temperatures.jsonl": "db122f5e4851cf6456bc7d93d22a7e2918a3417e5222e4483a986e5681a4b5f1",
+    "evidence/mtp-cache-tests-r2/plan.json": "4a2ad4b7a2dc23253375147def4b9975a4798a3cca84e2643ecde3972a8def52",
+    "evidence/mtp-cache-tests-r2/result.json": "3826a080fbde767f1c5feb66aff5d145e432c77a7104c029e792c982ceef1f16",
+    "evidence/mtp-cache-tests-r2/command.log": "a5c955d6d3b4e6630998ffac473e78bc8db89a996ae1a6e84767a224fbc4092f",
+    "evidence/mtp-cache-tests-r2/temperatures.jsonl": "d54640e257537e849d7e922176bd948042772d8329fd07313028e626276c2ce1",
+    "evidence/mtp-provider-cache-r1/plan.json": "8aa8cb3cff0a73be8ea8de90bd237888a6040c6372a8e85a96720290fcd4af87",
+    "evidence/mtp-provider-cache-r1/result.json": "019c41e27fd451b5bc225765c9cae4150f38942e1d7662d810020ff2031b9e83",
+    "evidence/mtp-provider-cache-r1/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-provider-cache-r1/temperatures.jsonl": "cb2a7ca2b49bb6b8be57da094d802ef17588c44d43c3d9cb7b44d301fc2098b4",
+    "evidence/mtp-provider-cache-r2/plan.json": "43aa78400182d87dc87751ba4e54ba11797f708253c2000ef17e4a387318bfe3",
+    "evidence/mtp-provider-cache-r2/result.json": "b4d1f796a8d03fdd1180566d8499bd7ea213a5f9f5d01e616334ee7e733a958b",
+    "evidence/mtp-provider-cache-r2/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-provider-cache-r2/temperatures.jsonl": "7f58794cbe56f6b3ea96a5a75e3dae820e350828309a13fe4581e56713145f29",
+    "evidence/mtp-provider-cache-r3/plan.json": "e385b39c447bdf077309619cf3760d9902eee55db243a8e5c58423cdb6f0f841",
+    "evidence/mtp-provider-cache-r3/result.json": "fc291013b5ae2d99ffcc9cf99eabb97cd791af8d36c35311626f7de85f3bd232",
+    "evidence/mtp-provider-cache-r3/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-provider-cache-r3/temperatures.jsonl": "f975310198a994b69b6955d210950abb55b434984c08786f263950b94ad2517b",
+    "evidence/mtp-provider-cache-r4/plan.json": "e385b39c447bdf077309619cf3760d9902eee55db243a8e5c58423cdb6f0f841",
+    "evidence/mtp-provider-cache-r4/result.json": "b4702c0155af07837bd6ebc4c3effa00f96e559fded6f36316f0546a68258678",
+    "evidence/mtp-provider-cache-r4/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-provider-cache-r4/temperatures.jsonl": "d3e85296428848ebae0c4adc44fe875c099efe2ef81bcdda2a3d3a78d9478745",
+    "evidence/mtp-provider-cache-r5/plan.json": "4edb5c9c9109e0b0adf1775d643a66e95036acc7349921405423a419861cb3eb",
+    "evidence/mtp-provider-cache-r5/result.json": "9f6b0773e583184b13b3bd30b009b12e2f32bff4a2d8bc8502a4d93c23ccbbc8",
+    "evidence/mtp-provider-cache-r5/command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/mtp-provider-cache-r5/temperatures.jsonl": "086bdefea2dfbf991604c25318bf6116ee3c8e1def54a100f24c90935dd1b31a",
+    "evidence/mtp-provider-cache-r6/plan.json": "73ff4e4a19d219a927d04f8f0422edbd4b439134e6ab42b45c975ba370104630",
+    "evidence/mtp-provider-cache-r6/result.json": "e89372d4dd3defab61604557c807a1e0b39b7845758c17e8320862adb49b6752",
+    "evidence/mtp-provider-cache-r6/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/mtp-provider-cache-r6/temperatures.jsonl": "a09a25b7a60c496bd96da321bde1c3ebbf38837707243ea996251902aaf6a883"
+  },
+  "commands": [
+    {
+      "evidence": "evidence/mtp-cache-bench-r1",
+      "result": {
+        "argv": [
+          "build/mtp-sanitize/test-synthetic-lie-bench",
+          "--suite",
+          "core",
+          "--model",
+          ":fixture:",
+          "--model-mtp",
+          ":wide-fixture:",
+          "--tokens-file",
+          "evidence/mtp-cache-input.json",
+          "--context",
+          "128",
+          "--chunk",
+          "4",
+          "--users",
+          "2",
+          "--tg",
+          "19",
+          "--warmups",
+          "0",
+          "--repetitions",
+          "2",
+          "--kv-cache-policy",
+          "legacy",
+          "--output",
+          "evidence/mtp-cache-bench-r1/bench.jsonl",
+          "--graphs",
+          "evidence/mtp-cache-bench-r1/graphs"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.5
+        },
+        "elapsed_s": 1.057074761018157
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-bench-r2",
+      "result": {
+        "argv": [
+          "build/mtp-sanitize/test-synthetic-lie-bench",
+          "--suite",
+          "core",
+          "--model",
+          ":fixture:",
+          "--model-mtp",
+          ":wide-fixture:",
+          "--tokens-file",
+          "evidence/mtp-cache-input.json",
+          "--context",
+          "128",
+          "--chunk",
+          "4",
+          "--users",
+          "2",
+          "--tg",
+          "19",
+          "--warmups",
+          "0",
+          "--repetitions",
+          "2",
+          "--kv-cache-policy",
+          "legacy",
+          "--output",
+          "evidence/mtp-cache-bench-r2/bench.jsonl",
+          "--graphs",
+          "evidence/mtp-cache-bench-r2/graphs"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.5
+        },
+        "elapsed_s": 1.1226286692544818
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-sanitize",
+          "-j1"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 87.125
+        },
+        "elapsed_s": 1.0622700611129403
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-sanitize",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 82.5
+        },
+        "elapsed_s": 9.354268332011998
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-sanitize",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 62.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.375
+        },
+        "elapsed_s": 2.1371868504211307
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-final-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-sanitize",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 64.25
+        },
+        "elapsed_s": 1.0234277276322246
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-final-tests-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/mtp-sanitize",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 69.5
+        },
+        "elapsed_s": 11.499873727560043
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-linked-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-cache-linked",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 81.5
+        },
+        "elapsed_s": 14.677438146434724
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-linked-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-cache-linked",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 73.75
+        },
+        "elapsed_s": 4.146987637504935
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-linked-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-cache-linked",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 73.375
+        },
+        "elapsed_s": 4.146377646364272
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-linked-config-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/mtp-cache-linked",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DLIE_MTP=ON",
+          "-DLIE_BUILD_ID=mtp-cache-2026-10-03",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp/.deps/gufo-state-access-provider-mtp-cache-r4",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp/build/provider-mtp-cache-r4"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 85.875
+        },
+        "elapsed_s": 3.175958481617272
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-off-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/mtp-off",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.5
+        },
+        "elapsed_s": 5.2569686295464635
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-off-tests-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/mtp-off",
+          "--output-on-failure",
+          "-R",
+          "core-headless|core-prefix|core-kvc-ssd",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+        },
+        "elapsed_s": 1.1344338171184063
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-tests-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/mtp-sanitize",
+          "--output-on-failure",
+          "-R",
+          "mtp-|prefix|state-aux",
+          "-j1"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 62.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 79.25
+        },
+        "elapsed_s": 1.0343787660822272
+      }
+    },
+    {
+      "evidence": "evidence/mtp-cache-tests-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/mtp-sanitize",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 91.5
+        },
+        "elapsed_s": 12.53449818212539
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r1",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 85.875
+        },
+        "elapsed_s": 147.2769658351317
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r2",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 85.875
+        },
+        "elapsed_s": 86.70696906745434
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r3",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": null,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 86.375
+        },
+        "elapsed_s": 0.014335916377604008
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r4",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r3",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": null,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 87.625
+        },
+        "elapsed_s": 0.02775617130100727
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r5",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r3",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 91.625
+        },
+        "elapsed_s": 2.0791547810658813
+      }
+    },
+    {
+      "evidence": "evidence/mtp-provider-cache-r6",
+      "result": {
+        "argv": [
+          "cmake",
+          "-DLABEL=provider-mtp-cache-r4",
+          "-P",
+          "cmake/provider/Build.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 68.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 94.625
+        },
+        "elapsed_s": 163.97846059221774
+      }
+    }
+  ]
+}

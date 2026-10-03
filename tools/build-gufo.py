@@ -26,14 +26,18 @@ def main():
     parser.add_argument('label')
     parser.add_argument('--qwen-only', action='store_true')
     parser.add_argument('--state-access', action='store_true')
+    parser.add_argument('--ds4-state', action='store_true')
     parser.add_argument('--hip-arch', choices=('gfx1150','gfx1151'), default='gfx1151')
     args = parser.parse_args()
     if not re.fullmatch(r'[a-z0-9-]{1,48}', args.label):
         parser.error('Label must use 1 to 48 lowercase letters, digits or hyphens')
-    if (args.state_access or args.hip_arch == 'gfx1150') and not args.qwen_only:
-        parser.error('State access and gfx1150 require --qwen-only')
+    if (args.state_access or args.hip_arch == 'gfx1150' or args.ds4_state) and not args.qwen_only:
+        parser.error('State access, DS4 state and gfx1150 require --qwen-only')
+    if args.ds4_state and not args.state_access:
+        parser.error('DS4 state requires --state-access')
     subset = args.qwen_only
     state_access = args.state_access
+    kvc = args.ds4_state
     if os.environ.get('SSH_CONNECTION'):
         raise SystemExit('Remote GPU build requires the agreed lease runner; this helper is local-only')
     stop_signal = None
@@ -61,6 +65,9 @@ def main():
     if state_access:
         result['source_variant']='lie-state-access-v1'
         result['state_access_edits_sha256']=sha(ROOT/'adapters/gufo-state/access-edits.json')
+        if kvc:
+            result['source_variant']='lie-ds4-state-v1'
+            result['kvc_edits_sha256']=sha(ROOT/'adapters/gufo-state/kvc-edits.json')
     def save(): (out / 'result.json').write_text(json.dumps(result, indent=2)+'\n')
     def verify():
         for name,h in source_files.items():
@@ -112,7 +119,7 @@ def main():
     try:
         if state_access:
             from gufo_state_source import materialize
-            source,source_files=materialize(ROOT,label)
+            source,source_files=materialize(ROOT,label,kvc)
             result['source']=str(source);result['variant_files']=source_files;save()
         verify()
         run(['cmake','--version']); run(['c++','--version']); run(['/opt/rocm/bin/hipcc','--version'])

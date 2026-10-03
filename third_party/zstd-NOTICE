@@ -1,0 +1,12 @@
+SPDX-License-Identifier: MIT
+
+LIE optionally links the system Zstandard C library for lossless checkpoints.
+No upstream source is copied or vendored. Zstandard is dual licensed; LIE uses
+it under the BSD-3-Clause option. Preserve the package license when distributing.
+Upstream: https://github.com/facebook/zstd
+License: https://github.com/facebook/zstd/blob/dev/LICENSE
+Local validation uses system 1.5.7 and static-context advanced APIs exported by
+that matched header/library: estimateCCtxSize, estimateDCtxSize,
+initStaticCCtx/DCtx, compressCCtx and decompressDCtx. Context/workspace memory
+is allocated by LIE and included in admission. The byte-plane permutation,
+framing, state lifetime and retention policy are independently written MIT C17.

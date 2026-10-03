@@ -1,0 +1,29 @@
+{
+  "scope": "CPU-only disabled-cache fast path; no change to the running f11ab7f GPU capsule",
+  "source_sha256": {
+    "src/worker.c": "e77ffa9a278cbb64047d075b28f6f7e0f53393ad831993c7db90814b44f3c204",
+    "tests/test_cache_policy.c": "d281e25dd6c102a38cdff1522284169cd45e742e473f8683ab296fbdd9ec3573"
+  },
+  "result": {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build/ds4-policy-sanitize",
+      "--output-on-failure",
+      "-R",
+      "cache|core-bench-contract",
+      "-j1"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 68.875
+    },
+    "elapsed_s": 3.1982131469994783
+  },
+  "archive_sha256": "06a93a35eb75986c1b234b0a7048e4b75ea435000266e40bcadd92ace8bb6930"
+}

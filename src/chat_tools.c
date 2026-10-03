@@ -84,8 +84,10 @@ bool lie_chat_tools_parse(json_object *root, lie_chat_request *r, const char **w
             for (size_t k=0;k<i;++k) if (!strcmp(r->tools[k].name,name)) return false;
             json_object *description=field(fn,"description"), *params=field(fn,"parameters");
             if (description && !lie_json_text(description)) return false;
-            if (json_object_object_get_ex(fn,"strict",&v) && (!json_object_is_type(v,json_type_boolean) || json_object_get_boolean(v))) {
-                *why="constrained_tools_not_supported"; return false;
+            if (json_object_object_get_ex(fn, "strict", &v) &&
+                !json_object_is_type(v, json_type_boolean)) {
+              *why = "invalid_strict_tools";
+              return false;
             }
             if (!params) { params=json_object_new_object(); json_object_object_add(fn,"parameters",params); }
             if (!json_object_is_type(params,json_type_object) ||
@@ -124,31 +126,34 @@ bool lie_chat_tools_parse(json_object *root, lie_chat_request *r, const char **w
     }
     return r->tool_choice<LIE_TOOLS_REQUIRED || r->tool_count>0;
 }
-static bool copy_content(json_object *v, bool nullable, lie_chat_message *m) {
-    if (!v && nullable) { m->content=strdup(""); return m->content!=NULL; }
-    if (lie_json_text(v)) {
-        m->content=strdup(json_object_get_string(v)); m->bytes=(size_t)json_object_get_string_len(v);
-        return m->content!=NULL;
+static bool copy_content(json_object *v,bool nullable,lie_chat_message *m,lie_chat_request *r,size_t message_index){
+    if(!v&&nullable){m->content=strdup("");return m->content!=NULL;}
+    if(lie_json_text(v)){m->content=strdup(json_object_get_string(v));m->bytes=(size_t)json_object_get_string_len(v);return m->content!=NULL;}
+    if(!json_object_is_type(v,json_type_array)||!json_object_array_length(v)||json_object_array_length(v)>128)return false;
+    bool images=false;
+    for(size_t i=0;i<json_object_array_length(v);++i)if(lie_json_literal(field(json_object_array_get_idx(v,i),"type"),"image_url"))images=true;
+    size_t total=0;
+    for(size_t i=0;i<json_object_array_length(v);++i){json_object *part=json_object_array_get_idx(v,i),*type=field(part,"type");
+        if(i&&!images){if(total==LIE_CHAT_BODY_BYTES)return false;++total;}
+        if(lie_json_literal(type,"text")){const char *const allowed[]={"type","text",NULL};json_object *t=field(part,"text");
+            if(!keys(part,allowed)||!lie_json_text(t)||(size_t)json_object_get_string_len(t)>LIE_CHAT_BODY_BYTES-total)return false;
+            total+=(size_t)json_object_get_string_len(t);
+        }else if(lie_json_literal(type,"image_url")){const char *const allowed[]={"type","image_url",NULL},*const image_keys[]={"url","detail",NULL};
+            json_object *image=field(part,"image_url"),*url=field(image,"url"),*detail=field(image,"detail");
+            if(!LIE_VISION||m->role!=LIE_CHAT_USER||r->image_count==LIE_VISION_MAX_IMAGES||!keys(part,allowed)||!keys(image,image_keys)||!lie_json_text(url)||
+               (detail&&!lie_json_literal(detail,"auto")&&!lie_json_literal(detail,"high")))return false;
+            unsigned char *data=NULL;size_t bytes=0;lie_image_format format;
+            if(lie_image_data_url(json_object_get_string(url),(size_t)json_object_get_string_len(url),&data,&bytes,&format,NULL)!=LIE_OK)return false;
+            r->images[r->image_count++]=(lie_image_input){data,bytes,format,(uint32_t)message_index,total};
+        }else return false;
     }
-    if (!json_object_is_type(v,json_type_array) || !json_object_array_length(v) || json_object_array_length(v)>128) return false;
-    size_t n=0,parts=json_object_array_length(v);
-    for (size_t i=0;i<parts;++i) {
-        json_object *p=json_object_array_get_idx(v,i), *t=field(p,"text");
-        const char *const allowed[]={"type","text",NULL};
-        if (!keys(p,allowed) || !lie_json_literal(field(p,"type"),"text") || !lie_json_text(t)) return false;
-        size_t len=(size_t)json_object_get_string_len(t);
-        if (len+1>LIE_CHAT_BODY_BYTES-n) return false;
-        n+=len+1;
-    }
-    char *s=malloc(n+1); if (!s) return false;
-    size_t used=0;
-    for (size_t i=0;i<parts;++i) {
-        json_object *t=field(json_object_array_get_idx(v,i),"text"); size_t len=(size_t)json_object_get_string_len(t);
-        if (i) s[used++]='\n';
-        memcpy(s+used,json_object_get_string(t),len); used+=len;
-    }
-    s[used]=0; m->content=s; m->bytes=used; return true;
+    char *content=malloc(total+1);if(!content)return false;size_t at=0;
+    for(size_t i=0;i<json_object_array_length(v);++i){json_object *t=field(json_object_array_get_idx(v,i),"text");
+        if(i&&!images)content[at++]='\n';
+        if(t){size_t n=(size_t)json_object_get_string_len(t);memcpy(content+at,json_object_get_string(t),n);at+=n;}}
+    content[at]=0;m->content=content;m->bytes=at;return true;
 }
+
 static bool parse_calls(json_object *list, lie_chat_details *d) {
     if (!json_object_is_type(list,json_type_array) || !json_object_array_length(list) || json_object_array_length(list)>LIE_CHAT_MAX_CALLS) return false;
     d->call_count=json_object_array_length(list);
@@ -185,7 +190,7 @@ bool lie_chat_messages_parse(json_object *root, lie_chat_request *r, const char 
     size_t count=json_object_array_length(messages);
     if (!count || count>LIE_CHAT_MAX_MESSAGES) return false;
     const lie_tool_call *pending[LIE_CHAT_MAX_CALLS]={0}; size_t pending_count=0, seen_count=0;
-    const char *seen[LIE_CHAT_MAX_MESSAGES]; bool saw_user=false, past_system=false;
+    const char *seen[LIE_CHAT_MAX_MESSAGES]; bool saw_user=false;
     for (size_t i=0;i<count;++i) {
         json_object *msg=json_object_array_get_idx(messages,i), *role=field(msg,"role"), *calls=field(msg,"tool_calls");
         const char *const allowed[]={"role","content","tool_calls","tool_call_id","name",NULL};
@@ -193,15 +198,14 @@ bool lie_chat_messages_parse(json_object *root, lie_chat_request *r, const char 
         lie_chat_message *m=&r->messages[i]; lie_chat_details *d=&r->details[i];
         r->count=i+1; /* All partial allocations have one common cleanup path. */
         if (lie_json_literal(role,"system") || lie_json_literal(role,"developer")) {
-            if (past_system) return false;
             m->role=LIE_CHAT_SYSTEM;
-        } else if (lie_json_literal(role,"user")) { m->role=LIE_CHAT_USER; saw_user=true; past_system=true; }
-        else if (lie_json_literal(role,"assistant")) { m->role=LIE_CHAT_ASSISTANT; past_system=true; }
-        else if (lie_json_literal(role,"tool")) { m->role=LIE_CHAT_TOOL; past_system=true; }
+        } else if (lie_json_literal(role,"user")) { m->role=LIE_CHAT_USER; saw_user=true; }
+        else if (lie_json_literal(role,"assistant")) { m->role=LIE_CHAT_ASSISTANT; }
+        else if (lie_json_literal(role,"tool")) { m->role=LIE_CHAT_TOOL; }
         else return false;
         if (m->role!=LIE_CHAT_TOOL && pending_count) { *why="missing_tool_results"; return false; }
         if (calls && (m->role!=LIE_CHAT_ASSISTANT || !parse_calls(calls,d))) return false;
-        if (!copy_content(field(msg,"content"),d->call_count>0,m)) return false;
+        if (!copy_content(field(msg,"content"),d->call_count>0,m,r,i)) return false;
         json_object *name=field(msg,"name"), *call_id=field(msg,"tool_call_id");
         if (name && !named(name)) return false;
         if (m->role==LIE_CHAT_TOOL) {
