@@ -9,6 +9,8 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Combined benchmark CSV duration columns now explicitly use seconds.
+
 - Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
   when the trunk GGUF metadata has no embedded predictor block.
 

@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Clocked performance follow-up prepared — 2026-10-03
+
+Ten arms are prepared locally at frozen runtime checkpoint `15c6082`: the
+missing 12288-token depth pair at capacity 133760, then balanced C17/control
+orders for fresh PP1500/TG128 at capacity 262144. Four arms use no model warmup
+and four use two warmups, with three measured samples each. First and later
+samples remain distinct; OS file cache is uncontrolled, so these are not
+cold-file measurements.
+
+The private supervisor adds read-only optional GPU clock/power and CPU-frequency
+snapshots with monotonic bounds, correlated with the new native PP/TG clocks.
+GPU-masked build-info/help exits are zero and all ten capsule manifests verify.
+**No GPU run, model load/hash or remote staging occurs; admission remains
+disabled until a new Q2 handover.** The
+[preparation receipt](development/validation/performance-followup-preparation-2026-10-03.json)
+binds source, binaries, commands and the planned acceptance checks. The earlier
+1500-token slowdown remains unresolved.
+
+The combined published CSV duration headers now correctly say `seconds` rather
+than `ns`. All 17 rows and their data bytes remain unchanged; 204 duration cells
+match the native summaries. Raw measurements and figures remain unchanged.
+
 ## Benchmark phase clocks and durations — 2026-10-03
 
 Native direct benchmarks now record monotonic prefill/decode bounds and a

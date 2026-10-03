@@ -6,7 +6,8 @@
 **Latest measurements: October 3, 2026.** PP means prefill throughput; TG means
 confirmed generation throughput, both in tokens per second. Tables include PP
 wait time. Charts use separate PP/TG scales beginning at zero; bars show observed
-minimum/maximum around the median.
+minimum/maximum around the median. Duration columns in downloaded CSVs are
+seconds; throughput columns are tokens per second.
 
 | Measurement setup | Value |
 | --- | --- |

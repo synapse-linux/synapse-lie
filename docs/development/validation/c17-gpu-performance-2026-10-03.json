@@ -514,7 +514,7 @@
     "charts/current-multi.json": "2cff32995439f52c221553ada0b60f728849b957a047b157977bb6000297b60a",
     "charts/current-multi.png": "bf217f035ae949ca9746bc99086415cb847bba8453bc15daa7da5d8832d13450",
     "charts/current-multi.svg": "175284dc9c308bb894ea3091d0f2e132256b945de46900d321e6d53be94ce210",
-    "charts/current-values.csv": "8d14e1a5b94608e3f68320f897b4b0df91b919aa1b7e19f74050c522888f95f7",
+    "charts/current-values.csv": "d2e69073c5a2324aa1d68495f72e1c7735fece69359550989d8697c47a6d3758",
     "data/current-depth-c17.jsonl.gz": "212cd4a03c909035cccdf77c8ea9e4f8617b23e96b4d0bd11b232d35da4d5a36",
     "data/current-depth-cpp.jsonl.gz": "b3ffd98649c6be99f7d0b3f8894d1844f89e15e784b4d2f145726aeacc87e2d5",
     "data/current-fresh-c17.jsonl.gz": "169e52287a4f1b9460db17640f539dbf1110654a4c677dc4c7849dbd369a1714",
@@ -547,5 +547,13 @@
     "scope": "Only native JSON/CSV duration columns added; all original comparison witnesses and SVG/PNG hashes unchanged",
     "evidence": "evidence/bench-phase-clocks-r1",
     "reporter_sha256": "8f8ae536ff2faf8eb13b213b15a093e71abe63bfd68a114a33fe74ef02e7fe31"
+  },
+  "combined_csv_unit_correction": {
+    "at": "2026-10-03T21:02:01.327041+00:00",
+    "scope": "Rename the 12 combined CSV duration headers from _ns_ to _seconds_; all 17 rows and every data byte unchanged; native duration summaries agree",
+    "previous_sha256": "8d14e1a5b94608e3f68320f897b4b0df91b919aa1b7e19f74050c522888f95f7",
+    "current_sha256": "d2e69073c5a2324aa1d68495f72e1c7735fece69359550989d8697c47a6d3758",
+    "retained_previous_copy": "evidence/gpu-perf-clocked-r1/current-values-before-unit-correction.csv",
+    "raw_and_graphs_changed": false
   }
 }
