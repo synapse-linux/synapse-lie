@@ -11,8 +11,13 @@ Original-weight continuation on `.157` now passes the AR HTTP controls and
 fifteen C17/C++ output/usage/logprob comparisons. MTP prefix continuation also
 passes complete-logit replay after correcting separately admitted predictor
 geometry. [Functional evidence](validation/c17-gpu-functional-2026-10-03.json)
-records the failures and limits. Matched performance is a separate campaign;
-ordinary greedy can retain GPU argmax and does not isolate C dense-filter cost.
+records the failures and limits. The
+[matched performance campaign](validation/c17-gpu-performance-2026-10-03.json)
+now compares 46 measured pairs plus 12 warmup pairs through 128K occupied context,
+eight users and a full 258794-token prompt. Input/output/counter/frontier witnesses
+agree exactly. TG medians differ by less than 1% except the retained un-warmed
+1500-token fresh point, which loses 16.64% and still requires investigation.
+Ordinary greedy retains GPU argmax and does not isolate C dense-filter cost.
 
 ## Ownership and behavior
 
@@ -104,9 +109,9 @@ Reference checks need a C++20 compiler and ICU; the C sampler itself needs C17
 and libm. The normal build/test path does not need Python. Shared-hardware GPU
 qualification remains subject to [coordination](../COORDINATION.md).
 
-Next gates: original-weight AR and MTP/vision continuation under new controls,
-cache equivalence, matched C1/C2..8, sampling overhead, host scratch peaks and
-HTTP responsiveness on `.157`. Then extract request-owned sampler state and
+Next gates: original-weight vision/combined continuation and restarted MTP/vision
+SSD, the missing 12288 depth, first-prompt regression diagnosis, sampling overhead,
+host scratch peaks and HTTP responsiveness on `.157`. Then extract request-owned sampler state and
 compact speculative distributions, followed by tokenizer, loading/binding and
 layer control. GPU-kernel replacement has its separate C++ removal gate.
 

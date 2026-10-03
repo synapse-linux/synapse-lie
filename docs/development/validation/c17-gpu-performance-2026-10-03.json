@@ -1,0 +1,525 @@
+{
+  "schema": "synapse-lie.c17-gpu-performance.v1",
+  "at": "2026-10-03T19:53:20.855662+00:00",
+  "host": "192.168.5.157 Bosgame AXB35-02 Ryzen AI Max+ 395 gfx1151",
+  "source_checkpoint": "b72f4e80aab890862c8402d34dce7e05b6af6c28",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Matched direct reactive AR C17 ON vs OFF within LIE; greedy device argmax unchanged. Not an independent Gufo HTTP or reactive vs serial comparison.",
+  "measured_pairs": 46,
+  "all_sample_pairs": 58,
+  "datasets": {
+    "depth": {
+      "configurations": 7,
+      "measured_repetitions": 3,
+      "warmups": 1,
+      "comparison": [
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9974545942013093
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 4096,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9965348215369925
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 8192,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9966910328173415
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 16384,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9972416786711528
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 32768,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.99632395618114
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 65536,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9907016667202648
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 131072,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9964828861977211
+        }
+      ]
+    },
+    "multi": {
+      "configurations": 5,
+      "measured_repetitions": 3,
+      "warmups": 1,
+      "comparison": [
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9997726800321417
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 2,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9963300200132519
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 4,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9942055864565849
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 6,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.997102334434306
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 8,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9924529213957416
+        }
+      ]
+    },
+    "fresh": {
+      "configurations": 5,
+      "measured_repetitions": 2,
+      "warmups": 0,
+      "comparison": [
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.8336266409355322
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9984920794606224
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9983318302353797
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9977793119418593
+        },
+        {
+          "tokens_equal": true,
+          "full_output_budget": true,
+          "eligible": true,
+          "depth": 0,
+          "users": 1,
+          "pp_frontier_equal": true,
+          "tg_frontier_equal": true,
+          "decode_ratio": 0.9981213252576384
+        }
+      ]
+    }
+  },
+  "regressions": [
+    {
+      "suite": "fresh",
+      "point": 0,
+      "depth": 0,
+      "users": 1,
+      "prompt_tokens": 1500,
+      "new_pp_tokens": 1500,
+      "context_capacity": 262144,
+      "c17_prefill_tps_median": 1380.1967465620826,
+      "c17_prefill_tps_min": 1227.937043222462,
+      "c17_prefill_tps_max": 1532.456449901703,
+      "c17_decode_tps_median": 22.019520621367256,
+      "c17_decode_tps_min": 21.297368449484882,
+      "c17_decode_tps_max": 22.741672793249627,
+      "c17_prefill_ns_median": 1.100190818,
+      "c17_prefill_ns_min": 0.978820638,
+      "c17_prefill_ns_max": 1.221560998,
+      "c17_decode_ns_median": 5.8192830065,
+      "c17_decode_ns_min": 5.628433808,
+      "c17_decode_ns_max": 6.010132205,
+      "cpp_prefill_tps_median": 1451.369452619844,
+      "cpp_prefill_tps_min": 1362.740472034094,
+      "cpp_prefill_tps_max": 1539.998433205594,
+      "cpp_decode_tps_median": 26.41412778825781,
+      "cpp_decode_tps_min": 26.231409194471038,
+      "cpp_decode_tps_max": 26.596846382044586,
+      "cpp_prefill_ns_median": 1.037375063,
+      "cpp_prefill_ns_min": 0.974026965,
+      "cpp_prefill_ns_max": 1.100723161,
+      "cpp_decode_ns_median": 4.846123494,
+      "cpp_decode_ns_min": 4.812600643,
+      "cpp_decode_ns_max": 4.879646345,
+      "pp_delta_percent": -4.903831063089326,
+      "tg_delta_percent": -16.637335906446783
+    }
+  ],
+  "raw_collection_sha256": {
+    "c17-depth/results/measurements.jsonl": {
+      "bytes": 1240863,
+      "sha256": "803ac99dd5d1c6bb8144922e3dcc3c08f751171a30dcba6d5d679091bd2cb6a5"
+    },
+    "c17-depth/results/result.json": {
+      "bytes": 53069,
+      "sha256": "81c97afb82108faa4478b998b11871201ace4abc862f30d206b8af6289714818"
+    },
+    "c17-depth/results/stderr.log": {
+      "bytes": 1604,
+      "sha256": "b6026745f8980c5a6f7773f0cf9853cb88c00b2609cd07c23dfcd9e9e7219d63"
+    },
+    "c17-depth/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "c17-depth/results/telemetry.jsonl": {
+      "bytes": 3327739,
+      "sha256": "3036bde1797da7acd3c758cabf6a041bbc171f095485e543d33ce55e6d5cfe3a"
+    },
+    "cpp-depth/results/measurements.jsonl": {
+      "bytes": 1240858,
+      "sha256": "2d720d6db43cc5b3614a88493b7483f98e461b89257356d46e42f9b542f9a9ca"
+    },
+    "cpp-depth/results/result.json": {
+      "bytes": 53069,
+      "sha256": "0547115a8291324e86b2fb30f642072b5591fdec7591aaae89932fc3d6d0650a"
+    },
+    "cpp-depth/results/stderr.log": {
+      "bytes": 1604,
+      "sha256": "b6026745f8980c5a6f7773f0cf9853cb88c00b2609cd07c23dfcd9e9e7219d63"
+    },
+    "cpp-depth/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cpp-depth/results/telemetry.jsonl": {
+      "bytes": 3333306,
+      "sha256": "4eb59779062bb326e0bca305a49dda2e6a7c09f991d3bb0fcb53e8b1a7db21e5"
+    },
+    "cpp-multi/results/measurements.jsonl": {
+      "bytes": 75486,
+      "sha256": "771dd25202c8081bcebe467f4263a330c44bcc06bbb56f3833a9d5d3e8191882"
+    },
+    "cpp-multi/results/result.json": {
+      "bytes": 48272,
+      "sha256": "28255df0147d6dc735b21d0702365acc6f1e62bb8e5da752b3e80a4095c65872"
+    },
+    "cpp-multi/results/stderr.log": {
+      "bytes": 1080,
+      "sha256": "e91577f0c73029ce43d5fbaaec5531c4589641c0b84a99c83b8582c3417ddfab"
+    },
+    "cpp-multi/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cpp-multi/results/telemetry.jsonl": {
+      "bytes": 1214658,
+      "sha256": "61368bbfab7e811efe6e00b6f64d4a77fe817318f73be46f06ce1229d1582c08"
+    },
+    "c17-multi/results/measurements.jsonl": {
+      "bytes": 75482,
+      "sha256": "58bc86170ab91a754b9d23cf1d90d89ddd2a1cf0f2f9f5ec48f244df74e7df11"
+    },
+    "c17-multi/results/result.json": {
+      "bytes": 48255,
+      "sha256": "b28b649aa56331a2063057d4ffc23478df24aacea9c59671492abbbc1d84443a"
+    },
+    "c17-multi/results/stderr.log": {
+      "bytes": 1080,
+      "sha256": "e91577f0c73029ce43d5fbaaec5531c4589641c0b84a99c83b8582c3417ddfab"
+    },
+    "c17-multi/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "c17-multi/results/telemetry.jsonl": {
+      "bytes": 1214567,
+      "sha256": "f6016e416ceaf0e84e742c1b1051ec993e7d5541701fdce5e39d9050eb9ae92c"
+    },
+    "c17-fresh/results/measurements.jsonl": {
+      "bytes": 1916990,
+      "sha256": "bd8c6fa163f25e22ec20cef3beceeadecf56ce1794804d8e64eca0238be65631"
+    },
+    "c17-fresh/results/result.json": {
+      "bytes": 46545,
+      "sha256": "b1142544689e6d81934a7978f4d0f07eccfcef3b41ba62a38ac1510205e31f4f"
+    },
+    "c17-fresh/results/stderr.log": {
+      "bytes": 540,
+      "sha256": "2d27b77a20cb5209d3da81126de8df7908e61df7d40d679ad8b644a87a6a8336"
+    },
+    "c17-fresh/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "c17-fresh/results/telemetry.jsonl": {
+      "bytes": 2595035,
+      "sha256": "7f4965b80f97d569d9684111869dbded0c71134f1d0b9c6dea5ed135c7b4854b"
+    },
+    "cpp-fresh/results/measurements.jsonl": {
+      "bytes": 1916979,
+      "sha256": "65b176709b53194cceb9807ecdcf0b707ce327a105631405b537c04bf9825cbb"
+    },
+    "cpp-fresh/results/result.json": {
+      "bytes": 46542,
+      "sha256": "f4a00c791fcbc971217f737fd84b124bba63a24b3c7762cbf49d20df46daee6a"
+    },
+    "cpp-fresh/results/stderr.log": {
+      "bytes": 540,
+      "sha256": "2d27b77a20cb5209d3da81126de8df7908e61df7d40d679ad8b644a87a6a8336"
+    },
+    "cpp-fresh/results/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cpp-fresh/results/telemetry.jsonl": {
+      "bytes": 2567493,
+      "sha256": "e296a24abd59b730cb68857dc15b688862c85356482a7a8fb5f05f3f5b25b61f"
+    }
+  },
+  "native_report_commands": [
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-depth/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-perf-b72-r1/report-depth",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-depth/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T19:49:02.863183+00:00"
+    },
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-multi/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-perf-b72-r1/report-multi",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-multi/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T19:49:02.882291+00:00"
+    },
+    {
+      "argv": [
+        "build/c17-hip/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-perf-b72-r1/c17-fresh/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-perf-b72-r1/report-fresh",
+        "--label",
+        "LIE C17",
+        "--compare",
+        "evidence/gpu-perf-b72-r1/cpp-fresh/results/measurements.jsonl",
+        "--reference-label",
+        "LIE C++ control"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T19:49:02.967737+00:00"
+    }
+  ],
+  "window_release_sha256": "3b3a42bc2728fa44025a95452faba72a0a185f85c7bbdb7204d2091c0337dcaf",
+  "missing": [
+    "12288-token depth from the eight-point Gufo shape",
+    "Gufo exact HTTP per-request-rate protocol",
+    "Mixed/repetitive MTP campaign",
+    "Cold target-file to HTTP-ready loading",
+    "Allocation-exact peak HIP memory",
+    "1M qualified context expansion",
+    "Cause of 1500-token fresh TG slowdown"
+  ],
+  "limitations": [
+    "Three measured repeats with one warmup for depth/multi; two repeats without warmup for fresh.",
+    "Separate serial arm order; no randomized crossover.",
+    "No sample wall/monotonic timestamps, GPU clocks/power or device timeline captured; root cause of first fresh point is unresolved.",
+    "Greedy GPU argmax bypasses the C17 dense host selector.",
+    "Physical outputs/frontier hashes agree; this is same-provider evidence."
+  ],
+  "thermal": {
+    "c17-depth": {
+      "peaks_c": {
+        "nvme": 62.85,
+        "amdgpu": 96.0,
+        "k10temp": 92.625
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    },
+    "cpp-depth": {
+      "peaks_c": {
+        "nvme": 74.85,
+        "amdgpu": 94.0,
+        "k10temp": 93.25
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    },
+    "c17-multi": {
+      "peaks_c": {
+        "nvme": 75.85,
+        "amdgpu": 94.0,
+        "k10temp": 92.75
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    },
+    "cpp-multi": {
+      "peaks_c": {
+        "nvme": 74.85,
+        "amdgpu": 95.0,
+        "k10temp": 93.125
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    },
+    "c17-fresh": {
+      "peaks_c": {
+        "nvme": 75.85,
+        "amdgpu": 95.0,
+        "k10temp": 93.5
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    },
+    "cpp-fresh": {
+      "peaks_c": {
+        "nvme": 74.85,
+        "amdgpu": 97.0,
+        "k10temp": 94.625
+      },
+      "os_threads_min": 1,
+      "os_threads_max": 51,
+      "fan_telemetry": "not exposed",
+      "child_exit_code": 0
+    }
+  },
+  "performance_acceptance": "UNRESOLVED: fresh1500 TG -16.64%, exceeds predeclared 5% loss investigation gate; all other measured TG medians within 1%.",
+  "published_artifacts_sha256": {
+    "charts/current-depth.csv": "026edab1cc3939ef82b1d25f28307b2051b7df0cd1b6566c04378c144eba6126",
+    "charts/current-depth.json": "cd44b4b096ca70ee338955f9429f8de6b8ad6a1d71937b570af43c8487ea87e1",
+    "charts/current-depth.png": "2c079bf6849613d95a24f0ccbe02c136f5849d8ccccca2e6e49ff4c82e4aaca5",
+    "charts/current-depth.svg": "0090d9dd1fd372610708a89fa9a10f94e54e211b901512f8d949ec8185d50e62",
+    "charts/current-fresh.csv": "b6f82043bc3f7673b32981c3f2caee3d188b2fa6c58510463be8e81a82f7377d",
+    "charts/current-fresh.json": "557b0e400c8da9c2812eaab9c95944c414b7e5c2b3da7aed0c2096c1cb7986a0",
+    "charts/current-fresh.png": "5594e82190265d7c88ea98484fd417d91f744af56ebd145fadb9c55ae6f9fd63",
+    "charts/current-fresh.svg": "6536a389d2450bc178e15ec5a4b9df1e39723484cd1a1dc40773b0a998577cc4",
+    "charts/current-multi.csv": "36dc0a9cb68dc2573be361083127c3319436df3824f576baffc2c810dfeb2f08",
+    "charts/current-multi.json": "ca9c75b1753fe9d6919de15075fad7ba1832e39e35950c6925789410657512e3",
+    "charts/current-multi.png": "bf217f035ae949ca9746bc99086415cb847bba8453bc15daa7da5d8832d13450",
+    "charts/current-multi.svg": "175284dc9c308bb894ea3091d0f2e132256b945de46900d321e6d53be94ce210",
+    "charts/current-values.csv": "8d14e1a5b94608e3f68320f897b4b0df91b919aa1b7e19f74050c522888f95f7",
+    "data/current-depth-c17.jsonl.gz": "212cd4a03c909035cccdf77c8ea9e4f8617b23e96b4d0bd11b232d35da4d5a36",
+    "data/current-depth-cpp.jsonl.gz": "b3ffd98649c6be99f7d0b3f8894d1844f89e15e784b4d2f145726aeacc87e2d5",
+    "data/current-fresh-c17.jsonl.gz": "169e52287a4f1b9460db17640f539dbf1110654a4c677dc4c7849dbd369a1714",
+    "data/current-fresh-cpp.jsonl.gz": "106b738985f1cd9a383e45185ba6feeea8f6b07cca549571dac87d439393eb13",
+    "data/current-multi-c17.jsonl.gz": "f2121677540e9baf346dc31480f4ebca34560f674ada6f8c6d52e0f6fe862a0f",
+    "data/current-multi-cpp.jsonl.gz": "9b2c3e888e5050d3f008994cb783f73abe1a22ed59a9bcf2298173cce8621956"
+  }
+}

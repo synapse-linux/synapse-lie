@@ -66,8 +66,13 @@ artifact hashes. The [declared protocol](development/protocols/C17-GPU-PROTOCOL.
 keeps matched performance, process-restarted MTP/vision SSD, real reactive peer
 progress and independent numerical/quality gates separate. All six declared
 C17/C++ performance arms finish with child/helper exits 0 through full fresh
-prefill at 258794 tokens. Their thirty collected result files SHA-verify; the
-comparison still needs publication and assessment. The `.157` window releases
+prefill at 258794 tokens. Their thirty collected result files SHA-verify. All
+46 measured and 12 warmup pairs have identical physical IDs, outputs, counters
+and full frontier hashes. Native C figures, CSV/JSON and raw compressed JSONL
+are now in the single [Strix Halo benchmark page](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md).
+TG differs by less than 1% except the retained un-warmed 1500-token point,
+which loses 16.64% and keeps the performance gate open. The missing 12288 depth
+and exact Gufo HTTP/MTP protocols remain explicit. The `.157` window releases
 at **19:41:04 UTC**: all 28 owned process identities retire, KFD is empty, the
 four original leases are unchanged/free, and six model stat witnesses and all
 used source capsules are unchanged. The controller exits 0; there is no observer,

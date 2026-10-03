@@ -1007,7 +1007,7 @@
     "unlaunched_next_campaign": "gpu-vision-bec-r1"
   },
   "pending": [
-    "Completed matched performance campaign gpu-perf-b72-r1: native comparison analysis and publication pending",
+    "Matched direct C17/C++ performance published: resolve 1500-token fresh slowdown, add missing 12288 depth and host-sampler cost/scratch measurements",
     "Vision Q8 admission/state/cache/restart (feature/vision-q8 bec0955)",
     "Process-restarted MTP SSD and real core cancellation/backpressure",
     "Independent numerical/quality and allocation-exact memory gates"
