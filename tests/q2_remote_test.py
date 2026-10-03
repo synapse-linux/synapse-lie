@@ -87,6 +87,14 @@ class RemoteGuardTests(unittest.TestCase):
     def test_packed_entry_requires_correct_source(self):
         self.refuse(['packed-operators', 'q2-fixture'], 'require the isolated packed source')
 
+    def test_packed_tiles_bench_requires_retained_source(self):
+        for mode in ('packed-tiles-bench', 'packed-tiles16-bench'):
+            for variant in ('qualified', 'packed', 'affine-palette', 'hc-down-wide'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'requires retained hc-up-chains source')
+            self.refuse([mode, 'q2-fixture', '--source-variant',
+                         'hc-up-chains', '--rebuild-mmq'], 'requires bench2k')
+
     def test_hc_input_requires_isolated_source(self):
         for variant in ('qualified', 'affine-palette', 'hc-library-down'):
             self.refuse(['hc-input-bench', 'q2-fixture', '--source-variant', variant],

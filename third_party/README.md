@@ -223,3 +223,13 @@ plotting tool are first-party MIT. Existing
 independent HC fixtures retain their original limits and failures. Source
 identities and measured scope are in `docs/Q2-HC-DOWN-WIDE.md`; upstream notices
 remain intact.
+
+The routed tile fixture extends this workstream's existing MIT packed-Q2
+benchmark and calls the retained official-Gufo-derived 16/48/64 dispatches.
+No engine source is changed. Its analysis and plotting tools are first-party
+MIT; the executed 48/64 component screen and unexecuted tile16 follow-up are
+distinguished in `docs/Q2-REASSESSMENT.md`. That report also consults historical
+DS4 qualification documents and result metadata read-only, as permitted
+reference evidence. Their paths/hashes are in `config/q2-reassessment.json`;
+no DS4 source, archive payload, compiled object or test implementation is
+imported. The proposed precision-boundary comparisons are hypotheses only.

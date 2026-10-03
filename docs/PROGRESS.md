@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Reassessment and routed tile rejection — 2026-10-03 UTC
+
+The owner requests a recap and points to historical DS4 results. The
+[reassessment](Q2-REASSESSMENT.md) verifies that Q2's historical DS4 2K rate
+was 1053.50 tokens/s after adapting Gufo's packed routed kernel; later
+1100–1194-class HC measurements primarily concern Q4. No DS4 source, binary
+or artifact is imported. Its documented F16 SwiGLU boundary and single-K16 HC
+chain differ from this workstream's compensated expert input and two-chain
+HC arithmetic. Those are explicit numerical hypotheses, not accepted ports.
+
+Offline marked-trace analysis confirms twelve fused attention calls per model,
+44.252 ms Q2 versus 45.696 ms UD, and all 48 expert-down calls at tile48 in
+both models. Attention or missing tile64 selection does not explain the recorded
+gap. The current source still measures 1335.84 PP / 24.09 TG against fresh UD
+1671.71 / 24.33; no new model measurement occurred. The independent PLE
+lookahead benefit on first-access 8K inputs remains separate from that warm gap.
+
+The new synthetic 48/64 comparison preserves all 52,428,800 outputs per routing
+and passes 3072 FP64 sampled dots, but tile64 costs 4.40–7.51% more time.
+Thirty samples, SVG/PNG/CSV and the verified complete reports are saved. The
+tile16 GPU arm was withdrawn before launch for the reassessment. Two CPU guard
+cohorts pass 12/12 Debug and 12/12 ASan/UBSan on .157. Three runners, fifteen
+command exits (all 0) and 21 collected artifacts verify; no original model was
+opened. Release at 04:17:41 UTC and observer retirement at 04:18:26 verify empty
+KFD, original leases free and all owned identities absent. The selected engine,
+public C ABI and qualified runtime remain unchanged; no GPU job is queued.
+
 ## Wider HC down variants add no useful gain — 2026-10-03 UTC
 
 The [wider HC down screen](Q2-HC-DOWN-WIDE.md) preserves the original two

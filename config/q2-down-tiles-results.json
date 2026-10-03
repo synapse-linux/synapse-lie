@@ -1,0 +1,213 @@
+{
+  "scope": "Alternating synthetic Q2 tile timings on .157; no complete-model throughput claim",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "runs": [
+    {
+      "path": "evidence/q2-down-tiles-micro-r1",
+      "mode": "packed-tiles-bench",
+      "candidate_tile": 64,
+      "source_variant": "hc-up-chains",
+      "binary_sha256": "687f706f9033c6bc30214cead49eb20b7ce105b56b0d9e2c8b9ed946528d24c3",
+      "started_at": "2026-10-03T03:59:34.875272+00:00",
+      "finished_at": "2026-10-03T03:59:55.490255+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "numerical_pass": true,
+      "cases": [
+        {
+          "active_experts": 512,
+          "geometry": {
+            "event": "tile_geometry",
+            "tokens": 2048,
+            "experts": 512,
+            "used": 10,
+            "rows": 2560,
+            "logical_k": 640,
+            "stored_k": 768,
+            "tile": 48,
+            "tiles": 512,
+            "weight_bytes": 330301440,
+            "weight_sha256": "5aec2463b837022e9ce58a0267d353481be3b0657523cc1a8c7b90c042c5462e",
+            "input_sha256": "a1a14a2c638fdb908ca31bef8a4eadf1b84d1b89019f14ebfe2e49e63ce462c6",
+            "active_experts": 512,
+            "active_weight_bytes": 330301440,
+            "candidate_tile": 64,
+            "candidate_tiles": 512,
+            "heuristic_selects64": false
+          },
+          "microseconds": {
+            "48": {
+              "samples": [
+                5370.7909584,
+                5364.86244202,
+                5357.48815536,
+                5329.34379578,
+                5332.0441246
+              ],
+              "min": 5329.34379578,
+              "median": 5357.48815536,
+              "max": 5370.7909584
+            },
+            "64": {
+              "samples": [
+                5636.29961014,
+                5634.51433182,
+                5593.44387054,
+                5585.729599,
+                5585.84451675
+              ],
+              "min": 5585.729599,
+              "median": 5593.44387054,
+              "max": 5636.29961014
+            }
+          },
+          "time_ratio": 1.0440422280624053,
+          "complete_replay": {
+            "event": "tile_replay",
+            "values": 52428800,
+            "exact": true,
+            "reference_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+            "candidate_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+            "independent_samples": 1024,
+            "relative_rms": 0.000192816047956,
+            "error_over_peak": 0.000224104708963,
+            "active_experts": 512
+          },
+          "numerical_pass": true,
+          "oracle_file": "evidence/q2-down-tiles-micro-r1/results/packed-tiles-samples-512.jsonl",
+          "oracle_sha256": "c937580755cfc04cf6d74ded40e0e96dab6c04271e353adccc5b90e135a9f967"
+        },
+        {
+          "active_experts": 128,
+          "geometry": {
+            "event": "tile_geometry",
+            "tokens": 2048,
+            "experts": 512,
+            "used": 10,
+            "rows": 2560,
+            "logical_k": 640,
+            "stored_k": 768,
+            "tile": 48,
+            "tiles": 512,
+            "weight_bytes": 330301440,
+            "weight_sha256": "5aec2463b837022e9ce58a0267d353481be3b0657523cc1a8c7b90c042c5462e",
+            "input_sha256": "a1a14a2c638fdb908ca31bef8a4eadf1b84d1b89019f14ebfe2e49e63ce462c6",
+            "active_experts": 128,
+            "active_weight_bytes": 82575360,
+            "candidate_tile": 64,
+            "candidate_tiles": 384,
+            "heuristic_selects64": true
+          },
+          "microseconds": {
+            "48": {
+              "samples": [
+                4749.06682968,
+                4730.70669174,
+                4746.0808754,
+                4737.45632172,
+                4750.14591217
+              ],
+              "min": 4730.70669174,
+              "median": 4746.0808754,
+              "max": 4750.14591217
+            },
+            "64": {
+              "samples": [
+                5130.29193878,
+                5088.97352219,
+                5093.77813339,
+                5054.49390411,
+                5047.47438431
+              ],
+              "min": 5047.47438431,
+              "median": 5088.97352219,
+              "max": 5130.29193878
+            }
+          },
+          "time_ratio": 1.0722475355545014,
+          "complete_replay": {
+            "event": "tile_replay",
+            "values": 52428800,
+            "exact": true,
+            "reference_sha256": "8570d7695eebdf5a8f95d1c733e4a208bb340a86a8fd8ba9f399472997ed079b",
+            "candidate_sha256": "8570d7695eebdf5a8f95d1c733e4a208bb340a86a8fd8ba9f399472997ed079b",
+            "independent_samples": 1024,
+            "relative_rms": 0.000200912075693,
+            "error_over_peak": 0.000181114555285,
+            "active_experts": 128
+          },
+          "numerical_pass": true,
+          "oracle_file": "evidence/q2-down-tiles-micro-r1/results/packed-tiles-samples-128.jsonl",
+          "oracle_sha256": "64f0621fa6e69429d85303b1068e18a21f9ed3454dc94910c8b8089f648124e6"
+        },
+        {
+          "active_experts": 64,
+          "geometry": {
+            "event": "tile_geometry",
+            "tokens": 2048,
+            "experts": 512,
+            "used": 10,
+            "rows": 2560,
+            "logical_k": 640,
+            "stored_k": 768,
+            "tile": 48,
+            "tiles": 448,
+            "weight_bytes": 330301440,
+            "weight_sha256": "5aec2463b837022e9ce58a0267d353481be3b0657523cc1a8c7b90c042c5462e",
+            "input_sha256": "a1a14a2c638fdb908ca31bef8a4eadf1b84d1b89019f14ebfe2e49e63ce462c6",
+            "active_experts": 64,
+            "active_weight_bytes": 41287680,
+            "candidate_tile": 64,
+            "candidate_tiles": 320,
+            "heuristic_selects64": true
+          },
+          "microseconds": {
+            "48": {
+              "samples": [
+                4637.13502884,
+                4630.33056259,
+                4625.82540512,
+                4605.2365303,
+                4614.17102814
+              ],
+              "min": 4605.2365303,
+              "median": 4625.82540512,
+              "max": 4637.13502884
+            },
+            "64": {
+              "samples": [
+                5000.99134445,
+                4975.25691986,
+                4968.87731552,
+                4973.18267822,
+                4968.20735931
+              ],
+              "min": 4968.20735931,
+              "median": 4973.18267822,
+              "max": 5000.99134445
+            }
+          },
+          "time_ratio": 1.0750908740990384,
+          "complete_replay": {
+            "event": "tile_replay",
+            "values": 52428800,
+            "exact": true,
+            "reference_sha256": "9f5489f5ecaa6740fdae02b3dfe49b70d4097aea646250020ba6f2a779fe0a80",
+            "candidate_sha256": "9f5489f5ecaa6740fdae02b3dfe49b70d4097aea646250020ba6f2a779fe0a80",
+            "independent_samples": 1024,
+            "relative_rms": 0.000200991386758,
+            "error_over_peak": 0.000219373436028,
+            "active_experts": 64
+          },
+          "numerical_pass": true,
+          "oracle_file": "evidence/q2-down-tiles-micro-r1/results/packed-tiles-samples-64.jsonl",
+          "oracle_sha256": "9815875e096e01d79759a8f1b94331df8f7d1344b5f69e25cbf6d4939030571f"
+        }
+      ]
+    }
+  ]
+}

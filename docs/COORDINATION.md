@@ -1332,3 +1332,67 @@ The outgoing notification fails at the direct MCP HTTP transport; delivery is
 not claimed. The persistent receipt, shared registry and this ledger remain
 the recorded handover under the agreed fallback protocol. No further remote
 experiment is queued in this released window.
+
+
+The previous goal turn is progress: checkpoint `d5bbd9b` rejects three wider
+HC down mappings with exact component replay and verified closure, directing
+work back to routed experts. Fresh read-only admission at **2026-10-03
+03:57:37.227561 UTC** finds empty KFD, all four original leases EX|NB/free and
+the wider-down release last in the shared registry. Core's ledger still
+records local analysis after R12 and no later campaign. Direct read-thread
+transport fails; the agreed ledger fallback applies.
+
+Q2 takes a bounded routed-down tile window: host CPU/ASan qualification,
+then one synthetic component arm comparing the retained source's existing
+48/64-token packed-Q2 dispatches. It uses 512/128/64 active experts, so every
+active encoded weight set exceeds 32 MiB; both tile orders alternate over
+five timing samples. Complete guarded outputs and 1024 independent FP64 dots
+per routing must agree at the original limits. The prospective selection
+predicate is UD's existing no-extra-padding condition; no Q2 executor change
+or model arm is admitted until a useful component result. Full matched Q2/UD
+models then require fresh rebuilds and exact replay. Every build/GPU arm
+acquires four fresh leases with the 98 C inclusive/lower exposed bounds.
+No interleaving, foreign mutation or automatic retry; Q2 owns the window
+through verified closure. Source and evidence remain in persistent paths.
+
+
+All three 48/64 comparisons pass complete-output replay and 1024 FP64 dots
+at the unchanged limits, but tile64 increases component median time by
+4.40% / 7.22% / 7.51% for 512/128/64 active experts. The two cases selected
+by the prospective UD predicate also regress. No executor change or full-model
+arm is admitted. Q2 admits one bounded follow-up in the same owned window:
+compare the existing packed-Q2 tile16 against tile48 using the same three
+routings, more-than-32-MiB active weight sets, alternating timing order and
+complete output checks. Fresh CPU/ASan guards precede this GPU arm; four
+fresh leases remain mandatory. Existing kernel arithmetic and source stay
+unchanged. Models remain conditional on a useful measured component gain.
+The predicate recorded by the fixture describes reserved tile capacity;
+short bucket WMMA work already skips inactive 16-row subtiles.
+
+
+The operator now requests a recap and reassessment. The prepared tile16
+GPU follow-up is withdrawn before launch; only its second host guard cohort
+completed (12/12 Debug and 12/12 ASan/UBSan). No further GPU experiment or
+model arm is queued. The completed tile64 result is numerically exact and
+slower in all three routings. Offline trace inspection also finds that the
+historical matched UD prefill used tile48 for all 48 expert-down calls, so
+missing tile64 selection does not explain that measured Q2/UD gap. Closure
+now covers three completed runners and fifteen command exits, all zero.
+
+
+Q2 releases the routed-tile window at **2026-10-03 04:17:41.779789 UTC**.
+Three runners and fifteen command identities/groups/sessions are absent; KFD
+is empty and all four original leases are EX|NB/free. The persistent receipt is
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-down-tiles-window-release.json`;
+the shared registry records `window_release`. All three result hashes match
+the locally collected reports, with 21 verified artifacts and every command
+exit 0. No original model was opened. Independent observation at
+**04:18:26.196922 UTC** verifies closure observer PID 2844769, group/session
+2844766 and start ticks 156645580 absent. Both observers exit 0.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window with fresh coordinated admission. The outgoing notification again fails
+at the direct MCP HTTP transport; delivery is not claimed. The persistent
+receipt, registry and this ledger retain the handover under the agreed fallback.
+Q2 continues local reassessment, including read-only historical DS4 qualification
+reports at the owner's request; no foreign source or artifact is imported.

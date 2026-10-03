@@ -4,6 +4,12 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The [current reassessment](docs/Q2-REASSESSMENT.md) reconciles the warm GPU
+gap, measured reactive PLE benefit and read-only historical DS4 results.
+Fused WMMA attention is already active in both Q2 and UD. New exact tile48/64
+component comparisons regress by 4.40–7.51%; the next investigation concerns
+documented activation and accumulation boundaries, with numerical acceptance
+still open. No new model speedup or engine promotion is claimed by that recap.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
 development candidate, [paired HC up](docs/Q2-HC-UP-CHAINS.md), builds on the

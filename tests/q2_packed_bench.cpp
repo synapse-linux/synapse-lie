@@ -30,10 +30,14 @@ static float Weight(const unsigned char *row, unsigned col) {
   // format oracle before sampled FP64 products. Padding is never consumed.
   return __half2float(d) * (sm & 15) * code - __half2float(m) * (sm >> 4);
 }
-static bool Bench() {
+static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
+                  unsigned compared_tile = 64) {
   constexpr unsigned experts = 512, used = 10, tokens = 2048;
   constexpr unsigned rows = 2560, logical = 640, stored = 768, tile = 48;
   constexpr unsigned slots = tokens * used, row_bytes = stored / 256 * 84;
+  const unsigned candidate_tile = compare_tiles ? compared_tile : tile;
+  Check(active_experts >= used && active_experts <= experts,
+        "Invalid active expert count");
   constexpr std::size_t guard = 32, output_count = std::size_t(slots) * rows;
   std::vector<unsigned char> weights(std::size_t(experts) * rows * row_bytes);
   std::uint32_t random = 0x25112048;
@@ -54,18 +58,23 @@ static bool Bench() {
     x[i] = (float(int(Next(random) % 2001) - 1000) + 0.137f) / 2048.0f;
     packed[i] = PackCompensated(x[i]);
   }
-  std::vector<std::int32_t> ids(slots), tiles;
+  std::vector<std::int32_t> ids(slots), tiles, candidate_tiles;
   std::vector<std::uint32_t> counts(experts);
   for (unsigned slot = 0; slot < slots; ++slot) {
-    ids[slot] = static_cast<int>((slot * 73 + 17) % experts);
+    ids[slot] = static_cast<int>((slot * 73 + 17) % active_experts);
     ++counts[ids[slot]];
   }
   for (unsigned e = 0; e < experts; ++e)
     for (unsigned t = 0; t < (counts[e] + 15) / 16 * 16; t += tile)
       tiles.push_back(static_cast<int>(e | ((t / tile) << 16)));
+  for (unsigned e = 0; e < experts; ++e)
+    for (unsigned t = 0; t < (counts[e] + 15) / 16 * 16; t += candidate_tile)
+      candidate_tiles.push_back(
+          static_cast<int>(e | ((t / candidate_tile) << 16)));
   const auto compact_rows = q::RoutedCompactRows(slots, experts);
   Device wd(weights.size()), xd(x.size() * 4), pd(packed.size() * 4);
   Device id(ids.size() * 4), cd(counts.size() * 4), td(tiles.size() * 4);
+  Device candidate_td(candidate_tiles.size() * 4);
   Device bounds((experts + 1) * 4), cursors(experts * 4);
   Device row_token(compact_rows * 4), row_slot(compact_rows * 4);
   Device raw((output_count + 2 * guard) * 4);
@@ -80,6 +89,8 @@ static bool Bench() {
                 hipMemcpyHostToDevice));
   Hip(hipMemcpy(td.data, tiles.data(), tiles.size() * 4,
                 hipMemcpyHostToDevice));
+  Hip(hipMemcpy(candidate_td.data, candidate_tiles.data(),
+                candidate_tiles.size() * 4, hipMemcpyHostToDevice));
   Hip(hipMemset(raw.data, 0xA5, (output_count + 2 * guard) * 4));
   Hip(hipMemset(candidate.data, 0xA5, (output_count + 2 * guard) * 4));
   q::RoutedCompact(static_cast<const std::int32_t *>(id.data),
@@ -90,16 +101,23 @@ static bool Bench() {
                    static_cast<std::int32_t *>(row_slot.data), tokens, used,
                    experts, nullptr);
   auto launch = [&](bool use_packed) {
-    const auto *t = static_cast<const std::int32_t *>(td.data);
+    const auto *t = static_cast<const std::int32_t *>(
+        use_packed ? candidate_td.data : td.data);
     const auto *b = static_cast<const std::int32_t *>(bounds.data);
     const auto *r = static_cast<const std::int32_t *>(row_slot.data);
     if (use_packed)
-      Check(q::RoutedQ2GemmPacked(wd.data,
-                                  static_cast<const std::uint32_t *>(pd.data),
-                                  t, tiles.size(), tile, b, r,
-                                  static_cast<float *>(candidate.data) + guard,
-                                  rows, logical, nullptr),
+      Check(q::RoutedQ2GemmPacked(
+                wd.data, static_cast<const std::uint32_t *>(pd.data), t,
+                candidate_tiles.size(), candidate_tile, b, r,
+                static_cast<float *>(candidate.data) + guard, rows, logical,
+                nullptr),
             "Packed dispatch failed");
+    else if (compare_tiles)
+      Check(q::RoutedQ2GemmPacked(
+                wd.data, static_cast<const std::uint32_t *>(pd.data), t,
+                tiles.size(), tile, b, r,
+                static_cast<float *>(raw.data) + guard, rows, logical, nullptr),
+            "Packed reference tile dispatch failed");
     else
       Check(q::RoutedQ2Gemm(wd.data, static_cast<const float *>(xd.data), t,
                             tiles.size(), tile, b, r,
@@ -107,14 +125,25 @@ static bool Bench() {
                             logical, nullptr),
             "Raw-input dispatch failed");
   };
-  std::cout << "{\"event\":\"geometry\",\"tokens\":" << tokens
-            << ",\"experts\":" << experts << ",\"used\":" << used
-            << ",\"rows\":" << rows << ",\"logical_k\":" << logical
-            << ",\"stored_k\":" << stored << ",\"tile\":" << tile
-            << ",\"tiles\":" << tiles.size()
+  std::cout << "{\"event\":\"" << (compare_tiles ? "tile_geometry" : "geometry")
+            << "\",\"tokens\":" << tokens << ",\"experts\":" << experts
+            << ",\"used\":" << used << ",\"rows\":" << rows
+            << ",\"logical_k\":" << logical << ",\"stored_k\":" << stored
+            << ",\"tile\":" << tile << ",\"tiles\":" << tiles.size()
             << ",\"weight_bytes\":" << weights.size() << ",\"weight_sha256\":\""
             << Digest<unsigned char>(weights) << "\",\"input_sha256\":\""
-            << Digest<float>(x) << "\"}\n";
+            << Digest<float>(x) << "\"";
+  if (compare_tiles)
+    std::cout << ",\"active_experts\":" << active_experts
+              << ",\"active_weight_bytes\":"
+              << std::size_t(active_experts) * rows * row_bytes
+              << ",\"candidate_tile\":" << candidate_tile
+              << ",\"candidate_tiles\":" << candidate_tiles.size()
+              << ",\"no_extra_tile_capacity\":"
+              << (candidate_tiles.size() * candidate_tile <= tiles.size() * tile
+                      ? "true"
+                      : "false");
+  std::cout << "}\n";
   for (int i = 0; i < 3; ++i) {
     launch(false);
     launch(true);
@@ -135,9 +164,15 @@ static bool Bench() {
       Hip(hipGetLastError());
       float ms = 0;
       Hip(hipEventElapsedTime(&ms, begin, end));
-      std::cout << "{\"event\":\"microbench\",\"packed\":"
-                << (use_packed ? "true" : "false") << ",\"rep\":" << rep
-                << ",\"position\":" << position << ",\"launches\":" << launches
+      if (compare_tiles)
+        std::cout << "{\"event\":\"tile_microbench\",\"active_experts\":"
+                  << active_experts
+                  << ",\"tile\":" << (use_packed ? candidate_tile : tile);
+      else
+        std::cout << "{\"event\":\"microbench\",\"packed\":"
+                  << (use_packed ? "true" : "false");
+      std::cout << ",\"rep\":" << rep << ",\"position\":" << position
+                << ",\"launches\":" << launches
                 << ",\"us_per_launch\":" << ms * 1000.0 / launches << "}\n";
     }
   }
@@ -164,7 +199,11 @@ static bool Bench() {
   const auto cs = std::span(got).subspan(guard, output_count);
   const bool exact = std::memcmp(rs.data(), cs.data(), rs.size_bytes()) == 0;
   double error2 = 0, norm2 = 0, maximum = 0, peak = 0;
-  std::ofstream samples("results/packed-bench-samples.jsonl");
+  std::ofstream samples(compare_tiles
+                            ? "results/packed-tiles-" +
+                                  std::to_string(candidate_tile) + "-samples-" +
+                                  std::to_string(active_experts) + ".jsonl"
+                            : "results/packed-bench-samples.jsonl");
   for (unsigned i = 0; i < 1024; ++i) {
     const unsigned slot = (i * 7919 + 17) % slots, row = (i * 101 + 127) % rows;
     const auto *wr =
@@ -185,23 +224,44 @@ static bool Bench() {
   Check(bool(samples), "Cannot save independent samples");
   const double rms = std::sqrt(error2 / std::max(norm2, 1e-30));
   const double scaled_max = maximum / std::max(peak, 1e-20);
-  std::cout << "{\"event\":\"replay\",\"values\":" << output_count
+  std::cout << "{\"event\":\"" << (compare_tiles ? "tile_replay" : "replay")
+            << "\",\"values\":" << output_count
             << ",\"exact\":" << (exact ? "true" : "false")
-            << ",\"raw_sha256\":\"" << Digest<float>(rs)
-            << "\",\"packed_sha256\":\"" << Digest<float>(cs)
+            << (compare_tiles ? ",\"reference_sha256\":\""
+                              : ",\"raw_sha256\":\"")
+            << Digest<float>(rs)
+            << (compare_tiles ? "\",\"candidate_sha256\":\""
+                              : "\",\"packed_sha256\":\"")
+            << Digest<float>(cs)
             << "\",\"independent_samples\":1024,\"relative_rms\":" << rms
-            << ",\"error_over_peak\":" << scaled_max << "}\n";
+            << ",\"error_over_peak\":" << scaled_max;
+  if (compare_tiles)
+    std::cout << ",\"active_experts\":" << active_experts;
+  std::cout << "}\n";
   return exact && rms <= 0.002 && scaled_max <= 0.002;
 }
 
-int main() {
+int main(int argc, char **argv) {
   try {
+    Check(argc == 1 || (argc == 2 && (std::string(argv[1]) == "tiles" ||
+                                      std::string(argv[1]) == "tiles16")),
+          "Usage: q2_packed_bench [tiles|tiles16]");
     Hip(hipSetDevice(0));
     std::cout << std::unitbuf;
     std::cout.precision(12);
     // Preserve the requested performance samples even if numerical replay
     // subsequently fails. A numerical failure still returns exit 1.
-    Check(Bench(), "Synthetic Q2 benchmark replay or oracle failed");
+    bool ok = true;
+    if (argc == 2) {
+      // Include a balanced control and two increasingly shared routings.
+      // Even the smallest active weight set exceeds the 32 MiB device cache.
+      for (unsigned active : {512u, 128u, 64u})
+        ok = Bench(active, true, std::string(argv[1]) == "tiles16" ? 16 : 64) &&
+             ok;
+    } else {
+      ok = Bench();
+    }
+    Check(ok, "Synthetic Q2 benchmark replay or oracle failed");
     std::cout << "PASS synthetic packed Q2 benchmark; no model inference\n";
   } catch (const std::exception &ex) {
     std::cerr << ex.what() << '\n';
