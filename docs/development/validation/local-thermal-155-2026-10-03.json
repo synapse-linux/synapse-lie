@@ -1,0 +1,475 @@
+{
+  "schema": "synapse-lie.local-gpu-thermal-validation.v1",
+  "at": "2026-10-03T19:45:24.163421+00:00",
+  "authorization": "no, fai partire direttamente qui, vediamo prima se regge la temperature su un bench test",
+  "source_checkpoint": "87cf8f4",
+  "summary": {
+    "schema": "synapse-lie.local-gpu-thermal.v2",
+    "host": "192.168.5.155 ASUS ROG Flow Z13 GZ302EAC, Ryzen AI Max+ 395",
+    "scope": "Synthetic GPU FP16 GEMM, NOT MODEL INFERENCE",
+    "measurements": [
+      {
+        "stage": "sustained-1",
+        "state": "PASS",
+        "tflops": 23.9376,
+        "gemm_us": 5741.55,
+        "timed_loop_s": 22.9662,
+        "process_elapsed_s": 24.998894549906254,
+        "peak_cpu_c": 86.875,
+        "peak_gpu_c": 87.0,
+        "peak_nvme_c": 32.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-2",
+        "state": "PASS",
+        "tflops": 22.7789,
+        "gemm_us": 6033.6,
+        "timed_loop_s": 24.1344,
+        "process_elapsed_s": 25.92883460316807,
+        "peak_cpu_c": 91.125,
+        "peak_gpu_c": 91.0,
+        "peak_nvme_c": 34.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          2,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-3",
+        "state": "PASS",
+        "tflops": 23.7061,
+        "gemm_us": 5797.62,
+        "timed_loop_s": 23.19048,
+        "process_elapsed_s": 25.121821019798517,
+        "peak_cpu_c": 93.5,
+        "peak_gpu_c": 95.0,
+        "peak_nvme_c": 35.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-4",
+        "state": "PASS",
+        "tflops": 23.8021,
+        "gemm_us": 5774.23,
+        "timed_loop_s": 23.09692,
+        "process_elapsed_s": 25.04841020796448,
+        "peak_cpu_c": 93.375,
+        "peak_gpu_c": 96.0,
+        "peak_nvme_c": 37.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-5",
+        "state": "PASS",
+        "tflops": 23.5438,
+        "gemm_us": 5837.6,
+        "timed_loop_s": 23.3504,
+        "process_elapsed_s": 25.018196975812316,
+        "peak_cpu_c": 92.875,
+        "peak_gpu_c": 94.0,
+        "peak_nvme_c": 37.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-6",
+        "state": "PASS",
+        "tflops": 23.9121,
+        "gemm_us": 5747.67,
+        "timed_loop_s": 22.99068,
+        "process_elapsed_s": 24.526506492868066,
+        "peak_cpu_c": 93.5,
+        "peak_gpu_c": 95.0,
+        "peak_nvme_c": 37.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-7",
+        "state": "PASS",
+        "tflops": 23.7849,
+        "gemm_us": 5778.42,
+        "timed_loop_s": 23.11368,
+        "process_elapsed_s": 24.524513691663742,
+        "peak_cpu_c": 93.375,
+        "peak_gpu_c": 96.0,
+        "peak_nvme_c": 38.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      },
+      {
+        "stage": "sustained-8",
+        "state": "PASS",
+        "tflops": 23.7476,
+        "gemm_us": 5787.5,
+        "timed_loop_s": 23.15,
+        "process_elapsed_s": 24.86572078615427,
+        "peak_cpu_c": 93.125,
+        "peak_gpu_c": 97.0,
+        "peak_nvme_c": 38.85,
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "thread_range": [
+          1,
+          5
+        ]
+      }
+    ],
+    "process_seconds_total": 200.03289832733572,
+    "timed_loop_seconds_total": 185.99276,
+    "campaign_wall_s": 201.786583,
+    "median_tflops": 23.76625,
+    "last_vs_first_percent": -0.7937303656172734,
+    "range_as_percent_of_median": 4.875401041392729,
+    "prior_campaign_median_tflops": 22.858,
+    "median_vs_prior_campaign_percent": 3.973444745822019,
+    "peak_cpu_c": 93.5,
+    "peak_gpu_c": 97.0,
+    "peak_nvme_c": 38.85,
+    "loaded_fans_rpm": [
+      8700,
+      8900
+    ],
+    "samples": 380,
+    "gpu_samples_ge95": 11,
+    "hardware_shutdown_observed": false,
+    "hardware_deterioration_observed": false,
+    "software_thermal_stops": 0,
+    "model_payload_access": false,
+    "hardware_settings_changed_during_benchmark": false,
+    "postflight": "postflight.json",
+    "plots": [
+      "temperatures-and-fans.svg",
+      "temperatures-and-fans.png",
+      "throughput.svg",
+      "throughput.png"
+    ],
+    "limits": [
+      "Only 202 seconds total; longer steady-state operation is not qualified.",
+      "Eight short processes have brief gaps and 5 warmup iterations each.",
+      "Matrix operator test only; no LIE/Gufo inference token rates or CPU numerical reference check.",
+      "No controlled previous fan curve comparison; performance differences between runs do not prove a cooling gain.",
+      "Desktop DRM clients and denied file descriptor visibility are retained; cooperative leases are not universal exclusivity.",
+      "0.5 s target sensor sampling; peaks between samples may be missed.",
+      "No hardware shutdown or damage occurred; a future software guard stop would not establish hardware failure.",
+      "Thread counts include HIP and BLAS helpers; OMP_NUM_THREADS and OPENBLAS_NUM_THREADS are 1."
+    ]
+  },
+  "raw_evidence_directory": "evidence/gpu-thermal-155-20261003T1940Z",
+  "artifact_sha256": {
+    "campaign.json": {
+      "bytes": 2114,
+      "sha256": "194bcd4d4b10f49f6bc4569a188380b173c42ac9cbaaca600fd815bae1be4067"
+    },
+    "fan-curves-after.txt": {
+      "bytes": 174,
+      "sha256": "19aee1ec2c09430561b518e003b7f3d55de7b681aff517665c7696cb37828f27"
+    },
+    "plan.json": {
+      "bytes": 985,
+      "sha256": "5813fc6a8575f4a6d7f50b8689f425c677442f2f9fd4c7dc3402b35fcb28b622"
+    },
+    "plot.py": {
+      "bytes": 2568,
+      "sha256": "579fe0b0d9648466267521d618798034212f71cb6f1cff6900b403e1c5432df3"
+    },
+    "postflight.json": {
+      "bytes": 2213,
+      "sha256": "2acd71d5588f767e8e0063ec17ef078b5e77ef729d82e486a5010924248277e1"
+    },
+    "read-only-preflight.json": {
+      "bytes": 873,
+      "sha256": "6b1a1836f09927f6440d564ccebdbb205217a943130d653975a6dcf3f96857ba"
+    },
+    "run.py": {
+      "bytes": 6756,
+      "sha256": "28e92697ba8b05801071af4466487ce8799c6fafd3c51004a8ad8d9766498f93"
+    },
+    "runs.jsonl": {
+      "bytes": 6552,
+      "sha256": "8525a2b2e0fecbaa725ded756ed73d0fa19bde4380f9f60f93f6446cfc6d42c6"
+    },
+    "summary.json": {
+      "bytes": 5007,
+      "sha256": "52bfe419a4d890b0b5befca68b86ad299106752b5fd7b88f967e8a07d27ff41e"
+    },
+    "sustained-1/command.log": {
+      "bytes": 975,
+      "sha256": "aa396071a48c09aa53754a2ad7fdc98e3eb9ee8c3939cc157874339c1531a4d9"
+    },
+    "sustained-1/result.json": {
+      "bytes": 1993,
+      "sha256": "06bc05b7f8465e3479a0907febacb0fb9b8bd1152cb81c8e517d3ff546a26d44"
+    },
+    "sustained-1/telemetry.jsonl": {
+      "bytes": 46528,
+      "sha256": "c14960e9a8a2f414cf99bbcdaf2cbe44c7b61636a1d94523e0e13e99072d59b0"
+    },
+    "sustained-2/command.log": {
+      "bytes": 974,
+      "sha256": "65b955526f8d7b9b305f7c44506c51a6c0dc5371680ac9649580da636583daac"
+    },
+    "sustained-2/result.json": {
+      "bytes": 1992,
+      "sha256": "87f158e1bc0ab718fc1c2248bcd4bef8cde2332d5a1937106047517216b875f6"
+    },
+    "sustained-2/telemetry.jsonl": {
+      "bytes": 49574,
+      "sha256": "557364cd31b5f1442f6f0b4bf692d7a3eedcf7ebfa8ec7fa0653ef024c0cfe07"
+    },
+    "sustained-3/command.log": {
+      "bytes": 975,
+      "sha256": "bd53bb552540c9e9f81be59035b8d0fd22ac18cbe9039ac982102859b9e2e8ad"
+    },
+    "sustained-3/result.json": {
+      "bytes": 1991,
+      "sha256": "ee7393ab2b28f671b7a2a1504ea1598e0faf03b1ba1290f29c6eed59dabecccf"
+    },
+    "sustained-3/telemetry.jsonl": {
+      "bytes": 48550,
+      "sha256": "fbd39cfa649893b208712d6c2f36ea8f61d0a4c1afb16639ed47fa0fe457f3c6"
+    },
+    "sustained-4/command.log": {
+      "bytes": 975,
+      "sha256": "b6d8c470beb70839d73680c7a5f22649222142052593555c20d060ab167c66df"
+    },
+    "sustained-4/result.json": {
+      "bytes": 1992,
+      "sha256": "b4fc46ee2ec97826dccc32bc63621248473785926b2fabab82950f689c74e356"
+    },
+    "sustained-4/telemetry.jsonl": {
+      "bytes": 48505,
+      "sha256": "52b9e0911bb9637ebf462d424f543efd53c100cd52fd4dd8070b966bf261493e"
+    },
+    "sustained-5/command.log": {
+      "bytes": 974,
+      "sha256": "b2aef6f91d4f54812a6e19cb5ec90f50d98c45369a47869a93e07deed6a92880"
+    },
+    "sustained-5/result.json": {
+      "bytes": 1993,
+      "sha256": "a7ac6206e0a6f9141c2a2fda25e9842db3de7324c3574d492c3fe9a2b3e3f96f"
+    },
+    "sustained-5/telemetry.jsonl": {
+      "bytes": 48566,
+      "sha256": "f715b6977d684654513d7f37535514157f97b6c45cd1e26fd6225c36ea3a02ad"
+    },
+    "sustained-6/command.log": {
+      "bytes": 975,
+      "sha256": "5d0d54b664882b7595435487291f94a2a1194943a2b24560b620baa6113e169f"
+    },
+    "sustained-6/result.json": {
+      "bytes": 1991,
+      "sha256": "c14393b5d1499b9202e28d5317bb7997bcce8dbee48808977f3477727020c9f1"
+    },
+    "sustained-6/telemetry.jsonl": {
+      "bytes": 47555,
+      "sha256": "94b30ed29eddb3c60dd256d0abc944706bc0f769af09e22fa859b49561f9158f"
+    },
+    "sustained-7/command.log": {
+      "bytes": 975,
+      "sha256": "f66ef6f15ad7ec48bbcf7f8cd6e8410ea68e0787563ec3945efe2f3ebc8a4162"
+    },
+    "sustained-7/result.json": {
+      "bytes": 1993,
+      "sha256": "b64de4325d5933e6b244a61df9369de4135e5a6cf665406ea87a7a487d86e6c1"
+    },
+    "sustained-7/telemetry.jsonl": {
+      "bytes": 47560,
+      "sha256": "ac92e8707922d85e9dcb842e575414e2af1cec3b21ffce38ae8226ca760c0820"
+    },
+    "sustained-8/command.log": {
+      "bytes": 974,
+      "sha256": "422a65b31b5a8b6bcd7d6b11a60066376bbe72ca9872adf81f41a4455ffd10f6"
+    },
+    "sustained-8/result.json": {
+      "bytes": 1992,
+      "sha256": "11b1abb6b077a01f8ada4bf350c2bbacfc80ac4dd091cf6ecb6d137548f044cf"
+    },
+    "sustained-8/telemetry.jsonl": {
+      "bytes": 47568,
+      "sha256": "fab12c50bbe7b5a3416eaed0f71e220b0ea150e9a9258d2ee1c664eac56951fd"
+    },
+    "telemetry.csv": {
+      "bytes": 44312,
+      "sha256": "ed9d3d2423bd8607a9393ae25b62f602f2bea9089fb9b6daa642161557ea6e67"
+    },
+    "temperatures-and-fans.png": {
+      "bytes": 146861,
+      "sha256": "2a3c74c0d0607c5e01831d8111aeb3dae68779c177fc77481f9411351f87200e"
+    },
+    "temperatures-and-fans.svg": {
+      "bytes": 87575,
+      "sha256": "cb24e4c9c30f116958d1429e97129fcf34addeb498dd61cf7b16e0c0b59a8119"
+    },
+    "throughput.png": {
+      "bytes": 45658,
+      "sha256": "82c185e4a4e7aa3bb8088509124f50a4782bb3ff7f5c53f66bc938a0d25fe624"
+    },
+    "throughput.svg": {
+      "bytes": 50300,
+      "sha256": "4569379d4dbad9031019759443588b7c6d809f32b2df7077f35670a9d6017c93"
+    }
+  },
+  "postflight": {
+    "at": "2026-10-03T19:43:32.753615+00:00",
+    "state": "RELEASED",
+    "owned_identities": [
+      {
+        "stage": "sustained-1",
+        "pid": 2642019,
+        "start_ticks": 449804348,
+        "retired": true
+      },
+      {
+        "stage": "sustained-1",
+        "pid": 2642021,
+        "start_ticks": 449804372,
+        "retired": true
+      },
+      {
+        "stage": "sustained-2",
+        "pid": 2642104,
+        "start_ticks": 449806873,
+        "retired": true
+      },
+      {
+        "stage": "sustained-2",
+        "pid": 2642144,
+        "start_ticks": 449806893,
+        "retired": true
+      },
+      {
+        "stage": "sustained-3",
+        "pid": 2642364,
+        "start_ticks": 449809488,
+        "retired": true
+      },
+      {
+        "stage": "sustained-3",
+        "pid": 2642365,
+        "start_ticks": 449809507,
+        "retired": true
+      },
+      {
+        "stage": "sustained-4",
+        "pid": 2642424,
+        "start_ticks": 449812020,
+        "retired": true
+      },
+      {
+        "stage": "sustained-4",
+        "pid": 2642425,
+        "start_ticks": 449812039,
+        "retired": true
+      },
+      {
+        "stage": "sustained-5",
+        "pid": 2642885,
+        "start_ticks": 449814546,
+        "retired": true
+      },
+      {
+        "stage": "sustained-5",
+        "pid": 2642887,
+        "start_ticks": 449814566,
+        "retired": true
+      },
+      {
+        "stage": "sustained-6",
+        "pid": 2643203,
+        "start_ticks": 449817070,
+        "retired": true
+      },
+      {
+        "stage": "sustained-6",
+        "pid": 2643204,
+        "start_ticks": 449817089,
+        "retired": true
+      },
+      {
+        "stage": "sustained-7",
+        "pid": 2643465,
+        "start_ticks": 449819544,
+        "retired": true
+      },
+      {
+        "stage": "sustained-7",
+        "pid": 2643466,
+        "start_ticks": 449819562,
+        "retired": true
+      },
+      {
+        "stage": "sustained-8",
+        "pid": 2643550,
+        "start_ticks": 449822017,
+        "retired": true
+      },
+      {
+        "stage": "sustained-8",
+        "pid": 2643551,
+        "start_ticks": 449822038,
+        "retired": true
+      }
+    ],
+    "kfd": [],
+    "lease_inode_preserved": true,
+    "lease_free_nonblocking_probe": true,
+    "lease": {
+      "path": "/tmp/ds4.lock",
+      "device": 54,
+      "inode": 22093645
+    },
+    "campaign_controller_exit_code": 0
+  },
+  "plot_inspection": "Both standalone PNGs inspected; temperature and fan panels separated, throughput bars start at zero and each trial shows its value.",
+  "plotting_dependency": "Optional private evidence plotting uses an existing Matplotlib installation. Product build/runtime/benchmark/export dependencies unchanged.",
+  "preparatory_failures": [
+    {
+      "command": "asusctl profile -p",
+      "exit_code": 1,
+      "reason": "Unsupported flag; corrected to profile get. No mutation."
+    },
+    {
+      "command": "asusctl profile -g",
+      "exit_code": 1,
+      "enclosing_shell_exit_code": 0,
+      "reason": "Unsupported flag; corrected to profile get. No mutation."
+    },
+    {
+      "command": "First read-only preflight Python serialization",
+      "exit_code": 1,
+      "enclosing_shell_exit_code": 0,
+      "reason": "A DRM client set is not JSON serializable; corrected to sorted list. No GPU execution."
+    }
+  ]
+}

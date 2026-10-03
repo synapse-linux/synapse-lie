@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Local GPU thermal benchmark — 2026-10-03
+
+At the owner's request, the editing ASUS ROG Flow Z13 `.155` completes eight
+consecutive rocBLAS FP16 GEMM4096 trials, each with five warmups and 4000 timed
+iterations. All child/supervisor exits are 0. The campaign lasts **201.79 s**,
+including **185.99 s** in the timed GEMM loops. Median throughput is
+**23.766 TFLOP/s**; the last trial is **0.79%** below the first. Sampled peaks
+are **CPU93.5/GPU97/NVMe38.85 C**, with no 98 C guard stop, hardware shutdown
+or deterioration observed. The last trials generally remain around 92–94 C
+under load, with brief GPU peaks. Both existing fan curves select PWM255 from
+60 C; loaded fans run at 8700–8900 RPM. No settings change during the benchmark.
+
+This is a **synthetic matrix workload**, not LIE inference or a model token-rate
+comparison. Eight short processes do not qualify longer steady-state operation;
+there is no controlled comparison with earlier fan settings. The independent
+local lease is acquired afresh for each arm. All sixteen owned process identities
+retire, KFD is empty and the original lease inode is unchanged/free afterwards.
+The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
+binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
+and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
+
 ## Original-weight GPU continuation — 2026-10-03
 
 After the Q2 thread's verified release at 17:37:05 UTC, root takes the `.157`
@@ -43,9 +64,16 @@ The [functional receipt](development/validation/c17-gpu-functional-2026-10-03.js
 binds all eight passed/failed arms, observed OS threads, temperatures and raw
 artifact hashes. The [declared protocol](development/protocols/C17-GPU-PROTOCOL.md)
 keeps matched performance, process-restarted MTP/vision SSD, real reactive peer
-progress and independent numerical/quality gates separate. The enclosing GPU
-window remains active; no source in `/tmp`, DS4 modification, remote build,
-installation or tuning occurs.
+progress and independent numerical/quality gates separate. All six declared
+C17/C++ performance arms finish with child/helper exits 0 through full fresh
+prefill at 258794 tokens. Their thirty collected result files SHA-verify; the
+comparison still needs publication and assessment. The `.157` window releases
+at **19:41:04 UTC**: all 28 owned process identities retire, KFD is empty, the
+four original leases are unchanged/free, and six model stat witnesses and all
+used source capsules are unchanged. The controller exits 0; there is no observer,
+queued restart or waiter. The prepared vision/SSD/reactive continuation has not
+run. No source in `/tmp`, DS4 modification, remote build, installation or tuning
+occurs.
 
 ## C17 dense sampling extraction — 2026-10-03
 

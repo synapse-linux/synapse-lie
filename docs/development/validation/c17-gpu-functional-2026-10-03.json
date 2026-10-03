@@ -989,9 +989,25 @@
     "all_equal": true
   },
   "collection_note": "R3 first collection merged two identical results basenames; retained separately in collection-merged-results. Authoritative per-arm directories were recollected independently.",
-  "window_state": "ACTIVE; no enclosing release yet",
+  "window_state": {
+    "state": "RELEASED",
+    "at": "2026-10-03T19:41:04.028239+00:00",
+    "receipt": "evidence/gpu-functional-f0-r1/window-release.json",
+    "receipt_sha256": "3b3a42bc2728fa44025a95452faba72a0a185f85c7bbdb7204d2091c0337dcaf",
+    "owned_identities_retired": 28,
+    "kfd_empty": true,
+    "four_original_leases_unchanged_free": true,
+    "six_model_stat_witnesses_unchanged": true,
+    "all_used_source_capsules_unchanged": true,
+    "ssh_controller_exit_code": 0,
+    "observer_started": false,
+    "restart_scheduled": false,
+    "performance_arms_completed": 6,
+    "performance_result_files_collected_sha256_verified": 30,
+    "unlaunched_next_campaign": "gpu-vision-bec-r1"
+  },
   "pending": [
-    "Matched performance campaign gpu-perf-b72-r1",
+    "Completed matched performance campaign gpu-perf-b72-r1: native comparison analysis and publication pending",
     "Vision Q8 admission/state/cache/restart (feature/vision-q8 bec0955)",
     "Process-restarted MTP SSD and real core cancellation/backpressure",
     "Independent numerical/quality and allocation-exact memory gates"
