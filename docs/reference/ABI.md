@@ -28,6 +28,17 @@ upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
 
 
+## Additive state components
+
+State ABI 2 gains `LIE_STATE_KVC_AUX` and the `LIE_STATE_AUXILIARY` boundary
+role without changing existing structure layouts or enum values.
+`lie_state_kvc_parts` validates the complete component map and returns separate
+DS4-payload and auxiliary lengths. Invalid descriptors refuse before allocation
+or transfer. Old AR files retain footer version 1; new auxiliary files use
+version 2, require checksum admission and retain a fresh destination sampler.
+The feature adapters still advertise unsupported prefix state until their
+complete model binding and identity checks are connected.
+
 ## Ownership and completion
 
 - `lie_gufo_open` creates a model handle. Output handles must initially be NULL.

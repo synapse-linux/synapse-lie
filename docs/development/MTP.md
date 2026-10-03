@@ -75,12 +75,22 @@ counts. Proposals and rejected tokens are never counted as generated output.
 
 ## Cache and remaining gates
 
-Current KVC state describes the AR frontier and omits predictor/rollback state.
-MTP therefore requires **explicit `--kv-cache-ram-mb 0` and no `--kv-disk-dir`**;
+The C state codec now describes DS4 predictor K/V, raw index and pooled keys,
+plus typed residual/kept hidden rows and a validated adaptive controller.
+The extra Gufo continuation components use the common authenticated auxiliary
+trailer; DS4 payload offsets and ordinary AR files remain unchanged. CPU fixtures
+exercise predictor frontiers at 0, 1, 3, 4 and 8 tokens, budget refusal, corruption,
+capture/restore and SSD index reconstruction in a new live domain.
+
+The live provider still requires binding these components and pinning predictor
+weights/configuration into the stable identity. Its existing MTP path also pools
+keys only when sparse attention starts; complete pooled capture must be implemented
+without presenting uninitialized history as state. MTP therefore still requires
+**explicit `--kv-cache-ram-mb 0` and no `--kv-disk-dir`**;
 incompatible configurations are refused before loading a model. AR retains its
 normal RAM-cache default. No incomplete state is presented as a cache hit.
 
-Before integration: add complete model-specific predictor state and identity to
+Before integration: connect the model-specific predictor state and identity to
 the common RAM/SSD lifecycle; qualify greedy AR parity, sampled target behavior,
 rejection/rollback, cancellation and mixed concurrency on original weights;
 then compare PP/TG, complete-window throughput and memory with AR. Same sampling
@@ -93,3 +103,5 @@ variant. No numerical kernels or DS4 project files were changed. Two synthetic
 provider geometries (8- and 13-token bursts) exercise the generic contract;
 these fixtures are **NOT-INFERENCE**. See the
 [validation receipt](validation/mtp-2026-10-03.json).
+The subsequent state-codec checks are recorded separately in the
+[state validation receipt](validation/mtp-state-2026-10-03.json).

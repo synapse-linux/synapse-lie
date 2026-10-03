@@ -171,9 +171,16 @@ own payload binding without adding Qwen geometry to generic policy or I/O.
 
 The LIE binding is an opaque trailer extension, outside the DS4 model payload:
 a 64-byte descriptor per component followed by a 192-byte `LIEKVC1` footer.
+Footer version 1 remains byte-identical for ordinary AR checkpoints. Version 2
+adds an authenticated auxiliary-byte length and format tag. Its disk order is
+`[header][text][unchanged DS4 payload][client trailer][auxiliary components][table][footer]`.
+The header payload length still describes only the DS4 payload. In RAM, typed
+auxiliary sections follow that payload in the same immutable allocation; every
+byte counts toward retention and staging budgets. Model-specific codecs own
+auxiliary geometry; the store has no predictor or image topology.
 It records state ABI/representation/chunk, model frontier data, exact stable
 identity, token-prefix key, client-trailer length and SHA-256 integrity. The hash
-covers envelope, text, payload, client trailer, descriptors and footer, excluding
+covers envelope, text, payload, client trailer, auxiliary components, descriptors and footer, excluding
 only mutable hit-count/last-used header fields and the digest itself. User trailer
 bytes remain untouched. This is exact DS4 envelope/payload layout with an extra
 LIE extension, not a claim that complete files equal a particular DS4 writer's

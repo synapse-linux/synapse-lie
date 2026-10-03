@@ -22,6 +22,8 @@ original-weight behavior or performance; other real model bindings remain open.
 - Function calls and tool results through the standard OpenAI protocol; Pi can
   connect directly over HTTP.
 - Native GPU decode batching, driven by sequence readiness and output credits.
+- Experimental [MTP verified bursts](docs/development/MTP.md),
+  with explicit model configuration; feature KV reuse is still under development.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency

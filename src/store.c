@@ -186,7 +186,7 @@ static unsigned prompt_prefix(lie_store *s){
 static bool write_state(lie_store *s){
     char name[69]={0},key[65],temporary[78];const lie_state_layout *l=lie_state_description(s->state);
     if(!lie_state_prefix_key(&s->identity,lie_state_tokens(s->state),l->token_count,key))return false;
-    if(l->format==LIE_STATE_KVC){if(!text_name(&s->metadata,name))return false;}
+    if(l->format!=LIE_STATE_ALIGNED){if(!text_name(&s->metadata,name))return false;}
     else{memcpy(name,key,64);memcpy(name+64,".lie",5);}
     unsigned replacement=UINT32_MAX;
     for(unsigned i=0;i<s->capacity;++i)if(!strcmp(s->entries[i].name,name)){
@@ -375,7 +375,7 @@ bool lie_store_can_write(lie_store *s,uint64_t bytes){
 bool lie_store_write_prompt(lie_store *s,lie_state *state,const lie_cache_metadata *metadata,size_t prompt_tokens,uint32_t prompt_flags){
     if(!s||!state||!lie_cache_metadata_valid(metadata))return false;
     if(prompt_tokens>lie_state_description(state)->token_count||(prompt_flags&~15u))return false;
-    if(lie_state_description(state)->format==LIE_STATE_KVC&&!metadata->text_bytes)return false;
+    if(lie_state_description(state)->format!=LIE_STATE_ALIGNED&&!metadata->text_bytes)return false;
     uint64_t bytes=lie_state_bytes(state);pthread_mutex_lock(&s->gate);
     bool ok=!s->stop&&!s->busy&&lie_state_description(state)->domain==s->domain&&
         bytes<=s->info.staging_budget_bytes&&metadata_bytes(metadata)<=s->info.staging_budget_bytes-bytes&&

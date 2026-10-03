@@ -26,7 +26,10 @@ remain delegated; this does not claim an autonomous C model executor.
 ## MTP development boundary
 
 This branch exposes [MTP inference inputs/output](../development/MTP.md),
-but its KVC bindings still capture AR state only. The core refuses MTP
+and its C codec now retains predictor tensors, residual/kept hidden rows and
+adaptive-controller state. The live provider still captures AR state only,
+pending device transfer bindings, complete pooled predictor keys and stable
+predictor identity. The core refuses MTP
 configuration with either RAM retention or disk persistence enabled before model
 load. It does not silently drop predictor/image state or downgrade a failed
 restore to an equivalent cache hit. Complete model-specific extensions and
