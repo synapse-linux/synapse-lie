@@ -29,6 +29,11 @@ native/provider subset passes 2/2. The
 [Point benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
 links the complete already-published direct results and keeps new-runtime
 measurement pending.
+The additional CPU-qualified C17 sampler commits `ff91544` and `ba054bd`
+are now merged for the future Point runtime. The Point full C/HTTP rebuild and
+five focused CTest cases pass; the corresponding ASan/UBSan subset passes 4/4.
+These host checks do not qualify the optimized sampler on `gfx1150`. The
+ongoing `fresh-256k` baseline continues on the unchanged `1877b03` binary.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 
@@ -88,6 +93,61 @@ vision/state/cache/SSD/resource qualification remains open, while the separate
 sampling performance campaign continues on `.157` from its frozen checkpoint.
 The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
 binds source, providers, command exits and CPU thermal observations.
+## Dense-loop sampler follow-up — 2026-10-03 UTC
+
+Mask-free greedy uses its own finite argmax loop; probability normalization now
+divides independent entries before stable underflow compaction. This lets the
+compiler optimize those loops without an optional mask branch or a moving output
+cursor. API, ABI, allocation shape, reactive flow and GPU operations are unchanged.
+
+ASan/UBSan/LeakSanitizer passes 17/17 host-reference suites, 1/1 native C contract
+and three cost smokes. All 54 measured distributions/draws/RNG witnesses match
+both controls and the original baseline; all 162 allocation scopes retire, and
+all twelve measurement processes exit0 and retire. Worst CPU case ratio versus
+Gufo improves from 2.00 to **1.20**; median ratio stays **1.07**. Full-vocabulary
+sine greedy measures 53.43/49.94 µs, unfiltered sampling 1549.44/1354.22 µs.
+The cost gate remains open; these generated-logit CPU measurements do not
+qualify original-weight GPU throughput. Measurement CPU/GPU/NVMe peaks are
+84.125/55/33.85 C; no software thermal stop occurs. Original and both optimized
+results remain separately bound in the
+[sampler guide](development/C17-SAMPLING.md#first-cost-optimization),
+[receipt](development/validation/sampling-dense-loops-2026-10-03.json) and full CSV.
+
+Strix Point's ROCm10 old-source fresh128 pair now finishes 10/10 samples per
+arm, with matching output IDs and full PP/TG frontiers. At 128K LIE/Gufo medians
+are PP401.949/402.066 and TG10.061/10.062 token/s. The Point thread verifies
+21 remote-file hashes per arm, exits0 and owned closure, then starts a separately
+admitted old-source fresh256 LIE arm. This is baseline `1877b03`, not qualification
+of the newer integrated core or this sampler follow-up.
+
+## First sampler cost optimization — 2026-10-03 UTC
+
+The C17 ranked selector replaces full heapsort with bounded introsort, preserving
+its deterministic logit/token order and heap fallback. Linear selection tracks
+the maximum while preparing candidates; ordinary host greedy checks improvement
+before eligibility. No API, ABI, reactive scheduling, worker or device change.
+
+ASan/UBSan/LeakSanitizer passes **17/17** host-reference tests, **1/1** native
+C contract and three cost smokes. The expanded full-vocabulary matrix contains
+24 cases, including adversarial orderings. All 54 measured distribution/draw/RNG
+witnesses match controls and the original baseline; all 162 allocation scopes
+retire, twelve measurement processes exit0 and retire. New control-relative
+median case cost falls from **1.71 to 1.07**, but the worst ratio remains **2.00**.
+The performance acceptance gate stays open, with original-weight sampled GPU
+qualification still pending. Complete retained baseline/current values are in
+the [optimization report](development/C17-SAMPLING.md#first-cost-optimization)
+and [source-bound receipt](development/validation/sampling-optimization-2026-10-03.json).
+Measurement CPU/GPU/NVMe peaks are 77.875/52/34.85 C, with no guard stop.
+
+The existing Strix Point thread runs its missing ROCm10 fresh128 baseline on
+`.161` using the old qualified source `1877b03`; this is not qualification of
+the newer runtime. Separately it commits current core/MTP/vision/gfx1150
+integration at `b8a3c73` and frozen `bea50d3` phase-clock/QA integration at
+`a049bcc`, retaining target-specific receipts and the central benchmark page.
+Point's next runtime GPU window remains separately admitted; root accesses
+neither remote GPU during this CPU increment.
+
+
 ## Dense sampler host cost measured — 2026-10-03
 
 The editing Strix Halo `.155` completes the host-only 54-case sampler matrix:

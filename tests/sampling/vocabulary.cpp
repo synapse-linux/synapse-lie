@@ -11,10 +11,16 @@ static void retain(uint64_t& hash,uint64_t value) {
 int main() {
   using namespace gufo::sampling;
   std::vector<float> logits(248320);
-  for(unsigned geometry=0;geometry<3;++geometry)
+  for(unsigned geometry=0;geometry<6;++geometry)
     for(unsigned filter=0;filter<4;++filter) {
-    for(size_t i=0;i<logits.size();++i)
-      logits[i]=geometry==0?0:geometry==1?float(std::sin(i*.17)*3):float(i%127)/7;
+    for(size_t i=0;i<logits.size();++i) {
+      if(geometry==0)logits[i]=0;
+      else if(geometry==1)logits[i]=float(std::sin(i*.17)*3);
+      else if(geometry==2)logits[i]=float(i%127)/7;
+      else if(geometry==3)logits[i]=float(logits.size()-i)/8192;
+      else if(geometry==4)logits[i]=float(i<logits.size()/2?i:logits.size()-i)/8192;
+      else logits[i]=float((i*8191)%logits.size())/8192;
+    }
     SamplingConfig c;c.seed=77;c.temperature=.7f;
     if(filter==1)c.top_p=.95f;
     if(filter==2){c.top_k=32;c.top_p=.8f;c.min_p=.1f;}

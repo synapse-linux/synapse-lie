@@ -69,12 +69,30 @@ static double adjusted(const lie_sampling_row *r, const lie_sampling_options *o,
 static bool eligible(const lie_sampling_row *r, size_t i) {
   return (!r->allowed || r->allowed[i]) && isfinite(r->logits[i]);
 }
+static bool greedy_unmasked(const float *logits, size_t n, uint32_t *token) {
+  float maximum = -INFINITY;
+  uint32_t best = 0;
+  bool found = false;
+  for (size_t i = 0; i < n; ++i) {
+    const float value = logits[i];
+    if (value > maximum && isfinite(value)) {
+      maximum = value; best = (uint32_t)i; found = true;
+    }
+  }
+  if (found) *token = best;
+  return found;
+}
 lie_sampling_status lie_sampling_greedy(const lie_sampling_row *r,
                                        const lie_sampling_options *o,
                                        uint32_t *token) {
   if (!token) return LIE_SAMPLING_INVALID;
   lie_sampling_status rc = validate(r, o);
   if (rc != LIE_SAMPLING_OK) return rc;
+  /* Keep mask-free reduction separate so an optional grammar branch does
+   * not inhibit the compiler's ordinary argmax reduction optimization. */
+  if (!r->penalty_count && !r->bias_count && !r->allowed)
+    return greedy_unmasked(r->logits, r->count, token)
+      ? LIE_SAMPLING_OK : LIE_SAMPLING_NO_FINITE;
   bool found = false;
   double maximum = -INFINITY;
   uint32_t best = 0;
@@ -82,7 +100,7 @@ lie_sampling_status lie_sampling_greedy(const lie_sampling_row *r,
   if (!r->penalty_count && !r->bias_count) {
     float max_float = -INFINITY;
     for (size_t i = 0; i < r->count; ++i)
-      if (eligible(r, i) && r->logits[i] > max_float) {
+      if (r->logits[i] > max_float && eligible(r, i)) {
         max_float = r->logits[i]; best = (uint32_t)i; found = true;
       }
   } else for (size_t i = 0; i < r->count; ++i) {
@@ -126,12 +144,55 @@ static void up(lie_sampling_probability *p, size_t child) {
     exchange(&p[parent], &p[child]); child = parent;
   }
 }
-static void sort(lie_sampling_probability *p, size_t n) {
-  /* Heapsort gives a deterministic total ordering without qsort callbacks. */
+static void heap_sort(lie_sampling_probability *p, size_t n) {
   for (size_t i = n/2; i; --i) down(p, n, i-1);
   for (size_t end = n; end > 1; --end) {
     exchange(p, &p[end-1]); down(p, end-1, 0);
   }
+}
+static void insertion_sort(lie_sampling_probability *p, size_t n) {
+  for (size_t i = 1; i < n; ++i) {
+    lie_sampling_probability value = p[i];
+    size_t j = i;
+    while (j && better(value, p[j-1])) {
+      p[j] = p[j-1]; --j;
+    }
+    p[j] = value;
+  }
+}
+static void intro_sort(lie_sampling_probability *p, size_t n, unsigned depth) {
+  while (n > 24) {
+    if (!depth) { heap_sort(p, n); return; }
+    --depth;
+    size_t middle = n/2;
+    if (better(p[middle], p[0])) exchange(p, &p[middle]);
+    if (better(p[n-1], p[middle])) exchange(&p[middle], &p[n-1]);
+    if (better(p[middle], p[0])) exchange(p, &p[middle]);
+    const lie_sampling_probability pivot = p[middle];
+    size_t left = 0, right = n-1;
+    for (;;) {
+      while (left < n && better(p[left], pivot)) ++left;
+      while (right && better(pivot, p[right])) --right;
+      if (left >= right) break;
+      exchange(&p[left], &p[right]); ++left; --right;
+    }
+    /* A degenerate partition cannot cause unbounded recursion or a retry. */
+    if (!left || left == n) { heap_sort(p, n); return; }
+    if (left < n-left) {
+      intro_sort(p, left, depth); p += left; n -= left;
+    } else {
+      intro_sort(p+left, n-left, depth); n = left;
+    }
+  }
+  insertion_sort(p, n);
+}
+static void sort(lie_sampling_probability *p, size_t n) {
+  /* Total value/token ordering is unchanged. Recurse only on the smaller
+   * partition; the depth limit retains heapsort's worst-case bound. No heap
+   * allocation or callback is needed, including on adversarial input. */
+  unsigned depth = 0;
+  for (size_t remaining = n; remaining > 1; remaining >>= 1) depth += 2;
+  intro_sort(p, n, depth);
 }
 static lie_sampling_status select_best(const lie_sampling_row *r,
                                        const lie_sampling_options *o,
@@ -157,7 +218,7 @@ static lie_sampling_status select_best(const lie_sampling_row *r,
 static lie_sampling_status select_all(const lie_sampling_row *r,
                                       const lie_sampling_options *o,
                                       lie_sampling_workspace *w, bool ranked,
-                                      size_t *count) {
+                                      size_t *count, double *maximum) {
   lie_sampling_status rc = reserve(w, r->count);
   if (rc != LIE_SAMPLING_OK) return rc;
   size_t n = 0;
@@ -166,6 +227,7 @@ static lie_sampling_status select_all(const lie_sampling_row *r,
     double value = adjusted(r, o, i);
     if (!isfinite(value)) return LIE_SAMPLING_NONFINITE;
     w->entries[n++] = (lie_sampling_probability){(uint32_t)i, value};
+    if (maximum && value > *maximum) *maximum = value;
   }
   if (!n) return LIE_SAMPLING_NO_FINITE;
   if (ranked) sort(w->entries, n);
@@ -199,10 +261,8 @@ lie_sampling_status lie_sampling_build(const lie_sampling_row *r,
   double full_sum = 0, maximum = -INFINITY;
   bool has_full_sum = false;
   if (linear) {
-    rc = select_all(r, o, w, false, &n);
+    rc = select_all(r, o, w, false, &n, &maximum);
     if (rc != LIE_SAMPLING_OK) return rc;
-    for (size_t i = 0; i < n; ++i)
-      if (w->entries[i].value > maximum) maximum = w->entries[i].value;
   } else if (o->top_k > 0) {
     size_t limit = (size_t)o->top_k;
     if (limit < minimum_kept(o, r->count)) limit = minimum_kept(o, r->count);
@@ -230,8 +290,8 @@ lie_sampling_status lie_sampling_build(const lie_sampling_row *r,
     for (size_t i = 0; i < n; ++i)
       partial += exp((w->entries[i].value-maximum)/o->temperature);
     if (partial < (double)o->top_p*full_sum)
-      rc = select_all(r, o, w, true, &n);
-  } else rc = select_all(r, o, w, true, &n);
+      rc = select_all(r, o, w, true, &n, NULL);
+  } else rc = select_all(r, o, w, true, &n, NULL);
   if (rc != LIE_SAMPLING_OK) return rc;
   if (!linear) {
     maximum = w->entries[0].value;
@@ -269,11 +329,13 @@ lie_sampling_status lie_sampling_build(const lie_sampling_row *r,
     total += w->entries[i].value;
   }
   if (!(total > 0) || !isfinite(total)) return LIE_SAMPLING_NONFINITE;
+  /* Independent divisions may vectorize without changing their rounding.
+   * Skip already-dense rows before compacting, preserving underflow order. */
+  for (size_t i = 0; i < n; ++i) w->entries[i].value /= total;
   size_t used = 0;
-  for (size_t i = 0; i < n; ++i) {
-    w->entries[i].value /= total;
+  while (used < n && w->entries[used].value != 0) ++used;
+  for (size_t i = used; i < n; ++i)
     if (w->entries[i].value != 0) w->entries[used++] = w->entries[i];
-  }
   *count = used;
   return LIE_SAMPLING_OK;
 }
