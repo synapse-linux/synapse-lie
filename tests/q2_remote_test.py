@@ -206,6 +206,27 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_called_once()
             run.assert_not_called()
 
+    def test_ragged_library_component_only(self):
+        for variant in ('qualified', 'library-norm-bound', 'hc-decode-reduce'):
+            self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant', variant],
+                        'Ragged HC library requires its isolated source')
+        for mode in ('cpu', 'q2-original-baseline', 'q2-bench2k', 'q2-profile', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-library-ragged'],
+                        'Ragged HC library is component-only')
+        self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-library-ragged', '--rebuild-mmq'], 'requires bench2k')
+        self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-library-ragged', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'hc-library-ragged-bench', 'q2-fixture',
+                '--source-variant', 'hc-library-ragged']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
     def test_decode_baseline_scope(self):
         for mode, variant in (('q2-decode-baseline', 'library-norm-bound'),
                               ('ud-decode-baseline', 'qualified')):

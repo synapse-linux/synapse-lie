@@ -1,0 +1,21 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp
+@@ -82,7 +82,8 @@
+   // The unchanged F16 values use a different accumulation order; numerical
+   // failures are retained. No live search, workspace or global tuning cache.
+   const int preferred =
+-      type == HIP_R_16F && m == 320 && n == 2048 && k == 10240 ? 7526 : -1;
++      type == HIP_R_16F && m == 320 && n >= 96 && n <= 2048 && k == 10240 ? 7526
++                                                                          : -1;
+   const auto usable = [&](hipblasLtMatmulAlgo_t& algorithm) {
+     std::size_t workspace = 0;
+     return hipblaslt_ext::matmulIsAlgoSupported(
+@@ -136,7 +137,7 @@
+   // moves within a batch. Router and recurrent-gate errors then amplify across
+   // layers. Keep one K reduction for every row and prefill chunk size.
+   const bool hc_library_down =
+-      type == HIP_R_16F && m == 320 && n == 2048 && k == 10240;
++      type == HIP_R_16F && m == 320 && n >= 96 && n <= 2048 && k == 10240;
+   const bool hc_half = !hc_library_down && n >= 96 &&
+                        ((m == 320 && k == 10240) || (m == 10240 && k == 320));
+   if (type == HIP_R_16F && ((k == 2560 && (m == 96 || m == 513)) || hc_half)) {

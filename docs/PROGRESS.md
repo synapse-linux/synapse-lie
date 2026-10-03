@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Ragged HC library dispatch prepared — 2026-10-03
+
+The previous goal turn completed the original-C17 baseline and scalar-HC
+campaign, checkpointed through `0aa6f2a`. That is measured progress, with parity
+still unmet. The next experiment targets the larger prefill deficit: the faster
+HC library consumer applies only at exactly 2048 rows, while the historical
+2042-token request and incomplete chunks fall back to the native consumer.
+
+Only two predicates in `blaslt.cpp` now extend the experimental library choice
+to 96–2048 rows. Algorithm 7526 must remain supported with zero workspace.
+All 1019 other provider files are byte-identical, including producers and scalar
+decode. The new same-process fixture compares original norm/narrowing plus
+native/library consumers, with ordinary/MoE cases, tiny inputs, full output
+checks, independent FP64 formulas and repeated-row position checks. Five
+alternating pairs at four batch sizes rotate 100 MiB of weights.
+
+Changed formatting, strict host syntax, CMake configuration, build-graph dry
+run and exact patch reconstruction pass. The initial unused-helper warning
+and the same five inherited upstream formatting failures remain recorded.
+The launcher and analyzer are prepared, with host CTest/ASan and GPU execution
+pending on `.157`. Core's latest arm is terminal but the enclosing campaign
+has not handed over; no Q2 remote build/test, waiter or restart is scheduled.
+[Source, protocol and limits](Q2-HC-LIBRARY-RAGGED.md) preserve the original
+numerical thresholds and separate n2048 control timings from new ragged gains.
+
 ## Original UD rate reproduced; scalar HC saving marginal — 2026-10-03
 
 Fresh original C17 timing confirms the historical UD reference. At 2042

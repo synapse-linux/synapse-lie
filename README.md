@@ -4,6 +4,12 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The next [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is prepared
+locally: the faster HC-down dispatch currently applies only at exactly 2048
+rows. Its bounded extension keeps the original producer and tests incomplete
+prefill batches with independent checks and complete-cycle timing. Runtime
+qualification awaits core's verified `.157` handover; no new speedup is claimed.
+
 The [exact historical C17 benchmark comparison](docs/Q2-DECODE-BASELINE.md)
 now confirms UD's original **26.049 token/s** reference: fresh UD measures
 **26.061**, versus **25.514 for Q2** at 2042 physical prompt tokens and 128

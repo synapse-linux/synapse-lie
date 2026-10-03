@@ -2414,3 +2414,17 @@ Direct outgoing MCP messages fail at transport; no delivery is claimed.
 Core subsequently acknowledges this release, rechecks availability at
 20:06:31 UTC and takes `.157` for `gpu-vision-bec-r1`. Q2 remains local-only
 and does not enter the gaps between core arms. Q2 has no `.155` reservation.
+
+Q2 next prepares the ragged HC library dispatch locally from checkpoint
+0aa6f2a. Read-only observation at 2026-10-03T20:19:09.401329+00:00 finds core's
+`gpu-vision-bec-r1/mtp-ssd-write` terminal at 20:16:49.902239 UTC with exit 1;
+the observed recorded runner identities are absent. No enclosing core-window
+release is present. This is not a Q2 admission or a verified live-process wait.
+The next host and component cohort remains pending, with no remote build/test,
+GPU reservation, waiter, model I/O or automatic restart. Persistent main
+`run/q2-hc-library-ragged-ready.json` records the prepared plan and handover
+dependency. The runtime remains component-only until a measured decision.
+Core subsequently explicitly retains `gpu-vision-bec-r1` for the remaining
+four SSD arms and reactive qualification after correcting its private probes.
+Q2 acknowledges that retained ownership and continues locally. The outgoing
+MCP message fails at transport; the persistent ready receipt is the fallback.
