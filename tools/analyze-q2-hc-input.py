@@ -35,13 +35,12 @@ def stats(values):
     return dict(samples=values, min=min(values), median=statistics.median(values), max=max(values))
 
 
-def model_report(paths):
+def model_report(paths, variants=('affine-palette', 'hc-input', 'qualified')):
     spec = importlib.util.spec_from_file_location('hc_model', Path(__file__).with_name('analyze-q2-hc.py'))
     hc = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(hc)
     report, roots = {}, []
-    for label, variant, path in zip(('reference', 'candidate', 'ud'),
-                                    ('affine-palette', 'hc-input', 'qualified'), paths):
+    for label, variant, path in zip(('reference', 'candidate', 'ud'), variants, paths):
         root, events, meta = hc.read(path, 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT')
         transport = json.loads((path / 'transport.json').read_text())
         require(transport['exit_code'] == 0 and transport['rebuild_mmq']

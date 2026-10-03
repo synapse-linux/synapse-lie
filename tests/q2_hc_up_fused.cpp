@@ -130,6 +130,12 @@ static bool Case(unsigned tokens, unsigned pattern, bool injection,
             : pattern == 2 ? ((i / hidden) % 2 ? -1.0f : 1.0f) + value * .001f
                            : value;
   }
+  if (pattern == 3) {
+    for (unsigned t = 1; t < tokens; ++t) {
+      std::copy_n(low.data(), rank, low.data() + std::size_t(t) * rank);
+      std::copy_n(xn.data(), rows, xn.data() + std::size_t(t) * rows);
+    }
+  }
   // The original inject weights are F16 widened to F32 without loss.
   for (auto &value : inject_w)
     value = __half2float(__float2half_rn(rng.Next() * .03125f));
@@ -169,6 +175,12 @@ static bool Case(unsigned tokens, unsigned pattern, bool injection,
   const auto a = ref.Read(), b = fused.Read();
   const auto ai = ri.Read(injection), bi = fi.Read(injection);
   const auto ah = rh.Read(half_output), bh = fh.Read(half_output);
+  if (pattern == 3) {
+    for (unsigned t = 1; t < tokens; ++t)
+      Require(std::memcmp(b.data(), b.data() + std::size_t(t) * hidden,
+                          hidden * sizeof(float)) == 0,
+              "Identical HC input rows differ across token positions");
+  }
   CheckInput(wd, up);
   CheckInput(ld, low);
   CheckInput(xd, xn);
@@ -258,6 +270,7 @@ static bool Case(unsigned tokens, unsigned pattern, bool injection,
   return exact && independent;
 }
 
+#ifndef Q2_HC_UP_CHAINS_CHECKS
 int main() {
   try {
     bool pass = true;
@@ -276,3 +289,4 @@ int main() {
     return 1;
   }
 }
+#endif

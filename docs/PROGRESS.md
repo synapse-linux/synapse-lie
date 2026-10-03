@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Paired HC up improves complete prefill with exact outputs — 2026-10-03 UTC
+
+The [paired HC up experiment](Q2-HC-UP-CHAINS.md) assigns the existing two
+K16 accumulator chains to physical wave pairs. This enables 256x128 tiles
+without the earlier larger-tile spills, reducing blocks from 2560 to 640 at
+2048 rows. Original F16 weights, ordered sums, mixing and half conversion
+remain intact. Static gfx1151 resources are 242 VGPR / 24 KiB LDS / zero
+private scratch. No reactive, scalar decode or public C ABI change is made.
+
+The 100 MiB rotating-weight component falls **1163.686 -> 842.188 us (-27.63%)**.
+All eleven independent FP64 cases per source pass the unchanged limits, 62
+saved cross-source files match and all five timed replays per source are exact.
+The unchanged separate-path control differs +0.58%. Complete-model prefill
+rises **1312.915 -> 1335.837 tokens/s (+1.75%)**, saving 26.766 ms. All 21
+Q2 model files match, as do 21 fresh/retained reference files. Decode changes
+24.111117 -> 24.091526 calls/s (-0.0813%, overlapping ranges); the unchanged
+scalar source does not establish a zero-margin guarantee. Fresh UD reaches
+1671.709 / 24.332835, leaving Q2 behind 20.09% PP / 0.99% TG. The paired-up
+source is retained for further prefill development, without runtime promotion.
+All samples, rates, durations, two graphs and CSV files accompany the report.
+
+Host fixtures pass 12/12 Debug and 12/12 ASan/UBSan on `.157`. Six runners,
+24 commands and 217 artifacts verify, all exits 0. The first device-only
+compile mistakenly selected the previous source; its receipt remains evidence
+and the corrected command qualifies this candidate. Maximum observed GPU/CPU
+temperatures are 81 C / 90.125 C. Closure at 02:52:18 UTC and independent
+observer retirement at 02:53:03 verify all own processes absent, empty KFD,
+four original leases free and five model witnesses unchanged. No Q2 remote
+job or retry remains. Broader contexts/concurrency, independent model quality
+and the Q2/UD parity goal remain open.
+
 ## HC consumer narrowing rejected on the complete model — 2026-10-03 UTC
 
 The [consumer-side narrowing experiment](Q2-HC-INPUT.md) moves the existing

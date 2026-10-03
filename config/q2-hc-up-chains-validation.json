@@ -1,0 +1,210 @@
+{
+  "scope": "HC up paired-wave component and fresh C1 pp2048/tg128 models; broader parity and independent quality remain open",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "runs": {
+    "q2-hc-up-chains-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "started_at": "2026-10-03T02:22:17.507732+00:00",
+      "finished_at": "2026-10-03T02:22:43.689554+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "fea16beb5a5f9909536e1c4fa7455bbc39c6fed6ffdde47773db316a5b936887",
+      "collection_sha256": "9e9cca916fc714c80a44dc7a902e5ce7603c653ac6a724a0337674f3343a004c",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "cd9d189e1aad5d5d876a7e1db6ff095339d0bad281a77fc95a61c373d7c6e3f2",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "0ae491b69d517a8ec98dc953f70b453831116548614131b0541aeac3ae18892b"
+      },
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 76750
+      }
+    },
+    "q2-hc-up-chains-micro-ref-r1": {
+      "mode": "hc-up-chain-bench",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-03T02:25:31.954509+00:00",
+      "finished_at": "2026-10-03T02:25:49.176143+00:00",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 66,
+      "capsule_sha256": "fe886e37a2528dc7f2c80ae8760703d7370f7bb7b19e1f384d34f73950fda868",
+      "collection_sha256": "ce211627bacd7da621b6d2aa711905950925ccb6714bf4b8a1c1650a307a5496",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "binary_sha256": "71fba7dcd3ffa3725b740c7036e1bba213e2641d6043c1a55f62f3e5601a82d0",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 78750
+      }
+    },
+    "q2-hc-up-chains-micro-r1": {
+      "mode": "hc-up-chain-bench",
+      "source_variant": "hc-up-chains",
+      "started_at": "2026-10-03T02:28:11.144074+00:00",
+      "finished_at": "2026-10-03T02:28:29.339341+00:00",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 66,
+      "capsule_sha256": "2dfcea5c4e95b7f05d61c4b92f47bb79a95d08317a65b02f6a683c84430d9ad1",
+      "collection_sha256": "aebcc9df8a7bd40c38beffbb936431665f7dbc62900505cf2ebe9ee56909e369",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "binary_sha256": "8f7c3e3c71a6ef5c05caff7675ece6b9638e64146db237b3161345e7707f75da",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 76750
+      }
+    },
+    "q2-hc-up-chains-model-ref-r1": {
+      "mode": "q2-bench2k",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-03T02:30:27.425176+00:00",
+      "finished_at": "2026-10-03T02:34:44.671658+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "969a504d8ce22825bb2838dd1909cff8b9776d07527ea00f44fd4a6ab0ec4cda",
+      "collection_sha256": "be0a9390b6b224466a281ca3a4e81e5607b49819ed7638da210014a89d5ec612",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "binary_sha256": "d57123fa82df1feed97765fa7ec30ee070ac6d02acadb1c54d84888d6e661657",
+      "thermal_max_mc": {
+        "amdgpu": 78000,
+        "k10temp": 90125
+      }
+    },
+    "q2-hc-up-chains-model-r1": {
+      "mode": "q2-bench2k",
+      "source_variant": "hc-up-chains",
+      "started_at": "2026-10-03T02:35:33.960462+00:00",
+      "finished_at": "2026-10-03T02:39:51.133305+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "7ba0d5f322620247e3893398b8c095664e463100e0382a0e544b91e35d7796c8",
+      "collection_sha256": "a3e5daa1131bbae1e568bb606026330596f1e76e48be820bf5af60e77c54c333",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "binary_sha256": "69527fc0003d51bba4ea6c01d13834c5b487aac6842d51e01ab4abc68dc76246",
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 89125
+      }
+    },
+    "q2-hc-up-chains-ud-r1": {
+      "mode": "ud-bench2k",
+      "source_variant": "qualified",
+      "started_at": "2026-10-03T02:40:56.863509+00:00",
+      "finished_at": "2026-10-03T02:44:39.484676+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "0dbb82a988cc031b664ded5862b9f0e6407738b128855c99a08f7551e040a011",
+      "collection_sha256": "b71085be257ffd524ed9f12520f329c97e391e313939f3adf186255fd5ace387",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "45f73e260494ca2a7b801485e6a4c1df464998c57c048a519dfdbf49b4d80d25",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "6c72f07d5d3b134b3daf9a60033e5fc66f0e52542829b8eb1fb4fe440cbdbee3",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b186b9c41f7c8c05d309b7bdde3b3e06afa09fd86b6c452fa9ad40c97b9a47d4"
+      },
+      "binary_sha256": "daf23f3a240f26af4c964a3e4bd8ee2f6124784c5a6b220b7629235bde160e34",
+      "thermal_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 84000
+      }
+    }
+  },
+  "closure": {
+    "released_at": "2026-10-03T02:52:18.082989+00:00",
+    "observer_retired_at": "2026-10-03T02:53:03.406795+00:00",
+    "result_hashes_exact": 6,
+    "original_models_unchanged": 5,
+    "original_leases_free": 4,
+    "runner_identities_absent": 6,
+    "command_groups_sessions_absent": 24,
+    "observers_exit_code": 0
+  },
+  "development_candidate": {
+    "source": ".deps/gufo-q2-bench-hc-up-chains",
+    "selected_for": "Further prefill development",
+    "qualified_runtime_promoted": false,
+    "goal_met": false,
+    "reference_ratios": {
+      "prefill_tok_s": 1.0174583771691743,
+      "decode_steps_s": 0.9991874677644812
+    },
+    "ud_ratios": {
+      "prefill_tok_s": 0.799084507407992,
+      "decode_steps_s": 0.9900829891701917
+    },
+    "limit": "Decode median is 0.0813% lower with overlapping ranges and unchanged scalar source; zero-margin non-regression, broader contexts/concurrency and independent model quality remain unqualified"
+  },
+  "checks": {
+    "exit_code": 0,
+    "runs": 6,
+    "commands": 24,
+    "artifacts": 217,
+    "independent_cases_per_arm": 11,
+    "complete_buffer_pairs_exact_per_arm": 31,
+    "cross_source_component_files_exact": 62,
+    "post_timing_pairs_exact_per_arm": 5,
+    "host_tests": "12/12 Debug and 12/12 ASan/UBSan on .157",
+    "model_frontier_token_comparisons": 21,
+    "changed_model_frontiers_or_tokens": [],
+    "reference_retained_replay_exact": 21,
+    "q2_ud_token_files_exact": 9,
+    "within_arm_model_comparisons_exact": 27
+  }
+}

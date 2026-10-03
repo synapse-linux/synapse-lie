@@ -65,7 +65,7 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
 
     def test_changed_executor_header_cannot_reuse_mmq(self):
-        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input'):
+        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
                         'explicitly rebuild MMQ')
 
@@ -94,8 +94,15 @@ class RemoteGuardTests(unittest.TestCase):
         self.refuse(['hc-input-bench', 'q2-fixture', '--source-variant',
                      'hc-input', '--rebuild-mmq'], 'requires bench2k')
 
+    def test_hc_up_chain_benchmark_requires_measured_sources(self):
+        for variant in ('qualified', 'hc-up-fused', 'hc-input'):
+            self.refuse(['hc-up-chain-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires palette or hc-up-chains')
+        self.refuse(['hc-up-chain-bench', 'q2-fixture', '--source-variant',
+                     'hc-up-chains', '--rebuild-mmq'], 'requires bench2k')
+
     def test_hc_library_requires_current_native_control(self):
-        for variant in ('qualified', 'hc-moe-fused', 'hc-chain-coalesced', 'hc-library-down', 'hc-input'):
+        for variant in ('qualified', 'hc-moe-fused', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains'):
             self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant', variant],
                         'requires the measured affine-palette source')
         self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant',
@@ -120,7 +127,7 @@ class RemoteGuardTests(unittest.TestCase):
                             'require the isolated hc-moe-fused source')
 
     def test_q2_source_cannot_replace_ud_control(self):
-        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input'):
+        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains'):
             self.refuse(['ud-bench2k', 'q2-fixture', '--source-variant', variant],
                         'Stack source requires')
 

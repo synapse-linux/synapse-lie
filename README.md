@@ -6,16 +6,16 @@ This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 The minimum acceptance requirement remains **no prefill or decode regression**.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
-[Q2 affine palette](docs/Q2-AFFINE-PALETTE.md) retains a measured 1.35% prefill
-gain over fresh HC16, with all saved logits and tokens byte-exact and decode
-medians differing by -0.00062%. It preserves the
-[HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md). The latest fresh comparison
-measures **1316.15 prefill tokens/s and 24.122 decode calls/s at 2K**.
-**The performance requirement is not met:** fresh UD reaches 1660.69 PP/24.336
-TG; selected Q2 trails by 20.75% and 0.88%. UD prefill remains below the earlier retained
-1682.76 control. These short sequential screens do not establish zero-margin
-parity. Earlier checkpoint drift and independent model qualification remain
-unresolved; the qualified runtime patch is unchanged.
+development candidate, [paired HC up](docs/Q2-HC-UP-CHAINS.md), builds on the
+[Q2 affine palette](docs/Q2-AFFINE-PALETTE.md) and preserves the
+[HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md). Fresh 2K prefill rises
+**1312.92 -> 1335.84 tokens/s (+1.75%)**, with all 21 saved model files
+byte-exact. Decode measures **24.092 calls/s**, 0.0813% below the reference
+with overlapping sample ranges and unchanged scalar source.
+**The performance requirement is not met:** fresh UD reaches 1671.71 PP/24.333
+TG; selected Q2 trails by 20.09% and 0.99%. These short sequential screens
+do not establish zero-margin parity. Earlier checkpoint drift and independent
+model qualification remain unresolved; the qualified runtime patch is unchanged.
 The [fresh GPU profile and HC follow-up](docs/Q2-PREFILL-GAP.md) localize
 321.10 ms of additional Q2 prefill kernel time. Two compiler-boundary probes
 preserve all component outputs but regress time by 7.93% and 6.12%; both are
@@ -23,8 +23,9 @@ rejected. The subsequent [HC data-reuse comparison](docs/Q2-HC-DATA-REUSE.md)
 rejects direct fragments and paired accumulation waves. Combining paired waves
 with coalesced reads saves 5.04% component time, but complete-model prefill
 changes -0.30%, with all 21 reference/candidate output files exact. The palette
-source remains selected. The subsequent [bounded HC library comparison](docs/Q2-HC-LIBRARY.md)
-finds seven zero-workspace algorithms at both tested workspace caps. The best
+source remained selected at that checkpoint. The subsequent
+[bounded HC library comparison](docs/Q2-HC-LIBRARY.md) finds seven
+zero-workspace algorithms at both tested workspace caps. The best
 down candidate saves 16.97% component time and raises complete-model prefill
 to **1341.37 tokens/s (+2.06%)**, still 19.47% below fresh UD. Greedy tokens
 match, but logits change and independent operator limits fail; it remains an

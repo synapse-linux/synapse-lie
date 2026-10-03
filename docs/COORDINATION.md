@@ -1216,3 +1216,53 @@ with fresh coordinated admission; Q2 continues local reporting and checkpointing
 The outgoing notification fails at the direct MCP HTTP transport; delivery is
 not claimed. The persistent receipt, shared registry and this ledger remain
 the recorded handover under the agreed fallback protocol.
+
+The previous goal turn is progress: checkpoint `c796ab5` rejects consumer
+narrowing and attributes its lost model benefit to HC down. Fresh read-only
+admission at **2026-10-03 02:21:49.237883 UTC** finds empty KFD, all four original
+leases EX|NB/free and that release still last in the registry. Core's ledger
+has no later campaign and retains its explicit local-reporting direction after
+R12. Direct read-thread transport still fails. Under the agreed ledger protocol,
+Q2 takes a bounded HC up wave-pair window: CPU/sanitizer guards, then fresh
+palette/candidate fused-HC component comparisons with eleven independent cases
+and 100 MiB rotating weights. The candidate distributes the original two K16
+chains across wave pairs to enable a 256x128 tile; static compilation reports
+242 VGPR, 24 KiB LDS and zero private scratch, with no speed claim. Complete
+matched Q2/UD models follow only a useful component result. Every build/GPU arm
+takes four fresh leases with the 98 C inclusive/lower exposed bounds. No core
+interleaving until verified release, foreign changes or automatic retry. The
+qualified runtime, original model files and numerical limits remain unchanged.
+
+Both HC up component arms exit 0: eleven independent FP64 cases each pass,
+all 62 saved cross-source files match and all five post-timing replays per arm
+are exact. Fused-path median time falls 1163.686 -> 842.188 us (-27.63%), while
+the unchanged separate-path control differs +0.58%. This useful component gain
+admits fresh complete pp2048/tg128 palette Q2, paired-up Q2 and pristine UD,
+each with full MMQ rebuild, one warmup plus three measured fresh sessions and
+15-second untimed idle. Exact model replay remains required. The Q2 window
+stays owned through those arms and verified closure; every arm acquires four
+fresh leases. No component speedup is presented as model throughput.
+
+The fresh complete-model comparison retains all 21 saved Q2 files exactly and
+raises prefill **1312.915 -> 1335.837 tokens/s (+1.75%)**, saving 26.766 ms.
+Decode medians differ -0.0813% with overlapping ranges and unchanged scalar
+source; zero-margin non-regression is not established. Fresh UD measures
+1671.709 PP / 24.332835 TG, leaving the new candidate 20.09% / 0.99% behind.
+The paired-up source becomes the next prefill development candidate, without
+qualified-runtime promotion. All six runners, 24 command exits and 217 artifacts
+verify; every command exits 0. No new remote experiment is queued.
+
+Q2 releases this window at **2026-10-03 02:52:18.082989 UTC**, verifying six
+runners and 24 command identities/groups/sessions absent, empty KFD, four
+original leases EX|NB/free and five original-model stat witnesses unchanged.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-up-chains-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**02:53:03.406795 UTC** verifies observer PID 2816052, group/session 2816049
+and start ticks 156133233 absent, with empty KFD. Both observers exit 0;
+all six release result hashes match locally collected evidence. No Q2 remote
+job, waiter, lease or automatic retry remains. Core may take the next window
+with fresh coordinated admission; Q2 continues local reporting and checkpointing.
+The outgoing notification fails at the direct MCP HTTP transport; delivery is
+not claimed. The persistent receipt, shared registry and this ledger remain
+the recorded handover under the agreed fallback protocol.

@@ -198,3 +198,14 @@ runner guards and analysis are first-party MIT. The fixture reuses this
 workstream's independent HC oracle; no external test implementation or sibling
 artifact is imported. Source identity, preserved numerical failures and the
 component/model scope are documented in `docs/Q2-HC-INPUT.md`.
+
+`experiments/q2-hc-up-chains.patch` derives independently from the measured
+palette at the same official pin. It distributes the original raw-F16 HC up
+K16 sums across wave pairs and combines them in the existing gate LDS, enabling
+256x128 tiles without changing stored weights or the arithmetic contract.
+The generator, added fixture, guard extensions and analysis/plot tools are
+first-party MIT. The fixture reuses this workstream's independent FP64 HC
+checks, adds partial tiles and repeated rows, and rotates 100 MiB of synthetic
+weights. No external engine, DS4 source or sibling artifact is imported.
+Source identities, numerical checks and measured scope are in
+`docs/Q2-HC-UP-CHAINS.md`; upstream notices remain intact.

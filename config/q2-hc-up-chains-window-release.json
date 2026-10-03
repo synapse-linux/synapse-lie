@@ -1,0 +1,312 @@
+{
+  "at": "2026-10-03T02:52:18.082989+00:00",
+  "state": "Q2_HC_UP_CHAINS_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2804532,
+      "absent": true,
+      "finished_at": "2026-10-03T02:22:43.689554+00:00"
+    },
+    {
+      "label": "q2-hc-up-chains-micro-ref-r1",
+      "pid": 2806136,
+      "absent": true,
+      "finished_at": "2026-10-03T02:25:49.176143+00:00"
+    },
+    {
+      "label": "q2-hc-up-chains-micro-r1",
+      "pid": 2807112,
+      "absent": true,
+      "finished_at": "2026-10-03T02:28:29.339341+00:00"
+    },
+    {
+      "label": "q2-hc-up-chains-model-ref-r1",
+      "pid": 2808047,
+      "absent": true,
+      "finished_at": "2026-10-03T02:34:44.671658+00:00"
+    },
+    {
+      "label": "q2-hc-up-chains-model-r1",
+      "pid": 2810106,
+      "absent": true,
+      "finished_at": "2026-10-03T02:39:51.133305+00:00"
+    },
+    {
+      "label": "q2-hc-up-chains-ud-r1",
+      "pid": 2812268,
+      "absent": true,
+      "finished_at": "2026-10-03T02:44:39.484676+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2804533,
+      "start_ticks": 155953180,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2804607,
+      "start_ticks": 155953232,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2804682,
+      "start_ticks": 155953685,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2804945,
+      "start_ticks": 155954339,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2805016,
+      "start_ticks": 155954391,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-host-r1",
+      "pid": 2805098,
+      "start_ticks": 155955145,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-ref-r1",
+      "pid": 2806137,
+      "start_ticks": 155972625,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-ref-r1",
+      "pid": 2806332,
+      "start_ticks": 155972777,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-ref-r1",
+      "pid": 2806470,
+      "start_ticks": 155974132,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-r1",
+      "pid": 2807141,
+      "start_ticks": 155988544,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-r1",
+      "pid": 2807352,
+      "start_ticks": 155988747,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-micro-r1",
+      "pid": 2807489,
+      "start_ticks": 155990155,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-ref-r1",
+      "pid": 2808055,
+      "start_ticks": 156002172,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-ref-r1",
+      "pid": 2808278,
+      "start_ticks": 156002375,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-ref-r1",
+      "pid": 2809341,
+      "start_ticks": 156017860,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-ref-r1",
+      "pid": 2809346,
+      "start_ticks": 156017914,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-r1",
+      "pid": 2810107,
+      "start_ticks": 156032826,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-r1",
+      "pid": 2810302,
+      "start_ticks": 156033029,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-r1",
+      "pid": 2811365,
+      "start_ticks": 156048556,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-model-r1",
+      "pid": 2811398,
+      "start_ticks": 156048608,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-ud-r1",
+      "pid": 2812269,
+      "start_ticks": 156065116,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-ud-r1",
+      "pid": 2812498,
+      "start_ticks": 156065319,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-ud-r1",
+      "pid": 2813384,
+      "start_ticks": 156076540,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-up-chains-ud-r1",
+      "pid": 2813389,
+      "start_ticks": 156076593,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2816052,
+    "state": "R",
+    "group": 2816049,
+    "session": 2816049,
+    "start_ticks": 156133233
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "result_sha256": {
+    "q2-hc-up-chains-host-r1": "73e8334f521c6393b89f96a8f77d2c1471e69caea1d2573ae7e01046d229c28e",
+    "q2-hc-up-chains-micro-ref-r1": "0dc6c02f0865daea471b0090c178074116af4fe4396e1fe9d3012771937170c4",
+    "q2-hc-up-chains-micro-r1": "59469cf8d78b1043ef13b214c4729a17768b248647e157632e4bf716f26562d0",
+    "q2-hc-up-chains-model-ref-r1": "bee0d0ccdc01c83aa6004e061d5a3e93c8b9dbf07d151c10539a35fe2b92ee82",
+    "q2-hc-up-chains-model-r1": "01b7f90fc3bc20d089ccdd0322a8374a855d5e4d0bac94c45b1279e7c9cc4661",
+    "q2-hc-up-chains-ud-r1": "d6383e252aa94f8a636fcfee333a4934e545fc89b77ecb8d0708796af5f092f5"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "47500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "48000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "48250",
+    "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+  }
+}

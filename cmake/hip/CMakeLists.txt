@@ -177,6 +177,18 @@ target_include_directories(q2_hc_up_fused SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_up_fused PRIVATE hip::host)
 
+# Original HC up checks plus larger-tile chain-pair comparison and timings.
+add_executable(q2_hc_up_chains EXCLUDE_FROM_ALL ../../tests/q2_hc_up_chains.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
+target_compile_options(q2_hc_up_chains PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_up_chains PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_up_chains PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_up_chains SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_up_chains PRIVATE hip::host)
+
 # Original F32 MoE outputs combined with HC residual/norm in one launch.
 add_executable(q2_hc_moe_fused EXCLUDE_FROM_ALL ../../tests/q2_hc_moe_fused.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
