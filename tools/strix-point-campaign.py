@@ -39,6 +39,8 @@ BENCH_PROFILES = {
 }
 THERMAL_OVERRIDE_QUOTE = ('la gpu arriva a 100 gradi senza problemi ed è importante '
                           'testare la sua capacità, non limitarsi a 85*')
+CPU_GUARD_QUOTE = 'è la CPU che deve avere il guard, non la gpu'
+CPU_GUARD_POLICY = 'cpu-98-nvme-85-gpu-observe-v1'
 
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def kfd_group(): return Path('/dev/kfd').stat().st_gid
@@ -56,7 +58,7 @@ def checked_path(value):
         raise ValueError('Path must be persistent and private to this LIE checkout')
     if path.stat().st_uid != os.getuid(): raise ValueError('Unexpected path owner')
     return path
-def observe(ceiling_c=85.0):
+def observe(ceiling_c=85.0, gpu_observation_only=False):
     result = {'at': now(), 'kfd': [], 'dri': [], 'denied_fd': 0, 'temperatures': [], 'memory': {}}
     # The kernel list supplements /proc when FD observations are denied.
     result['kernel_kfd'] = sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').iterdir() if p.name.isdecimal())
@@ -84,14 +86,16 @@ def observe(ceiling_c=85.0):
         if name not in ('k10temp', 'amdgpu', 'nvme'): continue
         for path in sorted(hw.glob('temp*_input')):
             value = int(path.read_text())/1000
-            limit = ceiling_c
+            limit = min(ceiling_c, 85.0) if gpu_observation_only and name == 'nvme' else ceiling_c
             for suffix in ('max', 'crit'):
                 bound = path.with_name(path.name[:-6]+'_'+suffix)
                 if bound.exists():
                     threshold = int(bound.read_text())/1000
                     if 30 <= threshold <= 150: limit = min(limit, threshold)
             if not -40 <= value <= 150: raise RuntimeError('Invalid temperature reading')
-            result['temperatures'].append({'name': name, 'path': str(path), 'value_c': value, 'limit_c': limit})
+            result['temperatures'].append({'name': name, 'path': str(path), 'value_c': value,
+                                           'limit_c': limit,
+                                           'guarded': not (gpu_observation_only and name == 'amdgpu')})
     if not any(t['name'] == 'k10temp' for t in result['temperatures']):
         raise RuntimeError('Missing CPU temperature sensor')
     for line in Path('/proc/meminfo').read_text().splitlines():
@@ -110,15 +114,22 @@ class Campaign:
     def __init__(self, root, manifest):
         self.root, self.m = root, manifest
         ceiling = manifest.get('thermal_ceiling_c', 85)
-        if type(ceiling) not in (int, float) or ceiling not in (85, 100):
+        self.thermal_policy = manifest.get('thermal_policy', 'legacy-all-sensors')
+        if self.thermal_policy == CPU_GUARD_POLICY:
+            if ceiling != 98 or manifest.get('thermal_policy_quote') != CPU_GUARD_QUOTE:
+                raise ValueError('Explicit CPU guard and GPU observation policy required')
+        elif self.thermal_policy != 'legacy-all-sensors':
+            raise ValueError('Unsupported thermal policy')
+        if type(ceiling) not in (int, float) or ceiling not in ((98,) if self.thermal_policy == CPU_GUARD_POLICY else (85, 100)):
             raise ValueError('Unsupported thermal ceiling')
-        if ceiling == 100 and manifest.get('thermal_override_quote') != THERMAL_OVERRIDE_QUOTE:
+        if self.thermal_policy == 'legacy-all-sensors' and ceiling == 100 and manifest.get('thermal_override_quote') != THERMAL_OVERRIDE_QUOTE:
             raise ValueError('Explicit operator 100 C thermal override required')
         self.thermal_ceiling_c = float(ceiling)
         self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),
                   'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),
                   'authorization': manifest['authorization'], 'commands': [], 'container': None,
                   'thermal_ceiling_c': self.thermal_ceiling_c,
+                  'thermal_policy': self.thermal_policy,
                   'model_attempted': False,
                   'service_restore_required': False, 'exit_code': 1}
         self.lock = None
@@ -152,7 +163,7 @@ class Campaign:
         p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])
         return dict(line.split('=', 1) for line in p.stdout.splitlines())
     def sample(self, retiring=None):
-        row = observe(self.thermal_ceiling_c)
+        row = observe(self.thermal_ceiling_c, gpu_observation_only=True) if self.thermal_policy == CPU_GUARD_POLICY else observe(self.thermal_ceiling_c)
         owned = set()
         if self.cid:
             for proc in row['dri']:
@@ -164,7 +175,7 @@ class Campaign:
                     except OSError: proc['status'] = {'unavailable': True}
         with (self.root/'telemetry.jsonl').open('a') as log: log.write(json.dumps(row)+'\n')
         if self.interrupted: raise RuntimeError('Interrupted: '+str(self.interrupted))
-        if any(t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')
+        if any(t.get('guarded', True) and t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')
         clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])
         new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}
         if retiring:
@@ -177,7 +188,7 @@ class Campaign:
         return row
     def enter(self):
         self.r['service_before'] = self.service()
-        before = observe(self.thermal_ceiling_c)
+        before = observe(self.thermal_ceiling_c, gpu_observation_only=True) if self.thermal_policy == CPU_GUARD_POLICY else observe(self.thermal_ceiling_c)
         self.r['before'] = before
         self.baseline = {(p['pid'], p['start_ticks']) for p in before['dri']}
         # This serializes LIE only. Actual handover is the explicit user grant.
@@ -258,6 +269,10 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
+        if self.m.get('bench_profile') == 'modern-core' and self.m.get('decode_mode') == 'mtp':
+            predictor = checked_path(self.m['predictor_plan']['destination'])
+            create[create.index('--additional-flags'):create.index('--additional-flags')] = [
+                '--volume', str(predictor)+':/mtp:ro']
         env = dict(os.environ, DBX_CONTAINER_MANAGER='docker', DBX_NON_INTERACTIVE='1')
         self.sample()
         with (self.root/'distrobox-create.log').open('x') as log:
@@ -559,6 +574,21 @@ class Campaign:
             rows.append(current)
         self.r['models_before'] = rows
         return model, rows
+    def verified_predictor(self):
+        plan = self.m['predictor_plan']
+        directory = checked_path(plan['destination'])
+        source = json.loads((directory/'SOURCE.json').read_text())
+        if source['result']['state'] != 'VERIFIED' or source['plan'] != plan or len(plan['files']) != 1:
+            raise RuntimeError('Pinned predictor staging receipt mismatch')
+        expected, staged = plan['files'][0], source['result']['files'][0]
+        path = checked_path(directory/expected['name'])
+        st = path.stat()
+        current = {'path': str(path), 'bytes': st.st_size, 'device': st.st_dev,
+                   'inode': st.st_ino, 'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns}
+        if (staged.get('sha256') != expected['sha256'] or
+                any(current[k] != staged[k] for k in current)):
+            raise RuntimeError('Predictor identity drift before launch')
+        return path, current
     def check_model_after(self, rows):
         after = []
         for before in rows:
@@ -592,6 +622,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-core':
+            return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
             raise ValueError('Unknown fixed benchmark profile')
         implementation = self.m.get('bench_impl', 'lie')
@@ -627,6 +659,82 @@ class Campaign:
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                             'bytes': (self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
+    def modern_core_bench(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern core benchmark requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern core benchmark mode must be ar or mtp')
+        if (type(self.m.get('mtp_draft_tokens', 7)) is not int or
+                not 1 <= self.m.get('mtp_draft_tokens', 7) <= 7):
+            raise ValueError('Modern core predictor draft bound must be 1..7')
+        settings = self.m.get('settings')
+        if (type(settings) is not dict or set(settings) !=
+                {'context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'} or
+                any(type(value) is not int for value in settings.values()) or
+                not 4096 <= settings['context'] <= 262144 or settings['chunk'] != 2048 or
+                settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
+                settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
+            raise ValueError('Invalid bounded modern core settings')
+        tokens = checked_path(self.root/'tokens.json')
+        if sha(tokens) != self.m.get('tokens_sha256'):
+            raise ValueError('Physical prompt token file drift')
+        prompt = json.loads(tokens.read_text())
+        if (type(prompt) is not list or
+                len(prompt) != self.m.get('prompt_tokens_expected') or
+                not 1 <= len(prompt) <= settings['context']-settings['tg'] or
+                any(type(token) is not int or token < 0 or token > 2147483647 for token in prompt)):
+            raise ValueError('Invalid bounded physical prompt')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR benchmark must not admit a predictor')
+        command = ['/bundle/runtime/bin/synapse-lie-bench', '--suite', 'core',
+                   '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--tokens-file', '/work/tokens.json', '--output', '/work/measurements.jsonl',
+                   '--kv-cache-ram-mb', '0', '--timeout-ms', '3600000']
+        for key in ('context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'):
+            command.extend(('--'+key, str(settings[key])))
+        if predictor:
+            command.extend(('--model-mtp', '/mtp/'+predictor.name,
+                            '--mtp-draft-tokens', str(self.m.get('mtp_draft_tokens', 7))))
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 3600, model)
+            measurements = [json.loads(line) for line in (self.root/'measurements.jsonl').read_text().splitlines()]
+            if not measurements or measurements[-1] != {'event': 'complete', 'exit_code': 0}:
+                raise RuntimeError('Incomplete modern core benchmark')
+            identity = measurements[0]
+            if (identity.get('schema') != 'synapse-lie.core-bench.v1' or
+                    identity.get('mode') != mode or identity.get('synthetic') or
+                    identity.get('build_id') != self.m.get('runtime_build_id') or
+                    identity.get('cache_policy') != 'off'):
+                raise RuntimeError('Unexpected modern core benchmark identity')
+            jobs = [row for row in measurements if row.get('event') == 'job']
+            samples = [row for row in measurements if row.get('event') == 'sample']
+            if (len(jobs) != settings['users']*(settings['warmups']+settings['repetitions']) or
+                    len(samples) != settings['warmups']+settings['repetitions'] or
+                    any(row.get('prompt_tokens') != len(prompt) or
+                        row.get('output_tokens') != settings['tg'] for row in jobs)):
+                raise RuntimeError('Incomplete modern core output')
+            drafted = sum(row.get('mtp_drafted_tokens', 0) for row in jobs)
+            accepted = sum(row.get('mtp_accepted_tokens', 0) for row in jobs)
+            if ((mode == 'mtp' and (drafted <= 0 or accepted <= 0)) or
+                    (mode == 'ar' and (drafted or accepted))):
+                raise RuntimeError('Modern core decode mode did not execute as requested')
+            self.r['bench_result'] = {'profile': 'modern-core', 'mode': mode,
+                                      'jobs': len(jobs), 'samples': len(samples),
+                                      'drafted': drafted, 'accepted': accepted,
+                                      'measurements_sha256': sha(self.root/'measurements.jsonl')}
+        finally:
+            if (self.root/'measurements.jsonl').exists():
+                self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
+                                           'bytes': (self.root/'measurements.jsonl').stat().st_size}
+            self.check_model_after(rows)
     def finish(self):
         failures = []
         if self.cid and re.fullmatch('[a-f0-9]{64}', self.cid):
@@ -647,7 +755,10 @@ class Campaign:
                 self.child.kill(); self.child.wait()
         if self.child is not None:
             self.r['child_exit_code'] = self.child.returncode
-        try: self.r['postflight_before_restore'] = observe(self.thermal_ceiling_c)
+        try:
+            self.r['postflight_before_restore'] = (
+                observe(self.thermal_ceiling_c, gpu_observation_only=True)
+                if self.thermal_policy == CPU_GUARD_POLICY else observe(self.thermal_ceiling_c))
         except Exception as ex: failures.append(repr(ex))
         if self.r['service_restore_required']:
             try:

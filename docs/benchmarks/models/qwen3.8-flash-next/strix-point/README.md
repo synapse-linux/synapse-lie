@@ -89,6 +89,49 @@ The frozen collection receipt additionally records service/lease closure and
 the 21/21 remote-file hash checks made before publication; portable archives
 omit transient container cache files.
 
+## Fresh full-prompt prefill near 256K
+
+The separate paired run starts with an empty sequence, processes **258,794**
+physical input tokens with context capacity 262,144, then generates the full
+128-token output. Each path has two measured samples and no warmup. Both
+LIE/Gufo pairs have identical physical input IDs, output IDs and full
+prefill/decode-logit hashes. These direct-executor results use the same older
+ROCm 10 runtime as the 128K table above; MTP is not enabled.
+
+| Engine | Prefill median (min–max) tok/s | Prefill median (min–max) s | Decode median (min–max) tok/s | Decode median (min–max) s |
+| --- | ---: | ---: | ---: | ---: |
+| LIE | 382.855 (382.503–383.206) | 675.960 (675.340–676.580) | 9.733 (9.732–9.734) | 13.151 (13.150–13.152) |
+| Gufo | 380.717 (380.582–380.851) | 679.755 (679.515–679.995) | 9.715 (9.709–9.721) | 13.175 (13.167–13.183) |
+
+![ROCm 10 Strix Point near-256K fresh-prompt prefill and decode](charts/rocm10-fresh256.svg)
+
+The [complete native CSV](charts/rocm10-fresh256.csv),
+[comparison JSON](charts/rocm10-fresh256-summary.json),
+[PNG](charts/rocm10-fresh256.png),
+[collection and thermal receipt](charts/rocm10-fresh256-collection.json), and
+original [LIE](data/rocm10-fresh256-lie.tar.gz) and
+[Gufo](data/rocm10-fresh256-gufo.tar.gz) bundles retain the exact measurements
+and commands. All 21 remote files in each arm match the collected SHA-256
+inventory. Both child/supervisor exits are zero, the four target shard stat
+identities stay unchanged, and the named service and private lease are
+restored/released. Sampled CPU/GPU/NVMe maxima were 83.125/86/70.85 C for
+LIE and 82.375/86/70.85 C for Gufo. Reproduce the report offline with the
+native C17 reporter:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-rocm10-fresh256/lie run/point-rocm10-fresh256/gufo
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz \
+  -C run/point-rocm10-fresh256/lie measurements.jsonl
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-gufo.tar.gz \
+  -C run/point-rocm10-fresh256/gufo measurements.jsonl
+build/point-report/synapse-lie-bench --suite report \
+  run/point-rocm10-fresh256/lie/measurements.jsonl \
+  --compare run/point-rocm10-fresh256/gufo/measurements.jsonl \
+  --label 'LIE ROCm10' --reference-label 'Gufo ROCm10' \
+  --output run/point-rocm10-fresh256/report
+```
+
 The pre-integration binary at source checkpoint `1877b03` has no newly added
 prefill/decode phase clocks. The two samples per point show observed variation,
 not a broad confidence interval or a new-runtime speed claim.
@@ -96,8 +139,8 @@ not a broad confidence interval or a new-runtime speed claim.
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
 cover the earlier ROCm 7.2 fresh physical prompts through 258,794 tokens,
-capacity, cache reuse, resources and failures. ROCm 10 near-256K fresh-prompt
-and served HTTP multi-client measurements are pending.
+capacity, cache reuse, resources and failures. Modern ROCm 10 MTP and served
+HTTP multi-client measurements are pending.
 Neither the direct C8 result nor the synthetic HTTP fixtures establish Pi
 agent throughput. The old runtime has no newly added benchmark phase clocks;
 new-runtime performance must be measured separately.

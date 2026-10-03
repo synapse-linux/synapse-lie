@@ -205,10 +205,11 @@ exact resumable sampling/tool sessions, MTP and vision require distinct contract
 ## Compressed version 2
 
 Raw states continue to write/read the unchanged v1 envelope. Compressed states
-use envelope version 2, codec 1 (legacy LZ4) or 2 (byte-plane4/Zstandard) at
+use envelope version 2, codec 2 (byte-plane4/Zstandard) at
 offset 36, expanded payload size at offset 40
 and stored payload size at offset 152. Section offsets describe the expanded
 layout, so model representation version and scalar bits remain unchanged.
+The removed codec 1 is rejected by current readers.
 The first section must be physical tokens at offset zero; its bytes precede
 frames of two little-endian uint32 lengths (expanded, compressed), followed by
 data. Expanded frames are 1 MiB except the last. A zero compressed length means

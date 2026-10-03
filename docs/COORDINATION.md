@@ -8,12 +8,18 @@ remote files by SHA-256 per arm. The LIE window releases at 22:03:20.532953 UTC
 and Gufo at 22:23:05.922791 UTC. Their full-prompt physical IDs, output IDs
 and full prefill/decode frontier hashes match pairwise. Both use the old
 `1877b03` binary; the newly merged C17 phase-clock/runtime source is untested
-on `.161`. The separate `fresh-256k` LIE baseline passes two full 128-token
-samples, child/supervisor exit 0, 21/21 collected files matching remote SHA,
-unchanged model and restored service; its lease releases at
-22:52:07.965628 UTC. Gufo `fresh-256k` now runs serially under a new private
-lease. The modern source/build helper is local preparation only: no remote
-modern build or GPU execution has occurred. See the
+on `.161`. The separate `fresh-256k` LIE and Gufo baselines each pass two
+full 128-token samples from 258,794 physical input tokens with exact paired
+input/output IDs and full frontiers. Both child/supervisor exits are zero,
+21/21 files match remote SHA per arm, model identities stay unchanged, and
+the service and private leases are restored/released at 22:52:07.965628 and
+23:17:51.347728 UTC respectively. The first modern, GPU-device-free ROCm 10
+build compiled its gfx1150 provider but stopped at CMake configure because
+the Fedora image lacks `lz4.h`. Its child/supervisor exit 1 and logs are
+preserved; the service was restored and lease released at 23:24:26.943766 UTC.
+LZ4 belonged to a removed checkpoint reader, so current source removes that
+requirement while retaining default-ON Zstandard compression. No modern GPU
+inference has yet occurred. See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE

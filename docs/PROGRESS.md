@@ -33,14 +33,31 @@ The additional CPU-qualified C17 sampler commits `ff91544` and `ba054bd`
 are now merged for the future Point runtime. The Point full C/HTTP rebuild and
 five focused CTest cases pass; the corresponding ASan/UBSan subset passes 4/4.
 These host checks do not qualify the optimized sampler on `gfx1150`. The
-ongoing `fresh-256k` baseline continues on the unchanged `1877b03` binary.
+`fresh-256k` paired baseline on the unchanged `1877b03` binary passes 2/2
+samples per arm from 258,794 physical tokens through 128 output tokens.
+LIE/Gufo physical IDs, output IDs and full prefill/decode frontiers match.
+Median LIE/Gufo prefill is 382.855/380.717 tok/s and decode is
+9.733/9.715 tok/s. The [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+contains min/max, durations, charts, verified raw bundles and native C17
+reproduction commands. Both leases, service states and 21/21 remote files
+per arm were verified after collection.
 The new ROCm 10 build path is prepared as a CMake helper under the existing
 `.161` lease runner. It seals a separate persistent source capsule, selects
 `gfx1150` with target-bound provider receipts, leaves GPU devices and network
 out of the compiler container, and records configure/link exits. The local
-campaign control fixture passes 22/22; a direct host invocation correctly
-refuses without the admitted build window. This is preparation, not a remote
-build or original-weight test.
+campaign control fixture passes 24/24; a direct host invocation correctly
+refuses without the admitted build window. Its first actual device-free `.161`
+build completed the gfx1150 provider stage, then failed CMake configure on
+missing `lz4.h` in the pinned Fedora image. Child/supervisor exit 1, exact
+configure error and source remain in ignored persistent evidence; the service
+was restored and lease released at 23:24:26.943766 UTC. LZ4 belonged to a
+removed reader, so current source removes codec 1 and the LZ4 build/link
+requirement while retaining default-ON Zstandard compression. A clean core
+ASan/UBSan build has no LZ4 cache or direct dynamic dependency; focused
+checkpoint/store/reactive CTest passes 3/3 with leak detection disabled in
+this ptrace sandbox. The first LeakSanitizer attempt failed because LSan
+cannot operate under ptrace, not because of a test assertion. Modern GPU
+MTP/AR qualification remains pending a new build and copied predictor.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 

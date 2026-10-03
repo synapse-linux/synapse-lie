@@ -117,7 +117,7 @@ See also [implementation, receipts and remaining qualification](docs/STRIX-POINT
 | Component | Requirement |
 | --- | --- |
 | System | Linux, a C17 compiler, CMake 3.21 or newer, and pkg-config. |
-| C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; LZ4 and Zstandard for the default checkpoint build. |
+| C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; Zstandard for the default checkpoint build. |
 | Event loop | **libuv 1.52.1 is included** and linked statically. A system-library option is available. |
 | GPU backend | AMD Strix Halo, C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM, ICU, PNG and JPEG. |
 

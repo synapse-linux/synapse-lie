@@ -98,6 +98,29 @@ class Tests(unittest.TestCase):
         manifest['thermal_ceiling_c'] = 101
         with self.assertRaisesRegex(ValueError, 'Unsupported thermal ceiling'):
             Fixture(root, manifest)
+    def test_cpu_guard_records_gpu_without_stopping_and_guards_nvme(self):
+        root = self.base/'cpu-guard'; root.mkdir()
+        (root/'manifest.json').write_text('{}')
+        manifest = {'authorization': 'fixture', 'thermal_policy': point.CPU_GUARD_POLICY,
+                    'thermal_ceiling_c': 98}
+        with self.assertRaisesRegex(ValueError, 'CPU guard'):
+            Fixture(root, manifest)
+        manifest['thermal_policy_quote'] = point.CPU_GUARD_QUOTE
+        c = Fixture(root, manifest)
+        hot = observation()
+        hot['temperatures'] = [
+            {'name': 'k10temp', 'value_c': 97, 'limit_c': 98, 'guarded': True},
+            {'name': 'amdgpu', 'value_c': 103, 'limit_c': 98, 'guarded': False},
+            {'name': 'nvme', 'value_c': 84, 'limit_c': 85, 'guarded': True},
+        ]
+        with patch.object(point, 'observe', return_value=hot) as read:
+            c.sample()
+            read.assert_called_once_with(98.0, gpu_observation_only=True)
+            hot['temperatures'][0]['value_c'] = 98
+            with self.assertRaisesRegex(RuntimeError, 'Thermal'): c.sample()
+            hot['temperatures'][0]['value_c'] = 97
+            hot['temperatures'][2]['value_c'] = 85
+            with self.assertRaisesRegex(RuntimeError, 'Thermal'): c.sample()
     def test_kernel_retirement_waits_before_admission(self):
         c = self.campaign()
         before = observation()
@@ -186,6 +209,45 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'reference fixture failure'): c.bench()
         c.m['bench_impl'] = 'unexpected'
         with self.assertRaisesRegex(ValueError, 'implementation'): c.bench()
+    def test_modern_core_ar_and_mtp_require_real_output_and_predictor_identity(self):
+        def plan(directory, name):
+            directory.mkdir()
+            path = directory/name; path.write_bytes(b'fixture '+name.encode())
+            st = path.stat()
+            row = {'path': str(path), 'bytes': st.st_size, 'device': st.st_dev,
+                   'inode': st.st_ino, 'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns,
+                   'sha256': point.sha(path)}
+            result = {'destination': str(directory), 'files': [{'name': name, 'sha256': row['sha256']}]}
+            (directory/'SOURCE.json').write_text(json.dumps({'result': {'state': 'VERIFIED', 'files': [row]},
+                                                               'plan': result}))
+            return result
+        model = plan(self.base/'model', 'target.gguf')
+        predictor = plan(self.base/'predictor', 'mtp.gguf')
+        for mode in ('ar', 'mtp'):
+            with self.subTest(mode=mode):
+                c = self.campaign('modern-'+mode)
+                tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+                c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                           bench_profile='modern-core', decode_mode=mode, bundle=str(self.base),
+                           model_plan=model, tokens_sha256=point.sha(tokens), prompt_tokens_expected=3,
+                           runtime_build_id='rocm10-point-modern-r1-runtime',
+                           settings={'context':4096,'chunk':2048,'users':1,'tg':32,'warmups':0,'repetitions':1})
+                if mode == 'mtp': c.m['predictor_plan'] = predictor
+                def run(command, _bundle, _timeout, _model):
+                    self.assertEqual('--model-mtp' in command, mode == 'mtp')
+                    rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                             'mode':mode,'synthetic':False,'cache_policy':'off',
+                             'build_id':'rocm10-point-modern-r1-runtime'},
+                            {'event':'job','prompt_tokens':3,'output_tokens':32,
+                             'mtp_drafted_tokens':4 if mode=='mtp' else 0,
+                             'mtp_accepted_tokens':3 if mode=='mtp' else 0},
+                            {'event':'sample'}, {'event':'complete','exit_code':0}]
+                    (c.root/'measurements.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in rows))
+                with patch.object(c, 'run_container', side_effect=run): c.bench()
+                self.assertTrue(c.r['model_stat_unchanged'])
+                self.assertEqual(c.r['bench_result']['accepted'], 3 if mode=='mtp' else 0)
+        c.m['mtp_draft_tokens'] = 8
+        with self.assertRaisesRegex(ValueError, 'draft bound'): c.bench()
     def test_rocm_stack_identity_is_explicit(self):
         c = self.campaign()
         self.assertEqual(c.image_and_rocm(), (point.IMAGE, point.ROCM))

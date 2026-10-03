@@ -68,9 +68,9 @@ static bool read_header(int fd,const lie_state_identity *id,unsigned char *h,uin
         uint64_t stored=u32(h+36)?u64(h+152):u64(h+40);
         return stored<=*size-prefix&&*size-prefix-stored>=64&&
             ((!u32(h+36)&&!u64(h+152))||
-             ((u32(h+36)==1||u32(h+36)==2)&&lie_state_compression_enabled()&&stored<u64(h+40)));
+             (u32(h+36)==2&&lie_state_compression_enabled()&&stored<u64(h+40)));
     }
-    return u32(h+8)==2&&(u32(h+36)==1||u32(h+36)==2)&&lie_state_compression_enabled()&&
+    return u32(h+8)==2&&u32(h+36)==2&&lie_state_compression_enabled()&&
            u64(h+152)==*size-prefix&&u64(h+152)<u64(h+40);
 }
 /* Usage counters are advisory and deliberately excluded from the digest so
@@ -160,7 +160,8 @@ bool lie_state_file_write_ex(int fd,const lie_state_identity *id,const lie_state
     if(s&&s->layout.format!=LIE_STATE_ALIGNED)return platform()&&lie_state_kvc_write(fd,id,s,m,cancel);
     uint64_t bytes=0,payload=0;
     if(!platform()||!id||!s||!regular(fd,&bytes)||bytes||!lie_state_validate(&s->layout,&payload)||
-       payload!=s->payload_bytes||lie_state_file_bytes_ex(s,m)>INT64_MAX||s->codec>2||
+       payload!=s->payload_bytes||lie_state_file_bytes_ex(s,m)>INT64_MAX||
+       (s->codec&&s->codec!=2)||
        (!s->codec&&s->storage_bytes!=payload)||
        (s->codec&&(s->storage_bytes>=payload||s->layout.sections[0].role!=LIE_STATE_TOKENS)))return false;
     EVP_MD_CTX *hash=EVP_MD_CTX_new();if(!hash)return false;

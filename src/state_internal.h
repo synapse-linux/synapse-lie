@@ -7,7 +7,7 @@ struct lie_state {
     lie_state_layout layout;
     uint64_t payload_bytes;
     uint64_t storage_bytes;
-    uint32_t codec; /* 0 raw; 1 LZ4 blocks; 2 byte-plane4/Zstandard blocks. */
+    uint32_t codec; /* 0 raw; 2 byte-plane4/Zstandard blocks. */
     atomic_uint refs;
     unsigned char payload[];
 };
