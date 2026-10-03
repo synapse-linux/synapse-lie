@@ -1451,3 +1451,56 @@ window with fresh coordinated admission. The direct outgoing notification
 again fails at the MCP HTTP transport; delivery is not claimed. The agreed
 registry/ledger fallback retains this handover. Q2 continues local reporting
 and checkpoint work only.
+
+The previous goal turn is progress: checkpoint `3c836f0` rejects slower,
+less accurate single-chain HC, refreshes Q2/UD attribution and verifies the
+bounded bit-representation hypothesis in assembly. Parity remains unmet.
+Fresh observation at **2026-10-03 05:17:56.739792 UTC** finds empty KFD,
+four original leases EX|NB/free and the HC single-chain release last in the
+registry. Core's ledger still records local work after R12. Direct read-thread
+transport fails; the agreed ledger fallback applies, with no later campaign
+observed.
+
+Q2 takes a bounded staged-palette window. The candidate derives independently
+from retained paired-HC-up source and stores four rounded F16 weights in the
+same eight-byte LDS slot formerly holding two F32 affine coefficients. Both
+half-waves then consume those bits. Original storage, two activation planes,
+WMMA order, residual correction and raw-input control remain unchanged.
+Local static qualification halves mixed FMA-to-half instructions from 12 to 6;
+tile48 retains 144 VGPRs and 24,832 LDS bytes with zero private scratch. The
+first host syntax attempt lacks the fixture's generated include path; that
+exit 1 is preserved and corrected. Shared format retains the known unchanged
+upstream violations; changed-file format and exact reconstruction pass.
+
+The admitted sequence is CPU Debug/ASan guards, existing packed operators,
+fresh reference/candidate packed-down component timing with 315 MiB of encoded
+weights, exact complete-output replay and independent FP64 checks. Useful
+component benefit admits fresh full-build retained/candidate/UD pp2048/tg128
+screens under the existing owner authorization to retain numerical flags while
+measuring performance. Exact output and unchanged numerical limits remain the
+acceptance contract. Every GPU/build arm takes four fresh nonblocking leases
+and thermal/process checks, at 98 C inclusive or lower exposed bounds. No
+interleaving until verified closure, foreign mutation, automatic retry or
+publication. Sources and evidence stay in persistent project paths.
+
+The staged-palette candidate passes all independent operators and exact output
+checks but adds 0.98% to component median time (raw control -0.37%). No useful
+gain is observed, so the conditional model benchmark arms are not admitted.
+All 52,428,800 shaped outputs and 62 saved operator buffers match; the
+unchanged independent limits pass. The `.157` CPU cohort passes 12/12 Debug
+and 12/12 ASan/UBSan.
+
+Q2 releases the window at **2026-10-03 05:26:44.312600 UTC**. Four runners
+and fifteen command identities/groups/sessions are absent, KFD is empty and
+all four original leases are EX|NB/free. Every command exits zero and all
+83 collected artifacts verify; no model is opened. The persistent receipt is
+`run/q2-staged-palette-window-release.json` in the `.157` LIE project and the
+shared registry records `window_release`. Independent observation at
+**05:27:14.653613 UTC** verifies closure observer PID 2868795, group/session
+2868792 and start ticks 157059857 absent. Both observers exit zero.
+
+No Q2 GPU job, waiter, lease or automatic retry remains. Core may take the next
+window after fresh coordinated admission. The outgoing notification fails at
+the direct MCP HTTP transport; no delivery is claimed. The agreed registry/
+ledger fallback preserves this handover. Q2 continues local reporting and
+checkpoint work only.

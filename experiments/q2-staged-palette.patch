@@ -1,0 +1,64 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4258,12 +4258,29 @@
+           const float d = f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
+           const float b =
+               f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
+-          // Keep the affine in F32. Rounding its coefficients separately
+-          // to F16 amplifies cancellation in small routed outputs.
+-          auto* affine = reinterpret_cast<float*>(s_scale) +
+-                         2 * (((2 * f_c + part) * BM) + row);
+-          affine[0] = d;
+-          affine[1] = b;
++          if constexpr (kPacked) {
++            // Materialize the same rounded F32 coefficients before affine
++            // evaluation, then share four exact half values in the old
++            // eight-byte slot. Both half-waves consume the same palette.
++            float rounded_d = d, rounded_b = b;
++            asm volatile("" : "+v"(rounded_d), "+v"(rounded_b));
++            reinterpret_cast<uint2*>(s_scale)[((2 * f_c + part) * BM) + row] =
++                make_uint2(
++                    __builtin_bit_cast(
++                        std::uint32_t,
++                        __floats2half2_rn(fmaf(0.0F, rounded_d, rounded_b),
++                                          fmaf(1.0F, rounded_d, rounded_b))),
++                    __builtin_bit_cast(
++                        std::uint32_t,
++                        __floats2half2_rn(fmaf(2.0F, rounded_d, rounded_b),
++                                          fmaf(3.0F, rounded_d, rounded_b))));
++          } else {
++            // The raw-input control keeps the original F32 affine slot.
++            auto* affine = reinterpret_cast<float*>(s_scale) +
++                           2 * (((2 * f_c + part) * BM) + row);
++            affine[0] = d;
++            affine[1] = b;
++          }
+         }
+       } else if constexpr (kSigned) {
+       } else if constexpr (kQ5) {
+@@ -4392,21 +4409,12 @@
+         __half2 h[16];
+         uint2 palette[kQ2 && kPacked ? 2 : 1];
+         if constexpr (kQ2 && kPacked) {
+-          // A sixteen-element affine group has only four possible weights.
+-          // Preserve each F32 FMA and F16 rounding, then select its exact
+-          // half bits instead of repeating the affine for every element.
++          // Four half values occupy exactly the former two-F32 affine slot.
++          // Producer evaluation removes duplicate conversion in each half-wave.
+ #pragma unroll
+           for (int part = 0; part < 2; ++part) {
+-            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+-                                 2 * (((2 * kb + part) * BM) + row);
+-            const float d = affine[0], bias = affine[1];
+-            palette[part] = make_uint2(
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(0.0F, d, bias),
+-                                                     fmaf(1.0F, d, bias))),
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(2.0F, d, bias),
+-                                                     fmaf(3.0F, d, bias))));
++            palette[part] = reinterpret_cast<const uint2*>(
++                s_scale)[((2 * kb + part) * BM) + row];
+           }
+         }
+ #pragma unroll

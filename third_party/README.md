@@ -252,3 +252,13 @@ or measured GPU benchmark. The documented retained `CodesToHalves` mechanism
 belongs to the independently fetched official-Gufo-derived source. Probe
 provenance and the distinction from the measured affine-palette optimization
 are recorded in `docs/Q2-BIT-CONVERSION.md`.
+
+`experiments/q2-staged-palette.patch` derives independently from this
+workstream's retained paired-HC-up source at the same official Gufo pin.
+It stores four rounded half weights in the previous affine metadata slot,
+preserving original encoded weights, activation precision and matrix arithmetic.
+It imports no external implementation, model conversion or sibling artifact.
+The generator and source-selection guards are first-party MIT; upstream
+notices remain intact. Exact numerical evidence and the component result are
+recorded in `docs/Q2-STAGED-PALETTE.md`. The candidate supplies no measured
+speed gain and is not promoted to the selected or qualified runtime.

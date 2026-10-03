@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Shared Q2 palette is exact without a speed gain — 2026-10-03 UTC
+
+The [shared-palette experiment](Q2-STAGED-PALETTE.md) computes four rounded
+weights once in the LDS producer, retaining them in the former eight-byte
+scale/bias slot. Static mixed-half FMA instructions fall from 12 to 6; tile48
+keeps 144 VGPRs, 24,832 LDS bytes and no scratch. Original activation precision,
+WMMA order, residual correction and model storage remain intact. The raw-input
+control's compiled instructions are unchanged.
+
+GPU operators pass thirty independent cases and all 62 saved buffers exactly
+match the retained palette. The shaped benchmark preserves all 52,428,800
+outputs and 1024 FP64 checks, but median packed time rises from 5342.604 to
+5395.196 us (+0.98%); the control changes -0.37%. All twenty samples, graph
+and CSV are retained. The changed-path sample ranges do not overlap. The
+candidate is not selected and no model benchmark follows; the existing
+1335.84 PP / 24.09 TG reference remains unchanged and parity is unmet.
+
+The host cohort passes 12/12 Debug and 12/12 ASan/UBSan on `.157`. Four runners,
+fifteen command exits 0 and 83 artifacts verify; no model is opened. Release at
+05:26:44 UTC and observer retirement at 05:27:14 confirm empty KFD, original
+leases free and all owned identities absent. The experiment narrows the next
+optimization: removing this duplicate affine conversion at the same memory
+footprint is insufficient; any further change needs a different measured
+dataflow benefit, not an assumed gain from fewer arithmetic instructions.
+
 ## Single HC chain rejected; bit conversion inspected — 2026-10-03 UTC
 
 The [single-chain HC experiment](Q2-HC-SINGLE-CHAIN.md), independently derived

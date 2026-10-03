@@ -18,6 +18,10 @@ The separate [bitfield/conversion probe](docs/Q2-BIT-CONVERSION.md) finds identi
 extraction assembly for bitfields and shifts, but fewer instructions for a
 bounded packed-FP16 construction. That is static evidence, with no new runtime
 speed claim; direct bit construction remains an applicable optimization technique.
+The [shared-palette follow-up](docs/Q2-STAGED-PALETTE.md) halves those duplicated
+mixed-half FMA instructions at equal tile48 register/LDS counts and preserves
+all checked outputs, but component time rises **0.98%**. It is not selected;
+full samples, numerical evidence and closure are retained.
 The runtime patch is implemented. Parser/sanitizer, independent synthetic HIP
 operators and original-model C1 screens run on `.157`. The latest retained
 development candidate, [paired HC up](docs/Q2-HC-UP-CHAINS.md), builds on the

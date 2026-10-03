@@ -1,0 +1,578 @@
+{
+  "scope": "Original-shape synthetic Q2 down operator on .157; not complete model throughput or UD parity",
+  "promotion": false,
+  "exact": true,
+  "reference": {
+    "path": "evidence/q2-staged-palette-micro-ref-r1",
+    "geometry": {
+      "event": "geometry",
+      "tokens": 2048,
+      "experts": 512,
+      "used": 10,
+      "rows": 2560,
+      "logical_k": 640,
+      "stored_k": 768,
+      "tile": 48,
+      "tiles": 512,
+      "weight_bytes": 330301440,
+      "weight_sha256": "5aec2463b837022e9ce58a0267d353481be3b0657523cc1a8c7b90c042c5462e",
+      "input_sha256": "a1a14a2c638fdb908ca31bef8a4eadf1b84d1b89019f14ebfe2e49e63ce462c6"
+    },
+    "replay": {
+      "event": "replay",
+      "values": 52428800,
+      "exact": true,
+      "raw_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+      "packed_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+      "independent_samples": 1024,
+      "relative_rms": 0.000192816047956,
+      "error_over_peak": 0.000224104708963
+    },
+    "independently_recomputed_metrics": {
+      "relative_rms": 0.00019281604795636932,
+      "error_over_peak": 0.00022410470896276058
+    },
+    "samples": [
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 0,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6122.97582626
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 0,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5348.41871262
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 1,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 5345.72839737
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 1,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 6103.31439972
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 2,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6118.03913116
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 2,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5342.60368347
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 3,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 5302.91461945
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 3,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 6048.06089401
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 4,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6048.38085175
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 4,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5303.38954926
+      }
+    ],
+    "median_us": {
+      "raw": 6103.31439972,
+      "packed": 5342.60368347
+    },
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 5
+  },
+  "candidate": {
+    "path": "evidence/q2-staged-palette-micro-r1",
+    "geometry": {
+      "event": "geometry",
+      "tokens": 2048,
+      "experts": 512,
+      "used": 10,
+      "rows": 2560,
+      "logical_k": 640,
+      "stored_k": 768,
+      "tile": 48,
+      "tiles": 512,
+      "weight_bytes": 330301440,
+      "weight_sha256": "5aec2463b837022e9ce58a0267d353481be3b0657523cc1a8c7b90c042c5462e",
+      "input_sha256": "a1a14a2c638fdb908ca31bef8a4eadf1b84d1b89019f14ebfe2e49e63ce462c6"
+    },
+    "replay": {
+      "event": "replay",
+      "values": 52428800,
+      "exact": true,
+      "raw_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+      "packed_sha256": "3f3fcc5431190343add1807d01779d6b8a75e5d44f9a95438af70f18d077475b",
+      "independent_samples": 1024,
+      "relative_rms": 0.000192816047956,
+      "error_over_peak": 0.000224104708963
+    },
+    "independently_recomputed_metrics": {
+      "relative_rms": 0.00019281604795636932,
+      "error_over_peak": 0.00022410470896276058
+    },
+    "samples": [
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 0,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6107.16247559
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 0,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5403.96595001
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 1,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 5395.195961
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 1,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 6099.3719101
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 2,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6080.82771301
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 2,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5366.13512039
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 3,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 5404.86907959
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 3,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 6041.3236618
+      },
+      {
+        "event": "microbench",
+        "packed": false,
+        "rep": 4,
+        "position": 0,
+        "launches": 8,
+        "us_per_launch": 6048.61783981
+      },
+      {
+        "event": "microbench",
+        "packed": true,
+        "rep": 4,
+        "position": 1,
+        "launches": 8,
+        "us_per_launch": 5348.92988205
+      }
+    ],
+    "median_us": {
+      "raw": 6080.82771301,
+      "packed": 5395.195961
+    },
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 5
+  },
+  "time_change_percent": {
+    "raw": -0.3684340218657711,
+    "packed": 0.9843941389985789
+  },
+  "operators": {
+    "independent_cases": 30,
+    "comparisons": [
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile128-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile128-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile48-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile48-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile64-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile64-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m640-tile64-normal.f32",
+        "bytes": 87040,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m640-tile64-tiny.f32",
+        "bytes": 87040,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile128-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile128-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile48-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile48-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile64-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile64-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 ordinary.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 ordinary.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 ordinary.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 ordinary.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 ordinary.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 ordinary.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-chain-iq2-n17-m640-tile64-normal.f32",
+        "bytes": 17544,
+        "exact": true
+      },
+      {
+        "name": "packed-chain-iq2-n17-m640-tile64-tiny.f32",
+        "bytes": 17544,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile16-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile16-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile48-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile48-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile64-normal.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n17-m5-tile64-tiny.f32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile16-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile16-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile48-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile48-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile64-normal.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-down-n65-m129-tile64-tiny.f32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile128-normal.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile128-tiny.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile16-normal.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile16-tiny.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile48-normal.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile48-tiny.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile64-normal.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m5-tile64-tiny.u32",
+        "bytes": 680,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m640-tile64-normal.u32",
+        "bytes": 87040,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n17-m640-tile64-tiny.u32",
+        "bytes": 87040,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile128-normal.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile128-tiny.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile16-normal.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile16-tiny.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile48-normal.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile48-tiny.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile64-normal.u32",
+        "bytes": 67080,
+        "exact": true
+      },
+      {
+        "name": "packed-iq2-n65-m129-tile64-tiny.u32",
+        "bytes": 67080,
+        "exact": true
+      }
+    ],
+    "max_rrms": 0.000569941123956,
+    "max_scaled_error": 0.000521096293995,
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 66
+  }
+}

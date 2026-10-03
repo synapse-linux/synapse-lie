@@ -1,0 +1,33 @@
+{
+  "scope": "Conditional complete unprofiled C1 model screen after useful component improvement; exact replay required and no statistical parity claim",
+  "machine": "192.168.5.157",
+  "device": "gfx1151",
+  "prompt_tokens": 2048,
+  "output_tokens": 128,
+  "timed_decode_calls": 127,
+  "warmups": 1,
+  "measured_sessions": 3,
+  "idle_before_each_session_seconds": 15,
+  "idle_included_in_pp_tg": false,
+  "mtp": false,
+  "prefix_reuse": false,
+  "maximum_context": 9216,
+  "prefill_chunk": 2048,
+  "arm_order": [
+    "retained_hc_up_chains",
+    "staged_palette",
+    "ud"
+  ],
+  "full_mmq_rebuild": true,
+  "numerical_requirement": "Exact Q2 reference/candidate input/output token files and all saved logits; unchanged independent FP64 limits. Earlier qualified-Q2 drift remains unresolved.",
+  "acceptance_goal": "Q2 no prefill or decode regression against UD; remains unproven by a short sequential screen",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "fixture_sha256": "c8d08efd85ef483911ffb3afeaa1034b4c3cdda5537374f04a607a0d8bd3de49",
+  "source_variants": [
+    "hc-up-chains",
+    "staged-palette",
+    "pristine gufo-base"
+  ],
+  "per_gpu_arm": "Four original leases acquired nonblocking; original model files read-only; 98 C inclusive and lower exposed hardware bounds",
+  "candidate_source_sha256": "d5c954439dc92049e5684e8339d7bee1436cba8e254fb36aa6cf1e7df1832877"
+}
