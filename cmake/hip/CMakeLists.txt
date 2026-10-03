@@ -116,6 +116,19 @@ target_include_directories(q2_hc_input SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_input PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
 
+# Preserved norm controls and paired producer, both using the actual HC library.
+add_executable(q2_hc_library_norm EXCLUDE_FROM_ALL ../../tests/q2_hc_library_norm.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp")
+target_compile_options(q2_hc_library_norm PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_library_norm PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_library_norm PRIVATE "${GUFO_SOURCE}")
+target_include_directories(q2_hc_library_norm SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_library_norm PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
+
 # Only built for experimental sources exposing the compensated routed entry.
 add_executable(q2_routed EXCLUDE_FROM_ALL ../../tests/q2_routed.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

@@ -2331,3 +2331,30 @@ main-repository release/ready receipts mark release. Direct thread delivery
 fails again at MCP transport; persistent receipts remain the fallback. No Q2
 GPU job, waiter or restart remains. The next paired-norm/library source is
 prepared locally only; its GPU component/model work requires a new window.
+
+At 2026-10-03 16:25:54 UTC, fresh KFD observation is empty, all original
+four leases are free and the 16:14 profile release remains the latest registry
+event. No foreign GPU admission is recorded. Under persistent owner Q2
+authorization, a bounded host/component window measures original and paired
+norm producers followed by the actual HC library consumer. Full model work
+requires a recorded component decision. Fan82, CPU98 inclusive, exposed GPU
+limits and original models remain unchanged. Direct MCP coordination fails;
+main-repository `run/q2-library-norm-ready.json` and shared registry are the
+fallback. No automatic retry, dependency, service or foreign action is queued.
+
+At 2026-10-03T16:33:45.269553+00:00, the complete-cycle component saves2.530% ordinary and6.120% MoE time, with80/80 whole-buffer hash pairs exact. Independent FP64 failures and actual exit1 remain. Under the owner's arithmetic performance exploration authorization, this window admits fresh scaled-library control, paired-norm candidate and pristine UD pp2048/tg128 arms after the revised launcher guards pass on .157. Each requires full MMQ compilation and original four leases. No task-quality or numerical promotion is implied.
+
+The paired-norm/library campaign completes all six runners. Fresh C1 prefill
+is1411.691 control,1439.264 candidate and1666.902 UD token/s; the addition
+improves1.953% with all21 saved model files exact. Independent component
+failures and KL0.002996 >0.002 remain numerical rejection. All132 artifacts
+and6119 frozen source-file instances verify; all27 commands are terminal.
+
+Fresh closure at2026-10-03 16:50:57.568 UTC verifies33 recorded PIDs/groups
+absent, KFD empty and original four leases acquired EX|NB then released.
+CPU/GPU40/38 C. Persistent remote run/q2-library-norm-window-release.json,
+the shared registry, and local main-repository release/ready records mark
+RELEASED. Direct outgoing MCP transport fails; delivery is not claimed.
+Core's incoming f0f58b3 sampler checkpoint was kept outside this campaign.
+No Q2 job, waiter or restart remains; core can admit a new window with its
+fresh protocol. No further Q2 GPU work is admitted by this closure.

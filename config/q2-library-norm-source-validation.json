@@ -1,0 +1,13 @@
+{
+  "source_files_verified": 1020,
+  "source_identity": "config/q2-library-norm-cycle-static.json",
+  "original_control_bodies_exact": [
+    "HcCombineMoeF32Kernel",
+    "HcCombineMoeF32",
+    "HcCombineVec4Kernel"
+  ],
+  "first_party_fixture_sha256": "77cd4f87f6b4b23113645e11bb0757434aa419927716b9a4e61cd7cd9b305c45",
+  "core_sampler_checkpoint_observed": "f0f58b3",
+  "core_sampler_imported": false,
+  "public_abi_changed": false
+}

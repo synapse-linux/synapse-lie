@@ -1,0 +1,27 @@
+{
+  "scope": "Offline receipts and report validation, not a new runtime test",
+  "artifacts_verified": 132,
+  "source_file_instances_verified": 6119,
+  "saved_model_files_exact": 21,
+  "within_arm_replays_exact": 27,
+  "csv_rows": 56,
+  "links_resolve": true,
+  "plot_visually_inspected": true,
+  "python_parse_files": 7,
+  "goal_met": false,
+  "promoted": false,
+  "report_sha256": "b203cc1a3ead3773a7e96b9ce083f93eb3b35a64022c25436017ae463365cd47",
+  "host_argmax_probe": {
+    "commands": 5,
+    "exits": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "model_access": false,
+    "gpu_access": false,
+    "source_sha256": "2b7fa352409a40967854cb7ed10356371600ba991fb0378d744dd0a3ab5bb2e4"
+  }
+}

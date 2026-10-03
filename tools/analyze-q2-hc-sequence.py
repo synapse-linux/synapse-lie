@@ -20,13 +20,20 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def arm(label):
+def arm(label, *, library=False):
     path = ROOT / 'evidence' / label
     result = json.loads((path / 'results/result.json').read_text())
     transport = json.loads((path / 'transport.json').read_text())
     collection = json.loads((path / 'collection.json').read_text())
-    require(result['mode'] == 'hc-sequence-bench' and not result['model_access'],
+    mode = 'hc-library-norm-bench' if library else 'hc-sequence-bench'
+    prefix = 'hc-library-norm' if library else 'hc-sequence'
+    require(result['mode'] == mode and not result['model_access'],
             'Unexpected runtime scope')
+    if library:
+        require(transport['source_variant'] == 'library-norm-cycle', 'Wrong library source')
+        require(result['preflight_kfd'] == result['postflight_kfd'] == [], 'GPU clients remain')
+        require([(x['device'], x['inode']) for x in result['locks']] ==
+                [(52, 3232146), (52, 3206482), (52, 3228451), (55, 45067)], 'Lease identity differs')
     require(len(result['commands']) == 3 and
             [c['exit_code'] for c in result['commands'][:2]] == [0, 0],
             'Build did not finish successfully')
@@ -40,10 +47,15 @@ def arm(label):
     require(collection['verified_artifacts'] == len(result['artifacts']), 'Collection count differs')
     require(sha((path / 'source.tar.gz').read_bytes()) == transport['capsule_sha256'],
             'Capsule differs')
+    require(sha((path / 'results.tar.gz').read_bytes()) == collection['sha256'],
+            'Results archive differs')
     frozen = {}
     with tarfile.open(path / 'source.tar.gz') as capsule:
-        for name in ('tests/q2_hc_sequence.cpp', 'tests/q2_hc_norm_half.cpp',
-                     'tests/q2_hc_moe_fused.cpp', 'cmake/hip/CMakeLists.txt'):
+        fixtures = ['tests/q2_hc_sequence.cpp', 'tests/q2_hc_norm_half.cpp',
+                    'tests/q2_hc_moe_fused.cpp', 'cmake/hip/CMakeLists.txt']
+        if library:
+            fixtures += ['tests/q2_hc_library_norm.cpp']
+        for name in fixtures:
             frozen[name] = sha(capsule.extractfile(name).read())
             require(frozen[name] == sha((ROOT / name).read_bytes()), 'Fixture changed: ' + name)
         source = ROOT / transport['source_path']
@@ -54,13 +66,15 @@ def arm(label):
                     'Source differs: ' + member)
     events = [json.loads(line) for line in (path / 'results/03.log').read_text().splitlines()
               if line.startswith('{"event"')]
-    timings = [x for x in events if x['event'] == 'hc_sequence_microbench']
+    timing_event = 'hc_library_norm_microbench' if library else 'hc_sequence_microbench'
+    timings = [x for x in events if x['event'] == timing_event]
     replays = [x for x in events if x['event'] == 'hc_sequence_replay']
     norms = [x for x in events if x['event'] == 'hc_sequence_norm_oracle']
-    require((len(timings), len(replays), len(norms)) == (20, 16, 6), 'Incomplete experiment')
-    wanted = {f'hc-sequence-n{n}-p{p}-moe{m}'
-              for n, p in ((96, 0), (97, 1), (129, 2)) for m in (0, 1)}
-    wanted |= {f'hc-sequence-bench-moe{m}-rep{r}' for m in (0, 1) for r in range(5)}
+    require((len(timings), len(replays), len(norms)) ==
+            ((20, 20, 10) if library else (20, 16, 6)), 'Incomplete experiment')
+    cases = [(96, 0), (97, 1), (129, 2)] + ([(2048, 0), (2048, 1)] if library else [])
+    wanted = {f'{prefix}-n{n}-p{p}-moe{m}' for n, p in cases for m in (0, 1)}
+    wanted |= {f'{prefix}-bench-moe{m}-rep{r}' for m in (0, 1) for r in range(5)}
     require({x['label'] for x in replays} == wanted, 'Missing replay case')
     for replay in replays:
         for field in ('res', 'norm', 'half', 'down'):
@@ -87,6 +101,8 @@ def arm(label):
             require({x['rep'] for x in rows} == set(range(5)), 'Missing timing repetition')
             require(all(x['tokens'] == 2048 and x['iterations'] == 16 and
                         x['weight_bytes'] == 104857600 for x in rows), 'Timing scope differs')
+            if library:
+                require(all(x['consumer'] == 'hipblaslt-7526' for x in rows), 'Wrong consumer')
             values = [x['microseconds_per_iteration'] for x in rows]
             require(all(x > 0 for x in values), 'Invalid duration')
             medians.append(statistics.median(values))
@@ -115,8 +131,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('output', type=Path)
     parser.add_argument('labels', nargs='+')
+    parser.add_argument('--library', action='store_true', help='Validate the distinct HC library cycle protocol')
     args = parser.parse_args()
-    arms = [arm(label) for label in args.labels]
+    arms = [arm(label, library=args.library) for label in args.labels]
     baseline = {x['label']: x for x in arms[0]['replays']}
     for other in arms[1:]:
         for replay in other['replays']:
@@ -124,7 +141,8 @@ def main():
                 require(replay['reference_' + field + '_sha256'] ==
                         baseline[replay['label']]['reference_' + field + '_sha256'],
                         'Geometry changed complete output: ' + replay['label'])
-    report = {'scope': 'Synthetic HC sequence; no model throughput or reactive gain',
+    report = {'scope': ('Synthetic HC library producer/consumer cycle' if args.library else
+                        'Synthetic HC sequence') + '; no model throughput or reactive gain',
               'validation_pass': True, 'numerical_qualification_pass': all(not x['numerical_failures'] for x in arms),
               'arms': arms, 'promoted': False}
     args.output.write_text(json.dumps(report, indent=2) + '\n')

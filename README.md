@@ -4,15 +4,33 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-The new [composed Q2/UD profile](docs/Q2-SCALED-LIBRARY-PROFILE.md) locates
-70.29% of the remaining extra prefill kernel time in activation preparation
-(+86.151 ms) and HC down (+60.870 ms). Expert down is now comparable to UD;
-all 28 instrumentation replay checks pass. An exact paired F32/F16 norm
-producer is prepared against the new library consumer, with static compilation
-passing and GPU performance still unmeasured. Full attribution and graphs
-are available; this diagnostic does not change the throughput figures below.
+The latest [paired norm/library experiment](docs/Q2-LIBRARY-NORM.md) raises
+prefill from **1411.691 to 1439.264 token/s (+1.9532%)**, saving 27.793 ms per
+2048-token request. All 21 saved token/logit files match the fresh control.
+Fresh UD measures 1666.902 PP token/s and 24.318 decode calls/s; Q2 reaches
+24.097 decode calls/s, remaining 13.656% below UD PP and 0.911% below decode.
+The existing scaled/library numerical rejection remains unchanged (maximum
+qualified-reference KL 0.002996 > 0.002); the source remains experimental.
+Both host cohorts pass 16/16 Debug and 16/16 ASan/UBSan; 132 artifacts and 6119
+source-file instances verify. Full samples, durations, graphs and decode
+priorities are documented; the GPU window is released. Q2/UD parity is not met.
 
-The latest [scaled + HC-library comparison](docs/Q2-SCALED-LIBRARY.md) combines
+The earlier LIE decode baseline remains **26.049 token/s**, not the current
+24.318 diagnostic control. A new [host-only investigation](docs/Q2-LIBRARY-NORM.md)
+finds 248320 unnecessary string allocations per token in the current harness's
+finite-logit checks. Removing only message construction reduces that host
+pass 2.579 to 0.777 ms, with all checks preserved. This is not a GPU gain or a
+replacement model timing. A prepared correction and an aligned fresh Q2/UD
+comparison are required; the historical decode target is not lowered.
+
+The preceding [composed Q2/UD profile](docs/Q2-SCALED-LIBRARY-PROFILE.md)
+locates 70.29% of the then-remaining extra prefill kernel time in activation
+preparation and HC down. The new paired producer now saves time with the
+actual library consumer; its standalone cycle reductions are 2.53% ordinary
+and 6.12% MoE, with 80/80 complete hash pairs exact. These component percentages
+are not added to the measured model gain above.
+
+The preceding [scaled + HC-library comparison](docs/Q2-SCALED-LIBRARY.md) combines
 two separate arithmetic improvements and measures another **1.86% prefill gain**:
 1386.762 to 1412.563 token/s, with prefill falling 1.476821 to 1.449847 seconds.
 Fresh UD reaches 1660.059 token/s: Q2 remains **14.909% below UD** in prefill

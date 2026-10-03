@@ -163,6 +163,30 @@ class RemoteGuardTests(unittest.TestCase):
                      '--source-variant', 'scaled-library'],
                     'requires one of its three frozen Q2 variants')
 
+    def test_library_norm_cycle_scope(self):
+        for variant in ('qualified', 'scaled-library', 'hc-sequence'):
+            self.refuse(['hc-library-norm-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires its preserved-control source')
+        for mode in ('ud-bench2k', 'q2-profile', 'hc-sequence-bench', 'hc-pp-bench', 'cpu'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'library-norm-cycle'],
+                        'requires its explicit component or bench2k experiment')
+        self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', 'library-norm-cycle'],
+                    'requires a full MMQ rebuild')
+        self.refuse(['hc-library-norm-bench', 'q2-fixture', '--source-variant',
+                     'library-norm-cycle', '--rebuild-mmq'], 'requires bench2k')
+        # An allowed invocation must reach staging, without creating files or SSH.
+        for mode in ('hc-library-norm-bench', 'q2-bench2k'):
+            argv = [str(path), mode, 'q2-fixture', '--source-variant', 'library-norm-cycle']
+            if mode == 'q2-bench2k':
+                argv.append('--rebuild-mmq')
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
     def test_combined_source_boundaries(self):
         for variant in ('combined-retained', 'combined-scaled'):
             self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],

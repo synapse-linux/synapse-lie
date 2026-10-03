@@ -1,6 +1,55 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Paired norm/library composition improves complete prefill — 2026-10-03
+
+The actual library consumer retains the paired producer's saving: complete
+ordinary/MoE cycles take 2.530%/6.120% less time, with 80/80 complete hash pairs
+and 18 saved pairs exact. Independent down checks retain 15 failures and exit 1;
+the norm checks pass. This supports the separately admitted model trial.
+
+Fresh C1 pp2048/tg128 measures 1411.691 PP control, 1439.264 paired and 1666.902
+UD token/s. The addition gains 1.9532%, saving 27.793 ms from prefill. All 21
+saved model files match the fresh control, which also matches its preceding
+cohort; all 27 internal model replays pass. Decode is 24.086/24.097/24.318
+calls/s, an overlapping +0.0434% change for unchanged scalar kernels.
+Q2 remains 13.656% below UD PP and 0.911% below decode. Qualified-reference KL
+stays 0.002996 > 0.002 and earlier operator failures remain; no numerical
+promotion, task-quality or broad parity is claimed. [Every sample, complete
+prefill/decode durations, graphs and next decode priorities](Q2-LIBRARY-NORM.md)
+are preserved. Candidate ends 16:44:22.617 UTC (18:44 Europe/Rome).
+
+The decode priorities come from the preceding diagnostic trace: HC F16
+down/up 5.895 ms per step, dense Q8 17.477 ms (46.71% of kernel time), and
+5.607 ms inter-kernel gaps. Down alone adds 1.296 ms per step over UD; target
+that measured difference first. HIP graphs already exist. Other gaps cannot
+be equated with removable launch overhead or a reactive speedup.
+
+Both host cohorts pass 16/16 Debug and 16/16 ASan/UBSan on .157. All 132
+artifacts and 6119 source-file instances verify across six frozen runners.
+27 commands finish, retaining the component's exit 1 and local preparation/
+collection failures. Maximum CPU/GPU 84.5/73 C. No original weights, public
+ABI, state format, service, dependency or core sampler change is introduced.
+The incoming core f0f58b3 C17 sampler checkpoint stays outside this campaign.
+
+Verified closure at 16:50:57.568 UTC finds 33 recorded PIDs/groups absent,
+KFD empty and the original four leases free. Remote/shared/local receipts
+mark release and the main ready record is updated. Outgoing thread delivery
+still fails at MCP transport; the durable fallback records the handover.
+No Q2 workload, waiter or restart remains. The performance goal remains open.
+
+The owner correctly recalls 26 token/s: verified historical LIE UD baseline
+is 26.049386 at 2042 prompt tokens, not 24.318. The current Q2 rate is 7.497%
+below that historical rate; the diagnostic UD control is 6.646% below it.
+The current harness constructs 248320 temporary strings per token during
+finite-logit checking inside decode timing. A separate .157 host-only probe
+confirms 248320 allocations versus 0 with identical finite/argmax checks,
+and 2.579 to 0.777 ms median per call. Five commands exit 0; every sample and
+both program variants are retained. This is benchmark overhead, not a GPU
+optimization, and no old model timing is adjusted by subtraction. The prepared
+harness-only patch needs fresh model qualification and historical-prompt
+alignment next. The original 26-token/s target remains; then revisit HC decode.
+
 ## Composed profile changes the next optimization target — 2026-10-03
 
 Fresh scaled-library and pristine UD pp2048/tg16 traces reproduce 28/28 saved
