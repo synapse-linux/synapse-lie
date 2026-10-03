@@ -1,6 +1,43 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Repeated canonical curve, PLE attribution and DeepSeek audit — 2026-10-04
+
+The second uninstrumented UD→Q2 sweep retains the whole 0–128K workload.
+Q2 remains below UD in both metrics at all eight points on the two-sample
+means. In the second pair, depth-zero PP is 787.469/1568.491 token/s and
+128K PP is 1092.674/1220.249: the first pair's near-parity at 128K does not
+repeat. All 40 same-model request payloads and completion hashes replay.
+[Both pairs, durations and figures](Q2-CANONICAL-REPEATS.md) remain separate.
+
+The diagnostic pair records 1385 valid Forward intervals per model. Its
+40 request/output histories also match the uninstrumented pair exactly.
+At depth zero Q2/UD host PLE wait is 1180.492/113.939 ms and process storage
+reads are 2046.773/98.359 MiB. At 128K the wait is 138.881/112.701 ms. Q2's
+small row-cache hit rate stays near 3%; lower-level storage warming is a
+supported hypothesis for the falling read cost. Host waits overlap queued GPU
+work and are not a direct critical-path or recoverable-time measurement.
+[Complete PP/TG counters, units and figures](Q2-CURVE-PROFILE.md) are retained.
+The roughly 2600 prefill figure is milliseconds, not token/s.
+
+The owner's suggestion prompted an audit of official pinned Gufo DeepSeek,
+using no sibling DS4 source. The same IQ2/Q2 formats expose two concrete
+unmeasured mechanisms: mixed full/tail expert maps and packed integer IQ2
+sign decoding. A one-function sign candidate is prepared with 1019 other
+provider files exact; device-only syntax passes. No GPU run or performance
+gain is claimed. Device assembly reduces the fused vector body from 1036 to
+384 static instructions but increases VGPRs from 31 to 68, without private
+scratch; runtime must decide that tradeoff. The audit also rejects false leads: histogram MMQ selection
+already exists, and HIP D2R and producer-Q8 reuse are stubs. The canonical
+PLE cost remains a separate priority. [Audit and provenance](Q2-DEEPSEEK-AUDIT.md).
+
+All five current-window cohorts finish: 19/19 Debug and sanitizer checks,
+26 command exits zero, 127 artifacts verified. Fresh closure at
+2026-10-03T23:03:30.243030+00:00 verifies 39 process/group identities absent,
+KFD empty and all four original leases free. Core explicitly acknowledges
+the receipt and takes its follow-up window. No Q2 GPU job, waiter, reservation
+or restart remains. Numerical qualification and full-curve parity stay open.
+
 ## Canonical PLE attribution prepared; reversed pair running — 2026-10-04
 
 The first whole curve is retained in checkpoint97f4281. Its 1.136713-second

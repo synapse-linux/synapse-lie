@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-03T22:37:57.761562+00:00",
+  "state": "ACTIVE_WITH_REVERSED_PAIR_THEN_ALTERNATING_PROFILES",
+  "labels": [
+    "q2-curve-profile-host-r1",
+    "q2-canonical-http-ud-r2",
+    "q2-canonical-http-q2-r2",
+    "q2-canonical-ple-ud-r1",
+    "q2-canonical-ple-q2-r1"
+  ],
+  "reason": "Unchanged UD provider improved1.8..19.3% across repeated PP cells with8/8 identical measured completion hashes. Run diagnostic UD thenQ2 so model alternation matches the uninstrumented reverse pair; avoid profiling Q2 immediately after its own sweep and mistaking warmer storage for a mechanism change.",
+  "fixed_workload": "Full pinned Gufo HTTP prose0..128K, no global cache drop, original weights unchanged",
+  "headline_profiles": false,
+  "goal_met": false
+}

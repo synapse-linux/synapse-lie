@@ -6,6 +6,17 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Latest state (2026-10-03T23:03:30.243030+00:00): the canonical profile window
+is released. All five cohorts and 26 commands finish successfully; 127 artifacts
+are collected. The release verifies 39 recorded processes/groups retired,
+empty KFD and the four original lease identities acquired EX|NB then released.
+`run/q2-curve-profile-window-release.json` exists remotely and in the main local
+repository; the shared registry records the release. Direct outgoing thread
+delivery still fails at MCP transport. Core explicitly read the receipt and
+acknowledged taking its ten-arm follow-up window with fresh admission. Q2 now
+performs local source/report work only, including the official DeepSeek audit;
+there is no Q2 reservation, waiter or automatic restart.
+
 The initial Q2 campaign retired at 2026-10-02 01:31:56 UTC and handed its
 window to core/server. Core-gpu-r2 completed at 02:13:52.976 UTC with children
 retired, KFD empty, four lease identities unchanged/free and port 8000 empty.
@@ -2495,3 +2506,9 @@ recorded window; no foreign process is stopped. Persistent main
 `run/q2-curve-profile-window-active.json`, remote admission and the shared
 registry are the agreed fallback; outgoing MCP delivery again fails.
 The host cohort passes 19/19 in both configurations before the first UD arm.
+
+Core subsequently confirms its fresh22:44:21UTC observation of live Q2
+supervisor3277171/start163236329 and server3279093/start163254848. It explicitly
+leaves `.157` with Q2, performs no staging/run and will not interleave its
+ten prepared arms before verified closure. The active window continues with
+the separate profiles; release will include process/KFD/four-lease checks.

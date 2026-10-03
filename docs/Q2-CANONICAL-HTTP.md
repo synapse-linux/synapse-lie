@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2/UD on the pinned Gufo HTTP prose depth workload
 
+This is the first pair. The [reversed repetition](Q2-CANONICAL-REPEATS.md)
+does not confirm its near-parity observation at128K; both complete series
+remain available and no best-sample substitution is made.
+
 Both original models complete the requested eight-point workload on `.157`.
 Q2 does **not** establish whole-curve parity. These are one warmed observation
 per point, following the published method; they do not establish uncertainty

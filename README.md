@@ -7,22 +7,34 @@ The acceptance target is **Q2 at least as fast as UD in both prefill and decode
 at every point of the requested context curve**. The
 [canonical comparison contract](docs/Q2-CURVE-PARITY.md) restores Gufo's HTTP
 pp2048/tg128 prose workload and ordered cached-prefix depths from 0 to 128K.
-The [complete first paired curve](docs/Q2-CANONICAL-HTTP.md) is now measured on
+Two [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) are now measured on
 `.157`, with every physical token count, PP/TG duration, graph and CSV.
-Q2 trails UD by **46.197% PP at depth 0** and **0.613% PP at 128K**; TG is
-2.737% below at depth 0 and 1.392% above at 128K in this single observation.
-Whole-curve parity remains unmet. Both models use the same C17 executor-call
-timer; published Gufo scheduler timing is not asserted identical.
+Reversing model order does not confirm the first pair's near-parity at128K:
+Q2 is **10.455% below UD in PP** and **2.263% below in TG** there in the second
+pair. At depth0 its PP deficit is49.795%. All40 same-model request histories
+and completion hashes replay exactly. Both metrics' means remain below UD at
+all eight points; the observed variability needs attribution.
+Both models use the same C17 executor-call timer; published Gufo scheduler
+timing is not asserted identical. The [first pair](docs/Q2-CANONICAL-HTTP.md)
+remains retained separately.
 Historical counting-prompt tests, including the 1411→1439 prefill result,
-remain separate diagnostics. Both host configurations pass 18/18; all 74 campaign
-artifacts verify and the GPU window is released. Existing numerical rejection
-remains; the next attribution must retain the full canonical workload.
+remain separate diagnostics. Existing numerical rejection remains; the
+attribution retains the full canonical workload.
 
-The [canonical PLE attribution](docs/Q2-CURVE-PROFILE.md) is now prepared and
-passes 19/19 Debug and ASan/UBSan host checks on `.157`. It preserves the full
-HTTP workload, independently aligns completed Forward calls with requests,
-and keeps instrumented timings outside the performance comparison. A fresh
-coordinated window is executing the reverse-order uninstrumented pair first.
+The [canonical PLE attribution](docs/Q2-CURVE-PROFILE.md) is complete on `.157`:
+at depth zero Q2 host PLE waiting is 1180.492 ms versus UD 113.939 ms, falling
+to 138.881/112.701 ms at 128K. Process reads are 2046.773/98.359 MiB at depth
+zero. Host waiting can overlap GPU work; it is not guaranteed recoverable time.
+Both profiles preserve all 40 request/output histories and remain separate
+from throughput results. Host checks pass 19/19 Debug and ASan/UBSan.
+The verified window is released to core; no Q2 remote job or retry remains.
+
+The [official DeepSeek source audit](docs/Q2-DEEPSEEK-AUDIT.md) identifies
+mixed expert full/tail tiles and packed integer IQ2 sign expansion as distinct
+unmeasured opportunities. A source-only decode candidate passes HIP syntax;
+it changes no accumulation order and still needs GPU replay/performance checks.
+Histogram tile selection is already present, while D2R and producer-Q8 reuse
+are inactive stubs in the pinned DeepSeek HIP port.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

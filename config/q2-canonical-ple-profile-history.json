@@ -1,0 +1,209 @@
+{
+  "scope": "Diagnostic versus uninstrumented full same-model history, including calibration, warmup, prefix and all measured calls",
+  "models": {
+    "q2": [
+      {
+        "request": "request-0000.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0001.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0002.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0003.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0004.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0005.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0006.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0007.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0008.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0009.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0010.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0011.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0012.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0013.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0014.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0015.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0016.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0017.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0018.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0019.json",
+        "payload_exact": true,
+        "completion_exact": true
+      }
+    ],
+    "ud": [
+      {
+        "request": "request-0000.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0001.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0002.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0003.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0004.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0005.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0006.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0007.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0008.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0009.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0010.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0011.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0012.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0013.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0014.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0015.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0016.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0017.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0018.json",
+        "payload_exact": true,
+        "completion_exact": true
+      },
+      {
+        "request": "request-0019.json",
+        "payload_exact": true,
+        "completion_exact": true
+      }
+    ]
+  }
+}

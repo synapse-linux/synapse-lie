@@ -1,0 +1,101 @@
+{
+  "schema": "synapse-lie.q2-curve-profile-validation.v1",
+  "runs": [
+    {
+      "label": "q2-curve-profile-host-r1",
+      "mode": "cpu",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_file_instances": 1020,
+      "capsule_sha256": "d47561e58c2586273792beaee8f2fc9386f9d734f062635c958ec60510003af0",
+      "collection_sha256": "c22357dfef4d9143456211bb91deb34a7a2dc64136d5e7430513c11e84840f4e"
+    },
+    {
+      "label": "q2-canonical-http-ud-r2",
+      "mode": "ud-curve",
+      "state": "CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_file_instances": 1352,
+      "capsule_sha256": "2ec499c9b79bbc6be93e580f80a79117483cf5b9f3f7ed11675c2b8d526c28e3",
+      "collection_sha256": "bc325c4837b1cf02b5fbf4468b01c1cf5f0c284c03735711fa819e22d27b30b4"
+    },
+    {
+      "label": "q2-canonical-http-q2-r2",
+      "mode": "q2-curve",
+      "state": "CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_file_instances": 1353,
+      "capsule_sha256": "16c3383ca4195715452fd9ee32531e713bf9e9213ffc906d56266793fcf225c8",
+      "collection_sha256": "cb85590813185bd9e511013137abfddf09393dff6c37d7f1b2dc146a26b9bcfb"
+    },
+    {
+      "label": "q2-canonical-ple-ud-r1",
+      "mode": "ud-curve-ple",
+      "state": "CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_file_instances": 1354,
+      "capsule_sha256": "d8f63939df5db47ac9a50ef76ae6bcf9e2d18764c23ddbe18a0cef204fe67998",
+      "collection_sha256": "8a70e50001f7638634f0448726478b91a7067babaf3064cfd27c0ed2912a13c6"
+    },
+    {
+      "label": "q2-canonical-ple-q2-r1",
+      "mode": "q2-curve-ple",
+      "state": "CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_file_instances": 1355,
+      "capsule_sha256": "ada31edb9d75560e69026fac5a8a64d33f2fc8dd6593ac5dfb12bd7c5c325682",
+      "collection_sha256": "a8fde872fadf9e22600db34eaa84f64ea4a7b33a715cd15603b962b28b1bb21c"
+    }
+  ],
+  "artifacts": 127,
+  "source_file_instances": 6434,
+  "command_count": 26,
+  "release_sha256": "1310b36cec32a00c353c2c3536c5b8e5d3ca87e1a2dbfb128b264be5abf76124",
+  "checked_pids": 39,
+  "host_debug_tests": 19,
+  "host_sanitizer_tests": 19,
+  "history_pairs": 40,
+  "profile_forward_events": {
+    "q2": 1385,
+    "ud": 1385
+  },
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
+}

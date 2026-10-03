@@ -1,0 +1,57 @@
+{
+  "schema": "synapse-lie.q2-deepseek-audit.v1",
+  "at": "2026-10-03T23:13:09.241764+00:00",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Independent official source and retained LIE evidence only; no sibling DS4 source imported",
+  "files": {
+    ".deps/gufo-base/docs/models/deepseek-v4-flash/BENCHMARKS.md": "8e912003433fe6ded71dab2247bd8b3eda14887ffbd4693b917d3ac8d5257cea",
+    ".deps/gufo-base/docs/models/deepseek-v4-flash/QUALITY.md": "88a4e7e6bfa165c7b78d1512e8d4ade327cb512123868533c6de7a5634acb851",
+    ".deps/gufo-base/docs/models/deepseek-v4-flash/EXPERIMENTS.md": "2d60ccec3d06c44c2102cda01e80f956dabfe2b756fbc62bdd5c70806b1fc3af",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/UPSTREAM.md": "989024538f0d87b55e6fff25eaf61fe2559b43262f2b338bb26eea5884f4a88f",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/runtime/tensor_types.h": "7aab421004173f00301df780a1558d0b22d4b20913c6498f0c3864c789c3b2bd",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/runtime/model_data.cpp": "60faae29a401449fdb2705aa27c3fabf9182aee6b7c4a8db36ecda08eaf2a944",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_iq2_gate.hip.hpp": "5c746c5836f129c0da3220e9bf2a0e71de82d64db104e5c8edd7cd1a129d3f5b",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_q2_down.hip.hpp": "2e98e7c172e430ea61a64bbf76bcb2d637051377a2513628d1e2a7f4eeb8d77f",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_moe_launch.hip.hpp": "37532a73bedf10ff193ef940aa27fb1c7c884017871ef81e0103d336ff50ebb2",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/backend.hip.cpp": "94bd5a2d52ba70ac001c8681434b70ba59cbc29b6139025a8557e604792c2d8e",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq.hip.cpp": "337cdb8ad2a6779adaab3839ef89c38b53dbd0c8480621d488da06322c5492de",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq_d2r.hip.cpp": "ed094cd0826b2c89bb0bf9575505fb9202f1faa0ae2ab7fa355d7d1564a538ef",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/VENDOR.md": "1e5cd59fc500b4803fa0db0644858b85921b7d4b748f9abcd1e86ba5867dc9a2",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "971ba0a95ef30820920f2e9d90c8e29bc3f62fd1cd4aeea7b5c82b68de8738c8",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "c814538cb15699f3c0ace8d4abc4773efc6d9bbf78c0e2a663fc4554f0d0b331",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp": "3e8290b2f63e710e5645a7a4330f294a8f2030e769f4a4b59e3a53b170922dfe",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b",
+    ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/mmq/VENDOR.md": "8368cf5423c4b2bd42f5417aa3df91498a4c969e5506ebcba3bf2f70862dad4d",
+    "docs/Q2-SCALED-TILES.md": "3b10d3588a493972f20d9bbb7519a4152374579261ab80367c876bd46c375ac1",
+    "docs/Q2-CODE-REUSE.md": "ccab3648aafacdf42ca40c8f1ba3253713e744bcf9231297356ea1f314b4af10",
+    "docs/Q2-GPU-DATAFLOW.md": "997b97f10ada3fd3d77bb76df876b348b3f4512fdc384b414f76a8b619204c19",
+    "docs/Q2-EXPERT-STACK.md": "7bf4510395f4fb5f17164397983d61fcf51463f09a18d0101d56281717d9d5d2",
+    "docs/Q2-STAGED-WEIGHTS.md": "d6992d975e912d79eaced7eefc7bff4bac491d33db401a75bf0d910401551729",
+    "docs/Q2-STAGED-PALETTE.md": "1cb3d9cb3713e7dea3d60d6cb32f02b14db0ff77e210c936e36c5691342244ee",
+    "docs/Q2-DOWN-SCATTER.md": "7bb35f0c916aa9ab29bc10f24f4ea97eb7e35352a8505e5eaf00185d37e136d0",
+    "docs/Q2-HC-SINGLE-CHAIN.md": "4d1a965717ad5a33d9182d2027f988582afe78345e52ba73e5f4ffb8c291d669",
+    "config/q2-canonical-ple-profile-results.json": "e9b1e982d76abb632fb804d6d9ee7ed3e0256ee20d8d26d2c6ce7a5f394578b7",
+    "third_party/gufo/THIRD_PARTY_NOTICES.md": "8d7e1bc9c37d5e0d456c8e9ef9ef5bfaf5b95b5e7960cae3f346d99744643116"
+  },
+  "unmeasured_opportunities": [
+    "IQ2 MMVQ packed integer sign expansion",
+    "Mixed expert full/tail tiles",
+    "IQ2 MMVQ shared codebook"
+  ],
+  "already_present": [
+    "Histogram MMQ selector",
+    "Compact expert assignments",
+    "Paired gate/up and fused SwiGLU",
+    "Deferred MoE/HC sum"
+  ],
+  "inactive_in_hip": [
+    "D2R launchers",
+    "Producer Q8_1 reuse registry"
+  ],
+  "prepared": "config/q2-iq2-signs-source.json",
+  "runtime_tested": false,
+  "promoted": false,
+  "goal_met": false,
+  "assembly_observation": "Fused IQ2 vector 1036 to 384 static instructions; VGPR31 to68, no private scratch; FP instruction forms change, GPU exactness pending"
+}
