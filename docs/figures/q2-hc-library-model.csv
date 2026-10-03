@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_tok_s,1,1314.569149
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_tok_s,2,1314.35444
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_tok_s,3,1311.565545
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_tok_s,1,1341.84845
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_tok_s,2,1341.371056
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_tok_s,3,1337.878796
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_tok_s,1,1666.347416
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_tok_s,2,1647.29334
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_tok_s,3,1665.648379
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_steps_s,1,24.09911194
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_steps_s,2,24.0744223
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_steps_s,3,24.11627633
+Q2 library down,evidence/q2-hc-library-model-r1,decode_steps_s,1,24.1215513
+Q2 library down,evidence/q2-hc-library-model-r1,decode_steps_s,2,24.13449208
+Q2 library down,evidence/q2-hc-library-model-r1,decode_steps_s,3,24.07577261
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_steps_s,1,24.34019764
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_steps_s,2,24.35419752
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_steps_s,3,24.33557591
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_s,1,1.557924892
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_s,2,1.55817939
+Q2 palette,evidence/q2-hc-library-model-ref-r1,prefill_s,3,1.561492682
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_s,1,1.526252834
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_s,2,1.526796028
+Q2 library down,evidence/q2-hc-library-model-r1,prefill_s,3,1.530781418
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_s,1,1.229035422
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_s,2,1.243251551
+Fresh UD,evidence/q2-hc-library-ud-r1,prefill_s,3,1.229551222
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_s,1,5.269903734
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_s,2,5.275308309
+Q2 palette,evidence/q2-hc-library-model-ref-r1,decode_s,3,5.266152961
+Q2 library down,evidence/q2-hc-library-model-r1,decode_s,1,5.265001343
+Q2 library down,evidence/q2-hc-library-model-r1,decode_s,2,5.262178279
+Q2 library down,evidence/q2-hc-library-model-r1,decode_s,3,5.275012439
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_s,1,5.217706194
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_s,2,5.214706824
+Fresh UD,evidence/q2-hc-library-ud-r1,decode_s,3,5.218697123

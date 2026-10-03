@@ -3,8 +3,10 @@
 // No original model weights or CPU model forward are used.
 #include <hip/hip_fp16.h>
 #include <hip/hip_runtime.h>
+#include <hipblaslt/hipblaslt-ext.hpp>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
@@ -198,11 +200,268 @@ static void Bench(rocm::BlasLt &blas, unsigned m, unsigned k) {
   Hip(hipEventDestroy(begin));
   Hip(hipEventDestroy(end));
 }
+
+static void Blas(hipblasStatus_t status) {
+  Require(status == HIPBLAS_STATUS_SUCCESS, "hipBLASLt operation failed");
+}
+struct LibraryPlan {
+  hipblasLtHandle_t handle{};
+  hipblasLtMatmulDesc_t operation{};
+  hipblasLtMatrixLayout_t weights{}, input{}, output{};
+  hipblasLtMatmulPreference_t preference{};
+  LibraryPlan() = default;
+  LibraryPlan(const LibraryPlan &) = delete;
+  LibraryPlan &operator=(const LibraryPlan &) = delete;
+  ~LibraryPlan() {
+    if (preference)
+      (void)hipblasLtMatmulPreferenceDestroy(preference);
+    if (output)
+      (void)hipblasLtMatrixLayoutDestroy(output);
+    if (input)
+      (void)hipblasLtMatrixLayoutDestroy(input);
+    if (weights)
+      (void)hipblasLtMatrixLayoutDestroy(weights);
+    if (operation)
+      (void)hipblasLtMatmulDescDestroy(operation);
+    if (handle)
+      (void)hipblasLtDestroy(handle);
+  }
+  void Init(unsigned m, unsigned k, unsigned n) {
+    Blas(hipblasLtCreate(&handle));
+    Blas(hipblasLtMatmulDescCreate(&operation, HIPBLAS_COMPUTE_32F, HIP_R_32F));
+    const hipblasOperation_t transpose = HIPBLAS_OP_T, normal = HIPBLAS_OP_N;
+    Blas(hipblasLtMatmulDescSetAttribute(operation,
+                                         HIPBLASLT_MATMUL_DESC_TRANSA,
+                                         &transpose, sizeof(transpose)));
+    Blas(hipblasLtMatmulDescSetAttribute(
+        operation, HIPBLASLT_MATMUL_DESC_TRANSB, &normal, sizeof(normal)));
+    Blas(hipblasLtMatrixLayoutCreate(&weights, HIP_R_16F, k, m, k));
+    Blas(hipblasLtMatrixLayoutCreate(&input, HIP_R_16F, k, n, k));
+    Blas(hipblasLtMatrixLayoutCreate(&output, HIP_R_32F, m, n, m));
+    Blas(hipblasLtMatmulPreferenceCreate(&preference));
+  }
+};
+
+// Independent library diagnostic. No model activations, global tuning cache,
+// original weight mutation or automatic selection in the production path.
+static unsigned LibrarySweep(rocm::BlasLt &native, unsigned m, unsigned k) {
+  constexpr unsigned n = 2048, rotations = 16, launches = 16, guard = 32;
+  constexpr std::size_t max_workspace = 64ULL << 20;
+  constexpr float sentinel = 123456.0f;
+  LibraryPlan plan;
+  plan.Init(m, k, n);
+  struct Choice {
+    hipblasLtMatmulAlgo_t algorithm;
+    int index;
+    std::size_t workspace;
+  };
+  std::vector<Choice> choices;
+  std::set<int> seen;
+  const float one = 1, zero = 0;
+  for (std::size_t cap : {std::size_t(0), max_workspace}) {
+    Blas(hipblasLtMatmulPreferenceSetAttribute(
+        plan.preference, HIPBLASLT_MATMUL_PREF_MAX_WORKSPACE_BYTES, &cap,
+        sizeof(cap)));
+    std::array<hipblasLtMatmulHeuristicResult_t, 32> results{};
+    int found = 0;
+    Blas(hipblasLtMatmulAlgoGetHeuristic(
+        plan.handle, plan.operation, plan.weights, plan.input, plan.output,
+        plan.output, plan.preference, results.size(), results.data(), &found));
+    Require(found >= 0 && found <= int(results.size()),
+            "Invalid heuristic count");
+    std::cout << std::scientific << std::setprecision(12)
+              << "{\"event\":\"library_heuristics\",\"m\":" << m
+              << ",\"k\":" << k << ",\"n\":" << n << ",\"cap_bytes\":" << cap
+              << ",\"found\":" << found << "}\n";
+    for (int i = 0; i < found; ++i) {
+      auto &candidate = results[i];
+      std::size_t required = 0;
+      const int index = hipblaslt_ext::getIndexFromAlgo(candidate.algo);
+      const auto status = hipblaslt_ext::matmulIsAlgoSupported(
+          plan.handle, plan.operation, &one, plan.weights, plan.input, &zero,
+          plan.output, plan.output, candidate.algo, required);
+      const bool usable = candidate.state == HIPBLAS_STATUS_SUCCESS &&
+                          status == HIPBLAS_STATUS_SUCCESS && required <= cap &&
+                          candidate.workspaceSize <= cap && index >= 0;
+      std::cout << std::scientific << std::setprecision(12)
+                << "{\"event\":\"library_choice\",\"m\":" << m
+                << ",\"cap_bytes\":" << cap << ",\"rank\":" << i
+                << ",\"algorithm\":" << index
+                << ",\"state\":" << int(candidate.state)
+                << ",\"support_status\":" << int(status)
+                << ",\"workspace_bytes\":" << required
+                << ",\"heuristic_workspace_bytes\":" << candidate.workspaceSize
+                << ",\"usable\":" << (usable ? "true" : "false") << "}\n";
+      if (usable && seen.insert(index).second)
+        choices.push_back({candidate.algo, index, required});
+    }
+  }
+  Require(!choices.empty(), "No usable library candidate");
+  const std::size_t matrix_bytes = std::size_t(m) * k * 2;
+  const std::size_t count = std::size_t(m) * n;
+  Device wd(matrix_bytes * rotations), xd(std::size_t(n) * k * 2);
+  Device yd((count + 2 * guard) * 4), workspace(max_workspace);
+  const auto w = Values(std::size_t(m) * k, 431, 0.03125f);
+  const auto x = Values(std::size_t(n) * k, 179, 1.0f);
+  for (unsigned i = 0; i < rotations; ++i) {
+    const auto weights = Values(std::size_t(m) * k, 431 + i, 0.03125f);
+    Hip(hipMemcpy(static_cast<char *>(wd.data) + i * matrix_bytes,
+                  weights.data(), matrix_bytes, hipMemcpyHostToDevice));
+  }
+  Hip(hipMemcpy(xd.data, x.data(), x.size() * 2, hipMemcpyHostToDevice));
+  std::vector<std::size_t> positions;
+  std::vector<double> expected;
+  const auto rows = Boundaries(m, m == 320 ? 64 : 128);
+  const auto tokens = Boundaries(n, m == 320 ? 64 : 128);
+  double reference2 = 0, peak = 0;
+  for (unsigned t : tokens)
+    for (unsigned r : rows) {
+      double sum = 0;
+      for (unsigned j = 0; j < k; ++j)
+        sum += double(__half2float(w[std::size_t(r) * k + j])) *
+               double(__half2float(x[std::size_t(t) * k + j]));
+      positions.push_back(std::size_t(t) * m + r);
+      expected.push_back(sum);
+      reference2 += sum * sum;
+      peak = std::max(peak, std::abs(sum));
+    }
+  std::vector<float> output(count + 2 * guard), reference;
+  std::vector<__half> repeated(x.size());
+  for (unsigned t = 0; t < n; ++t)
+    std::copy_n(x.data(), k, repeated.data() + std::size_t(t) * k);
+  hipEvent_t begin{}, end{};
+  Hip(hipEventCreate(&begin));
+  Hip(hipEventCreate(&end));
+  unsigned failures = 0;
+  // Native before and after bound drift across the sequential algorithm sweep.
+  for (std::size_t arm = 0; arm < choices.size() + 2; ++arm) {
+    Choice *choice =
+        arm > 0 && arm <= choices.size() ? &choices[arm - 1] : nullptr;
+    const int index = choice ? choice->index : -1;
+    auto launch = [&](unsigned rotation) {
+      const auto *weights =
+          static_cast<char *>(wd.data) + (rotation % rotations) * matrix_bytes;
+      auto *out = static_cast<float *>(yd.data) + guard;
+      if (choice)
+        Blas(hipblasLtMatmul(plan.handle, plan.operation, &one, weights,
+                             plan.weights, xd.data, plan.input, &zero, out,
+                             plan.output, out, plan.output, &choice->algorithm,
+                             choice->workspace ? workspace.data : nullptr,
+                             choice->workspace, nullptr));
+      else
+        Gemm(native, weights, xd.data, out, m, k, n);
+      Hip(hipGetLastError());
+    };
+    std::fill(output.begin(), output.end(), sentinel);
+    Hip(hipMemcpy(yd.data, output.data(), output.size() * 4,
+                  hipMemcpyHostToDevice));
+    launch(0);
+    Hip(hipDeviceSynchronize());
+    Hip(hipMemcpy(output.data(), yd.data, output.size() * 4,
+                  hipMemcpyDeviceToHost));
+    for (unsigned i = 0; i < guard; ++i)
+      Require(output[i] == sentinel && output[guard + count + i] == sentinel,
+              "Library output guard changed");
+    for (std::size_t i = 0; i < count; ++i)
+      Require(std::isfinite(output[guard + i]) && output[guard + i] != sentinel,
+              "Library output is non-finite or unwritten");
+    if (reference.empty())
+      reference.assign(output.begin() + guard, output.end() - guard);
+    double error2 = 0, maximum = 0;
+    std::vector<float> samples;
+    for (std::size_t i = 0; i < positions.size(); ++i) {
+      const float value = output[guard + positions[i]];
+      const double delta = value - expected[i];
+      error2 += delta * delta;
+      maximum = std::max(maximum, std::abs(delta));
+      samples.push_back(value);
+    }
+    const double rrms = std::sqrt(error2 / std::max(reference2, 1e-60));
+    const double scaled_max = maximum / std::max(peak, 1e-30);
+    const bool numeric_ok = rrms <= 0.00002 && scaled_max <= 0.00002;
+    failures += !numeric_ok;
+    std::size_t changed = 0;
+    for (std::size_t i = 0; i < count; ++i)
+      changed += output[guard + i] != reference[i];
+    const auto digest = gufo::crypto::Sha256Hex(
+        std::span(reinterpret_cast<const std::uint8_t *>(output.data() + guard),
+                  count * 4));
+    std::cout << std::scientific << std::setprecision(12)
+              << "{\"event\":\"library_operator\",\"m\":" << m << ",\"k\":" << k
+              << ",\"n\":" << n << ",\"arm\":" << arm
+              << ",\"algorithm\":" << index
+              << ",\"workspace_bytes\":" << (choice ? choice->workspace : 0)
+              << ",\"relative_rms\":" << rrms
+              << ",\"error_over_peak\":" << scaled_max
+              << ",\"oracle_values\":" << positions.size()
+              << ",\"changed_native_values\":" << changed
+              << ",\"full_output_sha256\":\"" << digest
+              << "\",\"numeric_ok\":" << (numeric_ok ? "true" : "false")
+              << "}\n";
+    const auto label = std::to_string(m) + "-arm" + std::to_string(arm);
+    std::ofstream saved("results/hc-library-" + label + ".f32",
+                        std::ios::binary);
+    saved.write(reinterpret_cast<const char *>(samples.data()),
+                samples.size() * 4);
+    Require(bool(saved), "Cannot save library oracle samples");
+    for (unsigned i = 0; i < rotations; ++i)
+      launch(i);
+    Hip(hipDeviceSynchronize());
+    for (unsigned rep = 0; rep < 5; ++rep) {
+      Hip(hipEventRecord(begin, nullptr));
+      for (unsigned i = 0; i < launches; ++i)
+        launch(i);
+      Hip(hipEventRecord(end, nullptr));
+      Hip(hipEventSynchronize(end));
+      float ms = 0;
+      Hip(hipEventElapsedTime(&ms, begin, end));
+      std::cout << std::scientific << std::setprecision(12)
+                << "{\"event\":\"library_timing\",\"m\":" << m << ",\"k\":" << k
+                << ",\"n\":" << n << ",\"arm\":" << arm
+                << ",\"algorithm\":" << index << ",\"rep\":" << rep
+                << ",\"launches\":" << launches
+                << ",\"weight_bytes\":" << matrix_bytes * rotations
+                << ",\"us_per_launch\":" << ms * 1000.0 / launches << "}\n";
+    }
+    // Identical input rows must not acquire a tile-position-dependent result.
+    Hip(hipMemcpy(xd.data, repeated.data(), repeated.size() * 2,
+                  hipMemcpyHostToDevice));
+    launch(0);
+    Hip(hipDeviceSynchronize());
+    Hip(hipMemcpy(output.data(), yd.data, output.size() * 4,
+                  hipMemcpyDeviceToHost));
+    std::size_t inconsistent = 0;
+    double max_row_delta = 0;
+    for (unsigned t = 1; t < n; ++t)
+      for (unsigned r = 0; r < m; ++r) {
+        const float value = output[guard + std::size_t(t) * m + r];
+        Require(std::isfinite(value), "Non-finite repeated-row output");
+        inconsistent += value != output[guard + r];
+        max_row_delta = std::max(max_row_delta,
+                                 std::abs(double(value) - output[guard + r]));
+      }
+    failures += inconsistent != 0;
+    std::cout << std::scientific << std::setprecision(12)
+              << "{\"event\":\"library_row_invariance\",\"m\":" << m
+              << ",\"arm\":" << arm << ",\"algorithm\":" << index
+              << ",\"inconsistent_values\":" << inconsistent
+              << ",\"max_absolute_delta\":" << max_row_delta << "}\n";
+    Hip(hipMemcpy(xd.data, x.data(), x.size() * 2, hipMemcpyHostToDevice));
+  }
+  Hip(hipEventDestroy(begin));
+  Hip(hipEventDestroy(end));
+  std::cout << std::scientific << std::setprecision(12)
+            << "{\"event\":\"library_summary\",\"m\":" << m
+            << ",\"algorithms\":" << choices.size()
+            << ",\"failures\":" << failures << "}\n";
+  return failures;
+}
 int main(int argc, char **argv) {
   try {
-    Require(argc == 2, "Usage: q2_hc_pp operators|bench");
+    Require(argc == 2, "Usage: q2_hc_pp operators|bench|library");
     const std::string mode = argv[1];
-    Require(mode == "operators" || mode == "bench", "Unsupported mode");
+    Require(mode == "operators" || mode == "bench" || mode == "library",
+            "Unsupported mode");
     std::cout << std::unitbuf << std::setprecision(12);
     Hip(hipSetDevice(0));
     std::string error;
@@ -228,6 +487,10 @@ int main(int argc, char **argv) {
     if (mode == "bench") {
       Bench(*blas, 320, 10240);
       Bench(*blas, 10240, 320);
+    }
+    if (mode == "library") {
+      failures += LibrarySweep(*blas, 320, 10240);
+      failures += LibrarySweep(*blas, 10240, 320);
     }
     if (failures) {
       std::cerr << "Independent sampled F16 operator tolerance exceeded\n";

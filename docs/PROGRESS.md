@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC library algorithm improves speed, numerical gates remain open — 2026-10-03 UTC
+
+The [bounded HC library screen](Q2-HC-LIBRARY.md) evaluates the seven unique
+algorithms returned at both 0 and 64 MiB workspace caps; all require zero
+workspace. The fastest down algorithm saves 14.66–17.94% time against bracketed
+native controls. Its isolated model dispatch saves 16.97% component time,
+while changing only the expected n2048 down output. Original F16 weight bytes,
+fused HC up and scalar decode paths remain intact.
+
+Complete-model prefill improves **1314.354 -> 1341.371 tokens/s (+2.06%)**;
+decode is 24.099112 -> 24.121551 calls/s (+0.09%, overlapping ranges). Fresh UD
+reaches 1665.648 / 24.340198, leaving the candidate 19.47% / 0.90% behind.
+All nine input/output token files agree across all three arms, and the fresh
+reference replays its 21 retained files. However, the candidate changes eight
+2K logit files: prefill relative L2 is 0.195035 and KL 0.00100189. Its synthetic
+FP64 and position-invariance checks also fail at the unchanged limits. The
+performance lead is retained for investigation; palette stays selected.
+
+Both host versions pass 12/12 Debug and 12/12 ASan/UBSan on `.157`. Nine runners,
+38 commands and 322 hash-verified artifacts finish. Four synthetic commands
+retain numerical-failure exit 1; all other commands exit 0. The first sweep's
+rounded error logging and two local analysis failures remain evidence; a
+logging-only correction reproduces all 62 saved component files exactly.
+Maximum observed GPU/CPU readings are 85 C / 92.125 C. Closure at 01:03:41 UTC
+and independent observer retirement at 01:04:24 verify all own processes
+absent, empty KFD, four original leases free and five model witnesses unchanged.
+No Q2 remote job or retry remains. Full samples, durations, two graphs and
+source/validation receipts are linked from the report; parity is still open.
+
 ## HC data reuse rejected after complete-model comparison — 2026-10-03 UTC
 
 The [three HC down experiments](Q2-HC-DATA-REUSE.md) retain all 22 synthetic

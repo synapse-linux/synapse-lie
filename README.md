@@ -10,9 +10,9 @@ operators and original-model C1 screens run on `.157`. The latest retained
 gain over fresh HC16, with all saved logits and tokens byte-exact and decode
 medians differing by -0.00062%. It preserves the
 [HC16 decode gain](docs/Q2-HC-DECODE-WAVES.md). The latest fresh comparison
-measures **1314.80 prefill tokens/s and 24.065 decode calls/s at 2K**.
-**The performance requirement is not met:** fresh UD reaches 1658.29 PP/24.315
-TG; Q2 trails by 20.71% and 1.03%. UD prefill remains below the earlier retained
+measures **1314.35 prefill tokens/s and 24.099 decode calls/s at 2K**.
+**The performance requirement is not met:** fresh UD reaches 1665.65 PP/24.340
+TG; selected Q2 trails by 21.09% and 0.99%. UD prefill remains below the earlier retained
 1682.76 control. These short sequential screens do not establish zero-margin
 parity. Earlier checkpoint drift and independent model qualification remain
 unresolved; the qualified runtime patch is unchanged.
@@ -23,8 +23,13 @@ rejected. The subsequent [HC data-reuse comparison](docs/Q2-HC-DATA-REUSE.md)
 rejects direct fragments and paired accumulation waves. Combining paired waves
 with coalesced reads saves 5.04% component time, but complete-model prefill
 changes -0.30%, with all 21 reference/candidate output files exact. The palette
-source remains selected. Complete rates, durations, samples and graphs are
-retained; a bounded hipBLASLt workspace comparison remains a future hypothesis.
+source remains selected. The subsequent [bounded HC library comparison](docs/Q2-HC-LIBRARY.md)
+finds seven zero-workspace algorithms at both tested workspace caps. The best
+down candidate saves 16.97% component time and raises complete-model prefill
+to **1341.37 tokens/s (+2.06%)**, still 19.47% below fresh UD. Greedy tokens
+match, but logits change and independent operator limits fail; it remains an
+isolated performance lead. Complete rates, durations, samples and graphs are
+retained. No numerical limit is relaxed or runtime promotion made.
 The prior [expert-kernel experiment](docs/Q2-EXPERT-STACK.md) produced the main
 prefill gain: 1240.52 tok/s, up 88.29% over the previous HC checkpoint.
 The initial unoptimized screen was 48–66% slower in prefill and 16–17% in decode.

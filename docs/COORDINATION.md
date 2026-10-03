@@ -1100,3 +1100,55 @@ handover while the direct MCP transport has been unavailable.
 The outgoing release notification also fails at that transport; delivery is
 not claimed. Local receipt validation confirms closure against all ten
 collected result hashes and the observer's actual exit 0.
+
+The previous goal turn is progress: checkpoint `2bb8da0` completes the three
+HC data-reuse rejections and the fresh complete-model comparison. Read-only
+admission at **2026-10-03 00:22:12.437318 UTC** finds empty KFD, four original
+leases EX|NB/free and that release still last in the shared registry. Core's
+ledger has no later campaign; the latest explicit direction remains local
+reporting. Q2 takes a bounded HC library-algorithm window: CPU/sanitizer source
+guards, a synthetic F16 comparison of the current native kernel and hipBLASLt
+heuristics with at most 64 MiB private workspace, and complete models only if
+useful component results warrant them. The existing 100 MiB weight rotation
+and independent FP64 limits remain. No original weight conversion, global
+library cache, installation, foreign change or hardware tuning is authorized.
+Each build/GPU arm takes four fresh leases under the 98 C inclusive/lower
+exposed limits. Core must not interleave until verified closure. Direct read-
+thread transport is still unavailable; this agreed ledger records admission.
+
+The host arm passes 12/12 Debug and 12/12 ASan/UBSan. The first library sweep
+finishes but exposes inherited cout formatting changed by library calls: small
+errors print as 0.00. Its raw result/exit 1 remain; a logging-only correction
+repeats the sweep and preserves all output hashes. Both workspace caps return
+the same seven zero-workspace algorithms per shape. HC down index 7526 saves
+14.66–17.94% component time against native before/after, but exceeds the original
+FP64 threshold and fails exact token-position invariance. Under the owner's
+explicit authorization to measure speed despite retained numerical failures,
+Q2 extends this window to an isolated n2048 HC down dispatch using that index,
+then its component check and matched pp2048/tg128 models. HC up remains fused
+and unchanged. Updated source guards receive CPU/sanitizer qualification first;
+every GPU/build arm still takes four fresh leases. No numerical acceptance,
+runtime adoption, added workspace or full-model speedup is claimed yet.
+
+All nine HC library runners and 38 commands finish. Both host arms pass 12/12
+Debug and 12/12 ASan/UBSan; all 322 artifacts verify. Four synthetic commands
+retain actual exit 1 with their declared numerical failures. Complete-model
+prefill improves 1314.354 -> 1341.371 tokens/s (+2.06%); fresh UD is 1665.648.
+All nine token files agree, but eight 2K logit files change. The isolated library
+candidate is not promoted; palette remains selected and parity stays open.
+
+Q2 releases this window at **2026-10-03 01:03:41.109532 UTC**, verifying nine
+runners and 38 command identities/groups/sessions absent, empty KFD, four
+original leases EX|NB/free and five original-model stat witnesses unchanged.
+Persistent receipt:
+`/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-library-window-release.json`.
+The shared registry records `window_release`. Independent retirement at
+**01:04:24.015413 UTC** verifies observer PID 2778360, group/session 2778357
+and start ticks 155481536 absent, with empty KFD. Both observers exit 0.
+No Q2 remote job, waiter, lease or automatic retry remains. Core may take the
+next window with fresh coordinated admission; Q2 continues local reporting and
+checkpointing. This ledger, persistent receipt and shared registry record the
+handover independently of direct thread-message transport.
+The outgoing release notification also fails at that MCP transport; delivery
+is not claimed. Local closure validation checks all nine collected result
+hashes and both observers' actual exit 0.

@@ -1,0 +1,17 @@
+{
+  "scope": "Prepared exploratory source; failed component numerical gate, model speed/quality unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-library-down",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"
+  ],
+  "base_sha256": "c96c993d97baa3253190491c96dac16b6ede767eff8460fc24d7b9e0f5d0f590",
+  "candidate_sha256": "d43ef4c976cce42fe5fd145d401c140472aa5d4200d482ee69b713981dd4df5f",
+  "patch_sha256": "e03f06c02819fedecf1614df30b36b84b9d5a6c165ae5ce6f1ace16f8e8a45dc",
+  "dispatch": "Only F16 M320/K10240/n2048 uses measured algorithm index 7526; other dimensions retain prior routing",
+  "workspace_bytes": 0,
+  "numerical_limits_changed": false,
+  "model_conversion": false,
+  "limit": "Algorithm index binds this ROCm installation; require supported zero-workspace match or fail. No automatic runtime adoption."
+}

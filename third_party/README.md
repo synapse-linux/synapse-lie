@@ -176,3 +176,16 @@ original numerical-control failures and rejection are in `docs/Q2-HC-DATA-REUSE.
 The additional library audit reads only independently fetched official Gufo
 `blaslt.cpp` and `dense_blaslt_sweep.hip`; it adds no library implementation or
 performance claim.
+
+`tests/q2_hc_pp.cpp` adds a first-party MIT hipBLASLt algorithm diagnostic using
+its existing independent FP64 fixture and deterministic synthetic inputs. It
+uses the official library extension API; no external benchmark source is copied.
+The official Gufo helper at the recorded pin informed the workspace hypothesis,
+while this diagnostic retains 100 MiB rotation, all numerical failures and
+position-invariance checks. Analysis/plot tools are first-party MIT.
+`experiments/q2-hc-library-down.patch` changes only the selected affine-palette
+`blaslt.cpp` dispatch for F16 M320/K10240/n2048, preserving upstream notices and
+original values. Algorithm index 7526 is installation-specific and exploratory;
+it has not passed the declared numerical gate. No antirez engine, DS4 code or
+sibling project artifact is imported. Source identity and measured scope are
+recorded in `docs/Q2-HC-LIBRARY.md`.
