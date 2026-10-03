@@ -2,14 +2,21 @@
 
 ## MTP and vision branches — 2026-10-03
 
-At the owner's request, new GPU/performance campaigns are deferred. Development
+At the owner's request, new performance campaigns are deferred. Short functional
+GPU checks are now permitted on the editing Strix Halo `.155`, with thermal care.
+Development
 continues in persistent `worktrees/mtp` (`feature/mtp`) and `worktrees/vision`
 (`feature/vision`), each based on checkpoint `a262902`. Local checkpoints are
-`9f41c59` (MTP) and `2cb1130` (vision). Both expose model-neutral
+`dfd8f22` (MTP) and `3434504` (vision). Both expose model-neutral
 C17 core contracts and shared HTTP/core clients; Qwen is the initial delegated
 binding. Their CPU contracts and HIP linkage do not qualify original-weight
-behavior. Complete predictor/image state for RAM/SSD, GPU correctness and combined
-feature integration remain open. No feature code is merged into this branch.
+behavior. Both add typed auxiliary RAM/SSD state with unchanged DS4 payloads;
+MTP has a predictor/hidden/controller codec and vision has prepared-position
+validation. CPU ASan/UBSan/LeakSanitizer checks pass 28/28 per branch, with HIP
+linking. Live device binding and predictor/image identity, GPU correctness and
+combined integration remain open; feature KV reuse stays refused. USB metadata
+checks found an incomplete PLE-free Qwen artifact and other formats requiring
+the active compatibility work. No GPU run or feature-code merge is claimed here.
 The [backend roadmap](BACKEND.md#active-priority--2026-10-03) records this order.
 
 

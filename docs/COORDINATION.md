@@ -533,3 +533,24 @@ absent, empty KFD and all four original leases EX|NB/free. Record:
 `window_release` entry. Root returns the window to Q2 and notifies Point;
 no owned GPU job, waiter or automatic retry remains. Further work is local
 analysis/documentation. [Results and latency regression](archive/KVC-GPU-RESULT.md).
+
+## Local functional GPU authorization — 2026-10-03
+
+The owner now explicitly allows short, non-performance GPU checks on the editing
+Strix Halo `.155`, and reports that its fans still need configuration. New local
+functional GPU preparation uses an 85 C guard, lower exposed hardware limits and
+owned child cleanup. No fan/clock/power tuning is authorized or performed.
+Benchmark campaigns remain on `.157` with fresh coordinated ownership. Q2 reports
+no GPU or model-file reservation on `.155`; it continues its own `.157` campaign.
+The source may be inspected in DS4 as reference, per the owner's clarification,
+while numerical changes are evaluated against the independently pinned Gufo
+provider and the relevant measured workload.
+
+Read-only host checks find `/dev/kfd` and `renderD128`. The USB mount is
+`/run/media/paperboy/models` (exFAT). Metadata-only inspection finds Qwen3.8
+Q2/Q4 files, an embedded-MTP IQ2/MXFP4 variant and the Q8 vision encoder.
+The 50,343,093,376-byte IQ2/MXFP4 file declares PLE but its 1,255-tensor directory
+lacks `per_layer_token_embd.weight`; it cannot qualify the complete loaded model.
+The other Qwen trunks need the ongoing quantization compatibility work. No model
+weights were hashed, converted or loaded; no GPU was initialized or leased here.
+Inventory and stat witnesses remain under local `evidence/usb-qwen-*` on MTP.
