@@ -1,0 +1,129 @@
+{
+  "scope": "Completed .157 HC component and exact historical C17 baseline campaign; local final receipt/export audit",
+  "cohorts": {
+    "q2-hc-decode-reduce-host-r1": {
+      "artifacts_verified": 7,
+      "source_files_previously_verified": 1020,
+      "source_capsule_sha256": "fe91eae7142f583e055310ba27c77c11ed45e6cecaf67d71acf50c30a51035bc",
+      "results_archive_sha256": "492284a51f3311b40278874471f10f06bc32f22cdadedf02fc90dd86ac066fda",
+      "result_receipt_sha256": "d610b14bd87cf47ad7fa1f9db0b19f9205028af5aef50d5a251bc1adefd5b4dc",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "q2-hc-decode-reduce-component-r1": {
+      "artifacts_verified": 69,
+      "source_files_previously_verified": 1020,
+      "source_capsule_sha256": "02a27fb2904d224ab4af4986af93925bf0b693e34b626d633519dedf893f23e5",
+      "results_archive_sha256": "70186f02c8c5154d4c11ee4dea98af12b395f122535ce59049c9fe095a489280",
+      "result_receipt_sha256": "1ca35b7d0f057291ee48b06277b0e39b5df4f3d17cf09d77f7c73f5bfb8f6f90",
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    "q2-original-baseline-q2-r1": {
+      "artifacts_verified": 7,
+      "source_files_previously_verified": 1020,
+      "source_capsule_sha256": "e4f003154366dc4b6c6eac81d1cf672e93e668e7efe4244447449af5ef765cf3",
+      "results_archive_sha256": "6014cfddaa080e92f3b4300d3d7752db5e9983db47fd6caf538870dc2d8b85e9",
+      "result_receipt_sha256": "03188c2ceafc5a34204585ca8af1b6f93e6ea7dbf9c516293b0b73865a699fc3",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "q2-original-baseline-ud-r1": {
+      "artifacts_verified": 7,
+      "source_files_previously_verified": 1019,
+      "source_capsule_sha256": "d9a405d903b97f4824d81d994ce0cdbfa1a27db0b82417a7672f346ff6042627",
+      "results_archive_sha256": "95b82fdfa2f882be4db3557a99d75bf17d21f73d04799775d6a17e42dec5fdf1",
+      "result_receipt_sha256": "bb790d2a29f6daac774497de381b7e3f82772efc9a1986af1c7bc5fbc81ecd8c",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "unique_artifacts_verified": 90,
+  "source_file_instances_previously_verified": 4079,
+  "command_count": 19,
+  "host_tests": {
+    "Debug": {
+      "passed": 17,
+      "total": 17
+    },
+    "ASan_UBSan": {
+      "passed": 17,
+      "total": 17
+    }
+  },
+  "ud_historical_replay": {
+    "output_ids": 12,
+    "prefill_logits_sha256": 12,
+    "decode_logits_sha256": 12,
+    "all_exact": true
+  },
+  "q2_strict_2042_replay": [
+    {
+      "rep": 0,
+      "prefill_logits_sha256": true,
+      "decode_logits_sha256": true,
+      "output_ids": true
+    },
+    {
+      "rep": 1,
+      "prefill_logits_sha256": true,
+      "decode_logits_sha256": true,
+      "output_ids": true
+    },
+    {
+      "rep": 2,
+      "prefill_logits_sha256": true,
+      "decode_logits_sha256": true,
+      "output_ids": true
+    },
+    {
+      "rep": 3,
+      "prefill_logits_sha256": true,
+      "decode_logits_sha256": true,
+      "output_ids": true
+    }
+  ],
+  "q2_strict_replay_audit_sha256": "74b83659cc9928a24a63536d61355ec9e95331be84e8a1acddc319866456b39c",
+  "export_sha256": {
+    "docs/figures/q2-original-baseline.csv": "3479889224e7b14f29e10da12eb9d53097f87e4326f02dc4d240c3b027b10680",
+    "docs/figures/q2-original-baseline.png": "1a15486168f520b40870945c77cbe8add29c570d78fc45222893505ec007ff63",
+    "docs/figures/q2-original-baseline.svg": "74f662ffeeb3b2bdfeb5f60f88d41accf29053987f81e203764c0536edde0929"
+  },
+  "csv_samples_including_warmup": 36,
+  "warmup_samples": 9,
+  "release": {
+    "path": "config/q2-hc-original-window-release.json",
+    "sha256": "faaaf9aaef12269e8bbb6ce0aa2d4badc71875219bdb4c016db06a5c24d7621a",
+    "at": "2026-10-03T20:00:42.449978+00:00",
+    "checked_pids": 23,
+    "live_owned": [],
+    "live_owned_groups": [],
+    "kfd": [],
+    "leases_free": 4,
+    "restart_scheduled": false
+  },
+  "fresh_original_c17_2042_gap_ms_per_token": 0.8226364921875076,
+  "numerical_pass": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "Component numerical pass does not clear inherited model/operator/KL rejection. Original benchmark restoration is not a GPU optimization. No full-model HC candidate run or long-context, HTTP, concurrency or task-quality qualification in this campaign."
+}

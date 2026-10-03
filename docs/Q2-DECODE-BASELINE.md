@@ -1,7 +1,57 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Corrected decode measurement and the original UD baseline
 
-## Original C17 comparison prepared — runtime pending
+## Original C17 comparison completed — 2026-10-03
+
+**UD starts from about 26 token/s at 2K.** Its original 2042-token reference is
+26.049385991 token/s, and the fresh original-C17 control reproduces it at
+26.061301587. Q2 reaches 25.514301055: **2.0989% below fresh UD**, or
+**0.822636 ms more per completed token**. The earlier strict diagnostic's
+25.463 UD value is a different timing path and does not lower the target.
+
+Medians below exclude one warmup per prompt and retain all three measured
+rounds. Both models complete 128 decode steps per sample, C1 AR without MTP.
+
+| Physical prompt tokens | Q2 PP token/s | Fresh UD PP token/s | Q2 TG token/s | Fresh UD TG token/s | Q2 PP delta | Q2 TG delta |
+|---:|---:|---:|---:|---:|---:|---:|
+| 502 | 967.871770 | 1002.727381 | 26.18439268 | 26.86494328 | -3.4761% | -2.5332% |
+| 2042 | 1362.818601 | 1663.578946 | 25.51430106 | 26.06130159 | -18.0791% | -2.0989% |
+| 8191 | 1375.884735 | 1624.557799 | 25.48272965 | 25.96974824 | -15.3071% | -1.8753% |
+
+| Physical prompt tokens | Model | Median PP seconds | Median TG seconds |
+|---:|---|---:|---:|
+| 502 | Q2 | 0.518663748 | 4.888408205 |
+| 502 | UD | 0.500634579 | 4.764573618 |
+| 2042 | Q2 | 1.498365225 | 5.016794296 |
+| 2042 | UD | 1.227474058 | 4.911496825 |
+| 8191 | Q2 | 5.953260323 | 5.023009770 |
+| 8191 | UD | 5.041987430 | 4.928811740 |
+
+The historical UD decode medians at 502/2042/8191 were
+26.851351194/26.049385991/25.964753259. Fresh UD reproduces all 36 original
+witnesses exactly: twelve output-ID sequences, twelve prefill-frontier hashes
+and twelve final-frontier hashes. Q2 matches all twelve original output-ID
+sequences, with different logits. Its twelve 2042-token witnesses match the
+preceding strict Q2 diagnostic, including full frontier hashes. These replay
+checks do not establish general task quality or clear the existing operator
+failures and qualified-reference KL 0.002996 > 0.002 rejection.
+
+Changing from strict diagnostic sampling to the original C17 timing raises
+the measured Q2 rate from 25.080 to 25.514 and UD from 25.463 to 26.061.
+No GPU kernel changes were introduced by this benchmark composition. The
+sampler paths differ, but no isolated measurement attributes the entire timing
+difference to one host operation. The scalar HC candidate remains outside
+these full-model runs; its component saving is recorded separately.
+
+[Complete verified JSON](../config/q2-original-baseline-results.json),
+[all 36 historical/fresh samples and durations as CSV](figures/q2-original-baseline.csv),
+[SVG](figures/q2-original-baseline.svg) and [PNG](figures/q2-original-baseline.png).
+All warmups are retained and marked. UD's 8191-token measured TG durations
+4.980317538/4.928811740/4.918753286 seconds are kept without outlier removal.
+
+![Historical and fresh original C17 Q2 and UD benchmark](figures/q2-original-baseline.svg)
+
+### Frozen benchmark and validation
 
 The private `q2_original_baseline` target now rebuilds the actual benchmark
 behind UD's **26.049385991 token/s** reference. The benchmark, ABI header, adapter, binding,
@@ -14,8 +64,8 @@ the benchmark composition and does not replace the current serving contract.
 This preserves the actual physical inputs **502/2042/8191**, context 9216,
 chunk 2048, production greedy sampler, EOS behavior, 128 completed-token budget,
 one warmup per prompt and three measured rounds in ascending/descending/ascending
-order. The complete original C17 timing loops and checks are unchanged. It will
-measure Q2 `library-norm-bound` and pristine UD through the same original ABI.
+order. The complete original C17 timing loops and checks are unchanged. It
+measures Q2 `library-norm-bound` and pristine UD through the same original ABI.
 The existing strict diagnostic executable remains unchanged; its different
 sampling cost must not be called a GPU optimization.
 
@@ -25,12 +75,19 @@ timing. This replica is an absolute-performance control, not a substitute for
 strict per-step diagnostic checks, independent operators or task quality.
 Inherited Q2 operator failures and KL rejection remain.
 
-Strict C17 and C++/HIP host-only syntax checks, local CMake configuration,
-historical source verification and a 46-command build-graph dry run pass. Reprocessing
-the historical receipt reproduces its twelve samples and published medians.
-No new binary has been linked or run: CTest/ASan, remote full builds and GPU
-measurements await core's verified `.157` handover and fresh four-lease admission.
-The scalar HC reduction stays component-only until its own comparison passes.
+Host Debug and ASan/UBSan each pass 17/17 on `.157`. Both original-model
+providers and MMQ archives are fully rebuilt there from frozen source. The
+whole host/HC-component/Q2/UD campaign verifies 90 unique artifacts and 4079
+source-file instances; all 19 remote commands exit zero. The HC component
+passes its scalar checks but saves only 0.3345%, so it remains component-only.
+Model-run maximum temperatures are CPU 88.75 C and GPU 90 C, with no thermal
+stop or policy change. No model conversion or file modification occurs.
+
+The [20:00:42.449978 UTC release](../config/q2-hc-original-window-release.json)
+verifies all 23 recorded PIDs/groups absent, KFD empty and all four original
+leases free. No Q2 workload, waiter or automatic restart remains. The current
+campaign's [validation summary](../config/q2-hc-original-campaign-validation.json)
+links source, artifact, replay and closure evidence. Parity remains unmet.
 
 - [Historical source manifest](../config/q2-original-baseline-source.json)
 - [Static command/source evidence](../config/q2-original-baseline-static.json)
@@ -38,7 +95,26 @@ The scalar HC reduction stays component-only until its own comparison passes.
 - [Frozen-source generator](../tools/prepare-q2-original-baseline.py)
 - [Fresh-versus-historical analyzer](../tools/analyze-q2-original-baseline.py)
 
-## Corrected diagnostic results
+To reproduce after a fresh `.157` handover and admission, choose unused labels:
+
+```sh
+python3 tools/q2-remote.py cpu q2-original-host-r2
+python3 tools/q2-remote.py collect q2-original-host-r2
+python3 tools/q2-remote.py q2-original-baseline q2-original-baseline-q2-r2 --source-variant library-norm-bound --rebuild-mmq
+python3 tools/q2-remote.py collect q2-original-baseline-q2-r2
+python3 tools/q2-remote.py ud-original-baseline q2-original-baseline-ud-r2 --rebuild-mmq
+python3 tools/q2-remote.py collect q2-original-baseline-ud-r2
+python3 tools/analyze-q2-original-baseline.py --q2 evidence/q2-original-baseline-q2-r2 --ud evidence/q2-original-baseline-ud-r2 --host evidence/q2-original-host-r2 --output config/q2-original-baseline-results.json
+python3 tools/plot-q2-original-baseline.py
+```
+
+Archive the previous report/export cohort before replacing those outputs.
+
+## Earlier strict diagnostic results — separate timing scope
+
+The following retained results precede the original-C17 comparison above.
+They preserve full per-step finite checks and their own timing boundaries;
+their lower UD throughput is not a replacement baseline.
 
 The target remains the historical UD rate of **26.049385991 token/s** on `.157`.
 The preceding diagnostic control at 24.318 token/s does not lower that target.
@@ -86,10 +162,11 @@ once, testing finiteness when selecting a new maximum; it skips isolated
 nonfinite logits. The corrected diagnostic still performs a strict full
 finite scan followed by max_element. Thus the host work remains different;
 no assertion is made that this alone explains the entire remaining baseline
-difference. A strict single-pass sampler or a pinned production Session test
-is the next way to resolve it, without discarding numerical checks. For GPU
-decode, the preceding trace's HC down excess remains the first measured
-candidate; the current matched gap requires about 0.60 ms/token of real saving.
+difference. The later pinned original-C17 comparison above resolves the
+absolute reference while retaining this strict diagnostic independently.
+This diagnostic cohort's matched gap is about 0.60 ms/token; the later
+original-C17 comparison measures 0.82264 ms/token. HC down was the next
+component examined, with its marginal result recorded separately.
 
 [Full verified JSON](../config/q2-decode-baseline-results.json),
 [static boundary analysis](../config/q2-decode-baseline-boundaries.json),

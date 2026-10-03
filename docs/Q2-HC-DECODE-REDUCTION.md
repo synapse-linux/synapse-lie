@@ -1,14 +1,44 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Scalar HC down: preserve the sum tree with fewer shuffle instructions
 
-This candidate is **prepared, not GPU-qualified**. It changes the scalar F16
-HC down reduction only. The original kernel is retained as an exact source
-and assembly control in the same component binary. No runtime performance or
-numerical acceptance follows from the static results below. Q2/UD parity
-remains unmet; the latest measured checkpoint is [e6f425e](Q2-DECODE-BASELINE.md).
+The GPU component passes, but its saving is only **0.3345%**: median HC down
+time changes from **30.272281 to 30.171031 microseconds**. All eleven independent
+FP64 cases pass their unchanged limits and all 27 complete output pairs are
+byte-exact. This candidate is not promoted or admitted to a full-model run.
+Q2/UD parity remains unmet; the absolute timing comparison is tracked in
+[the baseline report](Q2-DECODE-BASELINE.md).
 
-The corrected historical-prompt comparison leaves Q2 about **0.60013 ms/token**
-behind fresh UD. The preceding diagnostic profile attributes 2.97921 ms/token
+The component ran on `.157` after core's verified release and fresh original
+four-lease admission. Host tests pass 17/17 in both Debug and ASan/UBSan. All 76
+host/component artifacts, 2040 source-file instances and 1020 prepared candidate
+files verify, and all nine actual command exits are zero. The measured samples
+alternate which kernel runs first:
+
+| Pair | Candidate first | Original us | Candidate us |
+|---|---|---:|---:|
+| 0 | no | 30.143524 | 30.063851 |
+| 1 | yes | 30.289469 | 30.171031 |
+| 2 | no | 30.267905 | 30.081343 |
+| 3 | yes | 30.333532 | 30.287899 |
+| 4 | no | 30.272281 | 30.202907 |
+
+Every pair favors the candidate, but projecting the median saving across the
+prior profile's 97 calls/token gives only **0.00982 ms/token**, compared with
+the fresh original-C17 gap of **0.82264 ms/token**. This projection is not a measured
+model speedup. The weight-only effective rate is 217.2 GB/s, consistent with
+memory traffic limiting the benefit of shorter reductions; it is not a
+physical DRAM bandwidth measurement. The subsequent full-model runs use
+the existing source and the unchanged historical C17 benchmark: Q2 reaches
+25.514 versus UD 26.061 token/s at 2042 physical tokens. Existing
+model/operator/KL rejection remains.
+
+[Complete component results](../config/q2-hc-decode-reduce-results.json) and
+[source/host validation with the decision](../config/q2-hc-decode-reduce-validation.json)
+preserve every sample and all original numerical limits.
+
+The preceding strict diagnostic left Q2 about **0.60013 ms/token** behind UD;
+its different sampling cost does not lower the original-C17 target.
+The preceding diagnostic profile attributes 2.97921 ms/token
 to Q2 HC down, versus 1.68305 ms/token for UD's corresponding quantized path.
 These are different stored formats; all of that difference is not necessarily
 recoverable. The actual full-model rate, including prefill, remains the gate.
@@ -71,12 +101,14 @@ initial warning is retained and strict `-Wall -Wextra -Werror` syntax passes.
 The reused first-party fixture also receives whitespace-only formatting; its
 initial format failure and successful recheck are preserved separately.
 
-## Prepared GPU qualification
+## Executed GPU qualification
 
-Runtime checks must use `.157` after core's verified handover, with the original
-four leases and unchanged thermal/model ownership rules. Core currently retains
-that window for its C17 sampler/MTP/cache qualification. No Q2 remote job,
-waiter or automatic restart is scheduled.
+Runtime checks used `.157` after core's 19:41 UTC verified handover, with fresh
+original four leases and unchanged thermal/model ownership rules. The component
+is terminal, collected and verified. The bounded Q2 window also completes the
+historical C17 comparison. [Final release](../config/q2-hc-original-window-release.json)
+at 20:00:42.449978 UTC verifies all 23 recorded PIDs/groups absent, KFD empty
+and all four original leases free; no Q2 job, waiter or restart remains.
 
 The new component fixture uses the real `SmallGemm` candidate dispatch and a
 preserved-control entry point. It retains the eleven independent FP64 HC cases
@@ -94,7 +126,7 @@ pairs and the eleven independent outputs are saved: **65 data files**. Numerical
 failures retain exit 1 while allowing the paired performance measurements;
 resource/runtime failures still stop the experiment.
 
-Required sequence after fresh admission:
+Executed sequence after fresh admission:
 
 ```sh
 python3 tools/q2-remote.py cpu q2-hc-decode-reduce-host-r1
@@ -104,11 +136,11 @@ python3 tools/q2-remote.py collect q2-hc-decode-reduce-component-r1
 python3 tools/analyze-q2-hc-decode-reduce.py evidence/q2-hc-decode-reduce-component-r1 --output config/q2-hc-decode-reduce-results.json
 ```
 
-The launcher accepts this source only for its component experiment. Host CTest
-and ASan/UBSan, GPU pair equality, independent metrics and throughput are all
-**pending**. A useful component saving with exact replay is required before
-admitting fresh complete-model measurements. Existing scaled/library numerical
-rejection remains separate and cannot be cleared by this scalar experiment.
+The launcher still accepts this source only for its component experiment.
+Host CTest/ASan, GPU pair equality and independent scalar metrics now pass.
+The marginal component saving does not justify a new full-model arm at this
+stage. Existing scaled/library numerical rejection remains separate and cannot
+be cleared by this scalar experiment.
 
 ## Provenance and reconstruction
 

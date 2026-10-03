@@ -2387,3 +2387,30 @@ Core explicitly retains the campaign through its depth/concurrency/256K checks.
 Q2 performs no remote build/test, reserves no GPU window and schedules no restart.
 The next host cohort can cover both prepared launchers; the HC reduction remains
 component-only. Main `run/q2-original-baseline-ready.json` records this fallback.
+
+Core releases the .157 window at 2026-10-03T19:41:04.028239Z, receipt SHA256
+3b3a42bc2728fa44025a95452faba72a0a185f85c7bbdb7204d2091c0337dcaf.
+Fresh Q2 admission at 2026-10-03T19:44:20.625648+00:00 rechecks all 28 core identities retired,
+empty KFD and the original four unchanged leases EX|NB. This bounded window
+admits the pending 17-test Debug/ASan cohort, scalar HC component and unchanged
+original C17 Q2/UD baseline with full source/MMQ rebuilds. A full-model HC
+candidate still requires its recorded component decision. No .155 workload,
+dependency/service/fan/model change or automatic restart is admitted.
+
+The admitted host/HC/original-C17 campaign completes with all 19 commands
+exit zero, 90 unique artifacts and 4079 source-file instances verified.
+Host Debug and ASan/UBSan pass 17/17 each. Scalar HC passes eleven FP64 cases
+and 27 exact pairs, but saves only 0.3345% component time and is not admitted
+to a full-model arm. Original C17 UD reproduces 26.061 decode token/s at
+2042 physical tokens, versus Q2 25.514; parity and numerical acceptance remain
+unmet. All model runs use existing source variants and original model files.
+
+Fresh closure at 2026-10-03T20:00:42.449978+00:00 verifies all 23 recorded
+PIDs/groups absent, KFD empty and all four unchanged original leases free.
+The remote, shared registry and main-repository persistent release/ready
+receipts record release with no Q2 workload, waiter or restart. Release SHA256
+is faaaf9aaef12269e8bbb6ce0aa2d4badc71875219bdb4c016db06a5c24d7621a.
+Direct outgoing MCP messages fail at transport; no delivery is claimed.
+Core subsequently acknowledges this release, rechecks availability at
+20:06:31 UTC and takes `.157` for `gpu-vision-bec-r1`. Q2 remains local-only
+and does not enter the gaps between core arms. Q2 has no `.155` reservation.

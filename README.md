@@ -4,40 +4,31 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
-An [exact historical C17 benchmark composition](docs/Q2-DECODE-BASELINE.md)
-is now prepared to resolve the remaining timing-scope difference against UD's
-26.049 token/s reference. The original benchmark/ABI/adapter are frozen unchanged;
-fresh Q2/UD linking and runtime measurements still await the `.157` handover.
+The [exact historical C17 benchmark comparison](docs/Q2-DECODE-BASELINE.md)
+now confirms UD's original **26.049 token/s** reference: fresh UD measures
+**26.061**, versus **25.514 for Q2** at 2042 physical prompt tokens and 128
+completed decode steps. Q2 remains **2.099% slower** in decode and **18.079%
+slower** in prefill (1362.819 versus 1663.579 token/s). The original benchmark,
+ABI and adapter are frozen unchanged; both providers were fully rebuilt on
+`.157`. All 36 historical UD output/frontier witnesses replay exactly.
 
-A [scalar HC reduction candidate](docs/Q2-HC-DECODE-REDUCTION.md) is prepared:
-123 to 91 static instructions, with the same registers and multiply/load loop.
-It has no GPU performance or numerical acceptance yet. Its paired component
-and host tests await core's verified `.157` handover; no remote job is queued.
+At 502/8191 prompt tokens, Q2 decode is 26.184/25.483 versus UD 26.865/25.970.
+The report includes every sample, PP/TG duration, CSV and standalone graphs.
+The previous strict diagnostic's 25.080 Q2 / 25.463 UD comparison has different
+sampling cost. Restoring the original benchmark does not establish a GPU
+speedup; Q2's twelve checked 2042-token witnesses match that diagnostic.
 
-The latest [corrected decode benchmark](docs/Q2-DECODE-BASELINE.md) removes
-248320 unnecessary temporary-string allocations per token, preserving every
-finite check and all 21 previously saved files for each model. Q2 measures
-**25.089 decode calls/s** on the current 2048-token prompt (+4.120% from the
-harness correction), versus fresh UD **25.475**. This is removed benchmark
-cost, not a GPU-kernel speedup.
+The [scalar HC reduction candidate](docs/Q2-HC-DECODE-REDUCTION.md) passes
+11 independent FP64 cases and 27 complete byte-exact output pairs. Reducing
+123 to 91 static instructions saves only **0.3345% component time**
+(30.272 to 30.171 microseconds). It remains component-only, without promotion
+or a full-model speedup claim. The same multiply/load loop and traffic remain.
 
-On the original 2042-token prompt with 128 completed steps, Q2 reaches
-**25.080** and UD **25.463 calls/s**: Q2 remains **1.505% slower**, costing
-about **0.60 ms/token**. UD reproduces all original token and frontier hashes;
-the original **26.049 token/s** baseline remains the target. The stricter
-in-timer finite scan and different sampling boundary still distinguish this
-fixture from the original production benchmark.
-
-Q2 prefill remains **1438.975 token/s** at 2048 tokens. Fresh UD varies
-1611.173–1672.432 (median 1613.123), so the smaller raw deficit is not a new
-prefill gain. At the historical 2042-token shape, Q2/UD measure
-1372.865/1662.672 token/s. The paired norm/library route is now bound to its
-measured 2048-token shape; other shapes retain the original producer.
 Existing operator failures and qualified-reference KL **0.002996 > 0.002**
-remain rejected. Both host configurations pass **17/17** tests; **85 artifacts**
-and **3059 source-file instances** verify. All samples, durations, graphs and
-measurement boundaries are recorded. The GPU window is released; parity is
-not met. The preceding [paired norm/library addition](docs/Q2-LIBRARY-NORM.md)
+remain rejected. Both host configurations pass **17/17** tests; the completed
+campaign verifies **90 artifacts** and **4079 source-file instances**, with
+19 command exits zero. The GPU window is released; parity is not met.
+The preceding [paired norm/library addition](docs/Q2-LIBRARY-NORM.md)
 retains its separate **+1.953% prefill** evidence.
 
 The preceding [composed Q2/UD profile](docs/Q2-SCALED-LIBRARY-PROFILE.md)

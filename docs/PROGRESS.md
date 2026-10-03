@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Original UD rate reproduced; scalar HC saving marginal — 2026-10-03
+
+Fresh original C17 timing confirms the historical UD reference. At 2042
+physical tokens, UD reaches 26.061 decode token/s versus Q2 25.514;
+the historical UD value is 26.049. Q2 remains 2.099% slower in decode and
+18.079% slower in prefill (1362.819 versus 1663.579 token/s). At 502/8191,
+Q2 decode is 26.184/25.483 and UD 26.865/25.970. All three prompt sizes
+use 128 completed steps, one warmup and three retained measured samples.
+
+The byte-frozen historical benchmark/ABI/adapter and both full provider builds
+run on `.157`. UD reproduces all 36 historical output/frontier witnesses;
+Q2's twelve 2042-token witnesses match the preceding strict diagnostic.
+Different host sampling cost explains why these benchmark rates must not be
+presented as a new GPU improvement. Exact replay does not clear the existing
+operator/KL rejection. [Full results, durations and graphs](Q2-DECODE-BASELINE.md)
+keep the strict diagnostic comparison separately scoped.
+
+The scalar HC DPP component passes all eleven independent FP64 cases and
+27 complete byte-exact pairs. Despite 123 to 91 static instructions, median
+time changes only 30.272281 to 30.171031 microseconds (-0.3345%). All five
+alternating pairs favor the candidate, but the projected 0.00982 ms/token
+saving is small beside the original-C17 gap of 0.82264 ms/token. The candidate
+is not promoted or admitted to a full-model run. [Component evidence](Q2-HC-DECODE-REDUCTION.md)
+preserves the samples and limits.
+
+Host Debug and ASan/UBSan each pass 17/17. The campaign verifies 90 unique
+artifacts and 4079 source-file instances; all 19 remote commands exit zero.
+Final release at 20:00:42.449978 UTC verifies all 23 recorded processes/groups
+retired, KFD empty and the original four leases free. Persistent release
+receipts record no Q2 workload, waiter or restart. Q2/UD parity remains unmet.
+
 ## Original C17 baseline composition prepared — 2026-10-03
 
 The previous goal turn saved the scalar HC experiment in `973b391`. Core's
