@@ -1,0 +1,13 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
+@@ -77,6 +77,10 @@
+       LaunchRoutedQ2Scaled<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
+                                out, m, k, stream);
+       break;
++    case 128:
++      LaunchRoutedQ2Scaled<128>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                                out, m, k, stream);
++      break;
+     default:
+       return false;
+   }

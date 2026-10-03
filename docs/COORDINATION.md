@@ -2034,3 +2034,11 @@ and Harbor starts Core-19 at 10:52:38.079 UTC. A live observation confirms
 the owned supervisor, the exact Harbor job and the first task
 break-filter-js-from-html. Retained/scaled full arms have not started; this
 is an active campaign, not a completed score or GPU-window release.
+
+During the active Terminal-Bench window, a component-only scaled tile128
+source and fixture are prepared locally. Device-only compilation executes no
+GPU workload. CPU-only q2-scaled-tiles-host-r1 completes at 2026-10-03
+11:17:38 UTC with 14/14 Debug and sanitizer checks, no model access and no
+GPU lease claim. The numerical component is not launched or queued; it waits
+for a separately recorded admission after the three frozen Core-19 arms.
+Core-19 model/kernel/agent settings remain unchanged. Q2 retains the window.

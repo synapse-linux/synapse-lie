@@ -23,6 +23,12 @@ started sequentially under persistent supervision; its scores remain pending.
 See [protocol, limits and job paths](Q2-TERMINAL-BENCH.md). Existing numerical
 rejection, long-context/concurrency work and Q2/UD parity remain open.
 
+A [scaled Q2 tile128 component experiment](Q2-SCALED-TILES.md) is now prepared
+while Core-19 runs. Static compilation adds one kernel and preserves all 150
+existing instruction bodies after documented label/comment normalization.
+The `.157` host guards pass 14/14 Debug and sanitizer cases. No new GPU/model
+arm is launched or queued; tile performance and numerical replay are pending.
+
 ## C17 GPU fork/join is real but regresses prefill — 2026-10-03 UTC
 
 The [shared/routed experiment](Q2-SHARED-OVERLAP.md) adds a C17 one-branch

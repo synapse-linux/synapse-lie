@@ -130,7 +130,24 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
                 nullptr),
             "Packed dispatch failed");
 #endif
-    } else if (compare_tiles)
+    }
+#ifdef Q2_SCALED_TILE_BENCH
+    else {
+      // Both tile arms include the identical normalization/packing producer.
+      Check(q::PackQ2ScaledRows(static_cast<const float *>(xd.data),
+                                static_cast<__half *>(scaled.data),
+                                static_cast<float *>(inverse.data), slots,
+                                logical, nullptr),
+            "Scaled reference packing failed");
+      Check(q::RoutedQ2ScaledGemm(
+                wd.data, static_cast<const __half *>(scaled.data),
+                static_cast<const float *>(inverse.data), t, tiles.size(), tile,
+                b, r, static_cast<float *>(raw.data) + guard, rows, logical,
+                nullptr),
+            "Scaled reference tile dispatch failed");
+    }
+#else
+    else if (compare_tiles)
       Check(q::RoutedQ2GemmPacked(
                 wd.data, static_cast<const std::uint32_t *>(pd.data), t,
                 tiles.size(), tile, b, r,
@@ -142,6 +159,7 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
                             static_cast<float *>(raw.data) + guard, rows,
                             logical, nullptr),
             "Raw-input dispatch failed");
+#endif
   };
   std::cout << "{\"event\":\"" << (compare_tiles ? "tile_geometry" : "geometry")
             << "\",\"tokens\":" << tokens << ",\"experts\":" << experts
@@ -256,7 +274,7 @@ static bool Bench(unsigned active_experts = 512, bool compare_tiles = false,
   if (compare_tiles)
     std::cout << ",\"active_experts\":" << active_experts;
   std::cout << "}\n";
-#ifdef Q2_SCALED_BENCH
+#if defined(Q2_SCALED_BENCH) && !defined(Q2_SCALED_TILE_BENCH)
   // Arithmetic representation experiment: retain differences and the original
   // FP64-operand gate; no byte-exactness claim and no rounded replacement
   // oracle.

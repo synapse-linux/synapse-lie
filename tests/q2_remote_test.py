@@ -112,6 +112,17 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse(['scaled-input-check', 'q2-fixture', '--source-variant', variant],
                         'Scaled checks require the isolated scaled-input source')
 
+    def test_scaled_tiles_component_only(self):
+        for variant in ('qualified', 'hc-up-chains', 'scaled-input'):
+            self.refuse(['scaled-tiles-check', 'q2-fixture', '--source-variant', variant],
+                        'Scaled tile checks require the isolated scaled-tiles source')
+        for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'scaled-input-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'scaled-tiles'],
+                        'component-only; no model dispatch')
+        self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                     '--source-variant', 'scaled-tiles'],
+                    'requires one of its three frozen Q2 variants')
+
     def test_shared_fork_source_guard(self):
         for variant in ('qualified', 'hc-up-chains', 'down-scatter'):
             self.refuse(['shared-fork-check', 'q2-fixture', '--source-variant', variant],

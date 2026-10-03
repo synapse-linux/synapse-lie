@@ -11,6 +11,8 @@ remains 18.10% below fresh UD prefill. It is not promoted. The owner-requested
 smoke task on all three variants (5/5 verifier checks each); the full Core-19
 comparison remains in progress. The candidate uses one extra agent step on
 that task, so this is no general quality or efficiency equivalence claim.
+The [next tile experiment](docs/Q2-SCALED-TILES.md) prepares greater weight reuse
+in scaled Q2 down; it is statically checked and has no GPU timing result yet.
 The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
 and routed experts on separate streams with bounded buffer ownership. CPU
 Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model
