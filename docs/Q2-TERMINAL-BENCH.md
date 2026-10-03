@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 arithmetic: real task qualification
 
+**Thermal policy update, 2026-10-03:** after the preserved full-campaign stop,
+the owner clarifies that 98 C applies to CPU and requests new fan curves with
+maximum at 82 C. The [applied configuration](Q2-FAN-CURVE.md) records that change.
+Earlier receipts retain their original shared CPU/GPU cap. Future cohorts must
+identify the corrected guard and cooling policy, with identical settings across
+compared variants. The failed/incomplete baseline is not reclassified as complete.
+
 The owner selected [Terminal-Bench Mini](https://github.com/kyuz0/terminal-bench-mini)
 to test whether the scaled-input numerical error causes practical failures.
 The prepared comparison is qualified Q2, retained `hc-up-chains` Q2 and

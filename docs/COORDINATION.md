@@ -2091,3 +2091,28 @@ window_release. Any new GPU build/run requires fresh coordinated admission.
 The core-thread update failed at local MCP transport; no delivery is claimed.
 The frozen adapter's thinking-off limitation and baseline failure diagnosis are
 recorded in config/q2-terminal-engine-audit.json without altering tasks or scores.
+
+The owner subsequently clarifies that 98 C applies to CPU, then explicitly
+authorizes `.157` fan configuration with maximum speed at 82 C. The corrected
+guard separates CPU Tctl from GPU edge; this host exposes no GPU max/crit.
+Both sensors remain mandatory, and exposed hardware thresholds remain strict.
+Host-only q2-narrow-thermal-host-r1 and q2-fan-curve-host-r1 complete with 15/15
+and 16/16 Debug/sanitizer checks respectively, all 14 artifacts collected/verified.
+
+The fan-only operation takes fresh original four leases, verifies KFD empty,
+applies/readbacks three curves via existing axb35-ctl, and releases all leases.
+Up 40/50/60/70/82 C, down 35/45/55/65/78 C are persisted in the existing JSON.
+An enabled-service drop-in uses a bounded fan-only JSON loader because installed
+apply ignores the file and restores fixed defaults. APU remains performance/
+120 W. Before/after files and receipt are in persistent run/q2-fan-curve-82-r1;
+the shared registry records fan_curve_update. No GPU run, restart or waiter is
+queued. Core must include this common cooling policy in any fresh comparisons.
+
+Local narrow-vector preparation adds one component kernel, preserving all 150
+prior instruction bodies, and no model dispatch. GPU replay/timing remain
+pending under fresh admission. The interrupted quality cohort remains frozen
+as partial evidence; fan and thermal changes must be identified in subsequent
+cohorts, and no older score or thermal abort is rewritten.
+The outbound core-thread fan-policy update again fails at the local MCP
+transport; delivery is not claimed. The persistent fan receipt, shared registry
+and this coordination record provide the agreed fallback.

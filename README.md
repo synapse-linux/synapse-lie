@@ -17,6 +17,13 @@ evidence collection for long runs; its host guards pass 15/15 on `.157`.
 The [next tile experiment](docs/Q2-SCALED-TILES.md) compares 64/128-row tiles
 against 48 for greater weight reuse in scaled Q2 down; it is statically checked
 and has no GPU timing result yet.
+The [conversion experiment](docs/Q2-NARROW-VECTOR.md) prepares wider F32/F16
+memory access and full consumer checks; all 150 existing compiled kernel bodies
+remain unchanged, with GPU replay/timing pending.
+At the owner's request, `.157` now uses [fans reaching 100% at 82 C](docs/Q2-FAN-CURVE.md),
+persisted through the AXB35 configuration and fan-only startup loader.
+The 98 C software limit is corrected to CPU only. New Q2/UD performance arms
+must share this cooling policy; no gain is yet attributed to it.
 The [C17-controlled GPU overlap trial](docs/Q2-SHARED-OVERLAP.md) now runs shared
 and routed experts on separate streams with bounded buffer ownership. CPU
 Debug/ASan each pass 13/13, 32 GPU lifecycle cases pass, and all 21 complete-model

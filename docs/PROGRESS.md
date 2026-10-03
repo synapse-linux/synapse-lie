@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Fan policy corrected and conversion experiment prepared — 2026-10-03
+
+The owner clarifies 98 C as a CPU limit and requests maximum fans at 82 C.
+All three `.157` curves are applied and read back through existing `axb35-ctl`:
+up 40/50/60/70/82 C and down 35/45/55/65/78 C. The JSON and enabled boot service
+retain them through a fan-only loader, correcting installed apply's fixed-curve
+behavior. Actual performance/120 W power mode is unchanged. See
+[configuration, backup and validation](Q2-FAN-CURVE.md). The corrected monitor
+keeps CPU 98 C inclusive and exposed hardware limits, without assigning that
+CPU cap to GPU edge. CPU Debug/sanitizer checks pass 16/16 on `.157`.
+
+The [narrow-vector component](Q2-NARROW-VECTOR.md) compiles locally, preserves
+all 150 original kernel instruction bodies and adds a 10-VGPR vector conversion
+with no LDS/scratch. The prepared 192-case fixture includes independent F16
+rounding, misalignment/tail guards and two complete projection consumers with
+rotating buffers and mapped weights. Profile motivation is 193 scalar narrow
+calls / 61.239 ms. No GPU component or model arm has run; performance and
+numerical acceptance remain unproven. Fan setup and host checks do not complete
+the interrupted Core-19 cohort or close the Q2/UD throughput gap.
+
 ## Interrupted Core-19 and engine feature audit — 2026-10-03
 
 Qualified full Core-19 stops at 12:25:27 UTC after the GPU reaches 99 C,
