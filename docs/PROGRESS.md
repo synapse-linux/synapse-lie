@@ -1,5 +1,24 @@
 # Isolated OpenAI reactive API increment
 
+## Shared core semantic events checkpoint — 2026-10-03
+
+Commit **`a399052`**, branch `feature/core-semantic-events`, imports the completed
+MTP/vision integration `01ff720` into persistent `worktrees/core-semantic-events`.
+HTTP, Responses and the direct benchmark consume shared C17 text/progress/tool/
+turn events. Qwen output grammar and UTF-8 decoding belong to the core; request
+ABI 4 preserves owned parallel-tool policy. Credits, cancellation and device
+owner scheduling remain shared, with no added inference thread.
+
+Native ASan/UBSan/LeakSanitizer checks pass **39/39**, including both native HTTP
+tool projections and full-size MTP pieces; the protocol-independent MTP/vision
+OFF build passes **16/16**. Official pinned provider and HIP server/bench rebuild
+and link, with no original weights or GPU execution. Exact contract/receipt are
+`docs/reference/EVENTS.md` and
+`docs/development/validation/core-events-2026-10-03.json` on that source branch.
+Original-weight tool behavior, GPU qualification, incremental argument streaming,
+constrained output and scoring/chat/eval clients remain open. This control branch
+records status only; no source integration, publication or deployment occurred.
+
 ## Combined MTP/vision checkpoint — 2026-10-03
 
 Merge **`01ff720`**, branch `feature/mtp-vision-integration`, combines complete

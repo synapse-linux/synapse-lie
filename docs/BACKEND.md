@@ -25,6 +25,18 @@ its integration branch. Existing benchmark evidence remains unchanged.
 | `feature/mtp` (`7d85b2f`) | Verified output, reactive credits/cancellation, complete predictor/controller state and target/predictor identity. | Original-weight correctness, continuation, AR comparison and resource fit. |
 | `feature/vision` (`806a790`) | Owned images, expanded context, semantic RAM/SSD scope, prepared MRoPE and target/projector identity. | Original-weight quality, continuation, cancellation and resource fit. |
 | `feature/mtp-vision-integration` (`01ff720`) | Joint admission through core, HTTP and benchmark; complete predictor/controller plus vision scope/positions in one KV state. | Original-weight image/text MTP, cache parity, sampled verification/rollback and GPU resource qualification. |
+| `feature/core-semantic-events` (`a399052`) | Core-owned UTF-8 text, token progress, complete validated calls and typed terminals; shared HTTP/Responses/direct-bench consumer. | Original-weight tool behavior and GPU qualification; incremental argument streaming remains open. |
+
+The latest functional checkpoint is **`a399052`** on `feature/core-semantic-events`,
+in persistent `worktrees/core-semantic-events`, importing `01ff720`. Request ABI
+4 owns parallel-tool policy; event ABI 1 preserves confirmed credits, loans and
+cancellation. Native sanitizer tests pass 39/39; protocol-independent MTP/vision
+OFF tests pass 16/16. The independently rebuilt official pinned provider and HIP
+server/bench compile/link. No numerical thread was added and no throughput gain
+is claimed. Event contract and source-bound receipt are on that feature branch:
+`docs/reference/EVENTS.md` and
+`docs/development/validation/core-events-2026-10-03.json`. No GPU/model reservation,
+new performance campaign, publication or `develop` merge was performed.
 
 Native ASan/UBSan/LeakSanitizer tests pass 36/36 on the integration, with 30/30
 MTP-OFF, 29/29 vision-OFF and 26/26 both-OFF checks. Five changed identity/cache
