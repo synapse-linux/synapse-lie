@@ -3,6 +3,7 @@
 """Owned-child termination using synthetic sensor files, never host tuning."""
 import importlib.util
 import json
+import runpy
 from pathlib import Path
 import signal
 import subprocess
@@ -27,6 +28,28 @@ class Guard(unittest.TestCase):
             for s, h in handlers.items():
                 signal.signal(s, h)
         return code, json.loads((output/'result.json').read_text())
+
+    def test_gpu_is_observed_and_cpu_still_stops(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-cpu-only-') as tmp:
+            root=Path(tmp);cpu=root/'sensors/hwmon0';cpu.mkdir(parents=True)
+            (root/'cpuinfo').write_text('AMD RYZEN AI MAX+ 395\n')
+            (cpu/'name').write_text('k10temp\n');(cpu/'temp1_input').write_text('97000\n')
+            gpu=root/'sensors/hwmon1';gpu.mkdir();(gpu/'name').write_text('amdgpu\n')
+            (gpu/'temp1_input').write_text('101000\n');(gpu/'temp1_max').write_text('90000\n')
+            code,result=self.run_guard(root,'gpu-observed',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,0);self.assertEqual(result['peak_c'][str(gpu/'temp1_input')],101)
+            plan=json.loads((root/'gpu-observed/plan.json').read_text())
+            observed=next(s for s in plan['sensors'] if s['name']=='amdgpu')
+            self.assertIsNone(observed['limit_c']);self.assertEqual(observed['policy'],'observe-only')
+            bench=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.py'))
+            rows=bench['temperatures'](root/'sensors',98,root/'cpuinfo')
+            bench['require_cool'](rows)
+            self.assertIsNone(next(s for s in rows if s['name']=='amdgpu')['limit_c'])
+            (cpu/'temp1_input').write_text('98000\n')
+            code,result=self.run_guard(root,'cpu-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
+            with self.assertRaisesRegex(RuntimeError,'thermal limit'):
+                bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo'))
 
     def test_explicit_strix_halo_ceiling_preserves_ssd_limit(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-halo-') as tmp:

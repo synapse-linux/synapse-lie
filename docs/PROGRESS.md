@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## CPU-only thermal stop policy — 2026-10-03 UTC
+
+At the owner's correction, new qualification helpers stop at the selected CPU
+ceiling and retain the independent SSD bounds; GPU temperatures are observed
+without a software temperature stop. Three synthetic sensor/lifetime checks
+pass, including GPU101 C continuation, CPU98 C refusal, SSD separation and
+owned-child retirement. No firmware, fan, power or clock setting changes.
+The [guard receipt](development/validation/cpu-thermal-guard-2026-10-03.json)
+binds the changed helpers, synthetic checks and actual command exits.
+
+The first clocked 12288-depth C17 arm passes on `.157`, but the matched C++ arm
+stops at GPU101 C under the previous GPU98 policy, with CPU96.125 C. Its actual
+failure remains preserved; no hardware crash is observed. The separately
+prepared R3 continuation repeats all ten arms from unchanged frozen `15c6082`
+binaries, with the corrected CPU98/GPU-observed policy and CPU<=60 C preflight.
+This continuation remains in progress and is not a completed performance gate.
+
 ## Optimized sampler and vision decoder integrated — 2026-10-03 UTC
 
 `feature/c17-sampling` combines sampler checkpoint `ba054bd` with vision

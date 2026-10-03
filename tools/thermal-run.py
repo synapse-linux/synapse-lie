@@ -17,7 +17,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output', required=True, type=Path)
     p.add_argument('--timeout', type=float, default=600)
-    p.add_argument('--limit-c', type=float, default=85)
+    p.add_argument('--limit-c', type=float, default=85,
+                   help='CPU ceiling in Celsius; GPU temperature is observed only')
     p.add_argument('command', nargs=argparse.REMAINDER)
     a = p.parse_args()
     argv = a.command[1:] if a.command[:1] == ['--'] else a.command
@@ -32,14 +33,17 @@ def main():
         if name not in ('k10temp', 'amdgpu', 'nvme', 'coretemp'):
             continue
         for path in sorted(device.glob('temp*_input')):
-            limit = min(a.limit_c,85) if name=='nvme' else a.limit_c
+            limit = None if name=='amdgpu' else min(a.limit_c,85) if name=='nvme' else a.limit_c
             for suffix in ('max', 'crit'):
+                if name == 'amdgpu':
+                    continue
                 bound = path.with_name(path.name[:-6] + '_' + suffix)
                 if bound.exists():
                     value = int(bound.read_text()) / 1000
                     if 30 <= value <= 150:
                         limit = min(limit, value)
-            sensors.append({'name': name, 'path': str(path), 'limit_c': limit})
+            sensors.append({'name': name, 'path': str(path), 'limit_c': limit,
+                            'policy': 'observe-only' if name=='amdgpu' else 'operating-ceiling'})
     plan = {'argv': argv, 'cwd': os.getcwd(), 'sensors': sensors,
             'timeout_s': a.timeout, 'pid': os.getpid(),
             'scope': 'Owned child process group only; no power/fan/clock changes'}
@@ -69,7 +73,7 @@ def main():
                     raise ValueError('Invalid sensor reading')
                 row['temperatures'].append(dict(s, value_c=value))
                 peaks[s['path']] = max(peaks.get(s['path'], value), value)
-                if value >= s['limit_c']:
+                if s['limit_c'] is not None and value >= s['limit_c']:
                     reason = 'thermal_limit'
         except (OSError, ValueError) as exc:
             row['error'] = str(exc)

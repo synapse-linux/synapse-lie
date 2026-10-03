@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## CPU guard correction and clocked continuation — 2026-10-03 UTC
+
+The owner clarifies: **the CPU needs the guard, not the GPU**. New local and
+remote supervisors retain the selected CPU ceiling (98 C on qualified Strix
+Halo 395), lower exposed CPU bounds and the separate NVMe 85 C or lower bounds.
+GPU sensor values and peaks remain recorded with a null software temperature
+limit. No fan, power, clock, firmware or hardware protection setting changes.
+Three synthetic sensor/lifetime tests verify GPU101 C continues, CPU98 C refuses,
+SSD limits and termination of owned children only. Historical capsules retain
+their original policies and results.
+
+Root's `gpu-perf-clocked-r2` starts after Q2's release at
+**23:03:30.243030 UTC** and fresh admission at **23:06:11.225623 UTC**. The C17
+12288-depth arm passes; its C++ control stops under the earlier GPU98 guard,
+sampling GPU101/CPU96.125 C. Child/supervisor exits are 1/1; this is a software
+stop, with no observed hardware crash. R2's controller and four worker identities
+retire, KFD is empty and original leases remain unchanged/free.
+
+Root retains the coordinated window for explicitly prepared R3, repeating all
+ten frozen-`15c6082` arms with the corrected guard. Runtime binaries are unchanged.
+Each arm reacquires the original four leases and verifies CPU at or below 60 C
+before model loading, with a bounded 240 s read-only cooldown. GPU temperature
+does not gate admission or termination. The Point thread owns `.161`; after
+verified root release it receives a separate predictor-copy window on `.157`.
+
 ## Shared C17 integration and Point continuation — 2026-10-03 UTC
 
 Root combines `ba054bd` sampler optimization with `d42ac47` vision decoding

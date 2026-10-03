@@ -54,8 +54,9 @@ def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/
         name=(device/'name').read_text().strip()
         if name not in ('k10temp','coretemp','amdgpu','nvme'):continue
         for path in sorted(device.glob('temp*_input')):
-            limit=min(ceiling,85) if name=='nvme' else None if observe_cpu_gpu else ceiling
+            limit=None if name=='amdgpu' else min(ceiling,85) if name=='nvme' else None if observe_cpu_gpu else ceiling
             for suffix in ('max','crit'):
+                if name=='amdgpu':continue
                 bound=path.with_name(path.name[:-6]+'_'+suffix)
                 if bound.exists():
                     value=int(bound.read_text())/1000
@@ -63,7 +64,7 @@ def temperatures(root=Path('/sys/class/hwmon'), ceiling=85, cpuinfo=Path('/proc/
             value=int(path.read_text())/1000
             if not -40<=value<=150:raise ValueError('invalid temperature sensor')
             rows.append({'name':name,'path':str(path),'value_c':value,'limit_c':limit,
-                         'policy':'hardware-bounds-only' if observe_cpu_gpu and name!='nvme' else 'operating-ceiling'})
+                         'policy':'observe-only' if name=='amdgpu' else 'hardware-bounds-only' if observe_cpu_gpu and name!='nvme' else 'operating-ceiling'})
     if not any(r['name'] in ('k10temp','coretemp') for r in rows):raise ValueError('CPU temperature unavailable')
     return rows
 

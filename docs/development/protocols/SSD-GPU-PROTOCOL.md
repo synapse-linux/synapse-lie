@@ -1,5 +1,11 @@
 # SSD checkpoint qualification protocol
 
+**Current supervision update (2026-10-03):** the owner requires a CPU guard,
+with GPU temperature recorded only. New supervisors retain the selected CPU
+and independent SSD bounds; they do not stop for a GPU temperature sample.
+Historical R1–R4 declarations below describe their original policies and remain
+unchanged. See [current coordination](../../COORDINATION.md).
+
 The [completed R4 result](../../archive/SSD-GPU-COMPLETION.md) closes the pending 128K
 restart and core off/RAM/SSD arms. R1/R2/R3 declarations and failures below
 remain historical evidence; the next hardware run still needs fresh admission.

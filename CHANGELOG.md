@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Qualification supervisors apply temperature stops to the CPU and SSD;
+  GPU temperatures remain recorded without a software temperature stop.
+
 - Combined benchmark CSV duration columns now explicitly use seconds.
 
 - Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
