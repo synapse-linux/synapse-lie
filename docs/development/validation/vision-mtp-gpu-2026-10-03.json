@@ -1,0 +1,815 @@
+{
+  "schema": "synapse-lie.vision-mtp.original-gpu.v1",
+  "recorded_at": "2026-10-03T20:50:58.061797+00:00",
+  "runtime_checkpoint": "bec095554f277e7d9fcde745f86ab22260621b17",
+  "branch": "feature/vision-q8",
+  "host": "192.168.5.157",
+  "platform": "Bosgame AXB35-02; AMD Ryzen AI Max+ 395, gfx1151, 128 GB shared memory",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "ownership": "delegated",
+  "dense_sampling": "lie-c17-dense",
+  "classification": "ORIGINAL-WEIGHT SAME-PROVIDER FUNCTIONAL QUALIFICATION; not independent numerical/quality or performance evidence",
+  "source_binding": {
+    "verified_runtime_source_count": 333,
+    "binding_sha256": "695b6686252f41b63c05cbc4518b467659af2f859caccfd8db71f8604c5c59e8",
+    "host_receipt": "vision-weight-decode-2026-10-03.json",
+    "host_receipt_sha256": "a2db763754f7aefe7ca3fc39e492766978a9350510953fe7895edcbaab856082",
+    "provider_receipts": {
+      "build/vision-q8-r1/BUILD-RECEIPT.json": "2884b8d1681190d170a25fbc0a53dec83e763e953383c471d110e96c31da5f53",
+      "build/vision-q8-off-r1/BUILD-RECEIPT.json": "26b9bb705854b52f1bf0f9f261bd978d62a87b5f28112d2eba216fdf4b72a63a"
+    }
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "historical_sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "historical_sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "historical_sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "historical_sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467,
+      "historical_sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6",
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+      "bytes": 616703104,
+      "device": 52,
+      "inode": 3116447,
+      "mtime_ns": 1790231603650000000,
+      "ctime_ns": 1790258579655360284,
+      "historical_sha256": "b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad",
+      "full_hash_recomputed": false
+    }
+  ],
+  "runtime_source_changed_during_campaign": false,
+  "model_files_changed": false,
+  "arms": [
+    {
+      "arm": "gpu-vision-bec-r1/combined-http",
+      "state": "FAILED",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 61.85,
+        "('amdgpu', None)": 79.0,
+        "('k10temp', None)": 78.125
+      },
+      "threads": {
+        "min": 1,
+        "max": 52
+      },
+      "samples": 56,
+      "started": "2026-10-03T20:09:13.918416+00:00",
+      "finished": "2026-10-03T20:09:45.543751+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "80e194670e089b8c849b57a39a7911517c84af0bdd100b9d4b9c0b50503ff11b",
+      "result_sha256": "a276abb98574dbaedfe3b1eba0c8a1472e36893f6c7d42f9fbf2e8cd0922b01d",
+      "binary": "synapse-lie-server",
+      "binary_sha256": "dc436f5915a6fa00b1e651b606ac91a166facea3239d2fb61a9b3031315378df",
+      "models_count": 6,
+      "full_model_identity_hash_admitted": false,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3222722,
+      "supervisor_start_ticks": 162354554,
+      "child_pid": 3222737,
+      "child_start_ticks": 162354818,
+      "checks": {
+        "exit_code": 1,
+        "error": "KeyError('prompt_tokens_details')",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-vision-bec-r1/capsule/supervise.py\", line 79, in checks\n    runpy.run_path(str(base/'checks.py'))['run'](m,out,lambda: child.poll() is None and not interrupted);check_result['exit_code']=0\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-vision-bec-r1/capsule/checks.py\", line 131, in run\n    check('different image refuses shared token cache',cached(blue1)==0)\n                                                       ~~~~~~^^^^^^^\n  File \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-vision-bec-r1/capsule/checks.py\", line 130, in cached\n    def cached(x):return x['usage']['prompt_tokens_details']['cached_tokens']\n                         ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'prompt_tokens_details'\n"
+      },
+      "failure": "AssertionError('functional checks failed')"
+    },
+    {
+      "arm": "gpu-vision-bec-r1/combined-state",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 61.85,
+        "('amdgpu', None)": 64.0,
+        "('k10temp', None)": 74.0
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 59,
+      "started": "2026-10-03T20:14:46.560532+00:00",
+      "finished": "2026-10-03T20:15:19.913809+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "0d18d7148da77654a818ab1b9945e6fcf275424632957ca064073cfe96488c79",
+      "result_sha256": "ea69efbcdf968a2de43da60c69f0e2e01df5eabf0447aa9593f1941b192877e8",
+      "binary": "state-probe",
+      "binary_sha256": "63b22bd6f02525a9985c9bfd85659698106b8bf345cc8012a655946621652669",
+      "models_count": 6,
+      "full_model_identity_hash_admitted": false,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3224460,
+      "supervisor_start_ticks": 162387824,
+      "child_pid": 3224475,
+      "child_start_ticks": 162388083,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "26533a09ed64a8801dd0adca3c8a99383103d357070639ae76dfe2143824b233"
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r1/mtp-core-reactive",
+      "state": "FAILED",
+      "child_exit_code": 1,
+      "peaks": {
+        "('nvme', None)": 62.85,
+        "('amdgpu', None)": 61.0,
+        "('k10temp', None)": 66.875
+      },
+      "threads": {
+        "min": 1,
+        "max": 52
+      },
+      "samples": 51,
+      "started": "2026-10-03T20:21:22.174700+00:00",
+      "finished": "2026-10-03T20:21:53.448183+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "e091599cbd1d7be07855b942112fe3f7102e6377d5137deb0324a8ed7efe9c85",
+      "result_sha256": "d7b75c69fdebce05300f655b18bd14f42ac142fef1f3db07366c40a0e303ec8e",
+      "binary": "core-reactive-probe",
+      "binary_sha256": "8c5476c12021302c0b3b967ac4db71a8b3edf47f0e0dd440fc7b07f16b2ac551",
+      "models_count": 5,
+      "full_model_identity_hash_admitted": false,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3226396,
+      "supervisor_start_ticks": 162427507,
+      "child_pid": 3226405,
+      "child_start_ticks": 162427644,
+      "failure": "AssertionError('child failed')"
+    },
+    {
+      "arm": "gpu-vision-bec-r1/mtp-ssd-write",
+      "state": "FAILED",
+      "child_exit_code": 1,
+      "peaks": {
+        "('nvme', None)": 65.85,
+        "('amdgpu', None)": 44.0,
+        "('k10temp', None)": 58.75
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 159,
+      "started": "2026-10-03T20:15:21.937946+00:00",
+      "finished": "2026-10-03T20:16:49.901345+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "ae5884211b88b64b460c0dfb31a72b75a9edbd204b92efa108f677b26cdbeec6",
+      "result_sha256": "a6cb6049092be4718419ace65b47f025d77f2f17db11f333a63b19f322947f60",
+      "binary": "state-probe",
+      "binary_sha256": "63b22bd6f02525a9985c9bfd85659698106b8bf345cc8012a655946621652669",
+      "models_count": 5,
+      "full_model_identity_hash_admitted": true,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3224662,
+      "supervisor_start_ticks": 162391421,
+      "child_pid": 3224671,
+      "child_start_ticks": 162391621,
+      "failure": "AssertionError('child failed')"
+    },
+    {
+      "arm": "gpu-vision-bec-r2/combined-http",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 62.85,
+        "('amdgpu', None)": 82.0,
+        "('k10temp', None)": 80.625
+      },
+      "threads": {
+        "min": 1,
+        "max": 52
+      },
+      "samples": 66,
+      "started": "2026-10-03T20:24:48.401663+00:00",
+      "finished": "2026-10-03T20:25:26.972599+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "da5fc024b9bad65a6c155829f2bb9893f5fb9aa5c263459bf55b5ee441b41458",
+      "result_sha256": "04cd2323dcaa81c856cb60b10b19d5f9c41805cc370d11e86f1cc251a8d5f546",
+      "binary": "synapse-lie-server",
+      "binary_sha256": "dc436f5915a6fa00b1e651b606ac91a166facea3239d2fb61a9b3031315378df",
+      "models_count": 6,
+      "full_model_identity_hash_admitted": false,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3227450,
+      "supervisor_start_ticks": 162448126,
+      "child_pid": 3227459,
+      "child_start_ticks": 162448267,
+      "checks": {
+        "exit_code": 0
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r3/combined-ssd-read",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 66.85,
+        "('amdgpu', None)": 67.0,
+        "('k10temp', None)": 78.625
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 161,
+      "started": "2026-10-03T20:38:03.841774+00:00",
+      "finished": "2026-10-03T20:39:31.098672+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "c9d5573c1451486a08bcc7ea49af03c084af11e9200ca71158d336a7c6456887",
+      "result_sha256": "af607a5638a037b15f221ee4cac8bfb9ea81ff85faca20d85ec794ad5ef57b1d",
+      "binary": "state-probe",
+      "binary_sha256": "e0b775f63574f23576332a2630998a41f34cf211b27c040f3bf80f2f00f19c76",
+      "models_count": 6,
+      "full_model_identity_hash_admitted": true,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3231455,
+      "supervisor_start_ticks": 162527676,
+      "child_pid": 3231464,
+      "child_start_ticks": 162527811,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "b0180fa44cb64f3db0db6c209a853b3ec8f0e6653f8ac61e82a7a5ac4d921283"
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r3/combined-ssd-write",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 66.85,
+        "('amdgpu', None)": 67.0,
+        "('k10temp', None)": 79.125
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 162,
+      "started": "2026-10-03T20:36:34.963579+00:00",
+      "finished": "2026-10-03T20:38:02.458016+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "76026a639c8dc3ea92cebb8f0c1246128f2ecb38b959acec00ad85426d71f99a",
+      "result_sha256": "d5ae0037af5cd28d7f9403119da106a0575809a0991e85144de8a1358f54794d",
+      "binary": "state-probe",
+      "binary_sha256": "e0b775f63574f23576332a2630998a41f34cf211b27c040f3bf80f2f00f19c76",
+      "models_count": 6,
+      "full_model_identity_hash_admitted": true,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3230896,
+      "supervisor_start_ticks": 162518815,
+      "child_pid": 3230913,
+      "child_start_ticks": 162518923,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "59502f02170bee62dad9e3704f5dd6ceaa42b74619e3556cb2780ffa2de960fb"
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r3/mtp-ssd-read",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 65.85,
+        "('amdgpu', None)": 65.0,
+        "('k10temp', None)": 76.875
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 158,
+      "started": "2026-10-03T20:35:07.405136+00:00",
+      "finished": "2026-10-03T20:36:33.850787+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "55b969c07b13e980780d6bfc9f7e4f11aacafd4aaaf7484ff2c8797c3003db50",
+      "result_sha256": "977d9c00f5e99259a987ffa70f654119e77524ab4f55fb41f03ae80f2ed89caf",
+      "binary": "state-probe",
+      "binary_sha256": "e0b775f63574f23576332a2630998a41f34cf211b27c040f3bf80f2f00f19c76",
+      "models_count": 5,
+      "full_model_identity_hash_admitted": true,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3230425,
+      "supervisor_start_ticks": 162510058,
+      "child_pid": 3230434,
+      "child_start_ticks": 162510167,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 18,
+            "drafted": 35,
+            "accepted": 32,
+            "rejected": 3
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "493bee37d9399f4f4468f69c5ad2b9a4a562927d7f7251e2e634139076911212"
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r3/mtp-ssd-write",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 62.85,
+        "('amdgpu', None)": 64.0,
+        "('k10temp', None)": 75.0
+      },
+      "threads": {
+        "min": 1,
+        "max": 51
+      },
+      "samples": 155,
+      "started": "2026-10-03T20:33:42.035968+00:00",
+      "finished": "2026-10-03T20:35:06.279253+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "0a0e45db26e475c4f8981739bb073ffd86aab357d54b0e6c941c3cf3e88aa889",
+      "result_sha256": "886311a03e0189c21ae6583fdd8e8b0420d12338497e89ac345fb46c2e0ddf90",
+      "binary": "state-probe",
+      "binary_sha256": "e0b775f63574f23576332a2630998a41f34cf211b27c040f3bf80f2f00f19c76",
+      "models_count": 5,
+      "full_model_identity_hash_admitted": true,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3229981,
+      "supervisor_start_ticks": 162501358,
+      "child_pid": 3229990,
+      "child_start_ticks": 162501630,
+      "summary": {
+        "paired_configurations": [
+          {
+            "event": "paired_complete",
+            "sample": 0,
+            "calls": 24,
+            "drafted": 47,
+            "accepted": 47,
+            "rejected": 0
+          },
+          {
+            "event": "paired_complete",
+            "sample": 1,
+            "calls": 18,
+            "drafted": 35,
+            "accepted": 32,
+            "rejected": 3
+          }
+        ],
+        "same_provider": true,
+        "raw_sha256": "61a2a79972df79060c623a6d65aa7d6dbbf8c16dc1f5a723e7a97173acc7c6da"
+      },
+      "failure": null
+    },
+    {
+      "arm": "gpu-vision-bec-r4/mtp-core-reactive",
+      "state": "PASS_ORIGINAL_WEIGHTS_SAME_PROVIDER_NOT_INDEPENDENT_QUALIFICATION",
+      "child_exit_code": 0,
+      "peaks": {
+        "('nvme', None)": 66.85,
+        "('amdgpu', None)": 80.0,
+        "('k10temp', None)": 80.125
+      },
+      "threads": {
+        "min": 1,
+        "max": 52
+      },
+      "samples": 54,
+      "started": "2026-10-03T20:40:02.915701+00:00",
+      "finished": "2026-10-03T20:40:33.702402+00:00",
+      "thermal_stop": false,
+      "manifest_sha256": "89f187cb28e5c5779ba2cb0dc59c73e0af0246886fb070671f589bbb5437bd67",
+      "result_sha256": "86a833955da59a682967eb2308f343896c48fe58ef05c27fef965fc2641624cf",
+      "binary": "core-reactive-probe",
+      "binary_sha256": "033020b5e46f6338396da0d446ec03fce602ab9b7011af37b16a8bfc2d0743b0",
+      "models_count": 5,
+      "full_model_identity_hash_admitted": false,
+      "models_stat_unchanged": true,
+      "capsule_unchanged": true,
+      "owned_child_retired": true,
+      "postflight_kfd": [],
+      "supervisor_pid": 3232089,
+      "supervisor_start_ticks": 162539498,
+      "child_pid": 3232108,
+      "child_start_ticks": 162539718,
+      "summary": {
+        "reactive_original_weights": true,
+        "raw_sha256": "c8d9712376835c481ccc3af9e6978742c5d08d96532030e89303d36e0a5db68a",
+        "events": [
+          {
+            "event": "peer_complete_stalled_loan",
+            "synthetic": false,
+            "active": 1,
+            "queued": 0,
+            "output_blocked": 1,
+            "decode_batches": 3,
+            "mtp_drafted": 100,
+            "mtp_accepted": 100,
+            "cancel_during_prefill": 0,
+            "cancel_during_decode": 0,
+            "output_tokens": 8,
+            "finish": 0,
+            "retired": 0
+          },
+          {
+            "event": "cancel_during_prefill_peer_complete",
+            "synthetic": false,
+            "active": 0,
+            "queued": 0,
+            "output_blocked": 0,
+            "decode_batches": 3,
+            "mtp_drafted": 195,
+            "mtp_accepted": 195,
+            "cancel_during_prefill": 1,
+            "cancel_during_decode": 0,
+            "output_tokens": 0,
+            "finish": 3,
+            "retired": 1
+          },
+          {
+            "event": "cancel_during_decode_peer_complete",
+            "synthetic": false,
+            "active": 0,
+            "queued": 0,
+            "output_blocked": 0,
+            "decode_batches": 3,
+            "mtp_drafted": 290,
+            "mtp_accepted": 290,
+            "cancel_during_prefill": 1,
+            "cancel_during_decode": 1,
+            "output_tokens": 0,
+            "finish": 3,
+            "retired": 1
+          },
+          {
+            "event": "qualified",
+            "synthetic": false,
+            "active": 0,
+            "queued": 0,
+            "output_blocked": 0,
+            "decode_batches": 3,
+            "mtp_drafted": 290,
+            "mtp_accepted": 290,
+            "cancel_during_prefill": 1,
+            "cancel_during_decode": 1,
+            "output_tokens": 0,
+            "finish": 0,
+            "retired": 0
+          },
+          {
+            "event": "complete",
+            "exit_code": 0
+          }
+        ]
+      },
+      "failure": null
+    }
+  ],
+  "accepted_arms": 7,
+  "failed_initial_private_checks": 3,
+  "http": {
+    "passed_assertions": 20,
+    "assertions": [
+      "C17 dense sampler identity",
+      "real model list",
+      "model detail",
+      "original-weight arithmetic",
+      "physical input/output usage",
+      "AR JSON/SSE equivalence",
+      "MTP complete output",
+      "MTP has drafted and accepted tokens",
+      "MTP provider controlled AR fallback",
+      "vision color semantics",
+      "vision repeated output/usage",
+      "vision valid usage",
+      "vision scoped cache red/blue semantics",
+      "different images equal physical prompt lengths",
+      "different image refuses shared token cache",
+      "same image RAM checkpoint reuse",
+      "image restore output exact",
+      "RAM prefix exact output",
+      "RAM reuse actual accounting",
+      "healthy device owner"
+    ],
+    "physical_image_prompt_tokens": 2735,
+    "same_image_reused_tokens": 2735,
+    "different_image_reused_tokens": 0,
+    "image_fixture": "red and blue 256x256 PNG, same physical token length"
+  },
+  "state": {
+    "paired_dispatches": 228,
+    "full_frontier_floats": 248320,
+    "fresh_restored_tokens_positions_counters_and_logits": "exact",
+    "greedy_forced_AR_frontiers": 120,
+    "greedy_frontier_bit_equal": true,
+    "sampled_text_drafted": 35,
+    "sampled_text_accepted": 32,
+    "sampled_text_rejected": 3,
+    "ssd_read_intervals_ns": [
+      60710903,
+      54226563,
+      67265488,
+      58046419
+    ],
+    "ssd_interval_scope": "Store read measurements only; excludes model identity hash/load, GPU restore and complete client latency",
+    "destination_sampler": "Fresh destination configuration; not live RNG-session resume",
+    "stores": {
+      "store-mtp": [
+        {
+          "name": ".lie-prefix.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "5db268175bf7154e9bab3aa588165204f293db5c.kv",
+          "bytes": 120641891,
+          "sha256": "d3ccdaa8f534b87f5602144dc80f67ba12dd92d206bd85415dc3ee1b2dffd0f4"
+        }
+      ],
+      "store-combined": [
+        {
+          "name": ".lie-prefix.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "7e9327c7a025d779da99513824c6ccd738b29333.kv",
+          "bytes": 122893897,
+          "sha256": "323753b494bda4a7b30a15e55128a0eb8c51ed4d23be814f07a16bbc7e232c38"
+        }
+      ]
+    }
+  },
+  "reactive": {
+    "raw_sha256": "c8d9712376835c481ccc3af9e6978742c5d08d96532030e89303d36e0a5db68a",
+    "events": [
+      {
+        "event": "peer_complete_stalled_loan",
+        "synthetic": false,
+        "active": 1,
+        "queued": 0,
+        "output_blocked": 1,
+        "decode_batches": 3,
+        "mtp_drafted": 100,
+        "mtp_accepted": 100,
+        "cancel_during_prefill": 0,
+        "cancel_during_decode": 0,
+        "output_tokens": 8,
+        "finish": 0,
+        "retired": 0
+      },
+      {
+        "event": "cancel_during_prefill_peer_complete",
+        "synthetic": false,
+        "active": 0,
+        "queued": 0,
+        "output_blocked": 0,
+        "decode_batches": 3,
+        "mtp_drafted": 195,
+        "mtp_accepted": 195,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 0,
+        "output_tokens": 0,
+        "finish": 3,
+        "retired": 1
+      },
+      {
+        "event": "cancel_during_decode_peer_complete",
+        "synthetic": false,
+        "active": 0,
+        "queued": 0,
+        "output_blocked": 0,
+        "decode_batches": 3,
+        "mtp_drafted": 290,
+        "mtp_accepted": 290,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1,
+        "output_tokens": 0,
+        "finish": 3,
+        "retired": 1
+      },
+      {
+        "event": "qualified",
+        "synthetic": false,
+        "active": 0,
+        "queued": 0,
+        "output_blocked": 0,
+        "decode_batches": 3,
+        "mtp_drafted": 290,
+        "mtp_accepted": 290,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1,
+        "output_tokens": 0,
+        "finish": 0,
+        "retired": 0
+      },
+      {
+        "event": "complete",
+        "exit_code": 0
+      }
+    ],
+    "device_owners": 1,
+    "HTTP_layer": false,
+    "inference_worker_added": false,
+    "claim": "Consumer-credit stalls, borrowed output lifetime and observed in-flight prefill/decode cancellation; no speedup, GPU preemption or forward overlap claim"
+  },
+  "private_probe_corrections": [
+    "Optional omitted cached_tokens is zero; require physical usage/timing sum",
+    "DS4 writes supply mandatory decoded prefix text via lie_store_write_ex",
+    "Accept CLOSED during final drain; preserve output offsets after an already borrowed block"
+  ],
+  "private_fixture": {
+    "classification": "NOT-INFERENCE",
+    "asan_ubsan_lsan": true,
+    "untraced": true,
+    "build_and_fixture_commands": 8,
+    "all_exit_codes_zero": true,
+    "fixture_sha256": "6b4e93f3c2259a1ac05970a06798608e742b63536f2f53fdb6d2cda39a30a9dc",
+    "build_sha256": "5c71fc7a09b9d181d78d6897ecbb7fa3a330ea81c8077dc0bd3eafb773216966",
+    "failed_attempts_sha256": "3a4227f6a502c772266671f516f04517bd5873234078db124b2c31c7a15150f5",
+    "sandbox_failure_sha256": "943d272e4bafc0c9049c26838b3eb479e5ae8298443a805e75cbab834e6ef696"
+  },
+  "thermal": {
+    "sampling_seconds": 0.5,
+    "cpu_peak_c": 80.625,
+    "gpu_peak_c": 82.0,
+    "nvme_peak_c": 66.85,
+    "cpu_gpu_ceiling_c": 98,
+    "lower_hardware_nvme_guards_retained": true,
+    "thermal_stop": false,
+    "fan_clock_power_settings_changed": false
+  },
+  "collection": {
+    "files": 50,
+    "inventory_sha256": "ef464758aea6e1e17dd1fcad6274d85ddfcb71e8bcb14866d84bd1420bb9e62e",
+    "verified_sha256": "32acea55343f3e4439445edbd11a621540ff94eb12b01713c2c14927c18d025e",
+    "all_equal": true
+  },
+  "window_release": {
+    "at": "2026-10-03T20:44:19.723712+00:00",
+    "state": "WINDOW_RELEASED",
+    "sha256": "58395a517da73ddf9eaf3e6aa6cb668ffbd350f85d963c0c0639b5b1940429aa",
+    "remote_path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-vision-bec-window-release.json",
+    "owned_identities_retired": 20,
+    "original_leases_unchanged_and_released": true,
+    "KFD_empty": true,
+    "restart_scheduled": false,
+    "observer_started": false,
+    "closure_command_exit_code": 0,
+    "returned_to": "Q2; Point notified"
+  },
+  "remaining_gates": [
+    "Independent vision quality oracle; pinned upstream BF16-reference discrepancy not resolved",
+    "Broader image/text histories and image in-flight cancellation/fault cases",
+    "Independent predictor/verification oracle and wider rejection/rollback/context matrix",
+    "Matched MTP/vision AR performance including Gufo HTTP rate convention",
+    "Allocation-exact GPU peak including decoded encoder residency/workspace",
+    "Exact live generation RNG-session resume is not implemented"
+  ],
+  "raw_evidence": "Persistent local evidence/gpu-vision-bec-r{1,2,3,4}; all failed and successful artifacts preserved; no source in /tmp",
+  "upstream_vision_quality": {
+    "source": "https://github.com/gufo-org/gufo/blob/f783fedb9bea2ec7de941f6da4e02f4a4596b29e/docs/models/qwen3.8-flash-next/QUALITY.md",
+    "document_sha256": "c77b6a5ad7d5f05dee7266874925a89cc6f9c78d26df1f958b8da59ead2b3410",
+    "reported_relative_l2_percent": 6.47,
+    "reported_limit_percent": 5.0,
+    "classification": "Retained pinned upstream evidence; not freshly measured LIE encoder parity"
+  }
+}

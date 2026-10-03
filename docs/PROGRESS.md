@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Optimized sampler and vision decoder integrated — 2026-10-03 UTC
+
+`feature/c17-sampling` combines sampler checkpoint `ba054bd` with vision
+checkpoint `d42ac47`, preserving both histories and their qualified evidence.
+The shared C17 sampler, weight decoder and reactive core remain separate from
+HTTP. No model kernel, device ownership or scheduling policy changes in this
+merge. Default-ON sampler and projector decoding retain explicit build controls.
+
+The resulting source passes **44/44** native ASan/UBSan/LeakSanitizer tests and
+**1/1** independently pinned decoder reference test: all 63,488 finite F16 and
+16,252,928 Q8 values match at the BF16 rounding boundary. Exact inherited
+sampler/glue/fixture hashes preserve the earlier 17-suite host result; it is
+not rerun here. Six configure/build/test commands exit0, with CPU/GPU/NVMe
+peaks of 73.375/51/33.85 C and no thermal stop. The
+[integration receipt](development/validation/c17-vision-integration-2026-10-03.json)
+binds source, raw commands, sanitizer checks and their NOT-INFERENCE scope.
+HIP compilation/linking and GPU retesting of this composition remain pending.
+
+The existing Point thread reports the old-source ROCm10 fresh256 LIE arm closed
+on `.161`: 2/2 samples, PP382.8545/TG9.7330 token/s, unchanged model stats,
+21 verified remote-file hashes and restored router. Gufo fresh256 then starts
+under a new target lease. Modern runtime qualification follows separately;
+root performs no GPU work on either remote host during this integration.
+
 ## Dense-loop sampler follow-up — 2026-10-03 UTC
 
 Mask-free greedy uses its own finite argmax loop; probability normalization now
@@ -144,6 +168,64 @@ retire, KFD is empty and the original lease inode is unchanged/free afterwards.
 The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
 binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
 and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
+## Original-weight vision, MTP and reactive continuation — 2026-10-03
+
+Frozen checkpoint `bec0955` passes all seven declared functional arms on `.157`:
+combined HTTP, combined RAM state, MTP SSD write/read, combined SSD write/read
+and direct-core backpressure/cancellation. HTTP passes **20 assertions**, including
+red/blue semantics, image-scope isolation, same-image reuse and controlled AR
+fallback. The five state arms compare **228 paired dispatches** with full logits,
+confirmed tokens and counters; **120 greedy frontiers** also match a fresh forced
+target-AR control from the same provider. Sampled text includes three rejected
+drafts. SSD reads run in new processes with freshly admitted model identities.
+
+The direct-core arm completes a peer while another row is stalled at eight
+confirmed tokens, preserves its borrowed output through cancellation, and
+observes in-flight prefill/decode cancellation without late output. It has one
+device owner, no HTTP layer and no additional inference worker. This is
+functional evidence, not a speedup measurement or independent quality oracle.
+
+Three first attempts fail in private verification code: an omitted optional
+zero-cache usage field, missing required DS4 prompt-text metadata, and demand
+renewal after producer closure. Corrected consumers also retain cancellation
+offsets after a borrowed block. An untraced ASan/UBSan/LeakSanitizer fixture
+qualifies the consumer correction; the frozen runtime/numerical source is
+unchanged. Failed commands, exits and original artifacts remain preserved.
+
+The window closes at **20:44:19.723712 UTC**: 50 collected files hash-verify,
+20 owned PID/start identities retire, KFD is empty, the four original leases
+are unchanged and released, and six model file identities and all capsules
+remain unchanged. Sampled peaks are CPU80.625/GPU82/NVMe66.85 C; no thermal stop
+occurs. The [GPU receipt](development/validation/vision-mtp-gpu-2026-10-03.json)
+binds source, commands, exact comparisons and release. Independent quality,
+image cancellation/fault handling, allocation-exact fit and matched MTP/vision
+performance remain open.
+
+## Vision projector storage admission — 2026-10-03
+
+`feature/vision-q8` starts from `develop` and advances to checkpoint `b72f4e8`
+in a persistent worktree. The initial original-weight combined arm refuses the
+available Q8 projector before READY: pinned vision requires BF16 dense tensors.
+Metadata-only inspection finds 83 Q8_0, 27 F16 and 224 F32 tensors; the F16
+feed-forward down-projections have a 4304-wide input, not a Q8 block multiple.
+No original model values were converted or changed during this inspection.
+
+The shared C17 decoder now handles both storage types during the first GPU
+upload, one bounded staging tensor at a time. It synchronizes each borrowed
+buffer before retirement; GPU kernels, reactive device ownership and the DS4
+state format remain unchanged. `LIE_VISION_WEIGHT_DECODE` defaults ON with an
+explicit BF16-only OFF control. New provider receipts bind the exact edits,
+owned source, selected option, recipe and archives.
+
+ASan/UBSan/LeakSanitizer native tests pass **44/44**. An independently fetched
+official Gufo control matches all **63,488** finite F16 values and **16,252,928**
+Q8 values at the BF16 rounding boundary. Providers ON/OFF and HIP clients build;
+these are **NOT-INFERENCE** checks. The first failed admission remains preserved
+in `gpu-functional-f0-r4/combined-http` on the sampling worktree. Original-weight
+vision/state/cache/SSD/resource qualification remains open, while the separate
+sampling performance campaign continues on `.157` from its frozen checkpoint.
+The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
+binds source, providers, command exits and CPU thermal observations.
 
 ## Original-weight GPU continuation — 2026-10-03
 

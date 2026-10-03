@@ -19,9 +19,15 @@ stable release is declared. Detailed validation history is in
 - Native benchmark prefill/decode durations in CSV and JSON, with monotonic
   phase bounds for telemetry correlation and validation of incomplete or
   contradictory clocks. Retained evidence without clocks remains readable.
+- Shared C17 F16/Q8_0-to-BF16 weight decoding and Qwen vision upload support.
+  The default-ON build option preserves the BF16 GPU kernels and leaves model
+  files unchanged. Original-weight HTTP, image/cache and combined RAM/SSD
+  checkpoint checks pass; quality and performance qualification remain open.
+
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
   and reproducible random draws, with a default-ON build option and a separate
-  Gufo control. Original-weight GPU qualification remains pending.
+  Gufo control. Original-weight functional controls pass at the recorded
+  checkpoint; optimized sampler performance qualification remains open.
 
 - OpenAI generation controls: stop sequences across token boundaries, multiple
   Chat choices, token bias, log-probabilities, JSON object/schema constraints
@@ -46,7 +52,8 @@ stable release is declared. Detailed validation history is in
   with explicit predictor admission, bounded verified output and default-ON build support.
 - Vision cache reuse through the shared core: image semantics and MRoPE validation,
   default RAM retention and optional SSD restart with caller-supplied matching images.
-  Original-weight GPU qualification remains pending.
+  Original-weight image/cache and process-restarted checkpoint checks pass;
+  quality and performance qualification remain open.
 
 - Joint MTP/vision admission in the shared core, HTTP server and benchmark client,
   with predictor/controller, prepared image scope and MRoPE in one RAM/SSD checkpoint.

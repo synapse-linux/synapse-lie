@@ -17,6 +17,9 @@ endif()
 if(NOT DEFINED LIE_C17_SAMPLING)
   set(LIE_C17_SAMPLING ON)
 endif()
+if(NOT DEFINED LIE_VISION_WEIGHT_DECODE)
+  set(LIE_VISION_WEIGHT_DECODE ON)
+endif()
 if(LIE_DS4_RUNTIME_CACHE AND NOT LIE_GUFO_STATE_ACCESS)
   message(FATAL_ERROR "DS4 state requires state access")
 endif()
@@ -73,7 +76,7 @@ file(WRITE "${out}/result.json" "${receipt}\n")
 set(child_env "${CMAKE_COMMAND}" -E env --unset=LD_PRELOAD --unset=LD_LIBRARY_PATH
   --unset=CC --unset=CXX --unset=CFLAGS --unset=CXXFLAGS --unset=HIPFLAGS
   --unset=HIPCC_COMPILE_FLAGS_APPEND --unset=HIPCC_LINK_FLAGS_APPEND
-  "HOME=${build}/private-home" "XDG_CACHE_HOME=${build}/private-home/cache"
+  "XDG_CACHE_HOME=${build}/private-home/cache"
   "TMPDIR=${build}/tmp" LC_ALL=C HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1)
 # Mirror the previous verifier's compiler/provider environment isolation.
 execute_process(COMMAND "${CMAKE_COMMAND}" -E environment OUTPUT_VARIABLE current_environment)
@@ -119,6 +122,7 @@ run_recorded(configure "${CMAKE_COMMAND}" -S "${LIE_SOURCE_ROOT}/cmake/gufo-runt
   "-DGUFO_SOURCE=${source}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=OFF
   -DGUFO_BUILD_TOOLS=OFF -DENGINE_ENABLE_HIP=ON -DCMAKE_HIP_ARCHITECTURES=gfx1151
   "-DLIE_C17_SAMPLING=${LIE_C17_SAMPLING}"
+  "-DLIE_VISION_WEIGHT_DECODE=${LIE_VISION_WEIGHT_DECODE}"
   "-DCMAKE_CXX_FLAGS=-include chrono" "-DCMAKE_HIP_FLAGS=-include chrono" "-DGUFO_REVISION=${LIE_GUFO_PIN}")
 run_recorded(build "${CMAKE_COMMAND}" --build "${build}" --target gufo_qwen38_flash_next --parallel 1)
 lie_verify_files("${source}" "${files}")
@@ -148,7 +152,20 @@ foreach(name IN ITEMS src/sampling.c include/lie/sampling.h adapters/gufo_sampli
   string(JSON owned_sampling SET "${owned_sampling}" "${name}" "\"${hash}\"")
 endforeach()
 string(JSON receipt SET "${receipt}" owned_sampling_files "${owned_sampling}")
+if(LIE_VISION_WEIGHT_DECODE)
+  string(JSON receipt SET "${receipt}" vision_weight_decode true)
+else()
+  string(JSON receipt SET "${receipt}" vision_weight_decode false)
+endif()
+set(owned_weights "{}")
+foreach(name IN ITEMS src/weight_decode.c include/lie/weight_decode.h)
+  file(SHA256 "${LIE_SOURCE_ROOT}/${name}" hash)
+  string(JSON owned_weights SET "${owned_weights}" "${name}" "\"${hash}\"")
+endforeach()
+string(JSON receipt SET "${receipt}" owned_weight_decode_files "${owned_weights}")
 if(LIE_GUFO_STATE_ACCESS)
+  file(SHA256 "${LIE_SOURCE_ROOT}/adapters/gufo-state/vision-weight-edits.json" hash)
+  string(JSON receipt SET "${receipt}" vision_weight_edits_sha256 "\"${hash}\"")
   file(SHA256 "${LIE_SOURCE_ROOT}/adapters/gufo-state/dense-sampling-edits.json" hash)
   string(JSON receipt SET "${receipt}" dense_sampling_edits_sha256 "\"${hash}\"")
   file(SHA256 "${LIE_SOURCE_ROOT}/adapters/gufo-state/sampling-edits.json" hash)

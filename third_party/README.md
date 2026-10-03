@@ -327,3 +327,18 @@ adapter. No source/artifact from DS4 or another workspace is imported; numerical
 kernels remain upstream. Launch scheduling changes still require original-weight
 qualification. The new private provider receipt and archive/source hashes are
 bound by the [integration receipt](../docs/development/validation/mtp-vision-integration-2026-10-03.json).
+
+## C17 vision weight decoding — 2026-10-03
+
+`src/weight_decode.c` and its public header are first-party MIT buffer code.
+The format contract is GGML Q8_0 (32 signed bytes with a little-endian F16
+scale) and F16; the implementation is checked against independently fetched
+official Gufo `f783fedb` quantization and vision rounding code. No DS4 project
+source or artifacts are imported. Existing upstream licenses/notices apply to
+the pinned C++/HIP encoder and its unchanged GPU kernels.
+
+`adapters/gufo-state/vision-weight-edits.json` describes exact upload/admission
+edits in a fresh source variant. Provider receipts bind this manifest, owned
+decoder files, build selection and archives. The pristine source remains intact;
+models are external and read-only. BF16 expansion occurs in memory on explicit
+vision admission and does not recreate unquantized model values.

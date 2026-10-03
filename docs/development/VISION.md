@@ -6,17 +6,25 @@ Responses and the core benchmark client. The core contract is model-neutral.
 The first real binding delegates image expansion, MRoPE, encoder execution and
 model forward to the pinned Gufo Qwen3.8 Flash Next provider.
 
-**Status:** CPU contract tests and HIP compilation/linking only. Original-weight
-image understanding, memory fit and speed have not been qualified. GPU benchmarks
-are postponed at the owner's request. The two feature checkpoints are combined
-on `feature/mtp-vision-integration`; [joint configuration](../guides/USAGE.md#mtp-with-images)
-uses the same core, reactive output flow and RAM/SSD state. Native combined checks
-and HIP linking do not qualify original-weight behavior.
+**Status:** original-weight functional checks pass on `.157` with the mixed
+Q8/F16 projector and C17 upload decoder: image color semantics, image-scoped RAM
+reuse, combined MTP state and SSD restore in a new process. The
+[GPU receipt](validation/vision-mtp-gpu-2026-10-03.json) records the tested
+checkpoint (`bec0955`), scope and retained failures. The newer sampler/vision
+integration awaits GPU retesting. Independent quality, allocation-exact memory fit and
+performance qualification remain open. [Joint configuration](../guides/USAGE.md#mtp-with-images)
+uses the same core, reactive output flow and RAM/SSD state.
 
 ## Use
 
 Build as described in the [build guide](../guides/BUILD.md). `LIE_VISION=ON` is the
 default build option; `-DLIE_VISION=OFF` prevents image-job admission.
+
+The Qwen binding accepts BF16 dense projector weights, or F16/Q8_0 with
+`LIE_VISION_WEIGHT_DECODE=ON` (default). Small normalization/bias/patch tensors
+remain F32. This option must match in the provider and application builds;
+`OFF` retains BF16-only admission. Model dimensions and preprocessing still
+must match the target; a file named `mmproj` is not sufficient.
 
 ```sh
 build/release/synapse-lie-server \
@@ -60,8 +68,23 @@ usage recipes, not a GPU run authorization on shared machines; follow
 
 ## Core and reactive behavior
 
+`lie/weight_decode.h` is a separate model-neutral C17 buffer contract, ABI 1.
+It decodes little-endian F16 or GGML Q8_0 blocks into caller-owned BF16 codes,
+with nearest/even rounding, bounded lengths and no allocation. Invalid lengths,
+overlap, nonfinite values or insufficient capacity fail before any output write.
+It has no model-forward, file, GPU, HTTP or scheduling dependency and is reusable
+by other executors. It does not recover weights lost during quantization.
+
+The transitional vision adapter decodes one tensor at a time during the first
+image upload and waits for that upload before releasing its staging buffer.
+The projector remains BF16 on the GPU and uses the existing pinned kernels;
+later requests reuse those resident weights. Disk model files remain unchanged.
+Device residency is larger than the quantized file; host staging is bounded by
+one dense tensor. GPU resource and performance qualification must measure these
+costs separately from prompt preparation, image encoding and decode throughput.
+
 `include/lie/vision.h` defines encoded PNG/JPEG spans, message placement and
-versioned provider capabilities. `lie_core_request` ABI 3 includes images and
+versioned provider capabilities. `lie_core_request` ABI 5 includes images and
 `lie_core_options.vision_model_path` configures admission. Submission deep-copies
 encoded bytes and text. `text_offset` is a UTF-8 byte boundary; equal offsets
 preserve image order. Input images belong to user messages.
@@ -129,16 +152,30 @@ JSON/SSE reuse. An independently materialized source variant builds and the HIP
 server/bench link. These are NOT-INFERENCE checks. See the
 [cache validation receipt](validation/vision-cache-2026-10-03.json).
 
-Remaining integration gates are original-weight image/text histories, quality,
-cache-on/off equivalence, cancellation/fault behavior and resource fit. Account
-decoded pixels, embeddings, encoder residency and workspace on the target;
-qualify the integrated MTP/vision path on original weights. Additional
-real models need their own image expansion/encoder bindings. GPU benchmarks
-remain postponed, and no fresh-prefill or reactive speedup is claimed.
+The original-weight follow-up passes **20 combined HTTP assertions**, including
+equal-length red/blue prompts, changed-image cache misses and exact same-image
+reuse. RAM and new-process SSD continuations preserve the full logits frontier,
+confirmed tokens and MTP counters. Greedy MTP also matches a fresh forced-AR
+control from the same provider. These checks use 256-pixel color fixtures and
+one prompt family; they do not establish general image understanding.
 
-The numerical source remains official Gufo
+Remaining gates are independent vision quality, image/text histories, image
+in-flight cancellation and fault behavior, allocation-exact resource fit and
+matched performance. Account decoded pixels, embeddings, BF16 encoder residency
+and workspace separately. The pinned encoder already reports a BF16-reference
+quality discrepancy in its [pinned upstream evaluation](https://github.com/gufo-org/gufo/blob/f783fedb9bea2ec7de941f6da4e02f4a4596b29e/docs/models/qwen3.8-flash-next/QUALITY.md); passing color fixtures
+does not resolve it. Additional real models need their own image bindings.
+No fresh-prefill or reactive speedup is claimed.
+
+The GPU numerical source remains official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, with the existing LIE state-access
-variant. No numerical kernels or DS4 project files were changed. Two synthetic
+variant plus the exact vision-upload edits. No GPU kernels or DS4 project files
+were changed. The C17 decoder passes every finite F16 value and **16,252,928**
+Q8 scale/value combinations against the independently acquired pinned Gufo
+decoder and encoder rounding boundary. The native sanitizer suite passes
+**44/44**. The [host validation receipt](validation/vision-weight-decode-2026-10-03.json)
+binds source/provider identities and actual command exits. These checks are
+**NOT-INFERENCE**. Two synthetic
 providers with different image limits and token expansion exercise the generic
 contract; these fixtures are **NOT-INFERENCE**. See the
 [validation receipt](validation/vision-2026-10-03.json).
