@@ -68,8 +68,9 @@ def main():
     if args.existing_collection and args.mode != 'collect':
         p.error('Existing collection requires collect mode')
     if args.source_variant == 'scaled-library':
-        if args.mode not in ('hc-pp-bench', 'q2-bench2k'):
-            p.error('Scaled library source requires its explicit component or bench2k experiment')
+        if args.mode not in ('hc-pp-bench', 'q2-bench2k', 'q2-profile'):
+            p.error('Scaled library source requires its explicit component, bench2k or profile experiment')
+        # Profile modes always build MMQ from source; the flag is bench2k-only.
         if args.mode == 'q2-bench2k' and not args.rebuild_mmq:
             p.error('Scaled library source requires a full MMQ rebuild')
     if args.source_variant in COMBINED_VARIANTS:

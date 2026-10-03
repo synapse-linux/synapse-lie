@@ -4,6 +4,14 @@
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, without the antirez Qwen engine.
 The minimum acceptance requirement remains **no prefill or decode regression**.
+The new [composed Q2/UD profile](docs/Q2-SCALED-LIBRARY-PROFILE.md) locates
+70.29% of the remaining extra prefill kernel time in activation preparation
+(+86.151 ms) and HC down (+60.870 ms). Expert down is now comparable to UD;
+all 28 instrumentation replay checks pass. An exact paired F32/F16 norm
+producer is prepared against the new library consumer, with static compilation
+passing and GPU performance still unmeasured. Full attribution and graphs
+are available; this diagnostic does not change the throughput figures below.
+
 The latest [scaled + HC-library comparison](docs/Q2-SCALED-LIBRARY.md) combines
 two separate arithmetic improvements and measures another **1.86% prefill gain**:
 1386.762 to 1412.563 token/s, with prefill falling 1.476821 to 1.449847 seconds.

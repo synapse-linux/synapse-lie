@@ -1,0 +1,19 @@
+{
+  "exit_code": 0,
+  "csv_rows_checked": 25,
+  "artifacts_verified": 66,
+  "source_file_instances_verified": 4079,
+  "profile_replay_checks": 28,
+  "prepared_source_files_checked": 1020,
+  "paired_norm_bodies_exact_to_previous_qualified_component": {
+    "HcCombineF32HalfKernel": true,
+    "HcCombineMoeF32Kernel": true,
+    "HcCombineF32Half": true,
+    "HcCombineMoeF32": true
+  },
+  "profile_analyzer_exit": 0,
+  "plot_exit": 0,
+  "source_preparation_exit": 0,
+  "links_resolve": true,
+  "runtime_qualification_of_new_source": false
+}

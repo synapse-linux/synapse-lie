@@ -2305,3 +2305,29 @@ workload, waiter or automatic restart remains. The outgoing core-thread
 handoff again fails at MCP transport; no delivery is claimed. Core can observe
 these persistent receipts and admit a new window using its fresh protocol.
 No further Q2 GPU job is admitted by this closure.
+
+At 2026-10-03 16:04:34 UTC, fresh observation finds KFD empty, all four
+original leases free and the 15:54 scaled/library release still the latest
+registry event. No foreign GPU admission is recorded. Under continuing owner
+authorization, Q2 admits a bounded host-guard and scaled-library/UD diagnostic
+profile pair, with fresh full MMQ builds and original leases per GPU arm.
+The numerical rejection, fan82/CPU98 policy and unchanged original models
+remain. No model implementation change, Core-19 or deployment is admitted.
+Direct thread transport still fails; the main-repository
+`run/q2-scaled-library-profile-ready.json` and shared registry are the fallback.
+
+The profile window completes two host cohorts and the composed-Q2/pristine-UD
+trace pair, with 26 remote command exits zero. The first requested profile
+invocation fails locally on an incompatible CLI flag before any remote start;
+the corrected guard is requalified on `.157`. All 66 artifacts verify and
+28/28 saved model replay checks match their unprofiled controls. The profile
+changes attribution, not the existing numerical rejection or throughput result.
+
+Fresh closure at 2026-10-03 16:14:41.510 UTC verifies all 30 recorded processes
+and groups absent, KFD empty and original four leases acquired EX|NB/released.
+CPU/GPU are 40.375/38 C. Durable remote
+`run/q2-scaled-library-profile-window-release.json`, shared registry and local
+main-repository release/ready receipts mark release. Direct thread delivery
+fails again at MCP transport; persistent receipts remain the fallback. No Q2
+GPU job, waiter or restart remains. The next paired-norm/library source is
+prepared locally only; its GPU component/model work requires a new window.

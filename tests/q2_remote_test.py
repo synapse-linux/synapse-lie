@@ -153,10 +153,12 @@ class RemoteGuardTests(unittest.TestCase):
     def test_scaled_library_source_boundaries(self):
         self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', 'scaled-library'],
                     'requires a full MMQ rebuild')
-        for mode in ('q2-bench', 'ud-bench2k', 'q2-profile', 'q2-ple-lookahead',
+        self.refuse(['q2-profile', 'q2-fixture', '--source-variant', 'scaled-library',
+                     '--rebuild-mmq'], 'requires bench2k')
+        for mode in ('q2-bench', 'ud-bench2k', 'q2-ple-lookahead',
                      'hc-library-bench', 'operators', 'cpu', 'scaled-input-check'):
             self.refuse([mode, 'q2-fixture', '--source-variant', 'scaled-library'],
-                        'requires its explicit component or bench2k experiment')
+                        'requires its explicit component, bench2k or profile experiment')
         self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
                      '--source-variant', 'scaled-library'],
                     'requires one of its three frozen Q2 variants')

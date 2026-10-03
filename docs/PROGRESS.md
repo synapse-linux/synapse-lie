@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Composed profile changes the next optimization target — 2026-10-03
+
+Fresh scaled-library and pristine UD pp2048/tg16 traces reproduce 28/28 saved
+controls and measure 1468.039 / 1258.872 ms prefill kernel work. Extra Q2 time
+is now led by activation preparation +86.151 ms and HC down +60.870 ms,
+together 70.29% of the 209.167 ms net difference. Expert down is comparable,
+192.213 / 194.073 ms. Inter-kernel gaps are only 5.695 / 4.423 ms; scheduling
+alone cannot recover the measured kernel deficit. [Complete attribution and
+graphs](Q2-SCALED-LIBRARY-PROFILE.md) retain every kernel and both phases.
+These diagnostic values do not replace the 1412.563 / 1660.059 unprofiled PP
+comparison or establish numerical/task-quality acceptance.
+
+The next isolated `library-norm` source applies the previously exact paired
+F32/F16 norm patch to the current scaled/library source. The new library
+consumer could respond differently from the native HC kernel that erased the
+producer's earlier saving. Five local static commands pass; three source files
+change and 1017 stay exact. No new GPU qualification or gain is claimed. The
+source is not enabled for remote launch; a complete producer/library-consumer
+comparison with unchanged oracles is required before a model trial.
+
+Both host cohorts pass 16/16 Debug and 16/16 ASan/UBSan on `.157`. A rejected
+launcher invocation (exit 2, no remote start) and an early offline read (exit 1)
+are preserved and corrected. Four remote runners and all 26 commands exit zero;
+66 artifacts and 4079 source-file instances verify, CPU/GPU maxima 89.375/71 C.
+Closure at 16:14:41.510 UTC verifies 30 recorded processes/groups absent, KFD
+empty and original four leases free. Durable remote/shared/local release is
+recorded; direct MCP handoff fails and the fallback is updated. No GPU job or
+restart remains. The parity goal and full quality comparison remain open.
+
 ## Scaled and HC-library composition measured — 2026-10-03
 
 The two arithmetic experiments now run together, changing only `blaslt.cpp`

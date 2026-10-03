@@ -1,0 +1,131 @@
+{
+  "at": "2026-10-03T16:14:41.510641+00:00",
+  "state": "Q2_SCALED_LIBRARY_PROFILE_WINDOW_RELEASED",
+  "labels": [
+    "q2-scaled-library-profile-r1",
+    "q2-scaled-library-ud-profile-r1",
+    "q2-scaled-library-profile-host-r1",
+    "q2-scaled-library-profile-host-r2"
+  ],
+  "command_exits": {
+    "q2-scaled-library-profile-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-ud-profile-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-profile-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-scaled-library-profile-host-r2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3141869,
+    3141870,
+    3141969,
+    3142060,
+    3142285,
+    3142355,
+    3142492,
+    3143065,
+    3143066,
+    3143164,
+    3143283,
+    3143481,
+    3143557,
+    3143709,
+    3144071,
+    3144072,
+    3144268,
+    3145343,
+    3145348,
+    3145478,
+    3145513,
+    3145520,
+    3145876,
+    3145906,
+    3146101,
+    3146963,
+    3146968,
+    3147176,
+    3147183,
+    3147184
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 38000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 40375,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "restart_scheduled": false,
+  "model_access": true,
+  "qualification": "Composed Q2 and pristine UD diagnostic profiles; inherited numerical failures retained, no new throughput or parity claim"
+}
