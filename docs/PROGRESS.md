@@ -1,5 +1,32 @@
 # Isolated OpenAI reactive API increment
 
+## Combined MTP/vision checkpoint — 2026-10-03
+
+Merge **`01ff720`**, branch `feature/mtp-vision-integration`, combines complete
+MTP `7d85b2f` and vision `806a790`. The dedicated persistent worktree was created
+from `develop`. Joint target/predictor/projector admission uses the shared C17
+core, reactive dispatcher, HTTP and direct benchmark client. One complete KV
+checkpoint preserves the unchanged DS4 base plus predictor/controller, prepared
+MRoPE and semantic image scope; restore starts with a fresh destination sampler.
+RAM keeps its default; SSD is explicit opt-in. Feature code is retained on that
+integration branch; this branch updates documentation/control only.
+
+Native ASan/UBSan/LeakSanitizer passes **36/36**, with **30/30** MTP-OFF,
+**29/29** vision-OFF and **26/26** both-OFF suites. Five focused changed checks
+pass. The combined synthetic client covers two users, default RAM hits and native
+JSON/CSV/SVG/PNG exports. Official Gufo was independently fetched and rebuilt;
+HIP server/bench compile and link. Changed documentation passes 261 local-link
+checks. The source-bound receipt is
+`docs/development/validation/mtp-vision-integration-2026-10-03.json` on the integration branch;
+failed attempts and actual exits remain in local `evidence/integration-*`.
+The recorded CPU peak is 90.375 C under the 95 C child-only guard.
+
+No original-weight model load/hash/conversion, GPU execution, remote build or
+performance measurement occurred. Original-weight mixed image/text MTP,
+cache-on/off continuation, sampled target/rejection/rollback, memory/resource
+fit and GPU cancellation/fault qualification remain open. Earlier entries below
+describe their dated independent feature branches.
+
 ## MTP and vision branches — 2026-10-03
 
 At the owner's request, new performance campaigns remain deferred. Development

@@ -13,23 +13,34 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Active priority — 2026-10-03
 
-The owner postponed new performance campaigns to develop MTP and vision on
-separate branches, both based on the shared-core/native-tools checkpoint
-`a262902`. Existing benchmark results remain historical and unchanged.
+The owner postponed performance campaigns while MTP and vision were developed
+from shared-core/native-tools checkpoint `a262902`. Their complete feature
+checkpoints are now combined in the persistent `worktrees/mtp-vision-integration`
+worktree, branch `feature/mtp-vision-integration`, merge checkpoint **`01ff720`**.
+This branch remains the documentation/control branch; feature code is kept on
+its integration branch. Existing benchmark evidence remains unchanged.
 
-| Branch | Work | Integration gate |
+| Branch/checkpoint | Implementation | Remaining acceptance gate |
 | --- | --- | --- |
-| `feature/mtp` (`7d85b2f`) | Model-neutral bursts/clients; complete C predictor/hidden/controller codec, device transfers, pooled history and actual-reader identity; shared RAM/SSD admission connected. | Original-weight cache continuation and sampled/greedy correctness, then AR comparison and memory/cost qualification. |
-| `feature/vision` (`806a790`) | Owned images/clients; semantic RAM/SSD keys, C MRoPE state/device binding and actual model/projector reader identity. | Original-weight cache equivalence, quality, cancellation/resources and combined MTP/vision qualification. |
+| `feature/mtp` (`7d85b2f`) | Verified output, reactive credits/cancellation, complete predictor/controller state and target/predictor identity. | Original-weight correctness, continuation, AR comparison and resource fit. |
+| `feature/vision` (`806a790`) | Owned images, expanded context, semantic RAM/SSD scope, prepared MRoPE and target/projector identity. | Original-weight quality, continuation, cancellation and resource fit. |
+| `feature/mtp-vision-integration` (`01ff720`) | Joint admission through core, HTTP and benchmark; complete predictor/controller plus vision scope/positions in one KV state. | Original-weight image/text MTP, cache parity, sampled verification/rollback and GPU resource qualification. |
 
-MTP and vision are capabilities for multiple model families and platforms.
-The C17 core owns policy, scheduling, lifetimes and metrics. Each binding owns
-predictor/encoder semantics, tensor geometry and exact state contents. Qwen is
-the first provider binding, not a core assumption. CPU fixtures use different
-provider geometries to exercise that separation; they do not qualify another
-real model. Merge the branches and qualify combined operation before advertising
-MTP plus vision together. Keep benchmark gaps open until the deferred campaign.
+Native ASan/UBSan/LeakSanitizer tests pass 36/36 on the integration, with 30/30
+MTP-OFF, 29/29 vision-OFF and 26/26 both-OFF checks. Five changed identity/cache
+checks pass. The independently fetched pinned provider and HIP clients compile
+and link; the synthetic combined core client exports JSON/CSV/SVG/PNG. The
+source-bound receipt is `docs/development/validation/mtp-vision-integration-2026-10-03.json`
+on the integration branch. These are host/fixture checks, not original-weight
+inference or performance evidence. No GPU lease/run, model hash/conversion/load,
+remote build or publication occurred.
 
+MTP and vision remain capabilities for multiple model families and platforms.
+The C17 core owns scheduling, lifetimes, policy, state/cache and metrics. Model
+bindings own predictor/encoder semantics, positions and numerical components.
+Qwen is the first binding; different synthetic geometries do not qualify another
+real model. RAM is enabled by default and SSD remains opt-in. No additional
+inference worker was introduced. Keep deferred benchmark gaps open.
 
 ## Two implementations behind LIE-owned contracts
 
