@@ -1,5 +1,18 @@
 # Isolated OpenAI reactive API increment
 
+## MTP and vision branches — 2026-10-03
+
+At the owner's request, new GPU/performance campaigns are deferred. Development
+continues in persistent `worktrees/mtp` (`feature/mtp`) and `worktrees/vision`
+(`feature/vision`), each based on checkpoint `a262902`. Local checkpoints are
+`9f41c59` (MTP) and `2cb1130` (vision). Both expose model-neutral
+C17 core contracts and shared HTTP/core clients; Qwen is the initial delegated
+binding. Their CPU contracts and HIP linkage do not qualify original-weight
+behavior. Complete predictor/image state for RAM/SSD, GPU correctness and combined
+feature integration remain open. No feature code is merged into this branch.
+The [backend roadmap](BACKEND.md#active-priority--2026-10-03) records this order.
+
+
 ## Native build, benchmark clients and reports — 2026-10-03
 
 Python is no longer required for the normal build, provider verification,
