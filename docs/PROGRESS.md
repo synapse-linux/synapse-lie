@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Dense-loop sampler follow-up — 2026-10-03 UTC
+
+Mask-free greedy uses its own finite argmax loop; probability normalization now
+divides independent entries before stable underflow compaction. This lets the
+compiler optimize those loops without an optional mask branch or a moving output
+cursor. API, ABI, allocation shape, reactive flow and GPU operations are unchanged.
+
+ASan/UBSan/LeakSanitizer passes 17/17 host-reference suites, 1/1 native C contract
+and three cost smokes. All 54 measured distributions/draws/RNG witnesses match
+both controls and the original baseline; all 162 allocation scopes retire, and
+all twelve measurement processes exit0 and retire. Worst CPU case ratio versus
+Gufo improves from 2.00 to **1.20**; median ratio stays **1.07**. Full-vocabulary
+sine greedy measures 53.43/49.94 µs, unfiltered sampling 1549.44/1354.22 µs.
+The cost gate remains open; these generated-logit CPU measurements do not
+qualify original-weight GPU throughput. Measurement CPU/GPU/NVMe peaks are
+84.125/55/33.85 C; no software thermal stop occurs. Original and both optimized
+results remain separately bound in the
+[sampler guide](development/C17-SAMPLING.md#first-cost-optimization),
+[receipt](development/validation/sampling-dense-loops-2026-10-03.json) and full CSV.
+
+Strix Point's ROCm10 old-source fresh128 pair now finishes 10/10 samples per
+arm, with matching output IDs and full PP/TG frontiers. At 128K LIE/Gufo medians
+are PP401.949/402.066 and TG10.061/10.062 token/s. The Point thread verifies
+21 remote-file hashes per arm, exits0 and owned closure, then starts a separately
+admitted old-source fresh256 LIE arm. This is baseline `1877b03`, not qualification
+of the newer integrated core or this sampler follow-up.
+
 ## First sampler cost optimization — 2026-10-03 UTC
 
 The C17 ranked selector replaces full heapsort with bounded introsort, preserving

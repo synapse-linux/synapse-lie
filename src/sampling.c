@@ -69,12 +69,30 @@ static double adjusted(const lie_sampling_row *r, const lie_sampling_options *o,
 static bool eligible(const lie_sampling_row *r, size_t i) {
   return (!r->allowed || r->allowed[i]) && isfinite(r->logits[i]);
 }
+static bool greedy_unmasked(const float *logits, size_t n, uint32_t *token) {
+  float maximum = -INFINITY;
+  uint32_t best = 0;
+  bool found = false;
+  for (size_t i = 0; i < n; ++i) {
+    const float value = logits[i];
+    if (value > maximum && isfinite(value)) {
+      maximum = value; best = (uint32_t)i; found = true;
+    }
+  }
+  if (found) *token = best;
+  return found;
+}
 lie_sampling_status lie_sampling_greedy(const lie_sampling_row *r,
                                        const lie_sampling_options *o,
                                        uint32_t *token) {
   if (!token) return LIE_SAMPLING_INVALID;
   lie_sampling_status rc = validate(r, o);
   if (rc != LIE_SAMPLING_OK) return rc;
+  /* Keep mask-free reduction separate so an optional grammar branch does
+   * not inhibit the compiler's ordinary argmax reduction optimization. */
+  if (!r->penalty_count && !r->bias_count && !r->allowed)
+    return greedy_unmasked(r->logits, r->count, token)
+      ? LIE_SAMPLING_OK : LIE_SAMPLING_NO_FINITE;
   bool found = false;
   double maximum = -INFINITY;
   uint32_t best = 0;
@@ -311,11 +329,13 @@ lie_sampling_status lie_sampling_build(const lie_sampling_row *r,
     total += w->entries[i].value;
   }
   if (!(total > 0) || !isfinite(total)) return LIE_SAMPLING_NONFINITE;
+  /* Independent divisions may vectorize without changing their rounding.
+   * Skip already-dense rows before compacting, preserving underflow order. */
+  for (size_t i = 0; i < n; ++i) w->entries[i].value /= total;
   size_t used = 0;
-  for (size_t i = 0; i < n; ++i) {
-    w->entries[i].value /= total;
+  while (used < n && w->entries[used].value != 0) ++used;
+  for (size_t i = used; i < n; ++i)
     if (w->entries[i].value != 0) w->entries[used++] = w->entries[i];
-  }
   *count = used;
   return LIE_SAMPLING_OK;
 }

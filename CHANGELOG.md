@@ -71,7 +71,8 @@ stable release is declared. Detailed validation history is in
 ### Changed
 
 - C17 ranked sampling uses bounded introsort, and linear selection avoids a
-  repeated maximum scan. Host witnesses match the controls; remaining cost
+  repeated maximum scan. Mask-free greedy and probability compaction have
+  separate loops. Host witnesses match the controls; remaining cost
   regressions and sampled GPU qualification are documented in the sampler guide.
 
 - Build verification, HTTP benchmark clients and CSV/JSON/SVG/PNG reports run

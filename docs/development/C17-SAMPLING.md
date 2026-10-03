@@ -193,6 +193,20 @@ method, with uncontrolled affinity/background load; original-weight sampled
 GPU qualification remains pending. Measurement peaks are CPU77.875/GPU52 /
 NVMe34.85 C; no software thermal stop occurs.
 
+The second CPU follow-up separates mask-free greedy from optional grammar
+handling and separates independent probability division from underflow-only
+compaction. All 17 host-reference tests, the native C contract and three cost
+smokes pass again with ASan/UBSan/LeakSanitizer. The complete 54-case witnesses
+and all 162 allocation retirements agree with both controls and the baseline.
+The worst C17/reference time ratio falls from 2.00 to **1.20**; the median case
+ratio is **1.07**. Full-vocabulary sine greedy now costs 53.43 µs versus
+49.94 µs; unfiltered sampling costs 1549.44 µs versus 1354.22 µs.
+The cost gate and original-weight sampled GPU qualification remain open.
+The [dense-loop receipt](validation/sampling-dense-loops-2026-10-03.json) and
+[complete values](validation/sampling-dense-loops-2026-10-03.csv) preserve this
+run separately. Measurement CPU/GPU/NVMe peaks are 84.125/55/33.85 C, without
+a thermal stop. API, ABI and reactive scheduling remain unchanged.
+
 Next gates on this branch: original-weight vision/combined continuation and
 restarted MTP/vision SSD, the missing 12288 depth, first-prompt regression
 diagnosis, dense host-cost optimization, sampled model overhead and HTTP
