@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 dense sampling extraction — 2026-10-03
+
+`feature/c17-sampling` starts from `develop` in a persistent worktree and
+incorporates checkpoint `8992c0b`. The shared C17 library now owns dense greedy
+selection, penalties/bias, top-k/top-p/min-p, normalization and random draws.
+The verified provider enables it by default; `LIE_C17_SAMPLING=OFF` retains the
+C++ control. HTTP and direct clients use the same core. Reactive demand,
+cancellation, batching, MTP and the one device-owner worker are preserved.
+Sampler ABI is **1**; existing executor/request/generation/state ABIs are unchanged.
+History, grammar compilation, compact speculative distributions and model
+forward remain delegated; this is the first slice of the autonomous C executor.
+See [ownership and build instructions](development/C17-SAMPLING.md).
+
+Final ASan/UBSan/LeakSanitizer suites pass **43/43** native tests, **18/18**
+headless MTP/vision-OFF tests and **14/14** host reference tests. Complete
+distribution/draw/RNG witnesses agree for **1200** configurations against the
+independently fetched official Gufo pin and the legacy control, another **1200**
+biased configurations against the prior C++ bias variant, and **12** complete
+248320-logit synthetic rows. The pinned HIP provider and server/bench compile
+and link. A symbol/metadata audit confirms the direct Gufo reference excludes
+the C selector while server and LIE bench include it. These checks are
+**NOT-INFERENCE**; no original weights or GPU execution were used.
+
+Read-only admission found `.157` reserved by an enclosing Q2 campaign, so this
+turn took the owner's development fallback without a lease or GPU/model access.
+The [source-bound receipt](development/validation/c17-sampling-2026-10-03.json)
+preserves final identities, actual failures/exits and thermal evidence. Two
+owned build children were stopped by a **95 C software guard**; no hardware
+shutdown or deterioration was observed. Later serialized provider builds used
+the owner's 98 C CPU allowance and stayed below it; there was no fan/clock/power
+tuning. Original-weight continuation/cache correctness and matched performance
+qualification on `.157` remain open. No speedup is claimed.
+
 ## OpenAI generation and retained responses — 2026-10-03
 
 `feature/openai-completion` starts from `develop` and incorporates semantic core

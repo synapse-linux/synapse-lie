@@ -1,5 +1,11 @@
 # Experimental transitional execution ABI 2
 
+The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
+ownership without changing executor ABI 2, request ABI 5 or generation ABI 2.
+`lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
+borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
+See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
+
 The adapter delegates to Gufo Model/Session. **This is permitted for bootstrap,
 not proof of an autonomous LIE backend.** [BACKEND.md](../BACKEND.md) defines the
 subsequent requirement-driven replacement gates. It now links into the optional

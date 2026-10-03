@@ -208,6 +208,7 @@ int lie_core_bench_main(int argc,char **argv) {
     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");
     text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?(encoder?"mtp+vision":"mtp"):(encoder?"vision":"ar"));text(identity,"vision_model",encoder?encoder:"");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
+    text(identity,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
     text(identity,"cache_policy",ssd.directory?(cache_mib?"ram+ssd":"ssd"):(cache_mib?"ram":"off"));number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);

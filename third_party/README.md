@@ -1,7 +1,9 @@
 # Provenance and dependency boundaries
 
-First-party runtime, tools, tests, ABI and adapter: independently written for
-synapse-lie, MIT (`../LICENSE`). No sibling DS4/CachyOS project sources, recipes,
+First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
+owned dense sampler is an attributed C17 port of independently fetched official
+Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
+No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only
 under their publisher's terms. A C API wrapper does not relicense its dependencies.

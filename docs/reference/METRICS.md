@@ -1,5 +1,10 @@
 # Actuator / Micrometer-inspired contract v1 (implemented subset)
 
+`dense_sampling` is a build/backend identity in actuator and benchmark metadata,
+not a timer, counter or proof of GPU execution. Values distinguish the owned
+C17 dense selector, Gufo control, unavailable backend and synthetic fixture.
+It changes no inference-worker count or existing timing/count semantics.
+
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source
 were retrieved; URLs, hashes and timestamps are in local evidence. Default

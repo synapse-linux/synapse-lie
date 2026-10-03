@@ -25,6 +25,7 @@ historical and unchanged.
 | `feature/vision` | Owned image inputs, physical context, semantic cache/MRoPE and actual projector identity. | Original-weight quality, continuation and resource fit. |
 | `feature/mtp-vision-integration` | Atomic joint admission in core/HTTP/bench and one complete RAM/SSD checkpoint. | Original-weight mixed image/text MTP, rejection/rollback, cache parity and resource qualification. |
 | `feature/core-semantic-events` | Shared C17 text/progress/tool/turn events; HTTP and direct benchmark consume the same output policy. | Original-weight tool behavior and performance; incremental argument streaming remains open. |
+| `feature/c17-sampling` | Dense greedy/filtered selection, penalty/bias arithmetic and random draws extracted into the shared C17 sampler; explicit default-ON provider selection and legacy control. | Original-weight numerical/performance qualification; history, grammar and compact speculative state remain delegated. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,
@@ -260,7 +261,10 @@ neither architectural separation nor a language change guarantees a speedup.
    different-image refusal, mixed histories, cancellation and restart. Vision
    contract/preparation work can proceed independently of MTP; sharing the state
    contract does not require a single monolithic implementation.
-6. Extract C17 sampler/tokenizer/binding, state layouts and layer graph in
+6. Dense sampler math and random draws are now extracted into
+   [the shared C17 sampler](development/C17-SAMPLING.md), with host parity and
+   original-weight qualification pending. Continue with sampler history/grammar,
+   compact speculative distributions, tokenizer/binding, state layouts and layer graph in
    measured slices, replacing each corresponding Gufo delegation. Retain
    qualified kernels through the C numerical boundary until their replacement
    separately passes the complete C++-removal gate.

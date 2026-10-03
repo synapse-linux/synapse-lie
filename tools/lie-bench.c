@@ -50,6 +50,7 @@ struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsi
 static json_object *identity(const struct config *c) {
     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
+    str(j,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");

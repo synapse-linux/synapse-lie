@@ -86,6 +86,7 @@ cmake --build build/core -j2
 | `LIE_SYSTEM_LIBUV` | `OFF` | Select system libuv instead of the bundled static library. |
 | `LIE_GUFO_RUNTIME` | `OFF` | Link the explicitly selected HIP provider. |
 | `LIE_GUFO_STATE_ACCESS` | `OFF` | Enable the verified provider state-access variant. |
+| `LIE_C17_SAMPLING` | `ON` | Use owned C dense selection; OFF selects the provider control. Provider and application builds must agree. |
 | `LIE_CORE_ONLY` | `OFF` | Build the engine without HTTP or provider integration. |
 | `LIE_DS4_CACHE_POLICY` | `ON` | Use progressive checkpoints and text-prefix matching by default. |
 | `LIE_DS4_RUNTIME_CACHE` | `ON` | Use DS4 model payloads for runtime checkpoints; requires KVC interchange. |

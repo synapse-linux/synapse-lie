@@ -79,6 +79,7 @@ static lie_status error(lie_error *e, lie_status code, const char *message) {
 }
 const char *lie_backend_name(void) { return "cpu-test-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
+const char *lie_backend_dense_sampling(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_source_pin(void) { return "synthetic"; }
 lie_status lie_backend_open(const char *p, const lie_model_options *o, lie_model **m, lie_error *e) { return lie_gufo_open(p,o,m,e); }
 int lie_backend_is_synthetic(void) { return 1; }

@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
+  and reproducible random draws, with a default-ON build option and a separate
+  Gufo control. Original-weight GPU qualification remains pending.
+
 - OpenAI generation controls: stop sequences across token boundaries, multiple
   Chat choices, token bias, log-probabilities, JSON object/schema constraints
   and strict function arguments.

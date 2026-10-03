@@ -15,6 +15,7 @@ struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; uns
 static atomic_uint_fast64_t domain_counter=1;
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
+const char *lie_backend_dense_sampling(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_source_pin(void) { return "synthetic"; }
 int lie_backend_is_synthetic(void) { return 1; }
 lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){

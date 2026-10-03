@@ -1441,6 +1441,7 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"source_pin",json_object_new_string(lie_backend_source_pin()));
     json_object_object_add(b,"build_id",json_object_new_string(LIE_BUILD_ID));
     json_object_object_add(b,"ownership",json_object_new_string(lie_backend_ownership()));
+    json_object_object_add(b,"dense_sampling",json_object_new_string(lie_backend_dense_sampling()));
     json_object_object_add(b,"state",json_object_new_string(worker_state(info.state)));
     json_object_object_add(b,"model",json_object_new_string(s->model_id));
     json_object_object_add(b,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
@@ -2156,11 +2157,11 @@ int main(int argc, char **argv) {
     if (!strcmp(key, "--build-info")) {
       printf(
           "{\"build_id\":\"%s\",\"engine\":\"%s\",\"source_pin\":\"%s\","
-          "\"ownership\":\"%s\",\"hardware_qualified\":false,\"cache_retention_"
+          "\"ownership\":\"%s\",\"dense_sampling\":\"%s\",\"hardware_qualified\":false,\"cache_retention_"
           "policy\":\"%s\",\"checkpoint_compression\":%s,\"checkpoint_codec\":"
           "\"%s\",\"ds4_cache_policy\":%s,\"state_format\":\"%s\"}\n",
           LIE_BUILD_ID, lie_backend_name(), lie_backend_source_pin(),
-          lie_backend_ownership(),
+          lie_backend_ownership(), lie_backend_dense_sampling(),
           LIE_CACHE_UTILITY ? "ds4-time-token-byte-utility-v1" : "lru",
           lie_state_compression_enabled() ? "true" : "false",
           lie_state_compression_codec(),

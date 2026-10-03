@@ -28,6 +28,7 @@ static bool hash(const void *p,size_t n,char out[65]){unsigned char b[32];unsign
 static json_object *identity(void){
     json_object *j=event("identity");str(j,"schema","synapse-lie.state-bench.v1");str(j,"suite","state");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"ownership",lie_backend_ownership());str(j,"source_pin",lie_backend_source_pin());
+    str(j,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     json_object_object_add(j,"checkpoint_compression",json_object_new_boolean(lie_state_compression_enabled()));
     str(j,"checkpoint_codec",lie_state_compression_codec());

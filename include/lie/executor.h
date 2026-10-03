@@ -116,6 +116,8 @@ typedef struct {
 /* Link-time selected provider, never an automatic failure fallback. */
 const char *lie_backend_name(void);
 const char *lie_backend_ownership(void);
+/* Additive diagnostic; dense selection ownership, not complete executor ownership. */
+const char *lie_backend_dense_sampling(void);
 const char *lie_backend_source_pin(void);
 int lie_backend_is_synthetic(void);
 /* Selected composition binding; the scheduler does not select/fallback engines. */

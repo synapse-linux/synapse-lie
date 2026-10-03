@@ -50,6 +50,7 @@ static json_object *identity(void) {
     json_object *j=event("identity");
     text(j,"program","lie-executor-bench"); text(j,"build_id",LIE_BUILD_ID);
     text(j,"engine",lie_backend_name()); text(j,"ownership",lie_backend_ownership());
+    text(j,"dense_sampling",lie_backend_dense_sampling());
     text(j,"source_pin",lie_backend_source_pin());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     number(j,"context",CONTEXT); number(j,"chunk",CHUNK); number(j,"output_limit",OUTPUT);

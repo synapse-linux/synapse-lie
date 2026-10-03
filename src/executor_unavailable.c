@@ -13,6 +13,7 @@ static lie_status unavailable(lie_error *e) {
 }
 const char *lie_backend_name(void) { return "unavailable"; }
 const char *lie_backend_ownership(void) { return "none"; }
+const char *lie_backend_dense_sampling(void) { return "none"; }
 const char *lie_backend_source_pin(void) { return "none"; }
 lie_status lie_backend_open(const char *p UNUSED, const lie_model_options *o UNUSED, lie_model **m UNUSED, lie_error *e) { return unavailable(e); }
 int lie_backend_is_synthetic(void) { return 0; }

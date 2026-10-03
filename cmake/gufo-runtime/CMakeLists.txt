@@ -2,6 +2,11 @@
 # LIE-owned build scope, unmodified pinned Qwen source. Not upstream release build.
 cmake_minimum_required(VERSION 3.21)
 project(lie_gufo_subset LANGUAGES C CXX HIP)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+option(LIE_C17_SAMPLING "Use owned C17 dense sampling" ON)
+get_filename_component(LIE_ROOT "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -39,12 +44,16 @@ set(CORE
   src/models/qwen/hip/kernels/hipblaslt_gemm.hip
   src/models/qwen/hip/kernels/sample.hip)
 list(TRANSFORM CORE PREPEND "${GUFO_SOURCE}/")
+list(APPEND CORE "${LIE_ROOT}/src/sampling.c")
 add_library(gufo_core STATIC ${CORE})
 target_include_directories(gufo_core PUBLIC "${GUFO_SOURCE}")
+target_include_directories(gufo_core PUBLIC "${LIE_ROOT}/include")
+target_include_directories(gufo_core PRIVATE "${LIE_ROOT}/adapters")
 target_include_directories(gufo_core SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_compile_definitions(gufo_core PUBLIC ENGINE_ENABLE_HIP=1)
+target_compile_definitions(gufo_core PUBLIC LIE_C17_SAMPLING=$<BOOL:${LIE_C17_SAMPLING}>)
 target_link_libraries(gufo_core PUBLIC ICU::uc ICU::i18n OpenSSL::Crypto PNG::PNG JPEG::JPEG CURL::libcurl
-  Threads::Threads hip::host roc::hipblas roc::hipblaslt roc::rocblas)
+  Threads::Threads hip::host roc::hipblas roc::hipblaslt roc::rocblas m)
 # Retain the upstream model target, file dialects, wave sizes and numerical flags.
 set(PROJECT_SOURCE_DIR "${GUFO_SOURCE}")
 add_subdirectory("${GUFO_SOURCE}/src/models/qwen38_flash_next" src/models/qwen38_flash_next)

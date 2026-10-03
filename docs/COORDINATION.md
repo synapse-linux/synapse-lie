@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## C17 sampling fallback — 2026-10-03
+
+The owner requests functional GPU tests if `.157` is available, otherwise the
+owned-C executor roadmap. Root's read-only observations at 14:46–14:48 UTC find
+an idle interval but the shared register subsequently records
+`q2-combined-retained-model-r1` starting at **14:46:50.902440 UTC**. Root notifies
+Q2 and takes the CPU development fallback; it acquires no lease and does not
+enter the campaign gap. No model payload, GPU execution, remote build or model
+hash/conversion occurs. The new functional GPU controls/MTP/vision gates remain
+open, with fresh coordinated admission required later.
+
+`feature/c17-sampling` owns a persistent worktree from `develop`, advanced to
+checkpoint `8992c0b`, and independently fetches the recorded official Gufo pin.
+Native fixtures, host reference checks and HIP compilation/linking run locally
+with GPU visibility masked. Build groups use one job and sensor telemetry;
+initial 95 C guards preserve actual owned-child thermal stops. Later provider
+builds run serially with an explicit 98 C CPU allowance and lower exposed
+hardware/NVMe limits. No fan, clock, power, service or foreign process is changed.
+Thermal stops are software supervision events, not observed hardware shutdown.
+
 ## Ownership and observed isolation
 
 Editing host `.155`, target `paperboy@192.168.5.157`, SSH port 22, recovered from
