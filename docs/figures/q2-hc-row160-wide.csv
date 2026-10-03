@@ -1,0 +1,21 @@
+arm,source,shape,repetition,microseconds
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,1,1140.77603817
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,2,1216.216206551
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,3,1166.437745094
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,4,1179.214715958
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,5,1175.599932671
+HC160 original,evidence/q2-hc-row160-wide-r1,320x10240,1,1175.324082375
+HC160 original,evidence/q2-hc-row160-wide-r1,320x10240,2,1233.495235443
+HC160 original,evidence/q2-hc-row160-wide-r1,320x10240,3,1187.046527863
+HC160 original,evidence/q2-hc-row160-wide-r1,320x10240,4,1160.912036896
+HC160 original,evidence/q2-hc-row160-wide-r1,320x10240,5,1210.173249245
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,1,932.7871203423
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,2,948.4266638756
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,3,954.6840190887
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,4,963.7837409973
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,5,951.9391059875
+HC160 original,evidence/q2-hc-row160-wide-r1,10240x320,1,928.6105632782
+HC160 original,evidence/q2-hc-row160-wide-r1,10240x320,2,941.3878321648
+HC160 original,evidence/q2-hc-row160-wide-r1,10240x320,3,946.2175965309
+HC160 original,evidence/q2-hc-row160-wide-r1,10240x320,4,963.2746577263
+HC160 original,evidence/q2-hc-row160-wide-r1,10240x320,5,959.0973258018

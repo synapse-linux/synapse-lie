@@ -2155,3 +2155,70 @@ a local main-repository `run/` copy supplies the agreed coordination fallback.
 The outgoing core-thread update again fails at local MCP HTTP transport; no
 delivery is claimed. No Q2 remote job, waiter or automatic model/Core-19 restart
 remains. A new GPU workload needs separately recorded admission and fresh leases.
+
+At 2026-10-03 13:39:09 UTC fresh read-only observation finds KFD empty,
+CPU36.875 C/GPU35 C, with the component release still the latest registry event.
+Q2 admits a bounded HC-down operand-lifetime component window: host guard checks,
+then fresh retained hc-up-chains and hc-down-phased hc-pp-bench arms, sequentially
+with all original four leases. The new source changes only the M320/K10240/n>=96
+fragment schedule, retaining two ordered K16 sums and the final F32 addition.
+Local device-only compilation reduces VGPR251 to155, with identical24KiB LDS
+and no private scratch. This is motivation, not performance or replay evidence.
+The existing22 independent operators and original2e-5 bounds remain; any inherited
+failures keep their actual exit1 while timing completes. The launcher restricts
+this candidate to component checks. No model or Terminal-Bench restart is queued.
+CPU98 C inclusive and exposed GPU thresholds apply, with the owner's fan82 curve.
+
+Both HC component arms finish with inherited four numerical failures/exit1,
+all22 complete outputs exact, and no thermal stop. Phased HC down takes1871.025us
+versus1175.600us, a59.15% regression despite the155-VGPR resource reduction.
+The bounded follow-up removes only the added phase compiler barrier. It restores
+251VGPR but still changes the intended kernel's instruction schedule; all145
+other bodies remain identical. Q2 extends the current window to refreshed host
+guards then one hc-down-phased-free hc-pp-bench component, with fresh four leases.
+No model is queued; unchanged independent tolerances and actual exits remain.
+
+The free-schedule follow-up completes at13:50:01 UTC with the same four original
+numerical failures and all22 full outputs exact. Median down1170.006us versus
+1175.600us overlaps; neither scheduling variant is selected. All144 GPU artifacts
+and14 host artifacts are collected/hash verified. A further bounded component
+compares HC160x128/BK2/WM5/WN4 against the fresh retained arm. It keeps each wave's
+original32x32 output/two K16 sums, but20waves/640threads share the input over160
+rows. Logical staging falls300 to180MiB; this is not measured physical traffic.
+Local device-only compilation reports251VGPR/20SGPR/46080LDS/zero scratch.
+The current window admits updated host guards and one hc-row160-wide hc-pp-bench,
+with fresh original four leases. No full model is queued; actual replay/timing
+will decide whether the changed geometry merits another stage.
+
+Row160-wide finishes at 13:56:15 UTC: down1187.047us versus1175.600us,
+with overlapping samples, all22 outputs exact and the inherited4 failures/exit1.
+The owner clarifies that160 rows should remain under investigation: optimize
+algorithmic instruction count, rather than abandon the geometry. The K32
+compiler-boundary source is compiled locally only and deferred, not GPU-admitted.
+Q2 extends this window to host guard checks and one HC160 invariant-fetch
+component. It keeps160x128/640threads and original arithmetic, exposes the
+already-checked M320/K10240 dimensions and initializes inactive fetch lanes
+once before the K loop instead of on every stage. Fresh four-lease admission,
+unchanged independent limits and actual exits remain mandatory. A same-policy
+row160 repeat may follow only to resolve a measured timing ambiguity. No model
+or Core-19 restart is admitted by this component extension.
+
+The invariant-fetch HC160 candidate compiles with116 main-loop static
+instructions versus136, retaining16WMMA instructions and all145 other bodies.
+Its first median1232.229us versus1187.047us has no gain; the bounded repeat
+finishes at14:15:02 UTC with1223.279us versus1216.704us (+0.540%, overlapping).
+Every22-case full output and44 coordinate/value files remain exact; all seven
+GPU arms preserve their inherited four numerical failures and exits0/0/1.
+Four host cohorts pass16/16 Debug and16/16 ASan/UBSan. All364 artifacts are
+collected/hash verified; no model or Core-19 arm follows these components.
+
+Fresh closure at2026-10-03 14:17:19.893 UTC verifies56 recorded processes and
+their owned groups absent, readable KFD empty, original four lease identities
+acquired EX|NB then released. The durable `run/q2-hc-schedule-window-release.json`,
+shared registry and local main-repository run copy record the release.
+No Q2 remote workload, waiter or automatic restart remains. Future GPU work
+requires a new bounded admission and fresh original leases.
+
+The final direct core-thread update again fails at the local MCP HTTP transport;
+no delivery is claimed. The durable receipt and shared registry remain the
+agreed handover fallback.

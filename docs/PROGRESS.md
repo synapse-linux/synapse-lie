@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## HC160 instruction reduction measured — 2026-10-03
+
+The owner clarifies that the160-row geometry should remain under investigation
+while its algorithm is simplified. Exposing dispatch-proven M320/K10240 and
+hoisting invariant fetch-lane zero initialization reduces the loop's emitted
+instructions136 to116 (-14.706%), without changing16WMMA operations, buffers,
+640threads or either ordered K16 sum. All145 unrelated kernel bodies stay exact.
+GPU timing gives no useful improvement: first1187.047 to1232.229us (+3.806%),
+repeat1216.704 to1223.279us (+0.540%, overlapping ranges). All22 complete output
+hashes and44 saved coordinate/value files stay exact; four inherited independent
+failures remain actual exit1. No model promotion follows. See
+[algorithm, every sample and graphs](Q2-HC-ROW160-INSTRUCTIONS.md).
+
+Earlier in this window, phase compiler barriers reduce VGPR251 to155 but add
+59.15% HC-down time. Free scheduling changes only-0.48%, overlapping, and the
+original160x128 geometry adds0.97%. Their [full report](Q2-HC-DOWN-PHASED.md)
+retains the actual failed numeric verdicts. The K32 compiler-boundary candidate
+is compiled only and deferred following the owner's clarified direction.
+
+Seven GPU arms and four host cohorts yield364 collected/hash-verified artifacts.
+All updated host checks pass16/16 Debug and16/16 ASan/UBSan on `.157`.
+Fresh14:17:19 UTC closure verifies56 recorded processes/groups absent, KFD empty
+and all original leases free; the durable/shared/local receipts release the
+window. No model/Core-19 restart is queued. The last full-model candidate gain
+remains scaled-input's+3.15825% measured at09:43 UTC (11:43 Europe/Rome), still
+not numerically accepted and18.102% below UD in PP. Q2/UD parity remains open.
+
 ## Conversion and scaled-tile GPU measurements — 2026-10-03
 
 Under the owner's persistent fan82 policy, `q2-narrow-vector-r1` completes

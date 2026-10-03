@@ -14,6 +14,11 @@ one verifier failure). The other full arms have not started. The candidate uses 
 that task, so this is no general quality or efficiency equivalence claim.
 The protocol documents all observed serving ceilings and bounded, streaming
 evidence collection for long runs; its host guards pass 15/15 on `.157`.
+The latest [HC160 algorithmic reduction](docs/Q2-HC-ROW160-INSTRUCTIONS.md)
+keeps160 rows and removes14.7% of emitted main-loop instructions. Two `.157`
+comparisons show no useful speed gain, with all22 outputs exact and inherited
+numerical failures retained. No model change is selected. The last full-model
+candidate gain remains scaled-input's+3.16%, still outside the numerical gate.
 The [measured tile experiment](docs/Q2-SCALED-TILES.md) rejects global 64/128-row
 selection: tile128 adds 18.09–22.18% component time; tile64 only saves 4.49%
 in the 64-active-expert routing. All tile outputs agree exactly, while 48

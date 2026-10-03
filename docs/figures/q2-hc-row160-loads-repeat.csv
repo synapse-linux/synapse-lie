@@ -1,0 +1,21 @@
+arm,source,shape,repetition,microseconds
+Retained Q2,evidence/q2-hc-row160-wide-r2,320x10240,1,1216.704249382
+Retained Q2,evidence/q2-hc-row160-wide-r2,320x10240,2,1213.969230652
+Retained Q2,evidence/q2-hc-row160-wide-r2,320x10240,3,1232.951283455
+Retained Q2,evidence/q2-hc-row160-wide-r2,320x10240,4,1179.124832153
+Retained Q2,evidence/q2-hc-row160-wide-r2,320x10240,5,1247.995615005
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,320x10240,1,1198.092222214
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,320x10240,2,1234.906315804
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,320x10240,3,1243.463635445
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,320x10240,4,1223.27876091
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,320x10240,5,1220.038771629
+Retained Q2,evidence/q2-hc-row160-wide-r2,10240x320,1,938.7987852097
+Retained Q2,evidence/q2-hc-row160-wide-r2,10240x320,2,963.2403850555
+Retained Q2,evidence/q2-hc-row160-wide-r2,10240x320,3,952.9381990433
+Retained Q2,evidence/q2-hc-row160-wide-r2,10240x320,4,966.0227894783
+Retained Q2,evidence/q2-hc-row160-wide-r2,10240x320,5,928.0662536621
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,10240x320,1,928.7513494492
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,10240x320,2,966.5477275848
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,10240x320,3,942.5858855247
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,10240x320,4,960.5879187584
+HC160 invariant fetch,evidence/q2-hc-row160-loads-r2,10240x320,5,960.7154130936

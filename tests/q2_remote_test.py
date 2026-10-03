@@ -150,6 +150,15 @@ class RemoteGuardTests(unittest.TestCase):
                      '--source-variant', 'narrow-vector'],
                     'requires one of its three frozen Q2 variants')
 
+    def test_phased_hc_component_only(self):
+        for variant in ('hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads'):
+            for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'operators', 'hc-input-bench'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Phased HC source is component-only; no model dispatch')
+            self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                         '--source-variant', variant],
+                        'requires one of its three frozen Q2 variants')
+
     def test_shared_fork_source_guard(self):
         for variant in ('qualified', 'hc-up-chains', 'down-scatter'):
             self.refuse(['shared-fork-check', 'q2-fixture', '--source-variant', variant],
