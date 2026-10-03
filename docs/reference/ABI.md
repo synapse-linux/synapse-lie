@@ -6,6 +6,12 @@ ownership without changing executor ABI 2, request ABI 5 or generation ABI 2.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+`lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
+encoded bytes are borrowed, lengths are exact, and BF16 output is caller-owned.
+There is no allocation or device dependency; overlap and nonfinite input are
+rejected before output mutation. Existing inference/state contracts are unchanged.
+See [vision upload and resource limits](../development/VISION.md#core-and-reactive-behavior).
+
 The adapter delegates to Gufo Model/Session. **This is permitted for bootstrap,
 not proof of an autonomous LIE backend.** [BACKEND.md](../BACKEND.md) defines the
 subsequent requirement-driven replacement gates. It now links into the optional

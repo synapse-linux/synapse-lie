@@ -34,6 +34,7 @@ original-weight behavior or performance; other real model bindings remain open.
   GPU correctness and performance qualification remain pending.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
+  F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
   MTP and vision can run together through the same core and cache.
   Original-weight vision and combined qualification remain pending.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.

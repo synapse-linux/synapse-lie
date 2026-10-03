@@ -14,6 +14,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 F16/Q8_0-to-BF16 weight decoding and Qwen vision upload support.
+  The default-ON build option preserves the BF16 GPU kernels and leaves model
+  files unchanged. CPU parity passes; original-weight vision qualification is pending.
+
 - Shared C17 dense sampler for greedy selection, penalties/bias, top-k/top-p/min-p
   and reproducible random draws, with a default-ON build option and a separate
   Gufo control. Original-weight GPU qualification remains pending.

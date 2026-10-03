@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Vision projector storage admission — 2026-10-03
+
+`feature/vision-q8` starts from `develop` and advances to checkpoint `b72f4e8`
+in a persistent worktree. The initial original-weight combined arm refuses the
+available Q8 projector before READY: pinned vision requires BF16 dense tensors.
+Metadata-only inspection finds 83 Q8_0, 27 F16 and 224 F32 tensors; the F16
+feed-forward down-projections have a 4304-wide input, not a Q8 block multiple.
+No original model values were converted or changed during this inspection.
+
+The shared C17 decoder now handles both storage types during the first GPU
+upload, one bounded staging tensor at a time. It synchronizes each borrowed
+buffer before retirement; GPU kernels, reactive device ownership and the DS4
+state format remain unchanged. `LIE_VISION_WEIGHT_DECODE` defaults ON with an
+explicit BF16-only OFF control. New provider receipts bind the exact edits,
+owned source, selected option, recipe and archives.
+
+ASan/UBSan/LeakSanitizer native tests pass **44/44**. An independently fetched
+official Gufo control matches all **63,488** finite F16 values and **16,252,928**
+Q8 values at the BF16 rounding boundary. Providers ON/OFF and HIP clients build;
+these are **NOT-INFERENCE** checks. The first failed admission remains preserved
+in `gpu-functional-f0-r4/combined-http` on the sampling worktree. Original-weight
+vision/state/cache/SSD/resource qualification remains open, while the separate
+sampling performance campaign continues on `.157` from its frozen checkpoint.
+The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
+binds source, providers, command exits and CPU thermal observations.
+
 ## Original-weight GPU continuation — 2026-10-03
 
 After the Q2 thread's verified release at 17:37:05 UTC, root takes the `.157`
