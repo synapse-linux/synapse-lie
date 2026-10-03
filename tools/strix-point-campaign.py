@@ -355,6 +355,8 @@ class Campaign:
         argv += ['--entrypoint', command[0], image, *command[1:]]
         self.execute_container(argv, timeout, model is not None)
     def build(self):
+        if self.m.get('build_flavor') == 'modern-cmake':
+            return self.build_modern()
         if self.m.get('stack') != 'rocm10-fedora43':
             raise ValueError('Build requires the explicit ROCm 10 stack')
         image, rocm = self.image_and_rocm()
@@ -383,6 +385,82 @@ class Campaign:
         result = json.loads((ROCM10_SOURCE/'evidence/rocm10-point-compile-r1/result.json').read_text())
         if result.get('state') != 'BUILT_NOT_GPU_TESTED' or result.get('exit_code') != 0:
             raise RuntimeError('Incomplete ROCm 10 build receipt')
+        self.r['build_result'] = result
+        self.record()
+    def build_modern(self):
+        if self.m.get('stack') != 'rocm10-fedora43':
+            raise ValueError('Modern build requires the explicit ROCm 10 stack')
+        label = self.m.get('build_label')
+        commit = self.m.get('source_commit')
+        if (type(label) is not str or
+                not re.fullmatch(r'rocm10-point-modern-r[1-9][0-9]*', label) or
+                type(commit) is not str or not re.fullmatch(r'[0-9a-f]{7,40}', commit)):
+            raise ValueError('Modern build label and source commit required')
+        source = checked_path(BASE/'rocm10-fedora-161'/('source-'+label.removeprefix('rocm10-point-')))
+        archive = checked_path(source.with_suffix('.tar.gz'))
+        if sha(archive) != self.m.get('source_archive_sha256'):
+            raise ValueError('Modern source archive drift')
+        inventory = checked_path(source/'SOURCE-FILES.sha256')
+        if sha(inventory) != self.m.get('source_files_sha256'):
+            raise ValueError('Modern source inventory drift')
+        listed = set()
+        for line in inventory.read_text().splitlines():
+            digest, separator, name = line.partition('  ')
+            if (separator != '  ' or not re.fullmatch(r'[0-9a-f]{64}', digest) or
+                    not name.startswith('./') or '..' in Path(name).parts or
+                    name[2:] in listed):
+                raise ValueError('Invalid modern source inventory')
+            relative = name[2:]
+            path = checked_path(source/relative)
+            if not path.is_file() or sha(path) != digest:
+                raise ValueError('Modern source file drift: '+relative)
+            listed.add(relative)
+        actual = {str(path.relative_to(source)) for path in source.rglob('*')
+                  if path.is_file() or path.is_symlink()}
+        if actual != listed | {'SOURCE-FILES.sha256'}:
+            raise ValueError('Modern source inventory incomplete')
+        helper = checked_path(source/'cmake/point/Build.cmake')
+        if sha(helper) != self.m.get('compile_helper_sha256'):
+            raise ValueError('Modern compile helper drift')
+        if (source/'SOURCE-COMMIT.txt').read_text().strip() != commit:
+            raise ValueError('Modern source commit mismatch')
+        image, rocm = self.image_and_rocm()
+        if rocm is not None:
+            raise ValueError('Unexpected ROCm runtime override')
+        for directory in ('build', 'evidence'):
+            (source/directory).mkdir(exist_ok=True)
+        for directory in ('tmp', 'home'):
+            (source/'build'/directory).mkdir(exist_ok=True)
+        argv = ['docker', 'create', '--network', 'none', '--read-only',
+                '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
+                '--user', f'{os.getuid()}:{os.getgid()}', '--pids-limit', '512',
+                '--cpus', '2', '--memory', '16g',
+                '--label', 'synapse-lie.run='+str(self.root),
+                '--mount', 'type=bind,src='+str(source)+',dst=/source',
+                '--workdir', '/source', '--env', 'LC_ALL=C',
+                '--env', 'HOME=/source/build/home', '--env', 'TMPDIR=/source/build/tmp',
+                '--env', 'LIE_ROCM10_BUILD_WINDOW=admitted',
+                '--env', 'ROCR_VISIBLE_DEVICES=-1', '--env', 'HIP_VISIBLE_DEVICES=-1',
+                '--entrypoint', '/usr/bin/cmake', image,
+                '-DLABEL='+label, '-DSOURCE_COMMIT='+commit,
+                '-P', 'cmake/point/Build.cmake']
+        self.execute_container(argv, 7200)
+        receipt = checked_path(source/'evidence'/f'{label}-compile'/'result.json')
+        result = json.loads(receipt.read_text())
+        if (result.get('state') != 'BUILT_NOT_GPU_TESTED' or
+                result.get('exit_code') != 0 or
+                result.get('source_commit') != commit or
+                result.get('label') != label or
+                result.get('hip_architecture') != 'gfx1150' or
+                result.get('checkpoint_compression') is not True):
+            raise RuntimeError('Incomplete modern ROCm 10 build receipt')
+        expected = {'synapse-lie-server', 'synapse-lie-bench',
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe'}
+        if set(result.get('binaries', {})) != expected:
+            raise RuntimeError('Modern binary inventory mismatch')
+        for name, digest in result['binaries'].items():
+            if sha(checked_path(source/'build'/f'{label}-runtime'/name)) != digest:
+                raise RuntimeError('Modern binary drift: '+name)
         self.r['build_result'] = result
         self.record()
     def image_build(self):

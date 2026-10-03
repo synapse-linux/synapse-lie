@@ -7,9 +7,14 @@ restoration and private lease release. Fresh local collection verifies 21/21
 remote files by SHA-256 per arm. The LIE window releases at 22:03:20.532953 UTC
 and Gufo at 22:23:05.922791 UTC. Their full-prompt physical IDs, output IDs
 and full prefill/decode frontier hashes match pairwise. Both use the old
-`1877b03` binary; the newly merged C17 phase-clock runtime is untested on
-`.161`. The separate `fresh-256k` LIE baseline is currently under its own
-new GPU lease. See the [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+`1877b03` binary; the newly merged C17 phase-clock/runtime source is untested
+on `.161`. The separate `fresh-256k` LIE baseline passes two full 128-token
+samples, child/supervisor exit 0, 21/21 collected files matching remote SHA,
+unchanged model and restored service; its lease releases at
+22:52:07.965628 UTC. Gufo `fresh-256k` now runs serially under a new private
+lease. The modern source/build helper is local preparation only: no remote
+modern build or GPU execution has occurred. See the
+[Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
 reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full

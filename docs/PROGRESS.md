@@ -34,6 +34,13 @@ are now merged for the future Point runtime. The Point full C/HTTP rebuild and
 five focused CTest cases pass; the corresponding ASan/UBSan subset passes 4/4.
 These host checks do not qualify the optimized sampler on `gfx1150`. The
 ongoing `fresh-256k` baseline continues on the unchanged `1877b03` binary.
+The new ROCm 10 build path is prepared as a CMake helper under the existing
+`.161` lease runner. It seals a separate persistent source capsule, selects
+`gfx1150` with target-bound provider receipts, leaves GPU devices and network
+out of the compiler container, and records configure/link exits. The local
+campaign control fixture passes 22/22; a direct host invocation correctly
+refuses without the admitted build window. This is preparation, not a remote
+build or original-weight test.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 

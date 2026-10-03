@@ -247,6 +247,53 @@ class Tests(unittest.TestCase):
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
         self.assertEqual(c.r['build_result']['exit_code'], 0)
+    def test_modern_rocm10_build_is_sealed_and_device_free(self):
+        c = self.campaign()
+        label = 'rocm10-point-modern-r1'
+        commit = 'abcdef0123456789'
+        source = self.base/'rocm10-fedora-161'/'source-modern-r1'
+        helper = source/'cmake/point/Build.cmake'
+        helper.parent.mkdir(parents=True)
+        helper.write_bytes(b'fixture CMake helper')
+        (source/'SOURCE-COMMIT.txt').write_text(commit+'\n')
+        inventory = source/'SOURCE-FILES.sha256'
+        inventory.write_text(''.join(f'{point.sha(source/name)}  ./{name}\n'
+                                     for name in ('SOURCE-COMMIT.txt','cmake/point/Build.cmake')))
+        archive = source.with_suffix('.tar.gz')
+        archive.write_bytes(b'sealed source fixture')
+        c.m.update(stack='rocm10-fedora43', build_flavor='modern-cmake',
+                   build_label=label, source_commit=commit,
+                   source_archive_sha256=point.sha(archive),
+                   source_files_sha256=point.sha(inventory),
+                   compile_helper_sha256=point.sha(helper))
+        image = 'sha256:'+'d'*64
+        def run(argv, timeout, model_attempted=False):
+            self.assertEqual(timeout, 7200)
+            self.assertFalse(model_attempted)
+            self.assertNotIn('--device', argv)
+            self.assertEqual(argv[argv.index('--network')+1], 'none')
+            self.assertEqual(argv[argv.index('--entrypoint')+1], '/usr/bin/cmake')
+            self.assertIn('-DLABEL='+label, argv)
+            binary_dir = source/'build'/f'{label}-runtime'
+            binary_dir.mkdir()
+            names = ('synapse-lie-server','synapse-lie-bench',
+                     'synapse-lie-bench-gufo-reference','lie-hip-probe')
+            binaries = {}
+            for name in names:
+                file = binary_dir/name
+                file.write_bytes(name.encode())
+                binaries[name] = point.sha(file)
+            receipt = source/'evidence'/f'{label}-compile'/'result.json'
+            receipt.parent.mkdir()
+            receipt.write_text(json.dumps({'state':'BUILT_NOT_GPU_TESTED',
+                                           'exit_code':0,'source_commit':commit,
+                                           'label':label,'hip_architecture':'gfx1150',
+                                           'checkpoint_compression':True,
+                                           'binaries':binaries}))
+        with patch.object(c, 'image_and_rocm', return_value=(image, None)), \
+             patch.object(c, 'execute_container', side_effect=run):
+            c.build()
+        self.assertEqual(c.r['build_result']['source_commit'], commit)
     def test_seccomp_override_requires_explicit_rocm10_manifest(self):
         c = self.campaign()
         bundle = self.base/'bundle'; bundle.mkdir()
