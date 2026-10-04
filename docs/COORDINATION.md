@@ -1,7 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at2026-10-04T21:17:36.767684Z after two HC BK256
+Latest Q2 window is released at 2026-10-04T21:42:54.671907Z after only two new
+BK128 component candidates. Both retain 0/0/1, 88 artifacts and 112 timings;
+no model is selected, no qualified inference reference is rerun. Closure
+verifies 528 recorded identities/411 groups absent, KFD empty, four original
+leases free and six unchanged model stat tuples. Core receives the release;
+no Q2 GPU job/reservation/waiter/restart/cleanup remains.
+[Release](../config/q2-hc-bk128-run-window-release.json), SHA256
+`e59cb283620d253f08dd654b8413c76a9ddefeb2ddaa452faf5dd7ddca01c5fc`.
+
+Previous Q2 window is released at2026-10-04T21:17:36.767684Z after two HC BK256
 components and only the selected new bounded fixed2048 model. Actual component
 exits0/0/1 each remain; model exits0/0/0/0,26 artifacts verify, PP1477.969324.
 Qualified model references are not relaunched. Closure verifies513 retired
@@ -10,10 +19,12 @@ model stat tuples. Core acknowledges; no Q2 GPU job/reservation/waiter/cleanup
 remains. [Release](../config/q2-hc-bk256-run-window-release.json), SHA256
 `1ce3548048452661f65ebe3282a1ab1ccc571dfe1962553b499621d26be29810`.
 
-The new BK128 source/CPU preparation reserves no GPU. Its16-file .157 host
+The BK128 source/CPU preparation reserved no GPU. Its16-file .157 host
 capsule passes23/23 Debug/ASan each; it permits two new components, then at
 most one selected new model on the original2048 input. Core is notified.
-Fresh admission from the release above is required before GPU build/execution.
+Admission at 21:38:45.992974 UTC from the BK256 release verified 520 identities
+absent, empty KFD, original lease/model identities and thermal policy, checkpoint
+3c39f1d. The window is closed above. Any new GPU run needs fresh admission.
 [Frozen scope](../config/q2-hc-bk128-plan.json).
 
 Previous Q2 window: **released at2026-10-04T19:29:44.457368Z** after two new

@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## BK128 runtime comparison rejects smaller K staging — 2026-10-04
+
+Both new component fixtures finish 0/0/1, 44 artifacts each and 112 total timings.
+Single complete-cycle time regresses 23.638% ordinary/10.797% MoE versus library.
+Double saves 5.830%/4.417%, but its normalized native/library complete ratio is
+0.949559 versus 0.892983 for saved BK256, 6.336% worse. Frozen selection runs no
+model. The existing 1477.969324 PP/25.10545360 TG candidate remains best observed.
+No qualified model references or full context curves are relaunched.
+
+Each candidate's 40 saved tensors and 22 whole-buffer replay hashes match BK256.
+Restored error precision exposes 11/12 native FP64 down passes versus 0/10 library;
+all four aligned 2048 cases pass natively, while 97 ordinary peak 2.1601903e-5
+remains outside 2e-5. Bench weights add two more passing 2048 native checks.
+Twenty independent norm checks pass per arm. Strict byte rejection and old
+rounded logs remain; this is operator evidence, not task/model teacher quality.
+
+Offline ISA counts 425/442 static instructions versus 566 for the parent, but
+K steps double 40→80. Smaller static counts do not establish runtime savings.
+Next investigate a wider token tile with more computation/weight reuse per
+load; no speedup is assumed. Graph, all 112 new/56 saved timings and 44 down
+checks are retained. Release 21:42:54 UTC verifies 528 retired identities/411 groups,
+KFD empty, four original leases free and six model stat tuples unchanged.
+No Q2 GPU job, reservation, waiter, restart or cleanup remains.
+[Complete evidence and next hypothesis](Q2-HC-BK128.md).
+
 ## Two BK128 staging candidates prepared — 2026-10-04
 
 Each candidate changes only one launch template against the measured bounded

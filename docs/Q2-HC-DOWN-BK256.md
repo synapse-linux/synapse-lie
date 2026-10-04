@@ -88,6 +88,13 @@ spilled first version and its outputs remain retained. No second model is run.
 
 ## Unrounded FP64 recovery and its limits
 
+Later [BK128 component evidence](Q2-HC-BK128.md#numerical-evidence-with-restored-precision)
+verifies full byte agreement to this parent and exposes unrounded independent
+2048 down errors: all four aligned native cases pass original limits while
+the library fails them. That subsequent operator evidence closes the 2048
+reporting gap below, without rewriting the original rounded logs or qualifying
+model/task quality. The 97-row native failure remains.
+
 Library plan diagnostics set cout to fixed precision2, so original component
 error fields print0.00. They are rounded values, not zero error. Timing is
 quantized to0.01us; pass/fail booleans were computed before formatting and

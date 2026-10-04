@@ -567,6 +567,10 @@ The .157 GPU window is released. Full curves still wait for fixed-point parity.
 
 Two [new BK128 staging candidates](docs/Q2-HC-BK128.md) change only the measured
 bounded kernel's launch template. They compile with97/98 VGPRs and zero private
-scratch; single buffering reduces LDS from50688 to26112 bytes. The existing
-fixture prints full numerical precision; host Debug/ASan pass23/23 each.
-GPU/operator/model checks remain pending. No speedup is claimed from compilation.
+scratch, but actual GPU tests show both are slower than the saved BK256 parent.
+Double buffering saves 5.830%/4.417% ordinary/MoE cycle time against its library,
+less than the parent's 13.048%/8.827%; no model is selected. All 112 new timings,
+graph and 88 artifacts remain. Every new output matches the parent. Unrounded
+FP64 checks at 2048 pass for the native kernel and fail for the library under
+unchanged limits; 97 ordinary remains slightly outside. Independent model
+quality remains open. Host Debug/ASan pass 23/23; the .157 window is released.

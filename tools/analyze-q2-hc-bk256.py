@@ -37,7 +37,7 @@ def capsule(path, fixtures, expected_source=None):
                 fixture_files_verified=len(fixtures), source_files_verified=len(files))
 
 
-def component(path, variant, plan, sources):
+def component(path, variant, plan, sources, rounded_errors=True):
     receipt, transport = curve.artifact_integrity(path)
     require(transport['exit_code'] == 1 and transport['source_variant'] == variant and
             not transport['rebuild_mmq'], 'Component transport scope changed')
@@ -87,8 +87,10 @@ def component(path, variant, plan, sources):
         timings=timings, summaries=stats, replay=replay, independent_norm_checks=norms,
         saved_tensors=tensors, invalid_requests_per_shape=7,
         completion_verifies_guards_and_input_immutability=True,
-        numeric_error_fields_precision='Original cout fixed2: rounded 0.00 is not zero error',
-        numeric_error_fields_usable=False, timing_quantization_us=0.01,
+        numeric_error_fields_precision=('Original cout fixed2: rounded 0.00 is not zero error'
+                                       if rounded_errors else 'Restored defaultfloat precision12'),
+        numeric_error_fields_usable=not rounded_errors,
+        timing_quantization_us=0.01 if rounded_errors else None,
         retained_strict_rejection=True)
 
 

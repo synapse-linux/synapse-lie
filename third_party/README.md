@@ -364,3 +364,9 @@ deterministic synthetic fixture weights and reads this workstream's saved F16
 arrays; it imports no model or sibling project artifact. Analysis and plotting
 tools are first-party MIT. GPU performance evidence does not establish owned
 executor replacement or independent model quality.
+
+The BK128 candidates change only two launch-template parameters in that same
+attributed include; no additional source is imported. Saved device objects,
+standalone analysis and plots retain the failed numerical exits alongside
+actual performance. Their FP64 checks use synthetic fixture operands and
+do not stand in for an original-model teacher.

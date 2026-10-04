@@ -1,0 +1,47 @@
+{
+  "schema": "synapse-lie.q2-hc-native-down-oracle-update.v1",
+  "component_report_sha256": "97e085c2bb3bada3dbb3cac15c7a1595e3571cdf086ebd889b0a50b38aaaeefc",
+  "parent_model_report_sha256": "bc98960636b4610451ab7b58a35de8019053825c923d285a4a520cc71ee1fa4c",
+  "parent_component_report_sha256": "d57ba27e1e72e670e411aba910b5cee9c70a8159decdc2e717499c22c1bf95dc",
+  "prior_small_fp64_report_sha256": "93e56d19e024a8ae702fc79341d479b36f2f6cf1e0a1c3834e8d9085fca05c5c",
+  "checks": {
+    "single": {
+      "native": {
+        "cases": 12,
+        "passed": 11
+      },
+      "library": {
+        "cases": 10,
+        "passed": 0
+      }
+    },
+    "double": {
+      "native": {
+        "cases": 12,
+        "passed": 11
+      },
+      "library": {
+        "cases": 10,
+        "passed": 0
+      }
+    }
+  },
+  "parent_full_tensor_matches_per_new_arm": 40,
+  "parent_full_replay_hash_matches_per_new_arm": 22,
+  "aligned2048_native_pass": true,
+  "aligned2048_library_pass": false,
+  "n97_ordinary_native_peak": 2.16019029529e-05,
+  "original_limits": {
+    "relative_rms": 2e-05,
+    "error_over_peak": 2e-05
+  },
+  "numeric_thresholds_changed": false,
+  "strict_byte_rejections_preserved": true,
+  "older_rounded_logs_unchanged": true,
+  "original_model_teacher": false,
+  "independent_task_quality": false,
+  "new_model_forward": false,
+  "qualified_model_controls_rerun": false,
+  "goal_met": false,
+  "limits": "Unchanged deterministic fixture weights plus full F16 input/F32 output replay support corresponding parent operator errors. Synthetic FP64 checks cannot qualify original-weight model quality or waive the97-row failure."
+}
