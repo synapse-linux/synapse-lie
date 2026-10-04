@@ -284,7 +284,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-http') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -322,14 +322,16 @@ class Campaign:
             self.record()
             deadline = time.monotonic()+timeout
             while self.child.poll() is None:
-                if not self.r['model_attempted'] and (self.root/'measurements.jsonl').exists():
+                if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
+                                                      (self.root/'http-started.marker').exists()):
                     self.r['model_attempted'] = True
                     self.record()
                 self.sample()
                 if time.monotonic() >= deadline: raise RuntimeError('Distrobox benchmark deadline')
                 time.sleep(1)
             self.r['child_exit_code'] = self.child.returncode
-            if not self.r['model_attempted'] and (self.root/'measurements.jsonl').exists():
+            if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
+                                                  (self.root/'http-started.marker').exists()):
                 self.r['model_attempted'] = True
             # Do not close a GPU window until the kernel has retired its owner.
             self.wait_owned_gpu_retirement()
@@ -639,6 +641,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-http':
+            return self.modern_http_gate()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
@@ -776,6 +780,44 @@ class Campaign:
             if (self.root/'measurements.jsonl').exists():
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                            'bytes': (self.root/'measurements.jsonl').stat().st_size}
+            self.check_model_after(rows)
+    def modern_http_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern HTTP gate requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern HTTP mode must be ar or mtp')
+        helper = checked_path(self.root/'http-gate.py')
+        if sha(helper) != self.m.get('http_gate_sha256'):
+            raise ValueError('Modern HTTP helper drift')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR HTTP gate must not admit a predictor')
+        command = ['/usr/bin/python3', '-B', '/work/http-gate.py',
+                   '/bundle/runtime/bin/synapse-lie-server',
+                   '/model/'+self.m['model_plan']['files'][0]['name'], mode]
+        if predictor:
+            command.append('/mtp/'+predictor.name)
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 1200, model)
+            result = json.loads((self.root/'http-result.json').read_text())
+            if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
+                    result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    result.get('server_exit_code') != 0 or
+                    set(result.get('passed', [])) != {'models', 'chat_json', 'chat_sse',
+                                                       'responses_json', 'responses_sse'}):
+                raise RuntimeError('Incomplete original-weight HTTP gate')
+            self.r['http_result'] = {'mode': mode, 'result_sha256': sha(self.root/'http-result.json'),
+                                     'passed': result['passed']}
+        finally:
+            if (self.root/'http-result.json').exists():
+                self.r['http_partial'] = {'result_sha256': sha(self.root/'http-result.json')}
             self.check_model_after(rows)
     def finish(self):
         failures = []

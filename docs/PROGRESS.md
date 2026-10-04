@@ -3,6 +3,14 @@
 
 ## Strix Point core integration checkpoint — 2026-10-03
 
+The next Point qualification has a private `modern-http` GPU gate in the
+lease-supervised Distrobox runner. It starts the original-weight server with
+fresh requests and checks `/v1/models`, Chat Completions and Responses in both
+JSON and SSE. The helper records every request/response and owns only its
+server child. CPU fixtures validate helper identity, the MTP predictor mount
+and refusal of incomplete results; this preparation alone does not qualify
+model serving. The GPU receipt will be recorded separately.
+
 `feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
 vision contracts while retaining explicit `gfx1150` build receipts and HIP
 device admission. The provider build now selects and records one HIP target;
