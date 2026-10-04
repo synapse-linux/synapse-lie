@@ -55,7 +55,7 @@ def main():
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
-    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'ud-counting-legacy')
+    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'ud-counting-legacy')
     if counting_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Historical counting requires a full MMQ rebuild')
     original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')

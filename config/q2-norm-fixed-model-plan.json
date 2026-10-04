@@ -1,0 +1,85 @@
+{
+  "schema": "synapse-lie.q2-norm-fixed-model-plan.v1",
+  "at": "2026-10-04T16:17:14.182933+00:00",
+  "purpose": "Owner-requested original-weight measurement of the unchanged fixed-shape norm candidate on the frozen exact2048 reference; no curve.",
+  "previous_goal_turn": "Prepared and measured fixed-shape HC component; rejected timing/exactness, retained at71b5d77.",
+  "authorization": {
+    "user_instruction": "provalo ora",
+    "component_gate_override": "Owner explicitly requests the complete model comparison after being told only the component was tested. Exploratory run admitted; component rejection, arithmetic thresholds and quality gates remain unchanged."
+  },
+  "manifests": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+    "config/q2-iq2-mixed-model-source.json": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+    "config/q2-norm-fixed-shape-source.json": "84967b93bc552eb3bc3c4e9a4f0125d5cdff814350bd1b07488d0875ccbf0351",
+    "config/q2-counting-regression-plan.json": "bc0e0d38bff71b2618226470e97f38965b6e320b0b92f343b6616d6dc89f73af",
+    "config/q2-norm-fixed-results.json": "d7bb1e45df39149a410def9f8468b6bf0662e73b424dd3fc05ff892e07b1eb08",
+    "config/q2-norm-fixed-shape-static.json": "a48aa941353df07ddbf25b3696e6b3cd59823ad84ddb9b1c6a6c7398a2dea212"
+  },
+  "host": "q2-norm-fixed-model-host-r1",
+  "host_receipt": "config/q2-norm-fixed-model-host-results.json",
+  "host_result_sha256": "91391b87d43bcf3d7e9c3f07c2d1b0139d0646d27692962dca596c71b070f769",
+  "fixture_identities": {
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+    "tools/q2-remote.py": "83cc333db9ccc91db96d8ba9b4b7f254c8f1f8403f7ad6a55cae30226ed22eff",
+    "tools/q2-runner.py": "ac9c50f67d45497fd8f7041b92bde95f42591456697226d842ab4ed3ba4e4753",
+    "tests/q2_remote_test.py": "853178d184e36e390b9add272b1ada5b1401a073f1133700e3e76007970c19c9",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214"
+  },
+  "window_helper_sha256": "acba66df75fe2a92bcd6633fef059dde53eeb182b056a272a29ef93f6749a779",
+  "arms": [
+    {
+      "key": "before",
+      "label": "q2-norm-fixed-model-before-r1",
+      "mode": "q2-counting-iq2-mixed",
+      "variant": "curve-iq2-mixed-q2"
+    },
+    {
+      "key": "candidate",
+      "label": "q2-norm-fixed-model-candidate-r1",
+      "mode": "q2-counting-norm-fixed",
+      "variant": "norm-fixed-shape"
+    },
+    {
+      "key": "after",
+      "label": "q2-norm-fixed-model-after-r1",
+      "mode": "q2-counting-iq2-mixed",
+      "variant": "curve-iq2-mixed-q2"
+    },
+    {
+      "key": "ud",
+      "label": "q2-norm-fixed-model-ud-r1",
+      "mode": "ud-counting-legacy",
+      "variant": "qualified"
+    }
+  ],
+  "protocol": {
+    "host": ".157",
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "physical_prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmup_sessions": 1,
+    "measured_sessions": 3,
+    "identical_physical_input_each_session": true,
+    "pause_seconds_outside_timers": 15,
+    "timer": "Frozen direct-executor tester",
+    "greedy": true,
+    "mtp": false
+  },
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "rebuild_mmq_each_arm": true,
+  "record_all_warmups_samples_outputs_logits": true,
+  "independent_thresholds_unchanged": true,
+  "quality_promotion": false,
+  "full_curve_deferred_until_fixed_ud_parity": true,
+  "remote_cleanup": false,
+  "source_on_tmp": false,
+  "goal_met": false
+}

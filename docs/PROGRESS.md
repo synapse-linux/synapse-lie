@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Owner-requested fixed model test prepared — 2026-10-04
+
+The owner requests the unchanged fixed-shape candidate on the full model now,
+after clarification that the latest patch had only component measurements.
+The exploratory run retains that component rejection and all numerical gates.
+Four original-weight arms use the exact2048 historical tester/input/timers:
+mixed Q2, candidate, mixed Q2 again and pristine UD, with full MMQ rebuilds.
+Host scopes pass22/22 Debug and22/22 ASan/UBSan on `.157`. No curve is admitted.
+[Frozen plan and scope](Q2-NORM-FIXED-MODEL.md).
+
 ## Fixed-shape norm rejected after bounded component — 2026-10-04
 
 The three admitted2048-row HC-library component arms finish, with120 verified

@@ -37,6 +37,11 @@ UD. Every saved Q2 output and logit file remains exact. The old 1439 result is
 reproduced on its original repetitive input; it is not a canonical prose rate.
 The complete four-arm graph includes all measured sessions and warmups.
 
+The owner now requests the [fixed-shape norm full-model comparison](docs/Q2-NORM-FIXED-MODEL.md)
+on that exact2048 reference. Its component rejection remains; the exploratory
+four-arm run retains unchanged input/timers, repeated mixed-Q2 controls and
+pristine UD. Host Debug/ASan scopes pass22/22 each on `.157`; no curve is admitted.
+
 The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
 four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycle
 time on recorded short/128K routing shapes against the repeated reference;

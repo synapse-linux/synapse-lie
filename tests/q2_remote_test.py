@@ -178,7 +178,8 @@ class RemoteGuardTests(unittest.TestCase):
             self.refuse(base + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
             for wrong in set(remote.COUNTING_SOURCES.values()) - {variant}:
                 self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
-                            'Historical counting requires its matched provider')
+                            'requires the existing library component only' if wrong in remote.NORM_SHAPE_VARIANTS
+                            else 'Historical counting requires its matched provider')
             with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
                  patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
                  patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
@@ -555,6 +556,30 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 mkdir.assert_called_once()
                 run.assert_not_called()
+
+    def test_fixed_norm_shape_model_scope(self):
+        self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                     'norm-shape-reference', '--rebuild-mmq'],
+                    'requires the existing library component only')
+        for variant in ('qualified', 'curve-iq2-mixed-q2', 'library-norm-cycle'):
+            self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                         variant, '--rebuild-mmq'], 'Historical counting requires its matched provider')
+        self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                     'norm-fixed-shape'], 'Historical counting requires a full MMQ rebuild')
+        for flag, reason in (('--native-curve', 'Native curve requires'),
+                             ('--point-only', 'Focused point requires'),
+                             ('--detach', 'Persistent launch is limited')):
+            self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                         'norm-fixed-shape', '--rebuild-mmq', flag], reason)
+        argv = [str(path), 'q2-counting-norm-fixed', 'q2-fixture',
+                '--source-variant', 'norm-fixed-shape', '--rebuild-mmq']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
 
     def test_library_norm_cycle_scope(self):
         for variant in ('qualified', 'scaled-library', 'hc-sequence'):

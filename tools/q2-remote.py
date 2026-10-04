@@ -29,6 +29,7 @@ CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve
 COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
+                    'q2-counting-norm-fixed': 'norm-fixed-shape',
                     'ud-counting-legacy': 'qualified'}
 COUNTING_CURVES = {'q2-counting-iq2': 'q2-curve-iq2',
                    'q2-counting-iq2-mixed': 'q2-curve-iq2-mixed'}
@@ -85,9 +86,11 @@ def main():
     if args.mode == 'q2-point-norm' and not args.point_only:
         p.error('Paired norm model requires the focused native point')
     if args.source_variant in NORM_SHAPE_VARIANTS:
-        if args.mode != 'hc-library-norm-bench':
+        if args.mode == 'q2-counting-norm-fixed' and args.source_variant == 'norm-fixed-shape':
+            pass  # Explicit owner-requested fixed-input model exploration; rebuild guard below.
+        elif args.mode != 'hc-library-norm-bench':
             p.error('Fixed norm shape requires the existing library component only')
-        if args.rebuild_mmq:
+        elif args.rebuild_mmq:
             p.error('Fixed norm shape builds its kernels directly')
     if args.mode == 'hc-norm-ragged-bench' or args.source_variant == 'hc-norm-ragged':
         if args.mode != 'hc-norm-ragged-bench' or args.source_variant != 'hc-norm-ragged':
