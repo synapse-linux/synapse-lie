@@ -18,6 +18,16 @@ The pristine Gufo CMake configuration at the recorded pin accepts only
 explicitly recorded architecture/dependency port and GPU smoke qualification;
 the existing LIE adapter build does not establish that control.
 
+The first `.161` LIE C1 AR prose run completes all four prepared HTTP cohorts
+with native client/server/container exit 0, but its supervisor exits 1 during
+GPU PID retirement. The final sampled `/proc/fd` list is empty while kernel
+KFD still lists the same earlier owned PID for one sample. Its 16 remote files
+are collected by SHA-256; the router and free lease are verified. The supervisor
+now accepts this gap only when the PID start tick and container cgroup still
+match its previously recorded owned identity. A reused or foreign PID fails.
+This failed window remains excluded from performance reporting; a fresh run is
+required.
+
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
 Root integrates Point `c3e9916`, preserving the native prepared HTTP client,

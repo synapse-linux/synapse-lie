@@ -199,10 +199,22 @@ class Campaign:
         if any(t.get('guarded', True) and t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')
         clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])
         new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}
-        # KFD can list an already-exited owned process for one more sample.
-        # A live/reused PID remains foreign and is never excused.
-        retired_owned = {pid for pid in row['kernel_kfd']
-                         if pid in self.owned_kfd and not Path(f'/proc/{pid}').exists()}
+        # /proc/fd can disappear just before the kernel KFD list retires an
+        # owned process. Keep its recorded PID/start/cgroup identity during
+        # that gap; a reused PID or process outside this container is foreign.
+        retired_owned = set()
+        for pid in row['kernel_kfd']:
+            start = self.owned_kfd.get(pid)
+            if start is None:
+                continue
+            try:
+                current = ticks(pid)
+                cgroup = Path(f'/proc/{pid}/cgroup').read_text()
+            except FileNotFoundError:
+                retired_owned.add(pid)
+            else:
+                if current == start and self.cid and self.cid in cgroup:
+                    owned.add(pid)
         if retiring:
             pid, start = retiring
             try:

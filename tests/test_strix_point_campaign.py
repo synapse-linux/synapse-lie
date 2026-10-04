@@ -92,10 +92,28 @@ class Tests(unittest.TestCase):
         with patch.object(point, 'observe', return_value=retired): c.sample()
         # A live PID, including a reused one, must not inherit the exception.
         with patch.object(point, 'observe', return_value=retired), \
-             patch.object(point.Path, 'exists', return_value=True):
+             patch.object(point, 'ticks', return_value=13), \
+             patch.object(point.Path, 'read_text', return_value='foreign-container'):
             with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
         retired['kernel_kfd'].append(999999997)
         with patch.object(point, 'observe', return_value=retired):
+            with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
+    def test_owned_kfd_fd_retirement_preserves_pid_start_and_cgroup(self):
+        c = self.campaign('owned-fd-gap')
+        c.cid = 'a'*64
+        c.owned_kfd[999999998] = 12
+        gap = observation(); gap['kernel_kfd'] = [999999998]
+        with patch.object(point, 'observe', return_value=gap), \
+             patch.object(point, 'ticks', return_value=12), \
+             patch.object(point.Path, 'read_text', return_value='docker-'+c.cid):
+            c.sample()
+        with patch.object(point, 'observe', return_value=gap), \
+             patch.object(point, 'ticks', return_value=13), \
+             patch.object(point.Path, 'read_text', return_value='docker-'+c.cid):
+            with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
+        with patch.object(point, 'observe', return_value=gap), \
+             patch.object(point, 'ticks', return_value=12), \
+             patch.object(point.Path, 'read_text', return_value='foreign-container'):
             with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
     def test_owned_gpu_retirement_wait_is_bounded(self):
         c = self.campaign()

@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- The Point GPU supervisor recognizes an already observed owned process while
+  its `/proc/fd` entry retires before the kernel KFD list, checking PID start
+  tick and container cgroup before allowing the short retirement gap.
+
 - The direct-core reactive probe waits for aggregate retirement counters after
   job completion, avoiding a race between independently published snapshots.
 
