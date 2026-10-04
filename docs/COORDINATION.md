@@ -6,6 +6,22 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Latest Q2 window: **released at 2026-10-04T13:07:56.099871+00:00** after
+three scaled-row GPU components, without an original model. Fresh admission
+at 13:02:29 UTC followed core's explicit no-reservation confirmation and all
+original lease/process/KFD/model-stat/thermal checks. Host Debug and ASan/UBSan
+pass 22/22 each. All three components complete timing and retain exit 1 for
+the same fifteen independent numerical rejections; 234 component artifacts
+and seven host artifacts verify. No additional numerical change is observed.
+
+Closure verifies 220 identities and 168 groups retired, KFD empty, all four
+original lease inodes free and all six original model stat tuples unchanged.
+Remote/main active/release/ready receipts and the registry retain closure;
+core is notified. No Q2 job, reservation, observer/waiter, restart or .157
+cleanup remains. [Release](../config/q2-scaled-row-window-release.json), SHA256
+`2b759f6bbfa049d2c5fca8913773884d4fedc3341d31ccc8255495fe63ad0f34`.
+The candidate remains isolated; no new canonical model gain is established.
+
 Latest Q2 window: **released at 2026-10-04T12:38:45.012717+00:00** after
 four native C canonical curves. All 32 model commands exit zero and 68 model
 artifacts verify; the four host cohorts bring totals to 56 zero exits and 96

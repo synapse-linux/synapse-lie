@@ -70,14 +70,75 @@ variants, detached execution and MMQ archive selection. Host qualification and
 fresh GPU admission remain separate gates. No source, ABI, state or metrics
 contract is promoted by preparing this fixture.
 
-## Remaining acceptance
+## Completed GPU component comparison — 2026-10-04
 
-No GPU/operator/model test has run for this candidate. It is excluded from
-the admitted native four-arm IQ2-scale campaign. Before any model trial,
-qualify whole buffers against the unchanged operator, including zero/sign,
-subnormal, normal, extreme-finite and allocation-boundary rows; preserve any
-nonfinite behavior required by the current operator contract. Measure a
-complete preparation/down cycle over production-sized rotating buffers on
-.157. Require numerical and lifecycle qualification independently of timing.
-No default promotion, scheduling change or model performance claim follows
-from this static preparation.
+The three arms complete on .157 with unchanged fixture bytes from checkpoint
+`9429d9a`. The host harness passes 22/22 Debug and 22/22 ASan/UBSan, six host
+commands exit zero and seven host artifacts verify. All three GPU builds
+complete; **each component executable exits 1** with the same fifteen numerical
+rejections described below. All 234 component artifacts verify. No timeout,
+thermal stop, guard failure, unwritten output or input mutation is observed.
+[Audited results](../config/q2-scaled-row-results.json),
+[decision](../config/q2-scaled-row-decision.json).
+
+Median microseconds per call, five measured samples of eight calls each:
+
+| Routing histogram source | Pack before | Pack reuse | Pack after | Complete before | Complete reuse | Complete after | Reuse vs after, complete |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| d0, layer 6 | 438.997 | 371.590 | 438.363 | 4183.461 | 4133.139 | 4200.913 | -1.613% |
+| d0, layer 0 | 439.768 | 372.180 | 439.483 | 4352.711 | 4306.438 | 4385.833 | -1.810% |
+| d128K, layer 16 | 439.467 | 372.609 | 439.773 | 4206.811 | 4158.073 | 4216.408 | -1.384% |
+| d128K, layer 6 | 441.337 | 374.375 | 440.593 | 4345.812 | 4315.229 | 4332.600 | -0.401% |
+| Full-tile control | 440.312 | 373.520 | 440.203 | 3494.311 | 3437.648 | 3485.958 | -1.386% |
+
+Packing medians improve 15.03–15.31% against the repeated reference, with a
+gain against the first reference too. The complete packing/down gain is much
+smaller. These labels describe the source of expert-count histograms;
+**no 128K model inference occurs in this component fixture**. There is one
+process run per arm, not multiple independent candidate process repetitions.
+
+![Packing and complete cycle timings](figures/q2-scaled-row/components.png)
+
+[All 150 measured samples](figures/q2-scaled-row/samples.csv),
+[vector graph](figures/q2-scaled-row/components.svg).
+
+### Numerical evidence and retained failures
+
+For both comparisons, all 42 packing records and ten complete down output
+digests match, covering 132,321,280 packed elements and 523,264,000 down
+elements per arm. All 74 retained small-buffer/sample files are byte-identical
+as well. This includes subnormals, extreme finite inputs and the observed
+nonfinite behavior. The candidate does not introduce a changed output in
+these cases; matching the control does not independently certify the model.
+
+Each arm retains exactly fifteen failures:
+
+- Ten independent FP64 down sample sets have RMS 0.002028–0.002197, above the
+  unchanged 0.002 limit. There are 10,240 sampled dots per arm; the original
+  F32 inputs remain the oracle operands.
+- Five packing cases reject negative-zero sign loss. Four all-zero cases
+  produce positive zero for negative-zero inputs. The finite-half domain case
+  identifies the same loss at indices 31744, 95232 and 158720. The unchanged
+  control already does this; its optimized device code does not meet the
+  literal sign-preservation comment in the source. No tolerance, oracle or
+  exit code is changed to turn this into a pass.
+
+[Signed-zero attribution](../config/q2-scaled-row-signed-zero.json).
+Other finite conversion cases pass their all-element checks. Nonfinite rows
+are differential evidence only; no new NaN contract is inferred.
+
+### Disposition and release
+
+Keep this isolated candidate for a matched native C canonical model comparison;
+do not promote it as a default or claim any new PP/TG value. The historical
+1.46% preparation share limits the plausible whole-model effect and still
+does not explain the broader Q2/UD gap. Independent model numerical quality,
+all canonical depths and the full parity acceptance matrix remain open.
+
+Fresh release at 13:07:56 UTC verifies 220 recorded identities and 168 groups
+retired, empty KFD, all four original leases free and all six original model
+stat tuples unchanged. CPU peaks by arm are 70.375/71.000/66.500 C; GPU peaks
+45/43/44 C. No Q2 job, reservation, observer, waiter, restart or remote cleanup
+remains. Remote/main receipts and the shared registry retain closure; core is
+notified. [Release](../config/q2-scaled-row-window-release.json), SHA256
+`2b759f6bbfa049d2c5fca8913773884d4fedc3341d31ccc8255495fe63ad0f34`.

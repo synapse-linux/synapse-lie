@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-scaled-row-signed-zero.v1",
+  "scope": "Read-only attribution from complete baseline buffers; no oracle changes or reruns",
+  "zero_rows": [
+    {
+      "rows": 1,
+      "negative_input_zeros": 320,
+      "output_positive_zeros": 640
+    },
+    {
+      "rows": 3,
+      "negative_input_zeros": 960,
+      "output_positive_zeros": 1920
+    },
+    {
+      "rows": 33,
+      "negative_input_zeros": 10560,
+      "output_positive_zeros": 21120
+    },
+    {
+      "rows": 257,
+      "negative_input_zeros": 82240,
+      "output_positive_zeros": 164480
+    }
+  ],
+  "finite_half_negative_zero_indices": [
+    31744,
+    95232,
+    158720
+  ],
+  "interpretation": "Existing optimized device conversion produces positive zero for these negative-zero inputs. Candidate equivalence must still compare all bytes. Scalar oracle rejection is retained."
+}

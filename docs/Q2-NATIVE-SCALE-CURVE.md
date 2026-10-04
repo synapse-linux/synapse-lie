@@ -203,6 +203,7 @@ record closure; core is notified. No Q2 job, reservation, waiter, restart or
 .157 cleanup remains. [Release receipt](../config/q2-native-scale-window-release.json),
 SHA256 `e54cadce7133189886dc0d07808f644a16ee1a2c70b84058e16b4cf6a0f62c35`.
 
-The separate [scaled-row input reuse](Q2-SCALED-ROW-REUSE.md) probe has local
-source and device-assembly evidence only. It is excluded from these model
-results and requires a new GPU qualification window before promotion.
+The separate [scaled-row input reuse](Q2-SCALED-ROW-REUSE.md) probe was static
+preparation during this campaign. Its subsequent GPU component comparison is
+documented separately and excluded from all model results above. It still has
+no canonical model performance result or default promotion.

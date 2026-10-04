@@ -56,9 +56,11 @@ UD dips, remain in the four-arm graph and full CSV. The GPU window is released.
 The final wrapper and native client pass 22/22 and 3/3 respectively in Debug
 and ASan/UBSan on .157. All twenty real canonical request/reply/count histories
 also match the old driver. A separate [scaled-row input reuse probe](docs/Q2-SCALED-ROW-REUSE.md)
-removes a second input read in device assembly. Its component fixture is prepared
-and host supervision passes 22/22 Debug and ASan/UBSan on .157; it has no
-GPU/model result yet.
+removes a second input read. Three GPU component arms now show about 15% less
+packing time and 0.4–1.8% less complete pack/down time against the repeated
+control, with identical whole-buffer outputs. Every arm preserves the same
+fifteen numerical rejections and exit 1. This is no new model PP/TG result;
+the candidate remains isolated and the GPU window is released.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes

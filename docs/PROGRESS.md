@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Scaled row GPU probe completes; smaller complete-cycle gain — 2026-10-04
+
+Three component arms complete: unchanged ordered Q2, bounded input reuse and
+unchanged ordered Q2 again. All five packing medians improve about 15% against
+both controls. Complete pack/down medians improve 0.4–1.8% versus the repeated
+control. All 42 complete packing and ten down output records match, including
+132 million packed and 523 million down values per arm; all 74 retained small
+buffer/sample files match byte for byte in both comparisons.
+
+Every executable retains exit 1 and the same fifteen independent rejections:
+ten FP64 down RMS checks exceed 0.002 and five conversion cases lose the sign
+of negative zero in the unchanged optimized control too. No tolerance or oracle
+is relaxed. All 234 component artifacts and seven host artifacts verify;
+host Debug/ASan each passed 22/22. All timings remain retained.
+
+No original model is loaded and no new canonical PP/TG rate is claimed. Keep
+the candidate isolated for a matched native 0–128K model comparison; full parity
+and independent model quality remain open. Fresh release at 13:07:56 UTC
+retires 220 identities/168 groups, verifies KFD empty, all four original leases
+free and six original model stat tuples unchanged. Core is notified; no Q2 job,
+reservation, waiter, restart or .157 cleanup remains.
+[Complete results, graph and failures](Q2-SCALED-ROW-REUSE.md).
+
 ## Scaled row component fixture prepared and host-qualified — 2026-10-04
 
 The next isolated probe retains up to three F32 inputs per thread across the
