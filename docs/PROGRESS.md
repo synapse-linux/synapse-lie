@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Full curve deferred until fixed-point parity — 2026-10-04
+
+The owner explicitly requires closing the current Q2/UD gap before expanding
+to the complete context curve. The fixed 1443.672867 / 1685.777092 reference,
+input and protocol remain unchanged. Relevant component tests use retained
+controls; model performance tests remain on this fixed comparison. No
+baseline-free sweeps or expansion merely for small/cumulative gains. This
+supersedes the earlier cumulative-checkpoint exception in the ragged plan.
+Only comparison policy and documentation change; no benchmark is launched.
+
 ## Fixed comparison restored in reporting — 2026-10-04
 
 The owner confirms 1443.672867 Q2 PP as the retained short-prefill reference,

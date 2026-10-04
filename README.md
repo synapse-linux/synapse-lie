@@ -91,6 +91,9 @@ exploratory. They do not update the [fixed 1443.673 Q2 / 1685.777 UD
 reference](docs/Q2-VALIDATION.md#comparators-and-preparation); improvement on
 that comparison has not been measured. Independent quality and whole-curve
 parity remain open; no full sweep follows.
+Further context-curve tests wait until Q2 matches UD on the fixed comparison.
+Until then, performance work uses relevant component controls and that same
+model point; small gains and cumulative checkpoints do not bypass this gate.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes

@@ -29,6 +29,18 @@ latest paired-norm run has not tested that fixed-reference improvement.
 Full canonical short/long-context, PP/TG, latency, concurrency, resource and
 quality requirements remain in force; this fixed point does not replace them.
 
+**Owner's expansion gate:** do not start another context curve until Q2
+matches UD on this fixed comparison under the repeatability and no-regression
+rules below. Preserve the 1443.672867 Q2 / 1685.777092 UD record; a lower fresh
+control or an unrelated component gain cannot lower the target. Small gains
+or a cumulative checkpoint alone do not authorize expansion. While this gap
+remains, limit performance work to relevant component comparisons with retained
+controls and the same fixed model point. Reuse existing evidence; no unrelated
+model workloads or baseline-free exploratory sweeps. Required correctness
+checks remain applicable to each actual change. After fixed-point parity,
+progress to the full short/long-context curve without changing its acceptance
+criteria.
+
 1. Use independent scalar operator formulas for IQ2_XXS/Q2_K and exact F16
    widening, with thresholds frozen before GPU execution. Initial thresholds:
    relative RMS error <= 0.002 and maximum absolute error / maximum reference

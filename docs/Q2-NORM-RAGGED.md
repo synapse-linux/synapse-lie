@@ -50,14 +50,15 @@ six zero command exits and seven verified artifacts on `.157`.
 
 ## Escalation of measurement cost
 
-Start with the affected component and one control. Next use a single
-canonical `synapse-lie-bench` point, with unchanged Q2 before and after and a
-matched UD observation. Keep the same prose, calibration, sampling and timing;
-do not substitute the historical counting prompt. A medium-depth point is
-added only for a context-dependent hypothesis. Repeat to resolve observed
-noise, not by default. Full 0..128K qualification follows a representative
-model result that closes the UD deficit or a justified cumulative checkpoint.
-The final target remains Q2 at least as fast as UD at every required point.
+The owner subsequently fixes the immediate gate to the retained exact-2048
+comparison: Q2 1443.672867 against UD1685.777092 token/s. This supersedes the
+earlier proposal to use a different canonical point or advance on a cumulative
+checkpoint. Start with the affected component and its retained control, then
+the fixed model comparison with identical input, settings and timers.
+Do not launch another context curve until that comparison matches UD under
+the [validation rules](Q2-VALIDATION.md#comparators-and-preparation). No
+unrelated workload or baseline-free sweep while the gap remains. The final
+target still requires Q2 at least as fast as UD at every required curve point.
 
 ## Completed focused component — 2026-10-04
 

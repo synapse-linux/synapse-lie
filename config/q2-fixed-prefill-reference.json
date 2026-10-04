@@ -194,6 +194,8 @@
   },
   "policy": [
     "Keep the historical reference and all raw samples visible alongside fresh matched controls.",
+    "Do not start another full context curve until Q2 matches UD on this fixed comparison under the existing repeatability and no-regression rules. A small gain or cumulative checkpoint alone is insufficient.",
+    "While the gap remains, limit performance tests to relevant components with retained controls and this fixed model comparison; reuse existing evidence and avoid unrelated or baseline-free sweeps.",
     "Claims against this reference require the frozen physical input, timing, settings and provider identity; do not silently replace it with another workload or a lower control.",
     "Descriptive medians of different prose prompts cannot establish fixed-input repeatability or improvement against this reference.",
     "Freezing the mixed-map result does not promote that provider on other workloads.",
