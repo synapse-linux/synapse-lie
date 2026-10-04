@@ -769,6 +769,8 @@ static json_object *read_result(const char *path, nb_error *e) {
       out = http_summary(rows, e);
     else if (eqs(id, "schema", "synapse-lie.http-multi-bench.v1"))
       out = nb_http_multi_summary(rows, e);
+    else if (eqs(id, "schema", "synapse-lie.http-curve-bench.v1"))
+      out = nb_http_curve_summary(rows, e);
     else {
       nb_fail(e, "Unsupported benchmark report schema");
       goto bad;
@@ -1230,6 +1232,12 @@ int nb_report(const char *input, const char *directory, const char *label,
     if(cache_build){nb_fail(e,"Cache build ablation is not an HTTP multi comparison");goto end;}
     if(reference){b=read_result(reference,e);if(!b)goto end;}
     rc=nb_http_multi_export(a,b,directory,label,ref_label,e);
+    goto end;
+  }
+  if (eqs(nb_get(a,"identity"),"schema","synapse-lie.http-curve-bench.v1")) {
+    if (cache_build) { nb_fail(e,"Cache build ablation is not a canonical curve comparison"); goto end; }
+    if (reference) { b=read_result(reference,e); if (!b) goto end; }
+    rc=nb_http_curve_export(a,b,directory,label,ref_label,e);
     goto end;
   }
   bool ssd = eqs(a, "schema", "synapse-lie.http-ssd-bench.v1"),

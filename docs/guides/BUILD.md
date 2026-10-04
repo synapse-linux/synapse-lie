@@ -55,6 +55,21 @@ are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-report` is also available for offline reporting. The benchmark
 executables do not need adjacent scripts or a Python interpreter.
 
+To build the native HTTP benchmark client without a GPU provider or model files:
+
+```sh
+cmake -S . -B build/bench -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=OFF
+cmake --build build/bench --target synapse-lie-bench synapse-lie-bench-report -j2
+build/bench/synapse-lie-bench --suite http-curve --help
+```
+
+This client talks to an already running server. Canonical Gufo prompt generation,
+depth calibration, request collection and CSV/JSON/SVG/PNG export are C17.
+The same binary also retains direct/core benchmarks when built with a provider.
+Historical Python launch supervisors and opt-in test oracles are development
+tools; neither is invoked by the native client or required to run its reports.
+
 No service is installed or started. Continue with the [usage guide](USAGE.md).
 On the project's shared GPU host, use the [coordination protocol](../COORDINATION.md)
 before a GPU build or model run.

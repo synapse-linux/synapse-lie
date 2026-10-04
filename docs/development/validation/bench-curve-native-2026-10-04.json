@@ -1,0 +1,1119 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "schema": "synapse-lie.bench-curve-native.host.v1",
+  "at_utc": "2026-10-04T11:49:30.407597+00:00",
+  "base_checkpoint": "43239127ae12f86264fec75f13e7ddd361560326",
+  "branch": "feature/bench-gufo-curve-native",
+  "worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/bench-gufo-curve-native",
+  "host": {
+    "role": "Editing Strix Halo .155; CPU-only functional tests explicitly authorized by the user",
+    "hostname": "cachyos-x8664",
+    "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S"
+  },
+  "scope": "Local device-masked C17 builds, private owned loopback fixtures, exact offline Gufo protocol/text conformance and native reports; NOT-INFERENCE. No GPU/model access/hash/conversion, remote GPU build, installation, tuning, deployment or publication.",
+  "product_python_dependency": false,
+  "default_python_test_discovery": false,
+  "private_development_guard_and_golden_authoring_may_use_python": true,
+  "runtime_provider_executor_ABI_or_inference_scheduler_changed": false,
+  "validation": {
+    "Debug": "3/3 focused native CTest passed",
+    "ASan_UBSan_LeakSanitizer": "3/3 passed, detect_leaks=1:halt_on_error=1, UBSAN halt_on_error=1",
+    "Release_client": "Independent C wire fixture exit 0 with child PATH=/no-interpreter-or-tools",
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "upstream_generator_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+    "generator_goldens": 22,
+    "primary_request_witnesses": 35,
+    "curve_depths": [
+      0,
+      4096,
+      8192,
+      12288,
+      16384,
+      32768,
+      65536,
+      131072
+    ],
+    "repetitions": 2,
+    "forced_recalibration": true,
+    "boundary_traces": [
+      "four exhausted attempts",
+      "thinking prefix/measured options",
+      "early prefix EOS accepted with actual reply",
+      "1M client declared capacity; no model fit claim"
+    ],
+    "negative_tests": [
+      "modified payload/usage/point/terminal/total counts",
+      "Gufo rate overflow",
+      "measured early EOS",
+      "missing SSE terminal",
+      "invalid server timings",
+      "existing output refusal",
+      "declared context too small"
+    ]
+  },
+  "graph": {
+    "statistic": "arithmetic mean with observed min/max; sample SD and median also exported in CSV/JSON",
+    "panels": [
+      "new-turn executed prefill t/s",
+      "server decode t/s",
+      "complete HTTP wall seconds",
+      "client TTFT seconds"
+    ],
+    "ticks": "all eight short depth labels shown",
+    "synthetic_charts_private": true,
+    "new_GPU_performance_evidence": false
+  },
+  "temperature": {
+    "requested_cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "lower_exposed_max_or_critical_limits_apply": true,
+    "gpu_policy": "observe-only",
+    "peaks": [
+      {
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "name": "nvme",
+        "value_c": 35.85
+      },
+      {
+        "path": "/sys/class/hwmon/hwmon6/temp2_input",
+        "name": "nvme",
+        "value_c": 35.85
+      },
+      {
+        "path": "/sys/class/hwmon/hwmon7/temp1_input",
+        "name": "amdgpu",
+        "value_c": 51.0
+      },
+      {
+        "path": "/sys/class/hwmon/hwmon8/temp1_input",
+        "name": "k10temp",
+        "value_c": 75.25
+      }
+    ]
+  },
+  "commands": [
+    {
+      "name": "build-asan",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-asan",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.875
+      },
+      "elapsed_s": 5.2226778492331505,
+      "result_sha256": "97581cb028251822ea91d866e150109a7a005f553012cf596d8291c0d91bd292",
+      "command_log_sha256": "8329b84a39d8b8fadd436e1561134557c8a923602283a9843783299ccd24781c"
+    },
+    {
+      "name": "build-asan-final",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-asan",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 65.375
+      },
+      "elapsed_s": 2.1311104306951165,
+      "result_sha256": "cdd5c4543bcceb7d20aa818b4adf2d6be1787efc5ab3f3c1035680e5063d6b14",
+      "command_log_sha256": "44cbb2b832f98f89e324b064f54e5779f820a1869cbccf1655bcf357144f7cbc"
+    },
+    {
+      "name": "build-asan-qualified",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-asan",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.625
+      },
+      "elapsed_s": 1.0934971449896693,
+      "result_sha256": "814cfc2fd50a939964a657ca9db304aa46a46afa8a9cc6ae6072ad6c88cc2b50",
+      "command_log_sha256": "aaf883b81427a47d6e48d684e173f6b6ef346a0f38fa241b8cb460ffd48d31b8"
+    },
+    {
+      "name": "build-debug-final",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+      },
+      "elapsed_s": 2.095055646263063,
+      "result_sha256": "c5cbb78647bce1361b190f3141331b011fb9a970afade02d1b4de590ea845ea6",
+      "command_log_sha256": "04300ef30a023f2b17b35c339060381a4adbfb8b344a225eed3a428b30bbed13"
+    },
+    {
+      "name": "build-debug-final-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "test-http-curve-native",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.25
+      },
+      "elapsed_s": 1.0578984823077917,
+      "result_sha256": "30292586ba7a0a70cb68a6cefd95d726a7e50f4ff5f2d4942d92dfb32217b91a",
+      "command_log_sha256": "6313284bdecd8ead104107eb128f426e315684076cd3ae96c8f0b12dcfacde52"
+    },
+    {
+      "name": "build-debug-overflow",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.625
+      },
+      "elapsed_s": 1.0577566232532263,
+      "result_sha256": "da25080206a91adfed9bbc69b142631c8b1e97484d72220a8aca3595f61a72cd",
+      "command_log_sha256": "9b4a9081a05b1735592100e5b021f8f3e2795aba30bfa8cdb84fe57354fc15d3"
+    },
+    {
+      "name": "build-debug-qualified",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.0
+      },
+      "elapsed_s": 1.118611054494977,
+      "result_sha256": "13ca1a2207bf15c65846e8c471e54e7d9c6e2ec41bc2ea621738d4587d12a82c",
+      "command_log_sha256": "6480fa65cd057971da33371c506f8e89726ff4636ffbddaf6a53e48c9ae44a22"
+    },
+    {
+      "name": "build-first",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.875
+      },
+      "elapsed_s": 2.0663898438215256,
+      "result_sha256": "1d4e43abbdef0f6f6507ac887609869f023e8b55fdcb54364d73e6514d6060bc",
+      "command_log_sha256": "dba1a2fb208ac39cf1641eafc33587dc790c4df1fff5e9567a6f25ae00a39588"
+    },
+    {
+      "name": "build-release",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-release",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.25
+      },
+      "elapsed_s": 4.230888520367444,
+      "result_sha256": "127d6dc55da0cae448195576ec7911691807a13271889ce5093fb7b4cc4a685a",
+      "command_log_sha256": "385b1967dd0e9e6e9267559656c263cc468ac52a6ea62b28c7eb6367566e47a7"
+    },
+    {
+      "name": "build-release-qualified",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-release",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.25
+      },
+      "elapsed_s": 1.0555534847080708,
+      "result_sha256": "24f27cee9e39271d30c333f37b588a003e2c0e5bd93abff72ada1b76d420dfef",
+      "command_log_sha256": "5d9150896998744d119946357e05b63f08423cc0baf2bd9e8e98363bfae91e5a"
+    },
+    {
+      "name": "build-tests",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.625
+      },
+      "elapsed_s": 1.0639588413760066,
+      "result_sha256": "deb06accf1c3af3925b52a1f14d7bc1406bcb79c0f984b005bcd103ba3052015",
+      "command_log_sha256": "df12eeab8b4d27e95c9547ea21b293bcced13c2ad512b59c728d0a6654fd6d70"
+    },
+    {
+      "name": "build-tests-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.625
+      },
+      "elapsed_s": 1.085430247709155,
+      "result_sha256": "6f921e1b786431b6b61dc38f70133d52f25b170369009fc2327ace9b8d2e8f99",
+      "command_log_sha256": "e76dd9c122e960925c72681d7e9328dff062c80540ccb5ed1a46c55ca6abcca4"
+    },
+    {
+      "name": "build-tests-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/bench-curve-debug",
+        "--target",
+        "test-http-curve-native",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.875
+      },
+      "elapsed_s": 3.109392615966499,
+      "result_sha256": "9c82ef212b13976bb2d583856612ae77662248c8cd3e49f875b234d39dfbe7f2",
+      "command_log_sha256": "b3327f936119c218a80c9d675c47461e8ce35a7a22705ef7d1a196641bf8364a"
+    },
+    {
+      "name": "configure-asan",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/bench-curve-asan",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_BUILD_ID=bench-curve-native-asan"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.625
+      },
+      "elapsed_s": 1.124438190832734,
+      "result_sha256": "8de939a45d75b79bd4c7806d3e5746a2164d8ebcaa299a82860fb64c00122b25",
+      "command_log_sha256": "fe7d44f00f06698aaf801e33c39178b05e3d787d48294ff6343d00be17ae223d"
+    },
+    {
+      "name": "configure-debug",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/bench-curve-debug",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_BUILD_ID=bench-curve-native"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+      },
+      "elapsed_s": 1.0841489853337407,
+      "result_sha256": "7ff8b3e3f5d1efd8d888e4ef012de525929e671accab11f112d270acc903100a",
+      "command_log_sha256": "42753998f4d3c2df513a31f2ee11a14c74302b3d84c6463a9f6c2ac1f5f4df2f"
+    },
+    {
+      "name": "configure-release",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/bench-curve-release",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_BUILD_ID=bench-curve-native-release"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.0
+      },
+      "elapsed_s": 1.0549537632614374,
+      "result_sha256": "52512b350360b4c9a7c45b13cb787119c09db92736d6d6554f7f59cbd91e1fb8",
+      "command_log_sha256": "0b73832987775bc6ea5b2330d469ef8059bb29b38cf4e53b91543bc40d5eea55"
+    },
+    {
+      "name": "configure-tests",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/bench-curve-debug",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_BUILD_ID=bench-curve-native"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.5
+      },
+      "elapsed_s": 1.0795765118673444,
+      "result_sha256": "282a936e813211a42384280854d72ba502fb4c877687046823c4651fb78eee46",
+      "command_log_sha256": "ca855301f557a4653fe3863afc35030204f2f7b0a7db9c07f6fd2ba624da529f"
+    },
+    {
+      "name": "ctest-asan",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-asan",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.125
+      },
+      "elapsed_s": 12.64063274487853,
+      "result_sha256": "1f1cffcfa3e77212876dcd276a9177c3a014baeb19d82d8e6118c8d2197a0ebd",
+      "command_log_sha256": "14523be38106b7dcbb1e52fce422f0e6f9cc661ae38727d5cc61b6c66f14982c"
+    },
+    {
+      "name": "ctest-asan-qualified",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-asan",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.375
+      },
+      "elapsed_s": 12.729988764971495,
+      "result_sha256": "d38834cbc923f0360bc0612e59b206d89f2dfcfdf2d40dadb27340724a599376",
+      "command_log_sha256": "63a400157fb8395f1feaae100718bd14ecc025a73521fa82a85e82cba62867a9"
+    },
+    {
+      "name": "ctest-debug",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-debug",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.0
+      },
+      "elapsed_s": 1.0562688643112779,
+      "result_sha256": "8f4078b71807bc9cc9b21ad374b187e4bfae3f031388c23a916b3a0eab244198",
+      "command_log_sha256": "1a254b1880aa98acd72f0e1ba7c4cba0db04c2ddb226f40b5c04de074ba8a0a2"
+    },
+    {
+      "name": "ctest-debug-final",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-debug",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+      },
+      "elapsed_s": 10.481304608285427,
+      "result_sha256": "10ba13142a2f1cdc8a662f510c2ae8b642a423929f3c39354a1a26fcce66da87",
+      "command_log_sha256": "4a9a95d7a094672139dd04d324f3f55f745c0e1d211e2b955b13e7d0c91abf40"
+    },
+    {
+      "name": "ctest-debug-loopback",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-debug",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.0
+      },
+      "elapsed_s": 10.502670494839549,
+      "result_sha256": "59041def720c7c8d162859ec649ad5600925c2a97ed61e88e71215acf1bd03fb",
+      "command_log_sha256": "490974b688d78c5170de9600455b7366d961d3376a7021f56ca65b26f9a2c973"
+    },
+    {
+      "name": "ctest-debug-qualified",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/bench-curve-debug",
+        "-R",
+        "native-(http-curve|http-multi|benchmark)-contract",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.0
+      },
+      "elapsed_s": 11.507388714700937,
+      "result_sha256": "0c72c46e4b7df87a79fdc5b0ac0a2fbf1c3f1c12c1e9aa3d141cc008ad4f8fbf",
+      "command_log_sha256": "90c5b398cfff8d9c81be65e8eb0289d97fa808959ae4f348bf773a5f1974cf49"
+    },
+    {
+      "name": "fixture-release",
+      "argv": [
+        "build/bench-curve-debug/test-http-curve-native",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/bench-gufo-curve-native/build/bench-curve-release/synapse-lie-bench",
+        "tests/fixtures/gufo-workload-goldens.json",
+        "tests/fixtures/gufo-curve-trace.json",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/bench-gufo-curve-native/build/bench-curve-release/curve-CPU-XXXXXX"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+      },
+      "elapsed_s": 2.1695192102342844,
+      "result_sha256": "65136a8d10f76e1de4871f68bf4d562349bc93f596d5111f927ef68c24e2eda9",
+      "command_log_sha256": "34bd8a7795858859d9de2d4cd3870957ba6d4fa1130d15569d78da31d0c5c7f4"
+    }
+  ],
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "129e7afbac1203c64973d55da3794719d8028648f08aeb8a48876eb3150d12b5"
+    },
+    {
+      "path": "tools/lie-bench.c",
+      "sha256": "b09f1e4d0afdae48a6da907b06c5f0f298766e1203c78c80069ea92f5a15fe93"
+    },
+    {
+      "path": "tools/native/bench_native.h",
+      "sha256": "1b655cdae288be23fea6539665330a1dd7cf26c4898751f80bdb1c394aa16d91"
+    },
+    {
+      "path": "tools/native/http_curve.c",
+      "sha256": "2749bd13a747f25e65e766783b56ada6a56f0d04e688086516e8e9093b089d64"
+    },
+    {
+      "path": "tools/native/gufo_workload.c",
+      "sha256": "07fc9acbf762b68b58c7765fc50f3d89098ffebd9c7624ecfdc70ee945751412"
+    },
+    {
+      "path": "tools/native/report.c",
+      "sha256": "ec1dde6be73d1809d2a046833271af7f9f8ebf5816ee6a5f0e344236c575a194"
+    },
+    {
+      "path": "tools/native/plot.c",
+      "sha256": "1976d583dd9bf167227ae54520cb7e95074982f452885c3a76ef842168a1efc5"
+    },
+    {
+      "path": "tests/test_http_curve_native.c",
+      "sha256": "f54dc73838067689c7091a91634f561262917fcea7ab2484f9da7535ff4d6565"
+    },
+    {
+      "path": "tests/fixtures/gufo-workload-goldens.json",
+      "sha256": "6d4c1fef3a87b0833419f115b7da489ac80053d4a50fdadaab5a29c650a8b83d"
+    },
+    {
+      "path": "tests/fixtures/gufo-curve-trace.json",
+      "sha256": "9e3093b04fe052f33ac18f2bfed46a9bc827628b6325cbd57603af42972f7548"
+    },
+    {
+      "path": "third_party/gufo-bench-source.json",
+      "sha256": "da04db75f2913dc9a09b2c8f64f20e3d1301e37e87398e2c6be3384b87d1dbea"
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/bench-curve-debug/synapse-lie-bench",
+      "sha256": "0ecd03ebd70e7d26f3b50444937c6041fa3d88af94d8e8db29783d208b2b060d",
+      "bytes": 923232,
+      "ELF_NEEDED": [
+        "libzstd.so.1",
+        "libm.so.6",
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libc.so.6"
+      ],
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/synapse-lie-bench-report",
+      "sha256": "bb834a6f7f0fb0afdfda954c79af67b8a02c57c4b169ba29033f5e2948ebd274",
+      "bytes": 324984,
+      "ELF_NEEDED": [
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libm.so.6",
+        "libc.so.6"
+      ],
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-asan/synapse-lie-bench",
+      "sha256": "8c1d9836fb73dd7dbd3bb982ab7f65cda38a84e4036d4b4f5690696d44d498c4",
+      "bytes": 5600008,
+      "ELF_NEEDED": [
+        "libasan.so.8",
+        "libzstd.so.1",
+        "libm.so.6",
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libubsan.so.1",
+        "libc.so.6"
+      ],
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/synapse-lie-bench-report",
+      "sha256": "7f07c09c6f7fedc15126979bbd87fc81a745013a1f1a67c61693e1c003154744",
+      "bytes": 1332520,
+      "ELF_NEEDED": [
+        "libasan.so.8",
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libm.so.6",
+        "libubsan.so.1",
+        "libc.so.6"
+      ],
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-release/synapse-lie-bench",
+      "sha256": "16131c9d1d2f98f00aa7478672a21326c9db6021c215809dd4f662244d0c1843",
+      "bytes": 461400,
+      "ELF_NEEDED": [
+        "libzstd.so.1",
+        "libm.so.6",
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libc.so.6"
+      ],
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/synapse-lie-bench-report",
+      "sha256": "f423629858b3d2d02ac31371a78c84faab0e37ccd78b71215b6d5cb088955554",
+      "bytes": 178200,
+      "ELF_NEEDED": [
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libm.so.6",
+        "libc.so.6"
+      ],
+      "composition": "release"
+    }
+  ],
+  "private_fixture_artifacts": [
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/failure-1.jsonl",
+      "bytes": 52347,
+      "sha256": "6d5a6ad92d9e5171a7c9100d9e53ee0a409de365e2911e1646d0967e9b4b078a",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/failure-2.jsonl",
+      "bytes": 52249,
+      "sha256": "f6e2857a9a87122d446f333a94007dd6a5638ec282afc93371348921fe932b96",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/failure-3.jsonl",
+      "bytes": 50624,
+      "sha256": "15c3ff783069159903e094d3fb4a3d7fcc336b4f0d562ccfe90d3e89d8f51e72",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/fixture-graphs/benchmark.png",
+      "bytes": 25495,
+      "sha256": "70496f3214b6929fe63028cd7ffa449c45e32c7db97ec4b332cbb69ac88af23c",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/fixture-graphs/benchmark.svg",
+      "bytes": 33802,
+      "sha256": "f91ea420830fc64883bd424c179b23350229c8d7e05230cd08ba1da6abc2837e",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/fixture-graphs/summary.csv",
+      "bytes": 12272,
+      "sha256": "74935eadeed905e80a6b9f73a78ca517cf81a5175cdf5e6a02b8a85cc405f05b",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/fixture-graphs/summary.json",
+      "bytes": 70281,
+      "sha256": "f05b86d751780f67406f8c406458451710dcc2c61a95e41e6ec1f4dfd7366617",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/gufo-NOT-INFERENCE.jsonl",
+      "bytes": 6169093,
+      "sha256": "cd5908d812b4a7730f4c5e772522b25c190e7b854a5baa5d0b92fd3787a0fa81",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/lie-NOT-INFERENCE.jsonl",
+      "bytes": 6200339,
+      "sha256": "ae398f22258f76004e64f4efb5cecf140a035575339786a8e344f949cb45afbc",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/mtp-NOT-INFERENCE.jsonl",
+      "bytes": 6207966,
+      "sha256": "0daacbcab10e55f8f1853423baf341b2b14a89a381410b71997b48b3a53d792f",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/special-0.jsonl",
+      "bytes": 95436,
+      "sha256": "f65a9742fc52010b8e8b3e78c0b7874e58107164395b3058b535fca62826172f",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/special-1.jsonl",
+      "bytes": 111996,
+      "sha256": "769d1411f5308bf978d3a4b3653e6e27c1e612b260ab1c6be93ba4656dec4dcb",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/special-2.jsonl",
+      "bytes": 97625,
+      "sha256": "f1139a9b37048effe3b0e56fed932ec120069c51d952b1566bc2cf540eac3dec",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-debug/curve-CPU-6v2H9u/special-3.jsonl",
+      "bytes": 10957240,
+      "sha256": "c2da3a8603b7b440ebdd83b9d9c7e24977b6b801a7cd1afd48e62da3492d4383",
+      "composition": "debug"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/failure-1.jsonl",
+      "bytes": 52327,
+      "sha256": "758ac9d4e689688d80a468c59799a42f04aaca3a6c28ec9e8a56d26392fe9c47",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/failure-2.jsonl",
+      "bytes": 52281,
+      "sha256": "d74684127c9a99580c287260b8e7f5ce52eb07368cf9800487011b1ff1478373",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/failure-3.jsonl",
+      "bytes": 50653,
+      "sha256": "8ec7ec032d1aa35b7625d4e61bc130bb19a5afe351618a8cf6a0234ef76ed461",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/fixture-graphs/benchmark.png",
+      "bytes": 25742,
+      "sha256": "9d980e8e1ad4d5fc639d37e62ec528f161cc2ce51f7a513dc9ec2010f709f725",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/fixture-graphs/benchmark.svg",
+      "bytes": 33802,
+      "sha256": "be237d695885c4bf5db2770f1131ee84ceaf5d07546162096a6ddeb21caae16b",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/fixture-graphs/summary.csv",
+      "bytes": 12281,
+      "sha256": "043f3e888825ae37c59340f90b4d88b4a14f118753c7570b89701888441afcb9",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/fixture-graphs/summary.json",
+      "bytes": 70333,
+      "sha256": "56d76035cfe5985e99fa797c28a94029b393ba6f53900bfb63ef9dbe5b2cd65a",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/gufo-NOT-INFERENCE.jsonl",
+      "bytes": 6169038,
+      "sha256": "5dd21ea4331adc75052f6be0b672af3bbb6f4c28117782e309a5220ff7841cd9",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/lie-NOT-INFERENCE.jsonl",
+      "bytes": 6200433,
+      "sha256": "0d7c53d55970dc57bb160fc52102a765c518998c6633359ae151176e499d618d",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/mtp-NOT-INFERENCE.jsonl",
+      "bytes": 6207929,
+      "sha256": "e1aa965fdab637f674c07f127ac1e2be771a146c5d6342d6e3a36b79100cd560",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/special-0.jsonl",
+      "bytes": 95486,
+      "sha256": "642a44fabd0dbb0da4bfe4c580fefe9a2ff1ae9c3d2b19140e4bd209551192db",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/special-1.jsonl",
+      "bytes": 111955,
+      "sha256": "04ba96dd957d4bab127f33ffa08b3cb8b7c6706fa0031f5031e6363f40750fa4",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/special-2.jsonl",
+      "bytes": 97583,
+      "sha256": "b29a747ab8748b3aa317a8477e3a82b2692c9b8ef5a8d7c6a0982001a4c10b72",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-asan/curve-CPU-mVYriU/special-3.jsonl",
+      "bytes": 10957251,
+      "sha256": "dc0a9edd16b78b87e74e897447cf9c2399ab33dfddea2e2464a08c92876ce58e",
+      "composition": "asan"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/failure-1.jsonl",
+      "bytes": 52349,
+      "sha256": "fde33219b921d0ad04ef3741976bafecd7999c51a2ab0752c8a1376374d23957",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/failure-2.jsonl",
+      "bytes": 52279,
+      "sha256": "b567888b7afa448a2137fa71dfb7cbc6656312b05204e2b8a5e4825a4230fb27",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/failure-3.jsonl",
+      "bytes": 50625,
+      "sha256": "19c903636f11cb0491f416f7bf8afed2c32fb680c58c800a50486cdcd0b65ce5",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/fixture-graphs/benchmark.png",
+      "bytes": 25286,
+      "sha256": "31452699d0a778d8d19138d20e5082630309dae0c11132f3133a5c664b4099ee",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/fixture-graphs/benchmark.svg",
+      "bytes": 33805,
+      "sha256": "32e173ecdfad38c6a0b217ed9e2708d8fb9a7b7656fb13c71da166bd2aaee893",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/fixture-graphs/summary.csv",
+      "bytes": 12327,
+      "sha256": "32daf9e3df8bdc7adca9690681e8eeb20bbd6c051052d2bb10c11973c37a0d8e",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/fixture-graphs/summary.json",
+      "bytes": 70459,
+      "sha256": "edfce882f4b08df71e41f48e6f8377a77b27eb4ef643da8568b49e165505c855",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/gufo-NOT-INFERENCE.jsonl",
+      "bytes": 6169098,
+      "sha256": "c6d5a8cd9722b067f379cf58f590faea6acae48d253d7e08cc6c7b859e7ec9f9",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/lie-NOT-INFERENCE.jsonl",
+      "bytes": 6200469,
+      "sha256": "c2221158a98dcdb6d49468e10c0f4448c4be6ee28c586b27f895848110ee1f6e",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/mtp-NOT-INFERENCE.jsonl",
+      "bytes": 6207930,
+      "sha256": "f16c74b46f2e92b43213df971e4c5c1011cdca8730501334c8dc2df6e723a377",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/special-0.jsonl",
+      "bytes": 95397,
+      "sha256": "9176cf9f4be92ecf3ff1b3586553fdd2c2555e518a4604457d3c0e0cd2278c75",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/special-1.jsonl",
+      "bytes": 112006,
+      "sha256": "05ffa25d0c2852bdf0f30380cdee77927d6c74118ec6b7488a879209ac88f2bc",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/special-2.jsonl",
+      "bytes": 97553,
+      "sha256": "b482ec1ae8e66ea6d5a8ef23ac47712724420ed97c6889cf52ea7bc4aaee31a3",
+      "composition": "release"
+    },
+    {
+      "path": "build/bench-curve-release/curve-CPU-3hpaB4/special-3.jsonl",
+      "bytes": 10957253,
+      "sha256": "f1b2fd015a6c9af1390f5c937db0da68803849f75e19278ed6d74a5e7fcd16a2",
+      "composition": "release"
+    }
+  ],
+  "retained_failures": "Unregenerated CMake test target (exit 2), Werror fixture path bound (exit 2), sandbox socket refusal (CTest exit 8); corrected successful attempts recorded separately. Expected negative CLI failures remain in fixture JSONL/logs.",
+  "remaining_campaign_gates": [
+    "Original-weight GPU performance on .157 under fresh coordinated admission; no current root GPU ownership",
+    "Cold-file loading and exact HIP allocation peak remain separate missing measurement implementations",
+    "Current provider capacity remains 262144; client 1M boundary is not 1M inference qualification"
+  ]
+}

@@ -3,6 +3,8 @@
 First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
 owned dense sampler is an attributed C17 port of independently fetched official
 Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
+The native Gufo conversation benchmark port has its own
+[pinned source and fixture provenance](gufo-bench-source.json).
 No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only
@@ -15,7 +17,7 @@ under their publisher's terms. A C API wrapper does not relicense its dependenci
 | libuv | 1.52.1 | MIT and component notices; event loop/network lifecycle |
 | llhttp | 9.3.1 | MIT; HTTP/1 parser |
 | json-c | 0.19 | MIT; JSON serialization/parsing |
-| libcurl | 8.21.0 | curl license; monitor and optional upstream image-helper link dependency (images not exposed) |
+| libcurl | 8.21.0 | curl license; native HTTP benchmark clients, monitor and upstream image helpers |
 | Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; opt-in HIP-linked transitional Model/Session adapter; bounded original-weight smoke passed, numerical qualification open |
 | ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
 | ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |

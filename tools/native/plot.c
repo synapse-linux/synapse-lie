@@ -195,8 +195,11 @@ bool nb_plot(const char *dir, const char *title, const nb_plot_panel *panels,
   text_at(&c, 40, 66,
           percentiles ? "p50/p95/p99 use nearest ranks, not confidence "
                         "intervals. All axes start at zero."
-                      : "Median and observed min/max. Separate scales start at "
-                        "zero; unavailable values are omitted.",
+                      : panels[0].mean
+                          ? "Mean and observed min/max. Separate scales start at "
+                            "zero; unavailable values are omitted."
+                          : "Median and observed min/max. Separate scales start at "
+                            "zero; unavailable values are omitted.",
           false, 2, 0x43536a);
   bool ok = true;
   for (size_t p = 0; ok && p < n; p++) {
@@ -289,7 +292,7 @@ bool nb_plot(const char *dir, const char *title, const nb_plot_panel *panels,
     if (panel->x_label)
       text_at(&c, (left + right) / 2, bottom + 49, panel->x_label, true, 2,
               0x43536a);
-    size_t stride = (count + 6) / 7;
+    size_t stride = (count + 11) / 12;
     const nb_plot_series *ticks = &panel->series[0];
     for (size_t i = 0; i < count; i++) {
       if (i % stride && i + 1 != count)
