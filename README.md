@@ -77,9 +77,11 @@ threshold, so no further model curve is launched. All 105 samples and the
 graph are retained; the GPU window is released. Existing host qualification
 is reused after exact comparison of all sixteen measured files.
 
-Further prefill iteration starts with the [paired norm at 2040 rows](docs/Q2-NORM-RAGGED.md),
-the actual canonical depth-zero size. Component evidence and a single model
-point precede another full context curve; complete Q2/UD parity remains required.
+The [paired norm at 2040 rows](docs/Q2-NORM-RAGGED.md), the actual canonical
+depth-zero size, saves 2.658%/6.772% in complete ordinary/MoE component cycles,
+with exact paired output and unchanged independent down failures. This selects
+one model point before another full context curve. No model gain or complete
+Q2/UD parity is established by the component result.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes

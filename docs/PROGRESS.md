@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Focused paired-norm component complete — 2026-10-04
+
+One `.157` process measures only the canonical d0 component size, 2040 rows,
+and the aligned 2048 control. Complete ordinary/MoE cycles at 2040 rows save
+2.658%/6.772%, winning five of five paired repetitions. All 136 full-output
+hash pairs and thirty saved pairs are exact; fourteen norm oracles pass.
+All 34 down checks retain the shared independent failure and command exit 1.
+No tolerance changes or model performance claim. The frozen gate selects one
+canonical model point; no full curve is started.
+
+All 64 artifacts verify. The oversized initial collection remains recorded;
+a mode-specific finite bound and focused `.157` host check recover the same
+downloaded archive without another GPU run. Release at 14:40:39 UTC verifies
+298 identities/227 groups retired, empty KFD, four original lease inodes free
+and six unchanged model stat tuples. Core is notified; no Q2 GPU reservation,
+waiter, restart or remote cleanup remains. [Results and next gate](Q2-NORM-RAGGED.md).
+
 ## Focused paired-norm preparation — 2026-10-04
 
 The owner asks to defer complete curves while the representative point still
@@ -15,7 +32,7 @@ The initial host cohort retains CTest exit 8 from guard-diagnostic ordering,
 with all other 21 tests passing. After correcting scope-guard order, fresh
 host Debug and ASan/UBSan each pass 22/22, with six zero exits and seven
 verified artifacts. Core confirms no .157 reservation or interleaving; it
-remains on .161. GPU admission is separate and still pending at preparation.
+remains on .161. GPU admission is separate from this preparation checkpoint.
 [Mechanism and reduced-cost plan](Q2-NORM-RAGGED.md).
 
 ## Distinct live-stage component complete; no new model curve — 2026-10-04

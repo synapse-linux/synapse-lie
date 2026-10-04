@@ -58,3 +58,49 @@ added only for a context-dependent hypothesis. Repeat to resolve observed
 noise, not by default. Full 0..128K qualification follows a representative
 model result that closes the UD deficit or a justified cumulative checkpoint.
 The final target remains Q2 at least as fast as UD at every required point.
+
+## Completed focused component — 2026-10-04
+
+The single `.157` component process completes at 14:39:36 UTC, about 43 seconds
+after staging begins, including its build. All 1020 provider files, measured
+fixtures against the passing host capsule and 64 result artifacts verify.
+All 136 full-output hash pairs and 30 saved array pairs are exact, including
+scalar F16 conversion. All fourteen independent norm checks pass.
+
+Median complete-cycle times are microseconds; lower is faster.
+
+| Rows | Cycle | Separate | Paired | Time change | Faster paired repetitions |
+|---:|---|---:|---:|---:|---:|
+| 2040 | Ordinary | 2983.454 | 2904.161 | -2.658% | 5/5 |
+| 2040 | MoE | 3878.914 | 3616.249 | -6.772% | 5/5 |
+| 2048 | Ordinary control | 2994.438 | 2895.596 | -3.301% | 5/5 |
+| 2048 | MoE control | 3911.086 | 3648.786 | -6.707% | 5/5 |
+
+All paired samples are below their corresponding unpaired sample ranges.
+The frozen component criterion selects **one canonical model point** as the
+next experiment. No full-model run or full context curve starts in this window.
+The 2048-row benefit is already available in the original executor and is not
+a new model gain. [All forty samples and verified outputs](../config/q2-norm-ragged-results.json).
+
+Independent down-projection checks still fail in all 34 replays: maximum
+relative RMS 3.33425e-5 and peak-scaled error 4.16361e-5 exceed the unchanged
+2e-5 limits. Identical paired/control output means both paths have those
+failures. The component retains command exits 0/0/1; exact output does not
+clear the independent rejection or earlier model-quality gap. Peak observed
+CPU/GPU temperatures are 69/56 C, with no thermal stop.
+
+Collection initially rejects the already downloaded archive at the generic
+128 MB bound. Saving the new 2040/2047-row outputs, in addition to small cases,
+produces 1,106,304,168 uncompressed bytes. The collector now permits at most
+1,120,000,000 bytes for this mode only; all prior limits and path checks remain.
+Its focused boundary/path test passes on `.157`. The same downloaded archive
+is revalidated and extracted locally, without another GPU run, download or
+remote cleanup. Both failed collection and correction are retained.
+[Collector check](../config/q2-norm-ragged-collection-host.json).
+
+Release at 14:40:39 UTC verifies 298 prior process identities and 227 groups
+retired, KFD empty, four original lease inodes free and six unchanged model
+stat tuples. Main/remote active/release/ready records and the shared registry
+retain closure, and core is notified. No GPU job, reservation, waiter or restart
+remains. [Release](../config/q2-norm-ragged-window-release.json), SHA256
+`97a6a71b33891f4680d1cd63c37295ac2ebe7d57ecafdc014461f3b1c6773642`.

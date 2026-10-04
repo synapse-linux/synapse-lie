@@ -6,7 +6,23 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T14:15:56.585533+00:00** after
+Latest Q2 window: **released at 2026-10-04T14:40:39.297041+00:00** after
+one paired-norm component at 2040/2048 rows, without a model or full curve.
+Admission at 14:38:21 UTC uses checkpoint `9165ea5`; core confirms no .157
+reservation and remains on .161. Corrected host Debug/ASan each pass 22/22;
+the first host cohort retains CTest exit 8. Component exits are 0/0/1 for
+shared independent down failures, with all complete output pairs exact.
+
+Closure checks 298 retired identities/227 groups, KFD empty, four unchanged
+original lease inodes free and six unchanged model stat tuples. Remote/main
+release/active/ready and registry record closure; core receives the receipt.
+No GPU job/reservation/waiter/restart or remote cleanup remains. Post-release
+collection recovers the same archive after a mode-specific size-bound fix;
+one focused CPU-only collector check on .157 passes at 14:43:58 UTC.
+[Release](../config/q2-norm-ragged-window-release.json), SHA256
+`97a6a71b33891f4680d1cd63c37295ac2ebe7d57ecafdc014461f3b1c6773642`.
+
+Previous Q2 window: **released at 2026-10-04T14:15:56.585533+00:00** after
 three IQ2 live-stage components, nine zero command exits and 318 verified
 artifacts. All 51 independent checks pass per arm; all 102 output arrays match.
 The frozen performance gate does not select another model run. Existing host

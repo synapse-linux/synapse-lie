@@ -347,11 +347,13 @@ class RemoteGuardTests(unittest.TestCase):
                          'iq2-live-epilogue-check')
         self.assertEqual(remote.collection_receipt(archive('q2-terminal-full', 1024**3))['mode'],
                          'q2-terminal-full')
+        self.assertEqual(remote.collection_receipt(archive('hc-norm-ragged-bench', 1106304168))['mode'],
+                         'hc-norm-ragged-bench')
         for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000),
                            ('iq2-live-epilogue-check', 384000000), ('iq2-wmma-signs-check', 129000000)]:
             with self.assertRaisesRegex(ValueError, 'Oversized collection'):
                 remote.collection_receipt(archive(mode, size))
-        for mode, size in [('q2-terminal-full', 2 * 1024**3),
+        for mode, size in [('hc-norm-ragged-bench', 1120000000), ('q2-terminal-full', 2 * 1024**3),
                            ('q2-terminal-smoke', 129000000), ('cpu', 129000000)]:
             with self.assertRaisesRegex(ValueError, 'Oversized collection'):
                 remote.collection_receipt(archive(mode, size))

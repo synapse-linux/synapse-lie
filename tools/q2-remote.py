@@ -56,7 +56,9 @@ def collection_receipt(archive):
     # Keep other modes at their existing bound and retain a finite total cap.
     # Full Core-19 permits 19 x two three-hour attempts. Preserve its two-second
     # telemetry samples instead of silently dropping them after a short-run cap.
-    limits = {**{mode: 384000000 for mode in MIXED_TILE_MODES}, 'iq2-live-epilogue-check': 384000000, 'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3}
+    # The ragged HC fixture retains 2040/2047-row norm/half/down pairs as well
+    # as small cases: 1,106,304,168 bytes in the first complete archive.
+    limits = {**{mode: 384000000 for mode in MIXED_TILE_MODES}, 'iq2-live-epilogue-check': 384000000, 'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3, 'hc-norm-ragged-bench': 1120000000}
     limit = limits.get(receipt.get('mode'), 128000000)
     if sum(member.size for member in members) > limit:
         raise ValueError('Oversized collection')
