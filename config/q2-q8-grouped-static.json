@@ -1,0 +1,171 @@
+{
+  "schema": "synapse-lie.q2-q8-grouped-static.v1",
+  "commands": [
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-std=c++23",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-q8-grouped-run",
+        "-isystem",
+        "/opt/rocm/include",
+        "-c",
+        ".deps/gufo-q2-q8-grouped-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-q8-load-preparation/grouped-device.o"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T23:26:57.455458+00:00",
+      "finished_at": "2026-10-04T23:27:07.391185+00:00"
+    },
+    {
+      "name": "guards-final",
+      "argv": [
+        "python3",
+        "-B",
+        "tests/q2_remote_test.py"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T23:33:34.451797+00:00",
+      "finished_at": "2026-10-04T23:33:35.213418+00:00"
+    },
+    {
+      "name": "component-device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-std=c++23",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-q8-grouped-run",
+        "-I.",
+        "-isystem",
+        "/opt/rocm/include",
+        "-c",
+        "tests/q2_q8_grouped.hip",
+        "-o",
+        "evidence/q2-q8-load-preparation/component-device.o"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T23:33:35.213454+00:00",
+      "finished_at": "2026-10-04T23:33:45.926754+00:00"
+    },
+    {
+      "name": "format-new-test",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang-format",
+        "--style=file:.deps/gufo-base/.clang-format",
+        "-i",
+        "tests/q2_q8_grouped.hip"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T23:35:16.927019+00:00",
+      "finished_at": "2026-10-04T23:35:16.934016+00:00"
+    },
+    {
+      "name": "component-host-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++23",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-q8-grouped-run",
+        "-I.",
+        "-isystem",
+        "/opt/rocm/include",
+        "-fsyntax-only",
+        "tests/q2_q8_grouped.hip"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T23:35:16.934036+00:00",
+      "finished_at": "2026-10-04T23:35:18.879293+00:00"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang-format",
+        "--style=file:.deps/gufo-base/.clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_q8_grouped.hip",
+        ".deps/gufo-q2-q8-grouped-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "exit_code": 1,
+      "started_at": "2026-10-04T23:35:18.879327+00:00",
+      "finished_at": "2026-10-04T23:35:19.002437+00:00"
+    }
+  ],
+  "parent_resources": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 221,
+      "sgpr_count": 39,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 221,
+      "sgpr_count": 25,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 222,
+      "sgpr_count": 25,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    }
+  },
+  "candidate_resources": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 221,
+      "sgpr_count": 39,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 221,
+      "sgpr_count": 25,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "vgpr_count": 222,
+      "sgpr_count": 25,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 49152,
+      "wavefront_size": 32
+    }
+  },
+  "parent_ssm_static_instructions": 4027,
+  "candidate_ssm_static_instructions": 4067,
+  "format_violations": 11,
+  "gpu_run": false,
+  "model_inference": false,
+  "performance_gain": false
+}

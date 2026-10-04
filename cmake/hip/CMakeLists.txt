@@ -152,6 +152,16 @@ target_include_directories(q2_hc_input SYSTEM PRIVATE
 target_link_libraries(q2_hc_input PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
 
 # Raw-HC Q8 producer and complete shared-expert consumer, direct kernel build.
+add_executable(q2_q8_grouped EXCLUDE_FROM_ALL ../../tests/q2_q8_grouped.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_q8_grouped PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_q8_grouped PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_q8_grouped PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_q8_grouped SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_q8_grouped PRIVATE hip::host OpenSSL::Crypto)
+
 add_executable(q2_shared_q8_producer EXCLUDE_FROM_ALL ../../tests/q2_shared_q8_producer.cpp
   ../../tests/q2_shared_q8_scalar_oracle.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

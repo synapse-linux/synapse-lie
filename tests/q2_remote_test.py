@@ -21,6 +21,27 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_q8_grouped_is_new_component_or_matched_counting_only(self):
+        variant='q8-grouped-store'
+        for mode in ('cpu','operators','q2-profile','q2-bench','q2-curve','q2-counting-hc-moe-deferred'):
+            self.refuse([mode,'q2-fixture','--source-variant',variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 grouped requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_GROUPED_MODE,'q2-fixture'], 'Q8 grouped requires')
+        argv=[remote.Q8_GROUPED_MODE,'q2-fixture','--source-variant',variant]
+        self.refuse(argv+['--rebuild-mmq'],'Q8 grouped component builds')
+        for mode in (remote.Q8_GROUPED_MODE,'q2-counting-q8-grouped'):
+            argv=[mode,'q2-fixture','--source-variant',variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv,'Historical counting requires a full MMQ rebuild')
+                argv+=['--rebuild-mmq']
+            with patch.object(sys,'argv',[str(path),*argv]), \
+                 patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_fixed_moe_profile_reuses_only_saved_candidate(self):
         argv = [remote.FIXED_PROFILE_MODE, 'q2-fixture', '--source-variant', 'hc-moe-deferred']
         for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
