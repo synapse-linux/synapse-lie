@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## First PLE-campaign control complete — 2026-10-04
+
+The first ordered-Q2 control completes all eight canonical depths at 03:22:34 UTC,
+with five command exits zero and 30 hash-verified artifacts. Its 20 complete
+request/output/count histories exactly reproduce the prior ordered provider.
+At depth 0 PP/TG are 852.935/26.114 token/s; at 128K they are 1104.323/25.252.
+The complete [arm validation](../config/q2-ple-curve-control-r1-validation.json)
+retains all intermediate points, physical counts and durations. A 16K decode
+outlier 22.948 remains recorded. These are control observations, not PLE gains.
+
+The PLE candidate starts next with the same host-qualified harness. At 03:26:12,
+runner 3383689/start 164962420 is verified live during its full source build.
+No result or parity verdict is available for the candidate yet. The unchanged
+post-candidate control and fresh UD arm remain required within the admitted
+window; no interleaving or release has occurred.
+
 ## PLE canonical comparison admitted — 2026-10-04
 
 The new provider combines the host-qualified cache-first reader with measured
