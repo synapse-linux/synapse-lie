@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native prepared HTTP cohorts — 2026-10-04 UTC
+
+The new `http-multi` suite uses a single C event loop for C1/2/4/6/8, stable
+per-participant session IDs and a completed preparation barrier. It ships the
+pinned Gufo prose/repetition prompts with exact upstream prompt hashes. Reports
+keep summed individual server decode rates, common-wall throughput, preparation
+PP and HTTP TTFT distinct; native four-panel graphs and CSV/JSON require complete
+usage, phase timings, payloads, session identities and full output budgets.
+Failed streams and cache-reuse failures retain partial evidence and fail export.
+The [benchmark guide](guides/BENCHMARKS.md#prepared-http-multi-user-cohorts)
+provides complete commands for LIE/Gufo AR and separately configured MTP.
+
+Focused HTTP sanitizer CTest passes 6/6; final native contracts pass 2/2 with
+ASan, UBSan and LeakSanitizer. Native fixtures include 19 corrupt-evidence cases,
+actual truncated SSE, bounded positive sub-millisecond deadlines, interrupted
+cohort retirement and all-hit PP graphs. The synthetic core client passes 20/20;
+its two reactive probes pass 20 repeated invocations. Point `c07bb95`'s bounded
+counter wait is integrated without changing the worker: job and aggregate
+retirement publication are distinct. Product CLI execution with an empty PATH
+confirms the new suite needs no Python. CPU peaks at 88.625 C under CPU98,
+GPU observe-only and NVMe85 policies; no model/GPU forward occurs.
+
+The initial fixture compile exit1 and a read-only `.157` debugfs denial exit1
+remain recorded. A corrected sysfs observation sees the earlier Q2 PID retired
+and KFD empty; root requests canonical handover rather than entering a campaign
+gap. Original-weight paired performance for this new client remains pending.
+[Source, commands, exits and provenance](development/validation/http-multi-native-2026-10-04.json).
+
 ## Point HTTP/SSD and direct-core probe integration — 2026-10-04 UTC
 
 Root integrates Point `080177b`, keeping sampling controls and the optional

@@ -5,8 +5,8 @@
 
 `synapse-lie-bench` runs repeatable workloads and saves raw JSONL. Its direct
 executor suites simplify the AR context-depth and multi-user workloads used by
-Gufo. They do not reproduce Gufo's complete published HTTP protocol. The results
-page states which measurements exist and which are still missing.
+Gufo. The separate `http-multi` suite implements its prepared-session HTTP
+cohorts. The results page identifies the measurements already qualified on GPU.
 
 ## Choose the measurement
 
@@ -17,6 +17,7 @@ page states which measurements exist and which are still missing.
 | `fresh` | The cost of processing a complete new prompt. | Full prompt prefill from an empty sequence, then decode. |
 | `core` | The shared C engine, including admission and cache behavior. | Per-job TTFT, executed prefill, decode and output over cohort wall time. |
 | `http` | Client-visible API latency and replayable conversation workloads. | HTTP request wall time and reported executor timings. |
+| `http-multi` | Gufo-style prepared HTTP cohorts at C1/2/4/6/8, for AR or a separately configured MTP server. | Sum of individual server decode rates, common HTTP wall throughput, TTFT and preparation prefill. |
 | `http-kv-disk` | KV checkpoint persistence across a server restart, including concurrent consumers. | HTTP latency, actual restored tokens and disk accounting. |
 
 Prefill (PP) is prompt processing; generation (TG) is token decoding. Rates use
@@ -168,6 +169,64 @@ corpus. The long-context generator can prepare larger inputs, but does not
 extend the model's context limit. `--timeout` is the deadline in seconds for a
 complete HTTP request, including response streaming.
 
+## Prepared HTTP multi-user cohorts
+
+Use a running server with prefix caching enabled and at least eight active
+slots. On LIE, select `--max-active 8` and a sufficient `--kv-cache-ram-mb`
+budget when starting it; do not use RAM zero or eviction that prevents reuse.
+Use the same model alias and physical weights for the LIE and Gufo servers.
+The client does not start, reconfigure or restart either server.
+
+The repository includes the pinned Gufo prompt data. `prose.jsonl` is the
+mixed-text AR/MTP workload; `repetition.jsonl` is the predictable MTP workload.
+Both target approximately 2,048 input tokens at depth zero. Their UTF-8 prompt
+hashes match the published artifacts; actual new-run token counts must still
+be verified. License, source pin and hashes are in the
+[corpus provenance](../../config/bench/gufo-qwen38/PROVENANCE.json).
+
+```sh
+"$LIE_BENCH" --suite http-multi \
+  --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
+  --requests config/bench/gufo-qwen38/prose.jsonl \
+  --users 1,2,4,6,8 --tg 128 --context-capacity 4096 \
+  --warmups 1 --repetitions 3 --server-label LIE \
+  --output results/http-multi-prose.jsonl
+
+# After collecting the same workload from the authorized Gufo server:
+"$LIE_BENCH" --suite report results/http-multi-prose.jsonl \
+  --output results/http-multi-prose-charts --label LIE \
+  --compare results/gufo-http-multi-prose.jsonl --reference-label Gufo
+```
+
+For the Gufo run, use the first command with its URL, `--server-label Gufo`
+and a new output filename. For MTP, explicitly start a compatible MTP-enabled
+server, then collect separate files with both supplied corpora. The client
+keeps greedy sampling and thinking disabled; it does not enable MTP itself.
+`--context-capacity` records the declared server setting and checks that the
+observed prompt plus output fits it; it does not expand the provider ceiling.
+
+Each participant has a distinct `X-Client-ID`, preserved across preparation
+and measurement. Every preparation must finish one output token before any
+measured request begins. The measured request must reuse the prompt, replay
+at most four tail tokens and complete all 128 output tokens. One native C
+event loop drives the cohort. Missing phase timings, early EOS, incomplete
+streams, changed payloads or failed participants fail the run; partial JSONL
+remains available and is excluded from reports.
+
+`sum_request_decode_tps` is the sum of each participant's output divided by
+its server decode time, matching Gufo's rate definition. It is distinct from
+`aggregate_output_tps`, which divides all output by the common complete HTTP
+interval and includes client/server overhead. Preparation wall time and the
+mean executed per-request PP rate are recorded separately. A preparation
+cohort made entirely of cache hits has no executed PP rate. Graphs put PP,
+the two decode metrics and TTFT in four panels with separate scales.
+
+The default has one excluded warmup cohort and three measured cohorts for
+statistics. `--warmups 0 --repetitions 1` selects a single prepared cohort,
+closer to Gufo's published point count. Preparation still occurs. The native
+fixture tests qualify client behavior; paired original-weight GPU campaign
+results for this new suite remain pending.
+
 For KV disk restart checks, use `--suite http-kv-disk --help`. Run the `write`
 phase, restart the server against the same KV directory, then run `read` with
 `--reference` pointing to the write phase's `.summary.json`. This suite requires
@@ -215,8 +274,8 @@ Use a new output directory for each report: existing artifacts are not replaced.
 | Published workload | LIE coverage |
 | --- | --- |
 | AR single user at eight prefix depths. | Simplified direct suite and local Gufo control measured through 128K. |
-| AR multiple users. | Native batching measured through eight users. Exact HTTP per-request-rate summation is still missing. |
-| MTP single and multiple users. | MTP is integrated in `core`; matching mixed/repetitive performance campaigns and the exact published HTTP protocol remain pending. |
+| AR multiple users. | Native batching measured through eight users. Prepared `http-multi` client and per-request-rate summation are implemented; paired GPU qualification remains pending. |
+| MTP single and multiple users. | MTP is integrated in `core`; `http-multi` supplies mixed/repetitive corpora and the preparation barrier. The matched performance campaigns remain pending. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |
 | Peak HIP memory. | Still missing; `memory` exports provider estimates, not allocation-exact peak usage. |
 

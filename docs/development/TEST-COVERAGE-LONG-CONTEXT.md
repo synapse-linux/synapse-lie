@@ -12,9 +12,9 @@ means the linked experiment, not every variant in a referenced document.
 
 | Area | Existing LIE evidence | Remaining work |
 |---|---|---|
-| Single AR at occupied 0..128K | Direct executor pp2048/tg128, exact inputs/output/frontiers versus direct pinned Gufo | Exact HTTP cached-prefix preparation, reference corpus and count conventions; new RAM cache qualification is separate |
-| Concurrent AR C1/2/4/6/8 | Common-window direct TG, scalar versus ready/native batch; three repetitions | Reference HTTP method sums individual rates; retain both definitions and repeat against direct native batch in the same campaign |
-| Single and concurrent MTP | None through the LIE contract | Expose/admit predictor, mixed and repetitive cases, draft catch-up, acceptance/RNG/rollback correctness, AR parity, then timings |
+| Single AR at occupied 0..128K | Direct executor pp2048/tg128, exact inputs/output/frontiers versus direct pinned Gufo | Paired original-weight HTTP cached-prefix/context-depth performance campaign; RAM cache qualification is separate |
+| Concurrent AR C1/2/4/6/8 | Common-window direct TG, scalar versus ready/native batch; three repetitions. Native prepared HTTP client now supplies the reference corpus, preparation barrier and individual-rate sum | GPU qualification of the new HTTP client, retaining both summed server rates and common-wall throughput |
+| Single and concurrent MTP | Shared-core MTP, original-weight functional/state/cancellation gates; prepared HTTP client supplies mixed/repetitive corpora | Repeated paired single/concurrent mixed/repetitive performance; independent acceptance/RNG/rollback quality remains separate |
 | Full fresh PP through 258794 | Six points, n=2, TG128; HTTP PP through actual 131063, n=2 | HTTP 256K performance repetitions, predeclared higher repetition count/order, diverse recorded corpus; capacity smoke is separate |
 | Ten served prompt shapes | Ten original shapes, one sample each, actual output256 | Three repetitions each; exact exported corpus on comparator; same AR/thinking/cache settings, then separate speculative experiments |
 | Agent and function-call throughput | Real Pi read/edit/read acceptance; text-only tool-dialogue in shape suite | Six actual tool-history/coding trajectories, output400, repeated timings, thinking variants; MTP/lookup require implementations |

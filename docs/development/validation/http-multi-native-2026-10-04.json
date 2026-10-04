@@ -1,0 +1,872 @@
+{
+  "schema": "synapse-lie.http-multi-native.host.v1",
+  "at_utc": "2026-10-04T04:11:08.896531+00:00",
+  "base_checkpoint": "53dec060ead3d0e3ed1e0b2c26141643759a4d38",
+  "host": ".155, Ryzen AI Max+ 395",
+  "scope": "C17 prepared HTTP client/transport/report and core-probe consumer fixtures; no model load, hash, conversion or original-weight GPU inference",
+  "runtime_provider_or_executor_ABI_changed": false,
+  "new_suite": "http-multi",
+  "product_Python_dependency": false,
+  "private_qualification_helpers_may_use_Python": true,
+  "source_sha256": {
+    "CMakeLists.txt": "d80d240ec4912fc3b270d52872b607ca10f33ba700e37245ee21b49d94f94f2e",
+    "tools/lie-bench.c": "19d2e7da8fe6ca9ece5e58e8d14565bbaf8095c27fe3821bf79e18f5696eb6b5",
+    "tools/core-bench.c": "b67c0954d2c8199b4b31cb2eca0b64b64daadf889c09d4a4b27bdb9c663ab813",
+    "tools/native/bench_native.h": "2c517c941b436127f04cb654802696d752aaf5e71b24c8f54fc379eedc0ccc6a",
+    "tools/native/http_transport.c": "a44a8bc4df991f9d7f65b93c51d1754107c209dffd2a480134b9890c64e36935",
+    "tools/native/http_multi.c": "aa1b5b125aa0fb37247239fe75f4d59857f7802e4dc710e82cbdcccd29d6ad44",
+    "tools/native/report.c": "fe5f78c7adebb0701ef47b18700e88433cfb480e1fe1b8f4bd523ffad4299866",
+    "tests/test_http_multi_native.c": "f27022bfe16725773dde36e7324ed8bd083e7737f5059f5345ca14f3308b532c"
+  },
+  "corpus_provenance": {
+    "SPDX-License-Identifier": "MIT",
+    "origin": "Independently fetched official Gufo upstream; no sibling workspace imports",
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "upstream_generator": "tools/gufo/model_bench/llm.py",
+    "generator_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+    "scope": "Static canonical d0 prompt data reconstructed offline and matched against upstream prompt SHA; no GPU/model/tokenizer run",
+    "product_Python_dependency": false,
+    "corpora": [
+      {
+        "file": "prose.jsonl",
+        "file_sha256": "814a4e0d855939d444b3e5b2af8c3f9427717e623c7649bbdec35a412d9d5952",
+        "UTF8_prompt_sha256": "93945d40fdbc2aa69ecdcaf8c36552788c7f8e756a1b4c863d2aae43683f3383",
+        "upstream_artifact": "docs/models/qwen3.8-flash-next/artifacts/multi-ar-gufo-ar.json",
+        "upstream_artifact_sha256": "85729ef16da5d7f4af6db5bdda38a0a50ad69408018ea5685c1db078bc3acd7d",
+        "generator": {
+          "promptSha256": "93945d40fdbc2aa69ecdcaf8c36552788c7f8e756a1b4c863d2aae43683f3383",
+          "recipe": "single-user-d0",
+          "requestedTokens": 2048,
+          "task": "prose",
+          "templateOverhead": 12,
+          "tokensPerWord": 1.167
+        },
+        "historical_Gufo_C1_prompt_tokens": [
+          2040
+        ],
+        "new_LIE_or_Gufo_token_counts_not_yet_qualified": true
+      },
+      {
+        "file": "repetition.jsonl",
+        "file_sha256": "fa0345998e6956e7ae9357e38f11c27724e93ffba72b748781cff6aed49f5ec8",
+        "UTF8_prompt_sha256": "b7b9e6a3b00182fca0a28476a01d18e4427b014950c99d9dd2ec789b237f2674",
+        "upstream_artifact": "docs/models/qwen3.8-flash-next/artifacts/multi-repetition-gufo-mtp.json",
+        "upstream_artifact_sha256": "2868ab479d75140ced526c5d7c7535eaed3385dfab6994943081c088d4d3b1ae",
+        "generator": {
+          "promptSha256": "b7b9e6a3b00182fca0a28476a01d18e4427b014950c99d9dd2ec789b237f2674",
+          "recipe": "single-user-d0",
+          "requestedTokens": 2048,
+          "task": "repetition",
+          "templateOverhead": 12,
+          "tokensPerWord": 1.167
+        },
+        "historical_Gufo_C1_prompt_tokens": [
+          2034
+        ],
+        "new_LIE_or_Gufo_token_counts_not_yet_qualified": true
+      }
+    ]
+  },
+  "probe_source": {
+    "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+    "scope": "Exact optional probe function only; sampling CLI retained, no worker/provider changes",
+    "function_SHA256": "025c6a0b700350269ce103b68b1a1fe51e36489f46b0cad8a71e821f9b280f1c"
+  },
+  "commands": [
+    {
+      "label": "all-hit-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "-j",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.0
+      },
+      "elapsed_s": 1.0353163480758667,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "all-hit-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^(native-http-multi-contract|native-benchmark-contract)$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 59.5
+      },
+      "elapsed_s": 10.19787481520325,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "client-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 65.375
+      },
+      "elapsed_s": 1.0586640508845448,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "core-probe-repeat",
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/http-multi-native-r1/repeat_core_probes.py",
+        "build/point-integration-618d-asan-r1/test-synthetic-lie-bench"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 64.875
+      },
+      "elapsed_s": 4.070495403371751,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "deadline-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "-j",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 73.0
+      },
+      "elapsed_s": 1.0337298959493637,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "deadline-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^(native-http-multi-contract|native-benchmark-contract)$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.125
+      },
+      "elapsed_s": 10.177214591763914,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "final-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 40.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 40.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.75
+      },
+      "elapsed_s": 2.0376739809289575,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "final-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.125
+      },
+      "elapsed_s": 1.0290423603728414,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "final-core-tests",
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_core_bench.py",
+        "build/point-integration-618d-asan-r1/test-synthetic-lie-bench",
+        "-q"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.25
+      },
+      "elapsed_s": 2.08148181065917,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "final-http-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^(native-http-multi-contract|native-benchmark-contract|openai-generation-state-http|openai-generation-state-mtp-http|semantic-http-contract|semantic-mtp-http-contract)$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 44.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 44.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 88.625
+      },
+      "elapsed_s": 23.516188842244446,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "fixture-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "test-http-multi-native",
+        "test-synthetic-lie-bench",
+        "test-native-bench",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j2"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.375
+      },
+      "elapsed_s": 1.062341039068997,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "fixture-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "test-http-multi-native",
+        "test-synthetic-lie-bench",
+        "test-native-bench",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.75
+      },
+      "elapsed_s": 1.0562640223652124,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "initial-cohort-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^native-http-multi-contract$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.375
+      },
+      "elapsed_s": 2.1345618488267064,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "transport-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "synapse-lie-bench",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-openai-http",
+        "test-event-http",
+        "test-event-mtp-http",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 73.625
+      },
+      "elapsed_s": 1.0826221201568842,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    },
+    {
+      "label": "transport-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^(native-benchmark-contract|openai-generation-state-http|openai-generation-state-mtp-http|semantic-http-contract|semantic-mtp-http-contract)$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 86.75
+      },
+      "elapsed_s": 21.875403666868806,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ],
+      "GPU_visibility_masked": true
+    }
+  ],
+  "focused_CTest_passes": {
+    "HTTP_transport_final": 6,
+    "native_contract_final": 2
+  },
+  "core_client_test_count": 20,
+  "core_probe_repeat_invocations": 20,
+  "core_probe_tests_per_invocation": 2,
+  "contract_cases": [
+    "C1/2/4/6/8; every participant arrives before fixture replies",
+    "LIE/Gufo timing profiles; independent known server decode-rate sum versus common wall",
+    "19 corrupted evidence cases, including warmups and C2 identity/gate violations",
+    "failed cache reuse and truncated actual SSE preserve partial records",
+    "sub-millisecond positive deadline remains bounded",
+    "signal-interrupted cohort retires sockets and records failures",
+    "all-hit preparation PP is null; native four-panel PNG/SVG/CSV/JSON export",
+    "valid independently reordered cohorts remain comparable",
+    "CLI executes with PATH=/nonexistent; no Python launcher"
+  ],
+  "failures_preserved": [
+    {
+      "label": "fixture-build",
+      "child_exit_code": 1,
+      "reason": "Initial C fixture missing sys/time.h and had an unused save helper; corrected and rebuilt."
+    },
+    {
+      "ssh_exit_code": 1,
+      "failure": "PermissionError: read-only /sys/kernel/debug/kfd/proc enumeration denied",
+      "scope": "No GPU admission or model/lease access"
+    }
+  ],
+  "initial_remote_observation": {
+    "at_utc": "2026-10-04T03:20:27.572009+00:00",
+    "host": "192.168.5.157",
+    "owner": "Q2 PLE curve",
+    "observed_pid": 3379757,
+    "expected_start_ticks": 164901713,
+    "identity_live": true,
+    "proc_state": "S",
+    "supervisor_state": "RUNNING",
+    "kernel_kfd": [
+      3381644
+    ],
+    "ssh_exit_code": 0,
+    "scope": "Read-only observation; root continues masked host work, no lease/admission"
+  },
+  "latest_remote_observation": {
+    "at_utc": "2026-10-04T04:09:46.669914+00:00",
+    "host": "192.168.5.157",
+    "observed_pid": 3379757,
+    "expected_start_ticks": 164901713,
+    "scope": "Read-only PID/start and kernel-client observation; no GPU admission or lease",
+    "identity_live": false,
+    "kernel_kfd": [],
+    "ssh_exit_code": 0
+  },
+  "max_CPU_C": 88.625,
+  "GPU_software_guard": null,
+  "CPU_guard_C": 98,
+  "NVMe_guard_C": 85,
+  "performance_claim": false,
+  "pending": [
+    "paired original-weight GPU AR/MTP C1/2/4/6/8 campaigns",
+    "exact cold-file to HTTP-ready and allocation-exact HIP memory",
+    "independent vision numerical quality and extended-context quality"
+  ],
+  "evidence_root": "evidence/http-multi-native-r1/",
+  "SPDX-License-Identifier": "MIT",
+  "core_probe_repetitions_sha256": "5f760c7872eda75a1451436b8490b17e1c0d25aa7661d8b2ab259cc43de3818b"
+}

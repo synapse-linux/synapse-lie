@@ -232,11 +232,27 @@ static bool reactive_probe(lie_core *core,const lie_core_request *request,unsign
             if(credit!=LIE_FLOW_OK&&credit!=LIE_FLOW_CLOSED){snprintf(error,256,"reactive peer credit failed");goto done;}
         }
     }
-    lie_core_snapshot(core,&blocked);
-    lie_job_info held_info;lie_job_snapshot(held,&held_info);
+    /* The peer terminal can precede the core-wide completion counter. Keep
+     * the other loan held while waiting for the owner notice to settle. */
+    lie_job_info held_info;
+    uint64_t peer_deadline=now()+2000000000u;
+    for(;;){
+        lie_core_snapshot(core,&blocked);
+        lie_job_snapshot(held,&held_info);
+        if(blocked.completed_requests>=before.completed_requests+1&&
+           blocked.active==1&&blocked.output_blocked==1)break;
+        if(interrupted||now()>=deadline||now()>=peer_deadline)break;
+        struct pollfd fd={lie_core_fd(core),POLLIN,0};
+        int rc=poll(&fd,1,100);
+        if(rc<0&&errno!=EINTR){snprintf(error,256,"reactive peer counter poll failed");goto done;}
+        if(rc>0)lie_core_drain(core);
+    }
     if(blocked.active!=1||blocked.output_blocked!=1||held_info.output_tokens>=limit||
        held_info.retired||peer_tokens!=limit||blocked.completed_requests!=before.completed_requests+1){
-        snprintf(error,256,"peer did not progress during held credit stall");goto done;
+        snprintf(error,256,"peer did not progress during held credit stall: active=%llu blocked=%llu completed=%llu held=%llu",
+                 (unsigned long long)blocked.active,(unsigned long long)blocked.output_blocked,
+                 (unsigned long long)(blocked.completed_requests-before.completed_requests),
+                 (unsigned long long)held_info.output_tokens);goto done;
     }
     lie_job_cancel(held);
     if(memcmp(loan.text,held_copy,loan.bytes)||lie_job_event_release(held,loan.ticket)!=LIE_FLOW_OK){
@@ -263,11 +279,28 @@ static bool reactive_probe(lie_core *core,const lie_core_request *request,unsign
             snprintf(error,256,"reactive cancellation loan release failed");goto done;
         }
     }
-    lie_core_snapshot(core,&after);
-    if(after.cancelled_requests!=before.cancelled_requests+1||
+    /* The terminal can become visible just before worker-wide counters are
+     * published. Wait for the core notice, with a short independent bound. */
+    uint64_t counter_deadline=now()+2000000000u;
+    for(;;){
+        lie_core_snapshot(core,&after);
+        if(after.completed_requests>=before.completed_requests+1&&
+           after.cancelled_requests>=before.cancelled_requests+1)break;
+        if(interrupted||now()>=deadline||now()>=counter_deadline)break;
+        struct pollfd fd={lie_core_fd(core),POLLIN,0};
+        int rc=poll(&fd,1,100);
+        if(rc<0&&errno!=EINTR){snprintf(error,256,"reactive counter poll failed");goto done;}
+        if(rc>0)lie_core_drain(core);
+    }
+    if(after.active||after.output_blocked||
+       after.cancelled_requests!=before.cancelled_requests+1||
        after.completed_requests!=before.completed_requests+1||
        (mtp&&after.mtp_accepted<=before.mtp_accepted)){
-        snprintf(error,256,"reactive retirement counters invalid");goto done;
+        snprintf(error,256,"reactive retirement counters invalid: active=%llu blocked=%llu completed=%llu cancelled=%llu mtp_accepted=%llu",
+                 (unsigned long long)after.active,(unsigned long long)after.output_blocked,
+                 (unsigned long long)(after.completed_requests-before.completed_requests),
+                 (unsigned long long)(after.cancelled_requests-before.cancelled_requests),
+                 (unsigned long long)(after.mtp_accepted-before.mtp_accepted));goto done;
     }
     json_object *row=event("reactive");text(row,"scope","direct-c-core-held-loan-peer-cancel");
     json_object_object_add(row,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));

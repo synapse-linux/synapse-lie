@@ -1,0 +1,49 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "origin": "Independently fetched official Gufo upstream; no sibling workspace imports",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "upstream_generator": "tools/gufo/model_bench/llm.py",
+  "generator_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+  "scope": "Static canonical d0 prompt data reconstructed offline and matched against upstream prompt SHA; no GPU/model/tokenizer run",
+  "product_Python_dependency": false,
+  "corpora": [
+    {
+      "file": "prose.jsonl",
+      "file_sha256": "814a4e0d855939d444b3e5b2af8c3f9427717e623c7649bbdec35a412d9d5952",
+      "UTF8_prompt_sha256": "93945d40fdbc2aa69ecdcaf8c36552788c7f8e756a1b4c863d2aae43683f3383",
+      "upstream_artifact": "docs/models/qwen3.8-flash-next/artifacts/multi-ar-gufo-ar.json",
+      "upstream_artifact_sha256": "85729ef16da5d7f4af6db5bdda38a0a50ad69408018ea5685c1db078bc3acd7d",
+      "generator": {
+        "promptSha256": "93945d40fdbc2aa69ecdcaf8c36552788c7f8e756a1b4c863d2aae43683f3383",
+        "recipe": "single-user-d0",
+        "requestedTokens": 2048,
+        "task": "prose",
+        "templateOverhead": 12,
+        "tokensPerWord": 1.167
+      },
+      "historical_Gufo_C1_prompt_tokens": [
+        2040
+      ],
+      "new_LIE_or_Gufo_token_counts_not_yet_qualified": true
+    },
+    {
+      "file": "repetition.jsonl",
+      "file_sha256": "fa0345998e6956e7ae9357e38f11c27724e93ffba72b748781cff6aed49f5ec8",
+      "UTF8_prompt_sha256": "b7b9e6a3b00182fca0a28476a01d18e4427b014950c99d9dd2ec789b237f2674",
+      "upstream_artifact": "docs/models/qwen3.8-flash-next/artifacts/multi-repetition-gufo-mtp.json",
+      "upstream_artifact_sha256": "2868ab479d75140ced526c5d7c7535eaed3385dfab6994943081c088d4d3b1ae",
+      "generator": {
+        "promptSha256": "b7b9e6a3b00182fca0a28476a01d18e4427b014950c99d9dd2ec789b237f2674",
+        "recipe": "single-user-d0",
+        "requestedTokens": 2048,
+        "task": "repetition",
+        "templateOverhead": 12,
+        "tokensPerWord": 1.167
+      },
+      "historical_Gufo_C1_prompt_tokens": [
+        2034
+      ],
+      "new_LIE_or_Gufo_token_counts_not_yet_qualified": true
+    }
+  ]
+}

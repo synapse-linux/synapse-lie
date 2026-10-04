@@ -74,6 +74,12 @@ misplaced or malformed scope sections. GPU qualification remains separate.
 
 ## Ownership and completion
 
+Shared-core job/output notification and aggregate retirement counters have
+separate publication points. Clients must wait for the required core counter
+delta through core notifications within their deadline; observing job terminal
+state alone does not make a cross-object snapshot atomic. The benchmark probe
+checks full borrowed-byte stability during this bounded wait and cancellation.
+
 - `lie_gufo_open` creates a model handle. Output handles must initially be NULL.
 - The opening thread is the exclusive device worker. All operations except the
   cancellation latch require this thread. Wrong-owner calls refuse before work.

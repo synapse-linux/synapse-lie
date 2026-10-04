@@ -111,6 +111,13 @@ Such protocol failures suppress successful HTTP usage/timings/tool deltas, but
 do not poison the executor or erase work already completed. This is not a GPU
 compute-work or client-delivery meter.
 
+Job terminal state/output notification and aggregate core retirement counters
+are separate publications. A terminal job snapshot does not promise that a
+simultaneous core snapshot already includes its completion/cancellation delta.
+Clients checking retirement must consume core notifications and wait within
+their deadline for the counters; the direct reactive probe does so while
+preserving the held output loan. No additional inference worker is introduced.
+
 Synthetic test executables have explicitly synthetic provider identity and may
 exercise these counters. Their values never constitute inference throughput.
 Original-weight observations are retained in [T0-LIFECYCLE.md](../archive/T0-LIFECYCLE.md),
@@ -285,6 +292,38 @@ These are functional assertions, without elapsed-time or throughput estimates;
 the regular benchmark report requires measured samples and does not export this
 probe as a performance comparison. The `synthetic` field retains its usual
 meaning. Historical normal core records without `reactive_probe` remain readable.
+
+## Prepared HTTP multi-user benchmark
+
+`synapse-lie.http-multi-bench.v1` contains identity, prepared cohort records and
+a required successful terminal record. Each cohort retains every participant's
+request SHA, usage/cache counts, assistant output, raw SSE chunks and monotonic
+client bounds for both preparation and measurement. All participants share
+their phase's client start gate; all preparations finish before measured decode.
+Payloads are greedy, thinking off, with distinct stable `X-Client-ID` headers.
+Preparation generates one token; measured reuse may replay at most four prompt
+tail tokens. Every participant, including warmups, must complete its budget.
+
+`sum_request_decode_tps` is the sum of individual output/server-decode-time
+rates. LIE `timings` and Gufo `usage.gufo` are distinct accepted timing profiles;
+neither falls back to request-wall throughput. This rate sum is not GPU elapsed
+time or delivered cohort throughput. `aggregate_output_tps` uses all output
+over the interval from the common measured start to the last complete HTTP
+response. `first_output_seconds` is the mean participant HTTP TTFT, distinct
+from the direct core's first-token clock.
+
+`preparation_wall_seconds` and `measured_wall_seconds` report the two common
+intervals. `preparation_prefill_tokens` sums executed preparation tokens;
+`executed_preparation_pp_tps` averages executed per-request PP rates, excluding
+full hits. All-hit preparation has a null PP distribution. These are not cache
+compression metrics. CSV/JSON contain measured median/min/max/count; four graph
+panels keep executed PP, the two decode rates and TTFT on independent scales.
+
+The native report revalidates usage, physical prompt counts, timings, request
+hashes, phase gates, session IDs and complete output budgets before export.
+Paired comparisons additionally require matching controls, payloads and physical
+counts. Output hashes determine eligibility; unequal output yields no speed ratio.
+Failed cohorts remain raw evidence and never contribute partial averages.
 
 ## Shared progressive cache policy
 

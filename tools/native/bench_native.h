@@ -2,6 +2,7 @@
 #ifndef LIE_BENCH_NATIVE_H
 #define LIE_BENCH_NATIVE_H
 #include <json-c/json.h>
+#include <signal.h>
 #include <stdatomic.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -40,6 +41,10 @@ int nb_report(const char *, const char *, const char *, const char *,
               const char *, bool, nb_error *);
 int nb_report_main(int, char **);
 int nb_http_main(int, char **);
+int nb_http_multi_main(int, char **);
+json_object *nb_http_multi_summary(json_object *, nb_error *);
+int nb_http_multi_export(json_object *, json_object *, const char *,
+                         const char *, const char *, nb_error *);
 int nb_ssd_main(int, char **);
 /* Private deterministic I/O-gate hook for synthetic contract tests only.
  * The production CLI passes NULL and cannot select a gate. */
@@ -68,10 +73,20 @@ typedef struct {
   void (*on_output)(void *);
   void *userdata;
   atomic_bool *cancel;
+  volatile sig_atomic_t *interrupted;
+  const char *client_id;
+  json_object *client_ids; /* Optional cohort header IDs; borrowed. */
 } nb_http_options;
 /* Returns a complete observation, never an inferred success from HTTP 200. */
 json_object *nb_http_request(const nb_http_options *, json_object *,
                              nb_error *);
+/* Always retains ordered partial observations; complete is false on any
+ * failure. All 1..8 handles start from one client gate with no per-request
+ * worker. */
+json_object *nb_http_cohort(const nb_http_options *, json_object *, bool *,
+                            nb_error *);
 json_object *nb_http_get(const char *, double, nb_error *);
 bool nb_http_url(const char *, nb_error *);
+bool nb_http_timing_contract(json_object *, int64_t, int64_t, int64_t,
+                             nb_error *);
 #endif

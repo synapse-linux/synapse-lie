@@ -47,6 +47,9 @@ struct transfer {
   unsigned finish_count;
   bool done, failed;
   uint64_t started, first, finished;
+  CURL *easy;
+  struct curl_slist *headers;
+  long status;
 };
 static bool append(char **dst, size_t *size, const char *s, size_t n) {
   if (n > NB_LIMIT - *size)
@@ -277,9 +280,14 @@ static int progress(void *arg, curl_off_t a, curl_off_t b, curl_off_t c,
   (void)c;
   (void)d;
   struct transfer *t = arg;
-  return t->options && t->options->cancel && atomic_load(t->options->cancel);
+  return t->options &&
+         ((t->options->cancel && atomic_load(t->options->cancel)) ||
+          (t->options->interrupted && *t->options->interrupted));
 }
 static void release(struct transfer *t) {
+  if (t->easy)
+    curl_easy_cleanup(t->easy);
+  curl_slist_free_all(t->headers);
   free(t->raw);
   free(t->text);
   json_object_put(t->chunks);
@@ -289,24 +297,46 @@ static void release(struct transfer *t) {
   json_object_put(t->tools);
   json_object_put(t->times);
 }
-static bool perform(struct transfer *t, const char *url, json_object *body,
+static bool prepare(struct transfer *t, const char *url, json_object *body,
                     double timeout) {
   if (!isfinite(timeout) || timeout <= 0 || timeout > 7200 ||
       !nb_http_url(url, t->error))
     return false;
   pthread_once(&curl_once, init_curl);
-  CURL *c = curl_easy_init();
+  CURL *c = t->easy = curl_easy_init();
   if (!c)
     return nb_fail(t->error, "HTTP initialization failed");
   struct curl_slist *headers = NULL;
   headers = curl_slist_append(headers, "Content-Type: application/json");
-  headers = curl_slist_append(headers, "Expect:");
+  t->headers = headers;
+  if (!headers)
+    return nb_fail(t->error, "HTTP header allocation failed");
+  struct curl_slist *next = curl_slist_append(headers, "Expect:");
+  if (!next)
+    return nb_fail(t->error, "HTTP header allocation failed");
+  headers = t->headers = next;
+  if (t->options && t->options->client_id) {
+    const char *id = t->options->client_id;
+    size_t length = strlen(id);
+    if (!length || length > 160 ||
+        strspn(id, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456"
+                   "789-_.") != length)
+      return nb_fail(t->error, "Invalid HTTP client ID");
+    char header[192];
+    snprintf(header, sizeof(header), "X-Client-ID: %s", id);
+    next = curl_slist_append(headers, header);
+    if (!next)
+      return nb_fail(t->error, "HTTP header allocation failed");
+    headers = t->headers = next;
+  }
   curl_easy_setopt(c, CURLOPT_URL, url);
   curl_easy_setopt(c, CURLOPT_PROTOCOLS_STR, "http,https");
   curl_easy_setopt(c, CURLOPT_NOSIGNAL, 1L);
   curl_easy_setopt(c, CURLOPT_FOLLOWLOCATION, 0L);
-  curl_easy_setopt(c, CURLOPT_CONNECTTIMEOUT_MS, (long)(timeout * 1000));
-  curl_easy_setopt(c, CURLOPT_TIMEOUT_MS, (long)(timeout * 1000));
+  /* libcurl interprets zero as disabled, so round positive sub-ms deadlines up.
+   */
+  curl_easy_setopt(c, CURLOPT_CONNECTTIMEOUT_MS, (long)ceil(timeout * 1000));
+  curl_easy_setopt(c, CURLOPT_TIMEOUT_MS, (long)ceil(timeout * 1000));
   curl_easy_setopt(c, CURLOPT_WRITEFUNCTION, receive);
   curl_easy_setopt(c, CURLOPT_WRITEDATA, t);
   curl_easy_setopt(c, CURLOPT_XFERINFOFUNCTION, progress);
@@ -316,8 +346,6 @@ static bool perform(struct transfer *t, const char *url, json_object *body,
   if (wire) {
     size_t bytes = strlen(wire);
     if (bytes > 8 * 1024 * 1024) {
-      curl_easy_cleanup(c);
-      curl_slist_free_all(headers);
       return nb_fail(t->error, "HTTP request exceeds 8 MiB");
     }
     curl_easy_setopt(c, CURLOPT_POST, 1L);
@@ -325,12 +353,15 @@ static bool perform(struct transfer *t, const char *url, json_object *body,
     curl_easy_setopt(c, CURLOPT_POSTFIELDS, wire);
     curl_easy_setopt(c, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)bytes);
   }
-  t->started = nb_now();
-  CURLcode result = curl_easy_perform(c);
+  return true;
+}
+static bool completed(struct transfer *t, CURLcode result) {
+  CURL *c = t->easy;
   t->finished = nb_now();
   long status = 0;
   char *type = NULL;
   curl_easy_getinfo(c, CURLINFO_RESPONSE_CODE, &status);
+  t->status = status;
   curl_easy_getinfo(c, CURLINFO_CONTENT_TYPE, &type);
   bool ok = result == CURLE_OK && status == 200 && !t->failed;
   if (ok && t->options && t->options->stream)
@@ -339,9 +370,14 @@ static bool perform(struct transfer *t, const char *url, json_object *body,
     snprintf(t->error->message, sizeof(t->error->message),
              "HTTP request failed: status %ld, %s", status,
              curl_easy_strerror(result));
-  curl_easy_cleanup(c);
-  curl_slist_free_all(headers);
   return ok;
+}
+static bool perform(struct transfer *t, const char *url, json_object *body,
+                    double timeout) {
+  if (!prepare(t, url, body, timeout))
+    return false;
+  t->started = nb_now();
+  return completed(t, curl_easy_perform(t->easy));
 }
 json_object *nb_http_get(const char *url, double timeout, nb_error *e) {
   struct transfer t = {.error = e};
@@ -351,8 +387,8 @@ json_object *nb_http_get(const char *url, double timeout, nb_error *e) {
   release(&t);
   return o;
 }
-static bool timing_contract(json_object *t, int64_t pp, int64_t tg,
-                            int64_t cached, nb_error *e) {
+bool nb_http_timing_contract(json_object *t, int64_t pp, int64_t tg,
+                             int64_t cached, nb_error *e) {
   if (strcmp(nb_string(t, "schema"), "synapse-lie.request-timings.v1") ||
       !json_object_is_type(nb_get(t, "valid"), json_type_boolean) ||
       !json_object_get_boolean(nb_get(t, "valid")) ||
@@ -413,26 +449,12 @@ static bool timing_contract(json_object *t, int64_t pp, int64_t tg,
   }
   return true;
 }
-json_object *nb_http_request(const nb_http_options *o, json_object *body,
-                             nb_error *e) {
-  struct transfer t = {.options = o,
-                       .error = e,
-                       .chunks = json_object_new_array(),
-                       .tools = json_object_new_array(),
-                       .times = json_object_new_array()};
+static json_object *observation(struct transfer *source, json_object *body,
+                                nb_error *e) {
+  struct transfer t = *source;
+  memset(source, 0, sizeof(*source));
+  const nb_http_options *o = t.options;
   json_object *row = NULL;
-  size_t base = strlen(o->url);
-  if (base > 8192) {
-    nb_fail(e, "URL too long");
-    goto end;
-  }
-  while (base && o->url[base - 1] == '/')
-    base--;
-  char url[8256];
-  snprintf(url, sizeof(url), "%.*s/%s", (int)base, o->url,
-           o->responses ? "responses" : "chat/completions");
-  if (!perform(&t, url, body, o->timeout))
-    goto end;
   if (o->stream) {
     if (!t.done) {
       nb_fail(e, "Incomplete SSE stream");
@@ -533,7 +555,7 @@ json_object *nb_http_request(const nb_http_options *o, json_object *body,
       nb_fail(e, "Invalid cached token count");
       goto end;
     }
-    if (o->strict && !timing_contract(t.timings, pp, tg, cached, e))
+    if (o->strict && !nb_http_timing_contract(t.timings, pp, tg, cached, e))
       goto end;
   }
   if (pp > INT64_MAX - tg ||
@@ -561,10 +583,13 @@ json_object *nb_http_request(const nb_http_options *o, json_object *body,
     row = NULL;
     goto end;
   }
-  nb_add(row, "request", body);
+  json_object_object_add(row, "request", nb_copy(body));
+  nb_str(row, "client_id", o->client_id);
   nb_str(row, "request_sha256", hash);
   nb_num(row, "request_bytes", (int64_t)strlen(nb_encoded(body)));
   nb_add(row, "response_chunks", t.chunks);
+  json_object_object_add(row, "stream_complete",
+                         o->stream ? json_object_new_boolean(t.done) : NULL);
   json_object *assistant = json_object_new_object();
   nb_str(assistant, "role", "assistant");
   nb_str(assistant, "content", t.text ? t.text : "");
@@ -606,4 +631,170 @@ end:
   if (!row && !e->message[0])
     nb_fail(e, "HTTP observation failed");
   return row;
+}
+
+/* All handles are admitted before the first perform call. One event loop owns
+ * the cohort; no per-request client worker is created. */
+json_object *nb_http_cohort(const nb_http_options *o, json_object *bodies,
+                            bool *complete, nb_error *e) {
+  struct transfer slots[8] = {0};
+  nb_error errors[8] = {0};
+  bool added[8] = {0}, done[8] = {0};
+  nb_http_options options[8] = {0};
+  json_object *out = json_object_new_array();
+  CURLM *multi = NULL;
+  size_t count = json_object_array_length(bodies);
+  bool setup = true, all = true;
+  *complete = false;
+  if (!json_object_is_type(bodies, json_type_array) || count < 1 || count > 8) {
+    nb_fail(e, "HTTP cohort requires 1..8 request bodies");
+    goto end;
+  }
+  if (o->client_ids && (!json_object_is_type(o->client_ids, json_type_array) ||
+                        json_object_array_length(o->client_ids) != count)) {
+    nb_fail(e, "HTTP cohort client ID count mismatch");
+    goto end;
+  }
+  size_t base = strlen(o->url);
+  char url[8256];
+  if (base > 8192) {
+    nb_fail(e, "URL too long");
+    goto end;
+  }
+  while (base && o->url[base - 1] == '/')
+    --base;
+  snprintf(url, sizeof(url), "%.*s/%s", (int)base, o->url,
+           o->responses ? "responses" : "chat/completions");
+  pthread_once(&curl_once, init_curl);
+  multi = curl_multi_init();
+  if (!multi) {
+    nb_fail(e, "HTTP cohort initialization failed");
+    goto end;
+  }
+  for (size_t i = 0; i < count; ++i) {
+    options[i] = *o;
+    if (o->client_ids) {
+      json_object *id = json_object_array_get_idx(o->client_ids, i);
+      if (!json_object_is_type(id, json_type_string)) {
+        setup = false;
+        break;
+      }
+      options[i].client_id = json_object_get_string(id);
+    }
+    slots[i] = (struct transfer){.options = &options[i],
+                                 .error = &errors[i],
+                                 .chunks = json_object_new_array(),
+                                 .tools = json_object_new_array(),
+                                 .times = json_object_new_array()};
+    if (!prepare(&slots[i], url, json_object_array_get_idx(bodies, i),
+                 o->timeout) ||
+        curl_multi_add_handle(multi, slots[i].easy) != CURLM_OK) {
+      setup = false;
+      break;
+    }
+    added[i] = true;
+  }
+  if (setup) {
+    uint64_t gate = nb_now();
+    for (size_t i = 0; i < count; ++i)
+      slots[i].started = gate;
+    int running = 0;
+    CURLMcode code;
+    do {
+      code = curl_multi_perform(multi, &running);
+      int remaining = 0;
+      CURLMsg *message;
+      while ((message = curl_multi_info_read(multi, &remaining))) {
+        if (message->msg != CURLMSG_DONE)
+          continue;
+        for (size_t i = 0; i < count; ++i)
+          if (slots[i].easy == message->easy_handle) {
+            (void)completed(&slots[i], message->data.result);
+            done[i] = true;
+            break;
+          }
+      }
+      if (code != CURLM_OK) {
+        nb_fail(e, "HTTP cohort event-loop failed");
+        all = false;
+        break;
+      }
+      if (o->cancel && atomic_load(o->cancel)) {
+        nb_fail(e, "HTTP cohort cancelled");
+        all = false;
+        break;
+      }
+      if (o->interrupted && *o->interrupted) {
+        nb_fail(e, "HTTP cohort interrupted");
+        all = false;
+        break;
+      }
+      if (running && curl_multi_poll(multi, NULL, 0, 100, NULL) != CURLM_OK) {
+        nb_fail(e, "HTTP cohort polling failed");
+        all = false;
+        break;
+      }
+    } while (running);
+  } else {
+    nb_fail(e, "HTTP cohort setup failed");
+    all = false;
+  }
+  for (size_t i = 0; i < count; ++i) {
+    if (added[i]) {
+      curl_multi_remove_handle(multi, slots[i].easy);
+      added[i] = false;
+    }
+    json_object *partial = json_object_get(slots[i].chunks), *row = NULL;
+    if (done[i] && !errors[i].message[0])
+      row = observation(&slots[i], json_object_array_get_idx(bodies, i),
+                        &errors[i]);
+    if (!row) {
+      all = false;
+      row = nb_event("failed-request");
+      nb_add(row, "request", json_object_array_get_idx(bodies, i));
+      nb_add(row, "response_chunks", partial);
+      nb_str(row, "error",
+             errors[i].message[0] ? errors[i].message
+             : e->message[0]      ? e->message
+                                  : "HTTP cohort request did not complete");
+      if (!e->message[0])
+        nb_fail(e, nb_string(row, "error"));
+    }
+    json_object_put(partial);
+    json_object_array_add(out, row);
+  }
+  *complete = setup && all;
+end:
+  for (size_t i = 0; i < 8; ++i) {
+    if (added[i])
+      curl_multi_remove_handle(multi, slots[i].easy);
+    release(&slots[i]);
+  }
+  if (multi)
+    curl_multi_cleanup(multi);
+  return out;
+}
+json_object *nb_http_request(const nb_http_options *o, json_object *body,
+                             nb_error *e) {
+  struct transfer t = {.options = o,
+                       .error = e,
+                       .chunks = json_object_new_array(),
+                       .tools = json_object_new_array(),
+                       .times = json_object_new_array()};
+  size_t base = strlen(o->url);
+  char url[8256];
+  if (base > 8192) {
+    nb_fail(e, "URL too long");
+    release(&t);
+    return NULL;
+  }
+  while (base && o->url[base - 1] == '/')
+    --base;
+  snprintf(url, sizeof(url), "%.*s/%s", (int)base, o->url,
+           o->responses ? "responses" : "chat/completions");
+  if (!perform(&t, url, body, o->timeout)) {
+    release(&t);
+    return NULL;
+  }
+  return observation(&t, body, e);
 }

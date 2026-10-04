@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- The direct-core reactive probe waits for aggregate retirement counters after
+  job completion, avoiding a race between independently published snapshots.
+
 - Shared-core benchmark reports refuse zero-time executed phases, inconsistent
   dispatch counts and phase durations outside the job's wall time, including warmups.
 
@@ -24,6 +27,10 @@ stable release is declared. Detailed validation history is in
   when the trunk GGUF metadata has no embedded predictor block.
 
 ### Added
+
+- Native C `http-multi` benchmark for prepared C1/2/4/6/8 HTTP cohorts, with
+  pinned Gufo prose/repetition prompts, complete-stream validation and four
+  graph panels separating prefill, server decode rates, wall throughput and TTFT.
 
 - Direct-core `--reactive-probe` checks peer progress during a held output loan,
   full loan stability across cancellation, and retirement. It is a functional

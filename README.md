@@ -180,6 +180,8 @@ The results page brings together context-depth, multi-user and full-prefill
 measurements. Each section states what was measured and how it relates to
 Gufo's protocol. Use the [benchmark guide](docs/guides/BENCHMARKS.md) to reproduce
 workloads or generate graphs from existing results.
+The guide also covers the native `http-multi` client, with prepared sessions,
+the canonical Gufo prompts and separate prefill/decode graphs.
 
 ## Documentation and support
 
