@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Saved best-candidate diagnosis identifies remaining costs — 2026-10-04 UTC
+
+One installed-rocprof trace reuses the measured MoE binary and the same
+original2048 input, source and51 library hashes, with zero build commands.
+Prefill has1386.587 ms GPU busy over1391.617 ms kernel span (99.638570%).
+Routed IQ2 gate/up254.797 ms plus Q2 down188.349 ms are443.146 ms;
+Q8 dense families total339.606 ms. Actual dispatch metadata reports zero
+private bytes. Extra reactive callbacks do not remove these C1 numerical costs.
+Actual routing maps reserve more rows than live routes, but per-expert counts
+are absent and selective scaled-tile integration remains unmeasured.
+
+The saved benchmark stays1496.830907 PP versus fixed UD1685.777092;
+the original153.354 ms PP time gap and12.623081% required throughput increase
+remain. The built-in profile's16 outputs/15 decode calls are diagnostic only,
+not a new comparison. Prefill logits and first16 tokens replay saved candidate
+exactly; independent quality/full curve remain open. Prioritized next work is
+routed/Q8 load/dequantization scheduling, with original numerical order retained.
+
+Host24/24 Debug and24/24 ASan/UBSan pass; all five diagnostic commands exit0,
+24 artifacts verify and the window releases23:08:53.407509Z. Closure checks
+568 identities/444 groups retired, KFD empty, four original leases free and
+six model stat tuples unchanged; core acknowledges. No Q2 GPU job/reservation/
+waiter/restart/cleanup remains. The first helper path/collector misuse failures
+are preserved; corrected preparation runs succeed. Graph and complete stage,
+83 phase/kernel and48 routing-map CSVs are exported.
+[Trace, scope and next actions](Q2-FIXED-MOE-PROFILE.md).
+
 ## MoE-only integration improves fixed-model PP — 2026-10-04 UTC
 
 Only the new original-weight model runs. Three measured PP samples are

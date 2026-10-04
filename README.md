@@ -607,3 +607,12 @@ with maximum matched-history KL0.001257 to Q2. Only this new model runs; the
 .157 window is released. Candidate PP remains11.208% below fixed UD;
 the candidate needs12.623% higher throughput. Independent task quality and
 full-curve parity remain open. Every new and saved sample is retained.
+
+A [saved-candidate kernel diagnosis](docs/Q2-FIXED-MOE-PROFILE.md) reuses that
+binary and the original2048 input without recompilation or comparator reruns.
+Prefill GPU busy is99.639% of kernel span: routed gate/up+down total443.146 ms
+and Q8 dense339.606 ms. It prioritizes numerical kernel load/decode work while
+keeping reactive concurrency and serving gains separate. Complete stage/kernel/
+routing CSVs and a graph are retained. The shortened diagnostic decode does
+not replace the fixed pp2048/tg128 result1496.830907/25.17435733; quality and
+the complete context-curve target remain. The .157 window is released.
