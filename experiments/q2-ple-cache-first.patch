@@ -1,0 +1,32 @@
+--- a/src/models/qwen38_flash_next/ngram.cpp
++++ b/src/models/qwen38_flash_next/ngram.cpp
+@@ -151,9 +151,6 @@
+                          std::vector<std::uint8_t>& buf) {
+   if (row >= rows_) {
+     return false;
+-  }
+-  if (ReadCached(row, dst)) {
+-    return true;
+   }
+   const std::uint64_t offset = base_offset_ + row * row_bytes_;
+   const std::uint64_t begin = direct_ ? offset & ~(kPage - 1) : offset;
+@@ -260,14 +257,14 @@
+           {out.data() + it->second * row_dim_, out.data() + i * row_dim_});
+     }
+   }
++  // Consume every resident row before publishing misses: an earlier
++  // miss must not evict a later hit in the same gather. Rows are unique,
++  // and no previous gather is active, so workers need no second lookup.
++  std::erase_if(
++      jobs_, [this](const Job& job) { return ReadCached(job.row, job.dst); });
+   if (jobs_.size() >= kBatchJobs) {
+     std::sort(jobs_.begin(), jobs_.end(),
+               [](const Job& a, const Job& b) { return a.row < b.row; });
+-  } else {
+-    // Small cached gathers avoid waking the I/O pool for every decode
+-    // token. Large prefills still parallelize their row conversions.
+-    std::erase_if(
+-        jobs_, [this](const Job& job) { return ReadCached(job.row, job.dst); });
+   }
+   next_job_ = 0;
+   pending_ = jobs_.size();

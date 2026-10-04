@@ -36,10 +36,17 @@ reduces the complete 512-expert rotating component cycle from 85.352 to
 50.047 µs (41.364% less time), with 110 byte-exact output comparisons after
 constraining scale rounding. This is component evidence, not a model speedup.
 The canonical whole-model path, complete-history comparison and three-series
-plot export are implemented locally; runtime validation and model PP/TG
-measurement remain pending on `.157` after the core qualification window.
+plot export pass 19/19 Debug and ASan/UBSan host checks on `.157`. Core released
+its window, and fresh Q2 admission at 00:51:48 UTC on 2026-10-04 starts the
+full-MMQ baseline/ordered-candidate/UD campaign. Model PP/TG results are pending.
 Histogram tile selection is already present, while D2R and producer-Q8 reuse
 are inactive stubs in the pinned DeepSeek HIP port.
+
+A separate [PLE cache-first candidate](docs/Q2-PLE-CACHE-FIRST.md) consumes
+resident rows before colliding misses can replace them. Capacity and all row
+values are unchanged. Its host fixture and minimal source patch are prepared;
+runtime validation and canonical performance remain pending. It is not mixed
+into the IQ2 comparison.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

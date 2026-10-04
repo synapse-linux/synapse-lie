@@ -6,7 +6,19 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state: IQ2 component window **released** at
+Latest state: the **canonical IQ2 model window is admitted** at
+2026-10-04T00:51:48.380268+00:00, after core explicitly releases its integrated
+window at 00:47:22.850674 UTC. Release SHA256 is
+`81abc9e5d930980df8a9a574d3786b725dc05bf28a86cd056b0225f120bacbf8`.
+Fresh checks verify all 28 core identities and 13 groups absent, empty KFD,
+the four original lease inodes EX|NB/free and CPU 38.75 C. Remote admission,
+main ready/active receipts and shared registry record the bounded host plus
+full-MMQ Q2 baseline / ordered IQ2 / UD canonical 0–128K campaign. Host checks
+pass 19/19 Debug and ASan/UBSan before the baseline build. No interleaving,
+dependency, tuning, foreign termination, model mutation or restart is included.
+The separately prepared PLE source has no admitted model arm.
+
+Previous state: IQ2 component window **released** at
 2026-10-04T00:07:51.297211+00:00. Six cohorts complete with 28 command exits
 zero and 474 artifacts verified. Fresh closure checks 34 own processes/groups
 retired, empty KFD and all four original lease identities EX|NB/free. Remote

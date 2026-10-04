@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 model campaign admitted; separate PLE candidate — 2026-10-04
+
+Core releases its integrated window at 00:47:22 UTC with all 28 identities and
+13 child groups retired. Fresh Q2 admission at 00:51:48 rechecks those processes,
+empty KFD, the unchanged four original lease inodes and CPU 38.75 C. Host guards
+pass 19/19 Debug and 19/19 ASan/UBSan; six command exits are zero and seven
+artifacts are collected and verified. The canonical Q2 baseline is now building
+from full MMQ sources. Ordered IQ2 Q2 and pristine UD follow sequentially;
+no model gain is claimed before their complete histories and curves validate.
+
+In parallel source work, the [PLE cache-first candidate](Q2-PLE-CACHE-FIRST.md)
+checks all resident rows before publishing misses and removes the redundant
+worker lookup. It changes one source file, retaining 1019 others, row bytes
+and capacity. An independent BF16/IQ4 fixture counts rereads during colliding
+gathers. Local syntax checks pass, while runtime checks remain pending.
+Its opt-in host integration is an unapplied patch so the live IQ2 campaign's
+qualified harness stays exact. No PLE model arm is admitted.
+
 ## Ordered IQ2: canonical model path prepared — 2026-10-04
 
 The measured component candidate now has an isolated full-model HTTP mode,

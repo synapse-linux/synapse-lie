@@ -1,0 +1,52 @@
+{
+  "schema": "synapse-lie.q2-ple-cache-first-preparation.v1",
+  "at": "2026-10-04T00:58:04.611118+00:00",
+  "runtime_validated": false,
+  "promoted": false,
+  "goal_met": false,
+  "commands": [
+    {
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-pthread",
+        "-include",
+        "chrono",
+        "-I",
+        ".deps/gufo-q2-curve-ple-cache-first",
+        "-fsyntax-only",
+        "tests/q2_ple_cache_first.cpp",
+        ".deps/gufo-q2-curve-ple-cache-first/src/models/qwen38_flash_next/ngram.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-cache-first-static-0.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "apply",
+        "--check",
+        "experiments/q2-ple-cache-first-host.patch"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-cache-first-static-1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "python_ast_passed": [
+    "tools/prepare-q2-ple-cache-first.py"
+  ],
+  "provider_files_verified": 1020,
+  "artifacts": {
+    "tests/q2_ple_cache_first.cpp": "330dd812f61e2ad007328f2589c35362f43eec5bdcff524035c400d0dea03cb5",
+    "tools/prepare-q2-ple-cache-first.py": "1521227a48ec68272b9fe5972ad43a2850bee63b7470f069eb753df6d2d959c8",
+    "experiments/q2-ple-cache-first.patch": "197721ccfaf24a41abdb7e74745c155cb432327df1fcf8e4ef119cf06ff8e819",
+    "experiments/q2-ple-cache-first-host.patch": "7a890d771ff549f31372e0495c661ec12a614b4b2dd9eecc00452c7ac4e683d8",
+    "config/q2-ple-cache-first-source.json": "a8b50af63a222f367bf21d2947736f1bf8abe32bed1e77de481555859509953b"
+  }
+}

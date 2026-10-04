@@ -1,0 +1,221 @@
+{
+  "at": "2026-10-04T00:51:48.380268+00:00",
+  "state": "Q2_IQ2_CANONICAL_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "release_sha256": "81abc9e5d930980df8a9a574d3786b725dc05bf28a86cd056b0225f120bacbf8",
+  "release_at": "2026-10-04T00:47:22.850674+00:00",
+  "retired": [
+    {
+      "pid": 3316145,
+      "start_ticks": 163886173
+    },
+    {
+      "pid": 3316146,
+      "start_ticks": 163886176
+    },
+    {
+      "pid": 3316155,
+      "start_ticks": 163886439
+    },
+    {
+      "pid": 3316343,
+      "start_ticks": 163889510
+    },
+    {
+      "pid": 3316352,
+      "start_ticks": 163889929
+    },
+    {
+      "pid": 3316578,
+      "start_ticks": 163892949
+    },
+    {
+      "pid": 3316615,
+      "start_ticks": 163893425
+    },
+    {
+      "pid": 3316814,
+      "start_ticks": 163896609
+    },
+    {
+      "pid": 3316829,
+      "start_ticks": 163897105
+    },
+    {
+      "pid": 3319152,
+      "start_ticks": 163945226
+    },
+    {
+      "pid": 3319153,
+      "start_ticks": 163945229
+    },
+    {
+      "pid": 3319164,
+      "start_ticks": 163945510
+    },
+    {
+      "pid": 3319417,
+      "start_ticks": 163948946
+    },
+    {
+      "pid": 3319434,
+      "start_ticks": 163949386
+    },
+    {
+      "pid": 3319636,
+      "start_ticks": 163952475
+    },
+    {
+      "pid": 3319646,
+      "start_ticks": 163953002
+    },
+    {
+      "pid": 3319876,
+      "start_ticks": 163956101
+    },
+    {
+      "pid": 3319913,
+      "start_ticks": 163956497
+    },
+    {
+      "pid": 3320110,
+      "start_ticks": 163959799
+    },
+    {
+      "pid": 3320125,
+      "start_ticks": 163960302
+    },
+    {
+      "pid": 3320587,
+      "start_ticks": 163968678
+    },
+    {
+      "pid": 3320596,
+      "start_ticks": 163969023
+    },
+    {
+      "pid": 3321097,
+      "start_ticks": 163978638
+    },
+    {
+      "pid": 3321106,
+      "start_ticks": 163978894
+    },
+    {
+      "pid": 3321746,
+      "start_ticks": 163989765
+    },
+    {
+      "pid": 3321761,
+      "start_ticks": 163990156
+    },
+    {
+      "pid": 3322223,
+      "start_ticks": 163999108
+    },
+    {
+      "pid": 3322232,
+      "start_ticks": 163999589
+    }
+  ],
+  "retired_groups": [
+    3316155,
+    3316352,
+    3316615,
+    3316829,
+    3319164,
+    3319434,
+    3319646,
+    3319913,
+    3320125,
+    3320596,
+    3321106,
+    3321761,
+    3322232
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": {
+      "driver": "r8169_0_c100:00",
+      "celsius": 39.5
+    },
+    "/sys/class/hwmon/hwmon2/temp1_input": {
+      "driver": "amdgpu",
+      "celsius": 37.0
+    },
+    "/sys/class/hwmon/hwmon0/temp1_input": {
+      "driver": "acpitz",
+      "celsius": 38.0
+    },
+    "/sys/class/hwmon/hwmon5/temp1_input": {
+      "driver": "mt7925_phy0",
+      "celsius": 42.0
+    },
+    "/sys/class/hwmon/hwmon3/temp1_input": {
+      "driver": "k10temp",
+      "celsius": 38.75
+    },
+    "/sys/class/hwmon/hwmon1/temp6_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp3_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp7_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp4_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp8_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp1_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp9_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp2_input": {
+      "driver": "nvme",
+      "celsius": 46.85
+    }
+  },
+  "scope": "Host guards then full-MMQ canonical Q2 baseline / ordered IQ2 / UD curves 0-128K. PLE source remains separate, no model arm admitted for it.",
+  "restart_scheduled": false,
+  "hardware_tuning": false,
+  "checkpoint": "5af8ed6"
+}

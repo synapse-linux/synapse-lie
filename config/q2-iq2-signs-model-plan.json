@@ -1,5 +1,5 @@
 {
-  "state": "IMPLEMENTED_RUNTIME_VALIDATION_PENDING_CORE_HANDOVER",
+  "state": "HOST_VALIDATED_BASELINE_BUILD_RUNNING",
   "goal": "Q2 PP and TG parity at every canonical context depth; component gains are insufficient",
   "machine": "192.168.5.157",
   "provider": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
@@ -20,11 +20,11 @@
     "Verify quality separately; preserve existing numerical failures",
     "Repeat/reverse if gain is order-sensitive; never replace the whole curve with counting workload"
   ],
-  "gpu_reserved": false,
+  "gpu_reserved": true,
   "restart_scheduled": false,
   "model_dispatch_implemented": true,
   "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes",
-  "at": "2026-10-04T00:30:55.198078+00:00",
+  "at": "2026-10-04T00:58:04.611118+00:00",
   "checkpoint_base": "9334a5b",
   "model_mode": "q2-curve-iq2",
   "model_source_variant": "curve-iq2-q2",
@@ -55,5 +55,9 @@
       "label": "q2-iq2-curve-ud-r1",
       "rebuild_mmq": true
     }
-  ]
+  ],
+  "admission": "config/q2-iq2-curve-admission.json",
+  "host_evidence": "evidence/q2-iq2-curve-host-r1",
+  "host_debug_passed": 19,
+  "host_sanitizer_passed": 19
 }
