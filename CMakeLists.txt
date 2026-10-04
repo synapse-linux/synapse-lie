@@ -91,6 +91,28 @@ add_executable(test_ngram ${GUFO_SOURCE}/tests/models/qwen38_flash_next/ngram_te
   ${GUFO_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
 target_link_libraries(test_ngram PRIVATE q2_host Threads::Threads)
 add_test(NAME ngram COMMAND test_ngram)
+option(Q2_PLE_CACHE_FIRST_CHECKS "Check PLE resident rows against colliding misses" OFF)
+if(Q2_PLE_CACHE_FIRST_CHECKS)
+  set(GUFO_PLE_CONTROL_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/ple-control-source"
+    CACHE PATH "Unchanged canonical Q2 source for paired PLE host control")
+  if(NOT EXISTS "${GUFO_PLE_CONTROL_SOURCE}/src/models/qwen38_flash_next/ngram.cpp")
+    message(FATAL_ERROR "PLE cache-first checks require the unchanged control source")
+  endif()
+  add_executable(test_q2_ple_cache_first tests/q2_ple_cache_first.cpp
+    ${GUFO_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
+  target_link_libraries(test_q2_ple_cache_first PRIVATE q2_host Threads::Threads)
+  target_link_options(test_q2_ple_cache_first PRIVATE -Wl,--wrap=pread)
+  target_compile_options(test_q2_ple_cache_first PRIVATE -Wall -Wextra -Werror -Wpedantic)
+  add_test(NAME q2_ple_cache_first COMMAND test_q2_ple_cache_first)
+  set_tests_properties(q2_ple_cache_first PROPERTIES TIMEOUT 30)
+  add_executable(test_q2_ple_cache_control tests/q2_ple_cache_first.cpp
+    ${GUFO_PLE_CONTROL_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
+  target_link_libraries(test_q2_ple_cache_control PRIVATE q2_host Threads::Threads)
+  target_link_options(test_q2_ple_cache_control PRIVATE -Wl,--wrap=pread)
+  target_compile_options(test_q2_ple_cache_control PRIVATE -Wall -Wextra -Werror -Wpedantic)
+  add_test(NAME q2_ple_cache_control COMMAND test_q2_ple_cache_control --control)
+  set_tests_properties(q2_ple_cache_control PROPERTIES TIMEOUT 30)
+endif()
 if(EXISTS "${GUFO_SOURCE}/q2_ple_io.hpp")
   find_package(OpenSSL REQUIRED COMPONENTS Crypto)
   add_executable(q2_ple_io tests/q2_ple_io.cpp

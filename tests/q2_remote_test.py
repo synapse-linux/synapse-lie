@@ -20,6 +20,19 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_ple_cache_first_host_scope(self):
+        for extra in (['--source-variant', 'curve-q2'], ['--rebuild-mmq']):
+            self.refuse(['ple-cache-first-cpu', 'q2-fixture', *extra],
+                        'PLE cache-first host checks require their fixed source and no GPU build')
+        argv = [str(path), 'ple-cache-first-cpu', 'q2-fixture']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
     def test_iq2_signs_scope(self):
         for variant in remote.SIGN_VARIANTS:
             for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
@@ -410,6 +423,50 @@ class RemoteGuardTests(unittest.TestCase):
 
     def test_rebuild_flag_does_not_silently_apply_elsewhere(self):
         self.refuse(['q2-profile', 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
+
+class PleHostReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'ple_report', path.with_name('analyze-q2-ple-cache-first.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    @staticmethod
+    def rows():
+        return [dict(fixture='ple-cache-first', format=fmt, strict=strict,
+                     unique_cold_rows=1024, resident_rows=128, exact_rows=True,
+                     pread_calls=1024 if strict else 1152,
+                     resident_pread_calls=0 if strict else 128)
+                for fmt in ('BF16', 'IQ4_NL') for strict in (True, False)]
+
+    @staticmethod
+    def log(rows):
+        return '\n'.join('20: '+json.dumps(row, separators=(',', ':')) for row in rows)
+
+    def test_paired_ctest_prefix_and_unobserved_control(self):
+        rows = self.rows()
+        self.assertEqual(self.report.observations(self.log(rows)), rows)
+        for row in rows:
+            row.update(pread_calls=1024, resident_pread_calls=0)
+        self.assertEqual(self.report.observations(self.log(rows)), rows)
+
+    def test_incomplete_or_duplicated_pair_is_rejected(self):
+        rows = self.rows()
+        for invalid in (rows[:-1], rows + rows[:1], rows[:3] + rows[:1]):
+            with self.assertRaises(ValueError):
+                self.report.observations(self.log(invalid))
+
+    def test_false_success_and_inconsistent_reads_are_rejected(self):
+        for change in (dict(exact_rows=False), dict(strict=1),
+                       dict(resident_pread_calls=1, pread_calls=1025),
+                       dict(pread_calls=1025), dict(pread_calls=True),
+                       dict(resident_rows=127), dict(unique_cold_rows=1023)):
+            rows = self.rows()
+            rows[0].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.report.observations(self.log(rows))
 
 
 if __name__ == '__main__':

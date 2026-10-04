@@ -58,8 +58,9 @@ are inactive stubs in the pinned DeepSeek HIP port.
 
 A separate [PLE cache-first candidate](docs/Q2-PLE-CACHE-FIRST.md) consumes
 resident rows before colliding misses can replace them. Capacity and all row
-values are unchanged. Its host fixture and minimal source patch are prepared;
-runtime validation and canonical performance remain pending. It is not mixed
+values are unchanged. The paired control/candidate host path is now wired,
+with distinct colliding row contents and retained actual read counters.
+Runtime validation and canonical performance remain pending. It is not mixed
 into the IQ2 comparison.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.

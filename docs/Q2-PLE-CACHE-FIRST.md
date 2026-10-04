@@ -45,17 +45,32 @@ provider's reread count without imposing the candidate's new ordering guarantee.
 The existing upstream n-gram suite covers failure/recovery, invalid requests,
 unlinked/replaced backing paths, empty reads and destructor completion.
 
-Local C++ syntax and Python AST checks pass; these are not runtime results.
-Runtime Debug/ASan and the control reread observation are pending on `.157`.
-The opt-in host wiring is retained in
-`experiments/q2-ple-cache-first-host.patch`, deliberately unapplied while the
-IQ2 canonical campaign uses its already-qualified, byte-identical harness.
-After applying it, `ple-cache-first-cpu` is restricted to this fixed candidate,
-has no model/GPU dispatch, and runs the existing suite plus the new fixture.
-No canonical model arm for this candidate has been admitted or implemented.
+The host wiring is now applied, after the independent IQ2 campaign completed
+and released its window. `experiments/q2-ple-cache-first-host.patch` retains
+the earlier preparation recipe; the current implementation additionally stages
+the complete unchanged parent as `ple-control-source`. Both 1020-file inventories
+are verified before staging, with exactly one differing file. The two fixtures
+link their own reader and identical quantization support. `ple-cache-first-cpu`
+rejects alternate sources and GPU rebuilds, masks GPU devices and accesses no
+original model. It runs **21 CTest checks in Debug and ASan/UBSan**.
 
-Next acceptance sequence: finish the independent IQ2 curve; apply the host
-wiring; qualify the candidate and observe the control on `.157`; then measure
+The collision fixture now assigns different values to aliased high/low rows,
+so a wrong cache-key match cannot pass simply because their contents coincide.
+Verbose CTest preserves the actual candidate/control read counters. The analyzer
+checks both source inventories, collected artifact hashes, all six command exits,
+both complete suites and the four BF16/IQ4 observations per configuration.
+Missing pairs, false exactness and inconsistent counters are rejected. A control
+with zero rereads is retained as failure to reproduce the proposed mechanism,
+not converted into a speedup. Report-parser checks run inside `q2_remote`.
+
+[Local preparation evidence](../config/q2-ple-cache-first-host-preparation.json)
+verifies 2040 provider files, both C++ syntax checks and five Python AST checks.
+These are not runtime results. Debug/ASan and the control observation remain
+pending on `.157`; core retains the next coordinated window. No canonical model
+arm for this candidate has been admitted or implemented.
+
+Next acceptance sequence: qualify the candidate and observe the control on
+`.157` after handover; then measure
 the same canonical Q2 curve with a distinct provider identity. Preserve all
 raw histories, preparation costs, PP/TG counts and durations. A reduced fixture
 read count alone is not a full-model speedup or a parity result.

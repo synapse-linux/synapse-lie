@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Paired PLE host path wired — 2026-10-04
+
+The isolated `ple-cache-first-cpu` mode now stages the full unchanged canonical
+parent alongside the candidate, verifying both 1020-file inventories. It runs
+the original host suite plus separate control/candidate fixtures, 21 CTest cases
+per Debug/ASan configuration, retaining their read counters in verbose logs.
+The fixture assigns different data to colliding row identities; the previous
+low-bit-only pattern could miss a wrong-key cache answer. Report checks reject
+incomplete pairs, false exactness and inconsistent read accounting. Two strict
+C++ syntax checks and five Python AST checks pass locally; runtime is pending.
+The earlier unapplied wiring recipe and its evidence remain historical records.
+
+Read-only observation at 01:54:45 UTC finds the IQ2 release still latest in the
+shared registry and KFD empty. Core has the ceded next window; this observation
+is neither a Q2 admission nor a verified wait on a live process. No new staging,
+remote test, model access, reservation or restart occurs. Outgoing thread MCP
+transport fails; the main ready receipt records the prepared host cohort.
+Whole-curve Q2/UD parity and independent model numerical acceptance remain open.
+
 ## Canonical IQ2 campaign complete and released — 2026-10-04
 
 All four 0–128K curves validate, with both Q2 complete-history comparisons exact

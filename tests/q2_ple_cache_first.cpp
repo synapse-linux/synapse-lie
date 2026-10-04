@@ -31,6 +31,9 @@ void Require(bool condition, const char *message) {
 }
 
 float Expected(std::uint32_t row, std::uint32_t col, bool iq4) {
+  // Colliding low/high IDs must contain different values: checking only low
+  // row bits would hide a wrong cache-key match in this fixture.
+  row += 7 * (row >> 16) + 3 * (row >> 8);
   if (!iq4) {
     return static_cast<float>(static_cast<int>((row * 17 + col * 3) % 128) -
                               64);
@@ -47,13 +50,14 @@ void WriteRows(int fd, std::uint32_t first, std::uint32_t count, bool iq4) {
   for (std::uint32_t r = 0; r < count; ++r) {
     auto *dst = bytes.data() + r * row_bytes;
     if (iq4) {
+      const auto seed =
+          first + r + 7 * ((first + r) >> 16) + 3 * ((first + r) >> 8);
       for (std::uint32_t block = 0; block < 5; ++block) {
         dst[block * 18] = 0;
         dst[block * 18 + 1] = 0x3c; // Independent IEEE half +1 scale.
         for (std::uint32_t j = 0; j < 16; ++j) {
-          dst[block * 18 + 2 + j] =
-              ((first + r + block * 3 + j) % 16) |
-              (((first + r + block * 5 + j + 7) % 16) << 4);
+          dst[block * 18 + 2 + j] = ((seed + block * 3 + j) % 16) |
+                                    (((seed + block * 5 + j + 7) % 16) << 4);
         }
       }
     } else {
@@ -85,6 +89,10 @@ void CheckRows(std::span<const std::uint32_t> rows,
 void Exercise(bool iq4, bool require_cache_first) {
   namespace q = gufo::models::qwen38_flash_next;
   using gufo::core::GgmlType;
+  for (std::uint32_t r = 0; r < kWarm; ++r) {
+    Require(Expected(r, 0, iq4) != Expected(kHigh + r, 0, iq4),
+            "colliding fixture rows must have distinct data");
+  }
   char name[] = "/tmp/lie-ple-cache-first-XXXXXX";
   const int fd = ::mkstemp(name);
   Require(fd >= 0, "create private fixture");
