@@ -151,6 +151,15 @@ def observations(log):
     return dict(weights=weights, cases=result, completion=completion)
 
 
+def source_manifest(variant, candidate):
+    if not candidate:
+        require(variant == 'iq2-epilogue-reference', 'Wrong reference provider')
+        return 'q2-iq2-signs-ordered-asm-source.json'
+    require(variant in ('iq2-live-epilogue', 'iq2-epilogue-break'), 'Wrong candidate provider')
+    return ('q2-iq2-live-epilogue-source.json' if variant == 'iq2-live-epilogue'
+            else 'q2-iq2-epilogue-break-source.json')
+
+
 def arm(root, candidate, host):
     r, transport = common.artifact_integrity(root)
     exits = [c['exit_code'] for c in r['commands']]
@@ -162,15 +171,14 @@ def arm(root, candidate, host):
     for row in [r, *r['commands']]:
         require(not any(row.get(k) for k in ('thermal_stop', 'postflight_error', 'timeout',
                     'foreign_kfd', 'lingering_descendants')), 'Runtime/retirement failure')
-    require(transport['source_variant'] == ('iq2-live-epilogue' if candidate else 'iq2-epilogue-reference')
-            and not transport['rebuild_mmq'] and 'mmq_reuse' not in r and
+    manifest = source_manifest(transport['source_variant'], candidate)
+    require(not transport['rebuild_mmq'] and 'mmq_reuse' not in r and
             r['binary_sha256'] == r['binary_sha256_after'], 'Wrong component binary/source')
     require(r['locks'] == r['postflight_locks'] and
             [(x['device'], x['inode']) for x in r['locks']] ==
             [(52,3232146), (52,3206482), (52,3228451), (55,45067)] and
             not r['preflight_kfd'] and not r['postflight_kfd'], 'Ownership mismatch')
-    expected = read(ROOT/'config'/('q2-iq2-live-epilogue-source.json' if candidate else
-                                  'q2-iq2-signs-ordered-asm-source.json'))['files']
+    expected = read(ROOT/'config'/manifest)['files']
     with tarfile.open(root/'source.tar.gz') as source, tarfile.open(host/'source.tar.gz') as h:
         actual = {m.name[7:]: hashlib.sha256(source.extractfile(m).read()).hexdigest()
                   for m in source.getmembers() if m.isfile() and m.name.startswith('source/')}
@@ -197,7 +205,8 @@ def arm(root, candidate, host):
             r['state'] == ('FAILED' if failed else
                 'SYNTHETIC_IQ2_EPILOGUE_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'),
             'Numerical failure or command exit was not retained')
-    report.update(directory=str(root), source_files=len(actual), artifacts=len(r['artifacts']),
+    report.update(directory=str(root), source_variant=transport['source_variant'],
+                  source_files=len(actual), artifacts=len(r['artifacts']),
                   checks=checks, command_exits=[c['exit_code'] for c in r['commands']])
     return report
 

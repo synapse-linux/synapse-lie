@@ -622,6 +622,19 @@ class EpilogueCycleReportTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 self.report.cases(plan)
 
+    def test_candidate_cannot_replace_reference(self):
+        for variant, manifest in (
+                ('iq2-live-epilogue', 'q2-iq2-live-epilogue-source.json'),
+                ('iq2-epilogue-break', 'q2-iq2-epilogue-break-source.json')):
+            self.assertEqual(self.report.source_manifest(variant, True), manifest)
+            with self.assertRaises(ValueError):
+                self.report.source_manifest(variant, False)
+        self.assertEqual(self.report.source_manifest('iq2-epilogue-reference', False),
+                         'q2-iq2-signs-ordered-asm-source.json')
+        for variant in ('iq2-epilogue-reference', 'qualified', 'curve-iq2-q2'):
+            with self.assertRaises(ValueError):
+                self.report.source_manifest(variant, True)
+
 
 class PleHostReportTests(unittest.TestCase):
     @classmethod

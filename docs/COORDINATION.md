@@ -17,6 +17,14 @@ window and may freshly admit it. The next Q2 epilogue candidate is local-only
 preparation; no component build/run is admitted. Outgoing MCP transport fails;
 ready/active receipts record release and delivery is not claimed.
 
+Read-only revalidation at04:40:52 UTC still finds that release latest in the
+remote registry and KFD empty. No live remote handle is being waited on and
+this idle observation does not transfer the next window from core. Q2 prepares
+the complete epilogue comparison locally, including an early-exit variant;
+no remote source, build, runtime, waiter or restart is started. Direct read
+and message tools again fail at transport. Main readiness receipts remain
+the fallback and require verified core handover before Q2 GPU admission.
+
 Previous admission: **2026-10-04T04:10:27.186037+00:00**, one bounded Q2 routing
 diagnostic window. The previous release is still the registry's latest event;
 fresh checks verify 39 processes/26 groups retired, KFD empty, four original

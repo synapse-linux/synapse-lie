@@ -94,3 +94,40 @@ establish a numerical result or change any model-rate claim.
 
 [Fixed plan](../config/q2-iq2-live-epilogue-plan.json),
 [static wiring receipt](../config/q2-iq2-live-epilogue-wiring.json).
+
+## Exit once the live fragments end — 2026-10-04
+
+The separate `iq2-epilogue-break` candidate exits the paired epilogue loop at
+the first empty fragment. Fragment index `j` increases monotonically and
+`live_tok_tiles` is constant and uniform across the workgroup, so every later
+fragment is also empty. All live-fragment stores, arithmetic and both barriers
+remain before that exit. This changes only the loop's control flow relative
+to the first guard; the candidate still starts from the measured ordered
+provider and changes only the same single source file.
+
+Matched local device compilations reproduce the prior reference/continue
+accounting and show fewer static instructions with the early exit:
+
+| Token tile | Original | Continue guard | Break guard | VGPR, all three | Scratch, all three |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 16 | 661 | 661 | 661 | 82 | 0 |
+| 48 | 1161 | 1190 | 1177 | 94 | 0 |
+| 64 | 1391 | 1414 | 1404 | 102 | 0 |
+| 128 | 2381 | 2432 | 2401 | 148 | 0 |
+
+These are unpacked specializations. The packed variants also drop 14/10/31
+instructions at 48/64/128 relative to `continue`; both 16-row specializations
+are unchanged. LDS, static WMMA count and barrier/store bodies are unchanged.
+The added SGPR allocation versus the original remains: 30→32 at64 and 38→40
+at128. Lower static instruction count does not establish a runtime improvement,
+numerical identity or model gain; scheduling and instruction pairing also change.
+
+The same fixed component fixture and analyzer now accept either candidate
+against the unchanged reference. The prepared sequence is reference, continue,
+break, with a separate complete comparison report for each candidate. Existing
+source variants, numerical limits and full-tile control remain available.
+No GPU window is admitted and the core handover is still required.
+
+[Break source](../config/q2-iq2-epilogue-break-source.json),
+[three-way static accounting](../config/q2-iq2-epilogue-break-static.json),
+[break wiring receipt](../config/q2-iq2-epilogue-break-wiring.json).

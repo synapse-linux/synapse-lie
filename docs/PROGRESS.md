@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Early epilogue exit reduces guard code — 2026-10-04
+
+The new candidate leaves the paired loop at its first empty fragment instead
+of checking the remaining empty indices. Live fragments are contiguous and
+the exit condition is uniform across each workgroup. Matched local device
+assembly reproduces the prior reference/continue accounting and reduces static
+instructions 1190→1177, 1414→1404 and 2432→2401 at48/64/128. VGPR/LDS and zero
+scratch remain unchanged; the original extra SGPR allocation is not eliminated.
+Packed variants also shrink, while both 16-row variants remain unchanged.
+
+Reference, continue and break are wired to the same complete component fixture;
+the analyzer refuses a candidate in the reference position. Python/C++/HIP
+syntax checks pass locally. No runtime, numerical or throughput result is
+claimed. The read-only `.157` observation at04:40:52 UTC still shows the prior
+release as latest and KFD empty, but no verified core handover has arrived.
+Outgoing read/message tools fail at transport. Q2 makes no GPU admission and
+keeps the next window reserved for core. [Full static evidence](Q2-IQ2-LIVE-EPILOGUE.md).
+
 ## IQ2 epilogue comparison wired, runtime pending — 2026-10-04
 
 The component fixture reuses four accepted canonical routing distributions at

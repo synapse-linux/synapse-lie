@@ -31,6 +31,9 @@ the fragment percentage is not an inference speedup. The component comparison
 is wired with four measured count distributions plus a full-tile control,
 51 independent numerical checks and complete-output replay. Only local static
 checks have run; fresh `.157` host/GPU qualification follows the core handover.
+An early-exit form of the guard is also wired for that comparison: it reduces
+the 128-row specialization from 2432 to 2401 static instructions with unchanged
+VGPR/LDS and no spill. Its performance and numerical behavior remain unmeasured.
 
 Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
 reference provider on

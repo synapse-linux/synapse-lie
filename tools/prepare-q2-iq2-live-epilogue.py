@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 """Skip IQ2 paired epilogue fragments already known to have no output rows."""
+import argparse
 import difflib
 import hashlib
 import json
@@ -16,6 +17,9 @@ def sha(path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--strategy', choices=('continue', 'break'), default='continue')
+    args = parser.parse_args()
     parent_path = ROOT/'config/q2-iq2-signs-ordered-asm-source.json'
     parent = json.loads(parent_path.read_text())
     base = ROOT/parent['candidate']
@@ -40,9 +44,15 @@ def main():
 #pragma unroll'''
     if original.count(old) != 1:
         raise ValueError('Unexpected paired epilogue anchor')
+    if args.strategy == 'break':
+        new = new.replace('          continue;', '          break;')
+        new = new.replace('      // Keep both barriers for every live fragment, including the last.',
+                          '      // Live fragments are contiguous: leave the loop at the first empty one.\n'
+                          '      // Keep both barriers for every live fragment, including the last.')
     modified = original.replace(old,new,1)
-    out = ROOT/'.deps/gufo-q2-curve-iq2-live-epilogue'
-    manifest = ROOT/'config/q2-iq2-live-epilogue-source.json'
+    name = 'q2-iq2-live-epilogue' if args.strategy == 'continue' else 'q2-iq2-epilogue-break'
+    out = ROOT/('.deps/gufo-q2-curve-' + name.removeprefix('q2-'))
+    manifest = ROOT/'config'/(name+'-source.json')
     if out.exists() or manifest.exists():
         raise ValueError('Refusing to overwrite a candidate')
     shutil.copytree(base,out)
@@ -50,10 +60,11 @@ def main():
     files = {str(f.relative_to(out)):sha(f) for f in out.rglob('*') if f.is_file()}
     if files.keys()!=actual.keys() or [k for k in actual if actual[k]!=files[k]]!=[REL]:
         raise ValueError('Unexpected candidate delta')
-    patch=ROOT/'experiments/q2-iq2-live-epilogue.patch'
+    patch=ROOT/'experiments'/(name+'.patch')
     patch.write_text(''.join(difflib.unified_diff(original.splitlines(True),modified.splitlines(True),
                                                fromfile='a/'+REL,tofile='b/'+REL)))
     report=dict(schema='synapse-lie.q2-iq2-live-epilogue-source.v1',
+        strategy=args.strategy,
         base=parent['candidate'],candidate=str(out.relative_to(ROOT)),files=files,
         parent_manifest_sha256=sha(parent_path),patch_sha256=sha(patch),
         changed_files=[REL],unchanged_files=len(files)-1,

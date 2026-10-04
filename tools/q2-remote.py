@@ -18,7 +18,7 @@ COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
 ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
 SIGN_VARIANTS = ('iq2-signs-reference', 'iq2-signs-candidate', 'iq2-signs-ordered')
 WMMA_SIGN_VARIANTS = ('iq2-wmma-reference', 'iq2-wmma-signs')
-EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue')
+EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogue-break')
 CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes')
 CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2')
 
@@ -270,14 +270,15 @@ def main():
                 p.error('PLE cache-first must change only row-read scheduling')
             archive.add(ROOT/control, arcname='ple-control-source')
         if args.mode in ('iq2-wmma-signs-check', 'iq2-live-epilogue-check'):
-            manifest = ('q2-iq2-live-epilogue-source.json' if args.mode == 'iq2-live-epilogue-check'
+            manifest = ('q2-iq2-epilogue-break-source.json' if args.source_variant == 'iq2-epilogue-break'
+                        else 'q2-iq2-live-epilogue-source.json' if args.mode == 'iq2-live-epilogue-check'
                         else 'q2-iq2-wmma-signs-source.json')
             info = json.loads((ROOT/'config'/manifest).read_text())
             parent_path = ROOT/'config/q2-iq2-signs-ordered-asm-source.json'
             if file_sha256(parent_path) != info['parent_manifest_sha256']:
                 p.error('IQ2 WMMA ordered parent changed')
             parent = json.loads(parent_path.read_text())
-            candidate = args.source_variant in ('iq2-wmma-signs', 'iq2-live-epilogue')
+            candidate = args.source_variant in ('iq2-wmma-signs', 'iq2-live-epilogue', 'iq2-epilogue-break')
             source = info['candidate'] if candidate else info['base']
             if info['base'] != parent['candidate']:
                 p.error('IQ2 WMMA reference must preserve ordered decode')

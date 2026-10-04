@@ -2205,7 +2205,8 @@
   "mode": "iq2-live-epilogue-check",
   "source_variants": [
     "iq2-epilogue-reference",
-    "iq2-live-epilogue"
+    "iq2-live-epilogue",
+    "iq2-epilogue-break"
   ],
   "host_test_count": 21,
   "independent_checks": 51,
@@ -2222,5 +2223,14 @@
     "active_weight_bytes": 135168000
   },
   "next_gpu_window_owner": "core",
-  "requires_verified_core_handover": true
+  "requires_verified_core_handover": true,
+  "component_order": [
+    "iq2-epilogue-reference",
+    "iq2-live-epilogue",
+    "iq2-epilogue-break"
+  ],
+  "candidate_manifests": {
+    "iq2-live-epilogue": "config/q2-iq2-live-epilogue-source.json",
+    "iq2-epilogue-break": "config/q2-iq2-epilogue-break-source.json"
+  }
 }
