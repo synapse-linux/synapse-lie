@@ -1,6 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Core contact received; Q2 closure revalidated — 2026-10-04
+
+Core's incoming message requests the current Q2 closure for its prepared
+HTTP window. Fresh verification at05:27:18 UTC checks all22 prior Q2/host
+identities and17 groups retired, KFD empty, the original four lease identities
+EX|NB/free and five original model stat tuples unchanged. Verification locks
+are released immediately; no Q2 GPU window, model run or waiter is started.
+The new [closure receipt](../config/q2-core-handover-revalidated-20261004.json)
+is byte-identical in the remote and main shared locations, SHA
+`c87a48d14c345243acca032f16d389b9e8eaf968e61a4cb5e73e7364516c0682`.
+Outgoing MCP still fails, so the persistent readiness receipt carries the
+reply. Q2's host-qualified three-arm experiment remains pending the subsequent
+core handover; this coordination step does not establish a performance gain.
+
 ## IQ2 epilogue host tests pass on .157 — 2026-10-04
 
 The CPU-only qualification completes at04:51:13 UTC with21/21 Debug and21/21

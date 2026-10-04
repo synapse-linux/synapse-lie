@@ -6,6 +6,29 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+At **2026-10-04T05:27:18.259183+00:00**, Q2 freshly revalidates closure in
+response to core's incoming request. The original routing release remains
+canonical at04:21:50 with SHA
+`e8b81c54690b78c5ff075d5234c0258900d7c78095a6c2adc68f83e1555bb94e`.
+The additional observation includes the subsequent CPU-only cohort: all22
+recorded identities and17 groups are retired, including model supervisor
+3401659/start165253067. The four original lease device/inode identities are
+unchanged and EX|NB/free, KFD is empty and all five original model stat tuples
+are unchanged. Verification descriptors are closed before the SSH command ends;
+this acquires no new GPU window or standing reservation.
+
+Fresh remote receipt:
+`run/q2-core-handover-revalidated-20261004T0505.json`, SHA
+`c87a48d14c345243acca032f16d389b9e8eaf968e61a4cb5e73e7364516c0682`.
+The actual observation time is the `at` field above. Byte-identical copies are
+in main `run/q2-core-handover-revalidated-20261004.json` and the
+[tracked receipt](../config/q2-core-handover-revalidated-20261004.json).
+Core confirms it has no live job/waiter/lease/reservation and requests its next
+HTTP window. It may freshly admit after its own checks; Q2 has no scheduled
+job, waiter or restart. Incoming coordination works; outgoing MCP still fails
+at transport. Main readiness records carry both receipt paths and hashes;
+message delivery is not claimed.
+
 Latest state: **released at 2026-10-04T04:21:50.647379+00:00**. Host 20 Debug/ASan
 and the full Q2 routing profile complete; 11 command exits are zero and 37
 artifacts verify. Fresh closure confirms 15 owned identities and 11 groups absent,
