@@ -3,14 +3,29 @@
 Current implementation: the shared core and derived provider expose explicit
 YaRN2/YaRN4 profiles through 1,048,576 total tokens. Independent CPU operator
 and physical-token lifecycle tests pass; original-weight short-profile gates
-pass on `.161`. Physical extended GPU memory/quality/performance qualification
-remains open. See the [current context guide](../guides/CONTEXT.md) and
+pass on `.161`. Short-input capacity gates now pass at 512K and 1M after the
+authorized GTT112 reboot. The physical PP1,048,448/TG128 gate is running;
+extended-position completion, recall quality and performance remain open.
+See the [current context guide](../guides/CONTEXT.md) and
 [memory estimate](validation/context-memory-point-2026-10-04.json).
 The source audit and old estimate below describe the earlier pristine/native
 checkpoint; the old estimate omits the complete raw index history now reserved
 by the DS4 state binding and must not be used for current 1M admission.
 
-Audit date: 2026-10-02. The qualified GPU endpoint remains native 262144 total
+The [current Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+include the completed 40-window served HTTP AR/MTP concurrency campaign and
+16-window cold HTTP depth campaign through near 256K. The native Gufo HTTP
+conversation-curve client/report is implemented without Python; its extended
+GPU/quality campaigns remain separate. New OpenAI-control GPU gates and full
+Terminal Bench task evaluation remain pending. See the
+[current roadmap](../BACKEND.md#current-roadmap--2026-10-04-utc).
+
+## Historical audit — 2026-10-02
+
+The matrix and source estimates below describe the earlier checkpoint, including
+gaps subsequently closed above. They must not be read as current feature status.
+
+Audit date: 2026-10-02. The qualified GPU endpoint at that checkpoint was native 262144 total
 tokens. A client capable of sending a million-token prompt is not evidence that
 the server can execute it. The new `long-context` HTTP preset is a client-side
 workload; it does not change LIE's model configuration or claim a 1M GPU result.

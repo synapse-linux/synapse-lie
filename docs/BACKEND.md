@@ -11,21 +11,47 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Active priority — 2026-10-03
+## Current roadmap — 2026-10-04 UTC
 
-The owner postponed new performance campaigns while MTP and vision were built
-on separate feature branches from the shared-core/native-tools checkpoint
-`a262902`. `feature/mtp-vision-integration` now combines `feature/mtp` at
-`7d85b2f` and `feature/vision` at `806a790`. Existing benchmark results remain
-historical and unchanged.
+Strix Point integration is merged into `develop` at `30598a3`; current context
+and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
+results belong to their stated source and binary identities. They do not
+automatically qualify a later runtime or another model/platform.
 
-| Branch | Implementation | Remaining acceptance gate |
+1. Finish the active physical PP1,048,448/TG128 gate on `.161`, collect closure,
+   then qualify extended-context recall and matched performance. Allocation at
+   1M passes with a short prompt; this alone does not qualify physical 1M.
+2. Run the prepared 21 OpenAI controls in AR and MTP after fresh GPU admission.
+   Their 54 CPU supervisor/protocol fixtures pass; these GPU gates remain open.
+3. Run Terminal Bench against the actual HTTP function interface and retain
+   task outcomes. Clients execute tools; the inference server only produces
+   validated calls and accepts correlated results.
+4. Broaden MTP/vision numerical, fault, quality and resource qualification beyond
+   the recorded functional checkpoints. Keep failures and performance regressions.
+5. Continue the autonomous C17 executor extraction: provider-owned grammar,
+   history, speculative distributions and model/state execution remain. Preserve
+   the common reactive contracts for HTTP, bench and future clients.
+6. Complete deferred Gufo/Halogen workload comparisons with matched physical
+   work, cache policy and lifecycle. Separate batching, reactive responsiveness
+   and single-sequence PP/TG effects.
+
+Current commands, ownership and evidence are maintained in
+[progress](PROGRESS.md), [coordination](COORDINATION.md) and the
+[model/platform benchmark index](benchmarks/models/qwen3.8-flash-next/README.md).
+
+## Implemented capabilities and remaining acceptance
+
+The earlier MTP and vision branches were integrated from `7d85b2f` and
+`806a790`. The shared contracts remain model-neutral; only the explicitly
+recorded Qwen numerical binding is qualified.
+
+| Component | Implementation and recorded evidence | Remaining acceptance gate |
 | --- | --- | --- |
-| `feature/mtp` | Verified bursts, demand/cancellation, complete predictor/controller checkpoints and stable predictor identity. | Original-weight correctness, continuation and AR comparison. |
-| `feature/vision` | Owned image inputs, physical context, semantic cache/MRoPE and actual projector identity. | Original-weight quality, continuation and resource fit. |
-| `feature/mtp-vision-integration` | Atomic joint admission in core/HTTP/bench and one complete RAM/SSD checkpoint. | Original-weight mixed image/text MTP, rejection/rollback, cache parity and resource qualification. |
-| `feature/core-semantic-events` | Shared C17 text/progress/tool/turn events; HTTP and direct benchmark consume the same output policy. | Original-weight tool behavior and performance; incremental argument streaming remains open. |
-| `feature/c17-sampling` | Dense greedy/filtered selection, penalty/bias arithmetic and random draws extracted into the shared C17 sampler; explicit default-ON provider selection and legacy control. | Original-weight numerical/performance qualification; history, grammar and compact speculative state remain delegated. |
+| MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
+| Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
+| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; original-weight Chat/Responses function streaming and retired replay pass in the r10 AR gate. | New AR/MTP control gates, full agent task evaluation and performance. |
+| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; history, grammar and compact speculative state remain delegated. |
+| Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. | Active physical1M completion, extended quality and matched performance. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,

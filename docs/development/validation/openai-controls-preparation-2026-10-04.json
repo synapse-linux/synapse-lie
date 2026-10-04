@@ -251,7 +251,8 @@
     ],
     "measurements_bytes": 1339,
     "state": "RUNNING_NOT_YET_QUALIFIED",
-    "snapshot_log_sha256": "eef0adcba285ad6c8934b59de9add71b1b0d064511119a8cd808404f367afd93"
+    "snapshot_receipt_path": "evidence/openai-controls-20261004/physical-snapshot-at-preparation.json",
+    "snapshot_receipt_sha256": "eef0adcba285ad6c8934b59de9add71b1b0d064511119a8cd808404f367afd93"
   },
   "source_sha256": {
     "tools/strix-point-openai-controls.py": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd",

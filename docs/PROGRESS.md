@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) now distinguishes
+recorded MTP/vision/reactive/cache and 40/16-window Point HTTP qualifications
+from pending physical1M, new OpenAI controls, agent evaluation and autonomous
+C17 executor work. Earlier platform and long-context matrices remain explicitly
+historical; their raw receipts and failures are unchanged.
+
 ## OpenAI control qualification prepared — 2026-10-04 UTC
 
 The optional GPU supervisor now stages a hash-bound control gate alongside the

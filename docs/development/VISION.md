@@ -10,9 +10,11 @@ model forward to the pinned Gufo Qwen3.8 Flash Next provider.
 Q8/F16 projector and C17 upload decoder: image color semantics, image-scoped RAM
 reuse, combined MTP state and SSD restore in a new process. The
 [GPU receipt](validation/vision-mtp-gpu-2026-10-03.json) records the tested
-checkpoint (`bec0955`), scope and retained failures. The newer sampler/vision
-integration awaits GPU retesting. Independent quality, allocation-exact memory fit and
-performance qualification remain open. [Joint configuration](../guides/USAGE.md#mtp-with-images)
+checkpoint (`bec0955`) with `lie-c17-dense` sampling, scope and retained failures.
+The later Point direct-core AR/MTP image gates are described below. Independent
+quality, allocation-exact memory and replicated performance qualification remain
+open; recorded frozen binaries do not qualify subsequent changes automatically.
+[Joint configuration](../guides/USAGE.md#mtp-with-images)
 uses the same core, reactive output flow and RAM/SSD state.
 
 The separate [Strix Point direct-core gates](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
