@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-live-stage-host-reuse.v1",
+  "host": "q2-native-row-host-r1",
+  "debug_tests": 22,
+  "asan_ubsan_tests": 22,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "source_capsule_sha256": "7c4a9d3d605975e7e4db14f91beb31995e071269f968c628bcd37b8ad2f20649",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "tests/q2_iq2_wmma_signs.cpp": "2c3dfb879a433953579482f7744f48d90ceb0eef995df21fa54da42aa6d5b213",
+    "tests/q2_iq2_live_epilogue.cpp": "d298be5a0cd025e24fc6b272ba10f73f43374defd98b53de0fd1543c30510e3e",
+    "tests/q2_iq2_routes.hpp": "da5475020b4b2f76c466e56353c78e539263e7a95436f62c3adf61799051aa1d",
+    "tests/q2_iq2_routes.cpp": "bc09dee47bef06707c1e35da474e5f4c1aa34c2ab9e8c0a3d5ec32f0fd47fd0f",
+    "tests/q2_iq2_pair.cpp": "0a84f47a10354d103197378bb5ab4f94552b7713ea2453b38651c8f83d929e4e",
+    "tests/q2_packed_fixture.hpp": "8670f40fbd7da541fb7e1204c0c2f9c7856159cc628ec75e45a3598873baa8e3",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "tests/q2_remote_test.py": "55677cd0dd74ec63b35758ecd49d4c3638ea8bcf6812f2491016435224d07cdc",
+    "config/q2-iq2-live-epilogue-plan.json": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+    "tools/analyze-q2-iq2-live-epilogue.py": "09a7d84787e585c0b3d5c67a806b02b32500dda93c2acaeb1eded9c7a9ba6e2a",
+    "tools/q2-remote.py": "0b671d00b4c25fcc1aceb5dbc5a961e86f2195bcd4304b1c6a99ced68279dbef",
+    "tools/q2-runner.py": "701bc3b361388a6d15f3f842324e3b458a2f0f228348ec65228a5fba380a1865",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "reason": "All sixteen measured harness/fixture files are byte-identical to the retained .157 host-qualified capsule; no redundant CPU rerun.",
+  "model_inference": false,
+  "gpu_admitted": false
+}
