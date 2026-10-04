@@ -24,7 +24,7 @@ owner. It never executes model forward on the HTTP loop or on a CPU fallback.
 | Chat Completions | Text/vision/functions, correlated results, JSON/SSE, `n=1..8`, stop sequences, stored completion operations | Original-weight qualification of the new controls remains pending |
 | Sampling | Temperature, top-p, penalties, seed, token bias, logprobs and up to 20 alternatives | Logprobs are target probabilities before top-p truncation; greedy requests report the underlying distribution |
 | Responses | Text/function/image input, instructions, JSON/SSE, stored retrieval/deletion, `previous_response_id`, background polling/cancellation, paginated input items, automatic truncation and stream replay | Named Conversations and compaction services are not implemented |
-| Function output | Shared C extraction/validation and stable call IDs; strict arguments constrained during target sampling | Tools execute in the client; argument deltas are published after complete-turn validation |
+| Function output | Shared C extraction/validation and stable call IDs; strict arguments constrained during target sampling | Provisional argument deltas stream before completion; clients execute only validated successful turns |
 | Structured output | JSON object and JSON schema constraints, including strict schemas | The transitional provider compiles the supported schema subset; unsupported schemas are refused |
 | Images | Explicit projector admission and owned image inputs | Original-weight vision qualification remains pending |
 | Other APIs | Documented capability gaps | Audio/video generation, embeddings, hosted tools, vector stores and cloud administration require separate executors/services |
@@ -36,8 +36,9 @@ The C17 core owns stop matching, output validation, choice admission, records,
 history, credits and cancellation. Constrained token selection uses the verified
 Gufo sampler through neutral C controls; its C++ types remain inside the adapter.
 This is transitional delegation, not an autonomous C grammar executor. Token
-probability normalization is owned C code. Executor ABI 2 and DS4 payloads are
-unchanged; request ABI 5 and generation ABI 2 describe the new controls.
+probability normalization is owned C code. Executor ABI 3 includes explicit
+context profiles; request ABI 5, generation ABI 2 and event ABI 2 describe the
+controls and incremental function events. DS4 payload framing is unchanged.
 
 Stop sequences are removed before publication, including matches split across
 tokens. There are at most four sequences, each bounded to 256 UTF-8 bytes.
@@ -90,14 +91,24 @@ publish item/part creation, text deltas, done signals and one response terminal.
 Sequence numbers start at zero and increase without gaps. There is no Chat
 `[DONE]` sentinel in a Responses stream. Length completion is `incomplete` with
 `max_output_tokens`; a failed buffered tool turn publishes `response.failed`,
-never a callable partial function. The normal text stream holds its flow loan
+without committing provisional calls. Clients discard their partial arguments. The normal text stream holds its flow loan
 through the transport callback even though a separately bounded final text
 projection is retained for the terminal response. Tool-enabled streams
-acknowledge core progress events and project the validated
-[semantic core events](EVENTS.md). HTTP owns no model-output parser.
+acknowledge core progress events and project provisional starts/argument deltas
+from [semantic core events](EVENTS.md). Complete arguments and output-item done
+events require final validation. HTTP owns no model-output parser.
+
+`tool_choice` supports `auto`, `none`, `required`, a named function and
+`allowed_tools` with mode `auto` or `required`. Chat uses nested function names;
+Responses uses flat names. Unknown or duplicate references are refused. The
+allowed subset filters declarations in their original order before building the
+prompt; it does not retain excluded definitions for prompt-cache reuse. Hosted
+OpenAI tools require separate implementations. See the [agent guide](../guides/AGENT-CLIENTS.md).
 
 Each request body is at most 8 MiB, with at most 1024 messages. Context admission
-is capped at 262144 physical prompt-plus-reserved-output tokens. A final text projection remains bounded by
+accepts up to 1,048,576 physical prompt-plus-reserved-output tokens with an
+explicit qualified model profile; see [context configuration](../guides/CONTEXT.md).
+A final text projection remains bounded by
 MAX_TEXT; each encoded network write remains bounded by MAX_RESPONSE (32 MiB). These are
 application bounds, not GPU-memory measurements or proof of remote consumption.
 Cancellation, deadlines and shutdown use the existing pinned job/flow lifetime;

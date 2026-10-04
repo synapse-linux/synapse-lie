@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Context profile integration released — 2026-10-04 UTC
+
+Root's `.161` r7 device-free build refuses pristine source hash drift before
+compilation or model load; child/controller exit 1 and cleanup exit 0 remain
+preserved. Root restores only its exact independently identified source edits
+from a fresh official archive, verifying all 1,019 pristine files in both
+checkouts. The private derive helper now copies files, not a directory symlink.
+
+The fresh r8 ROCm 10 `gfx1150` build exits 0 and releases at
+13:23:03.701908 UTC. Three separately admitted original-weight C1 PP1500/TG32
+gates pass at capacity 4096 with `native`, `yarn2` and `yarn4`, releasing at
+13:37:36.194598, 13:40:15.760254 and 13:43:49.973201 UTC. Each collection
+hash-verifies eleven files, unchanged model stats, absent owned GPU processes,
+active named router and free lease. Sampled CPU/GPU/NVMe maxima are
+63.875/64/67.85 C; GPU is observed only. These gates establish short-profile
+integration, not 1M memory, quality or performance. No standing ownership or
+host tuning follows. [Receipt](development/validation/context-point-gpu-2026-10-04.json).
+
 ## Point cold HTTP depth campaign released — 2026-10-04 UTC
 
 The `.161` Point thread retires all 16 AR/MTP LIE/official Gufo C1

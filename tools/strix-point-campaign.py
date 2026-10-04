@@ -809,10 +809,14 @@ class Campaign:
                 not 1 <= self.m.get('mtp_draft_tokens', 7) <= 7):
             raise ValueError('Modern core predictor draft bound must be 1..7')
         settings = self.m.get('settings')
+        rope = self.m.get('rope_scaling', 'native')
+        if rope not in ('native', 'yarn2', 'yarn4'):
+            raise ValueError('Invalid explicit static RoPE profile')
+        context_limit = {'native':262144, 'yarn2':524288, 'yarn4':1048576}[rope]
         if (type(settings) is not dict or set(settings) !=
                 {'context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'} or
                 any(type(value) is not int for value in settings.values()) or
-                not 4096 <= settings['context'] <= 262144 or settings['chunk'] != 2048 or
+                not 4096 <= settings['context'] <= context_limit or settings['chunk'] != 2048 or
                 settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
                 settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
             raise ValueError('Invalid bounded modern core settings')
@@ -845,6 +849,8 @@ class Campaign:
                    '--tokens-file', '/work/tokens.json', '--output', '/work/measurements.jsonl',
                    '--kv-cache-ram-mb', '4096' if ram_cache else '0',
                    '--kv-cache-policy', 'ds4', '--timeout-ms', '3600000']
+        if rope != 'native':
+            command.extend(('--rope-scaling', rope))
         if reactive_probe:
             command.append('--reactive-probe')
         if ssd_cache:
@@ -866,6 +872,7 @@ class Campaign:
             if (identity.get('schema') != 'synapse-lie.core-bench.v1' or
                     identity.get('mode') != mode or identity.get('synthetic') or
                     identity.get('build_id') != self.m.get('runtime_build_id') or
+                    identity.get('rope_scaling', 'native') != rope or
                 identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off') or
                 identity.get('reactive_probe', False) != reactive_probe):
                 raise RuntimeError('Unexpected modern core benchmark identity')
@@ -1024,16 +1031,22 @@ class Campaign:
                    '/model/'+self.m['model_plan']['files'][0]['name'], mode]
         if predictor:
             command.append('/mtp/'+predictor.name)
+        if self.m.get('http_tool_gate', False):
+            command.append('--tools')
         self.r['bench_command'] = command
         self.record()
         try:
             self.run_container(command, self.m['bundle'], 1200, model)
             result = json.loads((self.root/'http-result.json').read_text())
+            required = {'models', 'chat_json', 'chat_sse', 'responses_json', 'responses_sse'}
+            if self.m.get('http_tool_gate', False):
+                required |= {'chat_function_json', 'chat_function_sse', 'chat_tool_result',
+                             'responses_function_json', 'responses_function_sse',
+                             'responses_tool_replay', 'responses_tool_result', 'allowed_tools'}
             if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
                     result.get('server_exit_code') != 0 or
-                    set(result.get('passed', [])) != {'models', 'chat_json', 'chat_sse',
-                                                       'responses_json', 'responses_sse'}):
+                    set(result.get('passed', [])) != required):
                 raise RuntimeError('Incomplete original-weight HTTP gate')
             self.r['http_result'] = {'mode': mode, 'result_sha256': sha(self.root/'http-result.json'),
                                      'passed': result['passed']}

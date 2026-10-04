@@ -73,8 +73,9 @@ curl --fail http://127.0.0.1:8000/v1/responses \
 ```
 
 Clients execute function tools and submit correlated tool results in the next
-request. Tool-enabled SSE publishes a complete validated turn; function arguments
-are not streamed incrementally. Thinking is disabled. Inline PNG/JPEG image
+request. Tool-enabled SSE publishes provisional starts and argument fragments;
+clients execute only after successful final validation. See the
+[agent and tool guide](AGENT-CLIENTS.md). Thinking is disabled. Inline PNG/JPEG image
 parts are available with explicit vision admission; see the
 [vision guide](../development/VISION.md#use). The
 [API reference](../reference/OPENAI-REACTIVE.md) lists supported fields and error behavior.
@@ -118,7 +119,8 @@ The current integration is covered by native fixtures and HIP build/link tests.
 
 | Option | Meaning |
 | --- | --- |
-| `--context 262144` | Maximum tokens per sequence, including prompt and reserved output; valid range: 128–262,144. |
+| `--context 262144` | Maximum tokens per sequence, including prompt and reserved output; application range: 128–1,048,576; the model/profile sets the actual limit. |
+| `--rope-scaling native` | Explicit rotary profile: `native`, `yarn2` or `yarn4`; see [context configuration](CONTEXT.md). |
 | `--max-active 1` | Active sequences; set 2–8 to allow GPU decode batches when multiple requests are ready. |
 | `--prefill-chunk 2048` | Maximum prompt tokens handled in one prefill dispatch. |
 | `--request-timeout-ms 600000` | Request deadline, in milliseconds; allow enough time for long prompts. |

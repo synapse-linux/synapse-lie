@@ -1,6 +1,44 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Incremental native functions — 2026-10-04 UTC
+
+The shared C17 core now publishes provisional function starts and append-only
+argument fragments (event ABI 2). Chat and Responses project those events into
+SSE; successful full-turn validation still commits complete calls. The bounded
+record journal owns fragment copies for replay after retirement. Loan retention,
+credit accounting and cancellation stay in the shared core, without another
+inference thread. `allowed_tools` supports the native function subset shapes
+for both APIs, filtering prompt declarations and refusing unknown/duplicate names.
+
+Native Debug passes 51/51. Focused ASan/UBSan/LSan covers parser prefixes,
+held/cancelled/abandoned loans, final validation and exact retired HTTP replay;
+the seven-test initial suite and four-test final suite both pass. CLI/client and
+benchmark dependencies stay native C; optional campaign supervision uses Python.
+The GPU HTTP function/result/replay gate is prepared and still needs a new
+binary build and admission. The [agent guide](guides/AGENT-CLIENTS.md) gives
+actual client requests and distinguishes native tools from the audited Terminus
+text command protocol. [Host receipt](development/validation/tool-streaming-2026-10-04.json).
+
+## GPU context profiles and memory budget — 2026-10-04 UTC
+
+The verified r8 HIP build and three original-weight `native`/`yarn2`/`yarn4`
+PP1500/TG32 gates pass on `.161`. They use total capacity 4096, C1 and no prefix
+retention. Each controller/model child exits 0 and collected closure verifies
+router restored, owned processes absent and private lease free. They qualify
+short-profile integration only. The r7 hash refusal, private source-copy mistake,
+preserved drift and independently verified restoration remain explicit in the
+[GPU receipt](development/validation/context-point-gpu-2026-10-04.json).
+
+The source-formula estimate for C1 AR capacity 1M is 110.60 GiB GTT at chunk
+2048. Extending the present 96 GiB ceiling to 112 GiB is technically possible,
+but the observed baseline predicts only 0.72 GiB available RAM left. Host tuning
+and reboot have not occurred. A smaller-chunk memory/throughput check and fresh
+RAM admission precede physical 1M original-weight qualification; the
+[context guide](guides/CONTEXT.md#gtt-on-the-point-test-host) records the exact
+proposed boot argument and rollback. Long-context recall and generic attention
+performance above 256K remain open.
+
 ## Context 1M implementation and Point merge — 2026-10-04 UTC
 
 The completed Point checkpoint `40b2ac7` is merged into `develop` as `30598a3`;

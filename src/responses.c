@@ -373,6 +373,25 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
   if ((v = get(root, "tool_choice"))) {
     if (json_object_is_type(v, json_type_string))
       json_object_object_add(chat, "tool_choice", json_object_get(v));
+    else if(literal(get(v,"type"),"allowed_tools")) {
+      const char *const keys2[]={"type","mode","tools"},*const refkeys[]={"type","name"};
+      json_object *refs=get(v,"tools");
+      if(!fields(v,keys2,3) || !json_object_is_type(refs,json_type_array) ||
+         json_object_array_length(refs)>LIE_CHAT_MAX_TOOLS) goto fail;
+      json_object *o=json_object_new_object(),*allowed=json_object_new_object(),*list=json_object_new_array();
+      json_object_object_add(o,"type",json_object_new_string("allowed_tools"));
+      json_object_object_add(allowed,"mode",json_object_get(get(v,"mode")));
+      json_object_object_add(allowed,"tools",list);json_object_object_add(o,"allowed_tools",allowed);
+      json_object_object_add(chat,"tool_choice",o);
+      for(size_t i=0;i<json_object_array_length(refs);++i) {
+        json_object *ref=json_object_array_get_idx(refs,i);
+        if(!fields(ref,refkeys,2) || !literal(get(ref,"type"),"function")) goto fail;
+        json_object *item=json_object_new_object(),*fn=json_object_new_object();
+        json_object_object_add(item,"type",json_object_new_string("function"));
+        json_object_object_add(fn,"name",json_object_get(get(ref,"name")));
+        json_object_object_add(item,"function",fn);json_object_array_add(list,item);
+      }
+    }
     else {
       const char *const keys2[] = {"type", "name"};
       if (!fields(v, keys2, 2) || !literal(get(v, "type"), "function"))
@@ -537,10 +556,41 @@ char *lie_response_delta(const char *id,const char *text,size_t n,uint64_t *sequ
     json_object *o=event("response.output_text.delta",sequence); text_location(o,id);
     json_object_object_add(o,"delta",json_object_new_string_len(text,(int)n)); return serialize(o);
 }
-char *lie_response_end(const char *id, const char *model, int64_t created,
+char *lie_response_text_event(const char *id,const char *text,size_t n,uint64_t *sequence,bool *started) {
+  char *s=NULL;
+  if(!*started && !text_start(&s,id,sequence)) {free(s);return NULL;}
+  if(!append(&s,lie_response_delta(id,text,n,sequence))) {free(s);return NULL;}
+  *started=true;return s;
+}
+char *lie_response_tool_event(const char *id,const lie_output_call *call,bool start,
+                              size_t index,uint64_t *sequence) {
+  char item_id[128];snprintf(item_id,sizeof(item_id),"fc_%s_%zu",id,call->index);
+  json_object *o=event(start?"response.output_item.added":"response.function_call_arguments.delta",sequence);
+  json_object_object_add(o,"output_index",json_object_new_int64((int64_t)index));
+  if(start) {
+    json_object *item=json_object_new_object();
+    json_object_object_add(item,"id",json_object_new_string(item_id));
+    json_object_object_add(item,"type",json_object_new_string("function_call"));
+    json_object_object_add(item,"status",json_object_new_string("in_progress"));
+    json_object_object_add(item,"call_id",json_object_new_string(call->id));
+    json_object_object_add(item,"name",json_object_new_string(call->name));
+    json_object_object_add(item,"arguments",json_object_new_string(""));
+    json_object_object_add(o,"item",item);
+  } else {
+    json_object_object_add(o,"item_id",json_object_new_string(item_id));
+    json_object_object_add(o,"delta",json_object_new_string_len(call->arguments_json,(int)call->arguments_bytes));
+  }
+  return serialize(o);
+}
+char *lie_response_end(const char *id,const char *model,int64_t created,
+                       const char *text,size_t n,json_object *calls,
+                       const lie_job_info *info,uint64_t *sequence,bool text_started) {
+  return lie_response_end_streamed(id,model,created,text,n,calls,info,sequence,text_started,0);
+}
+char *lie_response_end_streamed(const char *id, const char *model, int64_t created,
                        const char *text, size_t n, json_object *calls,
                        const lie_job_info *info, uint64_t *sequence,
-                       bool text_started) {
+                       bool text_started,size_t started_calls) {
   char *s = NULL;
   bool done =
       info->finish == LIE_FINISH_STOP || info->finish == LIE_FINISH_LENGTH;
@@ -580,6 +630,7 @@ char *lie_response_end(const char *id, const char *model, int64_t created,
       snprintf(item_id, sizeof(item_id), "fc_%s_%zu", id, i);
       json_object *item =
           call_item(item_id, json_object_array_get_idx(calls, i));
+      if(i>=started_calls) {
       json_object *start = NULL;
       if (json_object_deep_copy(item, &start, NULL)) {
         json_object_put(item);
@@ -606,7 +657,8 @@ char *lie_response_end(const char *id, const char *model, int64_t created,
         json_object_put(item);
         goto fail;
       }
-      o = event("response.function_call_arguments.done", sequence);
+      }
+      json_object *o = event("response.function_call_arguments.done", sequence);
       json_object_object_add(o, "item_id", json_object_new_string(item_id));
       json_object_object_add(o, "output_index",
                              json_object_new_int64((int64_t)index));

@@ -1,0 +1,109 @@
+{
+  "schema": "synapse-lie.gpu-functional-validation.v1",
+  "date_utc": "2026-10-04",
+  "target": "pop@192.168.5.161",
+  "architecture": "gfx1150",
+  "source_commit": "78cfdfd5f158050e1113be40a64103af5f1a3f73",
+  "scope": "ORIGINAL_WEIGHT_SHORT_PROFILE_INTEGRATION_NOT_1M_QUALITY_OR_PERFORMANCE",
+  "profiles": [
+    {
+      "profile": "native",
+      "context": 4096,
+      "prompt_tokens": 1500,
+      "output_tokens": 32,
+      "warmups": 0,
+      "repetitions": 1,
+      "prefill_ns": 3259879102,
+      "decode_ns": 3038429308,
+      "prefill_tps": 460.1397637966759,
+      "decode_tps": 10.531757285168998,
+      "controller_exit": 0,
+      "child_exit": 0,
+      "lease_released_at": "2026-10-04T13:37:36.194598+00:00",
+      "collection_exit": 0,
+      "evidence_directory": "evidence/context-r8-native",
+      "measurements_sha256": "af2fb98292373392cb08dd9cd1108ada2b18bb948e8e95ebd0e6d5ba6293a04e",
+      "gtt_peak_bytes": 85413470208,
+      "min_available_ram_bytes": 34224992256,
+      "temperature_max_c": {
+        "k10temp": 61.75,
+        "amdgpu": 61.0,
+        "nvme": 64.85
+      }
+    },
+    {
+      "profile": "yarn2",
+      "context": 4096,
+      "prompt_tokens": 1500,
+      "output_tokens": 32,
+      "warmups": 0,
+      "repetitions": 1,
+      "prefill_ns": 3257799146,
+      "decode_ns": 3045664604,
+      "prefill_tps": 460.4335420253683,
+      "decode_tps": 10.506737990116523,
+      "controller_exit": 0,
+      "child_exit": 0,
+      "lease_released_at": "2026-10-04T13:40:15.760254+00:00",
+      "collection_exit": 0,
+      "evidence_directory": "evidence/context-r8-yarn2",
+      "measurements_sha256": "c81fa99967d1ff46b7da3bd3725b299389a64e02aeb5ae8464e45c4c568b51a8",
+      "gtt_peak_bytes": 85413470208,
+      "min_available_ram_bytes": 34162868224,
+      "temperature_max_c": {
+        "k10temp": 62.5,
+        "amdgpu": 64.0,
+        "nvme": 67.85
+      }
+    },
+    {
+      "profile": "yarn4",
+      "context": 4096,
+      "prompt_tokens": 1500,
+      "output_tokens": 32,
+      "warmups": 0,
+      "repetitions": 1,
+      "prefill_ns": 3257780712,
+      "decode_ns": 3040317503,
+      "prefill_tps": 460.4361473670607,
+      "decode_tps": 10.525216517164523,
+      "controller_exit": 0,
+      "child_exit": 0,
+      "lease_released_at": "2026-10-04T13:43:49.973201+00:00",
+      "collection_exit": 0,
+      "evidence_directory": "evidence/context-r8-yarn4",
+      "measurements_sha256": "6b18ab08031c84133ed0a23f99779bb2eedb3ffce33d06cc0b4053a8e6f31fd4",
+      "gtt_peak_bytes": 85413470208,
+      "min_available_ram_bytes": 34116726784,
+      "temperature_max_c": {
+        "k10temp": 63.875,
+        "amdgpu": 63.0,
+        "nvme": 66.85
+      }
+    }
+  ],
+  "build": {
+    "schema": "synapse-lie.point-bundle.v1",
+    "source_commit": "78cfdfd5f158050e1113be40a64103af5f1a3f73",
+    "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+    "compile_receipt_sha256": "cd1072a1c0b7e6ebdfb530c4ec4bdd1d5dc36f53eb1432fdd97d78251f81fe72",
+    "artifacts": {
+      "runtime/bin/lie-hip-probe": "f0520865e88079c0260cd79ea13769f147ddbefae84ed88847f6af39cc4dd65f",
+      "runtime/bin/synapse-lie-bench": "18e0e403d3f31b95ad9379a8a453e47614c6334cdea96b81c644a2834bcd9912",
+      "runtime/bin/synapse-lie-bench-gufo-reference": "acb1df47617703822c839dc03f910c48973602799388d87e95d7d5e957756bbd",
+      "runtime/bin/synapse-lie-server": "31af06988dd236042078a8f6f24060204b03431ca90ca2ae47cfdd097c67a349"
+    },
+    "runtime_libraries": "pinned ROCm10 image",
+    "scope": "BUILT_NOT_GPU_TESTED"
+  },
+  "retained_failure": {
+    "label": "context-r7-build",
+    "controller_exit": 1,
+    "reason": "Private CMake verification copied a symlink and applied derived edits through it to canonical pristine. Provider refused hash drift before compilation/model load. Exact own drift was preserved and restored from an independently fetched official archive; both 1019-file pristine trees then verified.",
+    "restoration_receipt": "evidence/point-merge-20261004/pristine-restoration.json",
+    "restoration_sha256": "41d4c987800bf33d32b96448d32f944093cd3380e843d79066a73d0ad82e93af"
+  },
+  "model_mutation": false,
+  "host_tuning": false,
+  "publication": false
+}

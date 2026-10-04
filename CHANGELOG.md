@@ -35,6 +35,12 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared-core incremental function starts and argument fragments, projected
+  into Chat/Responses SSE and retained stream replay. Calls commit only after
+  full validation; cancellation preserves borrowed payloads until release.
+- Function `allowed_tools` subsets for Chat and Responses, with explicit
+  rejection of unknown or duplicate references.
+
 - Explicit native/YaRN2/YaRN4 context profiles in the shared C17 core, HTTP
   server and direct benchmark, with capacity up to 1,048,576 physical tokens
   and profile-specific cache identity. Extended GPU fit and quality are pending.

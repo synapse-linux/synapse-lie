@@ -32,7 +32,8 @@ performance gates remain open.
 - Function calls and tool results through the standard OpenAI protocol; Pi can
   connect directly over HTTP.
 - Shared C17 [output events](docs/reference/EVENTS.md) for HTTP and direct clients:
-  text, validated tool calls and typed turn completion, with output credits and cancellation.
+  text, incremental function arguments, validated tool calls and typed turn
+  completion, with output credits and cancellation.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.

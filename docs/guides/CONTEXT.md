@@ -76,3 +76,46 @@ Model weights, active KV/index/recurrent state, scratch buffers, driver overhead
 RAM retention and the operating system all need memory. A larger GTT ceiling
 permits addressing more RAM but does not create RAM. Record effective GTT,
 available RAM and measured peaks for each original-weight run.
+
+## GTT on the Point test host
+
+Read-only inspection on `.161` reports Linux `7.1.5-76070105-generic`, 4 KiB
+pages, `ttm.pages_limit=25165824` (96 GiB GTT), `amdgpu.gttsize=-1`, and
+123.44 GiB visible RAM. A 112 GiB ceiling corresponds to the boot argument:
+
+```text
+ttm.pages_limit=29360128
+```
+
+The upstream [AMDGPU initialization](https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c)
+reads the TTM limit when creating its GTT manager. Writing the runtime TTM
+parameter alone does not recreate that manager. This host uses Pop!_OS
+`kernelstub`; the prepared configuration action is
+`sudo kernelstub -a "ttm.pages_limit=29360128"`, followed by a scheduled reboot
+and verification of both the parameter and `mem_info_gtt_total`. Revert with
+`sudo kernelstub -d "ttm.pages_limit=29360128"` and another scheduled reboot.
+These actions have **not** been applied; they change the shared host and require
+an explicit maintenance window under the coordination policy. No old boot
+option needs removal on this inspected host. Other hosts need their own check.
+
+For the current UD model, C1 AR, PP chunk 2,048 and cache off, a 4K-capacity
+original-weight gate samples a 79.55 GiB GTT peak. The executor has twelve full
+attention layers, each reserving F16 K/V, complete F32 raw index history and
+F16 pooled index rows. Scaling those exact allocation formulas, including mask
+and score scratch growth, gives the following **estimates**, not measured fit:
+
+| Total context | Active attention/index state | Estimated GTT peak |
+| ---: | ---: | ---: |
+| 262,144 | 7.69 GiB | 87.12 GiB |
+| 524,288 | 15.38 GiB | 94.94 GiB |
+| 1,048,576 | 30.75 GiB | 110.60 GiB |
+
+The 1M estimate leaves only about 0.72 GiB from the minimum available RAM
+observed during that baseline. Raising GTT therefore needs a fresh RAM budget,
+including host buffers and at least the admitted operating-system margin;
+it is insufficient on its own. MTP adds its predictor, draft state and rollback.
+Compressed retained KV checkpoints do not replace active GPU attention state.
+A smaller prefill chunk may reduce scratch memory; measure its speed and peak
+before selecting it for a 1M campaign. The
+[memory receipt](../development/validation/context-memory-point-2026-10-04.json)
+records the formulas, baseline and unmeasured limits.

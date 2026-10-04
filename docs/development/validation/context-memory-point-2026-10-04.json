@@ -1,0 +1,68 @@
+{
+  "schema": "synapse-lie.context-memory-estimate.v1",
+  "scope": "SOURCE_FORMULA_PLUS_SAMPLED_GTT_BASELINE_NOT_ALLOCATION_EXACT",
+  "target": "192.168.5.161",
+  "kernel_observed": "7.1.5-76070105-generic",
+  "page_bytes": 4096,
+  "current_ttm_pages_limit": 25165824,
+  "current_gtt_bytes": 103079215104,
+  "visible_ram_bytes": 132542648320,
+  "proposed_boot_argument": "ttm.pages_limit=29360128",
+  "proposed_gtt_bytes": 120259084288,
+  "setting_applied": false,
+  "driver_reinitialized": false,
+  "baseline_profile": "yarn4",
+  "baseline_capacity": 4096,
+  "baseline_gtt_peak_bytes": 85413470208,
+  "baseline_available_min_bytes": 34116726784,
+  "baseline_measurements_sha256": "6b18ab08031c84133ed0a23f99779bb2eedb3ffce33d06cc0b4053a8e6f31fd4",
+  "geometry": {
+    "trunk_layers": 48,
+    "full_attention_interval": 4,
+    "full_attention_layers": 12,
+    "kv_dimension": 512,
+    "kv_scalar_bytes": 2,
+    "index_dimension": 128,
+    "raw_index_scalar_bytes": 4,
+    "pooled_index_scalar_bytes": 2,
+    "compression_ratio": 4,
+    "prefill_chunk": 2048,
+    "indexer_select_chunk": 512
+  },
+  "formula": "12 * (2 * context * 512 * 2 + bit_ceil(context) * 128 * 4 + (context / 4 + 1) * 128 * 2); scratch = (2048 + 512 * 32) * mask_words * 4; mask_words = ceil(ceil(max(native_context,context)/4)/32). Recurrent state and fixed allocations retained in sampled baseline.",
+  "estimates": [
+    {
+      "context": 262144,
+      "active_attention_index_bytes": 8254393344,
+      "scratch_growth_bytes": 0,
+      "gtt_peak_estimated_bytes": 93538885632,
+      "available_ram_remaining_estimated_bytes": 25991311360
+    },
+    {
+      "context": 524288,
+      "active_attention_index_bytes": 16508783616,
+      "scratch_growth_bytes": 150994944,
+      "gtt_peak_estimated_bytes": 101944270848,
+      "available_ram_remaining_estimated_bytes": 17585926144
+    },
+    {
+      "context": 1048576,
+      "active_attention_index_bytes": 33017564160,
+      "scratch_growth_bytes": 452984832,
+      "gtt_peak_estimated_bytes": 118755041280,
+      "available_ram_remaining_estimated_bytes": 775155712
+    }
+  ],
+  "limits": [
+    "GTT peak is sampled, not an exact allocation ledger.",
+    "AR only, C1, same model/chunk, RAM and SSD cache off.",
+    "MTP adds a draft attention session, predictor weights and rollback; not included.",
+    "Host allocations, future page residency, display/driver changes and input buffers are not predicted.",
+    "RAM may run out before the chosen GTT ceiling.",
+    "No physical long-context inference or memory-fit qualification is implied."
+  ],
+  "upstream_sources": [
+    "https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c",
+    "https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/ttm/ttm_tt.c"
+  ]
+}

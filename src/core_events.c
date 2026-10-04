@@ -20,6 +20,11 @@ struct lie_event_stream {
   char *scratch, *buffer;
   size_t capacity, bytes, buffer_capacity, limit;
   lie_output_turn turn;
+  lie_output_turn preview;
+  size_t sent_bytes[LIE_CHAT_MAX_CALLS];
+  size_t sent_text;
+  bool sent_start[LIE_CHAT_MAX_CALLS];
+  lie_output_call fragment;
   size_t call_index;
   lie_flow_event raw;
   uint64_t generation, offset;
@@ -60,9 +65,15 @@ void lie_event_stream_destroy(lie_event_stream *s) {
     return;
   if (s->borrowed)
     abort();
+  /* A released progress event can still pin the raw loan for its pending
+   * derived events. Abandoning that consumer after cancellation must retire
+   * this internal loan before the flow is destroyed. */
+  if (s->raw_loan && lie_flow_release(s->flow, s->raw.ticket) != LIE_FLOW_OK)
+    abort();
   free(s->scratch);
   free(s->buffer);
   lie_output_turn_clear(&s->turn);
+  lie_output_turn_clear(&s->preview);
   free(s);
 }
 bool lie_event_stream_done(const lie_event_stream *s) { return s && s->done; }
@@ -100,6 +111,36 @@ static void loan(lie_event_stream *s, lie_event *e) {
   s->borrowed = true;
   e->ticket = (lie_event_ticket){s->job, ++s->generation};
 }
+static bool pending(const lie_event_stream *s) {
+  if (s->preview.count && s->sent_text < s->preview.bytes)
+    return true;
+  for (size_t i = 0; i < s->preview.count; ++i)
+    if (!s->sent_start[i] ||
+        s->sent_bytes[i] < s->preview.calls[i].arguments_bytes)
+      return true;
+  return false;
+}
+static bool preview(lie_event_stream *s) {
+  lie_output_turn next = {0};
+  if (!lie_output_preview(&s->policy, s->buffer, s->bytes, s->identity, &next))
+    return false;
+  bool ok =
+      next.count >= s->preview.count && next.bytes >= s->sent_text &&
+      (!s->sent_text || !memcmp(next.text, s->preview.text, s->sent_text));
+  for (size_t i = 0; i < s->preview.count && ok; ++i)
+    ok = !strcmp(next.calls[i].id, s->preview.calls[i].id) &&
+         !strcmp(next.calls[i].name, s->preview.calls[i].name) &&
+         next.calls[i].arguments_bytes >= s->sent_bytes[i] &&
+         !memcmp(next.calls[i].arguments_json,
+                 s->preview.calls[i].arguments_json, s->sent_bytes[i]);
+  if (!ok) {
+    lie_output_turn_clear(&next);
+    return false;
+  }
+  lie_output_turn_clear(&s->preview);
+  s->preview = next;
+  return true;
+}
 static bool structured_valid(lie_event_stream *s, const char *text,
                              size_t bytes) {
   if (s->format == LIE_FORMAT_TEXT)
@@ -119,14 +160,14 @@ lie_flow_status lie_event_stream_release(lie_event_stream *s,
                                          lie_event_ticket t) {
   if (!s || !s->borrowed || t.owner != s->job || t.generation != s->generation)
     return LIE_FLOW_INVALID;
-  if (s->raw_loan) {
+  if (s->raw_loan && !pending(s)) {
     lie_flow_status rc = lie_flow_release(s->flow, s->raw.ticket);
     if (rc != LIE_FLOW_OK)
       return rc;
     s->raw_loan = false;
   }
   s->borrowed = false;
-  if (s->terminal)
+  if (s->terminal || pending(s))
     notify(s);
   return LIE_FLOW_OK;
 }
@@ -141,6 +182,46 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
                    .struct_bytes = sizeof(*e),
                    .end = LIE_FLOW_ACTIVE,
                    .token_offset = s->offset};
+  if (pending(s) && lie_job_semantic_cancelled(s->job)) {
+    lie_output_turn_clear(&s->preview);
+    if (s->raw_loan) {
+      lie_flow_status rc = lie_flow_release(s->flow, s->raw.ticket);
+      if (rc != LIE_FLOW_OK)
+        return rc;
+      s->raw_loan = false;
+    }
+  }
+  if (s->preview.count && s->sent_text < s->preview.bytes) {
+    e->kind = LIE_EVENT_TEXT;
+    e->text = s->preview.text + s->sent_text;
+    e->bytes = s->preview.bytes - s->sent_text;
+    s->sent_text = s->preview.bytes;
+    loan(s, e);
+    return LIE_FLOW_OK;
+  }
+  for (size_t i = 0; i < s->preview.count; ++i) {
+    lie_output_call *call = &s->preview.calls[i];
+    if (!s->sent_start[i]) {
+      s->sent_start[i] = true;
+      s->fragment = *call;
+      s->fragment.arguments_json = "";
+      s->fragment.arguments_bytes = 0;
+      e->kind = LIE_EVENT_TOOL_START;
+      e->call = &s->fragment;
+      loan(s, e);
+      return LIE_FLOW_OK;
+    }
+    if (s->sent_bytes[i] < call->arguments_bytes) {
+      s->fragment = *call;
+      s->fragment.arguments_json += s->sent_bytes[i];
+      s->fragment.arguments_bytes -= s->sent_bytes[i];
+      s->sent_bytes[i] = call->arguments_bytes;
+      e->kind = LIE_EVENT_TOOL_ARGUMENT_DELTA;
+      e->call = &s->fragment;
+      loan(s, e);
+      return LIE_FLOW_OK;
+    }
+  }
   if (!s->terminal) {
     lie_flow_status rc = lie_flow_next(s->flow, &s->raw);
     if (rc != LIE_FLOW_OK)
@@ -158,6 +239,10 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
                       s->failure || append(s, s->scratch, n);
       if (!buffered) {
         s->failure = "semantic_output_limit";
+        lie_job_cancel(s->job);
+      }
+      if (s->tools && !s->failure && !preview(s)) {
+        s->failure = "invalid_tool_argument_prefix";
         lie_job_cancel(s->job);
       }
       e->kind = s->tools ? LIE_EVENT_PROGRESS : LIE_EVENT_TEXT;
@@ -194,6 +279,22 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
                      lie_output_parse(&s->policy, s->buffer, s->bytes,
                                       s->final.finish == LIE_FINISH_STOP,
                                       s->identity, &s->turn, error);
+        for (size_t i = 0; i < s->preview.count && valid; ++i)
+          if (i >= s->turn.count ||
+              strcmp(s->turn.calls[i].id, s->preview.calls[i].id) ||
+              strcmp(s->turn.calls[i].name, s->preview.calls[i].name) ||
+              s->turn.calls[i].arguments_bytes < s->sent_bytes[i] ||
+              memcmp(s->turn.calls[i].arguments_json,
+                     s->preview.calls[i].arguments_json, s->sent_bytes[i])) {
+            valid = false;
+            snprintf(error, sizeof(error), "invalid_tool_argument_prefix");
+          }
+        if (valid && s->sent_text &&
+            (s->turn.bytes < s->sent_text ||
+             memcmp(s->turn.text, s->preview.text, s->sent_text))) {
+          valid = false;
+          snprintf(error, sizeof(error), "invalid_tool_text_prefix");
+        }
         if (valid && s->final.finish == LIE_FINISH_STOP &&
             (!s->turn.count || s->turn.bytes) &&
             !structured_valid(s, s->turn.text, s->turn.bytes)) {
@@ -235,10 +336,10 @@ lie_flow_status lie_event_stream_next(lie_event_stream *s, lie_event *e) {
       s->final.finish == LIE_FINISH_LENGTH) {
     if (s->tools && !s->text_sent) {
       s->text_sent = true;
-      if (s->turn.bytes) {
+      if (s->turn.bytes > s->sent_text) {
         e->kind = LIE_EVENT_TEXT;
-        e->text = s->turn.text;
-        e->bytes = s->turn.bytes;
+        e->text = s->turn.text + s->sent_text;
+        e->bytes = s->turn.bytes - s->sent_text;
         loan(s, e);
         return LIE_FLOW_OK;
       }

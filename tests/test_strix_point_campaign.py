@@ -513,6 +513,29 @@ class Tests(unittest.TestCase):
                     write['enabled'] = False
                     with self.assertRaisesRegex(RuntimeError, 'Incomplete original-weight HTTP'):
                         c.bench()
+    def test_modern_http_tools_require_function_receipts_not_text_only(self):
+        c = self.campaign('modern-http-tools')
+        helper = c.root/'http-gate.py'; helper.write_bytes(b'fixture tool helper')
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-http', decode_mode='ar', bundle=str(self.base),
+                   model_plan={'files':[{'name':'target.gguf'}]}, http_tool_gate=True,
+                   http_gate_sha256=point.sha(helper))
+        result = {'schema':'synapse-lie.point-http-original.v1', 'state':'PASSED',
+                  'mode':'ar', 'server_exit_code':0,
+                  'passed':['models','chat_json','chat_sse','responses_json','responses_sse']}
+        def run(command, *_):
+            self.assertEqual(command[-1], '--tools')
+            (c.root/'http-result.json').write_text(json.dumps(result))
+        with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+             patch.object(c, 'check_model_after'), \
+             patch.object(c, 'run_container', side_effect=run):
+            with self.assertRaisesRegex(RuntimeError, 'Incomplete original-weight HTTP'):
+                c.bench()
+            result['passed'] += ['chat_function_json','chat_function_sse','chat_tool_result',
+                                 'responses_function_json','responses_function_sse',
+                                 'responses_tool_replay','responses_tool_result','allowed_tools']
+            c.bench()
+            self.assertEqual(len(c.r['http_result']['passed']), 13)
     def test_modern_http_multi_pins_corpus_mode_and_complete_native_result(self):
         c = self.campaign('modern-http-multi')
         helper = c.root/'http-multi-gate.py'; helper.write_bytes(b'fixture multi helper')

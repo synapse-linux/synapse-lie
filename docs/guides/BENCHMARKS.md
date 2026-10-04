@@ -84,8 +84,11 @@ matching the recipe alone does not establish numerical parity.
 
 Depths up to 1,048,576 can be declared when the remote server supports enough
 capacity for **depth + new prefill + output**. This is a client protocol limit:
-the current LIE provider ceiling remains 262,144, so 1M inference is not enabled
-by selecting a larger benchmark argument. Exact text/protocol equivalence has
+LIE now accepts explicit [YaRN context profiles](CONTEXT.md) through a total
+capacity of 1,048,576. A depth of exactly 1,048,576 leaves no room for new prefill
+or output and therefore cannot run at that capacity. Reserve those tokens when
+choosing the largest depth. Selecting a larger client argument alone does not
+change the server profile or establish GPU memory fit. Exact text/protocol equivalence has
 CPU fixture coverage through 128K and a 1M client protocol boundary; new GPU
 performance results require a separate coordinated run.
 
@@ -349,7 +352,7 @@ Use a new output directory for each report: existing artifacts are not replaced.
 
 | Published workload | LIE coverage |
 | --- | --- |
-| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. The current HTTP backend caps context at 262,144; 1M remains open. |
+| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. Explicit YaRN profiles permit total capacity through 1,048,576; original-weight 1M memory, quality and performance qualification remains open. |
 | AR multiple users. | Native batching and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) both compare LIE and official Gufo through C8. The HTTP campaign includes fresh sessions=C and fixed eight-session capacity. Long-context multi-client HTTP is still open. |
 | MTP single and multiple users. | Direct core and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) compare AR/MTP and LIE/Gufo through C8 on prose and repetition. The cold served [long-context campaign](../benchmarks/2026-10-04/strix-point/http-depth/README.md) matches MTP and AR through near 256K at C1, with prefill, draft acceptance, decode and wall time. Long-context multi-client HTTP is still open. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |

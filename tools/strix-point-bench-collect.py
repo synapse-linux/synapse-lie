@@ -14,6 +14,7 @@ SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
 FILES = {
+    'http': ('manifest.json', 'runner.py', 'http-gate.py', 'result.json', 'telemetry.jsonl'),
     'bench': ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
               'telemetry.jsonl', 'stdout.log', 'stderr.log'),
     'distrobox-bench': ('manifest.json', 'runner.py', 'result.json',
@@ -33,6 +34,9 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
+    'http': ('http-result.json', 'http-wire.jsonl', 'server.log', 'stdout.log',
+             'stderr.log', 'distrobox-create.log', 'distrobox.stdout.log',
+             'distrobox.stderr.log'),
     'distrobox-bench': ('tokens.json', 'image.png', 'prompt.txt'),
     'http-multi': ('http-multi-result.json', 'measurements.jsonl', 'server.log',
                    'client.stdout.log', 'client.stderr.log', 'stdout.log',

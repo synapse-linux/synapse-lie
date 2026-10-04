@@ -38,6 +38,11 @@ def main():
         files['gufo-build.py'] = helper
     if tokens is not None:
         files['tokens.json'] = tokens
+    if manifest.get('bench_profile') == 'modern-http':
+        helper = (ROOT/'tools/strix-point-http-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('http_gate_sha256'):
+            parser.error('HTTP gate helper SHA-256 differs from manifest')
+        files['http-gate.py'] = helper
     if manifest.get('bench_profile') == 'modern-http-multi':
         case = manifest.get('http_case')
         if case not in ('prose', 'repetition'):

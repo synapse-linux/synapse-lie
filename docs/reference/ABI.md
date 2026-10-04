@@ -324,11 +324,11 @@ Language/build ownership and feature qualification remain separate; see the
 
 ## Shared core client API 1
 
-[Semantic event ABI 1](EVENTS.md) is the common output contract for HTTP, Responses
+[Semantic event ABI 2](EVENTS.md) is the common output contract for HTTP, Responses
 and direct benchmarks. Current request ABI 5 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
-`lie/core.h` is an experimental C client contract, distinct from executor ABI 2.
+`lie/core.h` is an experimental C client contract, distinct from executor ABI 3.
 `lie_core_request_init` sets required version/size tags, greedy generation
 (`temperature=0`, `top_p=1`, `seed=-1`) and output limit 128. The caller chooses
 exactly one input: normalized messages/tools, physical token IDs, or raw UTF-8

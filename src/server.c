@@ -38,7 +38,7 @@ typedef struct stored_request stored_request;
 typedef struct {
   uv_poll_t poll;
   connection *parent;
-  bool initialized, done;
+  bool initialized, done, semantic_streamed;
   char *text;
   size_t bytes;
   uint64_t logprob_cursor;
@@ -78,6 +78,8 @@ struct connection {
   uint64_t logprob_cursor;
   json_object *wire_options;
   bool buffer_tool_turn, responses;
+  bool semantic_streamed, response_text_started;
+  size_t tool_start_count;
   bool await_cancel;
   bool replay, replay_started;
   size_t replay_index;
@@ -699,6 +701,15 @@ static void pump_choices(connection *c) {
         release_loan(c);
         continue;
       }
+      if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+        if(c->streaming) {
+          char *chunk=lie_wire_reindex(lie_wire_tool_event(c->request_id,c->owner->model_id,
+              c->created,c->event.call,c->event.kind==LIE_EVENT_TOOL_START),i,false);
+          row->semantic_streamed=true;c->choice_cursor=(i+1)%c->choice_count;
+          queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM);return;
+        }
+        release_loan(c);continue;
+      }
       if (c->event.kind == LIE_EVENT_TOOL_CALL) {
         if (!row->calls)
           row->calls = json_object_new_array();
@@ -722,7 +733,8 @@ static void pump_choices(connection *c) {
         memcpy(row->text + row->bytes, c->event.text, c->event.bytes);
       row->bytes += c->event.bytes;
       if (!terminal) {
-        if (c->streaming && !c->buffer_tool_turn && c->event.bytes) {
+        if (c->streaming && c->event.bytes) {
+          row->semantic_streamed=true;
           c->choice_cursor = (i + 1) % c->choice_count;
           c->logprob_cursor = row->logprob_cursor;
           char *chunk = lie_wire_reindex(
@@ -779,7 +791,7 @@ static void pump_choices(connection *c) {
       if (c->streaming) {
         c->logprob_cursor = 0;
         chunk =
-            c->buffer_tool_turn
+            c->buffer_tool_turn && !row->semantic_streamed
                 ? lie_wire_message(c->request_id, c->owner->model_id,
                                    c->created, message, &row->info, true, false)
                 : lie_wire_end(c->request_id, c->owner->model_id, c->created,
@@ -884,24 +896,29 @@ static void pump_replay(connection *c) {
       c->replay_started = true;
       part = lie_response_begin(v.id, c->owner->model_id, v.created,
                                 &c->response_sequence, !c->buffer_tool_turn);
-    } else if (!c->buffer_tool_turn &&
-               c->replay_index < lie_record_event_count(c->record)) {
+      c->response_text_started=!c->buffer_tool_turn;
+    } else if (c->replay_index < lie_record_event_count(c->record)) {
       if (!lie_record_replay(c->record, c->replay_index++, &c->event)) {
         close_connection(c);
         return;
       }
-      if (c->event.kind != LIE_EVENT_TEXT || !c->event.bytes)
-        continue;
-      part = lie_response_delta(v.id, c->event.text, c->event.bytes,
-                                &c->response_sequence);
+      if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+        bool start=c->event.kind==LIE_EVENT_TOOL_START;
+        part=lie_response_tool_event(v.id,c->event.call,start,
+            c->event.call->index+(c->response_text_started?1:0),&c->response_sequence);
+        if(start)c->tool_start_count=c->event.call->index+1;
+      } else if(c->event.kind==LIE_EVENT_TEXT && c->event.bytes)
+        part=lie_response_text_event(v.id,c->event.text,c->event.bytes,
+                                    &c->response_sequence,&c->response_text_started);
+      else continue;
     } else if (v.done) {
       json_object *calls = record_calls(&v);
       bool valid = v.info.finish == LIE_FINISH_STOP ||
                    v.info.finish == LIE_FINISH_LENGTH;
-      part = lie_response_end(v.id, c->owner->model_id, v.created,
+      part = lie_response_end_streamed(v.id, c->owner->model_id, v.created,
                               valid ? v.text : "", valid ? v.bytes : 0,
                               valid ? calls : NULL, &v.info,
-                              &c->response_sequence, !c->buffer_tool_turn);
+                              &c->response_sequence, c->response_text_started,c->tool_start_count);
       json_object_put(calls);
       terminal = true;
     } else
@@ -979,6 +996,7 @@ static void pump_job(connection *c) {
                                  &c->response_sequence, !c->buffer_tool_turn)
             : lie_wire_chunk(c->request_id, c->owner->model_id, c->created, "",
                              0, true);
+    c->response_text_started=c->responses && !c->buffer_tool_turn;
     intro = decorate_wire(c, intro, true);
     if (!intro) {
       close_connection(c);
@@ -1012,6 +1030,19 @@ static void pump_job(connection *c) {
       release_loan(c);
       continue;
     }
+    if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+      if(c->streaming) {
+        bool start=c->event.kind==LIE_EVENT_TOOL_START;
+        char *chunk=c->responses
+            ? lie_response_tool_event(c->request_id,c->event.call,start,
+                c->event.call->index+(c->text_bytes?1:0),&c->response_sequence)
+            : lie_wire_tool_event(c->request_id,c->owner->model_id,c->created,c->event.call,start);
+        c->semantic_streamed=true;
+        if(start) c->tool_start_count=c->event.call->index+1;
+        queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM);return;
+      }
+      release_loan(c);continue;
+    }
     if (c->event.kind == LIE_EVENT_TOOL_CALL) {
       json_object *call = lie_output_call_json(c->event.call);
       if (!c->calls)
@@ -1040,9 +1071,12 @@ static void pump_job(connection *c) {
         memcpy(c->text + c->text_bytes, text, bytes);
       c->text_bytes += bytes;
       if (!terminal) {
-        if (c->responses && c->streaming && !c->buffer_tool_turn && bytes) {
-          char *chunk = lie_response_delta(c->request_id, text, bytes,
-                                           &c->response_sequence);
+        if (c->streaming && bytes) {
+          char *chunk = c->responses
+              ? lie_response_text_event(c->request_id,text,bytes,
+                    &c->response_sequence,&c->response_text_started)
+              : lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false);
+          c->semantic_streamed=true;
           queue_write(c, chunk, chunk ? strlen(chunk) : 0, WRITE_STREAM);
           return;
         }
@@ -1089,14 +1123,16 @@ static void pump_job(connection *c) {
         char *response =
             c->responses
                 ? (c->streaming
-                       ? lie_response_end(c->request_id, c->owner->model_id,
+                       ? lie_response_end_streamed(c->request_id, c->owner->model_id,
                                           c->created, c->text, c->text_bytes,
                                           c->calls, &info,
-                                          &c->response_sequence, false)
+                                          &c->response_sequence, c->response_text_started,c->tool_start_count)
                        : json_text(lie_response_object(
                              c->request_id, c->owner->model_id, c->created,
                              c->text, c->text_bytes, c->calls, &info)))
-                : lie_wire_message(c->request_id, c->owner->model_id,
+                : c->streaming && c->semantic_streamed
+                    ? lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,c->include_usage)
+                    : lie_wire_message(c->request_id, c->owner->model_id,
                                    c->created, message, &info, c->streaming,
                                    c->include_usage);
         json_object_put(message);

@@ -82,6 +82,9 @@ static void consume(lie_job *j, lie_turn_reason reason, unsigned calls,
   char text[4096] = {0};
   size_t bytes = 0;
   bool checked = false;
+  char arguments[LIE_CHAT_MAX_CALLS][4096] = {{0}};
+  size_t argument_bytes[LIE_CHAT_MAX_CALLS] = {0};
+  bool started[LIE_CHAT_MAX_CALLS] = {false};
   for (;;) {
     lie_event e = next(j);
     if (e.kind == LIE_EVENT_TURN_END) {
@@ -117,6 +120,8 @@ static void consume(lie_job *j, lie_turn_reason reason, unsigned calls,
     if (e.kind == LIE_EVENT_TOOL_CALL) {
       assert(!strcmp(e.call->name, "read") && e.call->index == seen_calls &&
              e.call->id[0]);
+      assert(started[e.call->index] &&
+             !strcmp(arguments[e.call->index], e.call->arguments_json));
       oj_node *a = oj_parse(e.call->arguments_json, e.call->arguments_bytes);
       assert(a);
       assert(!strcmp(oj_field(a, "path")->string, "  caffè 🙂.txt  "));
@@ -125,6 +130,21 @@ static void consume(lie_job *j, lie_turn_reason reason, unsigned calls,
       oj_free(a);
       ++seen_calls;
       checked = true;
+    }
+    if (e.kind == LIE_EVENT_TOOL_START) {
+      assert(e.call->index < LIE_CHAT_MAX_CALLS && !started[e.call->index]);
+      started[e.call->index] = true;
+      assert(!e.call->arguments_bytes && !e.tokens);
+    }
+    if (e.kind == LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+      size_t i = e.call->index;
+      assert(i < LIE_CHAT_MAX_CALLS && started[i] && !e.tokens);
+      assert(e.call->arguments_bytes <
+             sizeof(arguments[i]) - argument_bytes[i]);
+      memcpy(arguments[i] + argument_bytes[i], e.call->arguments_json,
+             e.call->arguments_bytes);
+      argument_bytes[i] += e.call->arguments_bytes;
+      arguments[i][argument_bytes[i]] = 0;
     }
     release(j, e);
   }
@@ -194,6 +214,66 @@ static void parser(void) {
   assert(
       !lie_output_parse(&p, invalid, strlen(invalid), true, "id", &t, error));
 }
+static void incremental_prefixes(void) {
+  lie_chat_tool tool = {
+      "run", "Run",
+      "{\"type\":\"object\",\"properties\":{\"command\":{\"type\":\"string\"},"
+      "\"payload\":{\"type\":\"object\"},\"optional\":{\"type\":[\"string\","
+      "\"null\"]}},"
+      "\"required\":[\"command\",\"payload\"],\"additionalProperties\":false}",
+      NULL};
+  lie_output_policy policy = {&tool, 1, LIE_TOOLS_AUTO, true, NULL};
+  const char *cases[] = {
+      "Plan.\n<tool_call>\n<function=run>\r\n<parameter=command>\r\n"
+      "echo \"caffè 🙂\" \\\nnext\r\n</parameter>\n<parameter=payload>\n"
+      "{ \"rows\": [1, {\"s\": \"x\\n\\\"\"}], \"ok\": true }\n</parameter>"
+      "<parameter=optional>null</parameter></function>\n</tool_call>",
+      "<tool_call><function=run><parameter=command>\n\n\r\n</parameter>"
+      "<parameter=payload>{}</parameter><parameter=optional>nullified</"
+      "parameter>"
+      "</function></tool_call>\n<tool_call><function=run><parameter=command>x</"
+      "parameter>"
+      "<parameter=payload>{\"nested\":{\"a\":[null, false]}}</parameter>"
+      "</function></tool_call>",
+      "<tool_call>{\"name\":\"run\",\"arguments\":{\"command\":\"x\","
+      "\"payload\":{}}}</tool_call>"};
+  for (size_t c = 0; c < sizeof(cases) / sizeof(*cases); ++c) {
+    const char *text = cases[c];
+    lie_output_turn previous = {0};
+    unsigned extensions = 0;
+    for (size_t n = 0; n <= strlen(text); ++n) {
+      if (!lie_utf8_valid(text, n, false))
+        continue;
+      lie_output_turn current = {0};
+      assert(lie_output_preview(&policy, text, n, "prefix-oracle", &current));
+      assert(current.count >= previous.count);
+      for (size_t i = 0; i < previous.count; ++i) {
+        assert(!strcmp(current.calls[i].id, previous.calls[i].id));
+        assert(current.calls[i].arguments_bytes >=
+               previous.calls[i].arguments_bytes);
+        assert(!memcmp(current.calls[i].arguments_json,
+                       previous.calls[i].arguments_json,
+                       previous.calls[i].arguments_bytes));
+        extensions += current.calls[i].arguments_bytes >
+                      previous.calls[i].arguments_bytes;
+      }
+      lie_output_turn_clear(&previous);
+      previous = current;
+    }
+    lie_output_turn validated = {0};
+    char error[256];
+    assert(lie_output_parse(&policy, text, strlen(text), true, "prefix-oracle",
+                            &validated, error));
+    assert(previous.count == validated.count);
+    for (size_t i = 0; i < validated.count; ++i)
+      assert(!strcmp(previous.calls[i].arguments_json,
+                     validated.calls[i].arguments_json));
+    if (c < 2)
+      assert(extensions > 10);
+    lie_output_turn_clear(&previous);
+    lie_output_turn_clear(&validated);
+  }
+}
 static void family(const char *predictor) {
   lie_core_options o = {.model_path = ":fixture:",
                         .context = 1024,
@@ -227,6 +307,44 @@ static void family(const char *predictor) {
   lie_core_info info;
   lie_core_snapshot(c, &info);
   assert(info.output_validation_errors == 8);
+  /* Hold a provisional argument loan while another row completes. */
+  lie_job *tool_job = submit(c, "TOOL", true, 512, LIE_TOOLS_AUTO);
+  lie_event argument;
+  for (;;) {
+    argument = next(tool_job);
+    assert(argument.kind != LIE_EVENT_TURN_END);
+    if (argument.kind == LIE_EVENT_TOOL_ARGUMENT_DELTA)
+      break;
+    release(tool_job, argument);
+  }
+  char saved[4096];
+  assert(argument.call->arguments_bytes < sizeof(saved));
+  memcpy(saved, argument.call->arguments_json, argument.call->arguments_bytes);
+  lie_job_info streaming;
+  lie_job_snapshot(tool_job, &streaming);
+  assert(!streaming.retired);
+  lie_job *peer = submit(c, "normal", false, 32, LIE_TOOLS_AUTO);
+  consume(peer, LIE_TURN_STOP, 0, false);
+  lie_job_cancel(tool_job);
+  assert(!memcmp(saved, argument.call->arguments_json,
+                 argument.call->arguments_bytes));
+  release(tool_job, argument);
+  argument = next(tool_job);
+  assert(argument.kind == LIE_EVENT_TURN_END &&
+         argument.reason == LIE_TURN_CANCELLED);
+  lie_job_release(tool_job);
+  /* Release the client after PROGRESS, without draining the internally pinned
+   * preview. Destruction must retire the raw loan, with no borrowed event. */
+  tool_job = submit(c, "TOOL", true, 512, LIE_TOOLS_AUTO);
+  for (;;) {
+    argument = next(tool_job);
+    assert(argument.kind != LIE_EVENT_TURN_END);
+    bool abandoned = argument.kind == LIE_EVENT_TOOL_START;
+    release(tool_job, argument);
+    if (abandoned)
+      break;
+  }
+  lie_job_release(tool_job);
   /* Borrowed text survives cancellation. Withhold credit on one row while
    * another finishes; unchanged fixed thread count, independent demand. */
   lie_job *a = submit(c, "LONG-A", false, 128, LIE_TOOLS_AUTO),
@@ -275,6 +393,7 @@ static void family(const char *predictor) {
 }
 int main(void) {
   parser();
+  incremental_prefixes();
   family(NULL);
 #if LIE_MTP
   family(":fixture:");

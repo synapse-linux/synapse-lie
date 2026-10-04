@@ -81,6 +81,22 @@ char *lie_wire_chunk(const char *id, const char *model, int64_t created,
     json_object_object_add(d,"content",json_object_new_string_len(content,(int)bytes));
     choice(o,"delta",d,NULL); return serialize(o,true);
 }
+char *lie_wire_tool_event(const char *id,const char *model,int64_t created,
+                          const lie_output_call *call,bool start) {
+    json_object *o=base(id,model,created,true),*d=json_object_new_object(),
+                *calls=json_object_new_array(),*c=json_object_new_object(),
+                *fn=json_object_new_object();
+    json_object_object_add(c,"index",json_object_new_int64((int64_t)call->index));
+    if(start) {
+        json_object_object_add(c,"id",json_object_new_string(call->id));
+        json_object_object_add(c,"type",json_object_new_string("function"));
+        json_object_object_add(fn,"name",json_object_new_string(call->name));
+    }
+    json_object_object_add(fn,"arguments",json_object_new_string_len(call->arguments_json,(int)call->arguments_bytes));
+    json_object_object_add(c,"function",fn);json_object_array_add(calls,c);
+    json_object_object_add(d,"tool_calls",calls);choice(o,"delta",d,NULL);
+    return serialize(o,true);
+}
 static char *end_reason(const char *id, const char *model, int64_t created,
                         const lie_job_info *i, bool with_usage, const char *finish) {
     json_object *o=base(id,model,created,true);
@@ -107,7 +123,7 @@ static char *end_reason(const char *id, const char *model, int64_t created,
 }
 char *lie_wire_end(const char *id, const char *model, int64_t created,
                    const lie_job_info *i, bool with_usage) {
-    return end_reason(id,model,created,i,with_usage,NULL);
+    return end_reason(id,model,created,i,with_usage,i->tool_calls?"tool_calls":NULL);
 }
 char *lie_wire_message(const char *id, const char *model, int64_t created,
                        json_object *message, const lie_job_info *i, bool stream, bool with_usage) {

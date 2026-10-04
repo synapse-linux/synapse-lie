@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/tools.h"
 #include "lie/wire.h"
+#include "lie/responses.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +20,19 @@ static void bad(lie_tool_policy *p,const char *text,bool complete) {
 }
 int main(void) {
     const char *user="[{\"role\":\"user\",\"content\":\"edit it\"}]";
+    lie_chat_request allowed;
+    assert(parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"required\",\"tools\":[{\"type\":\"function\",\"function\":{\"name\":\"edit\"}}]}}",&allowed));
+    assert(allowed.tool_count==1 && allowed.tool_choice==LIE_TOOLS_REQUIRED);lie_chat_free(&allowed);
+    assert(parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"auto\",\"tools\":[]}}",&allowed));
+    assert(!allowed.tool_count);lie_chat_free(&allowed);
+    assert(!parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"required\",\"tools\":[]}}",&allowed));
+    assert(!parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"auto\",\"tools\":[{\"type\":\"function\",\"function\":{\"name\":\"other\"}}]}}",&allowed));
+    assert(!parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"auto\",\"tools\":[{\"type\":\"function\",\"function\":{\"name\":\"edit\"}},{\"type\":\"function\",\"function\":{\"name\":\"edit\"}}]}}",&allowed));
+    const char *responses="{\"model\":\"m\",\"input\":\"run\",\"tools\":[{\"type\":\"function\",\"name\":\"edit\",\"parameters\":{\"type\":\"object\"}},{\"type\":\"function\",\"name\":\"read\",\"parameters\":{\"type\":\"object\"}}],\"tool_choice\":{\"type\":\"allowed_tools\",\"mode\":\"required\",\"tools\":[{\"type\":\"function\",\"name\":\"read\"}]}}";
+    char allowed_error[256];
+    assert(lie_responses_parse(responses,strlen(responses),"m",&allowed,allowed_error));
+    assert(allowed.tool_count==1 && !strcmp(allowed.tools[0].name,"read") && allowed.tool_choice==LIE_TOOLS_REQUIRED);
+    lie_chat_free(&allowed);
     lie_chat_request r; assert(parse(user,NULL,&r));
     assert(r.tool_count==1 && !strcmp(r.tools[0].name,"edit"));
     lie_tool_policy p; assert(lie_tool_policy_copy(&r,&p));

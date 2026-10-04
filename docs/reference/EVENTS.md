@@ -4,21 +4,26 @@
 HTTP, Responses and `synapse-lie-bench --suite core` consume the same C17 event
 contract in [`lie/events.h`](../../include/lie/events.h). Direct clients need no
 HTTP service, libuv, llhttp or json-c. Initialize requests with
-`lie_core_request_init`; request ABI **4** adds `parallel_tool_calls`, defaulting
-to true. Event ABI **1** identifies its version and structure size in each event.
+`lie_core_request_init`; request ABI **5** includes `parallel_tool_calls`, defaulting
+to true. Event ABI **2** identifies its version and structure size in each event.
 
 ## Events and order
 
 | Event | Payload | Credits |
 | --- | --- | --- |
 | `LIE_EVENT_TEXT` | A valid UTF-8 fragment; split sequences are held and malformed bytes become U+FFFD. | Confirmed tokens represented by this chunk; a final UTF-8 flush may have zero. |
-| `LIE_EVENT_PROGRESS` | No visible text or callable function. Used while a tool-enabled turn is buffered. | Confirmed tokens, allowing the client to replenish demand without publishing an unvalidated call. |
+| `LIE_EVENT_PROGRESS` | No visible text or callable function. Used while a tool-enabled turn is parsed. | Confirmed tokens, allowing the client to replenish demand without publishing an unvalidated call. |
+| `LIE_EVENT_TOOL_START` | Provisional core-owned ID, function name and zero-based index. | Zero: confirmed tokens already belong to progress events. |
+| `LIE_EVENT_TOOL_ARGUMENT_DELTA` | Provisional append-only arguments fragment for that call; it may be incomplete JSON. | Zero. |
 | `LIE_EVENT_TOOL_CALL` | Core-owned ID, function name, validated complete arguments JSON and zero-based index. | Zero: these tokens were already counted in progress events. |
 | `LIE_EVENT_TURN_END` | Final job metadata, error and typed reason: stop, length, tool calls, cancelled or error. | Zero; no loan. |
 
 Ordinary output emits text followed by one terminal. A tool-enabled turn emits
-progress, then its validated prose and calls, followed by one terminal. Every
-call in the turn validates before any prose or executable call is exposed.
+progress, provisional prose/call starts/argument fragments, validated complete
+calls and one terminal. IDs and indices stay fixed. Provisional fragments allow
+streaming clients to assemble arguments before generation finishes; they do not
+authorize execution. Every call in the turn validates before any complete call
+is committed. On error or cancellation, clients discard provisional calls.
 Unknown functions, duplicate arguments, missing required parameters, basic type
 mismatches, forbidden parallel calls and truncated/malformed tags fail the turn.
 A required or named choice cannot silently become ordinary text. Calls are data;
@@ -28,8 +33,11 @@ The current output grammar binding is Qwen's function tags, isolated in
 `src/models/qwen_output.c`. Other model families must supply a qualified binding
 against these neutral contracts. Validation covers basic JSON types, required
 properties and `additionalProperties=false`, including type unions. It is not
-full JSON-Schema validation or constrained generation. Incremental executable
-argument deltas remain future work.
+full JSON-Schema validation. The provider can separately constrain its supported
+schema subset during sampling. XML function/parameter tags expose incremental
+arguments; the alternative whole-JSON tool frame remains buffered until its
+closing tag. Ambiguous nullable or untyped parameters wait for their closing
+tag. No client may execute a partial call.
 
 Call IDs are minted by the core with a random per-core namespace and job/call
 indices. They remain unchanged across that job's events and HTTP projections;
@@ -70,7 +78,8 @@ for (;;) {
         /* Inspect event.reason and event.info. */
         break;
     }
-    /* Consume TEXT, TOOL_CALL or PROGRESS; copy payload if retaining it. */
+    /* Consume TEXT, TOOL_START, TOOL_ARGUMENT_DELTA, TOOL_CALL or PROGRESS.
+     * Copy payload if retaining it; execute only after successful TURN_END. */
     uint64_t tokens = event.tokens;
     if (lie_job_event_release(job, event.ticket) != LIE_FLOW_OK) break;
     if (tokens) lie_job_event_request(job, tokens);
@@ -82,8 +91,10 @@ lie_job_release(job);
 Use `fd`/`drain`/`next`/`release` on the single consumer thread. Cross-thread job
 cancellation remains a lifetime-protected latch. A slow text client holds the
 underlying flow loan until delivery completes; its row cannot advance beyond
-confirmed demand. Buffered tool clients can acknowledge progress without
-publishing calls. Cancellation suppresses queued results and pending calls;
+confirmed demand. Tool clients acknowledge progress and
+release provisional fragments; the internal raw loan remains held until all
+fragments derived from it are released. Cancellation suppresses queued results
+and pending calls;
 an already borrowed payload remains valid until release. A semantic terminal
 waits for numerical and cache work to retire, including cancellation in prefill.
 The legacy raw terminal may become observable earlier.
@@ -106,7 +117,10 @@ is allocated as needed; raw/text jobs do not allocate a whole-turn tool buffer.
 
 The immutable request arena (at most 32 MiB), semantic buffers and token
 witnesses remain until the final job reference is released. They are not KV
-checkpoints. Clients retaining retired jobs retain that memory. RAM/SSD cache
+checkpoints. Clients retaining retired jobs retain that memory. The bounded response journal
+deep-copies provisional fragments and charges their bytes to its own record
+quota, allowing stable replay after job retirement. Observers read that journal
+and return no inference credits. RAM/SSD cache
 formats, model payloads and default policies are unchanged.
 
 `lie_job_info.semantic_checked`, `output_invalid` and `tool_calls` describe the
@@ -122,7 +136,8 @@ produce a validation-error count.
 
 The headless event fixture covers UTF-8 splits, AR and two MTP geometries,
 complete/invalid/truncated calls, choices and parallel policy, credit starvation,
-peer progress, loan tickets, cancellation before pending calls, prefill
+peer progress, incremental UTF-8/JSON argument prefixes, retained replay, loan
+tickets, cancellation with a held argument fragment, abandoned internal loans, prefill
 retirement and raw/semantic exclusion. Native HTTP fixtures cover Chat and
 Responses JSON/SSE, failure projections, ordered terminals and full-size burst
 pieces beyond the previous single-token HTTP scratch buffer.
