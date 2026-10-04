@@ -2594,3 +2594,14 @@ The isolated launcher passes23/23 Debug and23/23 ASan/UBSan CTest on .157.
 A pinned whole-control binary replay guard is prepared and CPU tested, but it is
 not executed in this candidate-only campaign. No numerical promotion or curve
 qualification is implied. [Plan](../config/q2-shared-q8-fixed-model-plan.json).
+
+## Shared-Q8 fixed model completed (2026-10-04)
+
+The new candidate alone completes four zero-exit commands and26 verified
+artifacts on .157. Median PP1446.083285/TG25.10338822 versus unchanged fixed
+Q2 PP1443.672867/TG25.09595499 and UD PP1685.777092/TG24.34174251. All21
+Q2 replay files, including full logits, are identical; within-arm9/9 and KL0.
+The component oracle failure remains separate. Retain the marginal candidate
+without independent quality promotion or a full curve. Verified18:52:57UTC
+closure retires440identities/339groups, empty KFD and four original free leases.
+[Complete values and graph](Q2-SHARED-Q8-FIXED-MODEL.md).

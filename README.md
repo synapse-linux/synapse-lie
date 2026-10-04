@@ -527,3 +527,8 @@ The [shared-Q8 focused model plan](config/q2-shared-q8-fixed-model-plan.json)
 retains the existing exact2048 Q2/UD references and runs only the new candidate
 under the owner’s explicit exploratory authorization. Host gates pass23/23 in
 Debug and ASan/UBSan; component numerical rejection remains recorded.
+
+The [completed shared-Q8 model comparison](docs/Q2-SHARED-Q8-FIXED-MODEL.md)
+measures1446.083285 PP and25.10338822 TG on the unchanged exact2048 input.
+All21 saved Q2 replay files and logits remain identical. Fixed UD parity
+remains open; no controls were relaunched and the .157 window is released.

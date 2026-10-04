@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+Latest Q2 window: **released at2026-10-04T18:52:57.171009Z** after the
+owner-requested candidate-only shared-Q8 fixed model test. Four command exits
+are0,26 artifacts verify, and all21 Q2 input/output/logit files replay exactly.
+PP1446.083285/TG25.10338822 do not meet fixed UD PP parity. Historical controls
+are retained without rerunning. Closure verifies440 identities/339groups
+retired, empty KFD, four original lease inodes free and six unchanged model
+stat tuples. Remote/main release/active/ready and registry record closure;
+core acknowledges. No Q2 job, reservation, waiter, restart or remote cleanup
+remains. [Release](../config/q2-shared-q8-fixed-model-window-release.json),
+SHA256 `4d03311f23c5a3bb1071939424bcb067fb9ccb8e373a7e88b10190f4d23a870d`.
+
 The owner explicitly authorized direct coordination messages between the Q2
 and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
