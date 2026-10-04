@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## GTT112 configured; reboot awaiting explicit approval — 2026-10-04 UTC
+
+Read-only inspection verifies `.161`'s active EFI stub loads `/boot/grub/grub.cfg`.
+The isolated GTT112 GRUB file is now installed, with three backed-up inputs,
+generated configuration and all five Linux normal/recovery argument lists
+verified. Configuration controller and collection exit 0. Effective GTT stays
+96 GiB and the boot ID is unchanged. Automatic approval review rejects the
+reboot because the owner's availability statement does not explicitly approve
+interrupting services; the reboot command was not executed or bypassed.
+
+An optional qualification memory admission checks predicted peak GTT and
+a declared available-RAM floor before stopping the router and while the owned
+child runs. CPU fixtures verify refusal, pressure, router restoration and lease
+release; all 41 control tests pass under CPU98/NVMe85 guards. These tests do not
+load a model. The prepared first 1M gate uses C1 AR, YaRN4, chunk256 and a short
+PP1500/TG32 prompt. A separate physical 1,048,448-token stress input plus TG128
+uses repeated real tokenizer IDs, not a recall-quality or canonical Gufo corpus.
+Neither GPU gate is submitted. There is no active lease, GPU job or restart.
+[Maintenance receipt](development/validation/gtt-memory-admission-2026-10-04.json).
+
 ## Current integration and remaining gates — 2026-10-04 UTC
 
 | Work | Current result | Remaining work |
@@ -9,12 +29,13 @@
 | OpenAI native functions | Corrected runtime `e6f537f` passes all thirteen original-weight HTTP checks on `.161`. Chat/Responses each stream five argument fragments, accept correlated results, and retained Responses replay byte-identically. | Full task evaluation of this runtime; hosted cloud tools remain outside the local API. |
 | Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens. | Physical extended positions, recall quality and generic attention performance above 256K. |
 | Reduced scratch | C1 chunk256 reserves 256 rows, samples 78.33 GiB GTT and preserves all 32 output IDs against the previous chunk256 gate. A separate 512K capacity gate passes at 93.68 GiB GTT using PP1500 only. | Fresh 1M allocation gate; short prompts do not establish extended-position quality or performance parity. |
-| Physical 1M fit | Updated source-formula estimate is 109.18 GiB GTT. The two new baselines predict about 1.82–3.15 GiB RAM remaining, depending on host residency. | Present GTT is 96 GiB. Proposed 112 GiB GRUB setting, maintenance/reboot and fresh RAM admission have not occurred. |
+| Physical 1M fit | Updated source-formula estimate is 109.18 GiB GTT. The two new baselines predict about 1.82–3.15 GiB RAM remaining, depending on host residency. GRUB112 is configured and verified. | Present effective GTT is 96 GiB. Reboot needs explicit approval after automatic rejection; fresh RAM admission and GPU qualification follow. |
 
 The active work is isolated in `feature/context-million-openai`. Native Debug
 passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Build, HTTP and reduced
 scratch windows have collected successful closure; there is no standing `.161`
-lease, tuning or publication. Earlier failed gates remain failed evidence.
+lease or publication. The later GRUB maintenance state is recorded above.
+Earlier failed gates remain failed evidence.
 [GPU receipt](development/validation/tool-context-point-gpu-2026-10-04.json) ·
 [Context configuration and memory budget](guides/CONTEXT.md).
 

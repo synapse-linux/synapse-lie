@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## GTT configuration applied; reboot rejected — 2026-10-04 UTC
+
+Root's fresh `.161` maintenance inspection reacquires original lease
+dev66308/inode105946405 and verifies active GRUB plus unchanged kernel/boot.
+The isolated GTT112 input is installed with backed-up originals; generated
+normal/recovery argument lists and GRUB syntax verify. Controller and collection
+exit 0. Automatic review refuses the reboot for missing explicit interruption
+approval; no reboot command executes or is bypassed. Boot ID remains
+`00a38eef-12f6-4354-8aec-6783c34c7208` and effective GTT stays 96 GiB.
+The router remains PID255761 active/running, the lease is free and there is no
+GPU child, observer, waiter or automatic restart. DS4 model/configuration files
+and monitor service configuration are unchanged. Q2 reports its `.157`
+qualification is independent of the `.161` monitor services.
+
+Prepared capacity and physical-position 1M gates remain unsubmitted. New
+optional RAM/GTT admission control passes 41 CPU-only fixtures, including
+pre-stop refusal and owned-window restoration under pressure.
+[Receipt](development/validation/gtt-memory-admission-2026-10-04.json).
+
 ## Function streaming and scratch gates released — 2026-10-04 UTC
 
 Root's corrected `e6f537f` r10 device-free ROCm 10 `gfx1150` build passes and

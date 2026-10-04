@@ -115,9 +115,13 @@ verify `/proc/cmdline`, `/sys/module/ttm/parameters/pages_limit` and the AMD GPU
 `mem_info_gtt_total`: the expected values are 29,360,128 pages and
 120,259,084,288 bytes. Rollback removes only this owned file, runs
 `sudo update-grub` and schedules another reboot; recovery entries retain their
-original arguments. These actions have **not** been applied; they change the
-shared host and require explicit maintenance authorization under the coordination
-policy. No existing TTM boot option was found. Other hosts need their own check.
+original arguments. The isolated GRUB file is now installed and the generated
+configuration passes syntax and all five Linux normal/recovery argument checks.
+Backups are collected. **The host has not rebooted: effective GTT remains
+96 GiB.** Automatic approval review rejects reboot until the owner explicitly
+approves that interruption; no indirect reboot was attempted.
+[Maintenance receipt](../development/validation/gtt-memory-admission-2026-10-04.json).
+Other hosts need their own boot and memory check.
 
 The corrected provider binds scratch allocation to the C17 prefill bound,
 retaining space for admitted decode and MTP rows. For the current UD model,
@@ -144,6 +148,13 @@ permits that estimated allocation, but a fresh RAM budget and supervised 1M
 capacity gate are still required before a physical 1M prompt. Host buffers and
 an admitted operating-system margin must fit. MTP adds predictor and draft
 state plus rollback, which this AR estimate does not include.
+The optional qualification supervisor accepts `memory_admission` with
+`expected_peak_gtt_bytes` and `min_available_ram_bytes`; the prepared C1 AR
+gate uses 117,234,307,072 predicted peak bytes and a 1 GiB available-RAM floor.
+It refuses an unfit ceiling before stopping the router and checks the sampled
+RAM budget during the owned run. This is an explicit campaign setting, not a
+default engine reserve; sampled guards do not establish fit or guarantee that
+every host allocation can be observed before memory exhaustion.
 Compressed retained KV checkpoints do not replace active GPU attention state.
 Smaller chunks trade prefill speed for memory: the single short chunk256 gate
 records 266.94 prefill token/s and 10.52 decode token/s; the earlier chunk2048

@@ -1,0 +1,110 @@
+{
+  "schema": "synapse-lie.gtt-maintenance-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "HOST_BOOT_CONFIGURATION_AND_CPU_CONTROL_FIXTURES_NOT_GPU_1M_INFERENCE",
+  "target": "pop@192.168.5.161",
+  "source_parent": "e1c6a5239bbbed0166f5754c5df9bd64693f6c1f",
+  "configuration_file_applied": true,
+  "setting_effective": false,
+  "reboot_performed": false,
+  "effective_gtt_bytes": 103079215104,
+  "current_ttm_pages_limit": 25165824,
+  "boot_id_unchanged": "00a38eef-12f6-4354-8aec-6783c34c7208",
+  "GRUB_dropin_sha256": "24e4cb6126daf579d407c5afd27dfd2ab9a99b2fe3f3638771f04204c79dc571",
+  "generated_grub_sha256": "5a417c147065baee1780d82c3bc62b4a0745f5e2962a533a3194a9b23586fb36",
+  "normal_and_recovery_arguments_verified": true,
+  "backup_identities": {
+    "/etc/default/grub": {
+      "path": "/home/pop/workspace/synapse-lie/gtt112-maintenance-20261004-r1/grub-input.before",
+      "bytes": 1548,
+      "sha256": "76b2bc29ff08481cbab62fe9600af16adbb7a54db1e183c088290f8b0e529312"
+    },
+    "/boot/grub/grub.cfg": {
+      "path": "/home/pop/workspace/synapse-lie/gtt112-maintenance-20261004-r1/grub-generated.before",
+      "bytes": 8097,
+      "sha256": "602bd3e7b87ccb094e41a610a0b7520ca0347dfdeb957448735151c094c04bcd"
+    },
+    "/boot/efi/EFI/PopOS_disk2/grub.cfg": {
+      "path": "/home/pop/workspace/synapse-lie/gtt112-maintenance-20261004-r1/efi-grub-stub.before",
+      "bytes": 117,
+      "sha256": "3a39e8e499220e2c646ae57ef7f7ee069d4394b71bc9efbb276ed3bb94685984"
+    }
+  },
+  "apply_exit": 0,
+  "collection_exit": 0,
+  "collection_sha256": "af2c21a88733aaef87fe4038fb61052815458db45a56d379dc90b8d27ee0ca8c",
+  "lease_free": true,
+  "router_active": true,
+  "automatic_reboot_rejection": {
+    "state": "REJECTED_BEFORE_EXECUTION",
+    "action": "reboot 192.168.5.161",
+    "command_executed": false,
+    "exit_code": null,
+    "reason": "Il comando riavvia la .161 e interrompe i servizi; l\u2019utente ha dichiarato la macchina libera, ma non ha fornito un\u2019approvazione esplicita e inequivoca del reboot stesso.",
+    "bypass_attempted": false
+  },
+  "memory_admission": {
+    "scope": "Optional qualification supervisor, not a runtime dependency or default engine memory policy",
+    "fields": [
+      "expected_peak_gtt_bytes",
+      "min_available_ram_bytes"
+    ],
+    "enforced_before_router_stop": true,
+    "monitored_during_own_child_execution": true,
+    "tests_passed": 41,
+    "checks": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.375
+      },
+      "elapsed_s": 1.056976454332471
+    },
+    "checks_command_log_sha256": "1540c46768a954b6f8d915b6dbd8650d15e1cac38bfd3c202b631deb02adc36b",
+    "limits": [
+      "Source estimates are not an allocation-exact ledger.",
+      "Sampled RAM/GTT guards do not prove memory fit or guarantee prevention of host OOM.",
+      "No GPU or model access occurs in these CPU fixtures."
+    ]
+  },
+  "prepared_next_gpu_plan": {
+    "state": "PREPARED_NOT_SUBMITTED",
+    "source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+    "capacity": 1048576,
+    "physical_smoke_prompt_tokens": 1048448,
+    "physical_smoke_output_tokens": 128,
+    "prompt_file": "evidence/gtt112-20261004/physical-1m-smoke-tokens.json",
+    "prompt_file_bytes": 4684460,
+    "prompt_file_sha256": "a791ba5a527559f04a8ed86db9f035127a2516bb4fa4a534a6c52695af667142",
+    "corpus_kind": "Repeated real tokenizer-ID corpus; stress only, not quality/canonical benchmark",
+    "prerequisites": [
+      "Explicit reboot approval after automatic rejection",
+      "New boot ID with effective GTT112 and same qualified kernel",
+      "Fresh exclusive lease and model stat identities",
+      "RAM/GTT admission and allocation gate before physical stress"
+    ],
+    "no_gpu_run": true
+  },
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "c42bc584ad7db74ce1a68f282bd5ea848992ebff66296fa3be0f304e71401e23",
+    "tests/test_strix_point_campaign.py": "bd56cbcedb2bc1959b97de5e7d8f992c5f65d1ec26020904b2d97d483fab37cb"
+  },
+  "GPU_run": false,
+  "model_mutation": false,
+  "DS4_configuration_mutation": false,
+  "publication": false
+}

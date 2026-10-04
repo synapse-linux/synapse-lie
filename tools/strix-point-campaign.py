@@ -143,6 +143,13 @@ class Campaign:
         if self.thermal_policy == 'legacy-all-sensors' and ceiling == 100 and manifest.get('thermal_override_quote') != THERMAL_OVERRIDE_QUOTE:
             raise ValueError('Explicit operator 100 C thermal override required')
         self.thermal_ceiling_c = float(ceiling)
+        self.memory_admission = manifest.get('memory_admission')
+        if self.memory_admission is not None and (
+                type(self.memory_admission) is not dict or
+                set(self.memory_admission) != {'expected_peak_gtt_bytes', 'min_available_ram_bytes'} or
+                any(type(value) is not int or not 1 <= value <= 2**63-1
+                    for value in self.memory_admission.values())):
+            raise ValueError('Memory admission requires positive byte budgets')
         self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),
                   'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),
                   'authorization': manifest['authorization'], 'commands': [], 'container': None,
@@ -150,6 +157,8 @@ class Campaign:
                   'thermal_policy': self.thermal_policy,
                   'model_attempted': False,
                   'service_restore_required': False, 'exit_code': 1}
+        if self.memory_admission is not None:
+            self.r['memory_admission'] = self.memory_admission
         self.lock = None
         self.child = None
         self.interrupted = None
@@ -181,6 +190,23 @@ class Campaign:
     def service(self):
         p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])
         return dict(line.split('=', 1) for line in p.stdout.splitlines())
+    def check_memory(self, row):
+        if self.memory_admission is None:
+            return
+        available = row.get('memory', {}).get('MemAvailable')
+        total = row.get('gpu', {}).get('mem_info_gtt_total')
+        used = row.get('gpu', {}).get('mem_info_gtt_used')
+        if (any(type(value) is not int for value in (available, total, used)) or
+                available < 0 or total <= 0 or used < 0):
+            raise RuntimeError('Missing or invalid memory admission telemetry')
+        expected = self.memory_admission['expected_peak_gtt_bytes']
+        floor = self.memory_admission['min_available_ram_bytes']
+        if expected > total:
+            raise RuntimeError('Expected GTT peak exceeds effective ceiling')
+        if available < floor:
+            raise RuntimeError('Available RAM floor reached')
+        if available - max(expected-used, 0) < floor:
+            raise RuntimeError('Projected available RAM below admitted floor')
     def sample(self, retiring=None):
         row = observe(self.thermal_ceiling_c, gpu_observation_only=True) if self.thermal_policy == CPU_GUARD_POLICY else observe(self.thermal_ceiling_c)
         owned = set()
@@ -197,6 +223,7 @@ class Campaign:
         with (self.root/'telemetry.jsonl').open('a') as log: log.write(json.dumps(row)+'\n')
         if self.interrupted: raise RuntimeError('Interrupted: '+str(self.interrupted))
         if any(t.get('guarded', True) and t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')
+        self.check_memory(row)
         clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])
         new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}
         # /proc/fd can disappear just before the kernel KFD list retires an
@@ -245,6 +272,7 @@ class Campaign:
             raise RuntimeError('Campaign lock identity mismatch')
         self.r['lease'] = {'path': str(path), 'device': st.st_dev, 'inode': st.st_ino, 'cooperative_lie_only': True}
         self.record()
+        self.check_memory(before)
         active = self.r['service_before']['ActiveState']
         if active not in ('active', 'inactive'): raise RuntimeError('Unexpected initial service state')
         if active == 'active':

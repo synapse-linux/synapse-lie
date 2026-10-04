@@ -151,5 +151,13 @@
     "estimated_1m_available_ram_remaining_bytes": 3377922048,
     "output_ids_identical_to_4096_capacity": true,
     "warning": "GTT observed at 512K capacity agrees within 0.03 GiB with the source projection. Physical prompt remains 1500 tokens. Host available-RAM minima differ by residency across windows; 1M estimates span approximately 1.82 to 3.15 GiB remaining RAM, not a fresh launch admission."
+  },
+  "maintenance_followup": {
+    "receipt": "gtt-memory-admission-2026-10-04.json",
+    "configuration_file_applied": true,
+    "setting_effective": false,
+    "reboot_performed": false,
+    "effective_gtt_bytes": 103079215104,
+    "automatic_reboot_rejected": true
   }
 }

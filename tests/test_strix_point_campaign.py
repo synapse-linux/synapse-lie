@@ -53,6 +53,48 @@ class Tests(unittest.TestCase):
         self.assertTrue(c.active)
         self.assertFalse(c.r['cleanup_failures'])
         self.assertIn('lease_released_at', c.r)
+    def memory_campaign(self, name='memory-run'):
+        root = self.base/name; root.mkdir()
+        (root/'manifest.json').write_text('{}')
+        return Fixture(root, {'authorization':'CPU fixture; not an actual grant',
+            'memory_admission':{'expected_peak_gtt_bytes':109*2**30,
+                                'min_available_ram_bytes':2**30}})
+    def test_unfit_gtt_refuses_before_router_stop_and_releases_lease(self):
+        c = self.memory_campaign()
+        row = observation()
+        row['memory'] = {'MemAvailable':112*2**30}
+        row['gpu'] = {'mem_info_gtt_total':96*2**30,'mem_info_gtt_used':0}
+        with patch.object(point, 'observe', return_value=row):
+            with self.assertRaisesRegex(RuntimeError, 'GTT peak'): c.enter()
+        c.finish()
+        self.assertTrue(c.active)
+        self.assertFalse(any('stop' in cmd for cmd in c.r['commands']))
+        self.assertIn('lease_released_at', c.r)
+    def test_running_memory_pressure_restores_router_and_releases_lease(self):
+        c = self.memory_campaign()
+        row = observation()
+        row['memory'] = {'MemAvailable':112*2**30}
+        row['gpu'] = {'mem_info_gtt_total':112*2**30,'mem_info_gtt_used':0}
+        with patch.object(point, 'observe', return_value=row): c.enter()
+        self.assertFalse(c.active)
+        row['gpu']['mem_info_gtt_used'] = 108*2**30
+        row['memory']['MemAvailable'] = 2**30+1
+        with patch.object(point, 'observe', return_value=row):
+            with self.assertRaisesRegex(RuntimeError, 'Projected available RAM'): c.sample()
+        row['memory']['MemAvailable'] = 2**30-1
+        with patch.object(point, 'observe', return_value=row):
+            with self.assertRaisesRegex(RuntimeError, 'RAM floor'): c.sample()
+        c.finish()
+        self.assertTrue(c.active)
+        self.assertFalse(c.r['cleanup_failures'])
+        self.assertIn('lease_released_at', c.r)
+    def test_memory_guard_requires_telemetry_and_typed_positive_budgets(self):
+        c = self.memory_campaign()
+        with self.assertRaisesRegex(RuntimeError, 'telemetry'): c.sample()
+        for value in (True, 0, -1, 2**63):
+            with self.assertRaisesRegex(ValueError, 'positive byte budgets'):
+                Fixture(c.root, {'authorization':'fixture', 'memory_admission':
+                    {'expected_peak_gtt_bytes':value,'min_available_ram_bytes':2**30}})
     def test_interrupted_stop_restores(self):
         c = self.campaign(); c.fail_stop = True
         with self.assertRaises(RuntimeError): c.enter()
