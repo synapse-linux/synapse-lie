@@ -44,6 +44,32 @@ prefill interval; they used the older counting workload and are not a new
 canonical-prose attribution. Even removing that whole phase would not close
 the complete Q2/UD gap.
 
+## Prepared component qualification
+
+The [fixed plan](../config/q2-scaled-row-plan.json) and
+[fixture](../tests/q2_scaled_row_reuse.cpp) compare the unchanged ordered
+provider, the candidate and the unchanged provider again. Four retained
+canonical expert-count distributions and a full-tile control exercise
+640-column inputs and 2560-column down outputs. The down geometry stays at
+48 rows. Two rotating input buffers and the active synthetic weight set each
+exceed 32 MiB. These are `hipMalloc` operands, not a reproduction of production
+mapped weight placement or model file-cache state.
+
+HIP events record packing and complete packing/down separately, with two
+warmup and five measured samples of eight calls. Routing preparation is outside
+both intervals. Every finite packed element is checked against scalar
+conversion; full output digests are retained across process runs, and each
+down bank also has 1024 independent FP64 sampled dots at the existing 0.002
+RMS/peak limits. Small cases retain their complete half and inverse buffers,
+including signed zeros, subnormals, extreme values and nonfinite differential
+controls. Guards, exact input allocations and post-timing output poisoning
+check bounds and unwritten values. Numerical rejection does not discard timings.
+
+The new runner mode is component-only and refuses model modes, other source
+variants, detached execution and MMQ archive selection. Host qualification and
+fresh GPU admission remain separate gates. No source, ABI, state or metrics
+contract is promoted by preparing this fixture.
+
 ## Remaining acceptance
 
 No GPU/operator/model test has run for this candidate. It is excluded from

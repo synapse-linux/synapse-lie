@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Scaled row component fixture prepared and host-qualified — 2026-10-04
+
+The next isolated probe retains up to three F32 inputs per thread across the
+row maximum. A new component fixture covers five production-size routing
+cases with rotating inputs, packing and complete pack/down timers, all-element
+conversion checks, full-buffer digests and independent FP64 down samples.
+Small cases cover allocation boundaries, signed zero, subnormals, extremes and
+nonfinite differential behavior. Model modes cannot select this source.
+
+On .157, host Debug and ASan/UBSan each pass 22/22, six commands exit zero and
+seven artifacts verify. Source/fixture bytes match the retained CPU capsule.
+No GPU build, kernel execution or model measurement has run for this probe;
+fresh admission remains required. Core confirms it reserves no .157 window.
+[Plan and scope](Q2-SCALED-ROW-REUSE.md), [host receipt](../config/q2-scaled-row-host-results.json).
+
+The earlier native curve's 6–43 GiB Linux Cached observation is machine-wide
+file-cache occupancy, without per-file attribution. The benchmark independently
+uses a 16 GiB RAM prefix-checkpoint budget and SSD is disabled; it is not a
+fresh full-prefix prefill measurement. No causal performance claim follows.
+
 ## Native C model comparison complete; scale reuse not promoted — 2026-10-04
 
 All four canonical 0–128K curves finish with 32 accepted points, 80 requests,

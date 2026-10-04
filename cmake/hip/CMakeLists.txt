@@ -286,6 +286,18 @@ target_include_directories(q2_scaled SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_scaled PRIVATE hip::host OpenSSL::Crypto)
 
+add_executable(q2_scaled_row_reuse EXCLUDE_FROM_ALL ../../tests/q2_scaled_row_reuse.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_scaled_row_reuse PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_scaled_row_reuse PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_scaled_row_reuse PRIVATE "${GUFO_SOURCE}" "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(q2_scaled_row_reuse SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_scaled_row_reuse PRIVATE hip::host OpenSSL::Crypto)
+
 add_executable(q2_scaled_tiles EXCLUDE_FROM_ALL ../../tests/q2_scaled_tiles.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"

@@ -21,6 +21,22 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_scaled_row_component_scope(self):
+        for variant in remote.ROW_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Scaled row reuse requires its isolated component mode and source')
+            argv = ['scaled-row-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.refuse(['scaled-row-check', 'q2-fixture'], 'Scaled row reuse requires')
+
     def test_native_curve_host_uses_only_the_frozen_cpu_client(self):
         for extra in (['--source-variant', 'curve-iq2-q2'], ['--rebuild-mmq']):
             self.refuse(['native-curve-cpu', 'q2-fixture', *extra],

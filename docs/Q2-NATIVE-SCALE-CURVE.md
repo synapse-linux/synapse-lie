@@ -153,6 +153,15 @@ Cache warming/order state is a plausible contributor, not a separately isolated
 causal measurement. No file cache is dropped, no run is labelled cold and no
 thermal policy is changed.
 
+Here `Cached` is the machine-wide `/proc/meminfo` field. It does not attribute
+residency to GGUF weights, n-gram data, compiler outputs or libraries. The
+benchmark separately enables RAM prefix checkpoints with a **16 GiB budget**;
+the retained runtime receipt reports `ram-prefix-checkpoints`, enabled,
+`prefix_state=true` and SSD disabled. This prefix reuse supports the canonical
+measurement of about 2048 new tokens after each prepared depth. It must not be
+confused with system file-cache occupancy or described as absent in this server
+composition. The benchmark does not time a fresh 128K prompt as its 128K point.
+
 UD's 128K prefill (1126.386) and 64K decode (22.348) are lower than earlier
 retained UD observations. These values stay in the graph and table; they do
 not establish stable Q2/UD parity at 128K or a new decode optimization. The
