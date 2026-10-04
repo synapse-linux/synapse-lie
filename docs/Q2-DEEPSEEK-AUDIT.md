@@ -9,10 +9,12 @@ The audit compares actual launch paths with the measured Qwen provider and
 the retained experiment history. No sibling DS4 source or artifact is imported.
 [Source identities](../config/q2-deepseek-audit.json) pin the inspected files.
 
-The latest [prefill reuse follow-up](Q2-IQ2-PREFILL-REUSE.md) prepares two
-separate probes: an LDS magnitude codebook and cached IQ2 block scales. Both
-compile to gfx1151 assembly; the report retains instruction/register/LDS
-tradeoffs and explicitly records no GPU qualification or measured speedup.
+The [prefill reuse follow-up](Q2-IQ2-PREFILL-REUSE.md) has completed four
+component arms: cached IQ2 scales advance to a native canonical model test;
+LDS codebook staging does not. The separate
+[scaled-row input reuse](Q2-SCALED-ROW-REUSE.md) audit finds a second input pass
+that can be removed with three retained values per thread. That newer candidate
+has matched device assembly only and is excluded from the current model run.
 
 ## Opportunities identified in this Q2 workstream
 

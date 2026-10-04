@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native canonical model campaign admitted; further reuse prepared — 2026-10-04
+
+Fresh admission at 12:01:24 UTC reserves the four sequential native C curves,
+with frozen checkpoint `b5413ca`, unchanged server and original Q2/UD models.
+The first reference is running; no candidate model gain is known yet.
+
+A separate source audit finds that scaled-row preparation reads all 640 F32
+values twice. A bounded three-value-per-thread candidate removes the second
+read while preserving the existing reduction and conversion operations.
+Matched device assembly has 11→13 VGPRs, unchanged 36-byte LDS, no scratch and
+154 unchanged other function bodies. Static instructions grow 157→168 because
+the bounded loops are unrolled; no runtime improvement is inferred. Prior
+counting profiles attribute only about 1.46% to this phase. This candidate is
+not included in the ongoing model campaign and has no GPU qualification.
+[Mechanism and limits](Q2-SCALED-ROW-REUSE.md).
+
 ## Native C canonical client qualified on .157 — 2026-10-04
 
 Clean core commit `b598e4c` is frozen with 1287 source files and its separate
