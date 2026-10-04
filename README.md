@@ -561,8 +561,9 @@ failures remain recorded and independent task quality remains open.
 The bounded kernel saves30–33% of projection time and9–13% of complete
 producer/projection time; the spilled first version is much slower and retained.
 All112 component samples,16 plotted model samples, graphs and source identities
-are saved. Small-shape FP64 recovery finds native errors roughly half the library
-errors, with5/6 native cases passing the original limits; it does not cover2048.
+are saved. Initial small-shape FP64 recovery finds native errors roughly half
+the library errors. Later unchanged-output BK128/BN64 fixtures recover unrounded
+2048 errors: all aligned native cases pass the original limits, library cases fail.
 The .157 GPU window is released. Full curves still wait for fixed-point parity.
 
 Two [new BK128 staging candidates](docs/Q2-HC-BK128.md) change only the measured
@@ -575,8 +576,20 @@ FP64 checks at 2048 pass for the native kernel and fail for the library under
 unchanged limits; 97 ordinary remains slightly outside. Independent model
 quality remains open. Host Debug/ASan pass 23/23; the .157 window is released.
 
-Two [wider-token HC tiles](docs/Q2-HC-BN64.md) now prepare 64-token workgroups
+Two [wider-token HC tiles](docs/Q2-HC-BN64.md) measure 64-token workgroups
 with two wave partitions. They change only the launch template/grid, retaining
 original F16 operands and each output's two K16 chains. Both compile without
-spills; host Debug/ASan pass 23/23. GPU component/model qualification is pending.
-No speedup is inferred from the smaller grid or compiler resource counts.
+spills; host Debug/ASan pass 23/23. Both GPU components retain all 112 timings
+despite exits 0/0/1. All parent outputs match, but the best normalized complete
+cycle regresses 42.973%; no model is selected. Unchanged FP64 limits pass at
+2048 for native down and fail for library down; strict byte rejections remain.
+Graphs and all samples are saved; the .157 window is released. Fixed-model
+PP remains 1477.969324 against UD 1685.777092.
+
+The [current rejected-family recovery audit](config/q2-rejected-recovery-status.json)
+verifies all nineteen original report hashes: fifteen candidate records represent
+eleven families, alongside four host/status reports. Five mechanisms already
+belong to fixed Q2, three families have new measured compositions, one has measured
+cycle regressions, and two selective integrations remain pending. Only shared-Q8
+has a confirmed false format-rejection cause. This does not establish nineteen
+independent gains or parity; best PP still needs 14.060% higher throughput for UD.

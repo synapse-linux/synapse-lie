@@ -69,10 +69,37 @@ replay fails but the bounded kernel saves9–13% of complete component time,
 and its new model measures1477.969324 PP (+2.375639% versus fixed Q2).
 No qualified controls are rerun. All128 greedy tokens match; logits change.
 Recovered small-shape FP64 errors are roughly half the library's errors,
-passing5/6 cases against0/6 under unchanged limits;2048 recovery is unavailable.
+passing5/6 cases against0/6 under unchanged limits. Later unchanged-output
+[BK128](Q2-HC-BK128.md) and [BN64](Q2-HC-BN64.md) fixtures restore printed
+precision and recover 2048 FP64 errors: all aligned native cases pass the
+original limits while library cases fail. The 97 ordinary native case remains
+outside the peak limit. Both geometry families preserve all parent outputs but
+regress complete-cycle performance. Numerical rejection did not suppress their
+timing. This operator evidence does not establish independent model quality.
 This is additional measured progress, not nineteen additive gains or full parity.
 The [additive HC audit update](../config/q2-rejected-test-reaudit-hc-update.json)
 binds these new reports without rewriting the original nineteen failures.
+
+The [current recovery-status receipt](../config/q2-rejected-recovery-status.json)
+verifies all nineteen original hashes again and binds the subsequent reports.
+It classifies recovery of performance mechanisms, separately from numerical
+acceptance or proof that an original rejection was false:
+
+| Recovery disposition | Candidate families | Implication at the fixed point |
+| --- | ---: | --- |
+| Mechanism already in fixed Q2 | 5 | No additional gain can be counted again |
+| New composition measured | 3 | Q8, row reuse and norm have retained full-model results |
+| Complete performance measured and slower | 1 | HC sequence timings were collected despite rejection |
+| Selective integration still pending | 2 | MoE-only deferred norm and routing-specific tile64 need new integration |
+
+The four host/status records are outside this eleven-family count. The shared-Q8
+race is the only confirmed false format-rejection family; no blanket verdict on
+all nineteen reports is established. The current best PP 1477.969324 remains
+12.327120% below UD 1685.777092, requiring 14.060357% more throughput from the
+candidate to reach that rate. These numbers retain the original fixed input and
+historical comparator, with all individual samples available in the model report.
+Component improvements must not be added together as model throughput gains.
+The [family CSV](figures/q2-rejected-recovery-status.csv) records each disposition.
 
 Further fixed-model tests remain pending for candidates needing new integration
 or composition. Existing qualified controls will not be relaunched. Each new

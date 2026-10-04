@@ -1,6 +1,48 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Rejected-family recovery status reconciled — 2026-10-04 UTC
+
+All nineteen immutable original reports verify against their inventory hashes.
+They comprise fifteen candidate records in eleven families plus four host/status
+records. Five families' mechanisms already belong to fixed Q2; three have new
+measured compositions; one was measured and regressed despite numeric rejection;
+two selective integrations remain pending. Only the shared-Q8 fixture race is
+a confirmed false format-rejection cause. No nineteen additive gains are inferred.
+
+The new report binds the source audit, oracle replay, compositions, best model,
+BK128/BN64 components and release without rewriting historical failures. Best
+PP 1477.969324 needs 14.060357% higher throughput to reach fixed UD 1685.777092.
+The two remaining selective hypotheses are MoE-only deferred normalization and
+tile64 where actual routing can justify it. Neither is measured in a new model.
+This reconciliation has no GPU/model run or qualified comparator rerun, and
+does not declare independent model quality or the entire recovery campaign done.
+[Machine-readable status](../config/q2-rejected-recovery-status.json),
+[family table](figures/q2-rejected-recovery-status.csv).
+
+## Wider-token tiles measured without a model rerun — 2026-10-04 UTC
+
+Both BN64 components complete configure/build/test 0/0/1 with 88 verified
+artifacts and 112 timings. Token-wide ordinary/MoE complete cycles regress
+36.131%/20.897% against their library; output-wide regress 37.139%/22.076%.
+The best summed complete native/library ratio is 1.276722 versus saved parent
+0.892983, 42.973% worse. The frozen plan selects no model. Greater reuse and
+lower grid count do not establish a speedup; detailed stall attribution is open.
+
+Each new candidate matches all 40 parent tensors and 22 full-buffer hashes.
+FP64 down checks retain 11/12 native passes and 0/10 library passes under
+unchanged limits; all aligned 2048 cases pass natively. The 97 ordinary case
+remains outside the peak limit. Twenty norm checks pass per arm. Numerical
+rejection did not suppress performance. No qualified model control or curve
+was rerun; best measured PP/TG remains 1477.969324/25.10545360.
+
+All 112 new and 56 historical timings and 44 FP64 checks are exported. Release
+22:14:00 UTC verifies 543 retired identities/423 groups, empty KFD, four original
+leases free and six unchanged model stats. No Q2 GPU job, reservation, waiter,
+restart or cleanup remains. Next recover pending rejected-family compositions
+against this best parent, preserving their original failures and existing controls.
+[Results, complete samples and graph](Q2-HC-BN64.md).
+
 ## Wider-token HC geometry prepared — 2026-10-04 UTC
 
 Two new 64x64/BK128 tiles use 16x32 or 32x16 wave partitions against the

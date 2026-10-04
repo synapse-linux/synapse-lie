@@ -1,7 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at 2026-10-04T21:42:54.671907Z after only two new
+Latest Q2 window is released at 2026-10-04T22:14:00.789800Z after only two new
+BN64 component candidates. Both retain 0/0/1, 88 artifacts and 112 timings;
+no model is selected and no qualified inference reference is rerun. Closure
+verifies 543 recorded identities/423 groups absent, KFD empty, four original
+leases free and six unchanged model stat tuples. Core receives the release;
+no Q2 GPU job/reservation/waiter/restart/cleanup remains.
+[Release](../config/q2-hc-bn64-run-window-release.json), SHA256
+`b92613d5bd00bb1daa40f83b1496ed93d86f0dd2d8e45d6f123eefd8b106a08d`.
+
+Previous Q2 window is released at 2026-10-04T21:42:54.671907Z after only two new
 BK128 component candidates. Both retain 0/0/1, 88 artifacts and 112 timings;
 no model is selected, no qualified inference reference is rerun. Closure
 verifies 528 recorded identities/411 groups absent, KFD empty, four original
