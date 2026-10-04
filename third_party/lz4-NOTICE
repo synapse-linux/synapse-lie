@@ -1,11 +1,12 @@
 SPDX-License-Identifier: MIT
 
-LIE optionally links the system LZ4 C library when LIE_CHECKPOINT_COMPRESSION=ON
-(default). LZ4 source is not vendored or copied into LIE. The upstream library is
-BSD-2-Clause licensed; preserve the system package license when distributing it.
+Historical LIE checkpoint validation linked the system LZ4 C library for
+legacy codec 1. Current LIE source no longer links LZ4 or reads codec 1;
+this notice remains to explain retained historical receipts. LZ4 source was
+never vendored or copied into LIE. The upstream library is BSD-2-Clause licensed.
 Upstream: https://github.com/lz4/lz4
 License: https://github.com/lz4/lz4/blob/dev/lib/LICENSE
-Local CPU validation used system liblz4 1.10.0. This notice is not a minimum
-version promise; LIE uses compress_fast_extState, sizeofState and decompress_safe.
+Historical local CPU validation used system liblz4 1.10.0. This notice is not a
+current dependency or minimum-version promise.
 The generic retention and state framing implementation is independently written
 MIT C17 code; no antirez/ds4 source was imported.

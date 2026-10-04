@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #if LIE_CHECKPOINT_COMPRESSION
-#include <lz4.h>
 #define ZSTD_STATIC_LINKING_ONLY
 #include <zstd.h>
 #endif
@@ -53,7 +52,6 @@ static bool worth_packing(const lie_state *p,ZSTD_CCtx *ctx,unsigned char *block
 bool lie_state_decode_block(uint32_t codec,const void *encoded,size_t size,void *out,size_t bytes){
 #if LIE_CHECKPOINT_COMPRESSION
     if(!encoded||!out||!size||size>=bytes||bytes>LIE_STATE_BLOCK_BYTES)return false;
-    if(codec==1)return LZ4_decompress_safe(encoded,out,(int)size,(int)bytes)==(int)bytes;
     if(codec!=2)return false;
     /* Static Zstd contexts prevent hidden codec allocations outside admission. */
     size_t context=ZSTD_estimateDCtxSize();unsigned char *work=malloc(LIE_STATE_BLOCK_BYTES+context);
@@ -70,7 +68,7 @@ bool lie_state_decode_block(uint32_t codec,const void *encoded,size_t size,void 
 bool lie_state_unpack_payload(const lie_state *p,void *out,size_t bytes){
     if(!p||!out||bytes!=p->payload_bytes)return false;
     if(!p->codec){if(p->storage_bytes!=bytes)return false;memcpy(out,p->payload,bytes);return true;}
-    if(p->codec>2||!lie_state_compression_enabled()||p->layout.sections[0].role!=LIE_STATE_TOKENS)return false;
+    if(p->codec!=2||!lie_state_compression_enabled()||p->layout.sections[0].role!=LIE_STATE_TOKENS)return false;
     uint64_t prefix=p->layout.sections[0].bytes;
     if(prefix>bytes||prefix>p->storage_bytes)return false;
     memcpy(out,p->payload,(size_t)prefix);uint64_t in=prefix,at=prefix;

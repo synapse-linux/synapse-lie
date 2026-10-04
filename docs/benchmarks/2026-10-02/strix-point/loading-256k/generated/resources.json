@@ -1,0 +1,22 @@
+{
+  "lie": {
+    "observations": 15,
+    "peak_c": {
+      "k10temp": 46.0,
+      "amdgpu": 45.0,
+      "nvme": 67.85
+    },
+    "sampled_peak_gtt_used_bytes": 81658789888,
+    "minimum_system_mem_available_bytes": 38576345088
+  },
+  "gufo": {
+    "observations": 16,
+    "peak_c": {
+      "k10temp": 40.25,
+      "amdgpu": 39.0,
+      "nvme": 63.85
+    },
+    "sampled_peak_gtt_used_bytes": 79662301184,
+    "minimum_system_mem_available_bytes": 40349519872
+  }
+}

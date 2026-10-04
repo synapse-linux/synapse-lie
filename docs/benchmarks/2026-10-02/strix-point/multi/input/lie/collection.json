@@ -1,0 +1,127 @@
+{
+  "schema": "synapse-lie.point-bench-collection.v1",
+  "label": "strix-point-bench-multi-lie-100c-r1",
+  "remote_root": "/home/pop/workspace/synapse-lie/strix-point-bench-multi-lie-100c-r1",
+  "commands": [
+    {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -"
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scp",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161:/home/pop/workspace/synapse-lie/strix-point-bench-multi-lie-100c-r1/measurements.jsonl",
+        "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/evidence/strix-point-bench-multi-lie-100c-r1/measurements.jsonl"
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scp",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161:/home/pop/workspace/synapse-lie/strix-point-bench-multi-lie-100c-r1/telemetry.jsonl",
+        "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/evidence/strix-point-bench-multi-lie-100c-r1/telemetry.jsonl"
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scp",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161:/home/pop/workspace/synapse-lie/strix-point-bench-multi-lie-100c-r1/stdout.log",
+        "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/evidence/strix-point-bench-multi-lie-100c-r1/stdout.log"
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "scp",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161:/home/pop/workspace/synapse-lie/strix-point-bench-multi-lie-100c-r1/stderr.log",
+        "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/evidence/strix-point-bench-multi-lie-100c-r1/stderr.log"
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "inventory": {
+    "files": {
+      "manifest.json": {
+        "bytes": 3802,
+        "sha256": "dffea388da7297bcb61f619a10ddea6d510fa96b6ac79a9c83a2492cd34dd64f"
+      },
+      "runner.py": {
+        "bytes": 23937,
+        "sha256": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499"
+      },
+      "result.json": {
+        "bytes": 390053,
+        "sha256": "fbd8de2b4d50ae0ec8c24b6f1ad0d2cf7f94918b86fc2a42f66e3556adaf028f"
+      },
+      "measurements.jsonl": {
+        "bytes": 75525,
+        "sha256": "fdc876681c873f51e9c31255bea3c686b633e030a3954c10d5a389d2cbe7e397"
+      },
+      "telemetry.jsonl": {
+        "bytes": 1320313,
+        "sha256": "743fb85cdfb836410fb765318ca82b2285b19d7bdf46d223f2ee67111fa1d26b"
+      },
+      "stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr.log": {
+        "bytes": 1136,
+        "sha256": "a0eb2f03573e6639bf98384ef378c8d37657676ed3382d9d412d227eb523f532"
+      }
+    },
+    "result_state": "PASSED",
+    "result_exit_code": 0,
+    "child_exit_code": 0,
+    "model_stat_unchanged": true,
+    "supervisor_absent": true,
+    "gpu_child_absent": true,
+    "lease_free": true,
+    "service": "MainPID=53221\nActiveState=active\n",
+    "service_exit": 0,
+    "kernel_kfd": [
+      "53221"
+    ]
+  },
+  "exit_code": 0
+}

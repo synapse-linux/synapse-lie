@@ -198,6 +198,15 @@ and snapshot implementation; the representation and cache policy are C17-owned.
 HIP field transfers remain platform-specific and active forward execution remains
 delegated. This variant is not the pristine upstream source/build. The RAM default
 requires an explicitly state-capable composition; pristine baselines use RAM off.
+## Strix Point composition
+
+The `feature/strix-point-ud` fork independently fetched the same official Gufo
+archive at `f783fedb`, matching the recorded archive and 1019 file hashes. Its
+LIE-owned Qwen-only CMake recipe can select real gfx1150, with a target-bound
+receipt and runtime admission. Numerical files, licenses, wave64 translation
+unit flags and the optional state-access variant retain their existing
+provenance. This is experimental platform support, not upstream release or
+original-weight GPU qualification; see [STRIX-POINT.md](../docs/STRIX-POINT.md).
 
 The KV disk HTTP client and report exporter in `tools/native/` are first-party
 MIT C17, linked to libcurl, json-c, OpenSSL Crypto and libpng. SVG primitives and
@@ -210,10 +219,11 @@ or local DS4 artifact is imported. It does not claim DS4 cache-policy or
 compression equivalence. LIE retains its existing component representation.
 
 
-The optional default-ON checkpoint codec links installed C libraries: Zstandard
-under its [BSD-3-Clause option](zstd-NOTICE), plus [LZ4 BSD-2-Clause](lz4-NOTICE)
-for legacy decoding. No library source is copied or installed by LIE. Disabling
-`LIE_CHECKPOINT_COMPRESSION` removes both dependencies. The byte permutation,
+The optional default-ON checkpoint codec links installed Zstandard under its
+[BSD-3-Clause option](zstd-NOTICE). The [LZ4 notice](lz4-NOTICE) remains only
+for historical validation provenance; current source does not link LZ4 or
+read codec 1. No library source is copied or installed by LIE. Disabling
+`LIE_CHECKPOINT_COMPRESSION` removes the Zstandard dependency. The byte permutation,
 framing and retention policy remain first-party MIT C17. OpenSSL Crypto is now
 a shared state-store dependency, including core-only builds.
 

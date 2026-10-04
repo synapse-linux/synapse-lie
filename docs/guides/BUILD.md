@@ -16,7 +16,7 @@ manager. Package names vary; CMake checks the dependencies below.
 | --- | --- | --- |
 | C17 compiler, CMake ≥ 3.21, Threads and libm | Shared engine and tools. | Always. |
 | OpenSSL Crypto | State identity, integrity and KVC interchange. | Always. |
-| LZ4 and Zstandard | Legacy checkpoint codecs. | `LIE_CHECKPOINT_COMPRESSION=ON` (default). |
+| Zstandard | Lossless checkpoint blocks. | `LIE_CHECKPOINT_COMPRESSION=ON` (default). |
 | pkg-config, json-c and llhttp (`libllhttp.pc`) | HTTP parsing, protocol and tools. | Full build. |
 | libcurl | Monitor, native HTTP benchmark clients and provider helpers. | Full build. |
 | libpng | Native benchmark PNG exports and provider components. | Full build. |
@@ -93,7 +93,7 @@ cmake --build build/core -j2
 | `LIE_DS4_RUNTIME_CACHE` | `ON` | Use DS4 model payloads for runtime checkpoints; requires KVC interchange. |
 | `LIE_KVC_INTERCHANGE` | `ON` | Build KVC codecs and the offline inspection tool. |
 | `LIE_CACHE_UTILITY` | `ON` | Select utility-based retention; `OFF` selects LRU. |
-| `LIE_CHECKPOINT_COMPRESSION` | `ON` | Enable legacy checkpoint codecs; DS4 payloads bypass this extra codec. |
+| `LIE_CHECKPOINT_COMPRESSION` | `ON` | Enable Zstandard checkpoint blocks; DS4 payloads bypass this extra codec. |
 | `LIE_SANITIZERS` | `OFF` | Instrument CPU code with ASan and UBSan. |
 | `BUILD_TESTING` | `ON` | Build and register native development tests. |
 | `LIE_MTP` | `ON` | Build the model-neutral MTP feature; predictor/encoder admission remains explicit. |

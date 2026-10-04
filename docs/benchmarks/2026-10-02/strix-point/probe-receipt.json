@@ -1,0 +1,946 @@
+{
+  "schema": "synapse-lie.strix-point-probe-preparation.v1",
+  "at": "2026-10-02T08:40:27.604522+00:00",
+  "base_commit": "123ea23",
+  "scope": "Compiled device diagnostic and synthetic/no-device target tests; real GPU run and model payload not attempted",
+  "source_sha256": {
+    "CMakeLists.txt": "b2498d3f3873b00a78ede9f7d1eb2215b2ae039729b0a96b558c682de7b08996",
+    "tools/hip-probe.c": "af3fb3c95d7b1dd8dc3ead95c99ac53abb5872c6193abbf89e708e3e8a9bd606",
+    "tools/strix-point-remote.py": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+    "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+    "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+    "tests/hip_probe_stub.c": "cf692e30a681678ae20f510a2ee035346779e6869580dc89544554ce1e2da5e4",
+    "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+    "tests/hip_stub/rocblas/rocblas.h": "1c9d18293cf36432aaeaeb669cd1a7495833268be3ff4557c4330d98de65178b",
+    "tests/test_hip_probe.py": "40df23925c3124a40dbeea9156e92bbbbbae3e69f7c5841e6aa97af05de3f367",
+    "config/models-161.plan.json": "418bfebefe55d560e18952728bc6fc92cd70338b64a41097f37491fc580f334c"
+  },
+  "local": {
+    "point-probe-synthetic-build-r1": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/strix-point-local-r3",
+          "--target",
+          "test-hip-probe-fixture",
+          "test-gufo-device",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.125
+        },
+        "elapsed_s": 1.1289836335927248
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/strix-point-local-r3",
+          "--target",
+          "test-hip-probe-fixture",
+          "test-gufo-device",
+          "-j1"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "42eb244756d91857035bfbab528d4e64f17e89e8009be00f54003b8eba972f37",
+        "temperatures.jsonl": "5a1472838711cfb850c395368015bd039f45cf2650d2cc5f12942ddee72ea7ed",
+        "command.log": "2e9875360c7d72acb9eee7b61a89c5442e30c6cedb2d98e589c4c727b0681001",
+        "result.json": "c4f6e1a347f65ca36b252a5c7105abd43e933249610d9af1c82b444e35629537"
+      }
+    },
+    "point-probe-link-r1": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-linked-r2",
+          "--target",
+          "lie-hip-probe",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.125
+        },
+        "elapsed_s": 1.1233244044706225
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-linked-r2",
+          "--target",
+          "lie-hip-probe",
+          "-j1"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "842545e7ad5ff1f187a50b2daf58caa4375e83f72a7ba7e7f895bc763db1b82f",
+        "temperatures.jsonl": "cc0ef19a8992da6aac0d7ade294704e2ea4d708b77d7195cbbe40a67d5095ce1",
+        "command.log": "f964306ab536bc275c644d7a95c804358dfd7a47c00c87585588ddcb10a98ad8",
+        "result.json": "ab880f5af196f43aa139b6902ab26c81c9871ad7218f7250da95f8384a5f1ffd"
+      }
+    },
+    "point-probe-synthetic-test-r1": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.125
+        },
+        "elapsed_s": 1.0816823672503233
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "80bd1afe69281192a2fb50d246bd046d836469cd542a10e54f477716942a462f",
+        "temperatures.jsonl": "f6272d1931c457b0d64ce204a102389d6e14b6ee1c09825a662c54fa54784ab3",
+        "command.log": "8ecc9b78c829c4dc8a357060a10e46dc54b8ad96ac0bba75e22126b175b5f63d",
+        "result.json": "77516b3f102c4f95dead89bd6cc0702960e708b684bce191c9ee34e3d4cad96d"
+      }
+    },
+    "point-probe-synthetic-test-r2": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.5
+        },
+        "elapsed_s": 1.08722557220608
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 3986193,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "d7afbad02c2cdb3b7bfc87d17cf03e9a3f8908e8d19210773efbf6d57f0335ad",
+        "temperatures.jsonl": "7e3613df9f212543817ee87f1825aeb57ab52621911dbfe5e5046cf479b74fd7",
+        "command.log": "514bdccf69cb70a41feab9c8758fdcd631d2ab9f610dd66edaa46c1486f0dab1",
+        "result.json": "ecb13b8b4e9f7eabc2a8e87f5e756229f087b5b820b140684f5c6e84a53c6fe8"
+      }
+    },
+    "point-probe-synthetic-build-r2": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/strix-point-local-r3",
+          "--target",
+          "test-hip-probe-fixture",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.25
+        },
+        "elapsed_s": 1.0547612169757485
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/strix-point-local-r3",
+          "--target",
+          "test-hip-probe-fixture",
+          "-j1"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "c4ba32ed96548975c8435bdee916481043fa7d76329f56190803ba0518718c32",
+        "temperatures.jsonl": "c910e7ac91a60922f416a426259ec9a694c2a226ce229cd6988285078b34150d",
+        "command.log": "44a39ccdc0affbeb85cf8657c77da25ffc8d3434d605bae4aae3e9ec0e62a416",
+        "result.json": "844df910c3bd05a79e91ed7fbcff5376848587141d05afbf522d6c43ba3a60f0"
+      }
+    },
+    "point-probe-link-r2": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-linked-r2",
+          "--target",
+          "lie-hip-probe",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 69.125
+        },
+        "elapsed_s": 1.1245751176029444
+      },
+      "plan": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-linked-r2",
+          "--target",
+          "lie-hip-probe",
+          "-j1"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 2,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "842545e7ad5ff1f187a50b2daf58caa4375e83f72a7ba7e7f895bc763db1b82f",
+        "temperatures.jsonl": "7dcb75c9c2925e29e7a5510b6291c818f915c3536e64c7e191b5346fa0eed941",
+        "command.log": "847bcaa91f70e19b821ffae54fb31269a47a8a52a0064592aa72e139abc6eb61",
+        "result.json": "b733c1da5c9c13ecc78fccb2260f044bc8ca55d4154ba5a4ca00876ae859a4ee"
+      }
+    },
+    "point-probe-synthetic-test-r3": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 78.375
+        },
+        "elapsed_s": 1.1228260165080428
+      },
+      "plan": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "hip-probe-synthetic|gufo-device-admission-synthetic"
+        ],
+        "cwd": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie",
+        "sensors": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "limit_c": 85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon6/temp2_input",
+            "limit_c": 85
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon7/temp1_input",
+            "limit_c": 98.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon8/temp1_input",
+            "limit_c": 98.0
+          }
+        ],
+        "timeout_s": 120.0,
+        "pid": 3988654,
+        "scope": "Owned child process group only; no power/fan/clock changes"
+      },
+      "artifacts_sha256": {
+        "plan.json": "74cfe12456d353719dc980d3bf205754ff8e4e44d36434c05cc743e133568516",
+        "temperatures.jsonl": "16ecb0fcf569899a92776d524a14dd004adf261bca5f92ec9a1e66f8cca34643",
+        "command.log": "01e7815915058848d0835cc773e94338f354a851e91d570fa634226620e01967",
+        "result.json": "2d30e440dc9c8cd04e58251b9bfdb7c9d27f4a70bbf473ce60ffd81225aa0247"
+      }
+    }
+  },
+  "remote": {
+    "strix-point-probe-startup-r1": {
+      "receipt": {
+        "action": "probe-check",
+        "host": "pop@192.168.5.161",
+        "at": "2026-10-02T08:34:58.542636+00:00",
+        "source_sha256": {
+          "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+          "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+          "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+          "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+          "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+          "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+          "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+          "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+          "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+          "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+          "runtime/bin/lie-hip-probe": "e032a9e02ea74f268b80d0d923939be1e21dee38e80f7bdbb7966203e5719a73",
+          "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+          "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+          "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+          "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+          "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665",
+          "runtime/strip-receipt.json": "d397a679ca7eec3c74a3adc24e37fa8699a1f34f144e7d8541ec4443dc769334",
+          "runtime/system-packages.txt": "281645fe4ce1e8e200093dc5bf1f1787ca1960ec4830cfe5bc39d1ba1e9000bf"
+        },
+        "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+        "runner_sha256": "adc8d87ef4ee6e6e28a0eb44b4cf8910be3bf4d9dbc2dc3c4d5f1145e79de815",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_program_sha256": "68affbe22829b11d368919371226a38381fdef55731ae89b7f6857c7a82c4212",
+        "exit_code": 0
+      },
+      "result": {
+        "scope": "LINKED_NO_MODEL_NOT_INFERENCE",
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-probe-startup-r1",
+        "commands": [
+          {
+            "step": "probe-help",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"./runtime/bin/lie-hip-probe\", \"--help\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 29.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 29.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0}, \"elapsed_s\": 1.0940188458189368}\n"
+          }
+        ],
+        "artifacts": {
+          "evidence/probe-help/command.log": "Usage: lie-hip-probe --run\nRequires an admitted GPU lease. Checks target, HIP allocation/copy and rocBLAS SGEMM.\nNo model, model-fit, quantized-kernel or performance qualification.\n",
+          "evidence/probe-help/plan.json": "{\n  \"argv\": [\n    \"./runtime/bin/lie-hip-probe\",\n    \"--help\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/probe-help/result.json": "{\n  \"argv\": [\n    \"./runtime/bin/lie-hip-probe\",\n    \"--help\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 29.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 29.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0\n  },\n  \"elapsed_s\": 1.0940188458189368\n}\n",
+          "evidence/probe-help/temperatures.jsonl": "{\"wall_time_ns\": 1790930099522541917, \"elapsed_s\": 5.1176175475120544e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930099550487206, \"elapsed_s\": 0.027998018078505993, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930100572725175, \"elapsed_s\": 1.0502373604103923, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 35.875}]}\n"
+        }
+      },
+      "artifacts_sha256": {
+        "runner.py": "adc8d87ef4ee6e6e28a0eb44b4cf8910be3bf4d9dbc2dc3c4d5f1145e79de815",
+        "plan.json": "d7a663c576f2b0252e40f4fd3dda21cf692ebba175419c13118c2c02ba999508",
+        "stdout.log": "d5e53ecb1eeefa8601222b0b0aff65a7296439df0cddac3757c7ebe1e60378ad",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remote-result.json": "cd00c7f13dfaf6726e1d6a2a761e8a2afe5248f73df7fca7ae7cc092624609f2",
+        "result.json": "3cf344c9ae2270659098e26473df1858fb103d847d7cde16cc8d92a9bcc4900e"
+      }
+    },
+    "strix-point-probe-startup-r2": {
+      "receipt": {
+        "action": "probe-check",
+        "host": "pop@192.168.5.161",
+        "at": "2026-10-02T08:39:29.841120+00:00",
+        "source_sha256": {
+          "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+          "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+          "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+          "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+          "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+          "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+          "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+          "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+          "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+          "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+          "runtime/bin/lie-hip-probe": "9bd369a202a151faabb6e2950294f2c1f1786e0222a0542b882c0f24772c962a",
+          "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+          "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+          "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+          "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+          "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665",
+          "runtime/strip-receipt.json": "8b7a137d3641205c41808be74625149fcc0c9bb951d6fa61c227ddaea11696e2",
+          "runtime/system-packages.txt": "281645fe4ce1e8e200093dc5bf1f1787ca1960ec4830cfe5bc39d1ba1e9000bf"
+        },
+        "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+        "runner_sha256": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_program_sha256": "69c064103fcf4a159b6023f41e304182a1aedd2480c00e0b1efa307bc8afad1c",
+        "exit_code": 0
+      },
+      "result": {
+        "scope": "LINKED_NO_MODEL_NOT_INFERENCE",
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-probe-startup-r2",
+        "commands": [
+          {
+            "step": "probe-help",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"./runtime/bin/lie-hip-probe\", \"--help\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 29.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 29.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0}, \"elapsed_s\": 1.1122330408543348}\n"
+          }
+        ],
+        "artifacts": {
+          "evidence/probe-help/command.log": "Usage: lie-hip-probe --run\nRequires an admitted GPU lease. Checks target, HIP allocation/copy and rocBLAS SGEMM.\nNo model, model-fit, quantized-kernel or performance qualification.\n",
+          "evidence/probe-help/plan.json": "{\n  \"argv\": [\n    \"./runtime/bin/lie-hip-probe\",\n    \"--help\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/probe-help/result.json": "{\n  \"argv\": [\n    \"./runtime/bin/lie-hip-probe\",\n    \"--help\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 29.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 29.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0\n  },\n  \"elapsed_s\": 1.1122330408543348\n}\n",
+          "evidence/probe-help/temperatures.jsonl": "{\"wall_time_ns\": 1790930370673702661, \"elapsed_s\": 8.096080273389816e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930370712380305, \"elapsed_s\": 0.03875991702079773, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930371741691743, \"elapsed_s\": 1.0680728573352098, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 29.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n"
+        }
+      },
+      "artifacts_sha256": {
+        "runner.py": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+        "plan.json": "a07f096b9dfabd60db065b44944d4051749ed94cbfd2aab2d5af34a553020f5a",
+        "stdout.log": "882919c466865b8c3a8c1391e983521e6cce171ed7e48efc818f63f9e090f63e",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remote-result.json": "5fac585f1b1b0322e37f941912a6d70ba062d5b4294c5d660ac72f8f1b2d85a2",
+        "result.json": "55ea8bc13cdbeebd5505f2336b0b0dfe894b66d5a3e0b26837ec37bbd069ab09"
+      }
+    },
+    "strix-point-probe-cpu-r1": {
+      "receipt": {
+        "action": "probe-tests",
+        "host": "pop@192.168.5.161",
+        "at": "2026-10-02T08:36:04.882984+00:00",
+        "source_sha256": {
+          "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+          "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+          "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+          "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+          "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+          "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+          "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+          "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+          "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+          "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+          "tools/hip-probe.c": "27e63f0566925a53f080294c7521da822e43eb7eba8508120da682e675f4fc96",
+          "tests/hip_probe_stub.c": "cf692e30a681678ae20f510a2ee035346779e6869580dc89544554ce1e2da5e4",
+          "tests/test_hip_probe.py": "561b0eecb0dcf02b8c1c5a25c83079dbdeb32f0e44b6a5a027e0aba3a37eaa22",
+          "tests/hip_stub/rocblas/rocblas.h": "1c9d18293cf36432aaeaeb669cd1a7495833268be3ff4557c4330d98de65178b"
+        },
+        "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+        "runner_sha256": "fac7e370608d6fb8f0ed09777f585816c67302650cc65e924eee94005a1b7221",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_program_sha256": "39aad9263ea27d8f4e0213dfa5db4de5dcebf495dc9322e925b41882429383ea",
+        "exit_code": 0
+      },
+      "result": {
+        "scope": "SYNTHETIC_CPU_NOT_INFERENCE",
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-probe-cpu-r1",
+        "commands": [
+          {
+            "step": "compile-probe",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"cc\", \"-std=c17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"-c\", \"tools/hip-probe.c\", \"-o\", \"probe.o\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0}, \"elapsed_s\": 1.1188989393413067}\n"
+          },
+          {
+            "step": "compile-stubs",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"cc\", \"-std=c17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"-c\", \"tests/hip_probe_stub.c\", \"-o\", \"stub.o\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125}, \"elapsed_s\": 1.1035499731078744}\n"
+          },
+          {
+            "step": "link-fixture",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"c++\", \"-std=c++17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"adapters/gufo_device.cpp\", \"probe.o\", \"stub.o\", \"-ljson-c\", \"-lm\", \"-o\", \"test-hip-probe-fixture\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125}, \"elapsed_s\": 1.1144877532497048}\n"
+          },
+          {
+            "step": "test-probe",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"python3\", \"-B\", \"tests/test_hip_probe.py\", \"./test-hip-probe-fixture\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.25}, \"elapsed_s\": 1.1623046407476068}\n"
+          }
+        ],
+        "artifacts": {
+          "evidence/compile-probe/command.log": "",
+          "evidence/compile-probe/plan.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tools/hip-probe.c\",\n    \"-o\",\n    \"probe.o\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/compile-probe/result.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tools/hip-probe.c\",\n    \"-o\",\n    \"probe.o\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.0\n  },\n  \"elapsed_s\": 1.1188989393413067\n}\n",
+          "evidence/compile-probe/temperatures.jsonl": "{\"wall_time_ns\": 1790930165489383938, \"elapsed_s\": 8.112192153930664e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930165532808847, \"elapsed_s\": 0.04350745305418968, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930166564315967, \"elapsed_s\": 1.0750155448913574, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n",
+          "evidence/compile-stubs/command.log": "",
+          "evidence/compile-stubs/plan.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tests/hip_probe_stub.c\",\n    \"-o\",\n    \"stub.o\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/compile-stubs/result.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tests/hip_probe_stub.c\",\n    \"-o\",\n    \"stub.o\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125\n  },\n  \"elapsed_s\": 1.1035499731078744\n}\n",
+          "evidence/compile-stubs/temperatures.jsonl": "{\"wall_time_ns\": 1790930166873673201, \"elapsed_s\": 8.898694068193436e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n{\"wall_time_ns\": 1790930166911459677, \"elapsed_s\": 0.037876734510064125, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n{\"wall_time_ns\": 1790930167938169116, \"elapsed_s\": 1.0645873257890344, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}]}\n",
+          "evidence/link-fixture/command.log": "",
+          "evidence/link-fixture/plan.json": "{\n  \"argv\": [\n    \"c++\",\n    \"-std=c++17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"adapters/gufo_device.cpp\",\n    \"probe.o\",\n    \"stub.o\",\n    \"-ljson-c\",\n    \"-lm\",\n    \"-o\",\n    \"test-hip-probe-fixture\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/link-fixture/result.json": "{\n  \"argv\": [\n    \"c++\",\n    \"-std=c++17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"adapters/gufo_device.cpp\",\n    \"probe.o\",\n    \"stub.o\",\n    \"-ljson-c\",\n    \"-lm\",\n    \"-o\",\n    \"test-hip-probe-fixture\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125\n  },\n  \"elapsed_s\": 1.1144877532497048\n}\n",
+          "evidence/link-fixture/temperatures.jsonl": "{\"wall_time_ns\": 1790930168257500578, \"elapsed_s\": 8.259527385234833e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n{\"wall_time_ns\": 1790930168308430432, \"elapsed_s\": 0.05101375188678503, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 36.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n{\"wall_time_ns\": 1790930169333250303, \"elapsed_s\": 1.0758349848911166, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n",
+          "evidence/test-probe/command.log": "Synthetic probe controls passed; no GPU/model attempted\n",
+          "evidence/test-probe/plan.json": "{\n  \"argv\": [\n    \"python3\",\n    \"-B\",\n    \"tests/test_hip_probe.py\",\n    \"./test-hip-probe-fixture\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/test-probe/result.json": "{\n  \"argv\": [\n    \"python3\",\n    \"-B\",\n    \"tests/test_hip_probe.py\",\n    \"./test-hip-probe-fixture\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.25\n  },\n  \"elapsed_s\": 1.1623046407476068\n}\n",
+          "evidence/test-probe/temperatures.jsonl": "{\"wall_time_ns\": 1790930169650093329, \"elapsed_s\": 0.00015106238424777985, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n{\"wall_time_ns\": 1790930169697326816, \"elapsed_s\": 0.04738604184240103, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n{\"wall_time_ns\": 1790930170769758622, \"elapsed_s\": 1.1198184788227081, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n"
+        }
+      },
+      "artifacts_sha256": {
+        "runner.py": "fac7e370608d6fb8f0ed09777f585816c67302650cc65e924eee94005a1b7221",
+        "plan.json": "43bbd7e9ec6b92fdc20c062561e8e7ebeefa561d906cf19df8a335d8b1ff7fd2",
+        "stdout.log": "4971a0f6e8202645afb1c98d386b9137d665139b876b712d6fde2904f65fe969",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remote-result.json": "300ebb3340f50bf4190bac1a0dcd280f5fc3582aa4dbf5bd9aabeb1cf86d6022",
+        "result.json": "d34bda3c97a6df67fadd697d4236215188743eb713a04aebda82a49a28b8de5a"
+      }
+    },
+    "strix-point-probe-cpu-r2": {
+      "receipt": {
+        "action": "probe-tests",
+        "host": "pop@192.168.5.161",
+        "at": "2026-10-02T08:38:05.426657+00:00",
+        "source_sha256": {
+          "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+          "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+          "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+          "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+          "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+          "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+          "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+          "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+          "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+          "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+          "tools/hip-probe.c": "af3fb3c95d7b1dd8dc3ead95c99ac53abb5872c6193abbf89e708e3e8a9bd606",
+          "tests/hip_probe_stub.c": "cf692e30a681678ae20f510a2ee035346779e6869580dc89544554ce1e2da5e4",
+          "tests/test_hip_probe.py": "40df23925c3124a40dbeea9156e92bbbbbae3e69f7c5841e6aa97af05de3f367",
+          "tests/hip_stub/rocblas/rocblas.h": "1c9d18293cf36432aaeaeb669cd1a7495833268be3ff4557c4330d98de65178b"
+        },
+        "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+        "runner_sha256": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_program_sha256": "c83dbb539429d232362cf885baf7fac66a308ce90e38b3ba95bdc0c0491ab834",
+        "exit_code": 0
+      },
+      "result": {
+        "scope": "SYNTHETIC_CPU_NOT_INFERENCE",
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-probe-cpu-r2",
+        "commands": [
+          {
+            "step": "compile-probe",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"cc\", \"-std=c17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_HIP_PROBE_SYNTHETIC=1\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"-c\", \"tools/hip-probe.c\", \"-o\", \"probe.o\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125}, \"elapsed_s\": 1.1107947416603565}\n"
+          },
+          {
+            "step": "compile-stubs",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"cc\", \"-std=c17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_HIP_PROBE_SYNTHETIC=1\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"-c\", \"tests/hip_probe_stub.c\", \"-o\", \"stub.o\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375}, \"elapsed_s\": 1.125900442712009}\n"
+          },
+          {
+            "step": "link-fixture",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"c++\", \"-std=c++17\", \"-D_POSIX_C_SOURCE=200809L\", \"-DLIE_HIP_PROBE_SYNTHETIC=1\", \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\", \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\", \"-O1\", \"-g\", \"-Wall\", \"-Wextra\", \"-Werror\", \"-fsanitize=address,undefined\", \"-fno-omit-frame-pointer\", \"-Itests/hip_stub\", \"-Iinclude\", \"-Iadapters\", \"adapters/gufo_device.cpp\", \"probe.o\", \"stub.o\", \"-ljson-c\", \"-lm\", \"-o\", \"test-hip-probe-fixture\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375}, \"elapsed_s\": 1.1001092353835702}\n"
+          },
+          {
+            "step": "test-probe",
+            "exit_code": 0,
+            "guard_stdout": "{\"argv\": [\"python3\", \"-B\", \"tests/test_hip_probe.py\", \"./test-hip-probe-fixture\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 32.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 36.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375}, \"elapsed_s\": 1.0965121146291494}\n"
+          }
+        ],
+        "artifacts": {
+          "evidence/compile-probe/command.log": "",
+          "evidence/compile-probe/plan.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tools/hip-probe.c\",\n    \"-o\",\n    \"probe.o\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/compile-probe/result.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tools/hip-probe.c\",\n    \"-o\",\n    \"probe.o\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 34.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.125\n  },\n  \"elapsed_s\": 1.1107947416603565\n}\n",
+          "evidence/compile-probe/temperatures.jsonl": "{\"wall_time_ns\": 1790930286046744054, \"elapsed_s\": 0.00010066945105791092, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n{\"wall_time_ns\": 1790930286080067698, \"elapsed_s\": 0.03342588618397713, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n{\"wall_time_ns\": 1790930287112654605, \"elapsed_s\": 1.0660138754174113, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.125}]}\n",
+          "evidence/compile-stubs/command.log": "",
+          "evidence/compile-stubs/plan.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tests/hip_probe_stub.c\",\n    \"-o\",\n    \"stub.o\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/compile-stubs/result.json": "{\n  \"argv\": [\n    \"cc\",\n    \"-std=c17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"-c\",\n    \"tests/hip_probe_stub.c\",\n    \"-o\",\n    \"stub.o\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375\n  },\n  \"elapsed_s\": 1.125900442712009\n}\n",
+          "evidence/compile-stubs/temperatures.jsonl": "{\"wall_time_ns\": 1790930287420853624, \"elapsed_s\": 6.315764039754868e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n{\"wall_time_ns\": 1790930287464976348, \"elapsed_s\": 0.044187406077980995, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.375}]}\n{\"wall_time_ns\": 1790930288501686684, \"elapsed_s\": 1.0808990634977818, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n",
+          "evidence/link-fixture/command.log": "",
+          "evidence/link-fixture/plan.json": "{\n  \"argv\": [\n    \"c++\",\n    \"-std=c++17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"adapters/gufo_device.cpp\",\n    \"probe.o\",\n    \"stub.o\",\n    \"-ljson-c\",\n    \"-lm\",\n    \"-o\",\n    \"test-hip-probe-fixture\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/link-fixture/result.json": "{\n  \"argv\": [\n    \"c++\",\n    \"-std=c++17\",\n    \"-D_POSIX_C_SOURCE=200809L\",\n    \"-DLIE_HIP_PROBE_SYNTHETIC=1\",\n    \"-DLIE_BUILD_ID=\\\"synthetic-probe\\\"\",\n    \"-DLIE_HIP_ARCHITECTURE=\\\"gfx1150\\\"\",\n    \"-O1\",\n    \"-g\",\n    \"-Wall\",\n    \"-Wextra\",\n    \"-Werror\",\n    \"-fsanitize=address,undefined\",\n    \"-fno-omit-frame-pointer\",\n    \"-Itests/hip_stub\",\n    \"-Iinclude\",\n    \"-Iadapters\",\n    \"adapters/gufo_device.cpp\",\n    \"probe.o\",\n    \"stub.o\",\n    \"-ljson-c\",\n    \"-lm\",\n    \"-o\",\n    \"test-hip-probe-fixture\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 35.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375\n  },\n  \"elapsed_s\": 1.1001092353835702\n}\n",
+          "evidence/link-fixture/temperatures.jsonl": "{\"wall_time_ns\": 1790930288802689454, \"elapsed_s\": 5.103554576635361e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n{\"wall_time_ns\": 1790930288830278837, \"elapsed_s\": 0.027640588581562042, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.375}]}\n{\"wall_time_ns\": 1790930289855706397, \"elapsed_s\": 1.0530709037557244, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.25}]}\n",
+          "evidence/test-probe/command.log": "Synthetic probe controls passed; no GPU/model attempted\n",
+          "evidence/test-probe/plan.json": "{\n  \"argv\": [\n    \"python3\",\n    \"-B\",\n    \"tests/test_hip_probe.py\",\n    \"./test-hip-probe-fixture\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+          "evidence/test-probe/result.json": "{\n  \"argv\": [\n    \"python3\",\n    \"-B\",\n    \"tests/test_hip_probe.py\",\n    \"./test-hip-probe-fixture\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 32.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 32.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 30.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 35.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 30.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 36.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 36.375\n  },\n  \"elapsed_s\": 1.0965121146291494\n}\n",
+          "evidence/test-probe/temperatures.jsonl": "{\"wall_time_ns\": 1790930290171340731, \"elapsed_s\": 5.592498928308487e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 36.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.375}]}\n{\"wall_time_ns\": 1790930290199899458, \"elapsed_s\": 0.028616315685212612, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.375}]}\n{\"wall_time_ns\": 1790930291221669634, \"elapsed_s\": 1.050387192517519, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 30.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 35.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 36.375}]}\n"
+        }
+      },
+      "artifacts_sha256": {
+        "runner.py": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+        "plan.json": "6168d340b81c97549efb2ff41d9813c5db4765c55e952578757e873e3a40c22d",
+        "stdout.log": "90a0121bdc9c93b3a4aa8e98044b11169b01b2617addb982e3a1142a993dc915",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remote-result.json": "2d5058e66962854852e5080cd7740ac1ada3749518493072357e99e6c8aa3a87",
+        "result.json": "d2500705f621910d8db9f8b66954f13718b5e08647fd3dc37e30b04cef1c895c"
+      }
+    }
+  },
+  "observations": {
+    "strix-point-resume-inventory-r1": {
+      "receipt": {
+        "action": "inventory",
+        "host": "pop@192.168.5.161",
+        "at": "2026-10-02T08:24:10.302618+00:00",
+        "source_sha256": {
+          "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+          "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+          "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+          "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+          "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+          "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+          "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+          "tests/hip_stub/hip/hip_runtime_api.h": "9da61b794c47b044340ef34f5d638be536b33ce43b78c13f37dc628bab6f6435",
+          "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+          "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7"
+        },
+        "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+        "runner_sha256": "bb5110235be55ae753a08258a8f5a9c9d54cf6304d72c5dff2c9abaefd122e39",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_program_sha256": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+        "exit_code": 0
+      },
+      "artifacts_sha256": {
+        "runner.py": "bb5110235be55ae753a08258a8f5a9c9d54cf6304d72c5dff2c9abaefd122e39",
+        "plan.json": "e460d92ba6a3cb51b9125f5f674d527bbdd147d999faf3fb2e859930d581740e",
+        "stdout.log": "02e5e2abf05d0debe057bb20853033f402be3f6b9905ab3bb83de011a2ded08c",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remote-result.json": "02e5e2abf05d0debe057bb20853033f402be3f6b9905ab3bb83de011a2ded08c",
+        "result.json": "90adfd895ed025b7da40115f69b88196b9b55efe6c0113af9b5046e55d290719"
+      },
+      "kfd_clients": [
+        {
+          "pid": 2211125,
+          "comm": "llama-server",
+          "stat": "2211125 (llama-server) S 1412 2211125 2211125 0 -1 4194560 9098 166 275 0 20 22 0 0 29 9 29 0 440555793 8168050688 24372 18446744073709551615 109336738811904 109336738814033 140725305550752 0 0 0 0 4096 16386 0 0 0 17 10 0 0 0 0 0 109336738823424 109336738824248 109336785571840 140725305555242 140725305555480 140725305555480 140725305556926 0",
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "at": "2026-10-02T08:24:10.731898+00:00"
+    },
+    "strix-point-service-plan-r1": {
+      "receipt": {
+        "at": "2026-10-02T08:36:57.084254+00:00",
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "systemctl --user show llama-router.service --property=Id,ActiveState,SubState,MainPID,Restart,TriggeredBy,Triggers; ss -tn state established sport = :8080"
+        ],
+        "exit_code": 0,
+        "stdout": "Restart=on-failure\nMainPID=2211125\nId=llama-router.service\nTriggers=\nTriggeredBy=\nActiveState=active\nSubState=running\nRecv-Q Send-Q Local Address:Port Peer Address:PortProcess\n",
+        "stderr": "",
+        "scope": "READ_ONLY; no service stop or GPU lease acquired"
+      },
+      "artifacts_sha256": {
+        "result.json": "23b17e7437dbea22caf68c250c412e6b7450ebeb0aa42ced8f4ec45c2658f892"
+      }
+    }
+  },
+  "model_metadata": {
+    "receipt": {
+      "url": "https://huggingface.co/api/models/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL",
+      "at": "2026-10-02T08:29:56.370530+00:00",
+      "scope": "Small repository metadata only; no model payload",
+      "status": 200,
+      "bytes": 1391
+    },
+    "tree": [
+      {
+        "type": "file",
+        "oid": "001977c3783820fbfdc63fd9ba52ed0f3626062f",
+        "size": 10946624,
+        "lfs": {
+          "oid": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+          "size": 10946624,
+          "pointerSize": 133
+        },
+        "xetHash": "202631018395cc1606994681c08f02739d9857321f3eb420cda7edf99c5f6fc0",
+        "path": "UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "type": "file",
+        "oid": "0dd3921aadf70d33e46271ad8744221d32b2f9c0",
+        "size": 49859583136,
+        "lfs": {
+          "oid": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+          "size": 49859583136,
+          "pointerSize": 136
+        },
+        "xetHash": "7ce0310d915de14c5abc2882b2f7bf9de7c916fc83c5adac526eb9fbb154cb93",
+        "path": "UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "type": "file",
+        "oid": "992dec031e26339fe4d856d86aa1c4a5c849a454",
+        "size": 49376141504,
+        "lfs": {
+          "oid": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+          "size": 49376141504,
+          "pointerSize": 136
+        },
+        "xetHash": "7ad1a0b784439805615a9adade4babe0165e6259b84173f575d3e7f7877c55f8",
+        "path": "UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "type": "file",
+        "oid": "f3e014c1d11275be90fa148a4b12ef304b4f41fb",
+        "size": 12087983520,
+        "lfs": {
+          "oid": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+          "size": 12087983520,
+          "pointerSize": 136
+        },
+        "xetHash": "f0a46f54d2ee6afd5b71f4d8f502b45e90cf2f6dcf85e21949fd03edf02fc2b3",
+        "path": "UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "tree_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "bundle": [
+    {
+      "original_sha256": "ceb2ebadc304609ae5f92cb06eef1d4136875983f47b89a9699a9f540d8cb79c",
+      "stripped_sha256": "9bd369a202a151faabb6e2950294f2c1f1786e0222a0542b882c0f24772c962a",
+      "argv": [
+        "strip",
+        "--strip-debug",
+        "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/point-probe-bundle-r2/lie-hip-probe"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

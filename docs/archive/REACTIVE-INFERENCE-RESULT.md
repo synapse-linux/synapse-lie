@@ -12,6 +12,17 @@ comparisons, including occupied context 131072, remain within the predeclared
 5% regression bound. This qualifies concurrent inference scheduling; the
 numerical kernels and their internal synchronization are unchanged.
 
+The later `.161` Strix Point original UD confirmation is in the
+[three-arm direct benchmark](../STRIX-POINT-BENCHMARK-RESULT.md#concurrent-161-lie-reactive-direct-gufo-and-lie-serial).
+At C8 the reactive C dispatcher reaches **32.184 aggregate decode token/s**,
+Gufo native batch **32.146**, and LIE serial interleaving **10.316**; all
+measured inputs, outputs and full PP/TG frontiers match. Every C2–C8 reactive
+sample records 128 native GPU batch calls, 128 × users rows and zero scalar
+decode calls. This confirms the concurrency benefit on a second architecture;
+its C1 and PP rows do not establish an inference-kernel speedup. It is a
+separate direct-executor experiment, not a remeasurement of the historical
+`.157` values below or an HTTP throughput test.
+
 ## Matched protocol
 
 Campaign `reactive-suite-r2` ran **2026-10-01 19:24:01–19:59:02 UTC** using source checkpoint

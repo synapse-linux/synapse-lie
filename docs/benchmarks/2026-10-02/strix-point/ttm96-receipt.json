@@ -1,0 +1,1823 @@
+{
+  "schema": "synapse-lie.strix-point-ttm96.v1",
+  "status": "TTM96_AND_HIP_RUNTIME_PASS_MODEL_INFERENCE_NOT_RUN",
+  "source_checkpoint": "3ea2f3c plus source-bound follow-up",
+  "configuration_sha256": "a7ef9093658bcebdae9155d3d0aac914d85d770e75a0256d6c0867b2c804fb95",
+  "prepare": {
+    "state": "PREPARED",
+    "started_at": "2026-10-02T09:41:56.692401+00:00",
+    "authorization": {
+      "quote": "procedi con il tuning",
+      "scope": "TTM pages_limit=25165824, current kernel initramfs, reboot, verify HIP, resume transfer"
+    },
+    "commands": [
+      {
+        "argv": [
+          "update-initramfs",
+          "-u",
+          "-k",
+          "6.16.3-76061603-generic"
+        ],
+        "exit_code": 0,
+        "log": "/home/pop/workspace/synapse-lie/strix-point-ttm96-r1/update-initramfs.log"
+      },
+      {
+        "argv": [
+          "lsinitramfs",
+          "/boot/initrd.img-6.16.3-76061603-generic"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout_bytes": 179636,
+        "stdout_sha256": "69725186a54885eb48741aaa71315ffe496210385ae5219d1a530e16a95f3fd2",
+        "owned_config_listed": true
+      }
+    ],
+    "exit_code": 0,
+    "lease": {
+      "device": 66308,
+      "inode": 105946405
+    },
+    "before": {
+      "boot_id": "6ca3cc6a-65f5-4c7d-aade-f69b2d99cfc9",
+      "kernel": "6.16.3-76061603-generic",
+      "cmdline": "BOOT_IMAGE=/boot/vmlinuz-6.16.3-76061603-generic root=UUID=720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ro quiet splash vt.handoff=7",
+      "pages_limit": 16179861,
+      "page_pool_size": 16179861,
+      "gtt_total": 66272710656,
+      "config_absent": true,
+      "initramfs_sha256": "90ba9dad26802836203b3ea1f1939bdbbfb7a666c144668db03573f3e2c6d739",
+      "initramfs_bytes": 136845801
+    },
+    "backup": "/home/pop/workspace/synapse-lie/strix-point-ttm96-r1/initramfs.before.img",
+    "config": {
+      "path": "/etc/modprobe.d/90-synapse-lie-ttm.conf",
+      "sha256": "a7ef9093658bcebdae9155d3d0aac914d85d770e75a0256d6c0867b2c804fb95",
+      "text": "# SPDX-License-Identifier: MIT\n# Synapse LIE .161: operator-authorized 96 GiB GPU shared-memory limit.\n# 25165824 pages * 4096 bytes; this maximum does not reserve RAM.\noptions ttm pages_limit=25165824\n",
+      "uid": 0,
+      "mode": "0o644"
+    },
+    "initramfs_pid": 2608754,
+    "after_prepare": {
+      "initramfs_sha256": "5598fbb1442998406a14bb157e13dea423ce893a9b0968f0a7679add512aeb9d",
+      "initramfs_bytes": 136803586,
+      "config_in_initramfs": true,
+      "config_sha256": "a7ef9093658bcebdae9155d3d0aac914d85d770e75a0256d6c0867b2c804fb95"
+    },
+    "lease_released_at": "2026-10-02T09:42:10.049385+00:00",
+    "finished_at": "2026-10-02T09:42:10.049401+00:00"
+  },
+  "reboot_controller": {
+    "ssh_exit_code": 255,
+    "remote_reboot_exit_code": 0,
+    "stderr": "Connection to 192.168.5.161 closed by remote host.",
+    "meaning": "SSH disconnected during accepted reboot; post-boot verification required"
+  },
+  "reboot_request": {
+    "requested_at": "2026-10-02T09:43:58.125867+00:00",
+    "old_boot_id": "6ca3cc6a-65f5-4c7d-aade-f69b2d99cfc9",
+    "argv": [
+      "systemctl",
+      "reboot"
+    ],
+    "authorization_quote": "procedi con il tuning",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "postboot": {
+    "at": "2026-10-02T09:47:03.107792+00:00",
+    "boot_id": "7ada622d-f3c6-45aa-ad5d-4eb69b8e4857",
+    "kernel": "6.16.3-76061603-generic",
+    "prior_postboot_observation": {
+      "exit_code": 1,
+      "error": "card1 absent after reboot; discover GPU via the admitted render node"
+    },
+    "/sys/module/ttm/parameters/pages_limit": 25165824,
+    "/sys/module/ttm/parameters/page_pool_size": 16179936,
+    "/sys/class/drm/renderD128/device/mem_info_gtt_total": 103079215104,
+    "/sys/class/drm/renderD128/device/mem_info_vram_total": 2147483648,
+    "config_sha256": "a7ef9093658bcebdae9155d3d0aac914d85d770e75a0256d6c0867b2c804fb95",
+    "systemctl is-system-running": {
+      "exit_code": 1,
+      "stdout": "degraded\n",
+      "stderr": ""
+    },
+    "systemctl --user show llama-router.service -p ActiveState -p SubState -p MainPID": {
+      "exit_code": 0,
+      "stdout": "MainPID=3848\nActiveState=active\nSubState=running\n",
+      "stderr": ""
+    },
+    "model_files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf.part",
+        "bytes": 17129537536
+      }
+    ]
+  },
+  "boot_loader": {
+    "/etc/default/grub": [
+      "GRUB_DEFAULT=0"
+    ],
+    "/boot/grub/grub.cfg": [
+      "   set default=\"${next_entry}\"",
+      "   set default=\"0\"",
+      "menuentry 'Pop!_OS GNU/Linux' --class pop__os --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-720d3f3a-db4b-4287-bf9c-77cc76bcb7cb' {",
+      "\tlinux\t/boot/vmlinuz-6.16.3-76061603-generic root=UUID=720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ro  quiet splash $vt_handoff",
+      "\tinitrd\t/boot/initrd.img-6.16.3-76061603-generic",
+      "\tmenuentry 'Pop!_OS GNU/Linux, with Linux 6.16.3-76061603-generic' --class pop__os --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-6.16.3-76061603-generic-advanced-720d3f3a-db4b-4287-bf9c-77cc76bcb7cb' {",
+      "\t\tlinux\t/boot/vmlinuz-6.16.3-76061603-generic root=UUID=720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ro  quiet splash $vt_handoff",
+      "\t\tinitrd\t/boot/initrd.img-6.16.3-76061603-generic",
+      "\tmenuentry 'Pop!_OS GNU/Linux, with Linux 6.16.3-76061603-generic (recovery mode)' --class pop__os --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-6.16.3-76061603-generic-recovery-720d3f3a-db4b-4287-bf9c-77cc76bcb7cb' {",
+      "\t\tlinux\t/boot/vmlinuz-6.16.3-76061603-generic root=UUID=720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ro recovery nomodeset dis_ucode_ldr ",
+      "\t\tinitrd\t/boot/initrd.img-6.16.3-76061603-generic",
+      "\t\tmenuentry 'UEFI Firmware Settings' $menuentry_id_option 'uefi-firmware' {"
+    ],
+    "grub_env": {
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "initramfs_log": "update-initramfs: Generating /boot/initrd.img-6.16.3-76061603-generic\nkernelstub.Config    : INFO     Looking for configuration...\nkernelstub           : WARNING  Live mode is enabled!\nKernelstub is running in live environment mode. This usually means that you are running a live disk, and kernelstub should not run. We are thus exiting with 0.\nIf you are not running a live disk, please run `sudo kernelstub` to disable live mode.\n",
+  "prepare_peak_c": {
+    "amdgpu": 38.0,
+    "k10temp": 42.5,
+    "nvme": 46.85
+  },
+  "diagnostics": [
+    {
+      "argv": [
+        "systemctl",
+        "--failed",
+        "--no-pager",
+        "--plain"
+      ],
+      "exit_code": 0,
+      "stdout": "UNIT                   LOAD   ACTIVE SUB    DESCRIPTION\ncosmic-greeter.service loaded failed failed COSMIC Greeter\ngpu-manager.service    loaded failed failed Detect the available GPUs and deal with any system changes\n\nLegend: LOAD   \u2192 Reflects whether the unit definition was properly loaded.\n        ACTIVE \u2192 The high-level unit activation state, i.e. generalization of SUB.\n        SUB    \u2192 The low-level unit activation state, values depend on unit type.\n\n2 loaded units listed.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sudo",
+        "-n",
+        "journalctl",
+        "-b",
+        "_UID=988",
+        "--no-pager",
+        "--grep",
+        "Backend initialized without output"
+      ],
+      "exit_code": 0,
+      "stdout": "ott 02 11:45:25 pop-os cosmic-comp[1567]: Error occured in main(): Backend initialized without output\nott 02 11:45:26 pop-os cosmic-comp[1706]: Error occured in main(): Backend initialized without output\nott 02 11:45:28 pop-os cosmic-comp[1782]: Error occured in main(): Backend initialized without output\nott 02 11:45:29 pop-os cosmic-comp[1883]: Error occured in main(): Backend initialized without output\nott 02 11:45:31 pop-os cosmic-comp[2130]: Error occured in main(): Backend initialized without output\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sudo",
+        "-n",
+        "journalctl",
+        "-k",
+        "-b",
+        "--no-pager",
+        "--grep",
+        "amdgpu|TTM|drm",
+        "-n",
+        "60"
+      ],
+      "exit_code": 0,
+      "stdout": "ott 02 11:45:23 pop-os kernel: snd_hda_intel 0000:c6:00.1: bound 0000:c6:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* amdxdna_probe: Hardware init failed, ret -22\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* aie2_init: start npu failed, ret -22\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* aie2_smu_fini: Power off failed, ret -22\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* aie2_smu_exec: smu cmd 4 failed, 0xff\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* aie2_hw_start: firmware is not alive\nott 02 11:45:23 pop-os kernel: amdxdna 0000:c7:00.1: [drm] *ERROR* aie2_check_protocol: Incompatible firmware protocol major 7 minor 2\nott 02 11:45:23 pop-os systemd[1]: Finished modprobe@drm.service - Load Kernel Module drm.\nott 02 11:45:23 pop-os systemd[1]: modprobe@drm.service: Deactivated successfully.\nott 02 11:45:23 pop-os systemd[1]: Starting modprobe@drm.service - Load Kernel Module drm...\nott 02 11:45:23 pop-os kernel: [drm] pre_validate_dsc:1627 MST_DSC dsc precompute is not needed\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: [drm] Cannot find any crtc or sizes\nott 02 11:45:23 pop-os kernel: [drm] Initialized amdgpu 3.64.0 for 0000:c6:00.0 on minor 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: [drm] Registered 4 planes with drm panic\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: Runtime PM not available\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring vpe uses VM inv eng 4 on hub 8\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring mes_kiq_3.1.0 uses VM inv eng 13 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring jpeg_dec_0 uses VM inv eng 1 on hub 8\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring vcn_unified_0 uses VM inv eng 0 on hub 8\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring sdma0 uses VM inv eng 12 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng 11 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng 10 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng 9 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng 8 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng 7 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng 6 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng 4 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng 1 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: ring gfx_0.0.0 uses VM inv eng 0 on hub 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: SE 1, SH per SE 2, CU per SH 8, active_cu_number 16\nott 02 11:45:23 pop-os kernel: kfd kfd: amdgpu: added device 1002:150e\nott 02 11:45:23 pop-os kernel: amdgpu: Topology: Add dGPU node [0x150e:0x1002]\nott 02 11:45:23 pop-os kernel: amdgpu: Virtual CRAT table created for GPU\nott 02 11:45:23 pop-os kernel: kfd kfd: amdgpu: Total number of KFD nodes to be created: 1\nott 02 11:45:23 pop-os kernel: kfd kfd: amdgpu: Allocated 3969056 bytes on gart\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x0 su_y_granularity 0\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] DMUB hardware initialized: version=0x09003D00\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] DP-HDMI FRL PCON supported\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] Display Core v3.2.334 initialized on DCN 3.5\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: SMU is initialized successfully!\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: SECUREDISPLAY: optional securedisplay ta ucode is not available\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: RAP: optional rap ta ucode is not available\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: RAS: optional ras ta ucode is not available\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: reserve 0x8900000 from 0x8060000000 for PSP TMR\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: Found VCN firmware Version ENC: 1.24 DEC: 9 VEP: 0 Revision: 27\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: [drm] Loading DMUB firmware via PSP: version=0x09003D00\nott 02 11:45:23 pop-os kernel: [drm] PCIE GART of 512M enabled (table at 0x000000807FB00000).\nott 02 11:45:23 pop-os kernel: [drm] GART: num cpu pages 131072, num gpu pages 131072\nott 02 11:45:23 pop-os kernel: [drm] amdgpu: 98304M of GTT memory ready.\nott 02 11:45:23 pop-os kernel: [drm] amdgpu: 2048M of VRAM memory ready\nott 02 11:45:23 pop-os kernel: [drm] RAM width 128bits DDR5\nott 02 11:45:23 pop-os kernel: [drm] Detected VRAM RAM=2048M, BAR=2048M\nott 02 11:45:23 pop-os kernel: amdgpu 0000:c6:00.0: amdgpu: GART: 512M 0x00007FFF00000000 - 0x00007FFF1FFFFFFF\n",
+      "stderr": ""
+    }
+  ],
+  "probe": {
+    "state": "PASSED",
+    "started_at": "2026-10-02T09:46:27.235487+00:00",
+    "pid": 3616,
+    "start_ticks": 7064,
+    "manifest_sha256": "51edd3a0522f131e750482448017b0d486a0f6c16768b170087c9d87258d3e61",
+    "runner_sha256": "2bc49576b88858438050491ae44aef11f608b2d059cbe6d15c890911f2120282",
+    "authorization": {
+      "kind": "operator-one-shot-window",
+      "service": "llama-router.service",
+      "stop_restore_authorized": true,
+      "quote": "llama si pu\u00f2 stoppaare"
+    },
+    "commands": [
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=1994\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "stop",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "create",
+          "--network",
+          "none",
+          "--read-only",
+          "--cap-drop",
+          "ALL",
+          "--security-opt",
+          "no-new-privileges",
+          "--user",
+          "1000:1000",
+          "--group-add",
+          "992",
+          "--pids-limit",
+          "512",
+          "--device",
+          "/dev/kfd",
+          "--device",
+          "/dev/dri/renderD128",
+          "--label",
+          "synapse-lie.run=/home/pop/workspace/synapse-lie/strix-point-gpu-probe-ttm96-r1",
+          "--mount",
+          "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-probe-startup-r2,dst=/bundle,readonly",
+          "--mount",
+          "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-gpu-probe-ttm96-r1,dst=/work",
+          "--mount",
+          "type=bind,src=/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0,dst=/opt/rocm,readonly",
+          "--workdir",
+          "/work",
+          "--env",
+          "LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib",
+          "--env",
+          "LD_BIND_NOW=1",
+          "--env",
+          "LC_ALL=C",
+          "--env",
+          "HOME=/work/home",
+          "--env",
+          "XDG_CACHE_HOME=/work/cache",
+          "--env",
+          "TMPDIR=/work/tmp",
+          "--env",
+          "ROCR_VISIBLE_DEVICES=0",
+          "--env",
+          "HIP_VISIBLE_DEVICES=0",
+          "--entrypoint",
+          "/bundle/runtime/bin/lie-hip-probe",
+          "sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac",
+          "--run"
+        ],
+        "exit_code": 0,
+        "stdout": "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "start",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":3715,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T09:46:27.869595337Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T09:46:27.869595337Z\",\"FinishedAt\":\"2026-10-02T09:46:28.286979591Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "logs",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"scope\":\"GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE\",\"build_id\":\"strix-point-ud-r2\",\"device\":\"HIP\\/70226015\\/70226015\\/device=0\\/arch=gfx1150\\/name=AMD Radeon 890M\\/pci=0:198:0\",\"hip_free_bytes_before\":102919798784,\"hip_total_bytes\":103079215104,\"explicit_allocation_bytes\":48,\"sgemm_elements_verified\":4}\n",
+        "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{index .Config.Labels \"synapse-lie.run\"}}",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "/home/pop/workspace/synapse-lie/strix-point-gpu-probe-ttm96-r1\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "stop",
+          "--time",
+          "10",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "Flag --time has been deprecated, use --timeout instead\n62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "logs",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"scope\":\"GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE\",\"build_id\":\"strix-point-ud-r2\",\"device\":\"HIP\\/70226015\\/70226015\\/device=0\\/arch=gfx1150\\/name=AMD Radeon 890M\\/pci=0:198:0\",\"hip_free_bytes_before\":102919798784,\"hip_total_bytes\":103079215104,\"explicit_allocation_bytes\":48,\"sgemm_elements_verified\":4}\n",
+        "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+      },
+      {
+        "argv": [
+          "docker",
+          "inspect",
+          "--format",
+          "{{json .State}}",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T09:46:27.869595337Z\",\"FinishedAt\":\"2026-10-02T09:46:28.286979591Z\"}\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "rm",
+          "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15"
+        ],
+        "exit_code": 0,
+        "stdout": "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "start",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=3848\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      }
+    ],
+    "container": "62d65bf7d3213db2fc7587e6646061577cd01ae55f769bdd89245b4bd2046c15",
+    "model_attempted": false,
+    "service_restore_required": true,
+    "exit_code": 0,
+    "service_before": {
+      "MainPID": "1994",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "before": {
+      "at": "2026-10-02T09:46:27.242189+00:00",
+      "kfd": [
+        {
+          "pid": 1994,
+          "start_ticks": 1401,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 1994,
+          "start_ticks": 1401,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 399,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 46.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 40.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 45.125,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 124455178240,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [
+        1994
+      ],
+      "gpu": {
+        "gpu_busy_percent": null,
+        "mem_info_gtt_total": null,
+        "mem_info_gtt_used": null,
+        "mem_info_vram_total": null,
+        "mem_info_vram_used": null
+      }
+    },
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66308,
+      "inode": 105946405,
+      "cooperative_lie_only": true
+    },
+    "service_stopped": {
+      "MainPID": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "admission": {
+      "at": "2026-10-02T09:46:27.620668+00:00",
+      "kfd": [],
+      "dri": [],
+      "denied_fd": 397,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 43.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 40.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 47.0,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 124440559616,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [],
+      "gpu": {
+        "gpu_busy_percent": null,
+        "mem_info_gtt_total": null,
+        "mem_info_gtt_used": null,
+        "mem_info_vram_total": null,
+        "mem_info_vram_used": null
+      }
+    },
+    "container_host_pid": 3715,
+    "container_start_ticks": 7137,
+    "container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-02T09:46:27.869595337Z",
+      "FinishedAt": "2026-10-02T09:46:28.286979591Z"
+    },
+    "child_exit_code": 0,
+    "probe": {
+      "scope": "GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE",
+      "build_id": "strix-point-ud-r2",
+      "device": "HIP/70226015/70226015/device=0/arch=gfx1150/name=AMD Radeon 890M/pci=0:198:0",
+      "hip_free_bytes_before": 102919798784,
+      "hip_total_bytes": 103079215104,
+      "explicit_allocation_bytes": 48,
+      "sgemm_elements_verified": 4
+    },
+    "final_container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-02T09:46:27.869595337Z",
+      "FinishedAt": "2026-10-02T09:46:28.286979591Z"
+    },
+    "postflight_before_restore": {
+      "at": "2026-10-02T09:46:29.263637+00:00",
+      "kfd": [],
+      "dri": [],
+      "denied_fd": 398,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 48.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 40.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 44.5,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132546039808,
+        "MemAvailable": 124319805440,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [],
+      "gpu": {
+        "gpu_busy_percent": null,
+        "mem_info_gtt_total": null,
+        "mem_info_gtt_used": null,
+        "mem_info_vram_total": null,
+        "mem_info_vram_used": null
+      }
+    },
+    "service_after": {
+      "MainPID": "3848",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "lease_released_at": "2026-10-02T09:46:29.559297+00:00",
+    "cleanup_failures": [],
+    "ended_at": "2026-10-02T09:46:29.559313+00:00"
+  },
+  "probe_peak_c": {
+    "amdgpu": 41.0,
+    "k10temp": 47.0,
+    "nvme": 47.85
+  },
+  "probe_stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n",
+  "download_r2_interruption": {
+    "state": "FAILED",
+    "started_at": "2026-10-02T09:03:36.164827+00:00",
+    "pid": 2608170,
+    "start_ticks": 463172456,
+    "manifest_sha256": "d282531d543386d6e94c35de7921c5e4635e0d17dd39980929e1081ca94ae23a",
+    "runner_sha256": "1a55677032fb797359a50bf1a26fac1c9f2213b510531a385895e9f1d8c15ecb",
+    "authorization": {
+      "kind": "operator-one-shot-window",
+      "service": "llama-router.service",
+      "stop_restore_authorized": true,
+      "quote": "llama si pu\u00f2 stoppaare"
+    },
+    "commands": [
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=2608115\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "stop",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "start",
+          "llama-router.service"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=ActiveState,SubState,MainPID"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=2608681\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      }
+    ],
+    "container": null,
+    "service_restore_required": true,
+    "exit_code": 1,
+    "service_before": {
+      "MainPID": "2608115",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "before": {
+      "at": "2026-10-02T09:03:36.171858+00:00",
+      "kfd": [
+        {
+          "pid": 2608115,
+          "start_ticks": 463170949,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 2895,
+          "start_ticks": 88672,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/card1"
+          ]
+        },
+        {
+          "pid": 2932,
+          "start_ticks": 88699,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 3313,
+          "start_ticks": 88780,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 2608115,
+          "start_ticks": 463170949,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 382,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 38.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 38.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 38.875,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132545421312,
+        "MemAvailable": 115465887744,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21061697536
+      },
+      "kernel_kfd": [
+        2608115
+      ]
+    },
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66308,
+      "inode": 105946405,
+      "cooperative_lie_only": true
+    },
+    "service_stopped": {
+      "MainPID": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "admission": {
+      "at": "2026-10-02T09:03:36.440908+00:00",
+      "kfd": [],
+      "dri": [
+        {
+          "pid": 2895,
+          "start_ticks": 88672,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/card1"
+          ]
+        },
+        {
+          "pid": 2932,
+          "start_ticks": 88699,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 3313,
+          "start_ticks": 88780,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        }
+      ],
+      "denied_fd": 383,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 32.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 38.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 38.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 38.875,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132545421312,
+        "MemAvailable": 115468890112,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21061697536
+      },
+      "kernel_kfd": []
+    },
+    "child_pid": 2608178,
+    "child_start_ticks": 463172498,
+    "error": "RuntimeError('Interrupted: 15')",
+    "child_exit_code": -15,
+    "postflight_before_restore": {
+      "at": "2026-10-02T09:38:50.154229+00:00",
+      "kfd": [],
+      "dri": [
+        {
+          "pid": 2895,
+          "start_ticks": 88672,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/card1"
+          ]
+        },
+        {
+          "pid": 2932,
+          "start_ticks": 88699,
+          "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 3313,
+          "start_ticks": 88780,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        }
+      ],
+      "denied_fd": 381,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 33.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 41.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 39.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 39.875,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 132545421312,
+        "MemAvailable": 115430776832,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21061730304
+      },
+      "kernel_kfd": []
+    },
+    "service_after": {
+      "MainPID": "2608681",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "lease_released_at": "2026-10-02T09:38:50.229767+00:00",
+    "cleanup_failures": [],
+    "ended_at": "2026-10-02T09:38:50.229783+00:00"
+  },
+  "lan_attempt": {
+    "purpose": "read-only official trunk suffixes, no project-code import",
+    "reason_for_deliberate_stop": "All three hosts route over Wi-Fi; about10 MB/s relay not worth holding the shared .157 window",
+    "controller": {
+      "hosts": {
+        "send": [
+          "paperboy@192.168.5.157",
+          "/home/paperboy/synapse-lie-strix-point/ud-copy-r1"
+        ],
+        "receive": [
+          "pop@192.168.5.161",
+          "/home/pop/workspace/synapse-lie/strix-point-ud-lan-copy-r1"
+        ]
+      },
+      "source_sha256": {
+        "manifest.json": "96f9baa71042f2e5d04cd6d864a09f4a7a10185c2fce60ee63f647327b625a70",
+        "campaign.py": "baa9b831cdbed5bbf932439c6a8f85207c899bf0b9590570c28dba7f8666a729",
+        "lan-copy.py": "d681326c834b92bc31794281b1e99d683f0e9f5b433a86a7d144ef14f216c0d6"
+      },
+      "staging": {
+        "send": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "receive": {
+          "exit_code": 0,
+          "stderr": ""
+        }
+      },
+      "receiver_exit_code": 1,
+      "sender_exit_code": 1
+    },
+    "source": {
+      "state": "FAILED",
+      "started_at": "2026-10-02T09:52:28.567807+00:00",
+      "pid": 2463485,
+      "start_ticks": 150014282,
+      "role": "send",
+      "exit_code": 1,
+      "files": [
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "streamed_bytes": 0
+        }
+      ],
+      "locks": {
+        "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock": [
+          52,
+          3232146
+        ],
+        "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock": [
+          52,
+          3206482
+        ],
+        "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock": [
+          52,
+          3228451
+        ],
+        "/tmp/synapse-lie-ds4-gpu.lock": [
+          55,
+          45067
+        ]
+      },
+      "models_before": [
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 52,
+          "inode": 3206497,
+          "mtime_ns": 1790711324843554872,
+          "ctime_ns": 1790711324862554699
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "device": 52,
+          "inode": 3228516,
+          "mtime_ns": 1790736177583897747,
+          "ctime_ns": 1790736200535707812
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "device": 52,
+          "inode": 3211726,
+          "mtime_ns": 1790722377225361874,
+          "ctime_ns": 1790722399329150549
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "device": 52,
+          "inode": 3207513,
+          "mtime_ns": 1790713947624076845,
+          "ctime_ns": 1790713953424001688
+        }
+      ],
+      "before": {
+        "at": "2026-10-02T09:52:28.568222+00:00",
+        "kfd": [],
+        "dri": [
+          {
+            "pid": 1543,
+            "start_ticks": 1934,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/card1",
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1596,
+            "start_ticks": 1991,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1605,
+            "start_ticks": 1995,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/card1",
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1656,
+            "start_ticks": 2009,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/session.slice/xdg-desktop-portal-hyprland.service\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 2017,
+            "start_ticks": 2716,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-39abc623.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 2178786,
+            "start_ticks": 77281389,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-3a2316b2.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          }
+        ],
+        "denied_fd": 446,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp1_input",
+            "value_c": 44.85,
+            "limit_c": 82.85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp2_input",
+            "value_c": 56.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp3_input",
+            "value_c": 44.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp4_input",
+            "value_c": 44.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp6_input",
+            "value_c": 44.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp7_input",
+            "value_c": 43.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp8_input",
+            "value_c": 43.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp9_input",
+            "value_c": 44.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon2/temp1_input",
+            "value_c": 48.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 49.75,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 134145568768,
+          "MemAvailable": 126412226560,
+          "SwapTotal": 134145372160,
+          "SwapFree": 128276176896
+        },
+        "kernel_kfd": [],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 134145568768,
+          "mem_info_gtt_used": 355864576,
+          "mem_info_vram_total": 536870912,
+          "mem_info_vram_used": 378974208
+        }
+      },
+      "error": "InterruptedError('Transfer interrupted: 15')",
+      "finished_at": "2026-10-02T09:57:00.117377+00:00",
+      "leases_released": true
+    },
+    "destination": {
+      "state": "FAILED",
+      "started_at": "2026-10-02T09:52:28.587637+00:00",
+      "pid": 3985,
+      "start_ticks": 43202,
+      "role": "receive",
+      "exit_code": 1,
+      "files": [
+        {
+          "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 66308,
+          "inode": 106208485,
+          "mtime_ns": 1790931367673069984,
+          "ctime_ns": 1790931367683069853
+        }
+      ],
+      "error": "ValueError('Truncated LAN payload')",
+      "campaign": {
+        "state": "ADMITTED",
+        "started_at": "2026-10-02T09:52:28.587864+00:00",
+        "pid": 3985,
+        "start_ticks": 43202,
+        "manifest_sha256": "96f9baa71042f2e5d04cd6d864a09f4a7a10185c2fce60ee63f647327b625a70",
+        "runner_sha256": "baa9b831cdbed5bbf932439c6a8f85207c899bf0b9590570c28dba7f8666a729",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "commands": [
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=3848\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "stop",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "start",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=4123\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          }
+        ],
+        "container": null,
+        "model_attempted": false,
+        "service_restore_required": true,
+        "exit_code": 1,
+        "service_before": {
+          "MainPID": "3848",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "before": {
+          "at": "2026-10-02T09:52:28.594171+00:00",
+          "kfd": [
+            {
+              "pid": 3848,
+              "start_ticks": 7300,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 3848,
+              "start_ticks": 7300,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 367,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 34.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 34.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 34.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.375,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 124268445696,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [
+            3848
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 18628608,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151105536
+          }
+        },
+        "lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66308,
+          "inode": 105946405,
+          "cooperative_lie_only": true
+        },
+        "service_stopped": {
+          "MainPID": "0",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "admission": {
+          "at": "2026-10-02T09:52:29.096049+00:00",
+          "kfd": [],
+          "dri": [],
+          "denied_fd": 368,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.375,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 124270415872,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 14393344,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151052288
+          }
+        },
+        "postflight_before_restore": {
+          "at": "2026-10-02T09:57:00.912691+00:00",
+          "kfd": [],
+          "dri": [],
+          "denied_fd": 360,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 37.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 38.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 121901469696,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 14393344,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151052288
+          }
+        },
+        "service_after": {
+          "MainPID": "4123",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "lease_released_at": "2026-10-02T09:57:01.019697+00:00",
+        "cleanup_failures": [],
+        "ended_at": "2026-10-02T09:57:01.019713+00:00"
+      },
+      "finished_at": "2026-10-02T09:57:01.020106+00:00",
+      "leases_released": true
+    },
+    "postflight": {
+      "exit_code": 0,
+      "stdout": "{\"sender_absent\": true, \"kfd\": [], \"locks\": [{\"path\": \"/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock\", \"device\": 52, \"inode\": 3232146, \"free\": true}, {\"path\": \"/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock\", \"device\": 52, \"inode\": 3206482, \"free\": true}, {\"path\": \"/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock\", \"device\": 52, \"inode\": 3228451, \"free\": true}, {\"path\": \"/tmp/synapse-lie-ds4-gpu.lock\", \"device\": 55, \"inode\": 45067, \"free\": true}], \"models_unchanged\": true}\n",
+      "stderr": ""
+    },
+    "source_peak_c": {
+      "amdgpu": 51.0,
+      "k10temp": 51.75,
+      "nvme": 57.85
+    },
+    "destination_peak_c": {
+      "amdgpu": 38.0,
+      "k10temp": 44.875,
+      "nvme": 50.85
+    }
+  },
+  "tests": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/strix-point-local-r3"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/strix-point-local-r3",
+        "--output-on-failure",
+        "-R",
+        "strix-point-(campaign|download|lan-copy)-controls|core-bench-contract"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/strix-point-local-r3",
+        "--output-on-failure",
+        "-R",
+        "strix-point-(campaign|download|lan-copy)-controls|core-bench-contract"
+      ],
+      "exit_code": 0,
+      "source_sha256": {
+        "tools/strix-point-campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+        "tools/strix-point-lan-copy.py": "d681326c834b92bc31794281b1e99d683f0e9f5b433a86a7d144ef14f216c0d6",
+        "tests/test_strix_point_lan_copy.py": "cbd4c281786e0fee26ee1c3115a8e99636785183c1c0add795b47596f8676444"
+      }
+    }
+  ],
+  "test_output": "Test project /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n    Start 22: strix-point-campaign-controls\n1/4 Test #22: strix-point-campaign-controls ....   Passed    0.07 sec\n    Start 23: strix-point-download-controls\n2/4 Test #23: strix-point-download-controls ....   Passed    0.06 sec\n    Start 24: strix-point-lan-copy-controls\n3/4 Test #24: strix-point-lan-copy-controls ....   Passed    0.05 sec\n    Start 36: core-bench-contract\n4/4 Test #36: core-bench-contract ..............   Passed    1.71 sec\n\n100% tests passed out of 4\n\nTotal Test time (real) =   1.89 sec\n",
+  "download_resume_observation": {
+    "exit_code": 0,
+    "stdout": "{\"state\": \"DOWNLOADING\", \"pid\": 4216, \"start_ticks\": 81029, \"child_pid\": 4224, \"child_start_ticks\": 81071, \"lease\": {\"path\": \"/home/pop/workspace/synapse-lie/campaign.lock\", \"device\": 66308, \"inode\": 105946405, \"cooperative_lie_only\": true}}\n{\n  \"at\": \"2026-10-02T09:59:23.650086+00:00\",\n  \"file\": \"Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf\",\n  \"file_bytes\": 19337117696,\n  \"completed_bytes\": 19348064320,\n  \"total_bytes\": 111334654784,\n  \"elapsed_s\": 36.372015487\n}\n\n",
+    "stderr": ""
+  },
+  "raw_sha256": {
+    "evidence/strix-point-ttm96-r1/boot-loader.json": "525559fc16315d0fa11d717f5524cb4f56879692a6ba43fde7034df8d911a448",
+    "evidence/strix-point-ttm96-r1/controller-plan.json": "ddf71539c90c93a00e304d35c3ef441107ab6dab51baf5b9cab0a03de05d879e",
+    "evidence/strix-point-ttm96-r1/controller-result.json": "e89df0eae5ec7db81135aed16463968955c578bcc4f2ec43172eff351f080c17",
+    "evidence/strix-point-ttm96-r1/controller-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-ttm96-r1/controller-stdout.log": "44899d02c2f0b432fa7f03fd5395340f51d66b7bac22daa37fe3e17f5fa1aec4",
+    "evidence/strix-point-ttm96-r1/postboot-diagnostic-0.json": "2a1b392886167b2f64a763c26db9a859f978b4e30a004ecea68c33cf37e28cce",
+    "evidence/strix-point-ttm96-r1/postboot-diagnostic-1.json": "ffcfcdfe3c0853c357d53a79fd920b14e791ef20a20c339f2bab7f8f17c1908a",
+    "evidence/strix-point-ttm96-r1/postboot-diagnostic-2.json": "69184a5e0f0e0f87cb7ce780f75954ae1c58835e8d116ee0843ff2672cdec176",
+    "evidence/strix-point-ttm96-r1/postboot.json": "3bfbc0ac2d3341b6a0d0b3dcea1a317b2a099fb0ef7bb432e165ff942c476b07",
+    "evidence/strix-point-ttm96-r1/prepare-result.json": "38a8f54a4e5f30c6a7199e5c1c091d5382c0d3d9b2e887e23425014a7e9eaa8b",
+    "evidence/strix-point-ttm96-r1/prepare.py": "538dc297aa05951b9cce79d5a5af5488c2cf6e8b1ed36e65548181ea038fbd02",
+    "evidence/strix-point-ttm96-r1/reboot-controller-result.json": "a5fd9003db29662d9366b0d8f566a5b1d871ef793bb4f45f8d502203ceeaec40",
+    "evidence/strix-point-ttm96-r1/reboot-request.json": "486bcf4e12cb2ea9f487980c99fcc39bae687820f5b780ab44e430443c15c2a9",
+    "evidence/strix-point-ttm96-r1/reconnect.jsonl": "f6b9821c267b0ed9aef654f5719995f21c14e7ab0db0713a7be948e9ca5e8670",
+    "evidence/strix-point-ttm96-r1/rollback.py": "21160262a825a2c79bbf65b528aa8318d98cbe0f0e55f164c579042af64bb5a7",
+    "evidence/strix-point-ttm96-r1/thermal.jsonl": "eb3eb381f0a8efee0999e20fc0f1f4c871217dbd4843991e318fe1fbef6d8c78",
+    "evidence/strix-point-ttm96-r1/update-initramfs.log": "8d35288a633376a014df8fd4499d024db6b9e6e150fa06938e2e3b1a8d52d0d1",
+    "evidence/strix-point-gpu-probe-ttm96-r1/controller-result.json": "9474fab5f92cdbfce0390574a731d4ded8ce248e71c98eac5537fffc1fd938bb",
+    "evidence/strix-point-gpu-probe-ttm96-r1/controller-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-gpu-probe-ttm96-r1/controller-stdout.log": "609c384b01cf3d0d486e1ae1b185e05f0d48c390e0d1a78cdf111cfc0dd22040",
+    "evidence/strix-point-gpu-probe-ttm96-r1/manifest.json": "51edd3a0522f131e750482448017b0d486a0f6c16768b170087c9d87258d3e61",
+    "evidence/strix-point-gpu-probe-ttm96-r1/plan.json": "4c36c4ace3c808e9fb945075984d8e4c6aee1231b08f377a2e5586b2cf9b0b96",
+    "evidence/strix-point-gpu-probe-ttm96-r1/result.json": "1a0244a2a282f170eea2244b8f023292be82f454f84448e2d671efc62c8e5e09",
+    "evidence/strix-point-gpu-probe-ttm96-r1/runner.py": "2bc49576b88858438050491ae44aef11f608b2d059cbe6d15c890911f2120282",
+    "evidence/strix-point-gpu-probe-ttm96-r1/stderr.log": "81057a0e98a65ea85500dd419c4f174dfa9674491c55c2475c4cb8456fb1b21e",
+    "evidence/strix-point-gpu-probe-ttm96-r1/stdout.log": "14fec0a190530a0504331f2a408bedd757d2d8db2ab91118cc221bfddf9b2883",
+    "evidence/strix-point-gpu-probe-ttm96-r1/telemetry.jsonl": "200d57e2f1da011a4d2a0c1cb732d70ce2f4d18f3a7614464484778799849c2e",
+    "evidence/strix-point-lan-copy-r1/send/copy-progress.json": "e9b8d584ccd9c644ba91c5bc1aa933ed58876db3fd22ecc95190d2eb1492bf7f",
+    "evidence/strix-point-lan-copy-r1/send/copy-result.json": "08a919606f0094d73051ae6e06108c235721ca98e51b61ea07e697d8c14e6ca6",
+    "evidence/strix-point-lan-copy-r1/send/telemetry.jsonl": "4fd72f9bf3dcd69b836bdad76b863bf3f810ed3aa07031f1a731d0fa60174d47",
+    "evidence/strix-point-lan-copy-r1/receive/copy-progress.json": "4d7faa807e5748f20a3100fe7c9c38ba704bc0fa5e23030a9d0b870954921407",
+    "evidence/strix-point-lan-copy-r1/receive/copy-result.json": "0198dcd4a143b6030faead20c5c713607178878cdb4aebddbdaea9bb392f920b",
+    "evidence/strix-point-lan-copy-r1/receive/telemetry.jsonl": "df71c46e3d73cd75e0d0201cdb101a1cd2be88a9e056d859d0899517730d859c",
+    "evidence/point-tuning-controls-r1/0.json": "5d562f6d0a5c6db93ebc1c648d4d4210ff557adf8280badf6c14b629d13ec0f2",
+    "evidence/point-tuning-controls-r1/0.log": "e9a33f3e69ea87b9cec87c50114cb713a6c572de948a320f85e4915fe9a6576c",
+    "evidence/point-tuning-controls-r1/1.json": "10f1f323ddd7cf89d89ee8ee4ef92ea3f459c1f1300d2dd581c4889acfa1fd6a",
+    "evidence/point-tuning-controls-r1/1.log": "654c4a9a24fecf0c57197786cac6f761b407c924d49db4e2c88654952206714a",
+    "evidence/point-tuning-controls-r1/2.json": "c3af5650a1de24a759396ea290f1460f55354dc75ddc6758df185b956aa504be",
+    "evidence/point-tuning-controls-r1/2.log": "e6f12ce407b611fc3d239ccb9afa13db41ee5bbe38f0f216211ac0d18223d411"
+  },
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+    "tools/strix-point-lan-copy.py": "d681326c834b92bc31794281b1e99d683f0e9f5b433a86a7d144ef14f216c0d6",
+    "tests/test_strix_point_lan_copy.py": "cbd4c281786e0fee26ee1c3115a8e99636785183c1c0add795b47596f8676444",
+    "config/strix-point-ttm96.conf": "a7ef9093658bcebdae9155d3d0aac914d85d770e75a0256d6c0867b2c804fb95",
+    "docs/benchmarks/2026-10-02/strix-point/ttm96/prepare.py": "538dc297aa05951b9cce79d5a5af5488c2cf6e8b1ed36e65548181ea038fbd02",
+    "docs/benchmarks/2026-10-02/strix-point/ttm96/rollback.py": "21160262a825a2c79bbf65b528aa8318d98cbe0f0e55f164c579042af64bb5a7"
+  },
+  "final_test_output": "Test project /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n    Start 22: strix-point-campaign-controls\n1/4 Test #22: strix-point-campaign-controls ....   Passed    0.06 sec\n    Start 23: strix-point-download-controls\n2/4 Test #23: strix-point-download-controls ....   Passed    0.07 sec\n    Start 24: strix-point-lan-copy-controls\n3/4 Test #24: strix-point-lan-copy-controls ....   Passed    0.05 sec\n    Start 36: core-bench-contract\n4/4 Test #36: core-bench-contract ..............   Passed    1.70 sec\n\n100% tests passed out of 4\n\nTotal Test time (real) =   1.89 sec\n"
+}

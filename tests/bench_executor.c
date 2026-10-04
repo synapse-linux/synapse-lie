@@ -26,6 +26,7 @@ lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t
     id->bytes[13]=(unsigned char)m->vision;*domain=m->domain;return LIE_OK;
 }
 lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model **m,lie_error *e) {
+    if(!strcmp(p,":load-failure:")){snprintf(e->message,sizeof(e->message),"synthetic model allocation failure");return LIE_BACKEND_FAILED;}
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
     const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:"};

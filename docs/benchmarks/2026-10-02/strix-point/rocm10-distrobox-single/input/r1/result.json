@@ -1,0 +1,579 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-02T19:32:30.915930+00:00",
+  "pid": 8332,
+  "start_ticks": 179336,
+  "manifest_sha256": "28d012dcf02e038fd5b6995b7f1ef6db53faeb514921b3bdd43844133a104b53",
+  "runner_sha256": "de41ff51000e40b03552fdfad1e91a0572123e54dc8bef17a2c332bac2f7b618",
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "service": "llama-router.service",
+    "stop_restore_authorized": true,
+    "quote": "llama si pu\u00f2 stoppaare"
+  },
+  "commands": [
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=7704\nActiveState=active\nSubState=running\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "stop",
+        "llama-router.service"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+        "--format",
+        "{{json .}}"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Id\":\"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\",\"RepoTags\":[\"synapse-lie-rocm10-fedora43:gfx1150-r1\"],\"RepoDigests\":[\"synapse-lie-rocm10-fedora43@sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\"],\"Comment\":\"buildkit.dockerfile.v0\",\"Created\":\"2026-10-02T19:16:28.263797555+02:00\",\"Author\":\"Fedora Project Contributors <devel@lists.fedoraproject.org>\",\"Config\":{\"Env\":[\"PATH=/opt/rocm/bin:/usr/local/bin:/usr/bin\",\"container=oci\",\"ROCM_PATH=/opt/rocm\",\"HIP_PATH=/opt/rocm\",\"LD_LIBRARY_PATH=/opt/rocm/lib\"],\"Cmd\":[\"/bin/bash\"],\"WorkingDir\":\"/\",\"Labels\":{\"io.buildah.version\":\"1.43.2\",\"license\":\"MIT\",\"name\":\"fedora\",\"org.opencontainers.image.license\":\"MIT\",\"org.opencontainers.image.licenses\":\"MIT\",\"org.opencontainers.image.name\":\"fedora\",\"org.opencontainers.image.title\":\"fedora\",\"org.opencontainers.image.url\":\"https://fedoraproject.org/\",\"org.opencontainers.image.vendor\":\"Fedora Project\",\"org.opencontainers.image.version\":\"43\",\"vendor\":\"Fedora Project\",\"version\":\"43\"}},\"Architecture\":\"amd64\",\"Os\":\"linux\",\"Size\":3776066333,\"RootFS\":{\"Type\":\"layers\",\"Layers\":[\"sha256:396378d2e2acf3d6c7321c56c8358e507aa171943c090f70d460be25dfc59958\",\"sha256:a652b6b42b28f0aa8d0ec546411d632183c156ed8410f4b23eebfc3e1f17aa2b\",\"sha256:ea8e012c14db390c3b13629a9baff2b2d844bc1357add0e19050d14fb5a97b74\",\"sha256:c41b2aec9d32bc9d77a8779f9d02feea8f0bcff8e0f2e7f2747434519bfcf277\"]},\"Metadata\":{\"LastTagTime\":\"2026-10-02T17:18:17.53999165Z\"},\"Descriptor\":{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\",\"size\":856}}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "lie-rocm10-single-k715-r1",
+        "--format",
+        "{{json .}}"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Id\":\"c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4\",\"Created\":\"2026-10-02T19:32:31.720312397Z\",\"Path\":\"/usr/bin/entrypoint\",\"Args\":[\"--verbose\",\"--name\",\"pop\",\"--user\",\"1000\",\"--group\",\"1000\",\"--home\",\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home\",\"--init\",\"0\",\"--nvidia\",\"0\",\"--pre-init-hooks\",\"\",\"--additional-packages\",\"\",\"--\",\"\"],\"State\":{\"Status\":\"created\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"0001-01-01T00:00:00Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"},\"Image\":\"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\",\"ResolvConfPath\":\"\",\"HostnamePath\":\"\",\"HostsPath\":\"\",\"LogPath\":\"\",\"Name\":\"/lie-rocm10-single-k715-r1\",\"RestartCount\":0,\"Driver\":\"overlayfs\",\"Platform\":\"linux\",\"MountLabel\":\"\",\"ProcessLabel\":\"\",\"AppArmorProfile\":\"unconfined\",\"ExecIDs\":null,\"HostConfig\":{\"Binds\":[\"/usr/bin/distrobox-init:/usr/bin/entrypoint:ro\",\"/home/pop:/home/pop:rslave\",\"/tmp:/tmp:rslave\",\"/usr/bin/distrobox-host-exec:/usr/bin/distrobox-host-exec:ro\",\"/sys:/sys:rslave\",\"/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee:/model:ro\",\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1:/work:rw\",\"/usr/bin/distrobox-export:/usr/bin/distrobox-export:ro\",\"/dev/null:/dev/ptmx\",\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home:/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home:rslave\",\"/etc/hosts:/etc/hosts:ro\",\"/etc/resolv.conf:/etc/resolv.conf:ro\",\"/:/run/host:rslave\",\"/dev:/dev:rslave\",\"/run/user/1000:/run/user/1000:rslave\",\"/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-r1:/bundle:ro\"],\"ContainerIDFile\":\"\",\"LogConfig\":{\"Type\":\"json-file\",\"Config\":{}},\"NetworkMode\":\"host\",\"PortBindings\":{},\"RestartPolicy\":{\"Name\":\"no\",\"MaximumRetryCount\":0},\"AutoRemove\":false,\"VolumeDriver\":\"\",\"VolumesFrom\":null,\"ConsoleSize\":[0,0],\"CapAdd\":null,\"CapDrop\":null,\"CgroupnsMode\":\"private\",\"Dns\":null,\"DnsOptions\":[],\"DnsSearch\":[],\"ExtraHosts\":null,\"GroupAdd\":[\"992\"],\"IpcMode\":\"host\",\"Cgroup\":\"\",\"Links\":null,\"OomScoreAdj\":0,\"PidMode\":\"host\",\"Privileged\":true,\"PublishAllPorts\":false,\"ReadonlyRootfs\":false,\"SecurityOpt\":[\"label=disable\",\"apparmor=unconfined\"],\"UTSMode\":\"\",\"UsernsMode\":\"\",\"ShmSize\":67108864,\"Runtime\":\"runc\",\"Isolation\":\"\",\"CpuShares\":0,\"Memory\":0,\"NanoCpus\":0,\"CgroupParent\":\"\",\"BlkioWeight\":0,\"BlkioWeightDevice\":[],\"BlkioDeviceReadBps\":[],\"BlkioDeviceWriteBps\":[],\"BlkioDeviceReadIOps\":[],\"BlkioDeviceWriteIOps\":[],\"CpuPeriod\":0,\"CpuQuota\":0,\"CpuRealtimePeriod\":0,\"CpuRealtimeRuntime\":0,\"CpusetCpus\":\"\",\"CpusetMems\":\"\",\"Devices\":[{\"PathOnHost\":\"/dev/kfd\",\"PathInContainer\":\"/dev/kfd\",\"CgroupPermissions\":\"rwm\"},{\"PathOnHost\":\"/dev/dri/renderD128\",\"PathInContainer\":\"/dev/dri/renderD128\",\"CgroupPermissions\":\"rwm\"}],\"DeviceCgroupRules\":null,\"DeviceRequests\":null,\"MemoryReservation\":0,\"MemorySwap\":0,\"MemorySwappiness\":null,\"OomKillDisable\":false,\"PidsLimit\":512,\"Ulimits\":[],\"CpuCount\":0,\"CpuPercent\":0,\"IOMaximumIOps\":0,\"IOMaximumBandwidth\":0,\"MaskedPaths\":null,\"ReadonlyPaths\":null},\"Storage\":{\"RootFS\":{\"Snapshot\":{\"Name\":\"overlayfs\"}}},\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"/tmp\",\"Destination\":\"/tmp\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"bind\",\"Source\":\"/run/user/1000\",\"Destination\":\"/run/user/1000\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"volume\",\"Name\":\"58fc6c6fe14015a4d7f21a89764525926c541582073d557595447a593593a048\",\"Source\":\"/var/lib/docker/volumes/58fc6c6fe14015a4d7f21a89764525926c541582073d557595447a593593a048/_data\",\"Destination\":\"/dev/pts\",\"Driver\":\"local\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"},{\"Type\":\"bind\",\"Source\":\"/home/pop\",\"Destination\":\"/home/pop\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"volume\",\"Name\":\"7b0e145dd1ef9bcad202fc9f039631f6acf99cc8a868c2d26c2bb58f5c374308\",\"Source\":\"/var/lib/docker/volumes/7b0e145dd1ef9bcad202fc9f039631f6acf99cc8a868c2d26c2bb58f5c374308/_data\",\"Destination\":\"/var/log/journal\",\"Driver\":\"local\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"\"},{\"Type\":\"bind\",\"Source\":\"/usr/bin/distrobox-init\",\"Destination\":\"/usr/bin/entrypoint\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/usr/bin/distrobox-host-exec\",\"Destination\":\"/usr/bin/distrobox-host-exec\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/sys\",\"Destination\":\"/sys\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"bind\",\"Source\":\"/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee\",\"Destination\":\"/model\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/usr/bin/distrobox-export\",\"Destination\":\"/usr/bin/distrobox-export\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/etc/resolv.conf\",\"Destination\":\"/etc/resolv.conf\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/\",\"Destination\":\"/run/host\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"bind\",\"Source\":\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1\",\"Destination\":\"/work\",\"Mode\":\"rw\",\"RW\":true,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/dev/null\",\"Destination\":\"/dev/ptmx\",\"Mode\":\"\",\"RW\":true,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home\",\"Destination\":\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"bind\",\"Source\":\"/etc/hosts\",\"Destination\":\"/etc/hosts\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"},{\"Type\":\"bind\",\"Source\":\"/dev\",\"Destination\":\"/dev\",\"Mode\":\"rslave\",\"RW\":true,\"Propagation\":\"rslave\"},{\"Type\":\"bind\",\"Source\":\"/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-r1\",\"Destination\":\"/bundle\",\"Mode\":\"ro\",\"RW\":false,\"Propagation\":\"rprivate\"}],\"Config\":{\"Hostname\":\"lie-rocm10-single-k715-r1.pop-os\",\"Domainname\":\"\",\"User\":\"root:root\",\"AttachStdin\":false,\"AttachStdout\":true,\"AttachStderr\":true,\"Tty\":false,\"OpenStdin\":false,\"StdinOnce\":false,\"Env\":[\"DISTROBOX_HOST_HOME=/home/pop\",\"SHELL=bash\",\"HOME=/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home\",\"container=docker\",\"TERMINFO_DIRS=/usr/share/terminfo:/run/host/usr/share/terminfo\",\"PATH=/opt/rocm/bin:/usr/local/bin:/usr/bin\",\"ROCM_PATH=/opt/rocm\",\"HIP_PATH=/opt/rocm\",\"LD_LIBRARY_PATH=/opt/rocm/lib\"],\"Cmd\":[\"--verbose\",\"--name\",\"pop\",\"--user\",\"1000\",\"--group\",\"1000\",\"--home\",\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home\",\"--init\",\"0\",\"--nvidia\",\"0\",\"--pre-init-hooks\",\"\",\"--additional-packages\",\"\",\"--\",\"\"],\"Image\":\"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\",\"Volumes\":{\"/dev/pts\":{},\"/var/log/journal\":{}},\"WorkingDir\":\"/\",\"Entrypoint\":[\"/usr/bin/entrypoint\"],\"Labels\":{\"distrobox.unshare_groups\":\"0\",\"io.buildah.version\":\"1.43.2\",\"license\":\"MIT\",\"manager\":\"distrobox\",\"name\":\"fedora\",\"org.opencontainers.image.license\":\"MIT\",\"org.opencontainers.image.licenses\":\"MIT\",\"org.opencontainers.image.name\":\"fedora\",\"org.opencontainers.image.title\":\"fedora\",\"org.opencontainers.image.url\":\"https://fedoraproject.org/\",\"org.opencontainers.image.vendor\":\"Fedora Project\",\"org.opencontainers.image.version\":\"43\",\"synapse-lie.run\":\"/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1\",\"vendor\":\"Fedora Project\",\"version\":\"43\"}},\"NetworkSettings\":{\"SandboxID\":\"\",\"SandboxKey\":\"\",\"Ports\":{},\"Networks\":{\"host\":{\"IPAMConfig\":null,\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"\",\"EndpointID\":\"\",\"Gateway\":\"\",\"IPAddress\":\"\",\"MacAddress\":\"\",\"IPPrefixLen\":0,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":null},\"none\":{\"IPAMConfig\":null,\"Links\":null,\"Aliases\":null,\"DriverOpts\":null,\"GwPriority\":0,\"NetworkID\":\"\",\"EndpointID\":\"\",\"Gateway\":\"\",\"IPAddress\":\"\",\"MacAddress\":\"\",\"IPPrefixLen\":0,\"IPv6Gateway\":\"\",\"GlobalIPv6Address\":\"\",\"GlobalIPv6PrefixLen\":0,\"DNSNames\":null}}},\"ImageManifestDescriptor\":{\"mediaType\":\"application/vnd.oci.image.manifest.v1+json\",\"digest\":\"sha256:f902d36c283eaf214f2e99ca6b84dd6e98789b619c45e5fc132d3496dcdbe3b2\",\"size\":1066,\"platform\":{\"architecture\":\"amd64\",\"os\":\"linux\"}}}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{index .Config.Labels \"synapse-lie.run\"}}",
+        "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4"
+      ],
+      "exit_code": 0,
+      "stdout": "/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "stop",
+        "--time",
+        "10",
+        "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4"
+      ],
+      "exit_code": 0,
+      "stdout": "Flag --time has been deprecated, use --timeout instead\nc1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "logs",
+        "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"created\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":128,\"Error\":\"failed to set up container networking: container sharing network namespace with another container or host cannot be connected to any other network\",\"StartedAt\":\"0001-01-01T00:00:00Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "rm",
+        "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4"
+      ],
+      "exit_code": 0,
+      "stdout": "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "start",
+        "llama-router.service"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=8672\nActiveState=active\nSubState=running\n",
+      "stderr": ""
+    }
+  ],
+  "container": "c1d1ff564d2bfeb58b0ec24312a5579c71fc51e41eea992e2c54c6057ca7d0b4",
+  "thermal_ceiling_c": 100.0,
+  "model_attempted": true,
+  "service_restore_required": true,
+  "exit_code": 1,
+  "service_before": {
+    "MainPID": "7704",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "before": {
+    "at": "2026-10-02T19:32:30.922644+00:00",
+    "kfd": [
+      {
+        "pid": 7704,
+        "start_ticks": 79489,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "dri": [
+      {
+        "pid": 7704,
+        "start_ticks": 79489,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "denied_fd": 363,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 32.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 35.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 32.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 35.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 31.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 35.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 37.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 37.5,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132542648320,
+      "MemAvailable": 123432116224,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474828288
+    },
+    "kernel_kfd": [
+      7704
+    ],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 18636800,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151183360
+    }
+  },
+  "lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66308,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "service_stopped": {
+    "MainPID": "0",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "admission": {
+    "at": "2026-10-02T19:32:31.340047+00:00",
+    "kfd": [],
+    "dri": [],
+    "denied_fd": 363,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 32.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 35.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 32.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 34.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 32.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 34.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 37.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 37.5,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132542648320,
+      "MemAvailable": 123442331648,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474828288
+    },
+    "kernel_kfd": [],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 14401536,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151134208
+    }
+  },
+  "models_before": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66308,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66308,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66308,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66308,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    }
+  ],
+  "bench_command": [
+    "/bundle/runtime/bin/synapse-lie-bench",
+    "--suite",
+    "single",
+    "--model",
+    "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--output",
+    "/work/measurements.jsonl",
+    "--pp",
+    "2048",
+    "--tg",
+    "128",
+    "--warmups",
+    "1",
+    "--repetitions",
+    "1",
+    "--depths",
+    "0,4096,8192,12288,16384,32768,65536,131072",
+    "--execution",
+    "reactive"
+  ],
+  "distrobox": {
+    "name": "lie-rocm10-single-k715-r1",
+    "create_argv": [
+      "distrobox",
+      "create",
+      "--yes",
+      "--image",
+      "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "--name",
+      "lie-rocm10-single-k715-r1",
+      "--home",
+      "/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1/home",
+      "--volume",
+      "/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-r1:/bundle:ro",
+      "--volume",
+      "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee:/model:ro",
+      "--volume",
+      "/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1:/work:rw",
+      "--additional-flags",
+      "--device /dev/kfd --device /dev/dri/renderD128 --group-add 992 --pids-limit 512 --network none --label synapse-lie.run=/home/pop/workspace/synapse-lie/rocm10-point-distrobox-single-kernel715-r1",
+      "--no-entry"
+    ],
+    "create_exit_code": 0,
+    "enter_argv": [
+      "distrobox",
+      "enter",
+      "--no-tty",
+      "--name",
+      "lie-rocm10-single-k715-r1",
+      "--",
+      "/usr/bin/env",
+      "LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib",
+      "LC_ALL=C",
+      "ROCR_VISIBLE_DEVICES=0",
+      "HIP_VISIBLE_DEVICES=0",
+      "/bundle/runtime/bin/synapse-lie-bench",
+      "--suite",
+      "single",
+      "--model",
+      "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "--output",
+      "/work/measurements.jsonl",
+      "--pp",
+      "2048",
+      "--tg",
+      "128",
+      "--warmups",
+      "1",
+      "--repetitions",
+      "1",
+      "--depths",
+      "0,4096,8192,12288,16384,32768,65536,131072",
+      "--execution",
+      "reactive"
+    ]
+  },
+  "child_pid": 8433,
+  "child_start_ticks": 179426,
+  "child_exit_code": 1,
+  "models_after": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66308,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66308,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66308,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66308,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    }
+  ],
+  "model_stat_unchanged": true,
+  "error": "RuntimeError('Distrobox benchmark failed; see retained logs')",
+  "final_container_state": {
+    "Status": "created",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 128,
+    "Error": "failed to set up container networking: container sharing network namespace with another container or host cannot be connected to any other network",
+    "StartedAt": "0001-01-01T00:00:00Z",
+    "FinishedAt": "0001-01-01T00:00:00Z"
+  },
+  "postflight_before_restore": {
+    "at": "2026-10-02T19:32:32.951732+00:00",
+    "kfd": [],
+    "dri": [],
+    "denied_fd": 368,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 32.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 37.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 32.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 34.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 33.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 34.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 37.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 37.625,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132542648320,
+      "MemAvailable": 123434860544,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474828288
+    },
+    "kernel_kfd": [],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 14401536,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151134208
+    }
+  },
+  "service_after": {
+    "MainPID": "8672",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "lease_released_at": "2026-10-02T19:32:33.150406+00:00",
+  "cleanup_failures": [],
+  "ended_at": "2026-10-02T19:32:33.150418+00:00"
+}

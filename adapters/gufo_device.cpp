@@ -3,6 +3,30 @@
 #include <hip/hip_runtime_api.h>
 #include <cstdio>
 #include <cstdlib>
+#include "lie/executor.h"
+#include "gufo_arch.h"
+#ifndef LIE_HIP_ARCHITECTURE
+#error "The linked provider requires an explicit verified HIP target"
+#endif
+extern "C" lie_status lie_gufo_device_validate(lie_error *error) noexcept {
+    auto fail = [error](lie_status status, const char *message) {
+        if (error) std::snprintf(error->message, sizeof(error->message), "%s", message);
+        return status;
+    };
+    if (std::getenv("HSA_OVERRIDE_GFX_VERSION"))
+        return fail(LIE_UNSUPPORTED, "HSA_OVERRIDE_GFX_VERSION is unsupported; use the real HIP target");
+    int device = 0;
+    hipDeviceProp_t properties{};
+    if (hipGetDevice(&device) != hipSuccess || hipGetDeviceProperties(&properties, device) != hipSuccess)
+        return fail(LIE_BACKEND_FAILED, "HIP device properties unavailable");
+    if (!lie_gufo_arch_matches(properties.gcnArchName, LIE_HIP_ARCHITECTURE) || properties.warpSize != 32) {
+        if (error) std::snprintf(error->message, sizeof(error->message),
+            "HIP target mismatch: built for %s wave32, found %.128s wave%d",
+            LIE_HIP_ARCHITECTURE, properties.gcnArchName, properties.warpSize);
+        return LIE_UNSUPPORTED;
+    }
+    return LIE_OK;
+}
 extern "C" int lie_gufo_device_identity(char *out,size_t cap) noexcept {
     int device=0,driver=0,runtime=0;hipDeviceProp_t properties{};
     if(hipGetDevice(&device)!=hipSuccess||hipGetDeviceProperties(&properties,device)!=hipSuccess||

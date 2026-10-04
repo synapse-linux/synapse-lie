@@ -1,0 +1,75 @@
+{
+  "primary": {
+    "identity": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "strix-point-ud-r3",
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "synthetic": false,
+      "suite": "loading",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 0,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "prefill_chunk": 2048,
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "LIE-reactive-ready-batch"
+    },
+    "source": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/docs/benchmarks/2026-10-02/strix-point/loading-256k/input/measurements.jsonl",
+    "source_sha256": "7acc6fb7b013d1e533c98baee758da92e86183dcaf1ff8d200d298873adc851f",
+    "configurations": [],
+    "loading": [
+      {
+        "event": "model_loaded",
+        "context_capacity": 262144,
+        "users": 1,
+        "model_load_ns": 13750589557,
+        "resident_bytes_estimate": 82384141824,
+        "session_bytes_estimate": 6786984980,
+        "loading_scope": "model load in existing OS cache conditions; excludes HTTP readiness, not cold-file loading"
+      }
+    ]
+  },
+  "reference": {
+    "identity": {
+      "event": "identity",
+      "schema": "synapse-lie.bench.v1",
+      "program": "synapse-lie-bench",
+      "build_id": "strix-point-ud-r3",
+      "engine": "gufo-direct-c1-reference",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "ownership": "delegated",
+      "synthetic": false,
+      "suite": "loading",
+      "mode": "ar",
+      "pp_target": 2048,
+      "output_limit": 128,
+      "repetitions": 1,
+      "warmups": 0,
+      "scope": "simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels",
+      "prefill_chunk": 2048,
+      "unsupported": "MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle",
+      "execution": "upstream-native-batch"
+    },
+    "source": "/home/paperboy/.codex/worktrees/4d2b/synapse-lie/docs/benchmarks/2026-10-02/strix-point/loading-256k/input/gufo/measurements.jsonl",
+    "source_sha256": "a885be309fcbb8009a645dc94258005ac97576114ad0a08f222c99fddfee153a",
+    "configurations": [],
+    "loading": [
+      {
+        "event": "model_loaded",
+        "context_capacity": 262144,
+        "users": 1,
+        "model_load_ns": 13695302901,
+        "resident_bytes_estimate": 82384141824,
+        "session_bytes_estimate": 6786984980,
+        "loading_scope": "model load in existing OS cache conditions; excludes HTTP readiness, not cold-file loading"
+      }
+    ]
+  },
+  "comparison": []
+}

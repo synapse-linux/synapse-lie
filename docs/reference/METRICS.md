@@ -205,7 +205,9 @@ Core snapshots own `cache`: byte budget, retained and peak logical bytes,
 lookups, hits, misses, reused tokens, captures, evictions, skipped captures and
 entry count. `retention_policy` identifies utility-v1 or LRU;
 `checkpoint_compression` identifies the build capability; `checkpoint_codec`
-identifies the writer (`byte-plane4-zstd1-v1`, legacy `lz4-blocks-v1`, or `none`). `expanded_bytes` is
+identifies the current writer (`byte-plane4-zstd1-v1` or `none`). Historical
+reports may still name `lz4-blocks-v1`; current builds cannot read codec 1.
+`expanded_bytes` is
 the raw equivalent of currently retained states; `compressed_captures` counts
 successful packs and `compression_attempts` counts eligible capture-path calls
 (including calls refused by size/budget or the bounded benefit probe). A true

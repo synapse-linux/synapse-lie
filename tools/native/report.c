@@ -503,16 +503,21 @@ static json_object *core(json_object *rows, nb_error *e) {
                       "output_per_total_wall_tps"};
   for (unsigned k = 0; k < 3; k++)
     json_object_object_add(point, sm[k], metric(samples, sm[k], 1, true));
-  double pp_rates[880];
-  size_t count = 0;
+  double pp_rates[880], tg_rates[880];
+  size_t pp_count = 0, tg_count = 0;
   for (size_t i = 0; i < json_object_array_length(jobs); i++) {
     json_object *r = json_object_array_get_idx(jobs, i);
     if (!flag(r, "warmup") && nb_number(r, "prefill_ns"))
-      pp_rates[count++] =
+      pp_rates[pp_count++] =
           nb_number(r, "prefill_tokens") * 1e9 / nb_number(r, "prefill_ns");
+    if (!flag(r, "warmup") && nb_number(r, "decode_ns"))
+      tg_rates[tg_count++] =
+          nb_number(r, "output_tokens") * 1e9 / nb_number(r, "decode_ns");
   }
   json_object_object_add(point, "job_prefill_tps",
-                         nb_distribution(pp_rates, count));
+                         nb_distribution(pp_rates, pp_count));
+  json_object_object_add(point, "job_decode_tps",
+                         nb_distribution(tg_rates, tg_count));
   json_object_put(input);
   json_object_put(samples);
   json_object_put(jobs);
@@ -941,7 +946,8 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
           "median_s,ttft_median_s,pp_wall_mean_tps,tg_wall_mean_tps\n",
           f);
   else if (iscore)
-    fputs("label,users,prompt_tokens,repetitions,job_prefill_median_tps,output_"
+    fputs("label,users,prompt_tokens,repetitions,job_prefill_median_tps,job_"
+          "decode_median_tps,output_"
           "per_total_wall_median_tps,first_token_median_ms,total_median_ms,"
           "cache_policy,cached_tokens_median,cache_capture_median_ms,cache_"
           "restore_median_ms,ssd_cached_tokens_median,ssd_read_median_ms,cache_"
@@ -989,6 +995,7 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
       } else if (iscore) {
         csv_fields(f, r, "users prompt_tokens repetitions");
         csv_stat(f, r, "job_prefill_tps", "median", 1);
+        csv_stat(f, r, "job_decode_tps", "median", 1);
         csv_stat(f, r, "output_per_total_wall_tps", "median", 1);
         csv_stat(f, r, "first_token_ns", "median", 1e-6);
         csv_stat(f, r, "total_ns", "median", 1e-6);
@@ -1049,12 +1056,11 @@ static bool export_graph(const char *dir, json_object *a, json_object *b,
   if (iscore) {
     keys[0] = "job_prefill_tps";
     keys[1] = "output_per_total_wall_tps";
-    keys[2] = "first_token_ns";
+    keys[2] = "job_decode_tps";
     titles[0] = "Per-job executor prefill";
     titles[1] = "Aggregate output / complete client wall";
-    titles[2] = "First confirmed token";
-    units[2] = "ms";
-    scale[2] = 1e-6;
+    titles[2] = "Per-job confirmed decode";
+    units[2] = "output tokens/s";
     np = 3;
   } else if (http) {
     keys[0] = "first_output_seconds";

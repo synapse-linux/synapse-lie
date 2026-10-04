@@ -53,7 +53,7 @@ class Guard(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError,'thermal limit'):
                 bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo',True))
 
-    def test_explicit_strix_halo_ceiling_preserves_ssd_limit(self):
+    def test_halo_ceiling_keeps_ssd_limit_and_refuses_point(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-halo-') as tmp:
             root=Path(tmp);cpu=root/'sensors/hwmon0';cpu.mkdir(parents=True)
             (root/'cpuinfo').write_text('AMD RYZEN AI MAX+ 395 w/ Radeon 8060S\n')
@@ -63,6 +63,11 @@ class Guard(unittest.TestCase):
             disk=root/'sensors/hwmon1';disk.mkdir();(disk/'name').write_text('nvme\n');(disk/'temp1_input').write_text('86000\n')
             code,result=self.run_guard(root,'disk-refused',[sys.executable,'-c','pass'],98)
             self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
+            (root/'cpuinfo').write_text('AMD Ryzen AI 9 HX 370 w/ Radeon 890M\n')
+            with self.assertRaises(SystemExit) as caught:
+                self.run_guard(root,'point-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(caught.exception.code,2)
+            self.assertFalse((root/'point-refused').exists())
 
     def test_preflight_and_only_owned_group(self):
         with tempfile.TemporaryDirectory(prefix='lie-thermal-fixture-') as tmp:

@@ -1,0 +1,43 @@
+{
+  "schema": "synapse-lie.point-multi-report.v1",
+  "input_sha256": {
+    "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
+    "docs/benchmarks/2026-10-02/strix-point/multi/make-report.py": "bf1644dfa33f340bce05a63ab2502578f3fac1e23116cf9bfb34c4ac4a9629e8",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/collection.json": "365945636e232fd5a4fba1b6ff04d9cc496c225e8bdd21e4403f13309f4eb430",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/manifest.json": "8bb7cdc8c781e016a2bc7fd9232f1657034b51e61cc82f8425f06be2c5dab11d",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/measurements.jsonl": "b0df707375d8f5c8e71934abf63379a0f416a77d9e1e9da752446a51d20f263f",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/result.json": "42b719b3cd315bb845e25879b189e320acb95d41a577aa4f4ac6ad072ee68626",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/runner.py": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/stderr.log": "a0eb2f03573e6639bf98384ef378c8d37657676ed3382d9d412d227eb523f532",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/gufo/telemetry.jsonl": "6033522609faa6da085b627e47993f14b9a07f14a767969fcf572663978930bc",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/collection.json": "21e317952c6f5f1417841813262031ebdcd746a4ff61999955449a9f672099cd",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/manifest.json": "dffea388da7297bcb61f619a10ddea6d510fa96b6ac79a9c83a2492cd34dd64f",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/measurements.jsonl": "fdc876681c873f51e9c31255bea3c686b633e030a3954c10d5a389d2cbe7e397",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/result.json": "fbd8de2b4d50ae0ec8c24b6f1ad0d2cf7f94918b86fc2a42f66e3556adaf028f",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/runner.py": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/stderr.log": "a0eb2f03573e6639bf98384ef378c8d37657676ed3382d9d412d227eb523f532",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/lie/telemetry.jsonl": "743fb85cdfb836410fb765318ca82b2285b19d7bdf46d223f2ee67111fa1d26b",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/collection.json": "f935eb00b4707b5ef156a2a1afa2071af5840bc8dff71542704c6e92ebed567d",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/manifest.json": "a76099083678527f47132507b1dbbb5d1bdfbfc6c6d7455d8a5aaafddeb52fdc",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/measurements.jsonl": "1e07ed0577ef2c8d0df0ab6d21b6f113700d82b7f1a7540fd5fc004be64bd07c",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/result.json": "50352f447aaa7d1b6dab09aa9c1c1116d7a3c4e9230a3fc3c2f047f3a16baf80",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/runner.py": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/stderr.log": "a0eb2f03573e6639bf98384ef378c8d37657676ed3382d9d412d227eb523f532",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/multi/input/serial/telemetry.jsonl": "9cd882533a815cfc5c9b0a38145b3ee6cbfc10638bd7a800e8ae8a3d88883e7c"
+  },
+  "output_sha256": {
+    "benchmark-zero.png": "d06de9c86896ae72bd469f8c567e49ea90acd61f606e490e6ced53ad5f13b8a2",
+    "benchmark-zero.svg": "9c6324a4a0acc2254b333c99223e8f14776776f9f591d403f988637ab95162b3",
+    "benchmark.png": "ab5e4b4b9a5331b2c145eb14c96f54813bdc0d6fa288ef3179317371f37b940f",
+    "benchmark.svg": "a9c316fe6282529038fc482f3730fc3683480bbcea58002fe2482f8bd4e7d32c",
+    "reactive-dispatch.json": "1c68dc33efeab3b8d631bbb76f98cd52a365d9a7522103555fe71bc7b485abe9",
+    "resources.json": "cf39905ee2e911aff965f53b1a5f264867ff8cd7920572aba44e2492f3805684",
+    "resources.png": "2b8d02f4ef329278afd841933633e345e116acbc4b8b6ea8672e7b5d9eb03866",
+    "resources.svg": "a16a17cf81e5306560e578cc7256dfbf752349bd315867bd4f8feab109a7fde1",
+    "summary.csv": "26398b8f7aed25739b1b4b2d1d243089955711f1574dc2de9087cdaed6aada19",
+    "summary.json": "18ab8ff8c935e355f38ccf3ea2b0c8f0f65938bcf63e5b17b77c825607a0b46c"
+  }
+}

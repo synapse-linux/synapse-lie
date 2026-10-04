@@ -34,8 +34,9 @@ performance gates remain open.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.
-  Original-weight checkpoint and cancellation checks pass; quality and performance
-  qualification remain open.
+  Original-weight checkpoint and cancellation checks pass; paired MTP/AR
+  measurements are available in the [Strix Point benchmarks](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+  Broader quality and replicated performance gates remain open.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
   F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
@@ -50,12 +51,78 @@ performance gates remain open.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 
+## Strix Point port
+
+The [ROCm 10 comparison gate](docs/STRIX-POINT-ROCM10.md) records the
+Fedora Minimal 44 image provenance found on `.157` and independently built
+Fedora 44 and AlmaLinux 10.2 `gfx1150` RPM candidates on `.161`. Both RPM
+images build. With the original `.161` kernel 6.16.3, native HIP, Python and
+LIE probes failed on primitive ROCm 10 memory operations while ROCm 7.2 passed.
+After updating to Pop!_OS kernel 7.1.5, the unchanged ROCm 10 probes pass and
+short original-weight LIE/Gufo direct tests complete. Their ROCm 10 results
+match each other but differ numerically from ROCm 7.2 at 0/4K. The
+[Docker-managed Distrobox `single` report](docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
+now includes the complete eight-depth LIE occupied-prefix run to 128K, with
+prefill, decode, telemetry and graphs. The
+[three-arm Distrobox multi-user report](docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md)
+compares LIE reactive, Gufo and serial C1/2/4/6/8 with the earlier ROCm 7.2
+results: at C8 ROCm 10 LIE reaches 32.837 aggregate decode token/s, 3.15× its
+serial control. These are direct engine sessions, not HTTP clients. The earlier
+ROCm 7.2 output IDs and numerical frontiers differ at every tested point, so
+the cross-stack throughput comparison does not establish quality equivalence.
+The paired ROCm 10 [fresh full-prompt comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#fresh-full-prompt-prefill-through-128k)
+now passes through 128K and separately near 256K. The
+[modern GPU MTP/AR comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
+passes four matched direct-core pairs through 128K. Served HTTP performance
+on this target remains pending.
+
+The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
+device admission, preserving the shared C17 reactive core and default gfx1151
+target. CPU architecture checks and headless ASan/UBSan tests pass on
+`pop@192.168.5.161`; the gfx1150 numerical archives and executables compile/link,
+and no-model startup passes in the existing target container/runtime. The full
+local sanitizer suite passes 34/34. After the operator's temporary service-stop
+grant, the real gfx1150 HIP allocation/copy/rocBLAS diagnostic passes and llama
+is restored. All four original UD shards are now copied and SHA-256 verified;
+source files on .157 remain intact. The first original-weight shared-core GPU
+smoke on .161 passes: nine prompt tokens, 32 generated tokens, identical output
+across one warmup and three repetitions. Warm decode averages 10.56 token/s;
+this short-prompt result does not qualify long-context performance or parity.
+The additional C17 HIP/rocBLAS diagnostic is compiled; its synthetic fault
+controls pass ASan/UBSan locally and on .161, and its no-device help path loads
+on the target. Pinned four-shard staging uses complete SHA-256 verification.
+The operator-authorized TTM change and reboot increased actual HIP memory from
+61.72 to **96 GiB**; the post-boot HIP/rocBLAS probe passes. This raises the
+allocation limit; the bounded UD smoke fits. The subsequent direct executor
+benchmark exercises occupied prefixes through 128K.
+The [full Strix Point report](docs/STRIX-POINT-RESULT.md) includes every sample,
+fresh prefill versus RAM reuse, decode and client latency, memory/temperature/thread
+graphs, portable CSV/JSON and an offline reproducer. Its coverage matrix identifies
+the long-context, concurrency, HTTP and comparative checks still required on .161.
+The follow-up [direct benchmark report](docs/STRIX-POINT-BENCHMARK-RESULT.md)
+uses `synapse-lie-bench` with the earlier PP2048/TG128 method. The new
+operator-approved 100 C campaigns complete all eight occupied-prefix depths
+0–128K for both LIE and direct Gufo, with matching physical prompts, outputs
+and prefill/decode frontiers. Paired 256K-capacity loading also passes. The
+earlier 85 C stop and its partial/cleanup evidence remain a failed attempt;
+the separate three-arm C1/2/4/6/8 direct benchmark also passes with exact
+frontier parity. At C8 reactive/native Gufo decode is 32.18/32.15 aggregate
+token/s versus 10.32 for serial LIE; all measured reactive C2–C8 dispatches
+use native inference batches. The paired direct fresh-prompt suite also passes
+1.5K/8K/32K/128K physical prompts at capacity 256K, with two measured samples
+per point and exact output/frontier parity. The direct near-256K pair also passes
+with 258794 physical prompt tokens, two full 128-token outputs per arm and
+exact frontiers. Served HTTP performance remains unqualified by these direct
+benchmarks.
+See also [implementation, receipts and remaining qualification](docs/STRIX-POINT.md).
+
+
 ## Requirements
 
 | Component | Requirement |
 | --- | --- |
 | System | Linux, a C17 compiler, CMake 3.21 or newer, and pkg-config. |
-| C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; LZ4 and Zstandard for the default checkpoint build. |
+| C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; Zstandard for the default checkpoint build. |
 | Event loop | **libuv 1.52.1 is included** and linked statically. A system-library option is available. |
 | GPU backend | AMD Strix Halo, C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM, ICU, PNG and JPEG. |
 

@@ -364,9 +364,14 @@ def export_core(result,out,label,reference,reference_label,compare_cache_build=F
             ['Per-job executor prefill tok/s','Aggregate output / complete wall tok/s','Client first confirmed token, ms']):
         for x,(name,data) in enumerate(series):
             v=data['configurations'][0][key]
-            if v is None:ax.text(x,0,'no executed prefill' if key=='job_prefill_tps' else 'unavailable',ha='center');continue
+            if v is None:
+                ax.text(x,.5,'no executed prefill' if key=='job_prefill_tps' else 'unavailable',
+                        ha='center',va='center',transform=ax.get_xaxis_transform())
+                continue
             ax.bar(x,v['median']*scale,yerr=[[max(0,v['median']-v['min'])*scale],[max(0,v['max']-v['median'])*scale]],capsize=4)
         ax.set_xticks(range(len(series)),[name for name,_ in series]);ax.set_ylabel(title);ax.grid(axis='y',alpha=.25)
+        ax.set_xlim(-.5,len(series)-.5)
+        if all(data['configurations'][0][key] is None for _,data in series):ax.set_yticks([])
     scope='CPU fixture — NOT-INFERENCE' if result['identity']['synthetic'] else 'Shared reactive C core'
     r=result['configurations'][0]
     fig.suptitle(f'{scope} · {r["users"]} users · {r["prompt_tokens"]} prompt tokens · n={r["repetitions"]}\nCache: {r["cache_policy"]}; no HTTP; per-job executor calls and client wall have different scopes')

@@ -1,0 +1,2228 @@
+{
+  "schema": "synapse-lie.strix-point-first-gpu.v1",
+  "at": "2026-10-02T09:18:33.258251+00:00",
+  "scope": "Real small HIP/BLAS diagnostic only; original-weight staging ongoing, no model inference",
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "2bc49576b88858438050491ae44aef11f608b2d059cbe6d15c890911f2120282",
+    "tools/strix-point-launch.py": "597c7b401db7f8b1bddc98ffbb2eaf67f0faeb96cb81359836f68d7fb8344d2e",
+    "tools/strix-point-download.py": "0bbbf91d50495644b0eb103637ba10e58e5d2d4e5b7cacf7c779638346b00f0c",
+    "tests/test_strix_point_campaign.py": "7557b734c341bacf993bd0c7364e49b575f56196cee4df0be769944ade533f92",
+    "tests/test_strix_point_download.py": "c203572637d74331acb0b59718d64c027138eaeb3c4d0885c9eae48e86781a77",
+    "tools/core-bench.c": "2ef94fcf1d16c094413131b2d74d667d5bd2acef098eae28ba0543941de5d002",
+    "tests/bench_executor.c": "50fa908a47ac7eb2ad4fc942c9b6823b8799457b947ae437c4770c2ab833d004",
+    "tests/test_core_bench.py": "2487ae97c8425749d59e3b069ce8daef16120d3858da7f716a31d99a2c6622d0",
+    "CMakeLists.txt": "8d9162bfebbcd889e35af6098bd7c2e80227a97c0b52f27e8ddda51af098570b",
+    "config/strix-point-ttm.conf.proposed": "769af48b3ec3461d1fce96ffffdc528d990d71d5beca67313460938c84146ee7"
+  },
+  "gpu": {
+    "strix-point-gpu-probe-r1": {
+      "result": {
+        "state": "FAILED",
+        "started_at": "2026-10-02T08:50:49.213231+00:00",
+        "pid": 2607537,
+        "start_ticks": 463095760,
+        "manifest_sha256": "230ce9bcf605d4932864942ab5d20bbb4985535a5aa5f8e2e74bcf513bf2cc00",
+        "runner_sha256": "fe0b267d2a2f7bd929920eafdc3b16d22961edf9ecff6ea917114c70dc9022cd",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "commands": [
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=2211125\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "stop",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "start",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=2607546\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          }
+        ],
+        "container": null,
+        "service_restore_required": true,
+        "exit_code": 1,
+        "service_before": {
+          "MainPID": "2211125",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "before": {
+          "at": "2026-10-02T08:50:49.220204+00:00",
+          "kfd": [
+            {
+              "pid": 2211125,
+              "start_ticks": 440555793,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 2211125,
+              "start_ticks": 440555793,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 374,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115380768768,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": [
+            2211125
+          ]
+        },
+        "lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66308,
+          "inode": 105946405,
+          "cooperative_lie_only": true
+        },
+        "service_stopped": {
+          "MainPID": "0",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "error": "RuntimeError('Foreign GPU client observed')",
+        "postflight_before_restore": {
+          "at": "2026-10-02T08:50:49.369244+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 375,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.25,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115383259136,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": []
+        },
+        "service_after": {
+          "MainPID": "2607546",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "lease_released_at": "2026-10-02T08:50:49.441678+00:00",
+        "cleanup_failures": [],
+        "ended_at": "2026-10-02T08:50:49.441693+00:00"
+      },
+      "controller": {
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-gpu-probe-r1",
+        "source_sha256": {
+          "manifest.json": "230ce9bcf605d4932864942ab5d20bbb4985535a5aa5f8e2e74bcf513bf2cc00",
+          "runner.py": "fe0b267d2a2f7bd929920eafdc3b16d22961edf9ecff6ea917114c70dc9022cd"
+        },
+        "stager_sha256": "cf44c2d6422671435833f11e68ff0ccb7e1d03f8fdd366e465f8b857fa1dc4ab",
+        "exit_code": 1
+      },
+      "source_manifest": {
+        "action": "probe",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "source_commit": "0b3792d",
+        "bundle": "/home/pop/workspace/synapse-lie/strix-point-probe-startup-r2",
+        "artifacts": {
+          "runtime/bin/lie-hip-probe": "9bd369a202a151faabb6e2950294f2c1f1786e0222a0542b882c0f24772c962a",
+          "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+          "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+          "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+          "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+          "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665"
+        }
+      },
+      "runner_source": "#!/usr/bin/env python3\n# SPDX-License-Identifier: MIT\n\"\"\"One-shot .161 campaign under the operator's explicit llama stop/restore grant.\nRemote entry point. Inputs/results live in an exclusive persistent run directory.\nNo install, tuning, remote GPU build, foreign signals or automatic retries.\n\"\"\"\nimport datetime\nimport fcntl\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport re\nimport signal\nimport subprocess\nimport sys\nimport time\n\nBASE = Path('/home/pop/workspace/synapse-lie')\nSERVICE = 'llama-router.service'\nIMAGE = 'sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac'\nROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'\n\ndef now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()\ndef sha(path):\n    with Path(path).open('rb') as stream:\n        return hashlib.file_digest(stream, 'sha256').hexdigest()\ndef ticks(pid): return int(Path(f'/proc/{pid}/stat').read_text().rsplit(')', 1)[1].split()[19])\ndef save(path, value):\n    tmp = path.with_suffix('.tmp')\n    tmp.write_text(json.dumps(value, indent=2)+'\\n')\n    tmp.replace(path)\ndef checked_path(value):\n    path = Path(value)\n    if not path.is_absolute() or not path.is_relative_to(BASE) or path.resolve() != path:\n        raise ValueError('Path must be persistent and private to this LIE checkout')\n    if path.stat().st_uid != os.getuid(): raise ValueError('Unexpected path owner')\n    return path\ndef observe():\n    result = {'at': now(), 'kfd': [], 'dri': [], 'denied_fd': 0, 'temperatures': [], 'memory': {}}\n    # The kernel list supplements /proc when FD observations are denied.\n    result['kernel_kfd'] = sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').iterdir() if p.name.isdecimal())\n    for proc in Path('/proc').iterdir():\n        if not proc.name.isdecimal(): continue\n        try: fds = list((proc/'fd').iterdir())\n        except FileNotFoundError: continue\n        except PermissionError:\n            result['denied_fd'] += 1\n            continue\n        devices = set()\n        for fd in fds:\n            try: device = os.readlink(fd)\n            except OSError: continue\n            if device == '/dev/kfd' or device.startswith('/dev/dri/'): devices.add(device)\n        if devices:\n            try:\n                row = {'pid': int(proc.name), 'start_ticks': ticks(proc.name),\n                       'cgroup': (proc/'cgroup').read_text(), 'devices': sorted(devices)}\n            except FileNotFoundError: continue\n            result['dri'].append(row)\n            if '/dev/kfd' in devices: result['kfd'].append(row)\n    for hw in sorted(Path('/sys/class/hwmon').glob('hwmon*')):\n        name = (hw/'name').read_text().strip()\n        if name not in ('k10temp', 'amdgpu', 'nvme'): continue\n        for path in sorted(hw.glob('temp*_input')):\n            value = int(path.read_text())/1000\n            limit = 85.0\n            for suffix in ('max', 'crit'):\n                bound = path.with_name(path.name[:-6]+'_'+suffix)\n                if bound.exists():\n                    threshold = int(bound.read_text())/1000\n                    if 30 <= threshold <= 150: limit = min(limit, threshold)\n            if not -40 <= value <= 150: raise RuntimeError('Invalid temperature reading')\n            result['temperatures'].append({'name': name, 'path': str(path), 'value_c': value, 'limit_c': limit})\n    if not any(t['name'] == 'k10temp' for t in result['temperatures']):\n        raise RuntimeError('Missing CPU temperature sensor')\n    for line in Path('/proc/meminfo').read_text().splitlines():\n        key, value = line.split(':', 1)\n        if key in ('MemTotal', 'MemAvailable', 'SwapTotal', 'SwapFree'):\n            result['memory'][key] = int(value.split()[0])*1024\n    return result\n\nclass Campaign:\n    def __init__(self, root, manifest):\n        self.root, self.m = root, manifest\n        self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),\n                  'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),\n                  'authorization': manifest['authorization'], 'commands': [], 'container': None,\n                  'service_restore_required': False, 'exit_code': 1}\n        self.lock = None\n        self.child = None\n        self.interrupted = None\n        self.cid = None\n        self.baseline = set()\n    def record(self): save(self.root/'result.json', self.r)\n    def command(self, argv, check=True, timeout=30):\n        p = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)\n        self.r['commands'].append({'argv': argv, 'exit_code': p.returncode, 'stdout': p.stdout, 'stderr': p.stderr})\n        self.record()\n        if check and p.returncode: raise RuntimeError('Command failed: '+repr(argv))\n        return p\n    def service(self):\n        p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])\n        return dict(line.split('=', 1) for line in p.stdout.splitlines())\n    def sample(self):\n        row = observe()\n        with (self.root/'telemetry.jsonl').open('a') as log: log.write(json.dumps(row)+'\\n')\n        if self.interrupted: raise RuntimeError('Interrupted: '+str(self.interrupted))\n        if any(t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')\n        owned = set()\n        if self.cid:\n            for proc in row['dri']:\n                if self.cid in proc['cgroup']: owned.add(proc['pid'])\n        clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])\n        new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}\n        if (clients | new_dri) - owned: raise RuntimeError('Foreign GPU client observed')\n        return row\n    def enter(self):\n        self.r['service_before'] = self.service()\n        before = observe()\n        self.r['before'] = before\n        self.baseline = {(p['pid'], p['start_ticks']) for p in before['dri']}\n        # This serializes LIE only. Actual handover is the explicit user grant.\n        path = BASE/'campaign.lock'\n        self.lock = os.open(path, os.O_CREAT | os.O_RDWR | os.O_CLOEXEC | os.O_NOFOLLOW, 0o600)\n        fcntl.flock(self.lock, fcntl.LOCK_EX | fcntl.LOCK_NB)\n        st, live = os.fstat(self.lock), path.stat()\n        if (st.st_dev, st.st_ino) != (live.st_dev, live.st_ino) or st.st_uid != os.getuid():\n            raise RuntimeError('Campaign lock identity mismatch')\n        self.r['lease'] = {'path': str(path), 'device': st.st_dev, 'inode': st.st_ino, 'cooperative_lie_only': True}\n        self.record()\n        active = self.r['service_before']['ActiveState']\n        if active not in ('active', 'inactive'): raise RuntimeError('Unexpected initial service state')\n        if active == 'active':\n            # Set before issuing stop, so even interrupted/failed stop restores it.\n            self.r['service_restore_required'] = True\n            self.record()\n            self.command(['systemctl', '--user', 'stop', SERVICE], timeout=45)\n        self.r['service_stopped'] = self.service()\n        if self.r['service_stopped']['ActiveState'] != 'inactive': raise RuntimeError('Service did not retire')\n        self.r['admission'] = self.sample()\n        self.r['state'] = 'ADMITTED'\n        self.record()\n    def run_container(self, command, bundle, timeout, model=None):\n        bundle = checked_path(bundle)\n        for name, expected in self.m['artifacts'].items():\n            path = checked_path(bundle/name)\n            if sha(path) != expected: raise RuntimeError('Artifact drift: '+name)\n        self.sample()\n        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()\n        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',\n                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',\n                '--group-add', str(Path('/dev/kfd').stat().st_gid), '--pids-limit', '512',\n                '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',\n                '--label', 'synapse-lie.run='+str(self.root),\n                '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',\n                '--mount', 'type=bind,src='+str(self.root)+',dst=/work',\n                '--mount', 'type=bind,src='+ROCM+',dst=/opt/rocm,readonly',\n                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib',\n                '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',\n                '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',\n                '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']\n        if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']\n        argv += ['--entrypoint', command[0], IMAGE, *command[1:]]\n        self.cid = self.command(argv).stdout.strip()\n        if not re.fullmatch('[a-f0-9]{64}', self.cid): raise RuntimeError('Invalid container identity')\n        self.r['container'] = self.cid\n        self.record()\n        self.command(['docker', 'start', self.cid])\n        deadline = time.monotonic()+timeout\n        while True:\n            row = json.loads(self.command(['docker', 'inspect', '--format', '{{json .State}}', self.cid]).stdout)\n            if not row['Running']:\n                self.r['container_state'] = row\n                self.r['child_exit_code'] = row['ExitCode']\n                break\n            self.r['container_host_pid'] = row['Pid']\n            self.r['container_start_ticks'] = ticks(row['Pid'])\n            self.sample()\n            if time.monotonic() >= deadline: raise RuntimeError('Device command deadline')\n            time.sleep(1)\n        p = self.command(['docker', 'logs', self.cid], check=False)\n        (self.root/'stdout.log').write_text(p.stdout)\n        (self.root/'stderr.log').write_text(p.stderr)\n        if row['ExitCode'] or row['OOMKilled']: raise RuntimeError('GPU child failed; see retained logs')\n    def finish(self):\n        failures = []\n        if self.cid and re.fullmatch('[a-f0-9]{64}', self.cid):\n            try:\n                p = self.command(['docker', 'inspect', '--format', '{{index .Config.Labels \"synapse-lie.run\"}}', self.cid])\n                if p.stdout.strip() != str(self.root): raise RuntimeError('Container ownership mismatch')\n                self.command(['docker', 'stop', '--time', '10', self.cid], check=False)\n                p = self.command(['docker', 'logs', self.cid], check=False)\n                (self.root/'stdout.log').write_text(p.stdout)\n                (self.root/'stderr.log').write_text(p.stderr)\n                self.r['final_container_state'] = json.loads(self.command(['docker', 'inspect', '--format', '{{json .State}}', self.cid]).stdout)\n                self.command(['docker', 'rm', self.cid])\n            except Exception as ex: failures.append(repr(ex))\n        if self.child and self.child.poll() is None:\n            self.child.terminate()\n            try: self.child.wait(timeout=10)\n            except subprocess.TimeoutExpired:\n                self.child.kill(); self.child.wait()\n        try: self.r['postflight_before_restore'] = observe()\n        except Exception as ex: failures.append(repr(ex))\n        if self.r['service_restore_required']:\n            try:\n                self.command(['systemctl', '--user', 'start', SERVICE], timeout=45)\n                self.r['service_after'] = self.service()\n                if self.r['service_after']['ActiveState'] != 'active': raise RuntimeError('Service restoration failed')\n            except Exception as ex: failures.append(repr(ex))\n        if self.lock is not None:\n            os.close(self.lock); self.lock = None\n            if 'lease' in self.r: self.r['lease_released_at'] = now()\n        self.r['cleanup_failures'] = failures\n        self.r['ended_at'] = now()\n        if failures: self.r['exit_code'] = 1\n        self.record()\n\ndef main():\n    if len(sys.argv) != 2: raise SystemExit('Usage: strix-point-campaign.py PRIVATE-RUN-DIRECTORY')\n    root = checked_path(sys.argv[1])\n    if (root/'result.json').exists(): raise SystemExit('Refusing campaign replay')\n    if os.getuid() != 1000 or os.environ.get('SSH_CONNECTION', '').split()[2:3] != ['192.168.5.161']:\n        raise SystemExit('Expected pop@192.168.5.161 SSH target')\n    m = json.loads((root/'manifest.json').read_text())\n    if m.get('action') not in ('probe',): raise SystemExit('Unsupported campaign action')\n    if m['authorization'] != {'kind': 'operator-one-shot-window', 'service': SERVICE,\n                              'stop_restore_authorized': True, 'quote': 'llama si pu\u00f2 stoppaare'}:\n        raise SystemExit('Explicit scoped operator handover required')\n    c = Campaign(root, m)\n    for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):\n        signal.signal(sig, lambda signum, frame: setattr(c, 'interrupted', signum))\n    try:\n        c.enter()\n        if m['action'] == 'probe':\n            c.run_container(['/bundle/runtime/bin/lie-hip-probe', '--run'], m['bundle'], 60)\n            c.r['probe'] = json.loads((root/'stdout.log').read_text())\n            if c.r['probe'].get('scope') != 'GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE' or c.r['probe'].get('sgemm_elements_verified') != 4:\n                raise RuntimeError('Invalid device probe result')\n        else: raise ValueError('Unsupported campaign action')\n        c.r.update(state='PASSED', exit_code=0)\n    except BaseException as ex:\n        c.r.update(state='FAILED', error=repr(ex), exit_code=1)\n    finally: c.finish()\n    print(json.dumps(c.r), flush=True)\n    return c.r['exit_code']\n\nif __name__ == '__main__': raise SystemExit(main())\n",
+      "telemetry": [
+        {
+          "at": "2026-10-02T08:50:49.333960+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 374,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.25,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115383255040,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": [
+            2211125
+          ]
+        }
+      ]
+    },
+    "strix-point-gpu-probe-r2": {
+      "result": {
+        "state": "PASSED",
+        "started_at": "2026-10-02T08:52:43.607413+00:00",
+        "pid": 2607658,
+        "start_ticks": 463107201,
+        "manifest_sha256": "230ce9bcf605d4932864942ab5d20bbb4985535a5aa5f8e2e74bcf513bf2cc00",
+        "runner_sha256": "6e9ae353bca592c966eff86ab0c8fd2238459537389ee943e1b7befb3662ebf8",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "commands": [
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=2607546\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "stop",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "create",
+              "--network",
+              "none",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges",
+              "--user",
+              "1000:1000",
+              "--group-add",
+              "992",
+              "--pids-limit",
+              "512",
+              "--device",
+              "/dev/kfd",
+              "--device",
+              "/dev/dri/renderD128",
+              "--label",
+              "synapse-lie.run=/home/pop/workspace/synapse-lie/strix-point-gpu-probe-r2",
+              "--mount",
+              "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-probe-startup-r2,dst=/bundle,readonly",
+              "--mount",
+              "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-gpu-probe-r2,dst=/work",
+              "--mount",
+              "type=bind,src=/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0,dst=/opt/rocm,readonly",
+              "--workdir",
+              "/work",
+              "--env",
+              "LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib",
+              "--env",
+              "LD_BIND_NOW=1",
+              "--env",
+              "LC_ALL=C",
+              "--env",
+              "HOME=/work/home",
+              "--env",
+              "XDG_CACHE_HOME=/work/cache",
+              "--env",
+              "TMPDIR=/work/tmp",
+              "--env",
+              "ROCR_VISIBLE_DEVICES=0",
+              "--env",
+              "HIP_VISIBLE_DEVICES=0",
+              "--entrypoint",
+              "/bundle/runtime/bin/lie-hip-probe",
+              "sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac",
+              "--run"
+            ],
+            "exit_code": 0,
+            "stdout": "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "start",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":2607723,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T08:52:44.14735592Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T08:52:44.14735592Z\",\"FinishedAt\":\"2026-10-02T08:52:44.638285622Z\"}\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "logs",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "{\"scope\":\"GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE\",\"build_id\":\"strix-point-ud-r2\",\"device\":\"HIP\\/70226015\\/70226015\\/device=0\\/arch=gfx1150\\/name=AMD Radeon 890M\\/pci=0:198:0\",\"hip_free_bytes_before\":66079281152,\"hip_total_bytes\":66272710656,\"explicit_allocation_bytes\":48,\"sgemm_elements_verified\":4}\n",
+            "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+          },
+          {
+            "argv": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{index .Config.Labels \"synapse-lie.run\"}}",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "/home/pop/workspace/synapse-lie/strix-point-gpu-probe-r2\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "stop",
+              "--time",
+              "10",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "Flag --time has been deprecated, use --timeout instead\nad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "logs",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "{\"scope\":\"GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE\",\"build_id\":\"strix-point-ud-r2\",\"device\":\"HIP\\/70226015\\/70226015\\/device=0\\/arch=gfx1150\\/name=AMD Radeon 890M\\/pci=0:198:0\",\"hip_free_bytes_before\":66079281152,\"hip_total_bytes\":66272710656,\"explicit_allocation_bytes\":48,\"sgemm_elements_verified\":4}\n",
+            "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\n"
+          },
+          {
+            "argv": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T08:52:44.14735592Z\",\"FinishedAt\":\"2026-10-02T08:52:44.638285622Z\"}\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "docker",
+              "rm",
+              "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc"
+            ],
+            "exit_code": 0,
+            "stdout": "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "start",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=2607858\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          }
+        ],
+        "container": "ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc",
+        "service_restore_required": true,
+        "exit_code": 0,
+        "service_before": {
+          "MainPID": "2607546",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "before": {
+          "at": "2026-10-02T08:52:43.613936+00:00",
+          "kfd": [
+            {
+              "pid": 2607546,
+              "start_ticks": 463095788,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 2607546,
+              "start_ticks": 463095788,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 378,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115396055040,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": [
+            2607546
+          ]
+        },
+        "lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66308,
+          "inode": 105946405,
+          "cooperative_lie_only": true
+        },
+        "service_stopped": {
+          "MainPID": "0",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "admission": {
+          "at": "2026-10-02T08:52:43.954672+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 379,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115398549504,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": []
+        },
+        "container_host_pid": 2607723,
+        "container_start_ticks": 463107265,
+        "container_state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-02T08:52:44.14735592Z",
+          "FinishedAt": "2026-10-02T08:52:44.638285622Z"
+        },
+        "child_exit_code": 0,
+        "probe": {
+          "scope": "GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE",
+          "build_id": "strix-point-ud-r2",
+          "device": "HIP/70226015/70226015/device=0/arch=gfx1150/name=AMD Radeon 890M/pci=0:198:0",
+          "hip_free_bytes_before": 66079281152,
+          "hip_total_bytes": 66272710656,
+          "explicit_allocation_bytes": 48,
+          "sgemm_elements_verified": 4
+        },
+        "final_container_state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-02T08:52:44.14735592Z",
+          "FinishedAt": "2026-10-02T08:52:44.638285622Z"
+        },
+        "postflight_before_restore": {
+          "at": "2026-10-02T08:52:45.523289+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 383,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 35.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.875,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115449200640,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061689344
+          },
+          "kernel_kfd": []
+        },
+        "service_after": {
+          "MainPID": "2607858",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "lease_released_at": "2026-10-02T08:52:45.935940+00:00",
+        "cleanup_failures": [],
+        "ended_at": "2026-10-02T08:52:45.935951+00:00"
+      },
+      "controller": {
+        "argv": [
+          "ssh",
+          "-F",
+          "/dev/null",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=8",
+          "pop@192.168.5.161",
+          "python3 -"
+        ],
+        "remote_root": "/home/pop/workspace/synapse-lie/strix-point-gpu-probe-r2",
+        "source_sha256": {
+          "manifest.json": "230ce9bcf605d4932864942ab5d20bbb4985535a5aa5f8e2e74bcf513bf2cc00",
+          "runner.py": "6e9ae353bca592c966eff86ab0c8fd2238459537389ee943e1b7befb3662ebf8"
+        },
+        "stager_sha256": "df26fd7bf78b92caba3df2884de6077347155e32264ec9870e6bcc2b2c617cce",
+        "exit_code": 0
+      },
+      "source_manifest": {
+        "action": "probe",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "source_commit": "0b3792d",
+        "bundle": "/home/pop/workspace/synapse-lie/strix-point-probe-startup-r2",
+        "artifacts": {
+          "runtime/bin/lie-hip-probe": "9bd369a202a151faabb6e2950294f2c1f1786e0222a0542b882c0f24772c962a",
+          "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+          "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+          "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+          "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+          "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665"
+        }
+      },
+      "runner_source": "#!/usr/bin/env python3\n# SPDX-License-Identifier: MIT\n\"\"\"One-shot .161 campaign under the operator's explicit llama stop/restore grant.\nRemote entry point. Inputs/results live in an exclusive persistent run directory.\nNo install, tuning, remote GPU build, foreign signals or automatic retries.\n\"\"\"\nimport datetime\nimport fcntl\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport re\nimport signal\nimport subprocess\nimport sys\nimport time\n\nBASE = Path('/home/pop/workspace/synapse-lie')\nSERVICE = 'llama-router.service'\nIMAGE = 'sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac'\nROCM = '/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0'\n\ndef now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()\ndef sha(path):\n    with Path(path).open('rb') as stream:\n        return hashlib.file_digest(stream, 'sha256').hexdigest()\ndef ticks(pid): return int(Path(f'/proc/{pid}/stat').read_text().rsplit(')', 1)[1].split()[19])\ndef save(path, value):\n    tmp = path.with_suffix('.tmp')\n    tmp.write_text(json.dumps(value, indent=2)+'\\n')\n    tmp.replace(path)\ndef checked_path(value):\n    path = Path(value)\n    if not path.is_absolute() or not path.is_relative_to(BASE) or path.resolve() != path:\n        raise ValueError('Path must be persistent and private to this LIE checkout')\n    if path.stat().st_uid != os.getuid(): raise ValueError('Unexpected path owner')\n    return path\ndef observe():\n    result = {'at': now(), 'kfd': [], 'dri': [], 'denied_fd': 0, 'temperatures': [], 'memory': {}}\n    # The kernel list supplements /proc when FD observations are denied.\n    result['kernel_kfd'] = sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').iterdir() if p.name.isdecimal())\n    for proc in Path('/proc').iterdir():\n        if not proc.name.isdecimal(): continue\n        try: fds = list((proc/'fd').iterdir())\n        except FileNotFoundError: continue\n        except PermissionError:\n            result['denied_fd'] += 1\n            continue\n        devices = set()\n        for fd in fds:\n            try: device = os.readlink(fd)\n            except OSError: continue\n            if device == '/dev/kfd' or device.startswith('/dev/dri/'): devices.add(device)\n        if devices:\n            try:\n                row = {'pid': int(proc.name), 'start_ticks': ticks(proc.name),\n                       'cgroup': (proc/'cgroup').read_text(), 'devices': sorted(devices)}\n            except FileNotFoundError: continue\n            result['dri'].append(row)\n            if '/dev/kfd' in devices: result['kfd'].append(row)\n    for hw in sorted(Path('/sys/class/hwmon').glob('hwmon*')):\n        name = (hw/'name').read_text().strip()\n        if name not in ('k10temp', 'amdgpu', 'nvme'): continue\n        for path in sorted(hw.glob('temp*_input')):\n            value = int(path.read_text())/1000\n            limit = 85.0\n            for suffix in ('max', 'crit'):\n                bound = path.with_name(path.name[:-6]+'_'+suffix)\n                if bound.exists():\n                    threshold = int(bound.read_text())/1000\n                    if 30 <= threshold <= 150: limit = min(limit, threshold)\n            if not -40 <= value <= 150: raise RuntimeError('Invalid temperature reading')\n            result['temperatures'].append({'name': name, 'path': str(path), 'value_c': value, 'limit_c': limit})\n    if not any(t['name'] == 'k10temp' for t in result['temperatures']):\n        raise RuntimeError('Missing CPU temperature sensor')\n    for line in Path('/proc/meminfo').read_text().splitlines():\n        key, value = line.split(':', 1)\n        if key in ('MemTotal', 'MemAvailable', 'SwapTotal', 'SwapFree'):\n            result['memory'][key] = int(value.split()[0])*1024\n    return result\n\nclass Campaign:\n    def __init__(self, root, manifest):\n        self.root, self.m = root, manifest\n        self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),\n                  'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),\n                  'authorization': manifest['authorization'], 'commands': [], 'container': None,\n                  'service_restore_required': False, 'exit_code': 1}\n        self.lock = None\n        self.child = None\n        self.interrupted = None\n        self.cid = None\n        self.baseline = set()\n    def record(self): save(self.root/'result.json', self.r)\n    def command(self, argv, check=True, timeout=30):\n        p = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)\n        self.r['commands'].append({'argv': argv, 'exit_code': p.returncode, 'stdout': p.stdout, 'stderr': p.stderr})\n        self.record()\n        if check and p.returncode: raise RuntimeError('Command failed: '+repr(argv))\n        return p\n    def service(self):\n        p = self.command(['systemctl', '--user', 'show', SERVICE, '--property=ActiveState,SubState,MainPID'])\n        return dict(line.split('=', 1) for line in p.stdout.splitlines())\n    def sample(self, retiring=None):\n        row = observe()\n        with (self.root/'telemetry.jsonl').open('a') as log: log.write(json.dumps(row)+'\\n')\n        if self.interrupted: raise RuntimeError('Interrupted: '+str(self.interrupted))\n        if any(t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')\n        owned = set()\n        if self.cid:\n            for proc in row['dri']:\n                if self.cid in proc['cgroup']: owned.add(proc['pid'])\n        clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])\n        new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}\n        if retiring:\n            pid, start = retiring\n            try:\n                if ticks(pid) != start: raise RuntimeError('Retiring service PID identity changed')\n            except FileNotFoundError: pass\n            owned.add(pid)  # Admission still waits below; never launches while present.\n        if (clients | new_dri) - owned: raise RuntimeError('Foreign GPU client observed')\n        return row\n    def enter(self):\n        self.r['service_before'] = self.service()\n        before = observe()\n        self.r['before'] = before\n        self.baseline = {(p['pid'], p['start_ticks']) for p in before['dri']}\n        # This serializes LIE only. Actual handover is the explicit user grant.\n        path = BASE/'campaign.lock'\n        self.lock = os.open(path, os.O_CREAT | os.O_RDWR | os.O_CLOEXEC | os.O_NOFOLLOW, 0o600)\n        fcntl.flock(self.lock, fcntl.LOCK_EX | fcntl.LOCK_NB)\n        st, live = os.fstat(self.lock), path.stat()\n        if (st.st_dev, st.st_ino) != (live.st_dev, live.st_ino) or st.st_uid != os.getuid():\n            raise RuntimeError('Campaign lock identity mismatch')\n        self.r['lease'] = {'path': str(path), 'device': st.st_dev, 'inode': st.st_ino, 'cooperative_lie_only': True}\n        self.record()\n        active = self.r['service_before']['ActiveState']\n        if active not in ('active', 'inactive'): raise RuntimeError('Unexpected initial service state')\n        if active == 'active':\n            # Set before issuing stop, so even interrupted/failed stop restores it.\n            self.r['service_restore_required'] = True\n            self.record()\n            self.command(['systemctl', '--user', 'stop', SERVICE], timeout=45)\n        self.r['service_stopped'] = self.service()\n        if self.r['service_stopped']['ActiveState'] != 'inactive': raise RuntimeError('Service did not retire')\n        retiring = next(((p['pid'], p['start_ticks']) for p in before['kfd']\n                         if p['pid'] == int(self.r['service_before']['MainPID'])), None)\n        deadline = time.monotonic()+5\n        while True:\n            row = self.sample(retiring)\n            if not row['kernel_kfd'] and not row['kfd']: break\n            if time.monotonic() >= deadline: raise RuntimeError('Stopped service GPU retirement deadline')\n            time.sleep(0.1)\n        self.r['admission'] = row\n        self.r['state'] = 'ADMITTED'\n        self.record()\n    def run_container(self, command, bundle, timeout, model=None):\n        bundle = checked_path(bundle)\n        for name, expected in self.m['artifacts'].items():\n            path = checked_path(bundle/name)\n            if sha(path) != expected: raise RuntimeError('Artifact drift: '+name)\n        self.sample()\n        for directory in ('home', 'cache', 'tmp'): (self.root/directory).mkdir()\n        argv = ['docker', 'create', '--network', 'none', '--read-only', '--cap-drop', 'ALL',\n                '--security-opt', 'no-new-privileges', '--user', f'{os.getuid()}:{os.getgid()}',\n                '--group-add', str(Path('/dev/kfd').stat().st_gid), '--pids-limit', '512',\n                '--device', '/dev/kfd', '--device', '/dev/dri/renderD128',\n                '--label', 'synapse-lie.run='+str(self.root),\n                '--mount', 'type=bind,src='+str(bundle)+',dst=/bundle,readonly',\n                '--mount', 'type=bind,src='+str(self.root)+',dst=/work',\n                '--mount', 'type=bind,src='+ROCM+',dst=/opt/rocm,readonly',\n                '--workdir', '/work', '--env', 'LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib',\n                '--env', 'LD_BIND_NOW=1', '--env', 'LC_ALL=C',\n                '--env', 'HOME=/work/home', '--env', 'XDG_CACHE_HOME=/work/cache', '--env', 'TMPDIR=/work/tmp',\n                '--env', 'ROCR_VISIBLE_DEVICES=0', '--env', 'HIP_VISIBLE_DEVICES=0']\n        if model: argv += ['--mount', 'type=bind,src='+str(checked_path(model))+',dst=/model,readonly']\n        argv += ['--entrypoint', command[0], IMAGE, *command[1:]]\n        self.cid = self.command(argv).stdout.strip()\n        if not re.fullmatch('[a-f0-9]{64}', self.cid): raise RuntimeError('Invalid container identity')\n        self.r['container'] = self.cid\n        self.record()\n        self.command(['docker', 'start', self.cid])\n        deadline = time.monotonic()+timeout\n        while True:\n            row = json.loads(self.command(['docker', 'inspect', '--format', '{{json .State}}', self.cid]).stdout)\n            if not row['Running']:\n                self.r['container_state'] = row\n                self.r['child_exit_code'] = row['ExitCode']\n                break\n            self.r['container_host_pid'] = row['Pid']\n            self.r['container_start_ticks'] = ticks(row['Pid'])\n            self.sample()\n            if time.monotonic() >= deadline: raise RuntimeError('Device command deadline')\n            time.sleep(1)\n        p = self.command(['docker', 'logs', self.cid], check=False)\n        (self.root/'stdout.log').write_text(p.stdout)\n        (self.root/'stderr.log').write_text(p.stderr)\n        if row['ExitCode'] or row['OOMKilled']: raise RuntimeError('GPU child failed; see retained logs')\n    def finish(self):\n        failures = []\n        if self.cid and re.fullmatch('[a-f0-9]{64}', self.cid):\n            try:\n                p = self.command(['docker', 'inspect', '--format', '{{index .Config.Labels \"synapse-lie.run\"}}', self.cid])\n                if p.stdout.strip() != str(self.root): raise RuntimeError('Container ownership mismatch')\n                self.command(['docker', 'stop', '--time', '10', self.cid], check=False)\n                p = self.command(['docker', 'logs', self.cid], check=False)\n                (self.root/'stdout.log').write_text(p.stdout)\n                (self.root/'stderr.log').write_text(p.stderr)\n                self.r['final_container_state'] = json.loads(self.command(['docker', 'inspect', '--format', '{{json .State}}', self.cid]).stdout)\n                self.command(['docker', 'rm', self.cid])\n            except Exception as ex: failures.append(repr(ex))\n        if self.child and self.child.poll() is None:\n            self.child.terminate()\n            try: self.child.wait(timeout=10)\n            except subprocess.TimeoutExpired:\n                self.child.kill(); self.child.wait()\n        try: self.r['postflight_before_restore'] = observe()\n        except Exception as ex: failures.append(repr(ex))\n        if self.r['service_restore_required']:\n            try:\n                self.command(['systemctl', '--user', 'start', SERVICE], timeout=45)\n                self.r['service_after'] = self.service()\n                if self.r['service_after']['ActiveState'] != 'active': raise RuntimeError('Service restoration failed')\n            except Exception as ex: failures.append(repr(ex))\n        if self.lock is not None:\n            os.close(self.lock); self.lock = None\n            if 'lease' in self.r: self.r['lease_released_at'] = now()\n        self.r['cleanup_failures'] = failures\n        self.r['ended_at'] = now()\n        if failures: self.r['exit_code'] = 1\n        self.record()\n\ndef main():\n    if len(sys.argv) != 2: raise SystemExit('Usage: strix-point-campaign.py PRIVATE-RUN-DIRECTORY')\n    root = checked_path(sys.argv[1])\n    if (root/'result.json').exists(): raise SystemExit('Refusing campaign replay')\n    if os.getuid() != 1000 or os.environ.get('SSH_CONNECTION', '').split()[2:3] != ['192.168.5.161']:\n        raise SystemExit('Expected pop@192.168.5.161 SSH target')\n    m = json.loads((root/'manifest.json').read_text())\n    if m.get('action') not in ('probe',): raise SystemExit('Unsupported campaign action')\n    if m['authorization'] != {'kind': 'operator-one-shot-window', 'service': SERVICE,\n                              'stop_restore_authorized': True, 'quote': 'llama si pu\u00f2 stoppaare'}:\n        raise SystemExit('Explicit scoped operator handover required')\n    c = Campaign(root, m)\n    for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):\n        signal.signal(sig, lambda signum, frame: setattr(c, 'interrupted', signum))\n    try:\n        c.enter()\n        if m['action'] == 'probe':\n            c.run_container(['/bundle/runtime/bin/lie-hip-probe', '--run'], m['bundle'], 60)\n            c.r['probe'] = json.loads((root/'stdout.log').read_text())\n            if c.r['probe'].get('scope') != 'GPU_RUNTIME_PROBE_NOT_MODEL_INFERENCE' or c.r['probe'].get('sgemm_elements_verified') != 4:\n                raise RuntimeError('Invalid device probe result')\n        else: raise ValueError('Unsupported campaign action')\n        c.r.update(state='PASSED', exit_code=0)\n    except BaseException as ex:\n        c.r.update(state='FAILED', error=repr(ex), exit_code=1)\n    finally: c.finish()\n    print(json.dumps(c.r), flush=True)\n    return c.r['exit_code']\n\nif __name__ == '__main__': raise SystemExit(main())\n",
+      "telemetry": [
+        {
+          "at": "2026-10-02T08:52:43.731751+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 379,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115398549504,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": [
+            2607546
+          ]
+        },
+        {
+          "at": "2026-10-02T08:52:43.954672+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 379,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115398549504,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": []
+        },
+        {
+          "at": "2026-10-02T08:52:44.019897+00:00",
+          "kfd": [],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            }
+          ],
+          "denied_fd": 379,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.125,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115398549504,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061681152
+          },
+          "kernel_kfd": []
+        },
+        {
+          "at": "2026-10-02T08:52:44.243374+00:00",
+          "kfd": [
+            {
+              "pid": 2607723,
+              "start_ticks": 463107265,
+              "cgroup": "0::/system.slice/docker-ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc.scope\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 2895,
+              "start_ticks": 88672,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/card1"
+              ]
+            },
+            {
+              "pid": 2932,
+              "start_ticks": 88699,
+              "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 3313,
+              "start_ticks": 88780,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+              "devices": [
+                "/dev/dri/renderD128"
+              ]
+            },
+            {
+              "pid": 2607723,
+              "start_ticks": 463107265,
+              "cgroup": "0::/system.slice/docker-ad6748dbb901421ed5ad6a8ebce93b2d9cc86dbac561a53e91d29eab49d1eabc.scope\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 381,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 35.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 36.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.5,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132545421312,
+            "MemAvailable": 115240849408,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21061689344
+          },
+          "kernel_kfd": []
+        }
+      ]
+    }
+  },
+  "cpu": {
+    "point-campaign-controls-r1": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 64.5
+        },
+        "elapsed_s": 1.070977931842208
+      },
+      "command_log": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.002s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "d1a90915024facf8f607a72008b2dd0b4b1987b5c5be81af62e464eeb9989a6d",
+        "temperatures.jsonl": "02dce9c4423b2a4dee4be63e12089d134b6c7fe3330bd69f6abed666478d9ba9",
+        "command.log": "62cfbeb2911bb226088bfb0918eb4b05008ea70b20bce854ee2ca8a564bd37a5",
+        "result.json": "8e8884e46bf7df26c7c2d1a4fca209112be678c645abbf994737015c84603865"
+      }
+    },
+    "point-campaign-controls-r2": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 64.625
+        },
+        "elapsed_s": 1.0567076290026307
+      },
+      "command_log": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "d1a90915024facf8f607a72008b2dd0b4b1987b5c5be81af62e464eeb9989a6d",
+        "temperatures.jsonl": "463de6aaf629e24cc003fbd25eb07a76581e2faeb249668121de420da06fdb89",
+        "command.log": "670a39115e7523a8984e4842e16547cb2094b03fad392b037b4b9dc8b2656e62",
+        "result.json": "710ac71e7d83b57fed1f029397497f0c55ffc75e20f9d7d26b781852c7bf59bf"
+      }
+    },
+    "point-campaign-controls-r3": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 39.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 39.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.75
+        },
+        "elapsed_s": 1.0438413936644793
+      },
+      "command_log": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "d1a90915024facf8f607a72008b2dd0b4b1987b5c5be81af62e464eeb9989a6d",
+        "temperatures.jsonl": "728d013417c843ba3a8b322b29c63b7ff647287b6033711b7773d6828d8a8680",
+        "command.log": "670a39115e7523a8984e4842e16547cb2094b03fad392b037b4b9dc8b2656e62",
+        "result.json": "7cded20d75f762ced0fc8e81774f9363c74437b801fcaf09432907d896c01253"
+      }
+    },
+    "point-campaign-controls-r4": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 62.375
+        },
+        "elapsed_s": 1.023834915831685
+      },
+      "command_log": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.004s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "d1a90915024facf8f607a72008b2dd0b4b1987b5c5be81af62e464eeb9989a6d",
+        "temperatures.jsonl": "5622b1f1da534356dab70abac2dcdaf2feec70af75be0d28cd75a4ac17dc6223",
+        "command.log": "5f0635b83af38a6c5d516fcb60dc3fa63c9c6ca4854e51a6a29ca33c92ccef16",
+        "result.json": "6af8cf91c35d298330381753bb4a3a5c43538270809ecc5efc85e96c36a42772"
+      }
+    },
+    "point-download-controls-r1": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_download.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.75
+        },
+        "elapsed_s": 1.0873509282246232
+      },
+      "command_log": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "675ec072bf064d48331c521e756ecff9b909b32c9d4d86cf30b004489283f033",
+        "temperatures.jsonl": "4d4640ec03d6243d91d5b14e906e7d349b44d5e244d140181206506c0aea6753",
+        "command.log": "921b60a7fd52e978fbb551cacd29df2d6708879400278e1fcc70fceeb0c6f8e0",
+        "result.json": "31e0b2a237fcefa5eb346aa3567f1f4f995c844e9bfdc29dbfae38251f5f9410"
+      }
+    },
+    "point-download-controls-r2": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_download.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 63.75
+        },
+        "elapsed_s": 1.0814268039539456
+      },
+      "command_log": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "artifacts_sha256": {
+        "plan.json": "675ec072bf064d48331c521e756ecff9b909b32c9d4d86cf30b004489283f033",
+        "temperatures.jsonl": "d75df29825bc301bf62bc4a4af8e786eaab2753f7d20361860d1ccd2ca8f8626",
+        "command.log": "d03ce458f2a6cd2b4f27522f3aacad03ce1872c028853507c3ad02ca621bdcad",
+        "result.json": "52e89182daf1511f6de257080e0c7ef580151471bdde74999da0f5e38352348f"
+      }
+    },
+    "point-load-error-build-r1": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/strix-point-local-r3",
+          "--target",
+          "test-synthetic-lie-bench",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 88.75
+        },
+        "elapsed_s": 1.058391835540533
+      },
+      "command_log": "[0/1] Re-running CMake...\n-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n[1/4] Building C object CMakeFiles/test-synthetic-lie-bench.dir/tools/core-bench.c.o\n[2/4] Building C object CMakeFiles/test-synthetic-lie-bench.dir/tests/bench_executor.c.o\n[3/4] Linking C executable test-synthetic-lie-bench\n",
+      "artifacts_sha256": {
+        "plan.json": "b1706375fb6e3de1312d0fbf90e1e6b1788a5b0bb39724005054b4c38c7f5a1f",
+        "temperatures.jsonl": "b28b5f04dedebdadb890e35def372c8526c0abbebf25383f95cfe3228a5cff78",
+        "command.log": "285bd7c8bdc2ba33938a40830d72693bfa3bd289bc687342a27188aafbdcfd93",
+        "result.json": "c9822af88f5f2db2c12f347de979da8afe22574ed6fa5258cf6cf26ae67568af"
+      }
+    },
+    "point-load-error-test-r1": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/strix-point-local-r3",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "core-bench-contract|strix-point-.*-controls"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 92.0
+        },
+        "elapsed_s": 2.1337579861283302
+      },
+      "command_log": "UpdateCTestConfiguration  from :/home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3/DartConfiguration.tcl\nParse Config file:/home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3/DartConfiguration.tcl\nTest project /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 22\n    Start 22: strix-point-campaign-controls\n\n22: Test command: /usr/bin/python3 \"-B\" \"/home/paperboy/.codex/worktrees/4d2b/synapse-lie/tests/test_strix_point_campaign.py\"\n22: Working Directory: /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n22: Test timeout computed to be: 1500\n22: .......\n22: ----------------------------------------------------------------------\n22: Ran 7 tests in 0.003s\n22: \n22: OK\n1/3 Test #22: strix-point-campaign-controls ....   Passed    0.06 sec\ntest 23\n    Start 23: strix-point-download-controls\n\n23: Test command: /usr/bin/python3 \"-B\" \"/home/paperboy/.codex/worktrees/4d2b/synapse-lie/tests/test_strix_point_download.py\"\n23: Working Directory: /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n23: Test timeout computed to be: 1500\n23: .....\n23: ----------------------------------------------------------------------\n23: Ran 5 tests in 0.002s\n23: \n23: OK\n2/3 Test #23: strix-point-download-controls ....   Passed    0.07 sec\ntest 35\n    Start 35: core-bench-contract\n\n35: Test command: /usr/bin/python3 \"-B\" \"/home/paperboy/.codex/worktrees/4d2b/synapse-lie/tests/test_core_bench.py\" \"/home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3/test-synthetic-lie-bench\"\n35: Working Directory: /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n35: Test timeout computed to be: 30\n35: ............\n35: ----------------------------------------------------------------------\n35: Ran 12 tests in 1.608s\n35: \n35: OK\n3/3 Test #35: core-bench-contract ..............   Passed    1.74 sec\n\nThe following tests passed:\n\tstrix-point-campaign-controls\n\tstrix-point-download-controls\n\tcore-bench-contract\n\n100% tests passed out of 3\n\nTotal Test time (real) =   1.87 sec\n",
+      "artifacts_sha256": {
+        "plan.json": "fc5a1251959a0aff95d4f464a81e2c24ec1c3d179f5ce314d93a73ef1e063819",
+        "temperatures.jsonl": "b31b0daf655a06ab6292383c3f98181bb074a36fe189cbc6ac9853f576084710",
+        "command.log": "c047df5c3724556382c91c330cd48c4ed58f144f4e4bf9f80a276cf5403594d5",
+        "result.json": "3737d8de8a055f6a7895d0a5357eee2b56d2244a1f43bc9c64a0d569b1e01c75"
+      }
+    },
+    "point-linked-r3-configure": {
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/point-linked-r3",
+          "-G",
+          "Ninja",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DLIE_HIP_ARCHITECTURE=gfx1150",
+          "-DLIE_BUILD_ID=strix-point-ud-r3",
+          "-DGUFO_SOURCE=/home/paperboy/.codex/worktrees/4d2b/synapse-lie/.deps/gufo-state-access-point-libraries-r1",
+          "-DGUFO_BUILD=/home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/point-libraries-r1",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DBUILD_TESTING=OFF"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 88.625
+        },
+        "elapsed_s": 1.1262924820184708
+      },
+      "command_log": "-- The C compiler identification is GNU 16.2.1\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: /usr/bin/cc - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n-- Found Threads: TRUE\n-- Found OpenSSL: /usr/lib/libcrypto.so (found version \"3.6.4\") found components: Crypto\n-- Found PkgConfig: /usr/bin/pkg-config (found version \"3.0.6\")\n-- Checking for module 'libuv'\n--   Found libuv, version 1.52.1\n-- Checking for module 'json-c'\n--   Found json-c, version 0.19\n-- Checking for module 'libllhttp'\n--   Found libllhttp, version 9.3.1\n-- Checking for module 'libcurl'\n--   Found libcurl, version 8.21.0\n-- The CXX compiler identification is GNU 16.2.1\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: /usr/bin/c++ - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Found Python3: /home/paperboy/.local/bin/python3.11 (found version \"3.11.15\") found components: Interpreter\nVerified pinned Gufo sources and private archives; no hardware inference qualification\n-- Found ICU: /usr/include (found version \"78.3\") found components: uc i18n\n-- Found ZLIB: /usr/lib/libz.so (found version \"1.3.1\")\n-- Found PNG: /usr/lib/libpng.so (found version \"1.6.58\")\n-- Found JPEG: /usr/lib/libjpeg.so (found version \"80\")\n-- Configuring done (0.6s)\n-- Generating done (0.0s)\n-- Build files have been written to: /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/point-linked-r3\n",
+      "artifacts_sha256": {
+        "plan.json": "44370e74efac1d10af4eab8ed96995f13bebfaab26757115fd549b08a0369473",
+        "temperatures.jsonl": "1b2561f579d3ef5ffe230596a0fd992f26f6173bfefdd7b7508b826b302bbad2",
+        "command.log": "a146fc5afb83a4a653ed82167d0ec0c9a950365c2d91327715d6720d21c14e83",
+        "result.json": "44f3dde214fe8459fa0462c67274eefafd8aa461fae1cf6673600f5e01aeca3e"
+      }
+    },
+    "point-linked-r3-build": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-linked-r3",
+          "--target",
+          "synapse-lie-server",
+          "synapse-lie-bench",
+          "synapse-lie-bench-gufo-reference",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 70.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 94.375
+        },
+        "elapsed_s": 8.10999021306634
+      },
+      "command_log": "[1/40] Building C object CMakeFiles/lie_flow.dir/src/flow.c.o\n[2/40] Building C object CMakeFiles/lie_state.dir/src/state.c.o\n[3/40] Linking C static library liblie_flow.a\n[4/40] Building C object CMakeFiles/lie_inference.dir/src/inference.c.o\n[5/40] Linking C static library liblie_state.a\n[6/40] Building C object CMakeFiles/lie_store.dir/src/store.c.o\n[7/40] Building C object CMakeFiles/lie_store.dir/src/state_codec.c.o\n[8/40] Building C object CMakeFiles/lie_store.dir/src/state_identity.c.o\n[9/40] Linking C static library liblie_inference.a\n[10/40] Linking C static library liblie_store.a\n[11/40] Building C object CMakeFiles/lie_qwen_state.dir/src/models/qwen_flash_state.c.o\n[12/40] Building C object CMakeFiles/lie_core.dir/src/worker.c.o\n[13/40] Building C object CMakeFiles/lie_core.dir/src/core_input.c.o\n[14/40] Building C object CMakeFiles/lie_core.dir/src/text.c.o\n[15/40] Building C object CMakeFiles/lie_core.dir/src/prefix_cache.c.o\n[16/40] Linking C static library liblie_qwen_state.a\n[17/40] Linking C static library liblie_core.a\n[18/40] Building C object CMakeFiles/lie_metrics.dir/src/metrics.c.o\n[19/40] Building C object CMakeFiles/lie_runtime.dir/src/responses.c.o\n[20/40] Building C object CMakeFiles/lie_runtime.dir/src/chat.c.o\n[21/40] Building C object CMakeFiles/lie_runtime.dir/src/chat_tools.c.o\n[22/40] Building C object CMakeFiles/lie_runtime.dir/src/tools.c.o\n[23/40] Building C object CMakeFiles/lie_runtime.dir/src/worker_http.c.o\n[24/40] Building C object CMakeFiles/lie_runtime.dir/src/wire.c.o\n[25/40] Building CXX object CMakeFiles/lie_gufo.dir/adapters/gufo.cpp.o\n[26/40] Building C object CMakeFiles/lie_gufo.dir/adapters/gufo_binding.c.o\n[27/40] Building CXX object CMakeFiles/lie_gufo.dir/adapters/gufo_device.cpp.o\n[28/40] Linking C static library liblie_metrics.a\n[29/40] Linking C static library liblie_runtime.a\n[30/40] Building C object CMakeFiles/synapse-lie-server.dir/src/server.c.o\n[31/40] Linking CXX static library liblie_gufo.a\n[32/40] Building C object CMakeFiles/synapse-lie-bench.dir/tools/lie-bench.c.o\n[33/40] Building C object CMakeFiles/synapse-lie-bench.dir/tools/core-bench.c.o\n[34/40] Building C object CMakeFiles/synapse-lie-bench.dir/tools/state-bench.c.o\n[35/40] Building C object CMakeFiles/synapse-lie-bench-gufo-reference.dir/tools/lie-bench.c.o\n[36/40] Building CXX object CMakeFiles/synapse-lie-bench-gufo-reference.dir/adapters/gufo_reference_bench.cpp.o\n[37/40] Building CXX object CMakeFiles/synapse-lie-bench-gufo-reference.dir/adapters/gufo_device.cpp.o\n[38/40] Linking CXX executable synapse-lie-server\n[39/40] Linking CXX executable synapse-lie-bench\n[40/40] Linking CXX executable synapse-lie-bench-gufo-reference\n",
+      "artifacts_sha256": {
+        "plan.json": "c1dba14dd8e282b3d525d16268b576627cc7aee6f8117077081b45e95678fedf",
+        "temperatures.jsonl": "a67b2d4e8b48e10924c36aca63a41eda1a8ae7e4c183568803cf6e1e91937db5",
+        "command.log": "96dc22a98882b51fcae69ae2da7dde27b380f74a333709d46d180b60a0bdf454",
+        "result.json": "17515fcfc617879562d83abcade373cb5b5a7dbd6b7f0fc325b5694dd152dd5e"
+      }
+    }
+  },
+  "runtime": {
+    "receipt": {
+      "action": "runtime-check",
+      "host": "pop@192.168.5.161",
+      "at": "2026-10-02T09:12:58.668848+00:00",
+      "source_sha256": {
+        "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+        "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+        "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+        "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+        "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+        "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+        "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+        "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+        "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+        "include/lie/executor.h": "b899e6d8334c466adb81bc5bbe6bd3c3696c32cce25046f57ddda828527ddfb7",
+        "runtime/bin/synapse-lie-server": "c2dfd224de08f6b86097ec0a157d9cb3ebc2f2e227847c4ba2c2c751b90a935a",
+        "runtime/bin/synapse-lie-bench": "92744f130045a5d9e8588d6dc15ba642b17f0e5060cb72a115b8e2366c9c9aed",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "bd53a6c2accc2713ab33442cca94b927e848e0b51cd5dc3337f3ceda7d26c9c3",
+        "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+        "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+        "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+        "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+        "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665",
+        "runtime/strip-receipt.json": "0e9c74ad656a0152c8c47e6902dc6cec150d48a8b263e28900e6d12d68551774",
+        "runtime/system-packages.txt": "281645fe4ce1e8e200093dc5bf1f1787ca1960ec4830cfe5bc39d1ba1e9000bf"
+      },
+      "scope": "No GPU, model payload, service mutation, package installation or remote GPU build",
+      "runner_sha256": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -"
+      ],
+      "remote_program_sha256": "9a46c0f146c429b2d99c72e39afd7fe2363359dc78279b1f092c32c66ea6cda3",
+      "exit_code": 0
+    },
+    "result": {
+      "scope": "LINKED_NO_MODEL_NOT_INFERENCE",
+      "remote_root": "/home/pop/workspace/synapse-lie/strix-point-runtime-161-r4",
+      "commands": [
+        {
+          "step": "server-help",
+          "exit_code": 0,
+          "guard_stdout": "{\"argv\": [\"./runtime/bin/synapse-lie-server\", \"--help\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 43.375}, \"elapsed_s\": 1.0849615726619959}\n"
+        },
+        {
+          "step": "bench-info",
+          "exit_code": 0,
+          "guard_stdout": "{\"argv\": [\"./runtime/bin/synapse-lie-bench\", \"--build-info\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 34.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 41.75}, \"elapsed_s\": 1.0901923784986138}\n"
+        },
+        {
+          "step": "reference-info",
+          "exit_code": 0,
+          "guard_stdout": "{\"argv\": [\"./runtime/bin/synapse-lie-bench-gufo-reference\", \"--build-info\"], \"child_exit_code\": 0, \"exit_code\": 0, \"reason\": null, \"peak_c\": {\"/sys/class/hwmon/hwmon3/temp1_input\": 34.85, \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85, \"/sys/class/hwmon/hwmon3/temp3_input\": 34.85, \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85, \"/sys/class/hwmon/hwmon4/temp2_input\": 39.85, \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85, \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0, \"/sys/class/hwmon/hwmon6/temp1_input\": 40.875}, \"elapsed_s\": 1.0938099501654506}\n"
+        }
+      ],
+      "artifacts": {
+        "evidence/bench-info/command.log": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"strix-point-ud-r3\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"LIE-reactive-ready-batch\"}\n",
+        "evidence/bench-info/plan.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-bench\",\n    \"--build-info\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+        "evidence/bench-info/result.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-bench\",\n    \"--build-info\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 34.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 41.75\n  },\n  \"elapsed_s\": 1.0901923784986138\n}\n",
+        "evidence/bench-info/temperatures.jsonl": "{\"wall_time_ns\": 1790932387190383928, \"elapsed_s\": 5.0473958253860474e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 41.75}]}\n{\"wall_time_ns\": 1790932387216166947, \"elapsed_s\": 0.025835257023572922, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 36.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 41.75}]}\n{\"wall_time_ns\": 1790932388242634384, \"elapsed_s\": 1.0523032350465655, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 40.875}]}\n",
+        "evidence/reference-info/command.log": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"strix-point-ud-r3\",\"engine\":\"gufo-direct-c1-reference\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"upstream-native-batch\"}\n",
+        "evidence/reference-info/plan.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-bench-gufo-reference\",\n    \"--build-info\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+        "evidence/reference-info/result.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-bench-gufo-reference\",\n    \"--build-info\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 34.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 34.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 39.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 40.875\n  },\n  \"elapsed_s\": 1.0938099501654506\n}\n",
+        "evidence/reference-info/temperatures.jsonl": "{\"wall_time_ns\": 1790932388537736488, \"elapsed_s\": 5.785934627056122e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 39.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 40.875}]}\n{\"wall_time_ns\": 1790932388562060157, \"elapsed_s\": 0.02438328042626381, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 38.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 40.875}]}\n{\"wall_time_ns\": 1790932389585916307, \"elapsed_s\": 1.0482401819899678, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 35.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 40.375}]}\n",
+        "evidence/server-help/command.log": "Usage: synapse-lie-server [--host IPv4] [--port N] [--management-host IPv4] [--management-port N]\n  [--model FIRST-SHARD.gguf] [--model-id ID] [--context 128..262144] [--prefill-chunk N] [--max-active 1..8] [--request-timeout-ms N] [--prefix-cache-mib 4096]\n  [--prefix-ssd-dir ABSOLUTE-DIRECTORY --prefix-ssd-quota-mib N --prefix-ssd-staging-mib N]\nWithout --model: management only. Embedded Gufo requires an opt-in HIP build.\nText-only AR with per-sequence sampling, thinking disabled. OpenAI function tools (execution by client). Credit-driven native decode batching. RAM prefix cache is on by default; zero MiB disables it. SSD prefix persistence is opt-in; no MTP or exact-session resume.\nModel execution on shared hardware requires the coordination lease.\n--build-info reports the compiled provider without opening a model.\n",
+        "evidence/server-help/plan.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-server\",\n    \"--help\"\n  ],\n  \"cwd\": \"/work\",\n  \"sensors\": [\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"nvme\",\n      \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"amdgpu\",\n      \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\",\n      \"limit_c\": 85\n    },\n    {\n      \"name\": \"k10temp\",\n      \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\",\n      \"limit_c\": 85\n    }\n  ],\n  \"timeout_s\": 45.0,\n  \"pid\": 1,\n  \"scope\": \"Owned child process group only; no power/fan/clock changes\"\n}\n",
+        "evidence/server-help/result.json": "{\n  \"argv\": [\n    \"./runtime/bin/synapse-lie-server\",\n    \"--help\"\n  ],\n  \"child_exit_code\": 0,\n  \"exit_code\": 0,\n  \"reason\": null,\n  \"peak_c\": {\n    \"/sys/class/hwmon/hwmon3/temp1_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp2_input\": 33.85,\n    \"/sys/class/hwmon/hwmon3/temp3_input\": 33.85,\n    \"/sys/class/hwmon/hwmon4/temp1_input\": 31.85,\n    \"/sys/class/hwmon/hwmon4/temp2_input\": 36.85,\n    \"/sys/class/hwmon/hwmon4/temp3_input\": 31.85,\n    \"/sys/class/hwmon/hwmon5/temp1_input\": 39.0,\n    \"/sys/class/hwmon/hwmon6/temp1_input\": 43.375\n  },\n  \"elapsed_s\": 1.0849615726619959\n}\n",
+        "evidence/server-help/temperatures.jsonl": "{\"wall_time_ns\": 1790932385847380485, \"elapsed_s\": 5.204882472753525e-05, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 32.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 36.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 43.375}]}\n{\"wall_time_ns\": 1790932385870705565, \"elapsed_s\": 0.0233776792883873, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 36.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 43.375}]}\n{\"wall_time_ns\": 1790932386895403030, \"elapsed_s\": 1.048077397979796, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"limit_c\": 85, \"value_c\": 33.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"limit_c\": 85, \"value_c\": 34.85}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"limit_c\": 85, \"value_c\": 31.85}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"limit_c\": 85, \"value_c\": 39.0}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"limit_c\": 85, \"value_c\": 42.0}]}\n"
+      }
+    }
+  },
+  "download_cancelled": {
+    "receipt": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -"
+      ],
+      "remote_root": "/home/pop/workspace/synapse-lie/strix-point-ud-download-r1",
+      "source_sha256": {
+        "manifest.json": "42e78a88f505034c2e6d98e870503714bc80df87f60e1f0cf775abc800bd8add",
+        "runner.py": "231d64ec7b7d06d0d1cceec40c7d36cde65e5be8bfd92ad4a3bc6180a569056f",
+        "download.py": "a7cd8b159accf20379b2d8bdbea05cfd7c0d3e7ab1944646f0772def7927dc9d"
+      },
+      "stager_sha256": "6849fc7b079c716787f4b438c8a5556eec28dbdf9d4d103bbb51a9d6ba6cabf7",
+      "exit_code": 1
+    },
+    "result": {
+      "state": "FAILED",
+      "started_at": "2026-10-02T08:56:04.365653+00:00",
+      "pid": 2607909,
+      "start_ticks": 463127277,
+      "manifest_sha256": "42e78a88f505034c2e6d98e870503714bc80df87f60e1f0cf775abc800bd8add",
+      "runner_sha256": "231d64ec7b7d06d0d1cceec40c7d36cde65e5be8bfd92ad4a3bc6180a569056f",
+      "authorization": {
+        "kind": "operator-one-shot-window",
+        "service": "llama-router.service",
+        "stop_restore_authorized": true,
+        "quote": "llama si pu\u00f2 stoppaare"
+      },
+      "commands": [
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=2607858\nActiveState=active\nSubState=running\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "stop",
+            "llama-router.service"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "start",
+            "llama-router.service"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=2608115\nActiveState=active\nSubState=running\n",
+          "stderr": ""
+        }
+      ],
+      "container": null,
+      "service_restore_required": true,
+      "exit_code": 1,
+      "service_before": {
+        "MainPID": "2607858",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "before": {
+        "at": "2026-10-02T08:56:04.372265+00:00",
+        "kfd": [
+          {
+            "pid": 2607858,
+            "start_ticks": 463107437,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "dri": [
+          {
+            "pid": 2895,
+            "start_ticks": 88672,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/card1"
+            ]
+          },
+          {
+            "pid": 2932,
+            "start_ticks": 88699,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 3313,
+            "start_ticks": 88780,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 2607858,
+            "start_ticks": 463107437,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "denied_fd": 382,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 31.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 35.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 36.25,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132545421312,
+          "MemAvailable": 115438796800,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21061689344
+        },
+        "kernel_kfd": [
+          2607858
+        ]
+      },
+      "lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66308,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "service_stopped": {
+        "MainPID": "0",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "admission": {
+        "at": "2026-10-02T08:56:04.624755+00:00",
+        "kfd": [],
+        "dri": [
+          {
+            "pid": 2895,
+            "start_ticks": 88672,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/card1"
+            ]
+          },
+          {
+            "pid": 2932,
+            "start_ticks": 88699,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 3313,
+            "start_ticks": 88780,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          }
+        ],
+        "denied_fd": 383,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 35.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 36.25,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132545421312,
+          "MemAvailable": 115440836608,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21061689344
+        },
+        "kernel_kfd": []
+      },
+      "child_pid": 2607917,
+      "child_start_ticks": 463127316,
+      "error": "RuntimeError('Interrupted: 15')",
+      "postflight_before_restore": {
+        "at": "2026-10-02T09:03:20.974501+00:00",
+        "kfd": [],
+        "dri": [
+          {
+            "pid": 2895,
+            "start_ticks": 88672,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/card1"
+            ]
+          },
+          {
+            "pid": 2932,
+            "start_ticks": 88699,
+            "cgroup": "0::/user.slice/user-1000.slice/session-4.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 3313,
+            "start_ticks": 88780,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/org.freedesktop.impl.portal.desktop.cosmic.service\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          }
+        ],
+        "denied_fd": 382,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 35.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 38.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 39.25,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132545421312,
+          "MemAvailable": 115476996096,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21061697536
+        },
+        "kernel_kfd": []
+      },
+      "service_after": {
+        "MainPID": "2608115",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T09:03:21.042890+00:00",
+      "cleanup_failures": [],
+      "ended_at": "2026-10-02T09:03:21.042907+00:00"
+    }
+  },
+  "proposal_applied": false,
+  "model_inference_run": false
+}

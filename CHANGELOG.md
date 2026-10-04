@@ -22,6 +22,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Explicit `gfx1150` Strix Point support, with provider target verification and
+  paired GPU benchmark results grouped on the platform page.
+
 - Shared-core benchmark controls for temperature, top-p, a reproducible seed and
   frequency/presence penalties, with parameter validation and matched-report checks.
 
@@ -85,6 +88,9 @@ stable release is declared. Detailed validation history is in
   platform with tables and graphs on the same page.
 
 ### Changed
+
+- Retired the LZ4 checkpoint reader and dependency. Raw checkpoints, Zstandard
+  compression and the exact DS4 runtime payload format remain supported.
 
 - C17 ranked sampling uses bounded introsort, and linear selection avoids a
   repeated maximum scan. Mask-free greedy and probability compaction have

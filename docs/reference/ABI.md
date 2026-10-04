@@ -375,6 +375,15 @@ closing the store. Cancellation latches affect reads between bounded transfers;
 no filesystem syscall or GPU operation is forcibly preempted. Provider calls
 still run only on the device owner, and mutating failures never become misses.
 See [SSD-PREFIX.md](SSD-PREFIX.md) for framing, durability and qualification limits.
+## Strix Point device admission
+
+The optional Gufo composition selects one verified HIP build architecture,
+`gfx1151` or `gfx1150`. Model loading refuses a mismatched device or a configured
+`HSA_OVERRIDE_GFX_VERSION` with `LIE_UNSUPPORTED`; inability to query HIP device
+properties is `LIE_BACKEND_FAILED`. Validation precedes numerical weight upload.
+No executor struct, ABI version, device-owner rule or reactive scheduling contract
+changes. The [Strix Point report](../STRIX-POINT.md) separates CPU admission tests
+from pending original-weight device qualification.
 
 ## Cache-policy client extension (request ABI 2)
 

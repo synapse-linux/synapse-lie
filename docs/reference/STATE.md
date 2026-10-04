@@ -194,8 +194,9 @@ Packing operates only on a uniquely owned immutable state. Physical tokens stay
 uncompressed; all remaining bytes, including floating-point bit patterns, use
 independent 1 MiB Zstandard/raw blocks. Four-byte words are reversibly split
 into byte planes before level-1 compression, without interpreting their values.
-Static codec contexts keep all explicit workspace inside admission. Existing
-LZ4 blocks remain readable. Payloads below 64 KiB stay raw. At least 50%
+Static codec contexts keep all explicit workspace inside admission. The removed
+LZ4 codec 1 is rejected; existing raw and Zstandard codec 2 files remain
+readable. Payloads below 64 KiB stay raw. At least 50%
 saving of the complete retained allocation (descriptor plus stored payload) is
 required. Three deterministic samples totaling at most 48 KiB reject low-benefit
 inputs before allocating or scanning the full candidate. This is a conservative

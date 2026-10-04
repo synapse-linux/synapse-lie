@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Strix Point integration into the shared branch — 2026-10-04 UTC
+
+The shared branch integrates Point checkpoint `618d9478` while preserving the
+sampler CLI controls and the CPU-only thermal stop policy. `gfx1150` and
+`gfx1151` provider targets are explicit and verified before model admission.
+The retired LZ4 reader/dependency is removed; Zstandard stays default-ON and
+DS4 runtime payloads retain their existing format.
+
+The merged source passes 13/13 focused native CTest checks with ASan, UBSan and
+LeakSanitizer, 34 synthetic supervision/build controls and the synthetic HIP
+probe's error paths. No real GPU or model is opened by this integration check;
+the local CPU peaks at 81.25 C. The integrated native reporter also reproduces
+all four retained Point MTP/AR comparisons with exact input/output IDs and
+unchanged phase metrics. Published artifacts stay byte-identical to their
+recorded Point checkpoint; original logs retain their original whitespace.
+Two initial verification command errors remain in local evidence.
+
+The [integration receipt](development/validation/point-integration-2026-10-04.json)
+binds source, actual exits and the distinction between offline checks and
+historical GPU execution. The [Point platform page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+remains the entry point for results. New GPU performance, target HTTP/vision
+qualification and independent quality gates remain open.
+
 ## Integrated sampler/vision GPU qualification — 2026-10-04 UTC
 
 The frozen `032d847` composition completes all **12/12** intended original-weight
@@ -279,6 +302,97 @@ retire, KFD is empty and the original lease inode is unchanged/free afterwards.
 The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
 binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
 and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
+
+## Strix Point core integration checkpoint — 2026-10-03
+
+`feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
+vision contracts while retaining explicit `gfx1150` build receipts and HIP
+device admission. The provider build now selects and records one HIP target;
+the server verifies the receipt, cache and target-policy hash before link.
+The local full C/HTTP build passes. Headless CTest passes 25/25 and focused
+ASan/UBSan tests pass 26/26. The legacy HTTP suite passes 69/71 on its first
+unrestricted run; its two stale expectations rejected supported OpenAI options.
+After updating those expectations, both focused tests pass. The initial
+sandboxed 21 HTTP failures were loopback-denied fixtures, not serving results.
+The first long-context ROCm 10 `.161` baseline remains a separately pinned
+pre-integration binary; new runtime/device qualification is pending.
+Its paired fresh-prompt ROCm 10 LIE/Gufo arms now pass 10/10 samples each from
+1,500 through 131,072 physical tokens, with identical physical input IDs,
+outputs and full prefill/decode frontiers at every pair. Both child/supervisor
+exits are 0; 21/21 files per arm match remote SHA-256, models are unchanged,
+`llama-router.service` is restored and the private lease released. At 128K,
+LIE/Gufo median prefill is 401.949/402.066 tok/s and decode is
+10.061/10.062 tok/s. The [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+contains full values, charts, raw bundles and the offline verifier.
+The subsequent frozen `bea50d3` merge adds validated prefill/decode phase
+clocks to the native benchmark and report. On the Point branch, the C/HTTP
+rebuild and five focused native/HTTP/provider tests pass; the ASan/UBSan
+native/provider subset passes 2/2. The
+[Point benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+links the complete already-published direct results and keeps new-runtime
+measurement pending.
+The additional CPU-qualified C17 sampler commits `ff91544` and `ba054bd`
+are now merged for the future Point runtime. The Point full C/HTTP rebuild and
+five focused CTest cases pass; the corresponding ASan/UBSan subset passes 4/4.
+These host checks do not qualify the optimized sampler on `gfx1150`. The
+`fresh-256k` paired baseline on the unchanged `1877b03` binary passes 2/2
+samples per arm from 258,794 physical tokens through 128 output tokens.
+LIE/Gufo physical IDs, output IDs and full prefill/decode frontiers match.
+Median LIE/Gufo prefill is 382.855/380.717 tok/s and decode is
+9.733/9.715 tok/s. The [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+contains min/max, durations, charts, verified raw bundles and native C17
+reproduction commands. Both leases, service states and 21/21 remote files
+per arm were verified after collection.
+The new ROCm 10 build path is prepared as a CMake helper under the existing
+`.161` lease runner. It seals a separate persistent source capsule, selects
+`gfx1150` with target-bound provider receipts, leaves GPU devices and network
+out of the compiler container, and records configure/link exits. The local
+campaign control fixture passes 24/24; a direct host invocation correctly
+refuses without the admitted build window. Its first actual device-free `.161`
+build completed the gfx1150 provider stage, then failed CMake configure on
+missing `lz4.h` in the pinned Fedora image. Child/supervisor exit 1, exact
+configure error and source remain in ignored persistent evidence; the service
+was restored and lease released at 23:24:26.943766 UTC. LZ4 belonged to a
+removed reader, so current source removes codec 1 and the LZ4 build/link
+requirement while retaining default-ON Zstandard compression. A clean core
+ASan/UBSan build has no LZ4 cache or direct dynamic dependency; focused
+checkpoint/store/reactive CTest passes 3/3 with leak detection disabled in
+this ptrace sandbox. The first LeakSanitizer attempt failed because LSan
+cannot operate under ptrace, not because of a test assertion.
+The predictor has since been copied directly from `.157` to `.161`: all
+2,786,568,256 bytes match the recorded SHA-256, the source inode/stat is
+unchanged, both private leases were released, and both services restored.
+The second modern build (with LZ4 removed) again passed its provider stage;
+configure failed with exit 1 solely because the pinned Fedora image lacks
+`zstd.h`. Its remote logs were copied and SHA-256 checked locally; child and
+supervisor both exited 1, `llama-router.service` was restored, and the lease
+released at 23:46:01.238465 UTC. The next isolated capsule will stage the
+host's Zstandard 1.5.7 header pair and BSD license against the image's
+matching 1.5.7 runtime library, preserving compression ON. Modern GPU MTP/AR
+qualification was pending that build.
+
+The sealed ROCm 10 modern r3 build from `9b109998` then passed the `gfx1150`
+provider, configure and link stages with matching staged Zstandard 1.5.7
+headers/license and checkpoint compression ON. Its child/supervisor exits are
+zero, binary and remote-file SHA-256 inventories match, the named service was
+restored and the lease released at 00:01:00.364029 UTC on 2026-10-04. The
+resulting `synapse-lie-bench` needs `libzstd.so.1` and has no ELF dependency on
+LZ4. On `.161`, four matched original-weight GPU MTP/AR pairs now pass at
+P1500/C1/TG32, P8192/C1/TG128, P131072/C1/TG128 and P8192/C2/TG128. All
+eight qualified children and supervisors exit zero, every pair has equal
+physical input IDs and full output IDs, all model/predictor stat identities
+remain unchanged, and each window restores the authorized service and frees
+the private lease. The [Point MTP GPU report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
+contains full prefill/decode/complete-wall values, native C17 graphs, a
+collection receipt and raw archives. An initial AR control inference completed
+but its supervisor failed on a stale KFD PID; that failure is retained, and a
+bounded ownership-aware retirement fix passes 26/26 campaign fixtures before
+the fresh successful AR rerun. The native C17 reporter now exports core decode
+rates, with focused normal and ASan/UBSan tests passing. Final `.161` postflight
+finds the service active, only its PID in KFD, no LIE container and the private
+lease free. These are one-repetition direct-core results; served HTTP and
+statistically replicated MTP performance remain open.
+
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 
 Frozen checkpoint `bec0955` passes all seven declared functional arms on `.157`:
@@ -337,6 +451,151 @@ vision/state/cache/SSD/resource qualification remains open, while the separate
 sampling performance campaign continues on `.157` from its frozen checkpoint.
 The [host receipt](development/validation/vision-weight-decode-2026-10-03.json)
 binds source, providers, command exits and CPU thermal observations.
+
+## Dense-loop sampler follow-up — 2026-10-03 UTC
+
+Mask-free greedy uses its own finite argmax loop; probability normalization now
+divides independent entries before stable underflow compaction. This lets the
+compiler optimize those loops without an optional mask branch or a moving output
+cursor. API, ABI, allocation shape, reactive flow and GPU operations are unchanged.
+
+ASan/UBSan/LeakSanitizer passes 17/17 host-reference suites, 1/1 native C contract
+and three cost smokes. All 54 measured distributions/draws/RNG witnesses match
+both controls and the original baseline; all 162 allocation scopes retire, and
+all twelve measurement processes exit0 and retire. Worst CPU case ratio versus
+Gufo improves from 2.00 to **1.20**; median ratio stays **1.07**. Full-vocabulary
+sine greedy measures 53.43/49.94 µs, unfiltered sampling 1549.44/1354.22 µs.
+The cost gate remains open; these generated-logit CPU measurements do not
+qualify original-weight GPU throughput. Measurement CPU/GPU/NVMe peaks are
+84.125/55/33.85 C; no software thermal stop occurs. Original and both optimized
+results remain separately bound in the
+[sampler guide](development/C17-SAMPLING.md#first-cost-optimization),
+[receipt](development/validation/sampling-dense-loops-2026-10-03.json) and full CSV.
+
+Strix Point's ROCm10 old-source fresh128 pair now finishes 10/10 samples per
+arm, with matching output IDs and full PP/TG frontiers. At 128K LIE/Gufo medians
+are PP401.949/402.066 and TG10.061/10.062 token/s. The Point thread verifies
+21 remote-file hashes per arm, exits0 and owned closure, then starts a separately
+admitted old-source fresh256 LIE arm. This is baseline `1877b03`, not qualification
+of the newer integrated core or this sampler follow-up.
+
+## First sampler cost optimization — 2026-10-03 UTC
+
+The C17 ranked selector replaces full heapsort with bounded introsort, preserving
+its deterministic logit/token order and heap fallback. Linear selection tracks
+the maximum while preparing candidates; ordinary host greedy checks improvement
+before eligibility. No API, ABI, reactive scheduling, worker or device change.
+
+ASan/UBSan/LeakSanitizer passes **17/17** host-reference tests, **1/1** native
+C contract and three cost smokes. The expanded full-vocabulary matrix contains
+24 cases, including adversarial orderings. All 54 measured distribution/draw/RNG
+witnesses match controls and the original baseline; all 162 allocation scopes
+retire, twelve measurement processes exit0 and retire. New control-relative
+median case cost falls from **1.71 to 1.07**, but the worst ratio remains **2.00**.
+The performance acceptance gate stays open, with original-weight sampled GPU
+qualification still pending. Complete retained baseline/current values are in
+the [optimization report](development/C17-SAMPLING.md#first-cost-optimization)
+and [source-bound receipt](development/validation/sampling-optimization-2026-10-03.json).
+Measurement CPU/GPU/NVMe peaks are 77.875/52/34.85 C, with no guard stop.
+
+The existing Strix Point thread runs its missing ROCm10 fresh128 baseline on
+`.161` using the old qualified source `1877b03`; this is not qualification of
+the newer runtime. Separately it commits current core/MTP/vision/gfx1150
+integration at `b8a3c73` and frozen `bea50d3` phase-clock/QA integration at
+`a049bcc`, retaining target-specific receipts and the central benchmark page.
+Point's next runtime GPU window remains separately admitted; root accesses
+neither remote GPU during this CPU increment.
+
+
+## Dense sampler host cost measured — 2026-10-03
+
+The editing Strix Halo `.155` completes the host-only 54-case sampler matrix:
+three generated-logit vocabulary sizes, three shapes and six configurations.
+Pristine official Gufo, C17 and the same-layout OFF control use three balanced
+process orders, seven measured repetitions each. All distributions, draws and
+RNG witnesses match. Expanded ASan/UBSan/LeakSanitizer CTest passes **17/17**;
+three additional cost-probe sanitizer smokes pass. All twelve measurement
+children exit0 and retire, and all 162 counted allocation scopes reach zero.
+
+The **cost acceptance gate fails**: C17/reference per-call time ratios range
+from 0.55 to 3.43, with a median across cases of 1.71. Several full-vocabulary
+filters regress; top-k often reduces allocations. Complete values, exact scope
+and reproducible native commands are in the
+[sampler cost section](development/C17-SAMPLING.md#host-cost-and-temporary-allocations)
+and its [receipt](development/validation/sampling-cost-2026-10-03.json).
+These CPU operator measurements perform no model forward or GPU execution.
+They do not attribute the earlier 1500-token GPU regression, whose ordinary
+greedy path retains device argmax. Runtime source is unchanged in this checkpoint.
+
+Measurement peaks are CPU82.5/GPU55/NVMe34.85 C; the sanitizer suite peaks at
+CPU94.5 C. No thermal stop or hardware shutdown occurs. The failed preparation
+argument and initial compiler warnings remain retained; corrected builds and
+all validation commands exit0. No GPU run/staging on `.157` occurs: its Q2
+reservation remains in force. The owner separately resumes the existing Strix
+Point thread for `.161` qualification and current-core integration; historical
+target results remain bound to their original binaries.
+
+## Clocked performance follow-up prepared — 2026-10-03
+
+Ten arms are prepared locally at frozen runtime checkpoint `15c6082`: the
+missing 12288-token depth pair at capacity 133760, then balanced C17/control
+orders for fresh PP1500/TG128 at capacity 262144. Four arms use no model warmup
+and four use two warmups, with three measured samples each. First and later
+samples remain distinct; OS file cache is uncontrolled, so these are not
+cold-file measurements.
+
+The private supervisor adds read-only optional GPU clock/power and CPU-frequency
+snapshots with monotonic bounds, correlated with the new native PP/TG clocks.
+GPU-masked build-info/help exits are zero and all ten capsule manifests verify.
+**No GPU run, model load/hash or remote staging occurs; admission remains
+disabled until a new Q2 handover.** The
+[preparation receipt](development/validation/performance-followup-preparation-2026-10-03.json)
+binds source, binaries, commands and the planned acceptance checks. The earlier
+1500-token slowdown remains unresolved.
+
+The combined published CSV duration headers now correctly say `seconds` rather
+than `ns`. All 17 rows and their data bytes remain unchanged; 204 duration cells
+match the native summaries. Raw measurements and figures remain unchanged.
+
+## Benchmark phase clocks and durations — 2026-10-03
+
+Native direct benchmarks now record monotonic prefill/decode bounds and a
+wall-clock sample start for correlation with supervised telemetry. They exclude
+prefix construction, frontier copies and flow setup from the timed calls. The
+C report exports duration distributions in seconds to JSON/CSV, validates full
+ordered clock tuples and exact duration differences, and retains support for
+older raw data without a clock declaration. This is host timing, not a GPU
+kernel timeline or preemption claim.
+
+Focused ASan/UBSan/LeakSanitizer `native-benchmark-contract` passes, including
+four malformed clock cases, old-evidence compatibility and existing HTTP/SSD
+fixtures. Both pinned HIP compositions link with GPU visibility masked. The
+first build's incorrect helper name/exit1 is preserved and corrected. Re-export
+of all three original-weight datasets adds duration columns without changing
+any existing witness, comparison or SVG/PNG hash. The
+[source-bound receipt](development/validation/bench-phase-clocks-2026-10-03.json)
+records CPU-only validation; this does not resolve the 1500-token GPU slowdown.
+
+## Local GPU thermal benchmark — 2026-10-03
+
+At the owner's request, the editing ASUS ROG Flow Z13 `.155` completes eight
+consecutive rocBLAS FP16 GEMM4096 trials, each with five warmups and 4000 timed
+iterations. All child/supervisor exits are 0. The campaign lasts **201.79 s**,
+including **185.99 s** in the timed GEMM loops. Median throughput is
+**23.766 TFLOP/s**; the last trial is **0.79%** below the first. Sampled peaks
+are **CPU93.5/GPU97/NVMe38.85 C**, with no 98 C guard stop, hardware shutdown
+or deterioration observed. The last trials generally remain around 92–94 C
+under load, with brief GPU peaks. Both existing fan curves select PWM255 from
+60 C; loaded fans run at 8700–8900 RPM. No settings change during the benchmark.
+
+This is a **synthetic matrix workload**, not LIE inference or a model token-rate
+comparison. Eight short processes do not qualify longer steady-state operation;
+there is no controlled comparison with earlier fan settings. The independent
+local lease is acquired afresh for each arm. All sixteen owned process identities
+retire, KFD is empty and the original lease inode is unchanged/free afterwards.
+The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
+binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
+and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
 
 ## Original-weight GPU continuation — 2026-10-03
 
@@ -1155,6 +1414,227 @@ Local [CPU receipts](benchmarks/2026-10-02/ssd-qualification/cpu-receipt.json):
 14/14 focused checks, full ASan/UBSan 30/30 (CPU77.75/GPU58 C), HIP server/bench
 compile/link exit 0 (CPU73/GPU58 C). All commands exit 0. No original-model SSD
 result is claimed by this preparation checkpoint.
+
+## Strix Point fork — 2026-10-02
+
+The ROCm 10 Distrobox `multi` comparison on `.161` now passes LIE reactive,
+direct Gufo and LIE serial at C1/2/4/6/8: 60/60 full-output samples, with
+child/supervisor exit 0 in each arm. At C8, aggregate decode medians are
+32.837, 32.872 and 10.425 token/s, respectively; LIE reactive is 3.15× its
+serial control. All C2–C8 LIE measurements show 128 GPU batch calls and zero
+single-row decode calls. Same-stack inputs, outputs and frontiers match all
+three arms; ROCm 10 and ROCm 7.2 inputs match, but their outputs and frontiers
+differ. The [full multi-user report](benchmarks/2026-10-02/strix-point/rocm10-distrobox-multi/README.md)
+has prefill/decode values and graphs. All 63 remote files were verified by
+SHA-256; router active, no LIE Distrobox, lease free. This is direct engine
+concurrency, not served HTTP clients.
+
+The Docker-managed Distrobox ROCm 10 `single` benchmark on `.161` now passes
+all eight occupied-prefix depths 0–128K with 16/16 full 128-token outputs.
+At 128K, LIE measures 357.117 prefill and 9.227 decode tokens/s for a 2,048
+new-token tail. CPU/GPU peaks were 91.125/90 C; supervisor and child exited 0,
+model files stayed unchanged, and final postflight found `llama-router.service`
+active and the private lease free. A failed Distrobox network-entry attempt is
+retained separately. The [raw report and graphs](benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/README.md)
+include all eight points and 27 remote-file hashes. Physical inputs match the
+earlier ROCm 7.2 run, but output IDs and numerical frontiers differ at every
+depth; the kernel and container mode also changed. `fresh-128k` and
+`fresh-256k` remain pending for ROCm 10; the later `multi` comparison above
+has now completed.
+
+The operator-requested `.161` Pop!_OS kernel update installed
+`7.1.5-76070105-generic` and kept `6.16.3-76061603-generic` in GRUB. With
+the same pinned ROCm 10 images and binaries, AlmaLinux native and Python HIP
+diagnostics and the Fedora 43 LIE HIP/rocBLAS probe now pass. A bounded original
+UD model run also passes. Matched ROCm 10 LIE and direct Gufo tests at 0/4K
+return identical 128-token outputs and prefill/decode frontier hashes; these
+frontiers differ from the earlier ROCm 7.2 results, and output IDs diverge at
+both depths. Those bounded tests qualified the runtime gate and same-stack
+parity, not cross-stack numerical equivalence or full performance. The
+[updated report](STRIX-POINT-ROCM10.md) records the six clean passes, one
+preserved supervisor race failure, 80 verified files and restored .161 state.
+
+The official AlmaLinux 10.2 minimal image plus AMD's signed ROCm 10.0.0-4
+`gfx1150` RPMs built on `.161` with exit 0. Its in-image `hipcc` compiled a
+native HIP probe, which fails on the same 48-byte memset and host/device copy
+operations as a separate Python diagnostic in the same image and the Fedora
+variants. Both failed campaigns retained all HIP codes, restored the named
+service, released their fresh leases and passed remote/local source-result hash
+checks. The [ROCm 10 report](STRIX-POINT-ROCM10.md) has image ID, binary hash,
+thermal and closure evidence from the original 6.16.3-kernel tests.
+
+The ROCm 10 follow-up found the `.157` Strix Halo image originates from Kyuz0's
+Docker Hub repository: its local digest is recorded, with Fedora Minimal 44 and
+AMD's signed RHEL 10 `gfx1151` RPMs. A separate LIE Fedora Minimal 44 image
+using AMD `gfx1150` RPMs built on `.161` with exit 0. Primitive HIP memset and
+copies fail in that image under three container profiles, and also fail with the
+Fedora 43 ROCm 10 tarball; a byte-identical ROCm 7.2 control passes on the same
+host. All one-shot runs release their lease and restore the named service.
+The [ROCm 10 report](STRIX-POINT-ROCM10.md) records exact image IDs, HIP codes,
+temperatures and evidence from those original 6.16.3-kernel tests. The Fedora 43 `gfx1150` LIE probe
+was compiled and linked with ROCm 10 before execution; Fedora 44 has only a
+runtime diagnostic so far. Upstream gfx1150 issues #6191 and amdgpu #213 cover
+similar first-use failures, but neither matches our ROCm 10 errors and kernel.
+
+The fresh operator-approved 100 C `single` campaigns on .161 now pass **8/8
+occupied depths each** for LIE reactive C1 and direct Gufo C1, PP2048/TG128,
+one warmup and one measured sample per depth. All 16 samples in each arm
+complete 128 output tokens; physical inputs, outputs and PP/TG frontiers match
+at every depth. At 128K, LIE measures 389.786 PP / 9.862 TG token/s and Gufo
+388.395 PP / 9.869 TG token/s. Sampled CPU/GPU maxima are 91.5/90 C for LIE
+and 92/92 C for Gufo, below the authorized limit. Both child and supervisor
+exit0 with unchanged model files, restored service, released lease and fresh
+collection proving owned processes absent. The [complete direct report](STRIX-POINT-BENCHMARK-RESULT.md)
+and [portable raw/graph bundle](benchmarks/2026-10-02/strix-point/full-single/README.md)
+retain all values and receipts. These are direct C1 occupied-prefix tests;
+fresh full-prompt and multi-user suites use separate methods. The earlier
+85 C failure is preserved unchanged.
+
+The subsequent `.161` C1/2/4/6/8 `multi` suites each passed for LIE reactive,
+direct Gufo and LIE serial control with one warmup and three measured samples
+per point. All 60 samples returned the complete 128-token output per user;
+physical prompts, generated outputs and PP/TG frontier hashes match among all
+three arms. At C8, aggregate decode medians are 32.184/32.146/10.316 token/s.
+Every measured reactive C2–C8 sample records zero scalar decode calls and 128
+native batch calls, with 128 × users rows. The direct reactive path therefore
+gains 3.12× over serial at C8 and closely matches direct Gufo; C1 and PP
+speedups are not established. All arms retire their child and supervisor,
+preserve model stats and restore the service. Exact raw data, counters,
+telemetry, CSV/JSON and reproducible plots are in the
+[three-arm bundle](benchmarks/2026-10-02/strix-point/multi/README.md).
+
+The later `.161` paired `fresh` campaigns also pass for 1500, 8000, 8192,
+32768 and 131072 **entirely new physical prompt tokens** at capacity 262144,
+with no warmup and two measured repetitions per point. All 20 samples finish
+the 128-token output budget; LIE and Gufo physical IDs, output IDs and PP/TG
+frontier hashes match at all five points. At 128K, fresh PP medians are
+413.264/412.584 token/s and TG medians 9.894/9.875 token/s; this is a
+different metric from a 2048-token tail after a live 128K prefix. Both runs
+retire cleanly with sampled CPU/GPU peaks below 92 C. Raw receipts, exact
+min/max and reproducible graphs are in the
+[fresh-128K bundle](benchmarks/2026-10-02/strix-point/fresh-128k/README.md).
+
+The further `.161` `fresh-256k` direct pair passes **258794 actual physical
+prompt tokens** at capacity262144, two measured repetitions per arm and 128
+generated tokens in all four samples. LIE/Gufo PP medians are 384.647/384.154
+token/s and TG medians 9.4485/9.4192 token/s; full inputs, outputs and PP/TG
+frontiers match exactly. Each original-weight campaign exits0 without OOM,
+preserves model stats, restores `llama-router.service` and frees the .161
+lease. Sampled CPU/GPU peaks stay under 92/92 C. The
+[fresh-256K bundle](benchmarks/2026-10-02/strix-point/fresh-256k/README.md)
+retains raw receipts, observed min/max, temperature/GTT plots and process
+thread snapshots. This qualifies direct inference with a near-256K prompt;
+HTTP, MTP, vision and 1M remain different gates.
+
+The operator now authorizes a fresh 100 C ceiling for the complete .161 run.
+The campaign supervisor requires that explicit override in the manifest and
+still applies lower published sensor limits, including NVMe max 89.85 C.
+AMD publishes 100 C Tjmax for the target HX 370 CPU; the previous run stopped
+on CPU Tctl at the conservative 85 C setting. Focused CPU campaign controls
+pass 11/11, including refusal of an unquoted or above-100 C override. The
+two full GPU campaigns subsequently obtained fresh admission and evidence.
+
+`synapse-lie-bench` now has supervised fixed .161 profiles for the same direct
+`single`, `fresh`, `multi`, `memory` and `loading` workload families used on
+.157; a separate direct Gufo reference arm is supported. The first full
+eight-depth `single` run exited1 at CPU85 C during the 8K warmup. Completed
+0/4K samples and 114 telemetry records are retained as failed-campaign
+diagnostics, not promoted to a passing sweep. Its owned child/supervisor and
+lease retired; the named service was restored, model stats unchanged.
+Subsequent short, cooled **matched** LIE/Gufo runs at depths0/4096 each exit0
+and agree exactly on physical prompts, generated output IDs and complete
+prefill/decode frontier hashes. PP and TG values, resource peaks and graphics
+are in [the direct-benchmark result](STRIX-POINT-BENCHMARK-RESULT.md).
+Both LIE and direct Gufo `--suite loading` arms at capacity262144 exit0 with
+13.750589557/13.695302901 s under uncontrolled OS file-cache conditions,
+without a 256K prompt prefill. No
+additional long-context or concurrency claim was made from that thermal stop;
+later, separately admitted passing campaigns are reported above.
+
+The [full Strix Point report](STRIX-POINT-RESULT.md) now consolidates the completed
+build/runtime/tuning/copy qualification and original-weight C1 smoke. All four
+samples, exact nanoseconds, RAM counters, decode versus complete-wall throughput,
+27 resource observations and individual temperature sensors are exported as
+portable CSV/JSON with SVG/PNG plots. An offline reproducer validates the
+previously committed receipt hashes, complete benchmark accounting, repeated
+output IDs, successful exits and retirement before deriving metrics. Mean decode
+is 10.555678 token/s; mean output/complete-wall is 10.495151 token/s. Fresh PP is
+only the first 9-token warmup; three measured samples reuse all nine tokens.
+The report keeps missing long-context, concurrency, numerical-reference and HTTP
+qualification explicit. Report generation is local CPU work only; no new model
+run, remote access or runtime implementation change is implied.
+
+The latest operator instruction replaces WAN download with a **copy** of the
+existing official .157 UD shards, keeping the source intact. WAN R3 retired at
+10:27:42 UTC; its verified first shard and 31.584 GB second-shard partial are
+retained. After Q2's release and core's handover, the direct .157-to-.161 copy
+started at 10:36:05 under both hosts' admitted leases. The source controller
+streams to the destination directly, using a temporary destination-constrained
+SSH agent; model bytes do not pass through the editing host, and no remote SSH
+account configuration changes. **Copy complete:** all 111334654784 bytes and
+four official SHA-256 digests are verified, with all source file identities
+unchanged. R1 delivered the data but exposed an EOF/ACK deadlock; its failed
+control exit is retained. The corrected helper has a real-pipe regression test;
+R2 reverified existing destination files without recopying payload and passed
+at 11:11:58 UTC. Processes and temporary agents are retired, leases free; core
+and Q2 received the .157 handover. No WAN fallback is scheduled.
+
+**First original-weight GPU smoke passes** on .161 at 11:14:40 UTC: shared
+reactive core, context capacity4096, actual prompt9 tokens, AR32 output tokens,
+one warmup and three measured repetitions. Load-to-ready13.440 s, first fresh
+prefill377.705 ms, measured warm decode mean10.556 token/s, warm TTFT112.853 ms.
+All four output ID sequences match. The warm samples restore all9 prompt tokens
+from RAM cache and do no prefill; do not interpret them as long-context PP.
+CPU/GPU/NVMe peaks74.25/58.00/63.85 C, below85 C; process threads observed
+1/28/44 include runtime threads, not configured inference-worker counts.
+Child/supervisor exit0, model stats unchanged, owned container removed, llama
+restored and private lease free. Independent numerical parity, long contexts,
+HTTP and comparative reactive benefit remain separate gates.
+
+Operator-authorized TTM tuning **passes** on .161: after reboot, actual HIP
+reports 103079215104 bytes (96 GiB), up from 61.72 GiB. HIP allocation/copies
+and rocBLAS SGEMM pass, child/supervisor exit 0, owned container retired and
+llama restored. Initramfs backup and scoped rollback are retained. Post-boot
+COSMIC reports no display output; greeter and gpu-manager reached their start
+limits, while compute is operational. The initial KFD-retirement refusal is
+retained and its bounded wait is fixture-tested.
+The read-only .157 LAN attempt held all four established leases but was
+deliberately stopped after the Wi-Fi relay proved slow; its partial data and
+failure exits are retained. The temporary WAN R3 phase is superseded by the
+completed direct copy above. The transfer's seven tiny CPU integrity/pipe
+fixtures pass; focused CTest 4/4 includes
+the existing core contract under ASan/UBSan. Core bench now
+preserves model-load errors; focused ASan/UBSan tests pass and the new R3
+candidate passes no-device startup. See [the evolving target report](STRIX-POINT.md).
+
+Follow-up: added a C17 HIP/rocBLAS diagnostic with explicit actual-device
+execution, separate from automatic tests. Its twenty synthetic error/lifetime
+cases pass ASan/UBSan locally and on .161; focused local CTest passes 2/2.
+The HIP-linked diagnostic loads with `--help` on .161, without device access.
+The first local LeakSanitizer sandbox failure is retained. Four official shard
+identities are independently verified via small upstream metadata and recorded
+in `config/models-161.plan.json`; no payload download/hash has run. The router
+is still active at the 08:36:57 UTC check; explicit temporary-stop/restore
+handover remains pending. No GPU SGEMM, model inference or fit claim follows.
+
+`feature/strix-point-ud` starts from the qualified shared-core checkpoint
+`02a9464`. Explicit gfx1150 selection, archive/cache target binding and runtime
+architecture/wave validation are implemented without numerical source changes.
+The C17 core and reactive scheduling remain shared. On `pop@192.168.5.161`,
+host target/admission fixtures pass ASan/UBSan and four Python receipt checks;
+headless core CTest passes 6/6 under ASan/UBSan, CPU peak47.625 C. The initial
+container sensor failure and local thermal preflight refusals are retained.
+The complete local ASan/UBSan suite passes 34/34. All 38 gfx1150 numerical build
+steps and server/bench/reference links pass; ten device ELF headers confirm
+gfx1150. No-model startup on .161 works with the existing runtime and isolated
+DSOs, without installing the missing target SDK. Loader failures are retained.
+
+At initial checkpoint `123ea23`, GPU qualification had not run: the foreign
+`llama-router.service` held KFD, and the requested Flash Next UD shards were not found in known model directories,
+and no model was substituted. The target's native SDK is incomplete, but the
+prepared cross-host/container path passes its no-model checks. No foreign process stop,
+package install, weight download, tuning or
+publication occurred. [Port boundary and staged device gates](STRIX-POINT.md).
 
 ## Optional SSD prefix persistence — 2026-10-02
 

@@ -1,0 +1,64 @@
+{
+  "action": "bench",
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "service": "llama-router.service",
+    "stop_restore_authorized": true,
+    "quote": "llama si pu\u00f2 stoppaare"
+  },
+  "source_commit": "1877b03",
+  "bundle": "/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-r1",
+  "artifacts": {
+    "runtime/bin/synapse-lie-server": "b2a62d2d3a90461d92d39303170c4cc7cd3fb77b34deb87fe1dbf01d3d9e5a0c",
+    "runtime/bin/synapse-lie-bench": "a59bd3302056cdb86c12181c36b97a4d4984aa8d58a3d6799738abf86fdf26d4",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "3f7791fb6e54c7a15c80e272194bd50b42aa3b8f2b49259e34a1c55843433bf9",
+    "runtime/bin/lie-hip-probe": "8484448dc65c16f0805b7433c785d86744106b192c2c3379be4366ddc54b477a"
+  },
+  "model_plan": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "candidate_build_checkpoint": "3ea2f3c",
+  "purpose": "ROCm 10 full eight-depth original UD LIE benchmark using Docker-managed Distrobox on .161 kernel 7.1.5",
+  "bench_profile": "single",
+  "thermal_ceiling_c": 100,
+  "thermal_override_quote": "la gpu arriva a 100 gradi senza problemi ed \u00e8 importante testare la sua capacit\u00e0, non limitarsi a 85*",
+  "stack": "rocm10-fedora43",
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "transport": "distrobox",
+  "distrobox_name": "lie-rocm10-single-k715-r1",
+  "bench_impl": "lie"
+}

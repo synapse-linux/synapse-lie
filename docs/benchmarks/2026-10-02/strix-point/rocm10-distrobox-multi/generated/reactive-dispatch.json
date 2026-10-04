@@ -1,0 +1,87 @@
+{
+  "1": [
+    {
+      "decode_single_calls": 128,
+      "decode_batches": 0,
+      "decode_batch_rows": 0
+    },
+    {
+      "decode_single_calls": 128,
+      "decode_batches": 0,
+      "decode_batch_rows": 0
+    },
+    {
+      "decode_single_calls": 128,
+      "decode_batches": 0,
+      "decode_batch_rows": 0
+    }
+  ],
+  "2": [
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 256
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 256
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 256
+    }
+  ],
+  "4": [
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 512
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 512
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 512
+    }
+  ],
+  "6": [
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 768
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 768
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 768
+    }
+  ],
+  "8": [
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 1024
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 1024
+    },
+    {
+      "decode_single_calls": 0,
+      "decode_batches": 128,
+      "decode_batch_rows": 1024
+    }
+  ]
+}

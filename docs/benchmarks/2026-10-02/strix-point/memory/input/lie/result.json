@@ -1,0 +1,2534 @@
+{
+  "state": "PASSED",
+  "started_at": "2026-10-02T15:06:03.083279+00:00",
+  "pid": 77354,
+  "start_ticks": 1924648,
+  "manifest_sha256": "d079d00050f61a18bb70d1f48eb16e0fe57552ac6f980adf032a1a9e4796ac6a",
+  "runner_sha256": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "service": "llama-router.service",
+    "stop_restore_authorized": true,
+    "quote": "llama si pu\u00f2 stoppaare"
+  },
+  "commands": [
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=77225\nActiveState=active\nSubState=running\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "stop",
+        "llama-router.service"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "create",
+        "--network",
+        "none",
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--user",
+        "1000:1000",
+        "--group-add",
+        "992",
+        "--pids-limit",
+        "512",
+        "--device",
+        "/dev/kfd",
+        "--device",
+        "/dev/dri/renderD128",
+        "--label",
+        "synapse-lie.run=/home/pop/workspace/synapse-lie/strix-point-bench-memory-lie-100c-r1",
+        "--mount",
+        "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-runtime-161-r4,dst=/bundle,readonly",
+        "--mount",
+        "type=bind,src=/home/pop/workspace/synapse-lie/strix-point-bench-memory-lie-100c-r1,dst=/work",
+        "--mount",
+        "type=bind,src=/home/pop/.local/opt/rocm-7.2-root/opt/rocm-7.2.0,dst=/opt/rocm,readonly",
+        "--workdir",
+        "/work",
+        "--env",
+        "LD_LIBRARY_PATH=/bundle/runtime/lib:/opt/rocm/lib",
+        "--env",
+        "LD_BIND_NOW=1",
+        "--env",
+        "LC_ALL=C",
+        "--env",
+        "HOME=/work/home",
+        "--env",
+        "XDG_CACHE_HOME=/work/cache",
+        "--env",
+        "TMPDIR=/work/tmp",
+        "--env",
+        "ROCR_VISIBLE_DEVICES=0",
+        "--env",
+        "HIP_VISIBLE_DEVICES=0",
+        "--mount",
+        "type=bind,src=/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee,dst=/model,readonly",
+        "--entrypoint",
+        "/bundle/runtime/bin/synapse-lie-bench",
+        "sha256:29e3b2b4b984ddb2614068271b2967bdc941664690468390c907508b5da8c2ac",
+        "--suite",
+        "memory",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "/work/measurements.jsonl",
+        "--pp",
+        "2048",
+        "--tg",
+        "128",
+        "--warmups",
+        "1",
+        "--repetitions",
+        "1",
+        "--execution",
+        "reactive"
+      ],
+      "exit_code": 0,
+      "stdout": "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "start",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":77418,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"2026-10-02T15:09:07.691007083Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "logs",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\npoint=0 depth=0 users=1 warmup=1 output=128 completed\npoint=0 depth=0 users=1 warmup=0 output=128 completed\npoint=1 depth=16384 users=1 warmup=1 output=128 completed\npoint=1 depth=16384 users=1 warmup=0 output=128 completed\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{index .Config.Labels \"synapse-lie.run\"}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "/home/pop/workspace/synapse-lie/strix-point-bench-memory-lie-100c-r1\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "stop",
+        "--time",
+        "10",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "Flag --time has been deprecated, use --timeout instead\n4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "logs",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "/usr/share/libdrm/amdgpu.ids: No such file or directory\npoint=0 depth=0 users=1 warmup=1 output=128 completed\npoint=0 depth=0 users=1 warmup=0 output=128 completed\npoint=1 depth=16384 users=1 warmup=1 output=128 completed\npoint=1 depth=16384 users=1 warmup=0 output=128 completed\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "inspect",
+        "--format",
+        "{{json .State}}",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"Status\":\"exited\",\"Running\":false,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":0,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-02T15:06:03.931638038Z\",\"FinishedAt\":\"2026-10-02T15:09:07.691007083Z\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "rm",
+        "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9"
+      ],
+      "exit_code": 0,
+      "stdout": "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "start",
+        "llama-router.service"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--user",
+        "show",
+        "llama-router.service",
+        "--property=ActiveState,SubState,MainPID"
+      ],
+      "exit_code": 0,
+      "stdout": "MainPID=79416\nActiveState=active\nSubState=running\n",
+      "stderr": ""
+    }
+  ],
+  "container": "4e5a59b9936103d14e31e138eb902239d53b42e0c29aa5d2ae52e6d3e5ff0ce9",
+  "thermal_ceiling_c": 100.0,
+  "model_attempted": true,
+  "service_restore_required": true,
+  "exit_code": 0,
+  "service_before": {
+    "MainPID": "77225",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "before": {
+    "at": "2026-10-02T15:06:03.090027+00:00",
+    "kfd": [
+      {
+        "pid": 77225,
+        "start_ticks": 1908076,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "dri": [
+      {
+        "pid": 77225,
+        "start_ticks": 1908076,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "denied_fd": 363,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 36.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 37.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 36.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 39.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 35.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 39.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 43.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 43.875,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132546039808,
+      "MemAvailable": 120865517568,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474824192
+    },
+    "kernel_kfd": [
+      77225
+    ],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 18628608,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151105536
+    }
+  },
+  "lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66308,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "service_stopped": {
+    "MainPID": "0",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "admission": {
+    "at": "2026-10-02T15:06:03.572531+00:00",
+    "kfd": [],
+    "dri": [],
+    "denied_fd": 364,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 36.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 37.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 36.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 39.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 36.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 39.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 43.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 43.875,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132546039808,
+      "MemAvailable": 120875249664,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474824192
+    },
+    "kernel_kfd": [],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 14393344,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151052288
+    }
+  },
+  "models_before": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66308,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66308,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66308,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66308,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    }
+  ],
+  "bench_command": [
+    "/bundle/runtime/bin/synapse-lie-bench",
+    "--suite",
+    "memory",
+    "--model",
+    "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--output",
+    "/work/measurements.jsonl",
+    "--pp",
+    "2048",
+    "--tg",
+    "128",
+    "--warmups",
+    "1",
+    "--repetitions",
+    "1",
+    "--execution",
+    "reactive"
+  ],
+  "container_host_pid": 77418,
+  "container_start_ticks": 1924744,
+  "container_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-02T15:06:03.931638038Z",
+    "FinishedAt": "2026-10-02T15:09:07.691007083Z"
+  },
+  "child_exit_code": 0,
+  "bench_result": {
+    "profile": "memory",
+    "suite": "memory",
+    "implementation": "lie",
+    "execution": "LIE-reactive-ready-batch",
+    "rows": 14,
+    "samples": 4,
+    "measurements_sha256": "53e12a6653347ab20dbffc1a7fd794109ed7db48a66ae9fb297c2a350beb2f63"
+  },
+  "bench_partial": {
+    "measurements_sha256": "53e12a6653347ab20dbffc1a7fd794109ed7db48a66ae9fb297c2a350beb2f63",
+    "bytes": 106780
+  },
+  "models_after": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66308,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66308,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66308,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66308,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    }
+  ],
+  "model_stat_unchanged": true,
+  "final_container_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-02T15:06:03.931638038Z",
+    "FinishedAt": "2026-10-02T15:09:07.691007083Z"
+  },
+  "postflight_before_restore": {
+    "at": "2026-10-02T15:09:07.874100+00:00",
+    "kfd": [],
+    "dri": [],
+    "denied_fd": 367,
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 38.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 42.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 38.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 38.85,
+        "limit_c": 89.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 36.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 38.85,
+        "limit_c": 100.0
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 62.0,
+        "limit_c": 100.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 83.375,
+        "limit_c": 100.0
+      }
+    ],
+    "memory": {
+      "MemTotal": 132546039808,
+      "MemAvailable": 121126178816,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474824192
+    },
+    "kernel_kfd": [],
+    "gpu": {
+      "gpu_busy_percent": 50,
+      "mem_info_gtt_total": 103079215104,
+      "mem_info_gtt_used": 14393344,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151052288
+    }
+  },
+  "service_after": {
+    "MainPID": "79416",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "lease_released_at": "2026-10-02T15:09:08.258876+00:00",
+  "cleanup_failures": [],
+  "ended_at": "2026-10-02T15:09:08.258894+00:00"
+}

@@ -1,0 +1,17 @@
+/usr/share/libdrm/amdgpu.ids: No such file or directory
+point=0 depth=0 users=1 warmup=1 output=128 completed
+point=0 depth=0 users=1 warmup=0 output=128 completed
+point=1 depth=4096 users=1 warmup=1 output=128 completed
+point=1 depth=4096 users=1 warmup=0 output=128 completed
+point=2 depth=8192 users=1 warmup=1 output=128 completed
+point=2 depth=8192 users=1 warmup=0 output=128 completed
+point=3 depth=12288 users=1 warmup=1 output=128 completed
+point=3 depth=12288 users=1 warmup=0 output=128 completed
+point=4 depth=16384 users=1 warmup=1 output=128 completed
+point=4 depth=16384 users=1 warmup=0 output=128 completed
+point=5 depth=32768 users=1 warmup=1 output=128 completed
+point=5 depth=32768 users=1 warmup=0 output=128 completed
+point=6 depth=65536 users=1 warmup=1 output=128 completed
+point=6 depth=65536 users=1 warmup=0 output=128 completed
+point=7 depth=131072 users=1 warmup=1 output=128 completed
+point=7 depth=131072 users=1 warmup=0 output=128 completed

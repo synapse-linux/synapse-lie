@@ -2,25 +2,37 @@
 # SPDX-License-Identifier: MIT
 """Verify pinned source and private runtime archives; never open model weights."""
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import sys
+from gufo_build_policy import validate_target
 
 root=Path(__file__).resolve().parents[1]
 def sha(p):
     with p.open('rb') as f: return hashlib.file_digest(f,'sha256').hexdigest()
 
 def main():
-    kvc='--ds4-state' in sys.argv[3:]
-    flags=sys.argv[3:]
-    if flags not in ([],['--state-access'],['--state-access','--ds4-state']):raise ValueError('invalid variant flags')
-    state_access='--state-access' in flags
-    source,build=(p.resolve() for p in map(Path,sys.argv[1:3]))
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('source',type=Path)
+    parser.add_argument('build',type=Path)
+    parser.add_argument('--state-access',action='store_true')
+    parser.add_argument('--ds4-state',action='store_true')
+    parser.add_argument('--hip-arch',choices=('gfx1150','gfx1151'),default='gfx1151')
+    args=parser.parse_args()
+    if args.ds4_state and not args.state_access:
+        parser.error('--ds4-state requires --state-access')
+    kvc=args.ds4_state
+    state_access=args.state_access
+    source,build=args.source.resolve(),args.build.resolve()
     if not source.is_relative_to(root/'.deps') or not build.is_relative_to(root/'build'):
         raise ValueError('sources and archives must stay inside this repository')
     manifest_path=root/'third_party/gufo-source.json'
     manifest=json.loads(manifest_path.read_text())
     receipt=json.loads((build/'BUILD-RECEIPT.json').read_text())
+    validate_target(receipt,(build/'CMakeCache.txt').read_text(),args.hip_arch)
+    if receipt.get('hip_architecture') and receipt.get('hip_target_cmake_sha256')!=sha(root/'cmake/hip-target.cmake'):
+        raise ValueError('HIP target policy drift; create a new private build')
     if receipt['state']!='LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED': raise ValueError('build not successful')
     if receipt['source_pin']!='f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or receipt['source_manifest_sha256']!=sha(manifest_path): raise ValueError('source identity mismatch')
     files=manifest['files']

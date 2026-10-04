@@ -81,7 +81,10 @@ def main():
                 assert ev[-1]['type']=='response.incomplete'
                 assert ev[-1]['response']['output'][0]['content'][0]['text']=='\x01'*(4096*256)
                 assert ev[-1]['response']['usage']['output_tokens']==4096
-                for extra in ({'store':True},{'background':True},{'previous_response_id':'resp_x'},{'input':[{'role':'user','content':[{'type':'input_image','image_url':'x'}]}]}):
+                for extra in ({'store':True},{'background':True}):
+                    code,body=exchange(a,'/v1/responses',dict(base,**extra))
+                    assert code==200,body
+                for extra in ({'previous_response_id':'resp_x'},{'input':[{'role':'user','content':[{'type':'input_image','image_url':'x'}]}]}):
                     code,body=exchange(a,'/v1/responses',dict(base,**extra))
                     assert code==400,body
             finally:

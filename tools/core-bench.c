@@ -293,7 +293,12 @@ int lie_core_bench_main(int argc,char **argv) {
     uint64_t started=now();lie_core_options options;lie_core_options_init(&options);options.model_path=model;options.context=context;options.vision_model_path=encoder;options.mtp_model_path=mtp;options.mtp_draft_tokens=mtp_drafts;
     options.chunk=chunk;options.max_active=users;options.prefix_cache_bytes=(uint64_t)cache_mib*1024u*1024u;options.ssd=ssd;options.cache_policy=policy;
     core=lie_core_create(&options);
-    if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){snprintf(error,256,"core readiness failed");goto done;}
+    if(!started||!core||!wait_core(core,LIE_READY,started+(uint64_t)timeout*1000000u)){
+        snprintf(error,256,"core readiness failed");
+        if(core){lie_core_info info;lie_core_snapshot(core,&info);
+            if(info.error[0])snprintf(error,256,"core readiness failed: %.220s",info.error);}
+        goto done;
+    }
     json_object *ready=event("core_ready");number(ready,"load_to_ready_ns",now()-started);if(!emit(f,ready))goto done;
     for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,&w,f,error))goto done;
     code=0;

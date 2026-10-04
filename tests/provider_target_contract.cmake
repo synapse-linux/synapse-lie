@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.21)
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/provider/Target.cmake")
+if(CHILD)
+  lie_verify_hip_target("${TEST_DIR}" "${CHILD}")
+  return()
+endif()
+file(REMOVE_RECURSE "${TEST_DIR}")
+file(MAKE_DIRECTORY "${TEST_DIR}")
+file(SHA256 "${CMAKE_CURRENT_LIST_DIR}/../cmake/hip-target.cmake" policy_hash)
+foreach(arch IN ITEMS gfx1150 gfx1151)
+  file(WRITE "${TEST_DIR}/BUILD-RECEIPT.json"
+    "{\"hip_architecture\":\"${arch}\",\"hip_target_cmake_sha256\":\"${policy_hash}\"}\n")
+  file(WRITE "${TEST_DIR}/CMakeCache.txt"
+    "CMAKE_HIP_ARCHITECTURES:STRING=${arch}\nLIE_HIP_ARCHITECTURE:STRING=${arch}\n")
+  lie_verify_hip_target("${TEST_DIR}" "${arch}")
+  if(arch STREQUAL "gfx1150")
+    set(other gfx1151)
+  else()
+    set(other gfx1150)
+  endif()
+  execute_process(COMMAND "${CMAKE_COMMAND}" "-DTEST_DIR=${TEST_DIR}" "-DCHILD=${other}"
+    -P "${CMAKE_CURRENT_LIST_FILE}" RESULT_VARIABLE mismatch OUTPUT_QUIET ERROR_QUIET)
+  if(mismatch EQUAL 0)
+    message(FATAL_ERROR "Cross-target provider was accepted")
+  endif()
+endforeach()
+file(REMOVE_RECURSE "${TEST_DIR}")

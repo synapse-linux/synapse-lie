@@ -1,0 +1,5 @@
+fece8576dd701e4fbe255446bc6dbf724e98da26b93296211e2fd9729bf7cc33  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz
+4a4346f6c37d6a88758825b0da8603299a255863371103c034aaa13483028f89  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-gufo.tar.gz
+6bd02d5837fdbd09d2dacfaa79f856e3c6aa398ef540f61ad897410a0ccb4539  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz
+42d73d98239dcb567934ba7c1d74b8f5cbf328d2777b6b793e9d1c48428dee4a  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-gufo.tar.gz
+6fef10ae01546596474f61d75a5f589833122275a03d99a66789f9320ef1e4b3  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz

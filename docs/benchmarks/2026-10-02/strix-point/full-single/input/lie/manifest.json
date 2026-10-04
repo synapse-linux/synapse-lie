@@ -1,0 +1,63 @@
+{
+  "action": "bench",
+  "authorization": {
+    "kind": "operator-one-shot-window",
+    "service": "llama-router.service",
+    "stop_restore_authorized": true,
+    "quote": "llama si pu\u00f2 stoppaare"
+  },
+  "source_commit": "0ffe1ca",
+  "bundle": "/home/pop/workspace/synapse-lie/strix-point-runtime-161-r4",
+  "artifacts": {
+    "runtime/bin/synapse-lie-server": "c2dfd224de08f6b86097ec0a157d9cb3ebc2f2e227847c4ba2c2c751b90a935a",
+    "runtime/bin/synapse-lie-bench": "92744f130045a5d9e8588d6dc15ba642b17f0e5060cb72a115b8e2366c9c9aed",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "bd53a6c2accc2713ab33442cca94b927e848e0b51cd5dc3337f3ceda7d26c9c3",
+    "runtime/lib/libllhttp.so.9.3": "6bd93e9b4d2edc3b034937705325619cb9c7ea09d6387c396284725fdd93d450",
+    "runtime/lib/libdrm.so.2": "f41478fe7dcc93b8759d129d163d7d2f14066107d8925850af7be1a16e7ee798",
+    "runtime/lib/libdrm_amdgpu.so.1": "047a8e1df67c147e4f6aeb91e21f0224c0240578a12e35829257cdb984a90822",
+    "runtime/lib/libpng16.so.16": "c7ba08766ef5799ea23464a0aa377559630f925dffaac8affb83c77620668222",
+    "runtime/lib/libjpeg.so.8": "d6cd94abf2b7a9aa59a0e056c83bbfdf8900fbf7101bfba8ea0ee1ca45958665"
+  },
+  "model_plan": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "candidate_build_checkpoint": "3ea2f3c",
+  "purpose": "Full eight-depth original-weight LIE direct single-user AR benchmark on .161, PP2048/TG128, 1 warmup plus 1 measured per depth, operator 100 C limit with lower sensor thresholds",
+  "bench_profile": "single",
+  "thermal_ceiling_c": 100,
+  "thermal_override_quote": "la gpu arriva a 100 gradi senza problemi ed \u00e8 importante testare la sua capacit\u00e0, non limitarsi a 85*"
+}

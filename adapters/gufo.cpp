@@ -35,6 +35,7 @@
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
 extern "C" int lie_gufo_device_identity(char *,size_t) noexcept;
+extern "C" lie_status lie_gufo_device_validate(lie_error *) noexcept;
 namespace qfn = gufo::models::qwen38_flash_next;
 static std::atomic<uint64_t> next_state_domain{1};
 static bool same_file_snapshot(const struct stat& a,const struct stat& b) noexcept {
@@ -164,6 +165,8 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         auto pinned=pin_files(*metadata);if(pinned!=LIE_OK)return pinned;
 #endif
         metadata.reset(); // Validation before GPU admission; no model forward on CPU.
+        const auto device_status = lie_gufo_device_validate(e);
+        if (device_status != LIE_OK) return device_status;
         qfn::ModelOptions options;
         if(vision)options.vision_model_path=vision;
         options.max_context = o->context_tokens;

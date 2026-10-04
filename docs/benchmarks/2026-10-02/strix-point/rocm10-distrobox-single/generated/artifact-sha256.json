@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.point-rocm10-distrobox-report.v1",
+  "input_sha256": {
+    "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/make-report.py": "0a7ca5bdc11bddc993e4d94c48e9530864bc6f9436352928711b3d36d2707ec6",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/measurements.jsonl": "9535f4051c6b7804154669feff6e010fe762c96f64eef4a193a55bb3b9a1271f",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/collection.json": "e64a2804bcd3cd61f05a5f53611c50e7a4a963561d2ca7813b5d95873df22666",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/postflight.txt": "2cdfef5682ba00fe2674b652156ced66cfcdaa1fb300ef07583d51710e5c043d",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/distrobox-create.log": "04ec7d40aa150348df3c5d832b4075e46f34bd2ede0ea549a269fc681eb4c987",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/distrobox.stderr.log": "d0789a2c6e5775b71f23b15095848bfd0fc69805849145f1271fad4fbd5783aa",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/distrobox.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/manifest.json": "28d012dcf02e038fd5b6995b7f1ef6db53faeb514921b3bdd43844133a104b53",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/result.json": "db8c2ffc3519942977682d9f3ac631fc8f90a8fe1e0db183ab163c986e5560b1",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/runner.py": "de41ff51000e40b03552fdfad1e91a0572123e54dc8bef17a2c332bac2f7b618",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/supervisor.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r1/telemetry.jsonl": "dfa2e733f1f73c8065dc7933800d513ae8ef110991563fa3e1c279e220c3d18f",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/distrobox-create.log": "ec12f7947fa9e1d6ed637e8a45564a2527a396bd3f1ae36e954b42d51abbaf9f",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/distrobox.stderr.log": "502cfdb277e56e7a5a0cc38a00a89908a6f3e2a9947cbc160a2c3fc0d6a8ef4b",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/distrobox.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/manifest.json": "ba0d44523f2e800185c66b67bc00a9760ee51d608a70fd7c8b10923002b1013d",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/measurements.jsonl": "6819844ca26c74d2017293e4c280b4bc6c19cbd540514ac051ba57146ff8c8ca",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/result.json": "137e9b3a7c1732f562914d2b19ce0091c8dcc1cc2da2532cf0b0ecf0e656cfa6",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/runner.py": "c6faf1aebe9a8f6d1779de7716f9b8b43a862d0a2bf43b6fa748547df2a53879",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/stdout.log": "6301673604a430727a5f28c04683ac10899603e55d2186f4e300aef7099247c7",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/supervisor.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/r2/telemetry.jsonl": "7a8c44d4b50a8c0fe843c717492d26fb9bc27202f281061dd2c45ca8d6c718e0",
+    "docs/benchmarks/2026-10-02/strix-point/rocm10-distrobox-single/input/remote-sha256.txt": "a57991200d4559bf01be02fce6efc133c63b450da72bea926c1a90436c7e4c62"
+  },
+  "output_sha256": {
+    "benchmark-zero.png": "a1eae5e01317fe9cfd1bb623d59f8d22e8dfd29bff8c32847311cd762e1cb430",
+    "benchmark-zero.svg": "ed2c3c94935bf6948d442d271bb3d4f585a2142ca47e719ee50d1178134bf87c",
+    "benchmark.png": "9bbabd0585b102b7fbe1e65448a29c2e312e826e37b5a71c1222294ff1519aa0",
+    "benchmark.svg": "7dd0dbc761818f87952db5495a82fed1118bb73c7d98b497d25f7039244ffbda",
+    "comparison.csv": "c810238b4d8d32331b84cc37a7b12c20dabc7b2d00891259448bbf995705a8ef",
+    "resources.json": "d1b1e07449781de8bb7c7c34baf430b49846a832cd5349a8e7e6c9d4cd6ba256",
+    "summary.csv": "790c87044516c7599abc75a8dab952b76565d3389fcc63a049756eab461dc21c",
+    "summary.json": "1c3e16cf885a161991715876a653a1758b7635e1116ba5ec422bd38e33105a5c"
+  }
+}

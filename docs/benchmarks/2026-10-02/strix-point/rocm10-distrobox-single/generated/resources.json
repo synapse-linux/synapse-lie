@@ -1,0 +1,9 @@
+{
+  "observations": 1601,
+  "peak_c": {
+    "k10temp": 91.125,
+    "amdgpu": 90.0,
+    "nvme": 66.85
+  },
+  "sampled_peak_gtt_used_bytes": 89138024448
+}

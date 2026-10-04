@@ -20,6 +20,12 @@ endif()
 if(NOT DEFINED LIE_VISION_WEIGHT_DECODE)
   set(LIE_VISION_WEIGHT_DECODE ON)
 endif()
+if(NOT DEFINED LIE_HIP_ARCHITECTURE)
+  set(LIE_HIP_ARCHITECTURE gfx1151)
+endif()
+if(NOT LIE_HIP_ARCHITECTURE MATCHES "^gfx115[01]$")
+  message(FATAL_ERROR "LIE_HIP_ARCHITECTURE must be gfx1150 or gfx1151")
+endif()
 if(LIE_DS4_RUNTIME_CACHE AND NOT LIE_GUFO_STATE_ACCESS)
   message(FATAL_ERROR "DS4 state requires state access")
 endif()
@@ -70,6 +76,9 @@ string(JSON receipt SET "${receipt}" state "\"RUNNING\"")
 string(JSON receipt SET "${receipt}" gpu_execution false)
 string(JSON receipt SET "${receipt}" installation false)
 string(JSON receipt SET "${receipt}" commands "[]")
+string(JSON receipt SET "${receipt}" hip_architecture "\"${LIE_HIP_ARCHITECTURE}\"")
+file(SHA256 "${LIE_SOURCE_ROOT}/cmake/hip-target.cmake" hip_policy_hash)
+string(JSON receipt SET "${receipt}" hip_target_cmake_sha256 "\"${hip_policy_hash}\"")
 file(WRITE "${out}/result.json" "${receipt}\n")
 # A child-only environment prevents user flags or a preload from changing the
 # recorded recipe. The controlling shell's environment is never modified.
@@ -120,7 +129,8 @@ function(run_recorded label)
 endfunction()
 run_recorded(configure "${CMAKE_COMMAND}" -S "${LIE_SOURCE_ROOT}/cmake/gufo-runtime" -B "${build}" -G Ninja
   "-DGUFO_SOURCE=${source}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=OFF
-  -DGUFO_BUILD_TOOLS=OFF -DENGINE_ENABLE_HIP=ON -DCMAKE_HIP_ARCHITECTURES=gfx1151
+  -DGUFO_BUILD_TOOLS=OFF -DENGINE_ENABLE_HIP=ON "-DCMAKE_HIP_ARCHITECTURES=${LIE_HIP_ARCHITECTURE}"
+  "-DLIE_HIP_ARCHITECTURE=${LIE_HIP_ARCHITECTURE}"
   "-DLIE_C17_SAMPLING=${LIE_C17_SAMPLING}"
   "-DLIE_VISION_WEIGHT_DECODE=${LIE_VISION_WEIGHT_DECODE}"
   "-DCMAKE_CXX_FLAGS=-include chrono" "-DCMAKE_HIP_FLAGS=-include chrono" "-DGUFO_REVISION=${LIE_GUFO_PIN}")
