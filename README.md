@@ -60,8 +60,9 @@ The [active WMMA prefill follow-up](docs/Q2-DEEPSEEK-AUDIT.md#follow-up-in-the-a
 now removes the dedicated gate/up loader's sign-table lookup in an isolated
 source, retaining the measured decode improvement. Device assembly trades eight
 loads for extra integer instructions with unchanged register allocation. Two
-full-size component cycles and complete output replay are prepared; runtime and
-canonical performance remain unmeasured.
+full-size component cycles now complete on `.157`: all 20 independent checks per
+arm pass and 22 full output pairs are exact, but the candidate takes 2.49–2.58%
+more time. It is not advanced to a canonical model arm.
 Numerical failures retain their output arrays and performance samples with exit1;
 they cannot become a successful qualification through partial reporting.
 
@@ -69,8 +70,10 @@ A separate [PLE cache-first candidate](docs/Q2-PLE-CACHE-FIRST.md) consumes
 resident rows before colliding misses can replace them. Capacity and all row
 values are unchanged. The paired control/candidate host path is now wired,
 with distinct colliding row contents and retained actual read counters.
-Runtime validation and canonical performance remain pending. It is not mixed
-into the IQ2 comparison.
+The paired suite passes 21/21 Debug and 21/21 ASan/UBSan on `.157`: the original
+reader rereads 120–128 initially resident rows in each collision fixture, while
+the candidate rereads none and preserves every value. Canonical performance
+remains pending. It is not mixed into the IQ2 comparison.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

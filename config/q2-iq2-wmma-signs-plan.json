@@ -1,7 +1,7 @@
 {
   "schema": "synapse-lie.q2-iq2-wmma-signs-plan.v1",
   "at": "2026-10-04T02:19:01.128995+00:00",
-  "state": "PREPARED_PENDING_CORE_HANDOVER",
+  "state": "COMPLETE_COMPONENT_SLOWER_NOT_PROMOTED",
   "source_manifest": "config/q2-iq2-wmma-signs-source.json",
   "static_receipt": "config/q2-iq2-wmma-signs-static.json",
   "commands": [
@@ -46,18 +46,14 @@
   "independent_checks": 20,
   "gate": "Existing independent limits and full-buffer exact replay; retain timings/failures. Component improvement only admits future canonical 0\u2013128K PP/TG and quality comparison.",
   "model_arm_implemented": false,
-  "remote_staged": false,
+  "remote_staged": true,
   "gpu_reserved": false,
   "restart_scheduled": false,
   "promoted": false,
   "goal_met": false,
-  "core_handover": "Core acknowledges Q2 release01:33:37 and prepares fresh admission for 18 sampled arms; Q2 no interleaving.",
+  "core_handover": "Q2 window released; no pending remote workload.",
   "current_harness_receipt": "config/q2-iq2-wmma-ready.json",
-  "core_live_observation": {
-    "at": "2026-10-04T02:31:22.028011+00:00",
-    "controller_pid": 3359322,
-    "start_ticks": 164616187,
-    "arm": "unfiltered-0-on",
-    "supervisor_pid": 3361058
-  }
+  "admission_receipt": "config/q2-ple-wmma-window-admission.json",
+  "release_receipt": "config/q2-ple-wmma-window-release.json",
+  "result": "config/q2-iq2-wmma-signs-results.json"
 }

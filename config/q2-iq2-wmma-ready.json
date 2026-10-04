@@ -85,6 +85,21 @@
       "exit_code": 0,
       "log": "evidence/q2-iq2-wmma-ready-r2/host-configure.log",
       "log_sha256": "5768f6c25ae390fe825203fd8c07621918840e62c73285bf67bed16a87bc31bc"
+    },
+    {
+      "name": "component-build-no-execution",
+      "argv": [
+        "cmake",
+        "--build",
+        "evidence/q2-iq2-wmma-signs-static/build",
+        "--target",
+        "q2_iq2_wmma_signs",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/component-build.log",
+      "log_sha256": "58a25fc4c03d25b076ee3d75c34439ccc451d076dca41db010847792638dc87c"
     }
   ],
   "artifact_sha256": {

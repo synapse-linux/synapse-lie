@@ -1,0 +1,346 @@
+{
+  "at": "2026-10-04T02:53:10.033727+00:00",
+  "state": "Q2_PLE_WMMA_COMPONENT_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "prior_receipt_sha256": {
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-sampled-core-window-release.json": "17312b22e2c780cc1c6d296986d373f4fa2467671dda5c69d5ff70346f570483",
+    "/home/paperboy/synapse-lie-strix-point/strix-point-projector-q8-copy-r1/copy-result.json": "a79484950b97c2bb3a1abc5c0ed3a229801b40f59767fecd8c5edd1fc521756d",
+    "/home/paperboy/synapse-lie-strix-point/strix-point-projector-q8-copy-r1/direct-controller-result.json": "ece976309a9a039a7b96bd6822d4ce51c10c3e69490f4ad898fc1ec30bc8eb54",
+    "/home/paperboy/synapse-lie-strix-point/strix-point-projector-q8-copy-r1/manifest.json": "4a240375729ddec5036a1668bd053e76fade7f067ffd1b492c35c35662738c8c"
+  },
+  "retired_identities": [
+    {
+      "pid": 3359322,
+      "start_ticks": 164616187
+    },
+    {
+      "pid": 3359323,
+      "start_ticks": 164616190
+    },
+    {
+      "pid": 3359332,
+      "start_ticks": 164616432
+    },
+    {
+      "pid": 3359593,
+      "start_ticks": 164620965
+    },
+    {
+      "pid": 3359609,
+      "start_ticks": 164621356
+    },
+    {
+      "pid": 3359876,
+      "start_ticks": 164625827
+    },
+    {
+      "pid": 3359891,
+      "start_ticks": 164626266
+    },
+    {
+      "pid": 3360149,
+      "start_ticks": 164630726
+    },
+    {
+      "pid": 3360214,
+      "start_ticks": 164631308
+    },
+    {
+      "pid": 3360473,
+      "start_ticks": 164635771
+    },
+    {
+      "pid": 3360505,
+      "start_ticks": 164636405
+    },
+    {
+      "pid": 3360764,
+      "start_ticks": 164640875
+    },
+    {
+      "pid": 3360801,
+      "start_ticks": 164641491
+    },
+    {
+      "pid": 3361058,
+      "start_ticks": 164645951
+    },
+    {
+      "pid": 3361101,
+      "start_ticks": 164646551
+    },
+    {
+      "pid": 3361373,
+      "start_ticks": 164651119
+    },
+    {
+      "pid": 3361398,
+      "start_ticks": 164651703
+    },
+    {
+      "pid": 3361663,
+      "start_ticks": 164656227
+    },
+    {
+      "pid": 3361728,
+      "start_ticks": 164656768
+    },
+    {
+      "pid": 3361994,
+      "start_ticks": 164661784
+    },
+    {
+      "pid": 3362037,
+      "start_ticks": 164662360
+    },
+    {
+      "pid": 3362305,
+      "start_ticks": 164666966
+    },
+    {
+      "pid": 3362343,
+      "start_ticks": 164667595
+    },
+    {
+      "pid": 3362770,
+      "start_ticks": 164675172
+    },
+    {
+      "pid": 3362779,
+      "start_ticks": 164675615
+    },
+    {
+      "pid": 3363042,
+      "start_ticks": 164680186
+    },
+    {
+      "pid": 3363079,
+      "start_ticks": 164680713
+    },
+    {
+      "pid": 3363378,
+      "start_ticks": 164685441
+    },
+    {
+      "pid": 3363395,
+      "start_ticks": 164685961
+    },
+    {
+      "pid": 3363815,
+      "start_ticks": 164691283
+    },
+    {
+      "pid": 3363831,
+      "start_ticks": 164691831
+    },
+    {
+      "pid": 3364188,
+      "start_ticks": 164696504
+    },
+    {
+      "pid": 3364241,
+      "start_ticks": 164697037
+    },
+    {
+      "pid": 3364631,
+      "start_ticks": 164702698
+    },
+    {
+      "pid": 3364685,
+      "start_ticks": 164703251
+    },
+    {
+      "pid": 3365120,
+      "start_ticks": 164707990
+    },
+    {
+      "pid": 3365153,
+      "start_ticks": 164708531
+    },
+    {
+      "pid": 3368378,
+      "start_ticks": 164758238
+    },
+    {
+      "pid": 3368377,
+      "start_ticks": null
+    },
+    {
+      "pid": 3368379,
+      "start_ticks": null
+    }
+  ],
+  "retired_groups": [
+    3359323,
+    3359332,
+    3359593,
+    3359609,
+    3359876,
+    3359891,
+    3360149,
+    3360214,
+    3360473,
+    3360505,
+    3360764,
+    3360801,
+    3361058,
+    3361101,
+    3361373,
+    3361398,
+    3361663,
+    3361728,
+    3361994,
+    3362037,
+    3362305,
+    3362343,
+    3362770,
+    3362779,
+    3363042,
+    3363079,
+    3363378,
+    3363395,
+    3363815,
+    3363831,
+    3364188,
+    3364241,
+    3364631,
+    3364685,
+    3365120,
+    3365153,
+    3368377,
+    3368378,
+    3368379
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "full_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+      "bytes": 616703104,
+      "device": 52,
+      "inode": 3116447,
+      "mtime_ns": 1790231603650000000,
+      "ctime_ns": 1790258579655360284
+    }
+  ],
+  "kfd": [],
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": {
+      "driver": "r8169_0_c100:00",
+      "celsius": 39.5
+    },
+    "/sys/class/hwmon/hwmon2/temp1_input": {
+      "driver": "amdgpu",
+      "celsius": 38.0
+    },
+    "/sys/class/hwmon/hwmon0/temp1_input": {
+      "driver": "acpitz",
+      "celsius": 39.0
+    },
+    "/sys/class/hwmon/hwmon5/temp1_input": {
+      "driver": "mt7925_phy0",
+      "celsius": 45.0
+    },
+    "/sys/class/hwmon/hwmon3/temp1_input": {
+      "driver": "k10temp",
+      "celsius": 39.375
+    },
+    "/sys/class/hwmon/hwmon1/temp6_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp3_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp7_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp4_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp8_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp1_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp9_input": {
+      "driver": "nvme",
+      "celsius": 36.85
+    },
+    "/sys/class/hwmon/hwmon1/temp2_input": {
+      "driver": "nvme",
+      "celsius": 46.85
+    }
+  },
+  "scope": "Host21 Debug/ASan with paired PLE reader, then two matched full-cycle IQ2 WMMA component arms. No original model run admitted.",
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "hardware_tuning": false,
+  "checkpoint": "87c38be"
+}

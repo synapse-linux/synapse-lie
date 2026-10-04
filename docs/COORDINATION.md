@@ -6,7 +6,31 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state: the **canonical IQ2 model window is released** at
+Latest state: the PLE/WMMA component window is **released** at
+2026-10-04T02:58:06.736101+00:00. Host Debug/ASan pass 21/21 each, both GPU
+components finish, all 12 command exits are zero and 59 artifacts verify. Fresh
+closure checks 15 recorded processes and 12 groups absent, empty KFD and all
+four original lease identities EX|NB/free. Remote/main
+`run/q2-ple-wmma-window-release.json` and the shared registry record release;
+SHA256 `bdf97e04c9f5c9589f939ab97f7e3bcad036e54d12f29511fb6c4d8247f0baa6`.
+No Q2 job, waiter, reservation or restart remains. Core may freshly admit its
+next window. Outgoing MCP fails and delivery is not claimed. The WMMA candidate
+is numerically exact but slower; no model arm follows. PLE canonical wiring is
+local preparation only and needs a separate admitted window.
+
+Previous admission: at **2026-10-04T02:53:10.033727+00:00**, Q2 freshly verifies
+core's sampled-window release and Point's completed projector copy. All 40
+recorded processes are absent, KFD is empty, the four original lease identities
+are EX|NB/free, five original model stat identities are unchanged and CPU is
+39.375 C. The shared registry and remote/main receipts admit the bounded paired
+PLE host cohort plus two IQ2 WMMA component arms. No original model run is
+admitted. Each arm reacquires the original leases; Q2 retains this window until
+verified closure. Point/core's subsequent incoming acknowledgment confirms the
+handover. Outgoing MCP fails; no delivery is claimed and persistent receipts
+provide coordination. No tuning, dependency installation or foreign mutation
+is included.
+
+Previous state: the **canonical IQ2 model window is released** at
 2026-10-04T01:33:37.055967+00:00. All five cohorts finish, all 26 command exits
 are zero and 127 artifacts verify. Fresh closure checks 39 owned identities
 and 26 command groups retired, empty KFD, the four original lease inodes

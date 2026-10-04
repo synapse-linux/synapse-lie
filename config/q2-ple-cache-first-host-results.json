@@ -1,0 +1,109 @@
+{
+  "schema": "synapse-lie.q2-ple-cache-first-host.v1",
+  "scope": "Private BF16/IQ4 row fixtures and original host checks; no model access or GPU performance",
+  "cohort": "evidence/q2-ple-wmma-host-r1",
+  "profiles": {
+    "debug": [
+      {
+        "fixture": "ple-cache-first",
+        "format": "BF16",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1024,
+        "resident_pread_calls": 0,
+        "exact_rows": true,
+        "strict": true
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "IQ4_NL",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1024,
+        "resident_pread_calls": 0,
+        "exact_rows": true,
+        "strict": true
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "BF16",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1144,
+        "resident_pread_calls": 120,
+        "exact_rows": true,
+        "strict": false
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "IQ4_NL",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1152,
+        "resident_pread_calls": 128,
+        "exact_rows": true,
+        "strict": false
+      }
+    ],
+    "asan_ubsan": [
+      {
+        "fixture": "ple-cache-first",
+        "format": "BF16",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1024,
+        "resident_pread_calls": 0,
+        "exact_rows": true,
+        "strict": true
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "IQ4_NL",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1024,
+        "resident_pread_calls": 0,
+        "exact_rows": true,
+        "strict": true
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "BF16",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1152,
+        "resident_pread_calls": 128,
+        "exact_rows": true,
+        "strict": false
+      },
+      {
+        "fixture": "ple-cache-first",
+        "format": "IQ4_NL",
+        "unique_cold_rows": 1024,
+        "resident_rows": 128,
+        "pread_calls": 1152,
+        "resident_pread_calls": 128,
+        "exact_rows": true,
+        "strict": false
+      }
+    ]
+  },
+  "fixture_sha256": "73a02daabccb29777396357580cd349c41b65bea1c8ab57b56101ae9c249740a",
+  "reference_files_verified": 1020,
+  "candidate_files_verified": 1020,
+  "artifacts": 7,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "control_collision_rereads_observed": true,
+  "candidate_resident_rereads": 0,
+  "original_model_validated": false,
+  "performance_validated": false,
+  "promoted": false,
+  "goal_met": false
+}

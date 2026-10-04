@@ -1,0 +1,777 @@
+{
+  "schema": "synapse-lie.q2-iq2-wmma-signs-results.v1",
+  "scope": "Synthetic narrowing/compaction/fused IQ2 gate-up-SwiGLU cycles; no model rates",
+  "arms": {
+    "reference": {
+      "weights": {
+        "event": "iq2_wmma_weights",
+        "bytes": 432537600,
+        "gate_sha256": "7b26b689e3734cfab8440c3a4067da76b7b45dd7c4305aae1fc81102a1fefe48",
+        "up_sha256": "a371d30954c2d280d7b0168d07e277e6297a37141dfc08adf5da7c5cc4231b0c"
+      },
+      "cases": {
+        "2040": {
+          "geometry": {
+            "event": "iq2_wmma_geometry",
+            "tokens": 2040,
+            "active_experts": 512,
+            "tile": 64,
+            "tiles": 512,
+            "output_values": 13056000,
+            "active_weight_bytes": 432537600,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "177ad3998c849c672a6865089deaac9862fc0698c7502e59749ec757923b6dc7"
+          },
+          "samples": [
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 0,
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5887.33544922
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 1,
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5922.34179688
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 2,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5887.62744141
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 3,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5872.55273438
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 4,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5863.46337891
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 5,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5855.22363281
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 6,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5839.47900391
+            }
+          ],
+          "median_us": 5863.46337891
+        },
+        "2048": {
+          "geometry": {
+            "event": "iq2_wmma_geometry",
+            "tokens": 2048,
+            "active_experts": 128,
+            "tile": 128,
+            "tiles": 256,
+            "output_values": 13107200,
+            "active_weight_bytes": 108134400,
+            "input_sha256": "e116f40499df090c74d81a6165b8447300d6dc61f930fbf12bf77186187ca85b",
+            "ids_sha256": "367f192ad5ad01cb32b4aa5f7aa64409fa55855fc6a6daa77f67eee9353e2f07"
+          },
+          "samples": [
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 0,
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4376.34716797
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 1,
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4488.78759766
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 2,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4346.46679688
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 3,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4348.94189453
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 4,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4348.60595703
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 5,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4312.26220703
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 6,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4323.02197266
+            }
+          ],
+          "median_us": 4346.46679688
+        }
+      },
+      "completion": {
+        "event": "iq2_wmma_complete",
+        "numerical_pass": true,
+        "independent_checks": 20,
+        "failures": 0,
+        "model_inference": false
+      },
+      "directory": "evidence/q2-iq2-wmma-reference-r1",
+      "source_files": 1020,
+      "artifacts": 26,
+      "checks": [
+        [
+          "IQ2-pair-n17-m5-tile16-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m640-tile64-normal",
+          "0.000530494849033",
+          "0.000416362387144"
+        ],
+        [
+          "IQ2-pair-n17-m640-tile64-tiny",
+          "0.000515336107313",
+          "0.000402037693265"
+        ],
+        [
+          "iq2-wmma-n2040-e512",
+          "0.000539357144503",
+          "0.000406644164601"
+        ],
+        [
+          "iq2-wmma-n2048-e128",
+          "0.000501808844018",
+          "0.000438722999718"
+        ]
+      ],
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    "candidate": {
+      "weights": {
+        "event": "iq2_wmma_weights",
+        "bytes": 432537600,
+        "gate_sha256": "7b26b689e3734cfab8440c3a4067da76b7b45dd7c4305aae1fc81102a1fefe48",
+        "up_sha256": "a371d30954c2d280d7b0168d07e277e6297a37141dfc08adf5da7c5cc4231b0c"
+      },
+      "cases": {
+        "2040": {
+          "geometry": {
+            "event": "iq2_wmma_geometry",
+            "tokens": 2040,
+            "active_experts": 512,
+            "tile": 64,
+            "tiles": 512,
+            "output_values": 13056000,
+            "active_weight_bytes": 432537600,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "177ad3998c849c672a6865089deaac9862fc0698c7502e59749ec757923b6dc7"
+          },
+          "samples": [
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 0,
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5969.14501953
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 1,
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6024.61962891
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 2,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6020.64453125
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 3,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6009.21484375
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 4,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5995.99511719
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 5,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5974.9609375
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 6,
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 512,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6036.67041016
+            }
+          ],
+          "median_us": 6009.21484375
+        },
+        "2048": {
+          "geometry": {
+            "event": "iq2_wmma_geometry",
+            "tokens": 2048,
+            "active_experts": 128,
+            "tile": 128,
+            "tiles": 256,
+            "output_values": 13107200,
+            "active_weight_bytes": 108134400,
+            "input_sha256": "e116f40499df090c74d81a6165b8447300d6dc61f930fbf12bf77186187ca85b",
+            "ids_sha256": "367f192ad5ad01cb32b4aa5f7aa64409fa55855fc6a6daa77f67eee9353e2f07"
+          },
+          "samples": [
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 0,
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4469.56542969
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 1,
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4572.21582031
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 2,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4476.68408203
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 3,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4464.65380859
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 4,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4457.30419922
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 5,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4458.46435547
+            },
+            {
+              "event": "iq2_wmma_cycle",
+              "sample": 6,
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 128,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4434.74951172
+            }
+          ],
+          "median_us": 4458.46435547
+        }
+      },
+      "completion": {
+        "event": "iq2_wmma_complete",
+        "numerical_pass": true,
+        "independent_checks": 20,
+        "failures": 0,
+        "model_inference": false
+      },
+      "directory": "evidence/q2-iq2-wmma-candidate-r1",
+      "source_files": 1020,
+      "artifacts": 26,
+      "checks": [
+        [
+          "IQ2-pair-n17-m5-tile16-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-tiny",
+          "0.000538893747854",
+          "0.000513459561028"
+        ],
+        [
+          "IQ2-pair-n17-m640-tile64-normal",
+          "0.000530494849033",
+          "0.000416362387144"
+        ],
+        [
+          "IQ2-pair-n17-m640-tile64-tiny",
+          "0.000515336107313",
+          "0.000402037693265"
+        ],
+        [
+          "iq2-wmma-n2040-e512",
+          "0.000539357144503",
+          "0.000406644164601"
+        ],
+        [
+          "iq2-wmma-n2048-e128",
+          "0.000501808844018",
+          "0.000438722999718"
+        ]
+      ],
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "cells": {
+    "2040": {
+      "reference_us": 5863.46337891,
+      "candidate_us": 6009.21484375,
+      "time_change_percent": 2.485757229494201
+    },
+    "2048": {
+      "reference_us": 4346.46679688,
+      "candidate_us": 4458.46435547,
+      "time_change_percent": 2.5767494340551256
+    }
+  },
+  "pairs": {
+    "operator-IQ2-pair-n17-m5-tile16-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile16-tiny.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile16-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile16-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile48-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile48-tiny.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile48-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile48-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile64-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile64-tiny.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile64-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile64-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile128-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile128-tiny.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile128-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile128-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m640-tile64-tiny.f32": {
+      "values": 21760,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m640-tile64-normal.f32": {
+      "values": 21760,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-wmma-n2040-e512.f32": {
+      "values": 13056000,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-wmma-n2040-e512.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-wmma-n2048-e128.f32": {
+      "values": 13107200,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-wmma-n2048-e128.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    }
+  },
+  "exact": true,
+  "numerical_pass": true,
+  "promoted": false,
+  "goal_met": false,
+  "component_candidate": false
+}

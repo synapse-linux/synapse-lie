@@ -197,6 +197,40 @@ strict all-zero command requirement. [Updated harness evidence](../config/q2-iq2
 records corrected syntax and a byte-equivalent reanalysis of the retained
 four-arm canonical result after separating artifact integrity from success.
 
+## Completed WMMA component comparison — 2026-10-04
+
+Both `.157` arms complete with all three command exits zero. The independent
+FP64 checks pass in every one of the 20 cases per arm: maximum relative RMS
+error is 0.0005699411 and maximum scaled error is 0.0005210963, below the unchanged
+0.002 limits. All 22 complete F32 output pairs, 105,371,008 bytes per arm, are
+byte-identical. Source, harness, input and weight inventories match the declared
+pair. No original model is loaded by these component checks.
+
+| Tokens / active experts / tile | Original median µs | Candidate median µs | Time change |
+| --- | ---: | ---: | ---: |
+| 2040 / 512 / 64 | 5863.463 | 6009.215 | +2.486% |
+| 2048 / 128 / 128 | 4346.467 | 4458.464 | +2.577% |
+
+Each median contains five samples of eight complete narrowing/compaction/
+gate-up-SwiGLU calls, after two warmups. All five candidate samples are slower
+than all five reference samples for their shape. This single paired campaign
+does not isolate clock/order effects, but it supplies no evidence of a speedup.
+The additional integer instructions and already cached sign table are plausible
+explanations, not established causal attribution. The candidate is **not advanced
+to a model arm**. The measured ordered MMVQ decode improvement remains retained;
+this result applies to the separate prefill WMMA replacement only.
+
+The [paired result](../config/q2-iq2-wmma-signs-results.json) retains every sample,
+oracle metric and full-buffer comparison. The same host capsule passes 21/21
+Debug and ASan/UBSan, including the independent
+[PLE cache-first comparison](Q2-PLE-CACHE-FIRST.md#paired-host-results-on-157--2026-10-04).
+All 12 commands exit zero and 59 artifacts verify. Fresh release at
+02:58:06.736101 UTC checks 15 recorded processes and 12 groups absent, empty KFD
+and four unchanged original lease identities EX|NB/free. The remote/main
+[release receipt](../config/q2-ple-wmma-window-release.json) and shared registry
+record closure; no Q2 job, waiter or restart remains. Whole-curve PP/TG parity
+and independent original-model numerical qualification are still open.
+
 ## Provenance
 
 The sign technique is adapted from official Gufo's DeepSeek port, retaining

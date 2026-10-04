@@ -71,12 +71,18 @@ reason to run an unchanged control, not a reason to claim a prefill optimization
 The measured 41.364% component-time reduction applies to one decode stage;
 it must not be added directly to full-model throughput.
 
-The same packed sign expansion already exists in the gfx1151 IQ2 MMQ tile
-loader. Qwen's K=2560 gives ten IQ2 blocks per row and selects that ordinary
-loader; the separate stride16 specialization belongs to another shape. Porting
-this exact sign change to prefill again would duplicate existing code. The
-remaining PP work needs a distinct measured bottleneck, including PLE first
-access and warm GPU stages.
+The generic gfx1151 IQ2 MMQ tile loader already expands packed signs, but the
+subsequent [active-path audit](Q2-DEEPSEEK-AUDIT.md#follow-up-in-the-active-prefill-wmma-loader--2026-10-04)
+corrects the earlier inference that this covered Qwen prefill. For hidden2560 /
+expert640 / padded-down768, `MoeExperts` selects `RoutedGatedIQ2Gemm` and its
+dedicated `RoutedF16GEMMKernel`, which still loads `ksigns64`. The prepared WMMA
+sign-expansion candidate targets this separate path while preserving the ordered
+decode change. Static compilation finds eight fewer loads per kernel body,
+with more integer instructions. Subsequent component qualification preserves all
+22 output pairs exactly and passes its 20 independent checks, but takes 2.49–2.58%
+more time. That candidate is not advanced to a model arm.
+PLE first access remains a separate hypothesis. Neither candidate changes the
+performance evidence or qualification status recorded in this campaign.
 
 Each provider is rebuilt from full MMQ sources, with the same 333-file C17
 core and exact qualified runtime harness. The candidate changes only the IQ2

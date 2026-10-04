@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## PLE mechanism reproduced; WMMA candidate slower — 2026-10-04
+
+After verified core/Point handover and fresh admission, the `.157` host cohort
+passes 21/21 Debug and 21/21 ASan/UBSan. The paired PLE control rereads 120–128
+initially resident rows in the private collision fixtures; the candidate rereads
+none, with identical oracle values and unchanged cache capacity. This confirms
+the mechanism, not model performance. See [host results](Q2-PLE-CACHE-FIRST.md).
+
+Both WMMA component arms pass all 20 independent numerical checks and every one
+of 22 full-output pairs is exact. However, complete-cycle median time increases
+2.486% at 2040/512 experts and 2.577% at 2048/128 experts. The additional sign
+arithmetic is not advanced to a canonical model run. No new full-model rate or
+PP improvement is claimed; the previously measured ordered decode gain remains.
+The [completed audit](Q2-DEEPSEEK-AUDIT.md#completed-wmma-component-comparison--2026-10-04)
+preserves the negative result and corrects the earlier generic-MMQ inference.
+
+All 12 commands exit zero and 59 artifacts verify. Fresh window release at
+02:58:06.736101 UTC verifies 15 processes and 12 groups retired, empty KFD and
+four original leases unchanged/free. Remote/main receipts and registry record
+closure; no Q2 workload, waiter or restart remains. The next candidate requiring
+canonical measurement is PLE cache-first, composed with the retained ordered
+decode provider. Full Q2/UD PP/TG parity remains unmet.
+
 ## Preserve WMMA performance evidence on numerical failure — 2026-10-04
 
 The prepared WMMA fixture now preserves every finite output and continues all
@@ -78,8 +101,10 @@ were faster: long-context PP parity remains unproven. The goal is not achieved.
 The [full report](Q2-IQ2-CANONICAL.md), four-series PNG/SVG and complete 32-row
 CSV preserve every rate, physical count, duration and cache timing. Analysis
 exits zero and CSV counts/timers agree with verified raw artifacts. Source
-audit also confirms packed sign arithmetic already exists in the IQ2 prefill
-tile loader; duplicating the decode patch there is not a new optimization.
+audit confirms packed sign arithmetic in the generic IQ2 MMQ tile loader.
+The subsequent active-path audit corrects the inference that this covers Qwen
+prefill: its dedicated WMMA loader still reads the sign table and is now the
+subject of a separate experiment.
 
 At 01:33:37.055967 UTC the window releases after all 26 command exits zero,
 127 artifacts verified, 39 owned identities and 26 groups retired, empty KFD,

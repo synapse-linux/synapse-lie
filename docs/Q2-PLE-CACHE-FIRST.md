@@ -65,12 +65,32 @@ not converted into a speedup. Report-parser checks run inside `q2_remote`.
 
 [Local preparation evidence](../config/q2-ple-cache-first-host-preparation.json)
 verifies 2040 provider files, both C++ syntax checks and five Python AST checks.
-These are not runtime results. Debug/ASan and the control observation remain
-pending on `.157`; core retains the next coordinated window. No canonical model
-arm for this candidate has been admitted or implemented.
+These are source checks, separate from the subsequent runtime evidence below.
+No canonical model arm for this candidate has been admitted or implemented.
 
-Next acceptance sequence: qualify the candidate and observe the control on
-`.157` after handover; then measure
-the same canonical Q2 curve with a distinct provider identity. Preserve all
+## Paired host results on .157 — 2026-10-04
+
+The admitted `q2-ple-wmma-host-r1` cohort passes **21/21 Debug and 21/21
+ASan/UBSan**, with all six command exits zero and seven collected artifacts
+hash-verified. Both complete 1020-file provider inventories match their pins.
+The unchanged control reproduces collision-induced rereads in all four cases:
+
+| Configuration | Row format | Original preads | Candidate preads | Original resident-row rereads | Candidate resident-row rereads |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Debug | BF16 | 1144 | 1024 | 120 | 0 |
+| Debug | IQ4_NL | 1152 | 1024 | 128 | 0 |
+| ASan/UBSan | BF16 | 1152 | 1024 | 128 | 0 |
+| ASan/UBSan | IQ4_NL | 1152 | 1024 | 128 | 0 |
+
+Every row matches the independent oracle, guards remain intact, and the wholly
+warm repeat issues no preads. Control variation reflects concurrent cache
+replacement; the candidate consumes every initially resident row before misses
+can replace it. These are actual read counts from deliberately colliding private
+fixtures. No fixture latency, original-model hit rate, throughput gain or parity
+is inferred. The [verified result](../config/q2-ple-cache-first-host-results.json)
+preserves both configurations and their counts.
+
+Next, measure the same canonical Q2 curve with a distinct provider identity.
+Preserve all
 raw histories, preparation costs, PP/TG counts and durations. A reduced fixture
 read count alone is not a full-model speedup or a parity result.
