@@ -1,7 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at 2026-10-04T22:14:00.789800Z after only two new
+Latest Q2 window is released at 2026-10-04T22:44:59.016645Z after only the new
+MoE-only deferred-norm model. Four commands exit0 and26 artifacts verify;
+PP1496.830907 uses the unchanged original exact2048 input/timers. No qualified
+comparator or old synthetic component is rerun. Closure verifies555 recorded
+identities/433 groups absent, empty KFD, four original leases free and six
+unchanged model stat tuples. Core receives the release; no Q2 GPU job,
+reservation, waiter, restart or cleanup remains.
+[Release](../config/q2-hc-moe-deferred-run-window-release.json), SHA256
+`362223d3c1e1af5a7bb86973b7a24949c5d0e66ca59b449f50e6b35ab2821308`.
+
+Previous Q2 window is released at 2026-10-04T22:14:00.789800Z after only two new
 BN64 component candidates. Both retain 0/0/1, 88 artifacts and 112 timings;
 no model is selected and no qualified inference reference is rerun. Closure
 verifies 543 recorded identities/423 groups absent, KFD empty, four original

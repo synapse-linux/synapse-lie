@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## MoE-only integration improves fixed-model PP — 2026-10-04 UTC
+
+Only the new original-weight model runs. Three measured PP samples are
+1494.688213/1498.556008/1496.830907; median1496.830907 is1.276182% above
+saved BK256 parent and3.682139% above fixed Q2. TG median25.17435733 differs
+by+0.274457% versus parent; no independent decode gain is attributed to the
+MoE2048 change. Candidate PP remains11.208254% below fixed UD PP1685.777092;
+candidate throughput needs12.623081% more. No full curve is admitted.
+
+All four commands exit0 and26 artifacts verify, along with18 fixtures and
+1025 provider files. Nine within-arm replay checks are exact; all128 output
+tokens match saved Q2/UD/parent. Eight large-point logit files differ. Maximum
+matched-history KL is0.001256655 to Q2 and0.001687570 to parent. Small smoke
+logits are unchanged. Numerical rejection and independent task quality remain
+open; exploratory performance is retained without numerical promotion.
+
+One pending family is now composed and measured: recovery status moves to
+five mechanisms already in fixed Q2, four new measured composition families,
+one measured regression and one selective integration still pending. All19
+original report hashes verify again; no blanket false-failure verdict or additive
+component-to-model gain is claimed. Original input/timers and controls remain.
+
+Release22:44:59 UTC verifies555 identities/433 groups absent, empty KFD, four
+original leases free and six unchanged model stats. No Q2 GPU job, reservation,
+waiter, restart or cleanup remains. All four new and twelve saved samples and
+graph are exported. [Full values, replay and source](Q2-HC-MOE-DEFERRED.md).
+
 ## MoE-only deferred norm integrated for a new model test — 2026-10-04 UTC
 
 One pending rejected family is now wired into the measured BK256 bounded

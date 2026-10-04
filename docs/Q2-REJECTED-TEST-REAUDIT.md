@@ -101,6 +101,17 @@ historical comparator, with all individual samples available in the model report
 Component improvements must not be added together as model throughput gains.
 The [family CSV](figures/q2-rejected-recovery-status.csv) records each disposition.
 
+The later [MoE-only deferred-norm composition](Q2-HC-MOE-DEFERRED.md) recovers
+one of the two pending integrations and measures1496.830907 PP,1.276182% above
+the saved best parent and3.682139% above fixed Q2. All128 tokens match while
+logits change; independent task quality remains open. The original tester/input
+and qualified references are reused. The [additive recovery update](../config/q2-rejected-recovery-moe-update.json)
+verifies all19 original report hashes and changes the disposition counts to
+five already-present families, four new measured compositions, one measured
+regression and one pending routing-specific tile64 integration. It does not
+rewrite the earlier recovery receipt or infer nineteen independent gains.
+Fixed UD point parity is still unachieved; no full curve runs.
+
 Further fixed-model tests remain pending for candidates needing new integration
 or composition. Existing qualified controls will not be relaunched. Each new
 candidate needs a source manifest, unchanged timer/input contract, fresh .157

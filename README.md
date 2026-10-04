@@ -600,4 +600,10 @@ for scales, with C17 producer/consumer identities and a reconstruction fallback.
 Ordinary/Q8 routes remain; no device allocation or stream is added. The numerical
 port compiles without private scratch; .157 host Debug/ASan pass 24/24 each.
 The frozen plan admits only one new fixed model, retaining prior numerical
-rejections and reusing all qualified references. Model performance is pending.
+rejections and reusing all qualified references. That model now measures
+**1496.830907 PP /25.17435733 TG**, +1.276% PP versus saved best parent and
+**+3.682% versus fixed Q2**. All128 output tokens match; eight logits files change,
+with maximum matched-history KL0.001257 to Q2. Only this new model runs; the
+.157 window is released. Candidate PP remains11.208% below fixed UD;
+the candidate needs12.623% higher throughput. Independent task quality and
+full-curve parity remain open. Every new and saved sample is retained.
