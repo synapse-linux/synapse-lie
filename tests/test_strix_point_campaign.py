@@ -76,6 +76,37 @@ class Tests(unittest.TestCase):
         with patch.object(point, 'observe', return_value=bad):
             with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.enter()
         c.finish(); self.assertTrue(c.active)
+    def test_owned_kfd_retirement_does_not_mask_a_foreign_client(self):
+        c = self.campaign()
+        c.cid = 'a'*64
+        owner = {'pid': 999999998, 'start_ticks': 12,
+                 'cgroup': '/docker/'+c.cid, 'devices': ['/dev/kfd']}
+        active = observation()
+        active['kfd'] = [owner]
+        active['dri'] = [owner]
+        active['kernel_kfd'] = [owner['pid']]
+        with patch.object(point, 'observe', return_value=active): c.sample()
+        retired = observation()
+        retired['kernel_kfd'] = [owner['pid']]
+        with patch.object(point, 'observe', return_value=retired): c.sample()
+        # A live PID, including a reused one, must not inherit the exception.
+        with patch.object(point, 'observe', return_value=retired), \
+             patch.object(point.Path, 'exists', return_value=True):
+            with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
+        retired['kernel_kfd'].append(999999997)
+        with patch.object(point, 'observe', return_value=retired):
+            with self.assertRaisesRegex(RuntimeError, 'Foreign'): c.sample()
+    def test_owned_gpu_retirement_wait_is_bounded(self):
+        c = self.campaign()
+        waiting = observation(); waiting['kernel_kfd'] = [999999998]
+        with patch.object(c, 'sample', side_effect=[waiting, observation()]) as sample, \
+             patch.object(point.time, 'sleep'):
+            c.wait_owned_gpu_retirement()
+            self.assertEqual(sample.call_count, 2)
+        with patch.object(c, 'sample', return_value=waiting), \
+             patch.object(point.time, 'monotonic', side_effect=[0, 5.1]):
+            with self.assertRaisesRegex(RuntimeError, 'retirement deadline'):
+                c.wait_owned_gpu_retirement()
     def test_thermal_and_interruption_stop_admission(self):
         c = self.campaign()
         bad = observation(); bad['temperatures'][0]['value_c'] = 85

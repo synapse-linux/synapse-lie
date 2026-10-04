@@ -137,6 +137,7 @@ class Campaign:
         self.interrupted = None
         self.cid = None
         self.baseline = set()
+        self.owned_kfd = {}
     def record(self): save(self.root/'result.json', self.r)
     def command(self, argv, check=True, timeout=30):
         p = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
@@ -169,6 +170,8 @@ class Campaign:
             for proc in row['dri']:
                 if self.cid in proc['cgroup']:
                     owned.add(proc['pid'])
+                    if proc['pid'] in row['kernel_kfd']:
+                        self.owned_kfd[proc['pid']] = proc['start_ticks']
                     try:
                         fields = dict(line.split(':', 1) for line in Path(f"/proc/{proc['pid']}/status").read_text().splitlines())
                         proc['status'] = {key: fields[key].strip() for key in ('Threads', 'VmRSS', 'VmHWM', 'VmSwap') if key in fields}
@@ -178,14 +181,26 @@ class Campaign:
         if any(t.get('guarded', True) and t['value_c'] >= t['limit_c'] for t in row['temperatures']): raise RuntimeError('Thermal limit')
         clients = {p['pid'] for p in row['kfd']} | set(row['kernel_kfd'])
         new_dri = {p['pid'] for p in row['dri'] if (p['pid'], p['start_ticks']) not in self.baseline}
+        # KFD can list an already-exited owned process for one more sample.
+        # A live/reused PID remains foreign and is never excused.
+        retired_owned = {pid for pid in row['kernel_kfd']
+                         if pid in self.owned_kfd and not Path(f'/proc/{pid}').exists()}
         if retiring:
             pid, start = retiring
             try:
                 if ticks(pid) != start: raise RuntimeError('Retiring service PID identity changed')
             except FileNotFoundError: pass
             owned.add(pid)  # Admission still waits below; never launches while present.
-        if (clients | new_dri) - owned: raise RuntimeError('Foreign GPU client observed')
+        if (clients | new_dri) - owned - retired_owned: raise RuntimeError('Foreign GPU client observed')
         return row
+    def wait_owned_gpu_retirement(self):
+        deadline = time.monotonic()+5
+        while True:
+            row = self.sample()
+            if not row['kernel_kfd'] and not row['kfd']: return
+            if time.monotonic() >= deadline:
+                raise RuntimeError('Owned GPU retirement deadline')
+            time.sleep(0.1)
     def enter(self):
         self.r['service_before'] = self.service()
         before = observe(self.thermal_ceiling_c, gpu_observation_only=True) if self.thermal_policy == CPU_GUARD_POLICY else observe(self.thermal_ceiling_c)
@@ -316,6 +331,8 @@ class Campaign:
             self.r['child_exit_code'] = self.child.returncode
             if not self.r['model_attempted'] and (self.root/'measurements.jsonl').exists():
                 self.r['model_attempted'] = True
+            # Do not close a GPU window until the kernel has retired its owner.
+            self.wait_owned_gpu_retirement()
         if self.child.returncode: raise RuntimeError('Distrobox benchmark failed; see retained logs')
     def run_container(self, command, bundle, timeout, model=None):
         bundle = checked_path(bundle)
