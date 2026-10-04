@@ -1,0 +1,77 @@
+{
+  "schema": "synapse-lie.q2-reaudit-composition-plan.v1",
+  "at": "2026-10-04T19:12:25.258142+00:00",
+  "authorization": {
+    "user_instructions": [
+      "adesso tocca riprovare anche tutte le altre modifiche che ti hanno dato errore sintattico",
+      "non c\u2019\u00e8 neanche bisogno che rilanci quelli gi\u00e0 qualificati, i test li hai, devi solo farli sul nuovo",
+      "con un vantaggio marginale non la scarterei del tutto"
+    ],
+    "scope": "Run two new compositions of retained changes on the fixed model input; numerical failures do not veto exploratory performance; controls never rerun"
+  },
+  "previous_release_sha256": "4d03311f23c5a3bb1071939424bcb067fb9ccb8e373a7e88b10190f4d23a870d",
+  "host": "q2-reaudit-composition-host-r1",
+  "arms": [
+    {
+      "key": "exact",
+      "label": "q2-reaudit-exact-model-r1",
+      "mode": "q2-counting-reaudit-exact",
+      "variant": "reaudit-q8-row"
+    },
+    {
+      "key": "norm",
+      "label": "q2-reaudit-norm-model-r1",
+      "mode": "q2-counting-reaudit-norm",
+      "variant": "reaudit-q8-row-norm"
+    }
+  ],
+  "run_controls": false,
+  "rebuild_mmq_candidates": true,
+  "protocol": {
+    "host": ".157",
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "physical_prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmup_sessions": 1,
+    "measured_sessions": 3,
+    "pause_seconds_outside_timers": 15,
+    "timer": "Frozen direct-executor tester",
+    "greedy": true,
+    "mtp": false
+  },
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "manifests": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+    "config/q2-reaudit-composition-source.json": "9218e3ba26c962a9ed6f27732420c1b300b88b676c5d091479b859fa09be9ede",
+    "config/q2-shared-q8-fixed-model-results.json": "59adab1db6915236eec659a50b529bcadf8061d664637c8a5e6683337fc93ddd",
+    "config/q2-norm-fixed-model-results.json": "cbe3a12c6bf83f784440064b7185da31e520be1c8a17d033f1fe289e72699514",
+    "config/q2-scaled-row-results.json": "a0c2f9759ee1da25120d299b331f0727b07008b47ab6f494a2755deccc20710d",
+    "config/q2-rejected-test-reaudit.json": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0"
+  },
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "65cf6e734b5e0edd004a39a8716043029902d234aee3a5a8301f1f962eb5238c",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "tests/q2_remote_test.py": "e2413d2fcbc40477dbc3d12e62748f048f4d91fac0731430281df2829414158d",
+    "tests/q2_binary_replay_test.py": "5828ecc2eb554ee74328c874a653bf1c85097b98f9808612f269ca8ba96b3bb2",
+    "tools/q2-remote.py": "a76ae75691394cd1c59f838a50fc3d82dd249ed6cb9c8204589b11f171ff6987",
+    "tools/q2-runner.py": "8d78011f62065bdd3ebac16b460e49d679ae6282085eb719ccf3ea628fd668f7",
+    "tools/q2_binary_replay.py": "1cefcb6049e51b5ea6ab6ff211ca22daa603661100867b733ca08cd27977c274",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "window_helper_sha256": "b026121b3b64f2628657f902b09bce1ff7ab2e5ccb80157637f234790370d44f",
+  "historical_controls_only": true,
+  "known_norm_logits_changes_retained": true,
+  "independent_thresholds_changed": false,
+  "quality_promotion": false,
+  "full_curve_deferred_until_fixed_ud_parity": true,
+  "cleanup": false,
+  "goal_met": false,
+  "host_receipt": "config/q2-reaudit-composition-host-results.json",
+  "host_receipt_sha256": "d6f28c4dc63f72904be79a971c16aebbe749ad24a700c5ce05157cf14ffacb3b"
+}

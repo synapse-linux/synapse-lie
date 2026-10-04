@@ -2605,3 +2605,14 @@ The component oracle failure remains separate. Retain the marginal candidate
 without independent quality promotion or a full curve. Verified18:52:57UTC
 closure retires440identities/339groups, empty KFD and four original free leases.
 [Complete values and graph](Q2-SHARED-Q8-FIXED-MODEL.md).
+
+## Retained composition recheck preparation (2026-10-04)
+
+Two new fixed-parent providers combine model-exact shared-Q8 with byte-exact
+640-column row reuse, then optionally the retained fixed-shape norm. The
+second retains known logit differences. Both preserve original weights and
+mixed IQ2 routing. Only these new candidates will run; all qualified Q2/UD
+controls remain historical, with unchanged exact2048 input/timers. Host CTest
+passes23/23 Debug and23/23 ASan/UBSan. No curve or quality promotion is admitted.
+[Source composition](../config/q2-reaudit-composition-source.json),
+[plan](../config/q2-reaudit-composition-plan.json).

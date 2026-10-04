@@ -532,3 +532,7 @@ The [completed shared-Q8 model comparison](docs/Q2-SHARED-Q8-FIXED-MODEL.md)
 measures1446.083285 PP and25.10338822 TG on the unchanged exact2048 input.
 All21 saved Q2 replay files and logits remain identical. Fixed UD parity
 remains open; no controls were relaunched and the .157 window is released.
+
+The [retained-composition recheck](config/q2-reaudit-composition-plan.json)
+prepares Q8+row reuse and Q8+row reuse+fixed norm on the unchanged reference.
+Only the two new candidates run; historical Q2/UD results are retained.

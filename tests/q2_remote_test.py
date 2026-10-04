@@ -203,6 +203,19 @@ class RemoteGuardTests(unittest.TestCase):
         self.refuse(['q2-counting-shared-q8', 'q2-fixture', '--source-variant', 'shared-q8-producer',
                      '--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
 
+    def test_reaudit_composition_scope(self):
+        for variant in remote.REAUDIT_SOURCES.values():
+            for mode in ('cpu', 'shared-q8-producer-check', 'q2-curve', 'operators', 'q2-bench'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Historical counting requires its matched provider')
+        for mode, variant in remote.REAUDIT_SOURCES.items():
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+            self.refuse(argv+['--rebuild-mmq', '--native-curve'], 'Native curve requires')
+            self.refuse(argv+['--rebuild-mmq', '--point-only'], 'Focused point requires')
+            self.refuse(argv+['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            self.refuse(argv+['--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+
     def test_historical_counting_harness_is_frozen(self):
         root = path.parents[1]
         manifest = json.loads((root/'config/q2-counting-harness.json').read_text())
