@@ -45,6 +45,13 @@ def file_sha256(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
+def source_data_limits(mode):
+    # The unchanged2048x2560 F32 replay array is data, not project source.
+    # Keep every other member at the original16MB cap.
+    return ({'oracle-replay-data/shared-q8-n2048-p0-mixed-reference.bin': 2048*2560*4}
+            if mode == 'shared-q8-oracle-replay' else {})
+
+
 def collection_receipt(archive):
     members = archive.getmembers()
     names = set()
@@ -567,7 +574,7 @@ def main():
         ' for item in archive:',
         '  path=pathlib.PurePosixPath(item.name)',
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
-        '  if item.size>16000000: raise ValueError("oversized source file")',
+        '  if item.size>' + repr(source_data_limits(args.mode)) + '.get(item.name,16000000): raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
         'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
     ])

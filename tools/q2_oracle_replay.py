@@ -12,7 +12,7 @@ def digest(path):
 
 def verify(root, staged=False):
     root = Path(root)
-    plan_path = root/'config/q2-shared-q8-oracle-replay-plan.json'
+    plan_path = root/'config/q2-shared-q8-oracle-replay-r2-plan.json'
     plan = json.loads(plan_path.read_text())
     expected = {'shared-q8-n'+str(n)+'-p'+str(p)+'-'+suffix
                 for n,p in ((96,0),(97,1),(127,2),(129,0),(2048,0))

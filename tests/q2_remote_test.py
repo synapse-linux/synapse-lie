@@ -623,6 +623,15 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_saved_q8_source_member_size_is_bounded(self):
+        limits = remote.source_data_limits('shared-q8-oracle-replay')
+        self.assertEqual(limits, {'oracle-replay-data/shared-q8-n2048-p0-mixed-reference.bin': 20971520})
+        for mode in ('cpu', 'shared-q8-producer-check', 'q2-counting-shared-q8'):
+            self.assertEqual(remote.source_data_limits(mode), {})
+        for name in ('source/weights.bin', 'oracle-replay-data/../weights.bin',
+                     'oracle-replay-data/shared-q8-n2048-p0-q8-reference.bin'):
+            self.assertEqual(limits.get(name,16000000),16000000)
+
     def test_fixed_norm_shape_model_scope(self):
         self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
                      'norm-shape-reference', '--rebuild-mmq'],
