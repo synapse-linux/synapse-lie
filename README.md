@@ -37,10 +37,15 @@ UD. Every saved Q2 output and logit file remains exact. The old 1439 result is
 reproduced on its original repetitive input; it is not a canonical prose rate.
 The complete four-arm graph includes all measured sessions and warmups.
 
-The owner now requests the [fixed-shape norm full-model comparison](docs/Q2-NORM-FIXED-MODEL.md)
-on that exact2048 reference. Its component rejection remains; the exploratory
-four-arm run retains unchanged input/timers, repeated mixed-Q2 controls and
-pristine UD. Host Debug/ASan scopes pass22/22 each on `.157`; no curve is admitted.
+The [fixed-shape norm full-model comparison](docs/Q2-NORM-FIXED-MODEL.md)
+now completes on that exact2048 reference: candidate1444.467 PP versus
+1444.863/1443.057 for unchanged Q2 controls and1688.699 for fresh pristine UD.
+The PP differences remain inside observed control variation. All tokens match,
+but logits change; component rejection and numerical gates remain. The owner
+requests retaining the marginal candidate for targeted composition. All111
+host/model artifacts verify; the GPU window is released and no curve is admitted.
+The [renewed DeepSeek/shared-Q8 audit](docs/Q2-DEEPSEEK-SHARED-PREFILL.md)
+identifies two remaining producer/fusion hypotheses without a new GPU run.
 
 The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
 four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycle
@@ -102,8 +107,10 @@ model point; small gains and cumulative checkpoints do not bypass this gate.
 The [fixed-shape paired norm probe](docs/Q2-NORM-FIXED-SHAPE.md) is rejected:
 despite37% fewer static instructions, its complete2048-row cycles save only
 0.648% ordinary /0.125% MoE against the repeated control and introduce output
-differences. All60 component samples remain available. No model test follows;
-the fixed1443.673 Q2 /1685.777 UD result stays unchanged.
+differences. All60 component samples remain available. The component gate
+admits no model test. The later owner-requested exploratory
+comparison above preserves this rejection and the fixed1443.673 Q2 /1685.777
+UD reference. The candidate remains isolated for targeted composition.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes

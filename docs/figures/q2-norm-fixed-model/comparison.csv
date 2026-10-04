@@ -1,0 +1,17 @@
+arm,source,repetition,warmup,prompt_tokens,output_tokens,decode_steps,prefill_tok_s,decode_steps_s,prefill_s,decode_s
+before,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-before-r1,0,True,2048,128,127,1438.123358,22.51383107,1.424078114,5.640976856
+before,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-before-r1,1,False,2048,128,127,1446.94541,25.12886692,1.415395485,5.053948528
+before,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-before-r1,2,False,2048,128,127,1444.862522,25.14469068,1.417435894,5.050768037
+before,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-before-r1,3,False,2048,128,127,1443.613324,25.11338869,1.41866244,5.057063449
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-candidate-r1,0,True,2048,128,127,1440.21929,24.99285586,1.422005672,5.081452104
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-candidate-r1,1,False,2048,128,127,1445.513238,25.17135663,1.416797817,5.045417371
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-candidate-r1,2,False,2048,128,127,1444.46653,25.16073258,1.417824475,5.047547784
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-candidate-r1,3,False,2048,128,127,1442.835355,25.18179226,1.419427375,5.043326492
+after,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-after-r1,0,True,2048,128,127,1437.954997,25.13796578,1.424244851,5.052119217
+after,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-after-r1,1,False,2048,128,127,1443.056567,25.15872293,1.419209785,5.047950977
+after,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-after-r1,2,False,2048,128,127,1442.886366,25.13252172,1.419377193,5.053213577
+after,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-after-r1,3,False,2048,128,127,1444.052812,25.14570806,1.418230679,5.050563686
+ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-ud-r1,0,True,2048,128,127,1689.446818,24.3322037,1.212231115,5.219420385
+ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-ud-r1,1,False,2048,128,127,1688.815124,24.32657022,1.212684545,5.220629084
+ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-ud-r1,2,False,2048,128,127,1632.52444,24.34579666,1.25449883,5.216506231
+ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-model-ud-r1,3,False,2048,128,127,1688.699263,24.33819909,1.212767747,5.218134651

@@ -1,15 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## Owner-requested fixed model test prepared — 2026-10-04
+## Fixed model comparison complete; marginal candidate retained — 2026-10-04
 
-The owner requests the unchanged fixed-shape candidate on the full model now,
-after clarification that the latest patch had only component measurements.
-The exploratory run retains that component rejection and all numerical gates.
-Four original-weight arms use the exact2048 historical tester/input/timers:
-mixed Q2, candidate, mixed Q2 again and pristine UD, with full MMQ rebuilds.
-Host scopes pass22/22 Debug and22/22 ASan/UBSan on `.157`. No curve is admitted.
-[Frozen plan and scope](Q2-NORM-FIXED-MODEL.md).
+The owner-requested four-arm original-weight comparison completes on `.157`
+with the unchanged exact2048 historical tester/input/timers. Candidate PP is
+1444.466530 versus1444.862522/1443.056567 for unchanged mixed-Q2 controls and
+1688.699263 for fresh pristine UD. The fixed1443.672867/1685.777092 reference
+remains visible. Candidate PP changes−0.0274%/+0.0977% against controls,
+inside their−0.1250% drift; TG changes+0.1691%/+0.1020%. All128 output tokens
+per session match, but eight candidate logit files change, with maximum
+matched-history KL0.004092912681 to the Q2 control. No repeatable PP gain,
+independent quality acceptance or UD point parity is established.
+
+The owner's latest instruction retains this candidate for targeted composition;
+its source, component rejection and model differences remain intact. All22
+host/model command exits are zero and111 artifacts verify. Host Debug and
+ASan/UBSan each pass22/22. Release16:39:20UTC checks395identities/302groups
+retired, KFD empty, four original leases free and six unchanged model stats;
+core acknowledges. No Q2 job/reservation/waiter/restart or .157 cleanup remains.
+[Full samples, graph and retention decision](Q2-NORM-FIXED-MODEL.md).
+
+The [renewed official DeepSeek audit](Q2-DEEPSEEK-SHARED-PREFILL.md) includes
+shared Q8 gate/up/down. Input quantization reuse, direct SwiGLU F16 production
+and one-stage-ahead loads already exist. Two remaining hypotheses are Q8 tile
+production in the raw-HC Q2 mixer and wide paired W8A8 shared gate/up. The old
+96-call gate/up trace costs20.305ms,1.383% of Q2 kernel time; it cannot by itself
+close the roughly16.8% fixed-point throughput gap. No patch or new GPU profile
+is produced by this audit. Qualified control-binary replay is the next launcher
+change and is not implemented yet. Full curves still wait for fixed-point parity.
 
 ## Fixed-shape norm rejected after bounded component — 2026-10-04
 
@@ -19,7 +38,8 @@ time improves only0.648% and MoE0.125%; both fail the frozen1% gate. Candidate
 output matches34/80 full pairs versus80/80 for both references. All10 independent
 norm checks per arm pass;20 down failures per arm and their maxima remain.
 The candidate fails timing independently of its new output differences and
-does not receive a model run. All60 samples and the graph are retained.
+the component gate admits no model run. The later owner-requested exploratory
+comparison above retains this rejection. All60 samples and the graph remain.
 
 Release15:58:30UTC verifies368identities/280groups retired, KFD empty, four
 original lease inodes free and six model stats unchanged. Core is notified;

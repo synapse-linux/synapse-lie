@@ -66,7 +66,13 @@ without rerunning the successful remote tests. The failure is retained.
 
 All three planned component arms finish on `.157`; all120 artifacts verify.
 Every arm records actual exits0/0/1. The fixture and model reference remain
-unchanged. No full-model run or context curve follows.
+unchanged. The component gate admits no full-model run or context curve.
+
+The owner subsequently explicitly requests the unchanged candidate on the full
+model despite this component rejection. That separate
+[exact2048 campaign](Q2-NORM-FIXED-MODEL.md) retains the rejection and original
+thresholds. The candidate is preserved for targeted composition at the owner's
+request; neither this gate nor the historical component result is rewritten.
 
 | Complete paired cycle | Reference before, us | Candidate, us | Reference after, us | Candidate vs after |
 |---|---:|---:|---:|---:|

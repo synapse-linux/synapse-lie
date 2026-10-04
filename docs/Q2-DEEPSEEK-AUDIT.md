@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 # DeepSeek techniques applicable to the Qwen Q2 workstream
 
+The [renewed shared-Q8 prefill audit](Q2-DEEPSEEK-SHARED-PREFILL.md) records
+the remaining producer/fusion hypotheses and their retained cost bounds.
+It is read-only and preserves every earlier experiment and qualification gate.
+
 The independently fetched official Gufo source at
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e` contains the DeepSeek port with the
 same **IQ2_XXS gate/up and Q2_K down** encodings. This is a useful source of

@@ -6,10 +6,34 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T15:58:30.649805+00:00** after
+Latest Q2 window: **released at2026-10-04T16:39:20.111498+00:00** after the
+owner-requested four-arm exact2048 original-weight model comparison. All22
+host/model command exits are zero and111 artifacts verify. Candidate PP remains
+inside unchanged-control variation; all output tokens match, but logits change.
+The candidate stays isolated at the owner's request; no promotion or curve.
+
+Release verifies395identities/302groups retired, empty KFD, four original lease
+inodes free and six unchanged model stat tuples, CPU40.375/GPU38C. Main/remote
+release/active/ready receipts and the shared registry mark closure; core
+acknowledges. No Q2 GPU job, reservation, waiter, restart or remote cleanup remains.
+[Release](../config/q2-norm-fixed-model-window-release.json), SHA256
+`211d02b886ef3b92d664baef4c1f1a7e817f83690b733b43556ce31c537e182e`.
+
+Admission at2026-10-04T16:18:25.143370+00:00 uses checkpoint`875ce41` and
+verifies375 retired identities, empty KFD, four original lease inodes free,
+six unchanged model stat tuples, CPU37/GPU36C. Core confirms no `.157`
+reservation/interleaving. Host Debug and ASan/UBSan pass22/22 each. Mixed-Q2
+before/candidate/mixed-Q2 after/pristine-UD each rebuild MMQ and use the frozen
+historical tester/input/timers. The owner explicitly admits the exploratory
+run after the component rejection; acceptance gates remain unchanged.
+[Admission](../config/q2-norm-fixed-model-window-admission.json), SHA256
+`20f97fa57f12da98fdcfd4bfd7a0046066d0d0b8b2d2c9bf06c9ece9da9dd814`.
+
+Previous Q2 window: **released at 2026-10-04T15:58:30.649805+00:00** after
 three existing HC-library fixtures at2048 rows, reference/candidate/reference.
 All120 artifacts verify; each arm retains exits0/0/1. Candidate fails the
-frozen timing and exact-output gates; no model/curve follows. Admission at
+frozen timing and exact-output gates; that gate admits no model/curve. The later
+owner-requested model run above retains the rejection. Admission at
 15:51:13UTC uses checkpoint`b1edb1d`, after core confirms no .157 reservation
 and new Debug/ASan host scopes pass22/22 each.
 

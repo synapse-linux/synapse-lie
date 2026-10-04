@@ -1,0 +1,259 @@
+{
+  "schema": "synapse-lie.q2-deepseek-shared-prefill-audit.v1",
+  "at": "2026-10-04T17:02:04.325559+00:00",
+  "scope": "Read-only review of independently fetched pinned official Gufo DeepSeek and the retained mixed-Q2 provider; no sibling source or artifact imports.",
+  "official_source": {
+    "schema": "synapse-lie.official-source.v1",
+    "repository": "https://github.com/gufo-org/gufo",
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "archive_url": "https://api.github.com/repos/gufo-org/gufo/tarball/f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "archive_sha256": "4b61a3f23e5ab51f7c95d6a7b6d2d82c8f7976e39f9566196f75323ab5eb2110",
+    "archive_bytes": 5486734,
+    "origin": "Downloaded independently from official upstream; no sibling project source or artifacts",
+    "omitted": "Editor symlinks only; source and notices retained",
+    "patch": "patches/gufo-q2.patch"
+  },
+  "sources": {
+    "official_gufo": {
+      "root": ".deps/gufo-base",
+      "inventory": "config/q2-counting-regression-plan.json",
+      "files": {
+        "src/models/deepseek_v4_flash/runtime/rocm_graph.cpp": {
+          "sha256": "9699201d4f96ece2b31891be23f514a53cafa8de036b9c2d15c649043ae7c120",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_shared_expert.hip.hpp": {
+          "sha256": "7a73faf33321ef44103e5641c2e2ceb1403478336d21a2f119e6e23482557e86",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_matmul.hip.hpp": {
+          "sha256": "3f8425d5c40b91a15cd790688e9aaa51cf5f8451205d778087d8a1ab5dfd1033",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_hc.hip.hpp": {
+          "sha256": "b527bf3c25c27d489ba15940b018f79954b0f3e93632a700c5a7d2036dd191b3",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_hc_output_launch.hip.hpp": {
+          "sha256": "67f348a0ca60583971361a1928c10ea962a89abc88b0e519a89b0bb89f11a035",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_q2_down.hip.hpp": {
+          "sha256": "2e98e7c172e430ea61a64bbf76bcb2d637051377a2513628d1e2a7f4eeb8d77f",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_moe_launch.hip.hpp": {
+          "sha256": "37532a73bedf10ff193ef940aa27fb1c7c884017871ef81e0103d336ff50ebb2",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_hipblaslt.hip.hpp": {
+          "sha256": "a6b1240e3a4cbea1628a2ee511908e7c9dae220f86b6f24eac8b32cd0bf80836",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_runtime.hip.hpp": {
+          "sha256": "b61ad7c8772a40cd5505ae2afbc0e3ed76e2b39534004c494e739477314bb26b",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/backend.hip.cpp": {
+          "sha256": "94bd5a2d52ba70ac001c8681434b70ba59cbc29b6139025a8557e604792c2d8e",
+          "inventory_exact": true
+        },
+        "src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq_d2r.hip.cpp": {
+          "sha256": "ed094cd0826b2c89bb0bf9575505fb9202f1faa0ae2ab7fa355d7d1564a538ef",
+          "inventory_exact": true
+        }
+      }
+    },
+    "mixed_q2": {
+      "root": ".deps/gufo-q2-curve-iq2-mixed",
+      "inventory": "config/q2-iq2-mixed-model-source.json",
+      "files": {
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
+          "sha256": "191ef841df254bb6b8b176e5f964ed0a8a3b5231d86126304f2bc7c0bf659c77",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+          "sha256": "c814538cb15699f3c0ace8d4abc4773efc6d9bbf78c0e2a663fc4554f0d0b331",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": {
+          "sha256": "64c409c3e1dbbca60b515b31898da89db7ce9c4059c5b5a1245936caf4535ed9",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": {
+          "sha256": "24d259a90bbe6130240ca80576274864abd3f014d4e999b0078fca2aa1db45c1",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip": {
+          "sha256": "7314d5ac3accf546149ae3c9f94a956a3d9d1cf654a1de372afe7397f060a3b0",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/device_model.cpp": {
+          "sha256": "2698f3c38cd4a9f18b4eabdd1666b3a6e30124fd394d44f92cc256f7a7bf6e1e",
+          "inventory_exact": true
+        },
+        "src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp": {
+          "sha256": "8491f54d8e2db60879c478684600aacff43bebd280bb557bb364e93d5f66adf2",
+          "inventory_exact": true
+        }
+      }
+    }
+  },
+  "input_reference": {
+    "manifest": "config/q2-fixed-prefill-reference.json",
+    "sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "q2_pp_tok_s": 1443.672867,
+    "ud_pp_tok_s": 1685.777092
+  },
+  "profile": {
+    "path": "config/q2-scaled-library-profile-results.json",
+    "sha256": "f8749c740ca2308c55b7799eb5a2666685da51dd69d07cb20c925f5314bcc2c7",
+    "scope": "Marked pp2048/tg16 diagnostic, 15 decode calls; sequential profiles, not throughput",
+    "measured_groups": {
+      "q2": {
+        "kernel_sum_ns": 1468038619,
+        "groups": {
+          "shared_gate_up": {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",
+            "calls": 96,
+            "total_ns": 20305258,
+            "max_ns": 226714,
+            "kernel_time_percent": 1.3831555748738786
+          },
+          "swiglu_half": {
+            "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SwigluHalfKernel(float const*, float const*, __half*, unsigned long)",
+            "calls": 48,
+            "total_ns": 842058,
+            "max_ns": 19319,
+            "kernel_time_percent": 0.05735939021642318
+          },
+          "shared_down_compatible": {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+            "calls": 50,
+            "total_ns": 14846804,
+            "max_ns": 2870277,
+            "kernel_time_percent": 1.011336064858659
+          },
+          "all_tiled_quantization": {
+            "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::QuantizeQ8TiledVec4Kernel(float const*, void*, unsigned long, unsigned long)",
+            "calls": 72,
+            "total_ns": 10283062,
+            "max_ns": 286712,
+            "kernel_time_percent": 0.7004626354451511
+          }
+        },
+        "source_trace_sha256": "3f1c11d21bae4c5f55ac5d3a1273f9de115b166bfad4a95070a81f37d71e031b"
+      },
+      "ud": {
+        "kernel_sum_ns": 1258871940,
+        "groups": {
+          "shared_gate_up": {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",
+            "calls": 96,
+            "total_ns": 20446291,
+            "max_ns": 230193,
+            "kernel_time_percent": 1.6241756091568773
+          },
+          "swiglu_half": {
+            "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SwigluHalfKernel(float const*, float const*, __half*, unsigned long)",
+            "calls": 48,
+            "total_ns": 947173,
+            "max_ns": 21519,
+            "kernel_time_percent": 0.07523982145475416
+          },
+          "shared_down_compatible": {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, __half const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+            "calls": 50,
+            "total_ns": 15548591,
+            "max_ns": 2971875,
+            "kernel_time_percent": 1.2351209448675138
+          },
+          "all_tiled_quantization": {
+            "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::QuantizeQ8TiledVec4Kernel(float const*, void*, unsigned long, unsigned long)",
+            "calls": 14,
+            "total_ns": 4423191,
+            "max_ns": 501385,
+            "kernel_time_percent": 0.3513614736698317
+          }
+        },
+        "source_trace_sha256": "39937561306cb5bc3e35882ac118cb4f97824c909639ca741a08e902cc6abe03"
+      }
+    },
+    "limits": "Older diagnostic traces, not fresh throughput. The 50-call generic F16 group includes other calls and is only a shared-down-compatible upper bound; the 72-call tiled quantization group includes other producers."
+  },
+  "active_paths": {
+    "qwen_gate_up_vector_fused": true,
+    "qwen_gate_up_wide_separate": true,
+    "qwen_gate_up_share_one_q8_input_quantization": true,
+    "qwen_shared_down_private_f16_producer": true,
+    "qwen_raw_hc_q8_tile_publication": false,
+    "qwen_ud_half_hc_q8_tile_publication": true,
+    "deepseek_pair_max_tokens": 136,
+    "deepseek_2048_gate_up_separate": true,
+    "deepseek_q8_producer_registry_enabled": false,
+    "deepseek_hip_d2r_available": false
+  },
+  "hypotheses": [
+    {
+      "id": "raw_hc_q8_tile_producer",
+      "status": "SOURCE_BACKED_PROPOSAL_NOT_IMPLEMENTED",
+      "producer": "HcMixRawF16Gemm",
+      "consumer": "shared gate/up W8A8Gemm",
+      "required_contract": "Quantize from exactly the currently rounded F32 mixed rows; preserve Q8 scale/code bytes and buffer invalidation/publication on errors.",
+      "logical_f32_read_bytes_48_layers": 1006632960,
+      "logical_f32_read_mib_48_layers": 960.0,
+      "eligible_quantizations_per_2048_call_upper_bound": 48,
+      "all_tiled_quantization_time_ns_upper_bound": 10283062,
+      "limits": "Logical bytes are not measured DRAM traffic. Complete tiled-quantization group includes other producers and does not predict model benefit."
+    },
+    {
+      "id": "wide_shared_w8a8_gate_up_pair",
+      "status": "SOURCE_BACKED_PROPOSAL_NOT_IMPLEMENTED",
+      "shape": {
+        "m": 640,
+        "n": 2048,
+        "k": 2560
+      },
+      "required_contract": "Preserve K32 accumulator update and scaling order, rounded SwiGLU boundaries, and full producer/consumer outputs.",
+      "existing_group_time_ns": 20305258,
+      "existing_group_kernel_time_percent": 1.3831555748738786,
+      "limits": "DeepSeek pair falls back above 136 tokens. Double accumulator/register/LDS pressure can erase gains. Required matrix products remain."
+    },
+    {
+      "id": "shape_specific_shared_down_library",
+      "status": "LOWER_PRIORITY_PROPOSAL_NOT_IMPLEMENTED",
+      "shape": {
+        "m": 2560,
+        "n": 2048,
+        "k": 640
+      },
+      "f16_mirror_bytes_48_layers": 157286400,
+      "f16_mirror_mib_48_layers": 150.0,
+      "required_contract": "Bit-checked GPU-only mirrors from original Q8 bytes, original Q8 retained for decode, bounded memory accounting, deterministic algorithm and numerical/quality gates.",
+      "limits": "Different shape from the already measured HC-down sweep; generic F16 group is not exclusively 48 shared-down calls."
+    }
+  ],
+  "already_present_or_previously_measured": [
+    "Vector Q8 paired gate/up, pointer/rows/cols Q8 activation cache, direct SwiGLU F16/Q8 consumer input",
+    "Expert/W8A8 one-stage-ahead fetch_stage/commit_stage loads",
+    "float4 v[10] norm input retention in both paired Qwen norm kernels",
+    "Ordered IQ2 vector signs, mixed128/64 maps and scaled-row reuse",
+    "IQ2 WMMA sign replacement, scale reuse and codebook/dead-fragment staging gates",
+    "Q2 raw-weight staging/code-byte reuse and shared/routed side-stream overlap"
+  ],
+  "non_drop_in_paths": [
+    "DeepSeek shared pair at n_tokens<=136 or K2048/M4096 special shared hipBLAS route",
+    "DeepSeek decode shared-down/HC-expand entry without n_tokens dimension",
+    "DeepSeek HC24/Sinkhorn and post-projection RMS versus Qwen rank320/sigmoid/grouped norm",
+    "DeepSeek global plan/weight state cannot become LIE-owned C17 resource policy by copying it"
+  ],
+  "gpu_build": false,
+  "model_run": false,
+  "new_profile": false,
+  "model_file_conversion": false,
+  "numerical_source_changed": false,
+  "candidate_promoted": false,
+  "goal_met": false,
+  "full_curve_admitted": false,
+  "next_gate": "Relevant complete-cycle component, then unchanged exact2048 model comparison with qualified control replay; whole curve only after fixed-point UD parity."
+}
