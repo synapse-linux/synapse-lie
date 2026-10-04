@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.point-http-fresh-merge.v1",
+  "impl": "gufo",
+  "mode": "ar",
+  "case": "prose",
+  "levels": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ],
+  "cohorts": 20,
+  "merged_sha256": "c5272771a8af4ead63a86930be018d3576ce5186d7e3bfb5973646349b06c997",
+  "sources": {
+    "point-http-fresh-r7-ar-prose-c1-gufo": {
+      "manifest_sha256": "cbc2676b39c748ffa9de4a12e133b35802d67aa7ec59919708aa018078f73f2e",
+      "collection_sha256": "0325aa01c5585cb6cc58e0f29f857ae07b9a688f71bb40e1eabe2ed97ad5ebb8",
+      "measurements_sha256": "c3cfdad76747542c5f4b07eaa27122506f1d6e08aeff81c6653f9f80efd5eb47"
+    },
+    "point-http-fresh-r7-ar-prose-c2-gufo": {
+      "manifest_sha256": "f3ff9aa51479dfc7be4bc3d0ca6cac06513a34af493059e2109e0d85a585f7e2",
+      "collection_sha256": "a879ef7692db7adc8a5c02cc3c8d3bb36595ccc70e1c3d19740570187b35193b",
+      "measurements_sha256": "f4b6f84a87670bdcefe995353e09c0fd878b037f9d2a420dc45ad04116ad889a"
+    },
+    "point-http-fresh-r7-ar-prose-c4-gufo": {
+      "manifest_sha256": "b67618d764cd1fd0a9d199574cbf37f05b4277f9488d753b0721f6d7c61371c6",
+      "collection_sha256": "8dc8b1bced6c1af93cca7a164e1cc30b2c007cfdc7c84c2ab82e527a4458e377",
+      "measurements_sha256": "71aa3a142a63707e755e0a8ff28369fa5e44e3623529fb2ab04609953da89c94"
+    },
+    "point-http-fresh-r7-ar-prose-c6-gufo": {
+      "manifest_sha256": "94e8d409e1d25cfb09cc4c5e3bcbb583704e935d1c8b924612b7f25ba49543a7",
+      "collection_sha256": "f006470b6d7c4d6af754efaeb44a8eb6cf8984b55f03f39f6b98d8759e293ee6",
+      "measurements_sha256": "0b90199844f095ce22aa2703ddb03a7a22832a9bec9da73f60bae3137670c2e9"
+    },
+    "point-http-fresh-r7-ar-prose-c8-gufo": {
+      "manifest_sha256": "cf7541c94740f9ae721fea10e2f1c6af9f45359bd9dd16e5297bcd01a162da84",
+      "collection_sha256": "9cc099476a77bce0f735c43491a758717558da15ddbd93a41690818637ec3f62",
+      "measurements_sha256": "ead804fb9832832ab0d12197a2e947a3c5b1facc8b2c604e3fac1df7e8ddf6e9"
+    }
+  }
+}

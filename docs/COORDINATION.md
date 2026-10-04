@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Point HTTP campaign released — 2026-10-04 UTC
+
+The `.161` Point thread has retired all 40 original-weight LIE/official Gufo
+AR/MTP HTTP performance windows and the successful full-server control build.
+Eight performance windows used fixed capacity eight; 32 used a fresh server
+with sessions=C. Every window's client/supervisor exits pass, original model
+stats remain unchanged, only its owned GPU child retires, the named router is
+restored and the private lease is free. The 16 verified native comparisons
+have exact complete output. Two earlier failed windows (LIE supervisor
+retirement race and Gufo PIE link) remain retained with their actual exits.
+No standing GPU reservation follows. The
+[sealed report](benchmarks/2026-10-04/strix-point/http-multi/README.md)
+binds the 725 archived files, resource peaks and full methods; any new GPU
+work requires a fresh coordinated admission under this document.
+
 ## Point prepared HTTP build released — 2026-10-04 UTC
 
 The `.161` device-free ROCm 10 r6 build from integrated source `128f490`

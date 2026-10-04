@@ -1,0 +1,65 @@
+{
+  "schema": "synapse-lie.point-http-multi-release.v1",
+  "SPDX-License-Identifier": "MIT",
+  "scope": "Original-weight served HTTP AR/MTP LIE versus independently pinned official Gufo on Strix Point gfx1150; 4096-token context and up to eight concurrent clients",
+  "host": "pop@192.168.5.161",
+  "stack": "Pop!_OS kernel 7.1.5-76070105-generic; Fedora 43 / ROCm 10 Docker-managed Distrobox",
+  "source_commit": "128f490cfff9713f84f658ad17118272a1cd4ad7",
+  "official_gufo_commit": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "rocwmma_commit": "48b7db12a9ade97f0b7ab2ff9321ba0cbb4e5b77",
+  "gufo_binary_sha256": "0538303eee9cce3e2b634b0b68b51f25ba384ff95253fa5ee181cda5458e3e47",
+  "combined_bundle_sha256": "47dda8c7ebcd50c1f0b363a73573d6a32a7e25dd2ff9a64cdbf5cb68f71d9e83",
+  "reporter_graph_label_source_blob": "dcd84ecf3556ef4a898daec19961a0f9e765e251",
+  "method": {
+    "api_port": 8000,
+    "server_capacity_policies": ["fixed-8", "fresh-per-level"],
+    "users": [1, 2, 4, 6, 8],
+    "context_tokens": 4096,
+    "prefill_chunk_tokens": 2048,
+    "output_tokens_per_request": 128,
+    "warmup_cohorts_excluded": 1,
+    "measured_cohorts": 3,
+    "cases": ["ar-prose", "mtp-prose", "mtp-repetition", "ar-repetition-c1"],
+    "report_rate": "Median summed individual server decode token/s; common-wall throughput, TTFT and prefill are separate fields"
+  },
+  "results": {
+    "fixed_windows_passed": 8,
+    "fresh_windows_passed": 32,
+    "control_build_windows_passed": 1,
+    "historical_failed_windows_retained": 2,
+    "archived_files_verified": 725,
+    "remote_files_sha256_verified": 682,
+    "native_comparison_groups": 16,
+    "all_complete_outputs_equal_and_eligible": true,
+    "measured_prefill_executed_tokens": 0,
+    "sampled_fresh_peak_cpu_c": 87.5,
+    "sampled_fresh_peak_gpu_c": 82.0,
+    "sampled_fresh_peak_nvme_c": 75.85,
+    "sampled_fresh_peak_gtt_used_bytes": 92166135808
+  },
+  "archives_sha256": {
+    "fixed8.tar.gz": "bd02b592a4b0f0c2cf09c7f3ec6a53565cdac4318b3a44e00800188d637c02bb",
+    "fresh.tar.gz": "ece9f03118e84cf24d522cd68db3a7218a62f51c68286a72779c0388b0a3f8ea",
+    "history.tar.gz": "ffc0b374f7faf59d919bc26d60c9bfeda84f825c2e8bbc5193bb46b1c55a4712"
+  },
+  "generated_sha256": {
+    "summary.csv": "926c377e18bf58e0218cf8b56a69d404f4c6dce074cb384f133bcb250ec465b5",
+    "summary.json": "2afa1dd963e3645e10eb27373b52caf296648069217acd7f3773d40154957cd7",
+    "verification.json": "0e0a2ee012c7307fe3bb15aa6b59fbd119065916d1658fd4f52208f661f23051"
+  },
+  "offline_validation": {
+    "archive_sha256_checks": "3/3 pass",
+    "point_campaign_unit_tests": "37/37 pass",
+    "native_http_multi_asan_ubsan_lsan_ctest": "1/1 pass on private loopback",
+    "first_sandboxed_native_ctest_exit_code": 8,
+    "first_sandboxed_native_ctest_failure": "Sandbox denied loopback socket; actual failure retained under local evidence/point-http-asan-ctest-thermal",
+    "archive_to_report_replay_exit_code": 0,
+    "graph_label_replay_exit_code": 0,
+    "numeric_values_and_json_verification_unchanged_after_graph_fix": true,
+    "combined_csv_line_endings": "LF",
+    "graph_label_replay_local_cpu_peak_c": 87.0,
+    "local_cpu_guard_c": 98.0
+  },
+  "release_state": "All successful windows collected by SHA-256; each restored llama-router.service, retired its owned GPU child and released the private lease. Historical failures retain nonzero exits and are excluded from performance comparisons.",
+  "report": "../../benchmarks/2026-10-04/strix-point/http-multi/README.md"
+}

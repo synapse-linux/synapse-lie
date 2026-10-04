@@ -1,0 +1,15 @@
+label,case,users,samples,timing_source,metric,n,median,min,max
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","sum_request_decode_tps",3,18.32059346863689,18.320332241572494,18.322220797631385
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","aggregate_output_tps",3,18.233934514459264,18.232956629229459,18.237414793154226
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","first_output_seconds",3,0.153502479,0.15284162200000001,0.15371547699999999
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","preparation_wall_seconds",3,0.12475014099999999,0.12469461799999999,0.12588698000000001
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","measured_wall_seconds",3,7.019878233,7.0185386169999999,7.0202547290000004
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","executed_preparation_pp_tps",,,,
+"LIE-MTP","synthetic_repetition_pp2048",1,3,"lie","preparation_prefill_tokens",3,0.0,0.0,0.0
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","sum_request_decode_tps",3,10.423370377419182,10.423165077490415,10.423927131264414
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","aggregate_output_tps",3,10.399120233973244,10.398497645402253,10.399503186289198
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","first_output_seconds",3,0.116496482,0.116267604,0.116680086
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","preparation_wall_seconds",3,0.12229522600000001,0.12206853300000001,0.123240576
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","measured_wall_seconds",3,12.308733539,12.308280281,12.309470499
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","executed_preparation_pp_tps",,,,
+"LIE-AR","synthetic_repetition_pp2048",1,3,"lie","preparation_prefill_tokens",3,0.0,0.0,0.0

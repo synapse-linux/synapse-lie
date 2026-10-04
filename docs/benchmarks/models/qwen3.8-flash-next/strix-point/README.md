@@ -28,6 +28,13 @@ records the handover. The [direct core vision gates](#direct-reactive-core-and-q
 now exercise that projector on this GPU; served vision and independent image
 quality remain separate qualifications.
 
+The later [original-weight served HTTP report](../../../2026-10-04/strix-point/http-multi/README.md)
+compares the current LIE C17 reactive server with an independently built
+official Gufo server using AR and MTP at C1/2/4/6/8, both with fresh
+sessions=C and fixed eight-session lifecycles. It includes complete raw
+archives, prefill, decode, first-output timing, telemetry and graphs at 4K
+context. The direct results below answer different measurement questions.
+
 | Direct benchmark | LIE prefill | LIE decode | Same-stack Gufo decode | Scope |
 | --- | ---: | ---: | ---: | --- |
 | Occupied prefix 0, C1 | 479.936 tok/s | 10.433 tok/s | — | PP2048/TG128, one measured sample |

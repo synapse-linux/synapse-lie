@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1700" viewBox="0 0 1440 1700" role="img"><title>Prepared HTTP cohorts - synthetic_prose_pp2048</title><rect width="100%" height="100%" fill="white"/>
+<text x="40" y="38" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Prepared HTTP cohorts - synthetic_prose_pp2048</text>
+<text x="40" y="66" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">Median and observed min/max. Separate scales start at zero; unavailable values are omitted.</text>
+<text x="40" y="107" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Executed preparation prefill (per request)</text>
+<text x="135" y="129" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">executed tokens/s; cache hits unavailable</text>
+<path d="M135 375L1370 375" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="380" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 318L1370 318" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="323" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.25</text>
+<path d="M135 260L1370 260" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="265" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.5</text>
+<path d="M135 203L1370 203" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="208" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.75</text>
+<path d="M135 145L1370 145" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="150" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">1</text>
+<path d="M135 145L135 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 375L1370 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<text x="160" y="180" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">GUFO-MTP: unavailable (see summary.json)</text>
+<path d="M135 449L159 449" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="455" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">GUFO-MTP</text>
+<text x="160" y="206" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">GUFO-AR: unavailable (see summary.json)</text>
+<path d="M535 449L559 449" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="455" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">GUFO-AR</text>
+<text x="752" y="424" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="507" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Sum of individual server decode rates</text>
+<text x="135" y="529" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 775L1370 775" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="780" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 718L1370 718" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="723" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">9.5919</text>
+<path d="M135 660L1370 660" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="665" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">19.184</text>
+<path d="M135 603L1370 603" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="608" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">28.776</text>
+<path d="M135 545L1370 545" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="550" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">38.368</text>
+<path d="M135 545L135 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 775L1370 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 705L127 704" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 705L132 705" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 704L132 704" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="704" r="4" fill="#1769aa"/>
+<path d="M127 704L435 667" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 672L435 664" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 672L440 672" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 664L440 664" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="667" r="4" fill="#1769aa"/>
+<path d="M435 667L744 624" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 625L744 617" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 625L749 625" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 617L749 617" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="624" r="4" fill="#1769aa"/>
+<path d="M744 624L1053 605" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 609L1053 603" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 609L1058 609" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 603L1058 603" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="605" r="4" fill="#1769aa"/>
+<path d="M1053 605L1362 584" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 588L1362 580" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 588L1367 588" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 580L1367 580" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="584" r="4" fill="#1769aa"/>
+<path d="M135 849L159 849" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="855" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">GUFO-MTP</text>
+<path d="M143 713L143 713" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 713L148 713" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 713L148 713" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="713" r="4" fill="#b34b17"/>
+<path d="M143 713L451 671" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 671L451 671" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 671L456 671" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 671L456 671" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="671" r="4" fill="#b34b17"/>
+<path d="M451 671L760 625" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 625L760 625" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 625L765 625" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 625L765 625" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="625" r="4" fill="#b34b17"/>
+<path d="M760 625L1069 591" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 609L1069 591" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 609L1074 609" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 591L1074 591" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="591" r="4" fill="#b34b17"/>
+<path d="M1069 591L1378 576" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 593L1378 575" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 593L1383 593" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 575L1383 575" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="576" r="4" fill="#b34b17"/>
+<path d="M535 849L559 849" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="855" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">GUFO-AR</text>
+<text x="752" y="824" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="907" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Output / common complete HTTP wall</text>
+<text x="135" y="929" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 1175L1370 1175" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1180" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 1118L1370 1118" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1123" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">9.5412</text>
+<path d="M135 1060L1370 1060" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1065" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">19.082</text>
+<path d="M135 1003L1370 1003" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1008" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">28.624</text>
+<path d="M135 945L1370 945" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="950" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">38.165</text>
+<path d="M135 945L135 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 1175L1370 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 1104L127 1104" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1104L132 1104" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1104L132 1104" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="1104" r="4" fill="#1769aa"/>
+<path d="M127 1104L435 1067" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 1071L435 1063" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1071L440 1071" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1063L440 1063" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="1067" r="4" fill="#1769aa"/>
+<path d="M435 1067L744 1024" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 1025L744 1016" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1025L749 1025" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1016L749 1016" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="1024" r="4" fill="#1769aa"/>
+<path d="M744 1024L1053 1004" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 1008L1053 1002" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1008L1058 1008" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1002L1058 1002" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="1004" r="4" fill="#1769aa"/>
+<path d="M1053 1004L1362 983" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 987L1362 979" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 987L1367 987" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 979L1367 979" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="983" r="4" fill="#1769aa"/>
+<path d="M135 1249L159 1249" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="1255" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">GUFO-MTP</text>
+<path d="M143 1112L143 1112" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1112L148 1112" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1112L148 1112" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="1112" r="4" fill="#b34b17"/>
+<path d="M143 1112L451 1071" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 1071L451 1071" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1071L456 1071" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1071L456 1071" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="1071" r="4" fill="#b34b17"/>
+<path d="M451 1071L760 1024" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 1024L760 1024" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1024L765 1024" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1024L765 1024" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="1024" r="4" fill="#b34b17"/>
+<path d="M760 1024L1069 991" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 1009L1069 991" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1009L1074 1009" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 991L1074 991" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="991" r="4" fill="#b34b17"/>
+<path d="M1069 991L1378 976" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 993L1378 975" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 993L1383 993" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 975L1383 975" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="976" r="4" fill="#b34b17"/>
+<path d="M535 1249L559 1249" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="1255" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">GUFO-AR</text>
+<text x="752" y="1224" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="1307" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Mean request first output</text>
+<text x="135" y="1329" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">seconds</text>
+<path d="M135 1575L1370 1575" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1580" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 1518L1370 1518" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1523" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.026235</text>
+<path d="M135 1460L1370 1460" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1465" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.052469</text>
+<path d="M135 1403L1370 1403" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1408" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.078704</text>
+<path d="M135 1345L1370 1345" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1350" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.10494</text>
+<path d="M135 1345L135 1575" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 1575L1370 1575" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 1558L127 1554" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1558L132 1558" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1554L132 1554" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="1557" r="4" fill="#1769aa"/>
+<path d="M127 1557L435 1543" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 1544L435 1542" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1544L440 1544" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1542L440 1542" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="1543" r="4" fill="#1769aa"/>
+<path d="M435 1543L744 1519" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 1519L744 1518" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1519L749 1519" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1518L749 1518" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="1519" r="4" fill="#1769aa"/>
+<path d="M744 1519L1053 1492" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 1493L1053 1491" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1493L1058 1493" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1491L1058 1491" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="1492" r="4" fill="#1769aa"/>
+<path d="M1053 1492L1362 1466" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 1467L1362 1465" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 1467L1367 1467" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 1465L1367 1465" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="1466" r="4" fill="#1769aa"/>
+<path d="M135 1649L159 1649" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="1655" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">GUFO-MTP</text>
+<path d="M143 1572L143 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1572L148 1572" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1571L148 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="1571" r="4" fill="#b34b17"/>
+<path d="M143 1571L451 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 1571L451 1467" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1571L456 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1467L456 1467" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="1571" r="4" fill="#b34b17"/>
+<path d="M451 1571L760 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 1571L760 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1571L765 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1571L765 1571" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="1571" r="4" fill="#b34b17"/>
+<path d="M760 1571L1069 1570" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 1570L1069 1389" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1570L1074 1570" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1389L1074 1389" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="1570" r="4" fill="#b34b17"/>
+<path d="M1069 1570L1378 1381" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 1388L1378 1375" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 1388L1383 1388" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 1375L1383 1375" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="1381" r="4" fill="#b34b17"/>
+<path d="M535 1649L559 1649" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="1655" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">GUFO-AR</text>
+<text x="752" y="1624" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+</svg>

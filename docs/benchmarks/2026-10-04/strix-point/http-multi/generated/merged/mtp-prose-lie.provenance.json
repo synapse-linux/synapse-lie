@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.point-http-fresh-merge.v1",
+  "impl": "lie",
+  "mode": "mtp",
+  "case": "prose",
+  "levels": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ],
+  "cohorts": 20,
+  "merged_sha256": "eaef6a454f73a0be4a53e92bc51bd48cbe107cc6cad30ed9e41869c10ccce9c7",
+  "sources": {
+    "point-http-fresh-r7-mtp-prose-c1-lie": {
+      "manifest_sha256": "b1a9eddf5f78818aa05a75f0c5b3366151cb5e3154f8a891caff51fdce2c205d",
+      "collection_sha256": "3bfa840481fed3465e852afdfd969e79d277c20a9a3c2109d02120831ca610fd",
+      "measurements_sha256": "fb74dbafdf8f8f140740d580601ac9866b8179a8a4e73a94b2517f74d1b9d1bb"
+    },
+    "point-http-fresh-r7-mtp-prose-c2-lie": {
+      "manifest_sha256": "ac5ca328557513115213f639e7241ea9d3eea240f12adad7cc4d5420cd236bf9",
+      "collection_sha256": "7d194b7dfd2587e537f669ee8be71f30dd12c0ecc4bacc85cd471391e71d272f",
+      "measurements_sha256": "3197399ef433ef922e6d3ed44eb210f1727220d47a9dddd23ae44bffff9421e4"
+    },
+    "point-http-fresh-r7-mtp-prose-c4-lie": {
+      "manifest_sha256": "b2d66db01c58cdb3f2563d10a4ec9be79afde0555c199a4229cefe95e05861f8",
+      "collection_sha256": "f770631c387bed5b360bb6e5f171cadee5f81b776a5bd57daf26f0f4aba1a84f",
+      "measurements_sha256": "393b0a68de59b608227825e9ed3bbaa8e3b9dbf16b55f392ea74ab2d255e61b3"
+    },
+    "point-http-fresh-r7-mtp-prose-c6-lie": {
+      "manifest_sha256": "7a2e8a972ed15972397bd0c648f062bb8abb482eb53bef7b56a4ecdd18f4182f",
+      "collection_sha256": "491c89e127521835fbb0e1e53a6aa159ff1d2185ebbd17366b01d70e90619473",
+      "measurements_sha256": "d9b24f19e209241ac1b0c4a0b0c417636ce4edd6d53da4a9eef6283c114308ec"
+    },
+    "point-http-fresh-r7-mtp-prose-c8-lie": {
+      "manifest_sha256": "b8d5999d28f28c2f5b0b95297ef2cf7384e67bddd6120736c9f5ce9699d503d5",
+      "collection_sha256": "e66b4b541ff067ba987361c2283d6a8d393ba4b3a5f013120a2ba51bdf754dc5",
+      "measurements_sha256": "64777354320c3d046129a7357576530f78396992f60d0d18938855294cf12cca"
+    }
+  }
+}

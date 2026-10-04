@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Point served HTTP AR/MTP comparison complete — 2026-10-04 UTC
+
+The `128f490` LIE C17 server/native HTTP client and independently pinned
+official Gufo `f783fedb` full server now have a matched original-weight
+ROCm 10 `gfx1150` comparison on `.161`. Forty performance windows pass:
+eight fixed eight-session runs and 32 fresh server runs with sessions equal
+to C1/2/4/6/8. Each uses one excluded warmup and three measured 128-token
+cohorts. All 16 native pairwise comparisons have complete identical output;
+the two initial failed windows remain excluded and archived. The offline
+release verifies 725 files, including 682 remote files by SHA-256, and
+retains actual child/supervisor exits, model stat witnesses, thermal records,
+restored router and released lease. The
+[complete HTTP report](benchmarks/2026-10-04/strix-point/http-multi/README.md)
+contains all decode/prefill/latency values, graphs, CSV/JSON, three sealed raw
+archives and regeneration instructions.
+
+Fresh-server LIE/Gufo AR prose summed decode reaches 32.984/33.316 token/s
+at C8. MTP repetition at C1 reaches 21.037/21.496 versus the matched AR
+10.423/10.504; MTP prose gains at C1 but is below AR at C8 for both engines.
+Measured prefill is all-hit and has no executed PP rate; isolated cold warmup
+rates are reported separately. This 4K HTTP campaign does not extend the
+previous direct-engine 128K/near-256K qualification to long-context serving.
+The setup notes below preserve the historical sequence and failures.
+
 ## Point prepared HTTP qualification setup — 2026-10-04 UTC
 
 The Point branch now includes the integrated native `http-multi` client at
