@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 epilogue GPU comparison: exact outputs, mixed timing — 2026-10-04
+
+The reference, continue guard and break guard complete on `.157` with all nine
+commands exit0 and318 verified artifacts. All51 independent numerical checks
+pass per arm; each candidate preserves all102 saved arrays exactly. The host
+21/21 Debug and21/21 ASan/UBSan fixture identities remain unchanged.
+
+The break guard saves0.111–0.818% on the four recorded-routing component cases
+but costs0.647% on the full-tile control. Continue ranges from1.384% less time
+to0.852% more. These are synthetic complete GPU cycles, not model throughput;
+one run per variant does not isolate order/clock variability. Neither variant
+advances to the full canonical curve. [Complete results, graph and CSV](Q2-IQ2-LIVE-EPILOGUE.md).
+
+Fresh closure at06:36:53 UTC verifies12 PID/start identities and9 groups retired,
+KFD empty, four original leases free and six model stat tuples unchanged.
+[Release](../config/q2-iq2-epilogue-window-release.json) SHA
+`2c5f328a762c9ffe3172c566767c4e3126e74ac09cae9a4a488e567320104160`.
+Core can freshly admit; Q2 has no live job, waiter, reservation or restart.
+Existing model numerical rejection and Q2/UD whole-curve parity remain open.
+
 ## Core contact received; Q2 closure revalidated — 2026-10-04
 
 Core's incoming message requests the current Q2 closure for its prepared

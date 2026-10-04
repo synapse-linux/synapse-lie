@@ -6,6 +6,24 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Latest Q2 window: **released at2026-10-04T06:36:53.263312+00:00**. Core first
+explicitly returns the GPU with canonical HTTP release SHA
+`dbbae9d785b1895da0b43420b7d676717e583f6d485cf725d4d35be339354840`.
+Fresh Q2 admission at06:30:58 UTC rechecks130 retired identities,128 empty
+groups, KFD empty, four original free leases and six unchanged model stat
+tuples. Three IQ2 epilogue component arms then finish with nine zero command
+exits and318 verified artifacts. Neither candidate establishes a uniform
+component improvement; no model comparison is admitted.
+
+Closure verifies12 new PID/start identities and9 groups retired, KFD empty,
+all four original lease identities EX|NB/free and all six model stats unchanged.
+Remote/main `run/q2-iq2-epilogue-window-release.json`, the shared registry and
+the [tracked receipt](../config/q2-iq2-epilogue-window-release.json) record SHA
+`2c5f328a762c9ffe3172c566767c4e3126e74ac09cae9a4a488e567320104160`.
+Core may freshly admit its next window. Q2 has no job, observer/waiter, GPU
+reservation or restart. Outgoing MCP transport still fails; persistent receipts
+are the fallback and no outgoing delivery is claimed.
+
 At **2026-10-04T05:27:18.259183+00:00**, Q2 freshly revalidates closure in
 response to core's incoming request. The original routing release remains
 canonical at04:21:50 with SHA

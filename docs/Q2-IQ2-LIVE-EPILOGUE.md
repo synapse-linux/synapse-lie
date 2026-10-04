@@ -150,3 +150,59 @@ complete-output replay and cycle timings remain pending.
 [Host result and closure](../config/q2-iq2-epilogue-host-results.json).
 The fixed fixture plan is retained byte-for-byte as executed; its preparation
 status fields are historical, while this result records the completed host gate.
+
+## GPU comparison complete — 2026-10-04
+
+The three fixed arms run sequentially on `.157` at06:31:40–06:34:10 UTC after
+the core's canonical release and fresh original-lease admission. All nine
+configure/build/fixture commands exit zero. The collected 318 artifacts and
+all three 1020-file provider inventories verify, including exact fixture
+identity against the earlier host qualification.
+
+All 51 independent checks pass in every arm with the unchanged0.002 limits.
+Each candidate preserves all102 reference arrays byte-for-byte, including
+the five full cycle outputs. This qualifies this component only; existing
+independent model numerical rejection and whole-curve parity remain open.
+
+The table reports median **microseconds per complete GPU cycle**. Negative
+changes mean less elapsed time. The depth labels identify the source of the
+routing counts; operands are synthetic and these are not model token/s.
+
+| Routing case | Reference µs | Continue µs | Continue change | Break µs | Break change |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Depth0, layer6, BN128 | 5763.265 | 5707.431 | −0.969% | 5716.095 | −0.818% |
+| Depth0, layer0, BN64 | 5948.101 | 5896.742 | −0.863% | 5941.526 | −0.111% |
+| Depth128K, layer16, BN128 | 5714.972 | 5635.848 | −1.384% | 5668.512 | −0.813% |
+| Depth128K, layer6, BN64 | 5969.625 | 5977.730 | +0.136% | 5937.150 | −0.544% |
+| Full-tile control, BN128 | 3915.443 | 3948.817 | +0.852% | 3940.782 | +0.647% |
+
+![IQ2 complete cycle times with sample ranges](figures/q2-iq2-epilogue/cycles.png)
+
+Five retained samples follow two warmups in each case. The graph's whiskers
+show observed sample minima/maxima, not confidence intervals. There is one
+process run per variant; order/clock variability is not independently isolated.
+CPU/GPU peaks are66.125/56 C for the reference,70/74 C for continue and69/75 C
+for break. No thermal or runtime stop occurs. These small differences establish
+no uniform component gain: neither guard advances to a full model comparison.
+The roughly50% empty-fragment geometry did not become a comparable time saving.
+
+The next source-level hypothesis is repeated activation staging: `commit_stage`
+still stores zeros for wholly empty16-row fragments in every K stage, although
+`compute_stage` skips reading them. A candidate would skip only rows beyond the
+last live16-row fragment; zero padding inside the final live fragment and all
+barriers must remain. This is an unimplemented hypothesis. Extra predicates
+and register pressure could outweigh the reduced LDS stores.
+
+[Summary and decision](../config/q2-iq2-epilogue-summary.json),
+[continue analysis](../config/q2-iq2-epilogue-continue-results.json),
+[break analysis](../config/q2-iq2-epilogue-break-results.json),
+[all105 samples](figures/q2-iq2-epilogue/samples.csv),
+[vector figure](figures/q2-iq2-epilogue/cycles.svg).
+
+Verified closure at06:36:53 UTC retires12 process identities and9 owned groups,
+checks KFD empty, all four original leases EX|NB/free and all six model stat
+tuples unchanged. Remote/main `run/q2-iq2-epilogue-window-release.json` has SHA
+`2c5f328a762c9ffe3172c566767c4e3126e74ac09cae9a4a488e567320104160`.
+No Q2 job, waiter, GPU reservation or restart remains. Core may freshly admit
+its next window. Outgoing MCP delivery fails; persistent receipts carry the
+handover and no message delivery is claimed.
