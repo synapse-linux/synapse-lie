@@ -425,6 +425,8 @@ class Campaign:
         argv += ['--entrypoint', command[0], image, *command[1:]]
         self.execute_container(argv, timeout, model is not None)
     def build(self):
+        if self.m.get('build_flavor') == 'gufo-point-server':
+            return self.build_gufo_point_server()
         if self.m.get('build_flavor') == 'modern-cmake':
             return self.build_modern()
         if self.m.get('stack') != 'rocm10-fedora43':
@@ -457,6 +459,60 @@ class Campaign:
             raise RuntimeError('Incomplete ROCm 10 build receipt')
         self.r['build_result'] = result
         self.record()
+    def build_gufo_point_server(self):
+        if self.m.get('stack') != 'rocm10-fedora43':
+            raise ValueError('Point Gufo server build requires the pinned ROCm 10 stack')
+        source = checked_path(BASE/'rocm10-fedora-161/source-modern-r6')
+        wmma = checked_path(BASE/'rocm10-fedora-161/rocwmma-point-2.2.0')
+        helper = checked_path(self.root/'gufo-build.py')
+        if (sha(helper) != self.m.get('gufo_build_helper_sha256') or
+                (source/'SOURCE-COMMIT.txt').read_text().strip() !=
+                self.m.get('source_commit') or
+                sha(source/'SOURCE-FILES.sha256') != self.m.get('source_files_sha256') or
+                sha(wmma/'FILES.sha256') != self.m.get('rocwmma_files_sha256')):
+            raise ValueError('Point Gufo build source/helper identity drift')
+        image, rocm = self.image_and_rocm()
+        if rocm is not None:
+            raise ValueError('Unexpected Point Gufo ROCm runtime override')
+        for directory in ('home', 'tmp'):
+            (self.root/directory).mkdir()
+        argv = ['docker', 'create', '--network', 'none', '--read-only',
+                '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges',
+                '--user', f'{os.getuid()}:{os.getgid()}', '--pids-limit', '512',
+                '--cpus', '2', '--memory', '16g',
+                '--label', 'synapse-lie.run='+str(self.root),
+                '--mount', 'type=bind,src='+str(source)+',dst=/source,readonly',
+                '--mount', 'type=bind,src='+str(wmma)+',dst=/wmma,readonly',
+                '--mount', 'type=bind,src='+str(self.root)+',dst=/work',
+                '--workdir', '/work', '--env', 'LC_ALL=C',
+                '--env', 'HOME=/work/home', '--env', 'TMPDIR=/work/tmp',
+                '--env', 'LIE_POINT_GUIFO_BUILD_WINDOW=admitted',
+                '--env', 'ROCR_VISIBLE_DEVICES=-1',
+                '--env', 'HIP_VISIBLE_DEVICES=-1',
+                '--entrypoint', '/usr/bin/python3', image,
+                '-B', '/work/gufo-build.py']
+        self.r['gufo_build_command'] = argv
+        self.record()
+        try:
+            self.execute_container(argv, 7500)
+            result = json.loads((self.root/'gufo-build-result.json').read_text())
+            binary = checked_path(self.root/'gufo-build/gufo')
+            if (result.get('schema') != 'synapse-lie.point-gufo-port-build.v1' or
+                    result.get('state') != 'BUILT_NOT_GPU_TESTED' or
+                    result.get('exit_code') != 0 or
+                    result.get('upstream_pin') !=
+                    'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
+                    result.get('target') != 'gfx1150' or
+                    result.get('gpu_device_available') is not False or
+                    result.get('installation') is not False or
+                    result.get('binary_sha256') != sha(binary)):
+                raise RuntimeError('Incomplete pinned Point Gufo server build')
+            self.r['build_result'] = result
+        finally:
+            if (self.root/'gufo-build-result.json').exists():
+                self.r['build_partial'] = {'result_sha256':
+                                            sha(self.root/'gufo-build-result.json')}
+
     def build_modern(self):
         if self.m.get('stack') != 'rocm10-fedora43':
             raise ValueError('Modern build requires the explicit ROCm 10 stack')

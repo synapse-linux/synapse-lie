@@ -10,6 +10,15 @@ was restored and the private lease released. This build did not load a model;
 prepared HTTP inference requires separate fresh admissions. The official Gufo
 full-server Point port is a distinct control, not the LIE adapter binary.
 
+The first `.161` LIE C1 HTTP AR prose window completed its native cohorts but
+failed supervisor closure when `/proc/fd` retired before the same owned KFD PID;
+its 16 files and exit 1 are preserved, with router/lease restored. A corrected
+PID/start/cgroup-bound supervisor ran a fresh r2 window that passes all four
+cohorts and exits 0. Its 16 files hash-verify, model stats are unchanged,
+sampled CPU/GPU/NVMe maxima are 63.875/66/65.85 C and the router/lease are
+restored/released. No standing ownership follows; Gufo and larger cohorts
+require separate admissions.
+
 ## Seeded shared-core window released — 2026-10-04 UTC
 
 Root accepts Q2's canonical curve release at 01:33:37 UTC and independently

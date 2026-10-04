@@ -28,6 +28,26 @@ match its previously recorded owned identity. A reused or foreign PID fails.
 This failed window remains excluded from performance reporting; a fresh run is
 required.
 
+Fresh C1 AR prose r2 passes under the corrected supervisor: one excluded warmup
+and three measured cohorts, 2,040 physical input tokens and all 128 output
+tokens per request. The measured preparations each reuse all 2,040 tokens, so
+their executed PP rate is null; the cold warmup executed 2,040 tokens in
+3.97694 s. The native report records median server decode 10.4340 token/s,
+common HTTP wall 10.4083 token/s and TTFT 0.116828 s. Client, server,
+Distrobox and supervisor exit 0; 16/16 collected file hashes agree, original
+model identities are unchanged, router restored and lease free. Sampled
+CPU/GPU/NVMe maxima are 63.875/66/65.85 C. This C1 smoke is not the paired
+C1–C8 Gufo comparison.
+
+For that control, the Point build recipe verifies all 1,019 files of separately
+fetched official Gufo `f783fedb` before copying them into an isolated port
+directory. Its only planned source edit admits `gfx1150` in the top-level CMake
+architecture guard and is emitted as an exact patch. Private rocWMMA 2.2.0
+headers come independently from official commit `48b7db1`, which announces
+`gfx1150` support; 116 staged files and the generated version header verify
+by SHA-256. No package is installed. The full-server build and GPU control
+remain unqualified until their own fresh leased runs.
+
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
 Root integrates Point `c3e9916`, preserving the native prepared HTTP client,

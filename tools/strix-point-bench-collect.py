@@ -22,6 +22,8 @@ FILES = {
                        'distrobox.stdout.log', 'distrobox.stderr.log'),
     'http-multi': ('manifest.json', 'runner.py', 'http-multi-gate.py',
                    'corpus.jsonl', 'result.json', 'telemetry.jsonl'),
+    'gufo-build': ('manifest.json', 'runner.py', 'gufo-build.py',
+                   'result.json', 'telemetry.jsonl', 'stdout.log', 'stderr.log'),
     'diagnostic': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                    'stdout.log', 'stderr.log'),
     'image-build': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
@@ -34,6 +36,9 @@ OPTIONAL = {
                    'client.stdout.log', 'client.stderr.log', 'stdout.log',
                    'stderr.log', 'distrobox-create.log',
                    'distrobox.stdout.log', 'distrobox.stderr.log'),
+    'gufo-build': ('gufo-build-result.json', 'gufo-gfx1150-port.patch',
+                   'gufo-configure.stdout.log', 'gufo-configure.stderr.log',
+                   'gufo-link.stdout.log', 'gufo-link.stderr.log'),
 }
 
 

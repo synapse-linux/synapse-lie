@@ -645,6 +645,37 @@ class Tests(unittest.TestCase):
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
         self.assertEqual(c.r['build_result']['exit_code'], 0)
+    def test_point_gufo_server_port_build_is_sealed_and_device_free(self):
+        c = self.campaign('gufo-port-build')
+        source = self.base/'rocm10-fedora-161/source-modern-r6'
+        source.mkdir(parents=True)
+        (source/'SOURCE-COMMIT.txt').write_text('128f490\n')
+        inventory = source/'SOURCE-FILES.sha256'; inventory.write_bytes(b'fixture inventory')
+        wmma = self.base/'rocm10-fedora-161/rocwmma-point-2.2.0'
+        wmma.mkdir(parents=True)
+        (wmma/'FILES.sha256').write_bytes(b'fixture headers')
+        helper = c.root/'gufo-build.py'; helper.write_bytes(b'fixture Gufo builder')
+        c.m.update(stack='rocm10-fedora43', build_flavor='gufo-point-server',
+                   source_commit='128f490', source_files_sha256=point.sha(inventory),
+                   rocwmma_files_sha256=point.sha(wmma/'FILES.sha256'),
+                   gufo_build_helper_sha256=point.sha(helper))
+        def run(argv, timeout, model_attempted=False):
+            self.assertEqual(timeout, 7500)
+            self.assertFalse(model_attempted)
+            self.assertNotIn('--device', argv)
+            self.assertEqual(argv[argv.index('--network')+1], 'none')
+            self.assertIn('ROCR_VISIBLE_DEVICES=-1', argv)
+            binary = c.root/'gufo-build/gufo'; binary.parent.mkdir(); binary.write_bytes(b'fixture')
+            (c.root/'gufo-build-result.json').write_text(json.dumps({
+                'schema':'synapse-lie.point-gufo-port-build.v1',
+                'state':'BUILT_NOT_GPU_TESTED','exit_code':0,
+                'upstream_pin':'f783fedb9bea2ec7de941f6da4e02f4a4596b29e',
+                'target':'gfx1150','gpu_device_available':False,
+                'installation':False,'binary_sha256':point.sha(binary)}))
+        with patch.object(c, 'image_and_rocm', return_value=('sha256:'+'d'*64,None)), \
+             patch.object(c, 'execute_container', side_effect=run):
+            c.build()
+        self.assertEqual(c.r['build_result']['state'], 'BUILT_NOT_GPU_TESTED')
     def test_modern_rocm10_build_is_sealed_and_device_free(self):
         c = self.campaign()
         label = 'rocm10-point-modern-r1'

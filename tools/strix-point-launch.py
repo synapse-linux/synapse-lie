@@ -31,6 +31,11 @@ def main():
     files = {'manifest.json': (json.dumps(manifest, indent=2)+'\n').encode(),
              'runner.py': (ROOT/'tools/strix-point-campaign.py').read_bytes()}
     if manifest['action'] == 'download': files['download.py'] = (ROOT/'tools/strix-point-download.py').read_bytes()
+    if manifest.get('build_flavor') == 'gufo-point-server':
+        helper = (ROOT/'tools/strix-point-gufo-port-build.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('gufo_build_helper_sha256'):
+            parser.error('Point Gufo build helper SHA-256 differs from manifest')
+        files['gufo-build.py'] = helper
     if tokens is not None:
         files['tokens.json'] = tokens
     if manifest.get('bench_profile') == 'modern-http-multi':
