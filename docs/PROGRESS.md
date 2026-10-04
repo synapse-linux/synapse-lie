@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## PLE candidate curve complete; order control running — 2026-10-04
+
+The PLE-plus-ordered candidate completes all eight depths at 03:32:03 UTC,
+with five zero command exits and 30 hash-verified artifacts. All 20 complete
+request/output/count histories match the first ordered-Q2 control. Candidate
+PP/TG are 1122.526/26.633 token/s at depth 0 and 1156.229/25.654 at 128K.
+The 4K prefill point is 958.657, while 8K is 1312.087; every observation is
+retained in the [arm validation](../config/q2-ple-curve-candidate-r1-validation.json).
+These are candidate rates, not an attributable improvement or a parity verdict.
+
+The first control was slower at every PP point, but earlier unchanged controls
+also recovered as the campaign progressed. The mandatory unchanged ordered-Q2
+repeat is now running under the same admitted window. Its result and the fresh
+UD arm remain outstanding before deciding whether PLE improves the full curve.
+No source, harness, model file, global cache or hardware policy is changed
+between these arms.
+
 ## First PLE-campaign control complete — 2026-10-04
 
 The first ordered-Q2 control completes all eight canonical depths at 03:22:34 UTC,
