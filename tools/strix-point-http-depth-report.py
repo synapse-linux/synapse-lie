@@ -124,7 +124,9 @@ def svg(rows, field, title, target):
             value = row[impl][field]
             y = top+plot_h*(1-value/limit)
             parts.append(f'<circle cx="{x+shift:.1f}" cy="{y:.1f}" r="6" fill="{colors[impl]}"/>')
-        parts.append(f'<text x="{x:.1f}" y="{height-bottom+20}" text-anchor="middle" font-family="sans-serif" font-size="11">{row["size"]//1024}K</text>')
+        label = {8192: '8K', 32768: '32K', 131072: '128K',
+                 258794: '~256K'}[row['size']]
+        parts.append(f'<text x="{x:.1f}" y="{height-bottom+20}" text-anchor="middle" font-family="sans-serif" font-size="11">{label}</text>')
     for impl, x in (('lie', left), ('gufo', left+110)):
         parts += [f'<circle cx="{x}" cy="{height-17}" r="5" fill="{colors[impl]}"/>',
                   f'<text x="{x+11}" y="{height-13}" font-family="sans-serif" font-size="12">{impl.upper()}</text>']
