@@ -1,7 +1,7 @@
 {
   "schema": "synapse-lie.gtt112-context-capacity-validation.v1",
   "date_utc": "2026-10-04",
-  "scope": "VERIFIED_HOST_REBOOT_AND_ORIGINAL_WEIGHT_1M_CAPACITY_SHORT_PROMPT_NOT_PHYSICAL_1M_QUALITY_OR_REPLICATED_PERFORMANCE",
+  "scope": "VERIFIED_HOST_REBOOT_AND_1M_CAPACITY_WITH_COMPLETE_PHYSICAL_PREFILL_BUT_FAILED_FIXED_TG128_NOT_QUALITY_OR_REPLICATED_PERFORMANCE",
   "target": "pop@192.168.5.161",
   "runtime_source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
   "supervisor_parent": "bb0b9f08dff69ff56b3f34c659f8ffcecd75734e",
@@ -392,19 +392,183 @@
     "command_log_sha256": "c1b4b6d8c12f5283d754fe842cb01dff1768b9d5cd2309662b4e9f81098d0994"
   },
   "physical_1m_gate": {
-    "state": "RUNNING_NOT_YET_QUALIFIED",
+    "state": "FAILED_FIXED_TG128_NATURAL_EOS_AFTER_COMPLETE_PREFILL",
     "label": "context-r10-yarn4-physical1m-smoke",
     "prompt_tokens": 1048448,
     "output_tokens_requested": 128,
     "corpus": "Repeated real tokenizer-ID corpus; functional stress, not recall quality or canonical Gufo/Halogen benchmark",
     "tokens_sha256": "a791ba5a527559f04a8ed86db9f035127a2516bb4fa4a534a6c52695af667142",
-    "manifest_sha256": "bfa1ca9f62ef3c0107594ae9995fe214303f635b688dcffe02d62da320cf01b1"
+    "manifest_sha256": "bfa1ca9f62ef3c0107594ae9995fe214303f635b688dcffe02d62da320cf01b1",
+    "previous_recorded_state": "RUNNING_NOT_YET_QUALIFIED",
+    "previous_recorded_state_commit": "36ec8670789e327bc73797e1b49638652d6658a0",
+    "started_at": "2026-10-04T16:34:30.305129+00:00",
+    "released_at": "2026-10-04T18:38:51.721369+00:00",
+    "controller_exit": 1,
+    "supervisor_exit": 1,
+    "child_exit": 0,
+    "collection_exit": 0,
+    "error": "RuntimeError('Incomplete modern core output')",
+    "benchmark_footer": {
+      "event": "complete",
+      "exit_code": 0
+    },
+    "actual_job": {
+      "event": "job",
+      "rep": 0,
+      "warmup": 0,
+      "user": 0,
+      "prompt_tokens": 1048448,
+      "output_tokens": 43,
+      "output_bytes": 201,
+      "prefill_tokens": 1048448,
+      "prefill_ns": 7398224830286,
+      "decode_ns": 5402579773,
+      "cached_tokens": 0,
+      "cache_capture_ns": 0,
+      "cache_restore_ns": 0,
+      "ssd_cached_tokens": 0,
+      "ssd_read_ns": 0,
+      "max_decode_output_tokens": 1,
+      "mtp_drafted_tokens": 0,
+      "mtp_accepted_tokens": 0,
+      "prefill_calls": 4096,
+      "decode_calls": 44,
+      "total_ns": 7405372836807,
+      "first_token_ns": 7400072281818,
+      "finish": "stop",
+      "output_ids": [
+        695,
+        7734,
+        264,
+        11346,
+        6157,
+        314,
+        279,
+        2313,
+        8129,
+        11,
+        1179,
+        264,
+        1248,
+        42140,
+        2605,
+        314,
+        279,
+        7036,
+        21156,
+        836,
+        5154,
+        13,
+        14569,
+        440,
+        11585,
+        58655,
+        364,
+        506,
+        3140,
+        220,
+        17,
+        15,
+        15,
+        15,
+        4105,
+        26,
+        635,
+        524,
+        2873,
+        264,
+        2716,
+        4087,
+        13
+      ]
+    },
+    "prefill_tps": 141.71615813944777,
+    "decode_tps": 7.9591605874840265,
+    "fixed_output_oracle": {
+      "required_output_tokens": 128,
+      "actual_output_tokens": 43,
+      "unchanged_after_result": true,
+      "passed": false
+    },
+    "collection_sha256": "fdabf2408b6c9c4b6a041d26a47a9e87f786d112ff9aa94a3f0459b2270253ba",
+    "verified_files": {
+      "manifest.json": {
+        "bytes": 4592,
+        "sha256": "bfa1ca9f62ef3c0107594ae9995fe214303f635b688dcffe02d62da320cf01b1"
+      },
+      "runner.py": {
+        "bytes": 88342,
+        "sha256": "b569bbce61da8ec4a5ce1f631db446206c2cafd897bc6ae1a53e8a3e66f343a0"
+      },
+      "result.json": {
+        "bytes": 96908,
+        "sha256": "6b4088b99547c4918bc09d74ccb71751d655bb0733ec9af058a575a14a930b54"
+      },
+      "measurements.jsonl": {
+        "bytes": 4687194,
+        "sha256": "4eb9dbbc3afa416d42d3b9381cc01766aedf581a1d140a11d80f4e6d862e5571"
+      },
+      "telemetry.jsonl": {
+        "bytes": 13728981,
+        "sha256": "ed7f9a93ca6e4188f35ed58b784c5eb8560d48dc502fd87cdc4127ebc8db839a"
+      },
+      "stdout.log": {
+        "bytes": 65780,
+        "sha256": "40e4232e67f0f91fb45adc1d49e16796c59642654baa89f219c5bd653630cce0"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 296,
+        "sha256": "b57ed4b4df11181cc87873bd50a3a5f115b367e93ea6bdb073286aa0b36aa7ae"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "tokens.json": {
+        "bytes": 4684460,
+        "sha256": "a791ba5a527559f04a8ed86db9f035127a2516bb4fa4a534a6c52695af667142"
+      }
+    },
+    "closure": {
+      "supervisor_absent": true,
+      "gpu_child_absent": true,
+      "owned_child_absent": true,
+      "lease_free": true
+    },
+    "router_restored": {
+      "MainPID": "12323",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "model_stat_unchanged": true,
+    "cleanup_failures": [],
+    "sampled_observations": 7155,
+    "sampled_peak_gtt_bytes": 117234323456,
+    "sampled_min_available_ram_bytes": 6477541376,
+    "sampled_min_swap_free_bytes": 21346250752,
+    "sampled_peak_temperatures_c": {
+      "nvme": 66.85,
+      "amdgpu": 79.0,
+      "k10temp": 78.625
+    },
+    "quality_qualified": false,
+    "replicated_or_matched_performance_qualified": false,
+    "new_progress_client_used": false
   },
   "limitations": [
     "Capacity allocation with PP1500 does not exercise physical extended positions.",
     "The 50.21 t/s short-gate prefill is a single cold sample, not performance parity; its slowdown requires investigation.",
     "Fresh RAM/GTT admission and sampled guards do not guarantee prevention of host OOM.",
-    "Full Terminal Bench task evaluation and long-context recall remain outstanding."
+    "Full Terminal Bench task evaluation and long-context recall remain outstanding.",
+    "Physical PP1048448 completed with natural EOS at43; the declared TG128 oracle remains failed and its predicate was not changed."
   ],
   "source_sha256": {
     "tools/strix-point-campaign.py": "b569bbce61da8ec4a5ce1f631db446206c2cafd897bc6ae1a53e8a3e66f343a0",

@@ -1,6 +1,6 @@
 # DS4 / synapse-lie coordination
 
-## GTT112 reboot verified; physical 1M window active — 2026-10-04 UTC
+## GTT112 reboot verified; physical 1M window released — 2026-10-04 UTC
 
 The owner explicitly authorizes reboot. `.161` returns with boot ID
 `c82c90ed-7f94-4212-bc52-681c63eac395`, unchanged kernel and 112 GiB effective
@@ -15,8 +15,13 @@ A fresh original-weight capacity-1M PP1500/TG32 gate passes and releases at
 16:31:43.810798 UTC. Eleven collected files hash-verify, model stats stay
 unchanged, the router is restored and the lease free. Peak GTT/minimum available
 RAM are 109.18/7.98 GiB, with CPU/GPU/NVMe maxima 67.75/70/64.85 C. The subsequent
-physical PP1,048,448/TG128 stress window is active under a new private lease.
-No other `.161` job may interleave until its collected closure. Root has no
+physical PP1,048,448 stress window completes prefill and stops naturally after
+43 output tokens. Child exit 0 and failed TG128 supervisor/controller exits 1
+remain preserved. Collection exits 0 and eleven artifact hashes verify; models
+are unchanged, owned processes are absent, router PID12323 is restored and the
+lease is free at 18:38:51.721369 UTC. Collection SHA-256 is
+`fdabf2408b6c9c4b6a041d26a47a9e87f786d112ff9aa94a3f0459b2270253ba`.
+Any further `.161` work needs a new coordinated admission. Root has no
 `.157` reservation/job/waiter and does not interleave Q2's exact2048 campaign.
 [Receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
 

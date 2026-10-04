@@ -4,8 +4,10 @@ Current implementation: the shared core and derived provider expose explicit
 YaRN2/YaRN4 profiles through 1,048,576 total tokens. Independent CPU operator
 and physical-token lifecycle tests pass; original-weight short-profile gates
 pass on `.161`. Short-input capacity gates now pass at 512K and 1M after the
-authorized GTT112 reboot. The physical PP1,048,448/TG128 gate is running;
-extended-position completion, recall quality and performance remain open.
+authorized GTT112 reboot. Physical PP1,048,448 completes and stops naturally
+after 43 output tokens; the required TG128 gate fails with child exit 0 and
+supervisor/controller exit 1. Collection and ownership closure pass. Fixed-output
+extended-context qualification, recall quality and performance remain open.
 See the [current context guide](../guides/CONTEXT.md) and
 [memory estimate](validation/context-memory-point-2026-10-04.json).
 The source audit and old estimate below describe the earlier pristine/native

@@ -3,9 +3,28 @@
 
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) now distinguishes
 recorded MTP/vision/reactive/cache and 40/16-window Point HTTP qualifications
-from pending physical1M, new OpenAI controls, agent evaluation and autonomous
+from pending fixed-output/quality 1M gates, new OpenAI controls, agent evaluation and autonomous
 C17 executor work. Earlier platform and long-context matrices remain explicitly
 historical; their raw receipts and failures are unchanged.
+
+## Physical 1M prefill completed; TG128 gate failed — 2026-10-04 UTC
+
+The original-weight `.161` C1 AR YaRN4 chunk256 run completes all
+**1,048,448 physical prefill tokens** across 4,096 calls. Prefill takes
+7,398.225 s (141.72 token/s); generation stops naturally at EOS after 43 tokens,
+with 44 decode calls and 5.403 s decode time (7.96 output token/s). The benchmark
+footer and child exit are 0. The declared fixed TG128 oracle correctly rejects
+43 output tokens: supervisor/controller exits remain 1 and state remains FAILED.
+The original predicate is not weakened after observing the result.
+
+Collection exits 0 and all eleven artifacts verify against their recorded
+SHA-256. Model stat witnesses remain unchanged; owned supervisor/GPU/container
+processes retire, the named router is restored and the lease is released at
+18:38:51.721369 UTC. Across 7,155 resource observations, CPU/GPU/NVMe maxima are
+78.625/79/66.85 C and minimum available RAM is 6.03 GiB. No OOM or thermal stop
+is reported. The repeated tokenizer-ID corpus is stress evidence, not recall
+quality, a repeated performance comparison or a successful TG128 qualification.
+[Receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
 
 ## Native live prefill observations — 2026-10-04 UTC
 
@@ -30,10 +49,10 @@ The first sandbox socket refusal and the missing target in the headless ASan
 build remain preserved with actual exits 8 and 2. Maximum local CPU is 67.875 C.
 These are client/metadata checks, not new GPU numerical or performance evidence.
 
-The active physical1M job retains its frozen r10 binary. Its latest observed
-PID/start/cgroup identity is live, with GPU busy and RAM/temperatures within the
-admitted guards; no physical1M result or progress count is inferred. AR/MTP
-OpenAI gates remain prepared, not submitted until collected ownership closure.
+The validation receipt retains the live physical1M observation made before
+that run terminated. The run used its frozen r10 binary, without the new
+progress option; its collected terminal result is recorded above. The new
+progress client still needs a separately admitted GPU build and run.
 [Validation receipt](development/validation/core-progress-2026-10-04.json).
 
 ## OpenAI control qualification prepared — 2026-10-04 UTC
@@ -53,7 +72,8 @@ qualification-control checks, not model inference.
 
 Separate AR and MTP manifests pin the previously built `e6f537f` ROCm 10
 `gfx1150` runtime, the postboot filesystem binding and exact helpers. Both remain
-**prepared, not submitted** while the physical 1M window owns `.161`. Original
+**prepared at this checkpoint** while the physical 1M window owned `.161`. Its
+collected closure is recorded above; fresh admission is required for each gate. Original
 weight qualification of these controls and Terminal Bench tasks remains open.
 [Preparation receipt](development/validation/openai-controls-preparation-2026-10-04.json).
 
@@ -80,10 +100,10 @@ and CPU/GPU/NVMe maxima 67.75/70/64.85 C. All 32 output IDs equal the 512K gate.
 The single cold sample records PP50.21/TG10.47 token/s; prefill is slower than
 the short 512K gate and has not been diagnosed or qualified as performance parity.
 
-A fresh physical PP1,048,448/TG128 window is running under the RAM/GTT and
-CPU98/NVMe85 guards, with GPU observed only. Its repeated tokenizer-ID corpus
-tests extended positions, not recall quality or canonical Gufo/Halogen performance.
-Physical 1M is not yet qualified.
+The subsequent physical PP1,048,448 run completes prefill, then stops at 43
+output tokens. The required TG128 gate remains failed; collection and ownership
+closure pass, as recorded above. Its repeated tokenizer-ID corpus tests extended
+positions, not recall quality or canonical Gufo/Halogen performance.
 [Boot and capacity receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
 
 ## Current integration and remaining gates — 2026-10-04 UTC
@@ -92,14 +112,15 @@ Physical 1M is not yet qualified.
 | --- | --- | --- |
 | Strix Point integration | Owner checkpoint `40b2ac7` merged into `develop` as `30598a3`; merge Debug 48/48. | No implicit publication. |
 | OpenAI native functions | Corrected runtime `e6f537f` passes all thirteen original-weight HTTP checks on `.161`. Chat/Responses each stream five argument fragments, accept correlated results, and retained Responses replay byte-identically. | Full task evaluation of this runtime; hosted cloud tools remain outside the local API. |
-| Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens. | Physical extended positions, recall quality and generic attention performance above 256K. |
+| Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens; physical PP1,048,448 completes. | Fixed-output extended-context qualification, recall quality and generic attention performance above 256K. |
 | Reduced scratch | C1 chunk256 passes short 4K/512K/1M capacity gates at 78.33/93.68/109.18 GiB GTT with exactly equal output IDs. | Diagnose the cold short-prompt prefill slowdown at capacity 1M; no replicated performance parity claim. |
-| Physical 1M fit | GTT112 boot and short capacity-1M allocation pass; minimum available RAM is 7.98 GiB after reboot. | Physical PP1,048,448/TG128 stress is running; recall quality and canonical comparisons remain open. |
+| Physical 1M fit | GTT112 capacity allocation passes. Physical PP1,048,448 completes with 43 output tokens and 6.03 GiB minimum available RAM. | Required TG128 gate fails on natural EOS; recall quality and canonical comparisons remain open. |
 
 The active work is isolated in `feature/context-million-openai`. Native Debug
 passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Build, HTTP and reduced
 scratch/capacity windows have collected successful closure. The separate physical
-1M window owns its current `.161` lease; there is no publication.
+1M window is retired with collected closure and a failed TG128 oracle; there is
+no standing GPU ownership or publication.
 Earlier failed gates remain failed evidence.
 [GPU receipt](development/validation/tool-context-point-gpu-2026-10-04.json) ·
 [Context configuration and memory budget](guides/CONTEXT.md).

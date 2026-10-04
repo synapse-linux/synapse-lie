@@ -155,6 +155,14 @@ gate passes with 7.98 GiB minimum available RAM and the same 32 output IDs as th
 about 266 token/s in the smaller-capacity gates. This slowdown needs investigation;
 short prompts do not establish physical 1M throughput or recall quality.
 
+The separate physical C1 AR YaRN4 chunk256 run completes 1,048,448 prefill
+tokens in 7,398.225 s (141.72 token/s), then stops naturally after 43 output
+tokens. Its benchmark exits 0, while the required TG128 supervisor/controller
+gate correctly fails with exit 1. Eleven artifacts and ownership closure verify;
+minimum available RAM is 6.03 GiB and CPU/GPU/NVMe peaks are 78.625/79/66.85 C.
+This is one stress sample using repeated tokenizer IDs, not recall quality or
+matched performance. Do not use the partial output as a passing TG128 sample.
+
 Every physical 1M window still needs fresh RAM/GTT admission. Host buffers and
 an admitted operating-system margin must fit. MTP adds predictor and draft
 state plus rollback, which this AR budget does not include.

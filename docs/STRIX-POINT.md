@@ -9,7 +9,9 @@ results, methods and graphs are on the [Point benchmark page](benchmarks/models/
 
 The qualified kernel is now `7.1.5-76070105-generic`. The authorized reboot
 activates 112 GiB GTT; short-input capacity allocation at 1M passes. The
-physical 1M test is running and broader quality remains open. The
+physical 1M test completes all 1,048,448 prefill tokens, then naturally stops
+after 43 output tokens; its required TG128 gate remains failed and closure is
+collected. Broader quality remains open. The
 [context guide](guides/CONTEXT.md) distinguishes these gates. Cross-stack
 numerical equivalence and new OpenAI AR/MTP control gates remain pending.
 

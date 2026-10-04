@@ -18,9 +18,12 @@ and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
 results belong to their stated source and binary identities. They do not
 automatically qualify a later runtime or another model/platform.
 
-1. Finish the active physical PP1,048,448/TG128 gate on `.161`, collect closure,
-   then qualify extended-context recall and matched performance. Allocation at
-   1M passes with a short prompt; this alone does not qualify physical 1M.
+1. Complete fixed-output extended-context qualification, recall and matched
+   performance. The `.161` physical gate completed all 1,048,448 prefill tokens
+   and stopped naturally after 43 output tokens. Child exit 0 is preserved;
+   the required TG128 gate remains failed with supervisor/controller exit 1.
+   Eleven artifacts verify and ownership closure is collected. A fresh gate
+   must satisfy its declared output requirement; this result is not recall quality.
 2. Run the prepared 21 OpenAI controls in AR and MTP after fresh GPU admission.
    Their 54 CPU supervisor/protocol fixtures pass; these GPU gates remain open.
 3. Run Terminal Bench against the actual HTTP function interface and retain
@@ -51,7 +54,7 @@ recorded Qwen numerical binding is qualified.
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; original-weight Chat/Responses function streaming and retired replay pass in the r10 AR gate. | New AR/MTP control gates, full agent task evaluation and performance. |
 | C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; history, grammar and compact speculative state remain delegated. |
-| Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. | Active physical1M completion, extended quality and matched performance. |
+| Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. Physical PP1,048,448 completes with 43 output tokens. | The declared TG128 gate fails on natural EOS; extended quality and matched performance remain open. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,
