@@ -56,8 +56,60 @@ static void eos_sequence_contract(void) {
     assert(lie_sequence_close(&s,NULL)==LIE_OK);
     assert(lie_model_close(&m,NULL)==LIE_OK);
 }
+static void automatic_output_budget(void) {
+    lie_core_options o={.model_path=":fixture:",.context=256,.chunk=16,.max_active=2};
+    lie_core *c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
+    lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TOKENS;
+    int32_t prompt[]={1,10,10,10};r.tokens=prompt;r.token_count=4;r.max_tokens=0;
+    lie_job *j=NULL;fake_barrier_arm_phase(FAKE_PREFILL);
+    assert(!lie_core_submit(c,&r,&j));fake_barrier_wait();
+    r.max_tokens=1;fake_barrier_release();assert(consume(j)==252);
+    lie_job_info info;lie_job_snapshot(j,&info);
+    assert(info.output_token_limit==252&&info.finish==LIE_FINISH_LENGTH);
+    lie_job_release(j);
+    r.max_tokens=0;prompt[0]=0;j=NULL;
+    assert(!lie_core_submit(c,&r,&j));assert(consume(j)==8);
+    lie_job_snapshot(j,&info);assert(info.output_token_limit==252&&info.finish==LIE_FINISH_STOP);
+    lie_job_release(j);
+    /* A near-full automatic row and an explicit peer use independent budgets. */
+    int32_t near[256]={1};for(unsigned k=1;k<256;++k)near[k]=10;
+    r.tokens=near;r.token_count=253;j=NULL;fake_barrier_arm_phase(FAKE_PREFILL);
+    assert(!lie_core_submit(c,&r,&j));fake_barrier_wait();
+    lie_core_request peer=r;prompt[0]=1;peer.tokens=prompt;peer.token_count=4;peer.max_tokens=7;
+    lie_job *b=NULL;assert(!lie_core_submit(c,&peer,&b));fake_barrier_release();
+    assert(consume(j)==3&&consume(b)==7);
+    lie_job_snapshot(j,&info);assert(info.output_token_limit==3);
+    lie_job_release(j);lie_job_release(b);
+    /* Zero room and explicit overflow refuse before sequence creation. */
+    r.token_count=256;j=NULL;fake_calls before=fake_calls_snapshot();
+    assert(!lie_core_submit(c,&r,&j));lie_flow_event e=next(j);
+    assert(e.end==LIE_FLOW_ERROR&&fake_calls_snapshot().create==before.create);
+    lie_job_release(j);r.token_count=253;r.max_tokens=4;j=NULL;
+    assert(!lie_core_submit(c,&r,&j));e=next(j);
+    assert(e.end==LIE_FLOW_ERROR&&fake_calls_snapshot().create==before.create);
+    lie_job_release(j);j=NULL;r.max_tokens=0;r.abi_version=7;
+    assert(lie_core_submit(c,&r,&j)==3&&!j);
+    stopped(c);
+    /* Existing advertised engine ceiling is retained; no new output cap. */
+    o.context=8192;c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
+    lie_core_request_init(&r);r.kind=LIE_INPUT_TOKENS;r.tokens=prompt;r.token_count=4;r.max_tokens=0;
+    assert(!lie_core_submit(c,&r,&j));assert(consume(j)==LIE_CORE_MAX_OUTPUT);
+    lie_job_snapshot(j,&info);assert(info.output_token_limit==LIE_CORE_MAX_OUTPUT);
+    lie_job_release(j);stopped(c);
+#if LIE_MTP
+    /* The final speculative burst cannot exceed the remaining three tokens. */
+    o.context=130;o.mtp_model_path=":wide-fixture:";o.mtp_draft_tokens=12;
+    c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);
+    r.tokens=near;r.token_count=127;j=NULL;
+    assert(!lie_core_submit(c,&r,&j));assert(consume(j)==3);
+    lie_job_snapshot(j,&info);
+    assert(info.output_token_limit==3&&info.finish==LIE_FINISH_LENGTH&&info.mtp_drafted>0);
+    lie_job_release(j);stopped(c);
+#endif
+}
 int main(void) {
     eos_sequence_contract();
+    automatic_output_budget();
     lie_core_options options={.model_path=":fixture:",.context=1024,.chunk=2,.max_active=2};
     lie_core *c=lie_core_create(&options);assert(c);wait_state(c,LIE_READY);
     lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TOKENS;

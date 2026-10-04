@@ -1,0 +1,337 @@
+{
+  "schema": "synapse-lie.automatic-output-host-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "HOST_C17_PARSER_OWNERSHIP_OUTPUT_BUDGET_HTTP_FIXTURES_NOT_ORIGINAL_WEIGHT_INFERENCE_GPU_OR_TASK_EVALUATION",
+  "parent_checkpoint": "9aeb53282368df893bf6798db8c3d63d133bc000",
+  "branch": "feature/context-million-openai",
+  "request_abi": 8,
+  "executor_abi": 3,
+  "generation_abi": 3,
+  "source_files_sha256": {
+    "include/lie/chat.h": "82472f625b54ad0500d49826e38d4a71373185ff299bc00473526a63335a5928",
+    "include/lie/core.h": "a8ce7ffaa1765b0812a343afed861e97fe9aa537347694cafdb0bcfc3d3b7e58",
+    "src/chat.c": "e8389cef1fff193876dde2907a86ea2fca5070552bd10ba85927b5e67d18096d",
+    "src/core_input.c": "d25d56525b11ee3b9dd822b0c01a2afb7603623b8ddee050c89c5e8e3e4a0f61",
+    "src/records.c": "177d9843aa1159336db81889d89bb001c18bb17a80c0716c432aca1657c4a806",
+    "src/responses.c": "55d4dbd78d7474931aa47fee9b9fdb42220859ef034412c278b16fb8e3c9ddd3",
+    "src/server.c": "c0a699e8707d36432e9d6efeea8cf0d462669d513faf91ffd8ab44e9c6fa90f7",
+    "src/wire.c": "7e977f9920c6ea91c9d5fd3ca12641b0abc26fe2cc617f02d7d76f20a358c903",
+    "src/worker.c": "881b83ec5e2acae9c772840ad6e37d806cf0ca8b1e9a9f2ede05afce45056b24",
+    "tests/test_chat.c": "9a033a11df02e3be9538ffe573d57bcbba7841e394fb99d47b8693df679a4baa",
+    "tests/test_core.c": "0deed49ce6ab1bde45c9e0506d20305127498b1a675a7905a250f679b1b1c6e6",
+    "tests/test_openai_http.c": "fcd5434a8a09739062da266f96de43d4d9046245db0cb0b77081dc6517922aae"
+  },
+  "checks": [
+    {
+      "directory": "evidence/automatic-output-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.5
+        },
+        "elapsed_s": 2.089776518754661
+      },
+      "result_sha256": "04862f50061a0b8c6151bb2752b613106e3774bcc6ee142acf009bc85c312c33",
+      "log_sha256": "749aeab5285c9bacb5477de833cedd3b5a27f93e5396b6e6a2f049c02ce0ee34",
+      "temperature_log_sha256": "4f8f3cb52f238734f4c4559c1067cd1892470dbc8fa4961bdf026a8408bc37b5",
+      "plan_sha256": "ecbfa08411704e7f5c9517ec847017d33cdc0c06854a811d956e6e71378c946b"
+    },
+    {
+      "directory": "evidence/automatic-output-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(chat-parser-wire|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|openai-headless-controls-state|openai-generation-state(-mtp)?-http|inference-reactive-contract|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 73.625
+        },
+        "elapsed_s": 30.45860623009503
+      },
+      "result_sha256": "b056f76f629e5dc167569d27c58c9ccc200bc4388e59fec9f528ba2f84a2684f",
+      "log_sha256": "43e885aaadf0c152cc8be708db2b2db83ef88b354fede6f6a1e1f7143e3b07ff",
+      "temperature_log_sha256": "5a2ed1995aa140f90513a6d7c651f46312ba46163d05ae77db1e3b94e8f6a6c5",
+      "plan_sha256": "990f9bd682715fb8b91c53d576145de282194fa04cbbbf4932ab8d8b5d36bec4",
+      "passed": 7,
+      "total": 9
+    },
+    {
+      "directory": "evidence/automatic-output-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.0
+        },
+        "elapsed_s": 4.171910365112126
+      },
+      "result_sha256": "6527c2916740c1757f22f379f5e7416974b54468445206401f16e6a8c387a96f",
+      "log_sha256": "56ba863314d4f700b70570f07776b4683a6619046caf6770e53f40d67d5d3bbc",
+      "temperature_log_sha256": "56cc58bcea3c90d66020fd88f1c05b352ec5d482ef9c34259cff40fae0a2afad",
+      "plan_sha256": "485394058679aa47dbcb7dafdbcc4649df6ffefef8e189b7255da734b22d492f"
+    },
+    {
+      "directory": "evidence/automatic-output-debug-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.5
+        },
+        "elapsed_s": 1.0202741213142872
+      },
+      "result_sha256": "ddca785396fef428c37268de466662b72e2057fcdf18c3047f0b0991e79e3690",
+      "log_sha256": "bc57da102300f4cc736867b2767a1dcc37947590f81695f8a72c1be208f90f34",
+      "temperature_log_sha256": "aafb38bf6c29e8098b6f78e3fbf79b45a8116df25de31d563fd45c7c50487238",
+      "plan_sha256": "ecbfa08411704e7f5c9517ec847017d33cdc0c06854a811d956e6e71378c946b"
+    },
+    {
+      "directory": "evidence/automatic-output-debug-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(chat-parser-wire|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|openai-headless-controls-state|openai-generation-state(-mtp)?-http|inference-reactive-contract|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.625
+        },
+        "elapsed_s": 33.528633158653975
+      },
+      "result_sha256": "5ee7625c61aadc4a68b3c7da308233b21658b650274312635558723dc1976885",
+      "log_sha256": "b5fbbee8a45e396580b1698e1bd1f3d9da67f4c1781c8ce761620772f975d830",
+      "temperature_log_sha256": "708b17f155c2012eb407f1dd68c64707684b338c74698be0b47bbba2658e2fcb",
+      "plan_sha256": "7bca4c5a0e2a9d3e97c289d64ae0a01bcb9b2e1bca848028c67f2060064806df",
+      "passed": 9,
+      "total": 9
+    },
+    {
+      "directory": "evidence/automatic-output-asan-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.875
+        },
+        "elapsed_s": 2.1268922137096524
+      },
+      "result_sha256": "b5770dc37a1ef437e22e23d2872bf6b28dcc2da48c1cdb838793257c3bf53f0d",
+      "log_sha256": "a4fee26c278c2e5269ab213fea94ae650b119384ba51fdb518ce47ca3228e38a",
+      "temperature_log_sha256": "496caafcd4a1923d7126bdebba4ba16e14f8eeee8ddaf3b2899cc8bd7ceb2af7",
+      "plan_sha256": "485394058679aa47dbcb7dafdbcc4649df6ffefef8e189b7255da734b22d492f"
+    },
+    {
+      "directory": "evidence/automatic-output-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(chat-parser-wire|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|openai-headless-controls-state|openai-generation-state(-mtp)?-http|inference-reactive-contract|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.75
+        },
+        "elapsed_s": 34.548303831368685
+      },
+      "result_sha256": "15376434901cfaa353ca73ec0e2e06aca69af45fc0ba2ec2c85321842d454a58",
+      "log_sha256": "0e9fea606657d67be569cadcd07fe9f344e1901277e7eb830f25c1e5b53807fc",
+      "temperature_log_sha256": "9216c1bd8e6823eb57401c055d069140fde0c3656d72f22d1d0e040af1207715",
+      "plan_sha256": "964c2be4435210898740c47947b9a1e9d5c4bb0c38abcb7e990fbc088f95f48b",
+      "passed": 9,
+      "total": 9
+    },
+    {
+      "directory": "evidence/automatic-output-adapter-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/ds4-filters-source-check-r1",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 63.25
+        },
+        "elapsed_s": 1.0555561007931828
+      },
+      "result_sha256": "bf5bb7ad4bb0fccfca32e6262692a97efd1163bae15e8017ad2d9a4f641cef0f",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "ac472b3bbd15ed0c346ea6d10c6ca801e8bb4b736147eec987b5a848eb5b0cbc",
+      "plan_sha256": "9737e49e65a8f40b457bb0285b059e2b6fad942ca28ae8eeab6cbb40677f0cba"
+    },
+    {
+      "directory": "evidence/automatic-output-cpp-header-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-fsyntax-only",
+          "-x",
+          "c++",
+          "-Iinclude",
+          "include/lie/core.h"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.25
+        },
+        "elapsed_s": 1.0905575696378946
+      },
+      "result_sha256": "a136cfb509283b5379bcbdaf297b59d1e36a861cac8acbf33c46f062a3ba4ab9",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "19eddb2ddfae781d3c4af9cf95902c2aa4604a08745f30f03de89c75750c1e98",
+      "plan_sha256": "cdfb14966544c76cfda28446244cf4159d7a0510fc913c36cdc9785271dbd93e"
+    }
+  ],
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true
+  },
+  "gpu_masking": [
+    "ROCR_VISIBLE_DEVICES=-1",
+    "HIP_VISIBLE_DEVICES=-1",
+    "CUDA_VISIBLE_DEVICES=-1"
+  ],
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only",
+    "own_children_only": true,
+    "no_tuning": true
+  },
+  "cpu_peak_c": 74.0,
+  "retained_failure": {
+    "directory": "evidence/automatic-output-debug-test-r1",
+    "child_exit_code": 8,
+    "passed": 7,
+    "total": 9,
+    "reason": "Both HTTP variants expected the resolved budget to be observable. Responses has no Chat lie_timings block.",
+    "resolution": "Expose resolved max_output_tokens in the standard Responses object and keep null stored options from overriding it; corrected Debug and sanitizer suites pass."
+  },
+  "retained_tool_failures": {
+    "path": "evidence/automatic-output-doc-patch-failures-r1.json",
+    "sha256": "b1b5c8dc18734fcb3215fcbd1a25f33bd558eeb3bc92873bc213b274fbbfee18"
+  },
+  "retained_receipt_generation_failure": {
+    "path": "evidence/automatic-output-receipt-failure-r1.json",
+    "sha256": "8cd00ac83978b26e73776636dfc046ca316dffbeaf997dfb5d5d7d0ae8c808e3",
+    "exit_code": 1
+  },
+  "read_only_existing_client_audit": {
+    "path": "evidence/terminal-bench-client-output-audit-r1.json",
+    "sha256": "3532aa3a083fa8afc698719cd4ccbf5f496c01ed0e738c6cbdd29c9f8e37600b",
+    "ssh_exit_code": 0,
+    "no_installs_imports_gpu_or_q2_mutations": true
+  },
+  "contracts_verified": [
+    "HTTP omitted/null output limits map to the shared-core zero sentinel; explicit numeric zero, malformed types and conflicting aliases refuse.",
+    "C17 initializer still requests 128 explicitly; current ABI 8 callers may request zero for automatic output.",
+    "Resolved limit is min(remaining physical context after preparation, existing advertised 4096 ceiling); bounded storage is reserved before admission.",
+    "Exact positive budgets refuse overflow before sequence creation. No zero-room request creates a sequence.",
+    "Caller mutations do not affect admitted ownership; concurrent rows retain independent budgets and no new worker is introduced.",
+    "Long non-EOS fixture output passes the old 128 limit, natural EOS still stops, and the final speculative burst fits the remaining budget.",
+    "Both JSON/SSE APIs, default stored response replay and model list/detail expose the applicable limits.",
+    "Cached prefix compatibility, stop policy and DS4 payload framing remain intact; no harness output cap or product dependency is added."
+  ],
+  "qualification_limits": [
+    "CPU fixtures and syntax checks only; not original-weight or GPU qualification.",
+    "The existing engine output ceiling remains 4096. Actual eval truncations must be retained.",
+    "No Terminal Bench task has run. The frozen r11 GPU receipts do not qualify this later runtime.",
+    "New original-weight GPU build and runtime admission on .161 remain required."
+  ]
+}

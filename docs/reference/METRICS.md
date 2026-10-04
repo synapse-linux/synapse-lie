@@ -137,6 +137,16 @@ queueing, inference and consumption; its first-token clock is not first SSE writ
 An internal core queue-duration clock and complete resource accounting remain
 pending. Direct-core and HTTP results must label these different timing scopes.
 
+`lie_job_info.output_token_limit` records the generation budget resolved after
+full prompt preparation; zero means the job is not prepared yet. A direct
+`max_tokens=0` or omitted/null HTTP limit selects min(remaining context, the
+existing 4096-token engine ceiling). Explicit limits remain exact. This is a
+budget, not an executed-token count; EOS, stop and cancellation may end earlier.
+Chat projects it as `lie_timings.output_token_limit`; completed Responses and
+stored replay use `max_output_tokens`. Model list/detail metadata advertise
+configured `context_length` and the engine `max_output_tokens` ceiling so an
+evaluation client can discover its actual limits.
+
 The native direct-core client can sample these metadata with `--progress-ms N`.
 Its stderr JSONL schema `synapse-lie.core-progress.v1` records per-job completed
 prefill tokens/calls, cached tokens, confirmed model output, consumer-observed

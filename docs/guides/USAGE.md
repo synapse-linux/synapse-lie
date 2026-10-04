@@ -125,6 +125,17 @@ The current integration is covered by native fixtures and HIP build/link tests.
 | `--prefill-chunk 2048` | Maximum prompt tokens handled in one prefill dispatch. |
 | `--request-timeout-ms 600000` | Request deadline, in milliseconds; allow enough time for long prompts. |
 
+Omitting `max_tokens`/`max_completion_tokens` in Chat or `max_output_tokens` in
+Responses, or passing null, selects an automatic budget: remaining physical
+context after the complete prompt/template, up to the advertised 4,096-token
+engine output ceiling. Explicit positive limits are preserved; a prompt plus
+explicit output that exceeds context is rejected instead of silently capped.
+An explicit zero is invalid HTTP input. Natural EOS and stop strings still end
+generation early. The resolved limit is available in Chat's
+`lie_timings.output_token_limit` and the completed Responses object's
+`max_output_tokens`, including stored replay. `/v1/models` and individual model
+details advertise the configured `context_length` and `max_output_tokens`.
+
 The maximum requested output is 4,096 tokens. The model's chat template also
 consumes context, so a 262,144-token capacity does not admit a user message of
 that length plus output. Each active sequence needs its own runtime state;

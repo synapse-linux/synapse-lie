@@ -15,7 +15,7 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 7u
+#define LIE_CORE_REQUEST_ABI 8u
 #define LIE_STOP_MAX 4u
 #define LIE_STOP_BYTES 256u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
@@ -44,7 +44,9 @@ typedef struct {
     size_t token_count;
     const char *text;
     size_t text_bytes;
-    unsigned max_tokens;
+    unsigned max_tokens; /* Zero: min(remaining context, LIE_CORE_MAX_OUTPUT),
+                          * resolved after prompt preparation on the owner.
+                          * Nonzero: exact caller budget, never silently capped. */
     lie_generation_options generation;
     lie_output_format format;
     const char *schema_json;
@@ -100,6 +102,8 @@ typedef struct {
 } lie_core_info;
 typedef struct {
     unsigned prompt_tokens, output_tokens;
+    unsigned output_token_limit; /* Zero before preparation; then the resolved
+                                 * exact generation budget, including auto. */
     lie_job_finish finish;
     bool prepared, retired;
     bool semantic_checked, output_invalid;

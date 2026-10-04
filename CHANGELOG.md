@@ -9,6 +9,12 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Omitting an HTTP output limit, or passing null, now uses the remaining context
+  up to the existing 4,096-token engine ceiling instead of silently defaulting
+  to 128. Explicit positive budgets remain exact. Models advertise their context
+  and output limits; responses retain the resolved budget. Request ABI 8 callers
+  must rebuild; executor and generation ABI 3 are unchanged.
+
 - Native core benchmarks can explicitly continue past EOS with `--ignore-eos`
   for fixed-token measurements. Results retain the EOS policy, refuse unmatched
   policies and reject incomplete fixed-budget output. Normal serving keeps EOS.

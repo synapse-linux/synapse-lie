@@ -146,9 +146,10 @@ lie_record *lie_records_insert(lie_records *s, const char *id, int64_t created,
     free(r);
     return NULL;
   }
-  r->text_budget = (size_t)input->max_tokens * LIE_CORE_TOKEN_BYTES * 3 + 8;
+  size_t max_tokens = input->max_tokens ? input->max_tokens : LIE_CORE_MAX_OUTPUT;
+  r->text_budget = max_tokens * LIE_CORE_TOKEN_BYTES * 3 + 8;
   r->event_capacity =
-      2u * (size_t)input->max_tokens + 3u * LIE_CHAT_MAX_CALLS + 4;
+      2u * max_tokens + 3u * LIE_CHAT_MAX_CALLS + 4;
   r->allocated = sizeof(*r) + size + strlen(id) + 1 + r->text_budget +
                  r->event_capacity * sizeof(*r->events);
   if (r->allocated > s->options.max_bytes - s->bytes) {

@@ -127,6 +127,50 @@ static json_object *chat(const char *extra) {
   require(j != NULL, "request JSON");
   return j;
 }
+static void automatic_output_http(const char *api) {
+  /* Synthetic non-EOS row proves the omitted budget exceeds the old128 cap. */
+  const char *long_requests[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"LONG\"}]}",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"LONG\",\"store\":false}"};
+  const char *paths[] = {"/chat/completions", "/responses"};
+  const char *counts[] = {"completion_tokens", "output_tokens"};
+  for (unsigned api_index=0;api_index<2;++api_index) {
+    json_object *j=json_transfer(api,paths[api_index],"POST",long_requests[api_index],200);
+    require(json_object_get_int(field(field(j,"usage"),counts[api_index]))==2044,
+            "omitted output limit uses available context past128");
+    require(json_object_get_int(api_index ? field(j,"max_output_tokens") :
+                               field(field(j,"lie_timings"),"output_token_limit"))==2044,
+            "resolved output budget is observable");
+    json_object_put(j);
+  }
+  const char *near_requests[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2045\\n\"}],\"max_completion_tokens\":null,\"stream\":true,\"stream_options\":{\"include_usage\":true}}",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"FIXTURE-TOKENS:2045\\n\",\"max_output_tokens\":null,\"stream\":true,\"store\":false}"};
+  for(unsigned api_index=0;api_index<2;++api_index) {
+    char *stream=transfer(api,paths[api_index],"POST",near_requests[api_index],200);
+    require(strstr(stream,api_index?"\"max_output_tokens\":3":"\"output_token_limit\":3")!=NULL,
+            "null budget uses three remaining tokens");
+    require(strstr(stream,api_index?"\"output_tokens\":3":"\"completion_tokens\":3")!=NULL,
+            "automatic SSE reports exact output count");
+    free(stream);
+  }
+  json_object *j=json_transfer(api,"/responses","POST",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"ok\",\"max_output_tokens\":null}",200);
+  char path[256];snprintf(path,sizeof(path),"/responses/%s",json_object_get_string(field(j,"id")));
+  require(json_object_get_int(field(field(j,"usage"),"output_tokens"))==8,
+          "auto stored response preserves natural EOS");
+  json_object_put(j);
+  j=json_transfer(api,path,"GET",NULL,200);
+  require(json_object_get_int(field(j,"max_output_tokens"))==2044,
+          "stored replay retains resolved output budget");
+  json_object_put(j);j=json_transfer(api,path,"DELETE",NULL,200);json_object_put(j);
+  j=json_transfer(api,"/chat/completions","POST",
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2048\\n\"}]}",400);
+  json_object_put(j);
+  j=json_transfer(api,"/chat/completions","POST",
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2045\\n\"}],\"max_tokens\":4}",400);
+  json_object_put(j);
+}
 static size_t abandon_collect(char *p, size_t s, size_t n, void *arg) {
   size_t bytes = collect(p, s, n, arg);
   buffer *b = arg;
@@ -317,10 +361,20 @@ int main(int argc, char **argv) {
     pause_ms();
   }
   require(ready, "readiness");
+  automatic_output_http(api);
   sampling_filters_http(api);
   json_object *j =
       json_transfer(api, "/models/cpu-test-fixture", "GET", NULL, 200);
   require(lie_json_literal(field(j, "object"), "model"), "model detail");
+  require(json_object_get_int(field(j,"context_length"))==2048&&
+              json_object_get_int(field(j,"max_output_tokens"))==LIE_CORE_MAX_OUTPUT,
+          "model detail advertises actual context and output ceiling");
+  json_object_put(j);
+  j=json_transfer(api,"/models","GET",NULL,200);
+  json_object *listed=json_object_array_get_idx(field(j,"data"),0);
+  require(json_object_get_int(field(listed,"context_length"))==2048&&
+              json_object_get_int(field(listed,"max_output_tokens"))==LIE_CORE_MAX_OUTPUT,
+          "model list supports automatic client discovery");
   json_object_put(j);
   char *abandoned_id = abandon_background_stream(api), abandoned_path[256];
   snprintf(abandoned_path, sizeof(abandoned_path), "/responses/%s?stream=true",

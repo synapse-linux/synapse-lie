@@ -65,6 +65,10 @@ Responses lifecycle. The receipts identify the tested runtime and limits.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 
+An omitted or null output limit uses the available context up to the engine's
+advertised 4,096-token output ceiling. `/v1/models` reports both limits;
+explicit positive output budgets remain exact.
+
 ## Strix Point port
 
 The [ROCm 10 comparison gate](docs/STRIX-POINT-ROCM10.md) records the

@@ -8,6 +8,35 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Automatic shared-core output budgets implemented — 2026-10-04 UTC
+
+The pinned Terminal Bench runner omits `max_tokens`; the existing Harbor client
+raises an output-length error on a length-truncated response. LIE previously
+silently selected 128 tokens. Omitted/null HTTP limits now reach the C17 core as
+an automatic budget, resolved after prompt preparation to the smaller of the
+remaining physical context and the existing 4,096-token ceiling. Explicit
+positive budgets retain exact admission; numeric zero remains invalid in HTTP.
+The C initializer retains its explicit 128-token default. Admission reserves
+bounded storage without a mutable shared request or an extra worker thread.
+
+Request ABI 8 requires callers to rebuild; executor/generation ABI 3 are unchanged.
+Prepared job snapshots and Chat timings expose the resolved limit; Responses
+and stored replay use `max_output_tokens`. Both model routes advertise context
+and output limits. EOS, stop strings and the declared output ceiling still apply.
+
+Nine focused Debug and nine ASan/UBSan/LSan tests pass, covering past-128 output,
+near-full context, independent concurrent budgets, immutable admission, exact
+positive overflow, natural EOS, MTP's final burst, JSON/SSE and stored replay.
+The first Debug run exits 8 on two HTTP assertions: the diagnostic initially
+failed to expose the resolved Responses budget. The correction uses its standard
+field, and the failed run remains preserved. Local CPU maximum is 74 C.
+[Commands, hashes and retained failures](development/validation/automatic-output-host-2026-10-04.json).
+
+These are host fixtures, not original-weight inference or a Terminal Bench score.
+The frozen r11 GPU controls receipt remains unchanged; this newer runtime needs
+a fresh `.161` build and GPU window. No task has run and no harness output cap,
+product dependency or GPU job is added by this slice.
+
 ## Original-weight OpenAI MTP controls completed — 2026-10-04 UTC
 
 After the unrelated training process retires, fresh `.161` inspection verifies

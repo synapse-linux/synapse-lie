@@ -29,7 +29,6 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
   if (!out || !error)
     return false;
   memset(out, 0, sizeof(*out));
-  out->max_tokens = 128;
   out->choices = 1;
   out->generation =
       (lie_generation_options){.abi_version = LIE_GENERATION_ABI,
@@ -245,11 +244,12 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
     goto fail;
   if (json_object_object_get_ex(root, "max_tokens", &v) ||
       json_object_object_get_ex(root, "max_completion_tokens", &v)) {
-    if (!json_object_is_type(v, json_type_int) ||
+    if (v && (!json_object_is_type(v, json_type_int) ||
         json_object_get_int64(v) < 1 ||
-        json_object_get_int64(v) > LIE_CHAT_MAX_OUTPUT)
+        json_object_get_int64(v) > LIE_CHAT_MAX_OUTPUT))
       goto fail;
-    out->max_tokens = (unsigned)json_object_get_int(v);
+    if (v)
+      out->max_tokens = (unsigned)json_object_get_int(v);
   }
   why = "invalid_stream";
   if (json_object_object_get_ex(root, "stream", &v)) {

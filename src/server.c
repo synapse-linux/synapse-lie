@@ -432,7 +432,8 @@ static json_object *stored_options(lie_chat_request *request, bool responses) {
         strcmp(keys[i], "service_tier"))
       continue;
     json_object *v = NULL;
-    if (json_object_object_get_ex(root, keys[i], &v))
+    if (json_object_object_get_ex(root, keys[i], &v) &&
+        (v || strcmp(keys[i], "max_output_tokens")))
       json_object_object_add(options, keys[i], json_object_get(v));
   }
   json_object *tier = NULL;
@@ -1608,6 +1609,12 @@ static void route(connection *c) {
         json_object_object_add(m, "object", json_object_new_string("model"));
         json_object_object_add(m, "owned_by",
                                json_object_new_string(lie_backend_name()));
+        lie_core_info info;
+        lie_core_snapshot(s->worker, &info);
+        json_object_object_add(m, "context_length",
+                               json_object_new_uint64(info.model.context_tokens));
+        json_object_object_add(m, "max_output_tokens",
+                               json_object_new_uint64(LIE_CHAT_MAX_OUTPUT));
         json_object_array_add(data, m);
       }
       json_object_object_add(j, "data", data);
@@ -1837,6 +1844,12 @@ static void route(connection *c) {
       json_object_object_add(m, "created", json_object_new_int64(0));
       json_object_object_add(m, "owned_by",
                              json_object_new_string(lie_backend_name()));
+      lie_core_info info;
+      lie_core_snapshot(s->worker, &info);
+      json_object_object_add(m, "context_length",
+                             json_object_new_uint64(info.model.context_tokens));
+      json_object_object_add(m, "max_output_tokens",
+                             json_object_new_uint64(LIE_CHAT_MAX_OUTPUT));
       char *body = json_text(m);
       respond(c, 200, "application/json", body);
       free(body);

@@ -466,6 +466,10 @@ json_object *lie_response_object(const char *id, const char *model,
   json_object_object_add(o, "status", json_object_new_string(status));
   json_object_object_add(o, "store", json_object_new_boolean(false));
   json_object_object_add(o, "background", json_object_new_boolean(false));
+  json_object_object_add(o, "max_output_tokens",
+                         info && info->prepared
+                             ? json_object_new_uint64(info->output_token_limit)
+                             : NULL);
   json_object_object_add(o, "error", NULL);
   json_object_object_add(o, "incomplete_details", NULL);
   json_object_object_add(o, "instructions", NULL);

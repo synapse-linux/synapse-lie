@@ -204,7 +204,7 @@ bool lie_core_input_copy_sized(const lie_core_request *r, lie_core_request *out,
                                void **storage, size_t *allocated) {
   if (!r || !out || !storage || *storage ||
       r->abi_version != LIE_CORE_REQUEST_ABI || r->struct_bytes != sizeof(*r) ||
-      !r->max_tokens || r->max_tokens > LIE_CORE_MAX_OUTPUT ||
+      r->max_tokens > LIE_CORE_MAX_OUTPUT ||
       !generation_valid(&r->generation) || r->kind < LIE_INPUT_MESSAGES ||
       r->kind > LIE_INPUT_TEXT || r->tool_choice < LIE_TOOLS_AUTO ||
       r->tool_choice > LIE_TOOLS_NAMED || r->format < LIE_FORMAT_TEXT ||

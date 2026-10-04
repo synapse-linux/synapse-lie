@@ -9,7 +9,7 @@ vision operations keep their existing meanings.
 See [context configuration and qualification](../guides/CONTEXT.md).
 
 The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
-ownership independently of request ABI 7 and generation ABI 3.
+ownership independently of request ABI 8 and generation ABI 3.
 `lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
@@ -20,8 +20,9 @@ confirmed retained-target history and locked metadata snapshots. Its scope hashe
 are independent of chunk size and preserve steered history when scales become
 zero. Bank/session references and plan resources remain shared C17 concerns;
 there is no numerical operation or transport dependency in these interfaces.
-This additive library leaves executor ABI 3, request ABI 7 and generation ABI 3
-unchanged. Its presence does not activate provider steering or KV persistence.
+This additive library does not change executor ABI 3 or generation ABI 3.
+The current request ABI 8 budget semantics are documented below; the bank/policy
+interfaces do not activate provider steering or KV persistence.
 See [format, policy and actual binding requirements](../development/STEERING.md).
 
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
@@ -61,9 +62,10 @@ model types remain inside the adapter.
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
 their meanings. Request ABI 3 introduced owned image spans; current
-`LIE_CORE_REQUEST_ABI=7` owns parallel-tool policy, output format, schema, stop
+`LIE_CORE_REQUEST_ABI=8` owns parallel-tool policy, output format, schema, stop
 sequences, oldest-turn truncation, the embedded generation ABI 3 and the explicit
-EOS policy for raw benchmark requests. ABI 6 callers must rebuild.
+EOS policy for raw benchmark requests and automatic output budgets. ABI 7 and
+earlier callers must rebuild.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -355,7 +357,7 @@ Language/build ownership and feature qualification remain separate; see the
 ## Shared core client API 1
 
 [Semantic event ABI 2](EVENTS.md) is the common output contract for HTTP, Responses
-and direct benchmarks. Current request ABI 7 retains `parallel_tool_calls=true` by
+and direct benchmarks. Current request ABI 8 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
 `lie/core.h` is an experimental C client contract, distinct from executor ABI 3.
@@ -363,6 +365,26 @@ default; using initialization and exact version/size checks remains required.
 (`temperature=0`, `top_p=1`, `top_k=0`, `min_p=0`, `seed=-1`) and output limit 128. The caller chooses
 exactly one input: normalized messages/tools, physical token IDs, or raw UTF-8
 text (no implicit chat template). Initialize `*out` to NULL before submit.
+
+Request ABI 8 changes `max_tokens=0` to an explicit automatic-budget sentinel.
+HTTP omission/null uses it; HTTP numeric zero remains invalid. The C initializer
+retains its explicit 128-token default, and direct clients can choose zero.
+Admission reserves at most min(configured context minus one, 4096) output IDs
+and optional logprob entries. The copied reservation remains immutable once
+published, so metadata/semantic consumers never race a changed request.
+After preparing the full prompt on the single device owner, a separate limit
+becomes min(admitted reservation, context minus physical prompt). Empty room
+refuses before sequence creation. Explicit positive budgets retain their exact
+meaning, including context refusal; automatic truncation reserves one output
+position and preserves any history that still fits. Final MTP bursts use the
+resolved remaining budget. No output beyond the existing advertised engine
+ceiling or new thread is introduced.
+
+`lie_job_info.output_token_limit` is zero before preparation and the resolved
+limit after preparation. Natural EOS/stop/cancellation can produce fewer tokens.
+Retained Responses reserve bounded text/events for an automatic request using
+the existing 4096 ceiling, rather than a zero-byte buffer. Quotas and lifetime
+charges still refuse without admitting unbounded retained storage.
 
 `lie_core_submit` borrows input only during the call and deep-copies nested
 arrays/strings into one bounded arena. Successful submission never steals caller
@@ -401,7 +423,8 @@ claim cross-platform portability. CPU acceptance is in [CORE-EXTRACTION.md](../d
 
 ### Fixed-token benchmark completion
 
-Request ABI 7 appends `eos_policy`. Initialization selects `LIE_EOS_STOP`.
+Request ABI 7 introduced `eos_policy`, retained in current ABI 8.
+Initialization selects `LIE_EOS_STOP`.
 `LIE_EOS_IGNORE` is allowed only for raw tokens/text, without stop strings or
 constrained output; message, tool and vision requests refuse it before admission.
 Unknown policies and ABI 6 requests also refuse before sequence creation.

@@ -41,6 +41,7 @@ static json_object *timings(const lie_job_info *i) {
     json_object_object_add(t,"mtp_drafted_tokens",json_object_new_int64(i->mtp_drafted));
     json_object_object_add(t,"mtp_accepted_tokens",json_object_new_int64(i->mtp_accepted));
     json_object_object_add(t,"decode_tokens",json_object_new_int64(i->output_tokens));
+    json_object_object_add(t,"output_token_limit",json_object_new_int64(i->output_token_limit));
     json_object_object_add(t,"prefill_calls",json_object_new_int64(i->prefill_calls));
     json_object_object_add(t,"decode_calls",json_object_new_int64(i->decode_calls));
     json_object_object_add(t,"prefill_ms",i->timing_valid?json_object_new_double((double)i->prefill_ns/1e6):NULL);

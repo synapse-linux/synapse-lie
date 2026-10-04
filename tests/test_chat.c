@@ -47,8 +47,35 @@ static void sampling_filters(void) {
         }
     }
 }
+static void automatic_output_limits(void) {
+    const char *prefixes[] = {
+        "{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}]",
+        "{\"model\":\"m\",\"input\":\"x\""
+    };
+    const char *keys[] = {"max_tokens", "max_output_tokens"};
+    const char *values[] = {NULL,"null","1","4096","0","-1","4097","true","1.5"};
+    const unsigned limits[] = {0,0,1,4096};
+    for (unsigned api=0;api<2;++api) {
+        bool (*parse)(const char *,size_t,const char *,lie_chat_request *,char *) =
+            api ? lie_responses_parse : lie_chat_parse;
+        for (unsigned k=0;k<sizeof(values)/sizeof(*values);++k) {
+            char body[512],error[256];lie_chat_request r;
+            if(values[k])snprintf(body,sizeof(body),"%s,\"%s\":%s}",prefixes[api],keys[api],values[k]);
+            else snprintf(body,sizeof(body),"%s}",prefixes[api]);
+            bool ok=parse(body,strlen(body),"m",&r,error);
+            assert(ok==(k<sizeof(limits)/sizeof(*limits)));
+            if(ok){assert(r.max_tokens==limits[k]);lie_chat_free(&r);}
+        }
+    }
+    const char *alias="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_completion_tokens\":null}";
+    lie_chat_request r;char error[256];
+    assert(lie_chat_parse(alias,strlen(alias),"m",&r,error)&&r.max_tokens==0);
+    lie_chat_free(&r);
+    rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"max_tokens\":null,\"max_completion_tokens\":null}");
+}
 int main(void) {
     sampling_filters();
+    automatic_output_limits();
     lie_chat_request r; char error[256];
     const char *sampling="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.7,\"top_p\":0.8,\"frequency_penalty\":-1,\"presence_penalty\":1.5,\"seed\":42}";
     lie_chat_request controls; char controls_error[256];
@@ -58,7 +85,7 @@ int main(void) {
     lie_chat_free(&controls);
     const char *valid="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"hello €\"}],\"temperature\":0,\"seed\":3,\"stream\":true,\"stream_options\":{\"include_usage\":true},\"chat_template_kwargs\":{\"enable_thinking\":false}}";
     assert(lie_chat_parse(valid,strlen(valid),"m",&r,error));
-    assert(r.count==1 && r.max_tokens==128 && r.stream && r.include_usage);
+    assert(r.count==1 && r.max_tokens==0 && r.stream && r.include_usage);
     assert(r.messages[0].bytes==strlen("hello €") && !strcmp(r.messages[0].content,"hello €")); lie_chat_free(&r);
     rejects("{}"); rejects("{\"model\":\"m\",\"messages\":[]}"); rejects("[]"); rejects("null");
     rejects("{\"model\":\"m\",\"messages\":[{\"role\":\"tool\",\"content\":\"x\"}]}");

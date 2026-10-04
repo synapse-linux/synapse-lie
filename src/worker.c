@@ -24,6 +24,8 @@ struct lie_job {
   lie_core_request request;
   void *request_storage;
   size_t request_bytes;
+  bool automatic_output;
+  unsigned output_limit; /* Worker-owned; input reservation remains immutable. */
   int32_t *output_ids;
   lie_token_logprobs *scores;
   size_t *score_offsets, visible_bytes, scored_bytes;
@@ -269,7 +271,7 @@ static bool rebuild_prompt(lie_core *w,lie_job *j,const lie_state *state,const l
         lie_model_tokenize(w->model,key+m->text_bytes,key_bytes-m->text_bytes,
                            tokens+l->token_count,w->options.context-l->token_count,&suffix,&error);
     size_t count=l->token_count+suffix;
-    bool ok=rc==LIE_OK&&count<=w->options.context&&j->request.max_tokens<=w->options.context-count;
+    bool ok=rc==LIE_OK&&count<=w->options.context&&j->output_limit<=w->options.context-count;
     for(size_t i=0;ok&&i<count;++i)if(tokens[i]<0||(uint32_t)tokens[i]>=w->info.model.vocab_tokens)ok=false;
     if(ok){pthread_mutex_lock(&j->gate);memcpy(j->prompt,tokens,count*sizeof(*tokens));j->tokens=count;j->info.prompt_tokens=(unsigned)count;
         pthread_mutex_unlock(&j->gate);
@@ -631,8 +633,10 @@ static bool step(lie_core *w, size_t index) {
                                             &error);
         bool overflow =
             rc == LIE_BUFFER_SMALL ||
-            (rc == LIE_OK && (j->tokens > w->options.context ||
-                              r->max_tokens > w->options.context - j->tokens));
+            (rc == LIE_OK &&
+             (j->tokens >= w->options.context ||
+              (!j->automatic_output &&
+               r->max_tokens > w->options.context - j->tokens)));
         if (!overflow || !r->truncate_oldest)
           break;
         if (vision)
@@ -642,8 +646,9 @@ static bool step(lie_core *w, size_t index) {
         error = (lie_error){0};
       } while (true);
     }
-    if (rc != LIE_OK || !j->tokens || j->tokens > w->options.context ||
-        j->request.max_tokens > w->options.context - j->tokens) {
+    if (rc != LIE_OK || !j->tokens || j->tokens >= w->options.context ||
+        (!j->automatic_output &&
+         j->request.max_tokens > w->options.context - j->tokens)) {
       if (vision)
         (void)lie_vision_prompt_close(&vision, NULL);
       if (rc == LIE_BACKEND_FAILED)
@@ -655,6 +660,8 @@ static bool step(lie_core *w, size_t index) {
                                                  : error.message);
       return true;
     }
+    if (j->automatic_output && j->output_limit > w->options.context - j->tokens)
+      j->output_limit = (unsigned)(w->options.context - j->tokens);
     for (size_t k = 0; k < j->tokens; ++k)
       if (j->prompt[k] < 0 || (uint32_t)j->prompt[k] >= wi.model.vocab_tokens) {
         if (vision)
@@ -735,6 +742,7 @@ static bool step(lie_core *w, size_t index) {
     if (atomic_load(&j->cancel))
       lie_sequence_cancel(sequence);
     j->info.prompt_tokens = (unsigned)j->tokens;
+    j->info.output_token_limit = j->output_limit;
     j->info.prepared = true;
     checkpoint_targets(w, j);
     pthread_mutex_unlock(&j->gate);
@@ -883,9 +891,9 @@ static bool decode_ready(lie_core *w) {
               wi.model.speculative_supported && !j->request.stop_count &&
                       !j->request.generation.logprobs &&
                       !j->request.generation.logit_bias_count
-                  ? (j->request.max_tokens - j->info.output_tokens <
+                  ? (j->output_limit - j->info.output_tokens <
                              wi.mtp.max_output_tokens
-                         ? j->request.max_tokens - j->info.output_tokens
+                         ? j->output_limit - j->info.output_tokens
                          : wi.mtp.max_output_tokens)
                   : 1};
     }
@@ -1011,7 +1019,7 @@ static bool decode_ready(lie_core *w) {
       if (j->request.stop_count && bytes[i])
         memcpy(original[i], rows[i].reservation.data, bytes[i]);
       bool end = d->stop ||
-                 j->info.output_tokens + d->emitted >= j->request.max_tokens;
+                 j->info.output_tokens + d->emitted >= j->output_limit;
       if (rc == LIE_OK &&
           !lie_stop_feed(&j->stop, &j->request,
                          (char *)rows[i].reservation.data, &bytes[i],
@@ -1061,7 +1069,7 @@ static bool decode_ready(lie_core *w) {
     j->info.mtp_drafted += r->burst.drafted;
     j->info.mtp_accepted += r->burst.accepted;
     j->info.output_tokens += d.emitted;
-    bool end = d.stop || j->info.output_tokens >= j->request.max_tokens;
+    bool end = d.stop || j->info.output_tokens >= j->output_limit;
     if (end)
       j->info.finish = d.stop ? LIE_FINISH_STOP : LIE_FINISH_LENGTH;
     pthread_mutex_unlock(&j->gate);
@@ -1281,7 +1289,15 @@ int lie_core_submit(lie_core *w, const lie_core_request *request,
       131072};
   if (!j ||
       !lie_core_input_copy_sized(request, &j->request, &j->request_storage,
-                                 &j->request_bytes) ||
+                                 &j->request_bytes))
+    goto prepare_failed;
+  j->automatic_output = !j->request.max_tokens;
+  if (j->automatic_output)
+    j->request.max_tokens = w->options.context - 1 < LIE_CORE_MAX_OUTPUT
+                               ? w->options.context - 1
+                               : LIE_CORE_MAX_OUTPUT;
+  j->output_limit = j->request.max_tokens;
+  if (
       !(j->output_ids =
             calloc(j->request.max_tokens, sizeof(*j->output_ids))) ||
       (j->request.generation.logprobs &&
