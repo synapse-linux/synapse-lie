@@ -18,6 +18,12 @@ No Q2 job, GPU reservation, observer, waiter or restart remains. No .157 cleanup
 occurs. Scale reuse is selected for model validation through core's pending
 native C canonical bench; this selection admits no model run or new GPU window.
 
+The subsequent **CPU-only** `q2-native-curve-host-r1` runs on .157 at
+11:33:18–11:33:48 UTC. Debug and ASan/UBSan each pass 22/22, six commands exit
+zero and seven artifacts verify. It neither acquires GPU leases nor loads a
+model. Core is informed. The native scale curve remains local preparation,
+pending a clean qualified client snapshot and fresh coordinated admission.
+
 Admission at **2026-10-04T11:14:21.008139+00:00** follows core's explicit statement
 that it has no reserved window and fresh original-lease, process, KFD, thermal
 and model-stat checks. The previous counting release is still latest in the

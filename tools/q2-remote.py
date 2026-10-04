@@ -6,6 +6,7 @@ import datetime
 import hashlib
 import json
 from pathlib import Path
+from q2_native_curve import MODES as NATIVE_CURVE_MODES, verify_source as verify_native_curve
 import re
 import shlex
 import subprocess
@@ -21,8 +22,8 @@ WMMA_SIGN_VARIANTS = ('iq2-wmma-reference', 'iq2-wmma-signs')
 EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogue-break', 'iq2-live-stage',
                      'iq2-prefill-scale-reuse', 'iq2-prefill-grid-lds')
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2')
+CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale')
+CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2')
 COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
@@ -67,12 +68,17 @@ def main():
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
+    p.add_argument('--native-curve', action='store_true', help='Use the frozen native C canonical benchmark; no Python curve fallback')
     p.add_argument('--detach', action='store_true', help='Persistent supervisor for Terminal-Bench tasks only')
     p.add_argument('--rebuild-mmq', action='store_true',
                    help='Recompile all MMQ sources for bench2k, decode-baseline or original-baseline; no prior archive reuse')
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
+    if args.native_curve and args.mode not in NATIVE_CURVE_MODES:
+        p.error('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD curve')
+    if args.mode == 'q2-curve-scale' and not args.native_curve:
+        p.error('Scale model comparison requires the native C canonical benchmark')
     if args.mode in MIXED_TILE_MODES or args.source_variant == 'iq2-mixed':
         if args.mode not in MIXED_TILE_MODES or args.source_variant != 'iq2-mixed':
             p.error('IQ2 mixed tiles requires its isolated component mode and source')
@@ -105,6 +111,7 @@ def main():
         expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
                     'q2-curve-iq2': 'curve-iq2-q2',
+                    'q2-curve-scale': 'curve-scale-q2',
                     'q2-curve-iq2-mixed': 'curve-iq2-mixed-q2',
                     'q2-curve-ple-cache-first': 'curve-ple-cache-first-q2',
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
@@ -255,7 +262,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_native_curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline','ud-original-baseline','ud-counting-legacy') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
@@ -335,6 +342,9 @@ def main():
                       for f in (ROOT/source).rglob('*') if f.is_file()}
             if actual != expected:
                 p.error('IQ2 signs provider inventory changed')
+        if args.native_curve:
+            bench_source, _ = verify_native_curve(ROOT)
+            archive.add(bench_source, arcname='native-bench-core')
         if provider_mode in CURVE_MODES:
             curve = __import__('json').loads((ROOT/'config/q2-curve-source.json').read_text())
             key = provider_mode.split('-')[0]
@@ -343,6 +353,15 @@ def main():
                 candidate = json.loads((ROOT/'config/q2-iq2-signs-ordered-asm-source.json').read_text())
                 provider = {'variants': {'q2': {'source': candidate['candidate'],
                                                'files': candidate['files']}}}
+            if provider_mode == 'q2-curve-scale':
+                candidate = json.loads((ROOT/'config/q2-iq2-prefill-scale-reuse-source.json').read_text())
+                decision = json.loads((ROOT/'config/q2-iq2-prefill-reuse-decision.json').read_text())
+                if (file_sha256(ROOT/'config/q2-iq2-signs-ordered-asm-source.json') != candidate['parent_manifest_sha256'] or
+                    file_sha256(ROOT/'config/q2-iq2-prefill-scale-reuse-source.json') != decision['scale']['source_manifest_sha256'] or
+                    file_sha256(ROOT/'config/q2-iq2-prefill-reuse-results.json') != decision['result_sha256'] or
+                    decision['scale']['decision'] != 'prepare_canonical_model_validation'):
+                    p.error('Scale provider or component decision changed')
+                provider = {'variants': {'q2': {'source': candidate['candidate'], 'files': candidate['files']}}}
             if provider_mode == 'q2-curve-iq2-mixed':
                 candidate = json.loads((ROOT/'config/q2-iq2-mixed-model-source.json').read_text())
                 if (file_sha256(ROOT/'config/q2-iq2-signs-ordered-asm-source.json') != candidate['parent_manifest_sha256'] or
@@ -372,7 +391,7 @@ def main():
                 if file_sha256(ROOT/'config/q2-curve-source.json') != provider['parent_manifest_sha256']:
                     p.error('Canonical profile parent changed')
             source = provider['variants'][key]['source']
-            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed') and {
+            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale') and {
                     str(f.relative_to(ROOT/source)) for f in (ROOT/source).rglob('*') if f.is_file()
                     } != set(provider['variants'][key]['files']):
                 p.error('Canonical IQ2 provider inventory changed')
@@ -402,7 +421,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>16000000: raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()
@@ -416,7 +435,7 @@ def main():
         script = '\n'.join(lines)
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'detached': args.detach, 'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:

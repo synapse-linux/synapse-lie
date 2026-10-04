@@ -13,6 +13,7 @@ import sys
 from q2_process import supervise
 from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
 from q2_reuse import verify_sources
+from q2_native_curve import MODES as NATIVE_CURVE_MODES, verify_source as verify_native_curve
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCKS = [
@@ -31,11 +32,17 @@ def main():
     mode = sys.argv[1]
     if mode == 'iq2-signs-check' and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('IQ2 signs requires a full MMQ rebuild')
-    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed')
+    native_curve = '--native-curve' in sys.argv[2:]
+    if native_curve and mode not in NATIVE_CURVE_MODES:
+        raise SystemExit('Native curve requires an uninstrumented canonical mode')
+    if mode == 'q2-curve-scale' and not native_curve:
+        raise SystemExit('Scale model comparison requires the native C canonical benchmark')
+    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale')
     curve_routes = mode == 'q2-curve-routes'
     curve_cache_first = mode == 'q2-curve-ple-cache-first'
     curve_mixed = mode == 'q2-curve-iq2-mixed'
-    curve_iq2 = mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
+    curve_scale = mode == 'q2-curve-scale'
+    curve_iq2 = curve_scale or mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
@@ -208,6 +215,20 @@ def main():
                                      reference_binary_sha256=receipt['binary_sha256_after'])
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
+        if native_curve:
+            bench_source, bench_manifest = verify_native_curve(ROOT, staged=True)
+            bench_build = ROOT/'build/native-bench'
+            run(['cmake', '-S', str(bench_source), '-B', str(bench_build), '-G', 'Ninja',
+                 '-DCMAKE_BUILD_TYPE=Release', '-DBUILD_TESTING=OFF',
+                 '-DLIE_GUFO_RUNTIME=OFF', '-DLIE_LEGACY_PYTHON_TESTS=OFF',
+                 '-DLIE_BUILD_ID=q2-native-canonical-bench'], env)
+            run(['cmake', '--build', str(bench_build), '--parallel', '2',
+                 '--target', 'synapse-lie-bench'], env)
+            bench_binary = bench_build/'synapse-lie-bench'
+            result['native_bench_binary_sha256'] = hashlib.sha256(bench_binary.read_bytes()).hexdigest()
+            result['native_bench_commit'] = bench_manifest['commit']
+            run([str(bench_binary), '--suite', 'http-curve', '--help'], env, 30)
+            save()
         profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
@@ -215,7 +236,7 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -251,11 +272,15 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                     if result['binary_sha256_after']!=result['binary_sha256']:raise RuntimeError('Binary changed')
+                    if native_curve:
+                        result['native_bench_binary_sha256_after'] = hashlib.sha256(bench_binary.read_bytes()).hexdigest()
+                        if result['native_bench_binary_sha256_after'] != result['native_bench_binary_sha256']:
+                            raise RuntimeError('Native benchmark binary changed')
             elif original_mode:
                 binary=build/'cmake/original-baseline/q2_original_baseline'
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()

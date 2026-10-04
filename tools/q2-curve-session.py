@@ -11,6 +11,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from q2_native_curve import client_argv, check_backend
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -22,23 +23,39 @@ def identity(process):
 
 def main():
     binary, model, variant, *flags = sys.argv[1:]
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed']):
+    native_bench = None
+    if flags[:1] == ['--native-bench']:
+        if len(flags) < 2:
+            raise ValueError('Missing native benchmark binary')
+        native_bench, flags = Path(flags[1]), flags[2:]
+        if not native_bench.is_absolute() or not native_bench.is_file():
+            raise ValueError('Native benchmark must be an existing absolute binary')
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale']):
         raise ValueError('Unknown diagnostic flags')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
     cache_first = flags == ['--ple-cache-first']
     routes = flags == ['--profile-routes']
     mixed = flags == ['--iq2-mixed']
+    scale = flags == ['--iq2-scale']
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
-    if (iq2_signs or cache_first or routes or mixed) and variant != 'q2':
+    if (iq2_signs or cache_first or routes or mixed or scale) and variant != 'q2':
         raise ValueError('IQ2 signs requires the Q2 model')
+    if scale and native_bench is None:
+        raise ValueError('Scale model comparison requires the native C canonical benchmark')
+    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale):
+        raise ValueError('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD provider')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
-                   provider_experiment='iq2-mixed-ordered' if mixed else
+                   provider_experiment='iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
+    if native_bench is not None:
+        receipt['client_driver'] = 'synapse-lie-bench-native-C'
+        receipt['client_binary_sha256'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
+        native_variant = 'scale' if scale else 'ordered' if iq2_signs else 'ud'
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
@@ -85,6 +102,10 @@ def main():
                 '--base-url', 'http://127.0.0.1:8000', '--management-url', f'http://127.0.0.1:{management}',
                 '--gufo-source', str(ROOT/'source'), '--output', str(result/'canonical-curve'),
                 '--variant', variant, *flags]
+            if native_bench is not None:
+                check_backend(receipt['backend_ready'], native_variant)
+                argv = client_argv(native_bench, result/'native-curve.jsonl',
+                                   result/'native-curve-graphs', native_variant)
             command = dict(argv=argv, started_ns=time.monotonic_ns())
             receipt['commands'].append(command)
             with (result/'curve-client.log').open('xb') as client_log:
@@ -96,6 +117,16 @@ def main():
                 save()
                 if command['exit_code']:
                     raise RuntimeError('Canonical curve client failed; raw evidence retained')
+            if native_bench is not None:
+                with urllib.request.urlopen(f'http://127.0.0.1:{management}/actuator/llm', timeout=5) as response:
+                    payload = response.read(1048577)
+                if len(payload) > 1048576:
+                    raise RuntimeError('Oversized backend metadata')
+                receipt['backend_after'] = json.loads(payload)
+                check_backend(receipt['backend_after'], native_variant)
+                receipt['client_binary_sha256_after'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
+                if receipt['client_binary_sha256_after'] != receipt['client_binary_sha256']:
+                    raise RuntimeError('Native benchmark binary changed')
             receipt['state'] = ('CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK' if routes else
                                 'CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if profile else
                                 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT')

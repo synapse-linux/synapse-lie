@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native canonical model integration prepared — 2026-10-04
+
+The scale candidate now has an explicit native-only model mode and full-MMQ
+build guard. A separately frozen C `synapse-lie-bench --suite http-curve` drives
+the original C17 server, preserving its executor-call timers and numerical
+provider. The wrapper checks backend identity, idle C1, RAM prefix state and
+both binary identities. No Python request-driver fallback is available for
+the new scale mode. Host qualification on .157 passes 22/22 Debug and 22/22
+ASan/UBSan, six zero exits and seven verified artifacts.
+
+The four-arm plan preserves ordered Q2 / scale Q2 / ordered repeat / UD and
+the complete canonical 0–128K workload. Core's clean C-driver commit and its
+qualification receipt are still needed before freezing that source. No model
+run or new GPU window is admitted. [Composition, gates and plan](Q2-NATIVE-SCALE-CURVE.md).
+
 ## DeepSeek prefill reuse GPU comparison complete — 2026-10-04
 
 Four complete component arms finish on .157. Scale reuse saves 1.274–2.745%

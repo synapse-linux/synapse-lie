@@ -1,0 +1,84 @@
+{
+  "schema": "synapse-lie.q2-native-scale-curve-plan.v1",
+  "status": "PREPARED_NOT_GPU_ADMITTED",
+  "host": "q2-native-curve-host-r1",
+  "host_receipt_sha256": "4b1cf45fdd4c12b2a5ab8d5665610f1a89c06c351682684d8b52edceaf295abb",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+    "cmake/curve/CMakeLists.txt": "5933bc4ca2d3d8b4159ed84d1eb731ba3f2dea900da6273dde5ec931b3add2d7",
+    "tools/q2-remote.py": "de182b7406c326e0628a2b252fa05e404236f3eab9e236a9a28d850ad940c7bc",
+    "tools/q2-runner.py": "143e0b49db7e3a68010a89b146cf62e67214d72b18a1df26e331613e29e832ee",
+    "tools/q2-curve-session.py": "f5aae57aea1b42034175268a218884c9ec7d652d8be7430a4ac2c6052bbeeb49",
+    "tools/q2_native_curve.py": "a72a965d82e6895e64af41b38e7b85802becbe8c7d73b524e1c51c43492f614d",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "b2072b1f0bbe953cda622451fea1c0ff47000dc824d628ebccb55ea1c793e7b6"
+  },
+  "native_client": {
+    "source_manifest": "config/q2-native-bench-source.json",
+    "status": "PENDING_CLEAN_CORE_COMMIT_AND_QUALIFICATION",
+    "standalone": true,
+    "embedded_gpu_runtime": false
+  },
+  "server_manifest": "config/q2-curve-source.json",
+  "server_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+  "providers": {
+    "q2-iq2-signs-ordered-asm-source.json": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+    "q2-iq2-prefill-scale-reuse-source.json": "70bf2949b5fdcbed91df0796eb39d5a01da6db0283714bb0eafa17910e1704fe",
+    "q2-iq2-prefill-reuse-decision.json": "c5aba23bf7bb7a8ba4e7df24987028152f995e46979539a14be562ae8920e421"
+  },
+  "arms": [
+    {
+      "label": "q2-native-scale-before-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-native-scale-candidate-r1",
+      "mode": "q2-curve-scale",
+      "source_variant": "curve-scale-q2"
+    },
+    {
+      "label": "q2-native-scale-after-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-native-scale-ud-r1",
+      "mode": "ud-curve",
+      "source_variant": "curve-ud"
+    }
+  ],
+  "native_curve": true,
+  "rebuild_mmq": true,
+  "context": 133760,
+  "prefill_chunk": 2048,
+  "depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "new_prompt_tokens": 2048,
+  "output_tokens": 128,
+  "mode": "AR greedy, thinking/MTP/vision/SSD off",
+  "cache_ram_mib": 16384,
+  "prefix_reply_tokens": 8,
+  "warmups": 1,
+  "repetitions": 1,
+  "timing_scope": "synchronous_executor_calls",
+  "driver": "synapse-lie-bench --suite http-curve",
+  "python_role": "Remote process/lease supervision and retained-evidence audit only; never generate or issue curve requests",
+  "history_checks": "All calibration, warmup, prefix and measured Q2 request/response/count histories; independent quality remains separate",
+  "gate": "Freeze qualified native driver; validate capsule composition; fresh coordinated admission and ownership checks; preserve all errors and exit codes",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false
+}

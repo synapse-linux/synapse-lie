@@ -46,6 +46,12 @@ and does not advance. Scale reuse awaits the native C `synapse-lie-bench`
 canonical model comparison; no model PP gain or default promotion is claimed.
 The report includes both references, every sample and a graph.
 
+The [native model comparison integration](docs/Q2-NATIVE-SCALE-CURVE.md) now
+passes 22/22 Debug and ASan/UBSan host checks on .157. It runs the C canonical
+client separately from the unchanged server and rejects a Python fallback for
+the scale experiment. The four complete Q2/control/UD curves await the clean,
+qualified native-client checkpoint and fresh GPU admission.
+
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
 no stable additional PLE gain: at 128K candidate/control PP is 1156.229/1154.364,

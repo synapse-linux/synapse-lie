@@ -14,12 +14,81 @@ import unittest
 from unittest.mock import Mock, patch
 
 path = Path(__file__).resolve().parents[1] / 'tools/q2-remote.py'
+sys.path.insert(0, str(path.parent))
 spec = importlib.util.spec_from_file_location('q2_remote', path)
 remote = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_native_curve_rejects_fallback_and_wrong_provider(self):
+        self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-scale-q2',
+                     '--rebuild-mmq'], 'requires the native C canonical benchmark')
+        for mode in ('cpu', 'q2-counting-iq2', 'q2-curve-routes', 'q2-curve-iq2-mixed'):
+            self.refuse([mode, 'q2-fixture', '--native-curve'], 'Native curve requires')
+        for mode, variant in [('q2-curve-iq2', 'curve-iq2-q2'),
+                              ('q2-curve-scale', 'curve-scale-q2'), ('ud-curve', 'curve-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant, '--native-curve']
+            self.refuse(argv, 'Canonical curve requires a full MMQ rebuild')
+            self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-iq2-q2',
+                     '--native-curve', '--rebuild-mmq'], 'Canonical curve requires its matched')
+
+    def test_native_curve_source_is_complete_and_frozen(self):
+        from q2_native_curve import verify_source, MANIFEST, sha
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'config').mkdir()
+            source = root/'source'
+            files = {}
+            for name in ('tools/native/http_curve.c', 'tools/native/gufo_workload.c',
+                         'tests/test_http_curve_native.c'):
+                p = source/name
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text('fixture')
+                files[name] = sha(p)
+            receipt = dict(schema='synapse-lie.q2-native-bench-source.v1', source='source', files=files)
+            (root/MANIFEST).write_text(json.dumps(receipt))
+            self.assertEqual(verify_source(root)[0], source)
+            extra = source/'unexpected.c'
+            extra.write_text('extra')
+            with self.assertRaisesRegex(ValueError, 'inventory changed'):
+                verify_source(root)
+            extra.unlink()
+            (source/'tools/native/http_curve.c').write_text('changed')
+            with self.assertRaisesRegex(ValueError, 'inventory changed'):
+                verify_source(root)
+
+    def test_native_curve_admission_and_exact_cli(self):
+        from q2_native_curve import check_backend, client_argv
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760, build_id='q2-canonical-curve-iq2-scale-reuse',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'scale')
+        for group, field, value in [('backend','synthetic',True), ('backend','mtp',True),
+                                    ('backend','context_tokens',4096), ('cache','budget_bytes',0),
+                                    ('scheduler','active',1), ('scheduler','max_active',2)]:
+            changed = json.loads(json.dumps(info)); changed[group][field] = value
+            with self.assertRaises(ValueError): check_backend(changed, 'scale')
+        with self.assertRaises(ValueError): check_backend(info, 'ordered')
+        argv = client_argv(Path('/owned/synapse-lie-bench'), Path('/owned/out.jsonl'),
+                           Path('/owned/graphs'), 'scale')
+        self.assertEqual(argv[0], '/owned/synapse-lie-bench')
+        options = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual(options['--suite'], 'http-curve')
+        self.assertEqual(options['--depths'], '0,4096,8192,12288,16384,32768,65536,131072')
+        self.assertEqual([options[k] for k in ('--pp','--tg','--task','--warmups','--repetitions')],
+                         ['2048','128','prose','1','1'])
+        self.assertFalse(any('python' in a.lower() for a in argv))
+
     def test_historical_counting_scope(self):
         for mode, variant in remote.COUNTING_SOURCES.items():
             base = [mode, 'q2-fixture', '--source-variant', variant]
