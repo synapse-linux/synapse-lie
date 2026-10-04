@@ -7,12 +7,19 @@ The acceptance target is **Q2 at least as fast as UD in both prefill and decode
 at every point of the requested context curve**. The
 [canonical comparison contract](docs/Q2-CURVE-PARITY.md) restores Gufo's HTTP
 pp2048/tg128 prose workload and ordered cached-prefix depths from 0 to 128K.
-The latest [four-arm canonical comparison](docs/Q2-IQ2-CANONICAL.md) measures
+The [ordered-IQ2 four-arm comparison](docs/Q2-IQ2-CANONICAL.md) measures
 ordered IQ2 decode **4.055–5.526% above UD at all eight depths**, preserving all
 20 Q2 request/output histories. Prefill remains **7.348–9.299% below UD at0–16K**;
 long-context crossings remain sensitive to UD variability. Whole-curve parity
 and independent model numerical qualification remain open. The complete graph
 and CSV retain the candidate, UD and both unchanged Q2 controls.
+
+The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
+all eight depths and retains both unchanged ordered-Q2 controls. It establishes
+no stable additional PLE gain: at 128K candidate/control PP is 1156.229/1154.364,
+versus UD 1275.705 token/s. Candidate prefill remains below UD at every point.
+All 20 Q2 request/output histories replay exactly; the full graph and 32-row CSV
+preserve short-context variability and UD's low decode observations as measured.
 
 Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
 reference provider on
@@ -72,10 +79,11 @@ values are unchanged. The paired control/candidate host path is now wired,
 with distinct colliding row contents and retained actual read counters.
 The paired suite passes 21/21 Debug and 21/21 ASan/UBSan on `.157`: the original
 reader rereads 120–128 initially resident rows in each collision fixture, while
-the candidate rereads none and preserves every value. Canonical performance
-remains pending. A separate canonical campaign now composes only this reader
+the candidate rereads none and preserves every value. The completed canonical
+campaign composes only this reader
 with measured ordered IQ2 decode, retaining an unchanged control before and after
-the candidate plus pristine UD. The earlier IQ2 comparison remains unchanged.
+the candidate plus pristine UD. It does not establish a stable model gain;
+the PLE candidate is not promoted. The earlier IQ2 comparison remains unchanged.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

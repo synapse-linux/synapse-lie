@@ -13,7 +13,7 @@ the retained experiment history. No sibling DS4 source or artifact is imported.
 
 | Mechanism | DeepSeek implementation | Current Qwen difference and proposed check |
 | --- | --- | --- |
-| Packed integer IQ2 sign expansion in vector decode | `dev_iq2_i8x8_lut`, `ds4_rocm_iq2_gate.hip.hpp:57`: parity completion, multiply/mask to spread sign bits, packed xor/add negation. | Qwen `vec_dot_iq2_xxs_q8_1` still uses packed compare/subtract intrinsics. Adapt just the sign expansion, preserving Q8_1 and every dp4a/FP32 operation. An isolated source candidate is prepared below. |
+| Packed integer IQ2 sign expansion in vector decode | `dev_iq2_i8x8_lut`, `ds4_rocm_iq2_gate.hip.hpp:57`: parity completion, multiply/mask to spread sign bits, packed xor/add negation. | Completed in the ordered Qwen candidate: full-model decode improves 4.446–5.188% against an unchanged order control across all eight canonical depths. This change is retained in the current PLE campaign; it does not improve prefill. |
 | Large row groups followed by smaller tails in one expert map | `ds4_rocm_q2_down_tile_map`, `ds4_rocm_q2_down.hip.hpp:11`, with separate launch spans in `ds4_rocm_moe_launch.hip.hpp:303`. | Qwen gate/up chooses 64 or 128 rows for the whole layer; selected scaled down uses 48. Earlier 64/128 down tests selected one width for the whole cohort. None of the recorded experiments measures a mixed map per expert. Collect canonical routing histograms, then compare full/tail partitions against the existing selector. |
 | Stage the IQ2 codebook once per workgroup | DeepSeek vector gate/up stages 256 eight-byte grid entries plus bounded Q8_K activations in shared memory before reusing them across output rows (`ds4_rocm_iq2_gate.hip.hpp:238`). | Qwen vector dot reads the constant grid. A separate candidate could stage the 2 KiB codebook while retaining Q8_1 activation layout. Test the extra barrier/LDS cost and actual global-cache behavior; do not combine this with the sign change initially. |
 
@@ -54,7 +54,9 @@ An isolated `iq2-signs-check` runner now requires the matching reference or
 candidate inventory and a full MMQ rebuild. It rejects model dispatch and
 detached launch. [GPU component qualification](Q2-IQ2-SIGNS.md) now measures
 41.364% less complete-cycle time with 110 byte-exact output pairs after an
-explicit scale-rounding fix. No whole-model speedup or promotion is established.
+explicit scale-rounding fix. The subsequent
+[canonical comparison](Q2-IQ2-CANONICAL.md) measures 4.446–5.188% full-model decode
+improvement; independent model quality and whole-curve parity remain open.
 
 Both reference and candidate also compile to gfx1151 device assembly with the
 same flags. The fused IQ2 gate/up vector specialization changes from **1036 to
@@ -77,7 +79,8 @@ cannot carry into an adjacent byte; a positive byte is unchanged. IQ2 grid
 magnitudes are 8, 25, 43. This permits the packed operation without dropping any
 weight bits. The original helper also accepts an extra eighth input bit and
 corrects it by parity; explicitly masking to seven bits gives the same signs.
-Actual compiled execution still needs verification.
+The completed device qualification verifies this identity and the retained
+ordered-scale variant; source algebra alone was not the acceptance evidence.
 
 The qualification compares all 256 codebook entries times 128 sign indices on `.157`, then
 the existing IQ2 independent operators and complete byte-exact output replay.

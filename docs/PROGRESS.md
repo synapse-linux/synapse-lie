@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## PLE comparison complete; no stable added gain — 2026-10-04
+
+All four canonical 0–128K curves complete with unchanged source/harness and
+all 20 Q2 histories exact. The repeated unchanged control recovers much of the
+initial prefill deficit, preventing attribution of the first-control increase
+to PLE. Against the repeated control, candidate PP varies from −28.348% to
++23.850%; at 128K the difference is +0.161%. Decode is nearly unchanged except
+the 4K observation. PLE is not promoted. Full [tables, graph and 32-row CSV](Q2-PLE-CANONICAL.md)
+retain every value, including UD's low 32K/128K decode observations. Candidate
+PP remains below UD at all eight depths; full parity is still unmet.
+
+Host checks pass 21/21 Debug and 21/21 ASan/UBSan; all 26 commands exit zero and
+127 artifacts verify. At 03:51:19.663070 UTC, fresh closure confirms 39 owned
+identities and 26 groups retired, empty KFD, four original leases unchanged/free
+and five model stat identities unchanged. Remote/main receipts and registry
+record release. Outgoing message transport fails; persistent handover receipts
+remain available. No Q2 workload, waiter or restart remains.
+
 ## PLE candidate curve complete; order control running — 2026-10-04
 
 The PLE-plus-ordered candidate completes all eight depths at 03:32:03 UTC,

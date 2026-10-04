@@ -1,0 +1,167 @@
+{
+  "schema": "synapse-lie.q2-ple-order-control.v1",
+  "scope": "Three completed canonical Q2 curves; UD pending. Order/cache causality is not isolated.",
+  "source_labels": [
+    "q2-ple-curve-control-r1",
+    "q2-ple-curve-candidate-r1",
+    "q2-ple-curve-control-r2"
+  ],
+  "history_exact": true,
+  "cells": [
+    {
+      "depth": 0,
+      "pp": {
+        "initial_control": 852.9345401209239,
+        "candidate": 1122.5256056647158,
+        "repeated_control": 1223.7772233495061,
+        "candidate_vs_initial_percent": 31.607474297566963,
+        "candidate_vs_repeated_percent": -8.273696858621237,
+        "repeated_vs_initial_percent": 43.47844597499901
+      },
+      "tg": {
+        "initial_control": 26.11373229569153,
+        "candidate": 26.633129796838126,
+        "repeated_control": 26.787057054215733,
+        "candidate_vs_initial_percent": 1.9889822537251467,
+        "candidate_vs_repeated_percent": -0.5746329545125661,
+        "repeated_vs_initial_percent": 2.5784317266486445
+      }
+    },
+    {
+      "depth": 4096,
+      "pp": {
+        "initial_control": 890.5550007060635,
+        "candidate": 958.6574734644913,
+        "repeated_control": 1337.93971606626,
+        "candidate_vs_initial_percent": 7.647194469115748,
+        "candidate_vs_repeated_percent": -28.348231093469167,
+        "repeated_vs_initial_percent": 50.23661817692271
+      },
+      "tg": {
+        "initial_control": 25.853751175778108,
+        "candidate": 26.295032308169,
+        "repeated_control": 26.84273671050424,
+        "candidate_vs_initial_percent": 1.7068359998928084,
+        "candidate_vs_repeated_percent": -2.0404193813848726,
+        "repeated_vs_initial_percent": 3.8253077010066416
+      }
+    },
+    {
+      "depth": 8192,
+      "pp": {
+        "initial_control": 948.9682579278257,
+        "candidate": 1312.0870691492576,
+        "repeated_control": 1059.4144578821033,
+        "candidate_vs_initial_percent": 38.26458979927747,
+        "candidate_vs_repeated_percent": 23.85021361444104,
+        "repeated_vs_initial_percent": 11.638555771659709
+      },
+      "tg": {
+        "initial_control": 26.197419074726504,
+        "candidate": 26.78478017584744,
+        "repeated_control": 26.709098593636234,
+        "candidate_vs_initial_percent": 2.242057125724961,
+        "candidate_vs_repeated_percent": 0.28335505949736994,
+        "repeated_vs_initial_percent": 1.9531676668231857
+      }
+    },
+    {
+      "depth": 12288,
+      "pp": {
+        "initial_control": 988.4017933579529,
+        "candidate": 1305.3374459603697,
+        "repeated_control": 1271.6329627828857,
+        "candidate_vs_initial_percent": 32.065467174606546,
+        "candidate_vs_repeated_percent": 2.6504883220173747,
+        "repeated_vs_initial_percent": 28.655468993302378
+      },
+      "tg": {
+        "initial_control": 26.23408765776888,
+        "candidate": 26.767142013641802,
+        "repeated_control": 26.771026805178064,
+        "candidate_vs_initial_percent": 2.031914975762694,
+        "candidate_vs_repeated_percent": -0.01451117868781493,
+        "repeated_vs_initial_percent": 2.0467231581052348
+      }
+    },
+    {
+      "depth": 16384,
+      "pp": {
+        "initial_control": 991.8494942330373,
+        "candidate": 1293.9746812717424,
+        "repeated_control": 1297.5011467903007,
+        "candidate_vs_initial_percent": 30.460789544721003,
+        "candidate_vs_repeated_percent": -0.2717890097655773,
+        "repeated_vs_initial_percent": 30.81633396341179
+      },
+      "tg": {
+        "initial_control": 22.948343483560755,
+        "candidate": 26.735561652456965,
+        "repeated_control": 26.746073530138187,
+        "candidate_vs_initial_percent": 16.50323114437091,
+        "candidate_vs_repeated_percent": -0.039302507971406,
+        "repeated_vs_initial_percent": 16.549037839258276
+      }
+    },
+    {
+      "depth": 32768,
+      "pp": {
+        "initial_control": 1066.7775694519341,
+        "candidate": 1273.262328516003,
+        "repeated_control": 1234.4966269178456,
+        "candidate_vs_initial_percent": 19.35593369948265,
+        "candidate_vs_repeated_percent": 3.1402031202744762,
+        "repeated_vs_initial_percent": 15.722026996881699
+      },
+      "tg": {
+        "initial_control": 26.43647737913482,
+        "candidate": 26.59795375674606,
+        "repeated_control": 26.588198478553576,
+        "candidate_vs_initial_percent": 0.6108089791822424,
+        "candidate_vs_repeated_percent": 0.03669025639458923,
+        "repeated_vs_initial_percent": 0.5739081544143376
+      }
+    },
+    {
+      "depth": 65536,
+      "pp": {
+        "initial_control": 1035.8983727112247,
+        "candidate": 1164.3878261005518,
+        "repeated_control": 1170.7148832931323,
+        "candidate_vs_initial_percent": 12.40367363962891,
+        "candidate_vs_repeated_percent": -0.5404439016597262,
+        "repeated_vs_initial_percent": 13.014453360811483
+      },
+      "tg": {
+        "initial_control": 26.058511242057463,
+        "candidate": 26.249090222425895,
+        "repeated_control": 26.27981413167017,
+        "candidate_vs_initial_percent": 0.7313502241096836,
+        "candidate_vs_repeated_percent": -0.1169106793919461,
+        "repeated_vs_initial_percent": 0.8492537718560511
+      }
+    },
+    {
+      "depth": 131072,
+      "pp": {
+        "initial_control": 1104.3230518906914,
+        "candidate": 1156.2286636853821,
+        "repeated_control": 1154.3644545023378,
+        "candidate_vs_initial_percent": 4.700219895421376,
+        "candidate_vs_repeated_percent": 0.16149225452788407,
+        "repeated_vs_initial_percent": 4.531409765101935
+      },
+      "tg": {
+        "initial_control": 25.25179239856128,
+        "candidate": 25.654275755830714,
+        "repeated_control": 25.54374737561444,
+        "candidate_vs_initial_percent": 1.5938803508156685,
+        "candidate_vs_repeated_percent": 0.43270229144918293,
+        "repeated_vs_initial_percent": 1.1561752625124155
+      }
+    }
+  ],
+  "attributable_speedup_established": false,
+  "promoted": false,
+  "goal_met": false
+}

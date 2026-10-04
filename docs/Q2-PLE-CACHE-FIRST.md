@@ -66,7 +66,7 @@ not converted into a speedup. Report-parser checks run inside `q2_remote`.
 [Local preparation evidence](../config/q2-ple-cache-first-host-preparation.json)
 verifies 2040 provider files, both C++ syntax checks and five Python AST checks.
 These are source checks, separate from the subsequent runtime evidence below.
-No canonical model arm for this candidate has been admitted or implemented.
+The canonical composition and subsequent completed comparison are recorded below.
 
 ## Paired host results on .157 — 2026-10-04
 
@@ -90,9 +90,8 @@ fixtures. No fixture latency, original-model hit rate, throughput gain or parity
 is inferred. The [verified result](../config/q2-ple-cache-first-host-results.json)
 preserves both configurations and their counts.
 
-Next, measure the same canonical Q2 curve with a distinct provider identity.
-Preserve all
-raw histories, preparation costs, PP/TG counts and durations. A reduced fixture
+The subsequent canonical comparison uses a distinct provider identity and
+preserves all raw histories, preparation costs, PP/TG counts and durations. A reduced fixture
 read count alone is not a full-model speedup or a parity result.
 
 ## Canonical composition with ordered decode
@@ -119,4 +118,8 @@ plots and CSV retain both controls and every PP/TG value. Prior canonical result
 reanalyze identically after adding this separate provider. Local configuration
 verifies the new build identity and complete build graph without executing a
 model. Fresh `.157` admission at 03:11:36 UTC admits the host cohort and these
-four sequential arms. No canonical result is claimed before their completion.
+four sequential arms. The [completed comparison](Q2-PLE-CANONICAL.md) retains
+all 32 observations and finds no stable additional PLE speedup. At 128K PP is
+1156.229 versus 1154.364 for the repeated unchanged Q2 control and 1275.705 for
+UD. All 20 complete Q2 histories match. The PLE candidate is not promoted, and
+the window is verified released at 03:51:19 UTC.

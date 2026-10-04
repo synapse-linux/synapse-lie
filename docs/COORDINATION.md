@@ -6,7 +6,18 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest admission: **2026-10-04T03:11:36.046620+00:00**, Q2 takes a new bounded
+Latest state: **released at 2026-10-04T03:51:19.663070+00:00**. All five PLE
+canonical cohorts complete, with 26 command exits zero and 127 artifacts verified.
+Fresh closure checks 39 owned identities and 26 groups retired, empty KFD, four
+original lease identities EX|NB/free and five model stat identities unchanged.
+Remote/main `run/q2-ple-curve-window-release.json` and the shared registry record
+release; SHA256 `83536aa9691a7607234f29a8a39b775123aa408617881f8cccc6f00fdefd7c9b`.
+No Q2 workload, waiter, reservation or restart remains. Core may freshly admit
+its next window. Outgoing MCP transport fails and delivery is not claimed;
+ready/active receipts also record release. PLE does not establish a stable
+additional model gain, and full Q2/UD parity remains unmet.
+
+Previous admission: **2026-10-04T03:11:36.046620+00:00**, Q2 takes a new bounded
 canonical PLE window. Read-only observation at 03:10:50 finds the preceding
 release still latest; no core admission intervenes. Fresh checks verify its
 15 recorded processes and 12 groups retired, empty KFD and four original lease
