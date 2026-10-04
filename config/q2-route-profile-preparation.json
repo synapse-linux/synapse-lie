@@ -42,6 +42,13 @@
     "CMakeLists.txt": "3007efcdf22e78a31fd23ea8a5ade863e8651b9470e58788a6feddf4a1922033",
     "cmake/curve/CMakeLists.txt": "4263498697e9e97b5f72640d33bcfdbdf222e5aca342450fe4a6ef558b2b54ca"
   },
-  "runtime_tests_executed": false,
-  "goal_met": false
+  "runtime_tests_executed": true,
+  "goal_met": false,
+  "retained_ple_reanalysis_exact": true,
+  "host_result": "config/q2-route-profile-host-results.json",
+  "host_debug_tests": 20,
+  "host_sanitizer_tests": 20,
+  "model_state": "CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK",
+  "result": "config/q2-route-profile-results.json",
+  "histories_exact": true
 }

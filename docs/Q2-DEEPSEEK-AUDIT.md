@@ -24,6 +24,14 @@ our prior global tile 128 trial regressed every tested distribution, while 64
 helped only the most shared synthetic routing. Start from the existing gate/up
 64/128 specializations and real canonical histograms; do not force 128 down.
 
+The follow-up [canonical routing profile](Q2-ROUTE-PROFILE.md) now records those
+counts with unchanged numerical kernels. Inspection also confirms that Qwen
+already omits empty WMMA fragments but still executes their paired epilogue
+stores/barriers. A separate [live-epilogue candidate](Q2-IQ2-LIVE-EPILOGUE.md)
+adds only a uniform guard, with unchanged VGPR/LDS and zero scratch in device
+assembly. It remains unmeasured; neither reserved padding nor static compilation
+is a model performance result.
+
 The codebook experiment is distinct from the earlier Q2 affine-palette LDS
 staging, packed-weight staging and register code-byte reuse. Those concern
 Q2_K down and have retained negative results. A constant table may already be

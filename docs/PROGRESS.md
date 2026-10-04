@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Routing measured; empty epilogue work identified — 2026-10-04
+
+The full canonical profile completes with 1385 Forward spans, 7248 routing
+observations and all 20 Q2 histories exact against the unchanged ordered
+control. The accepted large calls use 128-row gate/up tiles in 42–46 of 48 layers.
+Their paired epilogues visit 48.612–50.855% wholly empty 16-row fragments, although
+the matrix loop already skips the corresponding WMMA work. A hypothetical
+mixed 128/64 map reduces reservation 26.766–29.441% and tile count 1.417–4.383%;
+these are geometry counts, with extra launch cost still unmeasured.
+
+The isolated epilogue guard retains live arithmetic and barriers. Device
+assembly keeps VGPR/LDS unchanged and scratch zero, with 23/51 additional static
+instructions at 64/128. Actual canonical count vectors are saved for its next
+component comparison; no runtime wiring, GPU qualification or speedup is claimed.
+The activation staging loop also writes zeros for wholly unused fragments on
+every K stage; that distinct opportunity is recorded without combining patches.
+See [routing evidence](Q2-ROUTE-PROFILE.md) and
+[prepared candidate](Q2-IQ2-LIVE-EPILOGUE.md).
+
+Host 20/20 Debug and ASan/UBSan pass. All 11 commands exit zero and 37 artifacts
+verify. Fresh release at 04:21:50.647379 UTC confirms 15 processes/11 groups
+retired, KFD empty, four original leases free and five model stats unchanged.
+Main/remote receipts and registry record release; core has requested the next
+window. Q2 has no job, waiter or restart. Full canonical PP/TG parity remains open.
+
 ## Canonical routing diagnostic prepared — 2026-10-04
 
 The next profile retains ordered IQ2 decode and the original PLE reader. It

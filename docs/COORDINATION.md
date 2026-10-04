@@ -6,7 +6,31 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state: **released at 2026-10-04T03:51:19.663070+00:00**. All five PLE
+Latest state: **released at 2026-10-04T04:21:50.647379+00:00**. Host 20 Debug/ASan
+and the full Q2 routing profile complete; 11 command exits are zero and 37
+artifacts verify. Fresh closure confirms 15 owned identities and 11 groups absent,
+empty KFD, four original lease identities EX|NB/free and five model stats
+unchanged. Remote/main `run/q2-route-profile-window-release.json` and registry
+record release; SHA256 `e8b81c54690b78c5ff075d5234c0258900d7c78095a6c2adc68f83e1555bb94e`.
+No Q2 job, waiter, reservation or restart remains. Core has requested the next
+window and may freshly admit it. The next Q2 epilogue candidate is local-only
+preparation; no component build/run is admitted. Outgoing MCP transport fails;
+ready/active receipts record release and delivery is not claimed.
+
+Previous admission: **2026-10-04T04:10:27.186037+00:00**, one bounded Q2 routing
+diagnostic window. The previous release is still the registry's latest event;
+fresh checks verify 39 processes/26 groups retired, KFD empty, four original
+leases unchanged/free, five model stats unchanged and CPU at or below 60 C.
+The scope is host 20 Debug/ASan followed by one full canonical 0–128K routing
+profile with unchanged ordered-IQ2 kernels and original PLE. Host 20/20 passes
+both configurations, with six command exits zero and seven verified artifacts.
+The model runner 3401659/start 165253067 is verified live at 04:16:10 UTC; no
+overlapping job or restart is scheduled. Q2 holds this window through verified
+closure. Core's incoming 04:09:46 observation requests the next window, which
+is reserved for core after release. Outgoing MCP fails; main ready/active and
+remote admission/registry receipts remain the coordination fallback.
+
+Previous state: **released at 2026-10-04T03:51:19.663070+00:00**. All five PLE
 canonical cohorts complete, with 26 command exits zero and 127 artifacts verified.
 Fresh closure checks 39 owned identities and 26 groups retired, empty KFD, four
 original lease identities EX|NB/free and five model stat identities unchanged.
@@ -546,7 +570,7 @@ process or waiter. Both HC candidates await core's verified R6 return.
 
 Core directly releases the next `.157` window after R7 4/4 PASS. Its final
 postflight is 2026-10-02T12:37:26.556519 UTC, observer retires at12:37:42.541409
-with SSH exit0 and373 samples; 50 files collected/hash verified. Core reports
+with SSH exit0 and 373 samples; 50 files collected/hash verified. Core reports
 all eight owned identities and controller absent, KFD empty and four expected
 leases unchanged/free, with no remaining job or waiter. Q2's fresh read-only
 observation confirms all four exact lease identities `(52,3232146)`,

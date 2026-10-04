@@ -21,10 +21,13 @@ versus UD 1275.705 token/s. Candidate prefill remains below UD at every point.
 All 20 Q2 request/output histories replay exactly; the full graph and 32-row CSV
 preserve short-context variability and UD's low decode observations as measured.
 
-The next [canonical routing diagnostic](docs/Q2-ROUTE-PROFILE.md) records
-existing host expert counts before considering mixed tile widths. It changes
-no numerical kernel or routing decision. Reserved padding is not interpreted
-as executed WMMA work: the current kernel already skips empty fragments.
+The completed [canonical routing diagnostic](docs/Q2-ROUTE-PROFILE.md) records
+7248 layer-count observations, preserving all 20 Q2 histories. On the accepted
+large prefill calls, 48.612–50.855% of paired epilogue fragments are empty; the
+matrix loop already skips their WMMA work. A separate
+[uniform epilogue guard](docs/Q2-IQ2-LIVE-EPILOGUE.md) is prepared with unchanged
+VGPR/LDS and zero scratch in device assembly. Its GPU performance is unmeasured;
+the fragment percentage is not an inference speedup.
 
 Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
 reference provider on
