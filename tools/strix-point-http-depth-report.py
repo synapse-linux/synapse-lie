@@ -58,11 +58,19 @@ def checked_run(mode, size, impl):
                 phase['prefill_tokens'] != row['prompt_tokens'] or
                 phase['prefill_ms'] <= 0 or phase['decode_ms'] <= 0):
             raise ValueError(f'Physical prefill/output drift: {label}')
+    telemetry = [json.loads(line) for line in (path/'telemetry.jsonl').read_text().splitlines()]
+    peaks = {'cpu_c': max(t['value_c'] for row in telemetry for t in row['temperatures']
+                          if t['name'] == 'k10temp'),
+             'gpu_c': max(t['value_c'] for row in telemetry for t in row['temperatures']
+                          if t['name'] == 'amdgpu'),
+             'nvme_c': max(t['value_c'] for row in telemetry for t in row['temperatures']
+                           if t['name'] == 'nvme'),
+             'gtt_bytes': max(row['gpu']['mem_info_gtt_used'] for row in telemetry)}
     return {'label': label, 'rows': rows, 'samples': samples,
             'manifest_sha256': sha(path/'manifest.json'),
             'measurements_sha256': sha(path/'measurements.jsonl'),
             'gate_sha256': sha(path/'http-depth-result.json'),
-            'thermal': supervisor.get('thermal_peaks')}
+            'resource_peaks': peaks}
 
 
 def normalized(request, impl):
@@ -149,9 +157,17 @@ def main():
                 comparisons.append({'mode': mode, 'size': size, 'lie': metrics(lie, 'lie'),
                                     'gufo': metrics(gufo, 'gufo'),
                                     'same_assistant_outputs': output_matching,
+                                    'normalized_request_sha256': [hashlib.sha256(
+                                        json.dumps(normalized(row['request'], 'lie'),
+                                                   sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+                                        for row in lie['samples']],
+                                    'assistant_sha256': {impl: [hashlib.sha256(
+                                        row['assistant']['content'].encode()).hexdigest()
+                                        for row in run['samples']]
+                                                         for impl, run in (('lie', lie), ('gufo', gufo))},
                                     'evidence': {impl: {k: run[k] for k in
                                               ('label', 'manifest_sha256', 'measurements_sha256',
-                                               'gate_sha256', 'thermal')}
+                                               'gate_sha256', 'resource_peaks')}
                                                  for impl, run in (('lie', lie), ('gufo', gufo))}})
             except (FileNotFoundError, KeyError, ValueError, TypeError) as error:
                 missing.append({'mode': mode, 'size': size, 'reason': str(error)})

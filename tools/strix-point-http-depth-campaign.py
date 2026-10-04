@@ -20,8 +20,10 @@ def sha(path):
 
 
 def rows():
-    revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
-                                       text=True).strip()
+    first = EVIDENCE/'point-http-depth-r2-ar-p8192-lie-manifest.json'
+    revision = (json.loads(first.read_text())['runner_commit'] if first.exists() else
+                subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                                        text=True).strip())
     helper_sha = sha(ROOT/'tools/strix-point-http-depth-gate.py')
     for mode in MODES:
         for index, size in enumerate(SIZES):
