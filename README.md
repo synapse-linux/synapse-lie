@@ -24,6 +24,10 @@ cover HTTP, RAM/SSD checkpoints and reactive cancellation. The integrated
 sampler/vision runtime passes the recorded GPU functional checks; quality and
 performance gates remain open.
 
+The [original-weight OpenAI control gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-http-ar-and-mtp-gates)
+pass 34 checks in both AR and MTP on Strix Point, including tools and retained
+Responses lifecycle. The receipts identify the tested runtime and limits.
+
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)
 

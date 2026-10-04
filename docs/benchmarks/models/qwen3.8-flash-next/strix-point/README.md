@@ -303,6 +303,21 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
+The later frozen r11 runtime (`abb69d5`) passes **34/34 checks in both AR and
+MTP**, including incremental function arguments/results/replay, allowed tools,
+2/8 choices, seeded replay, probabilities/bias, stops, constrained JSON and
+retained/background Responses lifecycle. These are functional wire/lifetime
+checks, separate from the served throughput comparisons above.
+The [AR receipt and retained failures](../../../../development/validation/openai-controls-point-gpu-2026-10-04.json)
+and [new MTP receipt](../../../../development/validation/openai-controls-mtp-point-gpu-2026-10-04.json)
+bind the original weights, predictor, source/binaries, exact checks and closure.
+The MTP window verifies fifteen artifacts and releases at 22:22:10.325729 UTC;
+server/client/controller/supervisor exits are 0, CPU/GPU/NVMe maxima are
+61.5/66/66.85 C, models are unchanged and the named router/lease are restored.
+Terminal Bench task evaluation and qualification of later sampling-filter,
+fixed-EOS and steering changes remain pending. The earlier short gates below
+retain their original methods and results.
+
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
 enabled. Both use the original UD shards, 16,384-token configured context,

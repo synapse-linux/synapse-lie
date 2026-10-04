@@ -2,11 +2,38 @@
 # Development progress
 
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) is this thread's
-owned queue: OpenAI MTP controls, Terminal Bench, full 1M acceptance, requested
+owned queue: completed r11 OpenAI AR/MTP controls, Terminal Bench, full 1M acceptance, requested
 benchmark methods, DS4 directional steering and sampling temperatures, and the
 identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
+
+## Original-weight OpenAI MTP controls completed — 2026-10-04 UTC
+
+After the unrelated training process retires, fresh `.161` inspection verifies
+the original boot/FS/lease, sole authorized router, temperatures and memory.
+The separately admitted `context-r11-openai-controls-mtp-r3` window runs the
+frozen `abb69d5` server with the original UD weights and explicit Q8 predictor.
+All 34 checks pass, matching the earlier AR set: both JSON/SSE APIs, function
+arguments/results/replay, allowed tools, 2/8 choices, seeded replay,
+probabilities/bias, stop strings, constrained JSON, storage, disconnected
+background jobs, cursor/input pagination, cancellation, deletion and truncation.
+
+Server/client/controller/supervisor exits are 0; collection exits 0 and verifies
+all fifteen artifacts. Original model/predictor stats stay unchanged. Owned
+processes and KFD clients retire, router PID23248 is restored and the original
+lease is free at 22:22:10.325729 UTC. The subsequently stopped Distrobox init's
+exit 143 is preserved separately from the successful inference child. Across
+97 samples, CPU/GPU/NVMe maxima are 61.5/66/66.85 C, maximum GTT is 87.775 GiB
+and minimum available RAM is 25.289 GiB. CPU98/NVMe85 guards remain active;
+GPU temperature is observed only.
+[Validation receipt](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
+
+Roadmap item 1 is complete for this runtime and these wire/lifecycle paths.
+The earlier foreign-client refusal and all old receipts remain unchanged.
+This is not task evaluation, independent numerical quality or performance,
+nor GPU qualification of the later top-k/min-p, fixed-EOS or steering increments.
+Root retains no GPU job, waiter or reservation on `.161` or `.157` at closure.
 
 ## Owned C17 steering policy/history implemented — 2026-10-04 UTC
 

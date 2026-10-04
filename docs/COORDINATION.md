@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## OpenAI MTP controls released — 2026-10-04 UTC
+
+Read-only inspection at 22:19:44 UTC finds the unrelated training process gone,
+only router PID20206/start1101436 holding KFD/renderD128, the original boot/FS
+identity and private lease free. Point confirms no job, waiter or reservation.
+Fresh in-lease admission at 22:20:32.928068 UTC verifies empty actual/kernel
+GPU client lists after stopping only the authorized router.
+
+The frozen r11 original-weight MTP window passes the same 34 OpenAI checks as
+AR and releases at 22:22:10.325729 UTC. Server/client/controller/supervisor exits
+are 0; collection exits 0 and fifteen artifacts hash-verify. Model/predictor
+stats stay unchanged, all owned processes retire, router PID23248 is restored
+and lease dev66307/inode105946405 is free. The owned container init's subsequent
+stop exit 143 is preserved separately. Collection SHA-256 is
+`4a10a330e1973dd221bb56e0afcf031eb760e407788ef34c2f2012a6a1db012b`.
+CPU/GPU/NVMe maxima are 61.5/66/66.85 C under CPU98/NVMe85 and GPU observation.
+
+The earlier refused MTP window remains failed; this new gate qualifies r11
+wire/lifetimes only. Root has no standing GPU lease, job, waiter or reservation
+on `.161` or `.157`. Further work requires fresh admission.
+[Receipt](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
+
 ## OpenAI AR controls released; MTP admission refused — 2026-10-04 UTC
 
 The corrected r11 device-free build passes and releases `.161` at

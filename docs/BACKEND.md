@@ -25,12 +25,15 @@ and new client applications are not queued here. Their architectural boundaries
 do not constitute implementation tasks. GPU qualification in this queue uses
 `.161` with fresh coordination and admission for every run.
 
-1. **Finish OpenAI GPU controls with MTP.**
-   The corrected `abb69d5` AR runtime passes all 34 original-weight checks,
-   including the 21 additional controls. MTP admission refuses an unrelated
-   GPU client before model load; that failure and successful ownership closure
-   are retained in the [GPU receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
-   Require the same 34 checks and exact closure from a new MTP admission.
+1. **Completed: OpenAI GPU controls for the r11 runtime.**
+   The corrected `abb69d5` runtime passes the same 34 original-weight checks
+   in AR and explicit MTP, including tools and 21 additional controls. The new
+   MTP window has server/client/controller/supervisor exits 0, fifteen verified
+   artifacts and complete process/service/lease closure.
+   [AR and retained failures](development/validation/openai-controls-point-gpu-2026-10-04.json) ·
+   [MTP qualification](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
+   This closes these wire/lifecycle checks for r11; later filters, fixed-EOS
+   measurements and steering require their own qualification.
 2. **Run Terminal Bench tasks against the actual server.** Use the pinned
    Terminal Bench Mini smoke task, then Core-19 with unchanged instructions and
    verifiers. Record task rewards, transcripts, truncation and infrastructure
