@@ -315,6 +315,48 @@ These short loopback requests establish functional serving for the tested
 paths. External Pi-agent connectivity, tool-call generation, 128K/256K HTTP
 requests and served performance still need separate Point qualification.
 
+### SSD KV reuse across inference processes
+
+Two more original-weight GPU windows test **process restart**, separately for
+AR and MTP. In each window a cold `synapse-lie-bench --suite core` process
+prefills the same 8,192 physical tokens, writes the opt-in SSD KV state and
+exits. A distinct process then opens the same private SSD directory and
+generates 32 tokens. RAM KV retention is zero; SSD quota and staging are 4 GiB
+and 512 MiB. The hot process restores all 8,192 tokens from SSD, records one
+SSD hit and zero SSD errors, and performs no prefill. Cold/hot physical input
+and output IDs match within each arm; AR and MTP output IDs also match each
+other. MTP accepts 18 drafted tokens in both processes.
+
+| Path | Cold prefill tokens | Hot SSD-cached tokens | Hot prefill tokens | Hot decode tok/s | Hot complete-wall tok/s |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| AR | 8,192 | 8,192 | 0 | 10.262 | 8.226 |
+| MTP | 8,192 | 8,192 | 0 | 12.550 | 9.696 |
+
+Each row is one hot request after one cold request; these rates do not
+establish a stable performance difference. The [collection receipt](charts/rocm10-modern-ssd-restart-collection.json)
+links all four process exit codes, exact identity comparisons, KV file stats,
+temperature and 42/42 remote-file SHA-256 checks. The
+[portable raw archive](data/rocm10-modern-ssd-restart-r3.tar.gz) contains both
+processes' JSONL, logs and telemetry. It excludes the SSD payloads, whose
+retained sizes are 1,068,054,635 bytes for AR and 1,128,102,871 bytes for
+MTP. Sampled CPU/GPU/NVMe peaks are 70.75/71/72.85 C. Both windows restore
+the authorized router and release the private lease; final postflight sees
+only router PID 106168 in KFD and no LIE container.
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-ssd-restart-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz \
+  -C run/point-modern-ssd-restart-r3
+for mode in ar mtp; do
+  (cd "run/point-modern-ssd-restart-r3/point-modern-r3-${mode}-ssd-restart-r1" && \
+   sha256sum -c remote.sha256)
+done
+```
+
+This qualifies normal cross-process persistence on `.161`. Abrupt process
+failure, host reboot and SSD eviction remain separate tests.
+
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
 cover the earlier ROCm 7.2 fresh physical prompts through 258,794 tokens,

@@ -18,6 +18,19 @@ short loopback functional requests inside the container: external Pi-agent
 access, long-context HTTP, tools, and served performance remain untested on
 `.161`.
 
+The separate opt-in SSD restart gate now passes AR and MTP with original
+weights. Each arm starts a cold direct-core process at 8,192 physical prompt
+tokens, persists its KV and exits; a distinct process in the same admitted
+Distrobox reads the same SSD directory. Both hot processes restore all 8,192
+tokens with zero prefill, one SSD hit, zero SSD errors and exact cold/hot
+output IDs. AR and MTP physical/output IDs also match each other; MTP accepts
+18 drafts in both processes. Both windows preserve model identities and
+restore/release service and lease. The [SSD restart report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-kv-reuse-across-inference-processes)
+contains 42/42 remote-file SHA checks, raw archive, telemetry and one-sample
+decode/wall values. Final `.161` postflight finds only the restored router
+PID 106168 in KFD, no LIE container and the private lease free. This qualifies
+cross-process persistence, not crash recovery or statistical performance.
+
 `feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
 vision contracts while retaining explicit `gfx1150` build receipts and HIP
 device admission. The provider build now selects and records one HIP target;

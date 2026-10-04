@@ -5,3 +5,4 @@ fece8576dd701e4fbe255446bc6dbf724e98da26b93296211e2fd9729bf7cc33  docs/benchmark
 6fef10ae01546596474f61d75a5f589833122275a03d99a66789f9320ef1e4b3  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz
 1c1bd8766ee2e3ab3c7044d848dd369a913eb46193d01a9c37c73934137a7c9f  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz
 67d6a42638ec3d272c5cc2067ace3d5f20f0dd040a959e66b8892e59730248c6  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz
+3c6384b063b2713b8bad0b67c7b4108eae1b3132d352e3d633c5ee5d1b510fb4  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz

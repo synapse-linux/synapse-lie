@@ -53,6 +53,15 @@ restored router PID 103651 in KFD, no LIE container and the private lease
 EX|NB free (device 66308/inode 105946405). This closes those windows only;
 no standing GPU ownership follows.
 
+Two subsequent `.161` opt-in SSD restart windows pass AR and MTP with two
+distinct inference processes each. The cold process writes the 8,192-token
+prefix; the hot process reads it from SSD with no prefill, no SSD error and
+identical physical input/output IDs. Both restore only the named router and
+release their private leases; 42/42 remote files hash-verify. Final postflight
+at 02:37:17 UTC finds only router PID 106168 in KFD, no LIE container and
+the private lease EX|NB free (device 66308/inode 105946405). No standing
+GPU ownership follows from these windows.
+
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
 reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full
 samples, child/supervisor exit 0 and unchanged model file identities. Each
