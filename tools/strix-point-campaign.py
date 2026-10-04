@@ -284,7 +284,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') == 'modern-core' and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -639,7 +639,7 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
-        if profile == 'modern-core':
+        if profile in ('modern-core', 'modern-core-ram'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
             raise ValueError('Unknown fixed benchmark profile')
@@ -679,6 +679,8 @@ class Campaign:
     def modern_core_bench(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
             raise ValueError('Modern core benchmark requires ROCm 10 Distrobox')
+        profile = self.m.get('bench_profile')
+        ram_cache = profile == 'modern-core-ram'
         mode = self.m.get('decode_mode')
         if mode not in ('ar', 'mtp'):
             raise ValueError('Modern core benchmark mode must be ar or mtp')
@@ -693,6 +695,9 @@ class Campaign:
                 settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
                 settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
             raise ValueError('Invalid bounded modern core settings')
+        if ram_cache and (settings['users'] != 1 or settings['warmups'] != 1 or
+                          settings['repetitions'] != 1):
+            raise ValueError('Modern RAM cache gate requires C1, one warmup and one measured run')
         tokens = checked_path(self.root/'tokens.json')
         if sha(tokens) != self.m.get('tokens_sha256'):
             raise ValueError('Physical prompt token file drift')
@@ -712,7 +717,8 @@ class Campaign:
         command = ['/bundle/runtime/bin/synapse-lie-bench', '--suite', 'core',
                    '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
                    '--tokens-file', '/work/tokens.json', '--output', '/work/measurements.jsonl',
-                   '--kv-cache-ram-mb', '0', '--timeout-ms', '3600000']
+                   '--kv-cache-ram-mb', '4096' if ram_cache else '0',
+                   '--kv-cache-policy', 'ds4', '--timeout-ms', '3600000']
         for key in ('context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'):
             command.extend(('--'+key, str(settings[key])))
         if predictor:
@@ -729,7 +735,7 @@ class Campaign:
             if (identity.get('schema') != 'synapse-lie.core-bench.v1' or
                     identity.get('mode') != mode or identity.get('synthetic') or
                     identity.get('build_id') != self.m.get('runtime_build_id') or
-                    identity.get('cache_policy') != 'off'):
+                identity.get('cache_policy') != ('ram' if ram_cache else 'off')):
                 raise RuntimeError('Unexpected modern core benchmark identity')
             jobs = [row for row in measurements if row.get('event') == 'job']
             samples = [row for row in measurements if row.get('event') == 'sample']
@@ -743,9 +749,15 @@ class Campaign:
             if ((mode == 'mtp' and (drafted <= 0 or accepted <= 0)) or
                     (mode == 'ar' and (drafted or accepted))):
                 raise RuntimeError('Modern core decode mode did not execute as requested')
-            self.r['bench_result'] = {'profile': 'modern-core', 'mode': mode,
+            if ram_cache and (any(row.get('cached_tokens', 0) for row in jobs if row.get('warmup')) or
+                              not any(row.get('cached_tokens', 0) > 0 for row in jobs if not row.get('warmup')) or
+                              not any(row.get('cache_hits', 0) > 0 for row in samples if not row.get('warmup'))):
+                raise RuntimeError('Modern RAM cache gate did not restore a measured prefix')
+            self.r['bench_result'] = {'profile': profile, 'mode': mode,
                                       'jobs': len(jobs), 'samples': len(samples),
                                       'drafted': drafted, 'accepted': accepted,
+                                      'measured_cached_tokens': sum(row.get('cached_tokens', 0) for row in jobs if not row.get('warmup')),
+                                      'measured_cache_hits': sum(row.get('cache_hits', 0) for row in samples if not row.get('warmup')),
                                       'measurements_sha256': sha(self.root/'measurements.jsonl')}
         finally:
             if (self.root/'measurements.jsonl').exists():
