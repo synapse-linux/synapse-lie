@@ -21,7 +21,11 @@ replay and curve options. Local launch tests pass79/79; replay guards7/7 and
 the existing trace/resource parser pass. On `.157`, 24/24 Debug and24/24
 ASan/UBSan CPU tests pass; all six commands exit0 and seven artifacts verify.
 The frozen source/runtime contracts are retained before fresh GPU admission.
+The first admission helper incorrectly named its own nonexistent release as
+the previous receipt and exited1 before admission. Its source/log remain;
+v2 corrects only that previous path and retains the same runtime/host fixtures.
 
 [Frozen diagnostic plan](../config/q2-fixed-moe-profile-plan.json),
+[corrected window binding](../config/q2-fixed-moe-profile-plan-v2.json),
 [saved binary identity](../config/q2-fixed-moe-profile-binary.json),
 [host results](../config/q2-fixed-moe-profile-host-results.json).
