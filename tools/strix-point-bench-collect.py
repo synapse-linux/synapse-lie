@@ -20,13 +20,21 @@ FILES = {
                        'measurements.jsonl', 'telemetry.jsonl', 'stdout.log',
                        'stderr.log', 'distrobox-create.log',
                        'distrobox.stdout.log', 'distrobox.stderr.log'),
+    'http-multi': ('manifest.json', 'runner.py', 'http-multi-gate.py',
+                   'corpus.jsonl', 'result.json', 'telemetry.jsonl'),
     'diagnostic': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                    'stdout.log', 'stderr.log'),
     'image-build': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                     'image-build.log'),
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
-OPTIONAL = {'distrobox-bench': ('tokens.json', 'image.png', 'prompt.txt')}
+OPTIONAL = {
+    'distrobox-bench': ('tokens.json', 'image.png', 'prompt.txt'),
+    'http-multi': ('http-multi-result.json', 'measurements.jsonl', 'server.log',
+                   'client.stdout.log', 'client.stderr.log', 'stdout.log',
+                   'stderr.log', 'distrobox-create.log',
+                   'distrobox.stdout.log', 'distrobox.stderr.log'),
+}
 
 
 def sha(path):

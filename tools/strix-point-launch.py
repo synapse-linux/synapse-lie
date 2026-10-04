@@ -33,6 +33,17 @@ def main():
     if manifest['action'] == 'download': files['download.py'] = (ROOT/'tools/strix-point-download.py').read_bytes()
     if tokens is not None:
         files['tokens.json'] = tokens
+    if manifest.get('bench_profile') == 'modern-http-multi':
+        case = manifest.get('http_case')
+        if case not in ('prose', 'repetition'):
+            parser.error('Prepared HTTP corpus must be prose or repetition')
+        helper = (ROOT/'tools/strix-point-http-multi-gate.py').read_bytes()
+        corpus = (ROOT/'config/bench/gufo-qwen38'/f'{case}.jsonl').read_bytes()
+        if (hashlib.sha256(helper).hexdigest() != manifest.get('http_multi_gate_sha256') or
+                hashlib.sha256(corpus).hexdigest() != manifest.get('corpus_sha256')):
+            parser.error('Prepared HTTP helper or corpus SHA-256 differs from manifest')
+        files['http-multi-gate.py'] = helper
+        files['corpus.jsonl'] = corpus
     for name, data in files.items(): (out/name).write_bytes(data)
     encoded = {name: base64.b64encode(data).decode() for name, data in files.items()}
     program = '''import base64,os,pathlib,sys
