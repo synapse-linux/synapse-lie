@@ -29,8 +29,9 @@ performance gates remain open.
   probabilities and constrained JSON output.
 - Stored Responses, conversation continuation and cancellable background jobs;
   history and resource limits live in the shared C core.
-- Function calls and tool results through the standard OpenAI protocol; Pi can
-  connect directly over HTTP.
+- Function calls, incremental arguments and tool results through the standard
+  OpenAI protocol; [agent clients](docs/guides/AGENT-CLIENTS.md) can connect
+  directly over HTTP.
 - Shared C17 [output events](docs/reference/EVENTS.md) for HTTP and direct clients:
   text, incremental function arguments, validated tool calls and typed turn
   completion, with output credits and cancellation.

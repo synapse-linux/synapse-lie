@@ -233,5 +233,6 @@
     "tests/fake_executor.c": "adc1a8cd448182471b49489bae909f36f3cdcf6b2bf5ac6d7611528a26c40e21",
     "adapters/gufo.cpp": "909d86b607e5f9f90f15d80da2f1509c1c9e4e910d2bf2350cae9c2c8d36b183",
     "adapters/gufo-state/context-edits.json": "272401d5908e0e4785061756729fc51c913dfe6377e973e15242012209a88ee9"
-  }
+  },
+  "gpu_followup_receipt": "tool-context-point-gpu-2026-10-04.json"
 }

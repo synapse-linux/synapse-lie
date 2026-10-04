@@ -77,5 +77,11 @@ containing its JSON command protocol, rather than native OpenAI function calls.
 Its previous task failures do not establish a missing function API. Validate
 that protocol and the actual task verifier separately from the native function
 round trip. Do not change task instructions to reveal observed verifier failures.
-Full new runtime GPU/evaluation qualification remains separate from CPU wire
-fixtures; the audit is recorded in development progress.
+The corrected runtime passes thirteen original-weight HTTP checks on Strix
+Point, including Chat/Responses functions, incremental argument SSE, correlated
+results, a Chat allowed-tool subset and byte-identical retained Responses replay.
+Both APIs stream five nonempty argument fragments in that short gate.
+[GPU receipt](../development/validation/tool-context-point-gpu-2026-10-04.json).
+This qualifies the native function round trip; a full Terminal Bench task run
+of the exact runtime remains outstanding. The earlier harness audit is recorded
+in development progress.

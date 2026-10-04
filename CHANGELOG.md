@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Strict JSON function frames now stream exact argument fragments once the
+  complete function name is known, including nested and escaped JSON values.
+- Explicit smaller prefill chunks now bound provider scratch allocation while
+  preserving space for admitted decode and MTP rows. The default stays 2,048.
+
 - The Point GPU supervisor recognizes an already observed owned process while
   its `/proc/fd` entry retires before the kernel KFD list, checking PID start
   tick and container cgroup before allowing the short retirement gap.

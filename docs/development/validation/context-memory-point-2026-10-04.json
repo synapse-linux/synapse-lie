@@ -63,6 +63,93 @@
   ],
   "upstream_sources": [
     "https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c",
-    "https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/ttm/ttm_tt.c"
-  ]
+    "https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/ttm/ttm_tt.c",
+    "https://www.gnu.org/software/grub/manual/grub/html_node/Simple-configuration.html"
+  ],
+  "scratch_bound_followup": {
+    "scope": "SOURCE_FORMULA_PLUS_SAMPLED_GTT_BASELINE_NOT_ALLOCATION_EXACT",
+    "source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+    "receipt": "tool-context-point-gpu-2026-10-04.json",
+    "baseline_label": "context-r10-yarn4-chunk256",
+    "baseline_context": 4096,
+    "prefill_chunk": 256,
+    "prefill_capacity": 256,
+    "indexer_select_chunk": 256,
+    "baseline_gtt_peak_bytes": 84109791232,
+    "baseline_available_min_bytes": 35053871104,
+    "baseline_measurements_sha256": "eda19142531f52fdbfa73b08b4ee1de22795099d064ca66d515d3c787274f074",
+    "formula": "same active attention/index formula; scratch = (256 + 256 * 32) * mask_words * 4; subtract 4096-capacity baseline state and scratch before adding the sampled peak.",
+    "estimates": [
+      {
+        "context": 262144,
+        "active_attention_index_bytes": 8254393344,
+        "scratch_growth_bytes": 0,
+        "gtt_peak_estimated_bytes": 92235206656,
+        "available_ram_remaining_estimated_bytes": 26928455680
+      },
+      {
+        "context": 524288,
+        "active_attention_index_bytes": 16508783616,
+        "scratch_growth_bytes": 69206016,
+        "gtt_peak_estimated_bytes": 100558802944,
+        "available_ram_remaining_estimated_bytes": 18604859392
+      },
+      {
+        "context": 1048576,
+        "active_attention_index_bytes": 33017564160,
+        "scratch_growth_bytes": 207618048,
+        "gtt_peak_estimated_bytes": 117205995520,
+        "available_ram_remaining_estimated_bytes": 1957666816
+      }
+    ],
+    "output_ids_identical_to_previous_chunk256": true,
+    "warning": "112 GiB GTT exceeds the estimated 1M peak, but approximately 1.82 GiB remaining RAM is not a memory-fit qualification or a launch admission."
+  },
+  "boot_configuration_plan": {
+    "scope": "READ_ONLY_PREPARATION_NOT_APPLIED",
+    "active_bootloader": "GRUB 2.12-1ubuntu7.3",
+    "active_efi_entry": "0000",
+    "active_efi_file": "EFI/PopOS_disk2/grubx64.efi",
+    "kernelstub_installed_but_not_active": true,
+    "inspection_sha256": "c4fc202404f48c32763525288d86ef7d1bcd11c926bc15512aadb1ec1438f1d2",
+    "grub_config_inspection_sha256": "fbe00e6f23d305829b293db702ca2dc4d3141c65aa3e2689fcc4534b6d8ba7dd",
+    "proposed_file": "/etc/default/grub.d/99-synapse-lie-gtt.cfg",
+    "proposed_content": "# SPDX-License-Identifier: MIT\n# Proposed .161 GRUB configuration. Not installed.\nGRUB_CMDLINE_LINUX_DEFAULT=\"${GRUB_CMDLINE_LINUX_DEFAULT} ttm.pages_limit=29360128\"\n",
+    "proposed_file_sha256": "24e4cb6126daf579d407c5afd27dfd2ab9a99b2fe3f3638771f04204c79dc571",
+    "existing_dropins": [],
+    "actions": [
+      "Fresh maintenance approval, host ownership and configuration identity check",
+      "Back up current GRUB input and generated configuration",
+      "Install only the proposed new file; refuse any existing destination",
+      "Run sudo update-grub; inspect generated normal boot argument and recovery entry",
+      "Scheduled reboot, then verify /proc/cmdline, TTM pages and effective GTT",
+      "Fresh RAM budget and GPU lease before any allocation or inference"
+    ],
+    "rollback": [
+      "Remove only the exact owned proposed file after its identity check",
+      "Run sudo update-grub and schedule reboot",
+      "Verify original boot arguments and effective 96 GiB GTT"
+    ],
+    "reboot_performed": false,
+    "long_context_run_admitted": false
+  },
+  "capacity_512k_followup": {
+    "scope": "MEASURED_512K_CAPACITY_WITH_PP1500_ONLY_PLUS_SOURCE_FORMULA_1M_ESTIMATE",
+    "source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+    "baseline_label": "context-r10-yarn4-capacity512k",
+    "baseline_context": 524288,
+    "physical_prompt_tokens": 1500,
+    "prefill_capacity": 256,
+    "indexer_select_chunk": 256,
+    "measurements_sha256": "bd6dd3be3e4555687afcfcd4f77bd520b31a7b99da213cfb657dc6b7607cf25b",
+    "measured_gtt_peak_bytes": 100587114496,
+    "measured_available_ram_min_bytes": 20025114624,
+    "prior_estimated_512k_gtt_bytes": 100558802944,
+    "measured_minus_estimated_512k_gtt_bytes": 28311552,
+    "estimated_1m_additional_bytes": 16647192576,
+    "estimated_1m_gtt_peak_bytes": 117234307072,
+    "estimated_1m_available_ram_remaining_bytes": 3377922048,
+    "output_ids_identical_to_4096_capacity": true,
+    "warning": "GTT observed at 512K capacity agrees within 0.03 GiB with the source projection. Physical prompt remains 1500 tokens. Host available-RAM minima differ by residency across windows; 1M estimates span approximately 1.82 to 3.15 GiB remaining RAM, not a fresh launch admission."
+  }
 }

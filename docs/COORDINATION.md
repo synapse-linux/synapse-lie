@@ -1,5 +1,33 @@
 # DS4 / synapse-lie coordination
 
+## Function streaming and scratch gates released — 2026-10-04 UTC
+
+Root's corrected `e6f537f` r10 device-free ROCm 10 `gfx1150` build passes and
+releases `.161` at 14:41:56.997958 UTC. A separately admitted original-weight
+HTTP gate passes thirteen checks and releases at 14:48:36.413337 UTC. A fresh
+C1 AR YaRN4 PP1500/TG32 chunk256 gate passes and releases at
+14:54:15.813829 UTC. A separate capacity-524288 gate with the same short
+PP1500/TG32 input releases at 15:18:00.319017 UTC. Collections hash-verify
+six/thirteen/eleven/eleven files, respectively; all owned processes are absent,
+the named router is active and the private lease is free. Original model stat
+witnesses are unchanged.
+
+The HTTP gate produces five argument fragments in each API and exactly equal
+retired Responses replay. The scratch gate preserves the previous chunk256
+output IDs while sampling 78.33 GiB GTT; the enlarged-capacity gate samples
+93.68 GiB and preserves the same short output IDs. Original-weight gate CPU/GPU/NVMe
+maxima are 63/66/67.85 C; the device-free build CPU maximum is 72.125 C.
+CPU98/NVMe85 guards apply, with GPU observed only. The earlier r9 HTTP
+incrementality failure remains exit 1 with successful closure. These short
+gates do not qualify physical 1M, full task evaluation or replicated performance.
+
+No `.157` reservation, standing `.161` ownership, GTT tuning, reboot or
+publication follows. Proposed GTT112 and a physical 1M window still require
+explicit maintenance and fresh host-memory admission. Read-only inspection
+identifies active GRUB, not installed kernelstub, as the boot configuration
+to update; no bootloader option has been written.
+[Receipt](development/validation/tool-context-point-gpu-2026-10-04.json).
+
 ## Context profile integration released — 2026-10-04 UTC
 
 Root's `.161` r7 device-free build refuses pristine source hash drift before

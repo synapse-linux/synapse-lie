@@ -813,6 +813,9 @@ class Campaign:
         if rope not in ('native', 'yarn2', 'yarn4'):
             raise ValueError('Invalid explicit static RoPE profile')
         context_limit = {'native':262144, 'yarn2':524288, 'yarn4':1048576}[rope]
+        timeout_seconds = self.m.get('core_timeout_seconds', 3600)
+        if type(timeout_seconds) is not int or not 1 <= timeout_seconds <= 86400:
+            raise ValueError('Core deadline must be 1..86400 seconds')
         if (type(settings) is not dict or set(settings) !=
                 {'context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'} or
                 any(type(value) is not int for value in settings.values()) or
@@ -849,7 +852,7 @@ class Campaign:
                    '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
                    '--tokens-file', '/work/tokens.json', '--output', '/work/measurements.jsonl',
                    '--kv-cache-ram-mb', '4096' if ram_cache else '0',
-                   '--kv-cache-policy', 'ds4', '--timeout-ms', '3600000']
+                   '--kv-cache-policy', 'ds4', '--timeout-ms', str(timeout_seconds * 1000)]
         if rope != 'native':
             command.extend(('--rope-scaling', rope))
         if reactive_probe:
@@ -865,7 +868,7 @@ class Campaign:
         self.r['bench_command'] = command
         self.record()
         try:
-            self.run_container(command, self.m['bundle'], 3600, model)
+            self.run_container(command, self.m['bundle'], timeout_seconds, model)
             measurements = [json.loads(line) for line in (self.root/'measurements.jsonl').read_text().splitlines()]
             if not measurements or measurements[-1] != {'event': 'complete', 'exit_code': 0}:
                 raise RuntimeError('Incomplete modern core benchmark')

@@ -34,13 +34,15 @@ available GPU-addressable memory:
 build/release/synapse-lie-server \
   --model /models/target-00001-of-00004.gguf --model-id local-model \
   --host 0.0.0.0 --port 8000 --max-active 1 \
-  --context 1048576 --rope-scaling yarn4 --request-timeout-ms 86400000
+  --context 1048576 --rope-scaling yarn4 --prefill-chunk 256 \
+  --kv-cache-ram-mb 0 --request-timeout-ms 86400000
 ```
 
 The one-day timeout is an explicit experiment setting; the ordinary default
 remains ten minutes. Allocation still reserves sequence state for configured
 capacity. Begin with C1; increasing concurrency increases memory requirements.
-RAM prefix retention remains enabled by default and SSD remains opt-in.
+This memory experiment explicitly disables RAM retention. Ordinary RAM prefix
+retention remains enabled by default and SSD remains opt-in.
 
 ## Measure a physical prompt
 
@@ -52,7 +54,7 @@ do not establish long-context quality.
 build/release/synapse-lie-bench --suite core \
   --model /models/target-00001-of-00004.gguf --tokens-file tokens.json \
   --context 1048576 --rope-scaling yarn4 --users 1 --tg 128 \
-  --timeout-ms 86400000 --warmups 0 --repetitions 1 \
+  --chunk 256 --timeout-ms 86400000 --warmups 0 --repetitions 1 \
   --kv-cache-ram-mb 0 --output run-1m.jsonl --graphs graphs-1m
 ```
 
@@ -68,6 +70,8 @@ A shared-core fixture prefills 1,048,575 physical tokens and emits one token;
 neither test loads weights or proves GPU fit, throughput or recall quality.
 Original-weight Strix Point measurements currently qualify native context
 through near 256K. Extended-context GPU tests use fresh coordinated admissions.
+Short original-weight native/YaRN2/YaRN4 gates pass at capacity 4096; they
+qualify profile integration without reaching extended physical positions.
 
 The current provider's sparse WMMA attention path handles mask sizes through
 256K. Larger masks use its existing generic causal-attention fallback;
@@ -89,36 +93,64 @@ ttm.pages_limit=29360128
 
 The upstream [AMDGPU initialization](https://raw.githubusercontent.com/torvalds/linux/master/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c)
 reads the TTM limit when creating its GTT manager. Writing the runtime TTM
-parameter alone does not recreate that manager. This host uses Pop!_OS
-`kernelstub`; the prepared configuration action is
-`sudo kernelstub -a "ttm.pages_limit=29360128"`, followed by a scheduled reboot
-and verification of both the parameter and `mem_info_gtt_total`. Revert with
-`sudo kernelstub -d "ttm.pages_limit=29360128"` and another scheduled reboot.
-These actions have **not** been applied; they change the shared host and require
-an explicit maintenance window under the coordination policy. No old boot
-option needs removal on this inspected host. Other hosts need their own check.
+parameter alone does not recreate that manager. Although Pop!_OS `kernelstub`
+is installed, read-only `efibootmgr` and `bootctl` identify the active bootloader
+as GRUB 2.12, EFI entry `0000` at `EFI/PopOS_disk2/grubx64.efi`. Its actual
+kernel options match `/etc/default/grub`, not the kernelstub configuration.
+Changing kernelstub alone would therefore target the wrong boot configuration.
 
-For the current UD model, C1 AR, PP chunk 2,048 and cache off, a 4K-capacity
-original-weight gate samples a 79.55 GiB GTT peak. The executor has twelve full
-attention layers, each reserving F16 K/V, complete F32 raw index history and
-F16 pooled index rows. Scaling those exact allocation formulas, including mask
-and score scratch growth, gives the following **estimates**, not measured fit:
+The inspected `grub-mkconfig` sources `/etc/default/grub.d/*.cfg`. The prepared
+isolated file `/etc/default/grub.d/99-synapse-lie-gtt.cfg` contains:
 
-| Total context | Active attention/index state | Estimated GTT peak |
-| ---: | ---: | ---: |
-| 262,144 | 7.69 GiB | 87.12 GiB |
-| 524,288 | 15.38 GiB | 94.94 GiB |
-| 1,048,576 | 30.75 GiB | 110.60 GiB |
+```sh
+GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} ttm.pages_limit=29360128"
+```
 
-The 1M estimate leaves only about 0.72 GiB from the minimum available RAM
-observed during that baseline. Raising GTT therefore needs a fresh RAM budget,
-including host buffers and at least the admitted operating-system margin;
-it is insufficient on its own. MTP adds its predictor, draft state and rollback.
+After backing up the original configuration, the maintenance action installs
+only that new file, runs `sudo update-grub`, checks the generated normal boot
+entry and schedules a reboot. The
+[GRUB manual](https://www.gnu.org/software/grub/manual/grub/html_node/Simple-configuration.html)
+describes these kernel arguments and configuration generation. After reboot,
+verify `/proc/cmdline`, `/sys/module/ttm/parameters/pages_limit` and the AMD GPU's
+`mem_info_gtt_total`: the expected values are 29,360,128 pages and
+120,259,084,288 bytes. Rollback removes only this owned file, runs
+`sudo update-grub` and schedules another reboot; recovery entries retain their
+original arguments. These actions have **not** been applied; they change the
+shared host and require explicit maintenance authorization under the coordination
+policy. No existing TTM boot option was found. Other hosts need their own check.
+
+The corrected provider binds scratch allocation to the C17 prefill bound,
+retaining space for admitted decode and MTP rows. For the current UD model,
+C1 AR, PP chunk 256 and cache off, a 4K-capacity original-weight gate samples
+a 78.33 GiB GTT peak, down from 79.55 GiB with the earlier fixed scratch.
+Both chunk256 gates generate the same 32 output token IDs. The executor has
+twelve full attention layers, each reserving F16 K/V, complete F32 raw index
+history and F16 pooled index rows. A separate gate with capacity 524,288
+samples 93.68 GiB GTT, against 93.65 GiB projected, and 18.65 GiB available RAM
+remaining. It uses the same short PP1500/TG32 input and exact output IDs; it
+does not reach physical extended positions. Allocation formulas and these
+sampled baselines give the following budget:
+
+| Total capacity | Active attention/index state | GTT peak | Evidence |
+| ---: | ---: | ---: | --- |
+| 262,144 | 7.69 GiB | 85.90 GiB | Estimated from the 4K baseline. |
+| 524,288 | 15.38 GiB | 93.68 GiB | Measured capacity allocation with PP1500. |
+| 1,048,576 | 30.75 GiB | 109.18 GiB | Estimated from the 512K capacity gate. |
+
+The 1M estimates leave about 1.82 to 3.15 GiB from the minimum available RAM
+observed in the two new windows; host residency differs between them. The
+estimated GTT allocation exceeds the present 96 GiB ceiling. A 112 GiB ceiling
+permits that estimated allocation, but a fresh RAM budget and supervised 1M
+capacity gate are still required before a physical 1M prompt. Host buffers and
+an admitted operating-system margin must fit. MTP adds predictor and draft
+state plus rollback, which this AR estimate does not include.
 Compressed retained KV checkpoints do not replace active GPU attention state.
-A short chunk256 gate at the initial implementation still reserves 2048-row
-scratch: dispatch size alone does not reduce memory. The subsequent adapter
-binds C17 prefill capacity to scratch allocation, retaining all admitted decode
-and MTP rows. Measure its new speed and peak before selecting it for a 1M
-campaign. The
+Smaller chunks trade prefill speed for memory: the single short chunk256 gate
+records 266.94 prefill token/s and 10.52 decode token/s; the earlier chunk2048
+gate records 460.44 and 10.53. These are functional one-sample measurements,
+without warmup, rather than a replicated performance comparison. The ordinary
+chunk2048 default is preserved. The
 [memory receipt](../development/validation/context-memory-point-2026-10-04.json)
-records the formulas, baseline and unmeasured limits.
+preserves both baselines, formulas and unmeasured limits; the
+[GPU receipt](../development/validation/tool-context-point-gpu-2026-10-04.json)
+binds collected measurements, exact outputs, temperatures and closure.

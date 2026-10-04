@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Current integration and remaining gates — 2026-10-04 UTC
+
+| Work | Current result | Remaining work |
+| --- | --- | --- |
+| Strix Point integration | Owner checkpoint `40b2ac7` merged into `develop` as `30598a3`; merge Debug 48/48. | No implicit publication. |
+| OpenAI native functions | Corrected runtime `e6f537f` passes all thirteen original-weight HTTP checks on `.161`. Chat/Responses each stream five argument fragments, accept correlated results, and retained Responses replay byte-identically. | Full task evaluation of this runtime; hosted cloud tools remain outside the local API. |
+| Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens. | Physical extended positions, recall quality and generic attention performance above 256K. |
+| Reduced scratch | C1 chunk256 reserves 256 rows, samples 78.33 GiB GTT and preserves all 32 output IDs against the previous chunk256 gate. A separate 512K capacity gate passes at 93.68 GiB GTT using PP1500 only. | Fresh 1M allocation gate; short prompts do not establish extended-position quality or performance parity. |
+| Physical 1M fit | Updated source-formula estimate is 109.18 GiB GTT. The two new baselines predict about 1.82–3.15 GiB RAM remaining, depending on host residency. | Present GTT is 96 GiB. Proposed 112 GiB GRUB setting, maintenance/reboot and fresh RAM admission have not occurred. |
+
+The active work is isolated in `feature/context-million-openai`. Native Debug
+passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Build, HTTP and reduced
+scratch windows have collected successful closure; there is no standing `.161`
+lease, tuning or publication. Earlier failed gates remain failed evidence.
+[GPU receipt](development/validation/tool-context-point-gpu-2026-10-04.json) ·
+[Context configuration and memory budget](guides/CONTEXT.md).
+
 ## Strict JSON function frames and scratch admission — 2026-10-04 UTC
 
 The first original-weight HTTP gate passes complete strict function output but
@@ -9,16 +26,19 @@ buffered. That exit 1, server exit 0 and successful collected closure remain
 preserved. The shared C17 preview now streams exact JSON argument bytes after
 the complete function name, ignoring nested names and quoted closing tags.
 Independent every-byte prefix oracles and XML/JSON HTTP fixtures pass; Debug
-passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Fresh GPU qualification of
-this correction remains pending. [Receipt](development/validation/tool-json-streaming-2026-10-04.json).
+passes 51/51 and focused ASan/UBSan/LSan passes 4/4. The subsequent r10 GPU
+gate passes, as recorded above; the failed r9 gate is not reclassified.
+[Host receipt](development/validation/tool-json-streaming-2026-10-04.json).
 
 A short original-weight chunk256 gate passes at the prior numerical checkpoint,
 but shows no GTT reduction: scratch still allocated 2048 rows. The new adapter
 passes the existing C17 prefill bound to model creation, retaining a floor for
 admitted decode and MTP rows; indexer score scratch follows that capacity.
 The default 2048 allocation is unchanged. Exact source edits and adapter/engine
-headers verify; new GPU memory/output gates are required. No GTT change or reboot
-has occurred.
+headers verify. The r10 GPU gate samples a 1.21 GiB GTT reduction and exactly
+equal output IDs; PP1500/TG32 records 266.94/10.52 token/s. This single sample
+uses capacity 4096, no warmup, AR and both cache tiers off. It is not physical
+1M or a replicated performance qualification. No GTT change or reboot has occurred.
 
 ## Incremental native functions — 2026-10-04 UTC
 
@@ -34,8 +54,8 @@ Native Debug passes 51/51. Focused ASan/UBSan/LSan covers parser prefixes,
 held/cancelled/abandoned loans, final validation and exact retired HTTP replay;
 the seven-test initial suite and four-test final suite both pass. CLI/client and
 benchmark dependencies stay native C; optional campaign supervision uses Python.
-The GPU HTTP function/result/replay gate is prepared and still needs a new
-binary build and admission. The [agent guide](guides/AGENT-CLIENTS.md) gives
+The corrected GPU HTTP function/result/replay gate subsequently passes all
+thirteen checks under a fresh build and admission. The [agent guide](guides/AGENT-CLIENTS.md) gives
 actual client requests and distinguishes native tools from the audited Terminus
 text command protocol. [Host receipt](development/validation/tool-streaming-2026-10-04.json).
 
@@ -49,11 +69,14 @@ short-profile integration only. The r7 hash refusal, private source-copy mistake
 preserved drift and independently verified restoration remain explicit in the
 [GPU receipt](development/validation/context-point-gpu-2026-10-04.json).
 
-The source-formula estimate for C1 AR capacity 1M is 110.60 GiB GTT at chunk
+The initial source-formula estimate for C1 AR capacity 1M is 110.60 GiB GTT at chunk
 2048. Extending the present 96 GiB ceiling to 112 GiB is technically possible,
 but the observed baseline predicts only 0.72 GiB available RAM left. Host tuning
-and reboot have not occurred. A smaller-chunk memory/throughput check and fresh
-RAM admission precede physical 1M original-weight qualification; the
+and reboot have not occurred. The subsequent measured scratch-bound baseline
+reduces the estimate to 109.16 GiB. The next actual 512K capacity gate samples
+93.68 GiB against the 93.65 projection; rebasing at that gate estimates 109.18
+GiB for 1M and 3.15 GiB remaining RAM. The physical prompt is still only 1500
+tokens. Fresh RAM admission still precedes physical 1M qualification; the
 [context guide](guides/CONTEXT.md#gtt-on-the-point-test-host) records the exact
 proposed boot argument and rollback. Long-context recall and generic attention
 performance above 256K remain open.
