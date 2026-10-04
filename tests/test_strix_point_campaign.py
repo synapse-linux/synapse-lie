@@ -391,6 +391,43 @@ class Tests(unittest.TestCase):
                     write['enabled'] = False
                     with self.assertRaisesRegex(RuntimeError, 'Incomplete original-weight HTTP'):
                         c.bench()
+    def test_modern_ssd_restart_requires_a_cross_process_disk_hit(self):
+        c = self.campaign('modern-ssd-restart')
+        helper = c.root/'ssd-restart-gate.py'; helper.write_bytes(b'fixture restart helper')
+        tokens = c.root/'tokens.json'; tokens.write_text(json.dumps([1]*8192))
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-core-ssd-restart', decode_mode='mtp',
+                   bundle=str(self.base), model_plan={'files':[{'name':'target.gguf'}]},
+                   predictor_plan={'files':[{'name':'mtp.gguf'}]},
+                   ssd_restart_gate_sha256=point.sha(helper), tokens_sha256=point.sha(tokens))
+        write = {'enabled': True}
+        def run(command, _bundle, timeout, _model):
+            self.assertEqual(command[:3], ['/usr/bin/python3','-B','/work/ssd-restart-gate.py'])
+            self.assertIn('/mtp/mtp.gguf', command)
+            self.assertEqual(timeout, 1500)
+            if write['enabled']:
+                (c.root/'ssd-restart-result.json').write_text(json.dumps({
+                    'schema':'synapse-lie.point-ssd-restart.v1','state':'PASSED',
+                    'mode':'mtp','cold_exit_code':0,'hot_exit_code':0,
+                    'hot_cached_tokens':8192,'hot_prefill_tokens':0,
+                    'hot_ssd_cached_tokens':8192,'hot_ssd_hits':1,
+                    'ssd_errors':0,'output_ids_equal':True}))
+        with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+             patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+             patch.object(c, 'check_model_after'), \
+             patch.object(c, 'run_container', side_effect=run):
+            c.bench()
+            self.assertEqual(c.r['ssd_restart_result']['hot_cached_tokens'], 8192)
+            self.assertTrue((c.root/'kv').is_dir())
+            helper.write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError, 'helper or tokens drift'): c.bench()
+            helper.write_bytes(b'fixture restart helper')
+            value = json.loads((c.root/'ssd-restart-result.json').read_text())
+            value['hot_ssd_hits'] = 0
+            (c.root/'ssd-restart-result.json').write_text(json.dumps(value))
+            write['enabled'] = False
+            with self.assertRaisesRegex(RuntimeError, 'Incomplete original-weight SSD restart'):
+                c.bench()
     def test_rocm_stack_identity_is_explicit(self):
         c = self.campaign()
         self.assertEqual(c.image_and_rocm(), (point.IMAGE, point.ROCM))

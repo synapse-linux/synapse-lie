@@ -284,7 +284,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-http') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-http') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -323,7 +323,8 @@ class Campaign:
             deadline = time.monotonic()+timeout
             while self.child.poll() is None:
                 if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
-                                                      (self.root/'http-started.marker').exists()):
+                                                      (self.root/'http-started.marker').exists() or
+                                                      (self.root/'restart-started.marker').exists()):
                     self.r['model_attempted'] = True
                     self.record()
                 self.sample()
@@ -331,7 +332,8 @@ class Campaign:
                 time.sleep(1)
             self.r['child_exit_code'] = self.child.returncode
             if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
-                                                  (self.root/'http-started.marker').exists()):
+                                                  (self.root/'http-started.marker').exists() or
+                                                  (self.root/'restart-started.marker').exists()):
                 self.r['model_attempted'] = True
             # Do not close a GPU window until the kernel has retired its owner.
             self.wait_owned_gpu_retirement()
@@ -643,6 +645,8 @@ class Campaign:
         profile = self.m.get('bench_profile')
         if profile == 'modern-http':
             return self.modern_http_gate()
+        if profile == 'modern-core-ssd-restart':
+            return self.modern_ssd_restart_gate()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
@@ -818,6 +822,51 @@ class Campaign:
         finally:
             if (self.root/'http-result.json').exists():
                 self.r['http_partial'] = {'result_sha256': sha(self.root/'http-result.json')}
+            self.check_model_after(rows)
+    def modern_ssd_restart_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern SSD restart gate requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern SSD restart mode must be ar or mtp')
+        helper = checked_path(self.root/'ssd-restart-gate.py')
+        tokens = checked_path(self.root/'tokens.json')
+        if sha(helper) != self.m.get('ssd_restart_gate_sha256') or sha(tokens) != self.m.get('tokens_sha256'):
+            raise ValueError('Modern SSD restart helper or tokens drift')
+        prompt = json.loads(tokens.read_text())
+        if type(prompt) is not list or len(prompt) != 8192 or any(type(t) is not int or t < 0 or t > 2147483647 for t in prompt):
+            raise ValueError('Expected bounded 8192 physical tokens')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR SSD restart gate must not admit a predictor')
+        (self.root/'kv').mkdir(mode=0o700, exist_ok=True)
+        command = ['/usr/bin/python3', '-B', '/work/ssd-restart-gate.py',
+                   '/bundle/runtime/bin/synapse-lie-bench',
+                   '/model/'+self.m['model_plan']['files'][0]['name'], mode]
+        if predictor:
+            command.append('/mtp/'+predictor.name)
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 1500, model)
+            result = json.loads((self.root/'ssd-restart-result.json').read_text())
+            if (result.get('schema') != 'synapse-lie.point-ssd-restart.v1' or
+                    result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    result.get('cold_exit_code') != 0 or result.get('hot_exit_code') != 0 or
+                    result.get('hot_cached_tokens') != 8192 or result.get('hot_prefill_tokens') != 0 or
+                    result.get('hot_ssd_cached_tokens') != 8192 or result.get('hot_ssd_hits', 0) < 1 or
+                    result.get('ssd_errors') != 0 or not result.get('output_ids_equal')):
+                raise RuntimeError('Incomplete original-weight SSD restart gate')
+            self.r['ssd_restart_result'] = {'mode': mode,
+                                            'result_sha256': sha(self.root/'ssd-restart-result.json'),
+                                            'hot_cached_tokens': result['hot_cached_tokens']}
+        finally:
+            if (self.root/'ssd-restart-result.json').exists():
+                self.r['ssd_restart_partial'] = {'result_sha256': sha(self.root/'ssd-restart-result.json')}
             self.check_model_after(rows)
     def finish(self):
         failures = []
