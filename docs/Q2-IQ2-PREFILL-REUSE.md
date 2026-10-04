@@ -82,6 +82,18 @@ The earlier live-stage candidate is still a third separate prefill hypothesis:
 it avoids repeated stores for empty fragments that WMMA never reads. It has
 static evidence but no GPU qualification and is not included in these patches.
 
+A later [read-only traffic accounting](../config/q2-iq2-live-stage-traffic.json)
+finds 48.61–50.85% of reserved 16-row activation fragments are wholly unread
+in the recorded canonical large-prefill calls. Across the 48 paired gate/up
+layers, their repeated zero stores account for 49.74–54.57 GiB of logical LDS
+traffic: dead fragments × 16 rows × 2560 K × 2 F16 bytes × 10 output blocks.
+Invalid source rows already avoid global loads; this is neither DRAM traffic
+nor a measured latency saving. The 64K sample includes a separate nine-token
+call, whose 48 BN16 tail layers are explicitly excluded. Registers, LDS
+allocation and scratch remain unchanged in the existing static candidate;
+its added predicates may still cost more than the omitted stores. This source
+remains excluded from the native scaled-row model window.
+
 ## Completed GPU comparison — 2026-10-04
 
 The **scale-reuse** candidate is faster on all four recorded routing distributions

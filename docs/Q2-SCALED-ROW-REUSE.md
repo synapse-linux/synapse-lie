@@ -44,6 +44,13 @@ prefill interval; they used the older counting workload and are not a new
 canonical-prose attribution. Even removing that whole phase would not close
 the complete Q2/UD gap.
 
+Combining that historical 1.46% share with the measured approximately 15%
+packing-time reduction suggests only about 0.22% of that older GPU prefill
+interval, if everything else stayed fixed. This is a prioritization estimate,
+not a canonical model measurement or a prediction of cache-dependent HTTP
+latency. The [full-model comparison](Q2-NATIVE-ROW-CURVE.md) retains both
+unchanged controls.
+
 ## Prepared component qualification
 
 The [fixed plan](../config/q2-scaled-row-plan.json) and
@@ -142,3 +149,7 @@ stat tuples unchanged. CPU peaks by arm are 70.375/71.000/66.500 C; GPU peaks
 remains. Remote/main receipts and the shared registry retain closure; core is
 notified. [Release](../config/q2-scaled-row-window-release.json), SHA256
 `2b759f6bbfa049d2c5fca8913773884d4fedc3341d31ccc8255495fe63ad0f34`.
+
+The subsequent [native canonical model comparison](Q2-NATIVE-ROW-CURVE.md)
+is now complete. Its mixed model results do not justify promotion; all component
+gains and independent numerical failures above remain retained unchanged.

@@ -6,6 +6,21 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Latest Q2 window: **released at 2026-10-04T14:00:26.756854+00:00** after
+four complete native canonical 0–128K curves: ordered control, scaled-row input
+reuse, repeated ordered control and pristine UD. All 32 model commands exit
+zero and 68 artifacts verify; both complete Q2 histories match. Host Debug and
+ASan pass 22/22 each. The candidate is not promoted; whole-curve parity remains
+open. Admission at 13:21:19 UTC and checkpoint `1439037` remain retained.
+
+Fresh closure verifies 271 identities and 206 groups retired, KFD empty, four
+original lease inodes free and six original model stat tuples unchanged.
+Remote/main release/active/ready and the registry record closure; core is
+notified. No Q2 job, GPU reservation, observer/waiter, restart or .157 cleanup
+remains. [Release](../config/q2-native-row-window-release.json), SHA256
+`44b0d9b6acf998ceaa451fd9e8635df9328a3e5bb497bf74a93642213f063607`.
+[Admission](../config/q2-native-row-window-admission.json) remains immutable.
+
 Latest Q2 window: **released at 2026-10-04T13:07:56.099871+00:00** after
 three scaled-row GPU components, without an original model. Fresh admission
 at 13:02:29 UTC followed core's explicit no-reservation confirmation and all

@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native scaled-row model comparison complete; no promotion — 2026-10-04
+
+All four native C curves complete 32 points and 80 requests, with 32 zero
+model-command exits and 68 verified artifacts. Both full Q2 history comparisons
+are exact; the unchanged Q2 and UD histories also match the previous native
+campaign. The same 0–128K workload is repeated for this source change.
+
+Row reuse is below the repeated reference at four PP depths. Its depth-zero
+TG is 18.026% lower; the candidate stays isolated. The unchanged depth-zero
+Q2 PP itself changes 849.444→1255.841. File-cache/order observations remain
+separate from patch attribution, and lower UD points are preserved. The report
+exports all PP/TG, physical counts, TTFT/wall, cache timings and the four-arm
+figure. Independent quality and complete Q2/UD parity remain open.
+
+Host Debug/ASan each pass 22/22. Fresh release at 14:00:26 UTC retires 271
+identities/206 groups, verifies KFD empty, four unchanged lease inodes free
+and six unchanged model stats. Main/remote receipts and the registry retain
+closure; core is notified. No Q2 job, reservation, waiter, restart or .157
+cleanup remains. [Results and scope](Q2-NATIVE-ROW-CURVE.md).
+
 ## Native scaled-row model gate prepared — 2026-10-04
 
 The component candidate is wired into a separate native-only model mode with

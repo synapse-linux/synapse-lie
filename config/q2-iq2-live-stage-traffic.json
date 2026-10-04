@@ -1,0 +1,101 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-stage-traffic.v1",
+  "scope": "Read-only accounting over retained canonical routing profiles; no new model/fixture run and no DRAM/latency claim",
+  "routing_sha256": "6e66c53149ed80227194525cc63eab5ba5e7783984ebe4dccb7cfee06bb52f4b",
+  "formula": "(reserved_16_row_fragments-live_16_row_fragments) * 16 tokens * 2560 K * 2 F16 bytes * 10 output blocks. Count across retained paired gate/up layers with BN>16; invalid global inputs already skip loads.",
+  "tail": "The 64K sample has a 2048-token call plus a nine-token call. Its 48 BN16 tail layers are outside this candidate and excluded from the bound.",
+  "rows": [
+    {
+      "depth": 0,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 69122,
+      "reserved_fragments": 140648,
+      "unread_fragments": 71526,
+      "unread_fraction": 0.5085461577839714,
+      "logical_lds_zero_store_bytes": 58594099200
+    },
+    {
+      "depth": 4096,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 68787,
+      "reserved_fragments": 135932,
+      "unread_fragments": 67145,
+      "unread_fraction": 0.49396021540181856,
+      "logical_lds_zero_store_bytes": 55005184000
+    },
+    {
+      "depth": 8192,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 68892,
+      "reserved_fragments": 135440,
+      "unread_fragments": 66548,
+      "unread_fraction": 0.49134672179562905,
+      "logical_lds_zero_store_bytes": 54516121600
+    },
+    {
+      "depth": 12288,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 68709,
+      "reserved_fragments": 133900,
+      "unread_fragments": 65191,
+      "unread_fraction": 0.48686333084391337,
+      "logical_lds_zero_store_bytes": 53404467200
+    },
+    {
+      "depth": 16384,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 68988,
+      "reserved_fragments": 137428,
+      "unread_fragments": 68440,
+      "unread_fraction": 0.4980062287161277,
+      "logical_lds_zero_store_bytes": 56066048000
+    },
+    {
+      "depth": 32768,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 68498,
+      "reserved_fragments": 136604,
+      "unread_fragments": 68106,
+      "unread_fraction": 0.49856519574829433,
+      "logical_lds_zero_store_bytes": 55792435200
+    },
+    {
+      "depth": 65536,
+      "profile_layers": 96,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 48,
+      "live_fragments": 69168,
+      "reserved_fragments": 135432,
+      "unread_fragments": 66264,
+      "unread_fraction": 0.48927875243664715,
+      "logical_lds_zero_store_bytes": 54283468800
+    },
+    {
+      "depth": 131072,
+      "profile_layers": 48,
+      "affected_layers": 48,
+      "excluded_bn16_layers": 0,
+      "live_fragments": 69055,
+      "reserved_fragments": 134380,
+      "unread_fragments": 65325,
+      "unread_fraction": 0.4861214466438458,
+      "logical_lds_zero_store_bytes": 53514240000
+    }
+  ],
+  "model_inference": false,
+  "gpu_admitted": false,
+  "promoted": false,
+  "goal_met": false
+}

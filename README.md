@@ -61,9 +61,13 @@ packing time and 0.4–1.8% less complete pack/down time against the repeated
 control, with identical whole-buffer outputs. Every arm preserves the same
 fifteen numerical rejections and exit 1. This is no new model PP/TG result;
 the candidate remains isolated and the GPU window is released.
-Its [native canonical model gate](docs/Q2-NATIVE-ROW-CURVE.md) is prepared with
-the same frozen client/server and complete 0–128K workload; model results
-remain pending.
+Its [native canonical model comparison](docs/Q2-NATIVE-ROW-CURVE.md) completes
+all four 0–128K curves, with 32 zero model-command exits, 68 verified artifacts
+and exact Q2 request histories. Row reuse is below the repeated control in
+four of eight PP points and its depth-zero TG is 18.026% lower. It is not
+promoted. The unchanged Q2 depth-zero PP itself rises 849.444→1255.841;
+all control variation and UD observations remain in the full graph and CSV.
+The GPU window is released and the complete parity target remains open.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
