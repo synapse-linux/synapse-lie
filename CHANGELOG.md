@@ -56,6 +56,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Optional original-weight output-budget qualification checks model limits and
+  actual generation past 128 tokens with omitted/null limits in JSON and SSE.
+  The server and native benchmark gain no Python dependency.
+
 - The shared C17 steering library prepares bounded scale transactions and
   derives cache identities from retained target history, including steering
   switched off after earlier use. Numerical/provider integration remains pending.

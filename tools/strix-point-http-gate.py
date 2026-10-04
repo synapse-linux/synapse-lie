@@ -222,13 +222,14 @@ def tool_gate(api, result):
 def main():
     args = sys.argv[1:]
     flags = set()
-    while args and args[-1] in ('--tools','--controls'):
+    while args and args[-1] in ('--tools','--controls','--output-budget'):
         flag = args.pop()
         if flag in flags: raise SystemExit('Duplicate HTTP gate flag')
         flags.add(flag)
     check_tools, check_controls = '--tools' in flags, '--controls' in flags
+    check_output = '--output-budget' in flags
     if len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or (len(args) == 4) != (args[2] == 'mtp'):
-        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls]')
+        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget]')
     binary, model, mode = args[:3]
     api, management = port(), port()
     while management == api:
@@ -317,6 +318,12 @@ def main():
                 controls = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(controls)
                 checked = controls.controls_gate(api,MODEL_ID,exchange,events,abandon_response_stream,ROOT)
+                result['passed'].extend(checked['passed'])
+            if check_output:
+                spec = importlib.util.spec_from_file_location('original_output_budget',ROOT/'http-output-budget.py')
+                budget = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(budget)
+                checked = budget.output_budget_gate(api,MODEL_ID,exchange,events,ROOT)
                 result['passed'].extend(checked['passed'])
             result['chat_text'] = text
             result['responses_text'] = response_text

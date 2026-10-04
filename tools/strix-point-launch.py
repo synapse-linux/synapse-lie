@@ -48,6 +48,11 @@ def main():
             if hashlib.sha256(controls).hexdigest() != manifest.get('http_controls_sha256'):
                 parser.error('HTTP controls helper SHA-256 differs from manifest')
             files['http-controls.py'] = controls
+        if manifest.get('http_output_budget_gate', False):
+            budget = (ROOT/'tools/strix-point-output-budget-gate.py').read_bytes()
+            if hashlib.sha256(budget).hexdigest() != manifest.get('http_output_budget_sha256'):
+                parser.error('HTTP output-budget helper SHA-256 differs from manifest')
+            files['http-output-budget.py'] = budget
     if manifest.get('bench_profile') == 'modern-http-multi':
         case = manifest.get('http_case')
         if case not in ('prose', 'repetition'):

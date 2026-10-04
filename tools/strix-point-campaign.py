@@ -77,6 +77,9 @@ HTTP_CONTROL_CHECKS = {
     'responses_input_pagination', 'responses_cancel_after_output',
     'responses_delete', 'responses_truncation', 'unsupported_fields',
 }
+HTTP_OUTPUT_BUDGET_CHECKS = {
+    'models_context_output_limits', 'chat_automatic_output', 'responses_automatic_output',
+}
 
 def validate_core_progress(path, jobs, settings):
     """Stream native stderr; require live and matching retired final observations.
@@ -1239,6 +1242,13 @@ class Campaign:
         helper = checked_path(self.root/'http-gate.py')
         if sha(helper) != self.m.get('http_gate_sha256'):
             raise ValueError('Modern HTTP helper drift')
+        check_output = self.m.get('http_output_budget_gate', False)
+        if type(check_output) is not bool:
+            raise ValueError('HTTP output-budget gate requires a boolean selection')
+        if check_output:
+            budget = checked_path(self.root/'http-output-budget.py')
+            if sha(budget) != self.m.get('http_output_budget_sha256'):
+                raise ValueError('Modern HTTP output-budget helper drift')
         model, rows = self.verified_model()
         predictor = None
         if mode == 'mtp':
@@ -1261,6 +1271,8 @@ class Campaign:
             if sha(controls) != self.m.get('http_controls_sha256'):
                 raise ValueError('Modern HTTP controls helper drift')
             command.append('--controls')
+        if check_output:
+            command.append('--output-budget')
         self.r['bench_command'] = command
         self.record()
         try:
@@ -1280,6 +1292,15 @@ class Campaign:
                         len(checked.get('passed', [])) != len(HTTP_CONTROL_CHECKS)):
                     raise RuntimeError('Incomplete original-weight OpenAI controls')
                 self.r['http_controls_sha256'] = sha(self.root/'http-controls-result.json')
+            if check_output:
+                required |= HTTP_OUTPUT_BUDGET_CHECKS
+                checked = json.loads((self.root/'http-output-budget-result.json').read_text())
+                if (checked.get('schema') != 'synapse-lie.point-output-budget.v1' or
+                        checked.get('state') != 'PASSED' or
+                        set(checked.get('passed', [])) != HTTP_OUTPUT_BUDGET_CHECKS or
+                        len(checked.get('passed', [])) != len(HTTP_OUTPUT_BUDGET_CHECKS)):
+                    raise RuntimeError('Incomplete original-weight automatic output budgets')
+                self.r['http_output_budget_sha256'] = sha(self.root/'http-output-budget-result.json')
             if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
                     result.get('server_exit_code') != 0 or

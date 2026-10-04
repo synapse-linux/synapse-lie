@@ -934,6 +934,41 @@ class Tests(unittest.TestCase):
              patch.object(c,'run_container') as child:
             with self.assertRaisesRegex(ValueError,'boolean selection'): c.bench()
             child.assert_not_called()
+    def test_modern_http_output_budgets_bind_helper_and_exact_receipt(self):
+        c=self.campaign('modern-http-output-budget')
+        helper=c.root/'http-gate.py';helper.write_bytes(b'fixture HTTP helper')
+        budget=c.root/'http-output-budget.py';budget.write_bytes(b'fixture budget helper')
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-http',decode_mode='ar',bundle=str(self.base),
+                   model_plan={'files':[{'name':'target.gguf'}]},http_output_budget_gate=True,
+                   http_gate_sha256=point.sha(helper),http_output_budget_sha256=point.sha(budget))
+        selected=sorted(point.HTTP_OUTPUT_BUDGET_CHECKS)
+        sidecar={'schema':'synapse-lie.point-output-budget.v1','state':'PASSED','passed':selected}
+        result={'schema':'synapse-lie.point-http-original.v1','state':'PASSED','mode':'ar',
+                'server_exit_code':0,'passed':['models','chat_json','chat_sse','responses_json','responses_sse']+selected}
+        def run(command,*_):
+            self.assertEqual(command[-1],'--output-budget')
+            (c.root/'http-result.json').write_text(json.dumps(result))
+            (c.root/'http-output-budget-result.json').write_text(json.dumps(sidecar))
+        with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+             patch.object(c,'check_model_after'),patch.object(c,'run_container',side_effect=run) as child:
+            c.bench()
+            self.assertEqual(c.r['http_output_budget_sha256'],point.sha(c.root/'http-output-budget-result.json'))
+            for invalid in (selected[:-1],selected+[selected[0]]):
+                sidecar['passed']=invalid
+                with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight automatic'):c.bench()
+            budget.write_bytes(b'changed')
+            count=child.call_count
+            with self.assertRaisesRegex(ValueError,'output-budget helper drift'):c.bench()
+            self.assertEqual(child.call_count,count)
+    def test_modern_http_output_budgets_refuse_nonboolean_before_model_access(self):
+        c=self.campaign('modern-http-output-type')
+        helper=c.root/'http-gate.py';helper.write_bytes(b'fixture helper')
+        c.m.update(stack='rocm10-fedora43',transport='distrobox',bench_profile='modern-http',
+                   decode_mode='ar',http_gate_sha256=point.sha(helper),http_output_budget_gate=1)
+        with patch.object(c,'verified_model') as model,patch.object(c,'run_container') as child:
+            with self.assertRaisesRegex(ValueError,'boolean selection'):c.bench()
+            model.assert_not_called();child.assert_not_called()
     def test_modern_http_multi_pins_corpus_mode_and_complete_native_result(self):
         c = self.campaign('modern-http-multi')
         helper = c.root/'http-multi-gate.py'; helper.write_bytes(b'fixture multi helper')

@@ -10,6 +10,13 @@ matrices remain explicitly historical; raw receipts and failures are unchanged.
 
 ## Automatic shared-core output budgets implemented — 2026-10-04 UTC
 
+The subsequent optional GPU protocol requires actual output past 128 tokens
+with omitted JSON and null SSE budgets in both APIs, plus matching advertised
+model limits. Its 58 supervisor and five wire-oracle host tests pass; an initial
+malformed-JSON exception is retained and normalized without weakening rejection.
+This adds no dependency to the product, native graphs or default tests.
+[Protocol receipt](development/validation/automatic-output-gpu-protocol-host-2026-10-04.json).
+
 The pinned Terminal Bench runner omits `max_tokens`; the existing Harbor client
 raises an output-length error on a length-truncated response. LIE previously
 silently selected 128 tokens. Omitted/null HTTP limits now reach the C17 core as
