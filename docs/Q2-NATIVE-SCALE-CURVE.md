@@ -58,14 +58,31 @@ a separate requirement.
 ## Host qualification and current gate
 
 The new Q2 wrapper and admission guards pass 22/22 Debug and 22/22 ASan/UBSan
-on .157, six commands exit zero and seven artifacts verify. The host capsule
+on .157. All three host cohorts each have six zero command exits
+and seven verified artifacts. The final cohort also covers the isolated
+`native-curve-cpu` mode, which builds only the frozen C client and its three
+native contracts, without acquiring GPU leases or loading models. The host capsule
 binds eleven harness files. Tests cover native-only scale admission, wrong
 provider rejection, source inventory tampering and busy/mismatched backend
-rejection. [Host receipt](../config/q2-native-curve-host-results.json).
+rejection. [Initial host receipt](../config/q2-native-curve-host-results.json),
+[current host receipt](../config/q2-native-curve-host-r3-results.json).
 
-The core workstream is still qualifying and committing its native canonical
-driver. Its clean commit and Debug/ASan receipt must be frozen before the
-model campaign. The current plan is **not GPU-admitted**, no model run has
-started and no model performance result is inferred from host tests.
-Fresh ownership, original leases, KFD, model-stat and thermal checks are still
-required. No changes to core ABI, persistent state or metrics contracts occur.
+The prepared analyzer checks source inventories, qualified harness bytes,
+model/lease identities, completed child exits, the C report against its raw
+JSONL and all Q2 request/reply histories. Tracked reports retain semantic
+payload hashes; the complete prompts/replies remain in the verified raw
+artifacts. Every PP/TG value is checked against actual counts and completed
+executor durations. The fresh-admission script includes all three wrapper cohorts
+and the native client conformance cohort in process retirement.
+
+The native C client is frozen from clean core commit
+`b598e4c1e6aba26b0bacd6ad243503009360c869`: all 1287 source files and the
+separate core qualification receipt are preserved. On .157 its three native
+contracts pass in Debug and ASan/UBSan, six commands exit zero and seven
+artifacts verify. [Conformance receipt](../config/q2-native-bench-conformance-results.json).
+The native client and model server have independent frozen source inventories.
+
+The current plan is **not GPU-admitted**. No model performance result is
+inferred from host tests. Fresh ownership, original leases, KFD, model-stat
+and thermal checks remain required. No changes to core ABI, persistent state
+or metrics contracts occur.

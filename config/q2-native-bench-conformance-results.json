@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-native-bench-conformance.v1",
+  "label": "q2-native-bench-conformance-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "tests": {
+    "debug": 3,
+    "asan_ubsan": 3
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 7,
+  "capsule_sha256": "782a4124b17fb92d8a9c40ff801d3f37110c52b10f67dcce8679c61c07620990",
+  "archive_sha256": "99c12fa2c96d63cf1cb30034d475c7fc90ddfc279e43096dd2f7e94e842b9662",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+    "cmake/curve/CMakeLists.txt": "5933bc4ca2d3d8b4159ed84d1eb731ba3f2dea900da6273dde5ec931b3add2d7",
+    "tools/q2-remote.py": "c5ad448922e3a3bba37c57c6af50f1940dd6cef18dff998b0d3b0476d4eb9b17",
+    "tools/q2-runner.py": "2434bad30a8053cec3dc3d3d2dcd8d16dd0b6b940682bbbd53fe878cc78dca42",
+    "tools/q2-curve-session.py": "f5aae57aea1b42034175268a218884c9ec7d652d8be7430a4ac2c6052bbeeb49",
+    "tools/q2_native_curve.py": "a72a965d82e6895e64af41b38e7b85802becbe8c7d73b524e1c51c43492f614d",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "ab54de74fac71e307a49d2839f31a1ec9953fb37015c8fe743f4dfbf4e90ea5c"
+  },
+  "model_inference": false,
+  "started_at": "2026-10-04T11:54:31.136719+00:00",
+  "finished_at": "2026-10-04T11:55:03.868456+00:00",
+  "native_bench_commit": "b598e4c1e6aba26b0bacd6ad243503009360c869",
+  "native_source_files": 1287,
+  "source_manifest_sha256": "4af4e2f0c399a034348fdd22ecc4a1487bbb9a11f07e181d571fd70ce2ab4b53",
+  "core_qualification_sha256": "fc51cad4a1fd5602e08e883b4ead26dad4c266281f1f1e76b82077bdfde4a6aa"
+}

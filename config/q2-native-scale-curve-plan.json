@@ -1,26 +1,30 @@
 {
   "schema": "synapse-lie.q2-native-scale-curve-plan.v1",
   "status": "PREPARED_NOT_GPU_ADMITTED",
-  "host": "q2-native-curve-host-r1",
-  "host_receipt_sha256": "4b1cf45fdd4c12b2a5ab8d5665610f1a89c06c351682684d8b52edceaf295abb",
+  "host": "q2-native-curve-host-r3",
+  "host_receipt_sha256": "e34a6eccf3b1ace9a76f40bc9a2c0c9fa3da3b075bec096c745248a953d672a0",
   "fixtures": {
     "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
     "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
     "cmake/curve/CMakeLists.txt": "5933bc4ca2d3d8b4159ed84d1eb731ba3f2dea900da6273dde5ec931b3add2d7",
-    "tools/q2-remote.py": "de182b7406c326e0628a2b252fa05e404236f3eab9e236a9a28d850ad940c7bc",
-    "tools/q2-runner.py": "143e0b49db7e3a68010a89b146cf62e67214d72b18a1df26e331613e29e832ee",
+    "tools/q2-remote.py": "c5ad448922e3a3bba37c57c6af50f1940dd6cef18dff998b0d3b0476d4eb9b17",
+    "tools/q2-runner.py": "2434bad30a8053cec3dc3d3d2dcd8d16dd0b6b940682bbbd53fe878cc78dca42",
     "tools/q2-curve-session.py": "f5aae57aea1b42034175268a218884c9ec7d652d8be7430a4ac2c6052bbeeb49",
     "tools/q2_native_curve.py": "a72a965d82e6895e64af41b38e7b85802becbe8c7d73b524e1c51c43492f614d",
     "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
     "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
     "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
-    "tests/q2_remote_test.py": "b2072b1f0bbe953cda622451fea1c0ff47000dc824d628ebccb55ea1c793e7b6"
+    "tests/q2_remote_test.py": "ab54de74fac71e307a49d2839f31a1ec9953fb37015c8fe743f4dfbf4e90ea5c"
   },
   "native_client": {
     "source_manifest": "config/q2-native-bench-source.json",
-    "status": "PENDING_CLEAN_CORE_COMMIT_AND_QUALIFICATION",
+    "status": "QUALIFIED_FROZEN_C17_CLIENT",
     "standalone": true,
-    "embedded_gpu_runtime": false
+    "embedded_gpu_runtime": false,
+    "conformance_label": "q2-native-bench-conformance-r1",
+    "commit": "b598e4c1e6aba26b0bacd6ad243503009360c869",
+    "source_manifest_sha256": "4af4e2f0c399a034348fdd22ecc4a1487bbb9a11f07e181d571fd70ce2ab4b53",
+    "conformance_receipt_sha256": "6cc43f6dbdd741d4edb54e0f68eb702dcd9c47e51cc8c649580aa33d9d45d7c4"
   },
   "server_manifest": "config/q2-curve-source.json",
   "server_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",

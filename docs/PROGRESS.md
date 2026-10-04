@@ -1,6 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native C canonical client qualified on .157 — 2026-10-04
+
+Clean core commit `b598e4c` is frozen with 1287 source files and its separate
+core qualification receipt. Its three native benchmark contracts pass on
+.157 in both Debug and ASan/UBSan, with six zero exits and seven verified
+artifacts. The final wrapper cohort r3 passes 22/22 in both configurations;
+its exact harness bytes are bound into the four-arm model plan.
+
+Source/artifact hashes, source capsules and test counts are verified. The
+prepared auditor checks all Q2 request/reply/count histories, native report
+points and completed-executor durations. The model window still requires fresh
+admission. [Current composition and gates](Q2-NATIVE-SCALE-CURVE.md).
+
 ## Native canonical model integration prepared — 2026-10-04
 
 The scale candidate now has an explicit native-only model mode and full-MMQ

@@ -55,7 +55,8 @@ def main():
     terminal_run = mode in ('q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
     terminal_build = mode in ('q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
     terminal_cpu = mode == 'terminal-cpu'
-    cpu_mode = mode in ('ple-cache-first-cpu', 'terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
+    native_cpu = mode == 'native-curve-cpu'
+    cpu_mode = native_cpu or mode in ('ple-cache-first-cpu', 'terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
@@ -215,6 +216,10 @@ def main():
                                      reference_binary_sha256=receipt['binary_sha256_after'])
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
+        if native_cpu:
+            _, bench_manifest = verify_native_curve(ROOT, staged=True)
+            result['native_bench_commit'] = bench_manifest['commit']
+            save()
         if native_curve:
             bench_source, bench_manifest = verify_native_curve(ROOT, staged=True)
             bench_build = ROOT/'build/native-bench'
@@ -232,19 +237,24 @@ def main():
         profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
-            run(['cmake','-S',str(ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
+            run(['cmake','-S',str(ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
+            if native_cpu:
+                build_args += ['--target', 'synapse-lie-bench', 'test-native-bench',
+                               'test-http-multi-native', 'test-http-curve-native',
+                               'test-ssd-http-server', 'test-synthetic-lie-bench']
             if not cpu_mode:build_args+=['--target','synapse-lie-server' if terminal_build or curve_mode else 'q2_original_baseline' if original_mode else 'q2_ple_io' if io_mode else ple_target if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
             if mode == 'iq2-signs-check':build_args+=['q2_operators']
             run(build_args,env)
             if cpu_mode:
                 run(['ctest','--test-dir',str(build),'--output-on-failure']+
+                    (['-R', '^native-(http-curve|http-multi|benchmark)-contract$'] if native_cpu else [])+
                     (['--verbose'] if mode == 'ple-cache-first-cpu' else []),env)
             elif terminal_build:
                 binary=build/'cmake/terminal/core/synapse-lie-server'

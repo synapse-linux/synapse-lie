@@ -21,6 +21,20 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_native_curve_host_uses_only_the_frozen_cpu_client(self):
+        for extra in (['--source-variant', 'curve-iq2-q2'], ['--rebuild-mmq']):
+            self.refuse(['native-curve-cpu', 'q2-fixture', *extra],
+                        'Native curve host conformance requires its fixed client and no GPU build')
+        self.refuse(['native-curve-cpu', 'q2-fixture', '--native-curve'],
+                    'Native curve requires an uninstrumented')
+        self.refuse(['native-curve-cpu', 'q2-fixture', '--detach'], 'Persistent launch is limited')
+        with patch.object(sys, 'argv', [str(path), 'native-curve-cpu', 'q2-fixture']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_native_curve_rejects_fallback_and_wrong_provider(self):
         self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-scale-q2',
                      '--rebuild-mmq'], 'requires the native C canonical benchmark')

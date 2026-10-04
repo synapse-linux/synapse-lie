@@ -24,6 +24,21 @@ zero and seven artifacts verify. It neither acquires GPU leases nor loads a
 model. Core is informed. The native scale curve remains local preparation,
 pending a clean qualified client snapshot and fresh coordinated admission.
 
+The CPU-only `q2-native-curve-host-r2` extension finishes at
+11:43:39 UTC with 22/22 Debug and 22/22 ASan/UBSan, six zero exits and seven
+verified artifacts. Core reconfirms no GPU reservation and identifies its
+local CPU conformance as separately owner-authorized. Q2 prepares a further
+native-client conformance cohort on .157 after the clean core checkpoint.
+Neither these host checks nor the prepared admission script reserve a GPU
+window. The prior verified release remains the last Q2 ownership transition.
+
+CPU-only host-r3 and native-client conformance finish at 11:55 UTC with
+22/22 and 3/3 respectively in both Debug and ASan/UBSan. All twelve commands
+exit zero and fourteen artifacts verify. Client source is frozen from clean
+core commit `b598e4c` (1287 files), independently of the existing server.
+These cohorts acquired no GPU lease and loaded no model. Core is informed;
+a fresh four-arm native canonical model admission is the next gate.
+
 Admission at **2026-10-04T11:14:21.008139+00:00** follows core's explicit statement
 that it has no reserved window and fresh original-lease, process, KFD, thermal
 and model-stat checks. The previous counting release is still latest in the
