@@ -29,8 +29,9 @@ matrix loop already skips their WMMA work. A separate
 VGPR/LDS and zero scratch in device assembly. Its GPU performance is unmeasured;
 the fragment percentage is not an inference speedup. The component comparison
 is wired with four measured count distributions plus a full-tile control,
-51 independent numerical checks and complete-output replay. Only local static
-checks have run; fresh `.157` host/GPU qualification follows the core handover.
+51 independent numerical checks and complete-output replay. Host qualification
+now passes 21/21 Debug and 21/21 ASan/UBSan on `.157`; GPU execution still awaits
+the core handover. The host tests do not qualify GPU numerical behavior.
 An early-exit form of the guard is also wired for that comparison: it reduces
 the 128-row specialization from 2432 to 2401 static instructions with unchanged
 VGPR/LDS and no spill. Its performance and numerical behavior remain unmeasured.

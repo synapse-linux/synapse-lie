@@ -17,6 +17,16 @@ window and may freshly admit it. The next Q2 epilogue candidate is local-only
 preparation; no component build/run is admitted. Outgoing MCP transport fails;
 ready/active receipts record release and delivery is not claimed.
 
+The subsequent **CPU-only** `q2-epilogue-host-r1` qualification runs on `.157`
+at04:50:43–04:51:13 UTC without acquiring any GPU lease or loading a model.
+Both21/21 Debug and21/21 ASan/UBSan pass; all six commands exit zero and seven
+artifacts verify. The policy's GPU admission requirement remains in force;
+this host-only path builds with `Q2_HIP=OFF` and does not take the reserved
+core window. Fresh closure at04:52:32 UTC verifies seven PIDs/six groups absent,
+KFD empty and the GPU registry still at the previous release. No Q2 job or
+waiter remains. The main readiness receipt marks the host gate complete and
+the three GPU arms pending verified core handover.
+
 Read-only revalidation at04:40:52 UTC still finds that release latest in the
 remote registry and KFD empty. No live remote handle is being waited on and
 this idle observation does not transfer the next window from core. Q2 prepares

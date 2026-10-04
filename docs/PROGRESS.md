@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 epilogue host tests pass on .157 — 2026-10-04
+
+The CPU-only qualification completes at04:51:13 UTC with21/21 Debug and21/21
+ASan/UBSan, six zero command exits and seven verified artifacts. Native route
+construction, malformed counts, candidate/reference separation and report
+completeness checks pass. Executed fixture bytes match the checkpoint; the
+native JSON header matches all three candidate/reference provider manifests.
+
+`Q2_HIP=OFF`, no model access and no acquired GPU lease preserve the next GPU
+window for core. All24 telemetry samples show KFD empty. Closure at04:52:32 UTC
+verifies seven recorded PIDs and six owned groups absent. The GPU registry
+remains at the previous routing release. This advances the host gate only;
+GPU correctness, performance and full canonical parity remain unverified.
+[Host evidence and closure](../config/q2-iq2-epilogue-host-results.json).
+
 ## Early epilogue exit reduces guard code — 2026-10-04
 
 The new candidate leaves the paired loop at its first empty fragment instead

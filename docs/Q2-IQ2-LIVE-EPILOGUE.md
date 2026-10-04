@@ -86,11 +86,10 @@ runtime faults and guard corruption stop execution.
 The analyzer verifies exact count provenance from the diagnostic log, accepted
 request attribution, input/count/route hashes, all outputs, complete cycles,
 source/fixture identities and ownership receipts. The separate host route
-builder and parser/selection tests require fresh Debug and ASan/UBSan runs on
-`.157`; the expected normal host cohort is now 21 tests. Local syntax checks,
-CMake configuration and a dry build pass, with no fixture or GPU execution.
-The core owns the next GPU window. This preparation does not admit a new run,
-establish a numerical result or change any model-rate claim.
+builder and parser/selection tests now pass in the 21-test Debug/ASan cohort
+on `.157`, as recorded below. The earlier local syntax/configuration receipts
+remain separate static evidence. The core owns the next GPU window; host
+qualification does not establish a GPU numerical result or model-rate claim.
 
 [Fixed plan](../config/q2-iq2-live-epilogue-plan.json),
 [static wiring receipt](../config/q2-iq2-live-epilogue-wiring.json).
@@ -131,3 +130,23 @@ No GPU window is admitted and the core handover is still required.
 [Break source](../config/q2-iq2-epilogue-break-source.json),
 [three-way static accounting](../config/q2-iq2-epilogue-break-static.json),
 [break wiring receipt](../config/q2-iq2-epilogue-break-wiring.json).
+
+## Host qualification complete — 2026-10-04
+
+`q2-epilogue-host-r1` runs the CPU-only path on `.157` from04:50:43 to04:51:13 UTC.
+Both 21/21 Debug and 21/21 ASan/UBSan pass, including the real count assignment
+builder and the selection/report rejection cases. All six commands exit zero;
+seven collected artifacts verify by size/SHA. Every relevant fixture matches
+the source capsule, and the JSON header used by the native host test matches
+all three GPU provider manifests.
+
+This path builds with `Q2_HIP=OFF`, loads no model and acquires no GPU lease.
+All 24 telemetry samples show KFD empty. Fresh closure at04:52:32 UTC confirms
+the seven recorded PIDs and six owned groups absent. The GPU registry is still
+at the preceding routing release; no GPU window was acquired or handed over.
+The core reservation is unchanged. GPU operators, all 51 numerical checks,
+complete-output replay and cycle timings remain pending.
+
+[Host result and closure](../config/q2-iq2-epilogue-host-results.json).
+The fixed fixture plan is retained byte-for-byte as executed; its preparation
+status fields are historical, while this result records the completed host gate.
