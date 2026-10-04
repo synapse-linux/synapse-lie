@@ -12,6 +12,12 @@ uses the newly built C17 core on the same GPU. Each completed campaign used a fr
 private lease, retained the exact raw files and restored the authorized
 `llama-router.service` afterwards.
 
+The original Q8 vision projector is now present on `.161` after a direct
+read-only copy from `.157`. Its 616,703,104 bytes match the pinned SHA-256;
+the source file is unchanged and both machines' leases were released. The
+[copy receipt](../../../../development/validation/point-projector-copy-2026-10-04.json)
+records the handover. Vision inference on this GPU has not yet been qualified.
+
 | Direct benchmark | LIE prefill | LIE decode | Same-stack Gufo decode | Scope |
 | --- | ---: | ---: | ---: | --- |
 | Occupied prefix 0, C1 | 479.936 tok/s | 10.433 tok/s | — | PP2048/TG128, one measured sample |

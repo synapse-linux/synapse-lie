@@ -3,6 +3,18 @@
 
 ## Strix Point core integration checkpoint — 2026-10-03
 
+The original Q8 vision projector was copied directly from `.157` to `.161`
+after the coordinated root release, with no source transfer or WAN download.
+The destination's complete 616,703,104 bytes match the pinned SHA-256; source
+stat identity is unchanged. The copy controller, sender and receiver exit 0,
+and the temporary SSH agent is retired. Final `.157` postflight finds KFD
+empty and all four established leases unchanged/free; `.161` has only its
+restored router PID 108508 in KFD, no LIE container and its private lease
+free. The [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
+and [destination plan](../config/models-161-projector.plan.json) bind the
+source, destination and release. Ownership was returned to Q2/WMMA; the
+projector's presence alone is not a vision inference result.
+
 The native C17 core benchmark now has an opt-in `--reactive-probe` functional
 mode: a direct client keeps one output loan and its credits withheld while a
 second row completes, then cancels the held row and verifies the borrowed text

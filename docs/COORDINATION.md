@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+The `.157` root sampled window was released at 02:43:25.968475 UTC on
+2026-10-04 with canonical SHA-256
+`17312b22e2c780cc1c6d296986d373f4fa2467671dda5c69d5ff70346f570483`.
+Point then took one direct, read-only projector copy window: all 616,703,104
+bytes of the original Q8 projector reached `.161` and hash to
+`b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad`.
+The `.157` source stat identity remained unchanged; its three owned process
+identities retired, KFD is empty, and all four original leases are unchanged
+and EX|NB free. `.161` restored `llama-router.service` (PID 108508), which is
+its sole KFD client; no LIE container remains and its private lease is free.
+The verified [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
+and persistent private evidence bind the result. Point has no .157 job,
+waiter or reservation; the window is returned to Q2/WMMA. Vision inference
+qualification on `.161` remains separate.
+
 The `.161` ROCm 10 Distrobox `fresh-128k` baseline closes in two serial GPU
 windows on 2026-10-03. LIE and direct Gufo each pass 10/10 original UD samples
 with child/supervisor exit 0, unchanged model file identities, service
