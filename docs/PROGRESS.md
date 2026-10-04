@@ -3,6 +3,16 @@
 
 ## Shared-Q8 producer component prepared — 2026-10-04
 
+R1 later terminates0/0/1 with32 verified artifacts. Two independent HC checks
+pass; all eight producer/consumer buffers at96 rows match. The strict CPU Q8
+oracle fails before later shapes/timing. Retained analysis finds317 one-ULP
+scale differences from CPU division, while every scale matches the rounded
+F32 reciprocal multiply and all codes match. The oracle is corrected without
+changing GPU source or thresholds; R2 host Debug/ASan pass22/22 each. Release
+17:44:28UTC verifies406identities/311groups retired, KFD empty, four original
+leases free and six unchanged model stats; core acknowledges. No model or
+throughput result is claimed by this failed execution.
+
 After reactivation, checkpoint3338c93 is clean and the fixed model comparison
 still lacks UD PP parity. The renewed audit identifies an unused existing Q8
 output in raw-HC. A new isolated candidate enables it only for the FFN mixer,

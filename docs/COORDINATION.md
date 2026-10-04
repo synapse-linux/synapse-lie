@@ -6,12 +6,29 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Next Q2 component is prepared locally after host Debug/ASan22/22 each on `.157`:
-raw-HC shared-Q8 producer, one fixture with alternating unchanged reference,
-candidate and repeated control at2048, no model or context curve. Core confirms
-no `.157` job/reservation/waiter and will not interleave; its `.161` job is
-independent. Q2 has not yet admitted this component or reserved the GPU.
-[Frozen protocol](../config/q2-shared-q8-producer-plan.json).
+Latest Q2 component is released at2026-10-04T17:44:28.780292Z. R1 exits0/0/1
+and32 verified artifacts are retained, including eight exact whole GPU pairs
+and the CPU scalar Q8 format failure. Closure checks406identities/311groups,
+empty KFD, four original leases free and six unchanged model stats. Main/remote
+active/ready and registry mark release; core acknowledges. Q2 has no job,
+reservation, waiter, restart or cleanup. R2 host Debug/ASan22/22 each pass;
+the corrected oracle is prepared for a fresh admission, with identical GPU
+source and original gates. Core confirms its GPU gates are not yet ready and
+will not interleave. Its `.161` work remains independent.
+[Release](../config/q2-shared-q8-producer-window-release.json), SHA256
+`742b5fd0152c1902eca3e74e6c2d0b0cf37eb172b4f026d925f06b1732842c00`.
+
+R1 was admitted at2026-10-04T17:41:00.336443Z, checkpoint
+`73ae744`, after host Debug/ASan22/22 each on `.157`. Fresh admission checks402
+retired identities/308groups, empty KFD, four original lease inodes free and
+six unchanged model stat tuples, CPU37.25/GPU35C. The raw-HC shared-Q8 fixture
+alternates unchanged reference/candidate/repeated control at2048; no model or
+context curve. Core confirms no `.157` job/reservation/waiter and no interleaving;
+its `.161` job is independent. Main/remote active/ready and registry mark
+admission. The later release above closes this window.
+[Frozen protocol](../config/q2-shared-q8-producer-plan.json),
+[admission](../config/q2-shared-q8-producer-window-admission.json), SHA256
+`117eceb9896ffafe3481363f90f6e1c962971424c04467e785bd1269efde7275`.
 
 Latest Q2 window: **released at2026-10-04T16:39:20.111498+00:00** after the
 owner-requested four-arm exact2048 original-weight model comparison. All22

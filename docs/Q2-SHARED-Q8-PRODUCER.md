@@ -53,3 +53,28 @@ binary and shared-library identity contract. This component avoids repeated
 control compilation through its shared fixture; it does not claim that the
 model replay launcher is implemented. GPU execution still requires a new
 coordinated four-lease admission after Debug/ASan host checks on `.157`.
+
+## First execution retained: CPU format oracle failure
+
+R1 on `.157` records configure/build/fixture exits0/0/1 and32 verified
+artifacts. The two independent HC cases pass the original2e-5 limits.
+At96 rows, all eight whole producer/consumer pairs match, including the tiled
+Q8 bytes and final shared down output. The strict CPU scale/code oracle then
+fails; execution stops before the remaining cases and before timing.
+[Retained failure](../config/q2-shared-q8-producer-r1-results.json).
+
+Read-only analysis finds317 scale differences of one ULP versus correctly
+rounded CPU division by127. All GPU scales instead match multiplication by
+the rounded F32 reciprocal of127; all codes match the scalar reconstruction.
+The padded allocation contains128 rows, although only96 are live.
+[Format diagnostic](../config/q2-shared-q8-producer-r1-format-diagnostic.json).
+This supports correcting the CPU oracle to the production reciprocal multiply;
+it does not waive an exact-byte or independent numerical gate. R2 changes no
+GPU source or model input, and retains the same performance admission criteria.
+[R2 frozen plan](../config/q2-shared-q8-producer-r2-plan.json),
+[R2 host qualification](../config/q2-shared-q8-producer-r2-host-results.json).
+
+R1 release at2026-10-04T17:44:28.780292Z checks406identities/311groups retired,
+empty KFD, four original leases free and six model stat tuples unchanged.
+No Q2 job/reservation/waiter/restart or remote cleanup remains. Core acknowledges.
+[Release](../config/q2-shared-q8-producer-window-release.json).

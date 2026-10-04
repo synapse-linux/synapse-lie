@@ -1,0 +1,122 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-host.v1",
+  "label": "q2-shared-q8-producer-host-r2",
+  "finished_at": "2026-10-04T17:48:39.584396+00:00",
+  "debug_passed": 22,
+  "asan_ubsan_passed": 22,
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/debug",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=OFF",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-04T17:48:08.911950+00:00",
+      "pid": 3688066,
+      "start_ticks": 170148320,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:09.436502+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/debug",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-04T17:48:09.439001+00:00",
+      "pid": 3688139,
+      "start_ticks": 170148373,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:14.961400+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/debug",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-04T17:48:14.964811+00:00",
+      "pid": 3688305,
+      "start_ticks": 170148925,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:22.493417+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/sanitize",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=ON",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-04T17:48:22.495051+00:00",
+      "pid": 3688544,
+      "start_ticks": 170149678,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:23.017370+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/sanitize",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-04T17:48:23.019293+00:00",
+      "pid": 3688614,
+      "start_ticks": 170149731,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:31.549646+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-shared-q8-producer-host-r2/build/sanitize",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-04T17:48:31.551399+00:00",
+      "pid": 3688794,
+      "start_ticks": 170150584,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T17:48:39.584022+00:00"
+    }
+  ],
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-shared-q8-producer-host-r2/results.tar.gz",
+    "sha256": "095de91ee60c5fae67960178f753ac35ee284ab3fcf2c17eff09565a54a4dd81",
+    "verified_artifacts": 7,
+    "existing_archive": false
+  },
+  "capsule_sha256": "338e295847629127dec534a4a5a154010b4e272022c13d90817c69dc0e25d28a",
+  "fixtures": {
+    "tests/q2_shared_q8_producer.cpp": "f49775ec0ed1e2ef1acddb2b7d03756daf1d1c7e22db0faa9796ad9f0c1c552d",
+    "tests/q2_hc_up_fused.cpp": "e002dacd5abeb28bf5f8dc576df557065ce829120966b63f629e275f5f2dab8a",
+    "tests/q2_remote_test.py": "efc517cf6fd01dae0c5740b042e975127830898dc135e803b92a570ae3bbd06e",
+    "tools/q2-remote.py": "0a0f00ee130c1ebe56e646f108b9cfc6239e6e6ced14647f03aa778f02f95a42",
+    "tools/q2-runner.py": "64518ab43e564647b54166181cb69e0080a24004656f46a7972673a6c664718f",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "cmake/hip/CMakeLists.txt": "8e716041917ad6caaeccd869ecc7fe5a5d1a1df35fd7d19a64135161523b62c7",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52"
+  },
+  "model_inference": false
+}

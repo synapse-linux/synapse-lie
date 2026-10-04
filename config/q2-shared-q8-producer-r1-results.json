@@ -1,0 +1,104 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-r1-result.v1",
+  "state": "FAILED_CPU_SCALAR_Q8_BYTE_ORACLE_AFTER_EXACT_GPU_REPLAY",
+  "plan_sha256": "46e97cfc5ea20f75c16aee9ed9cdde7246500782f9fadc550e348d0320b3afe9",
+  "command_exits": [
+    0,
+    0,
+    1
+  ],
+  "artifacts_verified": 32,
+  "source_files_verified": 1022,
+  "capsule_sha256": "f8812a1ecc1f5b844a6455540c2b97d1b834c6bbfd66530835d41e467b8d52ba",
+  "archive_sha256": "f995ec4fa4c968c4b689d13850d564200cda75c81b3161d0517298ddfc7ddb2b",
+  "binary_sha256": "bbe4d4d2f92306cf6630e5ee4a386b5fef233ddfccb0b47f68e68036e14f6980",
+  "thermal_max_mc": {
+    "amdgpu": 38000,
+    "k10temp": 70625
+  },
+  "completed_checks": [
+    {
+      "event": "hc_up_fused",
+      "label": "hc-up-n96-p0-i1-h1",
+      "values": 245760,
+      "exact_mixed": true,
+      "exact_inject": true,
+      "exact_half": true,
+      "mix_oracle_values": 2520,
+      "mix_rrms": 7.70092886464e-08,
+      "mix_scaled_max": 1.2549650109e-07,
+      "inject_oracle_values": 108,
+      "inject_rrms": 1.01102186256e-07,
+      "inject_scaled_max": 1.20111479879e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_up_fused",
+      "label": "hc-up-n129-p0-i1-h1",
+      "values": 330240,
+      "exact_mixed": true,
+      "exact_inject": true,
+      "exact_half": true,
+      "mix_oracle_values": 3360,
+      "mix_rrms": 7.69947435133e-08,
+      "mix_scaled_max": 9.6982467855e-08,
+      "inject_oracle_values": 144,
+      "inject_rrms": 1.15044859909e-07,
+      "inject_scaled_max": 1.02979185534e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-mixed",
+      "bytes": 983040,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-half",
+      "bytes": 491520,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-inject",
+      "bytes": 4608,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-gate",
+      "bytes": 245760,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-up",
+      "bytes": 245760,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-activated",
+      "bytes": 122880,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-down",
+      "bytes": 983040,
+      "exact": true
+    }
+  ],
+  "benchmark_samples": 0,
+  "model_run": false,
+  "promoted": false,
+  "goal_met": false,
+  "disposition": "Preserve failure and all source/output artifacts; correct the independent CPU format oracle to production rounded-reciprocal scale without changing GPU arithmetic or exact-byte thresholds."
+}

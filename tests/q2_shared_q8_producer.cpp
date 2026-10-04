@@ -96,7 +96,11 @@ static std::vector<unsigned char> ScalarQ8(const std::vector<float> &x, unsigned
       float maximum = 0;
       for (unsigned i = 0; i < 32; ++i)
         maximum = std::fmax(maximum, std::fabs(x[std::size_t(t) * hidden + block * 32 + i]));
-      const float d = maximum / 127.0f, id = d != 0 ? 1.0f / d : 0.0f;
+      // Production HIP fast math multiplies by the rounded F32 reciprocal
+      // of 127. A correctly rounded CPU division differs by one ULP in317
+      // retained R1 blocks although reference/candidate GPU bytes are equal.
+      const float d = maximum * 0x1.020408p-7F;
+      const float id = d != 0 ? 1.0f / d : 0.0f;
       const std::size_t tile = ((std::size_t(t / tile_tokens) * (hidden / 32)) + block) * tile_bytes;
       for (unsigned i = 0; i < 32; ++i) {
         const auto code = static_cast<signed char>(std::round(
