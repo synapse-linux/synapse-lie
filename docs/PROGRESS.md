@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Point prepared HTTP qualification setup — 2026-10-04 UTC
+
+The Point branch now includes the integrated native `http-multi` client at
+`128f490`. A sealed `gfx1150` r6 source capsule from that commit has 2,302
+file hashes verified on `.161`; its device-free Fedora 43/ROCm 10 build passes
+with exit 0. The build restores `llama-router.service` and releases its private
+lease. The new qualification helper runs that client against a supervised LIE
+or separately pinned Gufo server on API port 8000. It fixes context 4,096,
+eight active sessions, prefix caching, TG128 and one excluded warmup plus three
+measured cohorts. Server, client, corpus and partial failure evidence are kept
+separately. This setup is not yet an original-weight HTTP performance result.
+
+The pristine Gufo CMake configuration at the recorded pin accepts only
+`gfx1151`. A Point `gfx1150` full-server control therefore needs its own
+explicitly recorded architecture/dependency port and GPU smoke qualification;
+the existing LIE adapter build does not establish that control.
+
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
 Root integrates Point `c3e9916`, preserving the native prepared HTTP client,

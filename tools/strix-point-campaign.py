@@ -302,7 +302,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -680,6 +680,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-http-multi':
+            return self.modern_http_multi_gate()
         if profile == 'modern-http':
             return self.modern_http_gate()
         if profile == 'modern-core-ssd-restart':
@@ -968,6 +970,70 @@ class Campaign:
         finally:
             if (self.root/'http-result.json').exists():
                 self.r['http_partial'] = {'result_sha256': sha(self.root/'http-result.json')}
+            self.check_model_after(rows)
+    def modern_http_multi_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern HTTP multi requires ROCm 10 Distrobox')
+        impl, mode = self.m.get('http_impl'), self.m.get('decode_mode')
+        users, case = self.m.get('http_users'), self.m.get('http_case')
+        if (impl not in ('lie', 'gufo') or mode not in ('ar', 'mtp') or
+                users not in ('1', '1,2,4,6,8') or case not in ('prose', 'repetition') or
+                (mode == 'ar' and case != 'prose') or
+                self.m.get('http_warmups') != 1 or self.m.get('http_repetitions') != 3):
+            raise ValueError('Invalid fixed prepared HTTP comparison profile')
+        helper = checked_path(self.root/'http-multi-gate.py')
+        corpus = checked_path(self.root/'corpus.jsonl')
+        if (sha(helper) != self.m.get('http_multi_gate_sha256') or
+                sha(corpus) != self.m.get('corpus_sha256')):
+            raise ValueError('Prepared HTTP helper or corpus drift')
+        if impl == 'gufo' and 'runtime/bin/gufo' not in self.m['artifacts']:
+            raise ValueError('Official Gufo control binary must be pinned')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR HTTP multi must not admit a predictor')
+        command = ['/usr/bin/python3', '-B', '/work/http-multi-gate.py',
+                   '--impl', impl, '--mode', mode, '--users', users,
+                   '--warmups', '1', '--repetitions', '3',
+                   '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--server', '/bundle/runtime/bin/'+
+                   ('synapse-lie-server' if impl == 'lie' else 'gufo'),
+                   '--client', '/bundle/runtime/bin/synapse-lie-bench']
+        if predictor:
+            command += ['--predictor', '/mtp/'+predictor.name]
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 6500, model)
+            result = json.loads((self.root/'http-multi-result.json').read_text())
+            measurements = [json.loads(line) for line in
+                            (self.root/'measurements.jsonl').read_text().splitlines()]
+            if (result.get('schema') != 'synapse-lie.point-http-multi-original.v1' or
+                    result.get('state') != 'PASSED' or result.get('client_exit_code') != 0 or
+                    result.get('server_exit_code') not in (0, -15) or
+                    result.get('implementation') != impl or result.get('mode') != mode or
+                    result.get('users') != users or
+                    result.get('corpus_sha256') != self.m['corpus_sha256'] or
+                    result.get('measurements_sha256') != sha(self.root/'measurements.jsonl') or
+                    not measurements or measurements[0].get('schema') != 'synapse-lie.http-multi-bench.v1' or
+                    measurements[0].get('model') != 'qwen3.8-flash-next' or
+                    measurements[-1] != {'event': 'complete', 'exit_code': 0}):
+                raise RuntimeError('Incomplete original-weight prepared HTTP comparison')
+            self.r['bench_result'] = {'profile': 'modern-http-multi',
+                                      'implementation': impl, 'mode': mode,
+                                      'case': case, 'users': users,
+                                      'cohorts': result['cohorts'],
+                                      'measurements_sha256': result['measurements_sha256'],
+                                      'result_sha256': sha(self.root/'http-multi-result.json')}
+        finally:
+            if (self.root/'http-multi-result.json').exists():
+                self.r['http_partial'] = {'result_sha256': sha(self.root/'http-multi-result.json')}
+            if (self.root/'measurements.jsonl').exists():
+                self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
+                                           'bytes': (self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
     def modern_ssd_restart_gate(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':

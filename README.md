@@ -75,7 +75,9 @@ The paired ROCm 10 [fresh full-prompt comparison](docs/benchmarks/models/qwen3.8
 now passes through 128K and separately near 256K. The
 [modern GPU MTP/AR comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
 passes four matched direct-core pairs through 128K. Served HTTP performance
-on this target remains pending.
+on this target remains pending. A sealed ROCm 10 `gfx1150` build of the native
+prepared HTTP client now passes on `.161`; its paired LIE/Gufo model runs still
+require their separate original-weight qualification.
 The [r5 direct reactive and vision gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
 exercise held output credit, peer completion, cancellation and Q8-projector
 AR/MTP parity on the original GPU weights; they are functional, not a new

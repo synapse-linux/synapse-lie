@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+## Point prepared HTTP build released — 2026-10-04 UTC
+
+The `.161` device-free ROCm 10 r6 build from integrated source `128f490`
+completed in a fresh private lease with supervisor and compiler exit 0. Its
+sealed capsule has 2,302 verified source files; the native HTTP multi-user
+client and server binaries are pinned in `bundle-modern-r6`. The named router
+was restored and the private lease released. This build did not load a model;
+prepared HTTP inference requires separate fresh admissions. The official Gufo
+full-server Point port is a distinct control, not the LIE adapter binary.
+
 ## Seeded shared-core window released — 2026-10-04 UTC
 
 Root accepts Q2's canonical curve release at 01:33:37 UTC and independently

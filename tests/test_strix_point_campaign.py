@@ -494,6 +494,41 @@ class Tests(unittest.TestCase):
                     write['enabled'] = False
                     with self.assertRaisesRegex(RuntimeError, 'Incomplete original-weight HTTP'):
                         c.bench()
+    def test_modern_http_multi_pins_corpus_mode_and_complete_native_result(self):
+        c = self.campaign('modern-http-multi')
+        helper = c.root/'http-multi-gate.py'; helper.write_bytes(b'fixture multi helper')
+        corpus = c.root/'corpus.jsonl'; corpus.write_bytes(b'{"id":"prose"}\n')
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-http-multi', decode_mode='ar', http_impl='lie',
+                   http_users='1', http_case='prose', http_warmups=1,
+                   http_repetitions=3, bundle=str(self.base),
+                   model_plan={'files':[{'name':'target.gguf'}]},
+                   artifacts={'runtime/bin/synapse-lie-bench':'fixture'},
+                   http_multi_gate_sha256=point.sha(helper),
+                   corpus_sha256=point.sha(corpus))
+        def run(command, _bundle, _timeout, _model):
+            self.assertIn('/bundle/runtime/bin/synapse-lie-server', command)
+            self.assertEqual(_timeout, 6500)
+            rows = [{'event':'identity', 'schema':'synapse-lie.http-multi-bench.v1',
+                     'model':'qwen3.8-flash-next'}, {'event':'complete','exit_code':0}]
+            data = ''.join(json.dumps(row)+'\n' for row in rows)
+            (c.root/'measurements.jsonl').write_text(data)
+            (c.root/'http-multi-result.json').write_text(json.dumps({
+                'schema':'synapse-lie.point-http-multi-original.v1',
+                'state':'PASSED','client_exit_code':0,'server_exit_code':0,
+                'implementation':'lie','mode':'ar','users':'1','cohorts':4,
+                'corpus_sha256':point.sha(corpus),
+                'measurements_sha256':point.sha(c.root/'measurements.jsonl')}))
+        with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+             patch.object(c, 'check_model_after'), \
+             patch.object(c, 'run_container', side_effect=run):
+            c.bench()
+            self.assertEqual(c.r['bench_result']['cohorts'], 4)
+            c.m['http_case'] = 'repetition'
+            with self.assertRaisesRegex(ValueError, 'fixed prepared HTTP'): c.bench()
+            c.m['http_case'] = 'prose'
+            corpus.write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError, 'corpus drift'): c.bench()
     def test_modern_ssd_restart_requires_a_cross_process_disk_hit(self):
         c = self.campaign('modern-ssd-restart')
         helper = c.root/'ssd-restart-gate.py'; helper.write_bytes(b'fixture restart helper')
