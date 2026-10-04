@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Shared-core benchmark reports refuse zero-time executed phases, inconsistent
+  dispatch counts and phase durations outside the job's wall time, including warmups.
+
 - Single-category benchmark comparisons keep both markers visible when their
   values coincide; data and vertical scales are unchanged.
 

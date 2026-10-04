@@ -1,0 +1,722 @@
+{
+  "schema": "synapse-lie.core-phase-timing.host.v1",
+  "at_utc": "2026-10-04T02:15:31.376466+00:00",
+  "based_on_checkpoint": "7b15134be180c16d8bf994eb8f788c7a3fc8dfd9",
+  "scope": "Local .155 masked compilation, synthetic checks and offline replay; no original-weight execution, remote build or model access",
+  "source_sha256": {
+    "tools/native/report.c": "1de29469982a4ced9cb03d181fea1de829a0fafcf4337ceb8a5d8a32a77275f7",
+    "tests/test_native_bench.c": "d26963c64556e678230fb3780b2b1fa5d37f7b4ed4d0d0a18e69cf49bc991da2"
+  },
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-DLABEL=smp-7b151-hip-on-r1",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.25
+      },
+      "elapsed_s": 149.57698592823,
+      "label": "hip-on",
+      "result_sha256": "0dc801dfce74f0063b52af5d83b39b5712bcf9c1fda111ece568419972566308",
+      "command_log_sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-DLABEL=smp-7b151-hip-off-r1",
+        "-DLIE_C17_SAMPLING=OFF",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 84.125
+      },
+      "elapsed_s": 144.55198589432985,
+      "label": "hip-off",
+      "result_sha256": "c94006bccc09f19d7f1383fe886941b960fc47463831f3dc58ddc8d11f13ed26",
+      "command_log_sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/smp-7b151-app-on-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-smp-7b151-hip-on-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/smp-7b151-hip-on-r1",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DLIE_BUILD_ID=smp-7b151-on-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.0
+      },
+      "elapsed_s": 3.1113214222714305,
+      "label": "configure-app-on",
+      "result_sha256": "8afdf2d4fad1d7cd50a3988d5413820ba9bb69c1fc17c2264d0f66be520e20a9",
+      "command_log_sha256": "5caac044e50270c46a5b6af76fc56da0aafecacfcfd80cd71d8e919dcff04178"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/smp-7b151-app-off-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=OFF",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-smp-7b151-hip-off-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/smp-7b151-hip-off-r1",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DLIE_BUILD_ID=smp-7b151-off-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 87.0
+      },
+      "elapsed_s": 3.2081842152401805,
+      "label": "configure-app-off",
+      "result_sha256": "26a5eb2180aead9a2ba1f6b8b26cb98dd68dea20c8fdc88c115250cf020db4d0",
+      "command_log_sha256": "2cea3c85b52de43c9bae4cc3484da3329ca86b51794b68e9a57fbcb737acac72"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/smp-7b151-app-on-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "lie-hip-probe",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 87.0
+      },
+      "elapsed_s": 16.790639304555953,
+      "label": "build-app-on",
+      "result_sha256": "1bae7ebf745e85c944ccd913b32e4835aae3d99bc1ef04a3bef47ccbb6333b5d",
+      "command_log_sha256": "b1ae032ae91bf4f4a818fbeadfca6e1dc5e95f23392850d8e974f9d82c908831"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/smp-7b151-app-off-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "lie-hip-probe",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 80.5
+      },
+      "elapsed_s": 16.705481795594096,
+      "label": "build-app-off",
+      "result_sha256": "0ce133a8fd773aab2bf12c18ca3d3995c7b377a08074b92d60af32e83669da08",
+      "command_log_sha256": "b1ae032ae91bf4f4a818fbeadfca6e1dc5e95f23392850d8e974f9d82c908831"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench-report",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.375
+      },
+      "elapsed_s": 1.0556437550112605,
+      "label": "build-checker-fix",
+      "result_sha256": "0ad199b316ed6f00fcf1901a43704a9a8708fba5936d3df2f3b89bb8972a51dc",
+      "command_log_sha256": "030883cf97b40fac29d4d20d45c34039cb2893d6101871d657a3e71c160c5f0b"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^native-benchmark-contract$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 59.5
+      },
+      "elapsed_s": 8.420287687331438,
+      "label": "native-timing-tests",
+      "result_sha256": "7000b27f85c147e944acc63d84758f7757b5579d23ffdd8c048986422b2dfec0",
+      "command_log_sha256": "696f9499d73b12e6495504e9c10cfccebf3ec071f86d39288577db732485013a"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/checker-fixtures.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.125
+      },
+      "elapsed_s": 1.1255766106769443,
+      "label": "checker-test",
+      "result_sha256": "ca7dfbbb427adef10bdeacedc7449473951db04403e0dcd4a26728cd2a7cf211",
+      "command_log_sha256": "1cc1a1ee02a554f51f5455bbf8e46469bd427335b5c173790aac8c87076afe8a"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/checker-fixtures-r2.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.375
+      },
+      "elapsed_s": 1.0833716066554189,
+      "label": "checker-test-r2",
+      "result_sha256": "41213c2bdee6f86f7dc2059b13ce414e1d6a0a262c6c861d8164c2ca7750c5bf",
+      "command_log_sha256": "5551bd66d9191acec3f82ae77e85e88bc7c8281f9ae3a8bf062652fbebebd056"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/supervisor-refusal-fixtures.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.625
+      },
+      "elapsed_s": 1.0583702940493822,
+      "label": "refusal-test",
+      "result_sha256": "e224ef32a3b7fd9625f97422e1b82011ea7b28a1662d2682d922b24317982611",
+      "command_log_sha256": "c5a1d4e1b58fe6dc60f7b59d93b6198dad6ff035a33f9c63e780aa5f1648645c"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/replay-history.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.25
+      },
+      "elapsed_s": 1.1272595431655645,
+      "label": "replay-test",
+      "result_sha256": "4a71b39b6eb8b7f316a7a244d511a3ea4db24faf21e850c4744ecb7bd2051251",
+      "command_log_sha256": "bd9823f71a856f2910015139e17896dc4194a6dddb27ecea04f6caf7860a764f"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/replay-history-r2.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.5
+      },
+      "elapsed_s": 1.171471062116325,
+      "label": "replay-test-r2",
+      "result_sha256": "1fb1552edd2d17c50d867d5fa27c07db2fd569c98c71219a8b1cee67aff8e17a",
+      "command_log_sha256": "db63045e9ab149b6dade2fe0ec70cdf74c81b28db2d85431808435ba8529b222"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/smp-7b151-app-on-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "lie-hip-probe",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 62.5
+      },
+      "elapsed_s": 1.1756918504834175,
+      "label": "relink-report-on",
+      "result_sha256": "7c151b95f80fda2c7849a19c161c0abb676660b135d720f702c3f02072c6cef5",
+      "command_log_sha256": "2878d19d1b77ac71f931c344e0450d524aeb16535538076a53290a177adbe3e9"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/smp-7b151-app-off-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "synapse-lie-bench-report",
+        "lie-hip-probe",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 62.5
+      },
+      "elapsed_s": 1.1732125841081142,
+      "label": "relink-report-off",
+      "result_sha256": "b61b3f4ffabbbfc98c2e10192c13967835b993b6dd94f48b4f8321642a00083a",
+      "command_log_sha256": "2878d19d1b77ac71f931c344e0450d524aeb16535538076a53290a177adbe3e9"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/prepare-capsule.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.875
+      },
+      "elapsed_s": 1.0421186024323106,
+      "label": "capsule-prepare-test",
+      "result_sha256": "12b1d4684fbbba6a8d0709399e61f908556e21f87bd404a9dd07204d87ad2eb8",
+      "command_log_sha256": "ab65adaaf2a70adc404e5ab7874c01c8761cc889fda4fe34c6cf459e437da337"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/prepare-capsule-r2.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.625
+      },
+      "elapsed_s": 1.0825596246868372,
+      "label": "capsule-prepare-test-r2",
+      "result_sha256": "42b7ff310bb549dfbd8db7544c2e8888ebbedef55ae6e8b5b11bf330ef4bb4f2",
+      "command_log_sha256": "eda3b029d2bc1fc684d1fda58d7c349a289667010fb0b198540ddddc5aced0b2"
+    },
+    {
+      "argv": [
+        "python3",
+        "evidence/sampled-core-preparation-r1/prepare-capsule-r3.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.125
+      },
+      "elapsed_s": 1.091853003948927,
+      "label": "capsule-prepare-test-r3",
+      "result_sha256": "818c830985ccf7358afb644f663ac0d8a4a93958b77ec8059130fac46a3c5616",
+      "command_log_sha256": "ef65666d21acb3253230e532c3c2eef065dd7dc4d0fe666b048af068daaefd15"
+    }
+  ],
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer (untraced)"
+  ],
+  "focused_CTest_passed": 1,
+  "malformed_core_phase_cases_refused": 8,
+  "checker_fixture_cases": [
+    {
+      "case": "synthetic controls including INT64_MAX preserved",
+      "passed": true
+    },
+    {
+      "case": "synthetic-as-original refused without completed report",
+      "passed": true
+    },
+    {
+      "case": "wrong-seed refused without completed report",
+      "passed": true
+    },
+    {
+      "case": "short-output refused without completed report",
+      "passed": true
+    },
+    {
+      "case": "invalid-clock refused without completed report",
+      "passed": true
+    }
+  ],
+  "prepared_supervisor_refusal_cases": [
+    {
+      "case": "disabled",
+      "refusal_exit_code": 1,
+      "forbidden_calls": [],
+      "passed": true
+    },
+    {
+      "case": "missing",
+      "refusal_exit_code": 1,
+      "forbidden_calls": [],
+      "passed": true
+    },
+    {
+      "case": "wrong-type",
+      "refusal_exit_code": 1,
+      "forbidden_calls": [],
+      "passed": true
+    },
+    {
+      "case": "unauthorized",
+      "refusal_exit_code": 1,
+      "forbidden_calls": [],
+      "passed": true
+    }
+  ],
+  "retained_Point_pairs_replayed": [
+    {
+      "chart": "rocm10-modern-mtp1500",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    },
+    {
+      "chart": "rocm10-modern-mtp8192",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    },
+    {
+      "chart": "rocm10-modern-mtp131072",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    },
+    {
+      "chart": "rocm10-modern-mtp8192-c2",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    },
+    {
+      "chart": "rocm10-modern-mtp-ram8192",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    },
+    {
+      "chart": "rocm10-modern-mtp-ssd8192",
+      "eligible": true,
+      "metrics_unchanged": true,
+      "CSV_byte_identical": true
+    }
+  ],
+  "historical_generation_normalization": "Only absent greedy controls normalize to T0/P1/zero penalties/seed -1; all measured metrics and CSV bytes match retained data",
+  "preserved_failures": [
+    {
+      "label": "checker-test",
+      "child_exit_code": 1,
+      "reason": "First validator fixture exposed acceptance of zero decode time; native report itself exited 0 before the source fix"
+    },
+    {
+      "label": "replay-test",
+      "child_exit_code": 1,
+      "reason": "Verifier initially demanded exact configuration equality including absent historical greedy defaults; native report 0, corrected verifier permits only the documented defaults"
+    },
+    {
+      "label": "capsule-prepare-test",
+      "child_exit_code": 1,
+      "reason": "Incorrect whole-ELF equality requirement; text and rodata sections subsequently match exactly"
+    },
+    {
+      "label": "capsule-prepare-test-r2",
+      "child_exit_code": 1,
+      "reason": "Provenance file copied from wrong directory; corrected R3 uses the existing verified preparation-root file"
+    }
+  ],
+  "HIP_variants": {
+    "on": {
+      "build_info": {
+        "event": "identity",
+        "schema": "synapse-lie.core-bench.v1",
+        "suite": "core",
+        "execution": "shared-reactive-core",
+        "mode": "ar",
+        "vision_model": "",
+        "mtp_model": "",
+        "mtp_draft_tokens_requested": 0,
+        "provider": "gufo-embedded-f783fedb",
+        "build_id": "smp-7b151-on-r1",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "dense_sampling": "lie-c17-dense",
+        "generation": {
+          "temperature": 0.0,
+          "top_p": 1.0,
+          "frequency_penalty": 0.0,
+          "presence_penalty": 0.0,
+          "seed": -1
+        },
+        "synthetic": false,
+        "scope": "core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP",
+        "cache_policy": "ram",
+        "prefix_cache_bytes": 4294967296,
+        "cache_retention_policy": "ds4-time-token-byte-utility-v1",
+        "checkpoint_compression": true,
+        "checkpoint_codec": "byte-plane4-zstd1-v1",
+        "state_format": "ds4-kvc-payload",
+        "checkpoint_policy": "ds4",
+        "cache_min_tokens": 512,
+        "cache_cold_max_tokens": 30000,
+        "cache_continued_tokens": 10000,
+        "cache_trim_tokens": 32,
+        "cache_align_tokens": 2048,
+        "cache_text_prefix": true,
+        "cache_capture_finish": true,
+        "ssd_quota_bytes": 0,
+        "ssd_staging_bytes": 0,
+        "context_capacity": 4096,
+        "prefill_chunk": 2048,
+        "users": 1,
+        "output_limit": 128,
+        "warmups": 0,
+        "repetitions": 3
+      },
+      "server_info": {
+        "build_id": "smp-7b151-on-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "ownership": "delegated",
+        "dense_sampling": "lie-c17-dense",
+        "hardware_qualified": false,
+        "cache_retention_policy": "ds4-time-token-byte-utility-v1",
+        "checkpoint_compression": true,
+        "checkpoint_codec": "byte-plane4-zstd1-v1",
+        "ds4_cache_policy": true,
+        "state_format": "ds4-kvc-payload"
+      },
+      "binary_sha256": "006bfcaf762ac8d0fdc4d1939ad52e54ada799a2fa0020b8026574fa2479d23f",
+      "provider_receipt_sha256": "6b019a8d874071b468329b21130b5f6fbac322e7cf6dcf6ccf200d870ff517dd",
+      "dynamic_zstd": true,
+      "dynamic_lz4": false
+    },
+    "off": {
+      "build_info": {
+        "event": "identity",
+        "schema": "synapse-lie.core-bench.v1",
+        "suite": "core",
+        "execution": "shared-reactive-core",
+        "mode": "ar",
+        "vision_model": "",
+        "mtp_model": "",
+        "mtp_draft_tokens_requested": 0,
+        "provider": "gufo-embedded-f783fedb",
+        "build_id": "smp-7b151-off-r1",
+        "ownership": "delegated",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "dense_sampling": "gufo",
+        "generation": {
+          "temperature": 0.0,
+          "top_p": 1.0,
+          "frequency_penalty": 0.0,
+          "presence_penalty": 0.0,
+          "seed": -1
+        },
+        "synthetic": false,
+        "scope": "core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP",
+        "cache_policy": "ram",
+        "prefix_cache_bytes": 4294967296,
+        "cache_retention_policy": "ds4-time-token-byte-utility-v1",
+        "checkpoint_compression": true,
+        "checkpoint_codec": "byte-plane4-zstd1-v1",
+        "state_format": "ds4-kvc-payload",
+        "checkpoint_policy": "ds4",
+        "cache_min_tokens": 512,
+        "cache_cold_max_tokens": 30000,
+        "cache_continued_tokens": 10000,
+        "cache_trim_tokens": 32,
+        "cache_align_tokens": 2048,
+        "cache_text_prefix": true,
+        "cache_capture_finish": true,
+        "ssd_quota_bytes": 0,
+        "ssd_staging_bytes": 0,
+        "context_capacity": 4096,
+        "prefill_chunk": 2048,
+        "users": 1,
+        "output_limit": 128,
+        "warmups": 0,
+        "repetitions": 3
+      },
+      "server_info": {
+        "build_id": "smp-7b151-off-r1",
+        "engine": "gufo-embedded-f783fedb",
+        "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "ownership": "delegated",
+        "dense_sampling": "gufo",
+        "hardware_qualified": false,
+        "cache_retention_policy": "ds4-time-token-byte-utility-v1",
+        "checkpoint_compression": true,
+        "checkpoint_codec": "byte-plane4-zstd1-v1",
+        "ds4_cache_policy": true,
+        "state_format": "ds4-kvc-payload"
+      },
+      "binary_sha256": "600d6ebf61c147cfbce1326f43e2f24d2e4a39c6d4b84b5caaf06d4355833e10",
+      "provider_receipt_sha256": "51abf6b46dff1f70209feded036c2cc358afff46bbb0796309decf61ec4d1dd7",
+      "dynamic_zstd": true,
+      "dynamic_lz4": false
+    }
+  },
+  "provider_runtime_inputs_unchanged": true,
+  "only_post_provider_source_changes": [
+    "tools/native/report.c",
+    "tests/test_native_bench.c"
+  ],
+  "source_binding_sha256": "81003814c2ad91ac3b49d2ce88e44492e7d5fa2a5a6efa1f90ffc4e3d375298d",
+  "thermal_policy": {
+    "CPU_ceiling_C": 98,
+    "GPU": "observe-only; no software admission/termination temperature limit",
+    "NVMe": "85 C or lower exposed bound",
+    "no_tuning": true
+  },
+  "build_max_CPU_C": 93.25,
+  "GPU_admission_disabled": true,
+  "prepared_sampled_campaign": {
+    "profiles": [
+      "greedy",
+      "unfiltered",
+      "top-p-penalty"
+    ],
+    "arms": 18,
+    "physical_input_tokens": 1500,
+    "seed": 123,
+    "context": 4096,
+    "output_tokens": 128,
+    "users": 1,
+    "warmups_per_process": 1,
+    "measured_repetitions_per_process": 3,
+    "RAM_retention": 0,
+    "SSD": "off",
+    "orders": "ON/OFF, OFF/ON, ON/OFF for each profile; equal sample counts, first-order imbalance retained",
+    "scope": "Prepared only; actual GPU performance/quality gate remains open"
+  },
+  "remaining": [
+    "Fresh canonical Q2 release and independent GPU admission",
+    "Current device/runtime and original-weight sampled function/performance",
+    "Independent quality and exact resource gates"
+  ],
+  "local_evidence": "evidence/sampled-core-preparation-r1"
+}

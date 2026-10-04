@@ -130,6 +130,15 @@ queueing, inference and consumption; its first-token clock is not first SSE writ
 An internal core queue-duration clock and complete resource accounting remain
 pending. Direct-core and HTTP results must label these different timing scopes.
 
+The native core report requires positive prefill time and call count when new
+prompt tokens are processed. Decode time and call count must agree, and confirmed
+output requires a decode call. Prefill plus decode time must fit inside the
+individual job's total wall time; durations from different jobs may overlap in
+a batch. These checks include warmups. A fully cached prompt still has zero
+executed prefill time/calls and no PP rate. An EOS decode may have no confirmed
+output while retaining its actual call time. Invalid phase records are refused
+before a summary or graph is written.
+
 The direct `single`/`multi`/`fresh` benchmark records `timing_clock` as
 `CLOCK_MONOTONIC`. A sample carries `sample_begin_monotonic_ns`,
 `sample_begin_wall_time_ns` (CLOCK_REALTIME, correlation only),

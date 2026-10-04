@@ -23,6 +23,8 @@ Prefill (PP) is prompt processing; generation (TG) is token decoding. Rates use
 **tokens per second**. TTFT is time to first token. A full cache hit has no new
 prefill tokens, so its executed PP rate is unavailable, not zero or infinity.
 Decode rate and total output divided by request wall time are different metrics.
+The core report rejects missing executed-phase time, inconsistent call counts
+and phase times beyond the job's wall time before publishing graphs or a summary.
 
 ## Context depth and concurrent users
 

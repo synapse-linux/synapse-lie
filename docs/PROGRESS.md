@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Core benchmark phase validation — 2026-10-04 UTC
+
+The native report now rejects zero-time executed phases, inconsistent dispatch
+counts and combined phase durations beyond the individual job's wall time,
+including warmups. Eight malformed timing cases pass the focused CTest with
+ASan, UBSan and LeakSanitizer. Six retained Point comparisons reproduce their
+metrics and CSVs unchanged; cache-hit prefill remains unavailable rather than zero.
+
+Both new `gfx1151` provider/client variants compile locally with GPU visibility
+masked. Seeded greedy, unfiltered and top-p/penalty comparisons are prepared;
+GPU admission stays disabled until Q2 releases `.157`. Checker/refusal fixtures
+pass, and initial validation/preparation failures remain preserved. CPU guard
+98 C, GPU observe-only and separate SSD bounds apply. See the
+[host validation receipt](development/validation/core-phase-timing-2026-10-04.json).
+
 ## Point RAM and SSD follow-up integrated — 2026-10-04 UTC
 
 Point checkpoint `b58394e` adds four completed original-weight AR/MTP cache

@@ -366,6 +366,47 @@ static void reordered_comparison(json_object *rows, const char *original) {
             "comparison graph changed when reference workload order changed");
   }
 }
+static void core_clock_contract(json_object *rows) {
+  /* Mutate both warmups and measurements. A zero-time job must not disappear
+   * from the rate distribution while its output still counts toward a pass. */
+  for (unsigned mode = 0; mode < 8; ++mode) {
+    json_object *copy = NULL, *job = NULL;
+    require(!json_object_deep_copy(rows, &copy, NULL), "core timing evidence copy");
+    for (size_t i = 0; i < json_object_array_length(copy); ++i) {
+      json_object *r = json_object_array_get_idx(copy, i);
+      if (!strcmp(nb_string(r, "event"), "job") &&
+          nb_number(r, "rep") == (mode == 1 ? 1 : 0)) {
+        job = r;
+        break;
+      }
+    }
+    require(job != NULL, "core timing job");
+    switch (mode) {
+    case 0:
+    case 1: nb_num(job, "decode_ns", 0); break;
+    case 2: nb_num(job, "prefill_ns", 0); break;
+    case 3: nb_num(job, "prefill_calls", 0); break;
+    case 4: nb_num(job, "decode_calls", 0); break;
+    case 5: nb_num(job, "decode_ns", nb_number(job, "total_ns") + 1); break;
+    case 6: nb_num(job, "prefill_ns", nb_number(job, "total_ns") + 1); break;
+    case 7: nb_num(job, "decode_ns", nb_number(job, "total_ns")); break;
+    }
+    char name[80], input[2400], directory[2400];
+    snprintf(name, sizeof(name), "core-clock-%u.jsonl", mode);
+    save_rows(name, copy);
+    path(input, name);
+    json_object_put(copy);
+    snprintf(name, sizeof(name), "core-clock-%u-graphs", mode);
+    path(directory, name);
+    nb_error error = {0};
+    require(nb_report(input, directory, "fixture", NULL, NULL, false, &error) &&
+                strstr(error.message, "core phase timing"),
+            "invalid core phase accepted");
+    struct stat st;
+    require(lstat(directory, &st) && errno == ENOENT,
+            "invalid core timing published graphs");
+  }
+}
 static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   char output[2400], graphs[2400];
   path(output, "sampled-core.jsonl");
@@ -397,6 +438,7 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   char *duplicate[] = {bench, "--suite", "core", "--build-info", "--seed", "1", "--seed", "2", NULL};
   run(duplicate, 2);
   json_object *rows = read_json("sampled-core.jsonl", true);
+  core_clock_contract(rows);
   json_object *generation = nb_get(json_object_array_get_idx(rows, 0), "generation");
   nb_num(generation, "seed", 7);
   save_rows("sampled-other-seed.jsonl", rows);

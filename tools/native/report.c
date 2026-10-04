@@ -401,6 +401,15 @@ static json_object *core(json_object *rows, nb_error *e) {
       CHECK(nb_number(r, "prefill_tokens") ||
                 (!nb_number(r, "prefill_ns") && !nb_number(r, "prefill_calls")),
             "Cached prefill double counting");
+      int64_t pp_ns = nb_number(r, "prefill_ns"),
+              tg_ns = nb_number(r, "decode_ns"),
+              pp_calls = nb_number(r, "prefill_calls"),
+              tg_calls = nb_number(r, "decode_calls");
+      CHECK((!nb_number(r, "prefill_tokens") || (pp_ns > 0 && pp_calls > 0)) &&
+                (tg_ns > 0) == (tg_calls > 0) &&
+                (!tg || tg_calls > 0) && total > 0 && pp_ns <= total &&
+                tg_ns <= total - pp_ns,
+            "Invalid core phase timing or dispatch count");
       CHECK(total > 0 && tg <= nb_number(id, "output_limit") &&
                 output_ids(nb_get(r, "output_ids"), tg) &&
                 nb_same(r, first, "output_ids"),
