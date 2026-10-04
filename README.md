@@ -52,8 +52,10 @@ unchanged; FFN cache publication enables their existing Q8 output. Host Debug
 and ASan/UBSan each pass22/22 on `.157`. The completed GPU component preserves
 all50 reference/candidate output checks and records90 timing samples:
 producer time falls4.39%, complete shared-expert time2.01–2.08%, with15/15
-paired wins. The independent GPU format oracle fails127/2048; its exit1 and
-97 artifacts remain. The candidate is retained, the GPU window released,
+paired wins. The original independent GPU format rejection at127/2048 is now
+traced to cross-stream fixture initialization: the saved-array replay passes
+40/40 same-stream outputs. Its original exit1 and97 artifacts remain.
+The candidate is retained, the GPU window released,
 and no new model rate or context curve is claimed.
 
 The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
@@ -541,7 +543,17 @@ The first preserves all21 Q2 replay files; the second preserves the previous
 norm replay, including its changed logits. Fixed UD prefill parity remains open.
 [All samples, comparisons and graph](docs/Q2-REAUDIT-COMPOSITION.md).
 
-The [independent Q8 saved-array replay](config/q2-shared-q8-oracle-replay-plan.json)
-prepares a bounded test of buffer initialization ordering on the unchanged R3
-oracle and saved inputs. Host Debug/ASan pass23/23 each. No model, production
-kernel or qualified control rerun is required; the GPU hypothesis is pending.
+The [independent Q8 saved-array replay](docs/Q2-ORACLE-REPLAY.md) confirms a
+fixture initialization race:40/40 same-stream outputs match every production
+byte, while39/40 legacy cross-stream outputs differ. The independent GPU
+arithmetic and15 saved arrays are unchanged. Configure/build/replay exit0/0/0;
+84 artifacts verify. The original producer fixture now initializes its oracle
+on the same stream; host Debug/ASan pass23/23 each. No model, production kernel
+or qualified inference control rerun occurs, and existing PP/TG values remain.
+
+The [original-F16 HC-down port](docs/Q2-HC-DOWN-BK256.md) is prepared against
+the exact Q8+row composition. Its bounded-unroll sibling compiles with 138
+VGPRs and zero fixed private scratch versus 256 VGPRs/500 bytes in the first
+version. Both use the original model bytes and are retained. These compiler
+observations are not measured speedups; GPU/operator/model qualification and
+remote-runner integration remain pending.

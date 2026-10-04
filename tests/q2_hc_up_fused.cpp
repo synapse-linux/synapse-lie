@@ -37,9 +37,12 @@ template <typename T> struct Output {
   static constexpr std::size_t guard = 32;
   const std::size_t size;
   Device device;
-  explicit Output(std::size_t count)
+  explicit Output(std::size_t count, hipStream_t stream = nullptr)
       : size(count), device((count + 2 * guard) * sizeof(T)) {
-    Hip(hipMemset(device.data, 0xFF, (count + 2 * guard) * sizeof(T)));
+    if (stream)
+      Hip(hipMemsetAsync(device.data, 0xFF, (count + 2 * guard) * sizeof(T), stream));
+    else
+      Hip(hipMemset(device.data, 0xFF, (count + 2 * guard) * sizeof(T)));
   }
   T *Data() { return static_cast<T *>(device.data) + guard; }
   std::vector<T> Read(bool written = true) {

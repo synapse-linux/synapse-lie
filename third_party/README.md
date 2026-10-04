@@ -336,3 +336,15 @@ readers are first-party MIT. No external engine code or converted model is
 introduced. Original numerical rejections remain retained; exact Q2 replay
 and the norm composition's preserved prior numerical difference are reported
 separately in `docs/Q2-REAUDIT-COMPOSITION.md`.
+
+`experiments/q2-hc-down-bk256.patch` adapts the native vector fragment loader
+and `mmb_hcd_kernel` from the independently fetched public MIT GSQHalo.cpp
+commit `5fc881b114c1ea130f5df6a30a98be2f8d397de6`. The numerical include retains
+the original ggml authors' copyright and full MIT license; the license is also
+preserved under `third_party/gsqhalo/LICENSE`. The original public source hash
+and exact derivation are bound in `config/q2-hc-down-bk256-source.json`.
+LIE's adaptation keeps original F16 model/activation bytes, uses F16 WMMA and
+two FP32 K16 chains, and selects only the M320/K10240 HC-down geometry. The
+bounded sibling patch changes one unroll pragma. Preparation scripts and
+orchestration are first-party MIT. Compilation is not numerical/performance
+qualification or a claim of an independently owned model executor.

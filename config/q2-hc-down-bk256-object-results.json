@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-hc-down-bk256-object.v1",
+  "compile_exit": 0,
+  "unbundle_exit": 0,
+  "metadata_exit": 0,
+  "candidate_source_sha256": "f6105b2b6b53a2e317785a84dd920d6a495c755fb5bd8e3b0caa259b4d4fa30e",
+  "bundle_sha256": "52b8a67b80f0634a240ea8b7363fee1671288a4b59e5c12dec162a536e92e322",
+  "device_object_sha256": "3b4284371c9b47cad8009a46ce2ae2bda5e8097c3a14e9168c878d5ca490a01a",
+  "fields": {
+    "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi32ELi16ELi16ELi256ELi1EEEvPKtS6_Pfiiiii",
+    "group_segment_fixed_size": "50688",
+    "private_segment_fixed_size": "500",
+    "vgpr_count": "256",
+    "sgpr_count": "22",
+    "wavefront_size": "32",
+    "max_flat_workgroup_size": "256"
+  },
+  "gpu_run": false,
+  "numerical_qualification": false,
+  "performance_qualification": false,
+  "retained_first_metadata_exit": 1,
+  "first_metadata_failure": "The compiler output is an offload bundle; unbundle before ELF metadata inspection"
+}

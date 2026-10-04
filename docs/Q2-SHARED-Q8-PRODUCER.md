@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Raw-HC producer for shared Q8 prefill
 
+The later [saved-array replay](Q2-ORACLE-REPLAY.md) confirms that R3's independent
+GPU format rejection below came from cross-stream fixture initialization.
+All40 ordered outputs match exactly, without changing the GPU oracle arithmetic
+or original inputs. The historical failed reports and timings below remain
+retained; this result adds no new model performance measurement.
+
 This isolated experiment derives from the exact mixed-Q2 source behind the
 fixed1443.672867 PP / UD1685.777092 comparison. It enables the already existing
 tiled-Q8 output in the raw-HC F16 GEMM epilogue for the FFN mixer only. The

@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-fixture-fix-host.v1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "finished_at": "2026-10-04T20:29:09.288226+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_ctest": 23,
+  "sanitized_ctest": 23,
+  "files": {
+    "tests/q2_hc_up_fused.cpp": "a23da509ae24ca8e915dd91dd64120aa12263871f365ad962fbed303b5d6dd8c",
+    "tests/q2_shared_q8_producer.cpp": "34c2b8cf08b327930eacff7a636d756f55b6232d110c8208eb1c177082b7bbb5"
+  },
+  "result_sha256": "e0e00c191c2af113cc5a4d380c36b906239b688ba8c72a60c4220db4a7f038d5",
+  "archive_sha256": "64d3eed8128a6c4469bf9d76e7829c1d20eee8f5f2d02bf8dd95a3af0897b581",
+  "capsule_sha256": "1564fd701e3f074d546e3ac544ff5960a82267e92eede046f14a34ac58cbca96",
+  "syntax_exit": 0,
+  "syntax_evidence": "evidence/q2-shared-q8-oracle-replay-preparation/producer-fixture-syntax.json",
+  "cpu_tests_do_not_execute_hip_fixture": true,
+  "full_producer_gpu_rerun": false,
+  "model_forward": false
+}

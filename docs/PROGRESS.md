@@ -1,6 +1,47 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Independent Q8 fixture race confirmed — 2026-10-04
+
+The standalone saved-array replay preserves the exact R3 independent GPU
+kernel, numerical flags and15 original arrays. All40 same-stream outputs
+match production byte for byte;39/40 legacy default-stream initialization
+outputs differ. Initialization ordering is the only arm difference. The
+historical107/64503 code mismatches at127/2048 were false format rejection
+from the fixture race; all original exit1 reports and arrays stay immutable.
+
+Configure/build/replay exits0/0/0,84 artifacts verify and binary/input pre/post
+hashes match. The original producer fixture now passes its nonblocking stream
+to oracle buffer initialization. HIP syntax compilation succeeds; .157 host
+Debug and ASan/UBSan pass23/23 each. These CPU gates do not execute HIP. The
+complete producer fixture is not rerun. No model, qualified Q2/UD comparator
+or context curve is rerun, and no new PP/TG value is claimed.
+
+This confirms one candidate family's false GPU format rejection, not19
+independent missing gains. The Q8 gain is already present in the measured
+1451.924906/1452.143206 compositions. Other verdicts remain individually
+auditable. Release20:24:46UTC verifies486identities/377groups retired, empty
+KFD, four original leases free and six unchanged model stat tuples. Core
+receives the release; no Q2 GPU job, reservation, waiter or cleanup remains.
+[Replay evidence and limits](Q2-ORACLE-REPLAY.md).
+
+## Original-F16 HC-down port prepared — 2026-10-04
+
+The new numerical port derives native vector loads, BK256 staging and direct
+F32 stores from public MIT source, with complete attribution and original
+license retained. It keeps the model's original F16 weight/activation bytes
+and two FP32 K16 chains. The measured exact Q8+row parent is verified across
+1022 files; each new provider has 1023 files. Only the M320/K10240 at96–2048
+row dispatch changes. No extra buffers/streams or BF16 conversion are added.
+
+Both candidates compile locally. The first uses256 VGPRs and500 private bytes
+per thread; changing only the K16 unroll pragma to2 reduces that to138 VGPRs
+and0 private bytes. Each uses50688 LDS bytes and wave32. The first version and
+the failed initial bundle-metadata inspection are preserved. This is compiler
+resource evidence, not a numerical pass or speed measurement. Default backend
+and remote runner remain unchanged; no new GPU window or context curve is
+admitted. [Source, objects and next qualification](Q2-HC-DOWN-BK256.md).
+
 ## Focused optimization audit complete — 2026-10-04
 
 Three independently fetched public source snapshots are pinned and retained

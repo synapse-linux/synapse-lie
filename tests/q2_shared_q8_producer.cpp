@@ -164,7 +164,9 @@ static bool Check(unsigned n, unsigned pattern, bool injection, bool half,
     cpu_different_bytes += cpu_expected[i] != reference_q8[i];
   std::cout << "{\"event\":\"shared_q8_cpu_diagnostic\",\"n\":" << n
             << ",\"different_bytes\":" << cpu_different_bytes << "}\n";
-  Output<unsigned char> independent(q::Q8TiledBytes(n, hidden));
+  // This oracle runs on a nonblocking stream. Initialize on that same stream:
+  // default-stream memset can otherwise overwrite codes after their producer.
+  Output<unsigned char> independent(q::Q8TiledBytes(n, hidden), stream);
   Hip(q2_shared_q8_scalar_oracle(ref.mixed.Data(), independent.Data(), n, hidden, stream));
   Hip(hipStreamSynchronize(stream));
   const auto expected = independent.Read();
