@@ -21,6 +21,18 @@ verified closure. No interleaving,
 dependency, tuning, foreign termination, model mutation or restart is included.
 The separately prepared PLE source has no admitted model arm.
 
+At 01:11:35 UTC the IQ2 candidate completes all eight depths, five command
+exits zero and 30 artifacts verified. All 20 request/output histories replay.
+The unexpectedly large PP rise, despite unchanged tiled prefill, justifies a
+single unchanged Q2 control immediately after candidate and before UD. Fresh
+follow-up admission at 01:15:08.800389 UTC verifies 23 owned identities absent,
+empty KFD and all four unchanged lease inodes EX|NB/free. Remote/main receipts
+and the shared registry record this bounded addition. Outgoing MCP transport
+fails; delivery is not claimed. Core subsequently confirms Q2 retains `.157`
+and prepares its future native-sampling work offline only.
+The control finishes at 01:23:20 UTC with exact history and five exits zero;
+UD follows as the final admitted arm. Q2 will provide verified window closure.
+
 Previous state: IQ2 component window **released** at
 2026-10-04T00:07:51.297211+00:00. Six cohorts complete with 28 command exits
 zero and 474 artifacts verified. Fresh closure checks 34 own processes/groups

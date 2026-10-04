@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Canonical IQ2: decode gain survives unchanged order control — 2026-10-04
+
+Ordered IQ2 completes the full 0–128K curve, all five commands exit zero and
+30 artifacts verify. Its 20 full request/output histories match baseline.
+The apparent depth-zero PP jump from 833.320 to 1397.861 token/s prompts an
+unchanged Q2 repeat before UD. That control reaches 1398.334 PP, retaining the
+same 20 histories; PP improvement is therefore not attributed to the kernel.
+Decode increases **4.446–5.188% at all eight depths** against that control,
+median 5.143%, with no observed completion changes. The full table and evidence
+are in [the canonical IQ2 report](Q2-IQ2-CANONICAL.md).
+
+The extra single control arm has fresh admission at 01:15:08 UTC and finishes
+at 01:23:20, all five commands exit zero and 30 artifacts verify. The initial
+failed local admission checker is retained; no workload or foreign action
+occurred before correcting its ownership set. UD is now running. The analyzer
+and plotter retain both baselines, the candidate and UD without replacing
+slower observations. Goal parity and independent numerical qualification are open.
+
 ## IQ2 model campaign admitted; separate PLE candidate — 2026-10-04
 
 Core releases its integrated window at 00:47:22 UTC with all 28 identities and

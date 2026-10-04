@@ -1,0 +1,74 @@
+{
+  "at": "2026-10-04T01:15:08.800389+00:00",
+  "state": "UNCHANGED_Q2_ORDER_CONTROL_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "parent_admission": "2026-10-04T00:51:48.380268+00:00",
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "retired": {
+    "3324769": null,
+    "3324770": 164052426,
+    "3324842": 164052528,
+    "3324976": 164053031,
+    "3325181": 164053735,
+    "3325279": 164053787,
+    "3325426": 164054590,
+    "3325806": null,
+    "3325807": 164058186,
+    "3326242": 164058538,
+    "3327725": 164076420,
+    "3327726": 164076472,
+    "3327727": 164076525,
+    "3327728": 164076533,
+    "3327818": 164077702,
+    "3329886": null,
+    "3329887": 164120573,
+    "3330321": 164120875,
+    "3332154": 164138707,
+    "3332155": 164138760,
+    "3332156": 164138813,
+    "3332157": 164138821,
+    "3332290": 164139907
+  },
+  "reason": "Candidate PP rises sharply despite unchanged tiled prefill; test unchanged Q2 immediately after candidate before UD changes memory residency.",
+  "added_arm": "q2-iq2-curve-baseline-r2",
+  "source_variant": "curve-q2",
+  "rebuild_mmq": true,
+  "then": "q2-iq2-curve-ud-r1",
+  "restart_scheduled": false,
+  "scope": "Exactly one added full canonical 0-128K Q2 control; same source, core, workload and harness. No hardware/model/cache mutation.",
+  "local_preflight_attempts": [
+    {
+      "exit_code": 1,
+      "reason": "Local checker included foreign observed desktop PID in retirement set; no action executed. Corrected to own runner/command/session identities."
+    },
+    {
+      "exit_code": 0
+    }
+  ]
+}

@@ -20,6 +20,9 @@ def main():
     iq2 = report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
     variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
         ('q2','#007f8b','Q2 ordered IQ2' if iq2 else 'Q2'), ('ud','#d66a28','UD')]
+    if iq2 and 'baseline_repeat' in report['models']:
+        variants[0] = ('baseline','#a2a7b0','Q2 before IQ2')
+        variants.insert(1, ('baseline_repeat','#606878','Q2 after IQ2'))
     assert set(report['models']) == {k for k,_,_ in variants}
     args.output.mkdir(parents=True, exist_ok=False)
     cache = tempfile.TemporaryDirectory(prefix='q2-curve-mpl-')

@@ -56,6 +56,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     for name in ('baseline','candidate','ud','host','output'):
         p.add_argument('--'+name,type=Path,required=True)
+    p.add_argument('--baseline-repeat', type=Path,
+                   help='Unchanged Q2 control after candidate; retain both baselines')
     args = p.parse_args()
     require(not args.output.exists(), 'Refusing to overwrite a result')
     host = common.artifacts(args.host)
@@ -80,23 +82,42 @@ def main():
                                   experiment='iq2-signs-ordered'),
                   ud=common.model(args.ud,'ud',args.host,base,client,upstream))
     replay = history(args.baseline/'results/canonical-curve',args.candidate/'results/canonical-curve',client)
+    repeated_replay = None
+    if args.baseline_repeat:
+        models['baseline_repeat'] = common.model(
+            args.baseline_repeat, 'q2', args.host, base, client, upstream)
+        repeated_replay = history(args.baseline/'results/canonical-curve',
+                                  args.baseline_repeat/'results/canonical-curve', client)
+    matched = replay['exact'] and (repeated_replay is None or repeated_replay['exact'])
     cells = []
-    for baseline,q2,ud in zip(*(models[k]['rows'] for k in ('baseline','q2','ud'))):
+    for index,(baseline,q2,ud) in enumerate(zip(*(models[k]['rows'] for k in ('baseline','q2','ud')))):
         require(baseline['depth'] == q2['depth'] == ud['depth'], 'Depth order differs')
         counts = all(baseline[k] == q2[k] for k in COUNTS)
         ratios = {m:q2[m]/ud[m] for m in METRICS}
-        cells.append(dict(depth=q2['depth'],candidate_vs_baseline_ratios={m:q2[m]/baseline[m] for m in METRICS},
+        cell = dict(depth=q2['depth'],candidate_vs_baseline_ratios={m:q2[m]/baseline[m] for m in METRICS},
             candidate_vs_ud_ratios=ratios,baseline_vs_ud_ratios={m:baseline[m]/ud[m] for m in METRICS},
-            physical_counts_exact=counts,parity_observed=replay['exact'] and counts and all(v>=1 for v in ratios.values())))
+            physical_counts_exact=counts,parity_observed=matched and counts and all(v>=1 for v in ratios.values()))
+        if args.baseline_repeat:
+            repeat = models['baseline_repeat']['rows'][index]
+            require(repeat['depth'] == q2['depth'], 'Repeated baseline depth order differs')
+            repeated_counts = all(repeat[k] == q2[k] for k in COUNTS)
+            cell.update(repeated_physical_counts_exact=repeated_counts,
+                candidate_vs_repeated_baseline_ratios={m:q2[m]/repeat[m] for m in METRICS},
+                repeated_vs_initial_baseline_ratios={m:repeat[m]/baseline[m] for m in METRICS})
+            cell['parity_observed'] = cell['parity_observed'] and repeated_counts
+        cells.append(cell)
     report = dict(schema='synapse-lie.q2-iq2-canonical-comparison.v1',
         scope='Unchanged Gufo prose context curve over the same C17 HTTP core and timers; baseline Q2, ordered IQ2 Q2, pristine UD',
         provider_manifest_sha256=sha(ROOT/'config/q2-iq2-signs-ordered-asm-source.json'),
-        models=models,history_replay=replay,cells=cells,matched_history=replay['exact'],
+        models=models,history_replay=replay,cells=cells,matched_history=matched,
         full_curve_parity_observed=all(r['parity_observed'] for r in cells),
         repetition_needed_before_acceptance=True,numerical_qualified=False,promoted=False,goal_met=False)
+    if repeated_replay is not None:
+        report.update(baseline_repeat_history=repeated_replay,
+            order_control_scope='Unchanged Q2 after candidate; both baseline observations retained. Filesystem coldness is not controlled or asserted.')
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
-    print(json.dumps(dict(matched_history=replay['exact'],cells=cells,goal_met=False)))
-    raise SystemExit(0 if replay['exact'] else 1)
+    print(json.dumps(dict(matched_history=matched,cells=cells,goal_met=False)))
+    raise SystemExit(0 if matched else 1)
 
 
 if __name__ == '__main__':

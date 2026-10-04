@@ -38,7 +38,12 @@ constraining scale rounding. This is component evidence, not a model speedup.
 The canonical whole-model path, complete-history comparison and three-series
 plot export pass 19/19 Debug and ASan/UBSan host checks on `.157`. Core released
 its window, and fresh Q2 admission at 00:51:48 UTC on 2026-10-04 starts the
-full-MMQ baseline/ordered-candidate/UD campaign. Model PP/TG results are pending.
+full-MMQ baseline/ordered-candidate/UD campaign.
+The [completed Q2 order control](docs/Q2-IQ2-CANONICAL.md) now measures
+**4.446–5.188% higher full-model decode** at every depth with the ordered
+candidate. All 20 request/output histories replay exactly. An unchanged Q2
+repeat reproduces the apparent PP increase, so it is not credited to this
+kernel patch. UD is running; full Q2/UD parity and model quality remain open.
 Histogram tile selection is already present, while D2R and producer-Q8 reuse
 are inactive stubs in the pinned DeepSeek HIP port.
 
