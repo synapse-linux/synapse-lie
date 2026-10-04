@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Native core benchmarks can explicitly continue past EOS with `--ignore-eos`
+  for fixed-token measurements. Results retain the EOS policy, refuse unmatched
+  policies and reject incomplete fixed-budget output. Normal serving keeps EOS.
+
 - Retained background responses accept closed output demand while numerical
   teardown is pending, preserving generation after a stream disconnect instead
   of cancelling at the final token.

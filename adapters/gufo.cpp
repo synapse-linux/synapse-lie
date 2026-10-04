@@ -64,6 +64,7 @@ struct lie_sequence {
     gufo::sampling::SamplerState sampler;
     std::atomic<bool> cancelled{false};
     bool stopped{false}, sampling_started{false};
+    bool stop_at_eos{true};
 };
 namespace {
 lie_status error(lie_error *e, lie_status s, const char *message) noexcept {
@@ -367,6 +368,16 @@ extern "C" lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_
         *out = result.release(); return LIE_OK;
     });
 }
+extern "C" lie_status lie_sequence_set_eos_policy(lie_sequence *s,lie_eos_policy p,lie_error *e) {
+    if (!s) return error(e,LIE_INVALID,"invalid sequence");
+    auto rc=owner(s->runtime,e); if (rc!=LIE_OK) return rc;
+    if ((p!=LIE_EOS_STOP && p!=LIE_EOS_IGNORE) ||
+        (p==LIE_EOS_IGNORE && s->sampler.config().constraint) || s->session->Position() ||
+        s->sampling_started || s->stopped)
+        return error(e,LIE_INVALID,"invalid EOS policy or started sequence");
+    s->stop_at_eos=p==LIE_EOS_STOP;
+    return LIE_OK;
+}
 extern "C" lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     if (!s || !o) return error(e,LIE_INVALID,"invalid generation controls");
     auto rc=owner(s->runtime,e); if (rc!=LIE_OK) return rc;
@@ -417,6 +428,8 @@ lie_sequence_constrain(lie_sequence *s, const lie_generation_constraints *o,
     return rc;
   if (s->session->Position())
     return error(e, LIE_INVALID, "generation already started");
+  if (!s->stop_at_eos)
+    return error(e, LIE_INVALID, "fixed-budget decode cannot use constraints");
   try {
     using gufo::sampling::JsonConstraint;
     std::shared_ptr<const JsonConstraint> grammar;
@@ -521,7 +534,7 @@ extern "C" lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *ou
             std::vector<gufo::sampling::TokenId> history(tokens.begin(),tokens.end());
             s->sampler.ResetHistory(history); s->sampling_started=true; }
         qfn::Session::DecodeResult result; std::string message;
-        if (!s->session->DecodeStep(1, s->sampler, &result, &message, true)) return failed(s->runtime, e, message);
+        if (!s->session->DecodeStep(1, s->sampler, &result, &message, s->stop_at_eos)) return failed(s->runtime, e, message);
         if (s->cancelled.load()) return error(e, LIE_CANCELLED, "cancelled after completed decode; output suppressed");
         if (result.tokens.size() > 1) return failed(s->runtime, e, "unexpected AR result");
         s->stopped = result.stop;
@@ -554,11 +567,11 @@ extern "C" lie_status lie_sequences_decode(lie_sequence *const *rows,size_t n,li
             if(!s->sampling_started){auto ids=s->session->Tokens();
                 std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
                 s->sampler.ResetHistory(history);s->sampling_started=true;}
-            map[active]=i;requests[active]={s->session.get(),1,&s->sampler,&results[active],true,&outcomes[active]};++active;
+            map[active]=i;requests[active]={s->session.get(),1,&s->sampler,&results[active],s->stop_at_eos,&outcomes[active]};++active;
         }
         std::string message;
         if(active==1){auto &q=requests[0];
-            if(!q.session->DecodeStep(1,*q.sampler,q.result,&message,true))return failed(r,e,message);
+            if(!q.session->DecodeStep(1,*q.sampler,q.result,&message,q.stop_at_eos))return failed(r,e,message);
             outcomes[0].completed=true;
         }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
         for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];
@@ -600,11 +613,11 @@ extern "C" lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const u
                 std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
                 s->sampler.ResetHistory(history);s->sampling_started=true;}
             before[active]=s->session->Statistics();
-            map[active]=i;requests[active]={s->session.get(),limits[i],&s->sampler,&results[active],true,&outcomes[active]};++active;
+            map[active]=i;requests[active]={s->session.get(),limits[i],&s->sampler,&results[active],s->stop_at_eos,&outcomes[active]};++active;
         }
         std::string message;
         if(active==1){auto &q=requests[0];
-            if(!q.session->DecodeStep(q.max_tokens,*q.sampler,q.result,&message,true))return failed(r,e,message);
+            if(!q.session->DecodeStep(q.max_tokens,*q.sampler,q.result,&message,q.stop_at_eos))return failed(r,e,message);
             outcomes[0].completed=true;
         }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
         for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];

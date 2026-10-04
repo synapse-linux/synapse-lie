@@ -15,7 +15,7 @@
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 6u
+#define LIE_CORE_REQUEST_ABI 7u
 #define LIE_STOP_MAX 4u
 #define LIE_STOP_BYTES 256u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
@@ -53,6 +53,8 @@ typedef struct {
     const char *stop[LIE_STOP_MAX];
     size_t stop_count;
     lie_cache_metadata cache; /* Optional client-owned visible key / extension bytes. */
+    lie_eos_policy eos_policy; /* Default STOP. IGNORE: raw text/tokens only,
+                               * no stop strings or constrained output. */
 } lie_core_request;
 void lie_core_request_init(lie_core_request *);
 

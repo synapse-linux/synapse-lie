@@ -23,6 +23,7 @@ struct lie_sequence {
   int32_t *prompt;
   unsigned char scope[32];
   atomic_bool cancelled;
+  lie_eos_policy eos_policy;
   const char *constrained_output;
   float bias[2048];
 };
@@ -225,7 +226,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
         if (!done) { out->token=128+(unsigned char)text[s->step++];s->prompt[s->position]=out->token;out->emitted=1;out->position=++s->position; }
         return LIE_OK;
     }
-    bool done=s->mode==6 || (s->mode==0 && s->step==8);
+    bool done=s->eos_policy==LIE_EOS_STOP && (s->mode==6 || (s->mode==0 && s->step==8));
     *out=(lie_decode_result){.stop=done,.position=s->position};
     if (!done) {
         out->token=s->mode==0?(int)s->step:s->mode==3?1001:s->mode==4?1002:s->mode==10?1003:1000;
@@ -255,6 +256,13 @@ lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, siz
 }
 void lie_sequence_cancel(lie_sequence *s) { atomic_store(&s->cancelled,true); }
 
+lie_status lie_sequence_set_eos_policy(lie_sequence *s,lie_eos_policy p,lie_error *e) {
+    if(!s)return error(e,LIE_INVALID,"invalid sequence");
+    owner(s->model);
+    if(s->position||s->step||(p!=LIE_EOS_STOP&&p!=LIE_EOS_IGNORE))
+        return error(e,LIE_INVALID,"invalid EOS policy or started sequence");
+    s->eos_policy=p;return LIE_OK;
+}
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     (void)e; owner(s->model); assert(!s->position);
     /* Internal synthetic submissions historically use an all-zero request. */

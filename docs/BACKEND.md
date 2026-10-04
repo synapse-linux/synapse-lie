@@ -40,6 +40,8 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    1,048,448 prefill tokens but stops naturally after 43 output tokens; the
    required TG128 gate remains failed. Require full physical prefill and all
    128 output tokens in a newly declared run, then long-context recall checks.
+   The native core bench now has an explicit `--ignore-eos` method matching
+   Gufo's fixed-token TG completion policy. Host tests do not close this GPU gate.
    Exercise the native progress client without treating snapshots as completion.
 4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical

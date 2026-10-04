@@ -211,7 +211,11 @@ bool lie_core_input_copy_sized(const lie_core_request *r, lie_core_request *out,
       r->format > LIE_FORMAT_JSON_SCHEMA || r->stop_count > LIE_STOP_MAX ||
       (r->format != LIE_FORMAT_JSON_SCHEMA && r->schema_json) ||
       (r->strict && r->format != LIE_FORMAT_JSON_SCHEMA) ||
-      (r->truncate_oldest && r->kind != LIE_INPUT_MESSAGES))
+      (r->truncate_oldest && r->kind != LIE_INPUT_MESSAGES) ||
+      (r->eos_policy != LIE_EOS_STOP && r->eos_policy != LIE_EOS_IGNORE) ||
+      (r->eos_policy == LIE_EOS_IGNORE &&
+       (r->kind == LIE_INPUT_MESSAGES || r->format != LIE_FORMAT_TEXT ||
+        r->stop_count)))
     return false;
   if ((r->image_count &&
        (!LIE_VISION || !r->images || r->kind != LIE_INPUT_MESSAGES)) ||

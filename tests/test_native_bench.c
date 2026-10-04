@@ -436,6 +436,81 @@ static void core_clock_contract(json_object *rows) {
             "invalid core timing published graphs");
   }
 }
+static void core_eos_contract(char *bench, char *tokens) {
+  char output[2400], graphs[2400], changed[2400], refused[2400];
+  path(output, "fixed-eos-core.jsonl");path(graphs, "fixed-eos-core-graphs");
+  char *args[] = {bench,"--suite","core","--model",":eos:","--tokens-file",tokens,
+                 "--tg","16","--users","2","--warmups","0","--repetitions","2",
+                 "--kv-cache-ram-mb","0","--ignore-eos","--output",output,"--graphs",graphs,NULL};
+  run(args,0);graph_files("fixed-eos-core-graphs");
+  json_object *rows=read_json("fixed-eos-core.jsonl",true),*id=json_object_array_get_idx(rows,0);
+  require(!strcmp(nb_string(id,"eos_policy"),"ignore"),"fixed EOS policy not declared");
+  unsigned jobs=0;
+  for(size_t i=0;i<json_object_array_length(rows);++i){json_object *r=json_object_array_get_idx(rows,i);
+    if(strcmp(nb_string(r,"event"),"job"))continue;
+    require(nb_number(r,"output_tokens")==16 && nb_number(r,"output_bytes")==15 &&
+            !strcmp(nb_string(r,"finish"),"length") &&
+            json_object_get_int(json_object_array_get_idx(nb_get(r,"output_ids"),7))==255,
+            "EOS must be a confirmed token, including its zero-byte text, not masked or retried");++jobs;
+  }
+  require(jobs==4,"missing EOS cohorts/repetitions");
+  json_object *summary=read_json("fixed-eos-core-graphs/summary.json",false);
+  json_object *point=json_object_array_get_idx(nb_get(nb_get(summary,"primary"),"configurations"),0);
+  require(!strcmp(nb_string(point,"eos_policy"),"ignore"),"EOS policy lost from summary");json_object_put(summary);
+  nb_str(id,"eos_policy","stop");save_rows("other-eos-policy.jsonl",rows);
+  path(changed,"other-eos-policy.jsonl");path(refused,"other-eos-policy-graphs");nb_error error={0};
+  require(nb_report(output,refused,"fixed",changed,"natural",false,&error)!=0,
+          "different EOS methods accepted as a matched comparison");
+  struct stat st;require(lstat(refused,&st)&&errno==ENOENT,"mismatched EOS published graphs");
+  json_object_object_del(id,"eos_policy");save_rows("historical-eos-policy.jsonl",rows);
+  path(changed,"historical-eos-policy.jsonl");path(graphs,"historical-eos-policy-graphs");
+  char declared[2400];path(declared,"other-eos-policy.jsonl");
+  require(!nb_report(declared,graphs,"stop",changed,"historical",false,&error),
+          "historical core EOS policy must normalize to stop");
+  for(unsigned i=0;i<4;++i){
+    json_object_object_add(id,"eos_policy",i==0?NULL:i==1?json_object_new_boolean(true):
+                           i==2?json_object_new_int(1):json_object_new_string("unknown"));
+    char name[96];snprintf(name,sizeof(name),"invalid-eos-policy-%u.jsonl",i);
+    save_rows(name,rows);path(changed,name);
+    require(nb_report(changed,refused,"invalid",NULL,NULL,false,&error)!=0,"malformed EOS policy accepted");
+  }
+  json_object_put(rows);
+  path(output,"natural-eos-core.jsonl");
+  char *natural[]={bench,"--suite","core","--model",":eos:","--tokens-file",tokens,
+                   "--tg","16","--warmups","0","--repetitions","1","--kv-cache-ram-mb","0",
+                   "--output",output,NULL};run(natural,0);
+  rows=read_json("natural-eos-core.jsonl",true);id=json_object_array_get_idx(rows,0);
+  require(!strcmp(nb_string(id,"eos_policy"),"stop"),"default EOS policy changed");
+  nb_str(id,"eos_policy","ignore");save_rows("incomplete-fixed-eos-core.jsonl",rows);
+  path(changed,"incomplete-fixed-eos-core.jsonl");
+  require(nb_report(changed,refused,"incomplete",NULL,NULL,false,&error)!=0,
+          "short output qualified as fixed-budget decode");json_object_put(rows);
+  path(output,"fixed-eos-provider-fault.jsonl");
+  char *fault[]={bench,"--suite","core","--model",":eos-policy-fault:","--tokens-file",tokens,
+                 "--tg","16","--warmups","0","--repetitions","1","--kv-cache-ram-mb","0",
+                 "--ignore-eos","--output",output,NULL};run(fault,1);
+  rows=read_json("fixed-eos-provider-fault.jsonl",true);
+  json_object *last=json_object_array_get_idx(rows,json_object_array_length(rows)-1);
+  require(nb_number(last,"exit_code")==1&&!strcmp(nb_string(last,"event"),"failed"),
+          "provider EOS violation published a successful footer");json_object_put(rows);
+#if LIE_MTP
+  path(output,"fixed-eos-mtp.jsonl");
+  char *mtp[]={bench,"--suite","core","--model",":eos:","--model-mtp",":fixture:",
+               "--tokens-file",tokens,"--tg","16","--users","2","--repetitions","1",
+               "--kv-cache-ram-mb","0","--ignore-eos","--output",output,NULL};run(mtp,0);
+  rows=read_json("fixed-eos-mtp.jsonl",true);jobs=0;
+  for(size_t i=0;i<json_object_array_length(rows);++i){json_object *r=json_object_array_get_idx(rows,i);
+    if(strcmp(nb_string(r,"event"),"job"))continue;
+    require(nb_number(r,"output_tokens")==16&&nb_number(r,"output_bytes")==15&&
+            nb_number(r,"mtp_accepted_tokens")>0&&!strcmp(nb_string(r,"finish"),"length"),
+            "MTP did not preserve its fixed-token burst past EOS");++jobs;
+  }
+  require(jobs==2,"missing MTP fixed EOS rows");json_object_put(rows);
+#endif
+  char *duplicate[]={bench,"--suite","core","--build-info","--ignore-eos","--ignore-eos",NULL};run(duplicate,2);
+  char *vision[]={bench,"--suite","core","--build-info","--ignore-eos","--model-vision",":vision-a:",NULL};run(vision,2);
+  char *probe[]={bench,"--suite","core","--build-info","--ignore-eos","--reactive-probe",NULL};run(probe,2);
+}
 static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   char output[2400], graphs[2400];
   path(output, "sampled-core.jsonl");
@@ -714,6 +789,7 @@ int main(int argc, char **argv) {
           "cached prefill presented as executed work");
   json_object_put(sum);
   core_sampling_contract(argv[2], tokens, output);
+  core_eos_contract(argv[2], tokens);
   core_progress_contract(argv[2]);
   path(output, "direct.jsonl");
   path(graphs, "direct-graphs");

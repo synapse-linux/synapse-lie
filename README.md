@@ -15,6 +15,8 @@ Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to
 1,048,576 tokens. Strix Point verifies allocation at that capacity and completes
 1,048,448 physical prefill tokens. The required 128-token generation gate remains
 failed on early EOS; long-context quality and performance remain under qualification.
+The [native core bench](docs/guides/BENCHMARKS.md#shared-engine-and-cache) can
+explicitly continue past EOS for fixed-token measurements; its GPU gate is pending.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and
 can be configured together. Recorded original-weight functional checkpoints

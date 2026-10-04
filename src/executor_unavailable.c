@@ -32,6 +32,7 @@ lie_status lie_sequence_logits(lie_sequence *s UNUSED, float *o UNUSED, size_t c
 void lie_sequence_cancel(lie_sequence *s UNUSED) { }
 
 lie_status lie_sequence_configure(lie_sequence *s UNUSED,const lie_generation_options *o UNUSED,lie_error *e) { return unavailable(e); }
+lie_status lie_sequence_set_eos_policy(lie_sequence *s UNUSED,lie_eos_policy p UNUSED,lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_constrain(lie_sequence *s UNUSED,
                                   const lie_generation_constraints *o UNUSED,
                                   lie_error *e) {

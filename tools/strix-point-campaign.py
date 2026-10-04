@@ -1006,6 +1006,11 @@ class Campaign:
             raise ValueError('Invalid bounded modern core settings')
         generation = (core_generation(self.m['generation']) if 'generation' in self.m
                       else core_generation(None, historical=True))
+        eos_policy = self.m.get('eos_policy', 'stop')
+        if type(eos_policy) is not str or eos_policy not in ('stop', 'ignore'):
+            raise ValueError('Invalid core EOS policy')
+        if eos_policy == 'ignore' and reactive_probe:
+            raise ValueError('Reactive probe retains natural EOS')
         if (ram_cache or ssd_cache) and (settings['users'] != 1 or settings['warmups'] != 1 or
                                          settings['repetitions'] != 1):
             raise ValueError('Modern cache gate requires C1, one warmup and one measured run')
@@ -1039,6 +1044,8 @@ class Campaign:
             command.extend(('--rope-scaling', rope))
         if progress_ms:
             command.extend(('--progress-ms', str(progress_ms)))
+        if eos_policy == 'ignore':
+            command.append('--ignore-eos')
         if reactive_probe:
             command.append('--reactive-probe')
         if ssd_cache:
@@ -1065,6 +1072,8 @@ class Campaign:
                     identity.get('mode') != mode or identity.get('synthetic') or
                     identity.get('build_id') != self.m.get('runtime_build_id') or
                     identity.get('rope_scaling', 'native') != rope or
+                    type(identity.get('eos_policy', 'stop')) is not str or
+                    identity.get('eos_policy', 'stop') != eos_policy or
                     type(identity.get('progress_interval_ms', 0)) is not int or
                     identity.get('progress_interval_ms', 0) != progress_ms or
                 identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off') or
@@ -1097,6 +1106,7 @@ class Campaign:
                                        reactive[0].get('mtp_accepted_delta')))):
                     raise RuntimeError('Incomplete direct reactive GPU probe')
                 self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                                          'eos_policy': eos_policy,
                                           'generation': generation,
                                           'reactive': reactive[0],
                                           'measurements_sha256': sha(self.root/'measurements.jsonl')}
@@ -1104,7 +1114,8 @@ class Campaign:
             if (len(jobs) != settings['users']*(settings['warmups']+settings['repetitions']) or
                     len(samples) != settings['warmups']+settings['repetitions'] or
                     any(row.get('prompt_tokens') != len(prompt) or
-                        row.get('output_tokens') != settings['tg'] for row in jobs)):
+                        row.get('output_tokens') != settings['tg'] or
+                        (eos_policy == 'ignore' and row.get('finish') != 'length') for row in jobs)):
                 raise RuntimeError('Incomplete modern core output')
             drafted = sum(row.get('mtp_drafted_tokens', 0) for row in jobs)
             accepted = sum(row.get('mtp_accepted_tokens', 0) for row in jobs)
@@ -1123,6 +1134,7 @@ class Campaign:
             progress_result = (validate_core_progress(self.root/'distrobox.stderr.log', jobs, settings)
                                if progress_ms else None)
             self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                                      'eos_policy': eos_policy,
                                       'generation': generation,
                                       'jobs': len(jobs), 'samples': len(samples),
                                       'drafted': drafted, 'accepted': accepted,

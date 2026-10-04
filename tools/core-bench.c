@@ -161,6 +161,9 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     }
     for(unsigned i=0;i<users;++i){
         lie_job_info info;lie_job_snapshot(rows[i].job,&info);size_t n=0;
+        if(r->eos_policy==LIE_EOS_IGNORE &&
+           (info.finish!=LIE_FINISH_LENGTH || info.output_tokens!=r->max_tokens)){
+            snprintf(error,256,"incomplete fixed-budget core decode");goto done;}
         int32_t *input=malloc((size_t)info.prompt_tokens*sizeof(*input));
         int32_t output[LIE_CORE_MAX_OUTPUT];
         if(!input||!info.timing_valid||info.output_tokens!=rows[i].tokens||
@@ -370,8 +373,9 @@ int lie_core_bench_main(int argc,char **argv) {
     bool build_info=false,probe=false;unsigned seen=0;
     lie_rope_profile rope_profile=LIE_ROPE_NATIVE;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2] [--ignore-eos]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. EOS ends generation by default; --ignore-eos continues to the fixed token budget and records the EOS token without masking it. Only raw-text/token samples allow this flag; vision and reactive probes retain natural EOS. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
+        if(!strcmp(argv[i],"--ignore-eos")){if(request.eos_policy==LIE_EOS_IGNORE)goto usage;request.eos_policy=LIE_EOS_IGNORE;continue;}
         if(!strcmp(argv[i],"--reactive-probe")){if(probe)goto usage;probe=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
@@ -411,6 +415,7 @@ int lie_core_bench_main(int argc,char **argv) {
     }
     if(mtp_drafts&&!mtp)goto usage;
     if(request.generation.temperature>0&&request.generation.seed<0)goto usage;
+    if(request.eos_policy==LIE_EOS_IGNORE&&(encoder||image_path||probe))goto usage;
     if(probe&&(users!=2||warmups||repetitions!=1||cache_mib||ssd.directory||encoder||image_path||!tokens_path||tg<16||progress_ms))goto usage;
     if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
@@ -420,6 +425,7 @@ int lie_core_bench_main(int argc,char **argv) {
     text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?(encoder?"mtp+vision":"mtp"):(encoder?"vision":"ar"));text(identity,"vision_model",encoder?encoder:"");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
     text(identity,"dense_sampling",lie_backend_dense_sampling());
+    text(identity,"eos_policy",request.eos_policy==LIE_EOS_IGNORE?"ignore":"stop");
     json_object *generation=json_object_new_object();
     nb_real(generation,"temperature",request.generation.temperature);nb_real(generation,"top_p",request.generation.top_p);
     nb_num(generation,"top_k",request.generation.top_k);nb_real(generation,"min_p",request.generation.min_p);

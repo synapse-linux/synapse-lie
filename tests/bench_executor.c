@@ -13,7 +13,7 @@
 #include <string.h>
 #include <time.h>
 struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
-struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
+struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; lie_eos_policy eos_policy; };
 static atomic_uint_fast64_t domain_counter=1;
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
@@ -31,7 +31,7 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
     if(!strcmp(p,":load-failure:")){snprintf(e->message,sizeof(e->message),"synthetic model allocation failure");return LIE_BACKEND_FAILED;}
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:"};
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:",":eos-policy-fault:"};
     for (unsigned i=0;i<sizeof(names)/sizeof(*names);++i) if (!strcmp(p,names[i])) { (*m)->mode=(int)i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
@@ -59,7 +59,7 @@ lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *p,size_t n,lie_er
     (void)e; (void)p;
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (n<=s->position || n-s->position>2048 || n>s->m->context) return LIE_INVALID;
-    if(s->m->mode>=8){
+    if(s->m->mode>=8&&s->m->mode<=10){
         struct timespec delay={s->m->mode==10?1:0,s->m->mode==10?0:s->position?50000000:300000000};
         while(nanosleep(&delay,&delay)&&errno==EINTR){}
         if(s->m->mode==9&&s->position>=4){snprintf(e->message,sizeof(e->message),"synthetic prefill failure after four completed tokens");return LIE_BACKEND_FAILED;}
@@ -69,9 +69,11 @@ lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *p,size_t n,lie_er
 lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *d,lie_error *e) {
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (s->m->mode==4) { snprintf(e->message,sizeof(e->message),"synthetic mutating failure; no retry"); return LIE_BACKEND_FAILED; }
-    if(s->m->mode>=8){struct timespec delay={0,10000000};while(nanosleep(&delay,&delay)&&errno==EINTR){}}
-    if (s->m->mode==1 && s->step==7) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
-    *d=(lie_decode_result){.token=(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
+    if(s->m->mode>=8&&s->m->mode<=10){struct timespec delay={0,10000000};while(nanosleep(&delay,&delay)&&errno==EINTR){}}
+    /* Mode 11 deliberately violates the admitted policy to exercise the
+     * benchmark's completion refusal, not an inference error recovery. */
+    if (s->step==7 && ((s->m->mode==1 && s->eos_policy==LIE_EOS_STOP)||s->m->mode==11)) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
+    *d=(lie_decode_result){.token=s->m->mode==1&&s->step==7?255:(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
     s->prompt[s->position-1]=d->token;
     if (s->m->mode==5) ++d->position;
     return LIE_OK;
@@ -95,7 +97,11 @@ lie_status lie_model_tokenize(lie_model *m,const char *s,size_t bytes,int32_t *p
     lie_chat_message message={LIE_CHAT_USER,s,bytes};return lie_model_chat_tokens(m,&message,1,p,cap,n,e);
 }
 lie_status lie_model_token_text(lie_model *m,int32_t token,char *out,size_t cap,size_t *n,lie_error *e) {
-    (void)m;(void)e;*n=1;if(cap<1)return LIE_BUFFER_SMALL;out[0]=(char)('a'+token%26);return LIE_OK;
+    (void)e;*n=m->mode==1&&token==255?0:1;if(cap<*n)return LIE_BUFFER_SMALL;if(*n)out[0]=(char)('a'+token%26);return LIE_OK;
+}
+lie_status lie_sequence_set_eos_policy(lie_sequence *s,lie_eos_policy p,lie_error *e) {
+    (void)e;if(!s||s->position||s->step||(p!=LIE_EOS_STOP&&p!=LIE_EOS_IGNORE))return LIE_INVALID;
+    s->eos_policy=p;return LIE_OK;
 }
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     (void)e;

@@ -560,6 +560,53 @@ class Tests(unittest.TestCase):
                     reported[0] = changed
                     with self.subTest(mode=mode,changed=changed), self.assertRaisesRegex(RuntimeError,'sampling identity'):
                         c.bench()
+    def test_modern_core_eos_policy_is_forwarded_and_bound_without_shortening_oracle(self):
+        for mode in ('ar','mtp'):
+            c=self.campaign('eos-policy-'+mode)
+            tokens=c.root/'tokens.json';tokens.write_text('[1,2,3]')
+            c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                       bench_profile='modern-core',decode_mode=mode,bundle=str(self.base),
+                       model_plan={'files':[{'name':'target.gguf'}]},tokens_sha256=point.sha(tokens),
+                       prompt_tokens_expected=3,runtime_build_id='fixture-runtime',
+                       settings={'context':4096,'chunk':2048,'users':1,'tg':32,'warmups':0,'repetitions':1})
+            returned=['stop'];count=[32];finish=['length']
+            def run(command,*_args):
+                self.assertEqual('--ignore-eos' in command,c.m.get('eos_policy','stop')=='ignore')
+                identity={'event':'identity','schema':'synapse-lie.core-bench.v1','mode':mode,
+                          'synthetic':False,'cache_policy':'off','build_id':'fixture-runtime'}
+                if returned[0]!='absent':identity['eos_policy']=returned[0]
+                rows=[identity,{'event':'job','prompt_tokens':3,'output_tokens':count[0],'finish':finish[0],
+                                'mtp_drafted_tokens':4 if mode=='mtp' else 0,
+                                'mtp_accepted_tokens':3 if mode=='mtp' else 0},
+                      {'event':'sample'},{'event':'complete','exit_code':0}]
+                (c.root/'measurements.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+            with patch.object(c,'verified_model',return_value=(self.base,[])), \
+                 patch.object(c,'verified_predictor',return_value=(self.base/'mtp.gguf',{})), \
+                 patch.object(c,'run_container',side_effect=run),patch.object(c,'check_model_after'):
+                c.bench();self.assertEqual(c.r['bench_result']['eos_policy'],'stop')
+                returned[0]='absent';c.bench() # Historical results mean stop.
+                count[0]=7
+                with self.assertRaisesRegex(RuntimeError,'Incomplete modern core output'):c.bench()
+                c.m['eos_policy']='ignore';returned[0]='ignore';count[0]=32
+                c.bench();self.assertEqual(c.r['bench_result']['eos_policy'],'ignore')
+                count[0]=7
+                with self.assertRaisesRegex(RuntimeError,'Incomplete modern core output'):c.bench()
+                count[0]=32;finish[0]='stop'
+                with self.assertRaisesRegex(RuntimeError,'Incomplete modern core output'):c.bench()
+                finish[0]='length'
+                for value in ('stop','absent',None,True,1,'unknown'):
+                    returned[0]=value
+                    with self.subTest(mode=mode,value=value),self.assertRaisesRegex(RuntimeError,'benchmark identity'):c.bench()
+    def test_modern_core_refuses_bad_eos_policy_before_model_or_container(self):
+        c=self.campaign('eos-policy-preflight')
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-core',decode_mode='ar',
+                   settings={'context':4096,'chunk':2048,'users':1,'tg':32,'warmups':0,'repetitions':1})
+        with patch.object(c,'verified_model') as model,patch.object(c,'run_container') as container:
+            for value in (None,True,1,{},[], 'unknown'):
+                c.m['eos_policy']=value
+                with self.subTest(value=value),self.assertRaisesRegex(ValueError,'EOS policy'):c.bench()
+            model.assert_not_called();container.assert_not_called()
     def test_modern_core_sampling_refuses_bad_profiles_before_model_or_container(self):
         c = self.campaign('sampling-preflight')
         profile = {'temperature':1,'top_p':1,'frequency_penalty':0,

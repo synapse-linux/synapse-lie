@@ -309,6 +309,12 @@ static json_object *core(json_object *rows, nb_error *e) {
         "Invalid core identity");
   generation = core_generation(id);
   CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
+  json_object *eos_value = NULL;
+  bool eos_declared = json_object_object_get_ex(id, "eos_policy", &eos_value);
+  CHECK(!eos_declared || (json_object_is_type(eos_value, json_type_string) &&
+                         (eqs(id, "eos_policy", "stop") || eqs(id, "eos_policy", "ignore"))),
+        "Invalid core EOS policy");
+  bool ignore_eos = eos_declared && eqs(id, "eos_policy", "ignore");
   CHECK(!nb_get(id,"progress_interval_ms") ||
             (nb_count(id,"progress_interval_ms",0,60000,NULL) &&
              (!nb_number(id,"progress_interval_ms") || nb_number(id,"progress_interval_ms")>=100)),
@@ -397,6 +403,8 @@ static json_object *core(json_object *rows, nb_error *e) {
               ssd = nb_number(r, "ssd_cached_tokens"),
               tg = nb_number(r, "output_tokens"),
               total = nb_number(r, "total_ns");
+      CHECK(!ignore_eos || (tg == nb_number(id, "output_limit") && eqs(r, "finish", "length")),
+            "Incomplete fixed-budget core decode");
       CHECK((!nb_get(r, "cached_tokens") ||
              nb_count(r, "cached_tokens", 0, pp, NULL)) &&
                 (!nb_get(r, "ssd_cached_tokens") ||
@@ -493,6 +501,7 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object *point = json_object_new_object();
   json_object_array_add(points, point);
   nb_add(point, "generation", generation);
+  nb_str(point, "eos_policy", ignore_eos ? "ignore" : "stop");
   fields(point, id,
          "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit rope_scaling "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
@@ -861,7 +870,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
                               "prefill_chunk",   "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling", "progress_interval_ms"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling", "progress_interval_ms", "eos_policy"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),

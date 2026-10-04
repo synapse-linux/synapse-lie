@@ -9,7 +9,7 @@ vision operations keep their existing meanings.
 See [context configuration and qualification](../guides/CONTEXT.md).
 
 The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
-ownership independently of request ABI 6 and generation ABI 3.
+ownership independently of request ABI 7 and generation ABI 3.
 `lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
@@ -51,7 +51,9 @@ model types remain inside the adapter.
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
 their meanings. Request ABI 3 introduced owned image spans; current
-`LIE_CORE_REQUEST_ABI=6` owns parallel-tool policy, output format, schema, stop sequences, oldest-turn truncation and the embedded generation ABI 3.
+`LIE_CORE_REQUEST_ABI=7` owns parallel-tool policy, output format, schema, stop
+sequences, oldest-turn truncation, the embedded generation ABI 3 and the explicit
+EOS policy for raw benchmark requests. ABI 6 callers must rebuild.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -343,7 +345,7 @@ Language/build ownership and feature qualification remain separate; see the
 ## Shared core client API 1
 
 [Semantic event ABI 2](EVENTS.md) is the common output contract for HTTP, Responses
-and direct benchmarks. Current request ABI 6 retains `parallel_tool_calls=true` by
+and direct benchmarks. Current request ABI 7 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
 `lie/core.h` is an experimental C client contract, distinct from executor ABI 3.
@@ -386,6 +388,31 @@ freeing the parsed request after the core accepts its independent copy. The
 core and its public headers have no JSON, libuv, llhttp or socket dependency.
 `lie_flow` retains Linux eventfd/pthread dependencies; this extraction does not
 claim cross-platform portability. CPU acceptance is in [CORE-EXTRACTION.md](../development/CORE-EXTRACTION.md).
+
+### Fixed-token benchmark completion
+
+Request ABI 7 appends `eos_policy`. Initialization selects `LIE_EOS_STOP`.
+`LIE_EOS_IGNORE` is allowed only for raw tokens/text, without stop strings or
+constrained output; message, tool and vision requests refuse it before admission.
+Unknown policies and ABI 6 requests also refuse before sequence creation.
+HTTP clients retain the default policy; no HTTP request option enables this mode.
+
+The additive `lie_sequence_set_eos_policy` must run on the device owner before
+prefill, restore or sampling. It leaves existing executor ABI 3 structures and
+generation ABI 3 unchanged. Invalid values or an already started sequence refuse
+before mutation. Gufo stores the policy per sequence and passes it to scalar,
+native batch and verified MTP calls; constraints cannot be combined with ignore.
+EOS is sampled normally and, in ignore mode, is a confirmed token with its actual
+ID, position and text bytes. Its text may be empty. No masking, retry or replacement
+draw is introduced. A provider that reports EOS stop despite ignore poisons the
+runtime under the existing failed-call rule and suppresses that shared result.
+The token budget, credit, cancellation and context bounds still apply.
+
+`synapse-lie-bench --suite core --ignore-eos` selects this mode explicitly.
+The CLI and report both require the complete output budget with a length finish;
+`eos_policy` is part of the result and comparison identity. Missing historical
+fields mean `stop`. Current host checks do not qualify original-weight fixed
+TG128 or change the retained physical 1M failure.
 
 
 ## Optional C17 SSD store contract

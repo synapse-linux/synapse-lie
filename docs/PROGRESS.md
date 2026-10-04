@@ -8,6 +8,35 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Fixed-token EOS benchmark method implemented — 2026-10-04 UTC
+
+The independently verified official Gufo TG benchmark calls decode with
+`stop_at_eos=false`. LIE previously always selected `true`, explaining a method
+difference for fixed-output measurements. The native core bench now accepts
+explicit `--ignore-eos`, with a per-sequence shared-core policy in AR/batch/MTP.
+EOS remains a sampled confirmed token, including its actual ID and possibly
+empty text. No masking or replacement draw is added. Normal HTTP serving keeps
+EOS; chat, tool, vision, constraint and stop-string combinations refuse ignore.
+
+Request ABI 7 appends the policy; executor ABI 3 and generation ABI 3 stay
+unchanged. A violated provider policy poisons the shared result under the
+existing failure contract. The native CLI, report and optional Point supervisor
+retain full output oracles; result/comparison identity records `eos_policy`,
+with historical absence meaning `stop`. No thread or product dependency is added.
+
+Eight focused Debug and eight ASan/UBSan/LSan checks pass, with 56 optional
+supervisor fixtures and a complete adapter header check. EOS C2 repetitions,
+zero-byte text, MTP bursts, immutable admission, late setter refusal, malformed
+policy, mismatched reports and deliberate provider policy violation are covered.
+The local CPU maximum is 83.5 C. An initial documentation context-patch refusal
+is retained; no test or compiler fails in this slice.
+[Commands, hashes and scope](development/validation/fixed-eos-host-2026-10-04.json).
+
+Original-weight fixed TG128, physical 1M and quality/performance remain open.
+The prior physical PP1,048,448/EOS43 gate is unchanged, not retrospectively
+qualified. Read-only `.161` inspection at 21:08:01 UTC still sees the unrelated
+training process PID19916/start1073961; root admits no GPU job or standing lease.
+
 ## Owned C17 steering bank implemented — 2026-10-04 UTC
 
 The shared core library now provides a model-neutral direction-bank loader with

@@ -33,6 +33,10 @@ typedef struct {
     uint64_t weights_bytes, session_bytes, deferred_workspace_bytes;
 } lie_model_info;
 typedef struct { int32_t token; uint32_t emitted, stop, position; } lie_decode_result;
+/* EOS remains a sampled token in fixed-budget measurements; it is not masked.
+ * The default stops at EOS. Select before prefill/restore/sampling, on the owner. */
+typedef enum { LIE_EOS_STOP = 0, LIE_EOS_IGNORE = 1 } lie_eos_policy;
+lie_status lie_sequence_set_eos_policy(lie_sequence *, lie_eos_policy, lie_error *);
 typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT, LIE_CHAT_TOOL } lie_chat_role;
 typedef struct { lie_chat_role role; const char *content; size_t bytes; } lie_chat_message;
 #define LIE_CHAT_BODY_BYTES (8u * 1024u * 1024u)

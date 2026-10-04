@@ -156,6 +156,20 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+For a fixed-token decode measurement, add `--ignore-eos` to this **core** command.
+Official Gufo's pinned native TG method continues past EOS to its stated output
+budget. This flag gives LIE the same completion policy: an EOS token is sampled
+and counted normally, even if its text is empty, and decoding continues until
+`--tg` tokens. It does not mask EOS or draw a replacement. Both AR and MTP use
+the shared core policy; vision and reactive probes refuse this flag.
+
+Without the flag, EOS ends generation normally. The server keeps that behavior.
+Raw JSONL and the summary record `eos_policy: stop|ignore`; paired reports require
+the same policy and interpret older records without it as `stop`. A fixed-budget
+run with short output or a stop finish fails, even if its numerical calls return
+success. This control is host-tested; a new declared GPU run is still required
+for physical 1M PP/TG128. The previous EOS43 failure remains unchanged.
+
 For a long regular core run, add `--progress-ms 1000` and redirect stderr to
 `results/core-progress.jsonl`. The native client reports completed prefill tokens,
 cache reuse, confirmed output and consumer-observed output for every job.

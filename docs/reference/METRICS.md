@@ -161,6 +161,14 @@ executed prefill time/calls and no PP rate. An EOS decode may have no confirmed
 output while retaining its actual call time. Invalid phase records are refused
 before a summary or graph is written.
 
+Core result identity additionally records `eos_policy`. The default `stop`
+can end with an un-emitted EOS while retaining the completed call time.
+Explicit `ignore` treats EOS as a confirmed token, including zero text bytes,
+and requires the full declared output budget and a length finish. It does not
+remove EOS from the sampling distribution. Paired reports refuse different
+policies; a missing historical field means `stop`. This policy is independent
+of the generation filters and progress interval.
+
 The direct `single`/`multi`/`fresh` benchmark records `timing_clock` as
 `CLOCK_MONOTONIC`. A sample carries `sample_begin_monotonic_ns`,
 `sample_begin_wall_time_ns` (CLOCK_REALTIME, correlation only),

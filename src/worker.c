@@ -680,6 +680,8 @@ static bool step(lie_core *w, size_t index) {
       (void)lie_vision_prompt_close(&vision, NULL);
     if (rc == LIE_OK)
       rc = lie_sequence_configure(sequence, &j->request.generation, &error);
+    if (rc == LIE_OK && r->eos_policy != LIE_EOS_STOP)
+      rc = lie_sequence_set_eos_policy(sequence, r->eos_policy, &error);
     if (rc == LIE_OK) {
       lie_generation_constraints constraints = {
           .format = r->format,
@@ -983,6 +985,11 @@ static bool decode_ready(lie_core *w) {
     if (rows[i].selected && rows[i].outcome.status == LIE_OK) {
       lie_job *j = w->jobs[indices[i]];
       lie_decode_result *d = &rows[i].outcome.result;
+      if (j->request.eos_policy == LIE_EOS_IGNORE && d->stop) {
+        rc = LIE_BACKEND_FAILED;
+        snprintf(error.message, sizeof(error.message), "executor_violated_eos_policy");
+        break;
+      }
       if (j->scores && d->emitted) {
         lie_token_logprobs *score = j->scores + j->info.output_tokens;
         score->token.token = d->token;
