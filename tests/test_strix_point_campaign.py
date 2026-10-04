@@ -316,6 +316,49 @@ class Tests(unittest.TestCase):
             rows[3]['cached_tokens'] = 0
             with self.assertRaisesRegex(RuntimeError, 'did not restore'):
                 c.bench()
+    def test_modern_direct_reactive_probe_requires_peer_progress_and_cancel(self):
+        for mode in ('ar', 'mtp'):
+            with self.subTest(mode=mode):
+                c = self.campaign('modern-reactive-'+mode)
+                tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+                c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                           bench_profile='modern-core-reactive-probe', decode_mode=mode,
+                           bundle=str(self.base), tokens_sha256=point.sha(tokens),
+                           prompt_tokens_expected=3,
+                           runtime_build_id='rocm10-point-modern-r4-runtime',
+                           settings={'context':4096,'chunk':2048,'users':2,'tg':32,
+                                     'warmups':0,'repetitions':1},
+                           model_plan={'files':[{'name':'target.gguf'}]})
+                if mode == 'mtp': c.m['predictor_plan'] = {'files':[{'name':'mtp.gguf'}]}
+                reactive = {'event':'reactive','scope':'direct-c-core-held-loan-peer-cancel',
+                            'synthetic':False,'peer_output_tokens':32,'held_output_tokens':8,
+                            'held_borrowed_tokens':1,'held_output_blocked':1,
+                            'completed_delta':1,'cancelled_delta':1,'decode_batches_delta':4,
+                            'mtp_drafted_delta':6 if mode=='mtp' else 0,
+                            'mtp_accepted_delta':2 if mode=='mtp' else 0}
+                def run(command, _bundle, _timeout, _model):
+                    self.assertIn('--reactive-probe', command)
+                    self.assertEqual(command[command.index('--users')+1], '2')
+                    self.assertEqual('--model-mtp' in command, mode == 'mtp')
+                    rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                             'mode':mode,'synthetic':False,'cache_policy':'off',
+                             'reactive_probe':True,'build_id':'rocm10-point-modern-r4-runtime'},
+                            {'event':'core_ready'},reactive,{'event':'complete','exit_code':0}]
+                    (c.root/'measurements.jsonl').write_text(
+                        ''.join(json.dumps(row)+'\n' for row in rows))
+                with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+                     patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+                     patch.object(c, 'check_model_after'), \
+                     patch.object(c, 'run_container', side_effect=run):
+                    c.bench()
+                    self.assertEqual(c.r['bench_result']['reactive'], reactive)
+                    reactive['held_output_blocked'] = 0
+                    with self.assertRaisesRegex(RuntimeError, 'reactive GPU probe'):
+                        c.bench()
+                    reactive['held_output_blocked'] = 1
+                    c.m['settings']['users'] = 1
+                    with self.assertRaisesRegex(ValueError, 'C2'):
+                        c.bench()
     def test_modern_mtp_ssd_gate_is_explicit_and_requires_disk_hit(self):
         c = self.campaign('modern-ssd')
         tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')

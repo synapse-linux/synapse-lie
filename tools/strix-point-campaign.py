@@ -284,7 +284,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-http') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-http') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -647,7 +647,7 @@ class Campaign:
             return self.modern_http_gate()
         if profile == 'modern-core-ssd-restart':
             return self.modern_ssd_restart_gate()
-        if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd'):
+        if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
             raise ValueError('Unknown fixed benchmark profile')
@@ -690,6 +690,7 @@ class Campaign:
         profile = self.m.get('bench_profile')
         ram_cache = profile == 'modern-core-ram'
         ssd_cache = profile == 'modern-core-ssd'
+        reactive_probe = profile == 'modern-core-reactive-probe'
         mode = self.m.get('decode_mode')
         if mode not in ('ar', 'mtp'):
             raise ValueError('Modern core benchmark mode must be ar or mtp')
@@ -707,6 +708,9 @@ class Campaign:
         if (ram_cache or ssd_cache) and (settings['users'] != 1 or settings['warmups'] != 1 or
                                          settings['repetitions'] != 1):
             raise ValueError('Modern cache gate requires C1, one warmup and one measured run')
+        if reactive_probe and (settings['users'] != 2 or settings['warmups'] != 0 or
+                               settings['repetitions'] != 1):
+            raise ValueError('Direct reactive gate requires C2, no warmup and one probe')
         tokens = checked_path(self.root/'tokens.json')
         if sha(tokens) != self.m.get('tokens_sha256'):
             raise ValueError('Physical prompt token file drift')
@@ -730,6 +734,8 @@ class Campaign:
                    '--tokens-file', '/work/tokens.json', '--output', '/work/measurements.jsonl',
                    '--kv-cache-ram-mb', '4096' if ram_cache else '0',
                    '--kv-cache-policy', 'ds4', '--timeout-ms', '3600000']
+        if reactive_probe:
+            command.append('--reactive-probe')
         if ssd_cache:
             command.extend(('--kv-disk-dir', '/work/kv', '--kv-disk-space-mb', '4096',
                             '--kv-disk-staging-mb', '512'))
@@ -749,10 +755,31 @@ class Campaign:
             if (identity.get('schema') != 'synapse-lie.core-bench.v1' or
                     identity.get('mode') != mode or identity.get('synthetic') or
                     identity.get('build_id') != self.m.get('runtime_build_id') or
-                identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off')):
+                identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off') or
+                identity.get('reactive_probe', False) != reactive_probe):
                 raise RuntimeError('Unexpected modern core benchmark identity')
             jobs = [row for row in measurements if row.get('event') == 'job']
             samples = [row for row in measurements if row.get('event') == 'sample']
+            if reactive_probe:
+                reactive = [row for row in measurements if row.get('event') == 'reactive']
+                if (len(reactive) != 1 or jobs or samples or
+                    reactive[0].get('scope') != 'direct-c-core-held-loan-peer-cancel' or
+                    reactive[0].get('synthetic') is not False or
+                    reactive[0].get('peer_output_tokens') != settings['tg'] or
+                    not 0 < reactive[0].get('held_output_tokens', 0) < settings['tg'] or
+                    reactive[0].get('held_borrowed_tokens', 0) < 1 or
+                    reactive[0].get('held_output_blocked') != 1 or
+                    reactive[0].get('completed_delta') != 1 or
+                    reactive[0].get('cancelled_delta') != 1 or
+                    reactive[0].get('decode_batches_delta', 0) < 1 or
+                    (mode == 'mtp' and reactive[0].get('mtp_accepted_delta', 0) < 1) or
+                    (mode == 'ar' and (reactive[0].get('mtp_drafted_delta') or
+                                       reactive[0].get('mtp_accepted_delta')))):
+                    raise RuntimeError('Incomplete direct reactive GPU probe')
+                self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                                          'reactive': reactive[0],
+                                          'measurements_sha256': sha(self.root/'measurements.jsonl')}
+                return
             if (len(jobs) != settings['users']*(settings['warmups']+settings['repetitions']) or
                     len(samples) != settings['warmups']+settings['repetitions'] or
                     any(row.get('prompt_tokens') != len(prompt) or
