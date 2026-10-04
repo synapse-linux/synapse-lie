@@ -1,11 +1,11 @@
 {
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "scope": "LIE static YaRN frequencies and amplitude in fused attention, fallback and pooled indexer; explicit runtime context growth; GPU qualification separate",
+  "scope": "LIE static YaRN frequencies and amplitude in fused attention, fallback and pooled indexer; explicit runtime context growth; GPU qualification separate; C-owned prefill capacity bounds scratch, with decode/MTP row floor",
   "edits": [
     {
       "path": "src/models/qwen38_flash_next/engine.hpp",
       "old": "struct ModelOptions {\n  std::uint32_t max_context = 4096;",
-      "new": "struct ModelOptions {\n  std::uint32_t max_context = 4096;\n  // LIE-owned static RoPE plan; empty keeps native numerical execution.\n  std::uint32_t lie_context_limit{0};\n  std::vector<float> lie_rope_inv_frequency;\n  float lie_rope_attention{1.0F};"
+      "new": "struct ModelOptions {\n  std::uint32_t max_context = 4096;\n  // LIE-owned static RoPE plan; empty keeps native numerical execution.\n  std::uint32_t lie_context_limit{0};\n  std::uint32_t lie_prefill_capacity{2048};\n  std::vector<float> lie_rope_inv_frequency;\n  float lie_rope_attention{1.0F};"
     },
     {
       "path": "src/models/qwen38_flash_next/engine.cpp",
@@ -116,6 +116,16 @@
       "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
       "old": "                    &sn, &cs);\n",
       "new": "                    &sn, &cs);\n            qwen::vision::LieRopeScale(attention.rope, &sn, &cs);\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  return std::min(kPrefillChunkTokens, options_.max_context);",
+      "new": "  // LIE C17 resource policy bounds scratch while retaining all admitted rows.\n  const auto draft = mtp_weights_ ? options_.max_draft_tokens + 1 : 1;\n  const auto rows = std::max({options_.lie_prefill_capacity,\n                              options_.decode_concurrency, draft});\n  return std::min({kPrefillChunkTokens, rows, options_.max_context});"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);",
+      "new": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);\n  e->select_chunk_ = std::min(e->select_chunk_, e->options_.max_batch);"
     }
   ]
 }

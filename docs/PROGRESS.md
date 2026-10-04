@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Strict JSON function frames and scratch admission — 2026-10-04 UTC
+
+The first original-weight HTTP gate passes complete strict function output but
+fails incremental SSE: the provider emits JSON frames, which the first parser
+buffered. That exit 1, server exit 0 and successful collected closure remain
+preserved. The shared C17 preview now streams exact JSON argument bytes after
+the complete function name, ignoring nested names and quoted closing tags.
+Independent every-byte prefix oracles and XML/JSON HTTP fixtures pass; Debug
+passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Fresh GPU qualification of
+this correction remains pending. [Receipt](development/validation/tool-json-streaming-2026-10-04.json).
+
+A short original-weight chunk256 gate passes at the prior numerical checkpoint,
+but shows no GTT reduction: scratch still allocated 2048 rows. The new adapter
+passes the existing C17 prefill bound to model creation, retaining a floor for
+admitted decode and MTP rows; indexer score scratch follows that capacity.
+The default 2048 allocation is unchanged. Exact source edits and adapter/engine
+headers verify; new GPU memory/output gates are required. No GTT change or reboot
+has occurred.
+
 ## Incremental native functions — 2026-10-04 UTC
 
 The shared C17 core now publishes provisional function starts and append-only

@@ -29,6 +29,9 @@ CMake verifies the provider sources and archives. HTTP benchmark clients and
 CSV/JSON/SVG/PNG exports are first-party C17 code; PNG encoding links libpng.
 Python is used only by explicitly selected legacy test oracles and historical
 development/qualification scripts, outside the normal build and runtime.
+Incremental function events, retained fragment journals and `allowed_tools`
+parsing are first-party C17 implementations against published OpenAI protocol
+documentation. No OpenAI SDK implementation or runtime dependency is imported.
 The optional `tests/sampling` cost/allocation project compares the pristine
 official sampler with generated LIE ON/OFF variants, without HIP or model
 forward. Its first-party C++20 QA probes link ICU and libm; allocation hooks
@@ -40,8 +43,10 @@ upstream source/archive pins are unchanged by this increment.
 ## Gufo source acquisition
 
 `adapters/gufo-state/context-edits.json` adds exact, hash-guarded integration
-edits to the separately derived state-access variant of `f783fedb`. Eight files
-bind the LIE C17 static RoPE frequency/amplitude plan to existing Qwen attention,
+edits to the separately derived state-access variant of `f783fedb`. The edits
+also bind C17 prefill capacity to scratch allocation, preserving a floor
+for admitted concurrent decode and MTP rows; default capacity stays 2048.
+Eight files bind the LIE C17 static RoPE frequency/amplitude plan to existing Qwen attention,
 indexer and vision-coordinate kernels and grow configured session/scratch
 bounds. The pristine source and its upstream MIT/third-party notices remain
 unchanged. The numerical plan in `src/rope.c` is independently implemented C17,

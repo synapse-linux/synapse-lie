@@ -47,7 +47,8 @@ static const char *tool_outputs[]={
     "<tool_call>\n<function=read>\n<parameter=path>\nlie-pi-fixture.txt\n</parameter>\n</function>\n</tool_call>",
     "CPU fixture tool result received.",
     "Reading.\n<tool_call><function=read><parameter=path>  caffè 🙂.txt  </parameter><parameter=offset>3</parameter><parameter=options>{\"raw\":true}</parameter></function></tool_call>"
-    "<tool_call><function=read><parameter=path>  caffè 🙂.txt  </parameter><parameter=offset>3</parameter><parameter=options>{\"raw\":true}</parameter></function></tool_call>"
+    "<tool_call><function=read><parameter=path>  caffè 🙂.txt  </parameter><parameter=offset>3</parameter><parameter=options>{\"raw\":true}</parameter></function></tool_call>",
+    "Reading.\n<tool_call>{\"name\":\"read\",\"arguments\":{\"path\":\"  caffè 🙂.txt  \",\"offset\":3,\"options\":{\"raw\":true}}}</tool_call>"
 };
 enum { BAD_POSITION=20, BAD_EMITTED, BAD_STOP, NO_PROGRESS, BAD_EOS_POSITION,
        NEGATIVE_TOKEN, LARGE_TOKEN, DECODE_REFUSAL, PREFILL_REFUSAL, TEXT_REFUSAL, TEXT_SIZE };
@@ -115,6 +116,7 @@ lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages,
     const char *tool_modes[]={"TOOL","TOOL-TRUNCATED","TOOL-UNKNOWN","TOOL-DUPLICATE","TOOL-JSON-BAD","TOOL-RESULT","PI-SYNTHETIC-READ"};
     for (size_t i=0;i<sizeof(tool_modes)/sizeof(*tool_modes);++i) if (!strcmp(text,tool_modes[i])) mode=100+(int)i;
     if(!strcmp(text,"TOOL-TWICE"))mode=108;
+    if(!strcmp(text,"TOOL-JSON"))mode=109;
     *required=!strcmp(text,"OVERSIZED")?(size_t)m->context+1:4;
     /* Synthetic physical-token count for HTTP admission/chunk boundaries.
      * This does not tokenize text or perform model computation. */
@@ -215,7 +217,7 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
       }
       return LIE_OK;
     }
-    if (s->mode>=100 && s->mode<=108) {
+    if (s->mode>=100 && s->mode<=109) {
         const char *text=tool_outputs[s->mode-100];
         bool done=s->step==strlen(text);
         *out=(lie_decode_result){.stop=done,.position=s->position};

@@ -115,7 +115,10 @@ observed during that baseline. Raising GTT therefore needs a fresh RAM budget,
 including host buffers and at least the admitted operating-system margin;
 it is insufficient on its own. MTP adds its predictor, draft state and rollback.
 Compressed retained KV checkpoints do not replace active GPU attention state.
-A smaller prefill chunk may reduce scratch memory; measure its speed and peak
-before selecting it for a 1M campaign. The
+A short chunk256 gate at the initial implementation still reserves 2048-row
+scratch: dispatch size alone does not reduce memory. The subsequent adapter
+binds C17 prefill capacity to scratch allocation, retaining all admitted decode
+and MTP rows. Measure its new speed and peak before selecting it for a 1M
+campaign. The
 [memory receipt](../development/validation/context-memory-point-2026-10-04.json)
 records the formulas, baseline and unmeasured limits.

@@ -418,7 +418,10 @@ The shared core counts `output_validation_errors` when a semantic client rejects
 a complete turn. `/actuator/llm.scheduler.output_validation_errors` exposes that
 count for direct clients and HTTP together. The existing HTTP tool-error meter
 counts errors projected to HTTP; physical completed/failed executor counters
-remain separate. No semantic parsing time is relabelled as GPU decode time.
+remain separate. Provisional starts and argument deltas contribute no additional
+token credits or committed tool-call count. Their copied journal payloads count
+toward the response record quota. No semantic parsing time is relabelled as GPU
+decode time.
 Job fields `semantic_checked`, `output_invalid` and `tool_calls`, plus the typed
 terminal reason, are specified in the [event contract](EVENTS.md).
 

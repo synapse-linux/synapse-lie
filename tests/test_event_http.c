@@ -350,6 +350,12 @@ int main(int argc, char **argv) {
       }
       free(body);
       json_object_put(q);
+      q = request(responses, stream, "TOOL-JSON", 512, "auto", true);
+      body = post(api, responses, q, &status);
+      require(status == 200, "JSON function frame status");
+      valid(body, responses, stream);
+      free(body);
+      json_object_put(q);
       const char *inputs[] = {
           "TOOL-TRUNCATED", "TOOL-UNKNOWN", "TOOL-DUPLICATE", "TOOL-JSON-BAD",
           "TOOL",           "TOOL",         "normal",         "TOOL-TWICE"};

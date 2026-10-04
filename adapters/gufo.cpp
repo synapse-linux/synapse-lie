@@ -184,6 +184,9 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         if(vision)options.vision_model_path=vision;
         options.max_context = o->context_tokens;
 #ifdef LIE_GUFO_STATE_ACCESS
+        options.lie_prefill_capacity = o->prefill_chunk_tokens;
+#endif
+#ifdef LIE_GUFO_STATE_ACCESS
         if(o->rope_profile!=LIE_ROPE_NATIVE) {
             options.lie_context_limit=rope.context_limit;
             options.lie_rope_inv_frequency.assign(rope.inv_frequency,

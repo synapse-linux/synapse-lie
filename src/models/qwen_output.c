@@ -429,7 +429,7 @@ fail:
 }
 
 /* Conservative prefix binding. Complete calls use the authoritative parser;
- * only an incomplete XML parameter needs provisional serialization. The last
+ * JSON arguments retain their exact source bytes. The last
  * possible closing-tag suffix and one CR/LF are held, so later normalization
  * cannot retract bytes already emitted. Nullable/untyped strings wait for the
  * parameter close because their JSON representation is ambiguous until then. */
@@ -449,6 +449,74 @@ static bool preview_call(lie_output_turn *t, const char *identity,
   args->data = NULL;
   args->bytes = args->capacity = 0;
   return call->id && call->name && call->arguments_json;
+}
+static const char *quoted_end(const char *s) {
+  if (*s++ != '"')
+    return NULL;
+  for (; *s; ++s) {
+    if (*s == '"')
+      return s + 1;
+    if (*s == '\\' && !*++s)
+      return NULL;
+  }
+  return NULL;
+}
+/* Inspect only the outer frame's name/arguments fields. Keys inside nested
+ * arguments or quoted text cannot be mistaken for the function name. If name
+ * follows arguments, publication waits until the name is complete. */
+static bool json_prefix(const char *s, char name[129], const char **arguments,
+                        size_t *bytes) {
+  bool named = false, args = false;
+  name[0] = 0;
+  *arguments = NULL;
+  *bytes = 0;
+  if (*s++ != '{')
+    return false;
+  for (;;) {
+    spaces(&s);
+    const char *end = quoted_end(s);
+    if (!end || end - s > 1024)
+      break;
+    oj_node *key = oj_parse(s, (size_t)(end - s));
+    bool is_name = key && !strcmp(key->string, "name"),
+         is_args = key && !strcmp(key->string, "arguments");
+    oj_free(key);
+    s = end;
+    spaces(&s);
+    if (*s++ != ':' || (!is_name && !is_args))
+      break;
+    spaces(&s);
+    if (is_name) {
+      if (named)
+        break;
+      end = quoted_end(s);
+      if (!end || end - s > 1024)
+        break;
+      oj_node *v = oj_parse(s, (size_t)(end - s));
+      bool ok = v && v->type == OJ_STRING && name_valid(v->string);
+      if (ok)
+        strcpy(name, v->string);
+      oj_free(v);
+      if (!ok)
+        break;
+      named = true;
+    } else {
+      if (args || *s != '{')
+        break;
+      args = true;
+      *arguments = s;
+      end = json_end(s);
+      *bytes = end ? (size_t)(end - s) : strlen(s);
+      if (!end)
+        break;
+    }
+    s = end;
+    spaces(&s);
+    if (*s != ',')
+      break;
+    ++s;
+  }
+  return named;
 }
 bool lie_output_preview(const lie_output_policy *p, const char *text,
                         size_t bytes, const char *identity,
@@ -476,7 +544,18 @@ bool lie_output_preview(const lie_output_policy *p, const char *text,
     if (!*cursor || (t.count && !p->parallel) ||
         strncmp(cursor, "<tool_call>", 11))
       break;
-    const char *closed = strstr(cursor, "</tool_call>");
+    const char *payload = cursor + 11;
+    spaces(&payload);
+    const char *closed = NULL;
+    if (*payload == '{') {
+      const char *end = json_end(payload);
+      if (end) {
+        spaces(&end);
+        if (!strncmp(end, "</tool_call>", 12))
+          closed = end;
+      }
+    } else
+      closed = strstr(payload, "</tool_call>");
     if (closed) {
       lie_output_turn one = {0};
       char error[256];
@@ -499,6 +578,16 @@ bool lie_output_preview(const lie_output_policy *p, const char *text,
     cursor += 11;
     spaces(&cursor);
     char name[129];
+    if (*cursor == '{') {
+      const char *raw = NULL;
+      size_t n = 0;
+      if (!json_prefix(cursor, name, &raw, &n) || !definition(p, name))
+        break;
+      if (!append(&args, raw ? raw : "", n) ||
+          !preview_call(&t, identity, name, &args))
+        goto fail;
+      break;
+    }
     if (!tag(&cursor, "<function=", name))
       break;
     const lie_chat_tool *fn = definition(p, name);

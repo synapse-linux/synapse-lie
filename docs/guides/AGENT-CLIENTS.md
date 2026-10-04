@@ -53,8 +53,9 @@ argument fragments. Responses emits `response.output_item.added`,
 `response.function_call_arguments.delta`, then validated arguments/item done
 events and the terminal response. Prose, when present, precedes function items.
 Concatenate each call's argument fragments in order; an individual fragment
-need not be valid JSON. Qwen XML parameter tags stream incrementally; alternative
-whole-JSON tool frames wait for their closing tag.
+need not be valid JSON. Qwen XML parameter tags and JSON
+name/arguments frames stream incrementally once the function name is complete.
+Nested or quoted argument fields cannot change that name.
 
 Execute only after successful turn completion. Failed, cancelled or truncated
 turns discard provisional calls, even if their accumulated JSON parses. Stored

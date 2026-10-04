@@ -1,5 +1,15 @@
 # Benchmark closure and the 1M context gate
 
+Current implementation: the shared core and derived provider expose explicit
+YaRN2/YaRN4 profiles through 1,048,576 total tokens. Independent CPU operator
+and physical-token lifecycle tests pass; original-weight short-profile gates
+pass on `.161`. Physical extended GPU memory/quality/performance qualification
+remains open. See the [current context guide](../guides/CONTEXT.md) and
+[memory estimate](validation/context-memory-point-2026-10-04.json).
+The source audit and old estimate below describe the earlier pristine/native
+checkpoint; the old estimate omits the complete raw index history now reserved
+by the DS4 state binding and must not be used for current 1M admission.
+
 Audit date: 2026-10-02. The qualified GPU endpoint remains native 262144 total
 tokens. A client capable of sending a million-token prompt is not evidence that
 the server can execute it. The new `long-context` HTTP preset is a client-side

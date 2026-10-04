@@ -816,7 +816,8 @@ class Campaign:
         if (type(settings) is not dict or set(settings) !=
                 {'context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'} or
                 any(type(value) is not int for value in settings.values()) or
-                not 4096 <= settings['context'] <= context_limit or settings['chunk'] != 2048 or
+                not 4096 <= settings['context'] <= context_limit or
+                settings['chunk'] not in (256, 512, 1024, 2048) or
                 settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
                 settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
             raise ValueError('Invalid bounded modern core settings')

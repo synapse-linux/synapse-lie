@@ -34,10 +34,10 @@ The current output grammar binding is Qwen's function tags, isolated in
 against these neutral contracts. Validation covers basic JSON types, required
 properties and `additionalProperties=false`, including type unions. It is not
 full JSON-Schema validation. The provider can separately constrain its supported
-schema subset during sampling. XML function/parameter tags expose incremental
-arguments; the alternative whole-JSON tool frame remains buffered until its
-closing tag. Ambiguous nullable or untyped parameters wait for their closing
-tag. No client may execute a partial call.
+schema subset during sampling. Both XML function/parameter and JSON name/arguments frames expose incremental
+arguments. JSON frames wait for a complete function name; an arguments-first
+frame cannot publish earlier. Ambiguous nullable or untyped XML parameters
+wait for their closing tag. No client may execute a partial call.
 
 Call IDs are minted by the core with a random per-core namespace and job/call
 indices. They remain unchanged across that job's events and HTTP projections;

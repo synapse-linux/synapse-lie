@@ -236,7 +236,14 @@ static void incremental_prefixes(void) {
       "<parameter=payload>{\"nested\":{\"a\":[null, false]}}</parameter>"
       "</function></tool_call>",
       "<tool_call>{\"name\":\"run\",\"arguments\":{\"command\":\"x\","
-      "\"payload\":{}}}</tool_call>"};
+      "\"payload\":{}}}</tool_call>",
+      "Plan.\n<tool_call>{ \"name\": \"r\\u0075n\", \"arguments\": {\n"
+      "\"command\":\"</tool_call> 🙂 \\\" \\\\\", \"payload\": "
+      "{\"name\":\"nested\",\"rows\":[1e-3,true,null]},\"optional\":null"
+      "} }</tool_call>\n<tool_call>{\"name\":\"run\",\"arguments\":{"
+      "\"command\":\"second\",\"payload\":{}}}</tool_call>",
+      "<tool_call>{\"arguments\":{\"command\":\"name after arguments\","
+      "\"payload\":{}},\"name\":\"run\"}</tool_call>"};
   for (size_t c = 0; c < sizeof(cases) / sizeof(*cases); ++c) {
     const char *text = cases[c];
     lie_output_turn previous = {0};
@@ -268,7 +275,7 @@ static void incremental_prefixes(void) {
     for (size_t i = 0; i < validated.count; ++i)
       assert(!strcmp(previous.calls[i].arguments_json,
                      validated.calls[i].arguments_json));
-    if (c < 2)
+    if (c < 4)
       assert(extensions > 10);
     lie_output_turn_clear(&previous);
     lie_output_turn_clear(&validated);
@@ -287,6 +294,8 @@ static void family(const char *predictor) {
           false);
   consume(submit(c, "TOOL", true, 512, LIE_TOOLS_AUTO), LIE_TURN_TOOL_CALLS, 1,
           false);
+  consume(submit(c, "TOOL-JSON", true, 512, LIE_TOOLS_AUTO),
+          LIE_TURN_TOOL_CALLS, 1, false);
   const char *bad[] = {"TOOL-TRUNCATED", "TOOL-UNKNOWN", "TOOL-DUPLICATE",
                        "TOOL-JSON-BAD"};
   for (size_t i = 0; i < sizeof(bad) / sizeof(*bad); ++i)
