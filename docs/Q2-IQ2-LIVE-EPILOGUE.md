@@ -48,3 +48,49 @@ Q2/control/UD comparison. No model gain, promotion or parity is claimed.
 [Source manifest](../config/q2-iq2-live-epilogue-source.json),
 [static evidence](../config/q2-iq2-live-epilogue-static.json),
 [minimal patch](../experiments/q2-iq2-live-epilogue.patch).
+
+## Component qualification prepared — 2026-10-04
+
+The fixed `iq2-live-epilogue-check` mode now builds the reference or candidate
+kernel directly, with no MMQ archive reuse or model access. Both use the same
+fixture and measured ordered-IQ2 parent. The component fixture uses four exact
+count distributions from accepted canonical continuations. Activations and
+encoded weights are synthetic; it does not replay model hidden states.
+
+| Case | New tokens | Gate/up tile | Active weight bytes |
+| --- | ---: | ---: | ---: |
+| Depth 0, layer 6 | 2040 | 128 | 286387200 |
+| Depth 0, layer 0 | 2040 | 64 | 321868800 |
+| Depth 131072, layer 16 | 2046 | 128 | 274560000 |
+| Depth 131072, layer 6 | 2046 | 64 | 310041600 |
+| Full-tile control | 2048 | 128 | 135168000 |
+
+The control has 160 experts with exactly 128 rows each: no fragment can be
+skipped, so it exposes the added guard cost. Every active weight set exceeds
+32 MiB. Each timed cycle includes activation narrowing, routing compaction and
+fused IQ2 gate/up with SwiGLU; allocations and uploads stay outside. Two warmup
+samples precede five retained samples of eight calls. Units are microseconds
+per complete component cycle, never model token/s.
+
+The assignment builder preserves each recorded count, places ten distinct
+experts on every token and independently verifies the resulting histogram.
+Operator cases cover both sides of 16-row and tile boundaries, tiny/normal
+inputs, partial output rows, packed/unpacked outputs and guard regions.
+There are 46 full operator FP64 comparisons and five 256-value independent
+cycle samples, retaining the original 0.002 limits. Reference/candidate replay
+also compares every value of the five complete cycle outputs. All 102 arrays
+occupy 262319680 bytes; only this fixed mode receives a 384000000-byte collection
+limit. Tolerance failures retain arrays and performance and return exit 1;
+runtime faults and guard corruption stop execution.
+
+The analyzer verifies exact count provenance from the diagnostic log, accepted
+request attribution, input/count/route hashes, all outputs, complete cycles,
+source/fixture identities and ownership receipts. The separate host route
+builder and parser/selection tests require fresh Debug and ASan/UBSan runs on
+`.157`; the expected normal host cohort is now 21 tests. Local syntax checks,
+CMake configuration and a dry build pass, with no fixture or GPU execution.
+The core owns the next GPU window. This preparation does not admit a new run,
+establish a numerical result or change any model-rate claim.
+
+[Fixed plan](../config/q2-iq2-live-epilogue-plan.json),
+[static wiring receipt](../config/q2-iq2-live-epilogue-wiring.json).

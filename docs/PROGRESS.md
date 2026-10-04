@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 epilogue comparison wired, runtime pending — 2026-10-04
+
+The component fixture reuses four accepted canonical routing distributions at
+depths 0/128K with synthetic weights and activations. A fifth, completely full
+128-row control measures guard cost without empty fragments. Each retained
+sample times eight complete narrow/compact/gate-up-SwiGLU cycles. The 51
+independent numerical comparisons and 102 saved arrays cover tile boundaries,
+packed/unpacked output, full-output replay and guard regions. The existing
+0.002 tolerances are unchanged; numerical failures preserve timings and exit 1.
+
+Exact routing provenance matches the retained log. Python/C++/HIP syntax,
+local CMake configuration and a dry target build pass. These are static checks,
+not executed host fixtures or GPU qualification. New host construction/parser
+checks and the paired GPU experiment remain pending on `.157`, after verified
+handover from core. No source is staged remotely, no waiter is started, and
+the next window remains reserved for core. [Details and static receipt](Q2-IQ2-LIVE-EPILOGUE.md).
+
 ## Routing measured; empty epilogue work identified — 2026-10-04
 
 The full canonical profile completes with 1385 Forward spans, 7248 routing

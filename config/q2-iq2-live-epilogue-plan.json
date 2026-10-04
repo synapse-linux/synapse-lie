@@ -2196,10 +2196,31 @@
   ],
   "weight_bytes": 432537600,
   "timing_scope": "Matched complete narrow/compact/fused gate-up SwiGLU cycle; allocations and uploads outside, 2 warmups then 5 samples of 8 calls.",
-  "runtime_wiring_complete": false,
+  "runtime_wiring_complete": true,
   "host_runtime_qualified": false,
   "gpu_reserved": false,
   "restart_scheduled": false,
   "promoted": false,
-  "goal_met": false
+  "goal_met": false,
+  "mode": "iq2-live-epilogue-check",
+  "source_variants": [
+    "iq2-epilogue-reference",
+    "iq2-live-epilogue"
+  ],
+  "host_test_count": 21,
+  "independent_checks": 51,
+  "output_files": 102,
+  "output_bytes": 262319680,
+  "collection_limit_bytes": 384000000,
+  "full_tile_control": {
+    "tokens": 2048,
+    "used": 10,
+    "experts": 512,
+    "active_experts": 160,
+    "rows_per_active_expert": 128,
+    "gate_rows": 128,
+    "active_weight_bytes": 135168000
+  },
+  "next_gpu_window_owner": "core",
+  "requires_verified_core_handover": true
 }

@@ -51,6 +51,11 @@ add_test(NAME q2_reuse COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_reuse_test.py)
 add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
+add_executable(test_q2_iq2_routes tests/q2_iq2_routes.cpp)
+target_include_directories(test_q2_iq2_routes PRIVATE "${GUFO_SOURCE}")
+target_compile_options(test_q2_iq2_routes PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME q2_iq2_routes COMMAND test_q2_iq2_routes
+  ${CMAKE_CURRENT_SOURCE_DIR}/config/q2-iq2-live-epilogue-plan.json)
 add_test(NAME q2_canonical_http COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_canonical_http_test.py)
 add_executable(test_q2_curve_profile tests/q2_curve_profile.cpp)

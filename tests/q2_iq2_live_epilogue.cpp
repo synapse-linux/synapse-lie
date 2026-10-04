@@ -1,104 +1,25 @@
 // SPDX-License-Identifier: MIT
-// Synthetic WMMA cycle over original-size IQ2 experts; no model forward.
-// Keep the existing independent oracle and its limits, but retain failed
-// arrays and continue timings after numerical failures. Runtime faults stop.
-#define Compare OriginalCompare
-#include "q2_operator_fixture.hpp"
-#undef Compare
-static unsigned numerical_failures = 0, independent_checks = 0;
-
-void Compare(const std::vector<float> &got, const std::vector<double> &expected,
-             const std::string &label) {
-  ++independent_checks;
-  try {
-    OriginalCompare(got, expected, label);
-  } catch (const std::exception &e) {
-    if (std::string(e.what()) != "independent operator tolerance exceeded")
-      throw;
-    ++numerical_failures;
-    auto filename = label;
-    std::replace(filename.begin(), filename.end(), '/', '-');
-    std::ofstream saved("results/operator-" + filename + ".f32",
-                        std::ios::binary);
-    saved.write(reinterpret_cast<const char *>(got.data()),
-                got.size() * sizeof(float));
-    Check(bool(saved), "Cannot save failed WMMA operator output");
-    std::cout << "NUMERICAL_FAILURE: " << label << '\n';
-  }
-}
-
-#define Q2_IQ2_PAIR_NO_MAIN 1
-#include "q2_iq2_pair.cpp"
-#include "src/core/crypto/sha256.hpp"
-#include <span>
+// Actual routing count distributions, synthetic weights/activations. No model rate.
+#define Q2_IQ2_WMMA_NO_MAIN 1
+#define Q2_PACKED_CHECKS 1
+#include "q2_iq2_wmma_signs.cpp"
+#include "q2_iq2_routes.hpp"
+#include <set>
 
 namespace {
-namespace q = gufo::models::qwen38_flash_next::rocm;
-constexpr unsigned kExperts = 512, kUsed = 10, kM = 640, kK = 2560;
-
-std::vector<unsigned char> Encoded(unsigned seed) {
-  std::vector<unsigned char> out(std::size_t(kExperts) * kM * 10 * 66);
-  for (unsigned row = 0; row < kExperts * kM; ++row) {
-    const __half d = __float2half(0.00319f * (1 + (row + seed) % 3));
-    for (unsigned block = 0; block < 10; ++block) {
-      auto *p = out.data() + (std::size_t(row) * 10 + block) * 66;
-      std::memcpy(p, &d, 2);
-      for (unsigned group = 0; group < 8; ++group) {
-        std::uint32_t bits = ((group + block + row + seed) % 16) << 28;
-        for (unsigned part = 0; part < 4; ++part) {
-          p[2 + group * 8 + part] =
-              (row * 13 + block * 17 + group * 19 + part * 23 + seed) % 256;
-          bits |= ((row + block * 13 + part * 17 + seed) % 128) << (7 * part);
-        }
-        std::memcpy(p + 2 + group * 8 + 4, &bits, 4);
-      }
-    }
-  }
-  return out;
-}
-
-double Weight(const std::vector<unsigned char> &w, unsigned expert,
-              unsigned row, unsigned col) {
-  const auto *p =
-      w.data() + ((std::size_t(expert) * kM + row) * 10 + col / 256) * 66;
-  __half d;
-  std::memcpy(&d, p, 2);
-  const unsigned group = col % 256 / 32, part = col % 32 / 8, lane = col % 8;
-  std::uint32_t bits;
-  std::memcpy(&bits, p + 2 + group * 8 + 4, 4);
-  const unsigned sign = (bits >> (7 * part)) & 127;
-  const bool negative =
-      lane == 7 ? (std::popcount(sign) & 1) : (sign >> lane) & 1;
-  const auto code = p[2 + group * 8 + part];
-  return double(__half2float(d)) * (2 * (bits >> 28) + 1) * 0.125 *
-         double((grid[code] >> (8 * lane)) & 255) * (negative ? -1 : 1);
-}
-
-template <typename T> std::string Digest(const std::vector<T> &values) {
-  return gufo::crypto::Sha256Hex(
-      std::span(reinterpret_cast<const std::uint8_t *>(values.data()),
-                values.size() * sizeof(T)));
-}
-
-void Cycle(unsigned tokens, unsigned active, unsigned tile,
+void RoutedCycle(const iq2_routes::Case &test,
            const std::vector<unsigned char> &gate,
            const std::vector<unsigned char> &up, const Device &gd,
            const Device &ud) {
+  const auto tokens = test.tokens, active = test.active, tile = test.tile;
   constexpr std::size_t guard = 16;
   const auto slots = tokens * kUsed;
   const auto size = std::size_t(slots) * kM;
   std::vector<float> x(std::size_t(tokens) * kK);
   for (std::size_t i = 0; i < x.size(); ++i)
     x[i] = (float(int((i * 17 + 31) % 251) - 125) + 0.137f) / 256;
-  std::vector<std::int32_t> ids(slots), tiles;
-  std::vector<std::uint32_t> counts(kExperts);
-  for (unsigned i = 0; i < slots; ++i) {
-    ids[i] = (i * 73 + 17) % active;
-    ++counts[ids[i]];
-  }
-  for (unsigned e = 0; e < kExperts; ++e)
-    for (unsigned t = 0; t < (counts[e] + 15) / 16 * 16; t += tile)
-      tiles.push_back(static_cast<int>(e | ((t / tile) << 16)));
+  const auto &ids = test.ids, &tiles = test.tiles;
+  const auto &counts = test.counts;
   const auto compact = q::RoutedCompactRows(slots, kExperts);
   Device xd(x.size() * 4), half(x.size() * 2), id(ids.size() * 4);
   Device cd(counts.size() * 4), td(tiles.size() * 4);
@@ -141,8 +62,8 @@ void Cycle(unsigned tokens, unsigned active, unsigned tile,
     Hip(hipEventSynchronize(end));
     float ms;
     Hip(hipEventElapsedTime(&ms, begin, end));
-    std::cout << "{\"event\":\"iq2_wmma_cycle\",\"sample\":" << sample
-              << ",\"warmup\":" << (sample < 2 ? "true" : "false")
+    std::cout << "{\"event\":\"iq2_epilogue_cycle\",\"sample\":" << sample
+              << ",\"case\":\"" << test.name << "\",\"warmup\":" << (sample < 2 ? "true" : "false")
               << ",\"tokens\":" << tokens << ",\"active_experts\":" << active
               << ",\"tile\":" << tile
               << ",\"calls\":8,\"microseconds_per_call\":" << ms * 1000 / 8
@@ -166,8 +87,7 @@ void Cycle(unsigned tokens, unsigned active, unsigned tile,
     Check(std::isfinite(got[i]) &&
               std::bit_cast<std::uint32_t>(got[i]) != 0xa5a5a5a5U,
           "WMMA cycle nonfinite or unwritten output");
-  const auto label =
-      "iq2-wmma-n" + std::to_string(tokens) + "-e" + std::to_string(active);
+  const auto label = "iq2-epilogue-" + test.name;
   std::ofstream saved("results/" + label + ".f32", std::ios::binary);
   saved.write(reinterpret_cast<const char *>(got.data() + guard), size * 4);
   Check(bool(saved), "Cannot save complete WMMA output");
@@ -185,49 +105,51 @@ void Cycle(unsigned tokens, unsigned active, unsigned tile,
     sampled.push_back(got[guard + std::size_t(slot) * kM + row]);
     expected.push_back(g * u / (1 + std::exp(-g)));
   }
-  std::cout << "{\"event\":\"iq2_wmma_geometry\",\"tokens\":" << tokens
-            << ",\"active_experts\":" << active << ",\"tile\":" << tile
+  std::cout << "{\"event\":\"iq2_epilogue_geometry\",\"tokens\":" << tokens
+            << ",\"case\":\"" << test.name << "\",\"active_experts\":" << active << ",\"tile\":" << tile
             << ",\"tiles\":" << tiles.size() << ",\"output_values\":" << size
             << ",\"active_weight_bytes\":"
             << std::size_t(active) * kM * 10 * 66 * 2 << ",\"input_sha256\":\""
-            << Digest(x) << "\",\"ids_sha256\":\"" << Digest(ids) << "\"}\n";
+            << Digest(x) << "\",\"ids_sha256\":\"" << Digest(ids)
+            << "\",\"counts_sha256\":\"" << Digest(counts)
+            << "\",\"live_fragments\":" << test.live
+            << ",\"reserved_fragments\":" << test.reserved << "}\n";
   Compare(sampled, expected, label);
 }
 } // namespace
 
-#ifndef Q2_IQ2_WMMA_NO_MAIN
 int main() {
   try {
+    const auto cases = iq2_routes::Load("config/q2-iq2-live-epilogue-plan.json");
     Hip(hipSetDevice(0));
     std::cout << std::unitbuf;
     std::cout.precision(12);
-    for (int tile : {16, 48, 64, 128})
-      for (bool tiny : {false, true}) {
-        IQ2Case(17, 5, tile, tiny);
-        IQ2Case(65, 129, tile, tiny);
-      }
-    for (bool tiny : {false, true})
-      IQ2Case(17, 640, 64, tiny);
+    for (int tile : {16, 48, 64, 128}) {
+      const std::set<int> boundaries{15, 16, 17, tile - 1, tile, tile + 1};
+      for (int tokens : boundaries)
+        for (bool tiny : {false, true})
+          IQ2Case(tokens, 5, tile, tiny);
+      IQ2Case(65, 129, tile, false);
+    }
     const auto gate = Encoded(3), up = Encoded(11);
     Device gd(gate.size()), ud(up.size());
     Hip(hipMemcpy(gd.data, gate.data(), gate.size(), hipMemcpyHostToDevice));
     Hip(hipMemcpy(ud.data, up.data(), up.size(), hipMemcpyHostToDevice));
-    std::cout << "{\"event\":\"iq2_wmma_weights\",\"bytes\":"
+    std::cout << "{\"event\":\"iq2_epilogue_weights\",\"bytes\":"
               << gate.size() + up.size() << ",\"gate_sha256\":\""
               << Digest(gate) << "\",\"up_sha256\":\"" << Digest(up) << "\"}\n";
-    Cycle(2040, 512, 64, gate, up, gd, ud);
-    Cycle(2048, 128, 128, gate, up, gd, ud);
-    std::cout << "{\"event\":\"iq2_wmma_complete\",\"numerical_pass\":"
+    for (const auto &test : cases)
+      RoutedCycle(test, gate, up, gd, ud);
+    std::cout << "{\"event\":\"iq2_epilogue_complete\",\"numerical_pass\":"
               << (numerical_failures ? "false" : "true")
               << ",\"independent_checks\":" << independent_checks
               << ",\"failures\":" << numerical_failures
               << ",\"model_inference\":false}\n";
     std::cout << (numerical_failures ? "FAIL" : "PASS")
-              << " synthetic IQ2 WMMA cycles; no model throughput\n";
+              << " synthetic IQ2 epilogue cycles; no model throughput\n";
     return numerical_failures ? 1 : 0;
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
     return 1;
   }
 }
-#endif

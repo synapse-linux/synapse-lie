@@ -20,6 +20,25 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_epilogue_component_scope(self):
+        for variant in remote.EPILOGUE_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators', 'iq2-wmma-signs-check'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 live epilogue requires its isolated component mode and source')
+            base = ['iq2-live-epilogue-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(base + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(base + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *base]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        for variant in ('qualified', *remote.WMMA_SIGN_VARIANTS):
+            self.refuse(['iq2-live-epilogue-check', 'q2-fixture', '--source-variant', variant],
+                        'IQ2 live epilogue requires its isolated component mode and source')
+
     def test_iq2_wmma_component_scope(self):
         for variant in remote.WMMA_SIGN_VARIANTS:
             for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
@@ -145,9 +164,12 @@ class RemoteGuardTests(unittest.TestCase):
             return result
         self.assertEqual(remote.collection_receipt(archive('q2-ple-first-access', 320000000))['mode'],
                          'q2-ple-first-access')
+        self.assertEqual(remote.collection_receipt(archive('iq2-live-epilogue-check', 320000000))['mode'],
+                         'iq2-live-epilogue-check')
         self.assertEqual(remote.collection_receipt(archive('q2-terminal-full', 1024**3))['mode'],
                          'q2-terminal-full')
-        for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000)]:
+        for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000),
+                           ('iq2-live-epilogue-check', 384000000), ('iq2-wmma-signs-check', 129000000)]:
             with self.assertRaisesRegex(ValueError, 'Oversized collection'):
                 remote.collection_receipt(archive(mode, size))
         for mode, size in [('q2-terminal-full', 2 * 1024**3),
@@ -531,6 +553,74 @@ class WmmaCycleReportTests(unittest.TestCase):
                 {'commands': [{'exit_code': 0}, {'exit_code': 1}]}, {'exit_code': 1})):
             with self.assertRaises(ValueError):
                 self.report.common.artifacts(Path('/unused-no-access'))
+
+
+class EpilogueCycleReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'epilogue_report', path.with_name('analyze-q2-iq2-live-epilogue.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+        cls.geometry = cls.report.cases()
+
+    def events(self):
+        rows = [dict(event='iq2_epilogue_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for name, geometry in self.geometry.items():
+            rows.extend(dict(event='iq2_epilogue_cycle', sample=i, warmup=i < 2,
+                             case=name, tokens=geometry['tokens'],
+                             active_experts=geometry['active_experts'], tile=geometry['tile'],
+                             calls=8, microseconds_per_call=100+i) for i in range(7))
+            rows.append(dict(event='iq2_epilogue_geometry', input_sha256='c'*64, **geometry))
+        rows.append(dict(event='iq2_epilogue_complete', numerical_pass=True,
+                         independent_checks=51, failures=0, model_inference=False))
+        return rows
+
+    def parse(self, rows):
+        return self.report.observations('\n'.join(json.dumps(row) for row in rows))
+
+    def test_complete_cycles_and_full_tile_control(self):
+        result = self.parse(self.events())
+        self.assertEqual([r['median_us'] for r in result['cases'].values()], [104]*5)
+        full = self.geometry['full-tiles']
+        self.assertEqual(full['live_fragments'], full['reserved_fragments'])
+        self.assertGreater(full['active_weight_bytes'], 32*1024**2)
+        self.assertEqual(len(self.report.output_inventory()), 102)
+
+    def test_partial_duplicate_and_wrong_work_is_rejected(self):
+        for rows in (self.events()[:-1], self.events() + self.events()[:1]):
+            with self.assertRaises(ValueError):
+                self.parse(rows)
+        for change in (dict(case='full-tiles'), dict(calls=1), dict(warmup=0),
+                       dict(microseconds_per_call=float('nan'))):
+            rows = self.events()
+            rows[1].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
+        for change in (dict(counts_sha256='f'*64), dict(ids_sha256='f'*64),
+                       dict(live_fragments=0), dict(active_weight_bytes=1024)):
+            rows = self.events()
+            rows[8].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
+
+    def test_numerical_failure_preserves_performance(self):
+        rows = self.events()
+        rows[-1].update(numerical_pass=False, failures=1)
+        report = self.parse(rows)
+        self.assertFalse(report['completion']['numerical_pass'])
+        self.assertEqual(len(report['cases']), 5)
+        rows[-1]['numerical_pass'] = True
+        with self.assertRaises(ValueError):
+            self.parse(rows)
+
+    def test_malformed_counts_cannot_create_a_case(self):
+        for value in (True, -1, 2041, 1.5):
+            plan = json.loads(self.report.PLAN_PATH.read_text())
+            plan['representative_routing'][0]['counts'][0] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.report.cases(plan)
 
 
 class PleHostReportTests(unittest.TestCase):

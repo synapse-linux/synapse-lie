@@ -27,7 +27,10 @@ large prefill calls, 48.612–50.855% of paired epilogue fragments are empty; th
 matrix loop already skips their WMMA work. A separate
 [uniform epilogue guard](docs/Q2-IQ2-LIVE-EPILOGUE.md) is prepared with unchanged
 VGPR/LDS and zero scratch in device assembly. Its GPU performance is unmeasured;
-the fragment percentage is not an inference speedup.
+the fragment percentage is not an inference speedup. The component comparison
+is wired with four measured count distributions plus a full-tile control,
+51 independent numerical checks and complete-output replay. Only local static
+checks have run; fresh `.157` host/GPU qualification follows the core handover.
 
 Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
 reference provider on
