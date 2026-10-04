@@ -224,6 +224,14 @@ def main():
                 args.output/f'{mode}-prefill.svg')
             svg(subset, 'decode_tps', f'{mode.upper()} HTTP decode, tokens/s',
                 args.output/f'{mode}-decode.svg')
+    ratio_rows = []
+    for size in SIZES:
+        values = {row['implementation']: row for row in mode_effect if row['size'] == size}
+        if set(values) == {'lie', 'gufo'}:
+            ratio_rows.append({'size': size, 'lie': values['lie'], 'gufo': values['gufo']})
+    if ratio_rows:
+        svg(ratio_rows, 'decode_mtp_over_ar', 'MTP / AR HTTP decode ratio',
+            args.output/'mtp-over-ar-decode.svg')
     print(json.dumps({'paired': len(comparisons), 'unpaired_or_failed': missing}))
     return 0 if len(comparisons) == len(SIZES)*2 else 1
 

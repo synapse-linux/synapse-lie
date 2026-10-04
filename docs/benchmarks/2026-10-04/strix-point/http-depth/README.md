@@ -36,6 +36,21 @@ The [AR prefill graph](generated/ar-prefill.svg) and
 assistant text is recorded with per-sample hashes; equal prompts and token
 counts do not imply equal text or an independent quality result.
 
+| AR target | Physical prompt | Prefill LIE / Gufo (tok/s) | Decode LIE / Gufo (tok/s) | TTFT LIE / Gufo (s) |
+| --- | ---: | ---: | ---: | ---: |
+| 8,192 | 8,164 | 484.214 / 476.398 | 10.385 / 10.347 | 17.388 / 17.171 |
+| 32,768 | 32,740 | 447.677 / 447.061 | 10.312 / 10.257 | 73.676 / 73.318 |
+| 131,072 | 131,044 | 409.414 / 409.180 | 10.064 / 9.700 | 320.611 / 320.636 |
+| 258,794 | 258,788 | 386.128 / 384.685 | 9.706 / 9.638 | 670.754 / 673.202 |
+
+The AR prefill curve declines by 20.3% on LIE and 19.3% on Gufo from 8K to
+the near-256K point. At each target their prefill rates are within 1.7%; the
+largest gap is the 8K pair. This agrees in scale with the earlier direct-core
+Point curve, but the runtime build, chat template and method differ, so it is
+not a cross-build speedup measurement. The two repetitions within each engine
+produce identical assistant text; LIE and Gufo text differs after a common
+initial prefix. No quality or token-ID parity is inferred from this curve.
+
 The server's current hard context cap is 262,144 tokens. The 258,794-token
 target leaves room for the 128-token output; a one-million-token HTTP run is
 outside this backend's present contract. Large-context prefill can only be
