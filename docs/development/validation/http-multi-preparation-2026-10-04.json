@@ -1,0 +1,946 @@
+{
+  "schema": "synapse-lie.http-multi-preparation.host.v1",
+  "at_utc": "2026-10-04T05:26:34.916677+00:00",
+  "base_checkpoint": "128f490cfff9713f84f658ad17118272a1cd4ad7",
+  "host": ".155, Ryzen AI Max+ 395",
+  "scope": "Local device-masked builds, CPU-only private HTTP fixtures and offline provenance verification; no model load/hash/conversion, original-weight GPU inference, remote GPU build, deployment or dependency installation",
+  "product_Python_dependency": false,
+  "private_qualification_helpers_may_use_Python": true,
+  "runtime_provider_or_executor_ABI_changed": false,
+  "graph_change": {
+    "source_sha256": "9bc921852d4b0a3ab68258d4154ba0e20db262e1ad54677bc8f1f0bf19e7a03b",
+    "description": "Short concurrency ticks avoid clipping; multi-case ticks use 1-based case indices, full IDs remain in CSV/JSON",
+    "validation_and_metric_export_prefix_byte_identical_to_base": true,
+    "focused_ASan_UBSan_LeakSanitizer_CTest": "1/1 native-http-multi-contract passed",
+    "Release_client_wire_fixture_exit_code": 0,
+    "visual_fixture": "Private NOT-INFERENCE four-panel PNG/SVG inspected; synthetic data is not published as model performance",
+    "visual_png_sha256": "1cad140fa40203cdb98145572d2ea4ec327efb17cf72e012ce1ff7cf84b46479",
+    "visual_svg_sha256": "95a81aaa505eb4446969d0a393c68a530688536615e111e7856eca510471fb19"
+  },
+  "binaries": [
+    {
+      "label": "official Gufo full HTTP control",
+      "path": "build/gufo-http-control-f783-r1/gufo",
+      "sha256": "bc28acba429a67baf06e4e8e10a640c3f538d37453073a0858b9c45c121daf83",
+      "bytes": 225979776,
+      "source_checkpoint": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "GPU_target": "gfx1151",
+      "ELF_NEEDED": [
+        "libcurl.so.4",
+        "libicuuc.so.78",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libjpeg.so.8",
+        "libcrypto.so.3",
+        "libgomp.so.1",
+        "libhipblas.so.3",
+        "librocblas.so.5",
+        "libamdhip64.so.7",
+        "libicui18n.so.78",
+        "libhipblaslt.so.1",
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "readelf_exit_code": 0,
+      "cmake_cache_sha256": "9705b97174b4c57762bb2e459c1d0cf4931dcff1a733e9644ff7c8c270abb1ae"
+    },
+    {
+      "label": "LIE HTTP server",
+      "path": "build/http-multi-128f-hip-r1/synapse-lie-server",
+      "sha256": "bb441a3a96a86300e6d7eb64245451d081ab6c87b000135876965dd81002ed02",
+      "bytes": 51242304,
+      "source_checkpoint": "128f490cfff9713f84f658ad17118272a1cd4ad7",
+      "GPU_target": "gfx1151",
+      "ELF_NEEDED": [
+        "libjson-c.so.5",
+        "libllhttp.so.9.3",
+        "libzstd.so.1",
+        "libhipblas.so.3",
+        "libhipblaslt.so.1",
+        "librocblas.so.5",
+        "libamdhip64.so.7",
+        "libicuuc.so.78",
+        "libicui18n.so.78",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libjpeg.so.8",
+        "libcurl.so.4",
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "readelf_exit_code": 0,
+      "cmake_cache_sha256": "3b96004566713e166cd90d25e4831d21008f60ce68675d61137211d8bfbe9629"
+    },
+    {
+      "label": "native C HTTP benchmark client",
+      "path": "build/http-multi-128f-native-r1/synapse-lie-bench",
+      "sha256": "f28d9090d0fe89fbe248f98383e910b748ea42840ca1d0548a3ab2d7a3baf491",
+      "bytes": 427792,
+      "source_checkpoint": "128f490cfff9713f84f658ad17118272a1cd4ad7 plus graph-label-only patch",
+      "GPU_target": null,
+      "ELF_NEEDED": [
+        "libzstd.so.1",
+        "libm.so.6",
+        "libjson-c.so.5",
+        "libcurl.so.4",
+        "libcrypto.so.3",
+        "libpng16.so.16",
+        "libz.so.1",
+        "libc.so.6"
+      ],
+      "readelf_exit_code": 0,
+      "cmake_cache_sha256": "ea3cd6ab663d2e110cad360632ceda7c8e8bb05b0af6707f782ead9b209c3a39"
+    }
+  ],
+  "official_Gufo": {
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "source_manifest_sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "verified_source_files": 1019,
+    "source": "Independently fetched official upstream, unchanged",
+    "GPU_or_model_access": false,
+    "build_scope": "Local masked HIP gfx1151 official Gufo HTTP control; no installation, remote build or deployment",
+    "post_build_verified_source_files": 1019,
+    "upstream_source_modified": false,
+    "build_only_flags": [
+      "-include chrono",
+      "CMAKE_HIP_ARCHITECTURES=gfx1151",
+      "ROCWMMA_INCLUDE_DIR=private upstream headers"
+    ]
+  },
+  "LIE_provider": {
+    "provider_build": "build/smp-7b151-hip-on-r1",
+    "receipt_sha256": "6b019a8d874071b468329b21130b5f6fbac322e7cf6dcf6ccf200d870ff517dd",
+    "library_sha256": {
+      "libgufo_core.a": "71674f361d6df25ac7cec142a5021f32c02add11cf643bbefc5ee7992523cc1b",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "f70f5454c8fde13ba3367f6870d6a4c69bd7f08d3b60a189642f42eb5ac7114d",
+      "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "e3dbeee7748d8549d5eb0c42a40dc7ad1d491eb2e3cde120c5723c2b237866c5"
+    },
+    "owned_sampling_and_weight_decode_source_match": true,
+    "scope": "Read-only verification of previously qualified private provider; no model or GPU access",
+    "target": "gfx1151"
+  },
+  "private_Gufo_control_dependency": {
+    "upstream": "https://github.com/ROCm/rocWMMA",
+    "tag": "rocm-7.1.1",
+    "commit": "1ab208f49945c38626b79e3f0c284d65ac44a781",
+    "source_archive_sha256": "1bcee18ab12c45328ca79aaef13893417306c7f8daf025bd133a21765a601d8e",
+    "license": "LICENSE.md retained unchanged",
+    "scope": "Private build-control header dependency; no installation and no product source/dependency change",
+    "fetch_exit_code": 0,
+    "initial_materialization_exit_code": 1,
+    "initial_failure": "Top tar directory lacks trailing slash; initial assertion refused before file writes; corrected with explicit directory-only allowance.",
+    "verified_unchanged_files": 116,
+    "upstream_declared_version": "2.1.0",
+    "generated_version_header_sha256": "74dbe7ba870011ad217ee35c6968064947526e23fd63bad949566ba712184dcf",
+    "generated_header_scope": "Official template configured privately with declared 2.1.0 version; no pristine source/template changes"
+  },
+  "commands": [
+    {
+      "label": "client-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/http-multi-128f-native-r1",
+        "--target",
+        "synapse-lie-bench",
+        "-j",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.375
+      },
+      "elapsed_s": 6.104969402775168,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "client-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/http-multi-128f-native-r1",
+        "--target",
+        "synapse-lie-bench",
+        "-j",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.0
+      },
+      "elapsed_s": 1.043016156181693,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "client-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/http-multi-128f-native-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=OFF",
+        "-DLIE_BUILD_ID=http-multi-128f-native-client-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.25
+      },
+      "elapsed_s": 1.0280695222318172,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "graph-label-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/point-integration-618d-asan-r1",
+        "--target",
+        "synapse-lie-bench",
+        "test-synthetic-lie-bench",
+        "test-http-multi-native",
+        "-j",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.75
+      },
+      "elapsed_s": 1.0554788280278444,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "graph-label-tests",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/point-integration-618d-asan-r1",
+        "-R",
+        "^native-http-multi-contract$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 80.625
+      },
+      "elapsed_s": 2.0390120148658752,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/gufo-http-control-f783-r1",
+        "--target",
+        "gufo",
+        "-j",
+        "2"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.375
+      },
+      "elapsed_s": 237.47070661373436,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/gufo-http-control-f783-r1",
+        "--target",
+        "gufo",
+        "-j",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.125
+      },
+      "elapsed_s": 124.85163310728967,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".deps/gufo-f783fedb",
+        "-B",
+        "build/gufo-http-control-f783-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DGUFO_BUILD_TOOLS=OFF",
+        "-DENGINE_ENABLE_HIP=ON",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DCMAKE_HIP_FLAGS=-include chrono",
+        "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+      },
+      "elapsed_s": 2.0435971999540925,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-configure-r2",
+      "argv": [
+        "cmake",
+        "-S",
+        ".deps/gufo-f783fedb",
+        "-B",
+        "build/gufo-http-control-f783-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DGUFO_BUILD_TOOLS=OFF",
+        "-DENGINE_ENABLE_HIP=ON",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DCMAKE_HIP_FLAGS=-include chrono",
+        "-DGUFO_REVISION=f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+        "-DROCWMMA_INCLUDE_DIR=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/rocwmma-1ab208f/library/include"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.25
+      },
+      "elapsed_s": 1.0474237352609634,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-help",
+      "argv": [
+        "build/gufo-http-control-f783-r1/gufo",
+        "serve",
+        "--help"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 38.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 38.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.5
+      },
+      "elapsed_s": 1.0467649484053254,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "gufo-llm-help",
+      "argv": [
+        "build/gufo-http-control-f783-r1/gufo",
+        "serve",
+        "llm",
+        "--help"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.375
+      },
+      "elapsed_s": 1.1237595127895474,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "lie-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/http-multi-128f-hip-r1",
+        "--target",
+        "synapse-lie-server",
+        "-j",
+        "1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 71.875
+      },
+      "elapsed_s": 13.660658257082105,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "lie-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/http-multi-128f-hip-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=OFF",
+        "-DLIE_BUILD_ID=http-multi-128f-gfx1151-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/smp-7b151-hip-on-r1",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-smp-7b151-hip-on-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.75
+      },
+      "elapsed_s": 3.067082582972944,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "release-client-fixtures",
+      "argv": [
+        "build/point-integration-618d-asan-r1/test-http-multi-native",
+        "build/http-multi-128f-native-r1/synapse-lie-bench"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.125
+      },
+      "elapsed_s": 2.101994736120105,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "visual-fixture",
+      "argv": [
+        "build/point-integration-618d-asan-r1/test-http-multi-native",
+        "evidence/http-multi-gpu-preparation-r1/visual-client.sh"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.625
+      },
+      "elapsed_s": 2.206118853762746,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    },
+    {
+      "label": "visual-fixture-r2",
+      "argv": [
+        "build/point-integration-618d-asan-r1/test-http-multi-native",
+        "evidence/http-multi-gpu-preparation-r1/visual-client-r2.sh"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.5
+      },
+      "elapsed_s": 2.1702039325609803,
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85,
+          "policy": "operating-ceiling"
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": null,
+          "policy": "observe-only"
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 98.0,
+          "policy": "operating-ceiling"
+        }
+      ]
+    }
+  ],
+  "thermal": {
+    "CPU_limit_c": 98.0,
+    "CPU_peak_c": 93.75,
+    "GPU_limit_c": null,
+    "GPU_policy": "observe-only",
+    "NVMe_limit_c": "85 or lower exposed operating limit",
+    "fan_power_clock_changes": false,
+    "thermal_stops": 0
+  },
+  "preserved_failures": [
+    "Official Gufo configure exit1: local SDK lacks rocWMMA header; isolated private upstream headers supplied for configure-r2 exit0",
+    "Official Gufo link build exit1: generated version header absent; official template configured privately before build-r2 exit0",
+    "rocWMMA materialization exit1: top archive directory refused before writes; directory-only allowance corrected extraction",
+    "Initial offline audit exit1: expected 17 result directories but actual inventory has 16; count corrected without modifying any command results"
+  ],
+  "private_evidence": "evidence/http-multi-gpu-preparation-r1",
+  "GPU_qualification": "Pending independent canonical handover and fresh lease/device admission; compilation and help are not inference qualification"
+}

@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Prepared HTTP graphs use short concurrency labels so C8 remains visible;
+  multi-case labels refer to case indices, with full identifiers in CSV/JSON.
+
 - The direct-core reactive probe waits for aggregate retirement counters after
   job completion, avoiding a race between independently published snapshots.
 

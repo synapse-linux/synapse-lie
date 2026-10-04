@@ -220,6 +220,8 @@ interval and includes client/server overhead. Preparation wall time and the
 mean executed per-request PP rate are recorded separately. A preparation
 cohort made entirely of cache hits has no executed PP rate. Graphs put PP,
 the two decode metrics and TTFT in four panels with separate scales.
+Single-case graphs label concurrency as C1–C8. Multi-case graphs use the
+one-based case index followed by concurrency; CSV/JSON retain the full case IDs.
 
 The default has one excluded warmup cohort and three measured cohorts for
 statistics. `--warmups 0 --repetitions 1` selects a single prepared cohort,

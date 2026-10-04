@@ -866,11 +866,14 @@ int nb_http_multi_export(json_object *a, json_object *b, const char *directory,
   const char *units[] = {"executed tokens/s; cache hits unavailable",
                          "output tokens/s", "output tokens/s", "seconds"};
   const size_t indices[] = {5, 0, 1, 2};
+  json_object *cases = nb_get(ai, "cases");
+  bool one_case = json_object_array_length(cases) == 1;
   bool plotted = true;
   for (unsigned p = 0; p < 4 && plotted; ++p) {
     panels[p].title = titles[p];
     panels[p].unit = units[p];
-    panels[p].x_label = "Case / concurrent users";
+    panels[p].x_label = one_case ? "Concurrent users"
+                                 : "Case index / concurrent users (see CSV)";
     panels[p].count = b ? 2 : 1;
     for (unsigned s = 0; s < panels[p].count && plotted; ++s) {
       size_t count = json_object_array_length(ap);
@@ -889,8 +892,17 @@ int nb_http_multi_export(json_object *a, json_object *b, const char *directory,
         json_object *primary = json_object_array_get_idx(ap, i),
                     *point = s ? find_point(bp, primary) : primary;
         char tick[128];
-        snprintf(tick, sizeof(tick), "%.64s C%" PRId64,
-                 nb_string(point, "case"), nb_number(point, "users"));
+        if (one_case)
+          snprintf(tick, sizeof(tick), "C%" PRId64, nb_number(point, "users"));
+        else {
+          size_t case_index = 0;
+          while (case_index < json_object_array_length(cases) &&
+                 !eq(json_object_array_get_idx(cases, case_index), "id",
+                     nb_string(point, "case")))
+            ++case_index;
+          snprintf(tick, sizeof(tick), "%zu / C%" PRId64, case_index + 1,
+                   nb_number(point, "users"));
+        }
         series->ticks[i] = strdup(tick);
         if (!series->ticks[i]) {
           plotted = false;
@@ -904,10 +916,16 @@ int nb_http_multi_export(json_object *a, json_object *b, const char *directory,
       }
     }
   }
-  if (plotted)
-    plotted =
-        nb_plot(directory, "Prepared HTTP cohorts - recorded server timings",
-                panels, 4, e);
+  if (plotted) {
+    char title[160];
+    if (one_case)
+      snprintf(title, sizeof(title), "Prepared HTTP cohorts - %.48s",
+               nb_string(json_object_array_get_idx(cases, 0), "id"));
+    else
+      snprintf(title, sizeof(title),
+               "Prepared HTTP cohorts - recorded server timings");
+    plotted = nb_plot(directory, title, panels, 4, e);
+  }
   for (unsigned p = 0; p < 4; ++p)
     for (unsigned s = 0; s < panels[p].count; ++s) {
       nb_plot_series *v = &panels[p].series[s];
