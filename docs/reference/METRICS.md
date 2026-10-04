@@ -137,6 +137,21 @@ queueing, inference and consumption; its first-token clock is not first SSE writ
 An internal core queue-duration clock and complete resource accounting remain
 pending. Direct-core and HTTP results must label these different timing scopes.
 
+The native direct-core client can sample these metadata with `--progress-ms N`.
+Its stderr JSONL schema `synapse-lie.core-progress.v1` records per-job completed
+prefill tokens/calls, cached tokens, confirmed model output, consumer-observed
+tokens and executor-call durations. Global execution phase and started/returned
+counters come from the core snapshot; each job has its own metadata lock, so
+the collection is not a single atomic snapshot across all jobs. An in-flight
+call contributes no new completed-input count until it returns successfully.
+A failed call can increase the returned-call count with zero completed input.
+`final_snapshot` marks the client's last observation before job release, including
+deadline/failure; `retired` separately reports the job's retirement state.
+These observations are not the credit-bearing `LIE_EVENT_PROGRESS` output event,
+GPU kernel clocks or benchmark samples. Interval `0` disables them by default.
+Result identity records `progress_interval_ms`; paired native reports require
+the same value, treating a missing historical field as zero.
+
 The native core report requires positive prefill time and call count when new
 prompt tokens are processed. Decode time and call count must agree, and confirmed
 output requires a decode call. Prefill plus decode time must fit inside the

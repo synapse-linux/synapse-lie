@@ -79,16 +79,53 @@ typedef struct {
     lie_job *job;uint64_t start,first,end,tokens,bytes;bool terminal;
 } consumer;
 typedef struct { int32_t *prompt;size_t count;bool initialized;int32_t output[LIE_CORE_MAX_OUTPUT];size_t output_count; } witness;
+/* Metadata snapshots only. Sampling does not consume output loans or invoke
+ * the numerical provider. Core and job snapshots have separate lock scopes. */
+static bool progress(lie_core *core,const consumer *rows,unsigned users,
+                     unsigned rep,bool warmup,uint64_t begin,bool final) {
+    uint64_t observed=now();if(!observed||observed<begin)return false;
+    lie_core_info info;lie_core_snapshot(core,&info);
+    json_object *line=event("core_progress"),*jobs=json_object_new_array();
+    text(line,"schema","synapse-lie.core-progress.v1");
+    number(line,"rep",rep);number(line,"warmup",warmup);
+    number(line,"snapshot_monotonic_ns",observed);number(line,"elapsed_ns",observed-begin);
+    json_object_object_add(line,"final_snapshot",json_object_new_boolean(final));
+    json_object_object_add(line,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
+    const char *phases[]={"idle","prefill","decode","capture","restore"};
+    text(line,"executor_phase",(unsigned)info.executor_phase<sizeof(phases)/sizeof(*phases)?phases[info.executor_phase]:"unknown");
+    number(line,"queued",info.queued);number(line,"active",info.active);number(line,"output_blocked",info.output_blocked);
+    number(line,"prefill_started",info.prefill_started);number(line,"prefill_returned",info.prefill_returned);
+    json_object_object_add(line,"jobs",jobs);
+    for(unsigned i=0;i<users;++i)if(rows[i].job){
+        lie_job_info job;lie_job_snapshot(rows[i].job,&job);
+        json_object *row=json_object_new_object();number(row,"user",i);
+        json_object_object_add(row,"prepared",json_object_new_boolean(job.prepared));
+        json_object_object_add(row,"retired",json_object_new_boolean(job.retired));
+        json_object_object_add(row,"terminal_observed",json_object_new_boolean(rows[i].terminal));
+        number(row,"prompt_tokens",job.prompt_tokens);number(row,"cached_tokens",job.cached_tokens);
+        number(row,"prefill_tokens",job.prefill_tokens);number(row,"prefill_calls",job.prefill_calls);
+        number(row,"output_tokens",job.output_tokens);number(row,"consumer_tokens",rows[i].tokens);
+        number(row,"decode_calls",job.decode_calls);number(row,"prefill_ns",job.prefill_ns);number(row,"decode_ns",job.decode_ns);
+        if(job.error[0])text(row,"error",job.error);
+        json_object_array_add(jobs,row);
+    }
+    return emit(stderr,line);
+}
 static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned rep,bool warmup,
-                   unsigned timeout,witness *w,FILE *f,char error[256]) {
+                   unsigned timeout,unsigned progress_ms,witness *w,FILE *f,char error[256]) {
     consumer rows[LIE_CORE_JOBS]={0};bool ok=false;unsigned finished=0;
-    uint64_t begin=now(),last=0,deadline=begin+(uint64_t)timeout*1000000u;
+    uint64_t begin=now(),last=0,deadline=begin+(uint64_t)timeout*1000000u,next_progress=begin;
     if(!begin){snprintf(error,256,"clock failure");return false;}
     lie_core_info before;lie_core_snapshot(c,&before);
     for(unsigned i=0;i<users;++i){rows[i].start=now();
         if(!rows[i].start||lie_core_submit(c,r,&rows[i].job)){snprintf(error,256,"core admission refused");goto done;}}
     while(finished<users){
         if(interrupted||!now()||now()>=deadline){snprintf(error,256,"interrupted or core deadline exceeded");goto done;}
+        uint64_t observed=progress_ms?now():0;
+        if(progress_ms&&observed>=next_progress){
+            if(!progress(c,rows,users,rep,warmup,begin,false)){snprintf(error,256,"core progress output failed");goto done;}
+            next_progress=observed+(uint64_t)progress_ms*1000000u;
+        }
         struct pollfd fds[LIE_CORE_JOBS];nfds_t count=0;
         for(unsigned i=0;i<users;++i)if(!rows[i].terminal){
             if(lie_job_event_drain(rows[i].job)!=LIE_FLOW_OK)goto done;
@@ -172,6 +209,9 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     number(point,"ssd_write_ns",after.ssd.write_ns-before.ssd.write_ns);number(point,"ssd_disk_bytes",after.ssd.disk_bytes);
     ok=emit(f,point);
 done:
+    if(progress_ms&&!progress(c,rows,users,rep,warmup,begin,true)){
+        snprintf(error,256,"core progress output failed");ok=false;
+    }
     for(unsigned i=0;i<users;++i)if(rows[i].job)lie_job_release(rows[i].job);
     return ok;
 }
@@ -325,12 +365,12 @@ int lie_core_bench_main(int argc,char **argv) {
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
     const char *encoder=NULL,*image_path=NULL;
     lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
-    unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000;
+    unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000,progress_ms=0;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false,probe=false;unsigned seen=0;
     lie_rope_profile rope_profile=LIE_ROPE_NATIVE;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(!strcmp(argv[i],"--reactive-probe")){if(probe)goto usage;probe=true;continue;}
         if(i+1==argc)goto usage;
@@ -357,6 +397,7 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--presence-penalty")){bit=16777216u;if(!real(value,-2,2,&request.generation.presence_penalty))goto usage;}
         else if(!strcmp(key,"--seed")){bit=33554432u;if(!seed_value(value,&request.generation.seed))goto usage;}
         else if(!strcmp(key,"--timeout-ms")){bit=2048u;if(!integer(value,1,86400000,&timeout))goto usage;}
+        else if(!strcmp(key,"--progress-ms")){bit=134217728u;if(!integer(value,0,60000,&progress_ms)||(progress_ms&&progress_ms<100))goto usage;}
         else if(!strcmp(key,"--graphs")){bit=4096u;graphs=value;}
         else if(!strcmp(key,"--kv-cache-ram-mb")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
         else if(!strcmp(key,"--kv-disk-dir")){bit=16384u;ssd.directory=value;}
@@ -368,7 +409,7 @@ int lie_core_bench_main(int argc,char **argv) {
     }
     if(mtp_drafts&&!mtp)goto usage;
     if(request.generation.temperature>0&&request.generation.seed<0)goto usage;
-    if(probe&&(users!=2||warmups||repetitions!=1||cache_mib||ssd.directory||encoder||image_path||!tokens_path||tg<16))goto usage;
+    if(probe&&(users!=2||warmups||repetitions!=1||cache_mib||ssd.directory||encoder||image_path||!tokens_path||tg<16||progress_ms))goto usage;
     if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
@@ -398,6 +439,7 @@ int lie_core_bench_main(int argc,char **argv) {
     number(identity,"context_capacity",context);number(identity,"prefill_chunk",chunk);number(identity,"users",users);
     text(identity,"rope_scaling",lie_rope_profile_name(rope_profile));
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);
+    number(identity,"progress_interval_ms",progress_ms);
     if(build_info)return emit(stdout,identity)?0:1;
     if(!model||!*model||!output||!*output||!!prompt_path==!!tokens_path||tg>=context){json_object_put(identity);goto usage;}
     request.max_tokens=tg;
@@ -422,6 +464,8 @@ int lie_core_bench_main(int argc,char **argv) {
     json_object_object_add(identity,"reactive_probe",json_object_new_boolean(probe));
     struct sigaction sa={0};sa.sa_handler=stop_signal;sigemptyset(&sa.sa_mask);
     if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL)){free(ids);free(data);json_object_put(identity);return 1;}
+    if(progress_ms){struct sigaction pipe_action={0};pipe_action.sa_handler=SIG_IGN;sigemptyset(&pipe_action.sa_mask);
+        if(sigaction(SIGPIPE,&pipe_action,NULL)){free(ids);free(data);json_object_put(identity);return 1;}}
     int fd=open(output,O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW|O_CLOEXEC,0600);
     if(fd<0){perror("exclusive core benchmark output");free(ids);free(data);json_object_put(identity);return 1;}
     FILE *f=fdopen(fd,"w");if(!f){close(fd);free(ids);free(data);json_object_put(identity);return 1;}
@@ -451,7 +495,7 @@ int lie_core_bench_main(int argc,char **argv) {
     }
     json_object *ready=event("core_ready");number(ready,"load_to_ready_ns",now()-started);if(!emit(f,ready))goto done;
     if(probe){if(!reactive_probe(core,&request,tg,timeout,mtp!=NULL,f,error))goto done;}
-    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,&w,f,error))goto done;
+    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,progress_ms,&w,f,error))goto done;
     code=0;
 done:
     if(core){lie_core_stop(core);if(!wait_core(core,LIE_STOPPED,0))code=1;else {

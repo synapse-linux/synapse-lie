@@ -43,6 +43,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Native core benchmark progress on stderr with `--progress-ms`, reporting
+  completed prefill, cache reuse and confirmed/consumer-observed output. Paired reports
+  require matching progress policy; benchmark samples remain separate.
 - Optional original-weight HTTP qualification controls for 2/8 choices,
   probabilities, structured output and retained Responses lifecycle, with
   pinned helpers and independently recorded AR/MTP outcomes. CPU supervisor

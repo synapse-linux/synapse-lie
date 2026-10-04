@@ -17,6 +17,7 @@
 
 static pid_t server_pid = -1;
 static bool gate_mode;
+static bool closed_stderr;
 static char root[2300], logpath[2400];
 static void pause_ms(unsigned ms) {
   struct timespec t = {ms / 1000, (long)(ms % 1000) * 1000000};
@@ -103,6 +104,11 @@ static void run(char *const args[], int expected) {
     dup2(fd, STDOUT_FILENO);
     dup2(fd, STDERR_FILENO);
     close(fd);
+    if(closed_stderr){
+      int output_pipe[2];if(pipe(output_pipe))_exit(126);
+      close(output_pipe[0]);if(dup2(output_pipe[1],STDERR_FILENO)<0)_exit(126);
+      close(output_pipe[1]);
+    }
     if (gate_mode) {
       server_pid = -1;
       int argc = 0;
@@ -498,6 +504,129 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   require(!nb_report(greedy, graphs, "current", changed, "historical", false, &error),
           "historical greedy identity lost compatibility");
 }
+static void core_progress_contract(char *bench) {
+  save("progress-input.json","[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]\n");
+  char input[2400],output[2400],graphs[2400];
+  path(input,"progress-input.json");path(output,"progress-core.jsonl");
+  path(graphs,"progress-core-graphs");
+  char *args[]={bench,"--suite","core","--model",":progress-fixture:",
+                "--tokens-file",input,"--output",output,"--context","128",
+                "--chunk","4","--users","2","--tg","8","--warmups","0",
+                "--repetitions","1","--kv-cache-ram-mb","0",
+                "--progress-ms","100","--graphs",graphs,NULL};
+  run(args,0);
+  nb_error error={0};json_object *progress=nb_read(logpath,true,&error);
+  require(progress&&json_object_array_length(progress)>=3,"missing native progress observations");
+  uint64_t previous=0;bool pending=false;int64_t completed[2]={0},delivered[2]={0};
+  size_t count=json_object_array_length(progress);
+  for(size_t i=0;i<count;++i){
+    json_object *line=json_object_array_get_idx(progress,i),*jobs=nb_get(line,"jobs");
+    require(!strcmp(nb_string(line,"event"),"core_progress")&&
+            !strcmp(nb_string(line,"schema"),"synapse-lie.core-progress.v1")&&
+            json_object_get_boolean(nb_get(line,"synthetic"))&&
+            nb_number(line,"elapsed_ns")>=(int64_t)previous&&
+            nb_number(line,"snapshot_monotonic_ns")>0&&
+            json_object_array_length(jobs)==2,"invalid progress identity/clock/cohort");
+    previous=(uint64_t)nb_number(line,"elapsed_ns");
+    require(json_object_get_boolean(nb_get(line,"final_snapshot"))==(i+1==count),
+            "progress final observation count/order");
+    for(unsigned u=0;u<2;++u){
+      json_object *job=json_object_array_get_idx(jobs,u);
+      int64_t pp=nb_number(job,"prefill_tokens"),out=nb_number(job,"consumer_tokens");
+      require(nb_number(job,"user")==u&&pp>=completed[u]&&pp<=16&&
+              pp==4*nb_number(job,"prefill_calls")&&out>=delivered[u]&&out<=8&&
+              nb_number(job,"output_tokens")>=out,"progress reported speculative/future work");
+      completed[u]=pp;delivered[u]=out;
+      if(!strcmp(nb_string(line,"executor_phase"),"prefill")&&
+          nb_number(line,"prefill_started")>nb_number(line,"prefill_returned")&&
+          json_object_get_boolean(nb_get(job,"prepared"))&&pp<16)pending=true;
+    }
+  }
+  require(pending&&completed[0]==16&&completed[1]==16&&delivered[0]==8&&delivered[1]==8,
+          "progress lacks pending/confirmed/final witness");
+  json_object_put(progress);graph_files("progress-core-graphs");
+  json_object *result=read_json("progress-core.jsonl",true),*identity=json_object_array_get_idx(result,0);
+  require(nb_number(identity,"progress_interval_ms")==100,"missing progress timing declaration");
+  /* The default native client remains silent; progress policy must be matched
+   * when comparing wall latency. A missing historical field means disabled. */
+  json_object_object_add(identity,"progress_interval_ms",json_object_new_int(0));
+  save_rows("progress-disabled.jsonl",result);
+  char disabled[2400],comparison[2400];path(disabled,"progress-disabled.jsonl");path(comparison,"progress-mismatch");
+  require(nb_report(output,comparison,"enabled",disabled,"disabled",false,&error)==1&&
+          strstr(error.message,"settings mismatch"),"different progress policies compared silently");
+  json_object_object_del(identity,"progress_interval_ms");save_rows("progress-historical.jsonl",result);
+  char historical[2400];path(historical,"progress-historical.jsonl");path(comparison,"progress-compatible");
+  require(!nb_report(disabled,comparison,"disabled",historical,"historical",false,&error),
+          "historical disabled-progress compatibility");
+  json_object_put(result);
+  path(output,"progress-cached.jsonl");
+  char *cached[]={bench,"--suite","core","--model",":progress-fixture:",
+                  "--tokens-file",input,"--output",output,"--context","128","--chunk","4",
+                  "--tg","8","--warmups","1","--repetitions","1","--kv-cache-ram-mb","1",
+                  "--kv-cache-policy","legacy","--progress-ms","100",NULL};
+  run(cached,0);progress=nb_read(logpath,true,&error);require(progress,"cached progress lost");
+  unsigned finals=0;
+  for(size_t i=0;i<json_object_array_length(progress);++i){
+    json_object *line=json_object_array_get_idx(progress,i);
+    if(!json_object_get_boolean(nb_get(line,"final_snapshot")))continue;
+    json_object *job=json_object_array_get_idx(nb_get(line,"jobs"),0);
+    require(nb_number(line,"rep")==finals&&nb_number(job,"output_tokens")==8,
+            "cache repetition progress order");
+    require(nb_number(line,"warmup")==!finals&&
+            nb_number(job,"prefill_tokens")==(!finals?16:0)&&
+            nb_number(job,"cached_tokens")==(!finals?0:16),
+            "cache reuse presented as completed prefill");
+    ++finals;
+  }
+  require(finals==2,"missing cache warmup/measured final observations");json_object_put(progress);
+  path(output,"progress-quiet.jsonl");
+  char *quiet[]={bench,"--suite","core","--model",":fixture:","--tokens-file",input,
+                 "--output",output,"--context","128","--chunk","4","--tg","8",
+                 "--repetitions","1","--kv-cache-ram-mb","0",NULL};
+  run(quiet,0);struct stat quiet_log;
+  require(!stat(logpath,&quiet_log)&&quiet_log.st_size==0,"default benchmark emits progress");
+  path(output,"progress-failure.jsonl");
+  char *failed[]={bench,"--suite","core","--model",":progress-failure:",
+                  "--tokens-file",input,"--output",output,"--context","128","--chunk","4",
+                  "--tg","8","--repetitions","1","--kv-cache-ram-mb","0","--progress-ms","100",NULL};
+  run(failed,1);progress=nb_read(logpath,true,&error);require(progress,"failure progress lost");
+  json_object *last=json_object_array_get_idx(progress,json_object_array_length(progress)-1),
+              *job=json_object_array_get_idx(nb_get(last,"jobs"),0);
+  require(json_object_get_boolean(nb_get(last,"final_snapshot"))&&
+          nb_number(job,"prefill_tokens")==4&&nb_number(job,"output_tokens")==0&&
+          nb_number(job,"prefill_calls")==2&&strstr(nb_string(job,"error"),"four completed tokens"),
+          "failed executor work reported as completed prefill");
+  json_object_put(progress);
+  path(output,"progress-timeout.jsonl");
+  char *timeout[]={bench,"--suite","core","--model",":progress-timeout:",
+                   "--tokens-file",input,"--output",output,"--context","128","--chunk","4",
+                   "--tg","8","--repetitions","1","--kv-cache-ram-mb","0",
+                   "--timeout-ms","150","--progress-ms","100",NULL};
+  run(timeout,1);progress=nb_read(logpath,true,&error);require(progress,"timeout progress lost");
+  last=json_object_array_get_idx(progress,json_object_array_length(progress)-1);
+  job=json_object_array_get_idx(nb_get(last,"jobs"),0);
+  require(json_object_get_boolean(nb_get(last,"final_snapshot"))&&
+          !json_object_get_boolean(nb_get(job,"retired"))&&
+          nb_number(job,"prefill_tokens")==0&&nb_number(job,"output_tokens")==0,
+          "unfinished executor call counted at timeout");
+  json_object_put(progress);
+  path(output,"progress-write-failure.jsonl");
+  char *write_failure[]={bench,"--suite","core","--model",":progress-fixture:",
+                         "--tokens-file",input,"--output",output,"--context","128","--chunk","4",
+                         "--tg","8","--repetitions","1","--kv-cache-ram-mb","0","--progress-ms","100",NULL};
+  closed_stderr=true;run(write_failure,1);closed_stderr=false;
+  result=read_json("progress-write-failure.jsonl",true);
+  last=json_object_array_get_idx(result,json_object_array_length(result)-1);
+  require(!strcmp(nb_string(last,"event"),"failed")&&
+          !strcmp(nb_string(last,"error"),"core progress output failed"),
+          "broken progress pipe bypassed owned cleanup/failed evidence");
+  json_object_put(result);
+  for(unsigned i=0;i<3;++i){
+    char *bad[]={bench,"--suite","core","--build-info","--progress-ms",
+                 i==0?"1":i==1?"60001":"-1",NULL};run(bad,2);
+  }
+  char *duplicate[]={bench,"--suite","core","--build-info","--progress-ms","100","--progress-ms","100",NULL};run(duplicate,2);
+}
 int main(int argc, char **argv) {
   require(argc == 3, "server and bench paths required");
   require(atexit(stop_server) == 0, "cleanup registration");
@@ -539,6 +668,7 @@ int main(int argc, char **argv) {
           "cached prefill presented as executed work");
   json_object_put(sum);
   core_sampling_contract(argv[2], tokens, output);
+  core_progress_contract(argv[2]);
   path(output, "direct.jsonl");
   path(graphs, "direct-graphs");
   char *direct[] = {

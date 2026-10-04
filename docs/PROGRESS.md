@@ -7,6 +7,35 @@ from pending physical1M, new OpenAI controls, agent evaluation and autonomous
 C17 executor work. Earlier platform and long-context matrices remain explicitly
 historical; their raw receipts and failures are unchanged.
 
+## Native live prefill observations — 2026-10-04 UTC
+
+The regular shared-core benchmark now accepts `--progress-ms 100..60000` and
+emits native JSONL metadata snapshots on stderr. The default is zero. Snapshots
+expose completed prefill tokens, cache reuse, target-confirmed output and
+consumer-observed output, with per-job timing and global execution phase.
+They use the existing locked C17 counters. No provider call, output credit,
+additional inference thread or Python dependency is introduced.
+
+An explicit final observation is retained before releasing jobs on success,
+failure or deadline. Its `retired` field remains separate from `final_snapshot`;
+unfinished or failed prefill contributes no successful-input count. A closed
+progress pipe produces a failed result and owned cleanup. Native paired reports
+require equal declared intervals; historical records without the field mean zero.
+
+The three native benchmark/report/HTTP contracts pass in Debug and with
+ASan/UBSan/LeakSanitizer, using CPU fixtures and an interpreter-free child PATH.
+Cases include two jobs, cache reuse, pending calls, injected prefill failure,
+deadline, broken pipe, quiet default and historical comparison compatibility.
+The first sandbox socket refusal and the missing target in the headless ASan
+build remain preserved with actual exits 8 and 2. Maximum local CPU is 67.875 C.
+These are client/metadata checks, not new GPU numerical or performance evidence.
+
+The active physical1M job retains its frozen r10 binary. Its latest observed
+PID/start/cgroup identity is live, with GPU busy and RAM/temperatures within the
+admitted guards; no physical1M result or progress count is inferred. AR/MTP
+OpenAI gates remain prepared, not submitted until collected ownership closure.
+[Validation receipt](development/validation/core-progress-2026-10-04.json).
+
 ## OpenAI control qualification prepared — 2026-10-04 UTC
 
 The optional GPU supervisor now stages a hash-bound control gate alongside the

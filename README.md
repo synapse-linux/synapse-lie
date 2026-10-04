@@ -54,7 +54,8 @@ performance gates remain open.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, including separate prefill/decode durations, with CSV, JSON,
-  SVG and PNG exports, plus reproducible shared-core sampling controls.
+  SVG and PNG exports, reproducible shared-core sampling controls and optional
+  live prefill progress on stderr.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 

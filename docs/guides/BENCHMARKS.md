@@ -136,8 +136,9 @@ inputs, outputs and completion before presenting an eligible comparison.
 
 This measures the full prompt, including the time needed to fill a new state.
 It must not be compared directly with the suffix PP in `single` or a cached
-conversation follow-up. The runtime ceiling is 262,144 tokens; 512K and 1M
-inference are not supported by the current provider.
+conversation follow-up. This simplified suite uses the native profile through
+262,144 tokens. Explicit extended profiles are available in the shared-core
+suite below; their physical GPU and quality gates remain separate.
 
 ## Shared engine and cache
 
@@ -154,6 +155,20 @@ Use `--kv-cache-ram-mb 4096 --warmups 1` with a separate output file to measure
 repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
+
+For a long regular core run, add `--progress-ms 1000` and redirect stderr to
+`results/core-progress.jsonl`. The native client reports completed prefill tokens,
+cache reuse, confirmed output and consumer-observed output for every job.
+No Python or additional process is needed. Intervals range from 100 to 60,000 ms;
+the default `0` keeps progress disabled. The final observation is retained on
+success, failure or deadline; `final_snapshot:true` does not imply successful
+inference or device retirement. Inspect the result file's terminal and job data.
+
+Progress observations are separate from benchmark samples. The interval is
+recorded in result identity and must match in a paired report, since logging
+can affect client wall time. Older records without the field mean disabled.
+The GPU run already in progress uses its frozen binary and has no live counter
+output; this option applies to newly built clients.
 
 To check credit handling directly in the core, prepare a JSON array of physical
 token IDs and run the optional functional probe:

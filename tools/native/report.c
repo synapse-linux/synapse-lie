@@ -286,6 +286,10 @@ static json_object *core(json_object *rows, nb_error *e) {
         "Invalid core identity");
   generation = core_generation(id);
   CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
+  CHECK(!nb_get(id,"progress_interval_ms") ||
+            (nb_count(id,"progress_interval_ms",0,60000,NULL) &&
+             (!nb_number(id,"progress_interval_ms") || nb_number(id,"progress_interval_ms")>=100)),
+        "Invalid core progress interval");
   size_t users = (size_t)nb_number(id, "users"),
          reps =
              (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
@@ -472,6 +476,7 @@ static json_object *core(json_object *rows, nb_error *e) {
          "checkpoint_compression checkpoint_codec checkpoint_policy "
          "state_format ssd_quota_bytes ssd_staging_bytes");
   nb_str(point, "cache_policy", cache);
+  nb_num(point, "progress_interval_ms", nb_number(id,"progress_interval_ms"));
   nb_str(point, "rope_scaling", nb_get(id, "rope_scaling") ? nb_string(id, "rope_scaling") : "native");
   nb_num(point, "prefix_cache_bytes", nb_number(id, "prefix_cache_bytes"));
   nb_num(point, "ssd_quota_bytes", nb_number(id, "ssd_quota_bytes"));
@@ -833,7 +838,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
                               "prefill_chunk",   "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling", "progress_interval_ms"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),

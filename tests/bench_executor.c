@@ -6,10 +6,12 @@
 #include "lie/state.h"
 #include "lie/store.h"
 #include <math.h>
+#include <errno.h>
 #include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
 struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
 static atomic_uint_fast64_t domain_counter=1;
@@ -29,8 +31,8 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
     if(!strcmp(p,":load-failure:")){snprintf(e->message,sizeof(e->message),"synthetic model allocation failure");return LIE_BACKEND_FAILED;}
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:"};
-    for (int i=0;i<8;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:"};
+    for (unsigned i=0;i<sizeof(names)/sizeof(*names);++i) if (!strcmp(p,names[i])) { (*m)->mode=(int)i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
@@ -57,11 +59,17 @@ lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *p,size_t n,lie_er
     (void)e; (void)p;
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (n<=s->position || n-s->position>2048 || n>s->m->context) return LIE_INVALID;
+    if(s->m->mode>=8){
+        struct timespec delay={s->m->mode==10?1:0,s->m->mode==10?0:s->position?50000000:300000000};
+        while(nanosleep(&delay,&delay)&&errno==EINTR){}
+        if(s->m->mode==9&&s->position>=4){snprintf(e->message,sizeof(e->message),"synthetic prefill failure after four completed tokens");return LIE_BACKEND_FAILED;}
+    }
     memcpy(s->prompt,p,n*sizeof(*p));s->position=(unsigned)n; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *d,lie_error *e) {
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (s->m->mode==4) { snprintf(e->message,sizeof(e->message),"synthetic mutating failure; no retry"); return LIE_BACKEND_FAILED; }
+    if(s->m->mode>=8){struct timespec delay={0,10000000};while(nanosleep(&delay,&delay)&&errno==EINTR){}}
     if (s->m->mode==1 && s->step==7) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
     *d=(lie_decode_result){.token=(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
     s->prompt[s->position-1]=d->token;
