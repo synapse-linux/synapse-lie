@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Clocked GPU follow-up complete — 2026-10-03 UTC
+
+Frozen `15c6082` completes ten arms on `.157`: the missing 12288-depth pair,
+then balanced fresh 1500 no-warmup and two-warmup process orders. All fifteen
+measured pairs and five warmup pairs match physical inputs, confirmed output,
+complete logit hashes and dispatch counters. At 12K, C17/control median PP is
+1451.67/1454.54 and TG 25.814/25.827 token/s. Native reporting validates phase
+bounds and forty sample durations; 90 collected remote artifacts hash-verify.
+
+The 1500 slowdown appears in both builds: process medians split near 23 and
+26.6 token/s. Lower measured GPU clocks accompany the slow band, including
+after two warmups; this is correlation, not a causal diagnosis. Balanced pooled
+TG is 25.55/25.03 without warmup and 25.19/25.17 after two warmups. Wide variation
+keeps the stable performance gate open. Greedy GPU argmax excludes dense host
+sampling from this measurement; the newer optimized/vision composition remains
+separately pending. Full values, PP wait times, source maps and original attempts
+are on the [platform benchmark page](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md#clocked-follow-up-12k-depth-and-first-1500-tokens)
+and [source-bound receipt](development/validation/clocked-gpu-followup-2026-10-03.json).
+
+R3 records 1027 telemetry samples with CPU 95.75/GPU 98/NVMe 74.85 C peaks,
+no CPU/SSD guard stop and no observed hardware crash. The old-policy R2 GPU 101
+stop is retained. Closure at 23:30:28.038945 UTC verifies 26 retired identities,
+empty KFD and unchanged/free original leases, model stats and capsules. Root
+hands `.157` to Point for its separately coordinated predictor copy; no
+restart/waiter remains.
+
+The native C renderer offsets comparison markers at a single shared category
+so matching series remain visible. Existing charts stay unchanged. Focused
+ASan/UBSan/LeakSanitizer benchmark CTest 1/1 and three final exports pass; graphs
+retain the same values, zero-based separate PP/TG scales and observed ranges.
+
 ## Integrated HIP compositions linked — 2026-10-03 UTC
 
 The `.155` host builds three source-bound `gfx1151` providers and their clients:
@@ -23,13 +54,13 @@ and Point's newer-runtime qualification remains in its own target thread.
 At the owner's correction, new qualification helpers stop at the selected CPU
 ceiling and retain the independent SSD bounds; GPU temperatures are observed
 without a software temperature stop. Three synthetic sensor/lifetime checks
-pass, including GPU101 C continuation, CPU98 C refusal, SSD separation and
+pass, including GPU 101 C continuation, CPU98 C refusal, SSD separation and
 owned-child retirement. No firmware, fan, power or clock setting changes.
 The [guard receipt](development/validation/cpu-thermal-guard-2026-10-03.json)
 binds the changed helpers, synthetic checks and actual command exits.
 
 The first clocked 12288-depth C17 arm passes on `.157`, but the matched C++ arm
-stops at GPU101 C under the previous GPU98 policy, with CPU96.125 C. Its actual
+stops at GPU 101 C under the previous GPU98 policy, with CPU96.125 C. Its actual
 failure remains preserved; no hardware crash is observed. The separately
 prepared R3 continuation repeats all ten arms from unchanged frozen `15c6082`
 binaries, with the corrected CPU98/GPU-observed policy and CPU<=60 C preflight.
@@ -82,7 +113,7 @@ results remain separately bound in the
 Strix Point's ROCm10 old-source fresh128 pair now finishes 10/10 samples per
 arm, with matching output IDs and full PP/TG frontiers. At 128K LIE/Gufo medians
 are PP401.949/402.066 and TG10.061/10.062 token/s. The Point thread verifies
-21 remote-file hashes per arm, exits0 and owned closure, then starts a separately
+21 remote-file hashes per arm, exits 0 and owned closure, then starts a separately
 admitted old-source fresh256 LIE arm. This is baseline `1877b03`, not qualification
 of the newer integrated core or this sampler follow-up.
 
@@ -1013,7 +1044,7 @@ clarified the dynamic-fan behavior and explicitly requested recording transient
 peaks and any performance deterioration/shutdown. An opt-in supervisor policy
 now observes CPU/GPU temperatures without the earlier software ceiling, retains
 reported hardware bounds and SSD guards, and leaves hardware settings untouched.
-Both focused CTest suites pass (15 core-bench and 2 thermal checks), all exits0,
+Both focused CTest suites pass (15 core-bench and 2 thermal checks), all exits 0,
 with ASan/UBSan fixture binaries. [Receipt](benchmarks/2026-10-02/ssd-qualification/thermal-observation.json).
 The resumed R4 protocol uses the original chunk2048 and a 1 Hz observer that
 persists received samples on the editing host. No R4 result is claimed yet.

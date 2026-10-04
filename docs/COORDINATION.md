@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Clocked root window released — 2026-10-03 UTC
+
+R3 completes ten arms and the SSH controller exits 0. Root closes at
+**23:30:28.038945 UTC**: 26 owned PID/start identities from R2/R3 are retired,
+KFD is empty, four original leases are unchanged/free via EX|NB, four model stats
+and both capsules remain unchanged. The release is
+`run/gpu-perf-clocked-window-release.json`, SHA256
+`a062e4e3b6662d242b6c084b90a169faeff3f215841c3f9eb0d63a6a02f2da8a`.
+All 90 collected remote artifacts verify; root continues offline analysis only,
+with no observer, automatic restart or waiter. R2's previous GPU-guard failure
+remains preserved and is not converted to a pass.
+
+Point receives the next read-only predictor-copy window with fresh original
+leases. It subsequently reports a verified 2,786,568,256-byte `.157`→`.161` copy,
+matching receiver SHA and unchanged source stat. Source/receiver/controller
+exits are 0, while a nested generic receipt incorrectly retained an initialized 1;
+that bookkeeping failure remains explicit. New root GPU work still requires
+independent handover/lease/identity checks, not the thread report alone.
+
 ## CPU guard correction and clocked continuation — 2026-10-03 UTC
 
 The owner clarifies: **the CPU needs the guard, not the GPU**. New local and
@@ -7,7 +26,7 @@ remote supervisors retain the selected CPU ceiling (98 C on qualified Strix
 Halo 395), lower exposed CPU bounds and the separate NVMe 85 C or lower bounds.
 GPU sensor values and peaks remain recorded with a null software temperature
 limit. No fan, power, clock, firmware or hardware protection setting changes.
-Three synthetic sensor/lifetime tests verify GPU101 C continues, CPU98 C refuses,
+Three synthetic sensor/lifetime tests verify GPU 101 C continues, CPU98 C refuses,
 SSD limits and termination of owned children only. Historical capsules retain
 their original policies and results.
 Two additional legacy-manifest sensor checks pass; the old observation flag
@@ -16,7 +35,7 @@ cannot disable the CPU guard when interpreted by new helpers.
 Root's `gpu-perf-clocked-r2` starts after Q2's release at
 **23:03:30.243030 UTC** and fresh admission at **23:06:11.225623 UTC**. The C17
 12288-depth arm passes; its C++ control stops under the earlier GPU98 guard,
-sampling GPU101/CPU96.125 C. Child/supervisor exits are 1/1; this is a software
+sampling GPU 101/CPU96.125 C. Child/supervisor exits are 1/1; this is a software
 stop, with no observed hardware crash. R2's controller and four worker identities
 retire, KFD is empty and original leases remain unchanged/free.
 

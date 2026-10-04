@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Single-category benchmark comparisons keep both markers visible when their
+  values coincide; data and vertical scales are unchanged.
+
 - Qualification supervisors apply temperature stops to the CPU and SSD;
   GPU temperatures remain recorded without a software temperature stop.
 

@@ -246,6 +246,10 @@ bool nb_plot(const char *dir, const char *title, const nb_plot_panel *panels,
       for (size_t i = 0; i < v->count; i++) {
         int x = count == 1 ? (left + right) / 2
                            : left + (int)((right - left) * i / (count - 1));
+        /* A single shared category must show both comparisons even when
+         * their medians round to the same vertical pixel. */
+        if (count == 1 && panel->count > 1)
+          x += (2 * (int)s - (int)panel->count + 1) * 8;
         double val = v->median[i];
         if (!isfinite(val)) {
           prev = false;

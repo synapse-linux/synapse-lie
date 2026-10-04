@@ -25,15 +25,17 @@ retains GPU argmax in both builds; these data do not measure dense host-sampler 
 
 TG differs by less than 1% across the depth/concurrency tests and full prompts
 from 8192 tokens. **The un-warmed 1500-token point is slower by 16.64% in C17**;
-its cause remains unresolved and the performance gate stays open. No sample
-clock/power trace was captured. The values below retain this result.
+its cause remains unresolved and the performance gate stays open. The clocked
+follow-up below observes a slow and fast band in both builds. The original
+campaign captured no clock/power trace; its values remain unchanged.
 
 ## Single user: occupied context through 128K
 
 Prefill processes approximately 2048 new tokens after the listed prefix. Prefix
 construction is excluded from PP time. Both builds reserve capacity 133760.
-This campaign has seven depths; **12288 is still missing** from the full eight-point
-Gufo shape. The historical eight-point results are retained below.
+This original campaign has seven depths. The clocked follow-up below supplies
+the missing **12288** pair, completing the eight-depth shape across two source-bound
+windows. The original graph and historical eight-point results remain unchanged.
 
 | Prefix tokens | New PP tokens | C17 PP | C++ PP | C17 PP seconds | C++ PP seconds | C17 TG | C++ TG |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -96,6 +98,85 @@ occurs. Fans are not exposed on this host. Desktop activity and denied FD
 visibility limit isolation claims; the cooperative leases are not universal
 exclusivity. File-cache state is uncontrolled and model construction is excluded.
 
+## Clocked follow-up: 12K depth and first 1500 tokens
+
+Checkpoint `15c6082` adds native phase clocks to the same numerical/runtime
+composition used above. Ten processes run sequentially on `.157`: the missing
+12K pair, then C17/C++/C++/C17 with no model warmup and C++/C17/C17/C++ with two
+warmups per process. Each process has three measured samples, a private cache
+and the same unchanged model. CPU is at or below 60 C before model loading;
+the operating guard is CPU 98 C, with independent SSD limits. GPU temperature
+is recorded without a software temperature stop. File-cache state is uncontrolled.
+
+All **15 measured pairs and five warmup pairs** match physical inputs, output
+IDs, complete logit hashes and dispatch counts. Native reporting also validates
+all monotonic phase bounds and exact PP/TG duration differences. These greedy
+runs retain GPU argmax and do not measure dense host-sampler cost.
+
+| Prefix tokens | New PP tokens | C17 PP | C++ PP | C17 PP seconds | C++ PP seconds | C17 TG | C++ TG |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 12,288 | 2,048 | 1,451.67 | 1,454.54 | 1.411 | 1.408 | 25.81 | 25.83 |
+
+![Clocked 12K suffix prefill and generation](charts/clocked-12k.svg)
+
+The following rows expose each 1500-token process. PP and TG rates/durations are
+medians of three samples; TG is 128 confirmed tokens. Clock values are medians
+of per-sample GPU-clock snapshots strictly within the measured decode interval.
+
+| Process | Build | Warmups | PP tok/s | PP seconds | TG tok/s | TG seconds | TG clock MHz |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| first 0 | C17 | 0 | 1532.34 | 0.979 | 22.96 | 5.575 | 2686.0 |
+| first 1 | C++ control | 0 | 1500.97 | 0.999 | 26.64 | 4.805 | 2885.0 |
+| first 2 | C++ control | 0 | 1531.82 | 0.979 | 22.88 | 5.594 | 2687.0 |
+| first 3 | C17 | 0 | 1544.03 | 0.971 | 26.38 | 4.852 | 2872.0 |
+| warm 0 | C++ control | 2 | 1533.45 | 0.978 | 23.13 | 5.533 | 2707.5 |
+| warm 1 | C17 | 2 | 1537.42 | 0.976 | 22.90 | 5.589 | 2688.0 |
+| warm 2 | C17 | 2 | 1540.29 | 0.974 | 26.61 | 4.810 | 2882.5 |
+| warm 3 | C++ control | 2 | 1541.56 | 0.973 | 26.64 | 4.805 | 2881.0 |
+
+Both builds enter the **22.9–23.1 tok/s** band and the **26.4–26.6 tok/s** band.
+Lower decode clocks (approximately 2686–2708 MHz versus 2872–2885 MHz) accompany
+the slow band. This is an observed correlation, not a causal diagnosis. Two
+warmups do not consistently remove it. First samples and ranges remain visible
+in the full CSV; the original 16.64% result is retained above.
+
+Balanced six-sample aggregates give C17/control PP 1534.04/1516.22 and
+TG 25.55/25.03 without warmup; after two warmups per process, PP 1537.58/1537.99
+and TG 25.19/25.17. These pools combine two processes per build. Derived sample
+indices are reindexed for reporting; original duration, clock, token and hash
+values are unchanged and the source map records every original process/rep.
+The wide process variation keeps the stable performance gate open.
+
+![Balanced first-prompt prefill and generation without model warmup](charts/clocked-first.svg)
+
+![Balanced first-prompt prefill and generation after two warmups](charts/clocked-warm.svg)
+
+R3 records 1027 telemetry samples with CPU 95.75/GPU 98/NVMe 74.85 C peaks and
+no thermal stop or observed hardware crash. The earlier R2 C++ attempt stopped
+under its old GPU 98 policy at a sampled GPU 101/CPU 96.125 C; it remains archived.
+All 26 process identities from both attempts retire, KFD is empty and the original
+leases, model stats and capsules remain unchanged at release 23:30:28 UTC.
+The [source-bound receipt](../../../../development/validation/clocked-gpu-followup-2026-10-03.json)
+records commands, failures, exact comparisons and interpretation limits.
+
+Downloads: [all process medians](charts/clocked-processes.csv),
+[every measured and warmup sample](charts/clocked-samples.csv),
+[phase clocks and temperature observations](charts/clocked-telemetry.json),
+[aggregate source map](charts/clocked-source-map.json), and
+[original attempts including the failed R2](data/clocked-original-attempts.tar.gz).
+Each graph has native CSV/JSON and SVG/PNG siblings in [charts/](charts/).
+
+To regenerate the balanced first-prompt figure with the native C exporter:
+
+```sh
+mkdir -p results
+gzip -dc docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-first-c17.jsonl.gz > results/clocked-c17.jsonl
+gzip -dc docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-first-cpp.jsonl.gz > results/clocked-cpp.jsonl
+build/release/synapse-lie-bench-report --suite report results/clocked-c17.jsonl \
+  --output results/clocked-charts --label 'LIE C17' \
+  --compare results/clocked-cpp.jsonl --reference-label 'LIE C++ control'
+```
+
 ## Reproduce and download
 
 [Full-precision values and timing ranges](charts/current-values.csv) combine all
@@ -126,13 +207,13 @@ for the reference protocol.
 
 | Workload | Remaining work |
 | --- | --- |
-| Eight AR prefix depths. | Add the missing 12288 point to the current paired build. |
+| Eight AR prefix depths. | Covered by the original seven depths plus the clocked 12288 pair; a single-window eight-point rerun is separate. |
 | Multi-user AR over HTTP. | Implement and run Gufo's per-request-rate protocol. |
 | MTP single/multiple users. | MTP is integrated; mixed/repetitive performance campaigns remain pending. |
 | Cold model loading. | Measure cold target files to HTTP readiness; current model load leaves OS cache uncontrolled. |
 | Peak HIP memory. | Allocation-exact peak accounting; provider estimates are insufficient. |
 | 512K–1M context. | Implement and qualify context expansion beyond native 262144. |
-| First full prompt at 1500 tokens. | Diagnose the retained 16.64% TG regression with a timed crossover control. |
+| First full prompt at 1500 tokens. | Crossover and phase-clock follow-up complete; slow/fast bands occur in both builds. Root cause and a stable performance gate remain open. |
 
 ## Historical measurements — October 1
 
