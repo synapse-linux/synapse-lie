@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## DeepSeek prefill reuse GPU comparison complete — 2026-10-04
+
+Four complete component arms finish on .157. Scale reuse saves 1.274–2.745%
+against the first control and 0.815–3.743% against the repeated control on all
+four recorded routing distributions. Its full-tile control is 0.445% slower
+than the final reference, so this is a candidate for a model experiment, not
+a uniform model gain. Grid-LDS has mixed results and does not advance.
+All 51 independent checks pass in every arm; all 102 output arrays match in
+each candidate/control comparison. The graph and CSV retain all 140 samples.
+
+Host Debug and ASan/UBSan pass 22/22 each; 18 commands exit zero and 431
+artifacts verify. Fresh release at 11:20:32 UTC retires 129 identities and 97
+groups, verifies KFD empty, four original leases free and six unchanged model
+stat tuples. Core is notified; no job, reservation, waiter or restart remains.
+Source checkpoint `a405f48`. The next whole-model comparison uses the native C
+canonical `synapse-lie-bench` being implemented by core, with unchanged prose,
+cached-prefix depths and timers. No new Python curve fallback or counting
+workload substitution. [Full results and decision](Q2-IQ2-PREFILL-REUSE.md).
+
 ## Further DeepSeek prefill reuse probes prepared — 2026-10-04
 
 The new audit prepares separate IQ2 codebook-LDS and superblock-scale reuse

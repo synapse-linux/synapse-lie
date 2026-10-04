@@ -76,14 +76,83 @@ The earlier live-stage candidate is still a third separate prefill hypothesis:
 it avoids repeated stores for empty fragments that WMMA never reads. It has
 static evidence but no GPU qualification and is not included in these patches.
 
-## Next measurement
+## Completed GPU comparison — 2026-10-04
 
-First compare scale reuse and grid staging separately against the same ordered
-reference using the existing complete gate/up fixture, recorded short/128K
-routing histograms, full-tile control, original-size weights beyond 32 MiB,
-independent FP64 checks and complete output replay. Include setup, compaction,
-narrowing and all GPU launches in each cycle; keep all warmups and samples.
-Numerical failures must retain timing evidence with a failing exit code.
-Only an attributable complete-cycle gain can advance to the unchanged
-canonical 0–128K Q2/control/UD workload. No new runtime or performance gain is
-claimed here, and neither candidate is promoted.
+The **scale-reuse** candidate is faster on all four recorded routing distributions
+against both unchanged controls. Its median complete-cycle time falls
+1.274–2.745% versus the first control and 0.815–3.743% versus the final control.
+The full-tile control is 0.221% faster than the first reference but 0.445% slower
+than the second. This supports a controlled model experiment, not a general
+speedup claim or default promotion. **Grid-LDS does not advance**: its routing
+changes are mixed, with the full-tile case slower than both controls.
+
+All four arms pass 51 independent FP64 checks each. Both candidates and the
+repeated reference preserve all 102 output arrays byte for byte. Maximum
+relative RMS / scaled error remains 0.000618805 / 0.000881553, below the
+unchanged 0.002 limits. The separate original-model quality rejection is not
+resolved by these component checks.
+
+### Complete-cycle medians — microseconds, lower is faster
+
+| Recorded routing / tile | Reference before | Scale reuse | Grid LDS | Reference after |
+| --- | ---: | ---: | ---: | ---: |
+| 0 / layer 6 / tile 128 | 5758.402 | 5684.955 | 5733.885 | 5735.068 |
+| 0 / layer 0 / tile 64 | 5992.633 | 5829.605 | 5927.614 | 6023.809 |
+| 128K / layer 16 / tile 128 | 5750.288 | 5677.000 | 5720.706 | 5723.644 |
+| 128K / layer 6 / tile 64 | 5991.179 | 5826.710 | 6008.786 | 6053.263 |
+| Full-tile control | 3966.960 | 3958.199 | 3996.686 | 3940.673 |
+
+### Time change against both controls
+
+| Recorded routing / tile | Scale vs before | Scale vs after | Grid vs before | Grid vs after |
+| --- | ---: | ---: | ---: | ---: |
+| 0 / layer 6 / tile 128 | -1.275% | -0.874% | -0.426% | -0.021% |
+| 0 / layer 0 / tile 64 | -2.720% | -3.224% | -1.085% | -1.597% |
+| 128K / layer 16 / tile 128 | -1.274% | -0.815% | -0.514% | -0.051% |
+| 128K / layer 6 / tile 64 | -2.745% | -3.743% | +0.294% | -0.735% |
+| Full-tile control | -0.221% | +0.445% | +0.749% | +1.421% |
+
+The two unchanged references vary by −0.663% to +1.036% across cases.
+At 128K/layer 16 some individual samples overlap; five samples within one arm
+are not five independent server runs. These observations do not establish a
+confidence interval or guarantee a whole-model improvement. The component
+uses synthetic operands with measured routing histograms; it does not execute
+attention over a 128K context or measure model tokens per second.
+
+![Four arms and every sample](figures/q2-iq2-prefill-reuse/cycles.png)
+
+[SVG](figures/q2-iq2-prefill-reuse/cycles.svg),
+[all 140 samples, including warmups](figures/q2-iq2-prefill-reuse/samples.csv),
+[audited four-arm report](../config/q2-iq2-prefill-reuse-results.json),
+[decision](../config/q2-iq2-prefill-reuse-decision.json).
+
+### Qualification and next model gate
+
+All host/runtime tests execute on .157. Host Debug and ASan/UBSan pass 22/22
+each. All 18 host/component commands exit zero and 431 artifacts verify.
+Each component has two warmups and five samples of eight complete calls,
+including narrowing, routing compaction and paired gate/up/SwiGLU. Active
+weight sets are 135–321 MB, larger than the 32 MiB cache. No original model
+is loaded. CPU peaks are 69.000/67.000/69.625/67.000 °C and GPU peaks are
+73/69/70/67 °C in arm order; no thermal or lifecycle stop occurs.
+
+The next model comparison uses the native C `synapse-lie-bench` canonical
+curve being implemented by the core workstream. Freeze that qualified driver
+and the core before a new Q2 reference / scale / repeated-reference / UD
+campaign. Preserve prose, prefix preparation, physical token counts and timing
+scope at all eight 0–128K depths. Do not substitute the historical counting
+input or a new Python curve runner. The unchanged ordered provider and scale
+manifest are ready; no model run is admitted by this component decision.
+
+No core ABI, persistent state, scheduling or metrics contract changes. No
+mixed-map, live-stage or grid-LDS patch is composed into the scale candidate.
+Only the independently fetched official Gufo source is used.
+
+Fresh release at **2026-10-04T11:20:32.723493+00:00** verifies 129 recorded identities
+and 97 groups retired, KFD empty, all four original leases free and all six
+original model stat tuples unchanged. Remote/main receipts and the shared
+registry record closure. No Q2 job, waiter, restart or GPU reservation remains;
+no cleanup occurs on .157. Source checkpoint: `a405f48`.
+
+[Release receipt](../config/q2-iq2-prefill-reuse-window-release.json), SHA256
+`25e8774fc34b98dea48eabfdd26e9f021562bbae63a066b6e517f06ae537a44b`.

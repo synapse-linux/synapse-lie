@@ -6,7 +6,27 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T10:59:08.481566+00:00** after all
+Latest Q2 window: **released at 2026-10-04T11:20:32.723493+00:00** after four
+IQ2 prefill reuse component arms. Host Debug/ASan pass 22/22 each, all 18
+commands exit zero and 431 artifacts verify. Fresh closure retires 129 process
+identities and 97 groups, checks KFD empty, all four unchanged leases free and
+all six original model stat tuples unchanged. Remote/main release/active/ready
+and the registry record closure; core receives the release message.
+[Receipt](../config/q2-iq2-prefill-reuse-window-release.json) SHA256
+`25e8774fc34b98dea48eabfdd26e9f021562bbae63a066b6e517f06ae537a44b`.
+No Q2 job, GPU reservation, observer, waiter or restart remains. No .157 cleanup
+occurs. Scale reuse is selected for model validation through core's pending
+native C canonical bench; this selection admits no model run or new GPU window.
+
+Admission at **2026-10-04T11:14:21.008139+00:00** follows core's explicit statement
+that it has no reserved window and fresh original-lease, process, KFD, thermal
+and model-stat checks. The previous counting release is still latest in the
+registry. The scope is exactly four sequential components: reference, scale,
+grid and repeated reference, all without an original model. Checkpoint `a405f48`.
+[Admission](../config/q2-iq2-prefill-reuse-window-admission.json) SHA256
+`914db6a8299036c5854147b9ac5a64482cd93c4318ff495ce4b279aedc0244d9`.
+
+Previous Q2 window: **released at 2026-10-04T10:59:08.481566+00:00** after all
 four historical counting arms. Their 16 command exits are zero and 104 artifacts
 verify. Both host cohorts and the initial configure failure (exit 1, no model)
 remain in the closure audit. Fresh checks retire 106 identities and 79 groups,

@@ -251,6 +251,18 @@ and four unchanged original lease identities EX|NB/free. The remote/main
 record closure; no Q2 job, waiter or restart remains. Whole-curve PP/TG parity
 and independent original-model numerical qualification are still open.
 
+## Further prefill data reuse — 2026-10-04
+
+The [four-arm follow-up](Q2-IQ2-PREFILL-REUSE.md) adapts DeepSeek's shared IQ2
+codebook and per-superblock data reuse as separate Qwen candidates. Scale reuse
+saves 0.815–3.743% of complete component time against the repeated control on
+the four recorded routing shapes; full tiles cost 0.445% more. All output arrays
+remain exact. It advances only to preparation for the native C canonical model
+comparison. Codebook-LDS has mixed results and does not advance. Existing wide
+affine LDS stores and token-compact narrowing are already present in Qwen;
+the active DeepSeek Q8 MMQ path is not a drop-in for the current F16 arithmetic.
+No new full-model prefill improvement is established by this component result.
+
 ## Provenance
 
 The sign technique is adapted from official Gufo's DeepSeek port, retaining

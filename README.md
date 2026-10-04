@@ -37,9 +37,14 @@ UD. Every saved Q2 output and logit file remains exact. The old 1439 result is
 reproduced on its original repetitive input; it is not a canonical prose rate.
 The complete four-arm graph includes all measured sessions and warmups.
 
-The [latest DeepSeek prefill audit](docs/Q2-IQ2-PREFILL-REUSE.md) prepares
-isolated shared-codebook and block-scale reuse probes. Both compile, with
-register/LDS tradeoffs recorded; neither has GPU qualification or a speed claim.
+The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
+four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycle
+time on recorded short/128K routing shapes against the repeated reference;
+the full-tile control costs 0.445% more. All 102 output arrays remain exact and
+51 independent checks pass per arm. Shared-codebook staging has mixed results
+and does not advance. Scale reuse awaits the native C `synapse-lie-bench`
+canonical model comparison; no model PP gain or default promotion is claimed.
+The report includes both references, every sample and a graph.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
