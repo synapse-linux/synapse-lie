@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.q2-norm-fixed-plan.v1",
+  "previous_goal_turn": "Progress: fixed reference restored and curve expansion gated on its parity (29b8d01, 7425108).",
+  "fixed_reference": "config/q2-fixed-prefill-reference.json",
+  "provider_manifest_sha256": "84967b93bc552eb3bc3c4e9a4f0125d5cdff814350bd1b07488d0875ccbf0351",
+  "static_sha256": "a48aa941353df07ddbf25b3696e6b3cd59823ad84ddb9b1c6a6c7398a2dea212",
+  "host_sha256": "d1973138bbd26c670ee15f437ea23b3559e7be81dd641d217e886886d8b77893",
+  "labels": {
+    "before": "q2-norm-fixed-before-r1",
+    "candidate": "q2-norm-fixed-candidate-r1",
+    "after": "q2-norm-fixed-after-r1"
+  },
+  "mode": "hc-library-norm-bench",
+  "variants": {
+    "before": "norm-shape-reference",
+    "candidate": "norm-fixed-shape",
+    "after": "norm-shape-reference"
+  },
+  "fixture_files": {
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "3dc7d0e30735206ff6200e556aa420883ade2fb410652102f03fdd78471334cc",
+    "tools/q2-remote.py": "764294c8586950f3c0d0b0db725a5e46381c08764999fcbe3a12e71a1ce95ac4",
+    "tools/q2-runner.py": "5df4cc9b221f66679f98ed72d45b0305b5c024408e8ac8e48111d35d47a3d619",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4"
+  },
+  "measured_tokens": 2048,
+  "iterations": 16,
+  "repetitions": 5,
+  "weight_rotation_bytes": 104857600,
+  "consumer": "hipblaslt-7526",
+  "gate": {
+    "all_output_pairs_exact": true,
+    "no_new_independent_numerical_failures": true,
+    "candidate_paired_cycle_time_ratio_max_against_each_reference": 0.99,
+    "require_both_ordinary_and_moe": true,
+    "unchanged_unpaired_control_drift_max_percent": 2.0
+  },
+  "post_gate": "Only a useful component result may select the frozen exact2048 model comparison. No model admitted in this window; no full curve until fixed-reference UD parity.",
+  "model_inference": false,
+  "source_on_tmp": false,
+  "remote_cleanup": false,
+  "goal_met": false
+}

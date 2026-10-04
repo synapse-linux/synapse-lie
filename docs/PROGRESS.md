@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Fixed-shape paired norm prepared — 2026-10-04
+
+The next component derives from the exact mixed-map provider behind1443.673.
+Two paired HC norm kernels expose the already enforced hidden2560 shape to
+integer indexing, preserving their runtime normalization divisor. Static
+instructions fall1634→1028 and1716→1077; registers increase. All150 other
+device bodies and1021 other provider files stay exact. No speed claim follows.
+The unchanged complete-cycle fixture at2048 provides the retained comparison;
+host Debug/ASan scopes pass22/22 each on `.157`. No model or curve is admitted.
+[Mechanism and frozen component gate](Q2-NORM-FIXED-SHAPE.md).
+
 ## Full curve deferred until fixed-point parity — 2026-10-04
 
 The owner explicitly requires closing the current Q2/UD gap before expanding

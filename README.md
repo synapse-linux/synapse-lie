@@ -94,6 +94,10 @@ parity remain open; no full sweep follows.
 Further context-curve tests wait until Q2 matches UD on the fixed comparison.
 Until then, performance work uses relevant component controls and that same
 model point; small gains and cumulative checkpoints do not bypass this gate.
+The [fixed-shape paired norm probe](docs/Q2-NORM-FIXED-SHAPE.md) now targets
+that exact provider's active 2048-row path. It reduces static integer/index
+work but increases register demand; the existing complete component cycle
+must establish any benefit before another fixed-point model comparison.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
