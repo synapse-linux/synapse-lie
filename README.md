@@ -33,8 +33,9 @@ remain open; other real model bindings remain open.
 - Native GPU decode batching, driven by sequence readiness and output credits.
 - Experimental [MTP verified bursts](docs/development/MTP.md),
   with explicit model configuration and complete predictor checkpoints.
-  Original-weight checkpoint and cancellation checks pass; quality and performance
-  qualification remain open.
+  Original-weight checkpoint and cancellation checks pass. Paired direct-core
+  GPU MTP/AR checks on Strix Point now cover 1.5K, 8K and 128K fresh prompts,
+  including C2 at 8K; broader quality and replicated performance gates remain open.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
   F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
@@ -69,7 +70,10 @@ serial control. These are direct engine sessions, not HTTP clients. The earlier
 ROCm 7.2 output IDs and numerical frontiers differ at every tested point, so
 the cross-stack throughput comparison does not establish quality equivalence.
 The paired ROCm 10 [fresh full-prompt comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#fresh-full-prompt-prefill-through-128k)
-now passes through 128K. Near-256K ROCm 10 and served HTTP comparisons remain pending.
+now passes through 128K and separately near 256K. The
+[modern GPU MTP/AR comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
+passes four matched direct-core pairs through 128K. Served HTTP performance
+on this target remains pending.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151

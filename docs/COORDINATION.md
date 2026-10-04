@@ -22,11 +22,20 @@ requirement while retaining default-ON Zstandard compression. A second modern
 device-free build passed the provider stage but failed configure because the
 pinned image lacks `zstd.h` (child/supervisor exit 1). Its remote files match
 local SHA-256, the named service was restored, and the lease released at
-23:46:01.238465 UTC. A matched Zstandard 1.5.7 header/license pair will be
-staged into the sealed capsule for the next build; no package installation is
-planned. The MTP predictor has been copied directly from `.157` to `.161` with
-its original SHA-256 and unchanged source stat. All leases and services were
-released/restored. No modern GPU inference has yet occurred. See the
+23:46:01.238465 UTC. A matched Zstandard 1.5.7 header/license pair was
+staged into the sealed r3 capsule; no package was installed. The MTP predictor
+was copied directly from `.157` to `.161` with
+its original SHA-256 and unchanged source stat. The subsequent modern r3
+device-free build passes provider/configure/link with exit 0, Zstandard ON and
+no LZ4 dependency. Four fresh matched MTP/AR original-weight GPU pairs then
+pass at P1500/C1/TG32, P8192/C1/TG128, P131072/C1/TG128 and P8192/C2/TG128;
+all eight children/supervisors exit zero with exact output IDs. The first AR
+control supervisor failure on a stale owned KFD PID is retained separately,
+followed by a bounded retirement fix and successful fresh rerun. Final `.161`
+postflight on 2026-10-04 shows `llama-router.service` active as the sole KFD
+client (PID 96285), no LIE container and the private lease EX|NB free
+(device 66308/inode 105946405). There is no standing `.161` GPU ownership.
+See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE

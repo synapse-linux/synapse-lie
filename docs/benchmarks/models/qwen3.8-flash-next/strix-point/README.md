@@ -6,9 +6,9 @@
 Original Unsloth UD-Q4_K_XL weights, four verified shards, run on
 `pop@192.168.5.161` with Radeon 890M (`gfx1150`). The current ROCm 10
 campaign uses Pop!_OS kernel `7.1.5-76070105-generic`, a pinned Fedora 43
-image through Docker-managed Distrobox and the older Point runtime. It is
-**pre-integration evidence**: the newer C17 MTP/vision/phase-clock branch has
-not yet been qualified on this GPU. Each completed campaign used a fresh
+image through Docker-managed Distrobox. The initial AR baselines below use the
+older Point runtime. The later [modern MTP section](#modern-c17-core-mtp-vs-ar-on-the-gpu)
+uses the newly built C17 core on the same GPU. Each completed campaign used a fresh
 private lease, retained the exact raw files and restored the authorized
 `llama-router.service` afterwards.
 
@@ -136,11 +136,96 @@ The pre-integration binary at source checkpoint `1877b03` has no newly added
 prefill/decode phase clocks. The two samples per point show observed variation,
 not a broad confidence interval or a new-runtime speed claim.
 
+## Modern C17 core MTP vs AR on the GPU
+
+The `rocm10-point-modern-r3` build uses LIE source `9b109998`, Gufo pin
+`f783fedb` inside the explicit adapter, `gfx1150`, the same pinned Fedora 43
+ROCm 10 image and original UD model as above, plus the copied Q8 MTP predictor.
+The source/build and predictor identities are in the
+[collection receipt](charts/rocm10-modern-mtp-collection.json). LZ4 has been
+removed from the active checkpoint codec and build dependencies. The new ELF
+requires `libzstd.so.1`, with no `liblz4` dependency; matching Zstandard 1.5.7
+headers and their BSD license were sealed into the build capsule because the
+runtime image contains the library but no development headers. Compression is
+enabled in this build, though each measurement below disables retained RAM and
+SSD KV caching and therefore does not measure checkpoint compression.
+
+All four **matched original-weight GPU pairs** have the same physical prompt
+IDs, complete output budgets and exact output token IDs across MTP and AR.
+Greedy sampling, 2,048-token prefill chunks, one measured repetition and zero
+warmups are identical within each pair. These are direct C-core measurements,
+not HTTP or Pi-agent timings. Prefill and decode rates below use the executor
+phase clocks; the final column uses all generated tokens divided by the
+complete shared client wall, including prefill. For C2 the phase rates are
+medians of two jobs, while wall throughput is the aggregate for both clients.
+
+| Prompt / clients / output | Prefill AR → MTP, tok/s (s) | Decode AR → MTP, tok/s (s) | Complete wall AR → MTP, tok/s (s) | MTP accepted / drafted |
+| --- | ---: | ---: | ---: | ---: |
+| 1,500 / C1 / 32 | 461.752 (3.248) → 453.148 (3.310) | 10.517 (3.043) → 10.959 (2.920) | 5.072 (6.309) → 5.119 (6.252) | 12 / 31 |
+| 8,192 / C1 / 128 | 459.693 (17.821) → 453.229 (18.075) | 10.388 (12.321) → 13.656 (9.373) | 4.241 (30.179) → 4.656 (27.492) | 70 / 115 |
+| 131,072 / C1 / 128 | 401.798 (326.214) → 396.749 (330.365) | 10.042 (12.747) → 12.574 (10.180) | 0.377 (339.406) → 0.375 (341.095) | 56 / 85 |
+| 8,192 / C2 / 128 each | 457.746 (17.896) → 451.039 (18.162) | 8.553 (14.965) → 9.714 (13.177) | 5.037 (50.827) → 5.164 (49.578) | 106 / 178 |
+
+![Modern Strix Point MTP versus AR at 8K/C1: prefill, complete-wall throughput and decode](charts/rocm10-modern-mtp8192/benchmark.svg)
+
+At 128K, MTP improves decode by 25.2% in the measured sample, but the much
+longer prefill dominates total time: complete-wall throughput is 0.5% lower.
+At 8K/C1, decode improves by 31.4% and complete-wall throughput by 9.8%; at
+8K/C2, aggregate complete-wall throughput improves by 2.5%. Both C2 paths use
+GPU decode batching: MTP records 75 batches/150 rows, AR 128 batches/256 rows.
+One repetition per arm does not establish a stable speedup or a confidence
+interval. The new AR output also matches the older direct-runtime baseline at
+8K and 128K for all 128 output IDs, and at 1,500 for the first 32 IDs; that is
+functional parity across runtimes, not a controlled timing comparison.
+
+The native C17 reporter exports [1,500-token](charts/rocm10-modern-mtp1500/summary.csv),
+[8K/C1](charts/rocm10-modern-mtp8192/summary.csv),
+[128K/C1](charts/rocm10-modern-mtp131072/summary.csv) and
+[8K/C2](charts/rocm10-modern-mtp8192-c2/summary.csv) complete CSVs, alongside
+JSON summaries and SVG/PNG plots in each corresponding chart directory. The
+[1,500-token](charts/rocm10-modern-mtp1500/benchmark.svg),
+[128K/C1](charts/rocm10-modern-mtp131072/benchmark.svg) and
+[8K/C2](charts/rocm10-modern-mtp8192-c2/benchmark.svg) plots use the same
+zero-axis scales per metric. Each
+summary validates input identity, full output budget and token parity before
+computing the comparison. The
+[raw campaign and build bundle](data/rocm10-modern-mtp-r3.tar.gz) preserves
+all eight successful run receipts, the first failed AR supervisor attempt,
+telemetry, model-stat checks, compile logs and the remote SHA-256 inventories;
+transient Distrobox home/cache files are omitted from the portable archive.
+Fresh local collection verified every remote file before packaging. The first
+AR attempt had a completed inference child (exit 0) but supervisor exit 1
+because KFD briefly retained its already-exited owned PID; the bounded
+retirement correction passes dedicated CPU fixtures and the fresh AR rerun.
+All eight qualified runs have child/supervisor exit 0, unchanged model and
+predictor stat identities, restored service and released private lease. Final
+postflight found only `llama-router.service` PID 96285 in KFD, no LIE container
+and the private lease free. The highest observed CPU/GPU/NVMe readings across
+these runs are 81.375/86/75.85 C, with CPU guarded at 98 C, NVMe at 85 C or
+its lower hardware bound, and GPU observation only.
+
+Reproduce an 8K comparison and its prefill/decode CSV and graphs offline from
+the repository root, without model weights or GPU access:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-mtp-replay-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz \
+  -C run/point-modern-mtp-replay-r3
+cmake -S . -B build/point-report -G Ninja -DBUILD_TESTING=OFF
+cmake --build build/point-report --target synapse-lie-bench -j2
+build/point-report/synapse-lie-bench --suite report \
+  run/point-modern-mtp-replay-r3/evidence/point-modern-r3-mtp-p8192-c1-r1/measurements.jsonl \
+  --compare run/point-modern-mtp-replay-r3/evidence/point-modern-r3-ar-p8192-c1-r1/measurements.jsonl \
+  --label 'LIE MTP' --reference-label 'LIE AR' \
+  --output run/point-modern-mtp-replay-r3/report-8192
+```
+
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
 cover the earlier ROCm 7.2 fresh physical prompts through 258,794 tokens,
-capacity, cache reuse, resources and failures. Modern ROCm 10 MTP and served
-HTTP multi-client measurements are pending.
+capacity, cache reuse, resources and failures. Modern ROCm 10 served HTTP
+multi-client measurements remain pending.
 Neither the direct C8 result nor the synthetic HTTP fixtures establish Pi
 agent throughput. The old runtime has no newly added benchmark phase clocks;
 new-runtime performance must be measured separately.

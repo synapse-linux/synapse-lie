@@ -393,7 +393,8 @@ int main(int argc, char **argv) {
               *point = json_object_array_get_idx(
                   nb_get(nb_get(sum, "primary"), "configurations"), 0);
   require(!nb_get(point, "job_prefill_tps") &&
-              nb_number(nb_get(point, "cached_tokens"), "median") == 4,
+              nb_number(nb_get(point, "cached_tokens"), "median") == 4 &&
+              nb_number(nb_get(point, "job_decode_tps"), "median") > 0,
           "cached prefill presented as executed work");
   json_object_put(sum);
   path(output, "direct.jsonl");

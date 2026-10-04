@@ -67,7 +67,29 @@ supervisor both exited 1, `llama-router.service` was restored, and the lease
 released at 23:46:01.238465 UTC. The next isolated capsule will stage the
 host's Zstandard 1.5.7 header pair and BSD license against the image's
 matching 1.5.7 runtime library, preserving compression ON. Modern GPU MTP/AR
-qualification remains pending that build.
+qualification was pending that build.
+
+The sealed ROCm 10 modern r3 build from `9b109998` then passed the `gfx1150`
+provider, configure and link stages with matching staged Zstandard 1.5.7
+headers/license and checkpoint compression ON. Its child/supervisor exits are
+zero, binary and remote-file SHA-256 inventories match, the named service was
+restored and the lease released at 00:01:00.364029 UTC on 2026-10-04. The
+resulting `synapse-lie-bench` needs `libzstd.so.1` and has no ELF dependency on
+LZ4. On `.161`, four matched original-weight GPU MTP/AR pairs now pass at
+P1500/C1/TG32, P8192/C1/TG128, P131072/C1/TG128 and P8192/C2/TG128. All
+eight qualified children and supervisors exit zero, every pair has equal
+physical input IDs and full output IDs, all model/predictor stat identities
+remain unchanged, and each window restores the authorized service and frees
+the private lease. The [Point MTP GPU report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
+contains full prefill/decode/complete-wall values, native C17 graphs, a
+collection receipt and raw archives. An initial AR control inference completed
+but its supervisor failed on a stale KFD PID; that failure is retained, and a
+bounded ownership-aware retirement fix passes 26/26 campaign fixtures before
+the fresh successful AR rerun. The native C17 reporter now exports core decode
+rates, with focused normal and ASan/UBSan tests passing. Final `.161` postflight
+finds the service active, only its PID in KFD, no LIE container and the private
+lease free. These are one-repetition direct-core results; served HTTP and
+statistically replicated MTP performance remain open.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 
