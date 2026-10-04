@@ -36,16 +36,32 @@ Performance was already collected after numerical failures for several families:
 | Family | Existing observation | Recheck relevance |
 |---|---|---|
 | Shared Q8 | New fixed-model21-file exact replay; small PP advantage | Completed candidate-only model recheck; diagnose format oracle separately |
-| Fixed norm | Same fixed model already measured; logits change | Retain marginal candidate; composition remains untested |
-| Library norm | Both control/candidate independent down failures; complete timings saved | Recheck the independent arithmetic contract and retained model evidence |
-| Library ragged | Component and model reports exist | Keep actual outputs and historical timing scope distinct |
+| Fixed norm | Same fixed model already measured; logits change | New Q8+row+norm composition measured; exactly retains prior norm replay |
+| Library norm | Both control/candidate independent down failures; complete timings saved | Both paired norm bodies and the2048 dispatch are already in fixed Q2 |
+| Library ragged | Component and model reports exist | Entire library dispatch file is already exact in fixed Q2 |
 | Ragged norm |2040row paired time−2.658% ordinary/−6.772% MoE;2048pairing already in executor | Its added dispatch does not add this benefit at the fixed2048point |
-| Scaled input | Complete timings and changed output bytes saved | Actual changed arithmetic needs model replay and quality evidence |
-| Scaled library | Component and model reports exist | Check composition and what is already in the fixed reference |
-| Scaled row reuse | Complete component outputs exact; pack/down timings saved; native curves already recorded | A fixed-input model composition can test the remaining marginal mechanism |
+| Scaled input | Complete timings and changed output bytes saved | Original packing include is already exact in fixed Q2; quality remains separate |
+| Scaled library | Component and model reports exist | Packing and original-F16 HC library route are already in fixed Q2 |
+| Scaled row reuse | Complete component outputs exact; pack/down timings saved; native curves already recorded | New fixed-model Q8+row composition measured with all21 files exact to Q2 |
 | Scaled tiles | Tile128regresses every measured routing; tile64 helps only highly shared routing | Revisit a bounded shape dispatch, not an unconditional tile change |
 | HC sequence | Measured complete cycle+26.686% ordinary/+9.313% MoE | Oracle rejection did not prevent measuring the slowdown |
 | Deferred HC norm | Measured+10.292% ordinary/−1.894% MoE; feedback outputs change | A MoE-only composition may merit testing; preserve true byte differences |
+
+The [two new compositions](Q2-REAUDIT-COMPOSITION.md) measure1451.924906
+and1452.143206 PP, with all samples retained and historical controls never
+relaunched. The first is exact to Q2; the second reproduces the prior norm
+logits exactly and adds no further observed numerical difference. This
+recovers an observed0.57–0.59% over the fixed reference, not point parity.
+The original nineteen-report inventory remains an immutable historical scan.
+
+The [follow-up source audit](../config/q2-rejected-test-reaudit-progress.json)
+verifies all nineteen original report hashes and both the1022-file fixed Q2
+and1020-file retained HC-library providers. The scaled-input include, both
+paired norm bodies and the entire HC-library dispatch file exactly reproduce
+mechanisms already in the fixed reference. The latter still selects7526 for
+the bounded original-F16 M320/K10240 projection. These are retained gains,
+not additional gains lost solely through the nineteen recorded failures.
+Source presence does not establish independent numerical acceptance.
 
 Further fixed-model tests remain pending for candidates needing new integration
 or composition. Existing qualified controls will not be relaunched. Each new

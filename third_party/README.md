@@ -325,3 +325,14 @@ Official Gufo numerical kernels remain byte-identical to each parent. The
 two source patches retain upstream licenses and are bound by
 `config/q2-curve-profile-source.json`. No external implementation or artifact
 is introduced by this instrumentation.
+
+`experiments/q2-reaudit-q8-row.patch` and
+`experiments/q2-reaudit-q8-row-norm.patch` compose only this workstream's retained
+shared-Q8 dispatch, Q2 row-reuse packing include and two fixed-shape norm bodies
+against its independently fetched official Gufo provider at the pin above.
+Both preserve upstream licenses/notices and verify all 1022 provider files,
+with five changed files per composition. Generators, orchestration and result
+readers are first-party MIT. No external engine code or converted model is
+introduced. Original numerical rejections remain retained; exact Q2 replay
+and the norm composition's preserved prior numerical difference are reported
+separately in `docs/Q2-REAUDIT-COMPOSITION.md`.

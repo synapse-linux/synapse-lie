@@ -2616,3 +2616,22 @@ controls remain historical, with unchanged exact2048 input/timers. Host CTest
 passes23/23 Debug and23/23 ASan/UBSan. No curve or quality promotion is admitted.
 [Source composition](../config/q2-reaudit-composition-source.json),
 [plan](../config/q2-reaudit-composition-plan.json).
+
+## Retained compositions measured (2026-10-04)
+
+Only two new original-Q2 model compositions run on .157; historical controls
+are locally verified and never relaunched. Q8+row reuse measures1451.924906 PP
+and25.14929256 TG; adding fixed norm measures1452.143206 PP/25.18103518 TG.
+Observed PP changes vs the unchanged1443.672867 Q2 reference are+0.571600%
+and+0.586721%. All21 Q8+row replay files remain exact to Q2. Norm keeps all
+tokens and reproduces exactly the prior isolated norm logits, with KL0.004092913.
+Its additional PP change is+0.015035%, with overlapping sample ranges.
+
+Eight command exits are zero;52 artifacts and both1022-file provider inventories
+verify. The23/23 Debug and23/23 ASan/UBSan host gates remain separate. The
+19-report recheck does not establish19 false errors or19 composable gains;
+original rejection evidence remains. Fixed UD PP parity is still13.859121%
+away, with no context sweep or independent quality promotion. Fresh19:29:44UTC
+closure retires457 identities/353groups, empty KFD, four original leases free
+and six model stat tuples unchanged; core receives release.
+[Complete sample values, graph and report](Q2-REAUDIT-COMPOSITION.md).

@@ -534,5 +534,9 @@ All21 saved Q2 replay files and logits remain identical. Fixed UD parity
 remains open; no controls were relaunched and the .157 window is released.
 
 The [retained-composition recheck](config/q2-reaudit-composition-plan.json)
-prepares Q8+row reuse and Q8+row reuse+fixed norm on the unchanged reference.
+now measures Q8+row reuse at1451.924906 PP/25.14929256 TG and the additional
+fixed norm at1452.143206 PP/25.18103518 TG on the unchanged reference.
 Only the two new candidates run; historical Q2/UD results are retained.
+The first preserves all21 Q2 replay files; the second preserves the previous
+norm replay, including its changed logits. Fixed UD prefill parity remains open.
+[All samples, comparisons and graph](docs/Q2-REAUDIT-COMPOSITION.md).

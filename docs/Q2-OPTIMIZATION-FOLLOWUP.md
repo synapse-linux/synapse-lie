@@ -14,7 +14,7 @@ facts are separate from model throughput and independent quality acceptance.
 
 | Priority | Mechanism | Current evidence and next boundary |
 | --- | --- | --- |
-| 1 | Independent Q8 format/store diagnosis | Inspect the failed scalar fixture's0xff prefix pattern and compiled rounding/store sequence; preserve production source and existing gates. |
+| 1 | Independent Q8 format/store diagnosis | Replay the retained failed arrays with explicitly ordered initialization on the nonblocking oracle stream; preserve production source, FP32 arithmetic and existing gates. The possible default-stream memset race is not yet causally tested. |
 | 2 | Specialized original-F16 HC-down staging | Explore bounded native-vector loads, wider K pieces and a direct epilogue while preserving original accumulation boundaries; compare the actual retained library consumer and preparation cost. Generic coalesced/tile probes already have negative or inconclusive results. |
 | 3 | Eight-value IQ2 producer partition | Test weight-fetch/decode partition and compact codebook representation without repeating the earlier packed-sign WMMA probe or substituting BF16 arithmetic. Prefetch and mixed compact routing already exist. |
 | 4 | Paired wide shared-Q8 gate/up | Input quantization is already shared; a paired kernel must improve the full gate/up/SwiGLU/down cycle, including register/resource effects. |
@@ -36,4 +36,9 @@ The private read-only research snapshot, pinned source inventories and the
 external positive/negative results are retained under local
 `evidence/external-optimization-audit-20261004/`. No external code, dependency,
 host setting or service was changed. Qualified whole-model control-binary
-replay is still unimplemented; component controls already share one binary.
+replay is implemented and CPU checked, but the owner now requests using
+retained controls without rerunning them. Component controls already share
+one binary. The [two new retained compositions](Q2-REAUDIT-COMPOSITION.md)
+measure1451.924906 /1452.143206 PP without changing the fixed input/timers.
+Row reuse remains model-exact; added norm reproduces the previous norm logits.
+The fixed-point PP gap remains13.86%; the complete curve stays deferred.

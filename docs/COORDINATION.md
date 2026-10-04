@@ -1,7 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window: **released at2026-10-04T18:52:57.171009Z** after the
+Latest Q2 window: **released at2026-10-04T19:29:44.457368Z** after two new
+retained original-Q2 compositions, checkpoint `69f6d82`. Eight model/build
+commands exit0;52 artifacts verify. Historical controls are not relaunched.
+PP1451.924906 /1452.143206 remains below fixed UD. Q8+row replay stays exact
+to Q2; norm reproduces the previous norm logits and unchanged output tokens.
+Closure checks457 process identities/353groups retired, KFD empty, four
+original lease inodes free and six unchanged model stat tuples. Main/remote
+release/active/ready and the registry mark closure; core receives the receipt
+and confirms no .157 job/build/reservation/waiter. No Q2 .157 job, reservation,
+waiter, restart or cleanup remains. [Release](../config/q2-reaudit-composition-window-release.json),
+SHA256 `db34273d6a5653ec9f6da329e1ee6541a0b836204c3fa84636cecff0163623a7`.
+
+Admission at19:14:09.380979UTC follows23/23 Debug and23/23 ASan/UBSan host
+CTest on .157,447 retired identities/345groups, empty KFD, four original
+lease inodes free and six unchanged model stats. Scope is exactly two new
+candidate-only exact2048 model arms, no controls or curve. Both terminate
+and are collected before the verified release above.
+[Admission](../config/q2-reaudit-composition-window-admission.json), SHA256
+`f3693fc0ad79e6876ec0d71f6bbb4664ace045aff944ffe624fc8ae382c9c6d8`.
+
+Previous Q2 window: **released at2026-10-04T18:52:57.171009Z** after the
 owner-requested candidate-only shared-Q8 fixed model test. Four command exits
 are0,26 artifacts verify, and all21 Q2 input/output/logit files replay exactly.
 PP1446.083285/TG25.10338822 do not meet fixed UD PP parity. Historical controls
