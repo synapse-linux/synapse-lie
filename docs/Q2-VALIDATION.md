@@ -11,6 +11,24 @@ process, service, model, cache or qualified evidence may be changed.
 
 ## Comparators and preparation
 
+The owner-confirmed short-prefill reference is **1443.672867 token/s Q2**
+against **1685.777092 token/s UD**, from the retained exact-2048 counting
+replay. [Frozen identity and samples](../config/q2-fixed-prefill-reference.json)
+bind the input, tester, provider and measurements. Keep that record visible;
+fresh controls supplement it and never replace it silently. The mixed-map
+provider produced that Q2 value; freezing its result does not promote that
+provider across other workloads.
+
+Claims of improvement over this reference require the same physical prompt,
+context/chunk, timer boundaries, output/step counts and declared warmup policy.
+Compare repeated identical inputs, retain every observation and report control
+drift. Different prose prompts, even near 2048 tokens, remain a separate
+diagnostic. A median across different prompts is descriptive, not repeated
+measurement of the fixed input and not evidence of its improvement. The
+latest paired-norm run has not tested that fixed-reference improvement.
+Full canonical short/long-context, PP/TG, latency, concurrency, resource and
+quality requirements remain in force; this fixed point does not replace them.
+
 1. Use independent scalar operator formulas for IQ2_XXS/Q2_K and exact F16
    widening, with thresholds frozen before GPU execution. Initial thresholds:
    relative RMS error <= 0.002 and maximum absolute error / maximum reference

@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Fixed comparison restored in reporting — 2026-10-04
+
+The owner confirms 1443.672867 Q2 PP as the retained short-prefill reference,
+with UD1685.777092 from the same exact-2048 counting campaign. Its full input,
+tester and result identities are now explicit in the
+[comparison contract](Q2-VALIDATION.md#comparators-and-preparation).
+The latest norm diagnostic used different prose inputs and cannot establish
+improvement or regression against that record. Its median must not replace
+the fixed reference. No new GPU run or full curve is launched for this
+reporting correction; every raw observation and previous failure is retained.
+
+## Focused native model comparison complete — 2026-10-04
+
+Paired norm shows exploratory PP differences of +1.532%/+1.664% at 2040/2032 physical
+tokens against the repeated ordered control. The 2053-token sample has two
+calls and unchanged dispatch eligibility; its PP changes -0.088%. Median PP
+is 1420.724 versus repeated Q2 1399.289 and UD 1564.867. The initial unchanged
+Q2 median is only 880.932; its control drift is retained and not attributed
+to the patch. Median decode is 26.806, essentially unchanged from repeated Q2,
+versus UD25.994. The 9.211% PP deficit describes this diagnostic only.
+These are three different prompts, not repeatability evidence for the fixed
+1443.673 comparison. No gain over that reference has been demonstrated.
+
+All twelve samples, 24 requests, 32 zero command exits and 68 model artifacts
+verify. Complete Q2 histories match, and repetition zero matches the original
+canonical d0 history for Q2 and UD. The exploratory candidate remains isolated for
+further optimization; independent numerical quality and whole-curve parity
+stay open. No full curve starts. Release at 15:11:53 UTC checks 349 retired
+identities/265 groups, empty KFD, four original lease inodes free and six
+unchanged model stat tuples; core acknowledges. No Q2 job/reservation/waiter/
+restart or .157 cleanup remains. [Full result and graph](Q2-NORM-POINT.md).
+
 ## Native single-point model gate prepared — 2026-10-04
 
 The measured paired-norm candidate now has an explicit native-only d0 model

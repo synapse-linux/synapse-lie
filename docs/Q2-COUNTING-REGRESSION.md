@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Historical counting regression control
 
+The owner-confirmed short-prefill comparison remains **1443.672867 Q2 /
+1685.777092 UD** from the completed replay below. Its immutable identities and
+all three measured samples are retained in the
+[fixed reference](../config/q2-fixed-prefill-reference.json). Subsequent prose
+diagnostics do not replace these values or establish improvement against them.
+
 The retained 1439.264 Q2 and 1666.902 UD prefill rates use the exact-2048
 counting workload and its direct-executor timer. The lower rates on the
 canonical prose curve do not establish a regression on that older workload.

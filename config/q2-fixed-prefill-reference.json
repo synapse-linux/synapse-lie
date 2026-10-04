@@ -1,0 +1,210 @@
+{
+  "schema": "synapse-lie.q2-fixed-prefill-reference.v1",
+  "owner_confirmed_on": "2026-10-04",
+  "reference_id": "counting-exact2048-q2-mixed-1443.672867-ud-1685.777092",
+  "evidence": {
+    "path": "config/q2-counting-regression-results.json",
+    "sha256": "aa4cfdcb90680feac108cc60aaa1e78a64b9b4bfdad87ee171e39a93a1458f41"
+  },
+  "harness": {
+    "path": "config/q2-counting-harness.json",
+    "sha256": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+  },
+  "input": {
+    "schema": "synapse-lie.q2-counting-input-audit.v1",
+    "source": "evidence/q2-library-norm-model-candidate-r1/results/pp2048-input.i32",
+    "sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+    "tokens": 2048,
+    "distinct_tokens": 32,
+    "most_frequent_token": [
+      [
+        830,
+        2009
+      ]
+    ],
+    "distinct_windows": {
+      "2": 40,
+      "3": 40,
+      "4": 40
+    },
+    "limitation": "Token statistics only; not a measurement of runtime n-gram misses, expert routing or causality."
+  },
+  "source_and_run_plan": {
+    "path": "config/q2-counting-regression-plan.json",
+    "sha256": "bc0e0d38bff71b2618226470e97f38965b6e320b0b92f343b6616d6dc89f73af"
+  },
+  "samples_csv": {
+    "path": "docs/figures/q2-counting-regression/comparison.csv",
+    "sha256": "3c9878a4d267e93a304d004022086494e4c674676accfc2c2113034c110f9693"
+  },
+  "protocol": {
+    "host": ".157",
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "physical_prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmup_sessions": 1,
+    "measured_sessions": 3,
+    "identical_physical_input_each_session": true,
+    "pause_seconds_outside_timers": 15,
+    "timer": "Frozen direct-executor tester",
+    "greedy": true,
+    "mtp": false
+  },
+  "arms": {
+    "mixed": {
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "finished_at": "2026-10-04T10:50:28.925760+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1443.398207,
+            1443.672867,
+            1443.841794
+          ],
+          "min": 1443.398207,
+          "median": 1443.672867,
+          "max": 1443.841794
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10565683,
+            25.08698337,
+            25.09595499
+          ],
+          "min": 25.08698337,
+          "median": 25.09595499,
+          "max": 25.10565683
+        },
+        "prefill_s": {
+          "samples": [
+            1.41887387,
+            1.418603928,
+            1.418437954
+          ],
+          "min": 1.418437954,
+          "median": 1.418603928,
+          "max": 1.41887387
+        },
+        "decode_s": {
+          "samples": [
+            5.058620886,
+            5.062386263,
+            5.060576497
+          ],
+          "min": 5.058620886,
+          "median": 5.060576497,
+          "max": 5.062386263
+        }
+      }
+    },
+    "ud": {
+      "binary_sha256": "e745e1a4e518a26e3e78be4bb853ab79280c70ff9c750babad169c14ef3e5eac",
+      "finished_at": "2026-10-04T10:54:51.708359+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1686.364042,
+            1685.777092,
+            1685.400011
+          ],
+          "min": 1685.400011,
+          "median": 1685.777092,
+          "max": 1686.364042
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.34621613,
+            24.34174251,
+            24.15102104
+          ],
+          "min": 24.15102104,
+          "median": 24.34174251,
+          "max": 24.34621613
+        },
+        "prefill_s": {
+          "samples": [
+            1.214447147,
+            1.214869991,
+            1.215141798
+          ],
+          "min": 1.214447147,
+          "median": 1.214869991,
+          "max": 1.215141798
+        },
+        "decode_s": {
+          "samples": [
+            5.216416355,
+            5.217375049,
+            5.258576845
+          ],
+          "min": 5.216416355,
+          "median": 5.217375049,
+          "max": 5.258576845
+        }
+      }
+    },
+    "ordered": {
+      "binary_sha256": "225f0ec7f78648923cf42e7124de882edfdd050d39486a33cdce0e7c1b4204d4",
+      "finished_at": "2026-10-04T10:45:58.617195+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1440.578846,
+            1440.013372,
+            1440.751395
+          ],
+          "min": 1440.013372,
+          "median": 1440.578846,
+          "max": 1440.751395
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.1357523,
+            25.16568709,
+            25.15868257
+          ],
+          "min": 25.1357523,
+          "median": 25.15868257,
+          "max": 25.16568709
+        },
+        "prefill_s": {
+          "samples": [
+            1.421650752,
+            1.422209015,
+            1.421480491
+          ],
+          "min": 1.421480491,
+          "median": 1.421650752,
+          "max": 1.422209015
+        },
+        "decode_s": {
+          "samples": [
+            5.052564112,
+            5.046554045,
+            5.047959076
+          ],
+          "min": 5.046554045,
+          "median": 5.047959076,
+          "max": 5.052564112
+        }
+      }
+    }
+  },
+  "policy": [
+    "Keep the historical reference and all raw samples visible alongside fresh matched controls.",
+    "Claims against this reference require the frozen physical input, timing, settings and provider identity; do not silently replace it with another workload or a lower control.",
+    "Descriptive medians of different prose prompts cannot establish fixed-input repeatability or improvement against this reference.",
+    "Freezing the mixed-map result does not promote that provider on other workloads.",
+    "Full short/long-context PP/TG, latency, concurrency, resource and independent quality gates remain required."
+  ],
+  "latest_norm_point": {
+    "result": {
+      "path": "config/q2-norm-point-results.json",
+      "sha256": "4c8d1c2cb9a35f7a8e038e1f60f2da4d8dff53f4f01ca99ce53aafbd3ff843da"
+    },
+    "classification": "EXPLORATORY_PAIRED_PROMPT_OBSERVATIONS_ONLY",
+    "fixed_reference_improvement_measured": false
+  }
+}
