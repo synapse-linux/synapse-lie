@@ -18,40 +18,73 @@ and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
 results belong to their stated source and binary identities. They do not
 automatically qualify a later runtime or another model/platform.
 
-1. Complete fixed-output extended-context qualification, recall and matched
-   performance. The `.161` physical gate completed all 1,048,448 prefill tokens
-   and stopped naturally after 43 output tokens. Child exit 0 is preserved;
-   the required TG128 gate remains failed with supervisor/controller exit 1.
-   Eleven artifacts verify and ownership closure is collected. A fresh gate
-   must satisfy its declared output requirement; this result is not recall quality.
-2. Complete the new OpenAI controls with MTP after fresh GPU admission.
+This is the work queue owned by this thread. Separate DGX Spark/CUDA,
+Antirez weight-format/quantization and Strix Point port tasks stay with their
+assigned agents. Unspecified future weight streaming, additional model families
+and new client applications are not queued here. Their architectural boundaries
+do not constitute implementation tasks. GPU qualification in this queue uses
+`.161` with fresh coordination and admission for every run.
+
+1. **Finish OpenAI GPU controls with MTP.**
    The corrected `abb69d5` AR runtime passes all 34 original-weight checks,
    including the 21 additional controls. MTP admission refuses an unrelated
    GPU client before model load; that failure and successful ownership closure
    are retained in the [GPU receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
-3. Run Terminal Bench against the actual HTTP function interface and retain
-   task outcomes. Clients execute tools; the inference server only produces
-   validated calls and accepts correlated results.
-4. Broaden MTP/vision numerical, fault, quality and resource qualification beyond
-   the recorded functional checkpoints. Keep failures and performance regressions.
-5. Continue the autonomous C17 executor extraction: provider-owned grammar,
-   history, speculative distributions and model/state execution remain. Preserve
-   the common reactive contracts for HTTP, bench and future clients.
-6. Complete deferred Gufo/Halogen workload comparisons with matched physical
-   work, cache policy and lifecycle. Separate batching, reactive responsiveness
-   and single-sequence PP/TG effects.
+   Require the same 34 checks and exact closure from a new MTP admission.
+2. **Run Terminal Bench tasks against the actual server.** Use the pinned
+   Terminal Bench Mini smoke task, then Core-19 with unchanged instructions and
+   verifiers. Record task rewards, transcripts, truncation and infrastructure
+   failures separately. Its Terminus text command protocol and native OpenAI
+   function calls have separate checks; clients execute the commands.
+3. **Close full 1M context acceptance.** The `.161` physical gate completes all
+   1,048,448 prefill tokens but stops naturally after 43 output tokens; the
+   required TG128 gate remains failed. Require full physical prefill and all
+   128 output tokens in a newly declared run, then long-context recall checks.
+   Exercise the native progress client without treating snapshots as completion.
+4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
+   prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
+   work, cache policy, output length, repetitions and server lifecycle. Retain
+   PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
+   decline above 256K and separate batching from reactive responsiveness.
+5. **Implement DS4 directional steering in LIE.** Load its per-layer `.f32`
+   directions, validate geometry against the loaded model, and expose FFN and
+   attention scales through model-neutral shared-core contracts used by HTTP
+   and bench. Cover both prompt evaluation and generation, session scale changes,
+   cache compatibility and AR/MTP interaction. Require unchanged baseline output
+   with steering off, malformed-vector refusal and measured quality/performance
+   with steering on. DS4 documents Qwen's 48-by-2560 bank and its HC branches;
+   that implementation is Metal-only, so it is not evidence for LIE HIP.
+   [Upstream steering contract](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
+6. **Complete DS4 sampling-temperature coverage.** Temperature already exists
+   in LIE; verify its greedy and positive-temperature behavior against DS4's
+   declared profiles, including temperature 1, top-p 1 and min-p 0.05. Expose
+   missing top-k/min-p controls consistently in the shared contract and clients,
+   retain explicit seeds, and qualify AR and exact target-distribution MTP.
+   Require filter/probability oracles, correct tool-mode transitions and measured
+   cost; record the selected defaults rather than silently changing profiles.
+   [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
+   [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
+7. **Extract the identified remaining sampling responsibilities into C17.**
+   Move provider-owned grammar/masking, sampler history and compact speculative
+   distributions behind LIE contracts, one component at a time. Require bounded
+   lifetimes, numerical oracles and GPU comparisons before replacing each
+   component. Preserve the shared reactive core; complete model/provider rewrites
+   remain architectural goals until their implementation slices are defined.
 
 Current commands, ownership and evidence are maintained in
 [progress](PROGRESS.md), [coordination](COORDINATION.md) and the
 [model/platform benchmark index](benchmarks/models/qwen3.8-flash-next/README.md).
 
-## Implemented capabilities and remaining acceptance
+## Implemented capabilities and recorded qualification limits
 
 The earlier MTP and vision branches were integrated from `7d85b2f` and
 `806a790`. The shared contracts remain model-neutral; only the explicitly
 recorded Qwen numerical binding is qualified.
 
-| Component | Implementation and recorded evidence | Remaining acceptance gate |
+These limits describe the evidence already collected. The numbered queue above
+defines this thread's tasks; this table does not assign additional broad campaigns.
+
+| Component | Implementation and recorded evidence | Recorded qualification limits |
 | --- | --- | --- |
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |

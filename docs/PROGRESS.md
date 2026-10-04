@@ -1,11 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) now distinguishes
-recorded MTP/vision/reactive/cache and 40/16-window Point HTTP qualifications
-from pending fixed-output/quality 1M gates, MTP OpenAI controls, agent evaluation and autonomous
-C17 executor work. Earlier platform and long-context matrices remain explicitly
-historical; their raw receipts and failures are unchanged.
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) is this thread's
+owned queue: OpenAI MTP controls, Terminal Bench, full 1M acceptance, requested
+benchmark methods, DS4 directional steering and sampling temperatures, and the
+identified C17 sampling extractions. Assigned platform/weight-format work and
+undefined future features are excluded. Earlier platform and long-context
+matrices remain explicitly historical; raw receipts and failures are unchanged.
+
+## Roadmap ownership and DS4 controls — 2026-10-04 UTC
+
+At the owner's request, the active queue excludes separately assigned DGX
+Spark/CUDA, Antirez weight-format/quantization and Strix Point port work. Future
+weight persistence, further model families and new clients are not active tasks.
+General MTP/vision campaign expansion and a complete executor rewrite are not
+used as unspecified backlog items; their recorded qualification limits remain.
+
+Two concrete DS4-derived capabilities are added: per-layer directional steering
+with FFN/attention scales, and sampling-temperature/filter coverage. Existing
+temperature support is not claimed as absent; top-k/min-p client exposure and
+AR/exact-MTP profile qualification need completion. The steering task includes
+validated `.f32` banks, session/cache behavior, baseline-off equivalence and
+original-weight cost/quality checks. DS4's documented Qwen implementation uses
+Metal; its existence does not qualify LIE HIP. All GPU tests in this queue use
+`.161` under fresh admission. Only LIE-owned code is modified.
 
 ## Native progress GPU qualification prepared — 2026-10-04 UTC
 
