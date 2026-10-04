@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('point', Path(__file__).resolve().parents[1]/'tools/strix-point-campaign.py')
@@ -527,6 +528,8 @@ class Tests(unittest.TestCase):
         def run(command, _bundle, _timeout, _model):
             self.assertIn('/bundle/runtime/bin/synapse-lie-server', command)
             self.assertEqual(_timeout, 6500)
+            self.assertEqual(command[command.index('--server-sessions') + 1],
+                             str(c.m.get('http_server_sessions', 8)))
             rows = [{'event':'identity', 'schema':'synapse-lie.http-multi-bench.v1',
                      'model':'qwen3.8-flash-next'}, {'event':'complete','exit_code':0}]
             data = ''.join(json.dumps(row)+'\n' for row in rows)
@@ -534,7 +537,9 @@ class Tests(unittest.TestCase):
             (c.root/'http-multi-result.json').write_text(json.dumps({
                 'schema':'synapse-lie.point-http-multi-original.v1',
                 'state':'PASSED','client_exit_code':0,'server_exit_code':0,
-                'implementation':'lie','mode':'ar','users':'1','cohorts':4,
+                'implementation':'lie','mode':'ar','users':c.m['http_users'],
+                'capacity_policy':c.m.get('http_capacity_policy', 'fixed-8'),
+                'server_sessions':c.m.get('http_server_sessions', 8), 'cohorts':4,
                 'corpus_sha256':point.sha(corpus),
                 'measurements_sha256':point.sha(c.root/'measurements.jsonl')}))
         with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
@@ -543,7 +548,13 @@ class Tests(unittest.TestCase):
             c.bench()
             self.assertEqual(c.r['bench_result']['cohorts'], 4)
             c.m['http_case'] = 'repetition'
+            c.bench()
+            c.m.update(http_users='2', http_capacity_policy='fresh-per-level',
+                       http_server_sessions=1)
             with self.assertRaisesRegex(ValueError, 'fixed prepared HTTP'): c.bench()
+            c.m['http_server_sessions'] = 2
+            c.bench()
+            self.assertEqual(c.r['bench_result']['capacity_policy'], 'fresh-per-level')
             c.m['http_case'] = 'prose'
             corpus.write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError, 'corpus drift'): c.bench()
@@ -554,6 +565,19 @@ class Tests(unittest.TestCase):
                                      'BUNDLE.json':point.sha(bundle_receipt)})
             with self.assertRaisesRegex(ValueError, 'Gufo control provenance'):
                 c.bench()
+    def test_http_multi_helper_sets_fresh_server_capacity(self):
+        module_path = Path(__file__).resolve().parents[1]/'tools/strix-point-http-multi-gate.py'
+        helper_spec = importlib.util.spec_from_file_location('point_http_multi', module_path)
+        helper = importlib.util.module_from_spec(helper_spec)
+        helper_spec.loader.exec_module(helper)
+        args = SimpleNamespace(impl='gufo', mode='ar', server='/bundle/gufo',
+                               model='/model/target.gguf', predictor=None,
+                               server_sessions=2)
+        gufo = helper.server_command(args, 9000)
+        self.assertEqual(gufo[gufo.index('--sessions') + 1], '2')
+        args.impl = 'lie'
+        lie = helper.server_command(args, 9000)
+        self.assertEqual(lie[lie.index('--max-active') + 1], '2')
     def test_modern_ssd_restart_requires_a_cross_process_disk_hit(self):
         c = self.campaign('modern-ssd-restart')
         helper = c.root/'ssd-restart-gate.py'; helper.write_bytes(b'fixture restart helper')

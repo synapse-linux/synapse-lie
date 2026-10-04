@@ -1044,9 +1044,16 @@ class Campaign:
             raise ValueError('Modern HTTP multi requires ROCm 10 Distrobox')
         impl, mode = self.m.get('http_impl'), self.m.get('decode_mode')
         users, case = self.m.get('http_users'), self.m.get('http_case')
+        capacity_policy = self.m.get('http_capacity_policy', 'fixed-8')
+        server_sessions = 8 if capacity_policy == 'fixed-8' else int(users) if users in ('1', '2', '4', '6', '8') else None
         if (impl not in ('lie', 'gufo') or mode not in ('ar', 'mtp') or
-                users not in ('1', '1,2,4,6,8') or case not in ('prose', 'repetition') or
-                (mode == 'ar' and case != 'prose') or
+                users not in ('1', '2', '4', '6', '8', '1,2,4,6,8') or
+                case not in ('prose', 'repetition') or
+                capacity_policy not in ('fixed-8', 'fresh-per-level') or
+                (capacity_policy == 'fresh-per-level' and
+                 (users == '1,2,4,6,8' or self.m.get('http_server_sessions') != server_sessions)) or
+                (capacity_policy == 'fixed-8' and
+                 self.m.get('http_server_sessions', 8) != 8) or
                 self.m.get('http_warmups') != 1 or self.m.get('http_repetitions') != 3):
             raise ValueError('Invalid fixed prepared HTTP comparison profile')
         helper = checked_path(self.root/'http-multi-gate.py')
@@ -1082,6 +1089,8 @@ class Campaign:
             raise ValueError('AR HTTP multi must not admit a predictor')
         command = ['/usr/bin/python3', '-B', '/work/http-multi-gate.py',
                    '--impl', impl, '--mode', mode, '--users', users,
+                   '--capacity-policy', capacity_policy,
+                   '--server-sessions', str(server_sessions),
                    '--warmups', '1', '--repetitions', '3',
                    '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
                    '--server', '/bundle/runtime/bin/'+
@@ -1101,6 +1110,8 @@ class Campaign:
                     result.get('server_exit_code') not in (0, -15) or
                     result.get('implementation') != impl or result.get('mode') != mode or
                     result.get('users') != users or
+                    result.get('capacity_policy') != capacity_policy or
+                    result.get('server_sessions') != server_sessions or
                     result.get('corpus_sha256') != self.m['corpus_sha256'] or
                     result.get('measurements_sha256') != sha(self.root/'measurements.jsonl') or
                     not measurements or measurements[0].get('schema') != 'synapse-lie.http-multi-bench.v1' or
@@ -1110,6 +1121,8 @@ class Campaign:
             self.r['bench_result'] = {'profile': 'modern-http-multi',
                                       'implementation': impl, 'mode': mode,
                                       'case': case, 'users': users,
+                                      'capacity_policy': capacity_policy,
+                                      'server_sessions': server_sessions,
                                       'cohorts': result['cohorts'],
                                       'measurements_sha256': result['measurements_sha256'],
                                       'result_sha256': sha(self.root/'http-multi-result.json')}

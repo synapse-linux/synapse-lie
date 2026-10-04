@@ -52,13 +52,13 @@ def server_command(args, management):
                    '--host', '127.0.0.1', '--port', str(API_PORT),
                    '--management-host', '127.0.0.1', '--management-port', str(management),
                    '--context', '4096', '--prefill-chunk', '2048',
-                   '--max-active', '8', '--kv-cache-ram-mb', '8192',
+                   '--max-active', str(args.server_sessions), '--kv-cache-ram-mb', '8192',
                    '--request-timeout-ms', '630000']
         if args.mode == 'mtp':
             command += ['--model-mtp', args.predictor, '--mtp-draft-tokens', '7']
         return command
     command = [args.server, 'serve', '--host', '127.0.0.1', '--port',
-               str(API_PORT), '--sessions', '8', 'llm', '--model', args.model,
+               str(API_PORT), '--sessions', str(args.server_sessions), 'llm', '--model', args.model,
                '--served-model-name', MODEL_ID, '--context', '4096',
                '--prefill-chunk', '2048', '--max-pending', '16',
                '--max-pending-per-client', '16', '--request-timeout-ms',
@@ -83,7 +83,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--impl', choices=('lie', 'gufo'), required=True)
     parser.add_argument('--mode', choices=('ar', 'mtp'), required=True)
-    parser.add_argument('--users', choices=('1', '1,2,4,6,8'), required=True)
+    parser.add_argument('--users', choices=('1', '2', '4', '6', '8', '1,2,4,6,8'), required=True)
+    parser.add_argument('--capacity-policy', choices=('fixed-8', 'fresh-per-level'), required=True)
+    parser.add_argument('--server-sessions', type=int, choices=(1, 2, 4, 6, 8), required=True)
     parser.add_argument('--warmups', type=int, choices=(1,), required=True)
     parser.add_argument('--repetitions', type=int, choices=(3,), required=True)
     parser.add_argument('--model', required=True)
@@ -93,9 +95,14 @@ def main():
     args = parser.parse_args()
     if (args.mode == 'mtp') != bool(args.predictor):
         parser.error('MTP requires exactly one predictor')
+    if (args.server_sessions != (8 if args.capacity_policy == 'fixed-8' else
+                                int(args.users) if ',' not in args.users else None)):
+        parser.error('Server sessions must equal one fresh user level or fixed capacity 8')
     result = {'schema': 'synapse-lie.point-http-multi-original.v1',
               'state': 'RUNNING', 'started_at': now(), 'implementation': args.impl,
-              'mode': args.mode, 'users': args.users, 'warmups': args.warmups,
+              'mode': args.mode, 'users': args.users,
+              'capacity_policy': args.capacity_policy,
+              'server_sessions': args.server_sessions, 'warmups': args.warmups,
               'repetitions': args.repetitions,
               'server_argv': server_command(args, management_port()),
               'client_argv': client_command(args), 'corpus_sha256': sha(ROOT/'corpus.jsonl')}
@@ -137,7 +144,7 @@ def main():
             rows = [json.loads(line) for line in (ROOT/'measurements.jsonl').read_text().splitlines()]
             if (not rows or rows[-1] != {'event': 'complete', 'exit_code': 0} or
                     len([row for row in rows if row.get('event') == 'cohort']) !=
-                    (1 if args.users == '1' else 5) * (args.warmups + args.repetitions)):
+                    (5 if ',' in args.users else 1) * (args.warmups + args.repetitions)):
                 raise RuntimeError('Incomplete native HTTP cohorts')
             result['cohorts'] = len(rows) - 2
             result['state'] = 'PASSED'
