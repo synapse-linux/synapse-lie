@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 packed signs: exact component gain measured — 2026-10-04
+
+The isolated runner now builds reference/candidate MMQ from their complete
+inventories and runs the existing independent GPU operators followed by an
+exhaustive codebook/sign fixture and a 512-expert rotating gate/up cycle.
+The fixture retains full outputs, independent FP64 samples, guards and all
+warmup/measured intervals. The initial candidate saves 41.495% component time
+but fails byte-exact replay because fast-math reassociates the scale product.
+That analyzer exit 1 remains retained. An explicit gfx1151 scale multiply
+restores exact replay for all 110 buffers while retaining **41.364% less
+complete-cycle time: 85.352 to 50.047 µs**. Both providers pass the independent
+checks; reference r1/r2 outputs also match exactly. These are component
+microseconds, not model token/s. [Full evidence and limits](Q2-IQ2-SIGNS.md).
+
+Fresh admission at 2026-10-03T23:46:15.006257+00:00 follows core's released
+clocked window and the explicitly scheduled Point copy's VERIFIED completion.
+All 30 previous process identities are absent, KFD is empty and the original
+four leases are unchanged/free. The bounded window covers host Debug/ASan
+and two component arms only. No original model access or hardware changes
+are involved. Direct outgoing MCP transport remains unavailable; persistent
+main/remote receipts and the shared registry record admission.
+
+Both host cohorts pass 19/19 Debug and 19/19 ASan/UBSan. All six cohorts finish
+with 28 command exits zero and 474 artifacts verified. Fresh closure at
+2026-10-04T00:07:51.297211+00:00 verifies 34 own processes/groups absent,
+empty KFD and all four unchanged original lease identities free. The release
+is recorded remotely, in the main worktree and in the registry. No Q2 job,
+waiter or restart remains. The ordered candidate is ready for the canonical
+whole-model comparison; PP/TG parity and earlier model-quality gates remain open.
+
 ## Repeated canonical curve, PLE attribution and DeepSeek audit — 2026-10-04
 
 The second uninstrumented UD→Q2 sweep retains the whole 0–128K workload.

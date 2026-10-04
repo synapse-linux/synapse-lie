@@ -20,6 +20,27 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_signs_scope(self):
+        for variant in remote.SIGN_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 signs source requires its isolated component mode')
+            self.refuse(['iq2-signs-check','q2-fixture','--source-variant',variant],
+                        'IQ2 signs requires a full MMQ rebuild')
+            self.refuse(['iq2-signs-check','q2-fixture','--source-variant',variant,
+                         '--rebuild-mmq','--detach'],
+                        'Persistent launch is limited to Terminal-Bench task runs')
+            argv=[str(path),'iq2-signs-check','q2-fixture','--source-variant',variant,
+                  '--rebuild-mmq']
+            with patch.object(sys,'argv',argv), \
+                 patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once();run.assert_not_called()
+        self.refuse(['iq2-signs-check','q2-fixture','--source-variant','curve-q2'],
+                    'IQ2 signs source requires its isolated component mode')
+
     def test_canonical_curve_scope(self):
         for mode, variant in [('q2-curve', 'qualified'), ('ud-curve', 'curve-q2'),
                               ('q2-curve', 'curve-ud'), ('q2-bench', 'curve-q2'),

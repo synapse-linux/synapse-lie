@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.q2-iq2-signs-plan.v1",
+  "at": "2026-10-03T23:33:27.568871+00:00",
+  "state": "PREPARED_NOT_ADMITTED",
+  "goal": "Q2 PP and TG parity at every canonical depth0..128K",
+  "base_checkpoint": "1d00e4b",
+  "machine": "192.168.5.157",
+  "ownership": "Core campaign closure observed; explicit next window belongs to Point MTP read-only copy. Do not interleave or infer handover from an idle snapshot.",
+  "proposed_sequence": [
+    {
+      "mode": "cpu",
+      "label": "q2-iq2-signs-host-r1"
+    },
+    {
+      "mode": "iq2-signs-check",
+      "label": "q2-iq2-signs-reference-r1",
+      "source_variant": "iq2-signs-reference",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "iq2-signs-check",
+      "label": "q2-iq2-signs-candidate-r1",
+      "source_variant": "iq2-signs-candidate",
+      "rebuild_mmq": true
+    }
+  ],
+  "checks": [
+    "19 Debug and ASan/UBSan host CTests including staging-source guards",
+    "Existing independent IQ2/Q2 GPU operators and full reference/candidate output bytes",
+    "Exhaustive actual device dot:256 grids x128 signs x32 one-hot lanes; scalar sign oracle and guards",
+    "640 independent FP64 complete-cycle dot pairs spread across64 routing rotations",
+    "409600 complete-cycle output values saved for exact reference/candidate comparison",
+    "512 experts,432537600 encoded weight bytes,64 rotated calls/sample,2 warmup plus5 measured samples; quantize+fused gate/up+SwiGLU inside GPU-event interval"
+  ],
+  "conditional_next": "Only a component improvement surviving byte-exact and independent checks admits an unchanged canonical full-model baseline/candidate/UD curve. Static instruction savings are not acceptance.",
+  "runtime_evidence": false,
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "files": {
+    "tests/q2_iq2_signs.hip": "a94a7b70ab03047cd5543e71f202770b5afa48a9d6ca31d6f04bfd5d8ac354b1",
+    "tests/q2_remote_test.py": "dacd1c4863baaebc1d1d6c18eb11d4856ec6e93573d59b54a3e865b814f23dc3",
+    "cmake/hip/CMakeLists.txt": "9fad982d41cdbb0fccf8de4e5460ab14b6b896408ac52f38dac2dfa678ee0ed6",
+    "tools/q2-remote.py": "a7b9fb001b42e35f2bb6cf1edc145ab857bcda9b4bd487cb661cd016f7177362",
+    "tools/q2-runner.py": "1c5fdae9aa68e4fdbf4eb3b28d82e19c10ae63cce1053e1a3e1a34c56b6431a2"
+  }
+}

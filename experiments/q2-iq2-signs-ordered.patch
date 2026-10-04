@@ -1,0 +1,18 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
+@@ -968,9 +968,12 @@
+     }
+ 
+     const int ls = aux32 >> 27 | 1; // (scale * 2 + 1)
+-    const float d = __half2float(bq2->d) * __low2float(bq8_1[iqs/2].ds);
+-    // IQ2's eighths are fractional. Integer division discards live values.
+-    return d * (static_cast<float>(sumi * ls) * 0.125f);
++    // The measured reference scales Q8_1 by 1/8, then rounds its
++    // product with the weight scale before accumulating the integer dot.
++    // Keep that boundary despite fast-math reassociation after sign expansion.
++    const float d = __fmul_rn(__low2float(bq8_1[iqs/2].ds) * 0.125f,
++                              __half2float(bq2->d));
++    return d * static_cast<float>(sumi * ls);
+ }
+ 
+ #define VDR_IQ2_XS_Q8_1_MMVQ 2

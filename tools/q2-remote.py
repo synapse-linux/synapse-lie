@@ -16,6 +16,7 @@ HOST = 'paperboy@192.168.5.157'
 REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
 ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
+SIGN_VARIANTS = ('iq2-signs-reference', 'iq2-signs-candidate', 'iq2-signs-ordered')
 CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple')
 CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud')
 
@@ -52,9 +53,9 @@ def collection_receipt(archive):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS],
+    p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--detach', action='store_true', help='Persistent supervisor for Terminal-Bench tasks only')
     p.add_argument('--rebuild-mmq', action='store_true',
@@ -62,6 +63,11 @@ def main():
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
+    if args.mode == 'iq2-signs-check' or args.source_variant in SIGN_VARIANTS:
+        if args.mode != 'iq2-signs-check' or args.source_variant not in SIGN_VARIANTS:
+            p.error('IQ2 signs source requires its isolated component mode')
+        if not args.rebuild_mmq:
+            p.error('IQ2 signs requires a full MMQ rebuild')
     if args.mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
         expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud'}.get(args.mode)
@@ -119,7 +125,7 @@ def main():
             p.error('Combined source requires a full MMQ rebuild for bench2k')
     if args.mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access') and args.source_variant != 'qualified' and not (args.source_variant in COMBINED_VARIANTS and args.mode in ('q2-ple-lookahead', 'q2-ple-first-access')):
         p.error('PLE diagnostics select their fixed instrumented Q2/UD source')
-    if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES):
+    if args.rebuild_mmq and args.mode not in ('q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'iq2-signs-check'):
         p.error('Full MMQ rebuild selection requires bench2k or decode-baseline or original-baseline')
     if args.source_variant in ('hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads') and args.mode not in ('hc-pp-operators', 'hc-pp-bench'):
         p.error('Phased HC source is component-only; no model dispatch')
@@ -177,7 +183,7 @@ def main():
         p.error('Stack changes executor/header; explicitly rebuild MMQ')
     if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'terminal-cpu'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS) and args.mode != 'q2-bench':
+    if args.source_variant not in ('qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS) and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
@@ -223,6 +229,19 @@ def main():
             source = '.deps/gufo-ple-io-' + ('ud' if args.mode == 'ud-ple-io' else 'q2')
         if args.mode in ('ple-cache-cpu', 'q2-ple-cache64k'):
             source = '.deps/gufo-ple-cache64k'
+        if args.mode == 'iq2-signs-check':
+            manifest_name = ('q2-iq2-signs-ordered-asm-source.json'
+                             if args.source_variant == 'iq2-signs-ordered'
+                             else 'q2-iq2-signs-source.json')
+            info = json.loads((ROOT/'config'/manifest_name).read_text())
+            candidate = args.source_variant != 'iq2-signs-reference'
+            source = info['candidate'] if candidate else info['base']
+            expected = info['files'] if candidate else json.loads(
+                (ROOT/'config/q2-curve-source.json').read_text())['variants']['q2']['files']
+            actual = {str(f.relative_to(ROOT/source)): file_sha256(f)
+                      for f in (ROOT/source).rglob('*') if f.is_file()}
+            if actual != expected:
+                p.error('IQ2 signs provider inventory changed')
         if args.mode in CURVE_MODES:
             curve = __import__('json').loads((ROOT/'config/q2-curve-source.json').read_text())
             key = args.mode.split('-')[0]

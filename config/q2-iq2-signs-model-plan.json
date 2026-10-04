@@ -1,0 +1,27 @@
+{
+  "state": "PREPARED_NEXT_MODEL_EXPERIMENT_NOT_ADMITTED",
+  "goal": "Q2 PP and TG parity at every canonical context depth; component gains are insufficient",
+  "machine": "192.168.5.157",
+  "provider": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
+  "provider_manifest_sha256": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+  "core_commit": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+  "core_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+  "workload": "Same pinned Gufo prose HTTP recipe, calibration and seeds, depth0/4096/8192/12288/16384/32768/65536/131072, actual cached/new frontiers retained,128 AR completions, same C17 executor timers",
+  "settings": "C1 greedy,capacity133760,chunk2048,RAM prefix cache; thinking/MTP/vision/SSD off",
+  "arms": [
+    "fresh canonical Q2 baseline",
+    "ordered IQ2 sign Q2",
+    "fresh pristine UD control"
+  ],
+  "required": [
+    "Distinct source identity and isolated canonical dispatch, full MMQ rebuild for every provider",
+    "Host guard tests on .157 before model launch",
+    "Record PP/TG, complete request payload/output history, actual work and cache timing",
+    "Verify quality separately; preserve existing numerical failures",
+    "Repeat/reverse if gain is order-sensitive; never replace the whole curve with counting workload"
+  ],
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "model_dispatch_implemented": false,
+  "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes"
+}

@@ -6,7 +6,36 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state (2026-10-03T23:03:30.243030+00:00): the canonical profile window
+Latest state: IQ2 component window **released** at
+2026-10-04T00:07:51.297211+00:00. Six cohorts complete with 28 command exits
+zero and 474 artifacts verified. Fresh closure checks 34 own processes/groups
+retired, empty KFD and all four original lease identities EX|NB/free. Remote
+and main `run/q2-iq2-signs-window-release.json` and the shared registry record
+closure; SHA256 `2229f3cd178b2992f4532c3bc25b66881e9c97e7ced6972641ea91197fb25ea7`.
+No Q2 reservation, waiter, restart or model run remains. Outgoing MCP transport
+fails; no delivery is claimed. The initial comparison's exact-replay exit 1
+is preserved separately from its successful GPU command exits. The ordered
+variant passes all 110 full-buffer comparisons with 41.364% less component
+time; a new canonical model window still requires fresh admission.
+Core subsequently observes the verified release at 00:12:05 UTC and requests
+its root032d integrated qualification window. Q2 explicitly cedes that next
+window; its model-curve plan is local only, with no staging or reservation.
+The main ready receipt records this handover while outgoing MCP is unavailable.
+
+Previous admission: IQ2 component window admitted at
+2026-10-03T23:46:15.006257+00:00. Core released its clocked window to the
+bounded Point copy; copy-r2 reports VERIFIED, both endpoints exit 0 and leases
+released. Fresh Q2 admission verifies all 30 core/copy process identities
+absent, KFD empty, original four lease identities EX|NB and thermal readings.
+The registry contains no intervening admission. Main
+`run/q2-iq2-signs-window-active.json` and remote
+`run/q2-iq2-signs-window-admission.json` record the bounded host/component
+window through the agreed fallback. Outgoing MCP transport fails; delivery
+is not claimed. No original model run was admitted. A recorded component-only
+follow-up adds the ordered-scale candidate and a reverse-order reference
+after the initial scale-rounding difference; both host cohorts are retained.
+
+Previous state (2026-10-03T23:03:30.243030+00:00): the canonical profile window
 is released. All five cohorts and 26 commands finish successfully; 127 artifacts
 are collected. The release verifies 39 recorded processes/groups retired,
 empty KFD and the four original lease identities acquired EX|NB then released.

@@ -9,7 +9,7 @@ The audit compares actual launch paths with the measured Qwen provider and
 the retained experiment history. No sibling DS4 source or artifact is imported.
 [Source identities](../config/q2-deepseek-audit.json) pin the inspected files.
 
-## Opportunities not yet measured in this Q2 workstream
+## Opportunities identified in this Q2 workstream
 
 | Mechanism | DeepSeek implementation | Current Qwen difference and proposed check |
 | --- | --- | --- |
@@ -46,11 +46,15 @@ cached efficiently, so reduced source loads alone do not justify a speed claim.
 
 `tools/prepare-q2-iq2-signs.py` verifies the complete measured canonical Q2
 provider inventory, then changes one function in `mmq/vecdotq.hpp` in a new
-durable `.deps/gufo-q2-curve-iq2-signs` tree. All1019 other files remain exact.
+durable `.deps/gufo-q2-curve-iq2-signs` tree. All 1019 other files remain exact.
 [Patch](../experiments/q2-iq2-signs.patch),
 [source receipt](../config/q2-iq2-signs-source.json), and
 [device-only syntax check](../config/q2-iq2-signs-static.json) are retained.
-There is no runner dispatch, GPU execution, performance result or promotion yet.
+An isolated `iq2-signs-check` runner now requires the matching reference or
+candidate inventory and a full MMQ rebuild. It rejects model dispatch and
+detached launch. [GPU component qualification](Q2-IQ2-SIGNS.md) now measures
+41.364% less complete-cycle time with 110 byte-exact output pairs after an
+explicit scale-rounding fix. No whole-model speedup or promotion is established.
 
 Both reference and candidate also compile to gfx1151 device assembly with the
 same flags. The fused IQ2 gate/up vector specialization changes from **1036 to
@@ -75,12 +79,29 @@ weight bits. The original helper also accepts an extra eighth input bit and
 corrects it by parity; explicitly masking to seven bits gives the same signs.
 Actual compiled execution still needs verification.
 
-First compare all 256 codebook entries times 128 sign indices on `.157`, then
+The qualification compares all 256 codebook entries times 128 sign indices on `.157`, then
 the existing IQ2 independent operators and complete byte-exact output replay.
 Keep the existing fractional-eighth scale expression, Q8_1 producer and dot
-reduction untouched. Inspect ISA/register usage and measure a complete decode
-cycle before a canonical model curve. A faster byte primitive is insufficient.
+reduction untouched. ISA/register usage and complete decode cycle measurements
+precede a canonical model curve. A faster byte primitive is insufficient.
 The selected prefill WMMA path is unchanged by this candidate.
+
+`tests/q2_iq2_signs.hip` calls the actual device dot implementation for all
+256 codebook entries, 128 sign indices and 32 one-hot lanes (1,048,576 outputs).
+Independent scalar parity/sign decoding and output guards check exact values.
+The complete fused gate/up cycle rotates 512 experts through 64 C1 calls,
+covering 432,537,600 encoded weight bytes. It saves all 409,600 outputs for
+reference/candidate replay and checks 640 sampled dot pairs against independent
+FP64 decoding at the existing unchanged tolerances. Two warmups and five
+measured GPU-event samples include activation quantization, fused gate/up and
+SwiGLU; uploads and allocations precede the interval. These are synthetic
+component microseconds, not model tokens/s. Existing independent IQ2/Q2 GPU
+operators run before this fixture. Both provider variants pass local HIP
+syntax checks, which execute no GPU code.
+
+[Prepared scope and file identities](../config/q2-iq2-signs-plan.json) retain
+the plan. Successful component evidence can justify a complete canonical
+model curve; it cannot establish whole-curve PP/TG parity by itself.
 
 ## Relation to the measured whole-curve gap
 
