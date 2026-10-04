@@ -61,6 +61,12 @@ image-prompt SHA-256. Text-only state has no scope section and uses the zero key
 KVC scope resides after the AUXILIARY boundary; the DS4 tensor payload remains
 unchanged. Old AR files/names retain their existing framing.
 
+The independent [C17 steering policy](../development/STEERING.md#session-policy-and-transactional-history)
+derives bank/scale/history scopes and can compose them with semantic image
+identity. It is not yet attached to these provider/cache components. Its host
+snapshot is not a KVC wire format; future integration must encode and validate
+complete retained target history without changing the existing DS4 tensor body.
+
 Lookup, deduplication, supersession and protected prefixes all compare scope.
 SSD indexes read only a bounded provisional scope; complete file digest/layout
 validation and scope revalidation still precede returning a usable state.

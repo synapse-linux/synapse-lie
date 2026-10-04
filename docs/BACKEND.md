@@ -53,6 +53,8 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    attention scales through model-neutral shared-core contracts used by HTTP
    and bench. The [owned C17 bank loader](development/STEERING.md) passes four
    Debug and four sanitizer checks; this does not activate provider steering.
+   The subsequent C17 session-policy library owns staged scale updates and
+   history/cache identities; actual session/provider/cache wiring remains open.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance

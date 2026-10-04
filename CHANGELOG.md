@@ -50,6 +50,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- The shared C17 steering library prepares bounded scale transactions and
+  derives cache identities from retained target history, including steering
+  switched off after earlier use. Numerical/provider integration remains pending.
+
 - Shared C17 direction-bank loading with geometry/budget checks, immutable
   references and file/shape identities. Provider steering and client controls
   remain under development.

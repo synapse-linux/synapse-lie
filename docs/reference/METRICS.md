@@ -152,6 +152,13 @@ GPU kernel clocks or benchmark samples. Interval `0` disables them by default.
 Result identity records `progress_interval_ms`; paired native reports require
 the same value, treating a missing historical field as zero.
 
+Independent steering-policy snapshots report completed retained target positions,
+revision, effective history epochs, at most two outstanding plans, policy bytes
+and staged bytes. The shared bank's vector bytes are separate. These are host
+policy/resource metadata, not executed-token counters, GPU timing or evidence
+that a numerical steering edit occurred. Core jobs/HTTP/benchmark metrics do not
+yet project them; [provider/cache integration remains open](../development/STEERING.md).
+
 The native core report requires positive prefill time and call count when new
 prompt tokens are processed. Decode time and call count must agree, and confirmed
 output requires a decode call. Prefill plus decode time must fit inside the

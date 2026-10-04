@@ -14,6 +14,16 @@ ownership independently of request ABI 7 and generation ABI 3.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+`lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
+The policy owns finite scales, bounded prepared transactions, owner-only commits,
+confirmed retained-target history and locked metadata snapshots. Its scope hashes
+are independent of chunk size and preserve steered history when scales become
+zero. Bank/session references and plan resources remain shared C17 concerns;
+there is no numerical operation or transport dependency in these interfaces.
+This additive library leaves executor ABI 3, request ABI 7 and generation ABI 3
+unchanged. Its presence does not activate provider steering or KV persistence.
+See [format, policy and actual binding requirements](../development/STEERING.md).
+
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
 encoded bytes are borrowed, lengths are exact, and BF16 output is caller-owned.
 There is no allocation or device dependency; overlap and nonfinite input are

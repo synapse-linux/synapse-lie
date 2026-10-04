@@ -13,6 +13,11 @@ The C17 direction-bank loader is independently implemented against DS4's flat
 f32 format. Only read-only official source identities and reference observations
 are retained for its binding audit; no DS4 implementation enters the product.
 It uses the existing OpenSSL Crypto dependency and adds no model-forward code.
+The subsequent C17 session-policy controller is also independently implemented.
+Its versioned history/cache domains, bounded transactions, owner checks and
+resource snapshots are LIE contracts, not a DS4 serializer or executor port.
+It uses existing pthread/OpenSSL dependencies without creating runtime threads;
+no DS4 source, artifact, model or qualified evidence is modified or imported.
 
 ## Actual external dependencies
 

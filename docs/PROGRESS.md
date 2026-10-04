@@ -8,6 +8,33 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Owned C17 steering policy/history implemented — 2026-10-04 UTC
+
+The shared library now owns per-session scale transactions and history/cache
+identities in separate policy ABI 1, retaining the immutable bank. Preparing
+before device work and committing only its completed retained-target frontier
+keeps failed, deferred and rejected speculative work out of cache history.
+At most two plans are outstanding; policy/staged byte accounting is explicit.
+Uniform policy identity is independent of prefill chunks and accepted bursts;
+turning steering off preserves earlier steered history. Unused toggles preserve
+legacy text/image identities. Owner checks, pins and locked snapshots add no
+runtime thread. Executor/request/generation ABIs remain 3/7/3.
+
+Five focused Debug and five ASan/UBSan/LSan checks pass. Native fixtures retain
+independent SHA oracles, partial/discard/stale/zero updates, wrong-owner refusal,
+plan capacity, image composition, source/bank lifetime and concurrent snapshots.
+Both the full adapter and public header compile in C++; these checks are not
+model inference. Maximum local CPU is 70.5 C. The initial compiler exit 2 from
+a formatting warning is preserved and corrected without suppressing warnings.
+[Validation receipt](development/validation/steering-policy-host-2026-10-04.json).
+
+Policy primitives are not yet attached to actual provider/session/cache calls.
+HIP attention/FFN edits, normalized-view refresh, MTP/graph invalidation, encoded
+history persistence and HTTP/bench controls remain roadmap item 5. No existing
+state or DS4 KVC framing changes. Read-only `.161` inspection at 21:31:58 UTC
+confirms training PID19916/start1073961 still holds KFD/renderD128 and is present
+in the kernel client list. Root admits no GPU window or standing reservation.
+
 ## Fixed-token EOS benchmark method implemented — 2026-10-04 UTC
 
 The independently verified official Gufo TG benchmark calls decode with
