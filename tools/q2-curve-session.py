@@ -22,18 +22,20 @@ def identity(process):
 
 def main():
     binary, model, variant, *flags = sys.argv[1:]
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first']):
         raise ValueError('Unknown diagnostic flags')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
+    cache_first = flags == ['--ple-cache-first']
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
-    if iq2_signs and variant != 'q2':
+    if (iq2_signs or cache_first) and variant != 'q2':
         raise ValueError('IQ2 signs requires the Q2 model')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='ple-forward' if profile else None,
-                   provider_experiment='iq2-signs-ordered' if iq2_signs else None)
+                   provider_experiment='ple-cache-first-ordered' if cache_first else
+                                       'iq2-signs-ordered' if iq2_signs else None)
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:

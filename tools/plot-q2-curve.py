@@ -16,10 +16,13 @@ def main():
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     assert report['schema'] in ('synapse-lie.q2-ud-canonical-comparison.v1',
-                               'synapse-lie.q2-iq2-canonical-comparison.v1')
-    iq2 = report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
+                               'synapse-lie.q2-iq2-canonical-comparison.v1',
+                               'synapse-lie.q2-ple-canonical-comparison.v1')
+    ple = report['schema'] == 'synapse-lie.q2-ple-canonical-comparison.v1'
+    iq2 = ple or report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
     variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
-        ('q2','#007f8b','Q2 ordered IQ2' if iq2 else 'Q2'), ('ud','#d66a28','UD')]
+        ('q2','#007f8b','Q2 ordered IQ2 + PLE' if ple else 'Q2 ordered IQ2' if iq2 else 'Q2'),
+        ('ud','#d66a28','UD')]
     if iq2 and 'baseline_repeat' in report['models']:
         variants[0] = ('baseline','#a2a7b0','Q2 control before')
         variants.insert(1, ('baseline_repeat','#606878','Q2 control after'))
@@ -56,7 +59,7 @@ def main():
         ax.legend(frameon=False)
     title = 'Q2 / UD: Gufo prose workload over C17 HTTP'
     if iq2 and not report['matched_history']:
-        title = 'Diagnostic only: IQ2 request/output history differs'
+        title = 'Diagnostic only: Q2 request/output history differs'
     fig.suptitle(title, fontsize=16)
     note = ('One sample per arm/depth after model warmup; filesystem residency uncontrolled. Counts and durations in CSV.\n'
             'LIE executor-call timers; numerical acceptance remains open.' if iq2 else

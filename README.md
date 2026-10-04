@@ -73,7 +73,9 @@ with distinct colliding row contents and retained actual read counters.
 The paired suite passes 21/21 Debug and 21/21 ASan/UBSan on `.157`: the original
 reader rereads 120–128 initially resident rows in each collision fixture, while
 the candidate rereads none and preserves every value. Canonical performance
-remains pending. It is not mixed into the IQ2 comparison.
+remains pending. A separate canonical campaign now composes only this reader
+with measured ordered IQ2 decode, retaining an unchanged control before and after
+the candidate plus pristine UD. The earlier IQ2 comparison remains unchanged.
 
 The [ragged HC library experiment](docs/Q2-HC-LIBRARY-RAGGED.md) is complete.
 Its 41–48% component time saving at 2042/2047 rows translates to only

@@ -6,7 +6,22 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state: the PLE/WMMA component window is **released** at
+Latest admission: **2026-10-04T03:11:36.046620+00:00**, Q2 takes a new bounded
+canonical PLE window. Read-only observation at 03:10:50 finds the preceding
+release still latest; no core admission intervenes. Fresh checks verify its
+15 recorded processes and 12 groups retired, empty KFD and four original lease
+identities EX|NB/free. Remote/main `run/q2-ple-curve-window-admission.json` /
+`run/q2-ple-curve-window-active.json` and the registry record admission. The scope
+is host21 Debug/ASan, then ordered Q2 control, PLE plus ordered Q2 candidate,
+unchanged ordered control again and pristine UD, all canonical 0–128K with full
+MMQ rebuilds. Q2 retains the window until verified release. No tuning, dependency
+installation, original-model mutation or interleaving is admitted. Outgoing MCP
+fails; persistent ready/active receipts are the agreed fallback.
+Host Debug/ASan subsequently pass21/21 each. The first control is running under
+PID3379757/start164901713, freshly observed live at03:14:36 UTC. No restart or
+second overlapping arm is scheduled.
+
+Previous state: the PLE/WMMA component window is **released** at
 2026-10-04T02:58:06.736101+00:00. Host Debug/ASan pass 21/21 each, both GPU
 components finish, all 12 command exits are zero and 59 artifacts verify. Fresh
 closure checks 15 recorded processes and 12 groups absent, empty KFD and all

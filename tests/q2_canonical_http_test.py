@@ -53,6 +53,16 @@ class MetricsContract(unittest.TestCase):
         info['backend']['build_id'] = 'q2-canonical-curve-experiment'
         with self.assertRaises(ValueError):
             client.check_backend(info,iq2_signs=True)
+        info['backend']['build_id'] = 'q2-canonical-curve-ple-cache-first'
+        client.check_backend(info,ple_cache_first=True)
+        for options in ({}, {'iq2_signs':True}, {'profile_ple':True},
+                        {'ple_cache_first':True,'iq2_signs':True},
+                        {'ple_cache_first':True,'profile_ple':True}):
+            with self.assertRaises(ValueError):
+                client.check_backend(info,**options)
+        info['backend']['build_id'] = 'q2-canonical-curve-iq2-signs'
+        with self.assertRaises(ValueError):
+            client.check_backend(info,ple_cache_first=True)
 
     def test_complete_history_includes_prefix_and_work_counts(self):
         with tempfile.TemporaryDirectory() as directory:

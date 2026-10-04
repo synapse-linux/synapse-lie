@@ -1,0 +1,90 @@
+{
+  "schema": "synapse-lie.q2-ple-ordered-plan.v1",
+  "at": "2026-10-04T03:09:56.074134+00:00",
+  "state": "Q2_PLE_CANONICAL_WINDOW_ADMITTED",
+  "source_manifest": "config/q2-ple-ordered-source.json",
+  "commands": [
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "ple-cache-first-cpu",
+      "q2-ple-curve-host-r1"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "q2-curve-iq2",
+      "q2-ple-curve-control-r1",
+      "--source-variant",
+      "curve-iq2-q2",
+      "--rebuild-mmq"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "q2-curve-ple-cache-first",
+      "q2-ple-curve-candidate-r1",
+      "--source-variant",
+      "curve-ple-cache-first-q2",
+      "--rebuild-mmq"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "q2-curve-iq2",
+      "q2-ple-curve-control-r2",
+      "--source-variant",
+      "curve-iq2-q2",
+      "--rebuild-mmq"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "ud-curve",
+      "q2-ple-curve-ud-r1",
+      "--source-variant",
+      "curve-ud",
+      "--rebuild-mmq"
+    ]
+  ],
+  "depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "new_prompt_target": 2048,
+  "output_tokens": 128,
+  "host_tests_per_configuration": 21,
+  "scope": "Same pinned Gufo prose HTTP workload and frozen C17 executor timing; ordered IQ2 control, only PLE reader changed, unchanged control after, pristine UD. Full source/MMQ rebuild per arm.",
+  "order_control": "Retain both Q2 controls and all histories; no filesystem cold/warm claim or cache flushing.",
+  "comparison_command": [
+    "python3",
+    "tools/analyze-q2-iq2-curve.py",
+    "--ple-cache-first",
+    "--baseline",
+    "evidence/q2-ple-curve-control-r1",
+    "--candidate",
+    "evidence/q2-ple-curve-candidate-r1",
+    "--baseline-repeat",
+    "evidence/q2-ple-curve-control-r2",
+    "--ud",
+    "evidence/q2-ple-curve-ud-r1",
+    "--host",
+    "evidence/q2-ple-curve-host-r1",
+    "--output",
+    "config/q2-ple-canonical-results.json"
+  ],
+  "model_arm_implemented": true,
+  "remote_staged": false,
+  "gpu_reserved": true,
+  "restart_scheduled": false,
+  "promoted": false,
+  "goal_met": false,
+  "admitted_at": "2026-10-04T03:11:36.046620+00:00",
+  "admission_receipt": "config/q2-ple-curve-window-admission.json"
+}

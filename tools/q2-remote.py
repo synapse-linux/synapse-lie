@@ -18,8 +18,8 @@ COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
 ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
 SIGN_VARIANTS = ('iq2-signs-reference', 'iq2-signs-candidate', 'iq2-signs-ordered')
 WMMA_SIGN_VARIANTS = ('iq2-wmma-reference', 'iq2-wmma-signs')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2')
+CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first')
+CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2')
 
 
 def file_sha256(path):
@@ -79,7 +79,8 @@ def main():
     if args.mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
         expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
-                    'q2-curve-iq2': 'curve-iq2-q2'}.get(args.mode)
+                    'q2-curve-iq2': 'curve-iq2-q2',
+                    'q2-curve-ple-cache-first': 'curve-ple-cache-first-q2'}.get(args.mode)
         if args.source_variant != expected:
             p.error('Canonical curve requires its matched Q2 or UD composition')
         if not args.rebuild_mmq:
@@ -297,12 +298,23 @@ def main():
                 candidate = json.loads((ROOT/'config/q2-iq2-signs-ordered-asm-source.json').read_text())
                 provider = {'variants': {'q2': {'source': candidate['candidate'],
                                                'files': candidate['files']}}}
+            if args.mode == 'q2-curve-ple-cache-first':
+                candidate = json.loads((ROOT/'config/q2-ple-ordered-source.json').read_text())
+                parents = {'parent_manifest_sha256': 'q2-iq2-signs-ordered-asm-source.json',
+                           'ple_manifest_sha256': 'q2-ple-cache-first-source.json',
+                           'curve_manifest_sha256': 'q2-curve-source.json',
+                           'host_result_sha256': 'q2-ple-cache-first-host-results.json'}
+                if any(file_sha256(ROOT/'config'/name) != candidate[field]
+                       for field, name in parents.items()):
+                    p.error('PLE ordered composition parent changed')
+                provider = {'variants': {'q2': {'source': candidate['candidate'],
+                                               'files': candidate['files']}}}
             if args.mode.endswith('-ple'):
                 provider = __import__('json').loads((ROOT/'config/q2-curve-profile-source.json').read_text())
                 if file_sha256(ROOT/'config/q2-curve-source.json') != provider['parent_manifest_sha256']:
                     p.error('Canonical profile parent changed')
             source = provider['variants'][key]['source']
-            if args.mode == 'q2-curve-iq2' and {
+            if args.mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first') and {
                     str(f.relative_to(ROOT/source)) for f in (ROOT/source).rglob('*') if f.is_file()
                     } != set(provider['variants'][key]['files']):
                 p.error('Canonical IQ2 provider inventory changed')

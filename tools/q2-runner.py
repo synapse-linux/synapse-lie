@@ -31,8 +31,9 @@ def main():
     mode = sys.argv[1]
     if mode == 'iq2-signs-check' and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('IQ2 signs requires a full MMQ rebuild')
-    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2')
-    curve_iq2 = mode == 'q2-curve-iq2'
+    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first')
+    curve_cache_first = mode == 'q2-curve-ple-cache-first'
+    curve_iq2 = mode == 'q2-curve-iq2' or curve_cache_first
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
@@ -206,7 +207,7 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -242,7 +243,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--profile-ple'] if curve_profile else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()

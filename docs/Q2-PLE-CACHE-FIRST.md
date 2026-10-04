@@ -94,3 +94,29 @@ Next, measure the same canonical Q2 curve with a distinct provider identity.
 Preserve all
 raw histories, preparation costs, PP/TG counts and durations. A reduced fixture
 read count alone is not a full-model speedup or a parity result.
+
+## Canonical composition with ordered decode
+
+`tools/prepare-q2-ple-ordered.py` composes the exact host-qualified reader with
+the measured ordered IQ2 decode provider. It verifies both complete source
+inventories and their canonical parent. Only `ngram.cpp` differs from ordered
+Q2; the other 1019 files, including all numerical kernels, are identical. The
+[manifest](../config/q2-ple-ordered-source.json) records both parents and the
+host result. The slower WMMA sign-load experiment is absent.
+
+The isolated `q2-curve-ple-cache-first` mode requires its matching source and
+full MMQ rebuild. The build and HTTP client use a distinct provider identity,
+rejected by the unchanged-control and diagnostic-profile selectors. Context,
+prompt recipe, sampling, chunk size, cache capacity and timing boundaries remain
+identical to the measured canonical curves. A new host cohort qualifies these
+selection checks before any model run.
+
+The [bounded plan](../config/q2-ple-ordered-plan.json) measures ordered Q2,
+ordered Q2 plus PLE, unchanged ordered Q2 again, then pristine UD, all at
+0/4K/8K/12K/16K/32K/64K/128K. The second control is mandatory for this comparison.
+Analysis validates all complete request/output histories and source compositions;
+plots and CSV retain both controls and every PP/TG value. Prior canonical results
+reanalyze identically after adding this separate provider. Local configuration
+verifies the new build identity and complete build graph without executing a
+model. Fresh `.157` admission at 03:11:36 UTC admits the host cohort and these
+four sequential arms. No canonical result is claimed before their completion.

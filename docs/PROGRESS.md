@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## PLE canonical comparison admitted — 2026-10-04
+
+The new provider combines the host-qualified cache-first reader with measured
+ordered IQ2 decode; exactly one file differs from that control. The slower WMMA
+candidate is absent. A distinct mode/build/HTTP identity prevents mixing this
+experiment with unchanged controls or diagnostic instrumentation. The bounded
+four-arm plan retains ordered Q2 before and after the candidate, plus pristine
+UD, across the complete canonical 0–128K PP/TG grid. The analyzer requires the
+order control and verifies complete histories, source/harness identities, counts
+and timings. Plot and CSV support retain all four series.
+
+Ten Python sources parse, the local HIP/C17 composition configures with the
+expected build ID, and the full dry build graph succeeds without model execution.
+The retained four-arm IQ2 report reanalyzes to identical JSON. Fresh admission at
+03:11:36.046620 UTC finds the preceding Q2 release still latest in the registry,
+all 15 processes and 12 groups retired, empty KFD and four original leases free.
+The new host cohort passes 21/21 Debug and 21/21 ASan/UBSan; all six commands
+exit zero and seven artifacts verify. The first ordered-Q2 control is building
+on `.157`: fresh observation03:14:36 verifies runner3379757/start164901713 live.
+Q2 retains this bounded window through verified closure; no performance claim
+is added.
+
 ## PLE mechanism reproduced; WMMA candidate slower — 2026-10-04
 
 After verified core/Point handover and fresh admission, the `.157` host cohort

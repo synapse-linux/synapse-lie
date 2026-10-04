@@ -79,12 +79,18 @@ class RemoteGuardTests(unittest.TestCase):
                               ('q2-curve-ple','curve-ple-ud'),
                               ('q2-curve-iq2','curve-q2'), ('q2-curve','curve-iq2-q2'),
                               ('q2-curve-iq2','curve-ud'), ('q2-bench','curve-iq2-q2'),
-                              ('q2-curve-ple','curve-iq2-q2')]:
+                              ('q2-curve-ple','curve-iq2-q2'),
+                              ('q2-curve-ple-cache-first','curve-iq2-q2'),
+                              ('q2-curve-iq2','curve-ple-cache-first-q2'),
+                              ('q2-curve-ple','curve-ple-cache-first-q2'),
+                              ('ud-curve','curve-ple-cache-first-q2'),
+                              ('q2-bench','curve-ple-cache-first-q2')]:
             self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                         'Canonical curve requires its matched Q2 or UD composition')
         for mode, variant in [('q2-curve', 'curve-q2'), ('ud-curve', 'curve-ud'),
                               ('q2-curve-ple','curve-ple-q2'), ('ud-curve-ple','curve-ple-ud'),
-                              ('q2-curve-iq2','curve-iq2-q2')]:
+                              ('q2-curve-iq2','curve-iq2-q2'),
+                              ('q2-curve-ple-cache-first','curve-ple-cache-first-q2')]:
             self.refuse([mode, 'q2-fixture', '--source-variant', variant],
                         'Canonical curve requires a full MMQ rebuild')
             self.refuse([mode, 'q2-fixture', '--source-variant', variant,
@@ -94,6 +100,16 @@ class RemoteGuardTests(unittest.TestCase):
     def test_iq2_curve_valid_selection_reaches_staging(self):
         argv=[str(path),'q2-curve-iq2','q2-fixture','--source-variant','curve-iq2-q2',
               '--rebuild-mmq']
+        with patch.object(sys,'argv',argv), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            mkdir.assert_called_once();run.assert_not_called()
+
+    def test_ple_curve_valid_selection_reaches_staging(self):
+        argv=[str(path),'q2-curve-ple-cache-first','q2-fixture',
+              '--source-variant','curve-ple-cache-first-q2','--rebuild-mmq']
         with patch.object(sys,'argv',argv), \
              patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
              patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:

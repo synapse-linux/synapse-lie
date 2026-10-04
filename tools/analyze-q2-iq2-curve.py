@@ -58,13 +58,16 @@ def main():
         p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--baseline-repeat', type=Path,
                    help='Unchanged Q2 control after candidate; retain both baselines')
+    p.add_argument('--ple-cache-first', action='store_true',
+                   help='Compare composed PLE reader against ordered IQ2 control, retaining UD')
     args = p.parse_args()
     require(not args.output.exists(), 'Refusing to overwrite a result')
     host = common.artifacts(args.host)
     require(host['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and not host['model_access'],
             'Host qualification incomplete')
+    tests = 21 if args.ple_cache_first else 19
     for name in ('03.log','06.log'):
-        require('100% tests passed out of 19' in (args.host/'results'/name).read_text(),
+        require(f'100% tests passed out of {tests}' in (args.host/'results'/name).read_text(),
                 'Missing complete Debug/ASan host cohort')
     base = read(ROOT/'config/q2-curve-source.json')
     candidate = read(ROOT/'config/q2-iq2-signs-ordered-asm-source.json')
@@ -75,17 +78,44 @@ def main():
             'More than the isolated IQ2 header changed')
     composed = copy.deepcopy(base)
     composed['variants']['q2'] = dict(source=candidate['candidate'],files=candidate['files'])
+    baseline_experiment, experiment = None, 'iq2-signs-ordered'
+    candidate_manifest = ROOT/'config/q2-iq2-signs-ordered-asm-source.json'
+    if args.ple_cache_first:
+        require(args.baseline_repeat is not None and host['mode'] == 'ple-cache-first-cpu',
+                'PLE comparison requires the paired host suite and unchanged order control')
+        ple_host = module('analyze-q2-ple-cache-first.py')
+        for name in ('03.log','06.log'):
+            ple_host.observations((args.host/'results'/name).read_text())
+        candidate_manifest = ROOT/'config/q2-ple-ordered-source.json'
+        ple = read(candidate_manifest)
+        donor = read(ROOT/'config/q2-ple-cache-first-source.json')
+        require(ple['parent_manifest_sha256'] == sha(ROOT/'config/q2-iq2-signs-ordered-asm-source.json')
+                and ple['ple_manifest_sha256'] == sha(ROOT/'config/q2-ple-cache-first-source.json')
+                and ple['curve_manifest_sha256'] == sha(ROOT/'config/q2-curve-source.json')
+                and ple['host_result_sha256'] == sha(ROOT/'config/q2-ple-cache-first-host-results.json'),
+                'PLE composition provenance changed')
+        reader = 'src/models/qwen38_flash_next/ngram.cpp'
+        require(ple['files'].keys() == candidate['files'].keys() and
+                [name for name in ple['files'] if ple['files'][name] != candidate['files'][name]] == [reader]
+                and ple['files'][reader] == donor['files'][reader],
+                'PLE candidate changes more than the host-qualified reader')
+        base = composed
+        composed = copy.deepcopy(base)
+        composed['variants']['q2'] = dict(source=ple['candidate'], files=ple['files'])
+        baseline_experiment, experiment = 'iq2-signs-ordered', 'ple-cache-first-ordered'
     client = module('q2-canonical-http.py')
     upstream,_ = client.load_upstream(ROOT/'.deps/gufo-base')
-    models = dict(baseline=common.model(args.baseline,'q2',args.host,base,client,upstream),
+    models = dict(baseline=common.model(args.baseline,'q2',args.host,base,client,upstream,
+                                      experiment=baseline_experiment),
                   q2=common.model(args.candidate,'q2',args.host,composed,client,upstream,
-                                  experiment='iq2-signs-ordered'),
+                                  experiment=experiment),
                   ud=common.model(args.ud,'ud',args.host,base,client,upstream))
     replay = history(args.baseline/'results/canonical-curve',args.candidate/'results/canonical-curve',client)
     repeated_replay = None
     if args.baseline_repeat:
         models['baseline_repeat'] = common.model(
-            args.baseline_repeat, 'q2', args.host, base, client, upstream)
+            args.baseline_repeat, 'q2', args.host, base, client, upstream,
+            experiment=baseline_experiment)
         repeated_replay = history(args.baseline/'results/canonical-curve',
                                   args.baseline_repeat/'results/canonical-curve', client)
     matched = replay['exact'] and (repeated_replay is None or repeated_replay['exact'])
@@ -108,13 +138,17 @@ def main():
         cells.append(cell)
     report = dict(schema='synapse-lie.q2-iq2-canonical-comparison.v1',
         scope='Unchanged Gufo prose context curve over the same C17 HTTP core and timers; baseline Q2, ordered IQ2 Q2, pristine UD',
-        provider_manifest_sha256=sha(ROOT/'config/q2-iq2-signs-ordered-asm-source.json'),
+        provider_manifest_sha256=sha(candidate_manifest),
         models=models,history_replay=replay,cells=cells,matched_history=matched,
         full_curve_parity_observed=all(r['parity_observed'] for r in cells),
         repetition_needed_before_acceptance=True,numerical_qualified=False,promoted=False,goal_met=False)
     if repeated_replay is not None:
         report.update(baseline_repeat_history=repeated_replay,
             order_control_scope='Unchanged Q2 after candidate; both baseline observations retained. Filesystem coldness is not controlled or asserted.')
+    if args.ple_cache_first:
+        report.update(schema='synapse-lie.q2-ple-canonical-comparison.v1',
+            scope='Unchanged Gufo prose context curve and C17 timers; ordered IQ2 Q2 control, same Q2 plus PLE cache-first, pristine UD',
+            baseline_experiment=baseline_experiment, candidate_experiment=experiment)
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(matched_history=matched,cells=cells,goal_met=False)))
     raise SystemExit(0 if matched else 1)
