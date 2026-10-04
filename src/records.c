@@ -322,11 +322,12 @@ bool lie_record_pump(lie_record *r) {
       return true;
     if (lie_job_event_release(r->job, e.ticket) != LIE_FLOW_OK)
       return false;
-    if (e.tokens && lie_job_event_request(r->job, e.tokens) != LIE_FLOW_OK &&
-        !r->done) {
-      lie_job_info info;
-      lie_job_snapshot(r->job, &info);
-      if (!info.retired)
+    if (e.tokens) {
+      lie_flow_status credit = lie_job_event_request(r->job, e.tokens);
+      /* EOS/length closes demand when the last output is published. Sequence
+       * teardown can still be running: CLOSED is a normal terminal boundary,
+       * not a failed consumer. Keep pumping until semantic TURN_END retires. */
+      if (credit != LIE_FLOW_OK && credit != LIE_FLOW_CLOSED)
         return false;
     }
   }

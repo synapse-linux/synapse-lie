@@ -186,6 +186,7 @@ lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_error *e) {
 }
 lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     (void)e; owner((*s)->model); atomic_fetch_add(&close_calls,1);
+    barrier(FAKE_CLOSE);
     --(*s)->model->sequences; free((*s)->prompt);free(*s); *s=NULL; return LIE_OK;
 }
 lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {

@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Retained background responses accept closed output demand while numerical
+  teardown is pending, preserving generation after a stream disconnect instead
+  of cancelling at the final token.
 - Optional qualification staging can explicitly verify a filesystem device
   renumbering after reboot against boot ID and filesystem UUID, preserving
   pinned model receipts and all other file identity checks.

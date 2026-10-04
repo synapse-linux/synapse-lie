@@ -35,7 +35,9 @@ bool lie_record_attach(lie_record *, lie_job *);
 lie_job *lie_record_job(lie_record *);
 const lie_core_request *lie_record_input(lie_record *);
 void lie_record_snapshot(lie_record *, lie_record_view *);
-/* Foreground and background share the same collection/validation path. */
+/* Foreground and background share the same collection/validation path.
+ * Closed demand after final output is normal while numerical retirement is
+ * pending; keep pumping until the retained semantic TURN_END marks done. */
 lie_flow_status lie_record_next(lie_record *, lie_event *);
 bool lie_record_pump(lie_record *);
 bool lie_record_cancel(lie_record *); /* Background only; idempotent. */

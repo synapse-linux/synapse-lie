@@ -395,3 +395,9 @@ reactor pins remain charged until released. Worker scratch and numerical
 sequence state are released at device retirement; immutable witnesses remain
 until the final job reference. This store is separate from model weights,
 active KV state and the RAM/SSD reusable prefix cache.
+
+Final output can close reactive demand before numerical sequence teardown
+publishes `retired`. The retained consumer accepts CLOSED demand and continues
+until semantic TURN_END; it neither treats that interval as a collection error
+nor declares the response complete early. This rule also applies after the
+creating background stream disconnects. Invalid credit operations remain errors.

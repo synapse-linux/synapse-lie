@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Native headless contracts. Synthetic fixture, not model inference. */
 #include "../src/generation.h"
+#include "fake_executor.h"
 #include "lie/choices.h"
 #include "lie/output.h"
 #include "lie/records.h"
@@ -72,6 +73,42 @@ static void pump(lie_record *r) {
   }
   assert(!"record deadline");
 }
+static void retained_terminal_before_retirement(lie_core *core) {
+  lie_records_options limits = {1, 4 * 1048576, 10};
+  lie_records *records = lie_records_create(&limits);
+  assert(records);
+  lie_chat_message message;
+  lie_core_request input = request("ok", &message);
+  input.max_tokens = 1;
+  lie_record *record =
+      lie_records_insert(records, "resp_terminal_pending", 100, &input, 0, true);
+  assert(record);
+  lie_job *job = NULL;
+  /* Publishing the last output closes demand before sequence teardown and
+   * retired metadata. Hold that real lifecycle boundary deterministically. */
+  fake_barrier_arm_phase(FAKE_CLOSE);
+  assert(!lie_core_submit(core, &input, &job) && lie_record_attach(record, job));
+  fake_barrier_wait();
+  lie_record_view view;
+  lie_record_snapshot(record, &view);
+  assert(!view.done && !view.info.retired && view.info.output_tokens == 1);
+  assert(lie_record_pump(record));
+  lie_record_snapshot(record, &view);
+  assert(!view.done && !view.info.retired && view.info.output_tokens == 1 &&
+         view.bytes == 8 && !memcmp(view.text, "fixture:", 8));
+  /* Await retirement without cancelling or duplicating the retained output. */
+  assert(lie_record_pump(record));
+  fake_barrier_release();
+  pump(record);
+  lie_record_snapshot(record, &view);
+  assert(view.done && view.info.retired &&
+         view.info.finish == LIE_FINISH_LENGTH && view.info.output_tokens == 1 &&
+         view.bytes == 8 && !memcmp(view.text, "fixture:", 8) &&
+         lie_record_event_count(record) == 1);
+  assert(lie_records_delete(records, "resp_terminal_pending"));
+  lie_record_release(record);
+  lie_records_destroy(records);
+}
 static void nested_tools(void) {
   const char *schema =
       "{\"type\":\"object\",\"properties\":{\"items\":{\"type\":\"array\","
@@ -107,6 +144,7 @@ int main(void) {
   lie_core *core = lie_core_create(&o);
   assert(core);
   state(core, LIE_READY);
+  retained_terminal_before_retirement(core);
   lie_chat_message m;
   lie_core_request r = request("ok", &m);
   r.stop[0] = "🙂";

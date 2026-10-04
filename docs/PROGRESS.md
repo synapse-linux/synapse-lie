@@ -7,6 +7,29 @@ from pending fixed-output/quality 1M gates, new OpenAI controls, agent evaluatio
 C17 executor work. Earlier platform and long-context matrices remain explicitly
 historical; their raw receipts and failures are unchanged.
 
+## Background terminal-demand retirement race corrected — 2026-10-04 UTC
+
+The first original-weight AR OpenAI-control gate passes all thirteen existing
+checks and fourteen of the twenty-one additional controls, then fails when a
+disconnected background Responses stream becomes cancelled. Child, supervisor
+and controller exits are 1; server shutdown and collection exit 0. Fifteen
+artifacts hash-verify, model stats are unchanged, owned processes are absent,
+the router is restored and the lease released at 18:55:10.267458 UTC.
+
+A deterministic CPU sequence-close barrier reproduces the same shared-record
+failure: final output closes demand while numerical teardown and `retired`
+metadata are still pending. `lie_record_pump` now treats CLOSED demand as a
+normal boundary and continues until semantic TURN_END, preserving the output
+and its completion reason. Invalid credit operations still fail. No HTTP type,
+additional thread or provider call enters this shared C17 fix.
+
+The original regression exits 8. After correction, seven focused headless,
+flow, semantic and AR/MTP HTTP tests pass in Debug and with ASan/UBSan/LSan;
+maximum local CPU is 66.25 C during builds and 60 C during checks. These are
+CPU fixtures, not new GPU acceptance. The corrected runtime requires a fresh
+device-free build and separate AR/MTP GPU gates.
+[Receipt](development/validation/background-retirement-2026-10-04.json).
+
 ## Physical 1M prefill completed; TG128 gate failed — 2026-10-04 UTC
 
 The original-weight `.161` C1 AR YaRN4 chunk256 run completes all
