@@ -24,8 +24,11 @@ automatically qualify a later runtime or another model/platform.
    the required TG128 gate remains failed with supervisor/controller exit 1.
    Eleven artifacts verify and ownership closure is collected. A fresh gate
    must satisfy its declared output requirement; this result is not recall quality.
-2. Run the prepared 21 OpenAI controls in AR and MTP after fresh GPU admission.
-   Their 54 CPU supervisor/protocol fixtures pass; these GPU gates remain open.
+2. Complete the new OpenAI controls with MTP after fresh GPU admission.
+   The corrected `abb69d5` AR runtime passes all 34 original-weight checks,
+   including the 21 additional controls. MTP admission refuses an unrelated
+   GPU client before model load; that failure and successful ownership closure
+   are retained in the [GPU receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
 3. Run Terminal Bench against the actual HTTP function interface and retain
    task outcomes. Clients execute tools; the inference server only produces
    validated calls and accepts correlated results.
@@ -52,7 +55,7 @@ recorded Qwen numerical binding is qualified.
 | --- | --- | --- |
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
-| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; original-weight Chat/Responses function streaming and retired replay pass in the r10 AR gate. | New AR/MTP control gates, full agent task evaluation and performance. |
+| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; corrected r11 AR passes all 34 HTTP/function/control checks, including disconnected background completion. | MTP control gate, full agent task evaluation and performance. |
 | C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; history, grammar and compact speculative state remain delegated. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. Physical PP1,048,448 completes with 43 output tokens. | The declared TG128 gate fails on natural EOS; extended quality and matched performance remain open. |
 

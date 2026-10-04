@@ -85,3 +85,11 @@ Both APIs stream five nonempty argument fragments in that short gate.
 This qualifies the native function round trip; a full Terminal Bench task run
 of the exact runtime remains outstanding. The earlier harness audit is recorded
 in development progress.
+
+The corrected `abb69d5` runtime additionally passes all 34 original-weight AR
+checks on `.161`, including multiple choices, seed replay, probabilities, bias,
+stops, JSON/schema, storage, background disconnect/replay/cancellation and
+truncation. The separate MTP control gate refuses an unrelated GPU client
+before model load. Neither these protocol checks nor the older agent audit
+are a Terminal Bench task score.
+[Control receipt](../development/validation/openai-controls-point-gpu-2026-10-04.json).

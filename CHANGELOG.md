@@ -51,8 +51,8 @@ stable release is declared. Detailed validation history is in
   require matching progress policy; benchmark samples remain separate.
 - Optional original-weight HTTP qualification controls for 2/8 choices,
   probabilities, structured output and retained Responses lifecycle, with
-  pinned helpers and independently recorded AR/MTP outcomes. CPU supervisor
-  fixtures pass; the new GPU gates remain pending.
+  pinned helpers and independently recorded AR/MTP outcomes. All 34 corrected
+  AR GPU checks pass; the MTP gate remains pending after foreign-client refusal.
 - Shared-core incremental function starts and argument fragments, projected
   into Chat/Responses SSE and retained stream replay. Calls commit only after
   full validation; cancellation preserves borrowed payloads until release.

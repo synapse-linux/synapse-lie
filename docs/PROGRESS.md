@@ -3,9 +3,36 @@
 
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) now distinguishes
 recorded MTP/vision/reactive/cache and 40/16-window Point HTTP qualifications
-from pending fixed-output/quality 1M gates, new OpenAI controls, agent evaluation and autonomous
+from pending fixed-output/quality 1M gates, MTP OpenAI controls, agent evaluation and autonomous
 C17 executor work. Earlier platform and long-context matrices remain explicitly
 historical; their raw receipts and failures are unchanged.
+
+## Corrected OpenAI AR controls pass on Point — 2026-10-04 UTC
+
+The sealed `abb69d5` r11 runtime passes all **34 original-weight AR HTTP checks**
+on `.161`: thirteen model/function checks and twenty-one additional controls.
+Disconnected background generation retains all 64 requested output tokens and
+its LENGTH completion; cursor replay, cancellation after a witnessed output
+delta, storage, truncation, choices, probabilities, bias, stops and structured
+JSON all pass. This qualifies wire behavior and lifetimes, not independent
+quality or performance. The original r10 retirement failure remains failed.
+
+Controller, child, server, supervisor and collection exit 0. Fifteen artifacts
+hash-verify, model stats stay unchanged, owned processes retire, the router is
+restored and the lease releases at 19:21:29.872800 UTC. Across 111 resource
+observations, CPU/GPU/NVMe maxima are 61.375/63/65.85 C; sampled GTT peaks at
+89,905,623,040 bytes and minimum available RAM is 30,831,460,352 bytes.
+
+The first r11 build attempt refuses its unfinished source stage before compiling;
+the separately admitted r2 build passes. The first AR r11 attempt stops during
+loading on its conservative 112 GiB projected-memory budget, without OOM.
+The successful 16K/eight-row AR gate uses a measured-workload budget of 96 GiB
+and retains its 1 GiB RAM floor and CPU98/NVMe85 guards. Those failures remain
+preserved. MTP r2 then refuses foreign GPU PID19916/start1073961 before model
+load, restores the router and releases at 19:27:37.908694 UTC. Four artifacts
+hash-verify; no model or container child starts. MTP remains unqualified by
+this new gate and requires fresh available-host admission.
+[GPU receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
 
 ## Background terminal-demand retirement race corrected — 2026-10-04 UTC
 
@@ -26,8 +53,8 @@ additional thread or provider call enters this shared C17 fix.
 The original regression exits 8. After correction, seven focused headless,
 flow, semantic and AR/MTP HTTP tests pass in Debug and with ASan/UBSan/LSan;
 maximum local CPU is 66.25 C during builds and 60 C during checks. These are
-CPU fixtures, not new GPU acceptance. The corrected runtime requires a fresh
-device-free build and separate AR/MTP GPU gates.
+CPU fixtures. The separately admitted corrected AR GPU gate now passes above;
+the MTP gate still needs an available host and fresh admission.
 [Receipt](development/validation/background-retirement-2026-10-04.json).
 
 ## Physical 1M prefill completed; TG128 gate failed — 2026-10-04 UTC

@@ -294,11 +294,17 @@
     },
     "lease_released_at": "2026-10-04T18:55:10.267458+00:00"
   },
-  "corrected_gpu_gate": "PENDING_SEPARATE_BUILD_AND_AR_MTP_ADMISSIONS",
+  "corrected_gpu_gate": {
+    "AR": "PASSED_34_ORIGINAL_WEIGHT_CHECKS",
+    "MTP": "PENDING_AFTER_FOREIGN_GPU_ADMISSION_REFUSAL",
+    "receipt": "openai-controls-point-gpu-2026-10-04.json",
+    "source_commit": "abb69d57101d04e7b28ae0fe71ad18e50027cfc2"
+  },
   "api_semantics_source": "https://developers.openai.com/api/docs/guides/background",
   "provider_or_HTTP_contract_change": false,
   "additional_inference_threads": 0,
   "GPU_model_execution_in_cpu_tests": false,
   "DS4_mutation": false,
-  "publication": false
+  "publication": false,
+  "corrected_gpu_gate_at_cpu_checkpoint": "PENDING_SEPARATE_BUILD_AND_AR_MTP_ADMISSIONS"
 }

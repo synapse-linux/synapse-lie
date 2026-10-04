@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## OpenAI AR controls released; MTP admission refused — 2026-10-04 UTC
+
+The corrected r11 device-free build passes and releases `.161` at
+19:13:14.855612 UTC. The separately admitted original-weight AR control gate
+passes all 34 checks and releases at 19:21:29.872800 UTC. Fifteen collected
+artifacts hash-verify, original model stats stay unchanged, owned processes are
+absent, the named router is restored and the private lease is free.
+
+MTP r2 admission at 19:27:37 UTC observes an unrelated GPU client,
+PID19916/start1073961 in `session-326.scope`. The supervisor refuses before
+model or container launch, restores only `llama-router.service` (PID20206) and
+releases the lease at 19:27:37.908694 UTC. Four collected artifacts hash-verify;
+controller/supervisor exits remain 1 and collection exits 0. Read-only inspection
+identifies `/usr/bin/python3.12`; Point confirms this is not a Point job.
+No foreign process is terminated or given an ownership exception.
+
+Root has no GPU job, waiter or reservation on `.161` or `.157` at closure.
+Further MTP work requires fresh actual available-state checks and admission.
+[Receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
+
 ## GTT112 reboot verified; physical 1M window released — 2026-10-04 UTC
 
 The owner explicitly authorizes reboot. `.161` returns with boot ID
