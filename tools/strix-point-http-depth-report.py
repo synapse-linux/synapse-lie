@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Audit paired cold HTTP evidence and render a compact comparison report."""
+
+import argparse
+import csv
+import hashlib
+import html
+import json
+from pathlib import Path
+import statistics
+
+ROOT = Path(__file__).resolve().parents[1]
+SIZES = (8192, 32768, 131072, 258794)
+
+
+def sha(path):
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
+def checked_run(mode, size, impl):
+    label = f'point-http-depth-r2-{mode}-p{size}-{impl}'
+    path = ROOT/'evidence'/label
+    collection = json.loads((path/'collection.json').read_text())
+    inventory = collection['inventory']
+    if (collection['exit_code'] or inventory['result_state'] != 'PASSED' or
+            inventory['child_exit_code'] != 0 or
+            not inventory['model_stat_unchanged'] or
+            not all(inventory[k] for k in ('supervisor_absent', 'gpu_child_absent',
+                                           'owned_child_absent', 'lease_free'))):
+        raise ValueError(f'Incomplete remote closure: {label}')
+    for name, witness in inventory['files'].items():
+        if sha(path/name) != witness['sha256']:
+            raise ValueError(f'Collected hash drift: {label}/{name}')
+    supervisor = json.loads((path/'result.json').read_text())
+    gate = json.loads((path/'http-depth-result.json').read_text())
+    rows = [json.loads(line) for line in (path/'measurements.jsonl').read_text().splitlines()]
+    if (supervisor['state'] != 'PASSED' or gate['state'] != 'PASSED' or
+            gate['implementation'] != impl or gate['mode'] != mode or
+            gate['size'] != size or gate['samples'] != 2 or
+            gate['measurements_sha256'] != sha(path/'measurements.jsonl') or
+            gate['requests_sha256'] != sha(path/'requests.jsonl') or
+            rows[-1] != {'event': 'complete', 'exit_code': 0}):
+        raise ValueError(f'Run result drift: {label}')
+    samples = [row for row in rows if row.get('event') == 'sample']
+    if len(samples) != 2:
+        raise ValueError(f'Sample count drift: {label}')
+    identity = rows[0]
+    if (identity['cache_policy'] != 'off' or identity['context_capacity_declared'] != 262144 or
+            identity['target_prompt_tokens'] != [size] or
+            identity['request_options'] != ({'cache_prompt': False} if impl == 'gufo' else {})):
+        raise ValueError(f'Cache/context policy drift: {label}')
+    for row in samples:
+        phase = row['server_timings'] if impl == 'lie' else row['usage']['gufo']
+        if (row['cached_tokens'] != 0 or row['output_tokens'] != 128 or
+                row['full_output_budget'] is not True or row['stream_complete'] is not True or
+                phase['prefill_tokens'] != row['prompt_tokens'] or
+                phase['prefill_ms'] <= 0 or phase['decode_ms'] <= 0):
+            raise ValueError(f'Physical prefill/output drift: {label}')
+    return {'label': label, 'rows': rows, 'samples': samples,
+            'manifest_sha256': sha(path/'manifest.json'),
+            'measurements_sha256': sha(path/'measurements.jsonl'),
+            'gate_sha256': sha(path/'http-depth-result.json'),
+            'thermal': supervisor.get('thermal_peaks')}
+
+
+def normalized(request, impl):
+    body = dict(request)
+    if impl == 'gufo':
+        if body.pop('cache_prompt', None) is not False:
+            raise ValueError('Gufo cold-cache control absent')
+    elif 'cache_prompt' in body:
+        raise ValueError('Unexpected LIE cache request option')
+    return body
+
+
+def median(values):
+    return round(statistics.median(values), 3)
+
+
+def metrics(run, impl):
+    samples = run['samples']
+    phases = [row['server_timings'] if impl == 'lie' else row['usage']['gufo']
+              for row in samples]
+    return {'prompt_tokens': samples[0]['prompt_tokens'],
+            'prefill_tps': median([1000*p['prefill_tokens']/p['prefill_ms'] for p in phases]),
+            'prefill_ms': median([p['prefill_ms'] for p in phases]),
+            'decode_tps': median([1000*r['output_tokens']/p['decode_ms']
+                                  for r, p in zip(samples, phases)]),
+            'decode_ms': median([p['decode_ms'] for p in phases]),
+            'ttft_ms': median([r['first_output_ms'] for r in samples]),
+            'wall_ms': median([r['wall_ms'] for r in samples]),
+            'prefill_tps_samples': [round(1000*p['prefill_tokens']/p['prefill_ms'], 3)
+                                    for p in phases],
+            'decode_tps_samples': [round(1000*r['output_tokens']/p['decode_ms'], 3)
+                                   for r, p in zip(samples, phases)]}
+
+
+def svg(rows, field, title, target):
+    width, height, left, right, top, bottom = 760, 400, 80, 30, 55, 65
+    values = [row[impl][field] for row in rows for impl in ('lie', 'gufo')]
+    limit = max(values)*1.15 if values else 1
+    plot_w, plot_h = width-left-right, height-top-bottom
+    colors = {'lie': '#2563eb', 'gufo': '#d97706'}
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-label="{html.escape(title)}">',
+             '<rect width="100%" height="100%" fill="white"/>',
+             f'<text x="{left}" y="30" font-family="sans-serif" font-size="18">{html.escape(title)}</text>']
+    for i in range(5):
+        y = top+plot_h*(1-i/4)
+        parts += [f'<line x1="{left}" x2="{width-right}" y1="{y:.1f}" y2="{y:.1f}" stroke="#ddd"/>',
+                  f'<text x="{left-8}" y="{y+4:.1f}" text-anchor="end" font-family="sans-serif" font-size="11">{limit*i/4:.0f}</text>']
+    for n, row in enumerate(rows):
+        x = left+(n+.5)*plot_w/len(rows)
+        for impl, shift in (('lie', -12), ('gufo', 12)):
+            value = row[impl][field]
+            y = top+plot_h*(1-value/limit)
+            parts.append(f'<circle cx="{x+shift:.1f}" cy="{y:.1f}" r="6" fill="{colors[impl]}"/>')
+        parts.append(f'<text x="{x:.1f}" y="{height-bottom+20}" text-anchor="middle" font-family="sans-serif" font-size="11">{row["size"]//1024}K</text>')
+    for impl, x in (('lie', left), ('gufo', left+110)):
+        parts += [f'<circle cx="{x}" cy="{height-17}" r="5" fill="{colors[impl]}"/>',
+                  f'<text x="{x+11}" y="{height-13}" font-family="sans-serif" font-size="12">{impl.upper()}</text>']
+    parts.append('</svg>')
+    target.write_text('\n'.join(parts)+'\n')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+    comparisons = []
+    missing = []
+    for mode in ('ar', 'mtp'):
+        for size in SIZES:
+            try:
+                lie = checked_run(mode, size, 'lie')
+                gufo = checked_run(mode, size, 'gufo')
+                matching = True
+                output_matching = True
+                for a, b in zip(lie['samples'], gufo['samples']):
+                    if (normalized(a['request'], 'lie') != normalized(b['request'], 'gufo') or
+                            a['prompt_tokens'] != b['prompt_tokens'] or a['rep'] != b['rep']):
+                        matching = False
+                    if a['assistant'] != b['assistant']:
+                        output_matching = False
+                if not matching:
+                    raise ValueError('Normalized request or physical prompt mismatch')
+                comparisons.append({'mode': mode, 'size': size, 'lie': metrics(lie, 'lie'),
+                                    'gufo': metrics(gufo, 'gufo'),
+                                    'same_assistant_outputs': output_matching,
+                                    'evidence': {impl: {k: run[k] for k in
+                                              ('label', 'manifest_sha256', 'measurements_sha256',
+                                               'gate_sha256', 'thermal')}
+                                                 for impl, run in (('lie', lie), ('gufo', gufo))}})
+            except (FileNotFoundError, KeyError, ValueError, TypeError) as error:
+                missing.append({'mode': mode, 'size': size, 'reason': str(error)})
+    summary = {'schema': 'synapse-lie.point-http-depth-comparison.v1',
+               'scope': 'Point original-weight C1 cold HTTP, two measured repetitions per engine; Gufo only adds cache_prompt:false',
+               'rows': comparisons, 'unpaired_or_failed': missing}
+    (args.output/'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
+    with (args.output/'comparison.csv').open('w', newline='') as stream:
+        writer = csv.writer(stream)
+        writer.writerow(('mode', 'target_prompt_tokens', 'implementation', 'actual_prompt_tokens',
+                         'prefill_tps', 'prefill_ms', 'decode_tps', 'decode_ms',
+                         'ttft_ms', 'wall_ms', 'same_assistant_outputs'))
+        for row in comparisons:
+            for impl in ('lie', 'gufo'):
+                m = row[impl]
+                writer.writerow((row['mode'], row['size'], impl, m['prompt_tokens'],
+                                 m['prefill_tps'], m['prefill_ms'], m['decode_tps'],
+                                 m['decode_ms'], m['ttft_ms'], m['wall_ms'],
+                                 row['same_assistant_outputs']))
+    for mode in ('ar', 'mtp'):
+        subset = [row for row in comparisons if row['mode'] == mode]
+        if subset:
+            svg(subset, 'prefill_tps', f'{mode.upper()} cold HTTP prefill, tokens/s',
+                args.output/f'{mode}-prefill.svg')
+            svg(subset, 'decode_tps', f'{mode.upper()} HTTP decode, tokens/s',
+                args.output/f'{mode}-decode.svg')
+    print(json.dumps({'paired': len(comparisons), 'unpaired_or_failed': missing}))
+    return 0 if len(comparisons) == len(SIZES)*2 else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

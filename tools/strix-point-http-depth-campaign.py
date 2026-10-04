@@ -33,11 +33,11 @@ def rows():
                             'http_multi_gate_sha256', 'corpus_sha256',
                             'http_capacity_policy', 'http_server_sessions'):
                     manifest.pop(key, None)
-                label = f'point-http-depth-r1-{mode}-p{size}-{impl}'
+                label = f'point-http-depth-r2-{mode}-p{size}-{impl}'
                 manifest.update(bench_profile='modern-http-depth',
                                 http_size=size, http_repetitions=2,
                                 http_depth_gate_sha256=helper_sha,
-                                distrobox_name=f'lie-depth-r1-{mode}-p{size}-{impl}',
+                                distrobox_name=f'lie-depth-r2-{mode}-p{size}-{impl}',
                                 purpose=f'Cold HTTP C1 Point {mode.upper()} {size} {impl.upper()} original-weight control',
                                 runner_commit=revision)
                 yield label, manifest

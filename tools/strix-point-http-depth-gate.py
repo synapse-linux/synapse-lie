@@ -54,7 +54,7 @@ def server_command(args, management):
                    '--management-host', '127.0.0.1', '--management-port', str(management),
                    '--context', str(CONTEXT), '--prefill-chunk', '2048',
                    '--max-active', '1', '--kv-cache-ram-mb', '0',
-                   '--request-timeout-ms', '3600000']
+                   '--request-timeout-ms', '1800000']
         if args.mode == 'mtp':
             command += ['--model-mtp', args.predictor, '--mtp-draft-tokens', '7']
         return command
@@ -62,7 +62,7 @@ def server_command(args, management):
                '--sessions', '1', 'llm', '--model', args.model,
                '--served-model-name', MODEL_ID, '--context', str(CONTEXT),
                '--prefill-chunk', '2048', '--max-pending', '16',
-               '--max-pending-per-client', '16', '--request-timeout-ms', '3600000',
+               '--max-pending-per-client', '16', '--request-timeout-ms', '1800000',
                '--think', 'off', '--speculative', 'mtp' if args.mode == 'mtp' else 'off']
     if args.mode == 'mtp':
         command += ['--mtp-model', args.predictor, '--draft-tokens', '7']
@@ -76,7 +76,7 @@ def client_command(args):
                '--context-capacity', str(CONTEXT), '--rope-scaling', 'native',
                '--corpus-seed', '20261004', '--warmups', '0',
                '--repetitions', str(args.repetitions), '--server-kv-cache', 'off',
-               '--timeout', '3600', '--server-label', args.impl.upper(),
+               '--timeout', '1800', '--server-label', args.impl.upper(),
                '--output', '/work/measurements.jsonl',
                '--export-requests', '/work/requests.jsonl']
     if args.impl == 'gufo':
