@@ -189,6 +189,24 @@ class RemoteGuardTests(unittest.TestCase):
                 mkdir.assert_called_once()
                 run.assert_not_called()
 
+    def test_hc_bk256_isolated_scope(self):
+        for variant in remote.HC_BK_VARIANTS:
+            for mode in ('cpu', 'operators', 'q2-bench', 'ud-counting-legacy'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Historical counting requires its matched provider'
+                            if mode in remote.COUNTING_SOURCES
+                            else 'HC BK256 requires its component or matched counting mode')
+            argv = [remote.HC_BK_MODE, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv+['--rebuild-mmq'], 'HC BK256 component builds kernels directly')
+            self.refuse(argv+['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')):
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+        self.refuse([remote.HC_BK_MODE, 'q2-fixture'],
+                    'HC BK256 requires its component or matched counting mode')
+
     def test_binary_replay_scope(self):
         controls = [('q2-counting-iq2-mixed', 'curve-iq2-mixed-q2', 'q2-norm-fixed-model-before-r1'),
                     ('ud-counting-legacy', 'qualified', 'q2-norm-fixed-model-ud-r1')]

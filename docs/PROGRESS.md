@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native HC-down runtime qualification prepared — 2026-10-04
+
+Two formatted runtime sources preserve all noncomment tokens against the
+retained original-F16 BK256 ports. The new target compares against the exact
+measured hipBLASLt7526 recipe under a test-only renamed class; no reference
+model is relaunched. Producer and whole projection-cycle inputs remain common,
+with independent FP64, full output, invalid-shape and guard checks. Timing
+continues after strict numerical rejection and rotates 100 MiB of F16 weights.
+
+Seventy-seven local launch guards and HIP syntax pass. The `.157` host capsule
+binds16 fixture files; Debug and ASan/UBSan each pass23/23. A frozen window
+will run only the two new components and faster new fixed2048 model, using
+the historical Q2/UD controls. Full curve admission and PP/TG parity remain
+open; no new GPU measurement is claimed by preparation.
+[Protocol and identities](Q2-HC-DOWN-BK256.md#runtime-qualification-prepared).
+
 ## Independent Q8 fixture race confirmed — 2026-10-04
 
 The standalone saved-array replay preserves the exact R3 independent GPU

@@ -348,3 +348,12 @@ two FP32 K16 chains, and selects only the M320/K10240 HC-down geometry. The
 bounded sibling patch changes one unroll pragma. Preparation scripts and
 orchestration are first-party MIT. Compilation is not numerical/performance
 qualification or a claim of an independently owned model executor.
+
+The `q2-hc-bk256-*-run.patch` runtime siblings format those retained ports
+without changing noncomment source tokens. `experiments/q2_hc_blaslt_control.*`
+copy the measured official-Gufo library recipe into a test-only renamed class;
+the full Gufo MIT license is retained in each file. Their origin/source hashes,
+limited renaming and all runtime provider files are recorded in
+`config/q2-hc-bk256-run-source.json`. The new component fixture, preparation,
+launch guards and orchestration are first-party MIT. Neither this copy nor
+successful syntax compilation constitutes a new owned model executor.

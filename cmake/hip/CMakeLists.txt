@@ -186,6 +186,20 @@ target_include_directories(q2_hc_library_norm SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_library_norm PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
 
+# Exact retained library recipe plus the new native HC-down candidate.
+add_executable(q2_hc_bk256 EXCLUDE_FROM_ALL ../../tests/q2_hc_bk256.cpp
+  ../../experiments/q2_hc_blaslt_control.cpp
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp")
+target_compile_options(q2_hc_bk256 PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_hc_bk256 PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_hc_bk256 PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_hc_bk256 SYSTEM PRIVATE
+  ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_hc_bk256 PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
+
 # Same original norm/narrowing with native or library HC down on ragged rows.
 add_executable(q2_hc_library_ragged EXCLUDE_FROM_ALL ../../tests/q2_hc_library_ragged.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

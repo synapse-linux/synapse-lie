@@ -57,3 +57,35 @@ or execution. The fixed 1443.672867 Q2 /1685.777092 UD comparator is unchanged.
 [bounded device object](../config/q2-hc-down-bk256-bounded-object-results.json).
 
 The shared upstream formatting check was run with the installed ROCm clang-format and exits 1 for both candidates, including inherited provider formatting and the new declaration alignment. No source is changed by that check. Formatting correction remains pending; this is separate from the successful numerical-target compilation and pending GPU qualification.
+
+## Runtime qualification prepared
+
+Two separate runtime source trees now format the new declaration, dispatch
+and numerical include, preserving all noncomment source tokens against each
+retained draft. The original drafts and objects remain unchanged. Both new
+providers retain 1023-file inventories. The upstream formatting check still
+reports 74 inherited violations, with no new HC API alignment complaint;
+those formatting exits remain separate from numerical/GPU evidence.
+
+The component target links a test-only copy of the exact measured library
+recipe. Only its class name, include guard and header path are renamed, with
+the Gufo license retained. Control algorithm7526, original row-major F16
+operands, descriptor geometry and zero-workspace policy stay unchanged.
+Both arms use the same paired norm producer. Five shapes/patterns and both
+ordinary/MoE inputs retain full replay, guards and original FP64 limits.
+Strict numerical rejection does not skip timing: 56 samples cover projection
+and complete-cycle scopes with two warmups and five measured repetitions,
+alternating arm order and rotating 100 MiB of weights.
+
+The launcher permits only matched new component/counting modes. All 77 local
+guard tests pass; the new fixture/control pass HIP syntax compilation. The
+`.157` host capsule verifies 16 bound files, with 23/23 Debug and 23/23
+ASan/UBSan CTest passes. These CPU checks do not execute the HIP fixture.
+The frozen window permits two new components, then at most one new model:
+select the faster complete-cycle candidate and retain any numerical rejection.
+Use the unchanged original2048 input/timers and saved Q2/UD measurements;
+no qualified inference control or full context curve is rerun.
+
+[Runtime source identities](../config/q2-hc-bk256-run-source.json),
+[frozen plan](../config/q2-hc-bk256-run-plan.json),
+[host receipt](../config/q2-hc-bk256-run-host-results.json).
