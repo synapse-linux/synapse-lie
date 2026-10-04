@@ -505,6 +505,74 @@ class Tests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'reference fixture failure'): c.bench()
         c.m['bench_impl'] = 'unexpected'
         with self.assertRaisesRegex(ValueError, 'implementation'): c.bench()
+    def test_core_sampling_identity_types_profiles_and_historical_defaults(self):
+        baseline = point.core_generation(None, historical=True)
+        self.assertEqual(baseline, {'temperature':0,'top_p':1,'frequency_penalty':0,
+                                   'presence_penalty':0,'seed':-1,'top_k':0,'min_p':0})
+        old = {k:v for k,v in baseline.items() if k not in ('top_k','min_p')}
+        self.assertEqual(point.core_generation(old, historical=True), baseline)
+        ds4 = dict(baseline, temperature=1, min_p=.05, seed=123)
+        self.assertEqual(point.core_generation(ds4), ds4)
+        self.assertEqual(point.core_generation(dict(ds4, top_k=2147483647, seed=9223372036854775807))['top_k'], 2147483647)
+        invalid = [None, [], old, dict(ds4, unknown=1),
+                   dict(ds4, top_k=-1), dict(ds4, top_k=2147483648),
+                   dict(ds4, seed=9223372036854775808), dict(ds4, seed=-1),
+                   dict(ds4, top_p=0), dict(ds4, min_p=-.01), dict(ds4, min_p=1.01)]
+        for key in ds4:
+            invalid += [dict(ds4, **{key:bad}) for bad in (True,None,'1',float('nan'),float('inf'))]
+        for value in invalid:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                point.core_generation(value)
+        for value in (dict(old, unknown=1), {}, {'min_p':0}):
+            with self.subTest(historical=value), self.assertRaises(ValueError):
+                point.core_generation(value, historical=True)
+    def test_modern_core_sampling_is_forwarded_and_witnessed_in_ar_and_mtp(self):
+        profile = {'temperature':1,'top_p':1,'frequency_penalty':0,
+                   'presence_penalty':0,'seed':123,'top_k':0,'min_p':.05}
+        for mode in ('ar','mtp'):
+            c = self.campaign('sampled-'+mode)
+            tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+            c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                       bench_profile='modern-core', decode_mode=mode, bundle=str(self.base),
+                       model_plan={'files':[{'name':'target.gguf'}]}, tokens_sha256=point.sha(tokens),
+                       prompt_tokens_expected=3, runtime_build_id='fixture-runtime', generation=profile,
+                       settings={'context':4096,'chunk':2048,'users':1,'tg':32,'warmups':0,'repetitions':1})
+            reported = [dict(profile)]
+            def run(command, *_args):
+                for key,value in profile.items():
+                    self.assertEqual(command[command.index('--'+key.replace('_','-'))+1], str(value))
+                self.assertEqual('--model-mtp' in command, mode=='mtp')
+                rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1','mode':mode,
+                         'synthetic':False,'cache_policy':'off','build_id':'fixture-runtime',
+                         'generation':reported[0]},
+                        {'event':'job','prompt_tokens':3,'output_tokens':32,
+                         'mtp_drafted_tokens':4 if mode=='mtp' else 0,
+                         'mtp_accepted_tokens':3 if mode=='mtp' else 0},
+                        {'event':'sample'},{'event':'complete','exit_code':0}]
+                (c.root/'measurements.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in rows))
+            with patch.object(c,'verified_model',return_value=(self.base,[])), \
+                 patch.object(c,'verified_predictor',return_value=(self.base/'mtp.gguf',{})), \
+                 patch.object(c,'run_container',side_effect=run), patch.object(c,'check_model_after'):
+                c.bench()
+                self.assertEqual(c.r['bench_result']['generation'],profile)
+                for changed in (dict(profile,top_k=5),dict(profile,min_p=0),dict(profile,seed=124),
+                                dict(profile,min_p=True),None):
+                    reported[0] = changed
+                    with self.subTest(mode=mode,changed=changed), self.assertRaisesRegex(RuntimeError,'sampling identity'):
+                        c.bench()
+    def test_modern_core_sampling_refuses_bad_profiles_before_model_or_container(self):
+        c = self.campaign('sampling-preflight')
+        profile = {'temperature':1,'top_p':1,'frequency_penalty':0,
+                   'presence_penalty':0,'seed':123,'top_k':0,'min_p':.05}
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-core',decode_mode='ar',
+                   settings={'context':4096,'chunk':2048,'users':1,'tg':32,'warmups':0,'repetitions':1})
+        with patch.object(c,'verified_model') as model, patch.object(c,'run_container') as container:
+            for value in (None,dict(profile,seed=-1),dict(profile,min_p=True),dict(profile,top_k=2147483648)):
+                c.m['generation'] = value
+                with self.subTest(value=value), self.assertRaises(ValueError):
+                    c.bench()
+            model.assert_not_called(); container.assert_not_called()
     def test_modern_core_ar_and_mtp_require_real_output_and_predictor_identity(self):
         def plan(directory, name):
             directory.mkdir()

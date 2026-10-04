@@ -49,6 +49,8 @@ stable release is declared. Detailed validation history is in
 - Shared-core top-k/min-p controls in Chat, Responses and the native benchmark.
   Paired reports reject different filter settings and accept historical disabled
   filters. Generation/request ABI callers must rebuild; greedy defaults remain.
+- Optional GPU qualification forwards explicit sampling profiles to the native
+  core bench and requires matching typed result settings.
 - Native core benchmark progress on stderr with `--progress-ms`, reporting
   completed prefill, cache reuse and confirmed/consumer-observed output. Paired reports
   require matching progress policy; benchmark samples remain separate.

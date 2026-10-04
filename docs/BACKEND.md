@@ -64,6 +64,8 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    target-distribution MTP.
    Require filter/probability oracles, correct tool-mode transitions and measured
    cost; record the selected defaults rather than silently changing profiles.
+   The [declared GPU protocol](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md)
+   and optional supervisor pass 78 CPU fixtures; actual profile gates remain pending.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
 7. **Extract the identified remaining sampling responsibilities into C17.**

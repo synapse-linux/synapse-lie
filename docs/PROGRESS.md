@@ -8,6 +8,19 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## DS4 sampling GPU profile admission prepared — 2026-10-04 UTC
+
+The optional Point supervisor accepts an explicit, complete seven-control
+`generation` profile, forwards it to the native core bench and verifies the
+returned identity. Invalid profiles refuse before model verification/load;
+unknown, null, wrongly typed or mismatched result controls cannot qualify.
+Historical absent/five-control identities still mean disabled candidate filters.
+All 78 optional Point CPU fixtures pass; maximum CPU is 54.75 C. No runtime,
+GPU thread or product dependency is added.
+[Receipt](development/validation/ds4-sampling-point-supervisor-2026-10-04.json) ·
+[AR/exact-MTP sampling protocol](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md).
+Actual inference/profile cost remains pending on a freshly admitted `.161`.
+
 ## DS4 candidate filters exposed in the shared core — 2026-10-04 UTC
 
 Top-k and min-p now pass through generation ABI 3/request ABI 6, Chat and

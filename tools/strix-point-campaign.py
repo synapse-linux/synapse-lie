@@ -9,6 +9,7 @@ import datetime
 import fcntl
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -28,6 +29,29 @@ ROCM10_RPM_CONTEXT = BASE/'rocm10-fedora-161'/'fedora44-rpm'
 ROCM10_RPM_TAG = 'synapse-lie-rocm10-fedora44-rpm:gfx1150-r1'
 ROCM10_ALMA_CONTEXT = BASE/'rocm10-almalinux-161'/'context'
 ROCM10_ALMA_TAG = 'synapse-lie-rocm10-almalinux10-rpm:gfx1150-r1'
+def core_generation(value, historical=False):
+    """Typed sampler identity; historical absent filters mean disabled, not DS4 defaults."""
+    defaults = {'temperature':0, 'top_p':1, 'frequency_penalty':0,
+                'presence_penalty':0, 'seed':-1, 'top_k':0, 'min_p':0}
+    if value is None and historical:
+        return defaults
+    if (type(value) is not dict or
+            (not historical and set(value) != set(defaults)) or
+            (historical and (not set(defaults).difference({'top_k','min_p'}).issubset(value)
+                             or not set(value).issubset(defaults)))):
+        raise ValueError('Invalid complete core sampling controls')
+    out = dict(defaults, **value)
+    for name, low, high in (('temperature',0,2), ('top_p',0,1), ('min_p',0,1),
+                            ('frequency_penalty',-2,2), ('presence_penalty',-2,2)):
+        x = out[name]
+        if type(x) not in (int,float) or not low <= x <= high or not math.isfinite(x):
+            raise ValueError('Invalid core sampling number: '+name)
+    if (out['top_p'] == 0 or type(out['top_k']) is not int or not 0 <= out['top_k'] <= 2147483647 or
+            type(out['seed']) is not int or not -1 <= out['seed'] <= 9223372036854775807 or
+            (out['temperature'] > 0 and out['seed'] < 0)):
+        raise ValueError('Invalid core sampling filter or seed')
+    return out
+
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
     'single': ('single', 'reactive', 1, 1, ('--depths', '0,4096,8192,12288,16384,32768,65536,131072')),
@@ -980,6 +1004,8 @@ class Campaign:
                 settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
                 settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
             raise ValueError('Invalid bounded modern core settings')
+        generation = (core_generation(self.m['generation']) if 'generation' in self.m
+                      else core_generation(None, historical=True))
         if (ram_cache or ssd_cache) and (settings['users'] != 1 or settings['warmups'] != 1 or
                                          settings['repetitions'] != 1):
             raise ValueError('Modern cache gate requires C1, one warmup and one measured run')
@@ -1020,6 +1046,10 @@ class Campaign:
                             '--kv-disk-staging-mb', '512'))
         for key in ('context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'):
             command.extend(('--'+key, str(settings[key])))
+        if 'generation' in self.m:
+            for key, value in generation.items():
+                if key != 'seed' or value >= 0:
+                    command.extend(('--'+key.replace('_','-'), str(value)))
         if predictor:
             command.extend(('--model-mtp', '/mtp/'+predictor.name,
                             '--mtp-draft-tokens', str(self.m.get('mtp_draft_tokens', 7))))
@@ -1040,6 +1070,14 @@ class Campaign:
                 identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off') or
                 identity.get('reactive_probe', False) != reactive_probe):
                 raise RuntimeError('Unexpected modern core benchmark identity')
+            try:
+                if 'generation' in identity and identity['generation'] is None:
+                    raise ValueError('Explicitly null sampling identity')
+                actual_generation = core_generation(identity.get('generation'), historical=True)
+            except ValueError as exc:
+                raise RuntimeError('Malformed modern core sampling identity') from exc
+            if actual_generation != generation:
+                raise RuntimeError('Unexpected modern core sampling identity')
             jobs = [row for row in measurements if row.get('event') == 'job']
             samples = [row for row in measurements if row.get('event') == 'sample']
             if reactive_probe:
@@ -1059,6 +1097,7 @@ class Campaign:
                                        reactive[0].get('mtp_accepted_delta')))):
                     raise RuntimeError('Incomplete direct reactive GPU probe')
                 self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                                          'generation': generation,
                                           'reactive': reactive[0],
                                           'measurements_sha256': sha(self.root/'measurements.jsonl')}
                 return
@@ -1084,6 +1123,7 @@ class Campaign:
             progress_result = (validate_core_progress(self.root/'distrobox.stderr.log', jobs, settings)
                                if progress_ms else None)
             self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                                      'generation': generation,
                                       'jobs': len(jobs), 'samples': len(samples),
                                       'drafted': drafted, 'accepted': accepted,
                                       'measured_cached_tokens': sum(row.get('cached_tokens', 0) for row in jobs if not row.get('warmup')),
