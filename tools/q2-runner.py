@@ -32,6 +32,9 @@ def now():
 
 def main():
     mode = sys.argv[1]
+    fixed_moe_profile = mode == 'q2-fixed-moe-profile'
+    if fixed_moe_profile and len(sys.argv) != 2:
+        raise SystemExit('Fixed MoE profile requires the saved candidate binary only')
     if mode == 'iq2-signs-check' and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('IQ2 signs requires a full MMQ rebuild')
     native_curve = '--native-curve' in sys.argv[2:]
@@ -62,6 +65,8 @@ def main():
                     'q2-norm-fixed-model-ud-r1': 'ud-counting-legacy'}
     if replay_label and (replay_modes.get(replay_label) != mode or '--rebuild-mmq' in sys.argv[2:]):
         raise SystemExit('Binary replay requires its qualified unchanged counting control and no build')
+    if fixed_moe_profile:
+        replay_label = 'q2-hc-moe-deferred-model-r1'
     counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'q2-counting-shared-q8', 'q2-counting-reaudit-exact', 'q2-counting-reaudit-norm', 'q2-counting-hc-bk256-initial', 'q2-counting-hc-bk256-bounded', 'q2-counting-hc-bk128-single', 'q2-counting-hc-bk128-double', 'q2-counting-hc-bn64-token', 'q2-counting-hc-bn64-output', 'q2-counting-hc-moe-deferred', 'ud-counting-legacy')
     if counting_mode and '--rebuild-mmq' not in sys.argv[2:] and not replay_label:
         raise SystemExit('Historical counting requires a full MMQ rebuild')
@@ -76,8 +81,8 @@ def main():
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
-    model_mode = counting_mode or curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
-    profile_mode = mode in ('q2-profile','ud-profile')
+    model_mode = fixed_moe_profile or counting_mode or curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
+    profile_mode = fixed_moe_profile or mode in ('q2-profile','ud-profile')
     mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
     hc_mode = mixed_mode or mode in ('hc-bk256-bench', 'shared-q8-oracle-replay', 'shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
     hc_target = 'q2_hc_bk256' if mode == 'hc-bk256-bench' else 'q2_shared_q8_oracle_replay' if mode == 'shared-q8-oracle-replay' else 'q2_shared_q8_producer' if mode == 'shared-q8-producer-check' else 'q2_scaled_row_reuse' if mode == 'scaled-row-check' else 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode in ('hc-library-norm-bench', 'hc-norm-ragged-bench') else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
@@ -215,8 +220,13 @@ def main():
                    ASAN_OPTIONS='detect_leaks=1:halt_on_error=1',UBSAN_OPTIONS='halt_on_error=1')
         replay_binary = None
         if replay_label:
-            replay_binary, replay = verify_replay(ROOT, replay_label, mode, env)
+            replay_binary, replay = verify_replay(ROOT, replay_label,
+                'q2-counting-hc-moe-deferred' if fixed_moe_profile else mode, env,
+                **({'manifest_name': 'q2-fixed-moe-profile-binary.json'} if fixed_moe_profile else {}))
             result['qualified_binary_replay'] = replay
+            if fixed_moe_profile:
+                result['timed_scope'] = 'Diagnostic-only original counting input2048/capacity9216/chunk2048; existing builtin profile warmup16/output16/decode15; not bench2k or a new throughput comparison'
+                result['headline_eligible'] = False
             save()
         reuse_args=[]
         if mode.endswith('bench2k') and '--rebuild-mmq' not in sys.argv[2:]:

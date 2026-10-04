@@ -37,6 +37,7 @@ HC_BK_MANIFESTS = {v: 'config/q2-hc-bn64-source.json' if v.startswith('hc-bn64-'
                      else 'config/q2-hc-bk128-source.json' if v.startswith('hc-bk128-')
                      else 'config/q2-hc-bk256-run-source.json' for v in HC_BK_VARIANTS}
 DEFERRED_SOURCES = {'q2-counting-hc-moe-deferred': 'hc-moe-deferred'}
+FIXED_PROFILE_MODE = 'q2-fixed-moe-profile'
 REAUDIT_SOURCES = {'q2-counting-reaudit-exact': 'reaudit-q8-row',
                    'q2-counting-reaudit-norm': 'reaudit-q8-row-norm'}
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
@@ -94,7 +95,7 @@ def collection_receipt(archive):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=[HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=[FIXED_PROFILE_MODE, HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values()],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
@@ -108,6 +109,10 @@ def main():
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
+    if args.mode == FIXED_PROFILE_MODE:
+        if (args.source_variant != 'hc-moe-deferred' or args.rebuild_mmq or args.replay_from
+                or args.detach or args.native_curve or args.point_only):
+            p.error('Fixed MoE profile requires the saved candidate binary only; no build or control replay')
     if args.replay_from:
         expected = {'q2-norm-fixed-model-before-r1': ('q2-counting-iq2-mixed', 'curve-iq2-mixed-q2'),
                     'q2-norm-fixed-model-ud-r1': ('ud-counting-legacy', 'qualified')}
@@ -139,7 +144,7 @@ def main():
     if args.mode == 'q2-curve-scale' and not args.native_curve:
         p.error('Scale model comparison requires the native C canonical benchmark')
     if args.source_variant in DEFERRED_SOURCES.values():
-        if DEFERRED_SOURCES.get(args.mode) != args.source_variant:
+        if args.mode != FIXED_PROFILE_MODE and DEFERRED_SOURCES.get(args.mode) != args.source_variant:
             p.error('Historical counting requires its matched provider' if args.mode in COUNTING_SOURCES
                     else 'MoE deferred norm requires its matched historical counting provider')
     if args.source_variant in HC_BK_VARIANTS:

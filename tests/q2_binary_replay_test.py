@@ -50,6 +50,22 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(binary, self.binary)
         self.assertEqual(receipt['build_commands'], 0)
 
+    def test_profile_manifest_keeps_source_binary_library_guards(self):
+        profile = self.root/'config/q2-fixed-moe-profile-binary.json'
+        profile.write_bytes(self.manifest.read_bytes())
+        binary, receipt = verify_replay(self.root, self.label, self.mode, {},
+            library_reader=lambda *_: {'lib': 'qualified'}, manifest_name=profile.name)
+        self.assertEqual(binary, self.binary)
+        self.assertEqual(receipt['build_commands'], 0)
+        self.binary.write_bytes(b'changed')
+        with self.assertRaisesRegex(RuntimeError, 'binary changed'):
+            verify_replay(self.root, self.label, self.mode, {},
+                library_reader=lambda *_: {'lib': 'qualified'}, manifest_name=profile.name)
+
+    def test_unqualified_manifest_path_is_rejected(self):
+        with self.assertRaisesRegex(RuntimeError, 'Unqualified replay manifest'):
+            verify_replay(self.root, self.label, self.mode, {}, manifest_name='../elsewhere.json')
+
     def test_mutated_binary_is_rejected(self):
         self.binary.write_bytes(b'changed')
         with self.assertRaisesRegex(RuntimeError, 'binary changed'):

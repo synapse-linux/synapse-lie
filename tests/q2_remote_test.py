@@ -21,6 +21,20 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_fixed_moe_profile_reuses_only_saved_candidate(self):
+        argv = [remote.FIXED_PROFILE_MODE, 'q2-fixture', '--source-variant', 'hc-moe-deferred']
+        for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
+                      ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Fixed MoE profile requires the saved candidate binary only')
+        self.refuse([remote.FIXED_PROFILE_MODE, 'q2-fixture'],
+                    'Fixed MoE profile requires the saved candidate binary only')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_moe_deferred_fixed_counting_scope(self):
         variant = 'hc-moe-deferred'
         for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'hc-bk256-bench',

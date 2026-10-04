@@ -33,8 +33,11 @@ def libraries(binary, env):
     return found
 
 
-def verify_replay(root, label, mode, env, library_reader=libraries):
-    manifest_path = root/'config/q2-fixed-binary-replay.json'
+def verify_replay(root, label, mode, env, library_reader=libraries, *,
+                  manifest_name='q2-fixed-binary-replay.json'):
+    if manifest_name not in ('q2-fixed-binary-replay.json', 'q2-fixed-moe-profile-binary.json'):
+        raise RuntimeError('Unqualified replay manifest')
+    manifest_path = root/'config'/manifest_name
     manifest = json.loads(manifest_path.read_text())
     if label not in manifest['controls']:
         raise RuntimeError('Unqualified replay label')
