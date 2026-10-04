@@ -110,8 +110,18 @@ def arm(row, key, plan, host, native_host, native_source, core):
                     math.isclose(point[metric],point[count]*1000/timing[duration],rel_tol=1e-12),
                     'Throughput differs from completed executor duration')
         point['prefill_ms'], point['decode_ms'] = timing['prefill_ms'], timing['decode_ms']
+    telemetry = [json.loads(s) for s in (directory/'results/telemetry.jsonl').read_text().splitlines()]
+    require(telemetry and all(not t['over_limit'] for r in telemetry for t in r['thermal']),
+            'Thermal gate failed in retained samples')
+    devices = {t['device'] for r in telemetry for t in r['thermal']}
+    peaks = {device: max(t['temperature_mc'] for r in telemetry for t in r['thermal']
+                        if t['device'] == device)/1000 for device in sorted(devices)}
+    cached = re.search(r'^Cached:\s+(\d+) kB$', result['meminfo'], re.M)
+    require(cached is not None, 'Missing retained preflight file-cache observation')
     return dict(directory=str(directory.relative_to(ROOT)), command_exits=[c['exit_code'] for c in result['commands']],
         artifacts=len(result['artifacts']), requests=len(requests), rows=points, history=history,
+        thermal_peaks_c=peaks, telemetry_samples=len(telemetry),
+        preflight_linux_cached_gib=int(cached.group(1))/1048576,
         server_binary_sha256=result['binary_sha256'], client_binary_sha256=result['native_bench_binary_sha256'])
 
 

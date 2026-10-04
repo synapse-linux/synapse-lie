@@ -6,14 +6,25 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Current Q2 window: **admitted at 2026-10-04T12:01:24.937867+00:00** for
+Latest Q2 window: **released at 2026-10-04T12:38:45.012717+00:00** after
+four native C canonical curves. All 32 model commands exit zero and 68 model
+artifacts verify; the four host cohorts bring totals to 56 zero exits and 96
+artifacts. Closure verifies 201 process identities and 153 groups retired,
+KFD empty, four original lease inodes EX|NB/free and six original model stat
+tuples unchanged. [Release](../config/q2-native-scale-window-release.json)
+SHA256 `e54cadce7133189886dc0d07808f644a16ee1a2c70b84058e16b4cf6a0f62c35`.
+Remote/main release/active/ready receipts and the registry retain closure;
+core receives the release message and may freshly admit. No Q2 job, reservation,
+waiter, restart or remote cleanup remains. Scale reuse is not promoted.
+
+Admission for the completed Q2 window: **admitted at 2026-10-04T12:01:24.937867+00:00** for
 four complete native C canonical model curves. Source checkpoint `b5413ca`.
 Fresh checks confirm the previous release is still latest, all retired groups
 absent, empty KFD, four original lease inodes free and six unchanged model
 stat tuples. [Admission](../config/q2-native-scale-window-admission.json)
 SHA256 `7060d598d567170f23039c41d1f095ca1dc8905dd692fd71a06c423f6b40883b`.
 Remote/main active/ready records and the shared registry retain ownership;
-core is notified. Q2 holds the bounded sequential window until verified release.
+core is notified. Q2 held the bounded sequential window until the verified release above.
 No remote cleanup, tuning or additional candidate interleaving is admitted.
 The new scaled-row-reuse source is local static preparation only.
 

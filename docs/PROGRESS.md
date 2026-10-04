@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native C model comparison complete; scale reuse not promoted — 2026-10-04
+
+All four canonical 0–128K curves finish with 32 accepted points, 80 requests,
+32 zero model-command exits and 68 verified artifacts. Both complete Q2
+request/reply/count history comparisons are exact. The actual native reference
+also matches all twenty requests/responses/counts from the previous canonical
+driver. Final wrapper and native-client checks pass 22/22 and 3/3 respectively
+in both Debug and ASan/UBSan on .157.
+
+Scale reuse is slower than the repeated reference at six of eight depths;
+128K gives 1127.232 versus 1157.600 PP. The unchanged d0 reference itself rises
+851.328→1246.179, so the apparent large first-to-second gain is not patch
+attribution. File-cache/order observations and UD's lower final points remain
+visible; no uniform model improvement or stable parity is claimed. The report
+includes all PP/TG values, physical counts, phase durations, TTFT/wall, separate
+cache timers and the full four-arm graph.
+
+Fresh release at 12:38:45 UTC retires 201 process identities and 153 groups,
+verifies KFD empty, four original leases free and six unchanged model stats.
+All eight CPU/model cohorts total 56 zero exits and 96 verified artifacts.
+Core is notified; no Q2 job, reservation, waiter, restart or .157 cleanup remains.
+[Complete results and disposition](Q2-NATIVE-SCALE-CURVE.md).
+The separately prepared scaled-row input-reuse source remains static-only.
+
 ## Native canonical model campaign admitted; further reuse prepared — 2026-10-04
 
 Fresh admission at 12:01:24 UTC reserves the four sequential native C curves,

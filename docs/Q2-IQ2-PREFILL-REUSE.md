@@ -7,6 +7,12 @@ build, model or evidence is imported or modified. The target remains the full
 canonical Q2/UD curve; the counting replay is a separate regression control.
 [Inspected source identities and dispositions](../config/q2-deepseek-prefill-followup.json).
 
+The subsequent [native C canonical model comparison](Q2-NATIVE-SCALE-CURVE.md)
+is complete: the scale candidate is below the repeated reference at six of
+eight depths, including 1127.232 versus 1157.600 PP at 128K. It is not promoted.
+The component result below remains valid for its scope; it did not establish
+a uniform complete-model gain.
+
 ## Two isolated candidates
 
 DeepSeek's IQ2 loaders place the 256-entry magnitude codebook in shared memory

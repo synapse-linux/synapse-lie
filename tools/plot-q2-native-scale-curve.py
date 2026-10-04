@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
 report = json.loads((ROOT/'config/q2-native-scale-curve-results.json').read_text())
+cache_rows = json.loads((ROOT/'config/q2-native-scale-cache-timings.json').read_text())['rows']
+cache = {(r['arm'],r['depth']):r for r in cache_rows}
+if len(cache) != 32 or len(cache_rows) != 32:
+    raise ValueError('Expected all 32 separate cache timing observations')
 out = ROOT/'docs/figures/q2-native-scale-curve'
 out.mkdir(parents=True, exist_ok=True)
 labels = {'before':'Q2 reference before', 'scale':'Q2 scale reuse',
@@ -17,13 +21,16 @@ labels = {'before':'Q2 reference before', 'scale':'Q2 scale reuse',
 colors = {'before':'#79869b', 'scale':'#157e80', 'after':'#53608c', 'ud':'#bf582e'}
 columns = ['arm','depth','cached_tokens','prefill_tokens','output_tokens',
            'prefill_ms','decode_ms','pp_tps','tg_tps','ttft_seconds',
-           'wall_seconds','output_over_wall_tps','completion_sha256','request_sha256']
+           'wall_seconds','output_over_wall_tps','completion_sha256','request_sha256',
+           'cache_capture_ms','cache_restore_ms','prefill_calls','decode_calls']
 with (out/'points.csv').open('w', newline='') as stream:
     writer = csv.DictWriter(stream, fieldnames=columns, lineterminator='\n')
     writer.writeheader()
     for arm,data in report['arms'].items():
         for point in data['rows']:
-            writer.writerow({k:dict(point,arm=arm)[k] for k in columns})
+            row = dict(point, **{k:v for k,v in cache[(arm,point['depth'])].items()
+                                if k not in ('depth','raw_sha256')})
+            writer.writerow({k:row[k] for k in columns})
 matplotlib.rcParams['svg.hashsalt'] = 'q2-native-scale-curve'
 fig, axes = plt.subplots(2,2,figsize=(12,8),layout='constrained')
 for ax,metric,title,unit in zip(axes.flat,

@@ -42,16 +42,21 @@ four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycl
 time on recorded short/128K routing shapes against the repeated reference;
 the full-tile control costs 0.445% more. All 102 output arrays remain exact and
 51 independent checks pass per arm. Shared-codebook staging has mixed results
-and does not advance. Scale reuse awaits the native C `synapse-lie-bench`
-canonical model comparison; no model PP gain or default promotion is claimed.
-The report includes both references, every sample and a graph.
+and does not advance. The subsequent native C model comparison establishes
+no uniform scale-reuse gain, so the candidate is not promoted.
 
-The [native model comparison integration](docs/Q2-NATIVE-SCALE-CURVE.md) now
-passes 22/22 Debug and ASan/UBSan host checks on .157. It runs the C canonical
-client separately from the unchanged server and rejects a Python fallback for
-the scale experiment. Clean native-client commit `b598e4c` is frozen and its
-three contracts pass Debug and ASan/UBSan on .157. The four complete
-Q2/control/UD curves now require fresh GPU admission.
+The [native canonical model comparison](docs/Q2-NATIVE-SCALE-CURVE.md) completes
+all four 0–128K curves: 32 accepted points, 32 zero model-command exits and 68
+verified artifacts. Both complete Q2 history comparisons are exact. At 128K,
+scale Q2 gives 1127.232 PP against 1157.600 for the repeated reference. The
+unchanged d0 control itself rises 851.328→1246.179, so the first-to-second
+increase cannot be credited to the patch. All values, including the measured
+UD dips, remain in the four-arm graph and full CSV. The GPU window is released.
+
+The final wrapper and native client pass 22/22 and 3/3 respectively in Debug
+and ASan/UBSan on .157. All twenty real canonical request/reply/count histories
+also match the old driver. A separate [scaled-row input reuse probe](docs/Q2-SCALED-ROW-REUSE.md)
+removes a second input read in device assembly; it has no GPU/model result yet.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
