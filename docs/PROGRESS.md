@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Active IQ2 WMMA sign-load experiment prepared — 2026-10-04
+
+Source inspection distinguishes the generic MMQ IQ2 tile loader from the selected
+Q2 prefill WMMA path. The latter still loads `ksigns64` inside its fused gate/up
+kernel. A new candidate replaces those sign lookups with exact integer expansion,
+starting from ordered IQ2 decode so its measured gain remains in the parent.
+Only `kernels.hip.cpp` differs; both complete 1020-file inventories verify.
+At tile64/tile128 device assembly removes eight loads, adds51/60 static
+instructions and retains102/148 VGPR with zero scratch. This is a measured
+compiler property, not a GPU or model-rate improvement.
+
+The component path now stages fixed sources, builds the direct production kernel
+target and retains twenty independent oracle reports plus22 complete output
+buffers across existing operators and two full-size cycles. The analyzer checks
+the paired source/harness/operands and rejects incomplete timing or output data.
+Both device compilations, corrected strict fixture syntax, CMake configure,
+five-command dry build graph and five Python AST checks pass locally. Initial
+syntax/format failures remain retained; the final source shares exactly the
+parent's five untouched formatter failures. Runtime remains pending on `.157`.
+See [audit and bounded plan](Q2-DEEPSEEK-AUDIT.md#follow-up-in-the-active-prefill-wmma-loader--2026-10-04).
+
+Core now acknowledges the existing01:33:37 Q2 release and will freshly admit its
+18-arm sampled window. Q2 performs no remote staging or execution and will not
+interleave that window. The ready/handover receipts persist despite failed
+outgoing MCP transport. Whole-curve PP/TG parity and independent model numerical
+acceptance remain open; neither source preparation establishes a new model rate.
+
 ## Paired PLE host path wired — 2026-10-04
 
 The isolated `ple-cache-first-cpu` mode now stages the full unchanged canonical

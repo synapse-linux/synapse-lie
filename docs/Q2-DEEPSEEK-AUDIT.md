@@ -123,6 +123,69 @@ The acceptance target remains PP and TG at **every** short/long point of the
 canonical 0–128K curve. Historical counting fixtures and DeepSeek's own rates
 are not substitute acceptance results.
 
+## Follow-up in the active prefill WMMA loader — 2026-10-04
+
+The [canonical IQ2 campaign](Q2-IQ2-CANONICAL.md) now confirms the ordered
+MMVQ change improves complete-model decode by 4.446–5.188% against the unchanged
+post-candidate control. It does not improve prefill. The generic IQ2 MMQ tile
+loader already expands signs arithmetically, but that is not the selected
+Q2 prefill path for hidden2560 / expert640 / padded-down768. `MoeExperts`
+selects `RoutedGatedIQ2Gemm`, whose dedicated `RoutedF16GEMMKernel` still reads
+the eight-byte `ksigns64` entry for each packed sign index. The earlier presence
+of arithmetic signs in MMQ therefore does not close this WMMA opportunity.
+
+The new isolated `.deps/gufo-q2-curve-iq2-wmma-signs` source starts from the
+measured ordered-decode provider and changes only that integer sign expansion
+in `kernels.hip.cpp`. The other 1019 files remain exact, including the accepted
+decode experiment's scale boundary. Codebook, FP16 scale rounding, WMMA
+accumulation, SwiGLU, routing/tile geometry, Q2 down, PLE and C17 core are unchanged.
+The [generator](../tools/prepare-q2-iq2-wmma-signs.py),
+[patch](../experiments/q2-iq2-wmma-signs.patch) and
+[full source manifest](../config/q2-iq2-wmma-signs-source.json) retain provenance.
+
+Same-flag gfx1151 device compilation gives the following ordinary-output bodies:
+
+| Expert tile rows | Static instructions, original → candidate | Global loads | VGPR | Scratch bytes |
+| ---: | ---: | ---: | ---: | ---: |
+| 16 | 661 → 718 | 25 → 17 | 82 → 82 | 0 → 0 |
+| 48 | 1161 → 1221 | 32 → 24 | 94 → 94 | 0 → 0 |
+| 64 | 1391 → 1442 | 34 → 26 | 102 → 102 | 0 → 0 |
+| 128 | 2381 → 2441 | 48 → 40 | 148 → 148 | 0 → 0 |
+
+The eight eliminated loads come at an integer-instruction cost. WMMA instruction
+counts and register allocations are unchanged; the sign table may already be
+cache-resident. These are static instruction bodies, not dynamic memory traffic,
+GPU timings or a model speedup. Full-output replay remains required because
+unchanged floating-point source does not prove unchanged compiled results.
+
+The component fixture reuses all eighteen independent IQ2 operator cases and
+adds two full-size narrowing → routing compaction → fused gate/up/SwiGLU cycles:
+2040 tokens / 512 active experts / tile64, and 2048 / 128 / tile128. Each cycle
+touches respectively 432,537,600 or 108,134,400 encoded weight bytes, exceeding
+the documented 32 MiB MALL capacity. Two warmups and five measured samples each
+contain eight complete calls. Uploads, allocations, hashing and validation stay
+outside HIP-event timing. Full guarded outputs and independent FP64 samples are
+retained: 22 output files, 20 oracle reports and 105,371,008 output bytes per arm.
+These routing patterns are synthetic; they do not establish real-context parity.
+
+The isolated `iq2-wmma-signs-check` mode rejects model dispatch, detached runs
+and unrelated sources. Its component target directly builds the production
+kernel translation unit with the same numerical flags; MMQ is not part of this
+component cycle. The paired analyzer binds source inventories, host-qualified
+harness, leases, binary and operands, checks all samples and output buffers,
+and preserves an exact-replay failure as exit1. A component gain would admit a
+future canonical PP/TG comparison; no such model arm is implemented or admitted.
+
+[Static validation](../config/q2-iq2-wmma-signs-static.json) verifies both
+1020-file inventories, exact generator reconstruction, host-only fixture syntax,
+both device compilations and the five-command build graph. The first renamed-main
+syntax failure and new formatting failure remain retained; both are corrected.
+The shared formatter still reports the same five untouched failing files as the
+parent. No GPU/runtime result is claimed. The [bounded plan](../config/q2-iq2-wmma-signs-plan.json)
+starts with the paired PLE 21-test Debug/ASan host cohort, then the two component
+arms, after core's next window has been released. No observer, waiter or restart
+is scheduled. Existing independent model numerical rejection remains open.
+
 ## Provenance
 
 The sign technique is adapted from official Gufo's DeepSeek port, retaining

@@ -170,7 +170,7 @@ void IQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
 #endif
 }
 
-#ifndef Q2_PACKED_CHECKS
+#if !defined(Q2_PACKED_CHECKS) && !defined(Q2_IQ2_PAIR_NO_MAIN)
 int main() {
   try {
     Hip(hipSetDevice(0));

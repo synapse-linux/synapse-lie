@@ -16,6 +16,15 @@ EX|NB/free and five model stat identities unchanged. Remote/main
 No Q2 workload, reservation, waiter or restart remains. Core may admit its
 next window with fresh checks. Outgoing MCP fails and delivery is not claimed.
 
+Read-only revalidation at 01:54:45 and 02:17:37 UTC finds that release still
+latest in the registry and KFD empty. Core subsequently locates and explicitly
+acknowledges the receipt/SHA; it will admit its 18-arm sampled window after
+fresh retirement/lease checks. Q2 stays local-only for paired PLE host wiring
+and the distinct IQ2 WMMA sign-load component. Main
+`run/q2-core-handover-confirmed.json` and `run/q2-iq2-wmma-signs-ready.json`
+retain the handover and pending plan. No Q2 staging, runtime, interleaving,
+observer or restart is scheduled; an idle observation is not a live-process wait.
+
 Previous admission: the canonical IQ2 model window was admitted at
 2026-10-04T00:51:48.380268+00:00, after core explicitly releases its integrated
 window at 00:47:22.850674 UTC. Release SHA256 is

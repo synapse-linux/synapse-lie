@@ -1,0 +1,55 @@
+{
+  "schema": "synapse-lie.q2-iq2-wmma-signs-plan.v1",
+  "at": "2026-10-04T02:19:01.128995+00:00",
+  "state": "PREPARED_PENDING_CORE_HANDOVER",
+  "source_manifest": "config/q2-iq2-wmma-signs-source.json",
+  "static_receipt": "config/q2-iq2-wmma-signs-static.json",
+  "commands": [
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "ple-cache-first-cpu",
+      "q2-ple-wmma-host-r1"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "iq2-wmma-signs-check",
+      "q2-iq2-wmma-reference-r1",
+      "--source-variant",
+      "iq2-wmma-reference"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "iq2-wmma-signs-check",
+      "q2-iq2-wmma-candidate-r1",
+      "--source-variant",
+      "iq2-wmma-signs"
+    ]
+  ],
+  "component_cases": [
+    {
+      "tokens": 2040,
+      "active_experts": 512,
+      "tile": 64
+    },
+    {
+      "tokens": 2048,
+      "active_experts": 128,
+      "tile": 128
+    }
+  ],
+  "component_scope": "F32-to-F16 narrowing, routing compaction, fused IQ2 gate/up and SwiGLU; no original model or CPU forward",
+  "full_output_pairs": 22,
+  "full_output_bytes_per_arm": 105371008,
+  "independent_checks": 20,
+  "gate": "Existing independent limits and full-buffer exact replay; retain timings/failures. Component improvement only admits future canonical 0\u2013128K PP/TG and quality comparison.",
+  "model_arm_implemented": false,
+  "remote_staged": false,
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "promoted": false,
+  "goal_met": false,
+  "core_handover": "Core acknowledges Q2 release01:33:37 and prepares fresh admission for 18 sampled arms; Q2 no interleaving."
+}

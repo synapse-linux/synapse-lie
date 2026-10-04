@@ -20,6 +20,24 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_wmma_component_scope(self):
+        for variant in remote.WMMA_SIGN_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 WMMA signs requires its isolated component mode and source')
+            base = ['iq2-wmma-signs-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(base + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(base + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *base]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        self.refuse(['iq2-wmma-signs-check', 'q2-fixture'],
+                    'IQ2 WMMA signs requires its isolated component mode and source')
+
     def test_ple_cache_first_host_scope(self):
         for extra in (['--source-variant', 'curve-q2'], ['--rebuild-mmq']):
             self.refuse(['ple-cache-first-cpu', 'q2-fixture', *extra],
@@ -423,6 +441,47 @@ class RemoteGuardTests(unittest.TestCase):
 
     def test_rebuild_flag_does_not_silently_apply_elsewhere(self):
         self.refuse(['q2-profile', 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
+
+class WmmaCycleReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'wmma_report', path.with_name('analyze-q2-iq2-wmma-signs.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    @staticmethod
+    def events():
+        rows = [dict(event='iq2_wmma_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for n, active, tile, tiles in ((2040,512,64,512), (2048,128,128,256)):
+            rows.extend(dict(event='iq2_wmma_cycle', sample=i, warmup=i < 2, tokens=n,
+                             active_experts=active, tile=tile, calls=8,
+                             microseconds_per_call=100+i) for i in range(7))
+            rows.append(dict(event='iq2_wmma_geometry', tokens=n, active_experts=active,
+                             tile=tile, tiles=tiles, output_values=n*10*640,
+                             active_weight_bytes=active*640*10*66*2,
+                             input_sha256='c'*64, ids_sha256='d'*64))
+        return rows
+
+    def parse(self, rows):
+        return self.report.observations('\n'.join(json.dumps(row) for row in rows))
+
+    def test_complete_cycles_exclude_warmup(self):
+        result = self.parse(self.events())
+        self.assertEqual([r['median_us'] for r in result['cases'].values()], [104,104])
+        self.assertEqual(len(self.report.output_inventory()), 22)
+
+    def test_incomplete_and_invalid_timing_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.parse(self.events()[:-1])
+        for change in (dict(microseconds_per_call=0), dict(microseconds_per_call=float('nan')),
+                       dict(warmup=0), dict(calls=1), dict(sample=2), dict(tile=128)):
+            rows = self.events()
+            rows[1].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
 
 
 class PleHostReportTests(unittest.TestCase):

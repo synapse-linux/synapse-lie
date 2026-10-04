@@ -56,6 +56,13 @@ is released at 01:33:37 UTC. Full Q2/UD parity and model quality remain open.
 Histogram tile selection is already present, while D2R and producer-Q8 reuse
 are inactive stubs in the pinned DeepSeek HIP port.
 
+The [active WMMA prefill follow-up](docs/Q2-DEEPSEEK-AUDIT.md#follow-up-in-the-active-prefill-wmma-loader--2026-10-04)
+now removes the dedicated gate/up loader's sign-table lookup in an isolated
+source, retaining the measured decode improvement. Device assembly trades eight
+loads for extra integer instructions with unchanged register allocation. Two
+full-size component cycles and complete output replay are prepared; runtime and
+canonical performance remain unmeasured.
+
 A separate [PLE cache-first candidate](docs/Q2-PLE-CACHE-FIRST.md) consumes
 resident rows before colliding misses can replace them. Capacity and all row
 values are unchanged. The paired control/candidate host path is now wired,
