@@ -6,6 +6,7 @@ This checks wire contracts and execution, not model quality or Pi connectivity.
 """
 import datetime
 import http.client
+import importlib.util
 import json
 from pathlib import Path
 import socket
@@ -28,17 +29,18 @@ def port():
         return sock.getsockname()[1]
 
 
-def exchange(port_number, path, payload=None):
+def exchange(port_number, path, payload=None, method=None):
     connection = http.client.HTTPConnection('127.0.0.1', port_number, timeout=180)
     data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode()
     try:
-        connection.request('GET' if data is None else 'POST', path, data,
+        verb = method or ('GET' if data is None else 'POST')
+        connection.request(verb, path, data,
                            {} if data is None else {'Content-Type': 'application/json'})
         response = connection.getresponse()
         body = response.read(LIMIT + 1)
         if len(body) > LIMIT:
             raise RuntimeError('HTTP response exceeds fixture bound')
-        row = {'path': path, 'request': payload, 'status': response.status,
+        row = {'method': verb, 'path': path, 'request': payload, 'status': response.status,
                'headers': dict(response.getheaders()), 'body': body.decode('utf-8')}
         with (ROOT/'http-wire.jsonl').open('a') as out:
             out.write(json.dumps(row, ensure_ascii=False) + '\n')
@@ -59,6 +61,43 @@ def events(body):
             raise RuntimeError('Malformed SSE frame')
         rows.append(json.loads(data))
     return rows
+
+
+def abandon_response_stream(api, payload):
+    """Close only this connection after a witnessed original text delta."""
+    connection = http.client.HTTPConnection('127.0.0.1', api, timeout=180)
+    partial = bytearray()
+    frames = []
+    try:
+        connection.request('POST','/v1/responses',json.dumps(payload).encode(),
+                           {'Content-Type':'application/json'})
+        response = connection.getresponse()
+        if response.status != 200: raise RuntimeError('Background SSE refused')
+        frame = bytearray()
+        identity = None
+        while True:
+            line = response.readline(LIMIT+1)
+            if not line or len(partial)+len(line)>LIMIT:
+                raise RuntimeError('No bounded original background text delta')
+            partial.extend(line); frame.extend(line)
+            if line == b'\n':
+                current = events(frame.decode('utf-8'))
+                if len(current)!=1 or not isinstance(current[0],dict):
+                    raise RuntimeError('Background frame malformed')
+                item = current[0]; frames.append(item); frame.clear()
+                if item['type']=='response.created': identity=item['response']['id']
+                if item['type']=='response.output_text.delta' and item['delta']:
+                    if not identity: raise RuntimeError('Background delta preceded identity')
+                    return {'id':identity,'sequence_number':item['sequence_number'],
+                            'delta_bytes':len(item['delta'].encode('utf-8'))}
+                if item['type'] in ('response.completed','response.incomplete','response.failed'):
+                    raise RuntimeError('Background retired before original text')
+    finally:
+        connection.close()
+        with (ROOT/'http-wire.jsonl').open('a') as out:
+            out.write(json.dumps({'method':'POST','path':'/v1/responses','request':payload,
+                                  'abandoned_after_delta':bool(frames and frames[-1].get('type')=='response.output_text.delta'),
+                                  'body':partial.decode('utf-8',errors='replace')})+'\n')
 
 
 def function_call(call, responses):
@@ -182,11 +221,14 @@ def tool_gate(api, result):
 
 def main():
     args = sys.argv[1:]
-    check_tools = args[-1:] == ['--tools']
-    if check_tools:
-        args.pop()
+    flags = set()
+    while args and args[-1] in ('--tools','--controls'):
+        flag = args.pop()
+        if flag in flags: raise SystemExit('Duplicate HTTP gate flag')
+        flags.add(flag)
+    check_tools, check_controls = '--tools' in flags, '--controls' in flags
     if len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or (len(args) == 4) != (args[2] == 'mtp'):
-        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools]')
+        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls]')
     binary, model, mode = args[:3]
     api, management = port(), port()
     while management == api:
@@ -197,7 +239,7 @@ def main():
     command = [binary, '--model', model, '--model-id', MODEL_ID,
                '--host', '127.0.0.1', '--port', str(api),
                '--management-host', '127.0.0.1', '--management-port', str(management),
-               '--context', '16384', '--prefill-chunk', '2048', '--max-active', '2',
+               '--context', '16384', '--prefill-chunk', '2048', '--max-active', '8' if check_controls else '2',
                '--kv-cache-ram-mb', '0', '--request-timeout-ms', '180000']
     if mode == 'mtp':
         command += ['--model-mtp', args[3], '--mtp-draft-tokens', '7']
@@ -270,6 +312,12 @@ def main():
             result['passed'].append('responses_sse')
             if check_tools:
                 tool_gate(api, result)
+            if check_controls:
+                spec = importlib.util.spec_from_file_location('original_controls',ROOT/'http-controls.py')
+                controls = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(controls)
+                checked = controls.controls_gate(api,MODEL_ID,exchange,events,abandon_response_stream,ROOT)
+                result['passed'].extend(checked['passed'])
             result['chat_text'] = text
             result['responses_text'] = response_text
             result['state'] = 'PASSED'

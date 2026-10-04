@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## OpenAI control qualification prepared — 2026-10-04 UTC
+
+The optional GPU supervisor now stages a hash-bound control gate alongside the
+existing HTTP/tool gate. Its 21 checks cover 2/8 Chat choices in JSON and SSE,
+prompt usage counted once, seeded replay, token probabilities, positive/negative
+bias, cross-token stops, JSON/schema output, stored Chat operations and Responses
+disconnect/replay/pagination/cancellation/deletion/truncation. Unsupported APIs
+must return an explicit error. The server and shared C17 runtime are unchanged;
+the helper adds no product build or benchmark dependency.
+
+All **54 CPU-only protocol/supervisor fixtures pass** (8 controls and 46 campaign
+checks), with device visibility masked and a 57.875 C maximum CPU temperature.
+The initial fixture-placement failure remains preserved with exit 1. These are
+qualification-control checks, not model inference.
+
+Separate AR and MTP manifests pin the previously built `e6f537f` ROCm 10
+`gfx1150` runtime, the postboot filesystem binding and exact helpers. Both remain
+**prepared, not submitted** while the physical 1M window owns `.161`. Original
+weight qualification of these controls and Terminal Bench tasks remains open.
+[Preparation receipt](development/validation/openai-controls-preparation-2026-10-04.json).
+
 ## GTT112 boot verified; 1M capacity passes — 2026-10-04 UTC
 
 Following the owner's explicit reboot authorization, `.161` returns with a new

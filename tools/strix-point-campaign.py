@@ -44,6 +44,15 @@ THERMAL_OVERRIDE_QUOTE = ('la gpu arriva a 100 gradi senza problemi ed è import
 CPU_GUARD_QUOTE = 'è la CPU che deve avere il guard, non la gpu'
 CPU_GUARD_POLICY = 'cpu-98-nvme-85-gpu-observe-v1'
 VISION_PROMPT = 'Describe the main color and shape shown in the image in one sentence.'
+HTTP_CONTROL_CHECKS = {
+    'chat_choices_json', 'chat_choices_sse', 'chat_seed_replay',
+    'chat_logprobs', 'chat_logprobs_sse', 'chat_bias_positive', 'chat_bias_negative',
+    'chat_stop_json', 'chat_stop_sse', 'chat_json_object', 'chat_json_schema',
+    'responses_json_object', 'responses_json_schema', 'chat_store_crud',
+    'responses_background_disconnect', 'responses_cursor_replay',
+    'responses_input_pagination', 'responses_cancel_after_output',
+    'responses_delete', 'responses_truncation', 'unsupported_fields',
+}
 
 def vision_fixture_png():
     """An owned 224x224 white canvas with a central red square."""
@@ -1097,6 +1106,14 @@ class Campaign:
             command.append('/mtp/'+predictor.name)
         if self.m.get('http_tool_gate', False):
             command.append('--tools')
+        check_controls = self.m.get('http_control_gate', False)
+        if type(check_controls) is not bool:
+            raise ValueError('HTTP control gate requires a boolean selection')
+        if check_controls:
+            controls = checked_path(self.root/'http-controls.py')
+            if sha(controls) != self.m.get('http_controls_sha256'):
+                raise ValueError('Modern HTTP controls helper drift')
+            command.append('--controls')
         self.r['bench_command'] = command
         self.record()
         try:
@@ -1107,6 +1124,15 @@ class Campaign:
                 required |= {'chat_function_json', 'chat_function_sse', 'chat_tool_result',
                              'responses_function_json', 'responses_function_sse',
                              'responses_tool_replay', 'responses_tool_result', 'allowed_tools'}
+            if check_controls:
+                required |= HTTP_CONTROL_CHECKS
+                checked = json.loads((self.root/'http-controls-result.json').read_text())
+                if (checked.get('schema') != 'synapse-lie.point-openai-controls.v1' or
+                        checked.get('state') != 'PASSED' or
+                        set(checked.get('passed', [])) != HTTP_CONTROL_CHECKS or
+                        len(checked.get('passed', [])) != len(HTTP_CONTROL_CHECKS)):
+                    raise RuntimeError('Incomplete original-weight OpenAI controls')
+                self.r['http_controls_sha256'] = sha(self.root/'http-controls-result.json')
             if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
                     result.get('server_exit_code') != 0 or

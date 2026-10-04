@@ -43,6 +43,11 @@ def main():
         if hashlib.sha256(helper).hexdigest() != manifest.get('http_gate_sha256'):
             parser.error('HTTP gate helper SHA-256 differs from manifest')
         files['http-gate.py'] = helper
+        if manifest.get('http_control_gate', False):
+            controls = (ROOT/'tools/strix-point-openai-controls.py').read_bytes()
+            if hashlib.sha256(controls).hexdigest() != manifest.get('http_controls_sha256'):
+                parser.error('HTTP controls helper SHA-256 differs from manifest')
+            files['http-controls.py'] = controls
     if manifest.get('bench_profile') == 'modern-http-multi':
         case = manifest.get('http_case')
         if case not in ('prose', 'repetition'):

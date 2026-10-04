@@ -12,7 +12,9 @@ Sampler correctness checks pass; performance qualification remains open.
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports
 native contexts up to 262,144 tokens and up to eight active sequences.
 Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to
-1,048,576 tokens; GPU memory fit and long-context quality require qualification.
+1,048,576 tokens. A Strix Point GPU gate verifies allocation at that capacity
+with a short prompt; physical 1M inference and long-context quality remain
+under qualification.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and
 can be configured together. Recorded original-weight functional checkpoints

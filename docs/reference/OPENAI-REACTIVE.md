@@ -26,7 +26,7 @@ owner. It never executes model forward on the HTTP loop or on a CPU fallback.
 | Responses | Text/function/image input, instructions, JSON/SSE, stored retrieval/deletion, `previous_response_id`, background polling/cancellation, paginated input items, automatic truncation and stream replay | Named Conversations and compaction services are not implemented |
 | Function output | Shared C extraction/validation and stable call IDs; strict arguments constrained during target sampling | Provisional argument deltas stream before completion; clients execute only validated successful turns |
 | Structured output | JSON object and JSON schema constraints, including strict schemas | The transitional provider compiles the supported schema subset; unsupported schemas are refused |
-| Images | Explicit projector admission and owned image inputs | Original-weight vision qualification remains pending |
+| Images | Explicit projector admission and owned image inputs; recorded AR/MTP image/cache functional gates pass | Broader image quality, fault and replicated performance qualification remain pending |
 | Other APIs | Documented capability gaps | Audio/video generation, embeddings, hosted tools, vector stores and cloud administration require separate executors/services |
 
 Unknown or unsupported fields are errors. These are local model-serving APIs;
@@ -121,6 +121,15 @@ and MTP13 HTTP variant tests exercise the new contracts without Python, weights 
 The HIP build checks the independently fetched pinned sampler and adapter;
 `gufo-constrained-sampler-cpu` checks token bias and grammar masks on host arrays.
 These tests do not qualify original-weight numerical behavior or performance.
+The optional GPU qualification helper adds 21 controls, including 2/8 choices,
+probabilities, structured output and retained Responses lifecycle. Its 54
+CPU-only protocol/supervisor fixtures pass; the AR/MTP GPU manifests remain
+unsubmitted during the physical 1M window. This helper is excluded from the
+native product build and benchmark/report dependency path. See the
+[preparation receipt](../development/validation/openai-controls-preparation-2026-10-04.json).
+Recorded [vision/MTP](../development/validation/vision-mtp-gpu-2026-10-03.json)
+and [Point reactive/vision](../development/validation/point-r5-integration-2026-10-04.json)
+gates establish their stated functional scope, not broad image quality.
 Current command exits and source identities are recorded in the OpenAI completion
 receipt linked from [development progress](../PROGRESS.md).
 

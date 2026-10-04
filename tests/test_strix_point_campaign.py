@@ -644,6 +644,44 @@ class Tests(unittest.TestCase):
                                  'responses_tool_replay','responses_tool_result','allowed_tools']
             c.bench()
             self.assertEqual(len(c.r['http_result']['passed']), 13)
+    def test_modern_http_controls_bind_complete_sidecar_and_refuse_partial_receipts(self):
+        c = self.campaign('modern-http-controls')
+        helper = c.root/'http-gate.py'; helper.write_bytes(b'fixture HTTP helper')
+        controls = c.root/'http-controls.py'; controls.write_bytes(b'fixture controls helper')
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-http',decode_mode='ar',bundle=str(self.base),
+                   model_plan={'files':[{'name':'target.gguf'}]},http_control_gate=True,
+                   http_gate_sha256=point.sha(helper),http_controls_sha256=point.sha(controls))
+        selected = sorted(point.HTTP_CONTROL_CHECKS)
+        result = {'schema':'synapse-lie.point-http-original.v1','state':'PASSED','mode':'ar',
+                  'server_exit_code':0,'passed':['models','chat_json','chat_sse','responses_json','responses_sse']+selected}
+        sidecar = {'schema':'synapse-lie.point-openai-controls.v1','state':'PASSED','passed':selected}
+        def run(command,*_):
+            self.assertEqual(command[-1],'--controls')
+            (c.root/'http-result.json').write_text(json.dumps(result))
+            (c.root/'http-controls-result.json').write_text(json.dumps(sidecar))
+        with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+             patch.object(c,'check_model_after'), patch.object(c,'run_container',side_effect=run) as child:
+            c.bench()
+            self.assertEqual(c.r['http_controls_sha256'],point.sha(c.root/'http-controls-result.json'))
+            sidecar['passed']=selected[:-1]
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight OpenAI'): c.bench()
+            sidecar['passed']=selected+[selected[0]]
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight OpenAI'): c.bench()
+            controls.write_bytes(b'changed')
+            count=child.call_count
+            with self.assertRaisesRegex(ValueError,'controls helper drift'): c.bench()
+            self.assertEqual(child.call_count,count)
+    def test_modern_http_controls_refuse_nonboolean_selection(self):
+        c=self.campaign('modern-http-control-type')
+        helper=c.root/'http-gate.py'; helper.write_bytes(b'fixture helper')
+        c.m.update(stack='rocm10-fedora43',transport='distrobox',bench_profile='modern-http',
+                   decode_mode='ar',model_plan={'files':[{'name':'target.gguf'}]},
+                   http_gate_sha256=point.sha(helper),http_control_gate=1)
+        with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+             patch.object(c,'run_container') as child:
+            with self.assertRaisesRegex(ValueError,'boolean selection'): c.bench()
+            child.assert_not_called()
     def test_modern_http_multi_pins_corpus_mode_and_complete_native_result(self):
         c = self.campaign('modern-http-multi')
         helper = c.root/'http-multi-gate.py'; helper.write_bytes(b'fixture multi helper')

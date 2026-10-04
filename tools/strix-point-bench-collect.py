@@ -36,7 +36,7 @@ FILES = {
 OPTIONAL = {
     'http': ('http-result.json', 'http-wire.jsonl', 'server.log', 'stdout.log',
              'stderr.log', 'distrobox-create.log', 'distrobox.stdout.log',
-             'distrobox.stderr.log'),
+             'distrobox.stderr.log', 'http-controls.py', 'http-controls-result.json'),
     'distrobox-bench': ('tokens.json', 'image.png', 'prompt.txt'),
     'http-multi': ('http-multi-result.json', 'measurements.jsonl', 'server.log',
                    'client.stdout.log', 'client.stderr.log', 'stdout.log',
