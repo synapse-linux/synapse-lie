@@ -24,7 +24,9 @@ The original Q8 vision projector is now present on `.161` after a direct
 read-only copy from `.157`. Its 616,703,104 bytes match the pinned SHA-256;
 the source file is unchanged and both machines' leases were released. The
 [copy receipt](../../../../development/validation/point-projector-copy-2026-10-04.json)
-records the handover. Vision inference on this GPU has not yet been qualified.
+records the handover. The [direct core vision gates](#direct-reactive-core-and-q8-vision-gates)
+now exercise that projector on this GPU; served vision and independent image
+quality remain separate qualifications.
 
 | Direct benchmark | LIE prefill | LIE decode | Same-stack Gufo decode | Scope |
 | --- | ---: | ---: | ---: | --- |
@@ -370,6 +372,75 @@ done
 
 This qualifies normal cross-process persistence on `.161`. Abrupt process
 failure, host reboot and SSD eviction remain separate tests.
+
+### Direct reactive core and Q8 vision gates
+
+The sealed `gfx1150` r4 and r5 builds use the same pinned ROCm 10 image,
+original UD shards and optional Q8 sidecars as the modern results above. r4
+is source `080177b`; r5 is source `c07bb95`. The r5 benchmark ELF links
+Zstandard and has no direct LZ4 dependency. The r5 direct C-core
+`--reactive-probe` holds a borrowed text event and its credits, lets a peer
+complete, then cancels the held job. It compares **every byte** of the loan
+after cancellation and checks retirement counters. This is a functional
+credit/ownership test inside inference, without HTTP or a throughput claim.
+
+| Build / mode | Physical input / peer budget | Outcome | Peer / held tokens | Held blocked; completed / cancelled | MTP drafted / accepted; native batches |
+| --- | ---: | --- | ---: | ---: | ---: |
+| r4 AR | 1,500 / 32 | pass | 32 / 8 | 1; 1 / 1 | 0 / 0; 8 |
+| r4 MTP | 1,500 / 32 | fail, exit 1 | — | generic retirement error | — |
+| r5 AR | 1,500 / 32 | pass | 32 / 8 | 1; 1 / 1 | 0 / 0; 8 |
+| r5 MTP | 1,500 / 32 | fail, exit 1 | — | retired: active 0, blocked 0, completed 1, cancelled 1 | accepted 0; — |
+| r5 MTP | 8,192 / 128 | pass | 128 / 8 | 1; 1 / 1 | 100 / 64; 5 |
+
+The r4 MTP error combined an early cross-object counter read with an MTP
+acceptance condition. In r5 the consumer waits, with a two-second bound, for
+the core notice after both peer completion and cancellation. Twenty repeated
+focused CTests then pass; the previous version failed 3/20. The r5 short MTP
+run still rejects its zero accepted drafts, while the known accepting 8K/C2
+frontier passes the complete loan, backpressure and cancellation gate. The
+short failure remains in the raw evidence; neither outcome changes the
+earlier matched MTP performance measurements.
+
+The same r5 binary processes an owned 224×224 PNG (white field, red square)
+through the copied Q8 projector, once in AR and once with Q8 MTP enabled.
+The image SHA-256 is
+`93fb5acb49b2a7f77581f957663f3e4572ccb1dbd8f496dcc163f6eca5c8b76e`.
+Both runs expand to the **same 92 physical input tokens** (SHA-256
+`5c5e8dba04c75812e6f42662371b7a14a3898b7bbf52822800f587af196bf79d`)
+and return the **same 13 output token IDs**. MTP drafts 14 and accepts 8.
+
+| Vision path | Prefill tokens / seconds / tok/s | Decode tokens / seconds / tok/s | Complete wall seconds / tok/s |
+| --- | ---: | ---: | ---: |
+| AR | 92 / 1.405803 / 65.443 | 13 / 1.232467 / 10.548 | 3.025742 / 4.296 |
+| MTP+vision | 92 / 1.400427 / 65.694 | 13 / 0.923468 / 14.077 | 2.710227 / 4.797 |
+
+These are one sample per path, including only 13 generated tokens; they do
+not establish a performance gain. The direct benchmark records token IDs,
+not decoded text, so this Point gate verifies the vision execution path and
+AR/MTP parity rather than whether the sentence describes the red square.
+Served vision and a semantic image-quality suite remain open.
+
+All seven r4/r5 GPU windows preserve the model, predictor and projector file
+identities they admit. The 79 collected remote files match their fresh SHA-256
+inventories. Every window retires its child and supervisor, restores the named
+router and frees the private lease; the final postflight finds only router PID
+123296 in KFD. Maximum sampled CPU/GPU/NVMe temperatures across these runs
+were 73/75/70.85 C, with the GPU observed rather than temperature-limited.
+The successful r5 GPU windows sample at most 44 OS threads in the model
+process; the C core still has one device-owner thread, and this process total
+includes backend/runtime roles. It is not a thread-per-request count.
+The [collection receipt](charts/rocm10-modern-functional-r4-r5-collection.json)
+and [portable raw archive](data/rocm10-modern-functional-r4-r5.tar.gz)
+include each real exit code, failed and passing JSONL, fixture image/prompt,
+physical tokens, build receipts and telemetry. Verify and unpack them from
+the repository root:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-functional-r4-r5
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-functional-r4-r5.tar.gz \
+  -C run/point-modern-functional-r4-r5
+```
 
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)

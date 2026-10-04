@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Point reactive/vision evidence integrated — 2026-10-04 UTC
+
+Root integrates Point `c3e9916`, preserving the native prepared HTTP client,
+sampling controls and all previous source-bound results. Offline audit verifies
+79/79 archived remote files across seven r4/r5 runs, both exit-1 failures, and
+exact 92-input/13-output-ID vision AR/MTP parity. The final r5 AR and 8K MTP
+held-loan gates pass; short MTP with zero accepted drafts remains failed. All
+recorded models/sidecars stay unchanged and every window restores its named
+router and releases its lease. These are functional gates, separate from
+independent vision quality and statistical performance.
+
+The merged native C files remain byte-identical to the already sanitizer-tested
+`74aa208` checkpoint. New supervisor/SSD/thermal fixtures pass 37/37 on `.155`
+without GPU/model access, peaking at CPU82.875 C under CPU98/GPU observe-only.
+All nine archive-index entries verify; three Point artifacts remain byte-identical
+to their checkpoint. Merge conflicts and an initial wrong-directory SHA command
+remain recorded with exit1. Fresh `.157` observation at 04:19:51 UTC finds the
+shared lease held by live PID3401659/start165253067; root acquires no lease and
+continues offline. [Integration receipt](development/validation/point-r5-integration-2026-10-04.json).
+
 ## Native prepared HTTP cohorts — 2026-10-04 UTC
 
 The new `http-multi` suite uses a single C event loop for C1/2/4/6/8, stable
@@ -410,7 +430,22 @@ The [thermal receipt](development/validation/local-thermal-155-2026-10-03.json)
 binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
 and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
 
-## Strix Point core integration checkpoint — 2026-10-03
+## Strix Point core integration checkpoint — 2026-10-03/04
+
+The sealed `.161` ROCm 10 r5 binary now passes original-weight direct C-core
+reactive gates in AR (1,500 physical tokens/TG32) and MTP (8,192/TG128).
+In each, a borrowed output loan and its credits remain held while a peer
+completes its full budget; the held job then cancels and all borrowed bytes
+stay unchanged. MTP drafts 100 and accepts 64 at 8K. The retained short MTP
+gate fails its accepted-draft condition with zero accepted despite completed
+and cancelled counters both equalling one. The same r5 binary passes direct
+Q8-projector vision AR and MTP+vision on `.161`: both use the same 92 physical
+input tokens and 13 output IDs; MTP accepts 8 drafts. These are functional
+GPU checks, not an internal-forward or statistical throughput claim. The
+[full Point gate report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+retains all seven r4/r5 windows, real failures, prefill/decode values,
+79/79 fresh remote SHA checks and raw evidence. All windows restore the
+authorized router, preserve model/sidecar stat and release their lease.
 
 The original Q8 vision projector was copied directly from `.157` to `.161`
 after the coordinated root release, with no source transfer or WAN download.
@@ -422,7 +457,7 @@ restored router PID 108508 in KFD, no LIE container and its private lease
 free. The [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
 and [destination plan](../config/models-161-projector.plan.json) bind the
 source, destination and release. Ownership was returned to Q2/WMMA; the
-projector's presence alone is not a vision inference result.
+later r5 vision inference gates are reported above.
 
 The native C17 core benchmark now has an opt-in `--reactive-probe` functional
 mode: a direct client keeps one output loan and its credits withheld while a
@@ -430,8 +465,9 @@ second row completes, then cancels the held row and verifies the borrowed text
 and retirement counters. It uses no HTTP and reports no speedup. The focused
 synthetic contract passes in normal and ASan/UBSan builds; the sandboxed first
 CTest attempt was blocked by loopback permissions and is retained in ignored
-evidence. This source change still needs a fresh pinned `gfx1150` build and
-original-weight GPU run before it can be cited as Point inference evidence.
+evidence. The later r5 version compares the entire borrowed text, waits for
+worker-wide counters after semantic terminals and has passed the original-
+weight GPU gates above.
 
 The Point `modern-http` GPU gate now passes for both AR and explicit MTP in
 separate lease-supervised ROCm 10 Distrobox windows. It starts the

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 """CPU-only ownership/restore fixtures. Commands and observations are mocked."""
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -316,6 +317,108 @@ class Tests(unittest.TestCase):
             rows[3]['cached_tokens'] = 0
             with self.assertRaisesRegex(RuntimeError, 'did not restore'):
                 c.bench()
+    def test_modern_direct_reactive_probe_requires_peer_progress_and_cancel(self):
+        for mode in ('ar', 'mtp'):
+            with self.subTest(mode=mode):
+                c = self.campaign('modern-reactive-'+mode)
+                tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+                c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                           bench_profile='modern-core-reactive-probe', decode_mode=mode,
+                           bundle=str(self.base), tokens_sha256=point.sha(tokens),
+                           prompt_tokens_expected=3,
+                           runtime_build_id='rocm10-point-modern-r4-runtime',
+                           settings={'context':4096,'chunk':2048,'users':2,'tg':32,
+                                     'warmups':0,'repetitions':1},
+                           model_plan={'files':[{'name':'target.gguf'}]})
+                if mode == 'mtp': c.m['predictor_plan'] = {'files':[{'name':'mtp.gguf'}]}
+                reactive = {'event':'reactive','scope':'direct-c-core-held-loan-peer-cancel',
+                            'synthetic':False,'peer_output_tokens':32,'held_output_tokens':8,
+                            'held_borrowed_tokens':1,'held_output_blocked':1,
+                            'completed_delta':1,'cancelled_delta':1,'decode_batches_delta':4,
+                            'mtp_drafted_delta':6 if mode=='mtp' else 0,
+                            'mtp_accepted_delta':2 if mode=='mtp' else 0}
+                def run(command, _bundle, _timeout, _model):
+                    self.assertIn('--reactive-probe', command)
+                    self.assertEqual(command[command.index('--users')+1], '2')
+                    self.assertEqual('--model-mtp' in command, mode == 'mtp')
+                    rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                             'mode':mode,'synthetic':False,'cache_policy':'off',
+                             'reactive_probe':True,'build_id':'rocm10-point-modern-r4-runtime'},
+                            {'event':'core_ready'},reactive,{'event':'complete','exit_code':0}]
+                    (c.root/'measurements.jsonl').write_text(
+                        ''.join(json.dumps(row)+'\n' for row in rows))
+                with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+                     patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+                     patch.object(c, 'check_model_after'), \
+                     patch.object(c, 'run_container', side_effect=run):
+                    c.bench()
+                    self.assertEqual(c.r['bench_result']['reactive'], reactive)
+                    reactive['held_output_blocked'] = 0
+                    with self.assertRaisesRegex(RuntimeError, 'reactive GPU probe'):
+                        c.bench()
+                    reactive['held_output_blocked'] = 1
+                    c.m['settings']['users'] = 1
+                    with self.assertRaisesRegex(ValueError, 'C2'):
+                        c.bench()
+    def test_modern_vision_gate_uses_pinned_image_and_real_output(self):
+        fixture = point.vision_fixture_png()
+        self.assertEqual(fixture[:8], b'\x89PNG\r\n\x1a\n')
+        self.assertEqual(hashlib.sha256(fixture).hexdigest(),
+                         '93fb5acb49b2a7f77581f957663f3e4572ccb1dbd8f496dcc163f6eca5c8b76e')
+        for mode in ('ar', 'mtp'):
+            with self.subTest(mode=mode):
+                c = self.campaign('modern-vision-'+mode)
+                c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                           bench_profile='modern-core-vision', decode_mode=mode,
+                           bundle=str(self.base), runtime_build_id='rocm10-point-modern-r4-runtime',
+                           model_plan={'files':[{'name':'target.gguf'}]},
+                           projector_plan={'files':[{'name':'projector.gguf'}]},
+                           vision_fixture_sha256=hashlib.sha256(fixture).hexdigest(),
+                           vision_prompt_sha256=hashlib.sha256(point.VISION_PROMPT.encode()).hexdigest(),
+                           settings={'context':8192,'chunk':2048,'users':1,'tg':32,
+                                     'warmups':0,'repetitions':1})
+                if mode == 'mtp': c.m['predictor_plan'] = {'files':[{'name':'mtp.gguf'}]}
+                def run(command, _bundle, _timeout, _model):
+                    self.assertEqual(command[command.index('--model-vision')+1], '/vision/projector.gguf')
+                    self.assertEqual('--model-mtp' in command, mode == 'mtp')
+                    self.assertEqual((c.root/'image.png').read_bytes(), fixture)
+                    self.assertEqual((c.root/'prompt.txt').read_text(), point.VISION_PROMPT)
+                    rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                             'mode':'mtp+vision' if mode=='mtp' else 'vision',
+                             'synthetic':False,'input_kind':'messages-with-image',
+                             'image_sha256':c.m['vision_fixture_sha256'],
+                             'vision_model':'/vision/projector.gguf','cache_policy':'off',
+                             'build_id':'rocm10-point-modern-r4-runtime'},
+                            {'event':'input','prompt_tokens':150,'physical_ids_sha256':'a'*64},
+                            {'event':'job','output_tokens':2,'prefill_tokens':150,
+                             'output_ids':[4,5],'mtp_accepted_tokens':1 if mode=='mtp' else 0,
+                             'mtp_drafted_tokens':2 if mode=='mtp' else 0},
+                            {'event':'sample'}, {'event':'complete','exit_code':0}]
+                    (c.root/'measurements.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+                with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+                     patch.object(c, 'verified_projector', return_value=(self.base/'projector.gguf', {})), \
+                     patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+                     patch.object(c, 'check_model_after'), \
+                     patch.object(c, 'run_container', side_effect=run):
+                    c.bench()
+                    self.assertEqual(c.r['bench_result']['output_ids'], [4,5])
+    def test_projector_receipt_requires_unchanged_file_identity(self):
+        c = self.campaign('projector-identity')
+        directory = self.base/'projector'; directory.mkdir()
+        path = directory/'projector.gguf'; path.write_bytes(b'pinned fixture projector')
+        st = path.stat()
+        row = {'path':str(path),'bytes':st.st_size,'device':st.st_dev,
+               'inode':st.st_ino,'mtime_ns':st.st_mtime_ns,'ctime_ns':st.st_ctime_ns,
+               'sha256':point.sha(path)}
+        plan = {'destination':str(directory),
+                'files':[{'name':path.name,'sha256':row['sha256']}]}
+        (directory/'SOURCE.json').write_text(json.dumps({
+            'plan':plan,'result':{'state':'VERIFIED','files':[row]}}))
+        c.m['projector_plan'] = plan
+        self.assertEqual(c.verified_projector()[0], path)
+        path.write_bytes(b'changed fixture')
+        with self.assertRaisesRegex(RuntimeError, 'Projector identity drift'):
+            c.verified_projector()
     def test_modern_mtp_ssd_gate_is_explicit_and_requires_disk_hit(self):
         c = self.campaign('modern-ssd')
         tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')

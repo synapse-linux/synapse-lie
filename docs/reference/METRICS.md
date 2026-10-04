@@ -293,6 +293,12 @@ the regular benchmark report requires measured samples and does not export this
 probe as a performance comparison. The `synthetic` field retains its usual
 meaning. Historical normal core records without `reactive_probe` remain readable.
 
+The consumer waits for core-wide completion/cancellation counters after job
+terminals. A successful row requires one completion and one cancellation; an
+MTP probe also requires accepted drafts. A failed gate emits its actual error
+and exit code. [Point GPU examples](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+retain both passing and failing gates.
+
 ## Prepared HTTP multi-user benchmark
 
 `synapse-lie.http-multi-bench.v1` contains identity, prepared cohort records and

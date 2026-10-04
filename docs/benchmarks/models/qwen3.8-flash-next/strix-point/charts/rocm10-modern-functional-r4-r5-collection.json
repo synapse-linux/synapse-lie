@@ -1,0 +1,429 @@
+{
+  "schema": "synapse-lie.point-modern-functional.v1",
+  "scope": "original-weight gfx1150 GPU direct C core reactive and vision functional gates; not statistical performance or semantic vision quality",
+  "host": "pop@192.168.5.161",
+  "runtime_image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "guard": "CPU98/NVMe min85 hardware; GPU observed only",
+  "runs": [
+    {
+      "label": "point-modern-r4-reactive-ar",
+      "source_commit": "080177b53517dfd5987c92c0f38b9655a2c48e9e",
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "112949",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:19:42.078999+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 11,
+      "collection_sha256": "2207cefd729f535fe05622e96f7e18b3205be25e3e0a9f2f49774e5b9eca1cdc",
+      "measurements_sha256": "985130c2d8973bf9d3f5ea5c9213a851d33c3b1b6de1d2aaa168498766006cee",
+      "max_observed_c": {
+        "nvme": 66.85,
+        "amdgpu": 64.0,
+        "k10temp": 64.0
+      },
+      "terminal": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bench_result": {
+        "profile": "modern-core-reactive-probe",
+        "mode": "ar",
+        "reactive": {
+          "event": "reactive",
+          "scope": "direct-c-core-held-loan-peer-cancel",
+          "synthetic": false,
+          "peer_output_tokens": 32,
+          "held_output_tokens": 8,
+          "held_borrowed_tokens": 1,
+          "held_output_blocked": 1,
+          "completed_delta": 1,
+          "cancelled_delta": 1,
+          "decode_batches_delta": 8,
+          "mtp_drafted_delta": 0,
+          "mtp_accepted_delta": 0
+        },
+        "measurements_sha256": "985130c2d8973bf9d3f5ea5c9213a851d33c3b1b6de1d2aaa168498766006cee"
+      }
+    },
+    {
+      "label": "point-modern-r4-reactive-mtp",
+      "source_commit": "080177b53517dfd5987c92c0f38b9655a2c48e9e",
+      "state": "FAILED",
+      "supervisor_exit_code": 1,
+      "child_exit_code": 1,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "114020",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:21:44.459525+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 11,
+      "collection_sha256": "10f9424bc07337f104c6c3e61e0842f16ac11bdc28a10a8f14da1cf1773ff803",
+      "measurements_sha256": "3be8a418404a0c8d33ed91d6c08d60c817cf83a4ff97a276bf3c2b614690b0ab",
+      "max_observed_c": {
+        "nvme": 68.85,
+        "amdgpu": 66.0,
+        "k10temp": 65.0
+      },
+      "terminal": {
+        "event": "failed",
+        "exit_code": 1,
+        "error": "reactive retirement counters invalid"
+      }
+    },
+    {
+      "label": "point-modern-r5-reactive-ar",
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "120919",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:39:46.391447+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 11,
+      "collection_sha256": "461478ed6b37bbf5568eab73ae344f58e082a0d1eddea9406046be752b57ee70",
+      "measurements_sha256": "ad62ece52a2eb473b296036f7dfde6b9fb2dcc53b052dc798b82d5dec51b7b55",
+      "max_observed_c": {
+        "nvme": 70.85,
+        "amdgpu": 67.0,
+        "k10temp": 66.75
+      },
+      "terminal": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bench_result": {
+        "profile": "modern-core-reactive-probe",
+        "mode": "ar",
+        "reactive": {
+          "event": "reactive",
+          "scope": "direct-c-core-held-loan-peer-cancel",
+          "synthetic": false,
+          "peer_output_tokens": 32,
+          "held_output_tokens": 8,
+          "held_borrowed_tokens": 1,
+          "held_output_blocked": 1,
+          "completed_delta": 1,
+          "cancelled_delta": 1,
+          "decode_batches_delta": 8,
+          "mtp_drafted_delta": 0,
+          "mtp_accepted_delta": 0
+        },
+        "measurements_sha256": "ad62ece52a2eb473b296036f7dfde6b9fb2dcc53b052dc798b82d5dec51b7b55"
+      }
+    },
+    {
+      "label": "point-modern-r5-reactive-mtp",
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "state": "FAILED",
+      "supervisor_exit_code": 1,
+      "child_exit_code": 1,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "118533",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:34:47.667504+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 11,
+      "collection_sha256": "d069dfc43a6ac4a29ba75ae26f9ab14893171acda955966b0b4eb19de49996e6",
+      "measurements_sha256": "33b45d1879fba3dd85dd46f06a64ba1309664d5968fdbb6f8fe7cac42c1195b4",
+      "max_observed_c": {
+        "nvme": 67.85,
+        "amdgpu": 66.0,
+        "k10temp": 64.625
+      },
+      "terminal": {
+        "event": "failed",
+        "exit_code": 1,
+        "error": "reactive retirement counters invalid: active=0 blocked=0 completed=1 cancelled=1 mtp_accepted=0"
+      }
+    },
+    {
+      "label": "point-modern-r5-reactive-mtp-8192",
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "119736",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:37:53.899258+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 11,
+      "collection_sha256": "fc592d3a5bbbe41703ec28f45864179ca6cfc491bb571690128b4d08735b9e5e",
+      "measurements_sha256": "ce3c57c3fa05eb8230cf10a9f0d08702da8408be000bfbcd34dc21df1a785ef1",
+      "max_observed_c": {
+        "nvme": 67.85,
+        "amdgpu": 75.0,
+        "k10temp": 73.0
+      },
+      "terminal": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bench_result": {
+        "profile": "modern-core-reactive-probe",
+        "mode": "mtp",
+        "reactive": {
+          "event": "reactive",
+          "scope": "direct-c-core-held-loan-peer-cancel",
+          "synthetic": false,
+          "peer_output_tokens": 128,
+          "held_output_tokens": 8,
+          "held_borrowed_tokens": 1,
+          "held_output_blocked": 1,
+          "completed_delta": 1,
+          "cancelled_delta": 1,
+          "decode_batches_delta": 5,
+          "mtp_drafted_delta": 100,
+          "mtp_accepted_delta": 64
+        },
+        "measurements_sha256": "ce3c57c3fa05eb8230cf10a9f0d08702da8408be000bfbcd34dc21df1a785ef1"
+      }
+    },
+    {
+      "label": "point-modern-r5-vision-ar",
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "122106",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:41:14.743795+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 12,
+      "collection_sha256": "34ba9c5c7716343a4c6549c20cb0ed8126ddd5a5e5364e751abfbe086cbf6d49",
+      "measurements_sha256": "f86cf22ceaf385b189269b4459c9af993908e260c70b91d318feef2e0c504e91",
+      "max_observed_c": {
+        "nvme": 68.85,
+        "amdgpu": 56.0,
+        "k10temp": 65.5
+      },
+      "terminal": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bench_result": {
+        "profile": "modern-core-vision",
+        "mode": "ar",
+        "prompt_tokens": 92,
+        "physical_ids_sha256": "5c5e8dba04c75812e6f42662371b7a14a3898b7bbf52822800f587af196bf79d",
+        "output_ids": [
+          760,
+          2099,
+          18126,
+          264,
+          6235,
+          2438,
+          9057,
+          29203,
+          383,
+          264,
+          4022,
+          3870,
+          13
+        ],
+        "output_tokens": 13,
+        "mtp_accepted_tokens": 0,
+        "measurements_sha256": "f86cf22ceaf385b189269b4459c9af993908e260c70b91d318feef2e0c504e91"
+      },
+      "phase": {
+        "prompt_tokens": 92,
+        "output_tokens": 13,
+        "prefill_tokens": 92,
+        "prefill_ns": 1405802592,
+        "decode_ns": 1232467254,
+        "total_ns": 3025741685,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "wall_ns": 3025742086
+      }
+    },
+    {
+      "label": "point-modern-r5-vision-mtp",
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "state": "PASSED",
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "model_stat_unchanged": true,
+      "service_after": {
+        "MainPID": "123296",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-04T03:42:48.508252+00:00",
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "kernel_kfd": [
+          "123296"
+        ]
+      },
+      "remote_files_verified": 12,
+      "collection_sha256": "cac4a292efb213d93ac79b3c1a38ecd0f25ac11c688cdd975b05e62a6ce56578",
+      "measurements_sha256": "6366a52f6d4884877cc368f51e3c9f0b985775d062127f214daf91aa91b050ba",
+      "max_observed_c": {
+        "nvme": 69.85,
+        "amdgpu": 65.0,
+        "k10temp": 64.75
+      },
+      "terminal": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bench_result": {
+        "profile": "modern-core-vision",
+        "mode": "mtp",
+        "prompt_tokens": 92,
+        "physical_ids_sha256": "5c5e8dba04c75812e6f42662371b7a14a3898b7bbf52822800f587af196bf79d",
+        "output_ids": [
+          760,
+          2099,
+          18126,
+          264,
+          6235,
+          2438,
+          9057,
+          29203,
+          383,
+          264,
+          4022,
+          3870,
+          13
+        ],
+        "output_tokens": 13,
+        "mtp_accepted_tokens": 8,
+        "measurements_sha256": "6366a52f6d4884877cc368f51e3c9f0b985775d062127f214daf91aa91b050ba"
+      },
+      "phase": {
+        "prompt_tokens": 92,
+        "output_tokens": 13,
+        "prefill_tokens": 92,
+        "prefill_ns": 1400427106,
+        "decode_ns": 923467782,
+        "total_ns": 2710226703,
+        "mtp_drafted_tokens": 14,
+        "mtp_accepted_tokens": 8,
+        "wall_ns": 2710226883
+      }
+    }
+  ],
+  "builds": {
+    "r4": {
+      "source_commit": "080177b53517dfd5987c92c0f38b9655a2c48e9e",
+      "source_archive_sha256": "6f841636919431d9b1e28a03f84f0b8370b89977ed09347cd1a965b2df75d600",
+      "source_inventory_sha256": "d6c6750741f790b3d97c7d478853b24a5a069a66b05e03327409fc87e6a91d9e",
+      "bundle_receipt_sha256": "8d60e6ca7ffcd589aa4cd382ea8adc81e3a0a4e14ebcd5dda44fab8c2ac425fe",
+      "binary_sha256": {
+        "runtime/bin/lie-hip-probe": "2e2db259250713b6b41831a9e7df8a0360e7e5d400b70a016ee596dacd8f31e6",
+        "runtime/bin/synapse-lie-bench": "195c11c522309afbb73b13f6d8bdc89903555e8dd75c7cc3468fb0e550cd3425",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "e3392760f9b13b6fb5cf8a36ca3019342de552695abcc0b6a863fa666eb7bf8d",
+        "runtime/bin/synapse-lie-server": "525a05134a4defea50cb24e0b2209a4ad6eec29b2ff8842a55cef37bcd1368b9"
+      },
+      "build_exit_code": 0,
+      "lease_released_at": "2026-10-04T03:13:51.607474+00:00",
+      "service_after": {
+        "MainPID": "111778",
+        "ActiveState": "active",
+        "SubState": "running"
+      }
+    },
+    "r5": {
+      "source_commit": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+      "source_archive_sha256": "047f235c26afaf44a472bf9d4a970825519dd337f2946b0bf4767e8d76fd4af7",
+      "source_inventory_sha256": "77b365651ba88db63c1fed7f7dae83cf62e8a037c1dfcc406f17454076662123",
+      "bundle_receipt_sha256": "f6a68313a3a26d0f7d554eb83ab8b3a093b6731b92158d50300b06992de6f5b3",
+      "binary_sha256": {
+        "runtime/bin/lie-hip-probe": "76ffe01bd4c14b295f9a2c823485b8d6ad4dc436f221a9b52f11a5c9c242cfa9",
+        "runtime/bin/synapse-lie-bench": "e15d4f9efd61a1eeae835372bee7a2af6c9b6473e913586f99b778f5aef4c099",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "915a5af9f27e2f90092404bd7704be53d5069ad9bc48853f24c25a97046c60de",
+        "runtime/bin/synapse-lie-server": "154e996c02d84f1f08f4d1f8b9b2a51e25ef91afa3ebf6a8a5023618caf3799e"
+      },
+      "build_exit_code": 0,
+      "lease_released_at": "2026-10-04T03:32:26.494327+00:00",
+      "service_after": {
+        "MainPID": "117362",
+        "ActiveState": "active",
+        "SubState": "running"
+      }
+    }
+  },
+  "archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-functional-r4-r5.tar.gz",
+    "sha256": "21287c75f8bd550dd8e68c06d0f7de4eeee16bb5f5a6fac36e415187815e7ee9",
+    "bytes": 503859,
+    "files": 201
+  }
+}

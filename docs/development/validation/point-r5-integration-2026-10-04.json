@@ -1,0 +1,460 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "schema": "synapse-lie.point-r5-integration.host.v1",
+  "at_utc": "2026-10-04T04:23:19.133046+00:00",
+  "root_parent": "74aa208978cc7aab95d6bb5ff44c83876a39b5b8",
+  "Point_parent": "c3e9916480e438a75de82b79da4114a4d8fe4e8f",
+  "scope": "Root .155 host supervisor fixtures and offline Point archive audit; no new original-weight GPU execution, remote build, model access or qualification of new client binaries",
+  "native_C_sources_byte_unchanged_from": "74aa208",
+  "native_source_hash_witness": "http-multi-native-2026-10-04.json",
+  "executors_workers_or_ABI_changed": false,
+  "control_fixture_tests": 37,
+  "control_command": {
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_strix_point_campaign",
+      "tests.test_strix_point_ssd_restart",
+      "tests.test_thermal_guard",
+      "-q"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 39.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 39.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 82.875
+    },
+    "elapsed_s": 5.096564587205648
+  },
+  "control_sensor_policies": [
+    {
+      "name": "nvme",
+      "path": "/sys/class/hwmon/hwmon6/temp1_input",
+      "limit_c": 85,
+      "policy": "operating-ceiling"
+    },
+    {
+      "name": "nvme",
+      "path": "/sys/class/hwmon/hwmon6/temp2_input",
+      "limit_c": 85,
+      "policy": "operating-ceiling"
+    },
+    {
+      "name": "amdgpu",
+      "path": "/sys/class/hwmon/hwmon7/temp1_input",
+      "limit_c": null,
+      "policy": "observe-only"
+    },
+    {
+      "name": "k10temp",
+      "path": "/sys/class/hwmon/hwmon8/temp1_input",
+      "limit_c": 98.0,
+      "policy": "operating-ceiling"
+    }
+  ],
+  "CPU_guard_C": 98,
+  "GPU_software_guard": null,
+  "NVMe_guard_C": 85,
+  "max_local_CPU_C": 82.875,
+  "archive_verification_exit_code": 0,
+  "archive_audit": {
+    "scope": "Root offline audit; no new GPU or target access",
+    "archive_sha256": "21287c75f8bd550dd8e68c06d0f7de4eeee16bb5f5a6fac36e415187815e7ee9",
+    "remote_files_sha_verified": 79,
+    "runs": [
+      {
+        "label": "point-modern-r4-reactive-ar",
+        "source": "080177b53517dfd5987c92c0f38b9655a2c48e9e",
+        "state": "PASSED",
+        "supervisor_exit": 0,
+        "child_exit": 0,
+        "remote_files_sha_verified": 11,
+        "terminal": {
+          "event": "complete",
+          "exit_code": 0
+        }
+      },
+      {
+        "label": "point-modern-r4-reactive-mtp",
+        "source": "080177b53517dfd5987c92c0f38b9655a2c48e9e",
+        "state": "FAILED",
+        "supervisor_exit": 1,
+        "child_exit": 1,
+        "remote_files_sha_verified": 11,
+        "terminal": {
+          "event": "failed",
+          "exit_code": 1,
+          "error": "reactive retirement counters invalid"
+        }
+      },
+      {
+        "label": "point-modern-r5-reactive-ar",
+        "source": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+        "state": "PASSED",
+        "supervisor_exit": 0,
+        "child_exit": 0,
+        "remote_files_sha_verified": 11,
+        "terminal": {
+          "event": "complete",
+          "exit_code": 0
+        }
+      },
+      {
+        "label": "point-modern-r5-reactive-mtp",
+        "source": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+        "state": "FAILED",
+        "supervisor_exit": 1,
+        "child_exit": 1,
+        "remote_files_sha_verified": 11,
+        "terminal": {
+          "event": "failed",
+          "exit_code": 1,
+          "error": "reactive retirement counters invalid: active=0 blocked=0 completed=1 cancelled=1 mtp_accepted=0"
+        }
+      },
+      {
+        "label": "point-modern-r5-reactive-mtp-8192",
+        "source": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+        "state": "PASSED",
+        "supervisor_exit": 0,
+        "child_exit": 0,
+        "remote_files_sha_verified": 11,
+        "terminal": {
+          "event": "complete",
+          "exit_code": 0
+        }
+      },
+      {
+        "label": "point-modern-r5-vision-ar",
+        "source": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+        "state": "PASSED",
+        "supervisor_exit": 0,
+        "child_exit": 0,
+        "remote_files_sha_verified": 12,
+        "terminal": {
+          "event": "complete",
+          "exit_code": 0
+        }
+      },
+      {
+        "label": "point-modern-r5-vision-mtp",
+        "source": "c07bb953bcf2156712b750cca06367fe7f3efe3c",
+        "state": "PASSED",
+        "supervisor_exit": 0,
+        "child_exit": 0,
+        "remote_files_sha_verified": 12,
+        "terminal": {
+          "event": "complete",
+          "exit_code": 0
+        }
+      }
+    ],
+    "vision": [
+      {
+        "label": "point-modern-r5-vision-ar",
+        "input": [
+          248045,
+          846,
+          198,
+          72240,
+          279,
+          1822,
+          1829,
+          321,
+          5893,
+          6625,
+          303,
+          279,
+          2099,
+          303,
+          799,
+          11316,
+          13,
+          248053,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248054,
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          271,
+          248069,
+          271
+        ],
+        "output": [
+          760,
+          2099,
+          18126,
+          264,
+          6235,
+          2438,
+          9057,
+          29203,
+          383,
+          264,
+          4022,
+          3870,
+          13
+        ],
+        "drafted": 0,
+        "accepted": 0
+      },
+      {
+        "label": "point-modern-r5-vision-mtp",
+        "input": [
+          248045,
+          846,
+          198,
+          72240,
+          279,
+          1822,
+          1829,
+          321,
+          5893,
+          6625,
+          303,
+          279,
+          2099,
+          303,
+          799,
+          11316,
+          13,
+          248053,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248056,
+          248054,
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          271,
+          248069,
+          271
+        ],
+        "output": [
+          760,
+          2099,
+          18126,
+          264,
+          6235,
+          2438,
+          9057,
+          29203,
+          383,
+          264,
+          4022,
+          3870,
+          13
+        ],
+        "drafted": 14,
+        "accepted": 8
+      }
+    ],
+    "collection_closure_scope": "Collection-time postflight identities/KFD; service_after values are historical per-window results"
+  },
+  "archive_index_verification": {
+    "argv": [
+      "sha256sum",
+      "-c",
+      "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256"
+    ],
+    "exit_code": 0,
+    "stdout": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-gufo.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-gufo.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz: OK\ndocs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-functional-r4-r5.tar.gz: OK\n",
+    "stderr": ""
+  },
+  "Point_artifacts_byte_identical_to_checkpoint": 3,
+  "conflicts_resolved": [
+    "CHANGELOG.md",
+    "docs/PROGRESS.md",
+    "docs/guides/BENCHMARKS.md",
+    "tests/test_core_bench.py"
+  ],
+  "preserved_failures": [
+    {
+      "argv": [
+        "git",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "c3e9916"
+      ],
+      "exit_code": 1,
+      "reason": "Four merge conflicts in documentation/whitespace; resolved preserving both source histories and root HTTP/sampling contracts."
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "-c",
+        "archives.sha256"
+      ],
+      "workdir": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data",
+      "exit_code": 1,
+      "reason": "Index paths are relative to repository root; rerun from root without modifying artifacts."
+    }
+  ],
+  "latest_remote_observation": {
+    "at_utc": "2026-10-04T04:19:51.548096+00:00",
+    "host": "192.168.5.157",
+    "known_lease_holders": [
+      {
+        "lease": "shared",
+        "pid": 3401659,
+        "device_inode": [
+          0,
+          55,
+          45067
+        ],
+        "start_ticks": 165253067,
+        "proc_state": "S",
+        "live": true
+      }
+    ],
+    "scope": "Read-only proc-lock/PID observation; no lease acquisition or GPU/model access",
+    "ssh_exit_code": 0
+  },
+  "private_qualification_helpers_Python": true,
+  "product_Python_dependency": false,
+  "quality_or_statistical_performance_claim": false,
+  "remaining": [
+    "paired prepared HTTP AR/MTP performance campaign",
+    "independent vision numerical quality; earlier textured L2 failure remains open",
+    "live RNG-session continuation",
+    "allocation-exact GPU memory and cold-file-to-HTTP readiness",
+    "512K/1M provider/RoPE/memory-fit/quality gates"
+  ],
+  "evidence_root": "evidence/point-r5-integration-r1/"
+}

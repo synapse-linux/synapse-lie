@@ -16,14 +16,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('label')
     parser.add_argument('manifest', type=Path)
+    parser.add_argument('--tokens-file', type=Path,
+                        help='Stage a pinned physical-token JSON file as tokens.json')
     args = parser.parse_args()
     if not re.fullmatch('[a-z0-9-]{1,48}', args.label): parser.error('Invalid exclusive campaign label')
     manifest = json.loads(args.manifest.read_text())
+    tokens = None
+    if args.tokens_file:
+        tokens = args.tokens_file.read_bytes()
+        if hashlib.sha256(tokens).hexdigest() != manifest.get('tokens_sha256'):
+            parser.error('Physical-token file SHA-256 differs from manifest')
     out = ROOT/'evidence'/args.label
     out.mkdir(parents=True, exist_ok=False)
     files = {'manifest.json': (json.dumps(manifest, indent=2)+'\n').encode(),
              'runner.py': (ROOT/'tools/strix-point-campaign.py').read_bytes()}
     if manifest['action'] == 'download': files['download.py'] = (ROOT/'tools/strix-point-download.py').read_bytes()
+    if tokens is not None:
+        files['tokens.json'] = tokens
     for name, data in files.items(): (out/name).write_bytes(data)
     encoded = {name: base64.b64encode(data).decode() for name, data in files.items()}
     program = '''import base64,os,pathlib,sys

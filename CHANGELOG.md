@@ -20,6 +20,9 @@ stable release is declared. Detailed validation history is in
 
 - Qualification supervisors apply temperature stops to the CPU and SSD;
   GPU temperatures remain recorded without a software temperature stop.
+- Removed the retired LZ4 checkpoint codec and its build/link dependency;
+  current compressed checkpoints use Zstandard. Historical reports retain
+  their original codec label as provenance.
 
 - Combined benchmark CSV duration columns now explicitly use seconds.
 
@@ -35,6 +38,8 @@ stable release is declared. Detailed validation history is in
 - Direct-core `--reactive-probe` checks peer progress during a held output loan,
   full loan stability across cancellation, and retirement. It is a functional
   check, separate from throughput benchmarks.
+  Strix Point AR and 8K MTP gates pass; the short zero-acceptance MTP gate
+  remains a recorded failure. Direct AR and MTP+vision retain exact token parity.
 
 - Explicit `gfx1150` Strix Point support, with provider target verification and
   paired GPU benchmark results grouped on the platform page.

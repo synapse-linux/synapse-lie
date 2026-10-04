@@ -16,12 +16,17 @@ SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
 FILES = {
     'bench': ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
               'telemetry.jsonl', 'stdout.log', 'stderr.log'),
+    'distrobox-bench': ('manifest.json', 'runner.py', 'result.json',
+                       'measurements.jsonl', 'telemetry.jsonl', 'stdout.log',
+                       'stderr.log', 'distrobox-create.log',
+                       'distrobox.stdout.log', 'distrobox.stderr.log'),
     'diagnostic': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                    'stdout.log', 'stderr.log'),
     'image-build': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                     'image-build.log'),
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
+OPTIONAL = {'distrobox-bench': ('tokens.json', 'image.png', 'prompt.txt')}
 
 
 def sha(path):
@@ -38,7 +43,7 @@ def main():
     local = ROOT/'evidence'/args.label
     if not (local/'plan.json').is_file(): parser.error('Unknown local campaign label')
     remote = BASE+'/'+args.label
-    names = FILES[args.kind]
+    names = FILES[args.kind] + OPTIONAL.get(args.kind, ())
     program = '''import fcntl,hashlib,json,os,pathlib,subprocess
 base=pathlib.Path('/home/pop/workspace/synapse-lie')
 root=base/'''+repr(args.label)+'''
@@ -93,7 +98,7 @@ print(json.dumps(out))
             sha(dest) != identity['sha256']):
             status['error'] = 'Copy/hash mismatch: '+name
             break
-    required = set(names)
+    required = set(FILES[args.kind])
     if not status.get('error') and not required.issubset(inventory['files']):
         status['error'] = 'Missing required evidence files'
     status['exit_code'] = 0 if not status.get('error') else 1

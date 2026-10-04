@@ -15,6 +15,14 @@ integration awaits GPU retesting. Independent quality, allocation-exact memory f
 performance qualification remain open. [Joint configuration](../guides/USAGE.md#mtp-with-images)
 uses the same core, reactive output flow and RAM/SSD state.
 
+The separate [Strix Point direct-core gates](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+now pass on `.161` with the copied original Q8 projector, once in AR and once
+with Q8 MTP. They use the same 224×224 PNG, expand to identical 92 physical
+tokens and produce identical 13 output IDs; MTP accepts 8 drafts. The Point
+benchmark records token IDs rather than decoded text, so this result verifies
+the image execution path and AR/MTP parity, not color recognition quality.
+Its one-sample prefill/decode values are observations, not a speed claim.
+
 ## Use
 
 Build as described in the [build guide](../guides/BUILD.md). `LIE_VISION=ON` is the
