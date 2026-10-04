@@ -3,6 +3,15 @@
 
 ## Strix Point core integration checkpoint — 2026-10-03
 
+The native C17 core benchmark now has an opt-in `--reactive-probe` functional
+mode: a direct client keeps one output loan and its credits withheld while a
+second row completes, then cancels the held row and verifies the borrowed text
+and retirement counters. It uses no HTTP and reports no speedup. The focused
+synthetic contract passes in normal and ASan/UBSan builds; the sandboxed first
+CTest attempt was blocked by loopback permissions and is retained in ignored
+evidence. This source change still needs a fresh pinned `gfx1150` build and
+original-weight GPU run before it can be cited as Point inference evidence.
+
 The Point `modern-http` GPU gate now passes for both AR and explicit MTP in
 separate lease-supervised ROCm 10 Distrobox windows. It starts the
 original-weight server with fresh requests, verifies `/v1/models`, Chat

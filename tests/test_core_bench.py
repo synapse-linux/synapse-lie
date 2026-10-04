@@ -20,6 +20,32 @@ RUNNER=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.p
 
 
 class CoreBench(unittest.TestCase):
+    def test_direct_reactive_held_loan_peer_and_cancel(self):
+        with tempfile.TemporaryDirectory(prefix='lie-core-reactive-') as tmp:
+            root=Path(tmp);source=root/'tokens.json';source.write_text(json.dumps([0,1,2,3]))
+            output=root/'reactive.jsonl'
+            command=[BINARY,'--suite','core','--model',':fixture:',
+                     '--output',str(output),'--tokens-file',str(source),
+                     '--context','128','--chunk','4','--users','2','--tg','32',
+                     '--warmups','0','--repetitions','1','--kv-cache-ram-mb','0',
+                     '--timeout-ms','30000','--reactive-probe']
+            p=subprocess.run(command,capture_output=True,text=True,timeout=15)
+            self.assertEqual(p.returncode,0,p.stderr)
+            rows=[json.loads(line) for line in output.read_text().splitlines()]
+            self.assertTrue(rows[0]['synthetic'])
+            self.assertTrue(rows[0]['reactive_probe'])
+            probe=next(row for row in rows if row['event']=='reactive')
+            self.assertEqual(probe['scope'],'direct-c-core-held-loan-peer-cancel')
+            self.assertEqual(probe['peer_output_tokens'],32)
+            self.assertGreater(probe['held_borrowed_tokens'],0)
+            self.assertEqual(probe['held_output_tokens'],8)
+            self.assertEqual(probe['held_output_blocked'],1)
+            self.assertEqual(probe['completed_delta'],1)
+            self.assertEqual(probe['cancelled_delta'],1)
+            self.assertEqual(rows[-1],{'event':'complete','exit_code':0})
+            refused=subprocess.run(command[:-1]+['--reactive-probe','--reactive-probe'],
+                                   capture_output=True,text=True,timeout=15)
+            self.assertEqual(refused.returncode,2)
     def test_model_load_error_is_preserved(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-load-failure-') as tmp:
             p,path=self.run_case(tmp,model=':load-failure:')
