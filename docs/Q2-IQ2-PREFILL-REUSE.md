@@ -79,8 +79,11 @@ measurements. The grid variant's BN128 register increase is a material risk.
   cannot supply the CUDA direct-fused path on this GPU.
 
 The earlier live-stage candidate is still a third separate prefill hypothesis:
-it avoids repeated stores for empty fragments that WMMA never reads. It has
-static evidence but no GPU qualification and is not included in these patches.
+it avoids repeated stores for empty fragments that WMMA never reads. Its
+[subsequent component comparison](Q2-LIVE-STAGE.md) now preserves all outputs
+and saves 0.817–2.081% against the repeated reference, but fails the frozen
+advancement gate in two cases. It is not included in these patches and does
+not launch another full-model curve.
 
 A later [read-only traffic accounting](../config/q2-iq2-live-stage-traffic.json)
 finds 48.61–50.85% of reserved 16-row activation fragments are wholly unread

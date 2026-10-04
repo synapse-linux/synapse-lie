@@ -69,11 +69,13 @@ promoted. The unchanged Q2 depth-zero PP itself rises 849.444→1255.841;
 all control variation and UD observations remain in the full graph and CSV.
 The GPU window is released and the complete parity target remains open.
 
-The separate [live-stage store-mask probe](docs/Q2-LIVE-STAGE.md) now has a
-three-arm component plan. It skips repeated LDS stores during the matrix loop,
-with the existing epilogue unchanged. Sixteen measured harness/fixture files
-match the prior .157 host qualification byte for byte, so no unchanged CPU
-suite is rerun. GPU admission and runtime results remain pending.
+The separate [live-stage store-mask comparison](docs/Q2-LIVE-STAGE.md) completes
+three GPU component arms: all 51 independent checks pass per arm and all 102
+output arrays match. Complete cycles save 0.817–2.081% against the final
+reference on recorded routing shapes. Two cases fail the frozen advancement
+threshold, so no further model curve is launched. All 105 samples and the
+graph are retained; the GPU window is released. Existing host qualification
+is reused after exact comparison of all sixteen measured files.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes

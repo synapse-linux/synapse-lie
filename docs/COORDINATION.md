@@ -6,7 +6,21 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T14:00:26.756854+00:00** after
+Latest Q2 window: **released at 2026-10-04T14:15:56.585533+00:00** after
+three IQ2 live-stage components, nine zero command exits and 318 verified
+artifacts. All 51 independent checks pass per arm; all 102 output arrays match.
+The frozen performance gate does not select another model run. Existing host
+22/22 Debug/ASan qualification is reused after sixteen exact file comparisons.
+Admission at 14:10:02 UTC and checkpoint `7c01428` remain retained.
+
+Closure verifies 283 identities/215 groups retired, KFD empty, four original
+lease inodes free and six original model stat tuples unchanged. Main/remote
+release/active/ready and the registry record closure; core is notified. No Q2
+job, GPU reservation, observer/waiter, restart or .157 cleanup remains.
+[Release](../config/q2-live-stage-window-release.json), SHA256
+`5fbc4745618252e52b0590b7d562ae49538d3021762dd597c8fea6985191499d`.
+
+Previous Q2 window: **released at 2026-10-04T14:00:26.756854+00:00** after
 four complete native canonical 0–128K curves: ordered control, scaled-row input
 reuse, repeated ordered control and pristine UD. All 32 model commands exit
 zero and 68 artifacts verify; both complete Q2 histories match. Host Debug and

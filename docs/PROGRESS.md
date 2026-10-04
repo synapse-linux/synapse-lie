@@ -1,16 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## Distinct live-stage probe prepared with existing host qualification — 2026-10-04
+## Distinct live-stage component complete; no new model curve — 2026-10-04
 
-The earlier static IQ2 stage-mask source has no retained runtime transport.
-It targets repeated activation LDS stores, distinct from the already measured
-epilogue guards and input-reuse candidate. A three-arm reference/candidate/
-reference component plan retains four canonical routing histograms, full-tile
-control, independent FP64 checks and complete outputs. All sixteen measured
-harness/fixture files match the .157 22/22 Debug/ASan capsule exactly, so that
-qualification is reused. Admission and GPU evidence remain pending; no full
-model rerun is scheduled by the component plan. [Scope and gate](Q2-LIVE-STAGE.md).
+Three GPU arms complete with nine zero exits and 318 verified artifacts.
+Each passes 51 independent FP64 checks, and all 102 output arrays match in
+both comparisons. Stage masking saves 0.817–2.081% complete-cycle time on the
+recorded routing cases against the repeated control; two cases fail the frozen
+advancement threshold against both controls. Keep the positive component result
+isolated and do not launch another model curve. All 105 samples and graphs
+remain available; no model PP/TG gain or full parity is claimed.
+
+The sixteen measured files match the retained 22/22 Debug/ASan host capsule,
+so no redundant CPU run occurs. Release at 14:15:56 UTC retires 283 identities
+and 215 groups, verifies KFD empty, four original lease inodes free and six
+unchanged model stats. Main/remote receipts and registry retain closure; core
+is notified. No Q2 job, reservation, waiter, restart or .157 cleanup remains.
+[Complete result and scope](Q2-LIVE-STAGE.md).
 
 ## Native scaled-row model comparison complete; no promotion — 2026-10-04
 
