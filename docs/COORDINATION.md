@@ -44,6 +44,15 @@ free. There is no standing `.161` GPU ownership.
 See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 
+Two later `.161` original-weight HTTP windows pass AR and explicit MTP
+`/v1/models`, Chat Completions and Responses JSON/SSE checks with server,
+Distrobox child and supervisor exit 0. Both stop/restore only the authorized
+router, preserve model/predictor stat identities and release the private
+lease; 34/34 remote files hash-verify. Postflight at 02:19:26 UTC finds only
+restored router PID 103651 in KFD, no LIE container and the private lease
+EX|NB free (device 66308/inode 105946405). This closes those windows only;
+no standing GPU ownership follows.
+
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
 reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full
 samples, child/supervisor exit 0 and unchanged model file identities. Each

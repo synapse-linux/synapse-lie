@@ -3,13 +3,20 @@
 
 ## Strix Point core integration checkpoint — 2026-10-03
 
-The next Point qualification has a private `modern-http` GPU gate in the
-lease-supervised Distrobox runner. It starts the original-weight server with
-fresh requests and checks `/v1/models`, Chat Completions and Responses in both
-JSON and SSE. The helper records every request/response and owns only its
-server child. CPU fixtures validate helper identity, the MTP predictor mount
-and refusal of incomplete results; this preparation alone does not qualify
-model serving. The GPU receipt will be recorded separately.
+The Point `modern-http` GPU gate now passes for both AR and explicit MTP in
+separate lease-supervised ROCm 10 Distrobox windows. It starts the
+original-weight server with fresh requests, verifies `/v1/models`, Chat
+Completions and Responses in JSON/SSE and records each wire exchange.
+Both paths return `4` across both APIs and projections. The backend reports
+`synthetic=false`, with `mtp=false` for AR and `mtp=true` for the predictor
+run. All 34 collected remote files hash-verify; both servers, children and
+supervisors exit zero, model/predictor identities are unchanged and each
+window restores the named service and releases the lease. The
+[Point HTTP receipt](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-http-ar-and-mtp-gates)
+includes the raw requests/responses, temperatures and postflight. These are
+short loopback functional requests inside the container: external Pi-agent
+access, long-context HTTP, tools, and served performance remain untested on
+`.161`.
 
 `feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
 vision contracts while retaining explicit `gfx1150` build receipts and HIP

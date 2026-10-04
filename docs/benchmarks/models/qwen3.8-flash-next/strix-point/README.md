@@ -273,6 +273,48 @@ for cache in ram ssd; do
 done
 ```
 
+### Original-weight HTTP AR and MTP gates
+
+Two additional `.161` windows start `synapse-lie-server` in the same supervised
+ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
+enabled. Both use the original UD shards, 16,384-token configured context,
+fresh short requests, one private server on loopback and no retained RAM/SSD
+KV cache. The server reports `synthetic=false`, `READY` and the pinned Gufo
+provider in both runs; its MTP flag is false for AR and true for the predictor
+run. This exercises the C HTTP/worker/flow path with real GPU inference.
+
+| Check | AR | MTP |
+| --- | --- | --- |
+| `/v1/models` lists the configured model | pass | pass |
+| Chat Completions JSON and SSE, same output | `4` | `4` |
+| Responses JSON and SSE, same output | `4` | `4` |
+| Server / Distrobox child / supervisor exit | 0 / 0 / 0 | 0 / 0 / 0 |
+
+The [collection receipt](charts/rocm10-modern-http-collection.json) records
+the binary and helper identities, API checks, backend mode, thermal peaks,
+34/34 collected remote-file SHA-256 checks and lease/service closure. The
+[portable raw archive](data/rocm10-modern-http-r3.tar.gz) contains every
+request/response, server and supervisor log, telemetry and original manifest;
+transient container home/cache files are omitted. Sampled CPU/GPU/NVMe peaks
+were 63.375/54/66.85 C across the two windows. Final postflight found only
+the restored router PID 103651 in KFD, no LIE container and the private lease
+free. Recheck the archive from the repository root:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-http-replay-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz \
+  -C run/point-modern-http-replay-r3
+for mode in ar mtp; do
+  (cd "run/point-modern-http-replay-r3/point-modern-r3-${mode}-http-r1" && \
+   sha256sum -c remote.sha256)
+done
+```
+
+These short loopback requests establish functional serving for the tested
+paths. External Pi-agent connectivity, tool-call generation, 128K/256K HTTP
+requests and served performance still need separate Point qualification.
+
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
 cover the earlier ROCm 7.2 fresh physical prompts through 258,794 tokens,
