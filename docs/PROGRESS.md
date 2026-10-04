@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Two BK128 staging candidates prepared — 2026-10-04
+
+Each candidate changes only one launch template against the measured bounded
+1477.969324 PP provider. BK128 single uses26112 LDS bytes/97 VGPRs; double
+uses52224/98. Both have zero private scratch, with compile/unbundle/metadata
+exits0/0/0. Original operands, two K16 chains and dispatch bounds are unchanged.
+These are compiler observations, not speedups. Runtime HIP qualification is
+pending; full context curves remain gated on fixed-point UD parity.
+
+The existing precision-fixed component fixture and exact test-only library
+recipe are reused. All77 local launch guards pass. Host .157 CPU capsule
+binds16 files; Debug/ASan each pass23/23, with seven verified artifacts and
+zero model/GPU access. Frozen scope is two new component candidates followed
+by at most one new fixed2048 model if the normalized complete-cycle sum improves
+the saved bounded parent. Numerical rejection does not suppress performance;
+no qualified model control rerun, cleanup, tuning or install is scheduled.
+[Identities and qualification plan](Q2-HC-BK128.md).
+
 ## Native HC-down fixed-model performance measured — 2026-10-04
 
 Only the new bounded model runs on .157 under the unchanged exact2048 tester,

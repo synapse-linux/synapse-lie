@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-hc-bk128-object.v1",
+  "source_manifest_sha256": "aafa477f30b56275d1ef8be88a765d67a916e7f19152ea71a41ffd08ed0ebd80",
+  "arms": [
+    {
+      "variant": "hc-bk128-single",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "fields": {
+        "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi32ELi16ELi16ELi128ELi1EEEvPKtS6_Pfiiiii",
+        "group_segment_fixed_size": "26112",
+        "private_segment_fixed_size": "0",
+        "vgpr_count": "97",
+        "sgpr_count": "20",
+        "wavefront_size": "32",
+        "max_flat_workgroup_size": "256"
+      },
+      "bundle_sha256": "c8156bf53a482b17fbe0573a07b9a663606574bf9d7838b491ccf499a1d74deb",
+      "device_object_sha256": "33eb1b4960dd6f117371c299ed9acb25e8f14634103ec13a12b71810b3225e2b",
+      "shared_format_exit": 1,
+      "gpu_run": false
+    },
+    {
+      "variant": "hc-bk128-double",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "fields": {
+        "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi32ELi16ELi16ELi128ELi2EEEvPKtS6_Pfiiiii",
+        "group_segment_fixed_size": "52224",
+        "private_segment_fixed_size": "0",
+        "vgpr_count": "98",
+        "sgpr_count": "22",
+        "wavefront_size": "32",
+        "max_flat_workgroup_size": "256"
+      },
+      "bundle_sha256": "c3544e2b45d1a061228206a2926a45012d8b2faa5582efdeccce7d466931cfb5",
+      "device_object_sha256": "46b7042c866c3701566b9e81339acce33f40c7970cced85749cc6c24e5f07573",
+      "shared_format_exit": 1,
+      "gpu_run": false
+    }
+  ],
+  "gpu_run": false,
+  "numerical_qualification": false,
+  "performance_qualification": false
+}

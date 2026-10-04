@@ -564,3 +564,9 @@ All112 component samples,16 plotted model samples, graphs and source identities
 are saved. Small-shape FP64 recovery finds native errors roughly half the library
 errors, with5/6 native cases passing the original limits; it does not cover2048.
 The .157 GPU window is released. Full curves still wait for fixed-point parity.
+
+Two [new BK128 staging candidates](docs/Q2-HC-BK128.md) change only the measured
+bounded kernel's launch template. They compile with97/98 VGPRs and zero private
+scratch; single buffering reduces LDS from50688 to26112 bytes. The existing
+fixture prints full numerical precision; host Debug/ASan pass23/23 each.
+GPU/operator/model checks remain pending. No speedup is claimed from compilation.

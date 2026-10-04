@@ -1,0 +1,76 @@
+{
+  "schema": "synapse-lie.q2-hc-bk128-plan.v1",
+  "at": "2026-10-04T21:36:41.698404+00:00",
+  "source_manifest": "config/q2-hc-bk128-source.json",
+  "source_manifest_sha256": "aafa477f30b56275d1ef8be88a765d67a916e7f19152ea71a41ffd08ed0ebd80",
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "9925cde949b9f39b05791c2cc5a33c351dda71f084f0d2d0efaef76515d9ed24",
+    "tests/q2_hc_bk256.cpp": "d58035790ba10af5ba29ed9a3dee3df0a30646c8773b2362a1222c5c8abbb48e",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "798ab2d9bc7429e06109dca4a39b09b167796d5e9ac938ae0cf2a6e0803e2996",
+    "tools/q2-remote.py": "10d56fe7c521766bc8e36d9d988e7c8f062ad471f38aad002abb938887e42bb1",
+    "tools/q2-runner.py": "777b400e4356d9d692382d76400c5e6293125c62cc228e8a9a717675b6aa3466",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/q2_hc_blaslt_control.cpp": "869d748e87e0a00f7317ed8200c687b383ba375e06355269ebba37eb787b17aa",
+    "experiments/q2_hc_blaslt_control.hpp": "a7d60e6be24acaed5570844a34eff4735573ceaf247db3df89d68298a98eacdb",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867"
+  },
+  "host": "q2-hc-bk128-host-r1",
+  "host_receipt": "config/q2-hc-bk128-host-results.json",
+  "host_receipt_sha256": "1ef6303337bb9dfd4708de29810641aaeab767688f2c718d937802fe076dcfd9",
+  "component_mode": "hc-bk256-bench",
+  "component_arms": [
+    {
+      "key": "single",
+      "variant": "hc-bk128-single",
+      "label": "q2-hc-bk128-single-component-r1"
+    },
+    {
+      "key": "double",
+      "variant": "hc-bk128-double",
+      "label": "q2-hc-bk128-double-component-r1"
+    }
+  ],
+  "model_arms": [
+    {
+      "key": "single",
+      "variant": "hc-bk128-single",
+      "mode": "q2-counting-hc-bk128-single",
+      "label": "q2-hc-bk128-single-model-r1"
+    },
+    {
+      "key": "double",
+      "variant": "hc-bk128-double",
+      "mode": "q2-counting-hc-bk128-double",
+      "label": "q2-hc-bk128-double-model-r1"
+    }
+  ],
+  "model_selection": "Only the faster new candidate by sum of complete-cycle native medians; run at most one model if its sum(native)/sum(library) ratio improves the saved bounded parent; retain numeric rejection and small gains",
+  "component_parent": "config/q2-hc-bk256-component-results.json",
+  "component_parent_sha256": "d57ba27e1e72e670e411aba910b5cee9c70a8159decdc2e717499c22c1bf95dc",
+  "model_parent": "config/q2-hc-bk256-fixed-model-results.json",
+  "model_parent_sha256": "bc98960636b4610451ab7b58a35de8019053825c923d285a4a520cc71ee1fa4c",
+  "repetitions": 5,
+  "timing_warmups": 2,
+  "weight_rotation_bytes": 104857600,
+  "model_input_tokens": 2048,
+  "model_decode_steps": 128,
+  "fixed_reference": "config/q2-fixed-prefill-reference.json",
+  "fixed_reference_sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "previous_release_sha256": "1ce3548048452661f65ebe3282a1ab1ccc571dfe1962553b499621d26be29810",
+  "window_helper": "tools/q2-hc-bk128-run-window.py",
+  "window_helper_sha256": "53da8d3cdcf0b82b93350c6adf4c498d601e8a702aa5abd81ad02dcff55581af",
+  "controls_rerun": false,
+  "full_curve": false,
+  "dependencies": false,
+  "tuning": false,
+  "cleanup": false,
+  "goal_met": false
+}

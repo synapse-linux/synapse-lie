@@ -1,7 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window: **released at2026-10-04T19:29:44.457368Z** after two new
+Latest Q2 window is released at2026-10-04T21:17:36.767684Z after two HC BK256
+components and only the selected new bounded fixed2048 model. Actual component
+exits0/0/1 each remain; model exits0/0/0/0,26 artifacts verify, PP1477.969324.
+Qualified model references are not relaunched. Closure verifies513 retired
+identities/399 groups, empty KFD, four original leases free and six unchanged
+model stat tuples. Core acknowledges; no Q2 GPU job/reservation/waiter/cleanup
+remains. [Release](../config/q2-hc-bk256-run-window-release.json), SHA256
+`1ce3548048452661f65ebe3282a1ab1ccc571dfe1962553b499621d26be29810`.
+
+The new BK128 source/CPU preparation reserves no GPU. Its16-file .157 host
+capsule passes23/23 Debug/ASan each; it permits two new components, then at
+most one selected new model on the original2048 input. Core is notified.
+Fresh admission from the release above is required before GPU build/execution.
+[Frozen scope](../config/q2-hc-bk128-plan.json).
+
+Previous Q2 window: **released at2026-10-04T19:29:44.457368Z** after two new
 retained original-Q2 compositions, checkpoint `69f6d82`. Eight model/build
 commands exit0;52 artifacts verify. Historical controls are not relaunched.
 PP1451.924906 /1452.143206 remains below fixed UD. Q8+row replay stays exact
