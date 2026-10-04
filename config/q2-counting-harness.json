@@ -1,0 +1,10 @@
+{
+  "schema": "synapse-lie.q2-counting-harness.v1",
+  "origin": "evidence/q2-library-norm-model-candidate-r1/source.tar.gz",
+  "origin_sha256": "0a51528d51c9abf649b57f0ab9f02d9fa7a8ef27981b0039d9245ca702a92644",
+  "origin_member": "tests/q2_model.cpp",
+  "source": "experiments/counting-baseline/q2_model.cpp",
+  "sha256": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+  "markers_sha256": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+  "scope": "Exact historical counting pp2048/tg128 harness, including one warmup, three measurements, 127 timed decode calls and 15-second pauses outside timing. Not canonical HTTP."
+}

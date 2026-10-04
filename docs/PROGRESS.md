@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Historical 1439-token/s regression replay prepared — 2026-10-04
+
+The exact old counting tester is recovered from its retained source archive,
+with byte-identical marker code and both original provider inventories verified.
+Four fixed modes compare old Q2, ordered IQ2, mixed maps and UD with this same
+tester, full MMQ rebuilds and the original warmup/measurement/timer contract.
+The new guards pass 22/22 Debug and 22/22 ASan/UBSan on .157; no GPU model arm
+has yet been admitted. [Scope and source identities](Q2-COUNTING-REGRESSION.md).
+This checks preservation of the old result, without replacing the canonical
+curve or reducing the broader acceptance target.
+
 ## Mixed IQ2 canonical comparison complete; parity remains open — 2026-10-04
 
 Four full 0–128K curves complete on .157 with 20 zero model-command exits and

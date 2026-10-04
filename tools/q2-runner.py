@@ -39,6 +39,9 @@ def main():
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
+    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'ud-counting-legacy')
+    if counting_mode and '--rebuild-mmq' not in sys.argv[2:]:
+        raise SystemExit('Historical counting requires a full MMQ rebuild')
     original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')
     if original_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Original baseline requires a full MMQ rebuild')
@@ -49,7 +52,7 @@ def main():
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
-    model_mode = curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
+    model_mode = counting_mode or curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
     mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
     hc_mode = mixed_mode or mode in ('iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
@@ -58,6 +61,8 @@ def main():
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
               'pid': os.getpid(), 'commands': [], 'locks': [], 'model_access': False}
+    if counting_mode:
+        result['timed_scope'] = 'Frozen historical counting pp2048/tg128: one warmup, three measurements, 127 timed decode calls, 15-second pauses outside timing; not canonical HTTP'
     if mode.endswith('decode-baseline'):
         result['timed_scope'] = 'pp2048/tg127-forward legacy scope plus historical2042/tg128-completed; full finite checks retained in both; no MTP'
     if original_mode:
@@ -210,7 +215,7 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -308,7 +313,7 @@ def main():
                     run(['python3',str(ROOT/'tools/q2-resource-report.py'),str(results/'profile/q2_results.db'),
                          str(results/'profile-resources.json')],env,120)
                 else:
-                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'decode-baseline' if mode.endswith('decode-baseline') else 'bench2k' if mode.endswith('bench2k') else 'bench'],
+                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'decode-baseline' if mode.endswith('decode-baseline') else 'bench2k' if counting_mode or mode.endswith('bench2k') else 'bench'],
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                 result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')

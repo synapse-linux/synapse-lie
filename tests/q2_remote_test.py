@@ -20,6 +20,33 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_historical_counting_scope(self):
+        for mode, variant in remote.COUNTING_SOURCES.items():
+            base = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(base, 'Historical counting requires a full MMQ rebuild')
+            self.refuse(base + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            for wrong in set(remote.COUNTING_SOURCES.values()) - {variant}:
+                self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
+                            'Historical counting requires its matched provider')
+            with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
+    def test_historical_counting_harness_is_frozen(self):
+        root = path.parents[1]
+        manifest = json.loads((root/'config/q2-counting-harness.json').read_text())
+        self.assertEqual(manifest['source'], 'experiments/counting-baseline/q2_model.cpp')
+        self.assertEqual(manifest['sha256'],
+                         '681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52')
+        self.assertEqual(hashlib.sha256((root/manifest['source']).read_bytes()).hexdigest(),
+                         manifest['sha256'])
+        self.assertEqual(hashlib.sha256((root/'tests/q2_profile_markers.hip').read_bytes()).hexdigest(),
+                         manifest['markers_sha256'])
+
     def test_iq2_mixed_component_scope(self):
         for mode in remote.MIXED_TILE_MODES:
             self.refuse([mode, 'q2-fixture'], 'IQ2 mixed tiles requires')
