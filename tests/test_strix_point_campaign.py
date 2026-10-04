@@ -402,6 +402,23 @@ class Tests(unittest.TestCase):
                      patch.object(c, 'run_container', side_effect=run):
                     c.bench()
                     self.assertEqual(c.r['bench_result']['output_ids'], [4,5])
+    def test_projector_receipt_requires_unchanged_file_identity(self):
+        c = self.campaign('projector-identity')
+        directory = self.base/'projector'; directory.mkdir()
+        path = directory/'projector.gguf'; path.write_bytes(b'pinned fixture projector')
+        st = path.stat()
+        row = {'path':str(path),'bytes':st.st_size,'device':st.st_dev,
+               'inode':st.st_ino,'mtime_ns':st.st_mtime_ns,'ctime_ns':st.st_ctime_ns,
+               'sha256':point.sha(path)}
+        plan = {'destination':str(directory),
+                'files':[{'name':path.name,'sha256':row['sha256']}]}
+        (directory/'SOURCE.json').write_text(json.dumps({
+            'plan':plan,'result':{'state':'VERIFIED','files':[row]}}))
+        c.m['projector_plan'] = plan
+        self.assertEqual(c.verified_projector()[0], path)
+        path.write_bytes(b'changed fixture')
+        with self.assertRaisesRegex(RuntimeError, 'Projector identity drift'):
+            c.verified_projector()
     def test_modern_mtp_ssd_gate_is_explicit_and_requires_disk_hit(self):
         c = self.campaign('modern-ssd')
         tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')

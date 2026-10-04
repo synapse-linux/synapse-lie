@@ -9,12 +9,24 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Removed the retired LZ4 checkpoint codec and its build/link dependency;
+  current compressed checkpoints use Zstandard. Historical reports retain
+  their original codec label as provenance.
+- Direct reactive benchmark probes now compare every borrowed output byte and
+  wait briefly for worker-wide counters after semantic terminals.
+
 - Combined benchmark CSV duration columns now explicitly use seconds.
 
 - Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
   when the trunk GGUF metadata has no embedded predictor block.
 
 ### Added
+
+- Opt-in `synapse-lie-bench --suite core --reactive-probe` for direct
+  held-credit, peer-completion and cancellation checks. Original-weight
+  Strix Point AR and 8K MTP gates pass; the short zero-acceptance MTP failure
+  remains in the raw evidence. The same target passes direct AR and MTP+vision
+  with the copied Q8 projector and exact output-token parity.
 
 - Shared C17 F16/Q8_0-to-BF16 weight decoding and Qwen vision upload support.
   The default-ON build option preserves the BF16 GPU kernels and leaves model

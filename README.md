@@ -42,7 +42,8 @@ remain open; other real model bindings remain open.
   F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
   MTP and vision can run together through the same core and cache.
   Original-weight image/cache and combined checkpoint checks pass; quality and
-  performance qualification remain open.
+  performance qualification remain open. Strix Point direct-core AR and MTP
+  vision gates also pass with the copied Q8 projector and exact output IDs.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
@@ -75,6 +76,10 @@ now passes through 128K and separately near 256K. The
 [modern GPU MTP/AR comparison](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#modern-c17-core-mtp-vs-ar-on-the-gpu)
 passes four matched direct-core pairs through 128K. Served HTTP performance
 on this target remains pending.
+The [r5 direct reactive and vision gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+exercise held output credit, peer completion, cancellation and Q8-projector
+AR/MTP parity on the original GPU weights; they are functional, not a new
+throughput claim.
 
 The isolated `feature/strix-point-ud` increment adds explicit gfx1150 build and
 device admission, preserving the shared C17 reactive core and default gfx1151

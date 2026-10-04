@@ -12,8 +12,20 @@ and EX|NB free. `.161` restored `llama-router.service` (PID 108508), which is
 its sole KFD client; no LIE container remains and its private lease is free.
 The verified [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
 and persistent private evidence bind the result. Point has no .157 job,
-waiter or reservation; the window is returned to Q2/WMMA. Vision inference
-qualification on `.161` remains separate.
+waiter or reservation; the window is returned to Q2/WMMA. Later vision
+inference qualification used only `.161` under its own fresh leases.
+
+The later `.161` r4/r5 direct-core reactive and Q8-projector vision windows
+are closed. r5 AR and 8K MTP each complete the held-loan/peer/cancel gate;
+the short MTP gate's zero accepted drafts remain a recorded exit-1 failure.
+Vision AR and MTP+vision both pass with identical 92 physical input tokens
+and 13 output IDs. All seven windows preserve the original model/sidecar
+file identities, restore `llama-router.service`, retire their owned children
+and supervisors and release the private lease. Fresh collection verifies
+79/79 remote files; final postflight has only restored router PID 123296 in
+KFD. The [raw receipt](benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-functional-r4-r5-collection.json)
+and [Point report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+bind each exit and source pin. There is no standing `.161` GPU ownership.
 
 The `.161` ROCm 10 Distrobox `fresh-128k` baseline closes in two serial GPU
 windows on 2026-10-03. LIE and direct Gufo each pass 10/10 original UD samples

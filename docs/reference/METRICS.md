@@ -199,6 +199,20 @@ time or aggregate throughput. Credit stalls, prefill peers and network writes
 remain excluded. The benchmark reports aggregate confirmed tokens over a common
 wall interval, including the C inference dispatch and its flow bookkeeping.
 
+`synapse-lie-bench --suite core --reactive-probe` is a separate functional
+JSONL contract. Its identity sets `reactive_probe=true`, and its single
+`reactive` row records `peer_output_tokens`, `held_output_tokens`,
+`held_borrowed_tokens`, `held_output_blocked`, `completed_delta`,
+`cancelled_delta`, `decode_batches_delta`, `mtp_drafted_delta` and
+`mtp_accepted_delta`. The consumer retains one borrowed text event without
+returning credit, requires the peer to complete its output budget while the
+held job remains blocked, compares every borrowed byte after cancellation,
+then waits for core-wide counters to reflect both terminals. A successful row
+requires one completion and one cancellation; a failed gate emits `failed`
+with its actual exit code and error. The row has no PP/TG rate and is not a
+benchmark speedup. The [Point original-weight gate](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+records both passing and failing examples.
+
 ## Implemented RAM prefix accounting
 
 Core snapshots own `cache`: byte budget, retained and peak logical bytes,

@@ -87,6 +87,23 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+The opt-in direct reactive functional gate uses a physical-token JSON array,
+two jobs, no warmup or cache and one repetition. It withholds one output loan
+and its credit while the peer finishes, then cancels the held job:
+
+```sh
+"$LIE_BENCH" --model "$LIE_MODEL" --suite core \
+  --tokens-file physical-tokens.json --context 16384 --chunk 2048 \
+  --users 2 --tg 128 --warmups 0 --repetitions 1 \
+  --kv-cache-ram-mb 0 --reactive-probe \
+  --output results/core-reactive-probe.jsonl
+```
+
+The `reactive` JSONL row records peer completion, held credit, cancellation
+and native batch counters. This is a correctness gate; it does not emit PP/TG
+rates. Add `--model-mtp` and `--mtp-draft-tokens` only with a verified matching
+predictor. A failed MTP gate keeps its error and real exit code.
+
 MTP is integrated in the shared-core suite. Add an explicit compatible predictor
 and draft budget to separate runs (one cohort size per invocation):
 

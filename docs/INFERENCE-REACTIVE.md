@@ -12,6 +12,16 @@ is not established. The later
 confirms C2–C8 native batch dispatch and a C8 decode gain over serial on
 `gfx1150`, with matched frontiers; it does not change the C1 conclusion.
 
+A later [direct C-core original-weight gate on Strix Point](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
+tests output-credit behavior without HTTP: one job keeps a borrowed text loan
+and receives no replacement credit while a peer finishes, then the held job
+cancels. The r5 AR and 8K MTP runs pass full-byte loan stability and
+completion/cancellation counters; the latter drafts 100 tokens and accepts
+64. A short MTP run with zero accepted drafts fails its stricter gate and is
+retained. This establishes bounded ready-row progress on the tested GPU path;
+it does not measure an internal-forward speedup or replace the matched
+reactive-versus-serial performance experiments below.
+
 ## Three different questions
 
 1. **C1 inference:** can the same completed prefill/decode work become faster or
