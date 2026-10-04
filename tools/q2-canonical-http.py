@@ -198,8 +198,8 @@ def loopback_url(value):
     return value.rstrip('/')
 
 
-def check_backend(info, profile_ple=False, iq2_signs=False, ple_cache_first=False):
-    require(sum(map(bool, (profile_ple, iq2_signs, ple_cache_first))) <= 1,
+def check_backend(info, profile_ple=False, iq2_signs=False, ple_cache_first=False, profile_routes=False):
+    require(sum(map(bool, (profile_ple, iq2_signs, ple_cache_first, profile_routes))) <= 1,
             'Instrumented, IQ2 and PLE cache-first curves are separate')
     require(isinstance(info, dict) and info.get('schema') == 'synapse-lie.llm.v1' and
             info.get('ready') is True, 'Model is not ready')
@@ -207,7 +207,8 @@ def check_backend(info, profile_ple=False, iq2_signs=False, ple_cache_first=Fals
     require(backend.get('synthetic') is False and backend.get('mtp') is False and
             backend.get('vision') is False and backend.get('prefix_state') is True and
             backend.get('model') == 'bench' and backend.get('context_tokens') == 133760 and
-            backend.get('build_id') == ('q2-canonical-curve-ple-cache-first' if ple_cache_first else
+            backend.get('build_id') == ('q2-canonical-curve-route-profile' if profile_routes else
+                                        'q2-canonical-curve-ple-cache-first' if ple_cache_first else
                                         'q2-canonical-curve-iq2-signs' if iq2_signs else
                                         'q2-canonical-curve-ple-profile' if profile_ple else
                                         'q2-canonical-curve-experiment') and
@@ -231,6 +232,8 @@ def main():
     composition = parser.add_mutually_exclusive_group()
     composition.add_argument('--profile-ple', action='store_true',
                         help='Diagnostic instrumentation; rates are not benchmark evidence')
+    composition.add_argument('--profile-routes', action='store_true',
+                        help='Diagnostic expert counts; rates are not benchmark evidence')
     composition.add_argument('--iq2-signs', action='store_true',
                         help='Measured ordered IQ2 vector-sign provider; same canonical workload')
     composition.add_argument('--ple-cache-first', action='store_true',
@@ -238,7 +241,7 @@ def main():
     parser.add_argument('--depths', default=','.join(map(str, DEPTHS)))
     parser.add_argument('--timeout', type=float, default=1800)
     args = parser.parse_args()
-    require(not (args.iq2_signs or args.ple_cache_first) or args.variant == 'q2',
+    require(not (args.iq2_signs or args.ple_cache_first or args.profile_routes) or args.variant == 'q2',
             'Provider experiment requires the Q2 model')
     base_url = loopback_url(args.base_url)
     management_url = loopback_url(args.management_url)
@@ -250,10 +253,10 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     report = dict(schema='synapse-lie.canonical-http-curve.v1', variant=args.variant,
         state='RUNNING', timing_scope=TIMING_SCOPE, context_capacity=133760,
-        instrumentation='ple-forward' if args.profile_ple else None,
+        instrumentation='routing-counts' if args.profile_routes else 'ple-forward' if args.profile_ple else None,
         provider_experiment='ple-cache-first-ordered' if args.ple_cache_first else
                             'iq2-signs-ordered' if args.iq2_signs else None,
-        headline_eligible=not args.profile_ple,
+        headline_eligible=not (args.profile_ple or args.profile_routes),
         new_prompt_target=2048, output_tokens=128, depths=depths,
         full_grid=depths == DEPTHS, rows=[], goal_met=False,
         comparison_scope='Pinned Gufo canonical workload over common C17 HTTP; LIE completed executor-call timings. Published Gufo scheduler rates remain historical, not an identical timer.',
@@ -266,7 +269,7 @@ def main():
             data = response.read(MAX_REPLY+1)
             require(len(data) <= MAX_REPLY, 'Oversized backend response')
             report['backend_before'] = json.loads(data)
-        check_backend(report['backend_before'], args.profile_ple, args.iq2_signs, args.ple_cache_first)
+        check_backend(report['backend_before'], args.profile_ple, args.iq2_signs, args.ple_cache_first, args.profile_routes)
         session = Session(serving, args.output, args.timeout)
         tokenizer = llm.Tokenizer(session, base_url)
         session.request(base_url, llm.synthetic_text(8888, tokenizer.words_for(2048)), 16)

@@ -1,6 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Canonical routing diagnostic prepared — 2026-10-04
+
+The next profile retains ordered IQ2 decode and the original PLE reader. It
+records the already downloaded per-expert counts, actual tile choices and
+complete Forward frontiers without changing device code. A distinct build and
+client identity prevents instrumented rates from entering headline comparisons.
+The analyzer checks selector geometry, count conservation, layer completeness,
+request attribution and all 20 histories against the unchanged ordered control.
+Nine Python sources parse, the logger fixture passes strict C++ syntax, and
+all 1021 provider files match the new manifest; 1019 parent files are unchanged.
+The 20-test Debug/ASan cohort and model profile still require fresh `.157`
+admission. [Scope and accounting limits](Q2-ROUTE-PROFILE.md).
+
 ## PLE comparison complete; no stable added gain — 2026-10-04
 
 All four canonical 0–128K curves complete with unchanged source/harness and

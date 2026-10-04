@@ -21,6 +21,11 @@ versus UD 1275.705 token/s. Candidate prefill remains below UD at every point.
 All 20 Q2 request/output histories replay exactly; the full graph and 32-row CSV
 preserve short-context variability and UD's low decode observations as measured.
 
+The next [canonical routing diagnostic](docs/Q2-ROUTE-PROFILE.md) records
+existing host expert counts before considering mixed tile widths. It changes
+no numerical kernel or routing decision. Reserved padding is not interpreted
+as executed WMMA work: the current kernel already skips empty fragments.
+
 Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
 reference provider on
 `.157`, with every physical token count, PP/TG duration, graph and CSV.

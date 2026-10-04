@@ -1,0 +1,47 @@
+{
+  "python_ast_files": [
+    "tools/prepare-q2-route-profile.py",
+    "tools/analyze-q2-route-profile.py",
+    "tools/q2-remote.py",
+    "tools/q2-runner.py",
+    "tools/q2-canonical-http.py",
+    "tools/q2-curve-session.py",
+    "tests/q2_route_profile_test.py",
+    "tests/q2_remote_test.py",
+    "tests/q2_canonical_http_test.py"
+  ],
+  "syntax": {
+    "argv": [
+      "c++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-fsyntax-only",
+      "-Iexperiments",
+      "tests/q2_route_profile.cpp"
+    ],
+    "exit_code": 0
+  },
+  "schema": "synapse-lie.q2-route-profile-preparation.v1",
+  "source_files": 1021,
+  "unchanged_parent_files": 1019,
+  "artifact_sha256": {
+    "tools/prepare-q2-route-profile.py": "81830d661f39ae9c902189045e1f43816403802237fc47e895aebaea582d556b",
+    "tools/analyze-q2-route-profile.py": "22db2de6479955d66988697fe8dd266fdbf0e84011ce90e589f4aa993676145a",
+    "tools/q2-remote.py": "6bf2654a047a10b610e183eba2e16d7ff1b193e849bcd72dbe43944a5de1e931",
+    "tools/q2-runner.py": "46c54d62bcfbe32feff6298c9a1267df1feb00f2c7f32e316da8624510e8eaa8",
+    "tools/q2-canonical-http.py": "9bd02a484d15e3b04b8a90afa425907f4418cdd12e13202277a06d928783fce8",
+    "tools/q2-curve-session.py": "c2846bf96ed52c0757ae418bc959c728d3d6b0f4f437546ea84f8bc26a99f425",
+    "tests/q2_route_profile_test.py": "fda53b83f4e0f3f56b1ed99227b6e29e05ce6880112e6efd3cc7f25eabfdfed5",
+    "tests/q2_remote_test.py": "15927636e29f44f7136543a8be2c5bb5bf8cef50e11fa81f614fc540957e619b",
+    "tests/q2_canonical_http_test.py": "7dd4b7792a83ea9dda62b7cc6ed1481c97c5cb53504f9d7efd6896e61ebcf4a4",
+    "experiments/q2_route_profile.hpp": "7867e950087109e1ce2e0158bdd999a50042af6436e244e53650190166c394eb",
+    "tests/q2_route_profile.cpp": "9ffc18e6f3907ed715ac206789550e89c1a3a2c399854aa77931a13200dda713",
+    "CMakeLists.txt": "3007efcdf22e78a31fd23ea8a5ade863e8651b9470e58788a6feddf4a1922033",
+    "cmake/curve/CMakeLists.txt": "4263498697e9e97b5f72640d33bcfdbdf222e5aca342450fe4a6ef558b2b54ca"
+  },
+  "runtime_tests_executed": false,
+  "goal_met": false
+}

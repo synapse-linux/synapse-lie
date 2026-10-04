@@ -59,6 +59,11 @@ target_compile_options(test_q2_curve_profile PRIVATE -Wall -Wextra -Werror -Wped
 target_link_libraries(test_q2_curve_profile PRIVATE Threads::Threads)
 add_test(NAME q2_curve_profile COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_curve_profile_test.py $<TARGET_FILE:test_q2_curve_profile>)
+add_executable(test_q2_route_profile tests/q2_route_profile.cpp)
+target_include_directories(test_q2_route_profile PRIVATE experiments)
+target_compile_options(test_q2_route_profile PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME q2_route_profile COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_route_profile_test.py $<TARGET_FILE:test_q2_route_profile>)
 add_test(NAME q2_terminal_scores COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_terminal_test.py)
 add_test(NAME q2_terminal_collection COMMAND ${Python3_EXECUTABLE}

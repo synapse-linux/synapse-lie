@@ -22,18 +22,19 @@ def identity(process):
 
 def main():
     binary, model, variant, *flags = sys.argv[1:]
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes']):
         raise ValueError('Unknown diagnostic flags')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
     cache_first = flags == ['--ple-cache-first']
+    routes = flags == ['--profile-routes']
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
-    if (iq2_signs or cache_first) and variant != 'q2':
+    if (iq2_signs or cache_first or routes) and variant != 'q2':
         raise ValueError('IQ2 signs requires the Q2 model')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
-                   instrumentation='ple-forward' if profile else None,
+                   instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
                    provider_experiment='ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     def save():
@@ -93,7 +94,8 @@ def main():
                 save()
                 if command['exit_code']:
                     raise RuntimeError('Canonical curve client failed; raw evidence retained')
-            receipt['state'] = ('CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if profile else
+            receipt['state'] = ('CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK' if routes else
+                                'CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if profile else
                                 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT')
     except Exception as error:
         receipt.update(state='FAILED', error=str(error))

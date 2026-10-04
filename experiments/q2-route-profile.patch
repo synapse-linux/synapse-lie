@@ -1,0 +1,129 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,3 +1,4 @@
++#include "q2_route_profile.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+ 
+ #include <algorithm>
+@@ -1695,6 +1696,13 @@
+                         l.ffn_down_exps.type == GgmlType::kQ2_K &&
+                         c.hidden_size == 2560 && c.expert_ff == 640 &&
+                         l.ffn_down_exps.cols == 768;
++  if (ExpertMatrixRows(n_tokens)) {
++    const bool pair = n_tokens >= 1024 && routed_tile_rows_ == 48;
++    q2routes::Observe(iq2_wmma, counts_host_, c.num_experts, used, n_tokens,
++                      routed_tile_rows_, routed_n_tiles_,
++                      pair ? routed_pair_rows_ : routed_tile_rows_,
++                      pair ? routed_pair_tiles_ : routed_n_tiles_);
++  }
+   if (iq2_wmma) {
+     RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds, s_.routed_cursors,
+                   s_.rows_token, s_.rows_slot, n_tokens, used, c.num_experts,
+@@ -1956,6 +1964,8 @@
+ bool Executor::Forward(Session& session, std::span<const std::int32_t> tokens,
+                        std::uint32_t n_logits, float* logits, ForwardMode mode,
+                        std::string* error_msg) const {
++  q2routes::Span route_span{mode == ForwardMode::kPrefill, session.position(),
++                            static_cast<std::uint32_t>(tokens.size()), config().num_layers};
+   const bool speculative = mode == ForwardMode::kVerify;
+   PrefillPhase phase(mode == ForwardMode::kPrefill);
+   selected_logits_ = nullptr;
+@@ -2076,6 +2086,7 @@
+     if (!MtpForward(session, tokens.subspan(1), 0, {}, error_msg, s_.res))
+       return false;
+   }
++  route_span.completed = true;
+   return true;
+ }
+ 
+--- /dev/null
++++ b/q2_route_profile.hpp
+@@ -0,0 +1,88 @@
++// SPDX-License-Identifier: MIT
++// Host-only routing observations. Instrumented rates are not benchmark evidence.
++#ifndef LIE_Q2_ROUTE_PROFILE_HPP
++#define LIE_Q2_ROUTE_PROFILE_HPP
++#include <atomic>
++#include <cstdint>
++#include <cstdio>
++#include <locale>
++#include <sstream>
++#include <time.h>
++
++namespace q2routes {
++inline std::uint64_t Now() {
++  timespec t{};
++  return clock_gettime(CLOCK_MONOTONIC, &t) == 0
++             ? std::uint64_t(t.tv_sec) * 1000000000 + t.tv_nsec : 0;
++}
++inline void Write(const std::ostringstream& out) {
++  const auto text = out.str();
++  if (std::fwrite(text.data(), 1, text.size(), stderr) != text.size())
++    std::fputs("{\"event\":\"q2_route_error\"}\n", stderr);
++}
++struct Span;
++inline thread_local Span* active = nullptr;
++inline std::atomic<std::uint64_t> sequence{0};
++struct Span {
++  Span* const previous = active;
++  const std::uint64_t id = sequence.fetch_add(1);
++  const bool prefill;
++  const std::uint32_t position, tokens, expected_layers;
++  const std::uint64_t started_ns = Now();
++  std::uint32_t observed_layers{0};
++  bool completed{false};
++  Span(bool p, std::uint32_t pos, std::uint32_t n, std::uint32_t layers)
++      : prefill(p), position(pos), tokens(n), expected_layers(layers) {
++    active = this;
++  }
++  Span(const Span&) = delete;
++  Span& operator=(const Span&) = delete;
++  ~Span() noexcept {
++    const auto ended_ns = Now();
++    active = previous;
++    try {
++      std::ostringstream out;
++      out.imbue(std::locale::classic());
++      out << "{\"event\":\"q2_route_forward\",\"schema\":1,\"diagnostic_only\":true"
++          << ",\"id\":" << id << ",\"prefill\":" << (prefill ? "true" : "false")
++          << ",\"position\":" << position << ",\"tokens\":" << tokens
++          << ",\"expected_layers\":" << expected_layers
++          << ",\"observed_layers\":" << observed_layers
++          << ",\"started_ns\":" << started_ns << ",\"ended_ns\":" << ended_ns
++          << ",\"completed\":" << (completed ? "true" : "false")
++          << ",\"valid\":" << (!previous && started_ns && ended_ns > started_ns
++                                      ? "true" : "false") << "}\n";
++      Write(out);
++    } catch (...) {
++      std::fputs("{\"event\":\"q2_route_error\"}\n", stderr);
++    }
++  }
++};
++inline void Observe(bool iq2, const std::uint32_t* counts, std::uint32_t experts,
++                    std::uint32_t used, std::uint32_t tokens,
++                    std::uint32_t down_rows, std::uint32_t down_tiles,
++                    std::uint32_t gate_rows, std::uint32_t gate_tiles) {
++  if (!active || !active->prefill) return;
++  if (!counts || experts == 0 || experts > 4096) {
++    std::fputs("{\"event\":\"q2_route_error\"}\n", stderr);
++    return;
++  }
++  std::ostringstream out;
++  out.imbue(std::locale::classic());
++  out << "{\"event\":\"q2_route_counts\",\"schema\":1,\"diagnostic_only\":true"
++      << ",\"forward_id\":" << active->id
++      << ",\"layer\":" << active->observed_layers++
++      << ",\"at_ns\":" << Now() << ",\"iq2_wmma\":" << (iq2 ? "true" : "false")
++      << ",\"tokens\":" << tokens << ",\"experts\":" << experts
++      << ",\"used\":" << used << ",\"down_rows\":" << down_rows
++      << ",\"down_tiles\":" << down_tiles << ",\"gate_rows\":" << gate_rows
++      << ",\"gate_tiles\":" << gate_tiles << ",\"counts\":[";
++  for (std::uint32_t i = 0; i < experts; ++i) {
++    if (i) out << ',';
++    out << counts[i];
++  }
++  out << "]}\n";
++  Write(out);
++}
++}  // namespace q2routes
++#endif
