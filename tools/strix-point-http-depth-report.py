@@ -93,6 +93,10 @@ def metrics(run, impl):
     samples = run['samples']
     phases = [row['server_timings'] if impl == 'lie' else row['usage']['gufo']
               for row in samples]
+    drafted = [int(phase.get('mtp_drafted_tokens', row['usage'].get('draft_tokens', 0)))
+               for row, phase in zip(samples, phases)]
+    accepted = [int(phase.get('mtp_accepted_tokens', row['usage'].get('draft_tokens_accepted', 0)))
+                for row, phase in zip(samples, phases)]
     return {'prompt_tokens': samples[0]['prompt_tokens'],
             'prefill_tps': median([1000*p['prefill_tokens']/p['prefill_ms'] for p in phases]),
             'prefill_ms': median([p['prefill_ms'] for p in phases]),
@@ -104,7 +108,9 @@ def metrics(run, impl):
             'prefill_tps_samples': [round(1000*p['prefill_tokens']/p['prefill_ms'], 3)
                                     for p in phases],
             'decode_tps_samples': [round(1000*r['output_tokens']/p['decode_ms'], 3)
-                                   for r, p in zip(samples, phases)]}
+                                   for r, p in zip(samples, phases)],
+            'mtp_drafted_tokens': drafted, 'mtp_accepted_tokens': accepted,
+            'mtp_acceptance_rate': round(sum(accepted)/sum(drafted), 4) if sum(drafted) else None}
 
 
 def svg(rows, field, title, target):
@@ -176,9 +182,20 @@ def main():
                                                  for impl, run in (('lie', lie), ('gufo', gufo))}})
             except (FileNotFoundError, KeyError, ValueError, TypeError) as error:
                 missing.append({'mode': mode, 'size': size, 'reason': str(error)})
+    mode_effect = []
+    for size in SIZES:
+        ar = next((row for row in comparisons if row['mode'] == 'ar' and row['size'] == size), None)
+        mtp = next((row for row in comparisons if row['mode'] == 'mtp' and row['size'] == size), None)
+        if ar and mtp:
+            for impl in ('lie', 'gufo'):
+                mode_effect.append({'size': size, 'implementation': impl,
+                                    'prefill_mtp_over_ar': round(mtp[impl]['prefill_tps']/ar[impl]['prefill_tps'], 4),
+                                    'decode_mtp_over_ar': round(mtp[impl]['decode_tps']/ar[impl]['decode_tps'], 4),
+                                    'mtp_acceptance_rate': mtp[impl]['mtp_acceptance_rate']})
     summary = {'schema': 'synapse-lie.point-http-depth-comparison.v1',
                'scope': 'Point original-weight C1 cold HTTP, two measured repetitions per engine; Gufo only adds cache_prompt:false',
-               'rows': comparisons, 'unpaired_or_failed': missing}
+               'rows': comparisons, 'mode_effect': mode_effect,
+               'unpaired_or_failed': missing}
     (args.output/'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
     with (args.output/'comparison.csv').open('w', newline='') as stream:
         writer = csv.writer(stream)
@@ -192,6 +209,14 @@ def main():
                                  m['prefill_tps'], m['prefill_ms'], m['decode_tps'],
                                  m['decode_ms'], m['ttft_ms'], m['wall_ms'],
                                  row['same_assistant_outputs']))
+    with (args.output/'mode-effect.csv').open('w', newline='') as stream:
+        writer = csv.writer(stream)
+        writer.writerow(('target_prompt_tokens', 'implementation', 'prefill_mtp_over_ar',
+                         'decode_mtp_over_ar', 'mtp_acceptance_rate'))
+        for row in mode_effect:
+            writer.writerow((row['size'], row['implementation'],
+                             row['prefill_mtp_over_ar'], row['decode_mtp_over_ar'],
+                             row['mtp_acceptance_rate']))
     for mode in ('ar', 'mtp'):
         subset = [row for row in comparisons if row['mode'] == mode]
         if subset:
