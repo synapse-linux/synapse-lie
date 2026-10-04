@@ -1,0 +1,15 @@
+{
+  "scope": "offline analysis only; actual tests/model execution on .157",
+  "command": [
+    "python3",
+    "docs/benchmarks/2026-10-02/core-extraction/analyze.py",
+    "evidence/core-gpu-r2",
+    "docs/benchmarks/2026-10-02/core-extraction"
+  ],
+  "exit_code": 0,
+  "status": "PASS_WITHIN_SAMPLED_5_PERCENT_GATES",
+  "regression_flags": [],
+  "collection_files_verified": 121,
+  "analysis_sha256": "91b17cbfe79136604ceed4d03213c0e94d6df2d4b9a352af231af671a8d7390f",
+  "bench_report_sha256": "681e072308666f507ca0e936b20143eb4949801d3f235255a88386e653744579"
+}

@@ -1,0 +1,20 @@
+{
+  "state": "FAILED",
+  "started_at": "2026-10-01T18:51:28.943000+00:00",
+  "pid": 2165722,
+  "start_ticks": 144608321,
+  "runs": [
+    {
+      "arm": "http",
+      "pid": 2165725,
+      "start_ticks": 144608335,
+      "started_at": "2026-10-01T18:51:29.064707+00:00",
+      "exit_code": 1,
+      "finished_at": "2026-10-01T18:51:29.178519+00:00"
+    }
+  ],
+  "comparisons": {},
+  "current_arm": "http",
+  "error": "RuntimeError('arm failed: http')",
+  "finished_at": "2026-10-01T18:51:29.179048+00:00"
+}

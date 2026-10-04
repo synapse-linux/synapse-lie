@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Owned-child termination using synthetic sensor files, never host tuning."""
+import importlib.util
+import json
+import runpy
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+spec = importlib.util.spec_from_file_location('thermal_guard', Path(__file__).resolve().parents[1]/'tools/thermal-run.py')
+guard = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(guard)
+
+
+class Guard(unittest.TestCase):
+    def run_guard(self, root, name, command, limit=85):
+        output = root/name
+        handlers = {s: signal.getsignal(s) for s in (signal.SIGINT, signal.SIGTERM)}
+        try:
+            with patch.object(guard, 'HWMON', root/'sensors'), patch.object(guard,'CPUINFO',root/'cpuinfo'), patch.object(sys, 'argv', ['guard','--output',str(output),'--limit-c',str(limit),'--',*command]):
+                code = guard.main()
+        finally:
+            for s, h in handlers.items():
+                signal.signal(s, h)
+        return code, json.loads((output/'result.json').read_text())
+
+    def test_gpu_is_observed_and_cpu_still_stops(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-cpu-only-') as tmp:
+            root=Path(tmp);cpu=root/'sensors/hwmon0';cpu.mkdir(parents=True)
+            (root/'cpuinfo').write_text('AMD RYZEN AI MAX+ 395\n')
+            (cpu/'name').write_text('k10temp\n');(cpu/'temp1_input').write_text('97000\n')
+            gpu=root/'sensors/hwmon1';gpu.mkdir();(gpu/'name').write_text('amdgpu\n')
+            (gpu/'temp1_input').write_text('101000\n');(gpu/'temp1_max').write_text('90000\n')
+            code,result=self.run_guard(root,'gpu-observed',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,0);self.assertEqual(result['peak_c'][str(gpu/'temp1_input')],101)
+            plan=json.loads((root/'gpu-observed/plan.json').read_text())
+            observed=next(s for s in plan['sensors'] if s['name']=='amdgpu')
+            self.assertIsNone(observed['limit_c']);self.assertEqual(observed['policy'],'observe-only')
+            bench=runpy.run_path(str(Path(__file__).resolve().parents[1]/'tools/run-bench.py'))
+            rows=bench['temperatures'](root/'sensors',98,root/'cpuinfo')
+            bench['require_cool'](rows)
+            self.assertIsNone(next(s for s in rows if s['name']=='amdgpu')['limit_c'])
+            (cpu/'temp1_input').write_text('98000\n')
+            code,result=self.run_guard(root,'cpu-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
+            with self.assertRaisesRegex(RuntimeError,'thermal limit'):
+                bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo'))
+            with self.assertRaisesRegex(RuntimeError,'thermal limit'):
+                bench['require_cool'](bench['temperatures'](root/'sensors',98,root/'cpuinfo',True))
+
+    def test_halo_ceiling_keeps_ssd_limit_and_refuses_point(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-halo-') as tmp:
+            root=Path(tmp);cpu=root/'sensors/hwmon0';cpu.mkdir(parents=True)
+            (root/'cpuinfo').write_text('AMD RYZEN AI MAX+ 395 w/ Radeon 8060S\n')
+            (cpu/'name').write_text('k10temp\n');(cpu/'temp1_input').write_text('97000\n')
+            code,result=self.run_guard(root,'permitted',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,0);self.assertEqual(result['child_exit_code'],0)
+            disk=root/'sensors/hwmon1';disk.mkdir();(disk/'name').write_text('nvme\n');(disk/'temp1_input').write_text('86000\n')
+            code,result=self.run_guard(root,'disk-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(code,125);self.assertIsNone(result['child_exit_code'])
+            (root/'cpuinfo').write_text('AMD Ryzen AI 9 HX 370 w/ Radeon 890M\n')
+            with self.assertRaises(SystemExit) as caught:
+                self.run_guard(root,'point-refused',[sys.executable,'-c','pass'],98)
+            self.assertEqual(caught.exception.code,2)
+            self.assertFalse((root/'point-refused').exists())
+
+    def test_preflight_and_only_owned_group(self):
+        with tempfile.TemporaryDirectory(prefix='lie-thermal-fixture-') as tmp:
+            root = Path(tmp);sensor = root/'sensors/hwmon0';sensor.mkdir(parents=True)
+            (sensor/'name').write_text('k10temp\n');value = sensor/'temp1_input';value.write_text('85000\n')
+            marker = root/'must-not-exist'
+            code, result = self.run_guard(root,'refused',[sys.executable,'-c',f'open({str(marker)!r},"w").close()'])
+            self.assertEqual(code,125);self.assertEqual(result['reason'],'thermal_limit')
+            self.assertIsNone(result['child_exit_code']);self.assertFalse(marker.exists())
+            value.write_text('50000\n');(sensor/'temp1_max').write_text('60000\n')
+            peer = subprocess.Popen([sys.executable,'-c','import time;time.sleep(20)'],start_new_session=True)
+            try:
+                command = [sys.executable,'-c',f'from pathlib import Path;import time;Path({str(value)!r}).write_text("61000");time.sleep(20)']
+                code, result = self.run_guard(root,'stopped',command)
+                self.assertEqual(code,125);self.assertEqual(result['reason'],'thermal_limit')
+                self.assertEqual(result['child_exit_code'],-signal.SIGTERM)
+                self.assertIsNone(peer.poll())
+            finally:
+                peer.terminate();peer.wait(timeout=5)
+            value.write_text('50000\n')
+            code, result = self.run_guard(root,'child-failure',[sys.executable,'-c','raise SystemExit(7)'])
+            self.assertEqual(code,7);self.assertEqual(result['child_exit_code'],7)
+            self.assertIsNone(result['reason'])
+
+
+if __name__ == '__main__':
+    unittest.main()

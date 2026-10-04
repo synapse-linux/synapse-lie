@@ -1,0 +1,1699 @@
+{
+  "schema": "synapse-lie.ds4-policy-campaign.v1",
+  "campaigns": {
+    "ssd-gpu-r8": {
+      "source_variants": {
+        "policy": {
+          "commit": "80b62739bfbf052238a3dc83327ffe13675bdda2",
+          "build_id": "ds4-policy-linked-r1",
+          "features": {
+            "LIE_DS4_CACHE_POLICY": true,
+            "LIE_CACHE_UTILITY": true,
+            "LIE_CHECKPOINT_COMPRESSION": true
+          }
+        }
+      },
+      "raw_files_verified": 49,
+      "state": {
+        "state": "FAILED",
+        "started_at": "2026-10-02T14:01:18.940196+00:00",
+        "pid": 2544356,
+        "start_ticks": 151507320,
+        "runs": [
+          {
+            "arm": "state-p8192-write",
+            "pid": 2544371,
+            "start_ticks": 151507338,
+            "started_at": "2026-10-02T14:01:19.089623+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:02:56.409450+00:00"
+          },
+          {
+            "arm": "state-p8192-read",
+            "pid": 2544985,
+            "start_ticks": 151517078,
+            "started_at": "2026-10-02T14:02:56.492309+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:04:36.626627+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-legacy",
+            "pid": 2545521,
+            "start_ticks": 151527103,
+            "started_at": "2026-10-02T14:04:36.745321+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:05:25.949153+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-ds4",
+            "pid": 2545831,
+            "start_ticks": 151532033,
+            "started_at": "2026-10-02T14:05:26.040837+00:00",
+            "exit_code": 1,
+            "finished_at": "2026-10-02T14:06:00.538388+00:00"
+          }
+        ],
+        "current_arm": "core-p8192-c1-ds4",
+        "error": "RuntimeError('arm failed: core-p8192-c1-ds4')",
+        "finished_at": "2026-10-02T14:06:00.539159+00:00"
+      },
+      "closure": {
+        "at": "2026-10-02T14:06:00.539460+00:00",
+        "owned_processes": [
+          {
+            "pid": 2544371,
+            "expected_start_ticks": 151507338,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2544409,
+            "expected_start_ticks": 151507588,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2544985,
+            "expected_start_ticks": 151517078,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2545000,
+            "expected_start_ticks": 151517257,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2545521,
+            "expected_start_ticks": 151527103,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2545558,
+            "expected_start_ticks": 151527295,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2545831,
+            "expected_start_ticks": 151532033,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2545846,
+            "expected_start_ticks": 151532276,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          }
+        ],
+        "locks": [
+          {
+            "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+            "device": 52,
+            "inode": 3232146,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+            "device": 52,
+            "inode": 3206482,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+            "device": 52,
+            "inode": 3228451,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/tmp/synapse-lie-ds4-gpu.lock",
+            "device": 55,
+            "inode": 45067,
+            "unchanged": true,
+            "free": true
+          }
+        ],
+        "kfd": []
+      },
+      "observer_exit": {
+        "event": "connection_closed",
+        "at": "2026-10-02T14:06:16.094468+00:00",
+        "ssh_exit_code": 0,
+        "samples": 269,
+        "power_failure_proven": false
+      },
+      "independent_controller_status": {
+        "state": "FAILED",
+        "current_arm": "core-p8192-c1-ds4",
+        "error": "RuntimeError('arm failed: core-p8192-c1-ds4')",
+        "started_at": "2026-10-02T14:01:18.940196+00:00",
+        "finished_at": "2026-10-02T14:06:00.539159+00:00",
+        "runs": [
+          {
+            "arm": "state-p8192-write",
+            "pid": 2544371,
+            "start_ticks": 151507338,
+            "started_at": "2026-10-02T14:01:19.089623+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:02:56.409450+00:00"
+          },
+          {
+            "arm": "state-p8192-read",
+            "pid": 2544985,
+            "start_ticks": 151517078,
+            "started_at": "2026-10-02T14:02:56.492309+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:04:36.626627+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-legacy",
+            "pid": 2545521,
+            "start_ticks": 151527103,
+            "started_at": "2026-10-02T14:04:36.745321+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:05:25.949153+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-ds4",
+            "pid": 2545831,
+            "start_ticks": 151532033,
+            "started_at": "2026-10-02T14:05:26.040837+00:00",
+            "exit_code": 1,
+            "finished_at": "2026-10-02T14:06:00.538388+00:00"
+          }
+        ],
+        "current": {
+          "state": "FAILED",
+          "error": "RuntimeError('benchmark failed; see retained measurements/stderr')",
+          "model_attempted": true,
+          "child_pid": 2545846,
+          "child_exit_code": 1,
+          "thermal_stop": null,
+          "last_temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp1_input",
+              "value_c": 54.85,
+              "limit_c": 82.85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp2_input",
+              "value_c": 68.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp3_input",
+              "value_c": 53.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp4_input",
+              "value_c": 54.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp6_input",
+              "value_c": 54.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp7_input",
+              "value_c": 53.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp8_input",
+              "value_c": 54.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp9_input",
+              "value_c": 54.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon2/temp1_input",
+              "value_c": 75.0,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 92.75,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            }
+          ]
+        },
+        "measurements.jsonl": "{\"event\":\"failed\",\"exit_code\":1,\"error\":\"core job failed: \"}",
+        "telemetry.jsonl": "{\"at\": \"2026-10-02T14:05:59.462453+00:00\", \"memory\": {\"MemTotal\": 134145568768, \"MemAvailable\": 33263058944, \"SwapTotal\": 134145372160, \"SwapFree\": 128260964352}, \"gpu\": {\"gpu_busy_percent\": \"100\", \"mem_info_gtt_used\": \"92339310592\", \"mem_info_vram_used\": \"379752448\"}, \"kfd\": [2545846], \"dri\": [1543, 1596, 1605, 1656, 2017, 2178786, 2545846], \"dri_permission_denied\": 481, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp1_input\", \"value_c\": 54.85, \"limit_c\": 82.85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp2_input\", \"value_c\": 68.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp3_input\", \"value_c\": 53.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp4_input\", \"value_c\": 54.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp6_input\", \"value_c\": 54.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp7_input\", \"value_c\": 53.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp8_input\", \"value_c\": 54.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp9_input\", \"value_c\": 54.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon2/temp1_input\", \"value_c\": 75.0, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 92.75, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}], \"process\": {\"Threads\": \"36\", \"VmRSS\": \"828164 kB\", \"VmHWM\": \"828164 kB\", \"voluntary_ctxt_switches\": \"384\", \"nonvoluntary_ctxt_switches\": \"13\"}}",
+        "stderr.log": "",
+        "controller_alive": false,
+        "postflight": {
+          "at": "2026-10-02T14:06:00.539460+00:00",
+          "owned_processes": [
+            {
+              "pid": 2544371,
+              "expected_start_ticks": 151507338,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2544409,
+              "expected_start_ticks": 151507588,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2544985,
+              "expected_start_ticks": 151517078,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2545000,
+              "expected_start_ticks": 151517257,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2545521,
+              "expected_start_ticks": 151527103,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2545558,
+              "expected_start_ticks": 151527295,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2545831,
+              "expected_start_ticks": 151532033,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2545846,
+              "expected_start_ticks": 151532276,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            }
+          ],
+          "locks": [
+            {
+              "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+              "device": 52,
+              "inode": 3232146,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+              "device": 52,
+              "inode": 3206482,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+              "device": 52,
+              "inode": 3228451,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/tmp/synapse-lie-ds4-gpu.lock",
+              "device": 55,
+              "inode": 45067,
+              "unchanged": true,
+              "free": true
+            }
+          ],
+          "kfd": []
+        }
+      }
+    },
+    "ssd-gpu-r9": {
+      "source_variants": {
+        "policy": {
+          "commit": "f11ab7f3541c6d34479bc5e1fafad9015bec3d9b",
+          "build_id": "ds4-policy-linked-r2",
+          "features": {
+            "LIE_DS4_CACHE_POLICY": true,
+            "LIE_CACHE_UTILITY": true,
+            "LIE_CHECKPOINT_COMPRESSION": true
+          }
+        }
+      },
+      "raw_files_verified": 95,
+      "state": {
+        "state": "FAILED",
+        "started_at": "2026-10-02T14:24:20.414868+00:00",
+        "pid": 2551102,
+        "start_ticks": 151645467,
+        "runs": [
+          {
+            "arm": "state-after-decode128",
+            "pid": 2551127,
+            "start_ticks": 151645485,
+            "started_at": "2026-10-02T14:24:20.565270+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:25:35.536212+00:00"
+          },
+          {
+            "arm": "state-p8192-write",
+            "pid": 2551543,
+            "start_ticks": 151652991,
+            "started_at": "2026-10-02T14:25:35.619146+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:27:19.723686+00:00"
+          },
+          {
+            "arm": "state-p8192-read",
+            "pid": 2552091,
+            "start_ticks": 151663410,
+            "started_at": "2026-10-02T14:27:19.823542+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:29:18.760667+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-legacy",
+            "pid": 2552714,
+            "start_ticks": 151675318,
+            "started_at": "2026-10-02T14:29:18.892533+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:30:19.470595+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-ds4",
+            "pid": 2553053,
+            "start_ticks": 151681387,
+            "started_at": "2026-10-02T14:30:19.584750+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:31:24.460578+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.750201857210452
+              }
+            ]
+          },
+          {
+            "arm": "core-p8192-c2-legacy",
+            "pid": 2553427,
+            "start_ticks": 151687887,
+            "started_at": "2026-10-02T14:31:24.580114+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:32:23.845310+00:00"
+          },
+          {
+            "arm": "core-p8192-c2-ds4",
+            "pid": 2553742,
+            "start_ticks": 151693826,
+            "started_at": "2026-10-02T14:32:23.977996+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:33:31.213442+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.679851834008205
+              }
+            ]
+          },
+          {
+            "arm": "core-p131072-c1-legacy",
+            "pid": 2554150,
+            "start_ticks": 151700561,
+            "started_at": "2026-10-02T14:33:31.320704+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:35:50.975952+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-ds4",
+            "pid": 2554825,
+            "start_ticks": 151714541,
+            "started_at": "2026-10-02T14:35:51.129322+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:42:10.434826+00:00"
+          }
+        ],
+        "current_arm": "core-p131072-c1-ds4",
+        "error": "AssertionError((122880, [(28672, 102400), (28672, 102400), (28672, 102400)]))",
+        "finished_at": "2026-10-02T14:42:10.455977+00:00"
+      },
+      "closure": {
+        "at": "2026-10-02T14:42:10.456303+00:00",
+        "owned_processes": [
+          {
+            "pid": 2551127,
+            "expected_start_ticks": 151645485,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2551136,
+            "expected_start_ticks": 151645626,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2551543,
+            "expected_start_ticks": 151652991,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2551552,
+            "expected_start_ticks": 151653236,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2552091,
+            "expected_start_ticks": 151663410,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2552156,
+            "expected_start_ticks": 151663893,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2552714,
+            "expected_start_ticks": 151675318,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2552725,
+            "expected_start_ticks": 151675539,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553053,
+            "expected_start_ticks": 151681387,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553062,
+            "expected_start_ticks": 151681580,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553427,
+            "expected_start_ticks": 151687887,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553472,
+            "expected_start_ticks": 151688038,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553742,
+            "expected_start_ticks": 151693826,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2553780,
+            "expected_start_ticks": 151693966,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2554150,
+            "expected_start_ticks": 151700561,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2554159,
+            "expected_start_ticks": 151700699,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2554825,
+            "expected_start_ticks": 151714541,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2554834,
+            "expected_start_ticks": 151714684,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          }
+        ],
+        "locks": [
+          {
+            "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+            "device": 52,
+            "inode": 3232146,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+            "device": 52,
+            "inode": 3206482,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+            "device": 52,
+            "inode": 3228451,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/tmp/synapse-lie-ds4-gpu.lock",
+            "device": 55,
+            "inode": 45067,
+            "unchanged": true,
+            "free": true
+          }
+        ],
+        "kfd": []
+      },
+      "observer_exit": {
+        "event": "connection_closed",
+        "at": "2026-10-02T14:42:26.574409+00:00",
+        "ssh_exit_code": 0,
+        "samples": 1057,
+        "power_failure_proven": false
+      },
+      "independent_controller_status": {
+        "state": "FAILED",
+        "current_arm": "core-p131072-c1-ds4",
+        "error": "AssertionError((122880, [(28672, 102400), (28672, 102400), (28672, 102400)]))",
+        "started_at": "2026-10-02T14:24:20.414868+00:00",
+        "finished_at": "2026-10-02T14:42:10.455977+00:00",
+        "runs": [
+          {
+            "arm": "state-after-decode128",
+            "pid": 2551127,
+            "start_ticks": 151645485,
+            "started_at": "2026-10-02T14:24:20.565270+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:25:35.536212+00:00"
+          },
+          {
+            "arm": "state-p8192-write",
+            "pid": 2551543,
+            "start_ticks": 151652991,
+            "started_at": "2026-10-02T14:25:35.619146+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:27:19.723686+00:00"
+          },
+          {
+            "arm": "state-p8192-read",
+            "pid": 2552091,
+            "start_ticks": 151663410,
+            "started_at": "2026-10-02T14:27:19.823542+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:29:18.760667+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-legacy",
+            "pid": 2552714,
+            "start_ticks": 151675318,
+            "started_at": "2026-10-02T14:29:18.892533+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:30:19.470595+00:00"
+          },
+          {
+            "arm": "core-p8192-c1-ds4",
+            "pid": 2553053,
+            "start_ticks": 151681387,
+            "started_at": "2026-10-02T14:30:19.584750+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:31:24.460578+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.750201857210452
+              }
+            ]
+          },
+          {
+            "arm": "core-p8192-c2-legacy",
+            "pid": 2553427,
+            "start_ticks": 151687887,
+            "started_at": "2026-10-02T14:31:24.580114+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:32:23.845310+00:00"
+          },
+          {
+            "arm": "core-p8192-c2-ds4",
+            "pid": 2553742,
+            "start_ticks": 151693826,
+            "started_at": "2026-10-02T14:32:23.977996+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:33:31.213442+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.679851834008205
+              }
+            ]
+          },
+          {
+            "arm": "core-p131072-c1-legacy",
+            "pid": 2554150,
+            "start_ticks": 151700561,
+            "started_at": "2026-10-02T14:33:31.320704+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:35:50.975952+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-ds4",
+            "pid": 2554825,
+            "start_ticks": 151714541,
+            "started_at": "2026-10-02T14:35:51.129322+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:42:10.434826+00:00"
+          }
+        ],
+        "current": {
+          "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+          "error": null,
+          "model_attempted": true,
+          "child_pid": 2554834,
+          "child_exit_code": 0,
+          "thermal_stop": null,
+          "last_temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp1_input",
+              "value_c": 58.85,
+              "limit_c": 82.85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp2_input",
+              "value_c": 70.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp3_input",
+              "value_c": 58.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp4_input",
+              "value_c": 56.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp6_input",
+              "value_c": 56.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp7_input",
+              "value_c": 58.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp8_input",
+              "value_c": 57.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp9_input",
+              "value_c": 56.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon2/temp1_input",
+              "value_c": 74.0,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 96.375,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            }
+          ]
+        },
+        "measurements.jsonl": "{\"event\":\"complete\",\"exit_code\":0}",
+        "telemetry.jsonl": "{\"at\": \"2026-10-02T14:42:09.357619+00:00\", \"memory\": {\"MemTotal\": 134145568768, \"MemAvailable\": 80964530176, \"SwapTotal\": 134145372160, \"SwapFree\": 128239116288}, \"gpu\": {\"gpu_busy_percent\": \"88\", \"mem_info_gtt_used\": \"45190426624\", \"mem_info_vram_used\": \"381149184\"}, \"kfd\": [2554834], \"dri\": [1543, 1596, 1605, 1656, 2017, 2178786, 2554834], \"dri_permission_denied\": 464, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp1_input\", \"value_c\": 58.85, \"limit_c\": 82.85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp2_input\", \"value_c\": 70.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp3_input\", \"value_c\": 58.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp4_input\", \"value_c\": 56.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp6_input\", \"value_c\": 56.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp7_input\", \"value_c\": 58.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp8_input\", \"value_c\": 57.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp9_input\", \"value_c\": 56.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon2/temp1_input\", \"value_c\": 74.0, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 96.375, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}], \"process\": {\"Threads\": \"36\", \"VmRSS\": \"489060 kB\", \"VmHWM\": \"4730436 kB\", \"voluntary_ctxt_switches\": \"4057\", \"nonvoluntary_ctxt_switches\": \"23\"}}",
+        "stderr.log": "",
+        "controller_alive": false,
+        "postflight": {
+          "at": "2026-10-02T14:42:10.456303+00:00",
+          "owned_processes": [
+            {
+              "pid": 2551127,
+              "expected_start_ticks": 151645485,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2551136,
+              "expected_start_ticks": 151645626,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2551543,
+              "expected_start_ticks": 151652991,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2551552,
+              "expected_start_ticks": 151653236,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2552091,
+              "expected_start_ticks": 151663410,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2552156,
+              "expected_start_ticks": 151663893,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2552714,
+              "expected_start_ticks": 151675318,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2552725,
+              "expected_start_ticks": 151675539,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553053,
+              "expected_start_ticks": 151681387,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553062,
+              "expected_start_ticks": 151681580,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553427,
+              "expected_start_ticks": 151687887,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553472,
+              "expected_start_ticks": 151688038,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553742,
+              "expected_start_ticks": 151693826,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2553780,
+              "expected_start_ticks": 151693966,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2554150,
+              "expected_start_ticks": 151700561,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2554159,
+              "expected_start_ticks": 151700699,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2554825,
+              "expected_start_ticks": 151714541,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2554834,
+              "expected_start_ticks": 151714684,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            }
+          ],
+          "locks": [
+            {
+              "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+              "device": 52,
+              "inode": 3232146,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+              "device": 52,
+              "inode": 3206482,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+              "device": 52,
+              "inode": 3228451,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/tmp/synapse-lie-ds4-gpu.lock",
+              "device": 55,
+              "inode": 45067,
+              "unchanged": true,
+              "free": true
+            }
+          ],
+          "kfd": []
+        }
+      }
+    },
+    "ssd-gpu-r10": {
+      "source_variants": {
+        "policy": {
+          "commit": "f11ab7f3541c6d34479bc5e1fafad9015bec3d9b",
+          "build_id": "ds4-policy-linked-r2",
+          "features": {
+            "LIE_DS4_CACHE_POLICY": true,
+            "LIE_CACHE_UTILITY": true,
+            "LIE_CHECKPOINT_COMPRESSION": true
+          }
+        }
+      },
+      "raw_files_verified": 22,
+      "state": {
+        "state": "FAILED",
+        "started_at": "2026-10-02T14:43:57.866932+00:00",
+        "pid": 2557311,
+        "start_ticks": 151763212,
+        "runs": [
+          {
+            "arm": "core-ptext-c1-legacy",
+            "pid": 2557323,
+            "start_ticks": 151763235,
+            "started_at": "2026-10-02T14:43:58.065571+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:44:49.076378+00:00"
+          }
+        ],
+        "current_arm": "core-ptext-c1-legacy",
+        "error": "AssertionError((8231, [(8192, 39), (8192, 39), (8192, 39)]))",
+        "finished_at": "2026-10-02T14:44:49.079928+00:00"
+      },
+      "closure": {
+        "at": "2026-10-02T14:44:49.080054+00:00",
+        "owned_processes": [
+          {
+            "pid": 2557323,
+            "expected_start_ticks": 151763235,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2557332,
+            "expected_start_ticks": 151763503,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          }
+        ],
+        "locks": [
+          {
+            "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+            "device": 52,
+            "inode": 3232146,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+            "device": 52,
+            "inode": 3206482,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+            "device": 52,
+            "inode": 3228451,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/tmp/synapse-lie-ds4-gpu.lock",
+            "device": 55,
+            "inode": 45067,
+            "unchanged": true,
+            "free": true
+          }
+        ],
+        "kfd": []
+      },
+      "observer_exit": {
+        "event": "connection_closed",
+        "at": "2026-10-02T14:45:05.154928+00:00",
+        "ssh_exit_code": 0,
+        "samples": 47,
+        "power_failure_proven": false
+      },
+      "independent_controller_status": {
+        "state": "FAILED",
+        "current_arm": "core-ptext-c1-legacy",
+        "error": "AssertionError((8231, [(8192, 39), (8192, 39), (8192, 39)]))",
+        "started_at": "2026-10-02T14:43:57.866932+00:00",
+        "finished_at": "2026-10-02T14:44:49.079928+00:00",
+        "runs": [
+          {
+            "arm": "core-ptext-c1-legacy",
+            "pid": 2557323,
+            "start_ticks": 151763235,
+            "started_at": "2026-10-02T14:43:58.065571+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:44:49.076378+00:00"
+          }
+        ],
+        "current": {
+          "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+          "error": null,
+          "model_attempted": true,
+          "child_pid": 2557332,
+          "child_exit_code": 0,
+          "thermal_stop": null,
+          "last_temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp1_input",
+              "value_c": 52.85,
+              "limit_c": 82.85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp2_input",
+              "value_c": 65.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp3_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp4_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp6_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp7_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp8_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp9_input",
+              "value_c": 52.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon2/temp1_input",
+              "value_c": 76.0,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 93.375,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            }
+          ]
+        },
+        "measurements.jsonl": "{\"event\":\"complete\",\"exit_code\":0}",
+        "telemetry.jsonl": "{\"at\": \"2026-10-02T14:44:48.002808+00:00\", \"memory\": {\"MemTotal\": 134145568768, \"MemAvailable\": 33262120960, \"SwapTotal\": 134145372160, \"SwapFree\": 128258887680}, \"gpu\": {\"gpu_busy_percent\": \"100\", \"mem_info_gtt_used\": \"92414808064\", \"mem_info_vram_used\": \"378941440\"}, \"kfd\": [2557332], \"dri\": [1543, 1596, 1605, 1656, 2017, 2178786, 2557332], \"dri_permission_denied\": 472, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp1_input\", \"value_c\": 52.85, \"limit_c\": 82.85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp2_input\", \"value_c\": 65.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp3_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp4_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp6_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp7_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp8_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp9_input\", \"value_c\": 52.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon2/temp1_input\", \"value_c\": 76.0, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 93.375, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}], \"process\": {\"Threads\": \"36\", \"VmRSS\": \"839352 kB\", \"VmHWM\": \"853896 kB\", \"voluntary_ctxt_switches\": \"786\", \"nonvoluntary_ctxt_switches\": \"13\"}}",
+        "stderr.log": "",
+        "controller_alive": false,
+        "postflight": {
+          "at": "2026-10-02T14:44:49.080054+00:00",
+          "owned_processes": [
+            {
+              "pid": 2557323,
+              "expected_start_ticks": 151763235,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2557332,
+              "expected_start_ticks": 151763503,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            }
+          ],
+          "locks": [
+            {
+              "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+              "device": 52,
+              "inode": 3232146,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+              "device": 52,
+              "inode": 3206482,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+              "device": 52,
+              "inode": 3228451,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/tmp/synapse-lie-ds4-gpu.lock",
+              "device": 55,
+              "inode": 45067,
+              "unchanged": true,
+              "free": true
+            }
+          ],
+          "kfd": []
+        }
+      }
+    },
+    "ssd-gpu-r11": {
+      "source_variants": {
+        "policy": {
+          "commit": "f11ab7f3541c6d34479bc5e1fafad9015bec3d9b",
+          "build_id": "ds4-policy-linked-r2",
+          "features": {
+            "LIE_DS4_CACHE_POLICY": true,
+            "LIE_CACHE_UTILITY": true,
+            "LIE_CHECKPOINT_COMPRESSION": true
+          }
+        }
+      },
+      "raw_files_verified": 58,
+      "state": {
+        "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+        "started_at": "2026-10-02T14:47:42.357490+00:00",
+        "pid": 2558413,
+        "start_ticks": 151785661,
+        "runs": [
+          {
+            "arm": "core-ptext-c1-ds4",
+            "pid": 2558444,
+            "start_ticks": 151785681,
+            "started_at": "2026-10-02T14:47:42.527111+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:48:32.736042+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.9992916582365786
+              }
+            ]
+          },
+          {
+            "arm": "core-ssd-p8192-write",
+            "pid": 2558726,
+            "start_ticks": 151790711,
+            "started_at": "2026-10-02T14:48:32.825930+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:50:00.612660+00:00"
+          },
+          {
+            "arm": "core-ssd-p8192-read",
+            "pid": 2559202,
+            "start_ticks": 151799497,
+            "started_at": "2026-10-02T14:50:00.687499+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:51:25.250745+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-8g-legacy",
+            "pid": 2559624,
+            "start_ticks": 151807962,
+            "started_at": "2026-10-02T14:51:25.333373+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:53:48.809543+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-8g-ds4",
+            "pid": 2560382,
+            "start_ticks": 151822322,
+            "started_at": "2026-10-02T14:53:48.933144+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:56:29.979187+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.4495928149694722
+              }
+            ]
+          }
+        ],
+        "current_arm": "core-p131072-c1-8g-ds4",
+        "finished_at": "2026-10-02T14:56:30.024915+00:00"
+      },
+      "closure": {
+        "at": "2026-10-02T14:56:30.025088+00:00",
+        "owned_processes": [
+          {
+            "pid": 2558444,
+            "expected_start_ticks": 151785681,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2558453,
+            "expected_start_ticks": 151785876,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2558726,
+            "expected_start_ticks": 151790711,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2558735,
+            "expected_start_ticks": 151790951,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2559202,
+            "expected_start_ticks": 151799497,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2559211,
+            "expected_start_ticks": 151799720,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2559624,
+            "expected_start_ticks": 151807962,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2559640,
+            "expected_start_ticks": 151808064,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2560382,
+            "expected_start_ticks": 151822322,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          },
+          {
+            "pid": 2560391,
+            "expected_start_ticks": 151822455,
+            "live_start_ticks": null,
+            "owned_identity_absent": true
+          }
+        ],
+        "locks": [
+          {
+            "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+            "device": 52,
+            "inode": 3232146,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+            "device": 52,
+            "inode": 3206482,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+            "device": 52,
+            "inode": 3228451,
+            "unchanged": true,
+            "free": true
+          },
+          {
+            "path": "/tmp/synapse-lie-ds4-gpu.lock",
+            "device": 55,
+            "inode": 45067,
+            "unchanged": true,
+            "free": true
+          }
+        ],
+        "kfd": []
+      },
+      "observer_exit": {
+        "event": "connection_closed",
+        "at": "2026-10-02T14:56:45.219419+00:00",
+        "ssh_exit_code": 0,
+        "samples": 492,
+        "power_failure_proven": false
+      },
+      "independent_controller_status": {
+        "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+        "current_arm": "core-p131072-c1-8g-ds4",
+        "error": null,
+        "started_at": "2026-10-02T14:47:42.357490+00:00",
+        "finished_at": "2026-10-02T14:56:30.024915+00:00",
+        "runs": [
+          {
+            "arm": "core-ptext-c1-ds4",
+            "pid": 2558444,
+            "start_ticks": 151785681,
+            "started_at": "2026-10-02T14:47:42.527111+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:48:32.736042+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.9992916582365786
+              }
+            ]
+          },
+          {
+            "arm": "core-ssd-p8192-write",
+            "pid": 2558726,
+            "start_ticks": 151790711,
+            "started_at": "2026-10-02T14:48:32.825930+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:50:00.612660+00:00"
+          },
+          {
+            "arm": "core-ssd-p8192-read",
+            "pid": 2559202,
+            "start_ticks": 151799497,
+            "started_at": "2026-10-02T14:50:00.687499+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:51:25.250745+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-8g-legacy",
+            "pid": 2559624,
+            "start_ticks": 151807962,
+            "started_at": "2026-10-02T14:51:25.333373+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:53:48.809543+00:00"
+          },
+          {
+            "arm": "core-p131072-c1-8g-ds4",
+            "pid": 2560382,
+            "start_ticks": 151822322,
+            "started_at": "2026-10-02T14:53:48.933144+00:00",
+            "exit_code": 0,
+            "finished_at": "2026-10-02T14:56:29.979187+00:00",
+            "comparison": [
+              {
+                "tokens_equal": true,
+                "eligible": true,
+                "cache_build_comparison": true,
+                "build_setting_differences": {
+                  "checkpoint_policy": {
+                    "primary": "ds4",
+                    "reference": "legacy"
+                  }
+                },
+                "output_per_total_wall_ratio": 0.4495928149694722
+              }
+            ]
+          }
+        ],
+        "current": {
+          "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+          "error": null,
+          "model_attempted": true,
+          "child_pid": 2560391,
+          "child_exit_code": 0,
+          "thermal_stop": null,
+          "last_temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp1_input",
+              "value_c": 56.85,
+              "limit_c": 82.85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp2_input",
+              "value_c": 67.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp3_input",
+              "value_c": 55.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp4_input",
+              "value_c": 55.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp6_input",
+              "value_c": 53.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp7_input",
+              "value_c": 56.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp8_input",
+              "value_c": 55.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon1/temp9_input",
+              "value_c": 54.85,
+              "limit_c": 85,
+              "policy": "operating-ceiling"
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon2/temp1_input",
+              "value_c": 80.0,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 96.25,
+              "limit_c": null,
+              "policy": "hardware-bounds-only"
+            }
+          ]
+        },
+        "measurements.jsonl": "{\"event\":\"complete\",\"exit_code\":0}",
+        "telemetry.jsonl": "{\"at\": \"2026-10-02T14:56:28.882613+00:00\", \"memory\": {\"MemTotal\": 134145568768, \"MemAvailable\": 26024251392, \"SwapTotal\": 134145372160, \"SwapFree\": 128102424576}, \"gpu\": {\"gpu_busy_percent\": \"100\", \"mem_info_gtt_used\": \"92414808064\", \"mem_info_vram_used\": \"384147456\"}, \"kfd\": [2560391], \"dri\": [1543, 1596, 1605, 1656, 2017, 2178786, 2560391], \"dri_permission_denied\": 472, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp1_input\", \"value_c\": 56.85, \"limit_c\": 82.85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp2_input\", \"value_c\": 67.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp3_input\", \"value_c\": 55.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp4_input\", \"value_c\": 55.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp6_input\", \"value_c\": 53.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp7_input\", \"value_c\": 56.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp8_input\", \"value_c\": 55.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon1/temp9_input\", \"value_c\": 54.85, \"limit_c\": 85, \"policy\": \"operating-ceiling\"}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon2/temp1_input\", \"value_c\": 80.0, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 96.25, \"limit_c\": null, \"policy\": \"hardware-bounds-only\"}], \"process\": {\"Threads\": \"36\", \"VmRSS\": \"7790972 kB\", \"VmHWM\": \"8893632 kB\", \"voluntary_ctxt_switches\": \"1895\", \"nonvoluntary_ctxt_switches\": \"13\"}}",
+        "stderr.log": "",
+        "controller_alive": false,
+        "postflight": {
+          "at": "2026-10-02T14:56:30.025088+00:00",
+          "owned_processes": [
+            {
+              "pid": 2558444,
+              "expected_start_ticks": 151785681,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2558453,
+              "expected_start_ticks": 151785876,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2558726,
+              "expected_start_ticks": 151790711,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2558735,
+              "expected_start_ticks": 151790951,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2559202,
+              "expected_start_ticks": 151799497,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2559211,
+              "expected_start_ticks": 151799720,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2559624,
+              "expected_start_ticks": 151807962,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2559640,
+              "expected_start_ticks": 151808064,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2560382,
+              "expected_start_ticks": 151822322,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            },
+            {
+              "pid": 2560391,
+              "expected_start_ticks": 151822455,
+              "live_start_ticks": null,
+              "owned_identity_absent": true
+            }
+          ],
+          "locks": [
+            {
+              "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+              "device": 52,
+              "inode": 3232146,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+              "device": 52,
+              "inode": 3206482,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+              "device": 52,
+              "inode": 3228451,
+              "unchanged": true,
+              "free": true
+            },
+            {
+              "path": "/tmp/synapse-lie-ds4-gpu.lock",
+              "device": 55,
+              "inode": 45067,
+              "unchanged": true,
+              "free": true
+            }
+          ],
+          "kfd": []
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "summary.json": "337a44fd355bad98e82efa84e8bfcaf41788cd1d03d0dcc3110dea1e44686069",
+    "summary.csv": "8be134a7c37d71b2354e59cb3ed9594c5462b5c030cdd49e4586a7b599713ec3",
+    "cache-policy.svg": "6fd5598d141c260d117aea7ac422d3724bf0adcb97d40b8e4a85d5d224b718a6",
+    "cache-policy.png": "677710bd316b6de1da60b552d8b3233d60a8af4ce978aec0bdf4352fdf598fa4",
+    "ssd-gpu-r8-thermal.json": "46ded6b7861ba8907475093a85f6a79f14396fe7f63a094d8aa842abcaffcfb2",
+    "ssd-gpu-r8-thermal.svg": "1fbf4ef65d61f6982cab8df9632dabdf70542edad2e480abf4d998c3d32e2ca2",
+    "ssd-gpu-r8-thermal.png": "ff0c62726e5dbd69ed0d98c1df14c77d9ceb72173ad5b3b06ad9774f2d0fb82c",
+    "ssd-gpu-r9-thermal.json": "ac3076715d7f8c11f0c43147d1daeed9b6a4c1495d587a2f445ac0efd69a8417",
+    "ssd-gpu-r9-thermal.svg": "b927b78cd9589adb3142d7f20676eb1174b9110bb201feccc263b708c100b103",
+    "ssd-gpu-r9-thermal.png": "62da1761eb1ad3f410565c68eeeeef7ebda62a2502840f7e221724d853399750",
+    "ssd-gpu-r10-thermal.json": "fc9c49b8e1faef6ee2cb9c2ea7919688e7bf72581be1e08aa8153bf425b215be",
+    "ssd-gpu-r10-thermal.svg": "0015dca03a5c2bf032d798fb92b072a65668510586b5e1251d713aa156eb1766",
+    "ssd-gpu-r10-thermal.png": "9270a36864d70ef0c2c0b4c85815283a29b04c57588b04f4ea9ca8af3eaa1d92",
+    "ssd-gpu-r11-thermal.json": "ec23e9b07a6dd3312feabac4c8cf2d18a0fc82c8743f6b3222cedae4d063d83f",
+    "ssd-gpu-r11-thermal.svg": "317af1e5dc26bb2ece87b3e5a02ecf7a2732b5e693d9d134cbc0fb4cec44d6b3",
+    "ssd-gpu-r11-thermal.png": "7a831336120ad5158ca48a19f0ed3ff3b23da58e7d8fb917997a2cbdc1aa05ba",
+    "analyze.py": "3b9bde3774b0e89b1007985ef10bfe856a1681b11241259912499db177addab3",
+    "analyze-thermal.py": "37adf5b31d01528f93539846a8daa6e0bce4a302faa96d012ce3d921bafb1072",
+    "bench-report.py": "b9b25a790b2939fde7e2204386ae05191f5e26fa21b4438ac49d3b5613db3be7",
+    "evidence.tar.gz": "1844c5d71e4b42f0ebd9acbb925c0f2de52da87294bf744726c7cdbd926c6505",
+    "README.md": "4192fc17cd8e1603f8f32afdce3e7b8ee3add857f2afab9a83275ef9d0906d66"
+  },
+  "offline_reproduction": {
+    "at": "2026-10-02T15:04:47.541450+00:00",
+    "archive_sha256": "1844c5d71e4b42f0ebd9acbb925c0f2de52da87294bf744726c7cdbd926c6505",
+    "same_numeric_summary": true,
+    "completed_arms": 15,
+    "matched_core_pairs": 5,
+    "exact_state_pairs": 6,
+    "no_gpu_or_model_access": true,
+    "local_directory": "evidence/ds4-policy-repro-r1",
+    "changed_markdown_links_resolve": true,
+    "presentation_normalization": "CSV LF and SVG trailing whitespace only; numeric JSON unchanged. Generator applies the same normalization."
+  }
+}

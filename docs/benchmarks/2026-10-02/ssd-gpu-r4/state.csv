@@ -1,0 +1,3 @@
+arm,mode,prompt_tokens,checkpoint_tokens,prefill_chunk,model_load_ms,identity_hash_ms,retained_bytes,peak_staging_bytes,capture_ms,write_ms,read_ms,pairs,transfer_bytes,min_decode_calls,min_output_tokens,fresh_prefill_median_ms,restore_median_ms,tail_prefill_median_ms
+state-p131072-k131072-write,write,131072,131072,2048,20780.945159,57077.216672,3441461336,3441461336,412.278181,2310.500499,0.0,0,3441452200,,,,,
+state-p131072-k131072-read,read,131072,131072,2048,22615.532191,63144.461056,3441461336,4294967296,0.0,0.0,2179.216117,3,3441452200,16,16,96748.269976,45.084865,3e-05

@@ -1,0 +1,36 @@
+{
+  "scope": "local compile/link only; no tests or model execution",
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/state-linked-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/.deps/gufo-state-access-gufo-state-host-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/gufo-state-host-r1",
+        "-DLIE_BUILD_ID=state-linked-r1"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/state-linked-r1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "-j2"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

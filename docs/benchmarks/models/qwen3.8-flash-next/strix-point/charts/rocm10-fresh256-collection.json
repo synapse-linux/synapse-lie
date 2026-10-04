@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.point-rocm10-fresh.v1",
+  "source_commit": "1877b03",
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "profile": "fresh256",
+  "physical_prompt_tokens": 258794,
+  "output_tokens_per_sample": 128,
+  "matched_samples": 2,
+  "arms": {
+    "lie": {
+      "archive_sha256": "6bd02d5837fdbd09d2dacfaa79f856e3c6aa398ef540f61ad897410a0ccb4539",
+      "remote_file_inventory_count": 21,
+      "measurements_sha256": "9de1b75048221ebb0c792101232a9b710035fe53f5a5a23fc9e66054a2c3e97d",
+      "lease_released_at": "2026-10-03T22:52:07.965628+00:00",
+      "temperatures_max_c": {
+        "nvme": 70.85,
+        "amdgpu": 86.0,
+        "k10temp": 83.125
+      }
+    },
+    "gufo": {
+      "archive_sha256": "42d73d98239dcb567934ba7c1d74b8f5cbf328d2777b6b793e9d1c48428dee4a",
+      "remote_file_inventory_count": 21,
+      "measurements_sha256": "761050b7e9671b2b7edf55ab59f83fe3f981bdec370cfccca7f5835b8f9ffbb7",
+      "lease_released_at": "2026-10-03T23:17:51.347728+00:00",
+      "temperatures_max_c": {
+        "nvme": 70.85,
+        "amdgpu": 86.0,
+        "k10temp": 82.375
+      }
+    }
+  }
+}

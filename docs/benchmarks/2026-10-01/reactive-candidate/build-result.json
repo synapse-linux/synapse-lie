@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api",
+      "-B",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/reactive-inference-r3",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DLIE_GUFO_RUNTIME=ON",
+      "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/gufo-qwen-host-r2",
+      "-DLIE_BUILD_ID=reactive-inference-r3"
+    ],
+    "exit_code": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/reactive-inference-r3",
+      "-j2"
+    ],
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,294 @@
+{
+  "schema": "synapse-lie.performance-followup.preparation.v1",
+  "at": "2026-10-03T21:02:01.926529+00:00",
+  "classification": "HOST_ONLY_PREPARED_NOT_RUN; no model load/hash, GPU execution or remote staging",
+  "source_checkpoint": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+  "source_binding_sha256": "6802c8524e6a9e2fdc177e59f4961b149ab294c23e98c08500a089aebe876cd9",
+  "runtime_source_files_verified": 327,
+  "GPU_admission_disabled": true,
+  "requires": "New verified Q2 handover; notify peers; fresh original four leases for every arm; no remote staging or GPU run yet",
+  "planned_arms": [
+    {
+      "arm": "c17-depth-12k",
+      "sha256": "0d0b4dfc3e2fb40d7240f347d1afe1ee1e93bb9b26eef3b9978118618b111120",
+      "binary": "synapse-lie-bench",
+      "binary_sha256": "a07a45fda916b6d8746caca693bfc03ddeed074486235e1acc0ff4b1c6b4f72a",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "single",
+        "--depths",
+        "12288",
+        "--tg",
+        "128",
+        "--warmups",
+        "1",
+        "--repetitions",
+        "3",
+        "--pp",
+        "2048"
+      ]
+    },
+    {
+      "arm": "cpp-depth-12k",
+      "sha256": "084033e2958cf26f5c9a71b577b17260a466de51c9c4eb964b3fa2f716c414d9",
+      "binary": "synapse-lie-bench-cpp",
+      "binary_sha256": "152d8cb648f784c5e66faab7f83192a4bb8806e9979ebb91033b05aba07d570c",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "single",
+        "--depths",
+        "12288",
+        "--tg",
+        "128",
+        "--warmups",
+        "1",
+        "--repetitions",
+        "3",
+        "--pp",
+        "2048"
+      ]
+    },
+    {
+      "arm": "first-0-c17",
+      "sha256": "30704246550648129a185a43213e4a6f88284bf9d8911a941c62c09a6a4298f0",
+      "binary": "synapse-lie-bench",
+      "binary_sha256": "a07a45fda916b6d8746caca693bfc03ddeed074486235e1acc0ff4b1c6b4f72a",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "0",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "first-1-cpp",
+      "sha256": "9425ec63486b0c94b016fbca351a58ec7615941c0eae993a36fc0af4de4f4533",
+      "binary": "synapse-lie-bench-cpp",
+      "binary_sha256": "152d8cb648f784c5e66faab7f83192a4bb8806e9979ebb91033b05aba07d570c",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "0",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "first-2-cpp",
+      "sha256": "9425ec63486b0c94b016fbca351a58ec7615941c0eae993a36fc0af4de4f4533",
+      "binary": "synapse-lie-bench-cpp",
+      "binary_sha256": "152d8cb648f784c5e66faab7f83192a4bb8806e9979ebb91033b05aba07d570c",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "0",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "first-3-c17",
+      "sha256": "30704246550648129a185a43213e4a6f88284bf9d8911a941c62c09a6a4298f0",
+      "binary": "synapse-lie-bench",
+      "binary_sha256": "a07a45fda916b6d8746caca693bfc03ddeed074486235e1acc0ff4b1c6b4f72a",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "0",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "warm-0-cpp",
+      "sha256": "5055aa963d2091c1790cfbb87a376d124bfc5fc40a7a3bb18d406f60de41f96b",
+      "binary": "synapse-lie-bench-cpp",
+      "binary_sha256": "152d8cb648f784c5e66faab7f83192a4bb8806e9979ebb91033b05aba07d570c",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "2",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "warm-1-c17",
+      "sha256": "36944754e693ec28bb5b732628b068b8c75dee84d49707ce9f87600242a93a06",
+      "binary": "synapse-lie-bench",
+      "binary_sha256": "a07a45fda916b6d8746caca693bfc03ddeed074486235e1acc0ff4b1c6b4f72a",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "2",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "warm-2-c17",
+      "sha256": "36944754e693ec28bb5b732628b068b8c75dee84d49707ce9f87600242a93a06",
+      "binary": "synapse-lie-bench",
+      "binary_sha256": "a07a45fda916b6d8746caca693bfc03ddeed074486235e1acc0ff4b1c6b4f72a",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "2",
+        "--repetitions",
+        "3"
+      ]
+    },
+    {
+      "arm": "warm-3-cpp",
+      "sha256": "5055aa963d2091c1790cfbb87a376d124bfc5fc40a7a3bb18d406f60de41f96b",
+      "binary": "synapse-lie-bench-cpp",
+      "binary_sha256": "152d8cb648f784c5e66faab7f83192a4bb8806e9979ebb91033b05aba07d570c",
+      "argv": [
+        "--model",
+        "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--output",
+        "@RESULTS@/measurements.jsonl",
+        "--suite",
+        "fresh",
+        "--sizes",
+        "1500",
+        "--tg",
+        "128",
+        "--warmups",
+        "2",
+        "--repetitions",
+        "3"
+      ]
+    }
+  ],
+  "controls": [
+    "Missing 12288 physical-prefix depth, fixed 133760 sequence capacity",
+    "Fresh 1500/TG128, fixed 262144 capacity, no prefix cache",
+    "ABBA process-first/no-model-warmup order; BAAB two-warmup order",
+    "Every process has separate private cache and tmp directories; OS file cache is uncontrolled",
+    "Correlate exact monotonic phase bounds with read-only clock/power/frequency snapshots"
+  ],
+  "acceptance": [
+    "Native reporter validates phase intervals and exact input/output/full-frontier comparisons",
+    "Keep all first samples and failed arms; investigate old >5% loss without replacing retained history",
+    "No cold-file, sampler-host-cost or reactive speedup inference from these greedy runs"
+  ],
+  "preparation_commands": [
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-perf-clocked-r1/capsule/synapse-lie-bench",
+        "--build-info"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"c17-sampling-r1\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"dense_sampling\":\"lie-c17-dense\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"timing_clock\":\"CLOCK_MONOTONIC\",\"wall_clock_scope\":\"CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds\",\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"LIE-reactive-ready-batch\"}\n",
+      "stderr": "",
+      "started_wall_ns": 1791061094938697399,
+      "finished_wall_ns": 1791061094975352164
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-perf-clocked-r1/capsule/synapse-lie-bench-cpp",
+        "--build-info"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"event\":\"identity\",\"schema\":\"synapse-lie.bench.v1\",\"program\":\"synapse-lie-bench\",\"build_id\":\"c17-sampling-off-r1\",\"engine\":\"gufo-embedded-f783fedb\",\"source_pin\":\"f783fedb9bea2ec7de941f6da4e02f4a4596b29e\",\"ownership\":\"delegated\",\"dense_sampling\":\"gufo\",\"synthetic\":false,\"suite\":\"single\",\"mode\":\"ar\",\"pp_target\":2048,\"output_limit\":128,\"repetitions\":1,\"warmups\":1,\"scope\":\"simplified direct executor; physical-prefix reuse, not HTTP conversation\\/cache restore or independent kernels\",\"prefill_chunk\":2048,\"timing_clock\":\"CLOCK_MONOTONIC\",\"wall_clock_scope\":\"CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds\",\"unsupported\":\"MTP, cold-file loading, allocation-exact HIP peak, quality\\/FP64 oracle\",\"execution\":\"LIE-reactive-ready-batch\"}\n",
+      "stderr": "",
+      "started_wall_ns": 1791061094975677007,
+      "finished_wall_ns": 1791061095008572868
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-perf-clocked-r1/capsule/synapse-lie-bench-report",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "Usage: synapse-lie-bench --suite report INPUT-JSONL --output DIRECTORY\n  [--label LIE] [--compare REFERENCE-JSONL --reference-label NAME]\n  [--compare-cache-build]\nValidates complete evidence, then exports summary.json, summary.csv, benchmark.svg and benchmark.png.\nAll report generation is native C. Output files must not already exist. Failed evidence is never averaged.\n",
+      "stderr": "",
+      "started_wall_ns": 1791061095008896237,
+      "finished_wall_ns": 1791061095013242347
+    }
+  ],
+  "read_only_telemetry_scope": "Existing optional GPU clocks/power/busy/memory fields, CPU frequencies and load; monotonic snapshot bounds and wall-clock correlation. Missing values remain explicit; no device/fan/power/clock changes",
+  "telemetry_smoke_sha256": "05d71ef61df0e1cc2f8071f1a67a52acfe60edcd3b1a9795d949ed148c741d1c",
+  "combined_csv_unit_correction": {
+    "at": "2026-10-03T21:02:01.327041+00:00",
+    "scope": "Rename the 12 combined CSV duration headers from _ns_ to _seconds_; all 17 rows and every data byte unchanged; native duration summaries agree",
+    "previous_sha256": "8d14e1a5b94608e3f68320f897b4b0df91b919aa1b7e19f74050c522888f95f7",
+    "current_sha256": "d2e69073c5a2324aa1d68495f72e1c7735fece69359550989d8697c47a6d3758",
+    "retained_previous_copy": "evidence/gpu-perf-clocked-r1/current-values-before-unit-correction.csv",
+    "raw_and_graphs_changed": false
+  },
+  "results": "None; Q2 currently owns .157. Prepared paths and commands do not authorize a GPU run."
+}

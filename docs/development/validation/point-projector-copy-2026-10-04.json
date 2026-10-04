@@ -1,0 +1,77 @@
+{
+  "schema": "synapse-lie.point-projector-copy.v1",
+  "target": "pop@192.168.5.161",
+  "source_host": "192.168.5.157",
+  "operation": "direct read-only copy; source retained",
+  "bytes_copied": 616703104,
+  "projector_sha256": "b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad",
+  "projector_source_stat_unchanged": true,
+  "destination_stat_verified": true,
+  "source_sender_exit_code": 0,
+  "destination_receiver_exit_code": 0,
+  "controller_exit_code": 0,
+  "temporary_ssh_agent_retired": true,
+  "source_postflight_at": "2026-10-04T02:51:05.837683+00:00",
+  "source_kfd_empty": true,
+  "source_owned_processes_absent": {
+    "3368377": true,
+    "3368378": true,
+    "3368379": true
+  },
+  "source_leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free": true
+    }
+  ],
+  "destination_postflight_at": "2026-10-04T02:51:06.215252+00:00",
+  "destination_service_active": true,
+  "destination_kfd_only_router": true,
+  "destination_no_lie_containers": true,
+  "destination_lease": {
+    "device": 66308,
+    "inode": 105946405,
+    "free": true
+  },
+  "source_file_stat": {
+    "path": "/home/paperboy/ds4-launcher/models/gguf/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+    "bytes": 616703104,
+    "device": 52,
+    "inode": 3116447,
+    "mtime_ns": 1790231603650000000,
+    "ctime_ns": 1790258579655360284
+  },
+  "destination_file_stat": {
+    "sha256": "b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad",
+    "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-mmproj-q8-r1/mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+    "bytes": 616703104,
+    "device": 66308,
+    "inode": 106208874,
+    "mtime_ns": 1791082203635334328,
+    "ctime_ns": 1791082203668334346
+  },
+  "release_handover_sha256": "17312b22e2c780cc1c6d296986d373f4fa2467671dda5c69d5ff70346f570483",
+  "source_json_sha256": "64e3fc176071c64455329268f435d286f9d88f63953d409af70dce56444ac370",
+  "collection_sha256": "6d242ddef651b3873cc66f8b5217f5e0711d18ac66f26426da4017359bcf8e15",
+  "raw_evidence": "ignored local evidence/strix-point-projector-q8-copy-r1; 23 collection SHA entries; model bytes remain remote"
+}

@@ -1,0 +1,920 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "date": "2026-10-03",
+  "feature": "core-semantic-events",
+  "branch": "feature/core-semantic-events",
+  "baseline_commit": "01ff720157945a5b6b477ae6acc12d64c2bfd105",
+  "worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/core-semantic-events",
+  "host": "cachyos-x8664",
+  "scope": "Local CPU synthetic contracts and independently fetched/rebuilt HIP provider plus client host compilation/linking. NOT-INFERENCE; no weights, GPU execution, remote build or benchmark qualification.",
+  "contracts": {
+    "executor_abi": 2,
+    "core_request_abi": 4,
+    "event_abi": 1,
+    "state_abi": 2,
+    "legacy_raw_consumer": "supported but mutually exclusive with semantic events",
+    "output_grammar_binding": "Qwen tags; no full JSON-Schema/constrained generation or incremental executable argument deltas"
+  },
+  "validation": {
+    "native_asan_ubsan_lsan": {
+      "passed": 39,
+      "total": 39,
+      "evidence": "evidence/events-full-final"
+    },
+    "headless_both_model_features_off_asan_ubsan_lsan": {
+      "passed": 16,
+      "total": 16,
+      "evidence": "evidence/events-headless-test-final"
+    },
+    "native_tool_http_variants": [
+      "AR",
+      "MTP13"
+    ],
+    "headless_mtp_geometries": [
+      8,
+      13
+    ],
+    "provider_receipt": "build/provider-events-r1/BUILD-RECEIPT.json",
+    "provider_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "host_hip_server_and_bench_linked": true,
+    "metadata_only_build_info": "evidence/events-linked-info"
+  },
+  "preserved_failures": [
+    "events-build-r1: compiler misleading indentation",
+    "events-test-r1: fixture prefix assertion from old binary and LSan sandbox ptrace restriction",
+    "events-test-r2: EOS raw flow commit contract abort; corrected by preserving raw EOS and deferring semantic terminal",
+    "events-debug-r1: owned fixture debugger diagnosis, not successful qualification",
+    "events-linked-config-r1: provider worktree-containment gate; independently refetched/rebuilt within this worktree",
+    "events-build-r5: new native fixture signed comparison warning"
+  ],
+  "thermal": {
+    "cpu_guard_c": 95,
+    "owner_allowance_c": 98,
+    "maximum_observed_cpu_c": 93.75,
+    "provider_cpu_peak_c": 81.875,
+    "shutdown_observed": false,
+    "deterioration_observed": false,
+    "fan_clock_power_tuning": false,
+    "owned_child_cleanup_only": true,
+    "gpu_visibility_masked": true
+  },
+  "source_sha256": {
+    "include/lie/cache_policy.h": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26",
+    "include/lie/chat.h": "581f0f2ba73e234137c485d18ea31e1803210bf5ad8a741ffd817ad9b5b5ce17",
+    "include/lie/core.h": "906651d3c7053e0873ba7d0bcebc305e2a7fc3582dce1d189d2d349fa3273a88",
+    "include/lie/executor.h": "dc152488cc29c2b5be928995ef6bb5c360ff423f8d4618fed500b287bd845d87",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8",
+    "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+    "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+    "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+    "include/lie/kvc_state.h": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/mtp.h": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/responses.h": "08a1aa5cb03fb1607cb41c2cdc400e730d4cae6176993a1256a220e328750643",
+    "include/lie/state.h": "d1ce59fab5b72dc8e23e7d3cdcc99676c0c51389516fc92818bbc1a8e880605a",
+    "include/lie/store.h": "76d577a9d4a1a6a784600eba0639323db18fd73ca0b30293ffceb18d7a7edf2a",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408",
+    "include/lie/vision.h": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e",
+    "include/lie/wire.h": "63dc3cba8d66150ed338411045c1cfa72deb49f271cff023c22648a1397bc005",
+    "include/lie/worker.h": "49839ba31e97d278f25a5a3bc616aa176d04875363be61e30c600dfede5ac1ef",
+    "include/lie/events.h": "12492509e511b1712b221632d7b83f1c9e442c01ab7e2b6dccf4793278763071",
+    "include/lie/output.h": "56d6a71dbd1aed70554c734c61582785f952c91c000da8cda0f7e35c75fefd8f",
+    "src/cache_policy.c": "92c4c0f0d62550608ed8555208ab9ab7fc6e7230991cc3dfd86ae451bb8a3d89",
+    "src/chat.c": "073399bc4c848b3f488f386e0a9660767ed09601fdbbbc713eaf1f37c013a12b",
+    "src/chat_tools.c": "7948ad171cd6f4f343f84f2cc78dfa813972bf4310353a8969a58ccc1ed48a30",
+    "src/core_input.c": "4287a970b3e51bac8f1ca35bc070284a21ee41fd1419f0d92e633f79006ccc1e",
+    "src/core_input.h": "0c6eedac2cd679dfb836fc22cbbd19e373e7acd2be6870d3283e5f99cf9b3793",
+    "src/executor_unavailable.c": "6f9fc1dcf793b443e11b96c7f3555ce44b911d3910117920a3cc9acd8e59d58b",
+    "src/flow.c": "b636727e479a7e97aeafc3bea22f8a14641fbaa93ce6f2c80e45192ebb10be90",
+    "src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a",
+    "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+    "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/prefix_cache.c": "ca5f8b0a00e108d4e2690a20f94913c7dc220a48b97cdabd98b4e64523c63e26",
+    "src/prefix_cache.h": "b1a05a4384b876c543dff47e7e0218c002c5dc2404eef2c7721c74d304ddb5f7",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/responses.c": "ce35366cd1b4d27d6ebc91af8c70b8021256241641a7799cb77175ee7c91a161",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/server.c": "0e892517e934161d26acfc1026b0ca4e4ffa7720cf9fe12597acd85ed2a126eb",
+    "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+    "src/state_codec.c": "fabd9747dd03e55addf2aab78a1d24bc28d41f8ca29f5d1ff1f5d27b856e4775",
+    "src/state_codec.h": "9a6494cdbff31fdc0ee49e12993378cfb803c296485b0c62ba1a81dc06e5a11b",
+    "src/state_compression.c": "280166c315ba6b8da65fc7ed53906bc90d2455a7f4fcd0b4727f2b2e64ed3331",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/state_kvc.c": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a",
+    "src/state_kvc.h": "505c131a16461c85d3bcdaccdab4b4baf68b87323b5ba339667456f4c75aab5a",
+    "src/state_layout.c": "c6e7d7a0b1ca98f618e42c6bf09df66075b3b6f2e401c82f38bf5567090c156c",
+    "src/store.c": "ebd91d41cad88f0181d0fa325e441c677e6fc9dce72ef5906861477f34dcdfad",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+    "src/wire.c": "c9e0de12d35b68c288a06afb269cb0dcfd1499ed00859a829436197e5455ad8a",
+    "src/worker.c": "34f6a9d1fe73e44909e592bb1b48ef52a93383009e00e54cff3279337604ad82",
+    "src/worker_http.c": "147e6ab5b98f46743ef08ebd68a5118423f320c4aacc1988c28634d720367e21",
+    "src/core_events.h": "7fa32be31d8011175e17857d738d582e57863ccc40108d12806ef9840e91577f",
+    "src/core_events.c": "7ae9f3f55dcc24458e746b953ca085171caf6e89797823a808315db02d399510",
+    "src/output_json.h": "953ba279a516736bc8c0da092a3acec68b4ad906320fff386e613e99f8cda3ba",
+    "src/output_json.c": "ecab6537052e7a5eafd89d57b0209491ac96c44e5872b59f9a2011fc8b783f11",
+    "src/tools.c": "2bd571b4508bf5b70f49c8462318dbd242b333149df741985ff348beecdc36c2",
+    "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+    "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+    "src/models/kvc_qwen_state.c": "a45155ed46860a9c261b0585e796ae3efd0c43a1209c3ea7a74edee8a58a36d1",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/models/qwen_output.c": "d32e28f72a06acb33814502d3ed733bef56d5a3a2919b448c54c0cab3900d0f0",
+    "adapters/gufo.cpp": "5f09799735756e453147e8537b1f8384f02f0517c8ea309ec4f9bf1c5df0812d",
+    "adapters/gufo_binding.c": "de5b07e73a509666506574d8f2ebedabbbe479f77498f0c816b44792a5d4ab9b",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "6a82299b884c0dda36d9da48626d8a05a9375445e3e22885dec5c5648b97d5f1",
+    "adapters/gufo-state/access.hpp": "f239082cd75c50de10c08a496e09478018b3dd5ccd1e8d9b31880d984d6c7d32",
+    "tests/bench_executor.c": "021b0acbe8fd4ef2a04bf701a0b7088f58ea02ae9e6bf52a117288f06269dcd7",
+    "tests/fake_executor.c": "6354ba6d9866f5359fe7a8615c844a15a07194ef33a7e597d7a6b0a3cba4ecf1",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+    "tests/provider_contract.cmake": "982a30d492e37a0e8d8ca41ffa5300db4841a1533cac4e63971f6f966959b66e",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_cache_policy.c": "35e288bb84c43a19142bc2fdc22917b8548d8cb0082fac95e1908b04a7f16ba3",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_feature_http.c": "b9456e9e20f447341ca4f6ee62da92670a74c45ce9a0d6f7012b1c5881f0a54b",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+    "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+    "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_mtp.c": "634cdfa24d32a9277a62995c6e0a2fe298511c1dcde8839b39fe439ff0ce66bf",
+    "tests/test_native_bench.c": "aa2d56d0a75988889c76beba0845b00dbdc6c5c469bc503bcf876e95a3dd1f0b",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_state_aux.c": "3e894358d36a7ed6f19649adf7ddd70f64f49cbd89b767afdf0e9a370f7cb88c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_tools.c": "d858f7dfcb671844877562ade53fb05ba0c69c358a1aec3527c71b8b0ced11b5",
+    "tests/test_vision.c": "7c81a2df148e30d4f2be6ea96c39d7106ac938a9641dd268665c9ecd4c16f1dd",
+    "tests/test_vision_cache.c": "e46b7e2a5f1f35303b463eed35d0da0148369d477d410e2d1c85698fe2d0e895",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+    "tests/test_core_events.c": "af1c69bb2e3f9fd27214bdb92440b4dd04f30750597e18c061364174483abac8",
+    "tests/test_event_http.c": "425e653f747f6ab57f8a015d23c2271d95923e18ecc01680991dc2f3ee5329a4",
+    "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+    "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+    "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+    "tools/native/http_transport.c": "9f10a8f506e1fa44ba5a25e8591ea923e883fcb9a0eed838d2d76ae821ea5ba6",
+    "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+    "tools/native/report.c": "9cea8d9c331bc55122ff57da1b24907003a112ac857f11068081483408ecbb7d",
+    "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+    "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77",
+    "cmake/provider/Build.cmake": "9f9df6f35c1e4c1227aea65b4ba3d5b8e798db75f7096334f4f1676ce2d8d929",
+    "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+    "cmake/provider/Source.cmake": "8710f67850560c2a5bc48986d3d9411b0aa55d717dc2295aa6d97aeee26b4d38",
+    "cmake/provider/Verify.cmake": "437dbbff2bb7098a1f531eb446636e0ce2adf34a2235fd5d64968ab143b8c93f",
+    "CMakeLists.txt": "39a48ff348ecab63b164f2876571078c20ae20cf63cb0c783181c836f377e93c",
+    "tools/core-bench.c": "997db55edf0db7cbda03862584c0015a1c66e209d9ed39b27999b2a4a9e15b7d",
+    "third_party/gufo-source.json": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0"
+  },
+  "binary_sha256": {
+    "build/events-asan/test-core-events": "678007232d293bff5f5e64813a3acbd374e8b1972c9ef8c7e00f9ce9d0cfac9f",
+    "build/events-asan/test-event-http": "662409b4998369ea4ac651012962fb5c89fa59175e13a1d33f6412e1e6d42fee",
+    "build/events-asan/test-event-mtp-http": "867866d9d95487cf10a0cebb1f4bfe160c2b7cf5f6c13365abc7f415a155ae1f",
+    "build/events-asan/test-synthetic-server": "14cfb3b49529f8f24e283ff3cdd5ecd8f2441cbc89c93268fca17ee01ba0186f",
+    "build/events-asan/test-synthetic-lie-bench": "d2ea27a115de5a829739b9d05a3bba87d7deb7286440f4392ac73ac3e1b5d6da",
+    "build/events-asan/synapse-lie-server": "68cb26db6ede97a18fe8619045d171e7d339a7eb061c3e2d0fe558ca016bd93d",
+    "build/events-asan/synapse-lie-bench": "0581ee625f8fd0308981dae0f999d51734469db3142117ad25812930a523313b",
+    "build/events-asan/liblie_core.a": "22c613fe675a9216a178785478131faf1188e311ee7bb2a1eda8b2d6697fbe88",
+    "build/events-headless/test-core-events": "dcc741fca72fd6d339c6de0e3b77bbff929d94b76d8ef6d2eff5143cc6371604",
+    "build/events-headless/liblie_core.a": "70beaca7b9b059756112e7569bf4da7a20d375f8b716f009a713bc9540f1b4f1",
+    "build/events-linked/synapse-lie-server": "2653ac76630bd6128654bae178cb69b9f0da9dea15d121d1de1b33d52f66ca3c",
+    "build/events-linked/synapse-lie-bench": "956c3523858132d1773a56a07b1196e88f55670cc0e696849a13d6fd6a0e25ad",
+    "build/events-linked/liblie_core.a": "a0212c6f7cdd09a85904cc9ee18cb92064431b8079d1338762291d744921218a"
+  },
+  "artifact_sha256": {
+    "evidence/events-build-final/plan.json": "7d3fe6648a9d9c4a47ea53f9eca0d9ca4fbe960bf7ed0242c2c9077ce5691795",
+    "evidence/events-build-final/temperatures.jsonl": "bacbe45bc316b4829a9968349377c3ea09b85941a3997680ee90bcf3b3055133",
+    "evidence/events-build-final/command.log": "2c71ed0686f89808c9597a7ec5747b1e07dc53f5f30e7454b9d6af3a0eb80a21",
+    "evidence/events-build-final/result.json": "41613cc0b4b6ee5085f5a30f97fd734379ce01a85393930ddffacef092ae8fd7",
+    "evidence/events-build-r1/plan.json": "81952a566293d71c2b100549b2997a732cfe226ef15e0450582c1eebdbec04e2",
+    "evidence/events-build-r1/temperatures.jsonl": "8fdc46f17ae2e90f207d365a77212aeeef0d9f31a8c6f28e2451964a5c1be038",
+    "evidence/events-build-r1/command.log": "6af5eb345038ec8ec9769a43f18487b440fe11fabb6a784695029213804079c2",
+    "evidence/events-build-r1/result.json": "0128237ce9c90fee322d5567fd32f92c343f362f065c9384c6d1c33290511c9e",
+    "evidence/events-build-r2/plan.json": "81952a566293d71c2b100549b2997a732cfe226ef15e0450582c1eebdbec04e2",
+    "evidence/events-build-r2/temperatures.jsonl": "d76d009e5fb215d5f51d116516611291dd3a6700c1f895a66f9e3515d046427f",
+    "evidence/events-build-r2/command.log": "891d38a0e01275022a26b8db5f83233e784c99090d2ca33e309573d40c0f7c9b",
+    "evidence/events-build-r2/result.json": "25a42e232b238d1bb093dc27112d56dd50319d7272f1aaae9e1aad13802ea7c4",
+    "evidence/events-build-r3/plan.json": "7d3fe6648a9d9c4a47ea53f9eca0d9ca4fbe960bf7ed0242c2c9077ce5691795",
+    "evidence/events-build-r3/temperatures.jsonl": "1947efcbabdc83742e80845361eb3570fb0ae25d072f8d302df7db001fc85c26",
+    "evidence/events-build-r3/command.log": "56d7514043a69b339a14c45b746a4c6c8c2a7d4ae16904a25489330fce9704ba",
+    "evidence/events-build-r3/result.json": "66b8611906d0237396b9872b6f5d58bea0c7daf49e3b15c5d5e125fdb7bcc6e7",
+    "evidence/events-build-r4/plan.json": "7d3fe6648a9d9c4a47ea53f9eca0d9ca4fbe960bf7ed0242c2c9077ce5691795",
+    "evidence/events-build-r4/temperatures.jsonl": "d07db2229208907426c80a3925ee09b132f8dd39a8a3edad1b74c16144b4462f",
+    "evidence/events-build-r4/command.log": "4ba3628e11fd7eeaee0c5a75fa5869675e8b3049c6779d3547bf60d7233ffb23",
+    "evidence/events-build-r4/result.json": "07430966700a9fc3aadf1f123564d788a75f385344430de6ed65e251da679974",
+    "evidence/events-build-r5/plan.json": "7d3fe6648a9d9c4a47ea53f9eca0d9ca4fbe960bf7ed0242c2c9077ce5691795",
+    "evidence/events-build-r5/temperatures.jsonl": "c4b7a12d331f880eef1297a7546448955f2e6fb4555d2eb6f0faae729dc21de0",
+    "evidence/events-build-r5/command.log": "7c4f692568bb9b05412fa57b874cbf15b0dc3eb45043d4f152e356187355cd59",
+    "evidence/events-build-r5/result.json": "f5dcbbd562cd8500aafb8c6a962ca5fcc21f445e42de2773f5e1cd18e261f46d",
+    "evidence/events-build-r6/plan.json": "7d3fe6648a9d9c4a47ea53f9eca0d9ca4fbe960bf7ed0242c2c9077ce5691795",
+    "evidence/events-build-r6/temperatures.jsonl": "0c2ad4b4e1d05a7c7c84a5c4615b3e5ed863a38e53e1017309814846090bf059",
+    "evidence/events-build-r6/command.log": "6414647d3f299994804548525dfa264446e261559720b4facbb6776dea2144d6",
+    "evidence/events-build-r6/result.json": "01aabd2d3693b9ea8d81f33aeb8851a28b0fa83a7b46e4d701fe598485cbc933",
+    "evidence/events-configure-r1/plan.json": "a91c567c01333ff818c48697eac80a841ada772d57dc8489d1b7ae80a7ba891b",
+    "evidence/events-configure-r1/temperatures.jsonl": "b5510a203547da5a7d05387fd198b87900702cc3af155f51767433fba054181f",
+    "evidence/events-configure-r1/command.log": "8c2c76da9ffaa8b3f571687ce0f819148602f4c55778fc093e9a2d4f352b3f10",
+    "evidence/events-configure-r1/result.json": "11226b81c114ad40ae6eecb0f2d6fbb6ce04786f06e663bf1cf47a0c7cf2fd92",
+    "evidence/events-coreonly-config-r1/plan.json": "5a156d61325ec54a4f35843211cc3ebf3b8b9b63fdae40769b93cbe314bf4e26",
+    "evidence/events-coreonly-config-r1/temperatures.jsonl": "ccd86c98ee4f3261c221cdd09014f724bec458dffc5a765cc67da475c9ccfd19",
+    "evidence/events-coreonly-config-r1/command.log": "dfb91b03e30395e0df17bbb6b8e44e53f4351b2aab3fd3d4a9c5bbd22c44ccf4",
+    "evidence/events-coreonly-config-r1/result.json": "f23192b3ea25ceb3b93ae4ddd671b5fd74aa8dd7d8281a9609f2161b62b3f852",
+    "evidence/events-debug-r1/plan.json": "50639e1fcf4cd46a467efa0b60fd83e46e960877a7ac4c427652a5c4abda9a7b",
+    "evidence/events-debug-r1/temperatures.jsonl": "991fb7ff353434a2fd3f6a7007a06eaace9c2d1c72ed2c7517092aba832e9166",
+    "evidence/events-debug-r1/command.log": "9303884ba023d6a3af96bcf59f5c9f106a7418769818340661c5ac2ff7305ec4",
+    "evidence/events-debug-r1/result.json": "3e43168fbfa5ddac5851eea2cf0a2f3269d4268bc0b0ccb55cba2365a8bc172b",
+    "evidence/events-focused-r4/plan.json": "be85cb31d9662c0d7db6c2e5627a37ad837924e91a49dd2c19636b3c1aa59b5b",
+    "evidence/events-focused-r4/temperatures.jsonl": "1e3bd8c9297ba2829371a244399287e74df4a1f056e2e082da9cb0416f1eb72e",
+    "evidence/events-focused-r4/command.log": "6c461b78abb5eb0296c363bb995e7cb38e3d51db2ca5303b127cb4bb48af5c87",
+    "evidence/events-focused-r4/result.json": "1770866db481490cf9c459f056dc253e330d672c616dc2a777f1c74c4094fd3b",
+    "evidence/events-full-final/plan.json": "e505e0b55cdff29df5063f32382fd5f5701ca366bc5231780766af1428f380f9",
+    "evidence/events-full-final/temperatures.jsonl": "bb15ef167b37548a9b57f13cecf16d17a46849d1f2fa9ac647b52325207c34ec",
+    "evidence/events-full-final/command.log": "0c4253cb4231f2b6d707924ef69c27ded8c59a3d2d7e8173abdad2b92f9d8775",
+    "evidence/events-full-final/result.json": "a6d4a2f3276b811a18c81c93d86b90c79a4b141ef6e6fd711fe5937297facca0",
+    "evidence/events-full-r1/plan.json": "ddcdf656aaae18d6cea9bdba723c45a059477783bb480ab8301d438705c4d025",
+    "evidence/events-full-r1/temperatures.jsonl": "bc438f3c3bd0f5de7caa0ccb86b39747da16692263dedfe6b7f80f421d9f59b9",
+    "evidence/events-full-r1/command.log": "e4f927d17ce74b78b558551181330b94e37c0ca61e80c7a93bc50f6464eea353",
+    "evidence/events-full-r1/result.json": "94657c44a5c752a33a3f8d08fe0976c154f86a5144c228cd1b65dc9fd4d9fb82",
+    "evidence/events-headless-build-final/plan.json": "72e38656dbd8e4c8b615993e9d4b555a7e5c7fd13c8a29da8a42796a008a6b54",
+    "evidence/events-headless-build-final/temperatures.jsonl": "6b3b5497bce93ab9cc08000a65aab7ea12b94d57dbf84c5268cdfe0cd30bca37",
+    "evidence/events-headless-build-final/command.log": "9d72e8ac94a92090e0b3d34f9b42531ef38aff5149f6e787bcb4ccedc79636c3",
+    "evidence/events-headless-build-final/result.json": "9ae62af1fd86f2c311e37e35aac38caeec91a5129cc075074416fc6fcf67cd62",
+    "evidence/events-headless-build-r1/plan.json": "72e38656dbd8e4c8b615993e9d4b555a7e5c7fd13c8a29da8a42796a008a6b54",
+    "evidence/events-headless-build-r1/temperatures.jsonl": "47a2dc2ba377eb61f3d8a480fa23a86c4c6fd14ad5381bf670da9654dcf60cf2",
+    "evidence/events-headless-build-r1/command.log": "94d40d38d4fe96375670c530f15e2f5a246d565ddc37baa80ead80d5a3038ebf",
+    "evidence/events-headless-build-r1/result.json": "56d31913d04b17168fc9cde0971d5ab0c6f2724d48cbd355cc09deb4bb59df43",
+    "evidence/events-headless-test-final/plan.json": "7d1ef56cef293610fa062b09e7228e5cf4197fcbe142a6768d6d6baa87dad502",
+    "evidence/events-headless-test-final/temperatures.jsonl": "837731b0ee05733913a0207fb507cb610ae8e307c1de29b1eb844e7c4115cb10",
+    "evidence/events-headless-test-final/command.log": "6796664db0e38c3ca072bf93ab98b6656dc8913d765fd7a9b1cbc5a9536a35b8",
+    "evidence/events-headless-test-final/result.json": "930410fe007f9f7eec82be68de8bd3a02c398b85873e180ee26853b71705a310",
+    "evidence/events-headless-test-r1/plan.json": "db7628978236078d8c6f56e09cc4a3b2f6ec8cb882c7bb23a8651682741d56e3",
+    "evidence/events-headless-test-r1/temperatures.jsonl": "3c3b73ae27211d20204a38387a5083b1bf1d165a3841d7d007147e22b1bf4cdd",
+    "evidence/events-headless-test-r1/command.log": "0c36019ad5556e80650a2853f6fb73109a85e96e1427cd1ca947c7c6b4813aee",
+    "evidence/events-headless-test-r1/result.json": "4eb649862a253ac2982325e125bd59304ea60852ca1b107f55eeaf6ef9b35800",
+    "evidence/events-linked-build-final/plan.json": "c44f9811d0df40823b765bed10b85c1602977b6e5beee9dfc96e05e40abf9cdd",
+    "evidence/events-linked-build-final/temperatures.jsonl": "54c1e160500b6eb01dedf68678092813a14fd9ef853853942bc9802cb443b041",
+    "evidence/events-linked-build-final/command.log": "500cb0abd98168e8b7d7373fd2747e813dd14db6731bba7d000cdf90627aa842",
+    "evidence/events-linked-build-final/result.json": "b33f57e914aa0e1a3dcb8a0061b67c1d835661664ff0676776800ce8a2b593a8",
+    "evidence/events-linked-build-r1/plan.json": "c44f9811d0df40823b765bed10b85c1602977b6e5beee9dfc96e05e40abf9cdd",
+    "evidence/events-linked-build-r1/temperatures.jsonl": "2f9d9d00f47c7e7d2689d0a3eccacb3fc08e2c129f4cbd53ec217de1ff76ff72",
+    "evidence/events-linked-build-r1/command.log": "b4fa2a8cbb88724b27c4c7d1c2c5f2bc419d6486bc408fc6414594bce1edb06a",
+    "evidence/events-linked-build-r1/result.json": "8e861697e633a0d7dd632481ce40b575543a39c914c06579fe90935054dcce43",
+    "evidence/events-linked-config-r1/plan.json": "177f1bad924ea0303ade90f0c3e708ac30bc2ca8ba74bdb58c5b0efaa7b9b9fa",
+    "evidence/events-linked-config-r1/temperatures.jsonl": "99a4795dd1d7108748994d246b4644c26f5f69ee69b841177935b96e3cc6ad64",
+    "evidence/events-linked-config-r1/command.log": "a54d7e872f2ff6cfb236fb26d80ad031696e7a740a74094783b97ea06cca9563",
+    "evidence/events-linked-config-r1/result.json": "1118a66a03deef60f1ac41f14b5fdc0529cdadce91f3891245a3d43eb745497e",
+    "evidence/events-linked-config-r2/plan.json": "79a1084147bb1598b4308abbb7e35e8f087c45ca4f88ec4ee499e20203249f18",
+    "evidence/events-linked-config-r2/temperatures.jsonl": "4b0f6a702746c8128f63216affb707fa97a1cca497761acb1f9fe0d7be21b75b",
+    "evidence/events-linked-config-r2/command.log": "b6d2cb478d4024a68c22775c65a52973ea3ab8c92fd4bec3044f8f85782ed967",
+    "evidence/events-linked-config-r2/result.json": "3e37850b3c20bb16a9d20f5667a0f6679c12204d9e315acb9a5ff7e4b286f341",
+    "evidence/events-linked-info/plan.json": "9b25cb3f2a484e1388e8a5df2ee152c42bf982a186f9a01d71233b2cd11c3f2c",
+    "evidence/events-linked-info/temperatures.jsonl": "a407760c6c9b457ed317ab1fbda4d36bef4b02f582cfc494ecb559936cade8b0",
+    "evidence/events-linked-info/command.log": "00c23568d89733a6811d9d7052ac8665032bbe86bd5280cb3b5746f4dbb75e1d",
+    "evidence/events-linked-info/result.json": "6ac6fa6ff616bd8a79ab39fc148a61da2be19eebb7cc0b6b22391ff69d13231b",
+    "evidence/events-provider-fetch-r1/plan.json": "e095d86ddad1c941557be576912bb9ce424587147e43607c3f57fb97fbf0efc0",
+    "evidence/events-provider-fetch-r1/temperatures.jsonl": "221c24ddc6d5aa7a6df91e2892122454599ed90a0dbde42d65478523b34ad584",
+    "evidence/events-provider-fetch-r1/command.log": "052e6eafa1fdf2c2433ce4b9b7f198d3f3962e13357e9b860a82b0b285bf82ed",
+    "evidence/events-provider-fetch-r1/result.json": "707e6d9bfe74593b54783e6d9b8563aed1683a5c868c2a0899ecce3ecf6d43cc",
+    "evidence/events-provider-thermal-r1/plan.json": "ee0f87df0dfc5ccaa479e02ea2aa767b4e432510d73238aee62c3e16f1c8f8c1",
+    "evidence/events-provider-thermal-r1/temperatures.jsonl": "f5481eae67a9634f6c5bb856943f9f710dc292380965e9ddaf7b4ead13b91a66",
+    "evidence/events-provider-thermal-r1/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/events-provider-thermal-r1/result.json": "e1969b60deb53295f469138f6a845f3e4d68e2892362b06cae150992963e15da",
+    "evidence/events-test-r1/plan.json": "57ec0acbc786b02b5ef94cc6e8d8d720a0e12ed5e3d1d73258054d7ad75a747b",
+    "evidence/events-test-r1/temperatures.jsonl": "a255d140e00351a1726c32d82a5a4f34c7935acff0e8d1d67c72a3c6627c8606",
+    "evidence/events-test-r1/command.log": "c873db96ba69ba118302b4f331e18aab3a2cafc13174436248482e555ca916f9",
+    "evidence/events-test-r1/result.json": "0dab8089a1bc5ed2aab139e748b2ab55427a44ba57a81db6ed927eb97fec3d4a",
+    "evidence/events-test-r2/plan.json": "699e556f00419d6b2c6f924fff23a429c92b81caf75848e14edc87c8b3c79340",
+    "evidence/events-test-r2/temperatures.jsonl": "1bf57a0b852dcaa052109fdbc3321e2d46d4d278ae0eb8870473eac7ef030c50",
+    "evidence/events-test-r2/command.log": "fa7c8ad4b9cba7fbf37b2e38d3ac43fe5380479809037de56bcd7572137641ce",
+    "evidence/events-test-r2/result.json": "66e6574092c835a6bae2cbeffcb7fa3afd5293807b7732a298217a4d0f33b369",
+    "evidence/events-test-r3/plan.json": "98c52b4fa1aad97c908a909f230fed6e3df6c62297dbeadcdd17fc276121db0d",
+    "evidence/events-test-r3/temperatures.jsonl": "ee19e8bc27ea7ffce9749c1688195fce8176d11241f10d051a131d0d6bd1c95a",
+    "evidence/events-test-r3/command.log": "a084cf0660d61aa489113c341f913f78f687679618a1fd1adc28cc2c939079a2",
+    "evidence/events-test-r3/result.json": "c42002c2483a58c39e18d94057bf7dbbed92946151f4d6635eb42f576b1a507a",
+    "build/provider-events-r1/BUILD-RECEIPT.json": "fa4e3ef25ea4a4a164100a42c0407afada56056e6f17e38fef6c992499a0bfab"
+  },
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.25
+      },
+      "elapsed_s": 4.147975740022957,
+      "evidence_directory": "evidence/events-build-final"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 67.5
+      },
+      "elapsed_s": 2.0980977565050125,
+      "evidence_directory": "evidence/events-build-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.875
+      },
+      "elapsed_s": 16.68808704148978,
+      "evidence_directory": "evidence/events-build-r2"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.125
+      },
+      "elapsed_s": 1.1165515342727304,
+      "evidence_directory": "evidence/events-build-r3"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.125
+      },
+      "elapsed_s": 3.0700561786070466,
+      "evidence_directory": "evidence/events-build-r4"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.375
+      },
+      "elapsed_s": 7.167426690459251,
+      "evidence_directory": "evidence/events-build-r5"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-asan",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.875
+      },
+      "elapsed_s": 4.052406618371606,
+      "evidence_directory": "evidence/events-build-r6"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/events-asan",
+        "-DLIE_SANITIZERS=ON",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_BUILD_ID=semantic-events-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 64.125
+      },
+      "elapsed_s": 1.0701570399105549,
+      "evidence_directory": "evidence/events-configure-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/events-headless",
+        "-DLIE_CORE_ONLY=ON",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_MTP=OFF",
+        "-DLIE_VISION=OFF",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_BUILD_ID=events-coreonly-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.0
+      },
+      "elapsed_s": 1.1254884079098701,
+      "evidence_directory": "evidence/events-coreonly-config-r1"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=0",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "gdb",
+        "-batch",
+        "-ex",
+        "run",
+        "-ex",
+        "thread apply all bt",
+        "--args",
+        "build/events-asan/test-core-events"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.625
+      },
+      "elapsed_s": 1.1282963920384645,
+      "evidence_directory": "evidence/events-debug-r1"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|semantic.*http",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.5
+      },
+      "elapsed_s": 15.754673383198678,
+      "evidence_directory": "evidence/events-focused-r4"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.625
+      },
+      "elapsed_s": 28.17452816478908,
+      "evidence_directory": "evidence/events-full-final"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.125
+      },
+      "elapsed_s": 15.636626264080405,
+      "evidence_directory": "evidence/events-full-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-headless",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.125
+      },
+      "elapsed_s": 4.18378571420908,
+      "evidence_directory": "evidence/events-headless-build-final"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-headless",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.875
+      },
+      "elapsed_s": 6.2822863375768065,
+      "evidence_directory": "evidence/events-headless-build-r1"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-headless",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.75
+      },
+      "elapsed_s": 5.085650280117989,
+      "evidence_directory": "evidence/events-headless-test-final"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-headless",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.25
+      },
+      "elapsed_s": 4.184048879891634,
+      "evidence_directory": "evidence/events-headless-test-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-linked",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.0
+      },
+      "elapsed_s": 2.027383583597839,
+      "evidence_directory": "evidence/events-linked-build-final"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/events-linked",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+      },
+      "elapsed_s": 15.529391390271485,
+      "evidence_directory": "evidence/events-linked-build-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/events-linked",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_MTP=ON",
+        "-DLIE_VISION=ON",
+        "-DLIE_BUILD_ID=semantic-events-r1",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration/.deps/gufo-state-access-provider-mtp-vision-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/mtp-vision-integration/build/provider-mtp-vision-r1"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.5
+      },
+      "elapsed_s": 1.0855127768591046,
+      "evidence_directory": "evidence/events-linked-config-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/events-linked",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_MTP=ON",
+        "-DLIE_VISION=ON",
+        "-DLIE_BUILD_ID=semantic-events-r1",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/core-semantic-events/.deps/gufo-state-access-provider-events-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/core-semantic-events/build/provider-events-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.125
+      },
+      "elapsed_s": 2.0674160914495587,
+      "evidence_directory": "evidence/events-linked-config-r2"
+    },
+    {
+      "argv": [
+        "build/events-linked/synapse-lie-server",
+        "--build-info"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 39.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 39.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.75
+      },
+      "elapsed_s": 1.0465253069996834,
+      "evidence_directory": "evidence/events-linked-info"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-P",
+        "cmake/provider/Fetch.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.75
+      },
+      "elapsed_s": 9.465557496063411,
+      "evidence_directory": "evidence/events-provider-fetch-r1"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-DLABEL=provider-events-r1",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 81.875
+      },
+      "elapsed_s": 148.38874915149063,
+      "evidence_directory": "evidence/events-provider-thermal-r1"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|tool",
+        "-j1"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.75
+      },
+      "elapsed_s": 1.0574973039329052,
+      "evidence_directory": "evidence/events-test-r1"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|tool",
+        "-j1"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 59.75
+      },
+      "elapsed_s": 1.1296670706942677,
+      "evidence_directory": "evidence/events-test-r2"
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/events-asan",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|tool",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.125
+      },
+      "elapsed_s": 4.26784963067621,
+      "evidence_directory": "evidence/events-test-r3"
+    }
+  ],
+  "remaining": [
+    "Original-weight tool output/cancellation and resource/GPU qualification under fresh coordinated leases",
+    "Incremental argument streaming and constrained generation",
+    "Scoring/logit capability and lie-chat/lie-eval clients",
+    "Additional model output grammar bindings"
+  ],
+  "publication": {
+    "push": false,
+    "deployment": false,
+    "develop_merge": false
+  }
+}

@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+/build/
+/.deps/
+__pycache__/
+*.pyc
+/run/
+# Local audit data and downloaded research docs are kept, not published by default.
+/evidence/*
+!/evidence/README.md

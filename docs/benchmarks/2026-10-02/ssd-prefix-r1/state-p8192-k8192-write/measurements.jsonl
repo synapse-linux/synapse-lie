@@ -1,0 +1,4 @@
+{"event":"identity","schema":"synapse-lie.state-bench.v1","suite":"state","build_id":"ssd-linked-r1","engine":"gufo-embedded-f783fedb","ownership":"delegated","source_pin":"f783fedb9bea2ec7de941f6da4e02f4a4596b29e","synthetic":false,"state_abi":1,"scope":"C17 typed state; RAM pairs or explicit SSD write\/read across processes; exact full logits each AR step; fresh sampler; no MTP\/vision"}
+{"event":"input","physical_ids_sha256":"eb4768e82243c6e68b29e20ceb801b87e7246f23505c378bdb8c4d039f6c4431","prompt_tokens":8192,"checkpoint_tokens":8192,"context":262144,"chunk":2048,"vocab":248320}
+{"event":"ssd_identity","mode":"write","stable_identity_sha256":"fbdf1e5b62aa98285bdef9a42edcf50bee8156d79153e50fce9eeeffd530a2d5","model_load_ns":20569290333,"identity_ns":52809433334,"quota_bytes":8589934592,"staging_bytes":4294967296}
+{"event":"failed","exit_code":1,"error":"state qualification bounds, interrupted, allocation or I\/O failure"}

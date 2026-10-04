@@ -1,0 +1,8 @@
+{
+  "scope": "Additive exports; original R5 artifacts unchanged",
+  "artifacts": {
+    "thermal.svg": "d0ca6d352b29f4b101b31816fee5efca96369510c29b026e2ff1a6d02d35944c",
+    "thermal.png": "d42d52658e17af3e18ff92e05f5097aae0d9dec214e6da3b1d382cdaaa267609",
+    "README.md": "12dc6de00aace5efc205f34e93629c5a838fced8ea1cb1a5249cd78f70b4879d"
+  }
+}

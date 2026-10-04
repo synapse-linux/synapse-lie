@@ -1,0 +1,3 @@
+case,turn,rep,warmup,prompt_tokens,output_tokens,wall_seconds,first_output_seconds,prompt_over_wall_tps,output_over_wall_tps,full_output_budget,executor_prefill_ms,executor_decode_ms
+conversation-100000,0,0,False,99995,1,69.75757406209596,69.75748037407175,1433.4644136418456,0.01433536090446368,False,69524.334535,40.619032
+conversation-100000,1,0,False,100419,1,71.78942575189285,71.78932999400422,1398.799321045583,0.013929628068847358,False,71545.63293,39.918687

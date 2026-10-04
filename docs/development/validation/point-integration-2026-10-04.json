@@ -1,0 +1,387 @@
+{
+  "schema": "synapse-lie.point-integration.host.v1",
+  "at_utc": "2026-10-04T01:18:20.186311+00:00",
+  "root_checkpoint": "aff03adf045d850bbe9ff28ab8959ee1bf628999",
+  "integrated_Point_checkpoint": "618d9478afbf88c874c817e81c93b47da93c95b6",
+  "scope": "NOT-INFERENCE: local GPU-masked compilation, synthetic fixtures and offline report reproduction; no new target GPU run or model access",
+  "host": "ASUS ROG Flow Z13, .155 Strix Halo 395; not the Point target",
+  "GPU_target_support": [
+    "gfx1150",
+    "gfx1151"
+  ],
+  "contracts": {
+    "generation_ABI_unchanged": true,
+    "core_generation_controls_preserved": true,
+    "native_core_decode_metrics_preserved": true,
+    "CPU_ceiling_C": 98,
+    "GPU_temperature_policy": "observe-only; no software temperature ceiling",
+    "SSD_ceiling_C": "min(85, exposed hardware limits)",
+    "checkpoint_compression": "Zstandard ON",
+    "removed_codec": "LZ4 codec 1 rejected; not linked",
+    "DS4_runtime_payload_format_unchanged": true
+  },
+  "validation": {
+    "focused_CTest": "13/13",
+    "sanitizers": [
+      "address",
+      "undefined",
+      "leak"
+    ],
+    "supervision_build_fixtures": "34/34",
+    "HIP_BLAS_probe": "synthetic only; error, refusal, quiescence and cleanup paths pass",
+    "commands": [
+      {
+        "label": "configure",
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/point-integration-618d-asan-r1",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_LEGACY_PYTHON_TESTS=OFF"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 59.5
+        },
+        "elapsed_s": 1.047027156688273
+      },
+      {
+        "label": "build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/point-integration-618d-asan-r1",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 81.25
+        },
+        "elapsed_s": 17.34437611233443
+      },
+      {
+        "label": "ctest",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/point-integration-618d-asan-r1",
+          "-R",
+          "^(native-benchmark-contract|checkpoint-lossless-compression|state-ssd-store|core-ssd-reactive|core-kvc-ssd-reactive|mtp-ssd-prefix-reactive|mtp-model-neutral-reactive|mtp-vision-reactive|vision-model-neutral-contract|gufo-target-identity|hip-provider-target-verification|native-provider-verification|gufo-device-admission-synthetic)$",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.875
+        },
+        "elapsed_s": 10.444648559205234
+      },
+      {
+        "label": "control-fixtures",
+        "argv": [
+          "python3",
+          "-m",
+          "unittest",
+          "tests.test_thermal_guard",
+          "tests.test_strix_point_campaign",
+          "tests.test_gufo_target",
+          "tests.test_build_interruption",
+          "tests.test_hip_probe",
+          "-q"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.75
+        },
+        "elapsed_s": 1.02210698928684
+      },
+      {
+        "label": "control-fixtures-r2",
+        "argv": [
+          "python3",
+          "-m",
+          "unittest",
+          "tests.test_thermal_guard",
+          "tests.test_strix_point_campaign",
+          "tests.test_gufo_target",
+          "tests.test_build_interruption",
+          "-q"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.375
+        },
+        "elapsed_s": 5.286747326143086
+      },
+      {
+        "label": "hip-probe-fixture",
+        "argv": [
+          "python3",
+          "tests/test_hip_probe.py",
+          "build/point-integration-618d-asan-r1/test-hip-probe-fixture"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.875
+        },
+        "elapsed_s": 1.1345048137009144
+      },
+      {
+        "label": "published-report-reproduction",
+        "argv": [
+          "python3",
+          "evidence/point-integration-618d-r1/verify-published.py"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.5
+        },
+        "elapsed_s": 1.08955152425915
+      },
+      {
+        "label": "published-report-reproduction-r2",
+        "argv": [
+          "python3",
+          "evidence/point-integration-618d-r1/verify-published.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.375
+        },
+        "elapsed_s": 1.0961139146238565
+      }
+    ],
+    "CPU_peak_C": 81.25,
+    "software_thermal_stops": 0
+  },
+  "retained_Point_GPU_evidence_offline_verification": {
+    "scope": "Offline validation of retained original-weight Point runs; no new model execution",
+    "source_commit_measured": "9b109998eff6321b5000ea336e561aab70720d72",
+    "source_commit_integrated": "618d9478afbf88c874c817e81c93b47da93c95b6",
+    "raw_archive_sha256": "6fef10ae01546596474f61d75a5f589833122275a03d99a66789f9320ef1e4b3",
+    "archived_member_SHA_verified": 118,
+    "remote_SHA_entries_omitted_from_public_bundle": 72,
+    "cases": [
+      {
+        "prompt_tokens": 1500,
+        "users": 1,
+        "outputs_exact": true,
+        "published_phase_metrics_unchanged": true,
+        "ratio": 1.0092702031895875
+      },
+      {
+        "prompt_tokens": 8192,
+        "users": 1,
+        "outputs_exact": true,
+        "published_phase_metrics_unchanged": true,
+        "ratio": 1.097732599106677
+      },
+      {
+        "prompt_tokens": 131072,
+        "users": 1,
+        "outputs_exact": true,
+        "published_phase_metrics_unchanged": true,
+        "ratio": 0.9950472217852745
+      },
+      {
+        "prompt_tokens": 8192,
+        "users": 2,
+        "outputs_exact": true,
+        "published_phase_metrics_unchanged": true,
+        "ratio": 1.0252021616267646
+      }
+    ],
+    "preserved_failed_attempt": {
+      "run": "point-modern-r3-ar-smoke-1500",
+      "supervisor_exit_code": 1,
+      "child_exit_code": 0
+    },
+    "exit_code": 0
+  },
+  "original_raw_artifacts_unchanged": {
+    "source_and_authored_documentation_check_exit_code": 0,
+    "excluded_paths": "Preserved Point original command output under dated input directories; exact bytes retained",
+    "retained_artifacts_identical_to_Point_checkpoint": 357,
+    "selected_paths": 246
+  },
+  "preserved_command_errors": [
+    {
+      "label": "control-fixtures",
+      "exit_code": 1,
+      "cause": "Script-style HIP probe was incorrectly imported into unittest; corrected by explicit binary argument in separate invocation"
+    },
+    {
+      "label": "published-report-reproduction",
+      "child_exit_code": 1,
+      "native_reporter_exit_code": 2,
+      "cause": "Private verification used --out instead of --output; corrected in a new output directory"
+    }
+  ],
+  "source_sha256": {
+    "CMakeLists.txt": "9057331e7d9f7270ca60a5f70f5070cf99f096bcb091ff67e71dd6bffa691b2c",
+    "adapters/gufo.cpp": "9e80b2b71cf292876868166256cb11a57d2e4f035830f3b09df4a28fb4a6c087",
+    "adapters/gufo_arch.h": "ee529a0dedb7cd548813a3f636651129a93a4635cf6581cc868fd58d39603ae6",
+    "adapters/gufo_device.cpp": "f1c4a1e4709a9f93e8289d1440e9eeb13e87bd4e886911963e7e0dfaf6c632eb",
+    "adapters/gufo_reference_bench.cpp": "aa7c651123b3ec0d5b5b1fda72fd64f5cc1b34df1371246ba531b02812a5522c",
+    "cmake/gufo-runtime/CMakeLists.txt": "f59d5ecc5c1346eb4cd01d1a59f0262a1aea6cc51ea97638d538e5ac69fd4b7c",
+    "cmake/hip-target.cmake": "6c3627e6dbba252ef3a41b2502fc03a63f7fcd73c0f40572839febbcf3f1de13",
+    "cmake/point/Build.cmake": "9f5ddf85213e4880f6b92f6c5d0ac2aad8d0f760315025e1a8c2d281e5459634",
+    "cmake/provider/Build.cmake": "053de960627d3e1e8e98064e8c9ad96dd0e8ded790ecd22cddee011a99e5e35d",
+    "cmake/provider/Target.cmake": "8aa132b8672636c46b2b2b06fb4d18fb56ed49c3db709ade986643752c18401f",
+    "src/state_codec.c": "c095a436a0e3fe06e30fc27606161a7400a72dfd927c404f4724ec355ea67025",
+    "src/state_compression.c": "c34f76d7dc635df75c8223c001205f124f91f25994f87f0fba565551c0845ac6",
+    "src/state_internal.h": "0b6b203224dba52fa1462c4f24992352480dead38cb28f423aaf7c1b47382d46",
+    "tests/bench_executor.c": "af53132d13123c595f14569bbad3d73138389bffca485d1babd955d950a2ab24",
+    "tests/hip_probe_stub.c": "cf692e30a681678ae20f510a2ee035346779e6869580dc89544554ce1e2da5e4",
+    "tests/hip_stub/hip/hip_runtime_api.h": "ca10b0877014e059fdcb5195ab34e898f0900df2827bc92aabe42b8c6b985efd",
+    "tests/hip_stub/rocblas/rocblas.h": "1c9d18293cf36432aaeaeb669cd1a7495833268be3ff4557c4330d98de65178b",
+    "tests/provider_target_contract.cmake": "daace55ea6c5f661e4d6327909467721ffbce73758c194af5d221c986660c9c8",
+    "tests/test_build_interruption.py": "923bca47cf938d04a2c6d5d5c89fde44d04149ccd4ea8b9997e51dc57c39c83a",
+    "tests/test_checkpoint_compression.c": "73ca914da533ac4ece227b055d8b54a91f665f09e9be03c4e9df23c95d99a782",
+    "tests/test_core_bench.py": "99b06e236ea004e5e0ad3fbe22d3245fb5205e400d7a585d70130d2eac1705d7",
+    "tests/test_gufo_arch.c": "b1c96081108e2e7d12b147350e2559344507ad065a5f1c0c0f1aeb0a4d620206",
+    "tests/test_gufo_device.cpp": "801a734f810b3bbb0458a739070b3636afe57eea945c80e61bc82adcc65f2aa2",
+    "tests/test_gufo_target.py": "aac7b0d06dca4442e9deea6bb595f93af192e2d98a2efb6432715f64967896ed",
+    "tests/test_hip_probe.py": "40df23925c3124a40dbeea9156e92bbbbbae3e69f7c5841e6aa97af05de3f367",
+    "tests/test_native_bench.c": "d6373e788f3b154009ca300d4892d6971da383e0886af032ed921a244b2e8078",
+    "tests/test_responses_http.py": "cdf678ccae0c1f1a9a2a8791a79cdfd9c770cf104742cd2b3aac8392596ab08c",
+    "tests/test_strix_point_campaign.py": "ba6691e9139f453437b374a98899860e09566d4c415408699b25a64a5924ee6e",
+    "tests/test_strix_point_download.py": "c203572637d74331acb0b59718d64c027138eaeb3c4d0885c9eae48e86781a77",
+    "tests/test_strix_point_lan_copy.py": "c36be819efb9626df841d65ebdc1c541622d84d6af8f6a9da36e3a7f8c65f3c6",
+    "tests/test_thermal_guard.py": "2f64f3cfb5cc094d2331d8d298d0a26c05362a18fa974cbf4fec6a945991e0ca",
+    "tests/test_tools_http.py": "a31e0da7073c12249266fa1fca6514685475b5bb55798e8b84a23e8b1f6f4643",
+    "tools/bench-report.py": "6743684110f83f45055f2f4af3d9f7bc30eea533a9aed94c9b29dc5820798788",
+    "tools/build-gufo.py": "2b5da56dbba9c81440f3aef1c7b716b313561b70d6829853bc63031929f8f802",
+    "tools/check-gufo-build.py": "ffa504371dd296b70f9bc9c9bd3d3324ae8dee6071ce16fe2c0147b00e9f5614",
+    "tools/core-bench.c": "46ab4690101e592fd95d5f3b8e8795d388bc43c27cdd5aaa98c0e8700bde3c28",
+    "tools/gufo_build_policy.py": "2233b0ad685063abec08f3658de642ce087188107de9d09e62f80aa1f4f9f64d",
+    "tools/hip-probe.c": "af3fb3c95d7b1dd8dc3ead95c99ac53abb5872c6193abbf89e708e3e8a9bd606",
+    "tools/native/report.c": "3e312181ec38880ee073f7f0e0cc9ef75013a23749da5b4f0737940663b78b1b",
+    "tools/run-bench.py": "8edcd1a541f9c1caa90c65e694e9010a3387d1bedaa3e82738eaad3e2662dd4b",
+    "tools/strix-point-bench-collect.py": "a557639347a26f46d544336fa0ae892022780d1a0f3ad77308f3d5c7cf5b1455",
+    "tools/strix-point-campaign.py": "e40986acf9370c79c25bb114e5504bf4be1bdcb318ffa210a993715ab575e1cc",
+    "tools/strix-point-copy-direct.py": "8cf4ea601c6f176f313fcac3a35181d7281fffded036426c24221c6f4f0eca48",
+    "tools/strix-point-download.py": "0bbbf91d50495644b0eb103637ba10e58e5d2d4e5b7cacf7c779638346b00f0c",
+    "tools/strix-point-hip-diag.py": "f134f3d55c157bbb6b869b81781f802bd44311b6d0e18a86d842baad72f8a4a9",
+    "tools/strix-point-hip-smoke.cpp": "acb6e37f426b8822799530f3b193c522ec568e1026934a0565c314ae8ec710bb",
+    "tools/strix-point-inventory.py": "169bad3a1bcb366f537c13813dd64c9914f2aa9b028baf6b2b83aa90836c50b5",
+    "tools/strix-point-lan-copy.py": "472794bbc8c2417fafcecb47138bccca9c1490d99519f9877f4531d6f8feef4c",
+    "tools/strix-point-launch.py": "597c7b401db7f8b1bddc98ffbb2eaf67f0faeb96cb81359836f68d7fb8344d2e",
+    "tools/strix-point-remote.py": "165dfa3542b8495c356e64cbaf4868df4c4bf076668ae24db3e5c836d4be1809",
+    "tools/strix-point-rocm10-compile.py": "91849a4307534554e2a160a8c4ffa7e8c1a78508fa2012fb87fa9361e64e2776",
+    "tools/thermal-run.py": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+  },
+  "local_artifacts_sha256": {
+    "evidence/point-integration-618d-r1/configure/command.log": "57ea603464bd0502b6c01eba8ea963f68edf9362228dd982a9875ad88c5cf5e9",
+    "evidence/point-integration-618d-r1/configure/plan.json": "f68961083195dece0d57bbf79785290677c0272fdf64684114e7588287bc6cf1",
+    "evidence/point-integration-618d-r1/configure/result.json": "dc04b5ca6366e26ea51690c8a60bc58c1065d7b82a11ac3c548970fbe389d848",
+    "evidence/point-integration-618d-r1/configure/temperatures.jsonl": "d2f40a9c6f2d62c65dbc0990f8d339e6816e8ceff1d592543c2845204e69083e",
+    "evidence/point-integration-618d-r1/build/command.log": "e5f6fd82229dbd1c75fc73115d6d42daa19981891717269c051c7ec1729464c1",
+    "evidence/point-integration-618d-r1/build/plan.json": "b9c3c73955def8c33451d3564645d89515f8648c076f66090f72bdc5c61ecf30",
+    "evidence/point-integration-618d-r1/build/result.json": "e34343f480ba3c33a1d3ef808d84b361d7d425b965689b991b42d3ffbdcfa8cb",
+    "evidence/point-integration-618d-r1/build/temperatures.jsonl": "99a66727e90d2801be0a27de074b090f78ae0ebb358150d7f280208c8c39995b",
+    "evidence/point-integration-618d-r1/ctest/command.log": "d5b7956edbb0b11b4a96cfa19ac29c3453e41df1a877d35a0dc86baedca12f2a",
+    "evidence/point-integration-618d-r1/ctest/plan.json": "8935460fd3e858dc72d7f16f03cf45e6be43773a944c8d7efdd4c6ea8b5f1d88",
+    "evidence/point-integration-618d-r1/ctest/result.json": "0c5d654282b8cd989c60082e1443f1f7000151c6cd0805db4a79ef520464fa43",
+    "evidence/point-integration-618d-r1/ctest/temperatures.jsonl": "72cdc136e96b0d7dfba6563d39e38407e65ba223f135c416818093401c4acd30",
+    "evidence/point-integration-618d-r1/control-fixtures/command.log": "5726d977572b364d023224e495f58e357d7099d3e36ac9be6afaa263bcb3edc8",
+    "evidence/point-integration-618d-r1/control-fixtures/plan.json": "4414f439c8b1ceeeec1504d7ee7344e5a576268ec141c8f265bf00977011d27f",
+    "evidence/point-integration-618d-r1/control-fixtures/result.json": "40dc28fa948cf805c06f99a528acd385435c4325c453f9d212d3a6017b497668",
+    "evidence/point-integration-618d-r1/control-fixtures/temperatures.jsonl": "4b51c24638b88a96f813d2d1dc9412fe0c8b2f414423547c5110e2b66f0fb681",
+    "evidence/point-integration-618d-r1/control-fixtures-r2/command.log": "e1daddb64864f206aad4883cb7b35b22f8e4f0963fefe44d7db6716253e06b66",
+    "evidence/point-integration-618d-r1/control-fixtures-r2/plan.json": "42c6c9f1fa98f3998f3b00d88b9dc25cd095c09b7a21c62eba35308aa6980ec9",
+    "evidence/point-integration-618d-r1/control-fixtures-r2/result.json": "b0e1d46c0257b9305fcc383437c415162465e57f73e1c22f66805c3a8920baa3",
+    "evidence/point-integration-618d-r1/control-fixtures-r2/temperatures.jsonl": "d69bcd2684e64066f7279abaaf9f280735243c3bbb09802605bd6b7b25cfec91",
+    "evidence/point-integration-618d-r1/hip-probe-fixture/command.log": "abeb7159ae1f1dbc6e30a78683c4062333e1fe5cf04b9418de4dd237de2add1f",
+    "evidence/point-integration-618d-r1/hip-probe-fixture/plan.json": "bf203fbeff07071cc918877f32b6967c307b6664bb46c5da5f9dd63857be09a2",
+    "evidence/point-integration-618d-r1/hip-probe-fixture/result.json": "cde97756697fb6c96e3ad0aa9555d37b160151ea47290f62d949ba9eee9ab107",
+    "evidence/point-integration-618d-r1/hip-probe-fixture/temperatures.jsonl": "b9c7f9de61c0bd1cfb96b54062d40b8193914f0882ca260aa00cf8ca8b9c221d",
+    "evidence/point-integration-618d-r1/published-report-reproduction/command.log": "d64eafaa723b650c4ef7e932c3f0f461d5ce8e45d6755146198cb7889a43b933",
+    "evidence/point-integration-618d-r1/published-report-reproduction/plan.json": "099bdf3f9db596b9256b9bbd430a682fb9c2bc12ac96e811f13995dd7b005f26",
+    "evidence/point-integration-618d-r1/published-report-reproduction/result.json": "4c5714a740626ebd90d9be68d16e97bba39b57344cb72948541585bd311d0d6e",
+    "evidence/point-integration-618d-r1/published-report-reproduction/temperatures.jsonl": "af65041870da2efeceb2ee8a8ef69c18c356d1335dbdb750e4c12cb659a8bc4e",
+    "evidence/point-integration-618d-r1/published-report-reproduction-r2/command.log": "ee5f1003f328c560e657bf60c5311d9cb8cf5dac1bd6f3ba337515acb97647b2",
+    "evidence/point-integration-618d-r1/published-report-reproduction-r2/plan.json": "c5dc5550bebb20a9753b028968ca88333652bd5561d6e9906c410ea4f805d03d",
+    "evidence/point-integration-618d-r1/published-report-reproduction-r2/result.json": "8703e733b012ae53dd2f5173c0407a14f45fcc69ccbb4d84eff2fae5ac3e0283",
+    "evidence/point-integration-618d-r1/published-report-reproduction-r2/temperatures.jsonl": "edbd317ab16616411801677005802fd16ab5c11e67e4b1b57264696e84407f70",
+    "evidence/point-integration-618d-r1/merge-command.json": "67fa8b3cc3e97a2eeeb57dc7684c4711e9fa371cb7dd3b8ec0e400fd8c551147",
+    "evidence/point-integration-618d-r1/conflict-resolution.json": "62b1c86abbd9a7e36cbba2ca980315b82ad9f6fddb7b590df0dda2101d63fdd4",
+    "evidence/point-integration-618d-r1/whitespace-and-evidence.json": "6a16da5ed8caf827667879027abda5c39277701a9334292e9d61fbdd11478de6",
+    "evidence/point-integration-618d-r1/verify-published.py": "b7b3b297725f04fd60339daa9b3ba912ba6bf7b37d4f82b2676ee34e83eb7146",
+    "evidence/point-integration-618d-r1/verify-published-before-option-correction.py": "9bb933cc99e10a2b157df0e258c9af4bcd0d8591d5bca0b02909d6f21dc3a020",
+    "evidence/point-integration-618d-r1/published-verification.json": "1eca37b1114384c0e73db599758dcd3839d7267c1b24b5587ebebcd510a47951",
+    "evidence/point-integration-618d-r1/offline-r2/published-verification.json": "2034d9a6e3fbe0ebd223174e63e8cd1faedb76d8da7080050cd0b4496e80647b",
+    "evidence/point-integration-618d-r1/document-links.json": "9859950ceab5e1f5957a76913349de5f0d9e1f25096505ebc26b3d8e799f6147",
+    "evidence/point-integration-618d-r1/document-links-before-correction.json": "c6326569ba7f3aa72396c32bb3cd2138f0cfcb7a7b62c6ed244688f1e737030a"
+  },
+  "remaining_gates": [
+    "Merged source HIP compile/link and new GPU execution are not inferred from Point source 9b109998 or root source 032d847 historical runs",
+    "New sampled original-weight performance on both targets",
+    "Independent quality, served HTTP, vision and replicated MTP performance remain separate",
+    "Point follow-up RAM/SSD campaign is outside integrated checkpoint 618d9478"
+  ],
+  "documentation_validation": {
+    "relative_links_checked": 449,
+    "missing": [],
+    "exit_code": 0
+  },
+  "authored_documents_sha256": {
+    "README.md": "7dc29bb909cf749fbbe0398a1d999804bb0d252c4d082514fec7c3049162fe4e",
+    "CHANGELOG.md": "96d04d7038cea17087680a448336b747d98f212eb1cee8bf75c08f78eebadaef",
+    "docs/PROGRESS.md": "0f3bd6ac7f874e356cb164e5fe9fa2adffa9f41a0a3d04bcb041bf2ddc7e15b1",
+    "docs/COORDINATION.md": "4065cf14d0fff49ebbdbf4b01452e66e2a46df8e0d7ed0637db157b1c93f2abb",
+    "docs/reference/STATE.md": "4218f384a368ce50a1f503955630e7f43fa69e60e883b874fe0fbddc9773661e",
+    "docs/reference/SSD-PREFIX.md": "6498bc894fd5d8138e9a87a64ff1e0bde6778a80c040afe82bc1497990680f73",
+    "docs/guides/BUILD.md": "94e7fe5c165691b6f22d7c0ede2e59aa0c67d105a88bb3388f005607662334fa",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md": "619c7d19534578afb9bd178ba675f50b44be699c3522898b8133d007416df203",
+    "docs/STRIX-POINT-BENCHMARK-RESULT.md": "287d168ad19f45da4c67948d7fd81d9d682549cd8d1809b4d0365836358e734c",
+    "docs/STRIX-POINT-RESULT.md": "4b1abb8bbc6b7618aa6c2d87295ec826ff3a24755850692d2704459b309a1839",
+    "docs/archive/REACTIVE-INFERENCE-RESULT.md": "fcd3d6ef62e89421ed32cafbdcc3df8faa0b749c1a7a14db864e78a7d4c942c5"
+  }
+}

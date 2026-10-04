@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.point-full-single-report.v1",
+  "input_sha256": {
+    "tools/bench-report.py": "10dab472bf12271f7d40ea03632d735638faabe89707645ab66fcb9c19a532a1",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/make-report.py": "63fe8127f3929363ef6576e4d0a330d38737477ee06447a063429663ac07ae16",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/collection.json": "2600ce2da31eb6846dafead35cb6521595095046b3437ffd24adbe0895335af3",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/manifest.json": "ca31d9d57bc77e8a3d9da1deba47e4935a2a7f7fb16f47caa9da8a828a4315dc",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/measurements.jsonl": "c417c5567d758d345829bdc505a60a858559bba84deee09275ef63bf1173289d",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/result.json": "6540a7fe5ec07c20c126cb82e913efd0098607f5fe5e1cf2ebd19478d67a1657",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/runner.py": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/stderr.log": "e6c42891de00816e993884a59e59b23103ce16b75059950d2c47fa88e7d69a4e",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/gufo/telemetry.jsonl": "3e9d9a6c64f4b547e72b77b861fe018f04e3ae9f27b10008adc828f8f10ac3a9",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/collection.json": "91f326addfbe16cf464fe6079fbe5ae42a870fcd2f78c8d18765b379a7c807d2",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/manifest.json": "e790ca182a9909814a9ec72ac31840e43e35d17faf9fb492c47d06d70124c099",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/measurements.jsonl": "9535f4051c6b7804154669feff6e010fe762c96f64eef4a193a55bb3b9a1271f",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/result.json": "c3b92aae9de41325f6da870cfb894173b4302a14f1cdc78240011b9da8887b3f",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/runner.py": "498a495bc1f749ec471825fc1c2957c80d3c4c9dc4801dc702993dc076288499",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/stderr.log": "e6c42891de00816e993884a59e59b23103ce16b75059950d2c47fa88e7d69a4e",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/benchmarks/2026-10-02/strix-point/full-single/input/lie/telemetry.jsonl": "32864f7559802687ccfdd68252ec59f5c542775ce9ad91f9e6ff742492c591a5"
+  },
+  "output_sha256": {
+    "benchmark-zero.png": "fdd6240c9c3c812f537f1233ff5992340011613284e76f5fc91685d29cbd82c6",
+    "benchmark-zero.svg": "57893da7f156f72ab574a41d15c12d77ac5f6a550276926007708dd8ef02455e",
+    "benchmark.png": "d275e5eeeaf37a09157ef0b3597678a5be1f883bda8d08bd5bb094fe6d6720a9",
+    "benchmark.svg": "fe3240b2c9cf8cfec2bc2ad2e7ae297fb6f574725627f542c9700a37ce17531f",
+    "resources.json": "789166d632a851140ba709ae7cbef092824c8881d56ec0c62073e7d91d0c13e5",
+    "summary.csv": "71169c92b343866166b5c2d89100125e740568df753a02eff66a15d4fc5b48f6",
+    "summary.json": "c23c4cda1f5f6647e8cc00a27bdd1d4cb49d4702fa387e52adbb9e9d6253902a"
+  }
+}

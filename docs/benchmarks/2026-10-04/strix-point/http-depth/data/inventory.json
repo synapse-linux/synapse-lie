@@ -1,0 +1,108 @@
+{
+  "schema": "synapse-lie.point-http-depth-archive.v1",
+  "groups": {
+    "ar.tar.gz": {
+      "sha256": "25ff3ceb1e51f9e85502cd28441806e45cd3ae292a24caf9e22dbae5c55632a3",
+      "bytes": 1928264,
+      "runs": {
+        "point-http-depth-r2-ar-p8192-lie": {
+          "collection_sha256": "af792eb7409621cba5875f8e60c93c0302c97bb24c6059d3ed5fdba86e84b661",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p8192-gufo": {
+          "collection_sha256": "5437e9888683a8730be27101b779a4cafcdab544cb292d7fcdf6072e4661fc92",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p32768-lie": {
+          "collection_sha256": "3fc9195d00e2fd86312ebfbd6a8240d8d3649e7cba0c13e8b590a114b3a3dcc5",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p32768-gufo": {
+          "collection_sha256": "92c11e5190b2e4de16fd926b5967fb4869237aeca753d870391f30d514c7f56a",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p131072-lie": {
+          "collection_sha256": "fb0d6b14776ce90871c66a699775a931e93c5ad34d2bd7e32a8fbd0a5f7f3e57",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p131072-gufo": {
+          "collection_sha256": "dda83f675ec14f80dd757958a7e7da875d72819d9c83861e2c3a165247fe38c2",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p258794-lie": {
+          "collection_sha256": "47be0165dc8f54ccb6155b45f36e10af6bdb4d802fce6d2662587d0db33c9369",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-ar-p258794-gufo": {
+          "collection_sha256": "0d68ff4d30593a1a2224559356d63bcd1392963f3ca55a9e93132a72493d5a4b",
+          "remote_files": 17,
+          "exit_code": 0
+        }
+      }
+    },
+    "mtp.tar.gz": {
+      "sha256": "e9980c181fdd0977b77dc79166301194669a15fe6a7587fe9e0d5955e11d6e6a",
+      "bytes": 1915740,
+      "runs": {
+        "point-http-depth-r2-mtp-p8192-lie": {
+          "collection_sha256": "0ca309032390018e0a5fff3d2688780cbb1fd47bd6725d8a9776259335388b53",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p8192-gufo": {
+          "collection_sha256": "f2c5d5c274a973139a810565e27534283c1271045ccac88328a2fdd6173c4a78",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p32768-lie": {
+          "collection_sha256": "328c7c99ace69f9d59d87388e942f2da8007f8782037a8c554eafe12d7bd1154",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p32768-gufo": {
+          "collection_sha256": "8247aecec9254f9b37ed1866086aa5f589165436b3c3565d9d43fadbb769183e",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p131072-lie": {
+          "collection_sha256": "c897c4efa27805416139a81949e48d062bfb90d6f530ab4f35a3bb79dd268640",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p131072-gufo": {
+          "collection_sha256": "57f3600cf7dce7908c88260de58ead7f3414b9e6a89a8bce815c5173b7b53783",
+          "remote_files": 17,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p258794-lie": {
+          "collection_sha256": "bc1dcddda5e7ce8155f45c2beb68a961b5e50b531ac30b62906b8cc710e66855",
+          "remote_files": 16,
+          "exit_code": 0
+        },
+        "point-http-depth-r2-mtp-p258794-gufo": {
+          "collection_sha256": "4d8bb133b6823cd954979d47b86fcd0edb8404215a6355bba3ac000275f551dd",
+          "remote_files": 17,
+          "exit_code": 0
+        }
+      }
+    },
+    "history.tar.gz": {
+      "sha256": "56f2c0bd98a2a3971da57fda7391d58bbfcd2b530c7c611fc8fac446eff3355c",
+      "bytes": 66270,
+      "runs": {
+        "point-http-depth-r1-ar-p8192-lie": {
+          "collection_sha256": "85fea3289f3edb82d542defa58c561e6620f22eaf9a9fef889a19abe8fc712ff",
+          "remote_files": 12,
+          "exit_code": 1
+        }
+      }
+    }
+  }
+}

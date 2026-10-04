@@ -1,0 +1,252 @@
+{
+  "schema": "synapse-lie.cache-policy-cpu.v1",
+  "scope": "CPU generated-frontier/visibility contracts and adapter link; NOT-INFERENCE",
+  "successful_suites": {
+    "ctest": "ds4-policy-tests-full-r5",
+    "ctest-off": "ds4-policy-tests-off-full-r1",
+    "ctest-key": "ds4-policy-tests-key-r1"
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "814fbd2a885f616320026a787e01b5eb37f9b3315450ac863b1a84deb9914e3b",
+    "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+    "adapters/gufo-state/access.hpp": "f6eb73a854475d0eac210070d6fa0f4bb9a20f2c5f4d8ffc371a8042860e5540",
+    "adapters/gufo.cpp": "80d8067d5107ba87b5ecf48ccfe9df8acfccb257582fe97afd93eb82b56af81b",
+    "adapters/gufo_binding.c": "de5b07e73a509666506574d8f2ebedabbbe479f77498f0c816b44792a5d4ab9b",
+    "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+    "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+    "adapters/gufo_reference_bench.cpp": "6a82299b884c0dda36d9da48626d8a05a9375445e3e22885dec5c5648b97d5f1",
+    "include/lie/cache_policy.h": "5ed2b4f71d61919d58a8fe7128ddcc1f0c38f26c9670789b33f5446f75b323f4",
+    "include/lie/chat.h": "be84f7685ea0e6e0323c8b953abb9f7ac1b547c004a552ded638fcc109ce17cb",
+    "include/lie/core.h": "cebe24e5638e12dc9550e3686051fadd4ec4233aee0f23de5357b305cc055791",
+    "include/lie/executor.h": "b943eec0d7e7dc0979b7ff90184e603764062c54dbaac4951d61dbfa8e1b2dd4",
+    "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+    "include/lie/inference.h": "bf3a10a914f2f499586a8ab58a8d71ea06f0add4a19b773bebb38c59b5718b5c",
+    "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+    "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+    "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+    "include/lie/responses.h": "08a1aa5cb03fb1607cb41c2cdc400e730d4cae6176993a1256a220e328750643",
+    "include/lie/state.h": "36f58720b8fc6952e9c4c129527cbcd2a200ba6821545fe80faadbdee5c540bf",
+    "include/lie/store.h": "e4868b85eb34f0e932086b06f1f4fd8712af5999c419cae5e2819325cf3f01f5",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "include/lie/tools.h": "493ba51cf04e8e18d173de0e30545a4c3fe1a47db0d2b0ce57a4f08016398316",
+    "include/lie/wire.h": "63dc3cba8d66150ed338411045c1cfa72deb49f271cff023c22648a1397bc005",
+    "include/lie/worker.h": "49839ba31e97d278f25a5a3bc616aa176d04875363be61e30c600dfede5ac1ef",
+    "src/cache_policy.c": "3a4d702a3c308d52872250c4a28ceca7fd7a7175fb35573ae76ef34b6dc906ab",
+    "src/chat.c": "df077445a40abacfbfc8a643285029981d6b17201d2fa51a1aef2c49e1830102",
+    "src/chat_tools.c": "3db1abdd27a65ea86fdddde8f456fd9faf95636fb6b5cc4d0fa7db69cbd8eecd",
+    "src/core_input.c": "ccc553532730bbe153a26e6627c0538c2821931e945cd9874611cdbcfc4c08dd",
+    "src/core_input.h": "0c6eedac2cd679dfb836fc22cbbd19e373e7acd2be6870d3283e5f99cf9b3793",
+    "src/executor_unavailable.c": "1de69764f7921b5064b342b1e0a18480a0306e987e643b9d0a2c5430e399c67f",
+    "src/flow.c": "b636727e479a7e97aeafc3bea22f8a14641fbaa93ce6f2c80e45192ebb10be90",
+    "src/inference.c": "c05418baa2add3ea2ff76695b7969f5579146b4189fb62e0cd1f7f484a8e7293",
+    "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+    "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+    "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+    "src/prefix_cache.c": "cd26808feedf05c82e60badefc2cc5f0e8abe3ef18fef2e975b9f9ea0b0346eb",
+    "src/prefix_cache.h": "783462ab6ef2bff866547495d5855ccf742ae6df32a543bfb62cd58fc5994eb0",
+    "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+    "src/responses.c": "7a2f7e663d091056cb2914f8c928413d54c93603688030f44a513b665e5a14a1",
+    "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+    "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+    "src/server.c": "d03b98603804ccad8b3889d9e0a138aad270d3e4a7fbeffdbb5a9016ca90781c",
+    "src/state.c": "fec2f4f42933f1a1ef9cb08ac1b8c7ccd8fc1432e98f362a2252464482f45e42",
+    "src/state_codec.c": "1fa87d9bce3e971c53bfe1a926b34edacd81e36a72dbd57e322f2758d1409428",
+    "src/state_codec.h": "317684d8edbc56f60846042f7c5251037009211abc6f8c09ab548fab04d329a8",
+    "src/state_compression.c": "ac7874616b06379fd7bc25ddd9596958912899c83f6d3bb2cf4d463799639c6e",
+    "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+    "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+    "src/store.c": "16cb742a6f71beb34a5d053e1e7dc1804d16da3b8343f2228f524c463f397b31",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "src/tools.c": "2dfb7eada235f515151ecd9e5acf0df2dfa3e62c4032b4d4a1ae06c9574e43f9",
+    "src/wire.c": "1225c5b1f0e72044454976b136a02b9e88084dcff808938eaa2ebb6249bf4516",
+    "src/worker.c": "966774bf04ebddee596b147a1bedb748806cd0e5551313f4ff0bfa8f1d7929d7",
+    "src/worker_http.c": "0f7d51fa82a1eace1bb121c905918d197ead198b8473beb4d3711a7c47c4d9cf",
+    "tests/bench_executor.c": "3f4ec4d530253d2b4d3fe56b1429301a1b1e630e57317c79391eceac2069bddf",
+    "tests/fake_executor.c": "a111a388e817af56eef9b835886222c7f63eb7c3fefa0de92240fa7252b32860",
+    "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+    "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+    "tests/test_bench_http.py": "337d525e3f0d6270d351695baa57828c2045d34c1848e76140034b999d3da9f9",
+    "tests/test_cache_http.py": "214c228ab275b2d1d493ad3f06aa953ab1be78b3646509ce531cb2b9947facee",
+    "tests/test_cache_policy.c": "533ca43af3887ac8befeff17dc6bc071698e7a192db342f4770bdbbb24969e2f",
+    "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+    "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+    "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+    "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+    "tests/test_core_bench.py": "355b3e76bfac969388711dd9f635aa06a4f51ff8ab399091fb9eab9f6fb4a6ff",
+    "tests/test_core_ssd.c": "6f0619c03e5dad65e11691cdbe8210d748c4ba71aa97e3f1efebe9639b2665cc",
+    "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+    "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+    "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+    "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+    "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+    "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+    "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+    "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+    "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+    "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+    "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+    "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+    "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+    "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+    "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+    "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+    "tests/test_ssd_http.py": "0eb6b79d78b991d12ea7f3daa793b67ff4d95406afe33a0c553e5fe5a12a0b84",
+    "tests/test_ssd_serving_checks.py": "4f7c70af78e70e12b87c356f72b153d765a5599b3922c7b4f1670de9e05ea2c5",
+    "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+    "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+    "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+    "tests/test_tools.c": "d858f7dfcb671844877562ade53fb05ba0c69c358a1aec3527c71b8b0ced11b5",
+    "tests/test_tools_http.py": "6ed41081735c8a64ed3fbdb1eea2b182a54a5a76a1e238971769b1f8bc1b4f26",
+    "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+    "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+    "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+    "tools/bench-http.py": "00d4abdf36757778fdcd18277222ce382d5476e0394e5c889dfcc41da3e8df71",
+    "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+    "tools/bench-report.py": "b9b25a790b2939fde7e2204386ae05191f5e26fa21b4438ac49d3b5613db3be7",
+    "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "tools/build-gufo.py": "6db8525df2948b29bbe1c9d81816c43caf18d979d54bea781241c2d8582bd200",
+    "tools/check-gufo-build.py": "823a7ec506dc8b7b48ebb06e715045a66988b9cb40cf3cf9336db0de4a8480dd",
+    "tools/core-bench.c": "d74677f875d51ab142addea54f9d200376d22ac459cb0ebefaf2eae20b96f0cd",
+    "tools/executor-bench.c": "57186efe989f7fdbdc1e4b19034cefbe68bb21333ac92a9903e6064ae21ab45b",
+    "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+    "tools/gufo_state_source.py": "d77eb0091239c8c4b136eae218fa1a8098c292f4a13d56285a6c55bd0778c2f9",
+    "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+    "tools/lie-bench.c": "ec0320fbf495cb85d92347ec51d664fbddf527ed0adcc732783d5421f1ffc61d",
+    "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+    "tools/run-bench.py": "0deca0f9da3452d727614dc16e5f1492a41f5a0431f11bcf9a3b3c8a6924cab9",
+    "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+    "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+    "tools/state-bench.c": "d06d9559e5ebbbca4cd8a2d4d9b9a50875a1bec7585f183cac7f4caec168002e",
+    "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+    "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+    "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab"
+  },
+  "commands": [
+    {
+      "path": "ds4-policy-tests-full-r5",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ds4-policy-sanitize",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 73.125
+        },
+        "elapsed_s": 41.00799973029643
+      },
+      "result_sha256": "8f4ff7d35ae57e1d92f610ad3b95246e7c3a86bde66cb413fdd665d232150f9d"
+    },
+    {
+      "path": "ds4-policy-tests-off-full-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ds4-policy-off-full-sanitize",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.0
+        },
+        "elapsed_s": 43.89478944521397
+      },
+      "result_sha256": "475b6451b548dde096e2d6823ee752f164b5aad39229cac66b29c2b6c7d5a809"
+    },
+    {
+      "path": "ds4-policy-tests-key-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ds4-policy-sanitize",
+          "--output-on-failure",
+          "-R",
+          "cache|state|core-ssd|core-bench|store",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.375
+        },
+        "elapsed_s": 3.1688545551151037
+      },
+      "result_sha256": "019876121f9ecc96ec8922317b369970ca7e7ff9b95df9bbc494fd924520fde4"
+    },
+    {
+      "path": "ds4-policy-tests-repair-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ds4-policy-sanitize",
+          "--output-on-failure",
+          "-R",
+          "cache-ds4-policy|core-ssd|core-bench-contract|typed-state|checkpoint",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.5
+        },
+        "elapsed_s": 2.1216874113306403
+      },
+      "result_sha256": "63a72a0c408011d654f86a02915089ffa3ba787b251b4e8234dc7c5c67a4fa80"
+    },
+    {
+      "path": "ds4-policy-build-linked-r5",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ds4-policy-linked-r2",
+          "-j2",
+          "--target",
+          "synapse-lie-bench",
+          "synapse-lie-server"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.5
+        },
+        "elapsed_s": 4.186111768707633
+      },
+      "result_sha256": "409886d825a1509b8851ee61d3d47f62364adc92e59c50ccbf707ff6fc43ebdd"
+    }
+  ],
+  "linked_binaries": {
+    "synapse-lie-server": "feb7fa294c45335f27ff4bd3f303f4fdd4593bbce5a972b64f4d1d82a1f4ce9e",
+    "synapse-lie-bench": "72cd24d7417e1abd881078c756d9b3a8b29d3623f5dd30d46a51083d9d9ada39"
+  },
+  "archive_sha256": "5c81294140ee0f3e54e4a47e03995c462494f67e49a5eeec2817f2bc6f712bba"
+}

@@ -1,0 +1,1414 @@
+{
+  "schema": "synapse-lie.clocked-gpu-followup.v1",
+  "created_at_utc": "2026-10-03T23:53:05.757102+00:00",
+  "branch": "feature/c17-sampling",
+  "runtime_source_checkpoint": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+  "compiled_runtime_scope": "Frozen clocked15c6082/b72 numerical composition; does not qualify newer optimized032d847 sampler/vision runtime",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "host": {
+    "address": "192.168.5.157",
+    "product": "Bosgame AXB35-02",
+    "platform": "AMD Strix Halo Ryzen AI Max+395",
+    "RAM_bytes": 134145568768,
+    "HIP_architecture": "gfx1151"
+  },
+  "workload": {
+    "mode": "AR greedy; GPU argmax; no HTTP, MTP, vision or retained-prefix restore",
+    "depth": {
+      "prefix_tokens": 12288,
+      "new_pp_tokens": 2048,
+      "capacity": 133760,
+      "warmups_per_process": 1,
+      "repetitions_per_process": 3
+    },
+    "fresh": {
+      "prompt_tokens": 1500,
+      "capacity": 262144,
+      "tg_tokens": 128,
+      "repetitions_per_process": 3,
+      "no_warmup_order": [
+        "C17",
+        "C++",
+        "C++",
+        "C17"
+      ],
+      "two_warmup_order": [
+        "C++",
+        "C17",
+        "C17",
+        "C++"
+      ]
+    },
+    "file_cache": "uncontrolled; not cold-file qualification"
+  },
+  "thermal_policy": {
+    "CPU_ceiling_C": 98,
+    "GPU": "observed, no software temperature stop",
+    "NVMe_ceiling_C": 85,
+    "lower_exposed_CPU_NVMe_bounds_retained": true,
+    "prearm_CPU_cooldown_C": 60,
+    "cooldown_deadline_seconds": 240,
+    "hardware_tuning": false
+  },
+  "source_binding": {
+    "source_checkpoint": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+    "source_sha256": {
+      "CMakeLists.txt": "f93d1b7ed8fb90363c89a4e4269c47967a973d128a48a902be79ffe4639fbe7a",
+      "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+      "adapters/gufo-state/access.hpp": "77d359188974a75218d28e6c3194668acd353dc5cf340ce98e1f50a0225194e9",
+      "adapters/gufo-state/dense-sampling-edits.json": "efe8c548937eacaab05381c30d95244ec44b05ad456b2f63777cb1e4bfe88949",
+      "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0",
+      "adapters/gufo-state/sampling-edits.json": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+      "adapters/gufo.cpp": "71982c8a33347c62fa1fc08d88d9380b8d7cec195654c305a2f5ead2459db062",
+      "adapters/gufo_binding.c": "52159224b8cc235d8d26a76dd168a27e5cf88d0b00327b5386ae03d031d272f0",
+      "adapters/gufo_chat.hpp": "60d1920bb9ea8d24696e92e80901aa6d97a13b39808bc099e90645be78248eb6",
+      "adapters/gufo_device.cpp": "29276ffa1421101529dbe7ba4e6f5c3e83cb13c4c39265aa9f45394583947615",
+      "adapters/gufo_reference_bench.cpp": "feae7ed9ab4d0b58a009b115339c60153516be8a18d83d50a49a1c9b2a761993",
+      "adapters/gufo_sampling.hpp": "f941372906ceaab4d1171472f830fadefddc094d3d3bf48b6440e42ac0835212",
+      "cmake/gufo-runtime/CMakeLists.txt": "30a8d57548368f118f2b978e646c85837a3990bb10cb28082b7884e7b9e90443",
+      "cmake/provider/Build.cmake": "35eccee9529cb3a7ce4cb50816a3028dd70d75ecfc85f3372a3a0a9f4932af13",
+      "cmake/provider/Fetch.cmake": "63e34f61b4b6d77c4b3e9bddaa578f7e1dc61f2157d2c1e5b6e991f1d3706855",
+      "cmake/provider/Source.cmake": "1ee754b940cf3847a1a8d378202938019abbb124318da7ee44f13b8467e9ca6a",
+      "cmake/provider/Verify.cmake": "2515e1058733cf30ed47cb46f74f5c27bab091b3f8891b1f57928e2fd5fb51c6",
+      "include/lie/cache_policy.h": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26",
+      "include/lie/chat.h": "e8700e3765655e630a1fc996bd55731b31d66031308e125b7248ec7a23e69ad7",
+      "include/lie/choices.h": "692388f217757e3cef0edd100a74929deec9e575bf79cdfbc5b729a4e37b6843",
+      "include/lie/core.h": "cafd3f0c951f6561ae33c3164cd9aa5b3cd1e07cee5bad75042bf7ac6a941d8b",
+      "include/lie/events.h": "12492509e511b1712b221632d7b83f1c9e442c01ab7e2b6dccf4793278763071",
+      "include/lie/executor.h": "f5e256c3175544480a06a733ea2a24036bad41a0b3479aa10f12fd1dc64525bb",
+      "include/lie/flow.h": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5",
+      "include/lie/inference.h": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8",
+      "include/lie/kvc.h": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1",
+      "include/lie/kvc_qwen.h": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b",
+      "include/lie/kvc_qwen_map.h": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f",
+      "include/lie/kvc_state.h": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab",
+      "include/lie/metrics.h": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba",
+      "include/lie/mtp.h": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372",
+      "include/lie/output.h": "56d6a71dbd1aed70554c734c61582785f952c91c000da8cda0f7e35c75fefd8f",
+      "include/lie/prometheus.h": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a",
+      "include/lie/qwen_state.h": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae",
+      "include/lie/records.h": "04e4af98cd82d09b867fe5a9231429fe9428f71f31f07a8ec9d41a45ba7e701d",
+      "include/lie/responses.h": "30f4e04f69408f075dea4e4b038e75a05875d85ec7e3d232fe81baefb792924b",
+      "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+      "include/lie/state.h": "d1ce59fab5b72dc8e23e7d3cdcc99676c0c51389516fc92818bbc1a8e880605a",
+      "include/lie/store.h": "76d577a9d4a1a6a784600eba0639323db18fd73ca0b30293ffceb18d7a7edf2a",
+      "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+      "include/lie/tools.h": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408",
+      "include/lie/vision.h": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e",
+      "include/lie/wire.h": "0ad3bc0bc1135ecdbd435b5a3923dab5c3ba8817a4d3c77620862fdadef08a56",
+      "include/lie/worker.h": "d15c2ea05dae339341e61397eed9f6de2362cd14a3c2e3b3f1cec12888dd5a24",
+      "src/cache_policy.c": "92c4c0f0d62550608ed8555208ab9ab7fc6e7230991cc3dfd86ae451bb8a3d89",
+      "src/chat.c": "f8b5746ea4f0b9619db98312ab860902f1f349498eb1565cf4a8c9c6b8f2cfec",
+      "src/chat_tools.c": "95fdf18394c975841f4aefa54d18a021c62a4c550ee40863e3443fa8c56ab749",
+      "src/choices.c": "9543ece05b8527e08041f7f067bbabaf98d860716b72808ece06f1004e5ff492",
+      "src/core_events.c": "523a80ea432420fe8792c6ff42d073795c12ff2bb0b711ff2c523e331b95de68",
+      "src/core_events.h": "7fa32be31d8011175e17857d738d582e57863ccc40108d12806ef9840e91577f",
+      "src/core_input.c": "3fc9fd1f1e202b46ff2a890621b284bd2b8dfc485ba560d3cffeb8702bbc57b9",
+      "src/core_input.h": "7eecc43a594c88421a4b4c6ac3421384b56fd5ccc41a91fe6799c69908334689",
+      "src/executor_unavailable.c": "61403977e2d550f857848bf56a9afaba3682e5a07bbf3ad7c45ed3695746c6e4",
+      "src/flow.c": "c4259ee0444aa796aa4894c49ab290903f772a9177ce4265a049a6af18331a76",
+      "src/generation.c": "87881e37a4ad6fdd508f3c8890d980bcdaa93d9ad26448793ba204725f7bb08b",
+      "src/generation.h": "df339acb47301b631579b1ece7875f24289ce7a3ead859c058eb4b997977117e",
+      "src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a",
+      "src/kvc.c": "ea935c6c734faf5894dd04746cde7181dafda3817e852f91fe461daf2047876c",
+      "src/kvc_internal.h": "4d50cf1ded1f7cfcf53458038df5d325d5fa493791d848055e0090b2c084a502",
+      "src/metrics.c": "b0c2c84c608301d3784b478bf597fe0110c3dc018b21dfcdb1d22976046dff6c",
+      "src/models/kvc_qwen.c": "e49a54a76789622df1d89b4a164cd328a46c9dfc5d460942211df92352902dd2",
+      "src/models/kvc_qwen_map.c": "c39509aae5422124e9d4bc30dc731f4706e9caeed75ba4e8fd37456cb4af8310",
+      "src/models/kvc_qwen_state.c": "a45155ed46860a9c261b0585e796ae3efd0c43a1209c3ea7a74edee8a58a36d1",
+      "src/models/qwen_flash_state.c": "9725ea5f7c205712d863a069e6a03a0ba5e3a76385c3fe94e031cbf867894d5c",
+      "src/models/qwen_output.c": "e4150b125f015f43aa8a4dffb3bb398f783d0fa8af61cbebada5807a4f934035",
+      "src/monitor.c": "9720d133ce15043b4307305ea97cea8a9a70f0fb92f3ff620d8a4d964ec9467b",
+      "src/output_json.c": "ecab6537052e7a5eafd89d57b0209491ac96c44e5872b59f9a2011fc8b783f11",
+      "src/output_json.h": "3ec7f533b58fe212807071de5183e966f12c14dde751acc21ef076e3e269393d",
+      "src/output_schema.c": "fc44b2e13a11a9da4fd93e852c593c9fd4c0256e1d33736c0e6b8ac7a1c8175d",
+      "src/prefix_cache.c": "ca5f8b0a00e108d4e2690a20f94913c7dc220a48b97cdabd98b4e64523c63e26",
+      "src/prefix_cache.h": "b1a05a4384b876c543dff47e7e0218c002c5dc2404eef2c7721c74d304ddb5f7",
+      "src/prometheus.c": "62f880f1e3d635ec8767fc61d78ddc2751ad34996d46e1a454e9a1b158d70234",
+      "src/records.c": "d8cb2c7adbb88ce2f2f4341ce26005a214ee0279cdedd183c77ec5e223084022",
+      "src/responses.c": "c6722fc9172ce1aa009c54856ffca966c6d58dc1753506103256ccda03c6bc6f",
+      "src/retention.c": "79d4a8c9d9aefdbaf46fc0e4a5284ca3a30d00f37bcb51345b31f2e57f9e8c08",
+      "src/retention.h": "f10413d8d42b5a4bc93e3fbb5b0a18fd720270e8f64749a607f2779b65ec2bd6",
+      "src/sampling.c": "83ab54d3fea14e529467e8226b92735e466535616c3f57024d2a9fbe5e2e75c7",
+      "src/server.c": "35ab18ed8a917d92d7ca12ae7e56a85743f1292c539b1e3ea312216f4a3f9a42",
+      "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+      "src/state_codec.c": "fabd9747dd03e55addf2aab78a1d24bc28d41f8ca29f5d1ff1f5d27b856e4775",
+      "src/state_codec.h": "9a6494cdbff31fdc0ee49e12993378cfb803c296485b0c62ba1a81dc06e5a11b",
+      "src/state_compression.c": "280166c315ba6b8da65fc7ed53906bc90d2455a7f4fcd0b4727f2b2e64ed3331",
+      "src/state_identity.c": "ee51a0cedd7953c836206634aafdff2b441cb4b3878c8c1805f175a3d544a9d0",
+      "src/state_internal.h": "c9d2b3db1ee2a3f22c33155a2fb9d6e80f4e832d45af77d3e57713e7e4e70546",
+      "src/state_kvc.c": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a",
+      "src/state_kvc.h": "505c131a16461c85d3bcdaccdab4b4baf68b87323b5ba339667456f4c75aab5a",
+      "src/state_layout.c": "c6e7d7a0b1ca98f618e42c6bf09df66075b3b6f2e401c82f38bf5567090c156c",
+      "src/store.c": "ebd91d41cad88f0181d0fa325e441c677e6fc9dce72ef5906861477f34dcdfad",
+      "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+      "src/tools.c": "2bd571b4508bf5b70f49c8462318dbd242b333149df741985ff348beecdc36c2",
+      "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+      "src/wire.c": "c9e0de12d35b68c288a06afb269cb0dcfd1499ed00859a829436197e5455ad8a",
+      "src/wire_history.c": "ca5d3704b8740c6d829ee1e5a5c396cc7888d4aa54d2ca73ce7c2b85b8b3e47a",
+      "src/wire_options.c": "50e587c329be58f20eb68d3137e296393683902a0b0eb931cf0204d50f56bbb5",
+      "src/worker.c": "a206116f4570a49892979d3b38ba5163e0e79a9fb85b4c27653eb01cef095585",
+      "src/worker_http.c": "ccc40c029290290d84c228843664b17b9de6f5b4e93a59be79973d8af769fe3a",
+      "tests/bench_executor.c": "8af61fefa7ad34dc09114e9b3d3a4fe10a2c45fa34852fe4710e3f39517175d7",
+      "tests/fake_executor.c": "43fe7df6b2d2b99c5348c84170b80bb8e79572f5e09fca64216b85999a3dadb5",
+      "tests/fake_executor.h": "96777a7853d2764045201b17022eab73dceffbc49045d1d2fb41f899a5df83d9",
+      "tests/kvc_fixtures.c": "3f4dbe2a9d88e82e73ecffb9ec249025c7692c282072d969d664c365761b2d84",
+      "tests/provider_contract.cmake": "41601bc651141aea05ec97699e8a81e59d63566d61cdbdd05870bb5240db09ec",
+      "tests/sampling/CMakeLists.txt": "887fff160a439fad9186f9f943c2b480a9adf34781b1d03af00a19b3d8728efe",
+      "tests/sampling/compare.cmake": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db",
+      "tests/sampling/probe.cpp": "761a0c4995847d1b0a05fa1e7773c166e1b3c0c1e24085083996ad6d9781fe4a",
+      "tests/sampling/vocabulary.cpp": "c04bcf04162d9e521609344fb5ff59c3218e0b7acc4bc239ca2fad2a1b37811d",
+      "tests/ssd_read_gate.c": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222",
+      "tests/test_bench_http.py": "b62a331aaceb1554e54625d39901314098a1bb49f4421a980cce73712232b1b1",
+      "tests/test_cache_http.py": "e4c7bd91e240d3a501e1453d57b6cec01c2be440df08dbee716c4a823f5b5940",
+      "tests/test_cache_policy.c": "35e288bb84c43a19142bc2fdc22917b8548d8cb0082fac95e1908b04a7f16ba3",
+      "tests/test_chat.c": "5111ef5cd186003a50bb163c1ad3ead4aaaf0f855fe011b871afaef406e25eae",
+      "tests/test_checkpoint_compression.c": "73eb7600d68744ed77ff3729f76a1b26e74e3ec0eba2f13104ddf67a6fd3f707",
+      "tests/test_context_http.py": "073d578cbbfc0fe2920f6089a9f99fa305ab3b1f818f2b9fce86472b567b5082",
+      "tests/test_core.c": "de7454c875fa3ef86d27c8370a21a34ea5c5e59db9f0b3cb2ab2a4d28e5a62f7",
+      "tests/test_core_bench.py": "a183032edb87e844eac57bf2a558fe48c5a85fa52f398e56ddebef3cf29dd918",
+      "tests/test_core_events.c": "af1c69bb2e3f9fd27214bdb92440b4dd04f30750597e18c061364174483abac8",
+      "tests/test_core_ssd.c": "56a93a4458c8d16fc1f139276a9b317798b38b27787478b071d34ed9946aeb82",
+      "tests/test_event_http.c": "425e653f747f6ab57f8a015d23c2271d95923e18ecc01680991dc2f3ee5329a4",
+      "tests/test_executor_abi.c": "63786a9009a351e0af277e70cb644ea2a138925e977e63b3dff97c447ca4182a",
+      "tests/test_executor_bench.py": "0ec3a6c09029de5b39d9114856c04a376c640c01d149273bbc9efc7bba650429",
+      "tests/test_feature_http.c": "b9456e9e20f447341ca4f6ee62da92670a74c45ce9a0d6f7012b1c5881f0a54b",
+      "tests/test_flow.c": "3634474676a50f96ec9236eae7b38c045e9cc40f4335ede48384afc61e2c1cb9",
+      "tests/test_gufo_chat.cpp": "1dc63f1ebaedfcab259eed3c9a60f22e965ce0e9c8d38c03c96f77733e9cf785",
+      "tests/test_gufo_sampling.cpp": "9ad9b3d0ea876e71808d085f2e41682dd92968b5faacf4a8d7cb7547f31cbff5",
+      "tests/test_http.py": "4b205127d79af982224453793949b9859a4c9e3f7855fb20e88e6d1bb184aa12",
+      "tests/test_inference.c": "86ae9f79653dc199b70f0283be2c478e9f661d5ffd7a7b19a904fb50c172495d",
+      "tests/test_kvc.c": "82299413539f3f182c3c188279fc78b81398394b4d58e1169905c3b2fec6aa04",
+      "tests/test_kvc_fixture.py": "c0990b0f79ccc8e3da6c152c6fb0714bfe0764761980e04ea6ddc8b8b6ce015f",
+      "tests/test_kvc_map.c": "3c932f5a6a7b3d05128fc48aa66923157cea14822767be7cd1e39fa6a4c28b46",
+      "tests/test_kvc_map_fixture.py": "ba8806e1fd6457a2eca42802e68a782388a47e0a9fb53fd6726d47a1da553f70",
+      "tests/test_kvc_state.c": "3069ff276b64b5de02a13cea8900d4f1f716a7787d9d31faec84317328be89fb",
+      "tests/test_kvc_state_fixture.py": "f5f8c5ac8c4070db6bee9c60b0dadcbb53519ed241fbbc6ecd9dc138ba16a1cb",
+      "tests/test_lie_bench.py": "f799832196d6dd898baaeb64f3fbe13c6cec1c693f257daa373b39fc19224879",
+      "tests/test_metrics.c": "686265fb7d194320956fac445a023426906883885757032e346b4813b748115d",
+      "tests/test_mtp.c": "634cdfa24d32a9277a62995c6e0a2fe298511c1dcde8839b39fe439ff0ce66bf",
+      "tests/test_native_bench.c": "3c87ca7c79850bf57671d3f18749ab8d559338caf367f0777003a584a9fb977a",
+      "tests/test_openai_core.c": "c0c9586017208f0235d0d46e143d3cbfb05579a2648ebf0f4e0c46560e96fa29",
+      "tests/test_openai_http.c": "2e28a150105fad2fc462f8409432a98e52b749040e175b480b4ddb9e6b132f4e",
+      "tests/test_performance.py": "23503e925e6ba9abc721d4b19eca324fadb1ca9521143e1fb80e4578ed84aa85",
+      "tests/test_pi_tools.py": "e37e75d0c2d7e56f1b064d3be121d99d29d96879c78d29c722449b85396552a6",
+      "tests/test_prefix_cache.c": "ea44fbf4e8aa33a181ac108e8a80d4eabc1d5be816d1e3df80156c10dc6cabe5",
+      "tests/test_prometheus.c": "0ca46c735be356855b1111987200dcf37324c4e7b12782de58c4d8268fb6d856",
+      "tests/test_prompt_retention.c": "655ef95d4e2fd50645a59f76595ed9fdde92454c8a28bb2653db4ce96087c668",
+      "tests/test_responses_http.py": "ca633531d15691fa8b07dc2e59430997da58bcc2c10d275b3484dceaae83148e",
+      "tests/test_sampling.c": "e16bc769d6be32526afa203f00b09432077b968f3eff439df0b1246baa6f6c77",
+      "tests/test_serving.py": "854260e62a207a8e0903fd5630dc8b4d129248c725dd07052dc3c93300c9fe29",
+      "tests/test_serving_checks.py": "5b27f9e87db4e17ab0cd20eeaa324388c1fc25162bb5ef4c1f7f5c4376a98089",
+      "tests/test_smoke_model.py": "1680bf88576e1a70e975a43853f4a1c100fea6af7a8db366a5989d533bbe37cc",
+      "tests/test_ssd_http.py": "4e195e5f6b0a77d0c02347a30eb3c0cf7d8d4874d70bca2da600b8cac0d1fcc5",
+      "tests/test_ssd_serving_checks.py": "433bf5a977d4ff87bd4059a521e68af669fea11ad2bd7dcbe9ab16a77c893fe6",
+      "tests/test_state.c": "652b81082efa1b18a84682606b74eab4c450ab6f5964853b5e7a46ffcd44c57c",
+      "tests/test_state_aux.c": "3e894358d36a7ed6f19649adf7ddd70f64f49cbd89b767afdf0e9a370f7cb88c",
+      "tests/test_store.c": "b6ce4013655d8bb8336fbfa19a88db9a51997dee5a1105e6a5bb0a9888564918",
+      "tests/test_thermal_guard.py": "ddc054a939f1ac7139a32eb29b722bb016e731b0e25f2108e4725a3b8ffb907c",
+      "tests/test_tools.c": "94bb9b9e60d917bf483dc1547dddfedb596e7d07fc32c0eec25a29dd04100950",
+      "tests/test_tools_http.py": "6ed41081735c8a64ed3fbdb1eea2b182a54a5a76a1e238971769b1f8bc1b4f26",
+      "tests/test_vision.c": "7c81a2df148e30d4f2be6ea96c39d7106ac938a9641dd268665c9ecd4c16f1dd",
+      "tests/test_vision_cache.c": "e46b7e2a5f1f35303b463eed35d0da0148369d477d410e2d1c85698fe2d0e895",
+      "tests/test_worker.c": "52cb1f6dc25e04b7995c9a665a8d296cd43e95d82ad71a658b67202e1f2b562d",
+      "tests/test_worker_contract.c": "291e0a2276bdb482837cb07fddde5413f52e0773f5dae13ce0a9984f91e8fced",
+      "tests/test_worker_timings.c": "2f262a69920156ab27eaaf4f28b15c1efc0854a33ddb9b7e9da328195366f818",
+      "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+      "third_party/CMakeLists.txt": "119bf070bb8d70b285204d865889ad03f8d80afa09e92148b895f28db52cb224",
+      "third_party/README.md": "a04fa58ac54396e118c7cca3b9c6bee68b9d3355d8165dab7d66f7528f560721",
+      "third_party/gufo-LICENSE": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001",
+      "third_party/gufo-NOTICE": "d3025f7f268e405ced3b3c101793868ab70b477cd68f251e0bb4dfe240e168d9",
+      "third_party/gufo-THIRD_PARTY_NOTICES.md": "8d7e1bc9c37d5e0d456c8e9ef9ef5bfaf5b95b5e7960cae3f346d99744643116",
+      "third_party/gufo-source.json": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+      "third_party/libuv/AUTHORS": "215addc20f9d61eb4fdcfdb5b11296cb869d0e648b3fd1b32c9c4450f1c80642",
+      "third_party/libuv/CMakeLists.txt": "332ce2132588ba703f2e2efe9c3bdd5cdff4e70ae079720bc963ed6b9b0b051d",
+      "third_party/libuv/ChangeLog": "7ed222b49541efd538c256cf425e24dc6739c1f7b52394b51662ee19fa737941",
+      "third_party/libuv/LICENSE": "16de0c32b265cb7d46a6d3bd614f259dd4d693a5e26b3407b04aae8d73041f0c",
+      "third_party/libuv/LICENSE-extra": "262c44bd2cdba037e6d2a82fba15f5800d292bc993a6f5d6b6ea487744d02836",
+      "third_party/libuv/configure.ac": "96f9b0dbe140042419d900d0497a6593579f10f8d761cbec5d0ccda2e87478d5",
+      "third_party/libuv/include/uv/aix.h": "bed77e4cf6c06f1224e681cbe607eff04713ca0c1e1f4a102e6a6565ee3f02aa",
+      "third_party/libuv/include/uv/bsd.h": "963533ff4b16f72a204a8c760896a857c54d0ac50570f1793e3bef1f2ae8b35f",
+      "third_party/libuv/include/uv/darwin.h": "222b6dd3ce67cfbb735b14b1662f065fc23570d6969acf463b39d946b7590d8c",
+      "third_party/libuv/include/uv/errno.h": "4242edf790e4569ef349026ab4c6e31093334ee5fc02b16ed7a0d9fbacdffd16",
+      "third_party/libuv/include/uv/linux.h": "adce0ed0821c8466a87a0a4c9e0df9ea7e4a4b24d099c7d7ed196f72a13f669d",
+      "third_party/libuv/include/uv/os390.h": "98388ae32ce2c4390b82c3529539d2a476c44f590e960ed30a79f72b807ecd02",
+      "third_party/libuv/include/uv/posix.h": "e9d7218b34e6e89b7b412891b7e2aa8b3a561c5ce9714c1f4def6c8a8593a6a6",
+      "third_party/libuv/include/uv/sunos.h": "29d4b4ef48dc3c3ab32d75e0a85bcb80e084d42b32aae40d67fc1d882b93298a",
+      "third_party/libuv/include/uv/threadpool.h": "09ae41099af710289155be012df45c2fce04da6a02e813278b4558935e645938",
+      "third_party/libuv/include/uv/tree.h": "34393c74082c71ddd5bd9ec4afe30ef03df7fa7bb64be5a50ae070cdfebb5c43",
+      "third_party/libuv/include/uv/unix.h": "06ccd9e0f3f312b610a7e7a8ff16596988e02796e7a0c81a62e29d5f6abe4613",
+      "third_party/libuv/include/uv/version.h": "a859f2c21f7887d45b0372109ebc91759a6f8c408c7cbf2a12f9bbe579be403b",
+      "third_party/libuv/include/uv/win.h": "9ad5dd7d5d4d51981f40edfc65a53ab94e91f6a2e73f2bf897e0e697fd9e8233",
+      "third_party/libuv/include/uv.h": "bb9ed99b80cd22c58361bffdfbb2aa7029ce0391cde616745c0072a6f3c03219",
+      "third_party/libuv/libuv-static.pc.in": "2ec52a0b39abc4edea141386333d960e0bac8c94764500c95c3d11c2b5699551",
+      "third_party/libuv/libuv.pc.in": "207211332937097fdedb8b76cf230a06c039b695bb049a05bc9478fdc8f35bb5",
+      "third_party/libuv/src/fs-poll.c": "e4869036bc54bc5a881794ca6aac044c9c567361fff48dd7f02f3a4640e6d271",
+      "third_party/libuv/src/heap-inl.h": "e8dbafbe40150143a740e9b1aff03c4e623ebfe5d6b5e1834a09626a303ddbc2",
+      "third_party/libuv/src/idna.c": "01da9dc1b716f1320089706ae8fe0998bc73e456ff5bb71f32704868152bc74c",
+      "third_party/libuv/src/idna.h": "d72fc711db6309e6c6ec0fc777cb0bcbcfa3942262be25d315ac469db2787559",
+      "third_party/libuv/src/inet.c": "5fedd5da664c70aa539ae0f0fa10b28ea092c892f9516e95cf1bb782016d52f2",
+      "third_party/libuv/src/queue.h": "abdeddeefb025fcdeff7737d4d465d89081ab2c3cc08a423c042ee2093b8695a",
+      "third_party/libuv/src/random.c": "025d67c8249a9917964167ba17b325489e5fb8fbd26cff5f4eac6354e0cc5d4d",
+      "third_party/libuv/src/strscpy.c": "0058568b1a47d2a35ce3dd32d52463af5e066c1065fbb6dc28dd68107a978c1c",
+      "third_party/libuv/src/strscpy.h": "e3e5f81613b169ccd76eee4972d37e7cd5d875ac20d578467b2e42ee5c7f4051",
+      "third_party/libuv/src/strtok.c": "fdcd8971cef7aff15ed950c8d71521888eb57ab48b62196e1f4170b4cf522d2c",
+      "third_party/libuv/src/strtok.h": "2bb2ed731c7afb0efb14670854bc47fe435d72e93cb7b5a1ba99fc5d0548467f",
+      "third_party/libuv/src/thread-common.c": "0ce1ce99b53c1e453439fae0be62c417fca8a1850cd97be65ace5b36b306a7b9",
+      "third_party/libuv/src/threadpool.c": "28b4db439ee75e1bbb0661fcb1bf7619fd4414e69fb6e9bf348f6b887a7fcbe4",
+      "third_party/libuv/src/timer.c": "5a2326203a3ac21b16093e0928db393e00caf919c1ede5316ac7174b72daf217",
+      "third_party/libuv/src/unix/aix-common.c": "61a1cbb342c5e334622ba194927ec9cff8642e5dea7c5972c17f531123c3ebcf",
+      "third_party/libuv/src/unix/aix.c": "05a25cfc6956445d676cd600ae50f6d343828d3c6e415a534606debe31b5cffa",
+      "third_party/libuv/src/unix/async.c": "36e631e4c64ed1102ee82a4aadb329abb0ffa1397058f149a90b606bd61bf199",
+      "third_party/libuv/src/unix/bsd-ifaddrs.c": "4ef5cd279dad0f334fe3db09e6d48c35325d7f25e8c534f919eae68651b829ce",
+      "third_party/libuv/src/unix/bsd-proctitle.c": "1897f0eb92302dd75a1f2ea48118aaaae2c275ea9ed2f102007bb3debdbffb00",
+      "third_party/libuv/src/unix/core.c": "18bfd5f2045417f8ace5d76e222bf7441b31ead5fc2cbaf6225965e0afea8767",
+      "third_party/libuv/src/unix/cygwin.c": "57f86ce72120bf5af78891a69132564582deee3cb1cc988ef3bf4ac77a259318",
+      "third_party/libuv/src/unix/darwin-proctitle.c": "f68470f2a5ee9361d49083f0ec4c42e2a01a082907f9be983f31ab405e77b49d",
+      "third_party/libuv/src/unix/darwin-stub.h": "d397fe8920a057dbf335b5eb91c82122e0f0b61281cd0dcb9fd45420bd9de7d8",
+      "third_party/libuv/src/unix/darwin-syscalls.h": "9edc5b8872c8c718cffd43b02ff9730276f7f55d7585f9c080e0065c08aaa872",
+      "third_party/libuv/src/unix/darwin.c": "d3ffb6997fa61127feaa67ee2b9d0fda2796e58c0b1094a066bc017e648867cb",
+      "third_party/libuv/src/unix/dl.c": "fe5d987911461b7f680474ee3886884a6f3325dff0a4bc038734a088ee227ff1",
+      "third_party/libuv/src/unix/freebsd.c": "360960be1874bcd5c5f221d9e7cc6613cd0e4c51df004912c52ee86dbff63453",
+      "third_party/libuv/src/unix/fs.c": "7406d729f667053febfac84fa1fed6f9423ecead70ec2d05b060f92f360ed19c",
+      "third_party/libuv/src/unix/fsevents.c": "6d6b9e50ac30ce6c4d0ac046352fc308229f36774b092c3e4e99f434f50d5ca3",
+      "third_party/libuv/src/unix/getaddrinfo.c": "937dea83a24092bb80a7409e65f39c4bfd3fc8c8ed94deb7d80f9fbf13a740c4",
+      "third_party/libuv/src/unix/getnameinfo.c": "558b560c07b47db60cd04b182cbe10ced589753a904197a9120440fc23be61e5",
+      "third_party/libuv/src/unix/haiku.c": "5f056eace7dcf9021a1e6ad1b410ace855715f8942e5d643bf4616c52b9d652d",
+      "third_party/libuv/src/unix/hurd.c": "94442eee81f3bad7ec1ba82861695755d8256d48634251f581b2c4bd12dacde2",
+      "third_party/libuv/src/unix/ibmi.c": "f7475ea1203fcc1832f4811d25f4731fe6c2f2a05f17e2b982d2cdfce273972a",
+      "third_party/libuv/src/unix/internal.h": "959e3ce94dd0a1c12f090f40aac1f0cc9287b199eff4ed6dd9e2e944963a06ff",
+      "third_party/libuv/src/unix/kqueue.c": "d535fbed2b9beeb3c7afb939ff066601db98cecfb4642396732fff3d83d82660",
+      "third_party/libuv/src/unix/linux.c": "215185d94697e05cd75ba9466bb9ea93076769a7767218d4183eaf0723ccf2d2",
+      "third_party/libuv/src/unix/loop-watcher.c": "352e6272f340f424fba5ff6e28705b0b22c3a8903913d0ea6bbb6ba7c2293fb5",
+      "third_party/libuv/src/unix/loop.c": "2226f6b5747b90d9013238ac9de70d63dc084dce2fc60005af99412a4ee670e4",
+      "third_party/libuv/src/unix/netbsd.c": "4d8b26f699aaffde0851ccf7ae415f30fedc9ab0ab86a020ac1fc14808f16e63",
+      "third_party/libuv/src/unix/no-fsevents.c": "9d91a46c8477fd7145eac8b668da1041a69f5b12812b18888ad3eae85397d987",
+      "third_party/libuv/src/unix/no-proctitle.c": "65a37c263a39f59943856e3d6bf2119692cfaacdde13f05112411cd3edd15ec5",
+      "third_party/libuv/src/unix/openbsd.c": "0d7f6a5f10fcf4201541d2c14d73b05015577d8d1bcc0a4c581cde8b6532ca12",
+      "third_party/libuv/src/unix/os390-proctitle.c": "627cd81bf8925ced5e39ededce1fa50c9b77dba581a35383113a1520e015478d",
+      "third_party/libuv/src/unix/os390-syscalls.c": "76c5779fa2be1665b8d82c1e010eb37a9b216f8bdbdbd1a48f8c4f8985edc3d6",
+      "third_party/libuv/src/unix/os390-syscalls.h": "a0f585c827df219b526b9786caebc8c21fd4db9ea8d568c07264f24a266cd4f9",
+      "third_party/libuv/src/unix/os390.c": "a3baca96a03da1d7703cac57182baaa382fb455305d3ae8e6e79a10bda99b0e9",
+      "third_party/libuv/src/unix/pipe.c": "b338d8c1e72706281079aaf2ddbfb94512cef4dc2253c24b7af82a4f3f487b42",
+      "third_party/libuv/src/unix/poll.c": "1251826732affd254647829bb43bcdf5bc251915dac601b9eadea13f237b7c79",
+      "third_party/libuv/src/unix/posix-hrtime.c": "e0b6901588b417222c48c6b321d642f53f6b3ccd2512d86f3f5898dcd95b3671",
+      "third_party/libuv/src/unix/posix-poll.c": "38fc6a7020e482fedf29ab82b5fd77308748b9d1b4179e733672befafbcb9f16",
+      "third_party/libuv/src/unix/process.c": "e79f9bd90787011d59d9395f46658caca2ca01d1daad84c36e3b86eba50a4a52",
+      "third_party/libuv/src/unix/procfs-exepath.c": "56136e384f79f6691f8cc2976cd01d0a02019802d4be619d7c91cb21d413ada6",
+      "third_party/libuv/src/unix/proctitle.c": "16ff3c208dcce3798dc80bf596828a93f6ac42b1732e1ba75c331dfa3e90fffe",
+      "third_party/libuv/src/unix/qnx.c": "87a496ec783adca221bc598338762448c3255a1ff1af14e3ad7f68cf786010fa",
+      "third_party/libuv/src/unix/random-devurandom.c": "e774597ce4da739ad57317041aa0aaf00ae48b04f2359940188ab04475613420",
+      "third_party/libuv/src/unix/random-getentropy.c": "9bf7967967b6609810f42c72229edd086890864d4b78ed8c3269064a72769fe3",
+      "third_party/libuv/src/unix/random-getrandom.c": "149b6b2b9b9213f1355651c618e17b4dd2599ccafa1619ac3a8d7916a471f2a5",
+      "third_party/libuv/src/unix/random-sysctl-linux.c": "c5a344dfdd20029700c0686c3ca685e8e67931fa2a35d84b01b10b5a8ad812a0",
+      "third_party/libuv/src/unix/signal.c": "d6e74aa544ea4adfd57a6fbbf452f831a0fb3030873dd37e65205610174fbc94",
+      "third_party/libuv/src/unix/stream.c": "736cd948a28acdb1544dd683becd78fb744e79de55562229da54923b20f41c7c",
+      "third_party/libuv/src/unix/sunos.c": "3f259374d58aa19cb4a6fe36261ab50b7973f950224eb1a2c14a24a17279e845",
+      "third_party/libuv/src/unix/sysinfo-loadavg.c": "cd11de556cfa6371860a694e2d302037349d94b7b446506e721d412e97ea0334",
+      "third_party/libuv/src/unix/sysinfo-memory.c": "d0fc16262a6406a9dd547044895475d9a3b1f1e11bb3b23e4880cf5945121272",
+      "third_party/libuv/src/unix/tcp.c": "ab401c3846448501842b4c5a1973beceab00955aebecbbc05e64b71472f19053",
+      "third_party/libuv/src/unix/thread.c": "ff6670ab46d110e819ec788d8bb52ce4ec9e571b005157497c887b625e0d9a29",
+      "third_party/libuv/src/unix/tty.c": "65b98df1215c32ddd87e7b89e2d8d78c7e79a02e2bf4a53e1860f61d00bf431a",
+      "third_party/libuv/src/unix/udp.c": "81c58307bb111bfd09cbfa91d206b4bf4d4179e422e2fc174ae88e111bbe36b1",
+      "third_party/libuv/src/uv-common.c": "77a095249d0ff54053f435a7cc28daade68f8e67ad6f7ac95105901edce7fdf8",
+      "third_party/libuv/src/uv-common.h": "6ddce7ca203fe0dd293d1eec658745ca6a2d24386b3a02edaf2a15cf94732ee6",
+      "third_party/libuv/src/uv-data-getter-setters.c": "ce7fab84519adc0f9b63c268fcb5a73e643a4d9a22db125cf58db88a6acd38ee",
+      "third_party/libuv/src/version.c": "53296d9934d952545064673758e3ed46c10ab52e34ce540fbab4c595a0b44bfa",
+      "third_party/libuv/src/win/async.c": "cfb1f1e500e3b012f80b90a1e55a45b5f9c5fe7d070368a2a95e0eff661450d1",
+      "third_party/libuv/src/win/core.c": "b4e4f38d30c8c50cc5c2850c2512cb2fb43865236f3b7cfddc566b60ce9918a1",
+      "third_party/libuv/src/win/detect-wakeup.c": "914143627a1a97fafbf64a71564dce389a877b2e5aa9797f12dbc2811bd71d7a",
+      "third_party/libuv/src/win/dl.c": "2b5c586518c6e3b02108e5a47c0ae481a5059dbd2af4031bcc5402b16b013048",
+      "third_party/libuv/src/win/error.c": "c804f3da1436393d1170688cb9d0210638174c0f1af03013360a7d0a7eb945a8",
+      "third_party/libuv/src/win/fs-event.c": "f9916b4ceea11409e34908e79254c029f55f493f4338b49d557cd55e7922c0aa",
+      "third_party/libuv/src/win/fs-fd-hash-inl.h": "2baf0886b443d529c5c70f3ff85be0f667da59582d93603b64f6a54ca92ac14b",
+      "third_party/libuv/src/win/fs.c": "41633b8f58bb08c21f2dc8daa32990365e2df7154bb167a076e470339a218d18",
+      "third_party/libuv/src/win/getaddrinfo.c": "b2d85b2bf70dffd307fd13de2119702ee57746419ac35920fb6eff1aebe6a81a",
+      "third_party/libuv/src/win/getnameinfo.c": "c002f8d434ea01952671117dcc4f36bcb74cebcaf4f16b60de997afecfdac39b",
+      "third_party/libuv/src/win/handle-inl.h": "e590c46ef6bf5110be61015db784d515fcef34f9dfde61b674af1c28413eabc0",
+      "third_party/libuv/src/win/handle.c": "36778077a3ad0fb0ee55ccdba904e7393f74601be72be989110be4ee26ff753d",
+      "third_party/libuv/src/win/internal.h": "28de9aed84ec2dbb75e7eb18f270fa6fa3f080b16034e6a3d0b349a7d14bfe1a",
+      "third_party/libuv/src/win/loop-watcher.c": "b349a8ebf8f330418f7d15739441fdbd648b96ae7c4161a3d1145494a0c46c3a",
+      "third_party/libuv/src/win/pipe.c": "a712502b4bc71ad994e1c639fcba386ac1748ab8dcb693038d0203dbdbfe107a",
+      "third_party/libuv/src/win/poll.c": "d0711a1433e870d5a776def8b4934a2b60cb3ed17e86aa77f5f97aa4ef4d36bb",
+      "third_party/libuv/src/win/process-stdio.c": "7367280da2315b8cf16d42870a972164763b1967f8e39bd141b27726237872d8",
+      "third_party/libuv/src/win/process.c": "3613437d5b1511789fe4ea9ba6c3ab228c9d42a8d2eec56227f6d6919e917d91",
+      "third_party/libuv/src/win/req-inl.h": "45e14fd58e531759c8130f1617cbccac69b463e8ab980664dc16202bb0600742",
+      "third_party/libuv/src/win/signal.c": "7cbe1ec895c1fa5c974e6d59e55e6a6d7180e9c83ffbffa12691c24c44fdf1f0",
+      "third_party/libuv/src/win/snprintf.c": "2596b168ad64f54e94b95779f654326c107f43e0645efa11185f8e9b04ec2f6f",
+      "third_party/libuv/src/win/stream-inl.h": "071341e25de533dc19eeb3ee3ff3985caae7578c8da9109ffcf08b6574584712",
+      "third_party/libuv/src/win/stream.c": "f93f5f69b8538adee8a830bf4ed61ce666eb777cf3bfb364f26796b51a3f71e8",
+      "third_party/libuv/src/win/tcp.c": "86b3e81df0dd401cee22bfa921e9ef44ceceb62cd01b3a3f0cf830c61361c9a1",
+      "third_party/libuv/src/win/thread.c": "672c9fe0ac40b9b87c0c4eb8b9320ab9410385ddf0aa57ac071f33d86a3cfb91",
+      "third_party/libuv/src/win/tty.c": "5df3f88899bc4c6d85f80b54d4f4f14453359996a2c42693de38ef90c5b9941d",
+      "third_party/libuv/src/win/udp.c": "18266936d7b2dd7a84efc019a47d1aa620c09eaf29fba67ff185ab39b4272591",
+      "third_party/libuv/src/win/util.c": "cf857ce678c492c52b79782c980156e38b98f3167d117f0db1c3287be605a9a5",
+      "third_party/libuv/src/win/winapi.c": "9a54878daa60d6ca1acc3dc6032dee8803325cf9cd1c0aaa241a5c8d510ed201",
+      "third_party/libuv/src/win/winapi.h": "d44fed6bb0c7576eb20706d69a975ea1359f9cfcd017df6ae6cf7e4adbb60f54",
+      "third_party/libuv/src/win/winsock.c": "f9621966b332d29926ac6471b0aa08ef4f46be0b58cde852155592dc4de88590",
+      "third_party/libuv/src/win/winsock.h": "ab759f6d8dc22dbffae7e4eceebd1aaffa31173f64f135c0f51e9eebff11e0e5",
+      "third_party/libuv/uv_win_longpath.manifest": "b6890e27512e19bc7461589465f297d669ed4432a0b55d735916c0954f7ac678",
+      "third_party/libuv-source.json": "34c48ca08ba53bc393182c20cca3a089ac392bfd6e6c2c4413c6c08d44362f3f",
+      "third_party/lz4-NOTICE": "5199410e6d8d4eb97b4817ff959ec760a706d81b62b6a873fd804b4e17d90e55",
+      "third_party/zstd-NOTICE": "725efd07d1998c73c1b8b44beac42d10f8496ea2283455ff96d45839d7a72634",
+      "tools/bench-http.py": "723d7e34aaa6f6cf2d01caa81ae385f16b0fb0a39853d87bf35d9836cd63fa6f",
+      "tools/bench-model.py": "1d9c6adfeea264e6d6128f483cd7334478916fd523a36b79ef9309c554793a0d",
+      "tools/bench-report.py": "f809ecba197eb319dabda8a201a997940cca92bd3d9641549822e5c5a6a8a357",
+      "tools/bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+      "tools/build-gufo.py": "8458f5739cef9894f6e4f9077c0e44cf22d11fb6cea02642d7a645f5a49167d1",
+      "tools/check-gufo-build.py": "a5ba4f5cd9348501f1988cab0c98ba81c5eece80f33306508719757b38f1e349",
+      "tools/core-bench.c": "061c5eeae854536076cfc61797e38cba79195a38a5eacd44628c7223d115211c",
+      "tools/executor-bench.c": "c1dd8562b0b97f9fe0fe844010b1f9a94c5a49a9e14af5a525173e782e69caff",
+      "tools/fetch-gufo.py": "b2004055d8da707359d2d77730d0dfe41d8c4f9a69563b035dfe17ea7e8b8ccf",
+      "tools/gufo_state_source.py": "10e266807a58fb9c98295d76e5779ae6ccf656dd108b69db9f6ea6133fd9a24f",
+      "tools/inventory.py": "8ab90eb28149766487c6addf8f6fa788c27884173253f53b183c1046ce7323c3",
+      "tools/lie-bench.c": "6cd6dc9bf03bd60936c87f7ea398fb9f9f864961c1478ade1d610ee750412b93",
+      "tools/lie-kvc.c": "869639c9cc576e8f8763022c8c91b03b24dbbf243bfc833ed009d0ebea17f6f7",
+      "tools/native/bench_native.h": "863109f9fd8de6a00e0366b8b43cb2fd6cfd653feab2861f2b9fdce33529d86b",
+      "tools/native/common.c": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d",
+      "tools/native/http_bench.c": "740a19651563f987fb7664e6a3cfe5c17386495a9b4bd27dcb6d00e8c34808f2",
+      "tools/native/http_transport.c": "9f10a8f506e1fa44ba5a25e8591ea923e883fcb9a0eed838d2d76ae821ea5ba6",
+      "tools/native/plot.c": "15ccdc58f31f52cb5bdf6a573de68fdd98c58a139305182054958fa4faeaf319",
+      "tools/native/report.c": "1aa84569fc9e9d5476c48fbf97c1d7db091c296f158828ff5a2b3a948856acff",
+      "tools/native/report_main.c": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b",
+      "tools/native/ssd_bench.c": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77",
+      "tools/performance-telemetry.py": "a2bd6c40c6a6cc32159a5d21e65f4364df215842a6061ff13a99fec5ef937a62",
+      "tools/render-published-benchmarks.py": "72a11a20ecbc1ecdadcc8dde9e9f9e51be925f2b163fae638822f3a28d5882bb",
+      "tools/run-bench.py": "44ea564bca0baa2035525298737db2e82f6457863607abdbac9f28d9108e3be4",
+      "tools/serving_checks.py": "362ad851af9a2e12da7277b5b1d823a36ef6eb2d3824587cb6786a4b847a0dbc",
+      "tools/smoke-model.py": "c02aee80912b79b5ef91e51f9a2087a6c8f68c477738a14f098eacb2bccab73a",
+      "tools/state-bench.c": "62e4eba5349a0666fc27eaa46d02d38ed8de5b03b41e1c5c466b0e345a656926",
+      "tools/thermal-run.py": "38a0e957bada2adde2dce2c18c7cceea9ea09a619deef99dc5f36063b2bed1e2",
+      "tools/verify-linked.py": "e1d9febe1a6ccc0cf2c678cea7e8285c3423abe52663ced285f895a79cef0216",
+      "tools/verify.py": "a22acf7481d6129886ab8518e4bc698521d11cb6ea198b7a945a2ed272f800ab"
+    },
+    "provider_on": "c7507014b6759556cb83b8d16e84543173d201f7af2010bb285dc756ddd7583a",
+    "provider_off": "2f32b7b82cfe361a487c32c7905ea54e97105eac33d9972c0e56120ffa09c8b3",
+    "focused_untraced_tests": {
+      "argv": [
+        "env",
+        "ROCR_VISIBLE_DEVICES=-1",
+        "HIP_VISIBLE_DEVICES=-1",
+        "CUDA_VISIBLE_DEVICES=-1",
+        "ctest",
+        "--test-dir",
+        "build/c17-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "mtp|vision|kvc|prefix|state|cache"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.375
+      },
+      "elapsed_s": 12.432775095105171
+    },
+    "correction": "MTP predictor layer count comes from admitted session, including sidecar not declared by trunk metadata.",
+    "phase_clock_host_receipt_sha256": "3c5ac778e81f4fd7c0dfbeebfadfab077a193a4fd6c4600e0343143c1a3b4787",
+    "preparation_commands_sha256": "72171925159e4bf940dec2d599855b67dba8866cded6b82e8228b4a278c6683e",
+    "change": "Native phase timestamp/duration instrumentation and private read-only telemetry; model executor/greedy path unchanged",
+    "private_guard_override": {
+      "operator_instruction": "CPU must have the guard, not GPU",
+      "cpu_ceiling_c": 98,
+      "gpu": "observe-only",
+      "nvme_ceiling_c": 85,
+      "prearm_cpu_cooldown_c": 60,
+      "compiled_runtime_and_binaries_unchanged": true
+    }
+  },
+  "model_stat_witnesses": [
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "model_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812,
+      "model_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549,
+      "model_hash_recomputed": false
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688,
+      "model_hash_recomputed": false
+    }
+  ],
+  "attempts": [
+    {
+      "campaign": "gpu-perf-clocked-r2",
+      "controller_and_SSH_exit_code": 1,
+      "passed_arms": 1,
+      "failed_arm": "cpp-depth-12k",
+      "child_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "cause": "Previous GPU98 operating guard; GPU101/CPU96.125 sampled",
+      "hardware_crash_observed": false,
+      "source_and_original_results_preserved": true
+    },
+    {
+      "campaign": "gpu-perf-clocked-r3",
+      "controller_and_SSH_exit_code": 0,
+      "passed_arms": 10,
+      "failed_arms": 0,
+      "all_children_and_supervisors_exit_code": 0,
+      "hardware_crash_observed": false
+    }
+  ],
+  "comparison": {
+    "pairs": [
+      {
+        "c17": "c17-depth-12k",
+        "cpp": "cpp-depth-12k",
+        "measured_pairs": 3,
+        "warmup_pairs": 1,
+        "physical_inputs_outputs_full_frontiers_dispatch_counts_equal": true
+      },
+      {
+        "c17": "first-0-c17",
+        "cpp": "first-1-cpp",
+        "measured_pairs": 3,
+        "warmup_pairs": 0,
+        "physical_inputs_outputs_full_frontiers_dispatch_counts_equal": true
+      },
+      {
+        "c17": "first-3-c17",
+        "cpp": "first-2-cpp",
+        "measured_pairs": 3,
+        "warmup_pairs": 0,
+        "physical_inputs_outputs_full_frontiers_dispatch_counts_equal": true
+      },
+      {
+        "c17": "warm-1-c17",
+        "cpp": "warm-0-cpp",
+        "measured_pairs": 3,
+        "warmup_pairs": 2,
+        "physical_inputs_outputs_full_frontiers_dispatch_counts_equal": true
+      },
+      {
+        "c17": "warm-2-c17",
+        "cpp": "warm-3-cpp",
+        "measured_pairs": 3,
+        "warmup_pairs": 2,
+        "physical_inputs_outputs_full_frontiers_dispatch_counts_equal": true
+      }
+    ],
+    "measured_pairs": 15,
+    "warmup_pairs": 5,
+    "balanced_medians": {
+      "first-c17": {
+        "prefill_tps": 1534.0423506893612,
+        "decode_tps": 25.547573456552556,
+        "prefill_ns": 977809926.5,
+        "decode_ns": 5014961175.5
+      },
+      "first-cpp": {
+        "prefill_tps": 1516.2155642478115,
+        "decode_tps": 25.02670228163425,
+        "prefill_ns": 989405253.5,
+        "decode_ns": 5119955364.5
+      },
+      "warm-c17": {
+        "prefill_tps": 1537.5798737400648,
+        "decode_tps": 25.19278293052229,
+        "prefill_ns": 975559085.5,
+        "decode_ns": 5093279077.5
+      },
+      "warm-cpp": {
+        "prefill_tps": 1537.994729484938,
+        "decode_tps": 25.1650609667602,
+        "prefill_ns": 975296586.5,
+        "decode_ns": 5103612987.0
+      }
+    }
+  },
+  "phase_correlation": {
+    "artifact": "evidence/gpu-perf-clocked-r3/analysis/phase-correlation.json",
+    "sha256": "6406743dd9f13f203a1225d69fdac089775cdb23edb77f15a880d3ee54402429",
+    "telemetry_samples": 1027,
+    "phase_records": 80,
+    "sampled_peak_C": {
+      "nvme": 74.85,
+      "amdgpu": 98.0,
+      "k10temp": 95.75
+    },
+    "all_process_values": [
+      {
+        "arm": "c17-depth-12k",
+        "measured_samples": 3,
+        "warmup_samples": 1,
+        "pp_tps": 1451.6710057358753,
+        "tg_tps": 25.814253143402464,
+        "pp_seconds": 1.410787976,
+        "tg_seconds": 4.958500999,
+        "pp_tps_all": [
+          1454.385354400838,
+          1451.6710057358753,
+          1450.309216689012
+        ],
+        "tg_tps_all": [
+          25.63031256571253,
+          25.81442744346431,
+          25.814253143402464
+        ],
+        "sampled_peak_c": {
+          "nvme": 64.85,
+          "amdgpu": 97.0,
+          "k10temp": 94.125
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2876.0
+      },
+      {
+        "arm": "cpp-depth-12k",
+        "measured_samples": 3,
+        "warmup_samples": 1,
+        "pp_tps": 1454.535891591798,
+        "tg_tps": 25.827042566255464,
+        "pp_seconds": 1.408009257,
+        "tg_seconds": 4.956045574,
+        "pp_tps_all": [
+          1458.2962920378686,
+          1454.535891591798,
+          1453.0996039270517
+        ],
+        "tg_tps_all": [
+          25.642016500525834,
+          25.827042566255464,
+          25.865508738485616
+        ],
+        "sampled_peak_c": {
+          "nvme": 69.85,
+          "amdgpu": 98.0,
+          "k10temp": 95.75
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2876.0
+      },
+      {
+        "arm": "first-0-c17",
+        "measured_samples": 3,
+        "warmup_samples": 0,
+        "pp_tps": 1532.3441659462044,
+        "tg_tps": 22.958710099741587,
+        "pp_seconds": 0.978892362,
+        "tg_seconds": 5.57522611,
+        "pp_tps_all": [
+          1250.0369854693076,
+          1532.3441659462044,
+          1535.740535432518
+        ],
+        "tg_tps_all": [
+          21.391188580137634,
+          22.958710099741587,
+          24.765418722744936
+        ],
+        "sampled_peak_c": {
+          "nvme": 71.85,
+          "amdgpu": 89.0,
+          "k10temp": 84.5
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2686.0
+      },
+      {
+        "arm": "first-1-cpp",
+        "measured_samples": 3,
+        "warmup_samples": 0,
+        "pp_tps": 1500.971281518213,
+        "tg_tps": 26.636182305161036,
+        "pp_seconds": 0.999352898,
+        "tg_seconds": 4.805493465,
+        "pp_tps_all": [
+          1320.9391607961672,
+          1531.45984697741,
+          1500.971281518213
+        ],
+        "tg_tps_all": [
+          25.840837108330042,
+          26.647734722465366,
+          26.636182305161036
+        ],
+        "sampled_peak_c": {
+          "nvme": 73.85,
+          "amdgpu": 87.0,
+          "k10temp": 85.0
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2885.0
+      },
+      {
+        "arm": "first-2-cpp",
+        "measured_samples": 3,
+        "warmup_samples": 0,
+        "pp_tps": 1531.819531267635,
+        "tg_tps": 22.883481777359286,
+        "pp_seconds": 0.979227624,
+        "tg_seconds": 5.593554392,
+        "pp_tps_all": [
+          1264.771610177575,
+          1546.3998671910556,
+          1531.819531267635
+        ],
+        "tg_tps_all": [
+          21.49222072540304,
+          22.883481777359286,
+          24.21256745493846
+        ],
+        "sampled_peak_c": {
+          "nvme": 71.85,
+          "amdgpu": 86.0,
+          "k10temp": 83.125
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2687.0
+      },
+      {
+        "arm": "first-3-c17",
+        "measured_samples": 3,
+        "warmup_samples": 0,
+        "pp_tps": 1544.0300916971576,
+        "tg_tps": 26.38110709892212,
+        "pp_seconds": 0.971483657,
+        "tg_seconds": 4.851957104,
+        "pp_tps_all": [
+          1343.5245245641104,
+          1544.9239330901314,
+          1544.0300916971576
+        ],
+        "tg_tps_all": [
+          26.32972819036017,
+          26.38110709892212,
+          26.620660325716468
+        ],
+        "sampled_peak_c": {
+          "nvme": 72.85,
+          "amdgpu": 89.0,
+          "k10temp": 85.375
+        },
+        "all_run_os_threads": [
+          1,
+          3,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2872.0
+      },
+      {
+        "arm": "warm-0-cpp",
+        "measured_samples": 3,
+        "warmup_samples": 2,
+        "pp_tps": 1533.4527031529437,
+        "tg_tps": 23.132247756560336,
+        "pp_seconds": 0.978184718,
+        "tg_seconds": 5.533400876,
+        "pp_tps_all": [
+          1532.0120239616444,
+          1536.7328731689877,
+          1533.4527031529437
+        ],
+        "tg_tps_all": [
+          23.704332083598786,
+          23.132247756560336,
+          22.870177927418528
+        ],
+        "sampled_peak_c": {
+          "nvme": 71.85,
+          "amdgpu": 87.0,
+          "k10temp": 84.125
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2707.5
+      },
+      {
+        "arm": "warm-1-c17",
+        "measured_samples": 3,
+        "warmup_samples": 2,
+        "pp_tps": 1537.4235284383888,
+        "tg_tps": 22.901734361994816,
+        "pp_seconds": 0.975658283,
+        "tg_seconds": 5.589096353,
+        "pp_tps_all": [
+          1537.4235284383888,
+          1537.736219041741,
+          1532.3055034587858
+        ],
+        "tg_tps_all": [
+          23.94678549667284,
+          22.901734361994816,
+          22.727711167903987
+        ],
+        "sampled_peak_c": {
+          "nvme": 73.85,
+          "amdgpu": 89.0,
+          "k10temp": 83.0
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2688.0
+      },
+      {
+        "arm": "warm-2-c17",
+        "measured_samples": 3,
+        "warmup_samples": 2,
+        "pp_tps": 1540.2929958069712,
+        "tg_tps": 26.613741333132474,
+        "pp_seconds": 0.973840694,
+        "tg_seconds": 4.809545505,
+        "pp_tps_all": [
+          1540.2929958069712,
+          1536.141734415194,
+          1542.1005018170833
+        ],
+        "tg_tps_all": [
+          26.61772171715986,
+          26.613741333132474,
+          26.438780364371745
+        ],
+        "sampled_peak_c": {
+          "nvme": 74.85,
+          "amdgpu": 88.0,
+          "k10temp": 85.625
+        },
+        "all_run_os_threads": [
+          1,
+          3,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2882.5
+      },
+      {
+        "arm": "warm-3-cpp",
+        "measured_samples": 3,
+        "warmup_samples": 2,
+        "pp_tps": 1541.5632395919415,
+        "tg_tps": 26.640978192248053,
+        "pp_seconds": 0.973038252,
+        "tg_seconds": 4.804628384,
+        "pp_tps_all": [
+          1539.2565858008882,
+          1544.0686964480433,
+          1541.5632395919415
+        ],
+        "tg_tps_all": [
+          26.62578984992162,
+          26.643511545681807,
+          26.640978192248053
+        ],
+        "sampled_peak_c": {
+          "nvme": 71.85,
+          "amdgpu": 89.0,
+          "k10temp": 86.0
+        },
+        "all_run_os_threads": [
+          1,
+          35,
+          51
+        ],
+        "measured_decode_clock_mhz_median": 2881.0
+      }
+    ],
+    "interpretation": "Both builds show slow/fast1500 decode bands. Lower GPU clock samples accompany slower runs; correlation is not a causal diagnosis. CPU/GPU maxima in these1500 processes are86/89C. A stable performance acceptance gate remains open; dense host-sampler cost is outside this greedy GPU path."
+  },
+  "collection": {
+    "remote_raw_files": 90,
+    "all_sha256_verified": true,
+    "remote_artifacts_sha256": {
+      "gpu-perf-clocked-r2/c17-depth-12k/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r2/c17-depth-12k/results/stderr.log": "67f8cce08c7f5f7fdfe22514bce050dbba1ba21c124d43532dc1b8a3dedd7e0c",
+      "gpu-perf-clocked-r2/c17-depth-12k/results/telemetry.jsonl": "6f0250fb34c7ce42d08f84748e6ee98d997e30fbbd3409623fa961087dacb0c2",
+      "gpu-perf-clocked-r2/c17-depth-12k/results/measurements.jsonl": "63aee06bb37837a5cbefd047c56a033eeed3c3dec3965b6a04f922670522610b",
+      "gpu-perf-clocked-r2/c17-depth-12k/results/result.json": "b7d47ce826d8b9ddfdac3adfef1817d66e2123bd766e578e827bc18d2562becd",
+      "gpu-perf-clocked-r2/c17-depth-12k/manifest.json": "4c688f4057cdf15da18da6ec86c41e0eef162b2f6479205d7d8204df505d074b",
+      "gpu-perf-clocked-r2/c17-depth-12k/supervisor.log": "9efd7e7c0160032d67d475bd7a505b8acdda5b3cff407f91a685cf27aa89b2b2",
+      "gpu-perf-clocked-r2/cpp-depth-12k/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r2/cpp-depth-12k/results/stderr.log": "67f259b9c877edfe61f94ed1779cd70b74116245d27ceee2da18d23e3aa048c5",
+      "gpu-perf-clocked-r2/cpp-depth-12k/results/telemetry.jsonl": "9ace2814a0f62007f8cdad56c674a304321e03ee770ae03b169021a9a631e779",
+      "gpu-perf-clocked-r2/cpp-depth-12k/results/measurements.jsonl": "b2904f0a11e4dc634e72d5fcf815620a63c5e754355a52c314038d5b953704af",
+      "gpu-perf-clocked-r2/cpp-depth-12k/results/result.json": "99bcedc79ce02edff8151c8f65bc4f1601a25fc5814bd13bfba95563873ff9bf",
+      "gpu-perf-clocked-r2/cpp-depth-12k/manifest.json": "cca113b87ae1fffc55c38e60056954195215fc3c30358e33b50112823dfa3823",
+      "gpu-perf-clocked-r2/cpp-depth-12k/supervisor.log": "fc20f0f92cc6ac1fc6e2819eaa9957687be3493b4815b159b6ecaf4c17f867f6",
+      "gpu-perf-clocked-r2/PLAN.json": "a7e4643272771408edac623b34c3a22cec68fb3469e1b0a35fc5db5cdab12908",
+      "gpu-perf-clocked-r2/driver.py": "288230a4d67dc935e8bcb11b36ae9b6497b58f4bc9f103c4bd3b81c5ccb2ca19",
+      "gpu-perf-clocked-r2/driver-result.json": "2c7d4a311f1b975e2df1dc147c3ac1055eaaf410f3fdc5fecb94f80d55306154",
+      "gpu-perf-clocked-r3/c17-depth-12k/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/c17-depth-12k/results/stderr.log": "67f8cce08c7f5f7fdfe22514bce050dbba1ba21c124d43532dc1b8a3dedd7e0c",
+      "gpu-perf-clocked-r3/c17-depth-12k/results/telemetry.jsonl": "7964b3bf311d8470fe1fb5df306cbe358224c1c87c79439ed3a4b5f3ec70407d",
+      "gpu-perf-clocked-r3/c17-depth-12k/results/measurements.jsonl": "8a6d85ab2eed275733563d8d2d0a4496d5992764172df14387ddcc89ded6afb0",
+      "gpu-perf-clocked-r3/c17-depth-12k/results/result.json": "6df63b0e49d23a64067f6a9bddfb88a127e7afdfcda439ad09adca7f387ac2e5",
+      "gpu-perf-clocked-r3/c17-depth-12k/manifest.json": "c140e9da485d1aca6c40e2aeb3c1397759af69f363c38c4609f08dc3daee02fb",
+      "gpu-perf-clocked-r3/c17-depth-12k/supervisor.log": "f027ed559cf9f85eec64d7ae477a796637a26766efff2ba007562f3f04994929",
+      "gpu-perf-clocked-r3/cpp-depth-12k/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/cpp-depth-12k/results/stderr.log": "67f8cce08c7f5f7fdfe22514bce050dbba1ba21c124d43532dc1b8a3dedd7e0c",
+      "gpu-perf-clocked-r3/cpp-depth-12k/results/telemetry.jsonl": "225bd89a7ec1f12b0d3fa5fd311696f8410bfd3e29f99a1ff045c795f5a5bc7e",
+      "gpu-perf-clocked-r3/cpp-depth-12k/results/measurements.jsonl": "77915d435ddcf788baf76f0ed1003453ca0612ddd06a5e62b92b042af0dfe1d8",
+      "gpu-perf-clocked-r3/cpp-depth-12k/results/result.json": "b50f47935a99a0867dde73be5414658ef7dbf418f4922b358801683f8190364a",
+      "gpu-perf-clocked-r3/cpp-depth-12k/manifest.json": "2c0eb95cca5b555aaafbad58b0e6f6748afaea48142173e45230e3e54babe841",
+      "gpu-perf-clocked-r3/cpp-depth-12k/supervisor.log": "bba529119e6d8602e7952f0f39b5fadb6fb12e2fd6fc09a685e0b21963e57b3d",
+      "gpu-perf-clocked-r3/first-0-c17/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/first-0-c17/results/stderr.log": "1d8c301399efdbd01b0425e0358c525722b4323fdb80cad70b47cf9bfa1942c3",
+      "gpu-perf-clocked-r3/first-0-c17/results/telemetry.jsonl": "2a76fb55cb5ed89b9ac22493a21716df80c1346ab4e8b8f64a2db1772944a477",
+      "gpu-perf-clocked-r3/first-0-c17/results/measurements.jsonl": "1e8a837c10112e411d81c56026a0cb5a7552212c2eb056bb805d372356c6241e",
+      "gpu-perf-clocked-r3/first-0-c17/results/result.json": "05c923c89cb92f72796691e2f6075e7a14f490ddd0e768015701bc2403806c30",
+      "gpu-perf-clocked-r3/first-0-c17/manifest.json": "e3347688c8a0ee6f5d423e4fd4e44752373ec57079e20f24353632624ba0337c",
+      "gpu-perf-clocked-r3/first-0-c17/supervisor.log": "67ecd7922bf5e524143bbbd51bfa46a885082f9c029dfb05d876ab58e7ffdf63",
+      "gpu-perf-clocked-r3/first-1-cpp/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/first-1-cpp/results/stderr.log": "1d8c301399efdbd01b0425e0358c525722b4323fdb80cad70b47cf9bfa1942c3",
+      "gpu-perf-clocked-r3/first-1-cpp/results/telemetry.jsonl": "e35b4b2df40b927bfd138399548c66bbfa9dadc11cc79249786b6a4090f7743f",
+      "gpu-perf-clocked-r3/first-1-cpp/results/measurements.jsonl": "46f7123da0316da7ee6cbf10bdc120311b6743b8ccbd313abab65366bec47603",
+      "gpu-perf-clocked-r3/first-1-cpp/results/result.json": "66d136310b757834250edd16bf007ded773ccca6f97cde8296825da368d6e525",
+      "gpu-perf-clocked-r3/first-1-cpp/manifest.json": "3ece50ba5ea46dfe5964e9c1681d5822d51f2279612f51332c1be84fcea1a226",
+      "gpu-perf-clocked-r3/first-1-cpp/supervisor.log": "d4cbdb6081d9cba0ae601d110c31bd9c8f7e5d24c746fd1031a104e549750374",
+      "gpu-perf-clocked-r3/first-2-cpp/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/first-2-cpp/results/stderr.log": "1d8c301399efdbd01b0425e0358c525722b4323fdb80cad70b47cf9bfa1942c3",
+      "gpu-perf-clocked-r3/first-2-cpp/results/telemetry.jsonl": "39fc0ce664f25d5470d6fed1bbd488d7df40be59331cc71ceb3685d54fddb119",
+      "gpu-perf-clocked-r3/first-2-cpp/results/measurements.jsonl": "c4dc30f24d6af698aa1f9c16ab8423bb2e1693d39289ad921bef9a55ae51e347",
+      "gpu-perf-clocked-r3/first-2-cpp/results/result.json": "55918579d57a6584cb4a235b51f1395fd5072289f7913368b98856e3214a7f8c",
+      "gpu-perf-clocked-r3/first-2-cpp/manifest.json": "3ece50ba5ea46dfe5964e9c1681d5822d51f2279612f51332c1be84fcea1a226",
+      "gpu-perf-clocked-r3/first-2-cpp/supervisor.log": "777d5c4853b77602fa036e8f647fa82d8b1deb28be8736e2e3fb5012fa14c172",
+      "gpu-perf-clocked-r3/first-3-c17/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/first-3-c17/results/stderr.log": "1d8c301399efdbd01b0425e0358c525722b4323fdb80cad70b47cf9bfa1942c3",
+      "gpu-perf-clocked-r3/first-3-c17/results/telemetry.jsonl": "48a2f35aabd880d27019d3ac33263a2dbfc5192fc5fc304794bd41ee35a277c4",
+      "gpu-perf-clocked-r3/first-3-c17/results/measurements.jsonl": "5b12b80114b7430493b128241086486671e9f0d31ccd72474143a2e95b738713",
+      "gpu-perf-clocked-r3/first-3-c17/results/result.json": "249ef692d715e02ff2cce23232213e99b33660864f21d303382513545c285dc4",
+      "gpu-perf-clocked-r3/first-3-c17/manifest.json": "e3347688c8a0ee6f5d423e4fd4e44752373ec57079e20f24353632624ba0337c",
+      "gpu-perf-clocked-r3/first-3-c17/supervisor.log": "9b1d4a7a08c3236c33fabaed38c3b5b0d66568e63544e558e87dc2e96900230a",
+      "gpu-perf-clocked-r3/warm-0-cpp/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/warm-0-cpp/results/stderr.log": "c167face46a267f7bc1239fb3239177ff274744a0542d6da22c1c0062cd159a3",
+      "gpu-perf-clocked-r3/warm-0-cpp/results/telemetry.jsonl": "869a5b7fea2e47275bbb4efc0cf2bad187b08c80a059aafc7bf6da01c7223804",
+      "gpu-perf-clocked-r3/warm-0-cpp/results/measurements.jsonl": "1adb436429894ee3b037aa24023477a342b32c0ae42424e18d7aac3f30092880",
+      "gpu-perf-clocked-r3/warm-0-cpp/results/result.json": "14556c8ce9508f74595af14d207d35c43e01b3248b99c4e53c33fb917275dfa8",
+      "gpu-perf-clocked-r3/warm-0-cpp/manifest.json": "a3536fa5ad825301fb60fce956b47ed67fdc2976945b1c022661c18b33f2cdc2",
+      "gpu-perf-clocked-r3/warm-0-cpp/supervisor.log": "17a705391b1d6a6ec1b7a1b7177d780a9f7662edf48fd2f76883c3f1a66f9219",
+      "gpu-perf-clocked-r3/warm-1-c17/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/warm-1-c17/results/stderr.log": "c167face46a267f7bc1239fb3239177ff274744a0542d6da22c1c0062cd159a3",
+      "gpu-perf-clocked-r3/warm-1-c17/results/telemetry.jsonl": "dedfb3b03cdba9eeb02223335fe63922962cf00de29d5d7ddddfe65a1f5c1cf4",
+      "gpu-perf-clocked-r3/warm-1-c17/results/measurements.jsonl": "da5656dc92ba662709de2493720aa3ab4f5baf01f7f4841a3ce885ff687e5428",
+      "gpu-perf-clocked-r3/warm-1-c17/results/result.json": "3946422f5c22759e3fb1a706fcdbd7a00514303f62e08f408881e96eb71959cd",
+      "gpu-perf-clocked-r3/warm-1-c17/manifest.json": "23683de254aab6364f845e005e6c6d52955212e4b2ee48113c5a7fa9da55bc26",
+      "gpu-perf-clocked-r3/warm-1-c17/supervisor.log": "62313f44bc1a37e5a51cf515ed57a4e40c3e342bd34cd54926f7fb095efec3fe",
+      "gpu-perf-clocked-r3/warm-2-c17/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/warm-2-c17/results/stderr.log": "c167face46a267f7bc1239fb3239177ff274744a0542d6da22c1c0062cd159a3",
+      "gpu-perf-clocked-r3/warm-2-c17/results/telemetry.jsonl": "bf56cf57c5fd717a2a84c8d36e7494fce7886be3d65f747ae13ee66023acf6e2",
+      "gpu-perf-clocked-r3/warm-2-c17/results/measurements.jsonl": "b7905026a360433b990878ac478da58198da93ebbdac370236661da41b4bf8d0",
+      "gpu-perf-clocked-r3/warm-2-c17/results/result.json": "4c106ccf313162d0f92ba0d5a7a08ef1f9f5c9f561ac986c6e4df4d43abbef4d",
+      "gpu-perf-clocked-r3/warm-2-c17/manifest.json": "23683de254aab6364f845e005e6c6d52955212e4b2ee48113c5a7fa9da55bc26",
+      "gpu-perf-clocked-r3/warm-2-c17/supervisor.log": "e058f6aa9ae860ac1bf4def9b51c23bfa9b8f90a131184a438c0ad77f428cb62",
+      "gpu-perf-clocked-r3/warm-3-cpp/results/stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu-perf-clocked-r3/warm-3-cpp/results/stderr.log": "c167face46a267f7bc1239fb3239177ff274744a0542d6da22c1c0062cd159a3",
+      "gpu-perf-clocked-r3/warm-3-cpp/results/telemetry.jsonl": "e20f97d3adde035e85df71250c6fdd13e3f28a858c776d3d21d91b69defc707b",
+      "gpu-perf-clocked-r3/warm-3-cpp/results/measurements.jsonl": "411beb3b977bdb722c8c6d7f79ddbe128a03c1a4d89305eec743dd5d218127ee",
+      "gpu-perf-clocked-r3/warm-3-cpp/results/result.json": "6bbff65b5c65cddcd8d417675dc7e808ffc0439afb08f36bad216589d2ee8b0f",
+      "gpu-perf-clocked-r3/warm-3-cpp/manifest.json": "a3536fa5ad825301fb60fce956b47ed67fdc2976945b1c022661c18b33f2cdc2",
+      "gpu-perf-clocked-r3/warm-3-cpp/supervisor.log": "12bb27f0c6aae31855965ee72cf39ee2b7fbed59d013def9abd8ecbedcd999d2",
+      "gpu-perf-clocked-r3/PLAN.json": "5439aa624c7996815222804d9c704f74f438f0a86f8e63c8f155f4068228ab08",
+      "gpu-perf-clocked-r3/driver.py": "288230a4d67dc935e8bcb11b36ae9b6497b58f4bc9f103c4bd3b81c5ccb2ca19",
+      "gpu-perf-clocked-r3/driver-result.json": "2ab00af65311e85009ee207e76e52ddc700fc92957bda60f154cf81f59a9276b"
+    },
+    "bundle_sha256": "166e0186e0cab08fe5b5d7b81b81dd1b5229bcc4d9dc9a6d5fc97006e69252d5",
+    "initial_refusal": "Existing local prepared manifest prevented overwrite; corrected collection verifies byte equality and extracts only new result files"
+  },
+  "release": {
+    "path": "evidence/gpu-perf-clocked-window-release.json",
+    "remote_path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-perf-clocked-window-release.json",
+    "sha256": "a062e4e3b6662d242b6c084b90a169faeff3f215841c3f9eb0d63a6a02f2da8a",
+    "at": "2026-10-03T23:30:28.038945+00:00",
+    "retired_identities": [
+      {
+        "pid": 3289935,
+        "start_ticks": 163434548,
+        "kind": "controller"
+      },
+      {
+        "pid": 3289938,
+        "start_ticks": 163434550,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3289953,
+        "start_ticks": 163434738,
+        "kind": "child"
+      },
+      {
+        "pid": 3290394,
+        "start_ticks": 163442860,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3290403,
+        "start_ticks": 163443093,
+        "kind": "child"
+      },
+      {
+        "pid": 3292857,
+        "start_ticks": 163492903,
+        "kind": "controller"
+      },
+      {
+        "pid": 3292858,
+        "start_ticks": 163492905,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3292868,
+        "start_ticks": 163493042,
+        "kind": "child"
+      },
+      {
+        "pid": 3293328,
+        "start_ticks": 163501073,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3293338,
+        "start_ticks": 163501661,
+        "kind": "child"
+      },
+      {
+        "pid": 3293791,
+        "start_ticks": 163509612,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3293868,
+        "start_ticks": 163510244,
+        "kind": "child"
+      },
+      {
+        "pid": 3294127,
+        "start_ticks": 163514950,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3294136,
+        "start_ticks": 163515590,
+        "kind": "child"
+      },
+      {
+        "pid": 3294405,
+        "start_ticks": 163519720,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3294455,
+        "start_ticks": 163520270,
+        "kind": "child"
+      },
+      {
+        "pid": 3294715,
+        "start_ticks": 163524997,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3294752,
+        "start_ticks": 163525606,
+        "kind": "child"
+      },
+      {
+        "pid": 3295008,
+        "start_ticks": 163529682,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3295023,
+        "start_ticks": 163530212,
+        "kind": "child"
+      },
+      {
+        "pid": 3295347,
+        "start_ticks": 163536383,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3295390,
+        "start_ticks": 163536935,
+        "kind": "child"
+      },
+      {
+        "pid": 3295742,
+        "start_ticks": 163543526,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3295758,
+        "start_ticks": 163544075,
+        "kind": "child"
+      },
+      {
+        "pid": 3296074,
+        "start_ticks": 163549605,
+        "kind": "supervisor"
+      },
+      {
+        "pid": 3296095,
+        "start_ticks": 163550139,
+        "kind": "child"
+      }
+    ],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "gpu_reserved": false,
+    "restart_scheduled": false,
+    "next": "Point predictor-copy handover"
+  },
+  "reporting": {
+    "backend": "Native C17 CSV/JSON/SVG/PNG; no Python runtime/report dependency",
+    "single_category_marker_change": "Comparison markers offset16 pixels relative to each other; shared category and all y data unchanged",
+    "renderer_source_sha256": "6cfa85f413e97e344831460b0e0141a0f6e06cf40395a545eb5c59fd15aa142e",
+    "reporter_binary_sha256": "9deb71bcbcbce7f77f33405e34198f0ba2a1c3b5d4203c84b808200974af7d96",
+    "focused_CTest": {
+      "passed": 1,
+      "failed": 0,
+      "sanitizers": [
+        "address",
+        "undefined",
+        "leak"
+      ]
+    },
+    "configure_build_test_commands": [
+      {
+        "label": "plot-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/plot-compare-asan-r1",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 63.375
+        },
+        "elapsed_s": 1.0580394882708788
+      },
+      {
+        "label": "plot-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/plot-compare-asan-r1",
+          "--target",
+          "synapse-lie-bench-report",
+          "test-native-bench",
+          "test-synthetic-lie-bench",
+          "test-ssd-http-server",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.375
+        },
+        "elapsed_s": 7.3053620075806975
+      },
+      {
+        "label": "plot-ctest",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/plot-compare-asan-r1",
+          "-R",
+          "^native-benchmark-contract$",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 57.625
+        },
+        "elapsed_s": 8.431817232631147
+      }
+    ],
+    "final_exports": [
+      {
+        "argv": [
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/plot-compare-asan-r1/synapse-lie-bench-report",
+          "--suite",
+          "report",
+          "evidence/gpu-perf-clocked-r3/c17-depth-12k/results/measurements.jsonl",
+          "--output",
+          "evidence/gpu-perf-clocked-r3/report-12k-final",
+          "--label",
+          "LIE C17",
+          "--compare",
+          "evidence/gpu-perf-clocked-r3/cpp-depth-12k/results/measurements.jsonl",
+          "--reference-label",
+          "LIE C++ control"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/plot-compare-asan-r1/synapse-lie-bench-report",
+          "--suite",
+          "report",
+          "evidence/gpu-perf-clocked-r3/analysis/first-c17.jsonl",
+          "--output",
+          "evidence/gpu-perf-clocked-r3/report-first-final",
+          "--label",
+          "LIE C17",
+          "--compare",
+          "evidence/gpu-perf-clocked-r3/analysis/first-cpp.jsonl",
+          "--reference-label",
+          "LIE C++ control"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/plot-compare-asan-r1/synapse-lie-bench-report",
+          "--suite",
+          "report",
+          "evidence/gpu-perf-clocked-r3/analysis/warm-c17.jsonl",
+          "--output",
+          "evidence/gpu-perf-clocked-r3/report-warm-final",
+          "--label",
+          "LIE C17",
+          "--compare",
+          "evidence/gpu-perf-clocked-r3/analysis/warm-cpp.jsonl",
+          "--reference-label",
+          "LIE C++ control"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "initial_derived_export_refusals": {
+      "first_exit_code": 1,
+      "warm_exit_code": 1,
+      "cause": "Derived evidence omitted complete terminal record; reporter correctly refused partial averaging",
+      "preserved_incomplete_streams": true
+    },
+    "aggregate_provenance": "Each role/group contains two complete original processes. Warmup and measured rows reindexed; original value/clock/hash fields retained; source map binds every origin."
+  },
+  "published_artifacts_sha256": {
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-12k.svg": "c1ab144abf04ada30280bcf5fe9a10c319853fa18d11e8bb7dc28e5f5b2a713c",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-12k.png": "87e1ef3b7438610646f78cd1d578db1e06934ee5cf416a68381c3bdaa459db78",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-12k.csv": "7eed2a7cbb24ee83f795e320cff804ca8016fe2ab67e7d03a9b5f0303e197628",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-12k.json": "6720be1fe3093e19a3fd96a4450cd73dca3b8d765bb985674495d71d3c2c2ebe",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-first.svg": "9ea05f51a1c0995e117c269c587a99744be55f9190000cc72fb9cbac7f94bbfe",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-first.png": "0befbe0906465a03da4447e3f7cca66ce6fe3db61f02964183d39d4fb054dc05",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-first.csv": "3da26f1aae9ee99bd6a3860e3420a6bf123691967bce28124fa1a212be87ed93",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-first.json": "2e4b50909b51a0707a61f5dcae3bfca586500c30e1f52a3bf4319f9f1d5d4283",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-warm.svg": "5206fb17e589624dc5723335449e999af1a6b0607c880103c273c3f9a5f9fd5f",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-warm.png": "e7bdbb2a92b04679ee3ba329b21d897d4555dd37fbee58c308e3ea04095e0373",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-warm.csv": "82127f45f8c48fca714d43502540963f506ad87043a3c5f32353c2467a2e3420",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-warm.json": "9f301b9e417b1abb3a45f23d213581cfbc43234b9d0a4a6630a57cc8560c6fc7",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-processes.csv": "d359d79427772ad38132504c0816f3e7768590deed073eb8f9cd5732c8d89ce7",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-samples.csv": "da058dcb95890f1da6c41377dec4d0a54cf37002a5f7cb891290f8fe4f0e71c1",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-telemetry.json": "6406743dd9f13f203a1225d69fdac089775cdb23edb77f15a880d3ee54402429",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-source-map.json": "e299779a8642fa69391ac969688181cea68ffd415289aa8288d043377e5f1219",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-12k-c17.jsonl.gz": "cb25f63c6c168c6967efd50187aa2058b266dfeeeaf409848f15cf32bdd3be4a",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-12k-cpp.jsonl.gz": "a1a1cee024050da14996780369198f795769c13d20c68ffb479d60deaeccdb4e",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-first-c17.jsonl.gz": "38589d15a76499c78bdb3ec3e33ee73e530c8c2f0f7a2ef8eb69614a6a1a182a",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-first-cpp.jsonl.gz": "53a34cc9eaee20d3f2a0b0f64417aeac5b3173a05d8ae0070798f1bf4584a349",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-warm-c17.jsonl.gz": "b533c130c6d81774232b79a2844319a2494b334357a1bb37f158e215cc008685",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-warm-cpp.jsonl.gz": "ca22680579e662721766dc6695e3c0e858fdf0998b8ed8f95d70b29449cb8bd2",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/data/clocked-original-attempts.tar.gz": "0bf8ae397b53dcfae38e56174754d6b239db8ac2335f9f13cddb03e537f6c6b4"
+  },
+  "local_analysis_artifacts_sha256": {
+    "evidence/gpu-perf-clocked-r3/plot-configure/plan.json": "221f329698d7d856257f33285c2c486cadd5ccd7ef2ce543c86bea0111d07c08",
+    "evidence/gpu-perf-clocked-r3/plot-configure/temperatures.jsonl": "54e129b905530f5773c6741142a050771f9dfa500efb85ee182c46b5a0a796bf",
+    "evidence/gpu-perf-clocked-r3/plot-configure/command.log": "c3083b58631c052e3e49a168542c6f701c1f512643072afdcfe10dcc159457b2",
+    "evidence/gpu-perf-clocked-r3/plot-configure/result.json": "a893b2ffc3eb2a52f7c37831582877bc17f4785dd736ced1f957bc8b4e8a5b7a",
+    "evidence/gpu-perf-clocked-r3/plot-build/plan.json": "48972e12b68d47abb55f075e28a04ac0ca1ba4352fbcd31660e0988e0d425946",
+    "evidence/gpu-perf-clocked-r3/plot-build/temperatures.jsonl": "fce1ce3955557eb91b08002dd958d30f9a974124e9e791f5386c18f3a9412672",
+    "evidence/gpu-perf-clocked-r3/plot-build/command.log": "03fc0f53088defff5c9cae9b179b33ad95e6c20c8087f7cba2ec22bf657b96d2",
+    "evidence/gpu-perf-clocked-r3/plot-build/result.json": "1b416b83b0b1b9d80b73d5d7e21deffa2f331a773e3d0d5875f27d987f72d02a",
+    "evidence/gpu-perf-clocked-r3/plot-ctest/plan.json": "41deaf171690491232f9b43d5782d5aa5a0944639ae0a00b1fc717d0b32387e9",
+    "evidence/gpu-perf-clocked-r3/plot-ctest/temperatures.jsonl": "564f4c7c2352c082f76e3b93eb0dc4fd4430ea62eab6a38f8d01d079e92daf9b",
+    "evidence/gpu-perf-clocked-r3/plot-ctest/command.log": "6ef27d55e08e230ba5ae729c3329ed25a1df54a815960cfb376d5e1aae3ea09e",
+    "evidence/gpu-perf-clocked-r3/plot-ctest/result.json": "6213bec2823d5a393dcf9798ef04ac668c4c25a89a1409c5b3ce9e9d9ea13eff",
+    "evidence/gpu-perf-clocked-r3/analysis/comparisons.json": "db14d7acbbe489bd1347e3a5bd610cf79f001ccf3bcfc822806e12f64bb468b7",
+    "evidence/gpu-perf-clocked-r3/analysis/all-samples.csv": "da058dcb95890f1da6c41377dec4d0a54cf37002a5f7cb891290f8fe4f0e71c1",
+    "evidence/gpu-perf-clocked-r3/analysis/aggregate-export-initial-failure.json": "5caca98e37d07a0ac1a395251c8d49279a93a5a675f2aa09b34dfaad11295e2f",
+    "evidence/gpu-perf-clocked-r3/analysis/aggregate-source-map-incomplete.json": "f8217ca7891414bfe6a2f793a5c8217dfd1ef15a76fc47699245fe4003b826a3",
+    "evidence/gpu-perf-clocked-r3/analysis/first-c17-incomplete.jsonl": "4c20fe24be9b6f338881e4e9df6d0638f9ad85eab8dce3b0e422fc7c8fe1fa0d",
+    "evidence/gpu-perf-clocked-r3/analysis/first-c17.jsonl": "2d0e49b207d90c87fd6184fda386403ad0939376db8e5a5c86265910f46ae90e",
+    "evidence/gpu-perf-clocked-r3/analysis/first-cpp-incomplete.jsonl": "62b749e3a93cb0de59730d47eb79446433f990529a89fde51b5e668bbd8f8ee4",
+    "evidence/gpu-perf-clocked-r3/analysis/first-cpp.jsonl": "bb5f61c3bb40bc4d7349758831345f7f57e1c3c62ef33a8843d8047bc8cdaa38",
+    "evidence/gpu-perf-clocked-r3/analysis/warm-c17-incomplete.jsonl": "5045c66aae371a1e12cc00ec6635d4d4bd4ccaf248b7f5101254ad99061ec796",
+    "evidence/gpu-perf-clocked-r3/analysis/warm-c17.jsonl": "77a44bd98d2e0ce6b01b2ade78a8e536bfc06da4564494061af787d04f6fe0ec",
+    "evidence/gpu-perf-clocked-r3/analysis/warm-cpp-incomplete.jsonl": "c680c345d053d70074870f476c566769c8015d26e99342cde33c021a31ff0689",
+    "evidence/gpu-perf-clocked-r3/analysis/warm-cpp.jsonl": "8190945fa0747376aa6be1961c30f4d81affebd3d0bb58d5a5b9aa6d09210bb4",
+    "evidence/gpu-perf-clocked-r3/analysis/aggregate-source-map.json": "e299779a8642fa69391ac969688181cea68ffd415289aa8288d043377e5f1219",
+    "evidence/gpu-perf-clocked-r3/analysis/phase-correlation.json": "6406743dd9f13f203a1225d69fdac089775cdb23edb77f15a880d3ee54402429",
+    "evidence/gpu-perf-clocked-r3/analysis/all-processes.csv": "d359d79427772ad38132504c0816f3e7768590deed073eb8f9cd5732c8d89ce7",
+    "evidence/gpu-perf-clocked-r3/analysis/final-export-commands.json": "766a5ac813931b5645557d0dfed7ec2a381ae996b154ff47b8967b05a35c5c8e",
+    "evidence/gpu-perf-clocked-r3/analysis/published-artifacts.json": "bfc5182654c2c29d2230613bceb3ef77f65fc38c371e302ca7c33550c6501edc",
+    "evidence/gpu-perf-clocked-r3/analysis/process-table.md": "8a5b213258ccd2d2c118e14b239a701f130de39cd13269dcdd96ca3644f852b0",
+    "evidence/gpu-perf-clocked-r2-window-admission.json": "d23522c33bc5113b472fdaa0837d9d7495d144a93a01d3b308e4f2b7fb1aa662",
+    "evidence/gpu-perf-clocked-r3-window-admission.json": "612ce674c4870537ef35ebffadcfce620ac3324d5121b5f85b864e02ff2a04cd",
+    "evidence/q2-curve-profile-window-release.json": "1310b36cec32a00c353c2c3536c5b8e5d3ca87e1a2dbfb128b264be5abf76124",
+    "evidence/gpu-perf-clocked-window-release.json": "a062e4e3b6662d242b6c084b90a169faeff3f215841c3f9eb0d63a6a02f2da8a",
+    "evidence/gpu-perf-clocked-r3/analysis/documentation-verification.json": "f18384b5167025c03b72b2c31926d5a39343a824f8e0730ced11850ef7f47bd6",
+    "evidence/gpu-perf-clocked-r3/analysis/whitespace-checks.json": "0e7005eb453d1f5f754b242f904d9160654d205aa877db744c91d1e2d1cc7f0e",
+    "evidence/gpu-perf-clocked-r3/analysis/whitespace-default.log": "f76f43417bbb54dcbe340688edd13aca45fe24915f9b45db7dcb01656cc3af56",
+    "evidence/gpu-perf-clocked-r3/analysis/whitespace-csv-crlf.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "remaining_gates": [
+    "Root cause and stable1500 performance behavior",
+    "Original-weight retesting of optimized032d847 runtime",
+    "MTP/vision matched throughput and independent numerical/quality acceptance",
+    "Gufo HTTP individual-request-rate protocol",
+    "Allocation-exact HIP peak and controlled cold-file readiness",
+    "Model context expansion and quality beyond262144"
+  ],
+  "documentation_verification": {
+    "old_tracked_public_artifacts_byte_unchanged": 27,
+    "new_artifact_maps_verified": true,
+    "frozen_source_git_witnesses": 327,
+    "document_links_checked": 162,
+    "new_sample_rows": 40,
+    "new_measured_rows": 30
+  },
+  "whitespace_verification": {
+    "schema": "synapse-lie.csv-whitespace-check.v1",
+    "created_at_utc": "2026-10-04T00:09:33.034301+00:00",
+    "checked_commit": "52f2f4bb69d76f36dbd74854cdfc381b0f1b9d82",
+    "checks": [
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "52f2f4bb69d76f36dbd74854cdfc381b0f1b9d82^",
+          "52f2f4bb69d76f36dbd74854cdfc381b0f1b9d82"
+        ],
+        "exit_code": 2,
+        "log": "evidence/gpu-perf-clocked-r3/analysis/whitespace-default.log",
+        "log_sha256": "f76f43417bbb54dcbe340688edd13aca45fe24915f9b45db7dcb01656cc3af56"
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
+          "diff",
+          "--check",
+          "52f2f4bb69d76f36dbd74854cdfc381b0f1b9d82^",
+          "52f2f4bb69d76f36dbd74854cdfc381b0f1b9d82"
+        ],
+        "exit_code": 0,
+        "log": "evidence/gpu-perf-clocked-r3/analysis/whitespace-csv-crlf.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "csv": [
+      {
+        "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-processes.csv",
+        "rows_including_header": 11,
+        "sha256": "d359d79427772ad38132504c0816f3e7768590deed073eb8f9cd5732c8d89ce7",
+        "line_endings": "CRLF, byte-preserved from qualified analysis"
+      },
+      {
+        "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-halo/charts/clocked-samples.csv",
+        "rows_including_header": 41,
+        "sha256": "da058dcb95890f1da6c41377dec4d0a54cf37002a5f7cb891290f8fe4f0e71c1",
+        "line_endings": "CRLF, byte-preserved from qualified analysis"
+      }
+    ],
+    "scope": "Read-only checks; no raw evidence, exported values, charts or global Git configuration modified. The default check treats CSV carriage returns as trailing whitespace; the explicit cr-at-eol check passes."
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "schema": "synapse-lie.cache-features-gpu-r5.v1",
+  "source_commit": "3b20903",
+  "raw_files_verified": 98,
+  "closure": {
+    "at": "2026-10-02T11:57:08.113025+00:00",
+    "owned_processes": [
+      {
+        "pid": 2496417,
+        "expected_start_ticks": 150632812,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2496482,
+        "expected_start_ticks": 150633111,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2496753,
+        "expected_start_ticks": 150637840,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2496769,
+        "expected_start_ticks": 150638008,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497058,
+        "expected_start_ticks": 150642852,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497067,
+        "expected_start_ticks": 150643009,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497410,
+        "expected_start_ticks": 150649026,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497419,
+        "expected_start_ticks": 150649165,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497763,
+        "expected_start_ticks": 150654935,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2497773,
+        "expected_start_ticks": 150655173,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2498575,
+        "expected_start_ticks": 150669128,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2498587,
+        "expected_start_ticks": 150669270,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2499287,
+        "expected_start_ticks": 150683224,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2499296,
+        "expected_start_ticks": 150683361,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2499560,
+        "expected_start_ticks": 150688218,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2499569,
+        "expected_start_ticks": 150688362,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2500600,
+        "expected_start_ticks": 150708439,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2500624,
+        "expected_start_ticks": 150709290,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  },
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T11:57:23.792732+00:00",
+    "ssh_exit_code": 0,
+    "samples": 1277,
+    "power_failure_proven": false
+  },
+  "artifacts": {
+    "summary.json": "35a120022b5317ed483f7ed29837b4b182ef63ada522217a7b670f0d6b16b0e7",
+    "summary.csv": "db7a677e060e0cca816e86827333d5d5de0a1f3207b359c3af624e19a64457f8",
+    "cache-features.svg": "52d9181cb2071f0c39cfa92395533dc4235cfdd5df8730b248d014c09567fedd",
+    "cache-features.png": "e5c2f7e92a057c0be3fdfabd48b37bb2a4542a5ad739acdf6fc6c32279bb51af",
+    "thermal-summary.json": "1c39ad31b6376eac28883ab8e9f20d42361ac9e1544d3ffcfc6af37d43eca92f",
+    "analyze.py": "32bd06ae5651cbe65eaad6c766db70ada50e85e42e2a8f124141f0c18ac80b85",
+    "analyze-thermal.py": "d0da5171c7dca5691bc0c3e0e53a131751faab556e742b2ef4dcc90af79861d7",
+    "evidence.tar.gz": "ae912da378e7e16c69b5a94e18285ed6405e482bdf1f580cd8f28e98d571441e"
+  }
+}

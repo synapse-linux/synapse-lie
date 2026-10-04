@@ -1,0 +1,759 @@
+{
+  "scope": "1 Hz read-only telemetry during SSD qualification; received samples persisted on editing host. No fan RPM exposed. Clocks are reported snapshots, not an independent thermal-throttling detector.",
+  "source_sha256": "e866b382693b956bc58a6cbccf02f188099146d703dc317cddf18d1eb607613e",
+  "samples": 1747,
+  "duration_s": 1774.6733324311208,
+  "boot_ids": [
+    "01a007d1-8d99-4d24-b5ea-3788970135c3"
+  ],
+  "last_campaign": {
+    "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+    "current_arm": "core-kvc-p131072-c1-ram4096",
+    "error": null
+  },
+  "max_sample_gap_s": 1.216955373995006,
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T19:16:30.127576+00:00",
+    "ssh_exit_code": 0,
+    "samples": 1747,
+    "power_failure_proven": false
+  },
+  "temperatures": {
+    "cpu_c": {
+      "max_c": 98.25,
+      "peak_first_at": "2026-10-02T19:07:58.777549+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 744,
+          "longest_consecutive_samples": 89,
+          "longest_observed_span_s": 88.73097415501252,
+          "bracketed_episodes": 33,
+          "total_episodes": 33,
+          "longest_below_threshold_bracket_s": 90.74621730507351
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 25,
+          "longest_consecutive_samples": 3,
+          "longest_observed_span_s": 2.016741419909522,
+          "bracketed_episodes": 14,
+          "total_episodes": 14,
+          "longest_below_threshold_bracket_s": 4.03273244202137
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "gpu_c": {
+      "max_c": 100.0,
+      "peak_first_at": "2026-10-02T18:52:28.943102+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 95,
+          "samples": 654,
+          "longest_consecutive_samples": 78,
+          "longest_observed_span_s": 77.63691563811153,
+          "bracketed_episodes": 98,
+          "total_episodes": 98,
+          "longest_below_threshold_bracket_s": 79.65778608899564
+        },
+        {
+          "at_or_above_c": 98,
+          "samples": 107,
+          "longest_consecutive_samples": 5,
+          "longest_observed_span_s": 4.031734541989863,
+          "bracketed_episodes": 82,
+          "total_episodes": 82,
+          "longest_below_threshold_bracket_s": 6.048134569078684
+        },
+        {
+          "at_or_above_c": 99,
+          "samples": 31,
+          "longest_consecutive_samples": 2,
+          "longest_observed_span_s": 1.0113021130673587,
+          "bracketed_episodes": 28,
+          "total_episodes": 28,
+          "longest_below_threshold_bracket_s": 3.0262849458958954
+        },
+        {
+          "at_or_above_c": 100,
+          "samples": 4,
+          "longest_consecutive_samples": 1,
+          "longest_observed_span_s": 0.0,
+          "bracketed_episodes": 4,
+          "total_episodes": 4,
+          "longest_below_threshold_bracket_s": 2.018516296055168
+        }
+      ]
+    },
+    "nvme_composite_c": {
+      "max_c": 64.85,
+      "peak_first_at": "2026-10-02T18:57:48.399403+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    },
+    "nvme_hottest_sensor_c": {
+      "max_c": 82.85,
+      "peak_first_at": "2026-10-02T18:57:45.253039+00:00",
+      "thresholds": [
+        {
+          "at_or_above_c": 75,
+          "samples": 367,
+          "longest_consecutive_samples": 71,
+          "longest_observed_span_s": 71.68279575486667,
+          "bracketed_episodes": 12,
+          "total_episodes": 12,
+          "longest_below_threshold_bracket_s": 73.73880528705195
+        },
+        {
+          "at_or_above_c": 80,
+          "samples": 85,
+          "longest_consecutive_samples": 59,
+          "longest_observed_span_s": 59.07644963078201,
+          "bracketed_episodes": 8,
+          "total_episodes": 8,
+          "longest_below_threshold_bracket_s": 61.1381189241074
+        },
+        {
+          "at_or_above_c": 82.85,
+          "samples": 22,
+          "longest_consecutive_samples": 8,
+          "longest_observed_span_s": 7.265290298033506,
+          "bracketed_episodes": 3,
+          "total_episodes": 3,
+          "longest_below_threshold_bracket_s": 9.320676474831998
+        },
+        {
+          "at_or_above_c": 85,
+          "samples": 0,
+          "longest_consecutive_samples": 0,
+          "longest_observed_span_s": 0,
+          "bracketed_episodes": 0,
+          "total_episodes": 0,
+          "longest_below_threshold_bracket_s": null
+        }
+      ]
+    }
+  },
+  "jobs": [
+    {
+      "observed_elapsed_s": 1238.142966523068,
+      "arm": "core-legacy-p8192-c1-ram0",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 96.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": 1519.6755258271176,
+      "decode_tps": 25.94129862539766,
+      "output_tokens": 128,
+      "first_token_ms": 5457.439595
+    },
+    {
+      "observed_elapsed_s": 1248.2185318740085,
+      "arm": "core-legacy-p8192-c1-ram0",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 95.0,
+      "cpu_c_at_observation": 95.375,
+      "prefill_tps": 1539.7215215449285,
+      "decode_tps": 26.014100257329062,
+      "output_tokens": 128,
+      "first_token_ms": 5376.057022
+    },
+    {
+      "observed_elapsed_s": 1258.2977201270405,
+      "arm": "core-legacy-p8192-c1-ram0",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 92.0,
+      "cpu_c_at_observation": 96.125,
+      "prefill_tps": 1513.8096758250292,
+      "decode_tps": 25.84306143038586,
+      "output_tokens": 128,
+      "first_token_ms": 5467.028221
+    },
+    {
+      "observed_elapsed_s": 1301.450805688044,
+      "arm": "core-kvc-p8192-c1-ram0",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 96.0,
+      "cpu_c_at_observation": 87.125,
+      "prefill_tps": 1515.2045422100393,
+      "decode_tps": 25.93869210131648,
+      "output_tokens": 128,
+      "first_token_ms": 5475.5799
+    },
+    {
+      "observed_elapsed_s": 1311.5435885561164,
+      "arm": "core-kvc-p8192-c1-ram0",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 90.0,
+      "cpu_c_at_observation": 96.875,
+      "prefill_tps": 1531.5933083484322,
+      "decode_tps": 25.98509122524871,
+      "output_tokens": 128,
+      "first_token_ms": 5410.060535
+    },
+    {
+      "observed_elapsed_s": 1322.626342128031,
+      "arm": "core-kvc-p8192-c1-ram0",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 95.0,
+      "cpu_c_at_observation": 96.375,
+      "prefill_tps": 1534.6928213608373,
+      "decode_tps": 25.99063493380786,
+      "output_tokens": 128,
+      "first_token_ms": 5399.549707
+    },
+    {
+      "observed_elapsed_s": 1332.7045717451256,
+      "arm": "core-kvc-p8192-c1-ram0",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 65.0,
+      "cpu_c_at_observation": 89.625,
+      "prefill_tps": 1538.9095545460343,
+      "decode_tps": 25.943367178754237,
+      "output_tokens": 128,
+      "first_token_ms": 5381.114938
+    },
+    {
+      "observed_elapsed_s": 1383.9501278230455,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.25,
+      "prefill_tps": 1507.2666848494694,
+      "decode_tps": 18.835930794700648,
+      "output_tokens": 128,
+      "first_token_ms": 21628.595414
+    },
+    {
+      "observed_elapsed_s": 1383.9501278230455,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.25,
+      "prefill_tps": 1541.0940960700793,
+      "decode_tps": 18.835930794700648,
+      "output_tokens": 128,
+      "first_token_ms": 21628.575335
+    },
+    {
+      "observed_elapsed_s": 1383.9501278230455,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.25,
+      "prefill_tps": 1525.7624191039442,
+      "decode_tps": 18.835930794700648,
+      "output_tokens": 128,
+      "first_token_ms": 21628.565135
+    },
+    {
+      "observed_elapsed_s": 1383.9501278230455,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.25,
+      "prefill_tps": 1534.0718978041855,
+      "decode_tps": 18.835930794700648,
+      "output_tokens": 128,
+      "first_token_ms": 21628.555935
+    },
+    {
+      "observed_elapsed_s": 1391.0040392470546,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.874562556705353,
+      "output_tokens": 128,
+      "first_token_ms": 164.128962
+    },
+    {
+      "observed_elapsed_s": 1391.0040392470546,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.874562556705353,
+      "output_tokens": 128,
+      "first_token_ms": 164.106052
+    },
+    {
+      "observed_elapsed_s": 1391.0040392470546,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.874562556705353,
+      "output_tokens": 128,
+      "first_token_ms": 164.093913
+    },
+    {
+      "observed_elapsed_s": 1391.0040392470546,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.874562556705353,
+      "output_tokens": 128,
+      "first_token_ms": 164.082113
+    },
+    {
+      "observed_elapsed_s": 1398.053101439029,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 95.0,
+      "prefill_tps": null,
+      "decode_tps": 18.867800015840373,
+      "output_tokens": 128,
+      "first_token_ms": 186.37505
+    },
+    {
+      "observed_elapsed_s": 1398.053101439029,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 95.0,
+      "prefill_tps": null,
+      "decode_tps": 18.867800015840373,
+      "output_tokens": 128,
+      "first_token_ms": 186.36661
+    },
+    {
+      "observed_elapsed_s": 1398.053101439029,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 95.0,
+      "prefill_tps": null,
+      "decode_tps": 18.867800015840373,
+      "output_tokens": 128,
+      "first_token_ms": 186.36273
+    },
+    {
+      "observed_elapsed_s": 1398.053101439029,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 95.0,
+      "prefill_tps": null,
+      "decode_tps": 18.867800015840373,
+      "output_tokens": 128,
+      "first_token_ms": 186.35848
+    },
+    {
+      "observed_elapsed_s": 1404.0981180481613,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 71.0,
+      "cpu_c_at_observation": 94.25,
+      "prefill_tps": null,
+      "decode_tps": 18.870851515871156,
+      "output_tokens": 128,
+      "first_token_ms": 147.241076
+    },
+    {
+      "observed_elapsed_s": 1404.0981180481613,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 71.0,
+      "cpu_c_at_observation": 94.25,
+      "prefill_tps": null,
+      "decode_tps": 18.870851515871156,
+      "output_tokens": 128,
+      "first_token_ms": 147.218246
+    },
+    {
+      "observed_elapsed_s": 1404.0981180481613,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 71.0,
+      "cpu_c_at_observation": 94.25,
+      "prefill_tps": null,
+      "decode_tps": 18.870851515871156,
+      "output_tokens": 128,
+      "first_token_ms": 147.204836
+    },
+    {
+      "observed_elapsed_s": 1404.0981180481613,
+      "arm": "core-legacy-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 71.0,
+      "cpu_c_at_observation": 94.25,
+      "prefill_tps": null,
+      "decode_tps": 18.870851515871156,
+      "output_tokens": 128,
+      "first_token_ms": 147.192647
+    },
+    {
+      "observed_elapsed_s": 1456.3978790901601,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": 1503.4982643111873,
+      "decode_tps": 18.89539370969264,
+      "output_tokens": 128,
+      "first_token_ms": 21570.911156
+    },
+    {
+      "observed_elapsed_s": 1456.3978790901601,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": 1542.6348960201353,
+      "decode_tps": 18.89539370969264,
+      "output_tokens": 128,
+      "first_token_ms": 21570.888636
+    },
+    {
+      "observed_elapsed_s": 1456.3978790901601,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": 1538.1302477142767,
+      "decode_tps": 18.89539370969264,
+      "output_tokens": 128,
+      "first_token_ms": 21570.877646
+    },
+    {
+      "observed_elapsed_s": 1456.3978790901601,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": 1537.0648569178982,
+      "decode_tps": 18.89539370969264,
+      "output_tokens": 128,
+      "first_token_ms": 21570.869166
+    },
+    {
+      "observed_elapsed_s": 1463.4506236410234,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 94.75,
+      "prefill_tps": null,
+      "decode_tps": 18.87749462780571,
+      "output_tokens": 128,
+      "first_token_ms": 293.159851
+    },
+    {
+      "observed_elapsed_s": 1463.4506236410234,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 94.75,
+      "prefill_tps": null,
+      "decode_tps": 18.87749462780571,
+      "output_tokens": 128,
+      "first_token_ms": 293.137961
+    },
+    {
+      "observed_elapsed_s": 1463.4506236410234,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 94.75,
+      "prefill_tps": null,
+      "decode_tps": 18.87749462780571,
+      "output_tokens": 128,
+      "first_token_ms": 293.125832
+    },
+    {
+      "observed_elapsed_s": 1463.4506236410234,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 94.75,
+      "prefill_tps": null,
+      "decode_tps": 18.87749462780571,
+      "output_tokens": 128,
+      "first_token_ms": 293.114312
+    },
+    {
+      "observed_elapsed_s": 1470.5013245381415,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.92685547734236,
+      "output_tokens": 128,
+      "first_token_ms": 139.887976
+    },
+    {
+      "observed_elapsed_s": 1470.5013245381415,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.92685547734236,
+      "output_tokens": 128,
+      "first_token_ms": 139.859346
+    },
+    {
+      "observed_elapsed_s": 1470.5013245381415,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.92685547734236,
+      "output_tokens": 128,
+      "first_token_ms": 139.845937
+    },
+    {
+      "observed_elapsed_s": 1470.5013245381415,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 84.0,
+      "cpu_c_at_observation": 95.125,
+      "prefill_tps": null,
+      "decode_tps": 18.92685547734236,
+      "output_tokens": 128,
+      "first_token_ms": 139.831717
+    },
+    {
+      "observed_elapsed_s": 1476.5459281872027,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 75.0,
+      "cpu_c_at_observation": 95.5,
+      "prefill_tps": null,
+      "decode_tps": 18.931026234762427,
+      "output_tokens": 128,
+      "first_token_ms": 140.572414
+    },
+    {
+      "observed_elapsed_s": 1476.5459281872027,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 75.0,
+      "cpu_c_at_observation": 95.5,
+      "prefill_tps": null,
+      "decode_tps": 18.931026234762427,
+      "output_tokens": 128,
+      "first_token_ms": 140.551765
+    },
+    {
+      "observed_elapsed_s": 1476.5459281872027,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 75.0,
+      "cpu_c_at_observation": 95.5,
+      "prefill_tps": null,
+      "decode_tps": 18.931026234762427,
+      "output_tokens": 128,
+      "first_token_ms": 140.538115
+    },
+    {
+      "observed_elapsed_s": 1476.5459281872027,
+      "arm": "core-kvc-p8192-c4-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 75.0,
+      "cpu_c_at_observation": 95.5,
+      "prefill_tps": null,
+      "decode_tps": 18.931026234762427,
+      "output_tokens": 128,
+      "first_token_ms": 140.525635
+    },
+    {
+      "observed_elapsed_s": 1601.4347077540588,
+      "arm": "core-legacy-p131072-c1-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 81.0,
+      "cpu_c_at_observation": 93.875,
+      "prefill_tps": 1376.673396165531,
+      "decode_tps": 24.770301558701995,
+      "output_tokens": 128,
+      "first_token_ms": 95524.034608
+    },
+    {
+      "observed_elapsed_s": 1606.4787121610716,
+      "arm": "core-legacy-p131072-c1-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 68.0,
+      "cpu_c_at_observation": 94.5,
+      "prefill_tps": null,
+      "decode_tps": 24.94845233614963,
+      "output_tokens": 128,
+      "first_token_ms": 334.782626
+    },
+    {
+      "observed_elapsed_s": 1612.5209311251529,
+      "arm": "core-legacy-p131072-c1-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 82.0,
+      "cpu_c_at_observation": 95.375,
+      "prefill_tps": null,
+      "decode_tps": 24.94719486706975,
+      "output_tokens": 128,
+      "first_token_ms": 222.818015
+    },
+    {
+      "observed_elapsed_s": 1617.560917813098,
+      "arm": "core-legacy-p131072-c1-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 65.0,
+      "cpu_c_at_observation": 90.625,
+      "prefill_tps": null,
+      "decode_tps": 24.60163510216404,
+      "output_tokens": 128,
+      "first_token_ms": 224.814587
+    },
+    {
+      "observed_elapsed_s": 1742.3267361060716,
+      "arm": "core-kvc-p131072-c1-ram4096",
+      "rep": 0,
+      "warmup": 1,
+      "gpu_c_at_observation": 83.0,
+      "cpu_c_at_observation": 95.375,
+      "prefill_tps": 1367.1183148358577,
+      "decode_tps": 24.888989937496675,
+      "output_tokens": 128,
+      "first_token_ms": 96387.951062
+    },
+    {
+      "observed_elapsed_s": 1747.3697450330947,
+      "arm": "core-kvc-p131072-c1-ram4096",
+      "rep": 1,
+      "warmup": 0,
+      "gpu_c_at_observation": 71.0,
+      "cpu_c_at_observation": 96.625,
+      "prefill_tps": null,
+      "decode_tps": 24.937729646450308,
+      "output_tokens": 128,
+      "first_token_ms": 267.929051
+    },
+    {
+      "observed_elapsed_s": 1753.4148520410527,
+      "arm": "core-kvc-p131072-c1-ram4096",
+      "rep": 2,
+      "warmup": 0,
+      "gpu_c_at_observation": 82.0,
+      "cpu_c_at_observation": 95.375,
+      "prefill_tps": null,
+      "decode_tps": 24.934696813125758,
+      "output_tokens": 128,
+      "first_token_ms": 266.505165
+    },
+    {
+      "observed_elapsed_s": 1758.4521480200347,
+      "arm": "core-kvc-p131072-c1-ram4096",
+      "rep": 3,
+      "warmup": 0,
+      "gpu_c_at_observation": 66.0,
+      "cpu_c_at_observation": 91.5,
+      "prefill_tps": null,
+      "decode_tps": 24.93496616507331,
+      "output_tokens": 128,
+      "first_token_ms": 268.701053
+    }
+  ],
+  "timing_limit": "Threshold spans are bounded by observed sample timestamps, with gaps over 2.5 s split. Completed-job rates are associated with receipt time, up to sampling/delivery delay after completion. Events at arm transitions may be missed: full benchmark files are authoritative. A connection loss alone does not prove a crash."
+}

@@ -1,0 +1,1642 @@
+{
+  "schema": "synapse-lie.strix-point.copy.v1",
+  "scope": "Copy complete; source files retained unchanged; all four destination SHA-256 verified",
+  "raw_sha256": {
+    "evidence/strix-point-ud-copy-direct-r2/manifest.json": "e81765695336aa7e3530d047841ea28dca74b7415cbdd9af2c3fe33a8523f6db",
+    "evidence/strix-point-ud-copy-direct-r2/campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+    "evidence/strix-point-ud-copy-direct-r2/lan-copy.py": "7b8095c964b2e9a66e61444557fb68548acbd36c2752cb75dedddf5832160367",
+    "evidence/strix-point-ud-copy-direct-r2/direct-controller.py": "8cf4ea601c6f176f313fcac3a35181d7281fffded036426c24221c6f4f0eca48",
+    "evidence/strix-point-ud-copy-direct-r2/known_hosts": "823c468d86dd764026b6b489aab8d0b675ba50a287585f477677aa70b2c9a012",
+    "evidence/strix-point-ud-copy-direct-r2/agent.log": "88534a1c6df21e06734283e9d22f3a7db93b6a7dc36d692f0a9f1b0afc2eff1d",
+    "evidence/strix-point-ud-copy-direct-r2/controller-stdout.log": "1ea7b869298733882529d877ffe6e8e162c5b2c37c19a8318eff483cbf54416b",
+    "evidence/strix-point-ud-copy-direct-r2/controller-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-ud-copy-direct-r2/controller-result.json": "7c2c3dda2959d395ead927fe8768507cfe8ac9331a3dc6ad0ca0fb61cb6efe7e",
+    "evidence/strix-point-ud-copy-direct-r2/collect.py": "270cede38711e271e27a61b89ff2b6fc005955a2a3f75a36d7a879741fb7819f",
+    "evidence/strix-point-ud-copy-direct-r2/postflight-controller.json": "fecdc24656af72753f22351be97f7d9b5484f2fdda5b80549e2295984fde289c",
+    "evidence/strix-point-ud-copy-direct-r2/destination-postflight-controller.json": "57bf85119802cd4e7c6ed9e657f48478d7a1b816608282fd666fc9930b3c0f99",
+    "evidence/strix-point-ud-copy-direct-r2/collection-first-attempt.json": "8d7665518c67bc059f8363b5b75194b150a7384c388141141a2e33a558adf12f",
+    "evidence/strix-point-ud-copy-direct-r2/SOURCE.json": "1da4904abb2278498b08329038558e8fe20cf95611c64ffa62af00aee457745b",
+    "evidence/strix-point-ud-copy-direct-r2/collection.json": "38d6ed0d4e67447efd7908282034f6d74c3ace6be7dd3e0979351c9ec317102f",
+    "evidence/strix-point-ud-copy-direct-r2/send/copy-result.json": "d7a66662329b9c99dfdf448c7468d8502e1e851ededab9438ea3c9db90847796",
+    "evidence/strix-point-ud-copy-direct-r2/send/telemetry.jsonl": "59c49c35686cdd49d66cf237bb9d361b3dc0e26445e4b462708743c742189a6d",
+    "evidence/strix-point-ud-copy-direct-r2/send/postflight.json": "6842dddf2fd3891fe3797017a4f84b665cc2bf61d75b294c30311282c4a60dfb",
+    "evidence/strix-point-ud-copy-direct-r2/send/direct-controller-result.json": "3f21616dd4613b849564edf9148a117ee0987a25949df2544ac0cef81274fff6",
+    "evidence/strix-point-ud-copy-direct-r2/send/sender-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-ud-copy-direct-r2/send/receiver-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/strix-point-ud-copy-direct-r2/send/receiver-stdout.log": "f8a00e3efc4b32a3fae4898fa1d7cc602dd5a323aa17f72009538ac4d62eec50",
+    "evidence/strix-point-ud-copy-direct-r2/receive/copy-result.json": "572214817e092a1021a26a7b4565f46e7c90704377a58449e303876bd101869d",
+    "evidence/strix-point-ud-copy-direct-r2/receive/telemetry.jsonl": "571e449064be4acad2dbd95f23df144953d685d8044ae9f83e8cecae7ca8c64d",
+    "evidence/strix-point-ud-copy-direct-r2/receive/postflight.json": "cb2b8dc8ba1d9673e36047e895368228c76316df570a4c94782a46d599a93864"
+  },
+  "collection": {
+    "at": "2026-10-02T11:13:31.147950+00:00",
+    "state": "COPY_VERIFIED_SOURCE_RETAINED",
+    "total_bytes": 111334654784,
+    "missing_bytes_copied": 0,
+    "source_postflight": {
+      "at": "2026-10-02T11:13:25.097794+00:00",
+      "model_stat_unchanged": true,
+      "owned_processes_absent": {
+        "2489305": true,
+        "2489306": true,
+        "2489307": true
+      },
+      "kfd": [],
+      "leases": [
+        {
+          "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+          "device": 52,
+          "inode": 3232146,
+          "free": true
+        },
+        {
+          "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+          "device": 52,
+          "inode": 3206482,
+          "free": true
+        },
+        {
+          "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+          "device": 52,
+          "inode": 3228451,
+          "free": true
+        },
+        {
+          "path": "/tmp/synapse-lie-ds4-gpu.lock",
+          "device": 55,
+          "inode": 45067,
+          "free": true
+        }
+      ]
+    },
+    "controller": {
+      "hosts": {
+        "send": [
+          "paperboy@192.168.5.157",
+          "/home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r2"
+        ],
+        "receive": [
+          "pop@192.168.5.161",
+          "/home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r2"
+        ]
+      },
+      "model_bytes_via_local_host": false,
+      "source_sha256": {
+        "manifest.json": "e81765695336aa7e3530d047841ea28dca74b7415cbdd9af2c3fe33a8523f6db",
+        "campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+        "lan-copy.py": "7b8095c964b2e9a66e61444557fb68548acbd36c2752cb75dedddf5832160367",
+        "direct-controller.py": "8cf4ea601c6f176f313fcac3a35181d7281fffded036426c24221c6f4f0eca48"
+      },
+      "staging": {
+        "send": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "receive": {
+          "exit_code": 0,
+          "stderr": ""
+        }
+      },
+      "owned_agent_pid": 4130979,
+      "agent_load": {
+        "exit_code": 0,
+        "stderr": "",
+        "constraints": [
+          "paperboy@192.168.5.157",
+          "192.168.5.157>pop@192.168.5.161"
+        ],
+        "lifetime_seconds": 18000
+      },
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "-o",
+        "ServerAliveInterval=10",
+        "-o",
+        "ServerAliveCountMax=3",
+        "-A",
+        "paperboy@192.168.5.157",
+        "python3 -B /home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r2/direct-controller.py remote /home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r2 /home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r2"
+      ],
+      "connection_pid": 4130981,
+      "exit_code": 0,
+      "owned_agent_exit_code": 2
+    },
+    "files": [
+      {
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "sha256": {
+      "manifest.json": "e81765695336aa7e3530d047841ea28dca74b7415cbdd9af2c3fe33a8523f6db",
+      "campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+      "lan-copy.py": "7b8095c964b2e9a66e61444557fb68548acbd36c2752cb75dedddf5832160367",
+      "direct-controller.py": "8cf4ea601c6f176f313fcac3a35181d7281fffded036426c24221c6f4f0eca48",
+      "known_hosts": "823c468d86dd764026b6b489aab8d0b675ba50a287585f477677aa70b2c9a012",
+      "agent.log": "88534a1c6df21e06734283e9d22f3a7db93b6a7dc36d692f0a9f1b0afc2eff1d",
+      "controller-stdout.log": "1ea7b869298733882529d877ffe6e8e162c5b2c37c19a8318eff483cbf54416b",
+      "controller-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "controller-result.json": "7c2c3dda2959d395ead927fe8768507cfe8ac9331a3dc6ad0ca0fb61cb6efe7e",
+      "collect.py": "270cede38711e271e27a61b89ff2b6fc005955a2a3f75a36d7a879741fb7819f",
+      "postflight-controller.json": "fecdc24656af72753f22351be97f7d9b5484f2fdda5b80549e2295984fde289c",
+      "destination-postflight-controller.json": "57bf85119802cd4e7c6ed9e657f48478d7a1b816608282fd666fc9930b3c0f99",
+      "collection-first-attempt.json": "8d7665518c67bc059f8363b5b75194b150a7384c388141141a2e33a558adf12f",
+      "SOURCE.json": "1da4904abb2278498b08329038558e8fe20cf95611c64ffa62af00aee457745b",
+      "send/copy-result.json": "d7a66662329b9c99dfdf448c7468d8502e1e851ededab9438ea3c9db90847796",
+      "send/telemetry.jsonl": "59c49c35686cdd49d66cf237bb9d361b3dc0e26445e4b462708743c742189a6d",
+      "send/postflight.json": "6842dddf2fd3891fe3797017a4f84b665cc2bf61d75b294c30311282c4a60dfb",
+      "send/direct-controller-result.json": "3f21616dd4613b849564edf9148a117ee0987a25949df2544ac0cef81274fff6",
+      "send/sender-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "send/receiver-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "send/receiver-stdout.log": "f8a00e3efc4b32a3fae4898fa1d7cc602dd5a323aa17f72009538ac4d62eec50",
+      "receive/copy-result.json": "572214817e092a1021a26a7b4565f46e7c90704377a58449e303876bd101869d",
+      "receive/telemetry.jsonl": "571e449064be4acad2dbd95f23df144953d685d8044ae9f83e8cecae7ca8c64d",
+      "receive/postflight.json": "cb2b8dc8ba1d9673e36047e895368228c76316df570a4c94782a46d599a93864"
+    }
+  },
+  "source": {
+    "state": "VERIFIED",
+    "started_at": "2026-10-02T11:11:08.859113+00:00",
+    "pid": 2489306,
+    "start_ticks": 150486312,
+    "role": "send",
+    "exit_code": 0,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "streamed_bytes": 0
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "streamed_bytes": 0
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "streamed_bytes": 0
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "streamed_bytes": 0
+      }
+    ],
+    "locks": {
+      "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock": [
+        52,
+        3232146
+      ],
+      "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock": [
+        52,
+        3206482
+      ],
+      "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock": [
+        52,
+        3228451
+      ],
+      "/tmp/synapse-lie-ds4-gpu.lock": [
+        55,
+        45067
+      ]
+    },
+    "models_before": [
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 52,
+        "inode": 3206497,
+        "mtime_ns": 1790711324843554872,
+        "ctime_ns": 1790711324862554699
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 52,
+        "inode": 3228516,
+        "mtime_ns": 1790736177583897747,
+        "ctime_ns": 1790736200535707812
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 52,
+        "inode": 3211726,
+        "mtime_ns": 1790722377225361874,
+        "ctime_ns": 1790722399329150549
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 52,
+        "inode": 3207513,
+        "mtime_ns": 1790713947624076845,
+        "ctime_ns": 1790713953424001688
+      }
+    ],
+    "before": {
+      "at": "2026-10-02T11:11:08.859500+00:00",
+      "kfd": [],
+      "dri": [
+        {
+          "pid": 1543,
+          "start_ticks": 1934,
+          "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+          "devices": [
+            "/dev/dri/card1",
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 1596,
+          "start_ticks": 1991,
+          "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 1605,
+          "start_ticks": 1995,
+          "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+          "devices": [
+            "/dev/dri/card1",
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 1656,
+          "start_ticks": 2009,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/session.slice/xdg-desktop-portal-hyprland.service\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 2017,
+          "start_ticks": 2716,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-39abc623.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        },
+        {
+          "pid": 2178786,
+          "start_ticks": 77281389,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-3a2316b2.scope\n",
+          "devices": [
+            "/dev/dri/renderD128"
+          ]
+        }
+      ],
+      "denied_fd": 446,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp1_input",
+          "value_c": 46.85,
+          "limit_c": 82.85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp2_input",
+          "value_c": 57.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp3_input",
+          "value_c": 45.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp4_input",
+          "value_c": 46.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp6_input",
+          "value_c": 45.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp7_input",
+          "value_c": 45.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp8_input",
+          "value_c": 45.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon1/temp9_input",
+          "value_c": 45.85,
+          "limit_c": 85.0
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "value_c": 51.0,
+          "limit_c": 85.0
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 52.875,
+          "limit_c": 85.0
+        }
+      ],
+      "memory": {
+        "MemTotal": 134145568768,
+        "MemAvailable": 126371393536,
+        "SwapTotal": 134145372160,
+        "SwapFree": 128285822976
+      },
+      "kernel_kfd": [],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 134145568768,
+        "mem_info_gtt_used": 355864576,
+        "mem_info_vram_total": 536870912,
+        "mem_info_vram_used": 378974208
+      }
+    },
+    "models_after": [
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 52,
+        "inode": 3206497,
+        "mtime_ns": 1790711324843554872,
+        "ctime_ns": 1790711324862554699
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 52,
+        "inode": 3228516,
+        "mtime_ns": 1790736177583897747,
+        "ctime_ns": 1790736200535707812
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 52,
+        "inode": 3211726,
+        "mtime_ns": 1790722377225361874,
+        "ctime_ns": 1790722399329150549
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 52,
+        "inode": 3207513,
+        "mtime_ns": 1790713947624076845,
+        "ctime_ns": 1790713953424001688
+      }
+    ],
+    "finished_at": "2026-10-02T11:11:58.799781+00:00",
+    "leases_released": true
+  },
+  "destination": {
+    "state": "VERIFIED",
+    "started_at": "2026-10-02T11:11:09.380954+00:00",
+    "pid": 4998,
+    "start_ticks": 515281,
+    "role": "receive",
+    "exit_code": 0,
+    "files": [
+      {
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "reverified_existing": true,
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "campaign": {
+      "state": "ADMITTED",
+      "started_at": "2026-10-02T11:11:09.381173+00:00",
+      "pid": 4998,
+      "start_ticks": 515281,
+      "manifest_sha256": "e81765695336aa7e3530d047841ea28dca74b7415cbdd9af2c3fe33a8523f6db",
+      "runner_sha256": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+      "authorization": {
+        "kind": "operator-one-shot-window",
+        "service": "llama-router.service",
+        "stop_restore_authorized": true,
+        "quote": "llama si pu\u00f2 stoppaare"
+      },
+      "commands": [
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=4914\nActiveState=active\nSubState=running\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "stop",
+            "llama-router.service"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "start",
+            "llama-router.service"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "llama-router.service",
+            "--property=ActiveState,SubState,MainPID"
+          ],
+          "exit_code": 0,
+          "stdout": "MainPID=5009\nActiveState=active\nSubState=running\n",
+          "stderr": ""
+        }
+      ],
+      "container": null,
+      "model_attempted": false,
+      "service_restore_required": true,
+      "exit_code": 1,
+      "service_before": {
+        "MainPID": "4914",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "before": {
+        "at": "2026-10-02T11:11:09.387549+00:00",
+        "kfd": [
+          {
+            "pid": 4914,
+            "start_ticks": 504390,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "dri": [
+          {
+            "pid": 4914,
+            "start_ticks": 504390,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "denied_fd": 359,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 31.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 31.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 35.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 36.0,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132546039808,
+          "MemAvailable": 119898210304,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21474828288
+        },
+        "kernel_kfd": [
+          4914
+        ],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 103079215104,
+          "mem_info_gtt_used": 18628608,
+          "mem_info_vram_total": 2147483648,
+          "mem_info_vram_used": 151109632
+        }
+      },
+      "lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66308,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "service_stopped": {
+        "MainPID": "0",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "admission": {
+        "at": "2026-10-02T11:11:09.803173+00:00",
+        "kfd": [],
+        "dri": [],
+        "denied_fd": 360,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 34.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 35.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 36.0,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132546039808,
+          "MemAvailable": 119900246016,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21474828288
+        },
+        "kernel_kfd": [],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 103079215104,
+          "mem_info_gtt_used": 14393344,
+          "mem_info_vram_total": 2147483648,
+          "mem_info_vram_used": 151052288
+        }
+      },
+      "postflight_before_restore": {
+        "at": "2026-10-02T11:11:58.636284+00:00",
+        "kfd": [],
+        "dri": [],
+        "denied_fd": 361,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 35.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 30.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 33.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 32.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 40.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 54.875,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 132546039808,
+          "MemAvailable": 119922188288,
+          "SwapTotal": 21474828288,
+          "SwapFree": 21474828288
+        },
+        "kernel_kfd": [],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 103079215104,
+          "mem_info_gtt_used": 14393344,
+          "mem_info_vram_total": 2147483648,
+          "mem_info_vram_used": 151052288
+        }
+      },
+      "service_after": {
+        "MainPID": "5009",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "lease_released_at": "2026-10-02T11:11:58.754246+00:00",
+      "cleanup_failures": [],
+      "ended_at": "2026-10-02T11:11:58.754290+00:00"
+    },
+    "finished_at": "2026-10-02T11:11:58.754700+00:00",
+    "leases_released": true
+  },
+  "destination_postflight": {
+    "at": "2026-10-02T11:13:25.598872+00:00",
+    "receiver_absent": true,
+    "lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free": true
+    },
+    "service": {
+      "exit_code": 0,
+      "stdout": "MainPID=5009\nActiveState=active\n",
+      "stderr": ""
+    },
+    "destination_stats_unchanged": true
+  },
+  "verified_source_record": {
+    "plan": {
+      "schema": "synapse-lie.model-source.v1",
+      "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "target": "pop@192.168.5.161",
+      "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+      "total_bytes": 111334654784,
+      "files": [
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+          "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+          "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+          "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+          "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+        }
+      ],
+      "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+      "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+      "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+    },
+    "result": {
+      "state": "VERIFIED",
+      "started_at": "2026-10-02T11:11:09.380954+00:00",
+      "pid": 4998,
+      "start_ticks": 515281,
+      "role": "receive",
+      "exit_code": 0,
+      "files": [
+        {
+          "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 66308,
+          "inode": 106208485,
+          "mtime_ns": 1790931367673069984,
+          "ctime_ns": 1790931367683069853
+        },
+        {
+          "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "device": 66308,
+          "inode": 106208488,
+          "mtime_ns": 1790937784808778309,
+          "ctime_ns": 1790937784821778100
+        },
+        {
+          "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "device": 66308,
+          "inode": 106208496,
+          "mtime_ns": 1790938850707596045,
+          "ctime_ns": 1790938850734595610
+        },
+        {
+          "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "device": 66308,
+          "inode": 106208547,
+          "mtime_ns": 1790939114356256438,
+          "ctime_ns": 1790939114403255588
+        }
+      ]
+    },
+    "transport": "admitted read-only .157 LAN suffix copy"
+  },
+  "initial_copy": {
+    "controller": {
+      "hosts": {
+        "send": [
+          "paperboy@192.168.5.157",
+          "/home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r1"
+        ],
+        "receive": [
+          "pop@192.168.5.161",
+          "/home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r1"
+        ]
+      },
+      "model_bytes_via_local_host": false,
+      "source_sha256": {
+        "manifest.json": "0916eee793325130251aeeac5ac1eeaf4dabe690a0873f82568f211e4ab6c597",
+        "campaign.py": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+        "lan-copy.py": "04b754c42610ee7c3751026f6d2c13ed01b686ff124c6cfe948132623469440e",
+        "direct-controller.py": "8cf4ea601c6f176f313fcac3a35181d7281fffded036426c24221c6f4f0eca48"
+      },
+      "staging": {
+        "send": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "receive": {
+          "exit_code": 0,
+          "stderr": ""
+        }
+      },
+      "owned_agent_pid": 4112143,
+      "agent_load": {
+        "exit_code": 0,
+        "stderr": "",
+        "constraints": [
+          "paperboy@192.168.5.157",
+          "192.168.5.157>pop@192.168.5.161"
+        ],
+        "lifetime_seconds": 18000
+      },
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "-o",
+        "ServerAliveInterval=10",
+        "-o",
+        "ServerAliveCountMax=3",
+        "-A",
+        "paperboy@192.168.5.157",
+        "python3 -B /home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r1/direct-controller.py remote /home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r1 /home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r1"
+      ],
+      "connection_pid": 4112145,
+      "exit_code": 1,
+      "owned_agent_exit_code": 2
+    },
+    "source": {
+      "state": "FAILED",
+      "started_at": "2026-10-02T10:36:05.234968+00:00",
+      "pid": 2479177,
+      "start_ticks": 150275949,
+      "role": "send",
+      "exit_code": 1,
+      "files": [
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "streamed_bytes": 0
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "streamed_bytes": 18275097760
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "streamed_bytes": 49376141504
+        },
+        {
+          "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "streamed_bytes": 12087983520
+        }
+      ],
+      "locks": {
+        "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock": [
+          52,
+          3232146
+        ],
+        "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock": [
+          52,
+          3206482
+        ],
+        "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock": [
+          52,
+          3228451
+        ],
+        "/tmp/synapse-lie-ds4-gpu.lock": [
+          55,
+          45067
+        ]
+      },
+      "models_before": [
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 52,
+          "inode": 3206497,
+          "mtime_ns": 1790711324843554872,
+          "ctime_ns": 1790711324862554699
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "device": 52,
+          "inode": 3228516,
+          "mtime_ns": 1790736177583897747,
+          "ctime_ns": 1790736200535707812
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "device": 52,
+          "inode": 3211726,
+          "mtime_ns": 1790722377225361874,
+          "ctime_ns": 1790722399329150549
+        },
+        {
+          "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "device": 52,
+          "inode": 3207513,
+          "mtime_ns": 1790713947624076845,
+          "ctime_ns": 1790713953424001688
+        }
+      ],
+      "before": {
+        "at": "2026-10-02T10:36:05.235256+00:00",
+        "kfd": [],
+        "dri": [
+          {
+            "pid": 1543,
+            "start_ticks": 1934,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/card1",
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1596,
+            "start_ticks": 1991,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1605,
+            "start_ticks": 1995,
+            "cgroup": "0::/user.slice/user-1000.slice/session-5.scope\n",
+            "devices": [
+              "/dev/dri/card1",
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 1656,
+            "start_ticks": 2009,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/session.slice/xdg-desktop-portal-hyprland.service\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 2017,
+            "start_ticks": 2716,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-39abc623.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          },
+          {
+            "pid": 2178786,
+            "start_ticks": 77281389,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-graphical.slice/app-Hyprland-kitty-3a2316b2.scope\n",
+            "devices": [
+              "/dev/dri/renderD128"
+            ]
+          }
+        ],
+        "denied_fd": 446,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp1_input",
+            "value_c": 41.85,
+            "limit_c": 82.85
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp2_input",
+            "value_c": 52.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp3_input",
+            "value_c": 40.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp4_input",
+            "value_c": 41.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp6_input",
+            "value_c": 41.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp7_input",
+            "value_c": 41.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp8_input",
+            "value_c": 41.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon1/temp9_input",
+            "value_c": 41.85,
+            "limit_c": 85.0
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon2/temp1_input",
+            "value_c": 45.0,
+            "limit_c": 85.0
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 46.25,
+            "limit_c": 85.0
+          }
+        ],
+        "memory": {
+          "MemTotal": 134145568768,
+          "MemAvailable": 126405844992,
+          "SwapTotal": 134145372160,
+          "SwapFree": 128282836992
+        },
+        "kernel_kfd": [],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 134145568768,
+          "mem_info_gtt_used": 355864576,
+          "mem_info_vram_total": 536870912,
+          "mem_info_vram_used": 378974208
+        }
+      },
+      "error": "InterruptedError('Transfer interrupted: 15')",
+      "finished_at": "2026-10-02T11:09:20.259333+00:00",
+      "leases_released": true
+    },
+    "destination": {
+      "state": "VERIFIED",
+      "started_at": "2026-10-02T10:36:05.645193+00:00",
+      "pid": 4509,
+      "start_ticks": 304908,
+      "role": "receive",
+      "exit_code": 0,
+      "files": [
+        {
+          "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+          "reverified_existing": true,
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "bytes": 10946624,
+          "device": 66308,
+          "inode": 106208485,
+          "mtime_ns": 1790931367673069984,
+          "ctime_ns": 1790931367683069853
+        },
+        {
+          "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+          "bytes": 49859583136,
+          "device": 66308,
+          "inode": 106208488,
+          "mtime_ns": 1790937784808778309,
+          "ctime_ns": 1790937784821778100
+        },
+        {
+          "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+          "bytes": 49376141504,
+          "device": 66308,
+          "inode": 106208496,
+          "mtime_ns": 1790938850707596045,
+          "ctime_ns": 1790938850734595610
+        },
+        {
+          "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+          "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+          "bytes": 12087983520,
+          "device": 66308,
+          "inode": 106208547,
+          "mtime_ns": 1790939114356256438,
+          "ctime_ns": 1790939114403255588
+        }
+      ],
+      "campaign": {
+        "state": "ADMITTED",
+        "started_at": "2026-10-02T10:36:05.645402+00:00",
+        "pid": 4509,
+        "start_ticks": 304908,
+        "manifest_sha256": "0916eee793325130251aeeac5ac1eeaf4dabe690a0873f82568f211e4ab6c597",
+        "runner_sha256": "2e5df2f8172990e9fc089de403286e18bd8a3bca4665ad63fe5dec13326864d8",
+        "authorization": {
+          "kind": "operator-one-shot-window",
+          "service": "llama-router.service",
+          "stop_restore_authorized": true,
+          "quote": "llama si pu\u00f2 stoppaare"
+        },
+        "commands": [
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=4406\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "stop",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=0\nActiveState=inactive\nSubState=dead\n",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "start",
+              "llama-router.service"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          {
+            "argv": [
+              "systemctl",
+              "--user",
+              "show",
+              "llama-router.service",
+              "--property=ActiveState,SubState,MainPID"
+            ],
+            "exit_code": 0,
+            "stdout": "MainPID=4914\nActiveState=active\nSubState=running\n",
+            "stderr": ""
+          }
+        ],
+        "container": null,
+        "model_attempted": false,
+        "service_restore_required": true,
+        "exit_code": 1,
+        "service_before": {
+          "MainPID": "4406",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "before": {
+          "at": "2026-10-02T10:36:05.650402+00:00",
+          "kfd": [
+            {
+              "pid": 4406,
+              "start_ticks": 254555,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 4406,
+              "start_ticks": 254555,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 353,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 34.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 35.75,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 121686564864,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [
+            4406
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 18628608,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151101440
+          }
+        },
+        "lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66308,
+          "inode": 105946405,
+          "cooperative_lie_only": true
+        },
+        "service_stopped": {
+          "MainPID": "0",
+          "ActiveState": "inactive",
+          "SubState": "dead"
+        },
+        "admission": {
+          "at": "2026-10-02T10:36:05.858505+00:00",
+          "kfd": [],
+          "dri": [],
+          "denied_fd": 354,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 34.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 35.875,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 121688600576,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 14393344,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151052288
+          }
+        },
+        "postflight_before_restore": {
+          "at": "2026-10-02T11:09:20.380807+00:00",
+          "kfd": [],
+          "dri": [],
+          "denied_fd": 358,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 35.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 30.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 35.0,
+              "limit_c": 85.0
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.25,
+              "limit_c": 85.0
+            }
+          ],
+          "memory": {
+            "MemTotal": 132546039808,
+            "MemAvailable": 119905406976,
+            "SwapTotal": 21474828288,
+            "SwapFree": 21474828288
+          },
+          "kernel_kfd": [],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 103079215104,
+            "mem_info_gtt_used": 14393344,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151052288
+          }
+        },
+        "service_after": {
+          "MainPID": "4914",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "lease_released_at": "2026-10-02T11:09:20.462976+00:00",
+        "cleanup_failures": [],
+        "ended_at": "2026-10-02T11:09:20.463020+00:00"
+      },
+      "finished_at": "2026-10-02T11:09:20.463419+00:00",
+      "leases_released": true
+    },
+    "remote_controller": {
+      "pid": 2479176,
+      "role": "direct-source-controller",
+      "source_root": "/home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r1",
+      "destination_root": "/home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r1",
+      "model_bytes_via_local_host": false,
+      "receiver_argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "-o",
+        "ServerAliveInterval=10",
+        "-o",
+        "ServerAliveCountMax=3",
+        "-o",
+        "StrictHostKeyChecking=yes",
+        "-o",
+        "UserKnownHostsFile=/home/paperboy/synapse-lie-strix-point/strix-point-ud-copy-direct-r1/known_hosts",
+        "pop@192.168.5.161",
+        "python3 -B /home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r1/lan-copy.py receive /home/pop/workspace/synapse-lie/strix-point-ud-copy-direct-r1"
+      ],
+      "sender_pid": 2479177,
+      "receiver_ssh_pid": 2479178,
+      "receiver_exit_code": 0,
+      "error": "BrokenPipeError(32, 'Broken pipe')",
+      "sender_exit_code": 1,
+      "exit_code": 1
+    },
+    "purpose_of_r2": "Reverify the already complete files after fixing stdout EOF/ACK; zero payload bytes recopied",
+    "new_payload_bytes_copied_in_r1": 79739222784
+  },
+  "regression_tests": {
+    "result": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/strix-point-local-r3",
+        "--output-on-failure",
+        "-R",
+        "strix-point-(campaign|download|lan-copy)-controls|core-bench-contract"
+      ],
+      "exit_code": 0
+    },
+    "output": "Test project /home/paperboy/.codex/worktrees/4d2b/synapse-lie/build/strix-point-local-r3\n    Start 22: strix-point-campaign-controls\n1/4 Test #22: strix-point-campaign-controls ....   Passed    0.07 sec\n    Start 23: strix-point-download-controls\n2/4 Test #23: strix-point-download-controls ....   Passed    0.07 sec\n    Start 24: strix-point-lan-copy-controls\n3/4 Test #24: strix-point-lan-copy-controls ....   Passed    0.07 sec\n    Start 36: core-bench-contract\n4/4 Test #36: core-bench-contract ..............   Passed    1.73 sec\n\n100% tests passed out of 4\n\nTotal Test time (real) =   1.94 sec\n"
+  }
+}

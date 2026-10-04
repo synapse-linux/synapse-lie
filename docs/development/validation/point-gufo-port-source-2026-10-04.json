@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.point-gufo-port-source.v1",
+  "SPDX-License-Identifier": "MIT",
+  "scope": "Prepared source provenance only; full-server build and original-weight GPU control not yet qualified",
+  "gufo": {
+    "repository": "https://github.com/gufo-org/gufo",
+    "commit": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "archive_sha256": "4b61a3f23e5ab51f7c95d6a7b6d2d82c8f7976e39f9566196f75323ab5eb2110",
+    "files_verified": 1019,
+    "source_manifest_sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "port_edit": "Only the top-level CMake gfx1151 architecture rejection is widened to gfx1150/gfx1151 in an isolated copy; exact patch is emitted by the private build."
+  },
+  "rocwmma": {
+    "schema": "synapse-lie.point-rocwmma-source.v1",
+    "origin": "https://github.com/ROCm/rocWMMA",
+    "pin": "48b7db12a9ade97f0b7ab2ff9321ba0cbb4e5b77",
+    "version": "2.2.0",
+    "source_archive_sha256": "e26edaf966ec590b0bdbb6fccf1dab8040c03a240e6b68cc9d71096d44a18f7f",
+    "private_archive_sha256": "c31e9d15debf1445da0d255efc7dc7ca817a800963ad5864ad8567dadbb66bc6",
+    "private_files_sha256": "76691eaf997ced3f6ff2f9f028f94c92a47c95fefeaaa3b3031ff5e378459654",
+    "private_files": 116,
+    "license_sha256": "342099106d22bc3c459d5b6eb724a95b4d9205485996f206836ef8b5944af35c",
+    "generated_version_header_sha256": "e9963f221edc6994395473f08ae6707f91e13367c51dbd4ae6c18dff607e5cf2"
+  },
+  "build_policy": {
+    "host": "pop@192.168.5.161",
+    "stack": "pinned Fedora 43/ROCm 10 Distrobox image",
+    "network": "none",
+    "gpu_devices": "none",
+    "installation": false,
+    "fresh_private_lease_and_thermal_supervisor_required": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.gufo-vision-weight-decode.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "C17 F16/Q8_0 decoding once during vision upload; existing BF16 GPU graph unchanged. No on-disk conversion or CPU model forward.",
+  "edits": [
+    {
+      "path": "src/models/qwen/vision/encoder.hip",
+      "old": "#include <hip/hip_bfloat16.h>",
+      "new": "#include \"lie/weight_decode.h\"\n\n#include <hip/hip_bfloat16.h>"
+    },
+    {
+      "path": "src/models/qwen/vision/encoder.hip",
+      "old": "      if (tensor == nullptr ||\n          tensor->dimensions != std::vector<std::uint64_t>(shape) ||\n          tensor->type != type) {\n        throw std::invalid_argument(\"invalid BF16 Qwen vision tensor: \" + name);\n      }\n      const auto bytes =\n          tensor->ElementCount() * (type == core::GgmlType::kF32 ? 4 : 2);",
+      "new": "      const bool decode = LIE_VISION_WEIGHT_DECODE && tensor != nullptr &&\n          type == core::GgmlType::kBF16 &&\n          (tensor->type == core::GgmlType::kF16 ||\n           tensor->type == core::GgmlType::kQ8_0);\n      if (tensor == nullptr ||\n          tensor->dimensions != std::vector<std::uint64_t>(shape) ||\n          (tensor->type != type && !decode)) {\n        throw std::invalid_argument(\"invalid Qwen vision tensor storage: \" + name);\n      }\n      const auto bytes = tensor->size_bytes;"
+    },
+    {
+      "path": "src/models/qwen/vision/encoder.hip",
+      "old": "      Check(hipMemcpyAsync(buffer.data, tensor.data, bytes,\n                           hipMemcpyHostToDevice, stream));\n      weights.emplace(tensor.name, std::move(buffer));",
+      "new": "      if (LIE_VISION_WEIGHT_DECODE &&\n          (tensor.type == core::GgmlType::kF16 ||\n           tensor.type == core::GgmlType::kQ8_0)) {\n        std::vector<std::uint16_t> decoded(tensor.ElementCount());\n        const auto encoding = tensor.type == core::GgmlType::kF16\n                                  ? LIE_WEIGHT_F16 : LIE_WEIGHT_Q8_0;\n        if (lie_weight_decode_bf16(encoding, tensor.data, tensor.size_bytes,\n                decoded.size(), decoded.data(), decoded.size()) != LIE_WEIGHT_OK)\n          throw std::invalid_argument(\"invalid Qwen vision weight values: \" +\n                                      std::string(tensor.name));\n        Check(hipMemcpyAsync(buffer.data, decoded.data(), bytes,\n                             hipMemcpyHostToDevice, stream));\n        // Retire the borrowed staging buffer only after its upload completes.\n        Check(hipStreamSynchronize(stream));\n      } else {\n        Check(hipMemcpyAsync(buffer.data, tensor.data, bytes,\n                             hipMemcpyHostToDevice, stream));\n      }\n      weights.emplace(tensor.name, std::move(buffer));"
+    }
+  ]
+}

@@ -1,0 +1,620 @@
+{
+  "schema": "synapse-lie.feature-validation.v1",
+  "date": "2026-10-03",
+  "feature": "vision",
+  "branch": "feature/vision",
+  "base_commit": "a262902a6efba4ea66f08c9b69755c030cad74f2",
+  "host": "local Strix Halo (.155); .157 not used",
+  "scope": "CPU contracts and host HIP compilation/linking only; NOT-INFERENCE. No model loading, model hashing, model conversion, GPU run or performance campaign.",
+  "source_sha256": {
+    "CHANGELOG.md": "3003ebe3c4bae695342b91b4ae62702a4f2ad05c0305b1683110198498cf18de",
+    "CMakeLists.txt": "68a346eba72967b9c8b7732ad0c82fdeee757f3cadecbb09babbc8871e66eee4",
+    "README.md": "56e3611c0e14a6305c648fef19335d7e189ef47ff7acf30f38337b9655851774",
+    "adapters/gufo.cpp": "8c69a1892a4e8a390a61a45e11184394179b074132cc5da9613c67a8e76fc6fc",
+    "docs/BACKEND.md": "e3dfc4901b48dbb831e7f191ed72d2dcfc0df00f04de77d15de183dff04fa7cf",
+    "docs/PROGRESS.md": "a7ba3805107f8c60b9a38f328232124503c59d8915761bf4084113f84fb0e101",
+    "docs/development/README.md": "c1803dfae32ce079f344b615aca61be7c79ef04291ac51b0346e814d1ea38967",
+    "docs/development/TEST-COVERAGE-LONG-CONTEXT.md": "45deb67ede176cb3804e6b3792834788546a16640384ce2c2eb270bc94358aee",
+    "docs/development/VISION.md": "ba31ac4bbbbaa156d17d5c50ff8fff6fdd61d9ddc75024e0c2a8d4d5a801a689",
+    "docs/guides/BUILD.md": "905498cddd790fa779f687681b805806d72839296c37bc9c74792d296545beae",
+    "docs/guides/USAGE.md": "ea568e0e071b8237f23780d8e13c58288470fca4e1b3dfa15d7ccf0aa6c9b293",
+    "docs/reference/ABI.md": "0c92e6e91cc7c10df34eff6f713437fb981567246c0c711a073a82d43988e39d",
+    "docs/reference/HTTP.md": "8fb290188c57b81b247e1b99e0dc7a0ca4cbdc3d83f13aae251f32ce2a716325",
+    "docs/reference/METRICS.md": "02457cacc08cbf9bae7eb4e0fa70c2ee5027651708d1814d7196d0130a40e019",
+    "docs/reference/STATE.md": "8e643d56f8649a69accb0419a05eab8b1067bfb2b2b739a18b670e594e9545ef",
+    "include/lie/chat.h": "581f0f2ba73e234137c485d18ea31e1803210bf5ad8a741ffd817ad9b5b5ce17",
+    "include/lie/core.h": "43b5d5d6b90d6e0252ea247f4d2de5452cdb1036d543fce35d5552762652a9b4",
+    "include/lie/vision.h": "da87142b6d52263afd9bdeb74a8465467780b1d9a5868e55aa039bdf8b4a3e7d",
+    "src/chat.c": "073399bc4c848b3f488f386e0a9660767ed09601fdbbbc713eaf1f37c013a12b",
+    "src/chat_tools.c": "7948ad171cd6f4f343f84f2cc78dfa813972bf4310353a8969a58ccc1ed48a30",
+    "src/core_input.c": "02ab0f3f1b39b0e4780453505d28b6c7db5dff173fd6cd8bee49c647673bd9a0",
+    "src/executor_unavailable.c": "a224bdd8eab838bb74ec61c27eb194746ad8de15f5308c6ae1c0ec74e4078614",
+    "src/responses.c": "ce35366cd1b4d27d6ebc91af8c70b8021256241641a7799cb77175ee7c91a161",
+    "src/server.c": "090f4aca3421fa54a06a46d5600d924cef57d627d22ad2e6fa3cec4659068878",
+    "src/vision.c": "bd99e96626fb3e8be35d8fc081a60a4feb47f84278814de0cad5e71051345c60",
+    "src/worker.c": "87b7c1b0dd6720a2d57815ca1783799dd3bae3ff73ddb6630cc7f56b71eee606",
+    "src/worker_http.c": "28ee5ad30de1bde7886197dc161664954812bfc48cf5a016dd7d661ba845e2e1",
+    "tests/bench_executor.c": "da402ad3f1223317c9a5d2ad79602a92491923d210c62073147c7ed1ee492ca3",
+    "tests/fake_executor.c": "be7ef3b8e5a756239e2bf07fb8a7db0807f878d07f46826ddc9643ebef73d207",
+    "tests/test_feature_http.c": "e569c4d5c42cfebf3a181cac546922e6b792b1f997c5102e79826f3a190d63fb",
+    "tests/test_vision.c": "ae83033bbd54566e4de5c2545c55627659e114838b5b0d0a59d80da090901c95",
+    "tests/vision_fixture.h": "bc4d45b9d37763ac47933308efb8831632a031d0b56c19c3e6df959219fd06eb",
+    "tools/core-bench.c": "faaecfbec3aba62c2981106b34a4c8ba9fbaa89e6e7474f4d5ae11af02ce506c",
+    "tools/native/report.c": "176833149868799cac7e2c69b0cbe2adc6b61ba7ee3c119743ef4d6ea09dd81c"
+  },
+  "executables_sha256": {
+    "build/vision-sanitize/test-vision": "ae228721e88f2135a1bfee3e02e8eb73cc3a04a0132010a4ee30d6dad2d79fcf",
+    "build/vision-sanitize/test-feature-http": "c65e310ba89cefdd9fd560b50f639bb0a2fbb162e766833e7a8a065f1d80b095",
+    "build/vision-sanitize/test-synthetic-server": "1b4bc667f631d3eed0a6d8d7782597e66c7694fb17c71eadcef136a9f275d56a",
+    "build/vision-sanitize/test-synthetic-lie-bench": "ff886b5fd7b9999e6c46105609b43a0031b0559cd4ac5d4c4058db9a7eac5d4e",
+    "build/vision-linked/synapse-lie-server": "194444a72c80a252d4d2d5ee995cdd195d3b836c078de8465c951aa78c4be3ba",
+    "build/vision-linked/synapse-lie-bench": "742c51b53a029401e629b68f50bb6c80200fe8d230aad173b7bfe7f9b319d794",
+    "build/vision-off/test-core": "f64cc6bbb105cad984e303a531fc043d50d700f2411dc7ac402358df0daae3b6"
+  },
+  "provider": {
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "receipt_sha256": "35c92b103046cdffb27dfc567dcfbf1de40fe4d358b4c7c42712edb668265f67",
+    "provenance": "Reused identical verified LIE-owned Gufo source/state variant and private provider archives from native-provider-cmake-r1; CMake verifies source/archive manifests before linking. No upstream numerical or DS4 project file changes."
+  },
+  "checks": {
+    "native_suite": {
+      "passed": 27,
+      "total": 27,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ],
+      "python_discovery": false
+    },
+    "final_focused": {
+      "passed": 3,
+      "total": 3
+    },
+    "feature_off_headless": {
+      "passed": 1,
+      "total": 1
+    },
+    "hip_link": "passed; no model execution",
+    "synthetic_core_client": "C2, TG19, two repetitions, JSONL plus JSON/CSV/SVG/PNG; fixture only"
+  },
+  "remaining": [
+    "Complete model-specific predictor/image continuation state and stable identity in shared RAM/SSD lifecycle",
+    "Original-weight feature correctness, cancellation and memory/resource qualification",
+    "Combined MTP plus vision integration",
+    "Other real model bindings",
+    "Deferred performance comparisons"
+  ],
+  "runtime_limit": "Feature admission requires explicit RAM cache zero and no disk directory; AR cache defaults remain unchanged. No incomplete feature state is advertised as cacheable.",
+  "failed_attempts": [
+    "vision-build-r1: exit 2; missing image helper linkage in synthetic target; corrected r2 passes.",
+    "vision-tests-r1: exit 8, 24/26; empty-array admission and text-only part newline regressions; fixed and subsequent full suites pass."
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.0
+      },
+      "elapsed_s": 3.105924733914435,
+      "receipt": "evidence/vision-build-r1/result.json",
+      "receipt_sha256": "ccdd965a3bb52d0382627c3d4a297c928f757adb14658d6e2a5bc0f3feef6814",
+      "logs_sha256": {
+        "command.log": "71b987930e161affe6063ffbb98b13276dcd5c0469a6dbfe7d8000ef8ea360ea",
+        "plan.json": "ac60fe47442f3fd45560078a202094119b73dd3e56eba0ee871c94d93fe16f61",
+        "temperatures.jsonl": "edbd9b14973ea6563962174d549f63727395a31067ca5801bb004b6fea82c004"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 93.25
+      },
+      "elapsed_s": 5.221494545228779,
+      "receipt": "evidence/vision-build-r2/result.json",
+      "receipt_sha256": "2bc564638cd0b27c13084de770828ce977cc0242797bbee077190db5ad4f2605",
+      "logs_sha256": {
+        "command.log": "3ae81592cc34fa5ee8e4330458bf769f441959dc742942b60a3f075c99ee8716",
+        "plan.json": "ac60fe47442f3fd45560078a202094119b73dd3e56eba0ee871c94d93fe16f61",
+        "temperatures.jsonl": "d73618d3af29419049b0907e04f962706062cccd03f7c4549be614fdfdd3e9bc"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.125
+      },
+      "elapsed_s": 2.0833972562104464,
+      "receipt": "evidence/vision-build-r3/result.json",
+      "receipt_sha256": "35c444a9c4e092118da4707f84d28fea70c7e25cd90d126c5aabaecee3850d36",
+      "logs_sha256": {
+        "command.log": "770a6e855b26d217716d54b782da16e52bd99af9dfd765e1a05122f675a0dd17",
+        "plan.json": "ac60fe47442f3fd45560078a202094119b73dd3e56eba0ee871c94d93fe16f61",
+        "temperatures.jsonl": "263ab01ce10c36c9b7a342188d7737bdcdc1f5a97e5b0b524fdff5490b2509f7"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 68.25
+      },
+      "elapsed_s": 1.0200064796954393,
+      "receipt": "evidence/vision-build-r4/result.json",
+      "receipt_sha256": "d04161ab4a691f96121c6aec7854249e69376a5a61dc89f445fa5d6a0aba4f10",
+      "logs_sha256": {
+        "command.log": "aec4b85c36d055975a2d371dd42c9e584d13b8feec445a2844b81eb4a6221b27",
+        "plan.json": "d72971fcb39819c83d4624f808dcecf891f3164a38ecb5f6f058fb6b784f8b6b",
+        "temperatures.jsonl": "84a2be5f29060b55cadb4158765896b4cc5d8d255fb717ac08ee8a3f33d261ae"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.375
+      },
+      "elapsed_s": 1.0453586848452687,
+      "receipt": "evidence/vision-build-r5/result.json",
+      "receipt_sha256": "37005248d66f2a80c993fd092e20d2c85b8dbbb834cf63eb982f0c64df692120",
+      "logs_sha256": {
+        "command.log": "2de4c2d3b8944ae8dc8d049256f5e1f290d720849142a4fe2246459ce740d5d7",
+        "plan.json": "d72971fcb39819c83d4624f808dcecf891f3164a38ecb5f6f058fb6b784f8b6b",
+        "temperatures.jsonl": "cdaf1f31e8462c45613a09dcdfc5b98067d5eb3f0485f80aff7ccfe84930188c"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-sanitize",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.0
+      },
+      "elapsed_s": 3.1687563210725784,
+      "receipt": "evidence/vision-build-r6/result.json",
+      "receipt_sha256": "c6d3fd99337acfefa5d8fe559c8768a8c33223894971c04064dfdce9d4c0ffbd",
+      "logs_sha256": {
+        "command.log": "619fbb0f0ce803d661504a04f7c307bcd530a4e53312e7e5e52971c19cdb428f",
+        "plan.json": "d72971fcb39819c83d4624f808dcecf891f3164a38ecb5f6f058fb6b784f8b6b",
+        "temperatures.jsonl": "70e053a116d3aff7461c17a438f27c785f3c5099d05c835a88db4215232f2d77"
+      }
+    },
+    {
+      "argv": [
+        "build/vision-sanitize/test-synthetic-lie-bench",
+        "--suite",
+        "core",
+        "--model",
+        ":fixture:",
+        "--model-vision",
+        ":vision-a:",
+        "--image-file",
+        "evidence/vision-fixture.png",
+        "--prompt-file",
+        "evidence/vision-prompt.txt",
+        "--kv-cache-ram-mb",
+        "0",
+        "--context",
+        "128",
+        "--chunk",
+        "4",
+        "--users",
+        "2",
+        "--tg",
+        "19",
+        "--repetitions",
+        "2",
+        "--output",
+        "evidence/vision-core.jsonl",
+        "--graphs",
+        "evidence/vision-core-graphs"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 71.125
+      },
+      "elapsed_s": 1.13286223821342,
+      "receipt": "evidence/vision-core-client-r1/result.json",
+      "receipt_sha256": "71673e1c881b7084eaa88689e7cf01e78195d8e1ec73570945b60c5b885110be",
+      "logs_sha256": {
+        "command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "plan.json": "3ec9088040059ab5c0c59cd2e351ee05e0a4b4dfea47ab4e47ecc88051f6d2d0",
+        "temperatures.jsonl": "b4dc9483989f8ae40e8bcd1b0eed75a0d135c537bca0ff48d9a4cdff0ba8d6db"
+      }
+    },
+    {
+      "argv": [
+        "sh",
+        "run/final-validation.sh"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.875
+      },
+      "elapsed_s": 6.14563178550452,
+      "receipt": "evidence/vision-final-validation/result.json",
+      "receipt_sha256": "43e15a5cf1d7b81305194a0fbccdd7aaf0c359648eadcb46bf805853bd484541",
+      "logs_sha256": {
+        "command.log": "dd8a9493b0519805e91898c02e5d7e6b7366079d97632f27aeb26d764779aaab",
+        "plan.json": "b9df656a144d88677ec510877649213d9930efc47363745e8cbd55f6cb81e6b0",
+        "temperatures.jsonl": "6e7a82da1a72718045bb550bb5cef908185f9563f74040298250245f03c0d11f"
+      },
+      "script": "#!/bin/sh\nset -eu\ncmake --build build/vision-sanitize --parallel 2\nctest --test-dir build/vision-sanitize --output-on-failure -R 'vision-|inference-reactive-contract'\ncmake --build build/vision-linked --parallel 2\ncmake -S . -B build/vision-off -DCMAKE_BUILD_TYPE=Debug -DLIE_CORE_ONLY=ON -DLIE_VISION=OFF -DLIE_SANITIZERS=ON -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE\ncmake --build build/vision-off --target test-core --parallel 2\nctest --test-dir build/vision-off --output-on-failure -R '^core-headless-lifecycle$'\n"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-linked",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 82.125
+      },
+      "elapsed_s": 7.2811087891459465,
+      "receipt": "evidence/vision-linked-build-r1/result.json",
+      "receipt_sha256": "352c4cf5447182a449f741440acf560c887955b22ee24acbd969b2e67d5165d0",
+      "logs_sha256": {
+        "command.log": "e9a1433f58d079b0f34e23bca40cf004b3a52943597018c05452842d653be1a1",
+        "plan.json": "f4bc6860141ff4ee4ddbaed220cee3c293d2c3542007ec3d626ec2386bc3160c",
+        "temperatures.jsonl": "bba4f7cf249309a315f1366703efb80bc17140c047ec8ba8cd9f65233799d8d9"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/vision-linked",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.0
+      },
+      "elapsed_s": 3.2069915188476443,
+      "receipt": "evidence/vision-linked-build-r2/result.json",
+      "receipt_sha256": "0f366ac55c8c4f6812a05c43d4b1da36e0a56a57046dd54667c774fcc39dc6c9",
+      "logs_sha256": {
+        "command.log": "b72b31bf5d1d6bd9972a30d94d4b19d98b95b7835239ca348dcb2b4d9fada12e",
+        "plan.json": "9c2d76da87b02b7c2ce83ecf3eab27e61bb90d1c357dde77f78824478e58639c",
+        "temperatures.jsonl": "8171e513541c67b36b83bf7c0cd49cf74331defb0124f084be57c5dd0297a3d6"
+      }
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.625
+      },
+      "elapsed_s": 11.411998574621975,
+      "receipt": "evidence/vision-tests-r1/result.json",
+      "receipt_sha256": "97ab366cdb82a1342b5c77e5fe6e8d50e5adeedb3c90f5f3cb68b48d5b83db8a",
+      "logs_sha256": {
+        "command.log": "dd501c0cf14ac53fb3f35269b1a5c75b5e76250fbe3fcbb0d972d720bb8707da",
+        "plan.json": "d5c6a422f5f480e18f1bcc6d51e4d0e455ed10689912180500e5dafef8c2c2a6",
+        "temperatures.jsonl": "8c6871190ae6db310141d8cc667444efcda1845acce9a31aa7ea67fe12f1f305"
+      }
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.375
+      },
+      "elapsed_s": 11.496985852718353,
+      "receipt": "evidence/vision-tests-r2/result.json",
+      "receipt_sha256": "304e99fbdf9d24398c76fde70e3f8bc11ac3eab08d369ee2b88f3bbd5c5f0691",
+      "logs_sha256": {
+        "command.log": "93ca7be8735d17e298f592b9a18a88f0d6df61fa169a090c4d5e449360ab8cc2",
+        "plan.json": "184b853e1f9c2e76f99b9c50b81d32646e0a7ad33efd7440b24fe994932d96dc",
+        "temperatures.jsonl": "012a83c79111c5655f4d715a54c1b09edbd8f3bd043d6b1ddb6570c28906e385"
+      }
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 71.625
+      },
+      "elapsed_s": 11.535830962471664,
+      "receipt": "evidence/vision-tests-r3/result.json",
+      "receipt_sha256": "81803de4e844ba51773962b1700a5d23e708e21671be9ca22925fd939624c476",
+      "logs_sha256": {
+        "command.log": "10a69e5218248ebb6a6412e5f00e938922f69128b38458d9a4347fe067c3a999",
+        "plan.json": "d6f91a4704dae5dad7266641a1be45e72723069c466c2c0db8f8412933b407bb",
+        "temperatures.jsonl": "fdb34305422bf228ac641261c561a0dadcdf551720e0d25e84772564a6c675a7"
+      }
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/vision-sanitize",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.625
+      },
+      "elapsed_s": 11.443826750852168,
+      "receipt": "evidence/vision-tests-r4/result.json",
+      "receipt_sha256": "cb14246a31823ad5ae01dcb2044c23e6cf5b25f8c4a10d1b8c27b9a2e529cadf",
+      "logs_sha256": {
+        "command.log": "bfe9e25fb929350bcf11f783661943995c274f004cfb7b7bab63b6ac9267d457",
+        "plan.json": "6e7873bbf5f5948fee5e95e376f8f65b27b429614ef00d858b33c4fe81dfd781",
+        "temperatures.jsonl": "2f34055bcf6f665960b91c7c570be158e9e8d76ede78c895457db717cd7c380d"
+      }
+    }
+  ],
+  "max_observed_c": 93.25,
+  "publication": "Local feature checkpoint only; no merge, GPU result, deployment or publication of synthetic performance.",
+  "documentation": {
+    "markdown_files": 94,
+    "broken_links": [],
+    "broken_fragments": [],
+    "shell_blocks": [
+      {
+        "file": "README.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "README.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "README.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/development/VISION.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/development/VISION.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/development/VISION.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 3,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BENCHMARKS.md",
+        "block": 4,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/BUILD.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 0,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 1,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 2,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 3,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 4,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 5,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 6,
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "file": "docs/guides/USAGE.md",
+        "block": 7,
+        "exit_code": 0,
+        "stderr": ""
+      }
+    ],
+    "bundled_libuv_files_verified": 127,
+    "published_csv_rows": 37,
+    "graphs_zero_based": true,
+    "dated_evidence_unchanged": true
+  }
+}

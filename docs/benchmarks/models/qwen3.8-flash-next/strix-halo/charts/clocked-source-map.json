@@ -1,0 +1,238 @@
+{
+  "first": {
+    "c17": {
+      "derived": "evidence/gpu-perf-clocked-r3/analysis/first-c17.jsonl",
+      "derived_sha256": "2d0e49b207d90c87fd6184fda386403ad0939376db8e5a5c86265910f46ae90e",
+      "original_files": {
+        "first-0-c17": "1e8a837c10112e411d81c56026a0cb5a7552212c2eb056bb805d372356c6241e",
+        "first-3-c17": "5b12b80114b7430493b128241086486671e9f0d31ccd72474143a2e95b738713"
+      },
+      "sample_map": [
+        {
+          "rep": 0,
+          "arm": "first-0-c17",
+          "origin_rep": 0,
+          "warmup": false
+        },
+        {
+          "rep": 1,
+          "arm": "first-0-c17",
+          "origin_rep": 1,
+          "warmup": false
+        },
+        {
+          "rep": 2,
+          "arm": "first-0-c17",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 3,
+          "arm": "first-3-c17",
+          "origin_rep": 0,
+          "warmup": false
+        },
+        {
+          "rep": 4,
+          "arm": "first-3-c17",
+          "origin_rep": 1,
+          "warmup": false
+        },
+        {
+          "rep": 5,
+          "arm": "first-3-c17",
+          "origin_rep": 2,
+          "warmup": false
+        }
+      ]
+    },
+    "cpp": {
+      "derived": "evidence/gpu-perf-clocked-r3/analysis/first-cpp.jsonl",
+      "derived_sha256": "bb5f61c3bb40bc4d7349758831345f7f57e1c3c62ef33a8843d8047bc8cdaa38",
+      "original_files": {
+        "first-1-cpp": "46f7123da0316da7ee6cbf10bdc120311b6743b8ccbd313abab65366bec47603",
+        "first-2-cpp": "c4dc30f24d6af698aa1f9c16ab8423bb2e1693d39289ad921bef9a55ae51e347"
+      },
+      "sample_map": [
+        {
+          "rep": 0,
+          "arm": "first-1-cpp",
+          "origin_rep": 0,
+          "warmup": false
+        },
+        {
+          "rep": 1,
+          "arm": "first-1-cpp",
+          "origin_rep": 1,
+          "warmup": false
+        },
+        {
+          "rep": 2,
+          "arm": "first-1-cpp",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 3,
+          "arm": "first-2-cpp",
+          "origin_rep": 0,
+          "warmup": false
+        },
+        {
+          "rep": 4,
+          "arm": "first-2-cpp",
+          "origin_rep": 1,
+          "warmup": false
+        },
+        {
+          "rep": 5,
+          "arm": "first-2-cpp",
+          "origin_rep": 2,
+          "warmup": false
+        }
+      ]
+    }
+  },
+  "warm": {
+    "c17": {
+      "derived": "evidence/gpu-perf-clocked-r3/analysis/warm-c17.jsonl",
+      "derived_sha256": "77a44bd98d2e0ce6b01b2ade78a8e536bfc06da4564494061af787d04f6fe0ec",
+      "original_files": {
+        "warm-1-c17": "da5656dc92ba662709de2493720aa3ab4f5baf01f7f4841a3ce885ff687e5428",
+        "warm-2-c17": "b7905026a360433b990878ac478da58198da93ebbdac370236661da41b4bf8d0"
+      },
+      "sample_map": [
+        {
+          "rep": 0,
+          "arm": "warm-1-c17",
+          "origin_rep": 0,
+          "warmup": true
+        },
+        {
+          "rep": 1,
+          "arm": "warm-1-c17",
+          "origin_rep": 1,
+          "warmup": true
+        },
+        {
+          "rep": 2,
+          "arm": "warm-2-c17",
+          "origin_rep": 0,
+          "warmup": true
+        },
+        {
+          "rep": 3,
+          "arm": "warm-2-c17",
+          "origin_rep": 1,
+          "warmup": true
+        },
+        {
+          "rep": 4,
+          "arm": "warm-1-c17",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 5,
+          "arm": "warm-1-c17",
+          "origin_rep": 3,
+          "warmup": false
+        },
+        {
+          "rep": 6,
+          "arm": "warm-1-c17",
+          "origin_rep": 4,
+          "warmup": false
+        },
+        {
+          "rep": 7,
+          "arm": "warm-2-c17",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 8,
+          "arm": "warm-2-c17",
+          "origin_rep": 3,
+          "warmup": false
+        },
+        {
+          "rep": 9,
+          "arm": "warm-2-c17",
+          "origin_rep": 4,
+          "warmup": false
+        }
+      ]
+    },
+    "cpp": {
+      "derived": "evidence/gpu-perf-clocked-r3/analysis/warm-cpp.jsonl",
+      "derived_sha256": "8190945fa0747376aa6be1961c30f4d81affebd3d0bb58d5a5b9aa6d09210bb4",
+      "original_files": {
+        "warm-0-cpp": "1adb436429894ee3b037aa24023477a342b32c0ae42424e18d7aac3f30092880",
+        "warm-3-cpp": "411beb3b977bdb722c8c6d7f79ddbe128a03c1a4d89305eec743dd5d218127ee"
+      },
+      "sample_map": [
+        {
+          "rep": 0,
+          "arm": "warm-0-cpp",
+          "origin_rep": 0,
+          "warmup": true
+        },
+        {
+          "rep": 1,
+          "arm": "warm-0-cpp",
+          "origin_rep": 1,
+          "warmup": true
+        },
+        {
+          "rep": 2,
+          "arm": "warm-3-cpp",
+          "origin_rep": 0,
+          "warmup": true
+        },
+        {
+          "rep": 3,
+          "arm": "warm-3-cpp",
+          "origin_rep": 1,
+          "warmup": true
+        },
+        {
+          "rep": 4,
+          "arm": "warm-0-cpp",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 5,
+          "arm": "warm-0-cpp",
+          "origin_rep": 3,
+          "warmup": false
+        },
+        {
+          "rep": 6,
+          "arm": "warm-0-cpp",
+          "origin_rep": 4,
+          "warmup": false
+        },
+        {
+          "rep": 7,
+          "arm": "warm-3-cpp",
+          "origin_rep": 2,
+          "warmup": false
+        },
+        {
+          "rep": 8,
+          "arm": "warm-3-cpp",
+          "origin_rep": 3,
+          "warmup": false
+        },
+        {
+          "rep": 9,
+          "arm": "warm-3-cpp",
+          "origin_rep": 4,
+          "warmup": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "state": "COMPLETED_PENDING_OFFLINE_REGRESSION_ANALYSIS",
+  "started_at": "2026-10-02T09:09:58.978096+00:00",
+  "pid": 2450587,
+  "start_ticks": 149759324,
+  "runs": [
+    {
+      "arm": "state-p131072-k131072-write",
+      "pid": 2450601,
+      "start_ticks": 149759343,
+      "started_at": "2026-10-02T09:09:59.146419+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:13:03.748649+00:00"
+    },
+    {
+      "arm": "state-p131072-k131072-read",
+      "pid": 2451574,
+      "start_ticks": 149777812,
+      "started_at": "2026-10-02T09:13:03.836861+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:19:46.666883+00:00",
+      "stable_identity_equal": true
+    },
+    {
+      "arm": "core-p8192-off",
+      "pid": 2453534,
+      "start_ticks": 149818108,
+      "started_at": "2026-10-02T09:19:46.794840+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:20:51.838411+00:00"
+    },
+    {
+      "arm": "core-p8192-ram",
+      "pid": 2453950,
+      "start_ticks": 149824620,
+      "started_at": "2026-10-02T09:20:51.917481+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:21:40.721482+00:00",
+      "tokens_equal": true
+    },
+    {
+      "arm": "core-p8192-ssd-write",
+      "pid": 2454227,
+      "start_ticks": 149829512,
+      "started_at": "2026-10-02T09:21:40.829133+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:23:07.096549+00:00",
+      "tokens_equal": true
+    },
+    {
+      "arm": "core-p8192-ssd-read",
+      "pid": 2454719,
+      "start_ticks": 149838146,
+      "started_at": "2026-10-02T09:23:07.173760+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:24:39.926282+00:00",
+      "tokens_equal": true
+    },
+    {
+      "arm": "core-p131072-off",
+      "pid": 2455198,
+      "start_ticks": 149847429,
+      "started_at": "2026-10-02T09:24:40.004915+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:31:52.117596+00:00"
+    },
+    {
+      "arm": "core-p131072-ram",
+      "pid": 2457213,
+      "start_ticks": 149890656,
+      "started_at": "2026-10-02T09:31:52.269239+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:34:14.078896+00:00",
+      "tokens_equal": true
+    },
+    {
+      "arm": "core-p131072-ssd-write",
+      "pid": 2457967,
+      "start_ticks": 149904852,
+      "started_at": "2026-10-02T09:34:14.237794+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:37:17.380204+00:00",
+      "tokens_equal": true
+    },
+    {
+      "arm": "core-p131072-ssd-read",
+      "pid": 2458862,
+      "start_ticks": 149923180,
+      "started_at": "2026-10-02T09:37:17.516615+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-02T09:39:08.000902+00:00",
+      "tokens_equal": true
+    }
+  ],
+  "current_arm": "core-p131072-ssd-read",
+  "finished_at": "2026-10-02T09:39:08.071992+00:00"
+}

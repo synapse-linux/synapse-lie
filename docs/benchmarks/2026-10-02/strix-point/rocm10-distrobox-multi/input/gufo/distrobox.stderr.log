@@ -1,0 +1,40 @@
+Starting container...                   	[32m [ OK ]
+[0mInstalling basic packages...            	[32m [ OK ]
+[0mSetting up devpts mounts...             	[32m [ OK ]
+[0mSetting up read-only mounts...          	[32m [ OK ]
+[0mSetting up read-write mounts...         	[32m [ OK ]
+[0mSetting up host's sockets integration...	[32m [ OK ]
+[0mIntegrating host's themes, icons, fonts...	[32m [ OK ]
+[0mSetting up package manager exceptions...	[32m [ OK ]
+[0mSetting up rpm exceptions...            	[32m [ OK ]
+[0mSetting up distrobox profile...         	[32m [ OK ]
+[0mSetting up sudo...                      	[32m [ OK ]
+[0mSetting up user groups...               	[32m [ OK ]
+[0mSetting up kerberos integration...      	[32m [ OK ]
+[0mSetting up user's group list...         	[32m [ OK ]
+[0mAdding user...                          	[32m [ OK ]
+[0mSetting up user home...                 	[32m [ OK ]
+[0mEnsuring user's access...               	[32m [ OK ]
+[0mSetting up skel...                      	[32m [ OK ]
+[0m
+Container Setup Complete!
+point=0 depth=0 users=1 warmup=1 output=128 completed
+point=0 depth=0 users=1 warmup=0 output=128 completed
+point=0 depth=0 users=1 warmup=0 output=128 completed
+point=0 depth=0 users=1 warmup=0 output=128 completed
+point=1 depth=0 users=2 warmup=1 output=128 completed
+point=1 depth=0 users=2 warmup=0 output=128 completed
+point=1 depth=0 users=2 warmup=0 output=128 completed
+point=1 depth=0 users=2 warmup=0 output=128 completed
+point=2 depth=0 users=4 warmup=1 output=128 completed
+point=2 depth=0 users=4 warmup=0 output=128 completed
+point=2 depth=0 users=4 warmup=0 output=128 completed
+point=2 depth=0 users=4 warmup=0 output=128 completed
+point=3 depth=0 users=6 warmup=1 output=128 completed
+point=3 depth=0 users=6 warmup=0 output=128 completed
+point=3 depth=0 users=6 warmup=0 output=128 completed
+point=3 depth=0 users=6 warmup=0 output=128 completed
+point=4 depth=0 users=8 warmup=1 output=128 completed
+point=4 depth=0 users=8 warmup=0 output=128 completed
+point=4 depth=0 users=8 warmup=0 output=128 completed
+point=4 depth=0 users=8 warmup=0 output=128 completed

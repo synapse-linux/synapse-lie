@@ -1,0 +1,265 @@
+{
+  "schema": "synapse-lie.state-validation.v1",
+  "date": "2026-10-03",
+  "feature": "mtp",
+  "branch": "feature/mtp",
+  "prior_checkpoint": "9f41c5988eea26b56acbe71bbb61e6ac5647ec4a",
+  "host": "editing Strix Halo .155; .157 not used",
+  "scope": "CPU fixture state capture/restore, RAM/SSD framing and host HIP compile/link only. NOT-INFERENCE. No model load, tensor hash, conversion, GPU run, new GPU lease, tuning or performance campaign.",
+  "source_sha256": {
+    "CHANGELOG.md": "6fd1c4c0e172785f7093a910a82143d4c3bbf161f545d89fef101427ca535266",
+    "CMakeLists.txt": "7f482c22dab16b501826584f8c46aac625a251dc6e50b6960ee73e4d41596f6b",
+    "README.md": "fbb626e69d284ee8f5dcb2db3fa8eb2eb061e8a3340efa3ae9cd6b5f070b1a66",
+    "docs/BACKEND.md": "ddd561a6ac578080e7ae108598d7ae3833e9198a5031bde0a9bed876ac4f5411",
+    "docs/COORDINATION.md": "ae6c48be36d060bd27e158217ff14f1d736d8ef49df83644c27b1aa9ede1d438",
+    "docs/PROGRESS.md": "546ec005371ee73491369642cdd235fe8056a02cfb5f3c5e14fa4ed602743abf",
+    "docs/development/MTP.md": "9c8e09b2a50fefab4b23c54b1df083c5c6aea860e403e8e224ce96c3945164d2",
+    "docs/reference/ABI.md": "244eeda04d9cf9f21e649f1bd4e08a571c0f561881febea855184b5bb0d2996f",
+    "docs/reference/KVC.md": "d5fc2e3c88daa72a27acfbb87f8826dcd7d3628045aa665c4b591c20db201a69",
+    "docs/reference/STATE.md": "39c21f4bdde0ea6abf538685876ad26ae65026da3892450ebfaa932db0f71569",
+    "include/lie/kvc_state.h": "b295555a23525581c5089ed69961247473e265d8159f1fd087ac65bb3b6de380",
+    "include/lie/state.h": "f7a71421c8810a16d8275ec6ae57065dc4c9d99ee46f73e525415ecc7bb426e4",
+    "src/models/kvc_qwen_state.c": "0d13c3b3b195bef76e0cc23dde4c83792eb111ac3b462094ad3c00aeac84c5d6",
+    "src/state_codec.c": "ddde6c00a20b6b907ac4dc5018cc1b3682f796301191f15dbf8b3672accb5298",
+    "src/state_compression.c": "89297463dba1e49ea60201a5bb94c4d0cf39636589c7711e57af41750de2f846",
+    "src/state_kvc.c": "e279330f01d9976e37255cf2c3be1bc15344b391a20738a807c5a64ed787e092",
+    "src/state_layout.c": "bc2e18fb144ea83c8d7bb2bbf270338dc612deee422b5fdf63e591a0004c84a9",
+    "src/store.c": "e6ac42069d150e764d7c54aa64a7660435161912847e5e62d1644fd12a556406",
+    "tests/test_state_aux.c": "22f3155a1e3e43b9d6db7dab5da7ada099abf37cef2706370612f5b7bef7f7ea"
+  },
+  "executables_sha256": {
+    "build/mtp-sanitize/test-state-aux": "ed8843b9be6c8b4a009f49cfda5b1e6c666c37bbe1ab9a7112f944ad711fe664",
+    "build/mtp-sanitize/test-kvc-state": "5a5aaf5d85220866bdd0904a41fdb0274587c571e1cbc3d1030118c0093eafce",
+    "build/mtp-linked/synapse-lie-server": "fdb50d26c0aa71070b3f44cdd1fb695250f949a32816410684aecf3e45979f68",
+    "build/mtp-linked/synapse-lie-bench": "cae125230edb4586814caf788697bb084cf279b6def6589da04eea6808b22639"
+  },
+  "provider": {
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "receipt_sha256": "35c92b103046cdffb27dfc567dcfbf1de40fe4d358b4c7c42712edb668265f67",
+    "numerical_sources_changed": false,
+    "adapter_changed": false
+  },
+  "checks": {
+    "native_suite": {
+      "passed": 28,
+      "total": 28,
+      "sanitizers": [
+        "ASan",
+        "UBSan",
+        "LeakSanitizer"
+      ],
+      "python_discovery": false
+    },
+    "hip_link": "passed; not GPU execution",
+    "plain_AR_wire_oracle": "Existing independent native byte oracle still passes through synthetic 128K; version-1 footer/payload unchanged",
+    "shared_auxiliary_storage": "Capture/clone, charged budgets, no expansion, DS4 view exact payload/client trailer, integrity rejection and bounded SSD worker reopen with new domain; two unrelated fixture schemas",
+    "Qwen_MTP_codec": "Predictor positions 0/1/3/4/8; typed residual and hidden rows; finite/nonnegative controller bounds; incompatible frontier and insufficient budget refusal"
+  },
+  "runtime_limit": "The feature provider still advertises prefix_state_supported=0 and requires explicit RAM retention zero/no disk directory. Existing AR defaults preserved.",
+  "remaining": [
+    "Device transfer binding, complete pooled predictor keys and stable predictor weight/configuration identity",
+    "Original-weight MTP correctness and cache continuation"
+  ],
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/mtp-sanitize",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.375
+      },
+      "elapsed_s": 5.1248589446768165,
+      "receipt": "evidence/mtp-kvc-build-r1/result.json",
+      "receipt_sha256": "b11b98974f4ff00e43ced8728040ecc99c23a61a96f9d966518a6c75bac73f26",
+      "evidence_sha256": {
+        "command.log": "92e3da34a1d6b47bca6ac188c4a310a2d00a7256da778379d92e262e20bd6fae",
+        "plan.json": "e825254ff8a47d31f5f11f3799bf75fd45367accebcb2d2775261ff1b7b19ffd",
+        "temperatures.jsonl": "a5256fcc5859038eecd9d7e13721d4577e09680dfbde5d49c2a5dd5af08a4122"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/mtp-sanitize",
+        "-j2"
+      ],
+      "child_exit_code": null,
+      "exit_code": 125,
+      "reason": "thermal_limit",
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.625
+      },
+      "elapsed_s": 0.028506720438599586,
+      "receipt": "evidence/mtp-kvc-build-r2/result.json",
+      "receipt_sha256": "178dbedfe9c15531e92dec81acf327b13635eed0d8520a09f1eaf22ffb872c37",
+      "evidence_sha256": {
+        "command.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "plan.json": "5554866ce2efd7dfea91ad64be66cadcadeefabf91ff8e3691326625387cefff",
+        "temperatures.jsonl": "ce897f10c5a9b20d21be46739a631cb2139fa88ae808ede53dacfc048e0b3098"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/mtp-sanitize",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.0
+      },
+      "elapsed_s": 3.135947453789413,
+      "receipt": "evidence/mtp-kvc-build-r3/result.json",
+      "receipt_sha256": "a7b861bb01b3bda71d3e8f807dcd06fa4e3f4a92e1f589c2b8a8c333c2995e80",
+      "evidence_sha256": {
+        "command.log": "43b2118ba023f653be4e6f0a0ec78d23a8b53070dccaea219f6e9b51a4ef84de",
+        "plan.json": "a11b33e9025ad476f6aa39c898cc13cf0a8414dc41a697cbffa5fe138dffdbc0",
+        "temperatures.jsonl": "aa2155e3c95e47ac777e74ae66adcfd40b049b6f6cf24fc3c67e5dc3d4d5260e"
+      }
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/mtp-linked",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.75
+      },
+      "elapsed_s": 9.417640006169677,
+      "receipt": "evidence/mtp-kvc-linked-r1/result.json",
+      "receipt_sha256": "994d8aab16f3465cd97d8a064e72910a55931000bba2400cc132fe8a20fe49db",
+      "evidence_sha256": {
+        "command.log": "d1097cf5e396d7a922a99cae78d2bcca74cd2575d0f3497a97e38aac3b4e1373",
+        "plan.json": "5bcf25acca8bd97d45d312105112b30d08820179c4e6d4be53dce460398665af",
+        "temperatures.jsonl": "7f013732a5ffcbb33f78d6837be1eb9ac45deb8ecdd13cc23bd8a85acb90a4ae"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/mtp-sanitize",
+        "-R",
+        "state-kvc-auxiliary|kvc-runtime-state|state-ssd-store|core-kvc-ssd-reactive|state-components",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+      },
+      "elapsed_s": 1.0825522216036916,
+      "receipt": "evidence/mtp-kvc-tests-r1/result.json",
+      "receipt_sha256": "60ef6ceadb16217b8bb9942172573bdc8f0dfe5b354e97bdd34a1b9378be35a7",
+      "evidence_sha256": {
+        "command.log": "b6b1f6f1621ddd0c36b422ca77d3b6cd60e1da26f31b6901bb671d56d2635752",
+        "plan.json": "ee0bde37e54e4dbaba07433347543cd05325a379a1add9f027a1cc3783522275",
+        "temperatures.jsonl": "963bb806bde3a9075c366b3dadac0c49f42b4e80ad375a1b7b4fcab513ef3859"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/mtp-sanitize",
+        "-R",
+        "state-kvc-auxiliary|kvc-runtime-state|state-ssd-store|core-kvc-ssd-reactive|state-components",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 84.625
+      },
+      "elapsed_s": 1.05842097196728,
+      "receipt": "evidence/mtp-kvc-tests-r2/result.json",
+      "receipt_sha256": "ac30bf32f5aca2a535e5a1b817bddae140fcb348c39c3e1ee305f0ef7d7c8c81",
+      "evidence_sha256": {
+        "command.log": "058faa91806e3d8fb8862ddbab19c5c6501f9782849fb41229231ffab107e727",
+        "plan.json": "77111ab4d60a9670bcc90dc1b04225617e953f29386342c9e2aa44498d01ae51",
+        "temperatures.jsonl": "2ee183a9cc25cf270e0c4db504db512f169b1c609589da92d1f10cea88f553a9"
+      }
+    },
+    {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/mtp-sanitize",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 70.625
+      },
+      "elapsed_s": 11.425609167665243,
+      "receipt": "evidence/mtp-kvc-tests-r3/result.json",
+      "receipt_sha256": "38ead576b1c8a756fc6868977323eb0c8c2c80151192e73bbb2972d0156706d2",
+      "evidence_sha256": {
+        "command.log": "b9fc2d20be9d62a0c278fe3b9f6d99aa32c1fa8a8f36b71bd52425006ad31092",
+        "plan.json": "a12b5da2852a04602aec15d43020157d4af8f86bacac8d434af74687b702bd7a",
+        "temperatures.jsonl": "8433af8df5576f5bf70a1b4b9f5434623efa6c0bdc3d58175fc3dea20ba4f50c"
+      }
+    }
+  ],
+  "failed_attempts": [
+    "r1 tests exit 8: sandbox blocks LeakSanitizer; r2/r3 authorized host tests pass",
+    "r2 build refused before spawn at CPU 89.625 C under 85 C guard; r3 -j1 passes"
+  ],
+  "reference_inspection": {
+    "DS4_kvstore": "https://github.com/antirez/ds4/blob/main/ds4_kvstore.c",
+    "scope": "Read-only design reference; no DS4 project edits/code/artifact imports or adoption of DS4 model execution"
+  },
+  "publication": "Local feature checkpoint only; no merge or push"
+}

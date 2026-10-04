@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.21)
+file(MAKE_DIRECTORY "${OUTPUT}")
+set(arms REFERENCE CANDIDATE)
+if(DEFINED FALLBACK)
+  list(APPEND arms FALLBACK)
+endif()
+foreach(arm IN LISTS arms)
+  execute_process(COMMAND "${${arm}}" ${ARGUMENT} OUTPUT_FILE "${OUTPUT}/${arm}.txt"
+    ERROR_FILE "${OUTPUT}/${arm}.stderr" RESULT_VARIABLE rc TIMEOUT 90)
+  file(WRITE "${OUTPUT}/${arm}.exit" "${rc}\n")
+  if(NOT rc STREQUAL "0")
+    message(FATAL_ERROR "${arm} host probe exit ${rc}; complete logs retained")
+  endif()
+  file(SHA256 "${OUTPUT}/${arm}.txt" ${arm}_hash)
+endforeach()
+if(NOT REFERENCE_hash STREQUAL CANDIDATE_hash OR
+   (DEFINED FALLBACK AND NOT REFERENCE_hash STREQUAL FALLBACK_hash))
+  message(FATAL_ERROR "Complete distribution/draw/history/RNG witnesses differ; retained under ${OUTPUT}")
+endif()
+message(STATUS "Host witnesses agree for ${arms}: ${REFERENCE_hash}; NOT-INFERENCE")

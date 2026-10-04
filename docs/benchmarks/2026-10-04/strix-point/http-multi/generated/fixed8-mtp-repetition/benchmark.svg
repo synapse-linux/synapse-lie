@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1700" viewBox="0 0 1440 1700" role="img"><title>Prepared HTTP cohorts - synthetic_repetition_pp2048</title><rect width="100%" height="100%" fill="white"/>
+<text x="40" y="38" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Prepared HTTP cohorts - synthetic_repetition_pp2048</text>
+<text x="40" y="66" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">Median and observed min/max. Separate scales start at zero; unavailable values are omitted.</text>
+<text x="40" y="107" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Executed preparation prefill (per request)</text>
+<text x="135" y="129" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">executed tokens/s; cache hits unavailable</text>
+<path d="M135 375L1370 375" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="380" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 318L1370 318" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="323" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.25</text>
+<path d="M135 260L1370 260" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="265" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.5</text>
+<path d="M135 203L1370 203" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="208" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.75</text>
+<path d="M135 145L1370 145" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="150" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">1</text>
+<path d="M135 145L135 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 375L1370 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<text x="160" y="180" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE: unavailable (see summary.json)</text>
+<path d="M135 449L159 449" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="455" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE</text>
+<text x="160" y="206" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">Gufo: unavailable (see summary.json)</text>
+<path d="M535 449L559 449" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="455" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">Gufo</text>
+<text x="752" y="424" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="507" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Sum of individual server decode rates</text>
+<text x="135" y="529" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 775L1370 775" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="780" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 718L1370 718" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="723" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">11.516</text>
+<path d="M135 660L1370 660" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="665" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">23.032</text>
+<path d="M135 603L1370 603" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="608" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">34.548</text>
+<path d="M135 545L1370 545" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="550" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">46.063</text>
+<path d="M135 545L135 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 775L1370 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 684L127 684" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 684L132 684" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 684L132 684" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="684" r="4" fill="#1769aa"/>
+<path d="M127 684L435 628" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 639L435 628" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 639L440 639" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 628L440 628" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="628" r="4" fill="#1769aa"/>
+<path d="M435 628L744 610" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 610L744 606" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 610L749 610" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 606L749 606" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="610" r="4" fill="#1769aa"/>
+<path d="M744 610L1053 596" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 602L1053 593" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 602L1058 602" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 593L1058 593" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="596" r="4" fill="#1769aa"/>
+<path d="M1053 596L1362 581" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 583L1362 575" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 583L1367 583" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 575L1367 575" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="581" r="4" fill="#1769aa"/>
+<path d="M135 849L159 849" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="855" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE</text>
+<path d="M143 684L143 683" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 684L148 684" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 683L148 683" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="683" r="4" fill="#b34b17"/>
+<path d="M143 683L451 626" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 629L451 621" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 629L456 629" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 621L456 621" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="626" r="4" fill="#b34b17"/>
+<path d="M451 626L760 604" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 609L760 604" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 609L765 609" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 604L765 604" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="604" r="4" fill="#b34b17"/>
+<path d="M760 604L1069 587" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 601L1069 587" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 601L1074 601" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 587L1074 587" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="587" r="4" fill="#b34b17"/>
+<path d="M1069 587L1378 582" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 584L1378 581" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 584L1383 584" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 581L1383 581" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="582" r="4" fill="#b34b17"/>
+<path d="M535 849L559 849" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="855" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">Gufo</text>
+<text x="752" y="824" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="907" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Output / common complete HTTP wall</text>
+<text x="135" y="929" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 1175L1370 1175" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1180" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 1118L1370 1118" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1123" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">11.423</text>
+<path d="M135 1060L1370 1060" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1065" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">22.846</text>
+<path d="M135 1003L1370 1003" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1008" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">34.269</text>
+<path d="M135 945L1370 945" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="950" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">45.692</text>
+<path d="M135 945L135 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 1175L1370 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 1084L127 1084" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1084L132 1084" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1084L132 1084" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="1084" r="4" fill="#1769aa"/>
+<path d="M127 1084L435 1028" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 1039L435 1028" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1039L440 1039" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1028L440 1028" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="1028" r="4" fill="#1769aa"/>
+<path d="M435 1028L744 1010" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 1010L744 1006" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1010L749 1010" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1006L749 1006" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="1010" r="4" fill="#1769aa"/>
+<path d="M744 1010L1053 996" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 1001L1053 993" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1001L1058 1001" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 993L1058 993" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="996" r="4" fill="#1769aa"/>
+<path d="M1053 996L1362 981" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 983L1362 975" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 983L1367 983" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 975L1367 975" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="981" r="4" fill="#1769aa"/>
+<path d="M135 1249L159 1249" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="1255" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE</text>
+<path d="M143 1083L143 1083" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1083L148 1083" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1083L148 1083" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="1083" r="4" fill="#b34b17"/>
+<path d="M143 1083L451 1025" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 1028L451 1020" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1028L456 1028" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1020L456 1020" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="1025" r="4" fill="#b34b17"/>
+<path d="M451 1025L760 1003" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 1008L760 1003" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1008L765 1008" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1003L765 1003" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="1003" r="4" fill="#b34b17"/>
+<path d="M760 1003L1069 986" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 1000L1069 986" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1000L1074 1000" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 986L1074 986" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="986" r="4" fill="#b34b17"/>
+<path d="M1069 986L1378 981" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 983L1378 980" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 983L1383 983" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 980L1383 980" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="981" r="4" fill="#b34b17"/>
+<path d="M535 1249L559 1249" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="1255" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">Gufo</text>
+<text x="752" y="1224" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+<text x="40" y="1307" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Mean request first output</text>
+<text x="135" y="1329" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">seconds</text>
+<path d="M135 1575L1370 1575" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1580" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 1518L1370 1518" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1523" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.17272</text>
+<path d="M135 1460L1370 1460" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1465" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.34544</text>
+<path d="M135 1403L1370 1403" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1408" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.51816</text>
+<path d="M135 1345L1370 1345" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1350" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.69087</text>
+<path d="M135 1345L135 1575" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 1575L1370 1575" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M127 1525L127 1524" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1525L132 1525" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M122 1524L132 1524" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="127" cy="1524" r="4" fill="#1769aa"/>
+<path d="M127 1524L435 1492" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M435 1505L435 1491" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1505L440 1505" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M430 1491L440 1491" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="435" cy="1492" r="4" fill="#1769aa"/>
+<path d="M435 1492L744 1466" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M744 1466L744 1466" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1466L749 1466" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M739 1466L749 1466" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="744" cy="1466" r="4" fill="#1769aa"/>
+<path d="M744 1466L1053 1415" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1053 1416L1053 1415" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1416L1058 1416" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1048 1415L1058 1415" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1053" cy="1415" r="4" fill="#1769aa"/>
+<path d="M1053 1415L1362 1376" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1362 1376L1362 1375" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 1376L1367 1376" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M1357 1375L1367 1375" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="1362" cy="1376" r="4" fill="#1769aa"/>
+<path d="M135 1649L159 1649" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="1655" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE</text>
+<path d="M143 1573L143 1572" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1573L148 1573" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M138 1572L148 1572" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="143" cy="1573" r="4" fill="#b34b17"/>
+<path d="M143 1573L451 1570" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M451 1570L451 1568" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1570L456 1570" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M446 1568L456 1568" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="451" cy="1570" r="4" fill="#b34b17"/>
+<path d="M451 1570L760 1566" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M760 1566L760 1566" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1566L765 1566" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M755 1566L765 1566" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="760" cy="1566" r="4" fill="#b34b17"/>
+<path d="M760 1566L1069 1562" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1069 1563L1069 1561" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1563L1074 1563" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1064 1561L1074 1561" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1069" cy="1562" r="4" fill="#b34b17"/>
+<path d="M1069 1562L1378 1559" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1378 1559L1378 1559" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 1559L1383 1559" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M1373 1559L1383 1559" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="1378" cy="1559" r="4" fill="#b34b17"/>
+<path d="M535 1649L559 1649" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="1655" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">Gufo</text>
+<text x="752" y="1624" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="135" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="443" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C2</text>
+<text x="752" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C4</text>
+<text x="1061" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C6</text>
+<text x="1370" y="1600" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C8</text>
+</svg>

@@ -1,0 +1,242 @@
+{
+  "archive_sha256": "505991326ec321469a0da5eb63e6f49399b05bf2d6697fe0d4233fa14cc7e996",
+  "verified_archive_files": 43,
+  "source_commit": "0e2bd450dfa0e5a435b68449aac24992f73357c4",
+  "verified_source_files": 67,
+  "runs": [
+    {
+      "arm": "http",
+      "pid": 2179494,
+      "start_ticks": 144803566,
+      "started_at": "2026-10-01T19:24:01.377594+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:24:40.165076+00:00",
+      "state": "MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION",
+      "gpu_child_exit_code": 0,
+      "model_stats_unchanged": true,
+      "admitted_files_unchanged": true,
+      "postflight_kfd": [],
+      "preflight_dri": {
+        "pids": [
+          1543,
+          1596,
+          1605,
+          1656,
+          2017,
+          2178786
+        ],
+        "permission_denied": 452
+      },
+      "result_sha256": "da74e9e68ed31470314741731bc41e73221942c65c2ca7859c7671c98534fa30"
+    },
+    {
+      "arm": "serial-multi",
+      "pid": 2179721,
+      "start_ticks": 144807454,
+      "started_at": "2026-10-01T19:24:40.250020+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:35:04.627465+00:00",
+      "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+      "gpu_child_exit_code": 0,
+      "model_stats_unchanged": true,
+      "admitted_files_unchanged": true,
+      "postflight_kfd": [],
+      "preflight_dri": {
+        "pids": [
+          1543,
+          1596,
+          1605,
+          1656,
+          2017,
+          2178786
+        ],
+        "permission_denied": 456
+      },
+      "result_sha256": "26274f21e3c1baf3e00119f777aefe8c2612fc2f9d07a30f9d36f782101ae970"
+    },
+    {
+      "arm": "reactive-multi",
+      "pid": 2182945,
+      "start_ticks": 144869908,
+      "started_at": "2026-10-01T19:35:04.791558+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:41:05.948873+00:00",
+      "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+      "gpu_child_exit_code": 0,
+      "model_stats_unchanged": true,
+      "admitted_files_unchanged": true,
+      "postflight_kfd": [],
+      "preflight_dri": {
+        "pids": [
+          1543,
+          1596,
+          1605,
+          1656,
+          2017,
+          2178786
+        ],
+        "permission_denied": 455
+      },
+      "result_sha256": "186134622a4f371fa875f6d02c77409c74d780dd33d20091819687240ff7716a"
+    },
+    {
+      "arm": "serial-single",
+      "pid": 2184971,
+      "start_ticks": 144906038,
+      "started_at": "2026-10-01T19:41:06.096096+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:50:03.753788+00:00",
+      "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+      "gpu_child_exit_code": 0,
+      "model_stats_unchanged": true,
+      "admitted_files_unchanged": true,
+      "postflight_kfd": [],
+      "preflight_dri": {
+        "pids": [
+          1543,
+          1596,
+          1605,
+          1656,
+          2017,
+          2178786
+        ],
+        "permission_denied": 456
+      },
+      "result_sha256": "8acab585a6aa7adaeba7fd3009dd0e72bf3c21bd36afed582d7be3dabff4ec3c"
+    },
+    {
+      "arm": "reactive-single",
+      "pid": 2188330,
+      "start_ticks": 144959816,
+      "started_at": "2026-10-01T19:50:03.879460+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-01T19:59:02.703337+00:00",
+      "state": "SIMPLIFIED_BENCHMARK_PASS_NOT_INDEPENDENT_QUALIFICATION",
+      "gpu_child_exit_code": 0,
+      "model_stats_unchanged": true,
+      "admitted_files_unchanged": true,
+      "postflight_kfd": [],
+      "preflight_dri": {
+        "pids": [
+          1543,
+          1596,
+          1605,
+          1656,
+          2017,
+          2178786
+        ],
+        "permission_denied": 456
+      },
+      "result_sha256": "36ea5be683aac86cf03dc513f2853a2a1843dc5ae5cf4374e0819ad5cdb059cc"
+    }
+  ],
+  "comparisons": {
+    "multi": [
+      {
+        "depth": 0,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 0.9989038239160316
+      },
+      {
+        "depth": 0,
+        "users": 2,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.7526629057784464
+      },
+      {
+        "depth": 0,
+        "users": 4,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 2.6535614247901944
+      },
+      {
+        "depth": 0,
+        "users": 6,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 3.635885243585418
+      },
+      {
+        "depth": 0,
+        "users": 8,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 4.1084082276777325
+      }
+    ],
+    "single": [
+      {
+        "depth": 0,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.001745465979638
+      },
+      {
+        "depth": 16384,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 1.0017975640070667
+      },
+      {
+        "depth": 131072,
+        "users": 1,
+        "tokens_equal": true,
+        "full_output_budget": true,
+        "pp_frontier_equal": true,
+        "tg_frontier_equal": true,
+        "eligible": true,
+        "decode_ratio": 0.996599791761191
+      }
+    ]
+  },
+  "sample_counts": {
+    "serial-multi": {
+      "warmup": 5,
+      "measured": 15,
+      "raw_sha256": "536847c34cc6c9ed7e79be02d38e1fd96ca48d7fa85bbac102aaa55901c6e51f"
+    },
+    "reactive-multi": {
+      "warmup": 5,
+      "measured": 15,
+      "raw_sha256": "28480562b917eead9a98cc9a66f3e502f90acf4682de232b4acdbdad3c781a04"
+    },
+    "serial-single": {
+      "warmup": 3,
+      "measured": 9,
+      "raw_sha256": "2c86dd9508bed3d603287fc6536caad00489617fa25d0c9bce9dc8bff5b3132d"
+    },
+    "reactive-single": {
+      "warmup": 3,
+      "measured": 9,
+      "raw_sha256": "9498fac65ef33645b41017d2a2a50c3a48aef7360100bd15e08fdeeb2c6dde13"
+    }
+  },
+  "artifact_formatting": "Matplotlib figure title 12pt; SVG trailing whitespace removed; CSV line endings normalized to LF. Numerical data unchanged."
+}

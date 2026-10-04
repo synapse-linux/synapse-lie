@@ -1,0 +1,26 @@
+{
+  "providers": {
+    "synapse-lie": {
+      "baseUrl": "http://192.168.5.157:8000/v1",
+      "api": "openai-completions",
+      "apiKey": "local-development-not-a-secret",
+      "models": [
+        {
+          "id": "qwen3.8-flash-next",
+          "name": "Qwen3.8 Flash Next Unsloth UD-Q4_K_XL (LIE)",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 262144,
+          "maxTokens": 2048,
+          "inputLimits": {"maxRequestBytes": 8388608},
+          "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
+          "compat": {
+            "maxTokensField": "max_tokens",
+            "supportsReasoningEffort": false,
+            "supportsStrictMode": false
+          }
+        }
+      ]
+    }
+  }
+}

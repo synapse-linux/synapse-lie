@@ -1,0 +1,41 @@
+{
+  "scope": "Explicit owner-requested CPU/GPU temperature observation; hardware bounds if exposed, SSD guard and default policy retained; no model/inference changes",
+  "at": "2026-10-02T09:08:33.009131+00:00",
+  "source_base": "ba733f0262c0a316d5a58bd1fa5964c9eef05e77",
+  "source_sha256": {
+    "tools/run-bench.py": "2e43a1ecb8e1218bcdef22f46d54d09a30243ed8f5f669ff5f89223117f801cd",
+    "tests/test_core_bench.py": "1b69571fa9187c2fd39cfc9ef1e427ecc54586a06eefb44f2f4fbe1475e4ed33"
+  },
+  "operator_context": [
+    "il sistema ha ventole dinamiche, regge il carico",
+    "devo vedere quanto regge la macchina, segnati i gradi quando si spegne o si deteriora",
+    "di solito rimane a temperature alte per pochi secondi"
+  ],
+  "commands": [
+    {
+      "directory": "evidence/ssd-thermal-observe-r1/test",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "thermal-owned-process-guard|core-bench-contract"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 88.625
+        },
+        "elapsed_s": 5.26080715097487
+      }
+    }
+  ],
+  "unchanged_numerical_executable_sha256": "057a877e9511160ed0dcfed583cee9434418bf5ea119d903b02b9ff0755fbe76"
+}

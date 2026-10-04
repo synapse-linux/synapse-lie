@@ -1,0 +1,1678 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "scope": "NOT-INFERENCE: local synthetic/contract tests and HIP adapter compile/link only. No original-weight run, model hash, numerical archive rebuild or SSD performance qualification.",
+  "source_commit": "9b6c9376de305b22d84c8458311a89690df30bde",
+  "source_inventory": "source-sha256.json",
+  "source_files": 104,
+  "source_inventory_sha256": "ec45dfba7bd3f678b28b8fc63b3d64193de910a8fb59006f48339a4da2496796",
+  "final_acceptance": {
+    "focused_debug": "4/4",
+    "asan_ubsan": "30/30",
+    "hip_adapter_server_bench_link": "passed",
+    "sanitizer_environment": {
+      "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS": "halt_on_error=1"
+    },
+    "sanitizer_cmake_values": {
+      "CMAKE_BUILD_TYPE:STRING": "Debug",
+      "LIE_BUILD_ID:STRING": "ssd-local-r13",
+      "LIE_CORE_ONLY:BOOL": "OFF",
+      "LIE_GUFO_HEADER_CHECK:BOOL": "OFF",
+      "LIE_GUFO_RUNTIME:BOOL": "OFF",
+      "LIE_GUFO_STATE_ACCESS:BOOL": "OFF",
+      "LIE_SANITIZERS:BOOL": "ON",
+      "Python3_EXECUTABLE:UNINITIALIZED": "/usr/bin/python3"
+    }
+  },
+  "thermal_policy": "Sample once per second; refuse or terminate owned process group at 85 C or lower sensor max/critical limit. No fan/clock/power changes. Peak readings can exceed the threshold between samples.",
+  "raw_evidence": "Persistent ignored evidence/ directories relative to the worktree; historical failures are retained.",
+  "commands": [
+    {
+      "evidence_directory": "evidence/ssd-local-r1/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-debug",
+          "-j2"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.375
+        },
+        "elapsed_s": 1.1230119029060006
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r1/build/command.log": {
+          "bytes": 1678,
+          "sha256": "acec80be12130af699888fbc0a5c2c0363d21a05dc3617d471c91ce1ce327d74"
+        },
+        "evidence/ssd-local-r1/build/plan.json": {
+          "bytes": 750,
+          "sha256": "a15455bc162935df7556eabadd3078649cec21bc3a3a5ceb1c5dd129f038c370"
+        },
+        "evidence/ssd-local-r1/build/result.json": {
+          "bytes": 400,
+          "sha256": "2cf329a1ff4cab1c99b0f20fbf759f72ef1f91a5f71202da0722d8572195b71b"
+        },
+        "evidence/ssd-local-r1/build/temperatures.jsonl": {
+          "bytes": 1461,
+          "sha256": "0bc622866467511a64aec28cd726cc89310bab8845790ad397a50bc3a3e8cc03"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r1/configure",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/ssd-local-debug",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_CORE_ONLY=ON",
+          "-DLIE_BUILD_ID=ssd-local-r1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 76.875
+        },
+        "elapsed_s": 1.1239899275824428
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r1/configure/command.log": {
+          "bytes": 656,
+          "sha256": "58650560c7c0a424004034e1cabf9bf036428d84c74e84a8acf354081a1888a1"
+        },
+        "evidence/ssd-local-r1/configure/plan.json": {
+          "bytes": 869,
+          "sha256": "f2beefd71e96830f808951478453f2d799643c83ae5cab7651ca7867b7377229"
+        },
+        "evidence/ssd-local-r1/configure/result.json": {
+          "bytes": 519,
+          "sha256": "8794e3f538f69331813f64fc9b3cccb4402e05fa50b6dbf854863b6a34754366"
+        },
+        "evidence/ssd-local-r1/configure/temperatures.jsonl": {
+          "bytes": 1463,
+          "sha256": "e9b50376ef5b5171dc6791b6ae19cb4b755a612e3b2193c347a36f0083457543"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r10/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j1"
+        ],
+        "child_exit_code": null,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 69.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.625
+        },
+        "elapsed_s": 0.08352260664105415
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r10/build/command.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "evidence/ssd-local-r10/build/plan.json": {
+          "bytes": 749,
+          "sha256": "008c002f1c182a2a871fea5b5748c81bf4e71f5ff0de499bfd40efe7929b2dfe"
+        },
+        "evidence/ssd-local-r10/build/result.json": {
+          "bytes": 416,
+          "sha256": "25326c1aa0601bc9d8005344c03691f46efd5d212b7a0e9df4d5dffd4affd399"
+        },
+        "evidence/ssd-local-r10/build/temperatures.jsonl": {
+          "bytes": 974,
+          "sha256": "c4f76dbff1781627a3ae4eb821c6b55bf547512c919473f8fcbd3cb93c3e1400"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r11/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j1"
+        ],
+        "child_exit_code": null,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 64.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 91.625
+        },
+        "elapsed_s": 0.039825621992349625
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r11/build/command.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "evidence/ssd-local-r11/build/plan.json": {
+          "bytes": 749,
+          "sha256": "008c002f1c182a2a871fea5b5748c81bf4e71f5ff0de499bfd40efe7929b2dfe"
+        },
+        "evidence/ssd-local-r11/build/result.json": {
+          "bytes": 417,
+          "sha256": "328c67b3727da1584f5af4f54ad8651c13c116aa1c183fb394456b664f4ba785"
+        },
+        "evidence/ssd-local-r11/build/temperatures.jsonl": {
+          "bytes": 973,
+          "sha256": "c2a835058f495cd66bf12f584b1a9857f0e2e795ba8b7e423b93dee0f2fef21d"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r12/build",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 83.875
+        },
+        "elapsed_s": 1.1243798919022083
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r12/build/command.log": {
+          "bytes": 1311,
+          "sha256": "5f3947f7f1d36247d966d9f83c398705b92101931d35df92e67bdc583b52ad7f"
+        },
+        "evidence/ssd-local-r12/build/plan.json": {
+          "bytes": 749,
+          "sha256": "008c002f1c182a2a871fea5b5748c81bf4e71f5ff0de499bfd40efe7929b2dfe"
+        },
+        "evidence/ssd-local-r12/build/result.json": {
+          "bytes": 399,
+          "sha256": "441db3d1b7be565681ac9d9ebbf6094c09f93a918dbde0778968fe395ba87948"
+        },
+        "evidence/ssd-local-r12/build/temperatures.jsonl": {
+          "bytes": 1462,
+          "sha256": "15c95a652c1a1c6221fd34e594825a7c7702b0fbf148978310be337ad8e82dfc"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r12/test",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-full",
+          "--output-on-failure",
+          "-V",
+          "-R",
+          "thermal-owned-process-guard|state-ssd-store|core-ssd-reactive|worker-timing-contract"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 72.75
+        },
+        "elapsed_s": 3.2458479376509786
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r12/test/command.log": {
+          "bytes": 3888,
+          "sha256": "9cd13b9059696ee06709122a3da097da90d56c70639c759eaba7a8cf5ad41e06"
+        },
+        "evidence/ssd-local-r12/test/plan.json": {
+          "bytes": 880,
+          "sha256": "e401c594806bcf005e516436482aa76d86e871096138886632d50286f94f7d1a"
+        },
+        "evidence/ssd-local-r12/test/result.json": {
+          "bytes": 529,
+          "sha256": "3317fcdcd0fe839ac82b9c659c6de024c1a0eb9b24307688ca2dd5e1257559fe"
+        },
+        "evidence/ssd-local-r12/test/temperatures.jsonl": {
+          "bytes": 2428,
+          "sha256": "129dda189370d6b5bcfbf60222a29d3ce877cfaf1d78db2da515ab2784597dbb"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r13/build",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-sanitize",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.25
+        },
+        "elapsed_s": 5.3384039448574185
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r13/build/command.log": {
+          "bytes": 5685,
+          "sha256": "ec9599dce3da4dfb5d256d19798f8f97ea3887d71639394aea504ebafb774d98"
+        },
+        "evidence/ssd-local-r13/build/plan.json": {
+          "bytes": 753,
+          "sha256": "726e8bc02c669698e31b657c3a10a3ca5bed0e00f62218b2eb0e171b86493ecf"
+        },
+        "evidence/ssd-local-r13/build/result.json": {
+          "bytes": 402,
+          "sha256": "239981f811a03f2a95e3393b25a2c96bae23012c74be78f7953ea8bc356d02aa"
+        },
+        "evidence/ssd-local-r13/build/temperatures.jsonl": {
+          "bytes": 3400,
+          "sha256": "4466e8295b80b02d11253b469e1d470bfae31f87bbcfed6270fa66eab42d5d26"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r13/configure",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/ssd-local-sanitize",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_SANITIZERS=ON",
+          "-DLIE_BUILD_ID=ssd-local-r13",
+          "-DPython3_EXECUTABLE=/usr/bin/python3"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.5
+        },
+        "elapsed_s": 1.059078517369926
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r13/configure/command.log": {
+          "bytes": 1080,
+          "sha256": "ceeab50fd074f8c2660447a3e9fd23051d12e534fa0208a5eaf8006a9c115a21"
+        },
+        "evidence/ssd-local-r13/configure/plan.json": {
+          "bytes": 949,
+          "sha256": "2e08b42939bd3620dd6c50ffbffed001df6f2318494135a0005d0800cc86e95e"
+        },
+        "evidence/ssd-local-r13/configure/result.json": {
+          "bytes": 596,
+          "sha256": "efa7d648dd71c6fb035f8eb0f3e5bc3c926ff151fcbf03989a62503f370af53e"
+        },
+        "evidence/ssd-local-r13/configure/temperatures.jsonl": {
+          "bytes": 1462,
+          "sha256": "e16141f69c795b599663791ffdde5bf057cdd6ca03c90c051a2da555e2d192f0"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r13/test",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-sanitize",
+          "--output-on-failure",
+          "-V"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 79.75
+        },
+        "elapsed_s": 31.436781268566847
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r13/test/command.log": {
+          "bytes": 23632,
+          "sha256": "f3b42b6bfbef587d82a8bade6cf771608b0773c6816b2fcfdca30f9b96ada645"
+        },
+        "evidence/ssd-local-r13/test/plan.json": {
+          "bytes": 788,
+          "sha256": "74adcc2800d643f59b49deba60cec9bf01a0a4edf811611b230a7c63d530ae21"
+        },
+        "evidence/ssd-local-r13/test/result.json": {
+          "bytes": 431,
+          "sha256": "0d3aca79139c2650a8383b145f9ff390e737885dc6ba15cccd0c63660c4a91fb"
+        },
+        "evidence/ssd-local-r13/test/temperatures.jsonl": {
+          "bytes": 15514,
+          "sha256": "66e81482c146aec23272f5947cbb91aa750a20f3a9dbb20035c852758aa4f05f"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r2/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 65.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.75
+        },
+        "elapsed_s": 1.1281704539433122
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r2/build/command.log": {
+          "bytes": 1277,
+          "sha256": "690f7f364e916f104bb46eae7f6b6242e73531a5d1e83cf994b5e16ca116d66e"
+        },
+        "evidence/ssd-local-r2/build/plan.json": {
+          "bytes": 750,
+          "sha256": "a15455bc162935df7556eabadd3078649cec21bc3a3a5ceb1c5dd129f038c370"
+        },
+        "evidence/ssd-local-r2/build/result.json": {
+          "bytes": 399,
+          "sha256": "aba095470f5713685284c0bfc97f5888750a9b42e142bd5461d01a1e5ded2c58"
+        },
+        "evidence/ssd-local-r2/build/temperatures.jsonl": {
+          "bytes": 1459,
+          "sha256": "5a325556a6c29256d1e61eaf38da2ea24cd29d4ec5516d0eaf5725cab51820ea"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r3/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.125
+        },
+        "elapsed_s": 1.1290895193815231
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r3/build/command.log": {
+          "bytes": 411,
+          "sha256": "d7d0b88d0f4302eff6e824d7e869d291bb6c624d92eafcd79ed1b8545a7b7475"
+        },
+        "evidence/ssd-local-r3/build/plan.json": {
+          "bytes": 750,
+          "sha256": "a15455bc162935df7556eabadd3078649cec21bc3a3a5ceb1c5dd129f038c370"
+        },
+        "evidence/ssd-local-r3/build/result.json": {
+          "bytes": 400,
+          "sha256": "81f25a8794b2a5175f53f27504aa52f563ca7a4fb9d9ec8a9f00ff6e69bb2c49"
+        },
+        "evidence/ssd-local-r3/build/temperatures.jsonl": {
+          "bytes": 1462,
+          "sha256": "389d2461457a930fdb2169321c8a768239e7308c21b1e6d220303a8a1c3af005"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r3/test",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-debug",
+          "--output-on-failure",
+          "-V"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 66.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 82.5
+        },
+        "elapsed_s": 1.1296154102310538
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r3/test/command.log": {
+          "bytes": 2776,
+          "sha256": "7b4f84643efb8d544c02d1f75d466c2a0f1bb466b754feca739e21d79435e824"
+        },
+        "evidence/ssd-local-r3/test/plan.json": {
+          "bytes": 779,
+          "sha256": "7cf2e43155e0964ff5f931adfaef9c46808d30aa8d4399d64fadd7f430a05f8a"
+        },
+        "evidence/ssd-local-r3/test/result.json": {
+          "bytes": 427,
+          "sha256": "e1d866cb698aa3c2c2b829f6da5ff725022f1fd04269520e7e76a917538f582c"
+        },
+        "evidence/ssd-local-r3/test/temperatures.jsonl": {
+          "bytes": 1457,
+          "sha256": "7519b28fe2b66406b76fc634e5fb44f7edd9e76c74bba111154eb2b271d09881"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r4/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-debug",
+          "-j2"
+        ],
+        "child_exit_code": null,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 67.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 89.0
+        },
+        "elapsed_s": 0.07596556656062603
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r4/build/command.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "evidence/ssd-local-r4/build/plan.json": {
+          "bytes": 750,
+          "sha256": "a15455bc162935df7556eabadd3078649cec21bc3a3a5ceb1c5dd129f038c370"
+        },
+        "evidence/ssd-local-r4/build/result.json": {
+          "bytes": 415,
+          "sha256": "d07c8b8bc16d07ae3889376908628b13a8a976dd29085c38033e10d4fcd8e28f"
+        },
+        "evidence/ssd-local-r4/build/temperatures.jsonl": {
+          "bytes": 973,
+          "sha256": "7da296ee94ed63c579648a9224671346ce06e40e3812ae24cf3599d90d3051f2"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r5/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.125
+        },
+        "elapsed_s": 1.1308861942961812
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r5/build/command.log": {
+          "bytes": 1637,
+          "sha256": "42775483ebd6ee83a831de10f8143557e2bf141a938bee6ea73bbad6c8817165"
+        },
+        "evidence/ssd-local-r5/build/plan.json": {
+          "bytes": 750,
+          "sha256": "a15455bc162935df7556eabadd3078649cec21bc3a3a5ceb1c5dd129f038c370"
+        },
+        "evidence/ssd-local-r5/build/result.json": {
+          "bytes": 400,
+          "sha256": "e23536a53e2f4965b031039363a73c3b35a8d9bca1414075c2ae1f6dbfd48cf7"
+        },
+        "evidence/ssd-local-r5/build/temperatures.jsonl": {
+          "bytes": 1459,
+          "sha256": "8f125f6bde0128997cd9037c77b0b5179fa92d1f21ac074de8fbb1a5c8d9e307"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r5/test",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-debug",
+          "--output-on-failure",
+          "-V"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+        },
+        "elapsed_s": 1.141086314804852
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r5/test/command.log": {
+          "bytes": 3304,
+          "sha256": "9e19645f925b85a44ba2881e0a5702eedfd520e3bad5b55e67d3c18291f5e8c8"
+        },
+        "evidence/ssd-local-r5/test/plan.json": {
+          "bytes": 779,
+          "sha256": "7cf2e43155e0964ff5f931adfaef9c46808d30aa8d4399d64fadd7f430a05f8a"
+        },
+        "evidence/ssd-local-r5/test/result.json": {
+          "bytes": 428,
+          "sha256": "e8c305768647031ffae06004475e2d80053c0065ef128531d225cf8b161940cd"
+        },
+        "evidence/ssd-local-r5/test/temperatures.jsonl": {
+          "bytes": 1460,
+          "sha256": "5bc39607e025d7f6b850b733e50189188f195905b81a3b65bc13db20dc0d1108"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r6/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.375
+        },
+        "elapsed_s": 2.1231527384370565
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r6/build/command.log": {
+          "bytes": 5685,
+          "sha256": "7dee2b532776231e8ecb7eb0141fe5f089702ff07198f00c9405d23ff942536f"
+        },
+        "evidence/ssd-local-r6/build/plan.json": {
+          "bytes": 749,
+          "sha256": "07bd33f62eac5ded7b0420d6aea312d8cf963b2de285b665fc770785f5e8b187"
+        },
+        "evidence/ssd-local-r6/build/result.json": {
+          "bytes": 399,
+          "sha256": "8f0ef61047361abf4751b5a4546740c581a1d4c426b10ec81283369ff3f78415"
+        },
+        "evidence/ssd-local-r6/build/temperatures.jsonl": {
+          "bytes": 1945,
+          "sha256": "f8ee3b5d843d31c9bd588ae6f0f4bffebe057980fd1a155b396141e9d8fedfb7"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r6/configure",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/ssd-local-full",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_BUILD_ID=ssd-local-r6"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.5
+        },
+        "elapsed_s": 1.0832271156832576
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r6/configure/command.log": {
+          "bytes": 1097,
+          "sha256": "b34abf88cc7508d4a5007ac003d54c24b145d29d8202cca16e9fc9895b22bd39"
+        },
+        "evidence/ssd-local-r6/configure/plan.json": {
+          "bytes": 872,
+          "sha256": "5ac8e809380e07f857fd2b9e132299cf91287f12a88bd4cd934d2cc165ca8125"
+        },
+        "evidence/ssd-local-r6/configure/result.json": {
+          "bytes": 520,
+          "sha256": "4ae2ccef9a388dc50f46d0f39135e4f3d5153bf1cb33a6f6c052c2a742f26ebc"
+        },
+        "evidence/ssd-local-r6/configure/temperatures.jsonl": {
+          "bytes": 1461,
+          "sha256": "cab03dbda57ce7a37bc174179bb0e5ea7507f044f5df88733882ba7b380b5e66"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r7/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 56.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 69.75
+        },
+        "elapsed_s": 1.1340048387646675
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r7/build/command.log": {
+          "bytes": 3826,
+          "sha256": "a2432685784fb49688dc9d8cffc8db4201fe03a588ed8dbfc4f1b1ec1d766a13"
+        },
+        "evidence/ssd-local-r7/build/plan.json": {
+          "bytes": 749,
+          "sha256": "07bd33f62eac5ded7b0420d6aea312d8cf963b2de285b665fc770785f5e8b187"
+        },
+        "evidence/ssd-local-r7/build/result.json": {
+          "bytes": 398,
+          "sha256": "20822ca4d5f48526ac46b91028510d1abf7bd6b008f24ab8e6789e1b4a4ee1eb"
+        },
+        "evidence/ssd-local-r7/build/temperatures.jsonl": {
+          "bytes": 1461,
+          "sha256": "44f7c35fef5af3eb41b148dd492b21ff7476f09a327ef024c0ed7a6e89e805d1"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r7/test",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-full",
+          "--output-on-failure",
+          "-V"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 69.75
+        },
+        "elapsed_s": 2.1708231708034873
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": [
+        "59",
+        "12",
+        "29"
+      ],
+      "artifacts": {
+        "evidence/ssd-local-r7/test/command.log": {
+          "bytes": 57113,
+          "sha256": "51833cf1951798f97ac639060d3e0c0dc4235f2c2477de628e4d50cd13af0c60"
+        },
+        "evidence/ssd-local-r7/test/plan.json": {
+          "bytes": 778,
+          "sha256": "b3b01b5c24ab0e9f181eb7de0b50ab7a597890b8162600a7377a7b2bc192174e"
+        },
+        "evidence/ssd-local-r7/test/result.json": {
+          "bytes": 427,
+          "sha256": "2b480b24ab79efc620f9417ab8b8fa5c7437d46da4767e20dc215730dc44fcda"
+        },
+        "evidence/ssd-local-r7/test/temperatures.jsonl": {
+          "bytes": 1948,
+          "sha256": "5ea26c25788ba30eee74c18f96e0aa1da85ba6ee996c75410c5296529ff05a11"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r8/build",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-local-full",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 72.125
+        },
+        "elapsed_s": 1.133861519396305
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r8/build/command.log": {
+          "bytes": 4241,
+          "sha256": "67a4789e72e3df8379a3c8292b5abb9812336268be600f0f496c2a35de4bc735"
+        },
+        "evidence/ssd-local-r8/build/plan.json": {
+          "bytes": 749,
+          "sha256": "07bd33f62eac5ded7b0420d6aea312d8cf963b2de285b665fc770785f5e8b187"
+        },
+        "evidence/ssd-local-r8/build/result.json": {
+          "bytes": 398,
+          "sha256": "38a6bd5c10a2e5ae235049687c1faf46af2c0486c0858310eee2fe1a87ada449"
+        },
+        "evidence/ssd-local-r8/build/temperatures.jsonl": {
+          "bytes": 1460,
+          "sha256": "0a46da067cffe1ea699007bbd810b1d9cdbfd0d1f333c86f792d5f716f0958ac"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r9/configure",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/ssd-local-full",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_GUFO_RUNTIME=OFF",
+          "-DLIE_BUILD_ID=ssd-local-r6",
+          "-DPython3_EXECUTABLE=/usr/bin/python3"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 63.375
+        },
+        "elapsed_s": 1.1337321726605296
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r9/configure/command.log": {
+          "bytes": 291,
+          "sha256": "0eb0787b0d2121bad8672e550eff37017e30a10ac7e8cd86d03d37f76bb4e1cd"
+        },
+        "evidence/ssd-local-r9/configure/plan.json": {
+          "bytes": 917,
+          "sha256": "330bb4d8db74b0e64e7cfb5bce03313f37e5ea9c80c2f902311ef562aece6157"
+        },
+        "evidence/ssd-local-r9/configure/result.json": {
+          "bytes": 567,
+          "sha256": "f05dcf7ead3aab7a9a97c615a321226840a95a13590358067cab2126f007117e"
+        },
+        "evidence/ssd-local-r9/configure/temperatures.jsonl": {
+          "bytes": 1460,
+          "sha256": "c8f1d70bc14a626988319d65ef0c163377019fcaabe999fba74fa2f646e04a01"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-local-r9/test",
+      "source_scope": "historical intermediate; not final-source acceptance",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/ssd-local-full",
+          "--output-on-failure",
+          "-V"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 84.375
+        },
+        "elapsed_s": 28.100505187176168
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-local-r9/test/command.log": {
+          "bytes": 21904,
+          "sha256": "241defd946f401ed81c0a820896be77a3dfcb158d791a03d5bbc8641f4a95ffa"
+        },
+        "evidence/ssd-local-r9/test/plan.json": {
+          "bytes": 784,
+          "sha256": "f696741079650c4c98b32097d3b6c81555a032800ae020d05911ec9b607e93ec"
+        },
+        "evidence/ssd-local-r9/test/result.json": {
+          "bytes": 428,
+          "sha256": "b03d08a5bc875b89d5c929f0ab4fc68479cf732c14cc2cc4bbf5a3013f4c2acd"
+        },
+        "evidence/ssd-local-r9/test/temperatures.jsonl": {
+          "bytes": 14055,
+          "sha256": "f20b279667f1b6719737797ec18f72d4700d48fd30cbad653fd655309a9eedc7"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-linked-r1/build",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-linked-r1",
+          "--target",
+          "synapse-lie-server",
+          "synapse-lie-bench",
+          "-j1"
+        ],
+        "child_exit_code": -15,
+        "exit_code": 125,
+        "reason": "thermal_limit",
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 61.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 86.5
+        },
+        "elapsed_s": 4.26332475990057
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-linked-r1/build/command.log": {
+          "bytes": 1580,
+          "sha256": "0dd838a84d86f572535adbcd534ec6cb7715a96c2aea5259b6ec9ab41c73f79e"
+        },
+        "evidence/ssd-linked-r1/build/plan.json": {
+          "bytes": 815,
+          "sha256": "84b65a89a27afc5a75e59197b3e211293c23278d8f9532547604fb3856742308"
+        },
+        "evidence/ssd-linked-r1/build/result.json": {
+          "bytes": 476,
+          "sha256": "43d1a343f2ece4665e524cda1c99d43a758843219d5b278dd86b07d52655160c"
+        },
+        "evidence/ssd-linked-r1/build/temperatures.jsonl": {
+          "bytes": 3397,
+          "sha256": "d7a0647b5b4d3c69e7bab2fbbd11c9d36737550b5276b080e085251ac44ab6d0"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-linked-r1/configure",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/ssd-linked-r1",
+          "-G",
+          "Ninja",
+          "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+          "-DBUILD_TESTING=OFF",
+          "-DLIE_GUFO_RUNTIME=ON",
+          "-DLIE_GUFO_STATE_ACCESS=ON",
+          "-DLIE_BUILD_ID=ssd-linked-r1",
+          "-DPython3_EXECUTABLE=/usr/bin/python3",
+          "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/.deps/gufo-state-access-gufo-state-host-r1",
+          "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/build/gufo-state-host-r1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.75
+        },
+        "elapsed_s": 1.1296166088432074
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-linked-r1/configure/command.log": {
+          "bytes": 1667,
+          "sha256": "dcf197759e22c206b1b7fdffc8da1b67dde8f9204cdf153c38842dfd122a7110"
+        },
+        "evidence/ssd-linked-r1/configure/plan.json": {
+          "bytes": 1275,
+          "sha256": "dc996866b07060e54e74be2f8ffe5ab380b6b6eb37f4b4e545e786c331248915"
+        },
+        "evidence/ssd-linked-r1/configure/result.json": {
+          "bytes": 924,
+          "sha256": "e28dbbda8c3360ff45f0b4bb4283807c45f05e7a1fa01a8febf311fc1499801f"
+        },
+        "evidence/ssd-linked-r1/configure/temperatures.jsonl": {
+          "bytes": 1458,
+          "sha256": "3108ab05350ff76b13160b43a5f460aa22e0f16f540f84172078aa198fa57b27"
+        }
+      }
+    },
+    {
+      "evidence_directory": "evidence/ssd-linked-r2/build",
+      "source_scope": "checkpoint 9b6c9376de305b22d84c8458311a89690df30bde",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/ssd-linked-r1",
+          "--target",
+          "synapse-lie-server",
+          "synapse-lie-bench",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 74.625
+        },
+        "elapsed_s": 4.209667955525219
+      },
+      "sensors": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon6/temp2_input",
+          "limit_c": 85
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon7/temp1_input",
+          "limit_c": 85
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon8/temp1_input",
+          "limit_c": 85
+        }
+      ],
+      "ctest_summary": null,
+      "artifacts": {
+        "evidence/ssd-linked-r2/build/command.log": {
+          "bytes": 781,
+          "sha256": "64e34bc5025825a542bb72170b320bf88b9505c1cc8fb028a4394fdd23bec1a8"
+        },
+        "evidence/ssd-linked-r2/build/plan.json": {
+          "bytes": 815,
+          "sha256": "84b65a89a27afc5a75e59197b3e211293c23278d8f9532547604fb3856742308"
+        },
+        "evidence/ssd-linked-r2/build/result.json": {
+          "bytes": 464,
+          "sha256": "5ffbdb89b4c2d0a2827c11aaf489401cd9b54544d4f55568b02f4072ff201fd9"
+        },
+        "evidence/ssd-linked-r2/build/temperatures.jsonl": {
+          "bytes": 2917,
+          "sha256": "9429d3d84d668e78500c5c78b2cd047ad86da34a742e9a4916ef8dbc2e65e070"
+        }
+      }
+    }
+  ],
+  "linked_outputs": {
+    "build/ssd-linked-r1/synapse-lie-server": {
+      "bytes": 49048520,
+      "sha256": "d258688c7d7112245ae21d1c020152ca2d9ce9a5b88bf6f09bbd3137702829a3"
+    },
+    "build/ssd-linked-r1/synapse-lie-bench": {
+      "bytes": 48891208,
+      "sha256": "eb5093b5edb1331b6321a8abe2ef344954490939ae80ebb844d778b84092e890"
+    }
+  },
+  "remaining": [
+    "Coordinated original-weight SSD restart and exact-logit/token comparisons",
+    "GPU staging/device memory fit, cancellation and fault qualification",
+    "Cold/RAM/SSD timing comparison, startup hash cost and sustained thermal measurements"
+  ]
+}

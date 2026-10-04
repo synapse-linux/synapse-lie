@@ -1,0 +1,3 @@
+case,turn,prompt_tokens,output_tokens,full_output_budget,wall_median_s,ttft_median_s,pp_wall_mean_tps,tg_wall_mean_tps
+conversation-100000,0,[99995],[1],False,69.75757406209596,69.75748037407175,1433.4644136418456,0.01433536090446368
+conversation-100000,1,[100419],[1],False,71.78942575189285,71.78932999400422,1398.799321045583,0.013929628068847358

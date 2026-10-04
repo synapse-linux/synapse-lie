@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: MIT
+# LIE-owned build scope, unmodified pinned Qwen source. Not upstream release build.
+cmake_minimum_required(VERSION 3.21)
+include("${CMAKE_CURRENT_LIST_DIR}/../hip-target.cmake")
+if(DEFINED CMAKE_HIP_ARCHITECTURES AND NOT CMAKE_HIP_ARCHITECTURES STREQUAL LIE_HIP_ARCHITECTURE)
+  message(FATAL_ERROR "CMAKE_HIP_ARCHITECTURES must match LIE_HIP_ARCHITECTURE")
+endif()
+set(CMAKE_HIP_ARCHITECTURES "${LIE_HIP_ARCHITECTURE}" CACHE STRING "Explicit single HIP target")
+project(lie_gufo_subset LANGUAGES C CXX HIP)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+option(LIE_C17_SAMPLING "Use owned C17 dense sampling" ON)
+option(LIE_VISION_WEIGHT_DECODE "Decode F16/Q8 vision weights once into BF16" ON)
+get_filename_component(LIE_ROOT "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_HIP_STANDARD 20)
+set(CMAKE_HIP_STANDARD_REQUIRED ON)
+if(NOT IS_DIRECTORY "${GUFO_SOURCE}/src/models/qwen38_flash_next")
+  message(FATAL_ERROR "GUFO_SOURCE must be the verified pinned source directory")
+endif()
+list(APPEND CMAKE_PREFIX_PATH /opt/rocm)
+find_package(hip REQUIRED)
+find_package(hipblas REQUIRED)
+find_package(hipblaslt REQUIRED)
+find_package(rocblas REQUIRED)
+find_package(ICU REQUIRED COMPONENTS uc i18n)
+find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+find_package(PNG REQUIRED)
+find_package(JPEG REQUIRED)
+find_package(CURL REQUIRED)
+find_package(Threads REQUIRED)
+find_path(HIPCUB_INCLUDE_DIR hipcub/hipcub.hpp REQUIRED)
+find_path(ROCPRIM_INCLUDE_DIR rocprim/rocprim.hpp REQUIRED)
+# These required Qwen files do not use rocWMMA. No fabricated include path.
+set(CORE
+  src/core/image.cpp src/core/crypto/sha256.cpp src/core/gguf_reader.cpp
+  src/core/gguf_identity.cpp src/core/json_constraint.cpp
+  src/core/json_schema_lexeme.cpp src/core/json_schema_regex.cpp src/core/sampling.cpp
+  src/core/quant/ggml_dequant.cpp src/core/hip/weight_upload.cpp
+  src/core/hip/hipblaslt_plan_database.cpp src/core/speculative/speculative_verifier.cpp
+  src/models/qwen/tokenizer.cpp src/models/qwen/chat_template.cpp
+  src/models/qwen/vision/prompt.cpp src/models/qwen/vision/encoder.hip
+  src/models/qwen/vision/device_input.hip
+  src/models/qwen/hip/kernels/hipblaslt_gemm.hip
+  src/models/qwen/hip/kernels/sample.hip)
+list(TRANSFORM CORE PREPEND "${GUFO_SOURCE}/")
+list(APPEND CORE "${LIE_ROOT}/src/sampling.c")
+list(APPEND CORE "${LIE_ROOT}/src/weight_decode.c")
+add_library(gufo_core STATIC ${CORE})
+target_include_directories(gufo_core PUBLIC "${GUFO_SOURCE}")
+target_include_directories(gufo_core PUBLIC "${LIE_ROOT}/include")
+target_include_directories(gufo_core PRIVATE "${LIE_ROOT}/adapters")
+target_include_directories(gufo_core SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_compile_definitions(gufo_core PUBLIC ENGINE_ENABLE_HIP=1)
+target_compile_definitions(gufo_core PUBLIC LIE_C17_SAMPLING=$<BOOL:${LIE_C17_SAMPLING}>)
+target_compile_definitions(gufo_core PUBLIC LIE_VISION_WEIGHT_DECODE=$<BOOL:${LIE_VISION_WEIGHT_DECODE}>)
+target_link_libraries(gufo_core PUBLIC ICU::uc ICU::i18n OpenSSL::Crypto PNG::PNG JPEG::JPEG CURL::libcurl
+  Threads::Threads hip::host roc::hipblas roc::hipblaslt roc::rocblas m)
+# Retain the upstream model target, file dialects, wave sizes and numerical flags.
+set(PROJECT_SOURCE_DIR "${GUFO_SOURCE}")
+add_subdirectory("${GUFO_SOURCE}/src/models/qwen38_flash_next" src/models/qwen38_flash_next)

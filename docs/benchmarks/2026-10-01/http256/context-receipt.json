@@ -1,0 +1,141 @@
+{
+  "context_capacity": 262144,
+  "physical_prompt_tokens": 262075,
+  "reserved_output": 32,
+  "recipe": {
+    "prefix": "Read these maintenance notes.\n",
+    "pad": "The maintenance team documented the inspection and scheduled additional measurements.\n",
+    "suffix": "\nEnd of notes. Reply with exactly READY and no other text.",
+    "lines": 21837,
+    "tokens_per_line": 12
+  },
+  "overflow_refused_before_forward": true,
+  "samples": [
+    {
+      "api": "chat-json",
+      "wall_seconds": 189.8567444169894,
+      "request_bytes": 1900013,
+      "request_sha256": "ec8327558529a89cddb0259be54e249eb254ca7b5daa0ff5f86fc2bb8506798d",
+      "response": {
+        "id": "chatcmpl-2219099-1455972710971984-10",
+        "object": "chat.completion",
+        "created": 1790890603,
+        "model": "qwen3.8-flash-next",
+        "system_fingerprint": "gufo-embedded-f783fedb",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "READY"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 262075,
+          "completion_tokens": 1,
+          "total_tokens": 262076
+        },
+        "lie_timings": {
+          "schema": "synapse-lie.request-timings.v1",
+          "scope": "synchronous_executor_calls",
+          "valid": true,
+          "prefill_tokens": 262075,
+          "decode_tokens": 1,
+          "prefill_calls": 128,
+          "decode_calls": 2,
+          "prefill_ms": 189569.637303,
+          "decode_ms": 42.09556,
+          "prefill_tokens_per_second": 1382.4735001265553,
+          "decode_tokens_per_second": 23.75547444908679
+        }
+      }
+    },
+    {
+      "api": "responses-sse",
+      "wall_seconds": 196.67180596198887,
+      "request_bytes": 1900003,
+      "response": {
+        "id": "resp_2219099-1455972710971984-11",
+        "object": "response",
+        "created_at": 1790890793,
+        "model": "qwen3.8-flash-next",
+        "status": "completed",
+        "store": false,
+        "background": false,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "previous_response_id": null,
+        "metadata": {},
+        "output": [
+          {
+            "id": "msg_resp_2219099-1455972710971984-11",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "READY",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "input_tokens": 262075,
+          "output_tokens": 1,
+          "total_tokens": 262076,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "r3_overall_state": "FAILED due to Pi LAN timeout on firewall-blocked 19879; long-context checks passed",
+  "r3_collection_sha256": "c339cd465f0fb2f7cf638ba2be103d30826cd5f8e1a5a0cd4eb65d41ac1ed3c8",
+  "r3_postflight": {
+    "at": "2026-10-01T21:47:32.293103+00:00",
+    "owned_pids": {
+      "2219089": false,
+      "2219099": false
+    },
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  }
+}

@@ -1,0 +1,429 @@
+{
+  "schema": "synapse-lie.c17-vision-link.host.v1",
+  "created_at_utc": "2026-10-03T23:28:34.186502+00:00",
+  "branch": "feature/c17-sampling",
+  "compiled_core_source_checkpoint": "032d847bb6c14312754359828ace8f8f8d00b0f4",
+  "scope": "NOT-INFERENCE: locally compiled gfx1151 HIP providers and linked clients with GPU visibility masked on .155; synthetic thermal-policy tests. No model load, model hash/conversion, GPU execution, installation or tuning on this host. .157 benchmark is a separate frozen-source campaign.",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "providers": {
+    "on": {
+      "receipt": "evidence/c17-vision-hip-on-r1/result.json",
+      "receipt_sha256": "c690ff6913bfa0aead5d8ab55d32bff5bd93bc015fc8f1e8bce4bb3a0384ae35",
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED",
+      "c17_sampling": true,
+      "vision_weight_decode": true,
+      "libraries": {
+        "libgufo_core.a": "3f0525832f39f0e1d5ce403907ae6f573dd8ffcb430d4c9103a96db01dc0f688",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "11b07916dcfc96098f1a3d87b18f20093654e3cf30a52ff755ca4f0cb1c36cb1",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "572fd752171e1566c824fac4c54f6e512afe8e7e9709aada659edbcafbc64ca7"
+      },
+      "source_variant": "lie-ds4-state-v1"
+    },
+    "sampling-off": {
+      "receipt": "evidence/c17-vision-hip-sampling-off-r1/result.json",
+      "receipt_sha256": "93471ebef697491d901542c9db507037f86b13736bea89e8d2c424d6f924f913",
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED",
+      "c17_sampling": false,
+      "vision_weight_decode": true,
+      "libraries": {
+        "libgufo_core.a": "13a2d903b8dbbf53e8e1379198a2958c7072731ac4a6633dfb597740349a7bd0",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "fff6b89d5f57604a6f4c3cc5de327423ad112c2fdbffddcddedafdfb70e648bf",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "96230d706866384cfded2f9678cb9df1904d06aa6a38b56f03e73d520590b3d8"
+      },
+      "source_variant": "lie-ds4-state-v1"
+    },
+    "weights-off": {
+      "receipt": "evidence/c17-vision-hip-weights-off-r1/result.json",
+      "receipt_sha256": "f052bcec7ff0d4978ba704a772be81eb6b5e7e32be135c8a662a1650961b879d",
+      "state": "LIBRARIES_BUILT_NOT_EXECUTED_NOT_INFERENCE_QUALIFIED",
+      "c17_sampling": true,
+      "vision_weight_decode": false,
+      "libraries": {
+        "libgufo_core.a": "3d341d19de45d2420208ee93c2e4346114380a6c1bb8845f7de66cdd7a2e44b9",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": "802ceb61fd263ffdb8d8c1a6ace6bac026f07affff8336f1522ebc01ff8941da",
+        "src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": "afe58e109be22555ec9085bfa269e861076b430aac63fe8daeafe715dd319fb0"
+      },
+      "source_variant": "lie-ds4-state-v1"
+    }
+  },
+  "binary_sha256": {
+    "on": {
+      "synapse-lie-server": "5a619a8d720c45d04b4a20f05a560ee49cec6e714d18eb68a9542c9e9dbb232e",
+      "synapse-lie-bench": "612d3d1b796cb0efaab2488b3144ec559b77383531cfd0c22f35becdf8217fcd",
+      "synapse-lie-bench-gufo-reference": "89aec706b6402f62ff61c64ac0e265510a42582dc0a58349d63044e26ab83769",
+      "synapse-lie-bench-report": "a9a47b60d462499c631a800c7cef84536cabb50e71d25fd602af9a6f617afd1c",
+      "lie-executor-bench": "fe16cc71741fb9f4b77ff4e02deed68fd174de4c23b74208493c05377d2bc3b2"
+    },
+    "sampling-off": {
+      "synapse-lie-server": "d12c6c9a82677586061c5a047282fd03a7e0d389ba9af74603305d15c3afc585",
+      "synapse-lie-bench": "497203600e81664043da25913098a15690ab09cba51e44f45aecec827048c1b4",
+      "synapse-lie-bench-gufo-reference": "a1feb87558a0906d89e3fb26d8c7ac7c208d316bfb9428373c691ae35182db17",
+      "synapse-lie-bench-report": "ea903acc9bd69115fc2be26e0773b20b8948b67a0fe6ac6853c5e82f3035970b",
+      "lie-executor-bench": "8b17f2a213ab47e62b80dea43ed02b5875af1ff4a4fbd141e978d34197d637e2"
+    },
+    "weights-off": {
+      "synapse-lie-server": "65206d7fce0291a082c398869c3609f4f99455043d6c54c43d7894ac0c3c3db5",
+      "synapse-lie-bench": "1abe94ef5fbb3098ced6c49ce39b1024f8de5debcc3d5973b49380e31c823a48",
+      "synapse-lie-bench-gufo-reference": "a7a8e9184de4472c8ab512fb396bf5ede56ee7c4bb1fa2fd247d160d70ba8ebf",
+      "synapse-lie-bench-report": "921d10e75a7169b108adfa37e40611d524be515e1c8d3e345a56358e6c379e34",
+      "lie-executor-bench": "b659d0696145107470aa23ab57ab8da16969f6b869b816b9704fdc0efcf150fe"
+    }
+  },
+  "commands": [
+    {
+      "label": "build-hip-on",
+      "argv": [
+        "cmake",
+        "-DLABEL=c17-vision-hip-on-r1",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.5
+      },
+      "elapsed_s": 149.1791608845815
+    },
+    {
+      "label": "configure-app-on",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/c17-vision-app-on-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-c17-vision-hip-on-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/c17-vision-hip-on-r1",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DLIE_BUILD_ID=c17-vision-integrated-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 72.0
+      },
+      "elapsed_s": 3.2164109172299504
+    },
+    {
+      "label": "build-app-on",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-vision-app-on-r1",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.75
+      },
+      "elapsed_s": 21.886233241297305
+    },
+    {
+      "label": "build-hip-sampling-off",
+      "argv": [
+        "cmake",
+        "-DLABEL=c17-vision-hip-sampling-off-r1",
+        "-DLIE_C17_SAMPLING=OFF",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 81.375
+      },
+      "elapsed_s": 145.3355802996084
+    },
+    {
+      "label": "configure-app-sampling-off",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/c17-vision-app-sampling-off-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=OFF",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-c17-vision-hip-sampling-off-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/c17-vision-hip-sampling-off-r1",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DLIE_BUILD_ID=c17-vision-integrated-off-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 58.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 92.0
+      },
+      "elapsed_s": 3.1104125808924437
+    },
+    {
+      "label": "build-app-sampling-off",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-vision-app-sampling-off-r1",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.0
+      },
+      "elapsed_s": 21.928403579629958
+    },
+    {
+      "label": "build-hip-weights-off",
+      "argv": [
+        "cmake",
+        "-DLABEL=c17-vision-hip-weights-off-r1",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=OFF",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 35.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 35.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 63.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 90.375
+      },
+      "elapsed_s": 149.99569077137858
+    },
+    {
+      "label": "configure-app-weights-off",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/c17-vision-app-weights-off-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=OFF",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/.deps/gufo-state-access-c17-vision-hip-weights-off-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/build/c17-vision-hip-weights-off-r1",
+        "-DCMAKE_CXX_FLAGS=-include chrono",
+        "-DLIE_BUILD_ID=c17-vision-integrated-weights-off-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.125
+      },
+      "elapsed_s": 3.1715814601629972
+    },
+    {
+      "label": "build-app-weights-off",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/c17-vision-app-weights-off-r1",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 54.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 81.75
+      },
+      "elapsed_s": 21.985421081073582
+    },
+    {
+      "label": "thermal-policy-legacy-fixtures",
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_core_bench.py",
+        "build/c17-vision-asan/test-synthetic-lie-bench",
+        "CoreBench.test_supervisor_thermal_sensor_limits",
+        "CoreBench.test_legacy_observation_flag_preserves_cpu_and_ssd_guard"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 60.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.75
+      },
+      "elapsed_s": 1.0584447123110294
+    },
+    {
+      "label": "thermal-policy-current-fixtures",
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_thermal_guard.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 59.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.875
+      },
+      "elapsed_s": 4.278133611194789
+    }
+  ],
+  "masked_smokes": {
+    "commands": 12,
+    "failed": 0,
+    "raw": "evidence/c17-vision-integration-r1/composition-smokes.json"
+  },
+  "guard_fixtures": {
+    "passed": 5,
+    "failed": 0,
+    "legacy_observation_flag_cannot_disable_cpu_guard": true,
+    "gpu_software_limit": null,
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "source_sha256": {
+      "tools/thermal-run.py": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670",
+      "tools/run-bench.py": "8edcd1a541f9c1caa90c65e694e9010a3387d1bedaa3e82738eaad3e2662dd4b",
+      "tests/test_thermal_guard.py": "18947f5146f80102206e8be0fef0442750f6cc48b11214d6a11e8abca8c2c9a1",
+      "tests/test_core_bench.py": "43622282353b3487e852a8fdb47d630ad7dcfb98762be3cee99ab4242dcee8bd"
+    }
+  },
+  "thermal": {
+    "peak_c": {
+      "nvme": 37.85,
+      "amdgpu": 63.0,
+      "k10temp": 92.0
+    },
+    "software_stops": 0,
+    "qualified_host": "Strix Halo Ryzen AI Max+395 .155",
+    "hardware_tuning": false
+  },
+  "raw_sha256": {
+    "evidence/c17-vision-integration-r1/build-hip-on/plan.json": "7d2f6eddd7cc60e16ef3a05877d859f7792479281a70b6b77a9c3b60138f02c6",
+    "evidence/c17-vision-integration-r1/build-hip-on/temperatures.jsonl": "6872fa615548cb7974a8c19dd90b2d17699fb0ea77a18bd151368ccbb7d540ff",
+    "evidence/c17-vision-integration-r1/build-hip-on/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/c17-vision-integration-r1/build-hip-on/result.json": "7c28d97bf242b1aa3b3393058661ac14da7663b0d668dc0acccec4e9e704f825",
+    "evidence/c17-vision-integration-r1/configure-app-on/plan.json": "d82bc5d156fae7f4951068c9efd7fcc91284094d33fdcc901d9f89e5426d607a",
+    "evidence/c17-vision-integration-r1/configure-app-on/temperatures.jsonl": "50dec31611a30345ce76c6befde76c5f695fc9f735e12c3658e195b4e99df762",
+    "evidence/c17-vision-integration-r1/configure-app-on/command.log": "efa35a2628dfce61de12ead61f120663bf550410602999ffc6a882ac5fffc416",
+    "evidence/c17-vision-integration-r1/configure-app-on/result.json": "b42e9d63445d8715bd1822d4a6789c7197c86f3700f4228207d0acc4e1bad10d",
+    "evidence/c17-vision-integration-r1/build-app-on/plan.json": "4e059e9a825c781bcd95181c7859a6b3745aee43cc8b8d832f6ef77262a600f8",
+    "evidence/c17-vision-integration-r1/build-app-on/temperatures.jsonl": "1aabdff66fb5a31c6e7c86e76262022377e9d859fed4e4f48881c12471424694",
+    "evidence/c17-vision-integration-r1/build-app-on/command.log": "c6540648650790b31c18bfba7585fbbc87e94746a0141fb0cb1d6f3f13408a8f",
+    "evidence/c17-vision-integration-r1/build-app-on/result.json": "7ac4fb82cd98388135ff79a8039ff1842591f0c538467faa27f40d5d3f0af047",
+    "evidence/c17-vision-integration-r1/build-hip-sampling-off/plan.json": "218010643b2877bfde46a9b7740a5169e605f3577cee4a96d33868535f6ee683",
+    "evidence/c17-vision-integration-r1/build-hip-sampling-off/temperatures.jsonl": "914d804da6a93abf6422ac501691dcf337fcfb9b98583e71e8e412a090ec64c8",
+    "evidence/c17-vision-integration-r1/build-hip-sampling-off/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/c17-vision-integration-r1/build-hip-sampling-off/result.json": "4cbf64ca791251e32fbee7b2f8c7c2bc0f7e4cb275fa722e08376547e26584be",
+    "evidence/c17-vision-integration-r1/configure-app-sampling-off/plan.json": "153aa639a40376f187be0323fc517b64889ebcd0386e3ab399fd71e5ccb0b45c",
+    "evidence/c17-vision-integration-r1/configure-app-sampling-off/temperatures.jsonl": "9682bce96c0854c2d264db4c1a072ff9a809ae84ea9dccfb6fc54b4ba3ed2be8",
+    "evidence/c17-vision-integration-r1/configure-app-sampling-off/command.log": "8a1de0a153cabb5b41982b85a9757f56749dd845f9caca049b2304be97030ff4",
+    "evidence/c17-vision-integration-r1/configure-app-sampling-off/result.json": "70533d57fe295b9d36f6489ac19ae417e5c996fa87ed7e443f2986b6499d32a9",
+    "evidence/c17-vision-integration-r1/build-app-sampling-off/plan.json": "f4479c6f78527cbb9e8c8a6d5035f2438cacfaf9869a3bc72e0b678e3436c102",
+    "evidence/c17-vision-integration-r1/build-app-sampling-off/temperatures.jsonl": "b28288de9644b64932a166b70811ff4f1d5f37b62549ca13eda91d41193427b4",
+    "evidence/c17-vision-integration-r1/build-app-sampling-off/command.log": "d63075da754a492302548a1789d671080ffb11d50ef68ecf5c02f624cd611bc4",
+    "evidence/c17-vision-integration-r1/build-app-sampling-off/result.json": "7b8dedc2be4afd34510663ce8119a73b6b9ace605e24f5ed339a6df7232d4ab2",
+    "evidence/c17-vision-integration-r1/build-hip-weights-off/plan.json": "801ff71431c4edeedddd02eca231e91edbce4ade6a8be3c403437e75b0f8db59",
+    "evidence/c17-vision-integration-r1/build-hip-weights-off/temperatures.jsonl": "c84076250bb4c5ae6f58e50fefc73c7a824ee0e3566480a3ff46c085a1ecc12e",
+    "evidence/c17-vision-integration-r1/build-hip-weights-off/command.log": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c",
+    "evidence/c17-vision-integration-r1/build-hip-weights-off/result.json": "659fb0b5a12c8e83ba58d1e25cd5a80edb91160b9d5544f23528f81722238c38",
+    "evidence/c17-vision-integration-r1/configure-app-weights-off/plan.json": "4cd95d01b478b22c7081c0c5af0c2f5355655f0b349131914dfb4481a166e70e",
+    "evidence/c17-vision-integration-r1/configure-app-weights-off/temperatures.jsonl": "98e5cefd8f0485d01132e014f4353da98f6a39da8161a11478b478dcc7cf4849",
+    "evidence/c17-vision-integration-r1/configure-app-weights-off/command.log": "47fce83060502d5c098b3f2dbd66b522993180bb07c6ab32a2bf0eebe92fc894",
+    "evidence/c17-vision-integration-r1/configure-app-weights-off/result.json": "e4ddda890df78b1d189561b92dace6ec81f1b296f218c766cbc4732391cdd879",
+    "evidence/c17-vision-integration-r1/build-app-weights-off/plan.json": "d02b185b713cf5a251f5364e5cdddf7f854bf3875a9173375a3c330ba363f227",
+    "evidence/c17-vision-integration-r1/build-app-weights-off/temperatures.jsonl": "647318caee20dbf565b03469f3fa9732e4828571922473eb4657f563e8374006",
+    "evidence/c17-vision-integration-r1/build-app-weights-off/command.log": "d6f83448a2908a9fd233aec75e4dbd01d93e089b77fa1de84763f93e21e999c5",
+    "evidence/c17-vision-integration-r1/build-app-weights-off/result.json": "a043334ef93100ebb84fa31ae21c2b610eaabc1a5cb1a0566cb108bd562f982d",
+    "evidence/c17-vision-integration-r1/thermal-policy-legacy-fixtures/plan.json": "ad1f3173401e6c6ca69d8ee9cba799518f0b3a80003fc9978a387e7a93f13c3f",
+    "evidence/c17-vision-integration-r1/thermal-policy-legacy-fixtures/temperatures.jsonl": "e079264a742eef0a25e4c1720807e8bce91a6ba07e69a2cc3dcf4c3def37664a",
+    "evidence/c17-vision-integration-r1/thermal-policy-legacy-fixtures/command.log": "6f283ee6225d2cef4c0127d95456a6f954c45141c92b97dd89016cb1c630e8f4",
+    "evidence/c17-vision-integration-r1/thermal-policy-legacy-fixtures/result.json": "c4b936b63dbbdf0996f184bc5cffc5b40149add1ea35b80120607c34c39f04eb",
+    "evidence/c17-vision-integration-r1/thermal-policy-current-fixtures/plan.json": "265115406aeb4410816a240679a6035f267d082770bd7a182d780547b7d5711b",
+    "evidence/c17-vision-integration-r1/thermal-policy-current-fixtures/temperatures.jsonl": "b00938edc0237b7572bfa8bfccfa5d4cf9e996d7390b6f11871fb23aca3dd4f3",
+    "evidence/c17-vision-integration-r1/thermal-policy-current-fixtures/command.log": "ad6ef28a4189f790657b26a2b36de71c8d4dcff9fad169ead62984ad636ca432",
+    "evidence/c17-vision-integration-r1/thermal-policy-current-fixtures/result.json": "6688a199d53c9b4d9e4c8a1a4f58fa51d1a50418ea74d1e5ee959decd06fba65",
+    "evidence/c17-vision-hip-on-r1/result.json": "c690ff6913bfa0aead5d8ab55d32bff5bd93bc015fc8f1e8bce4bb3a0384ae35",
+    "evidence/c17-vision-hip-on-r1/configure.log": "c0d2387fee3c7f23608e14bef84601ec4139490eb8d20a95356408773972db02",
+    "evidence/c17-vision-hip-on-r1/build.log": "e3e8a100b6c62edef81e9a15465388820d81f5980a2a36d88978c7bd900fb1bb",
+    "build/c17-vision-app-on-r1/CMakeCache.txt": "673497549430cdcbd2faf503d37024bef28649e04ed7b0b59972a17993973335",
+    "evidence/c17-vision-hip-sampling-off-r1/result.json": "93471ebef697491d901542c9db507037f86b13736bea89e8d2c424d6f924f913",
+    "evidence/c17-vision-hip-sampling-off-r1/configure.log": "07eb339b913e611537ca6e5cd0e80f338a140907b3343149aa52b22bd33c336b",
+    "evidence/c17-vision-hip-sampling-off-r1/build.log": "6f9ceb83635f1b68b55223eb713af4db255b05091cdfd8576ec9dd1faea9143d",
+    "build/c17-vision-app-sampling-off-r1/CMakeCache.txt": "d516c8210ff182d1581db3a3e37f4a99c30d6adb586159073e3cc0a0c2ca6a52",
+    "evidence/c17-vision-hip-weights-off-r1/result.json": "f052bcec7ff0d4978ba704a772be81eb6b5e7e32be135c8a662a1650961b879d",
+    "evidence/c17-vision-hip-weights-off-r1/configure.log": "4e8e19bbbf841164a0c34448e4115054c0ae363076e740c2a9da82e390165ead",
+    "evidence/c17-vision-hip-weights-off-r1/build.log": "2af5daa5638b82c2d69ea02c7a4eb206fa50707022216418d461ed96a8e9ccc4",
+    "build/c17-vision-app-weights-off-r1/CMakeCache.txt": "3592c4f8d3c9eb11016651ff8e523de4baecd2d055752cedfc5cfacef5f7feef",
+    "evidence/c17-vision-integration-r1/composition-smokes.json": "e9871413abf129f55584572d13705bd500708ffefce3d134f4813d4c09b115e2",
+    "evidence/c17-vision-integration-r1/link-receipt-preparation-failure.json": "50538c0e55b2cd5bd4f4c47c38888b1c3c968a44cd67493fcbce62ef06eb1702"
+  },
+  "receipt_preparation_failure": {
+    "exit_code": 1,
+    "cause": "Wrong completion enum in private receipt assembly; actual successful builds unchanged",
+    "raw": "evidence/c17-vision-integration-r1/link-receipt-preparation-failure.json"
+  },
+  "pending": [
+    "Original-weight GPU retesting of this newly integrated core; old15c6082/b72f4e8 results do not qualify it",
+    "Optimized C17 sampler sampled inference performance",
+    "Independent vision/MTP numerical quality and exact resource peaks",
+    "Modern Strix Point GPU qualification belongs to its own platform receipt"
+  ]
+}

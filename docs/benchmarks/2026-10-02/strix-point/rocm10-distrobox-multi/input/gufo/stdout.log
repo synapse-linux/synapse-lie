@@ -1,0 +1,1167 @@
++ stat /run/host/etc/shadow
+++ stat -c %u /run/host/etc/shadow
++ '[' 0 = 0 ']'
++ '[' '!' -e /run/.nopasswd ']'
++ rootful=1
++ '[' -n '' ']'
++ printf 'distrobox: Installing basic packages...\n'
+distrobox: Installing basic packages...
+++ basename bash
++ shell_pkg=bash
++ '[' bash = ash ']'
++ missing_packages=0
++ dependencies=$'\n\tbc\n\tbzip2\n\tchpasswd\n\tcurl\n\tdiff\n\tfind\n\tfindmnt\n\tgpg\n\thostname\n\tless\n\tlsof\n\tman\n\tmount\n\tpasswd\n\tpigz\n\tpinentry\n\tping\n\tps\n\trsync\n\tscript\n\tssh\n\tsudo\n\ttime\n\ttree\n\tumount\n\tunzip\n\tuseradd\n\twc\n\twget\n\txauth\n\tzip\n\tbash\n'
++ for dep in ${dependencies}
++ command -v bc
++ missing_packages=1
++ break
++ PATH=/opt/rocm/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/bin:/usr/sbin
++ '[' 0 -ne 0 ']'
++ '[' 1 -ne 0 ']'
++ command -v apk
++ command -v apt-get
++ command -v dnf
+/usr/bin/dnf
++ '[' 0 -ne 0 ']'
++ sed -i /tsflags=nodocs/d /etc/dnf/dnf.conf
++ dnf install -y bash
+Updating and loading repositories:
+ Fedora 43 openh264 (From Cisco) - x86_ 100% |   3.6 KiB/s |   5.8 KiB |  00m02s
+ Fedora 43 - x86_64 - Updates           100% |   1.8 MiB/s |  12.9 MiB |  00m07s
+>>> Curl error (55): Failed sending data to the peer for https://mirrors.fedorap
+ Fedora 43 - x86_64                     100% |   2.4 MiB/s |  35.4 MiB |  00m15s
+Repositories loaded.
+Package "bash-5.3.0-2.fc43.x86_64" is already installed.
+
+Nothing to do.
++ deps=$'\n\t\t\tbash\n\t\t\tbash-completion\n\t\t\tbc\n\t\t\tbzip2\n\t\t\tcracklib-dicts\n\t\t\tcurl\n\t\t\tdiffutils\n\t\t\tdnf-plugins-core\n\t\t\tfindutils\n\t\t\tglibc-all-langpacks\n\t\t\tglibc-locale-source\n\t\t\tgnupg2\n\t\t\tgnupg2-smime\n\t\t\thostname\n\t\t\tiproute\n\t\t\tiputils\n\t\t\tkeyutils\n\t\t\tkrb5-libs\n\t\t\tless\n\t\t\tlsof\n\t\t\tman-db\n\t\t\tman-pages\n\t\t\tmtr\n\t\t\tncurses\n\t\t\tnss-mdns\n\t\t\topenssh-clients\n\t\t\tpam\n\t\t\tpasswd\n\t\t\tpigz\n\t\t\tpinentry\n\t\t\tprocps-ng\n\t\t\trsync\n\t\t\tshadow-utils\n\t\t\tsudo\n\t\t\ttcpdump\n\t\t\ttime\n\t\t\ttraceroute\n\t\t\ttree\n\t\t\ttzdata\n\t\t\tunzip\n\t\t\tutil-linux\n\t\t\tvte-profile\n\t\t\twget\n\t\t\twhich\n\t\t\twhois\n\t\t\twords\n\t\t\txorg-x11-xauth\n\t\t\txz\n\t\t\tzip\n\t\t\tmesa-dri-drivers\n\t\t\tmesa-vulkan-drivers\n\t\t\tvulkan\n\t\t'
++++ uname -m
+++ dnf repoquery -q --latest-limit 1 --arch x86_64 bash bash-completion bc bzip2 cracklib-dicts curl diffutils dnf-plugins-core findutils glibc-all-langpacks glibc-locale-source gnupg2 gnupg2-smime hostname iproute iputils keyutils krb5-libs less lsof man-db man-pages mtr ncurses nss-mdns openssh-clients pam passwd pigz pinentry procps-ng rsync shadow-utils sudo tcpdump time traceroute tree tzdata unzip util-linux vte-profile wget which whois words xorg-x11-xauth xz zip mesa-dri-drivers mesa-vulkan-drivers vulkan
++ dnf install -y --allowerasing bash-0:5.3.0-2.fc43.x86_64 bc-0:1.08.2-2.fc43.x86_64 bzip2-0:1.0.8-21.fc43.x86_64 cracklib-dicts-0:2.10.3-1.fc43.x86_64 curl-0:8.15.0-10.fc43.x86_64 diffutils-0:3.12-3.fc43.x86_64 findutils-1:4.10.0-6.fc43.x86_64 glibc-all-langpacks-0:2.42-16.fc43.x86_64 glibc-locale-source-0:2.42-16.fc43.x86_64 gnupg2-0:2.4.9-5.fc43.x86_64 gnupg2-smime-0:2.4.9-5.fc43.x86_64 hostname-0:3.25-3.fc43.x86_64 iproute-0:6.14.0-2.fc43.x86_64 iputils-0:20250605-1.fc43.x86_64 keyutils-0:1.6.3-6.fc43.x86_64 krb5-libs-0:1.22.2-4.fc43.x86_64 less-0:704-4.fc43.x86_64 lsof-0:4.98.0-8.fc43.x86_64 man-db-0:2.13.1-2.fc43.x86_64 mesa-dri-drivers-0:25.3.6-3.fc43.x86_64 mesa-vulkan-drivers-0:25.3.6-3.fc43.x86_64 mtr-2:0.96-1.fc43.x86_64 ncurses-0:6.5-7.20250614.fc43.x86_64 nss-mdns-0:0.15.1-27.fc43.x86_64 openssh-clients-0:10.0p1-12.fc43.x86_64 pam-0:1.7.1-5.fc43.x86_64 pigz-0:2.8-7.fc43.x86_64 pinentry-0:1.3.2-1.fc43.x86_64 procps-ng-0:4.0.4-7.fc43.1.x86_64 rsync-0:3.5.0-2.fc43.x86_64 shadow-utils-2:4.18.0-3.fc43.x86_64 sudo-0:1.9.17-7.p2.fc43.x86_64 tcpdump-14:4.99.6-2.fc43.x86_64 time-0:1.9-27.fc43.x86_64 traceroute-3:2.1.6-3.fc43.x86_64 tree-0:2.2.1-2.fc43.x86_64 unzip-0:6.0-67.fc43.x86_64 util-linux-0:2.41.5-1.fc43.x86_64 vte-profile-0:0.82.4-1.fc43.x86_64 which-0:2.23-3.fc43.x86_64 whois-0:5.6.6-1.fc43.x86_64 xorg-x11-xauth-1:1.1.4-2.fc43.x86_64 xz-1:5.8.1-4.fc43.x86_64 zip-0:3.0-44.fc43.x86_64
+Updating and loading repositories:
+Repositories loaded.
+Package "bash-5.3.0-2.fc43.x86_64" is already installed.
+Package "bzip2-1.0.8-21.fc43.x86_64" is already installed.
+Package "curl-8.15.0-10.fc43.x86_64" is already installed.
+Package "findutils-1:4.10.0-6.fc43.x86_64" is already installed.
+Package "gnupg2-2.4.9-5.fc43.x86_64" is already installed.
+Package "krb5-libs-1.22.2-4.fc43.x86_64" is already installed.
+Package "less-704-4.fc43.x86_64" is already installed.
+Package "ncurses-6.5-7.20250614.fc43.x86_64" is already installed.
+Package "openssh-clients-10.0p1-12.fc43.x86_64" is already installed.
+Package "pam-1.7.1-5.fc43.x86_64" is already installed.
+Package "shadow-utils-2:4.18.0-3.fc43.x86_64" is already installed.
+Package "sudo-1.9.17-7.p2.fc43.x86_64" is already installed.
+Package "util-linux-2.41.5-1.fc43.x86_64" is already installed.
+Package "xz-1:5.8.1-4.fc43.x86_64" is already installed.
+
+Package              Arch   Version          Repository      Size
+Installing:
+ bc                  x86_64 1.08.2-2.fc43    fedora     228.5 KiB
+ cracklib-dicts      x86_64 2.10.3-1.fc43    updates      9.4 MiB
+ diffutils           x86_64 3.12-3.fc43      fedora       1.6 MiB
+ glibc-all-langpacks x86_64 2.42-16.fc43     updates    226.9 MiB
+ glibc-locale-source x86_64 2.42-16.fc43     updates     15.0 MiB
+ gnupg2-smime        x86_64 2.4.9-5.fc43     updates    521.5 KiB
+ hostname            x86_64 3.25-3.fc43      fedora      41.4 KiB
+ iproute             x86_64 6.14.0-2.fc43    fedora       2.1 MiB
+ iputils             x86_64 20250605-1.fc43  fedora     828.4 KiB
+ keyutils            x86_64 1.6.3-6.fc43     fedora     147.4 KiB
+ lsof                x86_64 4.98.0-8.fc43    fedora     578.5 KiB
+ man-db              x86_64 2.13.1-2.fc43    fedora       2.9 MiB
+ mesa-dri-drivers    x86_64 25.3.6-3.fc43    updates     48.8 MiB
+ mesa-vulkan-drivers x86_64 25.3.6-3.fc43    updates    152.8 MiB
+ mtr                 x86_64 2:0.96-1.fc43    updates    211.0 KiB
+ nss-mdns            x86_64 0.15.1-27.fc43   fedora     156.9 KiB
+ pigz                x86_64 2.8-7.fc43       fedora     163.0 KiB
+ pinentry            x86_64 1.3.2-1.fc43     fedora     263.0 KiB
+ procps-ng           x86_64 4.0.4-7.fc43.1   updates      1.0 MiB
+ rsync               x86_64 3.5.0-2.fc43     updates    891.4 KiB
+ tcpdump             x86_64 14:4.99.6-2.fc43 updates      1.2 MiB
+ time                x86_64 1.9-27.fc43      fedora      82.6 KiB
+ traceroute          x86_64 3:2.1.6-3.fc43   fedora     104.0 KiB
+ tree                x86_64 2.2.1-2.fc43     fedora     112.2 KiB
+ unzip               x86_64 6.0-67.fc43      fedora     386.3 KiB
+ vte-profile         x86_64 0.82.4-1.fc43    updates     52.1 KiB
+ which               x86_64 2.23-3.fc43      fedora      83.5 KiB
+ whois               x86_64 5.6.6-1.fc43     updates    173.3 KiB
+ xorg-x11-xauth      x86_64 1:1.1.4-2.fc43   fedora      52.0 KiB
+ zip                 x86_64 3.0-44.fc43      fedora     694.5 KiB
+Installing dependencies:
+ glibc               i686   2.42-16.fc43     updates      5.5 MiB
+ glibc-gconv-extra   x86_64 2.42-16.fc43     updates      7.2 MiB
+ libICE              x86_64 1.1.2-3.fc43     fedora     194.4 KiB
+ libSM               x86_64 1.2.5-3.fc43     fedora     101.0 KiB
+ libX11              x86_64 1.8.13-1.fc43    updates      1.3 MiB
+ libX11-common       noarch 1.8.13-1.fc43    updates      1.1 MiB
+ libX11-xcb          x86_64 1.8.13-1.fc43    updates     10.9 KiB
+ libXau              x86_64 1.0.12-3.fc43    fedora      72.9 KiB
+ libXext             x86_64 1.3.6-4.fc43     fedora      90.0 KiB
+ libXmu              x86_64 1.2.1-4.fc43     fedora     191.3 KiB
+ libXt               x86_64 1.3.1-3.fc43     fedora     429.8 KiB
+ libbpf              x86_64 2:1.6.1-4.fc43   updates    422.7 KiB
+ libdisplay-info     x86_64 0.2.0-4.fc43     fedora     215.9 KiB
+ libgcc              i686   15.3.1-1.fc43    updates    297.6 KiB
+ libibverbs          x86_64 58.0-4.fc43      fedora       1.2 MiB
+ libmnl              x86_64 1.0.5-8.fc43     fedora      51.1 KiB
+ libnl3              x86_64 3.12.0-2.fc43    updates      1.0 MiB
+ libpcap             x86_64 14:1.10.7-1.fc43 updates    422.6 KiB
+ libpipeline         x86_64 1.5.8-3.fc43     fedora     145.1 KiB
+ libsecret           x86_64 0.21.7-7.fc43    updates    565.3 KiB
+ libwayland-client   x86_64 1.26.0-1.fc43    updates     66.0 KiB
+ libxcb              x86_64 1.17.0-6.fc43    fedora       1.1 MiB
+ libxshmfence        x86_64 1.3.2-7.fc43     fedora      12.4 KiB
+ llvm-filesystem     x86_64 21.1.8-6.fc43    updates      0.0   B
+ llvm-libs           x86_64 21.1.8-6.fc43    updates    138.6 MiB
+ lm_sensors-libs     x86_64 3.6.0-23.fc43    fedora      85.8 KiB
+ mesa-filesystem     x86_64 25.3.6-3.fc43    updates      3.6 KiB
+ mesa-libgbm         x86_64 25.3.6-3.fc43    updates     19.7 KiB
+ psmisc              x86_64 23.7-6.fc43      fedora     829.7 KiB
+ spirv-tools-libs    x86_64 2026.1-2.fc43    updates      5.9 MiB
+ vulkan-loader       x86_64 1.4.341.0-1.fc43 updates    569.6 KiB
+ whois-nls           noarch 5.6.6-1.fc43     updates    132.2 KiB
+ xxhash-libs         x86_64 0.8.3-3.fc43     fedora      90.2 KiB
+Installing weak dependencies:
+ glibc-gconv-extra   i686   2.42-16.fc43     updates      6.7 MiB
+ mesa-va-drivers     x86_64 25.3.6-3.fc43    updates    115.0   B
+
+Transaction Summary:
+ Installing:        65 packages
+
+Total size of inbound packages is 114 MiB. Need to download 114 MiB.
+After this operation, 642 MiB extra will be used (install 642 MiB, remove 0 B).
+[ 1/65] diffutils-0:3.12-3.fc43.x86_64  100% |   1.3 MiB/s | 392.3 KiB |  00m00s
+[ 2/65] bc-0:1.08.2-2.fc43.x86_64       100% | 410.0 KiB/s | 123.4 KiB |  00m00s
+[ 3/65] cracklib-dicts-0:2.10.3-1.fc43. 100% |   3.7 MiB/s |   3.6 MiB |  00m01s
+[ 4/65] gnupg2-smime-0:2.4.9-5.fc43.x86 100% |   2.4 MiB/s | 244.0 KiB |  00m00s
+[ 5/65] hostname-0:3.25-3.fc43.x86_64   100% | 887.4 KiB/s |  27.5 KiB |  00m00s
+[ 6/65] iproute-0:6.14.0-2.fc43.x86_64  100% |   3.1 MiB/s | 835.1 KiB |  00m00s
+[ 7/65] iputils-0:20250605-1.fc43.x86_6 100% |   2.1 MiB/s | 209.5 KiB |  00m00s
+[ 8/65] keyutils-0:1.6.3-6.fc43.x86_64  100% |   1.5 MiB/s |  73.0 KiB |  00m00s
+[ 9/65] lsof-0:4.98.0-8.fc43.x86_64     100% |   1.7 MiB/s | 225.7 KiB |  00m00s
+[10/65] man-db-0:2.13.1-2.fc43.x86_64   100% |   1.8 MiB/s |   1.4 MiB |  00m01s
+[11/65] glibc-locale-source-0:2.42-16.f 100% |   1.9 MiB/s |   4.2 MiB |  00m02s
+[12/65] mesa-dri-drivers-0:25.3.6-3.fc4 100% |   2.5 MiB/s |  12.8 MiB |  00m05s
+[13/65] mtr-2:0.96-1.fc43.x86_64        100% |   1.4 MiB/s |  90.9 KiB |  00m00s
+[14/65] nss-mdns-0:0.15.1-27.fc43.x86_6 100% | 967.3 KiB/s |  45.5 KiB |  00m00s
+[15/65] pigz-0:2.8-7.fc43.x86_64        100% | 722.0 KiB/s |  95.3 KiB |  00m00s
+[16/65] pinentry-0:1.3.2-1.fc43.x86_64  100% |   1.1 MiB/s | 112.5 KiB |  00m00s
+[17/65] procps-ng-0:4.0.4-7.fc43.1.x86_ 100% |   2.3 MiB/s | 364.4 KiB |  00m00s
+[18/65] rsync-0:3.5.0-2.fc43.x86_64     100% |   2.5 MiB/s | 475.5 KiB |  00m00s
+[19/65] tcpdump-14:4.99.6-2.fc43.x86_64 100% |   2.4 MiB/s | 503.7 KiB |  00m00s
+[20/65] time-0:1.9-27.fc43.x86_64       100% | 765.2 KiB/s |  46.7 KiB |  00m00s
+[21/65] traceroute-3:2.1.6-3.fc43.x86_6 100% |   1.5 MiB/s |  59.7 KiB |  00m00s
+[22/65] tree-0:2.2.1-2.fc43.x86_64      100% | 900.8 KiB/s |  61.3 KiB |  00m00s
+[23/65] unzip-0:6.0-67.fc43.x86_64      100% |   2.1 MiB/s | 183.7 KiB |  00m00s
+[24/65] vte-profile-0:0.82.4-1.fc43.x86 100% | 521.4 KiB/s |  27.1 KiB |  00m00s
+[25/65] which-0:2.23-3.fc43.x86_64      100% | 927.4 KiB/s |  41.7 KiB |  00m00s
+[26/65] whois-0:5.6.6-1.fc43.x86_64     100% | 989.7 KiB/s |  66.3 KiB |  00m00s
+[27/65] xorg-x11-xauth-1:1.1.4-2.fc43.x 100% | 654.7 KiB/s |  34.0 KiB |  00m00s
+[28/65] zip-0:3.0-44.fc43.x86_64        100% |   2.0 MiB/s | 261.6 KiB |  00m00s
+[29/65] libmnl-0:1.0.5-8.fc43.x86_64    100% | 394.2 KiB/s |  28.0 KiB |  00m00s
+[30/65] psmisc-0:23.7-6.fc43.x86_64     100% |   2.3 MiB/s | 320.7 KiB |  00m00s
+[31/65] libpipeline-0:1.5.8-3.fc43.x86_ 100% | 965.6 KiB/s |  59.9 KiB |  00m00s
+[32/65] mesa-filesystem-0:25.3.6-3.fc43 100% | 292.9 KiB/s |  10.5 KiB |  00m00s
+[33/65] libxcb-0:1.17.0-6.fc43.x86_64   100% |   1.7 MiB/s | 237.7 KiB |  00m00s
+[34/65] libxshmfence-0:1.3.2-7.fc43.x86 100% | 442.7 KiB/s |  13.3 KiB |  00m00s
+[35/65] lm_sensors-libs-0:3.6.0-23.fc43 100% | 796.3 KiB/s |  40.6 KiB |  00m00s
+[36/65] libdisplay-info-0:0.2.0-4.fc43. 100% |   1.1 MiB/s |  85.4 KiB |  00m00s
+[37/65] xxhash-libs-0:0.8.3-3.fc43.x86_ 100% | 687.2 KiB/s |  38.5 KiB |  00m00s
+[38/65] whois-nls-0:5.6.6-1.fc43.noarch 100% | 863.5 KiB/s |  37.1 KiB |  00m00s
+[39/65] libXau-0:1.0.12-3.fc43.x86_64   100% | 696.8 KiB/s |  33.4 KiB |  00m00s
+[40/65] libXext-0:1.3.6-4.fc43.x86_64   100% | 887.7 KiB/s |  39.1 KiB |  00m00s
+[41/65] libXmu-0:1.2.1-4.fc43.x86_64    100% |   1.7 MiB/s |  78.2 KiB |  00m00s
+[42/65] libXt-0:1.3.1-3.fc43.x86_64     100% |   1.4 MiB/s | 179.2 KiB |  00m00s
+[43/65] glibc-all-langpacks-0:2.42-16.f 100% |   1.8 MiB/s |  17.5 MiB |  00m10s
+[44/65] mesa-libgbm-0:25.3.6-3.fc43.x86 100% | 179.2 KiB/s |  16.5 KiB |  00m00s
+[45/65] libSM-0:1.2.5-3.fc43.x86_64     100% | 631.7 KiB/s |  44.2 KiB |  00m00s
+[46/65] libICE-0:1.1.2-3.fc43.x86_64    100% | 919.4 KiB/s |  78.1 KiB |  00m00s
+[47/65] libX11-common-0:1.8.13-1.fc43.n 100% |   1.3 MiB/s | 175.6 KiB |  00m00s
+[48/65] libX11-0:1.8.13-1.fc43.x86_64   100% |   2.3 MiB/s | 655.2 KiB |  00m00s
+[49/65] libsecret-0:0.21.7-7.fc43.x86_6 100% |   1.2 MiB/s | 196.0 KiB |  00m00s
+[50/65] libbpf-2:1.6.1-4.fc43.x86_64    100% |   1.6 MiB/s | 190.7 KiB |  00m00s
+[51/65] libpcap-14:1.10.7-1.fc43.x86_64 100% |   1.6 MiB/s | 182.1 KiB |  00m00s
+[52/65] libX11-xcb-0:1.8.13-1.fc43.x86_ 100% | 235.1 KiB/s |  11.0 KiB |  00m00s
+[53/65] libwayland-client-0:1.26.0-1.fc 100% | 376.2 KiB/s |  35.0 KiB |  00m00s
+[54/65] libibverbs-0:58.0-4.fc43.x86_64 100% |   2.2 MiB/s | 447.8 KiB |  00m00s
+[55/65] llvm-filesystem-0:21.1.8-6.fc43 100% | 294.4 KiB/s |  13.8 KiB |  00m00s
+[56/65] spirv-tools-libs-0:2026.1-2.fc4 100% |   2.2 MiB/s |   1.7 MiB |  00m01s
+[57/65] vulkan-loader-0:1.4.341.0-1.fc4 100% |   1.4 MiB/s | 161.6 KiB |  00m00s
+[58/65] libnl3-0:3.12.0-2.fc43.x86_64   100% |   1.7 MiB/s | 366.3 KiB |  00m00s
+[59/65] mesa-va-drivers-0:25.3.6-3.fc43 100% | 225.4 KiB/s |   9.2 KiB |  00m00s
+[60/65] glibc-gconv-extra-0:2.42-16.fc4 100% |   2.4 MiB/s |   1.6 MiB |  00m01s
+[61/65] mesa-vulkan-drivers-0:25.3.6-3. 100% |   2.3 MiB/s |  24.8 MiB |  00m11s
+[62/65] glibc-0:2.42-16.fc43.i686       100% |   2.9 MiB/s |   2.0 MiB |  00m01s
+[63/65] libgcc-0:15.3.1-1.fc43.i686     100% |   1.2 MiB/s | 160.7 KiB |  00m00s
+[64/65] glibc-gconv-extra-0:2.42-16.fc4 100% |   2.7 MiB/s |   1.6 MiB |  00m01s
+[65/65] llvm-libs-0:21.1.8-6.fc43.x86_6 100% |   3.2 MiB/s |  34.9 MiB |  00m11s
+--------------------------------------------------------------------------------
+[65/65] Total                           100% |   5.1 MiB/s | 114.5 MiB |  00m23s
+Running transaction
+[ 1/67] Verify package files            100% | 245.0   B/s |  65.0   B |  00m00s
+[ 2/67] Prepare transaction             100% |   2.5 KiB/s |  65.0   B |  00m00s
+[ 3/67] Installing mesa-filesystem-0:25 100% | 715.5 KiB/s |   4.3 KiB |  00m00s
+[ 4/67] Installing llvm-filesystem-0:21 100% |   1.0 MiB/s |   1.1 KiB |  00m00s
+[ 5/67] Installing libX11-common-0:1.8. 100% | 148.4 MiB/s |   1.2 MiB |  00m00s
+[ 6/67] Installing whois-nls-0:5.6.6-1. 100% | 131.7 MiB/s | 134.8 KiB |  00m00s
+[ 7/67] Installing mesa-va-drivers-0:25 100% | 480.5 KiB/s | 984.0   B |  00m00s
+[ 8/67] Installing glibc-gconv-extra-0: 100% | 220.7 MiB/s |   7.3 MiB |  00m00s
+[ 9/67] Installing cracklib-dicts-0:2.1 100% | 445.8 MiB/s |   9.4 MiB |  00m00s
+[10/67] Installing libgcc-0:15.3.1-1.fc 100% | 146.2 MiB/s | 299.3 KiB |  00m00s
+[11/67] Installing glibc-all-langpacks- 100% | 949.5 MiB/s | 226.9 MiB |  00m00s
+[12/67] Installing glibc-0:2.42-16.fc43 100% | 190.8 MiB/s |   5.5 MiB |  00m00s
+[13/67] Installing glibc-gconv-extra-0: 100% | 242.6 MiB/s |   6.8 MiB |  00m00s
+[14/67] Installing libxshmfence-0:1.3.2 100% |   6.6 MiB/s |  13.6 KiB |  00m00s
+[15/67] Installing libXau-0:1.0.12-3.fc 100% |  36.4 MiB/s |  74.5 KiB |  00m00s
+[16/67] Installing libxcb-0:1.17.0-6.fc 100% | 216.0 MiB/s |   1.1 MiB |  00m00s
+[17/67] Installing libX11-0:1.8.13-1.fc 100% | 427.2 MiB/s |   1.3 MiB |  00m00s
+[18/67] Installing libXext-0:1.3.6-4.fc 100% |  89.1 MiB/s |  91.2 KiB |  00m00s
+[19/67] Installing libICE-0:1.1.2-3.fc4 100% | 191.2 MiB/s | 195.8 KiB |  00m00s
+[20/67] Installing libX11-xcb-0:1.8.13- 100% |  11.5 MiB/s |  11.8 KiB |  00m00s
+[21/67] Installing llvm-libs-0:21.1.8-6 100% | 774.4 MiB/s | 138.6 MiB |  00m00s
+[22/67] Installing spirv-tools-libs-0:2 100% | 396.8 MiB/s |   6.0 MiB |  00m00s
+[23/67] Installing libSM-0:1.2.5-3.fc43 100% |  50.0 MiB/s | 102.4 KiB |  00m00s
+[24/67] Installing libXt-0:1.3.1-3.fc43 100% | 210.5 MiB/s | 431.0 KiB |  00m00s
+[25/67] Installing libXmu-0:1.2.1-4.fc4 100% |  94.4 MiB/s | 193.3 KiB |  00m00s
+[26/67] Installing unzip-0:6.0-67.fc43. 100% |  42.3 MiB/s | 389.8 KiB |  00m00s
+[27/67] Installing libmnl-0:1.0.5-8.fc4 100% |  25.6 MiB/s |  52.5 KiB |  00m00s
+[28/67] Installing psmisc-0:23.7-6.fc43 100% |  92.0 MiB/s | 848.2 KiB |  00m00s
+[29/67] Installing libpipeline-0:1.5.8- 100% |  71.6 MiB/s | 146.6 KiB |  00m00s
+[30/67] Installing lm_sensors-libs-0:3. 100% |  84.9 MiB/s |  86.9 KiB |  00m00s
+[31/67] Installing mesa-dri-drivers-0:2 100% | 739.6 MiB/s |  48.8 MiB |  00m00s
+[32/67] Installing mesa-libgbm-0:25.3.6 100% |  10.0 MiB/s |  20.5 KiB |  00m00s
+[33/67] Installing libdisplay-info-0:0. 100% | 106.1 MiB/s | 217.3 KiB |  00m00s
+[34/67] Installing xxhash-libs-0:0.8.3- 100% |  44.7 MiB/s |  91.6 KiB |  00m00s
+[35/67] Installing libsecret-0:0.21.7-7 100% |  56.4 MiB/s | 577.6 KiB |  00m00s
+[36/67] Installing libbpf-2:1.6.1-4.fc4 100% | 206.8 MiB/s | 423.5 KiB |  00m00s
+[37/67] Installing libwayland-client-0: 100% |  65.6 MiB/s |  67.2 KiB |  00m00s
+[38/67] Installing vulkan-loader-0:1.4. 100% | 279.4 MiB/s | 572.3 KiB |  00m00s
+[39/67] Installing libnl3-0:3.12.0-2.fc 100% | 261.8 MiB/s |   1.0 MiB |  00m00s
+[40/67] Installing libibverbs-0:58.0-4. 100% | 234.6 MiB/s |   1.2 MiB |  00m00s
+[41/67] Installing libpcap-14:1.10.7-1. 100% |  17.3 MiB/s | 424.7 KiB |  00m00s
+>>> Running sysusers scriptlet: tcpdump-14:4.99.6-2.fc43.x86_64                 
+>>> Finished sysusers scriptlet: tcpdump-14:4.99.6-2.fc43.x86_64                
+>>> Scriptlet output:                                                           
+>>> Creating group 'tcpdump' with GID 72.                                       
+>>> Creating user 'tcpdump' (tcpdump) with UID 72 and GID 72.                   
+>>>                                                                             
+[42/67] Installing tcpdump-14:4.99.6-2. 100% | 102.0 MiB/s |   1.2 MiB |  00m00s
+[43/67] Installing mesa-vulkan-drivers- 100% | 979.3 MiB/s | 152.8 MiB |  00m00s
+[44/67] Installing iproute-0:6.14.0-2.f 100% | 148.0 MiB/s |   2.1 MiB |  00m00s
+[45/67] Installing pinentry-0:1.3.2-1.f 100% |  28.8 MiB/s | 265.2 KiB |  00m00s
+[46/67] Installing rsync-0:3.5.0-2.fc43 100% |  38.1 MiB/s | 897.1 KiB |  00m00s
+[47/67] Installing man-db-0:2.13.1-2.fc 100% | 126.7 MiB/s |   2.9 MiB |  00m00s
+[48/67] Installing zip-0:3.0-44.fc43.x8 100% |  68.2 MiB/s | 698.4 KiB |  00m00s
+[49/67] Installing xorg-x11-xauth-1:1.1 100% |   6.5 MiB/s |  53.3 KiB |  00m00s
+[50/67] Installing bc-0:1.08.2-2.fc43.x 100% |  28.3 MiB/s | 232.0 KiB |  00m00s
+[51/67] Installing diffutils-0:3.12-3.f 100% | 156.1 MiB/s |   1.6 MiB |  00m00s
+[52/67] Installing glibc-locale-source- 100% | 457.7 MiB/s |  15.1 MiB |  00m00s
+[53/67] Installing gnupg2-smime-0:2.4.9 100% |  56.7 MiB/s | 522.3 KiB |  00m00s
+[54/67] Installing hostname-0:3.25-3.fc 100% |   2.5 MiB/s |  44.4 KiB |  00m00s
+[55/67] Installing iputils-0:20250605-1 100% |  81.6 MiB/s | 835.2 KiB |  00m00s
+[56/67] Installing keyutils-0:1.6.3-6.f 100% |  16.4 MiB/s | 150.9 KiB |  00m00s
+[57/67] Installing lsof-0:4.98.0-8.fc43 100% |  70.8 MiB/s | 580.2 KiB |  00m00s
+[58/67] Installing mtr-2:0.96-1.fc43.x8 100% |  23.2 MiB/s | 213.9 KiB |  00m00s
+[59/67] Installing nss-mdns-0:0.15.1-27 100% |  78.5 MiB/s | 160.7 KiB |  00m00s
+[60/67] Installing pigz-0:2.8-7.fc43.x8 100% |  20.1 MiB/s | 164.5 KiB |  00m00s
+[61/67] Installing procps-ng-0:4.0.4-7. 100% |  91.9 MiB/s |   1.0 MiB |  00m00s
+[62/67] Installing time-0:1.9-27.fc43.x 100% |  10.3 MiB/s |  84.4 KiB |  00m00s
+[63/67] Installing traceroute-3:2.1.6-3 100% |  13.0 MiB/s | 106.2 KiB |  00m00s
+[64/67] Installing tree-0:2.2.1-2.fc43. 100% |  13.9 MiB/s | 113.6 KiB |  00m00s
+[65/67] Installing vte-profile-0:0.82.4 100% |  52.1 MiB/s |  53.4 KiB |  00m00s
+[66/67] Installing which-0:2.23-3.fc43. 100% |  10.5 MiB/s |  85.7 KiB |  00m00s
+[67/67] Installing whois-0:5.6.6-1.fc43 100% |   1.6 MiB/s | 175.2 KiB |  00m00s
+Complete!
++ grep -qi en_us.utf8
++ locale -a
++ '[' '!' -e /usr/share/zoneinfo/UTC ']'
++ '[' -n '' ']'
++ touch /.containersetupdone
+++ command -v bash
++ SHELL=/usr/bin/bash
++ /usr/bin/distrobox-host-exec -Y test
++ :
++ command -v xdg-open
++ mkdir -p /usr/local/bin/
++ ln -sf /usr/bin/distrobox-host-exec /usr/local/bin/xdg-open
++ su --help
++ grep -q pty
++ printf 'distrobox: Setting up devpts mounts...\n'
+distrobox: Setting up devpts mounts...
++ grep -q tty /etc/group
++ mount -t devpts devpts -o noexec,nosuid,newinstance,ptmxmode=0666,mode=0620,gid=tty /dev/pts/
++ mount --bind /dev/pts/ptmx /dev/ptmx
++ mount --make-rshared /
++ printf 'distrobox: Setting up read-only mounts...\n'
+distrobox: Setting up read-only mounts...
++ HOST_MOUNTS_RO=$'\n\t/etc/localtime\n\t/var/lib/systemd/coredump\n\t/var/log/journal'
++ for host_mount_ro in ${HOST_MOUNTS_RO}
+++ get_locked_mount_flags /run/host/etc/localtime
+++ source=/run/host/etc/localtime
+++ prev=
+++ locked_flags=
+++ ls /run/host/etc/localtime
+++ true
++++ findmnt --noheadings --output OPTIONS --target /run/host/etc/localtime
+++ flags=rw,relatime,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1478/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1399/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1398/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1397/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1389/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/work
+++ '[' -n rw,relatime,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1478/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1399/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1398/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1397/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1389/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/work ']'
+++ break
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1478/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1399/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1398/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1397/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1389/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/work
+++ grep -q nodev
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1478/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1399/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1398/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1397/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1389/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/work
+++ grep -q noexec
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,lowerdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1478/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1399/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1398/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1397/fs:/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1389/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/1479/work
+++ grep -q nosuid
+++ printf %s ''
++ locked_flags=
++ mount_bind /run/host/etc/localtime /etc/localtime ro
++ source_dir=/run/host/etc/localtime
++ target_dir=/etc/localtime
++ mount_flags=
++ '[' 3 -gt 2 ']'
++ mount_flags=ro
++ '[' -L /run/host/etc/localtime ']'
+++ init_readlink /run/host/etc/localtime
+++ ls -l /run/host/etc/localtime
+++ grep -Eo '\->.*'
+++ cut '-d ' -f2-
+++ sed 's|\.\./|/|g'
++ source_dir=/usr/share/zoneinfo/Europe/Rome
++ printf %s /usr/share/zoneinfo/Europe/Rome
++ grep -q /run/host
++ source_dir=/run/host/usr/share/zoneinfo/Europe/Rome
++ '[' '!' -d /run/host/usr/share/zoneinfo/Europe/Rome ']'
++ '[' '!' -f /run/host/usr/share/zoneinfo/Europe/Rome ']'
++ '[' -e /etc/localtime ']'
++ findmnt /etc/localtime
++ '[' -L /etc/localtime ']'
++ rm -f /etc/localtime
++ '[' -d /run/host/usr/share/zoneinfo/Europe/Rome ']'
++ '[' -f /run/host/usr/share/zoneinfo/Europe/Rome ']'
+++ dirname /etc/localtime
++ '[' '!' -d /etc ']'
++ touch /etc/localtime
++ '[' ro = '' ']'
++ mount --rbind -o ro /run/host/usr/share/zoneinfo/Europe/Rome /etc/localtime
++ return 0
++ for host_mount_ro in ${HOST_MOUNTS_RO}
+++ get_locked_mount_flags /run/host/var/lib/systemd/coredump
+++ source=/run/host/var/lib/systemd/coredump
+++ prev=
+++ locked_flags=
+++ ls /run/host/var/lib/systemd/coredump
+++ true
++++ findmnt --noheadings --output OPTIONS --target /run/host/var/lib/systemd/coredump
+++ flags=rw,relatime,errors=remount-ro
+++ '[' -n rw,relatime,errors=remount-ro ']'
+++ break
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q nodev
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q noexec
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q nosuid
+++ printf %s ''
++ locked_flags=
++ mount_bind /run/host/var/lib/systemd/coredump /var/lib/systemd/coredump ro
++ source_dir=/run/host/var/lib/systemd/coredump
++ target_dir=/var/lib/systemd/coredump
++ mount_flags=
++ '[' 3 -gt 2 ']'
++ mount_flags=ro
++ '[' -L /run/host/var/lib/systemd/coredump ']'
++ '[' '!' -d /run/host/var/lib/systemd/coredump ']'
++ '[' -e /var/lib/systemd/coredump ']'
++ '[' -L /var/lib/systemd/coredump ']'
++ '[' -d /run/host/var/lib/systemd/coredump ']'
++ mkdir -p /var/lib/systemd/coredump
++ '[' ro = '' ']'
++ mount --rbind -o ro /run/host/var/lib/systemd/coredump /var/lib/systemd/coredump
++ return 0
++ for host_mount_ro in ${HOST_MOUNTS_RO}
+++ get_locked_mount_flags /run/host/var/log/journal
+++ source=/run/host/var/log/journal
+++ prev=
+++ locked_flags=
+++ ls /run/host/var/log/journal
+++ true
++++ findmnt --noheadings --output OPTIONS --target /run/host/var/log/journal
+++ flags=rw,relatime,errors=remount-ro
+++ '[' -n rw,relatime,errors=remount-ro ']'
+++ break
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q nodev
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q noexec
+++ for flag in nodev noexec nosuid
+++ printf %s rw,relatime,errors=remount-ro
+++ grep -q nosuid
+++ printf %s ''
++ locked_flags=
++ mount_bind /run/host/var/log/journal /var/log/journal ro
++ source_dir=/run/host/var/log/journal
++ target_dir=/var/log/journal
++ mount_flags=
++ '[' 3 -gt 2 ']'
++ mount_flags=ro
++ '[' -L /run/host/var/log/journal ']'
++ '[' '!' -d /run/host/var/log/journal ']'
++ '[' -e /var/log/journal ']'
++ findmnt /var/log/journal
++ umount /var/log/journal
++ '[' -L /var/log/journal ']'
++ '[' -d /run/host/var/log/journal ']'
++ mkdir -p /var/log/journal
++ '[' ro = '' ']'
++ mount --rbind -o ro /run/host/var/log/journal /var/log/journal
++ return 0
++ printf 'distrobox: Setting up read-write mounts...\n'
+distrobox: Setting up read-write mounts...
++ '[' -e /var/home/pop ']'
++ HOST_MOUNTS=$'\n\t/etc/host.conf\n\t/etc/machine-id\n\t/media\n\t/mnt\n\t/run/libvirt\n\t/run/media\n\t/run/netconfig/\n\t/run/systemd/journal\n\t/run/systemd/resolve/\n\t/run/systemd/seats\n\t/run/systemd/sessions\n\t/run/systemd/users\n\t/run/udev\n\t/var/lib/libvirt\n\t/var/mnt'
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/etc/host.conf /etc/host.conf
++ source_dir=/run/host/etc/host.conf
++ target_dir=/etc/host.conf
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/etc/host.conf ']'
++ '[' '!' -d /run/host/etc/host.conf ']'
++ '[' '!' -f /run/host/etc/host.conf ']'
++ '[' -e /etc/host.conf ']'
++ findmnt /etc/host.conf
++ '[' -L /etc/host.conf ']'
++ '[' -d /run/host/etc/host.conf ']'
++ '[' -f /run/host/etc/host.conf ']'
+++ dirname /etc/host.conf
++ '[' '!' -d /etc ']'
++ touch /etc/host.conf
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/etc/host.conf /etc/host.conf
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/etc/machine-id /etc/machine-id
++ source_dir=/run/host/etc/machine-id
++ target_dir=/etc/machine-id
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/etc/machine-id ']'
++ '[' '!' -d /run/host/etc/machine-id ']'
++ '[' '!' -f /run/host/etc/machine-id ']'
++ '[' -e /etc/machine-id ']'
++ findmnt /etc/machine-id
++ '[' -L /etc/machine-id ']'
++ '[' -d /run/host/etc/machine-id ']'
++ '[' -f /run/host/etc/machine-id ']'
+++ dirname /etc/machine-id
++ '[' '!' -d /etc ']'
++ touch /etc/machine-id
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/etc/machine-id /etc/machine-id
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/media /media
++ source_dir=/run/host/media
++ target_dir=/media
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/media ']'
++ '[' '!' -d /run/host/media ']'
++ '[' -e /media ']'
++ findmnt /media
++ '[' -L /media ']'
++ '[' -d /run/host/media ']'
++ mkdir -p /media
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/media /media
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/mnt /mnt
++ source_dir=/run/host/mnt
++ target_dir=/mnt
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/mnt ']'
++ '[' '!' -d /run/host/mnt ']'
++ '[' -e /mnt ']'
++ findmnt /mnt
++ '[' -L /mnt ']'
++ '[' -d /run/host/mnt ']'
++ mkdir -p /mnt
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/mnt /mnt
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/libvirt /run/libvirt
++ source_dir=/run/host/run/libvirt
++ target_dir=/run/libvirt
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/libvirt ']'
++ '[' '!' -d /run/host/run/libvirt ']'
++ '[' '!' -f /run/host/run/libvirt ']'
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/media /run/media
++ source_dir=/run/host/run/media
++ target_dir=/run/media
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/media ']'
++ '[' '!' -d /run/host/run/media ']'
++ '[' '!' -f /run/host/run/media ']'
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/netconfig/ /run/netconfig/
++ source_dir=/run/host/run/netconfig/
++ target_dir=/run/netconfig/
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/netconfig/ ']'
++ '[' '!' -d /run/host/run/netconfig/ ']'
++ '[' '!' -f /run/host/run/netconfig/ ']'
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/systemd/journal /run/systemd/journal
++ source_dir=/run/host/run/systemd/journal
++ target_dir=/run/systemd/journal
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/systemd/journal ']'
++ '[' '!' -d /run/host/run/systemd/journal ']'
++ '[' -e /run/systemd/journal ']'
++ '[' -L /run/systemd/journal ']'
++ '[' -d /run/host/run/systemd/journal ']'
++ mkdir -p /run/systemd/journal
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/systemd/journal /run/systemd/journal
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/systemd/resolve/ /run/systemd/resolve/
++ source_dir=/run/host/run/systemd/resolve/
++ target_dir=/run/systemd/resolve/
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/systemd/resolve/ ']'
++ '[' '!' -d /run/host/run/systemd/resolve/ ']'
++ '[' -e /run/systemd/resolve/ ']'
++ '[' -L /run/systemd/resolve/ ']'
++ '[' -d /run/host/run/systemd/resolve/ ']'
++ mkdir -p /run/systemd/resolve/
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/systemd/resolve/ /run/systemd/resolve/
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/systemd/seats /run/systemd/seats
++ source_dir=/run/host/run/systemd/seats
++ target_dir=/run/systemd/seats
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/systemd/seats ']'
++ '[' '!' -d /run/host/run/systemd/seats ']'
++ '[' -e /run/systemd/seats ']'
++ '[' -L /run/systemd/seats ']'
++ '[' -d /run/host/run/systemd/seats ']'
++ mkdir -p /run/systemd/seats
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/systemd/seats /run/systemd/seats
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/systemd/sessions /run/systemd/sessions
++ source_dir=/run/host/run/systemd/sessions
++ target_dir=/run/systemd/sessions
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/systemd/sessions ']'
++ '[' '!' -d /run/host/run/systemd/sessions ']'
++ '[' -e /run/systemd/sessions ']'
++ '[' -L /run/systemd/sessions ']'
++ '[' -d /run/host/run/systemd/sessions ']'
++ mkdir -p /run/systemd/sessions
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/systemd/sessions /run/systemd/sessions
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/systemd/users /run/systemd/users
++ source_dir=/run/host/run/systemd/users
++ target_dir=/run/systemd/users
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/systemd/users ']'
++ '[' '!' -d /run/host/run/systemd/users ']'
++ '[' -e /run/systemd/users ']'
++ '[' -L /run/systemd/users ']'
++ '[' -d /run/host/run/systemd/users ']'
++ mkdir -p /run/systemd/users
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/systemd/users /run/systemd/users
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/run/udev /run/udev
++ source_dir=/run/host/run/udev
++ target_dir=/run/udev
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/run/udev ']'
++ '[' '!' -d /run/host/run/udev ']'
++ '[' -e /run/udev ']'
++ '[' -L /run/udev ']'
++ '[' -d /run/host/run/udev ']'
++ mkdir -p /run/udev
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/run/udev /run/udev
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/var/lib/libvirt /var/lib/libvirt
++ source_dir=/run/host/var/lib/libvirt
++ target_dir=/var/lib/libvirt
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/var/lib/libvirt ']'
++ '[' '!' -d /run/host/var/lib/libvirt ']'
++ '[' '!' -f /run/host/var/lib/libvirt ']'
++ return 0
++ for host_mount in ${HOST_MOUNTS}
++ mount_bind /run/host/var/mnt /var/mnt
++ source_dir=/run/host/var/mnt
++ target_dir=/var/mnt
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/var/mnt ']'
++ '[' '!' -d /run/host/var/mnt ']'
++ '[' '!' -f /run/host/var/mnt ']'
++ return 0
++ printf 'distrobox: Setting up host'\''s sockets integration...\n'
+distrobox: Setting up host's sockets integration...
+++ find /run/host/run -path /run/host/run/media -prune -o -path /run/host/run/timeshift -prune -o -name user -prune -o -name bees -prune -o -name nscd -prune -o -name system_bus_socket -prune -o -type s -print
++ host_sockets=$'/run/host/run/docker/libnetwork/8b861d313d71.sock\n/run/host/run/docker/metrics.sock\n/run/host/run/nri/nri.sock\n/run/host/run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b\n/run/host/run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec\n/run/host/run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e\n/run/host/run/containerd/containerd.sock\n/run/host/run/containerd/containerd.sock.ttrpc\n/run/host/run/chrony/chronyd.sock\n/run/host/run/wpa_supplicant/p2p-dev-wlp194s\n/run/host/run/wpa_supplicant/wlp194s0\n/run/host/run/uuidd/request\n/run/host/run/docker.sock\n/run/host/run/cups/cups.sock\n/run/host/run/avahi-daemon/socket\n/run/host/run/acpid.socket\n/run/host/run/podman/podman.sock\n/run/host/run/lvm/lvmpolld.socket\n/run/host/run/systemd/resolve/io.systemd.Resolve.Monitor\n/run/host/run/systemd/resolve/io.systemd.Resolve\n/run/host/run/systemd/io.systemd.sysext\n/run/host/run/systemd/fsck.progress\n/run/host/run/systemd/journal/io.systemd.journal\n/run/host/run/systemd/journal/stdout\n/run/host/run/systemd/journal/socket\n/run/host/run/systemd/journal/dev-log\n/run/host/run/systemd/journal/syslog\n/run/host/run/systemd/io.systemd.ManagedOOM\n/run/host/run/systemd/userdb/io.systemd.DynamicUser\n/run/host/run/systemd/private\n/run/host/run/systemd/notify\n/run/host/run/systemd/inaccessible/sock\n/run/host/run/udev/control'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/docker/libnetwork/8b861d313d71.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/docker/libnetwork/8b861d313d71.sock
++ '[' '!' -S /run/docker/libnetwork/8b861d313d71.sock ']'
++ '[' '!' -L /run/docker/libnetwork/8b861d313d71.sock ']'
++ rm -f /run/docker/libnetwork/8b861d313d71.sock
+++ dirname /run/docker/libnetwork/8b861d313d71.sock
++ mkdir -p /run/docker/libnetwork
++ ln -s /run/host/run/docker/libnetwork/8b861d313d71.sock /run/docker/libnetwork/8b861d313d71.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/docker/metrics.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/docker/metrics.sock
++ '[' '!' -S /run/docker/metrics.sock ']'
++ '[' '!' -L /run/docker/metrics.sock ']'
++ rm -f /run/docker/metrics.sock
+++ dirname /run/docker/metrics.sock
++ mkdir -p /run/docker
++ ln -s /run/host/run/docker/metrics.sock /run/docker/metrics.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/nri/nri.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/nri/nri.sock
++ '[' '!' -S /run/nri/nri.sock ']'
++ '[' '!' -L /run/nri/nri.sock ']'
++ rm -f /run/nri/nri.sock
+++ dirname /run/nri/nri.sock
++ mkdir -p /run/nri
++ ln -s /run/host/run/nri/nri.sock /run/nri/nri.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b
+++ sed 's|/run/host||g'
++ container_socket=/run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b
++ '[' '!' -S /run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b ']'
++ '[' '!' -L /run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b ']'
++ rm -f /run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b
+++ dirname /run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b
++ mkdir -p /run/containerd/s
++ ln -s /run/host/run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b /run/containerd/s/1577befc323329d0b0d1d09412c0c14e5994d68644384f388aeaa175a3bc314b
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec
+++ sed 's|/run/host||g'
++ container_socket=/run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec
++ '[' '!' -S /run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec ']'
++ '[' '!' -L /run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec ']'
++ rm -f /run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec
+++ dirname /run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec
++ mkdir -p /run/containerd/s
++ ln -s /run/host/run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec /run/containerd/s/eca85be06f60ab1e29f5b3a9e780b6bf750cd8de955fed1827089db54f1382ec
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e
+++ sed 's|/run/host||g'
++ container_socket=/run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e
++ '[' '!' -S /run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e ']'
++ '[' '!' -L /run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e ']'
++ rm -f /run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e
+++ dirname /run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e
++ mkdir -p /run/containerd/s
++ ln -s /run/host/run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e /run/containerd/s/e39feb0f9573461df059a48eafeeacc12dba7a91a0fd973d19adf85e2aee4c8e
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/containerd/containerd.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/containerd/containerd.sock
++ '[' '!' -S /run/containerd/containerd.sock ']'
++ '[' '!' -L /run/containerd/containerd.sock ']'
++ rm -f /run/containerd/containerd.sock
+++ dirname /run/containerd/containerd.sock
++ mkdir -p /run/containerd
++ ln -s /run/host/run/containerd/containerd.sock /run/containerd/containerd.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/containerd/containerd.sock.ttrpc
+++ sed 's|/run/host||g'
++ container_socket=/run/containerd/containerd.sock.ttrpc
++ '[' '!' -S /run/containerd/containerd.sock.ttrpc ']'
++ '[' '!' -L /run/containerd/containerd.sock.ttrpc ']'
++ rm -f /run/containerd/containerd.sock.ttrpc
+++ dirname /run/containerd/containerd.sock.ttrpc
++ mkdir -p /run/containerd
++ ln -s /run/host/run/containerd/containerd.sock.ttrpc /run/containerd/containerd.sock.ttrpc
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/chrony/chronyd.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/chrony/chronyd.sock
++ '[' '!' -S /run/chrony/chronyd.sock ']'
++ '[' '!' -L /run/chrony/chronyd.sock ']'
++ rm -f /run/chrony/chronyd.sock
+++ dirname /run/chrony/chronyd.sock
++ mkdir -p /run/chrony
++ ln -s /run/host/run/chrony/chronyd.sock /run/chrony/chronyd.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/wpa_supplicant/p2p-dev-wlp194s
+++ sed 's|/run/host||g'
++ container_socket=/run/wpa_supplicant/p2p-dev-wlp194s
++ '[' '!' -S /run/wpa_supplicant/p2p-dev-wlp194s ']'
++ '[' '!' -L /run/wpa_supplicant/p2p-dev-wlp194s ']'
++ rm -f /run/wpa_supplicant/p2p-dev-wlp194s
+++ dirname /run/wpa_supplicant/p2p-dev-wlp194s
++ mkdir -p /run/wpa_supplicant
++ ln -s /run/host/run/wpa_supplicant/p2p-dev-wlp194s /run/wpa_supplicant/p2p-dev-wlp194s
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/wpa_supplicant/wlp194s0
+++ sed 's|/run/host||g'
++ container_socket=/run/wpa_supplicant/wlp194s0
++ '[' '!' -S /run/wpa_supplicant/wlp194s0 ']'
++ '[' '!' -L /run/wpa_supplicant/wlp194s0 ']'
++ rm -f /run/wpa_supplicant/wlp194s0
+++ dirname /run/wpa_supplicant/wlp194s0
++ mkdir -p /run/wpa_supplicant
++ ln -s /run/host/run/wpa_supplicant/wlp194s0 /run/wpa_supplicant/wlp194s0
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/uuidd/request
+++ sed 's|/run/host||g'
++ container_socket=/run/uuidd/request
++ '[' '!' -S /run/uuidd/request ']'
++ '[' '!' -L /run/uuidd/request ']'
++ rm -f /run/uuidd/request
+++ dirname /run/uuidd/request
++ mkdir -p /run/uuidd
++ ln -s /run/host/run/uuidd/request /run/uuidd/request
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/docker.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/docker.sock
++ '[' '!' -S /run/docker.sock ']'
++ '[' '!' -L /run/docker.sock ']'
++ rm -f /run/docker.sock
+++ dirname /run/docker.sock
++ mkdir -p /run
++ ln -s /run/host/run/docker.sock /run/docker.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/cups/cups.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/cups/cups.sock
++ '[' '!' -S /run/cups/cups.sock ']'
++ '[' '!' -L /run/cups/cups.sock ']'
++ rm -f /run/cups/cups.sock
+++ dirname /run/cups/cups.sock
++ mkdir -p /run/cups
++ ln -s /run/host/run/cups/cups.sock /run/cups/cups.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/avahi-daemon/socket
+++ sed 's|/run/host||g'
++ container_socket=/run/avahi-daemon/socket
++ '[' '!' -S /run/avahi-daemon/socket ']'
++ '[' '!' -L /run/avahi-daemon/socket ']'
++ rm -f /run/avahi-daemon/socket
+++ dirname /run/avahi-daemon/socket
++ mkdir -p /run/avahi-daemon
++ ln -s /run/host/run/avahi-daemon/socket /run/avahi-daemon/socket
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/acpid.socket
+++ sed 's|/run/host||g'
++ container_socket=/run/acpid.socket
++ '[' '!' -S /run/acpid.socket ']'
++ '[' '!' -L /run/acpid.socket ']'
++ rm -f /run/acpid.socket
+++ dirname /run/acpid.socket
++ mkdir -p /run
++ ln -s /run/host/run/acpid.socket /run/acpid.socket
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/podman/podman.sock
+++ sed 's|/run/host||g'
++ container_socket=/run/podman/podman.sock
++ '[' '!' -S /run/podman/podman.sock ']'
++ '[' '!' -L /run/podman/podman.sock ']'
++ rm -f /run/podman/podman.sock
+++ dirname /run/podman/podman.sock
++ mkdir -p /run/podman
++ ln -s /run/host/run/podman/podman.sock /run/podman/podman.sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/lvm/lvmpolld.socket
+++ sed 's|/run/host||g'
++ container_socket=/run/lvm/lvmpolld.socket
++ '[' '!' -S /run/lvm/lvmpolld.socket ']'
++ '[' '!' -L /run/lvm/lvmpolld.socket ']'
++ rm -f /run/lvm/lvmpolld.socket
+++ dirname /run/lvm/lvmpolld.socket
++ mkdir -p /run/lvm
++ ln -s /run/host/run/lvm/lvmpolld.socket /run/lvm/lvmpolld.socket
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/resolve/io.systemd.Resolve.Monitor
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/resolve/io.systemd.Resolve.Monitor
++ '[' '!' -S /run/systemd/resolve/io.systemd.Resolve.Monitor ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/resolve/io.systemd.Resolve
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/resolve/io.systemd.Resolve
++ '[' '!' -S /run/systemd/resolve/io.systemd.Resolve ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/io.systemd.sysext
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/io.systemd.sysext
++ '[' '!' -S /run/systemd/io.systemd.sysext ']'
++ '[' '!' -L /run/systemd/io.systemd.sysext ']'
++ rm -f /run/systemd/io.systemd.sysext
+++ dirname /run/systemd/io.systemd.sysext
++ mkdir -p /run/systemd
++ ln -s /run/host/run/systemd/io.systemd.sysext /run/systemd/io.systemd.sysext
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/fsck.progress
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/fsck.progress
++ '[' '!' -S /run/systemd/fsck.progress ']'
++ '[' '!' -L /run/systemd/fsck.progress ']'
++ rm -f /run/systemd/fsck.progress
+++ dirname /run/systemd/fsck.progress
++ mkdir -p /run/systemd
++ ln -s /run/host/run/systemd/fsck.progress /run/systemd/fsck.progress
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/journal/io.systemd.journal
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/journal/io.systemd.journal
++ '[' '!' -S /run/systemd/journal/io.systemd.journal ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/journal/stdout
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/journal/stdout
++ '[' '!' -S /run/systemd/journal/stdout ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/journal/socket
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/journal/socket
++ '[' '!' -S /run/systemd/journal/socket ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/journal/dev-log
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/journal/dev-log
++ '[' '!' -S /run/systemd/journal/dev-log ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/journal/syslog
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/journal/syslog
++ '[' '!' -S /run/systemd/journal/syslog ']'
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/io.systemd.ManagedOOM
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/io.systemd.ManagedOOM
++ '[' '!' -S /run/systemd/io.systemd.ManagedOOM ']'
++ '[' '!' -L /run/systemd/io.systemd.ManagedOOM ']'
++ rm -f /run/systemd/io.systemd.ManagedOOM
+++ dirname /run/systemd/io.systemd.ManagedOOM
++ mkdir -p /run/systemd
++ ln -s /run/host/run/systemd/io.systemd.ManagedOOM /run/systemd/io.systemd.ManagedOOM
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/userdb/io.systemd.DynamicUser
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/userdb/io.systemd.DynamicUser
++ '[' '!' -S /run/systemd/userdb/io.systemd.DynamicUser ']'
++ '[' '!' -L /run/systemd/userdb/io.systemd.DynamicUser ']'
++ rm -f /run/systemd/userdb/io.systemd.DynamicUser
+++ dirname /run/systemd/userdb/io.systemd.DynamicUser
++ mkdir -p /run/systemd/userdb
++ ln -s /run/host/run/systemd/userdb/io.systemd.DynamicUser /run/systemd/userdb/io.systemd.DynamicUser
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/private
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/private
++ '[' '!' -S /run/systemd/private ']'
++ '[' '!' -L /run/systemd/private ']'
++ rm -f /run/systemd/private
+++ dirname /run/systemd/private
++ mkdir -p /run/systemd
++ ln -s /run/host/run/systemd/private /run/systemd/private
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/notify
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/notify
++ '[' '!' -S /run/systemd/notify ']'
++ '[' '!' -L /run/systemd/notify ']'
++ rm -f /run/systemd/notify
+++ dirname /run/systemd/notify
++ mkdir -p /run/systemd
++ ln -s /run/host/run/systemd/notify /run/systemd/notify
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/systemd/inaccessible/sock
+++ sed 's|/run/host||g'
++ container_socket=/run/systemd/inaccessible/sock
++ '[' '!' -S /run/systemd/inaccessible/sock ']'
++ '[' '!' -L /run/systemd/inaccessible/sock ']'
++ rm -f /run/systemd/inaccessible/sock
+++ dirname /run/systemd/inaccessible/sock
++ mkdir -p /run/systemd/inaccessible
++ ln -s /run/host/run/systemd/inaccessible/sock /run/systemd/inaccessible/sock
++ for host_socket in ${host_sockets}
+++ printf %s /run/host/run/udev/control
+++ sed 's|/run/host||g'
++ container_socket=/run/udev/control
++ '[' '!' -S /run/udev/control ']'
++ '[' 0 -eq 1 ']'
++ printf 'distrobox: Integrating host'\''s themes, icons, fonts...\n'
+distrobox: Integrating host's themes, icons, fonts...
++ mount_bind /run/host/usr/share/themes /usr/local/share/themes
++ source_dir=/run/host/usr/share/themes
++ target_dir=/usr/local/share/themes
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/usr/share/themes ']'
++ '[' '!' -d /run/host/usr/share/themes ']'
++ '[' -e /usr/local/share/themes ']'
++ '[' -L /usr/local/share/themes ']'
++ '[' -d /run/host/usr/share/themes ']'
++ mkdir -p /usr/local/share/themes
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/usr/share/themes /usr/local/share/themes
++ return 0
++ mount_bind /run/host/usr/share/icons /usr/local/share/icons
++ source_dir=/run/host/usr/share/icons
++ target_dir=/usr/local/share/icons
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/usr/share/icons ']'
++ '[' '!' -d /run/host/usr/share/icons ']'
++ '[' -e /usr/local/share/icons ']'
++ '[' -L /usr/local/share/icons ']'
++ '[' -d /run/host/usr/share/icons ']'
++ mkdir -p /usr/local/share/icons
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/usr/share/icons /usr/local/share/icons
++ return 0
++ mount_bind /run/host/usr/share/fonts /usr/local/share/fonts
++ source_dir=/run/host/usr/share/fonts
++ target_dir=/usr/local/share/fonts
++ mount_flags=
++ '[' 2 -gt 2 ']'
++ '[' -L /run/host/usr/share/fonts ']'
++ '[' '!' -d /run/host/usr/share/fonts ']'
++ '[' -e /usr/local/share/fonts ']'
++ '[' -L /usr/local/share/fonts ']'
++ '[' -d /run/host/usr/share/fonts ']'
++ mkdir -p /usr/local/share/fonts
++ '[' '' = '' ']'
++ mount_flags=rslave
++ mount --rbind -o rslave /run/host/usr/share/fonts /usr/local/share/fonts
++ return 0
++ '[' 0 -eq 0 ']'
++ printf 'distrobox: Setting up package manager exceptions...\n'
+distrobox: Setting up package manager exceptions...
++ '[' -d /usr/lib/rpm/macros.d/ ']'
++ '[' 0 -eq 0 ']'
++ printf 'distrobox: Setting up rpm exceptions...\n'
+distrobox: Setting up rpm exceptions...
++ net_mounts=
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/sys:/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/tmp:/sys:/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/etc/hosts:/tmp:/sys:/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ for net_mount in ${HOST_MOUNTS_RO} ${HOST_MOUNTS} '/dev' '/proc' '/sys' '/tmp' '/etc/hosts' '/etc/resolv.conf'
++ net_mounts=/etc/resolv.conf:/etc/hosts:/tmp:/sys:/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime:
++ net_mounts=/etc/resolv.conf:/etc/hosts:/tmp:/sys:/proc:/dev:/var/mnt:/var/lib/libvirt:/run/udev:/run/systemd/users:/run/systemd/sessions:/run/systemd/seats:/run/systemd/resolve/:/run/systemd/journal:/run/netconfig/:/run/media:/run/libvirt:/mnt:/media:/etc/machine-id:/etc/host.conf:/var/log/journal:/var/lib/systemd/coredump:/etc/localtime
++ cat
++ '[' -d /etc/dpkg/dpkg.cfg.d/ ']'
++ '[' -d /usr/share/libalpm/scripts ']'
++ '[' -d /etc/dpkg/dpkg.cfg.d/ ']'
++ '[' -d /usr/share/libalpm/scripts ']'
++ printf 'distrobox: Setting up distrobox profile...\n'
+distrobox: Setting up distrobox profile...
++ touch /run/.toolboxenv
++ mkdir -p /etc/profile.d
++ cat
++ '[' -e /etc/fish/config.fish ']'
++ printf 'distrobox: Setting up sudo...\n'
+distrobox: Setting up sudo...
++ mkdir -p /etc/sudoers.d
++ '[' -e /etc/sudoers ']'
++ sed -i 's|^Defaults targetpw.*||g' /etc/sudoers
++ cat
++ '[' '!' -e /etc/pam.d/su ']'
++ grep -q pam_systemd.so /etc/pam.d/su
++ printf %s '-session   optional   pam_systemd.so'
++ '[' 1000 -ne 0 ']'
++ '[' 1 -eq 0 ']'
++ printf 'distrobox: Setting up user groups...\n'
+distrobox: Setting up user groups...
++ grep -q '^pop:' /etc/group
++ groupadd --force --gid 1000 pop
++ printf 'distrobox: Setting up kerberos integration...\n'
+distrobox: Setting up kerberos integration...
++ '[' -d /run/host/var/kerberos ']'
++ printf 'distrobox: Setting up user'\''s group list...\n'
+distrobox: Setting up user's group list...
++ additional_groups=
++ grep -q '^sudo' /etc/group
++ grep -q '^wheel' /etc/group
++ additional_groups=wheel
++ '[' 1 -eq 1 ']'
++ grep -q '^wheel.*pop' /run/host/etc/group
++ grep -q '^wheel.*pop' /run/host/etc/group
++ grep -q '^sudo.*pop' /run/host/etc/group
+++ printf %s pop
+++ tr '\\' .
++ grep -q '^pop:' /etc/passwd
++ getent passwd 1000
++ printf 'distrobox: Adding user...\n'
+distrobox: Adding user...
++ useradd --home-dir /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home --no-create-home --groups wheel --shell /usr/bin/bash --uid 1000 --gid 1000 pop
++ printf 'distrobox: Setting up user home...\n'
+distrobox: Setting up user home...
+++ getent passwd pop
+++ cut -d: -f6
++ '[' /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home '!=' /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home ']'
++ printf 'distrobox: Ensuring user'\''s access...\n'
+distrobox: Ensuring user's access...
++ '[' '!' -e /etc/passwd.done ']'
+++ md5sum
+++ cut '-d ' -f1
++ temporary_password=62af25c2371dabee6666094ad2aaab4c
++ printf %s:%s pop 62af25c2371dabee6666094ad2aaab4c
++ chpasswd -e
++ printf %s: pop
++ chpasswd -e
++ '[' 1 -eq 0 ']'
++ usermod -L root
++ '[' 1 -eq 1 ']'
+++ grep pop /etc/shadow
+++ cut -d: -f2
++ '[' '' = '!!' ']'
+++ grep pop /etc/shadow
+++ cut -d: -f2
++ '[' '' = '' ']'
++ '[' '!' -e /var/tmp ']'
++ touch /var/tmp/.pop.passwd.initialize
++ chown pop:1000 /var/tmp/.pop.passwd.initialize
++ touch /etc/passwd.done
++ '[' -n /home/pop ']'
++ '[' -d /etc/skel ']'
++ printf 'distrobox: Setting up skel...\n'
+distrobox: Setting up skel...
+++ find /etc/skel/ -type f
++ skel_files=$'/etc/skel/.bash_logout\n/etc/skel/.bashrc\n/etc/skel/.bash_profile'
++ for skel_file in ${skel_files}
+++ basename /etc/skel/.bash_logout
++ base_file_name=.bash_logout
+++ dirname /etc/skel/.bash_logout
++ skel_file_path=/etc/skel
++ file_path_for_home=
++ '[' -n '' ']'
++ '[' '!' -f /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_logout ']'
++ '[' '!' -L /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_logout ']'
++ cp /etc/skel/.bash_logout /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_logout
++ for skel_file in ${skel_files}
+++ basename /etc/skel/.bashrc
++ base_file_name=.bashrc
+++ dirname /etc/skel/.bashrc
++ skel_file_path=/etc/skel
++ file_path_for_home=
++ '[' -n '' ']'
++ '[' '!' -f /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bashrc ']'
++ '[' '!' -L /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bashrc ']'
++ cp /etc/skel/.bashrc /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bashrc
++ for skel_file in ${skel_files}
+++ basename /etc/skel/.bash_profile
++ base_file_name=.bash_profile
+++ dirname /etc/skel/.bash_profile
++ skel_file_path=/etc/skel
++ file_path_for_home=
++ '[' -n '' ']'
++ '[' '!' -f /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_profile ']'
++ '[' '!' -L /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_profile ']'
++ cp /etc/skel/.bash_profile /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/.bash_profile
++ chown -R 1000:1000 /home/pop/workspace/synapse-lie/rocm10-point-distrobox-multi-gufo-kernel715-r1/home/
++ '[' -n '' ']'
++ '[' 0 -eq 0 ']'
++ printf 'container_setup_done\n'
+container_setup_done
++ HOST_WATCH=$'\n\t\t/etc/hosts\n\t\t/etc/localtime\n\t\t/etc/resolv.conf\n\t'
++ set +x

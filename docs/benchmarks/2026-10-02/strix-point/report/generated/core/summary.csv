@@ -1,0 +1,2 @@
+label,users,prompt_tokens,repetitions,job_prefill_median_tps,output_per_total_wall_median_tps,first_token_median_ms,total_median_ms,cache_policy,cached_tokens_median,cache_capture_median_ms,cache_restore_median_ms,ssd_cached_tokens_median,ssd_read_median_ms
+LIE .161,1,9,3,,10.499472775208655,112.89336899999999,3047.771942,ram,9,0.0,4.45186,0,0.0

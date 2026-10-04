@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.21)
+project(lie_weight_reference LANGUAGES C CXX)
+get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+include("${REPO}/cmake/provider/Source.cmake")
+file(READ "${REPO}/third_party/gufo-source.json" manifest)
+string(JSON files GET "${manifest}" files)
+set(pristine "${REPO}/.deps/gufo-f783fedb")
+lie_verify_files("${pristine}" "${files}")
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-Wall -Wextra -Wpedantic -UNDEBUG
+  -fsanitize=address,undefined -fno-omit-frame-pointer)
+add_link_options(-fsanitize=address,undefined)
+add_executable(weight-reference "${CMAKE_CURRENT_LIST_DIR}/reference.cpp"
+  "${REPO}/src/weight_decode.c" "${pristine}/src/core/quant/ggml_dequant.cpp")
+target_include_directories(weight-reference PRIVATE "${REPO}/include" "${pristine}")
+include(CTest)
+add_test(NAME full-weight-reference-parity COMMAND weight-reference)
+set_tests_properties(full-weight-reference-parity PROPERTIES TIMEOUT 90)

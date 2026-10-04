@@ -1,0 +1,138 @@
+{
+  "schema": "synapse-lie.core-sampling-benchmark.host.v1",
+  "created_at_utc": "2026-10-04T00:42:48.247425+00:00",
+  "base_checkpoint": "5592deb",
+  "branch": "feature/c17-sampling",
+  "scope": "NOT-INFERENCE: GPU-masked native CLI/core/report synthetic fixtures; no model payload/hash, GPU execution or neural computation",
+  "generation_ABI_unchanged": true,
+  "controls": {
+    "temperature": [
+      0,
+      2
+    ],
+    "top_p": "0 < p <= 1",
+    "frequency_penalty": [
+      -2,
+      2
+    ],
+    "presence_penalty": [
+      -2,
+      2
+    ],
+    "seed": "0..INT64_MAX; explicit seed required for nonzero temperature"
+  },
+  "validation": {
+    "focused_CTest": "native-benchmark-contract 1/1",
+    "sanitizers": [
+      "address",
+      "undefined",
+      "leak"
+    ],
+    "provider_ingress": "Synthetic model refuses unless all five controls arrive unchanged, including INT64_MAX seed",
+    "refusals": "12 invalid/duplicate CLI cases; report rejects different seeds despite identical synthetic outputs and unsigned seed overflow",
+    "legacy_compatibility": "Historical greedy streams without generation metadata normalize to their actual defaults",
+    "performance": "No original-weight performance evidence yet"
+  },
+  "commands": [
+    {
+      "label": "configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/core-sampling-bench-asan-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_GUFO_RUNTIME=OFF"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.625
+      },
+      "elapsed_s": 1.0404147300869226
+    },
+    {
+      "label": "build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/core-sampling-bench-asan-r1",
+        "--target",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench-report",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.125
+      },
+      "elapsed_s": 7.293340589851141
+    },
+    {
+      "label": "ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/core-sampling-bench-asan-r1",
+        "-R",
+        "^native-benchmark-contract$",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.875
+      },
+      "elapsed_s": 8.451570676639676
+    }
+  ],
+  "peak_C": {
+    "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+    "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+    "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+    "/sys/class/hwmon/hwmon8/temp1_input": 69.125
+  },
+  "source_sha256": {
+    "tools/core-bench.c": "f1a0381e657288ea0a76ab64de75b87b2e212633b0e8ff15debfe2fc92931a4e",
+    "tools/native/report.c": "b6c80b7ae3e7e97c94a82c62e3fa9f5c2237cb069e7ac8ee1d16bb2e57f3644e",
+    "tests/test_native_bench.c": "9f4f18d427a0daa1f931f80ba580de3f13f904f184aceb99c29d104f1a65d323",
+    "tests/bench_executor.c": "1718f685044def814f8fff9683521d1e5b58135902be0a8b4dbbb98b80d4c713",
+    "docs/guides/BENCHMARKS.md": "64f27bc36dcc15986e565af2145e7e2ba56f7e91608be2dda1cfba9e535c6cba",
+    "CHANGELOG.md": "a75ef7e191f2a0d4ea46d8b22f0ea618473b36d08839a98c2e35d3e77bf6723d"
+  },
+  "artifacts_sha256": {
+    "evidence/core-sampling-bench-asan-r1/configure/plan.json": "b7211a9f41abc12883c9bc9c4cda00e964b6d91b5f2c6d2b2e2b841afcea23a8",
+    "evidence/core-sampling-bench-asan-r1/configure/temperatures.jsonl": "bd9ec0db3c54e4ac1a1e28473eb657950c4d0e9ab36ec15074d545fa5b5beb10",
+    "evidence/core-sampling-bench-asan-r1/configure/command.log": "86ce99eec6587d3468fb789775b8e663157ca5d81dd1a5550c7523017346eb20",
+    "evidence/core-sampling-bench-asan-r1/configure/result.json": "aefbd4a02fdbe204b05eadc2a845e838584a32094af2a7b4d3c2955912b3adfd",
+    "evidence/core-sampling-bench-asan-r1/build/plan.json": "28adf84070309f106641e3e13711209019d8d0ebfa1654ddd5e10d477c482080",
+    "evidence/core-sampling-bench-asan-r1/build/temperatures.jsonl": "3be76bd11b52b68d46fb1beb3d84dfb246b7abd33808023fcb9f56b8acb3b0c0",
+    "evidence/core-sampling-bench-asan-r1/build/command.log": "03fc0f53088defff5c9cae9b179b33ad95e6c20c8087f7cba2ec22bf657b96d2",
+    "evidence/core-sampling-bench-asan-r1/build/result.json": "83e9ffd8a3c1253453d8dcc38dd4583068fea2270880d8dbb3626c7663e96314",
+    "evidence/core-sampling-bench-asan-r1/ctest/plan.json": "8d55c39c78794ce6b244ad87b63f62b5d7f34e71bcfb671d227a28a2e28a2934",
+    "evidence/core-sampling-bench-asan-r1/ctest/temperatures.jsonl": "fdae3b424dd6b7a422fb1e760ec65427a1b2e5bc8722caec2225c137392de83b",
+    "evidence/core-sampling-bench-asan-r1/ctest/command.log": "56ff5366ada72743ae0e69a74186a705ba2364b11c834c9fe67ea23633d1581d",
+    "evidence/core-sampling-bench-asan-r1/ctest/result.json": "4c7bdc66567ac622e265323989c13cd1d3039705a3f5168ab2e1d7ed917b17a9"
+  },
+  "remaining_gate": "Compile/link new benchmark against both HIP providers and run matched seeded original-weight controls under a new coordinated GPU admission"
+}

@@ -1,0 +1,156 @@
+{
+  "at": "2026-10-02T09:39:08.072165+00:00",
+  "owned_processes": [
+    {
+      "pid": 2450601,
+      "expected_start_ticks": 149759343,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2450611,
+      "expected_start_ticks": 149759465,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2451574,
+      "expected_start_ticks": 149777812,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2451645,
+      "expected_start_ticks": 149778596,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2453534,
+      "expected_start_ticks": 149818108,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2453545,
+      "expected_start_ticks": 149818284,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2453950,
+      "expected_start_ticks": 149824620,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2453959,
+      "expected_start_ticks": 149824750,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2454227,
+      "expected_start_ticks": 149829512,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2454250,
+      "expected_start_ticks": 149829648,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2454719,
+      "expected_start_ticks": 149838146,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2454728,
+      "expected_start_ticks": 149838320,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2455198,
+      "expected_start_ticks": 149847429,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2455207,
+      "expected_start_ticks": 149847562,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2457213,
+      "expected_start_ticks": 149890656,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2457278,
+      "expected_start_ticks": 149890813,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2457967,
+      "expected_start_ticks": 149904852,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2457976,
+      "expected_start_ticks": 149905000,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2458862,
+      "expected_start_ticks": 149923180,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    },
+    {
+      "pid": 2458927,
+      "expected_start_ticks": 149923970,
+      "live_start_ticks": null,
+      "owned_identity_absent": true
+    }
+  ],
+  "locks": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged": true,
+      "free": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged": true,
+      "free": true
+    }
+  ],
+  "kfd": []
+}

@@ -1,0 +1,244 @@
+{
+  "schema": "synapse-lie.point-kv-integration.host.v1",
+  "at_utc": "2026-10-04T01:36:19.494140+00:00",
+  "root_checkpoint": "47f67c7546c82445899de9a6c01f274681583dd5",
+  "integrated_Point_checkpoint": "b58394e495256d2eacddf55e08d5898285f86eaf",
+  "scope": "Offline verification and mocked supervision only on local .155; no new target GPU execution or model access",
+  "historical_GPU_source": "9b109998eff6321b5000ea336e561aab70720d72",
+  "native_core_or_ABI_changed": false,
+  "commands": [
+    {
+      "label": "control-fixtures",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "tests.test_strix_point_campaign",
+        "tests.test_thermal_guard",
+        "-q"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 75.625
+      },
+      "elapsed_s": 4.185410381294787
+    },
+    {
+      "label": "offline-reproduction",
+      "argv": [
+        "python3",
+        "evidence/point-cache-integration-r1/verify.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.0
+      },
+      "elapsed_s": 1.058964396826923
+    },
+    {
+      "label": "offline-reproduction-r2",
+      "argv": [
+        "python3",
+        "evidence/point-cache-integration-r1/verify.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 57.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.5
+      },
+      "elapsed_s": 1.0533639807254076
+    }
+  ],
+  "focused_fixtures_passed": 31,
+  "historical_GPU_data_offline_verification": {
+    "scope": "Offline verification; no new inference",
+    "archive_sha256": "1c1bd8766ee2e3ab3c7044d848dd369a913eb46193d01a9c37c73934137a7c9f",
+    "archived_member_SHA_verified": 46,
+    "omitted_container_home_SHA_entries": 16,
+    "arms": [
+      {
+        "run": "point-modern-r3-mtp-ram-p8192-r1",
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "cold_prefill_tokens": 8192,
+        "hot_cached_tokens": 8192,
+        "hot_prefill_tokens": 0
+      },
+      {
+        "run": "point-modern-r3-ar-ram-p8192-r1",
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "cold_prefill_tokens": 8192,
+        "hot_cached_tokens": 8192,
+        "hot_prefill_tokens": 0
+      },
+      {
+        "run": "point-modern-r3-mtp-ssd-p8192-r1",
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "cold_prefill_tokens": 8192,
+        "hot_cached_tokens": 8192,
+        "hot_prefill_tokens": 0
+      },
+      {
+        "run": "point-modern-r3-ar-ssd-p8192-r1",
+        "child_exit_code": 0,
+        "supervisor_exit_code": 0,
+        "cold_prefill_tokens": 8192,
+        "hot_cached_tokens": 8192,
+        "hot_prefill_tokens": 0
+      }
+    ],
+    "reports": [
+      {
+        "policy": "ram",
+        "CSV_byte_identical": true,
+        "SVG_only_known_marker_x_shift": 16,
+        "SVG_values_scales_labels_and_y_coordinates_unchanged": true,
+        "PNG_regenerated_not_byte_identical": true,
+        "ratio": 1.2660827371556551
+      },
+      {
+        "policy": "ssd",
+        "CSV_byte_identical": true,
+        "SVG_only_known_marker_x_shift": 16,
+        "SVG_values_scales_labels_and_y_coordinates_unchanged": true,
+        "PNG_regenerated_not_byte_identical": true,
+        "ratio": 1.1966056402643086
+      }
+    ],
+    "exact_output_streams": 8,
+    "exit_code": 0
+  },
+  "archive_scope": "Portable raw archive omits transient container-home files and full SSD KV payloads; full 62-file remote collection remains Point receipt evidence, not newly reverified in full by root",
+  "preserved_failed_verification": {
+    "child_exit_code": 1,
+    "native_reporter_exit_code": 0,
+    "cause": "Point SVG predates root single-category +/-8-pixel x marker correction; no data/scales/y-coordinate changes",
+    "corrected_check": "Strict XML differences limited to 16 known marker/error-bar x shifts per graph; CSV exact"
+  },
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "e315698ce71ae082315718af32f70371c507939884adc6cb0a7e961ef5a5d7c0",
+    "tests/test_strix_point_campaign.py": "724122c1ad999ed25b2d36df6e4946c1967bca43daa56ed4942f2ae542518a6a",
+    "tools/thermal-run.py": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670",
+    "tools/run-bench.py": "8edcd1a541f9c1caa90c65e694e9010a3387d1bedaa3e82738eaad3e2662dd4b",
+    "tests/test_thermal_guard.py": "2f64f3cfb5cc094d2331d8d298d0a26c05362a18fa974cbf4fec6a945991e0ca",
+    "tools/native/report.c": "3e312181ec38880ee073f7f0e0cc9ef75013a23749da5b4f0737940663b78b1b"
+  },
+  "local_artifacts_sha256": {
+    "evidence/point-cache-integration-r1/control-fixtures/plan.json": "ea2cb5122306d314863a816e4b3aca1a1470ef7e37f6f65e8ff408a4a97038b1",
+    "evidence/point-cache-integration-r1/control-fixtures/temperatures.jsonl": "36fce36013ec784860fa40a90b9b976427d211bdd540353480d855e8a1269ca9",
+    "evidence/point-cache-integration-r1/control-fixtures/command.log": "f1eec333c53a3d172ac427af9fff043643b362d2f2a9523a3cf719ae5356816e",
+    "evidence/point-cache-integration-r1/control-fixtures/result.json": "248867cf8d4fd756231257a19f61b8a025c8511d7de65fc45996a04192e6315f",
+    "evidence/point-cache-integration-r1/offline-reproduction/plan.json": "426546abde60f85f5e33e4b971166e3f71b6bb762e10658ce32161b4bf18b60d",
+    "evidence/point-cache-integration-r1/offline-reproduction/temperatures.jsonl": "6ffcff65c6644367e0b8b0785f87d36846e962b91aaf1852f60a2ec44578bcac",
+    "evidence/point-cache-integration-r1/offline-reproduction/command.log": "bab6eafa2a9af2e0e4391e2e80cb030e3c243d43dac980a929c1bf1c6fe21f08",
+    "evidence/point-cache-integration-r1/offline-reproduction/result.json": "8ff2eeebb1ae34c5294b31ac4864b6d4e49da723e3c47880495e785b244fc443",
+    "evidence/point-cache-integration-r1/offline-reproduction-r2/plan.json": "4106e0cf0d2f1f85b9ce9fa94cff49f15e97d347b65ab65835a1b6f10de2c057",
+    "evidence/point-cache-integration-r1/offline-reproduction-r2/temperatures.jsonl": "748812e749deffd01a602494792a24cfd2d456184b2ee1f80dcd3943397e74fb",
+    "evidence/point-cache-integration-r1/offline-reproduction-r2/command.log": "93b4a9ea4c1be2817696b6e9088e5be364c4956de58302a31dd9ad3d0e04d400",
+    "evidence/point-cache-integration-r1/offline-reproduction-r2/result.json": "7e097a15bc6a8b95901965e9eb696211a834c6cea8f57f3026edde80a67eecfc",
+    "evidence/point-cache-integration-r1/merge-command.json": "ab4bb4b2e4e6ecb827db03fb9459973c1942617cce778f10fdc3adca3df84e76",
+    "evidence/point-cache-integration-r1/resolution.json": "f290aaa45cc08d6c3aeda224a7179527db73014998af114f22c4e4346bcccee0",
+    "evidence/point-cache-integration-r1/verify.py": "0e177b365a2d22c0343236faee9d9681c7dcf957eaa5509c0bd61c05a7ceb27f",
+    "evidence/point-cache-integration-r1/verify-before-plot-check.py": "c7d3b2659333372b2fbecc7fcee1528c5b79894c21da3b182a2dfbca955c03d1",
+    "evidence/point-cache-integration-r1/verification.json": "9ebb9616cfa49a6bca43860d0823286a9bd5e003ae7de9a29271bed792fd65f7",
+    "evidence/point-cache-integration-r1/offline-r2/verification.json": "92f1ebddaa09bc2678be557c789bafe06ec794768f4b85e7e4ae02909eb4f799",
+    "evidence/point-cache-integration-r1/receipt-preparation-failure.json": "03509e09d9b947b4c53fd0f2a658c9c64dab8911b163c947a8014411e7ce45a3",
+    "evidence/point-cache-integration-r1/final-validation-before-receipt.json": "fad47b9ae55f34d8f25069b69d657ef4dec4c47a85fcc6cb9ac981cf7628b6a6",
+    "evidence/point-cache-integration-r1/final-validation.json": "7741fed4900fcf861631d37ec37d7ecc9e58136fc03d545d6468d98413fafbaf"
+  },
+  "retained_Point_platform_artifacts_unchanged_sha256": {
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh128-collection.json": "f70f55bffd551a86a873a3bcb513f276018a53c8a86af286a5bfc1cb57bd2b0d",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh128-summary.json": "4b6a7f34c2517c830d8f5e4d47a3b548ad0c99e459ac15dbf165713c2cf46a0d",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh128.csv": "05f8a2161e5f972b9810f7ecd515f2a311ade64d78b443c91e32f0daf7606801",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh128.png": "02f937b5fbf5532e94ecc7297a110af623a95cee5859c70dbc7df3a6b97c9483",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh128.svg": "4ba00712764da48bb3e8a1e368e8e65094a714e4907c5249339a61a145a9ba78",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh256-collection.json": "0a03cad562104f07b30bad1c276435479b8c32577edeae9c2eb7e5f2093dbe90",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh256-summary.json": "ca7bca02f596c0c1a9613758a41b14fd86d77adb8d0ee6336d5210a9a0d7e065",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh256.csv": "714c273bae399316d4b0c42c996e69f9beaa50659074794b63dc259a35245f41",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh256.png": "45b7f5294ee0e2741eed77d6d96d8468a974a000ae4f5388774f6f8f15ae48a4",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-fresh256.svg": "c7b2c5b1adcb9e72ff48410fb3b67331e3870e11a4615cb53fe5d5d2c4aee770",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-cache-collection.json": "ca691ce4b5d12c8ca34dcc68f98c5316fe9aedd84f03a61e0353ddd437df291c",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-collection.json": "6f2bf41d860d4f50be8404838ef45e47fb5d4b64371270235b3ad0174fa479ea",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ram8192/benchmark.png": "105ac714dbe8feda3a3a9d18b65ad4b6ce51f22d1af79482922064d9f90d0a5c",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ram8192/benchmark.svg": "eef9a31e69370a8218ae87a7bdf7b62fbd341e0ebf55ca575255bc646001ee3c",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ram8192/summary.csv": "72e994423b9560cf67d067d2eb0efa9e316fdecebc800bd9e686bab0b28d7f7c",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ram8192/summary.json": "293b02c54a2acea483b187f2dc58247f9d91a82517c4d3e72536823fafd052d9",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ssd8192/benchmark.png": "b9ca9432d870df39b8e8f3c4279577f66070099e84d9da405c2abef5f003ead5",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ssd8192/benchmark.svg": "e933c1c5a64c9d828b9fd8b42637b1f4db1d91c9fb8ca1c65b863c6918caa847",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ssd8192/summary.csv": "ae8a935e365a215a1fd6bcd9ee018fb80583ba9001db115d933915d2c959780e",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp-ssd8192/summary.json": "f1444231e4b2a5c50356461e02587f17ac4909a2972e61ff32b6052cb0bec086",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp131072/benchmark.png": "ff28aa1387bc8c3615c33b9dc7b142a609571e7909ae886077b6a8bfccc52ca8",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp131072/benchmark.svg": "45509af14be2c28478d6226c8132e71d76e6d6bb6fc40e73c8b3488bd960be81",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp131072/summary.csv": "689b4ceff803df42b2bc1c494c4ef78544df61173fee8c74e8b05c27dded6688",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp131072/summary.json": "5adb78be6a061529e163993f01bad122ccfa673038ca54e820d1c071d24a7ed9",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp1500/benchmark.png": "4e1bcf770ce7c4c768795794d2baf9a7646fd70a98194e759046c0e13124a688",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp1500/benchmark.svg": "8640e2b8556f7972a2c09aa0e2675540333a049d6d81822acdd67d1f00d196ee",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp1500/summary.csv": "7549c5f71333bb450bcea50701959e42195901bf3b5deda65adb72ef71e1addf",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp1500/summary.json": "a598343f7c17c6bb48c7fcb127e5f8b2cfad43736320525c80711e2bef8b634f",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192-c2/benchmark.png": "715105debf222b0250b8de29da71bfd11e8fee8a6615b6c77d63b14ba306b440",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192-c2/benchmark.svg": "4fbbc41a96ed2fad46a16e4e210b043155d48361516aae6ca5b8e9eb29b5adbb",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192-c2/summary.csv": "5ff471fc1940ad007ca30538ea4fa2a3c8800f46b1a26347149e79936dd50f38",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192-c2/summary.json": "9cfe69b00e0d2c37f67f494f1bae3b5535197ca06d7ebbead8774b19fa0258bd",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192/benchmark.png": "c3d122152d49f7193a02b2bd96f621c0b5005e2694c5de17a27d0b3e8af6df75",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192/benchmark.svg": "a37712f69650eb7273482dcdc7e676108d79445901aebf5017b91980bd579765",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192/summary.csv": "86ef5fa435a70f928f5f7d86e55db61fee4eb655dbff365603ea878f446db324",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/charts/rocm10-modern-mtp8192/summary.json": "d6fe40c9864db166dc23f7e4888dffbdb4c7241d62f37a418190b7f5e9921ac7",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256": "c94b3b19e3ea12ca523c9bcd0dbc5e0cfa1cc2730c3e5731b77a095673afd678",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-gufo.tar.gz": "4a4346f6c37d6a88758825b0da8603299a255863371103c034aaa13483028f89",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz": "fece8576dd701e4fbe255446bc6dbf724e98da26b93296211e2fd9729bf7cc33",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-gufo.tar.gz": "42d73d98239dcb567934ba7c1d74b8f5cbf328d2777b6b793e9d1c48428dee4a",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz": "6bd02d5837fdbd09d2dacfaa79f856e3c6aa398ef540f61ad897410a0ccb4539",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz": "1c1bd8766ee2e3ab3c7044d848dd369a913eb46193d01a9c37c73934137a7c9f",
+    "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz": "6fef10ae01546596474f61d75a5f589833122275a03d99a66789f9320ef1e4b3"
+  },
+  "remaining_gates": [
+    "New merged-source GPU execution is not inferred",
+    "Target HTTP and vision qualification remain separate",
+    "Point SSD restart in a fresh process is not proven by same-process cold/hot reuse",
+    "One-repetition rates do not qualify replicated performance or independent numerical quality"
+  ],
+  "final_document_validation": {
+    "relative_links_checked": 219,
+    "missing": [],
+    "commands": [
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--cached",
+          "--check"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "exit_code": 0
+  }
+}

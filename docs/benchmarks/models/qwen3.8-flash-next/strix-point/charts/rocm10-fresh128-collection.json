@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.point-rocm10-fresh.v1",
+  "source_commit": "1877b03",
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "profile": "fresh128",
+  "arms": {
+    "lie": {
+      "archive_sha256": "fece8576dd701e4fbe255446bc6dbf724e98da26b93296211e2fd9729bf7cc33",
+      "remote_file_inventory_count": 21,
+      "measurements_sha256": "80bf237e9b4082fab020a8e5d01b1967b7fd939acbca2ad433ed6450a3401c5a",
+      "lease_released_at": "2026-10-03T22:03:20.532953+00:00",
+      "temperatures_max_c": {
+        "nvme": 65.85,
+        "amdgpu": 85.0,
+        "k10temp": 82.375
+      }
+    },
+    "gufo": {
+      "archive_sha256": "4a4346f6c37d6a88758825b0da8603299a255863371103c034aaa13483028f89",
+      "remote_file_inventory_count": 21,
+      "measurements_sha256": "bc721867531c16cd2c1cf09a8c167be5bd76f473dfa7739f7ba0ad8d1057e8ba",
+      "lease_released_at": "2026-10-03T22:23:05.922791+00:00",
+      "temperatures_max_c": {
+        "nvme": 71.85,
+        "amdgpu": 86.0,
+        "k10temp": 83.0
+      }
+    }
+  },
+  "matched_samples": 10
+}

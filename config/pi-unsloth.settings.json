@@ -1,0 +1,12 @@
+{
+  "defaultProvider": "synapse-lie",
+  "defaultModel": "qwen3.8-flash-next",
+  "defaultThinkingLevel": "off",
+  "enabledModels": ["synapse-lie/qwen3.8-flash-next"],
+  "packages": [],
+  "compaction": {"enabled": false},
+  "retry": {
+    "enabled": false,
+    "provider": {"maxRetries": 0, "timeoutMs": 630000}
+  }
+}

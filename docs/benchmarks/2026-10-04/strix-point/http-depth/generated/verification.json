@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.point-http-depth-offline-report.v1",
+  "archives": {
+    "ar.tar.gz": "25ff3ceb1e51f9e85502cd28441806e45cd3ae292a24caf9e22dbae5c55632a3",
+    "mtp.tar.gz": "e9980c181fdd0977b77dc79166301194669a15fe6a7587fe9e0d5955e11d6e6a",
+    "history.tar.gz": "56f2c0bd98a2a3971da57fda7391d58bbfcd2b530c7c611fc8fac446eff3355c"
+  },
+  "archive_members": 361,
+  "report_source_sha256": "37e914bb45cab863b795f8f26f591a6b2bd813220914959a290409c1b9af10fc",
+  "report_command": [
+    "python3",
+    "-B",
+    "tools/strix-point-http-depth-report.py",
+    "--evidence-root",
+    "NEW_OUTPUT/evidence",
+    "--output",
+    "NEW_OUTPUT/generated"
+  ],
+  "report_exit_code": 0,
+  "report_stdout": "{\"paired\": 8, \"unpaired_or_failed\": []}\n",
+  "report_stderr": "",
+  "generated_sha256": {
+    "ar-decode.svg": "6661d8e58f4ae49fc4048a063457c613ff17aa6d0bcb968477a800803546880c",
+    "ar-prefill.svg": "9ef543baa2fba6fb88193749b4c779c1aa504a789fb19c6b42994a63e02c7983",
+    "comparison.csv": "ac7cb22d5d1a6e3055dfbe4a7cf65c136d6f015a9070db843abf10a3ab57c19e",
+    "mode-effect.csv": "c4d2ccf32ef4d4f92d3a2f3c79a98bbd6398dcdf3047da1e7001e906ff6b16b5",
+    "mtp-decode.svg": "2bf248578e9f3ddaa448950e4f921554bd42aece8dba088a93c820364b4c4877",
+    "mtp-over-ar-decode.svg": "ca65f17b5ca77c21fe226f586496c179348e48e5010eb398750ee9e8d2e32cd6",
+    "mtp-prefill.svg": "2f0089b79ada2790a0744f0ac4d5358c97ae829df8c3068295c1559d946efb21",
+    "summary.json": "41e44ff7070cf0d838f5a6a5533c00d9f4ff2ddc4bb195c5880167f6c2f4882b"
+  }
+}

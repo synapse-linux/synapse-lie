@@ -1,0 +1,165 @@
+{
+  "state": "MODEL_HTTP_LIFECYCLE_PASS_NOT_NUMERICAL_QUALIFICATION",
+  "started_at": "2026-10-01T19:24:01.412787+00:00",
+  "finished_at": "2026-10-01T19:24:40.147231+00:00",
+  "server_exit_code": 0,
+  "lifecycle_status": "PASS",
+  "reactive": {
+    "state": "PASS",
+    "reference": [
+      {
+        "content": "1 2 3 4 5 6 7 8 9 10 11 12 13 14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      },
+      {
+        "content": "The alarm on the central SCADA (Supervisory Control and Data Acquisition) system didn\u2019t just beep; it screamed. At 02:14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      }
+    ],
+    "concurrent": [
+      {
+        "content": "1 2 3 4 5 6 7 8 9 10 11 12 13 14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      },
+      {
+        "content": "The alarm on the central SCADA (Supervisory Control and Data Acquisition) system didn\u2019t just beep; it screamed. At 02:14",
+        "usage": {
+          "prompt_tokens": 32,
+          "completion_tokens": 32,
+          "total_tokens": 64
+        },
+        "finish": "length"
+      }
+    ],
+    "batch_dispatches": 32,
+    "seeded_sampling": true,
+    "heterogeneous_prompts": true,
+    "before": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 0,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 12,
+        "prefill_returned": 12,
+        "decode_started": 89,
+        "decode_returned": 89,
+        "decode_batches": 0,
+        "decode_batch_rows": 0,
+        "decode_single_calls": 89,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 79,
+      "completed": 9,
+      "cancelled": 3,
+      "failed": 0
+    },
+    "after": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 1,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 16,
+        "prefill_returned": 16,
+        "decode_started": 185,
+        "decode_returned": 185,
+        "decode_batches": 32,
+        "decode_batch_rows": 64,
+        "decode_single_calls": 153,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 207,
+      "completed": 12,
+      "cancelled": 3,
+      "failed": 0
+    }
+  },
+  "openai": {
+    "state": "PASS",
+    "responses_json_sse": true,
+    "seeded_sampling": true,
+    "native_tool_roundtrip": true,
+    "independent_numerical_qualification": false
+  },
+  "final_llm": {
+    "schema": "synapse-lie.llm.v1",
+    "ready": true,
+    "backend": {
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "build_id": "reactive-inference-r3",
+      "ownership": "delegated",
+      "state": "READY",
+      "model": "qwen3.8-flash-next",
+      "synthetic": false,
+      "hardware_qualified": false,
+      "native_batching": true,
+      "native_batch_capacity": 2,
+      "tools": true,
+      "tool_streaming": "buffered-complete-turn",
+      "context_tokens": 4096,
+      "max_output_tokens": 4096,
+      "max_request_bytes": 1048576,
+      "max_messages": 128,
+      "mtp": false,
+      "snapshot_restore": false,
+      "error": null
+    },
+    "scheduler": {
+      "mode": "single-owner-reactive-ready-batch",
+      "queued": 0,
+      "active": 1,
+      "output_blocked": 0,
+      "executor": {
+        "scope": "owner_dispatch_intervals",
+        "phase": "none",
+        "prefill_started": 22,
+        "prefill_returned": 22,
+        "decode_started": 272,
+        "decode_returned": 272,
+        "decode_batches": 32,
+        "decode_batch_rows": 64,
+        "decode_single_calls": 240,
+        "cancel_during_prefill": 1,
+        "cancel_during_decode": 1
+      },
+      "max_active": 2,
+      "admission_capacity": 8,
+      "generated_tokens": 288,
+      "completed": 18,
+      "cancelled": 3,
+      "failed": 0
+    },
+    "memory": null,
+    "cache": null,
+    "speculation": null,
+    "throughput": null,
+    "latency": null
+  }
+}

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1300" viewBox="0 0 1440 1300" role="img"><title>LIE - shared core benchmark</title><rect width="100%" height="100%" fill="white"/>
+<text x="40" y="38" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">LIE - shared core benchmark</text>
+<text x="40" y="66" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">Median and observed min/max. Separate scales start at zero; unavailable values are omitted.</text>
+<text x="40" y="107" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Per-job executor prefill</text>
+<text x="135" y="129" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">new tokens/s</text>
+<path d="M135 375L1370 375" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="380" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 318L1370 318" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="323" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">115.52</text>
+<path d="M135 260L1370 260" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="265" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">231.03</text>
+<path d="M135 203L1370 203" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="208" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">346.55</text>
+<path d="M135 145L1370 145" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="150" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">462.07</text>
+<path d="M135 145L135 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 375L1370 375" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M752 178L752 178" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 178L757 178" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 178L757 178" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="752" cy="178" r="4" fill="#1769aa"/>
+<path d="M135 449L159 449" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="455" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE MTP</text>
+<path d="M752 175L752 175" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 175L757 175" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 175L757 175" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="752" cy="175" r="4" fill="#b34b17"/>
+<path d="M535 449L559 449" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="455" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">LIE AR</text>
+<text x="752" y="424" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="752" y="400" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="40" y="507" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Aggregate output / complete client wall</text>
+<text x="135" y="529" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 775L1370 775" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="780" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 718L1370 718" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="723" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.10842</text>
+<path d="M135 660L1370 660" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="665" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.21685</text>
+<path d="M135 603L1370 603" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="608" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.32527</text>
+<path d="M135 545L1370 545" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="550" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0.4337</text>
+<path d="M135 545L135 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 775L1370 775" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M752 576L752 576" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 576L757 576" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 576L757 576" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="752" cy="576" r="4" fill="#1769aa"/>
+<path d="M135 849L159 849" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="855" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE MTP</text>
+<path d="M752 575L752 575" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 575L757 575" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 575L757 575" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="752" cy="575" r="4" fill="#b34b17"/>
+<path d="M535 849L559 849" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="855" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">LIE AR</text>
+<text x="752" y="824" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="752" y="800" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+<text x="40" y="907" font-family="sans-serif" font-size="16" fill="#172b4d" text-anchor="start">Per-job confirmed decode</text>
+<text x="135" y="929" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="start">output tokens/s</text>
+<path d="M135 1175L1370 1175" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1180" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">0</text>
+<path d="M135 1118L1370 1118" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1123" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">3.6149</text>
+<path d="M135 1060L1370 1060" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1065" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">7.2298</text>
+<path d="M135 1003L1370 1003" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="1008" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">10.845</text>
+<path d="M135 945L1370 945" fill="none" stroke="#e1e6ed" stroke-width="2"/>
+<text x="20" y="950" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="start">14.46</text>
+<path d="M135 945L135 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M135 1175L1370 1175" fill="none" stroke="#43536a" stroke-width="2"/>
+<path d="M752 975L752 975" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 975L757 975" fill="none" stroke="#1769aa" stroke-width="2"/>
+<path d="M747 975L757 975" fill="none" stroke="#1769aa" stroke-width="2"/>
+<circle cx="752" cy="975" r="4" fill="#1769aa"/>
+<path d="M135 1249L159 1249" fill="none" stroke="#1769aa" stroke-width="2"/>
+<text x="167" y="1255" font-family="sans-serif" font-size="16" fill="#1769aa" text-anchor="start">LIE MTP</text>
+<path d="M752 1016L752 1016" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 1016L757 1016" fill="none" stroke="#b34b17" stroke-width="2"/>
+<path d="M747 1016L757 1016" fill="none" stroke="#b34b17" stroke-width="2"/>
+<circle cx="752" cy="1016" r="4" fill="#b34b17"/>
+<path d="M535 1249L559 1249" fill="none" stroke="#b34b17" stroke-width="2"/>
+<text x="567" y="1255" font-family="sans-serif" font-size="16" fill="#b34b17" text-anchor="start">LIE AR</text>
+<text x="752" y="1224" font-family="sans-serif" font-size="16" fill="#43536a" text-anchor="middle">Concurrent users</text>
+<text x="752" y="1200" font-family="sans-serif" font-size="8" fill="#43536a" text-anchor="middle">C1</text>
+</svg>

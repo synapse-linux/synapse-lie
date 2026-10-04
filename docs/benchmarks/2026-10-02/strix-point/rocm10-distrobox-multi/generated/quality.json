@@ -1,0 +1,110 @@
+{
+  "same_stack": {
+    "rocm10": {
+      "gufo": true,
+      "serial": true
+    },
+    "rocm7": {
+      "gufo": true,
+      "serial": true
+    }
+  },
+  "cross_stack": {
+    "lie": [
+      {
+        "users": 1,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 2,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 4,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 6,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 8,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      }
+    ],
+    "gufo": [
+      {
+        "users": 1,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 2,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 4,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 6,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 8,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      }
+    ],
+    "serial": [
+      {
+        "users": 1,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 2,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 4,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 6,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      },
+      {
+        "users": 8,
+        "output_equal": false,
+        "prefill_frontier_equal": false,
+        "decode_frontier_equal": false
+      }
+    ]
+  }
+}

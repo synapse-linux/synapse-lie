@@ -1,0 +1,155 @@
+{
+  "schema": "synapse-lie.cache-campaign.v1",
+  "revision": "r6",
+  "source_variants": {
+    "off": {
+      "commit": "8932c5f00185ebbd037364517a74a486819801bd",
+      "build_id": "cache-zstd-off-linked-r1",
+      "features": {
+        "LIE_CACHE_UTILITY": false,
+        "LIE_CHECKPOINT_COMPRESSION": false
+      },
+      "codec": "none"
+    },
+    "on": {
+      "commit": "8932c5f00185ebbd037364517a74a486819801bd",
+      "build_id": "cache-zstd-on-linked-r1",
+      "features": {
+        "LIE_CACHE_UTILITY": true,
+        "LIE_CHECKPOINT_COMPRESSION": true
+      },
+      "codec": "byte-plane4-zstd1-v1"
+    }
+  },
+  "raw_files_verified": 68,
+  "closure": {
+    "at": "2026-10-02T12:30:26.836170+00:00",
+    "owned_processes": [
+      {
+        "pid": 2508242,
+        "expected_start_ticks": 150867001,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2508251,
+        "expected_start_ticks": 150867289,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2508584,
+        "expected_start_ticks": 150872137,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2508598,
+        "expected_start_ticks": 150872313,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2508856,
+        "expected_start_ticks": 150877053,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2508865,
+        "expected_start_ticks": 150877280,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2509551,
+        "expected_start_ticks": 150891012,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2509560,
+        "expected_start_ticks": 150891185,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2510312,
+        "expected_start_ticks": 150905430,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2510322,
+        "expected_start_ticks": 150905565,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2511200,
+        "expected_start_ticks": 150923352,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      },
+      {
+        "pid": 2511215,
+        "expected_start_ticks": 150924029,
+        "live_start_ticks": null,
+        "owned_identity_absent": true
+      }
+    ],
+    "locks": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "unchanged": true,
+        "free": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "unchanged": true,
+        "free": true
+      }
+    ],
+    "kfd": []
+  },
+  "observer_exit": {
+    "event": "connection_closed",
+    "at": "2026-10-02T12:30:42.174668+00:00",
+    "ssh_exit_code": 0,
+    "samples": 951,
+    "power_failure_proven": false
+  },
+  "artifacts": {
+    "summary.json": "ca7e6ec9bc49bd13e10fd3e51d0bae665979789ea4a047d1a14190bc3a778d51",
+    "summary.csv": "8adefacfe46b096d46c5120abf06968feecc475c6b23880b9ebbaaa20169e9a1",
+    "cache-features.svg": "e41d308f26cad6582bb751c3bb652c5333a55a4c97d9109b509f7de113a12077",
+    "cache-features.png": "161ad4785e9ceb465971378b5d933ba14ea71868d66e489a6e726c8fe4ec03d2",
+    "thermal-summary.json": "65132e3ca65b2c1e07f4fd431dc21043e1b58e06b3bb13cb6b8c34f331b2154a",
+    "thermal.svg": "d2cc8edcf6a7ca037b8f75fb3634528bb53dee5b68df4abd1b3754c21912fbd2",
+    "thermal.png": "a509fd8c6a4d15dbdf345964397e7b22597d15b7ada161b09525d039ac0ac31a",
+    "analyze.py": "b2adb388a1efb67908c340d026698d1e12011d2706aa39201f19278c01baff41",
+    "analyze-thermal.py": "d0da5171c7dca5691bc0c3e0e53a131751faab556e742b2ef4dcc90af79861d7",
+    "bench-report.py": "3df98c398a99901463883ec657505bdf0e6836d3fe624242ba855a67ca3e08d7",
+    "bench-ssd-http.py": "34c7720dc1f0911b8be58828b4043be984b403d8fe97dab76521f0bed6ed6a2d",
+    "evidence.tar.gz": "1706007e40e418e00a43c8fec9d7348efa9d7b94ff2f9a95ea9a27a0ced653ce",
+    "README.md": "1da3279627fbc386961d159a8f1b9238840a0c931f9ff17ea53dd67ba7ffef5c"
+  }
+}

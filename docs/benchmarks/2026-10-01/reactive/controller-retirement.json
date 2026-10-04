@@ -1,0 +1,13 @@
+{
+  "pid": 2179491,
+  "start_ticks": 144803548,
+  "observation_at": "2026-10-01T20:00:05.984Z",
+  "method": "read-only SCP of /proc/<owned-controller>/stat; exit 1 with No such file means observed absent, not campaign failure",
+  "tool_result": {
+    "chunk_id": "8a1176",
+    "wall_time_seconds": 0.358416065,
+    "exit_code": 1,
+    "original_token_count": 13,
+    "output": "scp: /proc/2179491/stat: No such file or directory\r\n"
+  }
+}

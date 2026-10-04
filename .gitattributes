@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Preserve exact upstream bytes; use its recorded SHA-256 inventory.
+third_party/libuv/** -whitespace linguist-vendored
+# Review the generator and values instead of generated vector paths.
+docs/benchmarks/models/**/charts/*.svg -whitespace linguist-generated

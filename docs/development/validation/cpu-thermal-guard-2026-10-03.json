@@ -1,0 +1,44 @@
+{
+  "scope": "Synthetic sensor and owned-child fixtures only; no model/GPU execution",
+  "operator_instruction": "CPU must have the guard, not GPU",
+  "policy": {
+    "qualified_strix_halo_cpu_ceiling_c": 98,
+    "gpu": "observe-only; null software limit",
+    "nvme_ceiling_c": 85,
+    "lower_exposed_cpu_nvme_bounds_retained": true,
+    "hardware_settings_changed": false
+  },
+  "fixtures": {
+    "passed": 3,
+    "failed": 0,
+    "raw": "evidence/c17-vision-integration-r1/thermal-policy-fixtures"
+  },
+  "source_sha256": {
+    "tools/thermal-run.py": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670",
+    "tools/run-bench.py": "e291c30c04196f0f78bfbcd0f22c96e99dcac9a2c4c04b18d196e1de8f55561e",
+    "tests/test_thermal_guard.py": "6db592483cd7c9fa60771b4a7e525c75564139b9d90d815410ce2d6f862226db"
+  },
+  "result": {
+    "argv": [
+      "python3",
+      "-B",
+      "tests/test_thermal_guard.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 55.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 72.875
+    },
+    "elapsed_s": 4.151702951639891
+  },
+  "raw_sha256": {
+    "evidence/c17-vision-integration-r1/thermal-policy-fixtures/plan.json": "265115406aeb4410816a240679a6035f267d082770bd7a182d780547b7d5711b",
+    "evidence/c17-vision-integration-r1/thermal-policy-fixtures/temperatures.jsonl": "4701e39195c3c822ec51954366a9c0a6470d1910ca121b3178ed009c081dfb9e",
+    "evidence/c17-vision-integration-r1/thermal-policy-fixtures/command.log": "19c8008d4bd2ef02cea927c97484b6ac87713ef725df93fd7ddaedd9d719321d",
+    "evidence/c17-vision-integration-r1/thermal-policy-fixtures/result.json": "9420a0662b8bf95d7872c218bedd553e1faaa3a14f2b9fb70a00812ed9a4d397"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "synapse-lie.point-thermal-attempt.v1",
+  "status": "FAILED_THERMAL",
+  "campaign_exit_code": 1,
+  "completed_points": [
+    0,
+    4096
+  ],
+  "interrupted_point": 8192,
+  "samples": [
+    {
+      "point": 0,
+      "depth": 0,
+      "prompt_tokens": 2048,
+      "physical_ids_sha256": "c047b5d9cd1d06ffb9e5846d5c36680ec80bac7235d21ad0c32e58a774ebe2c3",
+      "rep": 0,
+      "warmup": 1,
+      "prefill_tokens": 2048,
+      "prefill_ns": 4374431962,
+      "prefill_tps": 468.1750722815334,
+      "decode_ns": 12489499826,
+      "decode_tps": 10.248608974198964,
+      "output_tokens": 128,
+      "full_output_budget": 1
+    },
+    {
+      "point": 0,
+      "depth": 0,
+      "prompt_tokens": 2048,
+      "physical_ids_sha256": "c047b5d9cd1d06ffb9e5846d5c36680ec80bac7235d21ad0c32e58a774ebe2c3",
+      "rep": 1,
+      "warmup": 0,
+      "prefill_tokens": 2048,
+      "prefill_ns": 4380118580,
+      "prefill_tps": 467.5672501998793,
+      "decode_ns": 12459944844,
+      "decode_tps": 10.27291866878829,
+      "output_tokens": 128,
+      "full_output_budget": 1
+    },
+    {
+      "point": 1,
+      "depth": 4096,
+      "prompt_tokens": 6143,
+      "physical_ids_sha256": "879ddc3046ecbee7a5e6cb69794175ad282e6e0a170978784f84d9ae55ff6d90",
+      "rep": 0,
+      "warmup": 1,
+      "prefill_tokens": 2047,
+      "prefill_ns": 4705540553,
+      "prefill_tps": 435.01909651909017,
+      "decode_ns": 12475846342,
+      "decode_tps": 10.25982498430486,
+      "output_tokens": 128,
+      "full_output_budget": 1
+    },
+    {
+      "point": 1,
+      "depth": 4096,
+      "prompt_tokens": 6143,
+      "physical_ids_sha256": "879ddc3046ecbee7a5e6cb69794175ad282e6e0a170978784f84d9ae55ff6d90",
+      "rep": 1,
+      "warmup": 0,
+      "prefill_tokens": 2047,
+      "prefill_ns": 4630761952,
+      "prefill_tps": 442.0438841853903,
+      "decode_ns": 12471796991,
+      "decode_tps": 10.263156150823205,
+      "output_tokens": 128,
+      "full_output_budget": 1
+    }
+  ],
+  "peak_c": {
+    "cpu": 85.0,
+    "gpu": 83.0,
+    "nvme": 60.85
+  },
+  "sampled_gtt_used_max_bytes": 88877793280,
+  "model_stat_unchanged": true,
+  "service_restored": true,
+  "lease_free": true,
+  "valid_full_campaign": false
+}
