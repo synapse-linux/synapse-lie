@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native scaled-row model gate prepared — 2026-10-04
+
+The component candidate is wired into a separate native-only model mode with
+full source and component-evidence guards. The canonical C client, frozen C17
+server, 0–128K prose workload, pp2048/tg128, RAM prefix policy and timings stay
+unchanged. Planned arms are reference, candidate, repeated reference and UD.
+Host Debug and ASan/UBSan each complete 22/22 on .157; the qualification capsule
+is retained for byte-level binding. Fresh admission and actual model results
+remain separate gates. [Composition and scope](Q2-NATIVE-ROW-CURVE.md).
+
 ## Scaled row GPU probe completes; smaller complete-cycle gain — 2026-10-04
 
 Three component arms complete: unchanged ordered Q2, bounded input reuse and

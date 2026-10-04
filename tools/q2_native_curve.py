@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-MODES = ('q2-curve-iq2', 'q2-curve-scale', 'ud-curve')
+MODES = ('q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'ud-curve')
 DEPTHS = '0,4096,8192,12288,16384,32768,65536,131072'
 MANIFEST = 'config/q2-native-bench-source.json'
 
@@ -42,6 +42,7 @@ def client_argv(binary, output, graphs, label):
 def check_backend(info, variant):
     build = {'ordered': 'q2-canonical-curve-iq2-signs',
              'scale': 'q2-canonical-curve-iq2-scale-reuse',
+             'row': 'q2-canonical-curve-scaled-row-reuse',
              'ud': 'q2-canonical-curve-experiment'}.get(variant)
     if not build or not isinstance(info, dict) or info.get('schema') != 'synapse-lie.llm.v1' or info.get('ready') is not True:
         raise ValueError('Canonical model is not ready')

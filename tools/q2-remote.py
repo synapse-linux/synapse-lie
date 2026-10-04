@@ -23,8 +23,8 @@ EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogu
                      'iq2-prefill-scale-reuse', 'iq2-prefill-grid-lds')
 ROW_VARIANTS = ('scaled-row-reference', 'scaled-row-reuse')
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2')
+CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row')
+CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2')
 COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
@@ -80,6 +80,8 @@ def main():
         p.error('Native curve host conformance requires its fixed client and no GPU build')
     if args.native_curve and args.mode not in NATIVE_CURVE_MODES:
         p.error('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD curve')
+    if args.mode == 'q2-curve-row' and not args.native_curve:
+        p.error('Scaled row model comparison requires the native C canonical benchmark')
     if args.mode == 'q2-curve-scale' and not args.native_curve:
         p.error('Scale model comparison requires the native C canonical benchmark')
     if args.mode == 'scaled-row-check' or args.source_variant in ROW_VARIANTS:
@@ -120,6 +122,7 @@ def main():
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
                     'q2-curve-iq2': 'curve-iq2-q2',
                     'q2-curve-scale': 'curve-scale-q2',
+                    'q2-curve-row': 'curve-row-q2',
                     'q2-curve-iq2-mixed': 'curve-iq2-mixed-q2',
                     'q2-curve-ple-cache-first': 'curve-ple-cache-first-q2',
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
@@ -375,6 +378,20 @@ def main():
                 candidate = json.loads((ROOT/'config/q2-iq2-signs-ordered-asm-source.json').read_text())
                 provider = {'variants': {'q2': {'source': candidate['candidate'],
                                                'files': candidate['files']}}}
+            if provider_mode == 'q2-curve-row':
+                candidate = json.loads((ROOT/'config/q2-scaled-row-reuse-source.json').read_text())
+                component = json.loads((ROOT/'config/q2-scaled-row-results.json').read_text())
+                decision = json.loads((ROOT/'config/q2-scaled-row-decision.json').read_text())
+                component_plan = json.loads((ROOT/'config/q2-scaled-row-plan.json').read_text())
+                if (file_sha256(ROOT/'config/q2-scaled-row-reuse-source.json') != component_plan['source_manifest_sha256'] or
+                    file_sha256(ROOT/'config/q2-scaled-row-plan.json') != component['plan_sha256'] or
+                    file_sha256(ROOT/'config/q2-iq2-signs-ordered-asm-source.json') != candidate['parent_manifest_sha256'] or
+                    file_sha256(ROOT/'config/q2-scaled-row-results.json') != decision['result_sha256'] or
+                    decision['state'] != 'COMPONENT_TIMING_GAIN_WITH_UNCHANGED_NUMERICAL_REJECTIONS' or
+                    not all(c['complete_pack_exact'] and c['complete_down_exact'] and c['retained_files_exact']
+                            for c in component['comparisons']) or len(component['comparisons']) != 2):
+                    p.error('Scaled row provider or component decision changed')
+                provider = {'variants': {'q2': {'source': candidate['candidate'], 'files': candidate['files']}}}
             if provider_mode == 'q2-curve-scale':
                 candidate = json.loads((ROOT/'config/q2-iq2-prefill-scale-reuse-source.json').read_text())
                 decision = json.loads((ROOT/'config/q2-iq2-prefill-reuse-decision.json').read_text())
@@ -413,7 +430,7 @@ def main():
                 if file_sha256(ROOT/'config/q2-curve-source.json') != provider['parent_manifest_sha256']:
                     p.error('Canonical profile parent changed')
             source = provider['variants'][key]['source']
-            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale') and {
+            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row') and {
                     str(f.relative_to(ROOT/source)) for f in (ROOT/source).rglob('*') if f.is_file()
                     } != set(provider['variants'][key]['files']):
                 p.error('Canonical IQ2 provider inventory changed')

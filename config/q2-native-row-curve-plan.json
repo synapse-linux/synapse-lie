@@ -1,0 +1,93 @@
+{
+  "schema": "synapse-lie.q2-native-row-curve-plan.v1",
+  "status": "PREPARED_NOT_GPU_ADMITTED",
+  "host": "q2-native-row-host-r1",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "cmake/curve/CMakeLists.txt": "ebde7bed9e7e696ba91ddf77cc66cf9710b9670d66e845a2e6ab86d62fa659a5",
+    "tools/q2-remote.py": "0b671d00b4c25fcc1aceb5dbc5a961e86f2195bcd4304b1c6a99ced68279dbef",
+    "tools/q2-runner.py": "701bc3b361388a6d15f3f842324e3b458a2f0f228348ec65228a5fba380a1865",
+    "tools/q2-curve-session.py": "0d8908e9cbccff13c249fb7a083efe810ebdf6ac034d41693c1a6611a55dcac0",
+    "tools/q2_native_curve.py": "7255604bfa78cd1f3c2a960d00becb3df3991c4c918de670d958429e907fa6a4",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "55677cd0dd74ec63b35758ecd49d4c3638ea8bcf6812f2491016435224d07cdc"
+  },
+  "native_client": {
+    "source_manifest": "config/q2-native-bench-source.json",
+    "status": "QUALIFIED_FROZEN_C17_CLIENT",
+    "standalone": true,
+    "embedded_gpu_runtime": false,
+    "conformance_label": "q2-native-bench-conformance-r1",
+    "commit": "b598e4c1e6aba26b0bacd6ad243503009360c869",
+    "source_manifest_sha256": "4af4e2f0c399a034348fdd22ecc4a1487bbb9a11f07e181d571fd70ce2ab4b53",
+    "conformance_receipt_sha256": "6cc43f6dbdd741d4edb54e0f68eb702dcd9c47e51cc8c649580aa33d9d45d7c4"
+  },
+  "server_manifest": "config/q2-curve-source.json",
+  "server_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+  "providers": {
+    "q2-iq2-signs-ordered-asm-source.json": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+    "q2-scaled-row-reuse-source.json": "9a2eaee3b5d71a15ad151b44fef800b08423c271742df4de94e28e5f7a497420",
+    "q2-scaled-row-plan.json": "605ee195840d91ec8fae4698318041f806ea66e9f9f86129c644964e098ac9d2",
+    "q2-scaled-row-results.json": "a0c2f9759ee1da25120d299b331f0727b07008b47ab6f494a2755deccc20710d",
+    "q2-scaled-row-decision.json": "61986d615cddc87dcb2dfcd67dd78b2087ecd7b4da0911d05502d9a82f8846e9"
+  },
+  "arms": [
+    {
+      "label": "q2-native-row-before-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-native-row-candidate-r1",
+      "mode": "q2-curve-row",
+      "source_variant": "curve-row-q2"
+    },
+    {
+      "label": "q2-native-row-after-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-native-row-ud-r1",
+      "mode": "ud-curve",
+      "source_variant": "curve-ud"
+    }
+  ],
+  "native_curve": true,
+  "rebuild_mmq": true,
+  "context": 133760,
+  "prefill_chunk": 2048,
+  "depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "new_prompt_tokens": 2048,
+  "output_tokens": 128,
+  "mode": "AR greedy, thinking/MTP/vision/SSD off",
+  "cache_ram_mib": 16384,
+  "prefix_reply_tokens": 8,
+  "warmups": 1,
+  "repetitions": 1,
+  "timing_scope": "synchronous_executor_calls",
+  "driver": "synapse-lie-bench --suite http-curve",
+  "python_role": "Remote process/lease supervision and retained-evidence audit only; never generate or issue curve requests",
+  "history_checks": "All calibration, warmup, prefix and measured Q2 request/response/count histories; independent quality remains separate",
+  "gate": "Freeze qualified native driver; validate capsule composition; fresh coordinated admission and ownership checks; preserve all errors and exit codes",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false,
+  "candidate_key": "row",
+  "candidate_manifest": "q2-scaled-row-reuse-source.json",
+  "numerical_limit": "Component outputs match byte for byte; all three retain the same independent numeric failures. Model quality remains separate and unresolved.",
+  "host_receipt_sha256": "f5e55dc2cfaad709e9a719b6271607d24c1e46308b703d54ee6a7fff005876ba"
+}

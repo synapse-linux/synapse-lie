@@ -45,7 +45,7 @@ def arm(row, key, plan, host, native_host, native_source, core):
         require(not any(command.get(k) for k in ('thermal_stop','timeout','postflight_error',
                     'foreign_kfd','lingering_descendants')), 'Runtime or process retirement failure')
     provider = (core['variants']['ud'] if key == 'ud' else
-                read(ROOT/'config'/('q2-iq2-prefill-scale-reuse-source.json' if key == 'scale'
+                read(ROOT/'config'/(plan.get('candidate_manifest', 'q2-iq2-prefill-scale-reuse-source.json') if key == plan.get('candidate_key', 'scale')
                                     else 'q2-iq2-signs-ordered-asm-source.json')))
     with tarfile.open(directory/'source.tar.gz') as source, \
          tarfile.open(host/'source.tar.gz') as h, \
@@ -60,7 +60,7 @@ def arm(row, key, plan, host, native_host, native_source, core):
             require(a == b and hashlib.sha256(a).hexdigest() == digest,
                     'Host-qualified harness differs: '+name)
     session = read(directory/'results/curve-session.json')
-    variant = 'ud' if key == 'ud' else 'scale' if key == 'scale' else 'ordered'
+    variant = key if key in ('ud', plan.get('candidate_key', 'scale')) else 'ordered'
     require(session['state'] == 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT' and
             session.get('client_driver') == 'synapse-lie-bench-native-C' and
             session['client_exit_code'] == session['server_exit_code'] == 0 and
@@ -128,9 +128,11 @@ def arm(row, key, plan, host, native_host, native_source, core):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--plan', type=Path, default=ROOT/'config/q2-native-scale-curve-plan.json')
     args = p.parse_args()
     require(not args.output.exists(), 'Refusing to overwrite comparison evidence')
-    plan = read(ROOT/'config/q2-native-scale-curve-plan.json')
+    plan = read(args.plan)
+    candidate = plan.get('candidate_key', 'scale')
     host = ROOT/'evidence'/plan['host']
     native_host = ROOT/'evidence'/plan['native_client']['conformance_label']
     for directory, count in ((host,22),(native_host,3)):
@@ -148,8 +150,8 @@ def main():
     for name, digest in plan['providers'].items():
         require(sha(ROOT/'config'/name) == digest, 'Provider decision changed')
     arms = {key: arm(row,key,plan,host,native_host,native,core)
-            for key,row in zip(('before','scale','after','ud'),plan['arms'])}
-    matches = {k: arms['before']['history'] == arms[k]['history'] for k in ('scale','after')}
+            for key,row in zip(('before',candidate,'after','ud'),plan['arms'])}
+    matches = {k: arms['before']['history'] == arms[k]['history'] for k in (candidate,'after')}
     # Compare actual structures first. Keep full payloads in the verified raw
     # JSONL evidence, and compact their identities in the tracked report.
     for data in arms.values():
@@ -159,9 +161,9 @@ def main():
                                      ensure_ascii=False, separators=(',', ':')).encode()
                 request[key+'_semantic_sha256'] = hashlib.sha256(encoded).hexdigest()
     cells = {str(depth): {k: v['rows'][i] for k,v in arms.items()} for i,depth in enumerate(plan['depths'])}
-    result = dict(schema='synapse-lie.q2-native-scale-curve-results.v1', arms=arms, cells=cells,
+    result = dict(schema=plan['schema'].replace('-plan.', '-results.'), arms=arms, cells=cells,
         history_matches=matches, native_bench_commit=native['commit'],
-        plan_sha256=sha(ROOT/'config/q2-native-scale-curve-plan.json'),
+        plan_sha256=sha(args.plan),
         model_inference=True, independent_model_quality='Unresolved; exact replay is not an independent quality certificate',
         promoted=False, goal_met=False)
     args.output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')

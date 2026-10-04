@@ -57,7 +57,8 @@ class RemoteGuardTests(unittest.TestCase):
         for mode in ('cpu', 'q2-counting-iq2', 'q2-curve-routes', 'q2-curve-iq2-mixed'):
             self.refuse([mode, 'q2-fixture', '--native-curve'], 'Native curve requires')
         for mode, variant in [('q2-curve-iq2', 'curve-iq2-q2'),
-                              ('q2-curve-scale', 'curve-scale-q2'), ('ud-curve', 'curve-ud')]:
+                              ('q2-curve-scale', 'curve-scale-q2'),
+                              ('q2-curve-row', 'curve-row-q2'), ('ud-curve', 'curve-ud')]:
             argv = [mode, 'q2-fixture', '--source-variant', variant, '--native-curve']
             self.refuse(argv, 'Canonical curve requires a full MMQ rebuild')
             self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
@@ -69,6 +70,22 @@ class RemoteGuardTests(unittest.TestCase):
                 run.assert_not_called()
         self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-iq2-q2',
                      '--native-curve', '--rebuild-mmq'], 'Canonical curve requires its matched')
+
+    def test_scaled_row_curve_identity_and_native_only(self):
+        self.refuse(['q2-curve-row', 'q2-fixture', '--source-variant', 'curve-row-q2',
+                     '--rebuild-mmq'], 'requires the native C canonical benchmark')
+        self.refuse(['q2-curve-row', 'q2-fixture', '--source-variant', 'curve-scale-q2',
+                     '--native-curve', '--rebuild-mmq'], 'Canonical curve requires its matched')
+        from q2_native_curve import check_backend
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760,
+                         build_id='q2-canonical-curve-scaled-row-reuse',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'row')
+        for variant in ('ordered', 'scale', 'ud'):
+            with self.assertRaises(ValueError): check_backend(info, variant)
 
     def test_native_curve_source_is_complete_and_frozen(self):
         from q2_native_curve import verify_source, MANIFEST, sha

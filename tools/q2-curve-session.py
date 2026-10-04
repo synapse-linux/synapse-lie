@@ -30,32 +30,33 @@ def main():
         native_bench, flags = Path(flags[1]), flags[2:]
         if not native_bench.is_absolute() or not native_bench.is_file():
             raise ValueError('Native benchmark must be an existing absolute binary')
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row']):
         raise ValueError('Unknown diagnostic flags')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
     cache_first = flags == ['--ple-cache-first']
     routes = flags == ['--profile-routes']
     mixed = flags == ['--iq2-mixed']
+    row_reuse = flags == ['--scaled-row']
     scale = flags == ['--iq2-scale']
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
-    if (iq2_signs or cache_first or routes or mixed or scale) and variant != 'q2':
+    if (iq2_signs or cache_first or routes or mixed or scale or row_reuse) and variant != 'q2':
         raise ValueError('IQ2 signs requires the Q2 model')
-    if scale and native_bench is None:
+    if (scale or row_reuse) and native_bench is None:
         raise ValueError('Scale model comparison requires the native C canonical benchmark')
-    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale):
+    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale or row_reuse):
         raise ValueError('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD provider')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
-                   provider_experiment='iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   provider_experiment='scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:
         receipt['client_driver'] = 'synapse-lie-bench-native-C'
         receipt['client_binary_sha256'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
-        native_variant = 'scale' if scale else 'ordered' if iq2_signs else 'ud'
+        native_variant = 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
