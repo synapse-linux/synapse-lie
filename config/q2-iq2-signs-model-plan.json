@@ -1,5 +1,5 @@
 {
-  "state": "Q2_IQ2_Q2_CONTROL_VALIDATED_UD_RUNNING",
+  "state": "COMPLETE_CURVES_VERIFIED_WINDOW_RELEASED_GOAL_OPEN",
   "goal": "Q2 PP and TG parity at every canonical context depth; component gains are insufficient",
   "machine": "192.168.5.157",
   "provider": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
@@ -20,7 +20,7 @@
     "Verify quality separately; preserve existing numerical failures",
     "Repeat/reverse if gain is order-sensitive; never replace the whole curve with counting workload"
   ],
-  "gpu_reserved": true,
+  "gpu_reserved": false,
   "restart_scheduled": false,
   "model_dispatch_implemented": true,
   "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes",
@@ -70,7 +70,13 @@
   "baseline_validation": "config/q2-iq2-curve-baseline-validation.json",
   "baseline_full_grid_passed": true,
   "baseline_previous_history_exact": true,
-  "active_label": "q2-iq2-curve-ud-r1",
+  "active_label": null,
   "order_control": "config/q2-iq2-curve-order-control.json",
-  "repeat_admission": "config/q2-iq2-curve-repeat-admission.json"
+  "repeat_admission": "config/q2-iq2-curve-repeat-admission.json",
+  "report": "config/q2-iq2-canonical-results.json",
+  "window_release": "config/q2-iq2-curve-window-release.json",
+  "full_curve_parity": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
 }

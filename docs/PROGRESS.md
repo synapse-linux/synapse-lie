@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Canonical IQ2 campaign complete and released — 2026-10-04
+
+All four 0–128K curves validate, with both Q2 complete-history comparisons exact
+for 20 requests each. Ordered IQ2 decode is **4.055–5.526% above UD** in all eight
+cells and **4.446–5.188% above the unchanged post-candidate Q2 control**. The
+initial apparent 67.746% depth-zero PP increase is reproduced by unchanged Q2
+and is not credited to the patch. Candidate PP remains **7.348–9.299% below UD
+at0–16K**. At32K–128K it exceeds this UD observation, but prior UD observations
+were faster: long-context PP parity remains unproven. The goal is not achieved.
+
+The [full report](Q2-IQ2-CANONICAL.md), four-series PNG/SVG and complete 32-row
+CSV preserve every rate, physical count, duration and cache timing. Analysis
+exits zero and CSV counts/timers agree with verified raw artifacts. Source
+audit also confirms packed sign arithmetic already exists in the IQ2 prefill
+tile loader; duplicating the decode patch there is not a new optimization.
+
+At 01:33:37.055967 UTC the window releases after all 26 command exits zero,
+127 artifacts verified, 39 owned identities and 26 groups retired, empty KFD,
+four unchanged original leases free and five model stat identities unchanged.
+Remote/main receipts and the shared registry record closure. Outgoing MCP fails;
+no delivery, reservation, waiter or restart is claimed. PLE cache-first remains
+prepared with runtime validation pending in a separately admitted window.
+
 ## Canonical IQ2: decode gain survives unchanged order control — 2026-10-04
 
 Ordered IQ2 completes the full 0–128K curve, all five commands exit zero and

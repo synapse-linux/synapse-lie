@@ -6,7 +6,17 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest state: the **canonical IQ2 model window is admitted** at
+Latest state: the **canonical IQ2 model window is released** at
+2026-10-04T01:33:37.055967+00:00. All five cohorts finish, all 26 command exits
+are zero and 127 artifacts verify. Fresh closure checks 39 owned identities
+and 26 command groups retired, empty KFD, the four original lease inodes
+EX|NB/free and five model stat identities unchanged. Remote/main
+`run/q2-iq2-curve-window-release.json` and the registry record release; SHA256
+`e5a7c1efcefa9fac74067b9f787457dc993146b8a32edf3a81ce80145c750016`.
+No Q2 workload, reservation, waiter or restart remains. Core may admit its
+next window with fresh checks. Outgoing MCP fails and delivery is not claimed.
+
+Previous admission: the canonical IQ2 model window was admitted at
 2026-10-04T00:51:48.380268+00:00, after core explicitly releases its integrated
 window at 00:47:22.850674 UTC. Release SHA256 is
 `81abc9e5d930980df8a9a574d3786b725dc05bf28a86cd056b0225f120bacbf8`.

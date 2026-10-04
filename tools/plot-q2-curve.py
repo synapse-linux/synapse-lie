@@ -21,8 +21,8 @@ def main():
     variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
         ('q2','#007f8b','Q2 ordered IQ2' if iq2 else 'Q2'), ('ud','#d66a28','UD')]
     if iq2 and 'baseline_repeat' in report['models']:
-        variants[0] = ('baseline','#a2a7b0','Q2 before IQ2')
-        variants.insert(1, ('baseline_repeat','#606878','Q2 after IQ2'))
+        variants[0] = ('baseline','#a2a7b0','Q2 control before')
+        variants.insert(1, ('baseline_repeat','#606878','Q2 control after'))
     assert set(report['models']) == {k for k,_,_ in variants}
     args.output.mkdir(parents=True, exist_ok=False)
     cache = tempfile.TemporaryDirectory(prefix='q2-curve-mpl-')
@@ -58,8 +58,10 @@ def main():
     if iq2 and not report['matched_history']:
         title = 'Diagnostic only: IQ2 request/output history differs'
     fig.suptitle(title, fontsize=16)
-    fig.text(.06, .04, 'C1 AR, thinking/MTP off; approximately 2048 new tokens + 128 outputs; capacity 133760.\n'
-             'One warmed sample per depth; actual counts and durations in CSV. LIE executor-call timers; numerical acceptance remains open.',
+    note = ('One sample per arm/depth after model warmup; filesystem residency uncontrolled. Counts and durations in CSV.\n'
+            'LIE executor-call timers; numerical acceptance remains open.' if iq2 else
+            'One warmed sample per depth; actual counts and durations in CSV. LIE executor-call timers; numerical acceptance remains open.')
+    fig.text(.06, .04, 'C1 AR, thinking/MTP off; approximately 2048 new tokens + 128 outputs; capacity 133760.\n'+note,
              fontsize=9)
     fig.subplots_adjust(top=.85, bottom=.22, wspace=.25)
     fig.savefig(args.output/'curve.png', dpi=170)

@@ -93,12 +93,12 @@ and all four original lease identities free. The initial comparison's analyzer
 exit 1 remains preserved. No model run, GPU reservation or restart remains.
 [Release receipt](../config/q2-iq2-signs-window-release.json).
 
-All results remain component evidence. The acceptance target is still PP
+The results above are component evidence. The acceptance target is still PP
 and TG parity against UD at every canonical context depth, with model quality
 verified separately. The measured PLE/storage prefill deficit is unaffected
 by this decode-only candidate.
 
-## Canonical model integration prepared
+## Canonical model integration and completed comparison
 
 `q2-remote.py q2-curve-iq2 <label> --source-variant curve-iq2-q2 --rebuild-mmq`
 now selects the measured ordered-sign source with the unchanged frozen C17
@@ -114,8 +114,9 @@ It reconstructs the accepted prose requests and checks all raw baseline/Q2
 request histories, including calibration, warmup and prefix preparation.
 Payload, output or physical-count differences remain explicit, retain analyzer
 exit 1 and prevent a matched-history parity claim. The plotting tool exports
-all three PP/TG series and complete counts/durations to CSV; it marks unmatched
-history as diagnostic. No candidate model plot or rate exists yet.
+all PP/TG series and complete counts/durations to CSV; it marks unmatched
+history as diagnostic. Its optional post-candidate baseline keeps the original
+Q2 observation as a separate fourth series.
 
 Local source checks verify 333 frozen core files and 1020 candidate files;
 nine Python sources parse. Reanalysis of the retained second Q2/UD pair yields
@@ -124,8 +125,12 @@ replays the retained Q2 pair's 20 requests exactly. These are report/source
 checks, not execution of the new host tests or candidate model.
 [Preparation evidence](../config/q2-iq2-curve-preparation.json).
 
-The runtime cohort remains pending on `.157`, whose next window belongs to
-core's integrated qualification. The changed endpoint/history/staging guards
-must pass Debug/ASan there before the three full 0–128K sweeps. No Q2 source
-capsule is staged, and no GPU reservation or automatic restart is scheduled.
-[Model plan](../config/q2-iq2-signs-model-plan.json).
+The runtime cohort now passes 19/19 Debug and ASan/UBSan on `.157`, followed
+by complete Q2 / ordered IQ2 / unchanged Q2 / UD 0–128K curves. Ordered IQ2
+improves decode 4.446–5.188% against the post-candidate Q2 control and
+4.055–5.526% against UD at all eight depths. All 20 Q2 request/output histories
+match. The unchanged control reproduces the initially much faster PP, so the
+patch receives no prefill credit. Short-context PP remains below UD and model
+quality gates remain open. Full tables, graph, CSV, source scope and verified
+release are in the [canonical model report](Q2-IQ2-CANONICAL.md).
+[Completed model plan](../config/q2-iq2-signs-model-plan.json).

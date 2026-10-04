@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-iq2-canonical-validation.v1",
+  "analysis_exit_code": 0,
+  "three_series_compatibility_exit_code": 0,
+  "three_series_core_data_unchanged": true,
+  "csv_rows_verified": 32,
+  "csv_units_and_rates_recomputed": true,
+  "host_tests": {
+    "debug_passed": 19,
+    "asan_ubsan_passed": 19
+  },
+  "command_exits_zero": 26,
+  "verified_artifacts": 127,
+  "model_source_file_instances_verified": 5411,
+  "exact_histories": {
+    "baseline_candidate": true,
+    "baseline_repeat": true
+  },
+  "sha256": {
+    "config/q2-iq2-canonical-results.json": "cb52ae3dfafd5f16f22876c1037e6b2d1e41f6b116f62a326fa7390b7acca42b",
+    "config/q2-iq2-curve-window-release.json": "e5a7c1efcefa9fac74067b9f787457dc993146b8a32edf3a81ce80145c750016",
+    "tools/analyze-q2-iq2-curve.py": "57a7668cf99cf474f987428e8d78bc3f57f1824ac04b7c73241afa91c3512022",
+    "tools/plot-q2-curve.py": "f05cd644fb9425a7e2036572f62519e60e15681abef42d5085e5bda04f9dbd44",
+    "docs/figures/q2-iq2-canonical/curve.png": "a7d7295723a0a4b79256584d6adc9433e4433a8b6e6f91d159bafa65164b592c",
+    "docs/figures/q2-iq2-canonical/curve.svg": "85fb71f5c3abd4af7d1c916ce488829c5def2a0e223a09b3946336da6af6e8bc",
+    "docs/figures/q2-iq2-canonical/samples.csv": "15b02e46178b750e87155c6498c2fbb9170a386ca586b65d5d9e70348e47aa49"
+  },
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
+}

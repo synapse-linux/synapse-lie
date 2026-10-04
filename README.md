@@ -7,7 +7,15 @@ The acceptance target is **Q2 at least as fast as UD in both prefill and decode
 at every point of the requested context curve**. The
 [canonical comparison contract](docs/Q2-CURVE-PARITY.md) restores Gufo's HTTP
 pp2048/tg128 prose workload and ordered cached-prefix depths from 0 to 128K.
-Two [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) are now measured on
+The latest [four-arm canonical comparison](docs/Q2-IQ2-CANONICAL.md) measures
+ordered IQ2 decode **4.055–5.526% above UD at all eight depths**, preserving all
+20 Q2 request/output histories. Prefill remains **7.348–9.299% below UD at0–16K**;
+long-context crossings remain sensitive to UD variability. Whole-curve parity
+and independent model numerical qualification remain open. The complete graph
+and CSV retain the candidate, UD and both unchanged Q2 controls.
+
+Two earlier [complete paired curves](docs/Q2-CANONICAL-REPEATS.md) measured the
+reference provider on
 `.157`, with every physical token count, PP/TG duration, graph and CSV.
 Reversing model order does not confirm the first pair's near-parity at128K:
 Q2 is **10.455% below UD in PP** and **2.263% below in TG** there in the second
@@ -39,11 +47,12 @@ The canonical whole-model path, complete-history comparison and three-series
 plot export pass 19/19 Debug and ASan/UBSan host checks on `.157`. Core released
 its window, and fresh Q2 admission at 00:51:48 UTC on 2026-10-04 starts the
 full-MMQ baseline/ordered-candidate/UD campaign.
-The [completed Q2 order control](docs/Q2-IQ2-CANONICAL.md) now measures
+The [completed Q2 order control](docs/Q2-IQ2-CANONICAL.md) measures
 **4.446–5.188% higher full-model decode** at every depth with the ordered
 candidate. All 20 request/output histories replay exactly. An unchanged Q2
 repeat reproduces the apparent PP increase, so it is not credited to this
-kernel patch. UD is running; full Q2/UD parity and model quality remain open.
+kernel patch. The final UD comparison is complete, and the verified window
+is released at 01:33:37 UTC. Full Q2/UD parity and model quality remain open.
 Histogram tile selection is already present, while D2R and producer-Q8 reuse
 are inactive stubs in the pinned DeepSeek HIP port.
 
