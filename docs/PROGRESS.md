@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Fixed-shape norm rejected after bounded component — 2026-10-04
+
+The three admitted2048-row HC-library component arms finish, with120 verified
+artifacts and exits0/0/1 each. Against the repeated paired control, ordinary
+time improves only0.648% and MoE0.125%; both fail the frozen1% gate. Candidate
+output matches34/80 full pairs versus80/80 for both references. All10 independent
+norm checks per arm pass;20 down failures per arm and their maxima remain.
+The candidate fails timing independently of its new output differences and
+does not receive a model run. All60 samples and the graph are retained.
+
+Release15:58:30UTC verifies368identities/280groups retired, KFD empty, four
+original lease inodes free and six model stats unchanged. Core is notified;
+no Q2 job, reservation, waiter, restart or remote cleanup remains. Fixed model
+reference1443.673/UD1685.777 and full parity target remain unchanged.
+[Complete results](Q2-NORM-FIXED-SHAPE.md#completed-component-candidate-rejected).
+
 ## Fixed-shape paired norm prepared — 2026-10-04
 
 The next component derives from the exact mixed-map provider behind1443.673.

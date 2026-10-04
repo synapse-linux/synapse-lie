@@ -20,7 +20,8 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def arm(label, *, library=False, ragged=False):
+def arm(label, *, library=False, ragged=False, expected_library_source=None,
+        record_output_mismatches=False):
     path = ROOT / 'evidence' / label
     result = json.loads((path / 'results/result.json').read_text())
     transport = json.loads((path / 'transport.json').read_text())
@@ -30,7 +31,8 @@ def arm(label, *, library=False, ragged=False):
     require(result['mode'] == mode and not result['model_access'],
             'Unexpected runtime scope')
     if library:
-        require(transport['source_variant'] == ('hc-norm-ragged' if ragged else 'library-norm-cycle'), 'Wrong library source')
+        require(transport['source_variant'] == (expected_library_source or
+                ('hc-norm-ragged' if ragged else 'library-norm-cycle')), 'Wrong library source')
         require(result['preflight_kfd'] == result['postflight_kfd'] == [], 'GPU clients remain')
         require([(x['device'], x['inode']) for x in result['locks']] ==
                 [(52, 3232146), (52, 3206482), (52, 3228451), (55, 45067)], 'Lease identity differs')
@@ -95,17 +97,26 @@ def arm(label, *, library=False, ragged=False):
     else:
         wanted |= {f'{prefix}-bench-moe{m}-rep{r}' for m in (0, 1) for r in range(5)}
     require({x['label'] for x in replays} == wanted, 'Missing replay case')
+    mismatches = []
+    exact_pairs = 0
     for replay in replays:
         for field in ('res', 'norm', 'half', 'down'):
-            require(replay[field + '_exact'] and
-                    replay['reference_' + field + '_sha256'] == replay['paired_' + field + '_sha256'],
+            exact = (replay[field + '_exact'] and
+                     replay['reference_' + field + '_sha256'] == replay['paired_' + field + '_sha256'])
+            exact_pairs += int(exact)
+            if not exact:
+                mismatches.append(dict(label=replay['label'], field=field))
+            require(exact or record_output_mismatches,
                     'Complete output mismatch: ' + replay['label'])
-        require(replay['scalar_half_exact'], 'Scalar rounding differs')
+        if not replay['scalar_half_exact']:
+            mismatches.append(dict(label=replay['label'], field='scalar_half'))
+        require(replay['scalar_half_exact'] or record_output_mismatches, 'Scalar rounding differs')
     pairs = []
     for name, meta in result['artifacts'].items():
         if '-reference-' in name:
             other = name.replace('-reference-', '-paired-')
-            require(other in result['artifacts'] and result['artifacts'][other] == meta,
+            require(other in result['artifacts'], 'Saved pair missing: ' + name)
+            require(result['artifacts'][other] == meta or record_output_mismatches,
                     'Saved pair differs: ' + name)
             pairs.append([name, other])
     require(len(pairs) == (30 if ragged else 18), 'Missing saved pairs')
@@ -142,7 +153,9 @@ def arm(label, *, library=False, ragged=False):
             'binary_sha256': result['binary_sha256'], 'source_capsule_sha256': transport['capsule_sha256'],
             'fixture_hashes': frozen, 'source_files_verified': len(files),
             'artifact_count': len(result['artifacts']), 'saved_pairs': pairs,
-            'complete_hash_pairs_verified': len(replays) * 4,
+            'complete_hash_pairs_verified': exact_pairs,
+            'complete_hash_pairs_compared': len(replays) * 4,
+            'output_mismatches': mismatches,
             'temperature_max_c': temperatures,
             'command_exits': [x['exit_code'] for x in result['commands']],
             'summaries': summaries, 'timings': timings, 'replays': replays,

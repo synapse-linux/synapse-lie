@@ -6,7 +6,21 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T15:11:53.598809+00:00** after
+Latest Q2 window: **released at 2026-10-04T15:58:30.649805+00:00** after
+three existing HC-library fixtures at2048 rows, reference/candidate/reference.
+All120 artifacts verify; each arm retains exits0/0/1. Candidate fails the
+frozen timing and exact-output gates; no model/curve follows. Admission at
+15:51:13UTC uses checkpoint`b1edb1d`, after core confirms no .157 reservation
+and new Debug/ASan host scopes pass22/22 each.
+
+Release verifies368identities/280groups retired, empty KFD, four original
+lease inodes free and six unchanged model stat tuples. Main/remote release,
+active, ready and shared registry record closure; core is notified. No Q2
+GPU job, reservation, waiter, restart or remote cleanup remains.
+[Release](../config/q2-norm-fixed-window-release.json), SHA256
+`9eb49b9a17da57ec2d5681debfb925c2bc9efad80ed84519c56bb3a3e1733a5b`.
+
+Previous Q2 window: **released at 2026-10-04T15:11:53.598809+00:00** after
 four native d0-only arms, each with three measured samples. All 32 model
 command exits are zero and all 68 artifacts verify. Admission at 14:55:08 UTC
 uses checkpoint `14749b4`, after core confirms no .157 reservation. The
