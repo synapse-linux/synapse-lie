@@ -593,3 +593,11 @@ belong to fixed Q2, three families have new measured compositions, one has measu
 cycle regressions, and two selective integrations remain pending. Only shared-Q8
 has a confirmed false format-rejection cause. This does not establish nineteen
 independent gains or parity; best PP still needs 14.060% higher throughput for UD.
+
+A [new MoE-only deferred-norm composition](docs/Q2-HC-MOE-DEFERRED.md) integrates
+one pending family into the best measured provider. It reuses HC-gate scratch
+for scales, with C17 producer/consumer identities and a reconstruction fallback.
+Ordinary/Q8 routes remain; no device allocation or stream is added. The numerical
+port compiles without private scratch; .157 host Debug/ASan pass 24/24 each.
+The frozen plan admits only one new fixed model, retaining prior numerical
+rejections and reusing all qualified references. Model performance is pending.

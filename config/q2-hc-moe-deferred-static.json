@@ -1,0 +1,165 @@
+{
+  "schema": "synapse-lie.q2-hc-moe-deferred-static.v1",
+  "first_commands": [
+    {
+      "name": "guards-final",
+      "argv": [
+        "python3",
+        "-B",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-04T22:32:11.600765+00:00",
+      "finished_at": "2026-10-04T22:32:12.376729+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "kernels-device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-std=c++23",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-hc-moe-deferred-run",
+        "-isystem",
+        "/opt/rocm/include",
+        "-c",
+        ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-hc-moe-deferred-preparation/kernels-device.o"
+      ],
+      "started_at": "2026-10-04T22:32:12.376787+00:00",
+      "finished_at": "2026-10-04T22:32:22.336066+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "executor-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-std=c++23",
+        "-include",
+        "chrono",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-hc-moe-deferred-run",
+        "-I.deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "-fsyntax-only",
+        ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "started_at": "2026-10-04T22:32:22.336136+00:00",
+      "finished_at": "2026-10-04T22:32:23.194627+00:00",
+      "exit_code": 1
+    }
+  ],
+  "corrected_commands": [
+    {
+      "name": "executor-syntax-amd",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-std=c++23",
+        "-include",
+        "chrono",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-hc-moe-deferred-run",
+        "-I.deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "-fsyntax-only",
+        ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "started_at": "2026-10-04T22:33:10.303563+00:00",
+      "finished_at": "2026-10-04T22:33:12.173412+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "device-unbundle",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang-offload-bundler",
+        "--unbundle",
+        "--type=o",
+        "--targets=hipv4-amdgcn-amd-amdhsa--gfx1151",
+        "--input=evidence/q2-hc-moe-deferred-preparation/kernels-device.o",
+        "--output=evidence/q2-hc-moe-deferred-preparation/gfx1151.hsaco"
+      ],
+      "started_at": "2026-10-04T22:33:12.173495+00:00",
+      "finished_at": "2026-10-04T22:33:12.176480+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "device-metadata",
+      "argv": [
+        "/opt/rocm/llvm/bin/llvm-readelf",
+        "--notes",
+        "evidence/q2-hc-moe-deferred-preparation/gfx1151.hsaco"
+      ],
+      "started_at": "2026-10-04T22:33:12.176508+00:00",
+      "finished_at": "2026-10-04T22:33:12.183353+00:00",
+      "exit_code": 0
+    }
+  ],
+  "format_command": [
+    "/opt/rocm/llvm/bin/clang-format",
+    "--dry-run",
+    "--Werror",
+    ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+    ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+    ".deps/gufo-q2-hc-moe-deferred-run/src/models/qwen38_flash_next/kernels/rocm/q2_hc_moe_deferred.inc"
+  ],
+  "format_exit": 1,
+  "format_violation_count": 57,
+  "object_sha256": "b3bf0c5b6f821d8d3b0c989953fe43767e39eabde18b39d37fb871983db78749",
+  "kernels": [
+    {
+      "name": "_ZN4gufo6models17qwen38_flash_next4rocm30HcCombineMoeDeferredNormKernelEPfPKfS5_S5_S5_jjS5_jS5_S3_jfP6__half",
+      "vgpr_count": 84,
+      "sgpr_count": 34,
+      "group_segment_fixed_size": 10368,
+      "private_segment_fixed_size": 0,
+      "wavefront_size": 32,
+      "max_flat_workgroup_size": 1024
+    },
+    {
+      "name": "_ZN4gufo6models17qwen38_flash_next4rocm23ReconstructHcNormKernelEPKfS4_S4_Pfm",
+      "vgpr_count": 13,
+      "sgpr_count": 10,
+      "group_segment_fixed_size": 0,
+      "private_segment_fixed_size": 0,
+      "wavefront_size": 32,
+      "max_flat_workgroup_size": 1024
+    },
+    {
+      "name": "_ZN4gufo6models17qwen38_flash_next4rocm23HcMixDeferredNormKernelEPKvPK6__halfPfmmmPKfPS5_PvSA_SA_",
+      "vgpr_count": 242,
+      "sgpr_count": 33,
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "wavefront_size": 32,
+      "max_flat_workgroup_size": 512
+    },
+    {
+      "name": "_ZN4gufo6models17qwen38_flash_next4rocm26HcInjectDeferredNormKernelIfLb0EEEvPKT_PKfS8_PfS9_jS8_S8_",
+      "vgpr_count": 42,
+      "sgpr_count": 22,
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "wavefront_size": 32,
+      "max_flat_workgroup_size": 1024
+    }
+  ],
+  "c17_state_header": "experiments/q2_deferred_norm_state.h",
+  "gpu_run": false,
+  "model_forward": false,
+  "performance_qualification": false
+}

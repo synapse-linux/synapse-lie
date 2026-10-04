@@ -62,7 +62,7 @@ def main():
                     'q2-norm-fixed-model-ud-r1': 'ud-counting-legacy'}
     if replay_label and (replay_modes.get(replay_label) != mode or '--rebuild-mmq' in sys.argv[2:]):
         raise SystemExit('Binary replay requires its qualified unchanged counting control and no build')
-    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'q2-counting-shared-q8', 'q2-counting-reaudit-exact', 'q2-counting-reaudit-norm', 'q2-counting-hc-bk256-initial', 'q2-counting-hc-bk256-bounded', 'q2-counting-hc-bk128-single', 'q2-counting-hc-bk128-double', 'q2-counting-hc-bn64-token', 'q2-counting-hc-bn64-output', 'ud-counting-legacy')
+    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'q2-counting-shared-q8', 'q2-counting-reaudit-exact', 'q2-counting-reaudit-norm', 'q2-counting-hc-bk256-initial', 'q2-counting-hc-bk256-bounded', 'q2-counting-hc-bk128-single', 'q2-counting-hc-bk128-double', 'q2-counting-hc-bn64-token', 'q2-counting-hc-bn64-output', 'q2-counting-hc-moe-deferred', 'ud-counting-legacy')
     if counting_mode and '--rebuild-mmq' not in sys.argv[2:] and not replay_label:
         raise SystemExit('Historical counting requires a full MMQ rebuild')
     original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')

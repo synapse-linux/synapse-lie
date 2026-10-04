@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## MoE-only deferred norm integrated for a new model test — 2026-10-04 UTC
+
+One pending rejected family is now wired into the measured BK256 bounded
+provider. Only the 2048-row original-F16 MoE combine defers F32 norm; ordinary,
+Q8 and native down retain their parent paths. Four scales/token reuse the unused
+HC-gate tail and survive both up/mix and injection on the existing stream.
+The C17 identity contract rejects changed residual/gamma/rows and clears stale
+state; unsupported consumers reconstruct F32. No device allocation/stream is added.
+
+Six of 1025 source files change. Device compilation, unbundle and executor
+syntax pass; no new kernel spills. The initial syntax attempt omitted the HIP
+platform definition and retains exit1; formatting retains exit1 with57 violations.
+Local launch guards pass78/78; .157 Debug/ASan each pass24/24, seven artifacts
+verify. These CPU/static results do not establish GPU safety or model throughput.
+
+The frozen candidate-only plan retains the original exact2048 tester/input/timers
+and saved Q2/UD/best-parent comparisons. Old component/numerical evidence is reused;
+no qualified control or synthetic component rerun, full curve, install, tuning or
+cleanup. One new model is prepared; fresh coordinated admission precedes GPU build.
+[Source, lifetime contract and plan](Q2-HC-MOE-DEFERRED.md).
 ## Rejected-family recovery status reconciled — 2026-10-04 UTC
 
 All nineteen immutable original reports verify against their inventory hashes.
