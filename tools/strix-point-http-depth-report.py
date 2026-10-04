@@ -19,9 +19,9 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def checked_run(mode, size, impl):
+def checked_run(mode, size, impl, evidence):
     label = f'point-http-depth-r2-{mode}-p{size}-{impl}'
-    path = ROOT/'evidence'/label
+    path = evidence/label
     collection = json.loads((path/'collection.json').read_text())
     inventory = collection['inventory']
     if (collection['exit_code'] or inventory['result_state'] != 'PASSED' or
@@ -135,6 +135,7 @@ def svg(rows, field, title, target):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--evidence-root', type=Path, default=ROOT/'evidence')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     comparisons = []
@@ -142,8 +143,8 @@ def main():
     for mode in ('ar', 'mtp'):
         for size in SIZES:
             try:
-                lie = checked_run(mode, size, 'lie')
-                gufo = checked_run(mode, size, 'gufo')
+                lie = checked_run(mode, size, 'lie', args.evidence_root)
+                gufo = checked_run(mode, size, 'gufo', args.evidence_root)
                 matching = True
                 output_matching = True
                 for a, b in zip(lie['samples'], gufo['samples']):
