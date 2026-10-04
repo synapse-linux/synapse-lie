@@ -74,7 +74,7 @@ def collection_receipt(archive):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=['shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values()],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
@@ -121,10 +121,12 @@ def main():
     if args.source_variant in REAUDIT_SOURCES.values():
         if REAUDIT_SOURCES.get(args.mode) != args.source_variant:
             p.error('Historical counting requires its matched provider')
+    if args.mode == 'shared-q8-oracle-replay' and args.source_variant != Q8_PRODUCER_VARIANT:
+        p.error('Q8 oracle replay requires its saved-array provider')
     if args.mode == 'shared-q8-producer-check' or args.source_variant == Q8_PRODUCER_VARIANT:
-        if args.mode not in ('shared-q8-producer-check', 'q2-counting-shared-q8') or args.source_variant != Q8_PRODUCER_VARIANT:
+        if args.mode not in ('shared-q8-oracle-replay', 'shared-q8-producer-check', 'q2-counting-shared-q8') or args.source_variant != Q8_PRODUCER_VARIANT:
             p.error('Shared Q8 producer requires its isolated component mode and source')
-        if args.rebuild_mmq and args.mode == 'shared-q8-producer-check':
+        if args.rebuild_mmq and args.mode in ('shared-q8-producer-check', 'shared-q8-oracle-replay'):
             p.error('Shared Q8 producer builds kernels directly; no MMQ selection')
     if args.mode == 'scaled-row-check' or args.source_variant in ROW_VARIANTS:
         if args.mode != 'scaled-row-check' or args.source_variant not in ROW_VARIANTS:
@@ -316,7 +318,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_native_curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/q2_binary_replay.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_native_curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/q2_binary_replay.py', 'tools/q2_oracle_replay.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline','ud-original-baseline','ud-counting-legacy') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
@@ -371,6 +373,12 @@ def main():
                       for f in (ROOT/source).rglob('*') if f.is_file()}
             if actual != info['files']:
                 p.error('Shared Q8 producer inventory changed')
+        if args.mode == 'shared-q8-oracle-replay':
+            from q2_oracle_replay import verify
+            replay = verify(ROOT)
+            for name in replay['arrays']:
+                archive.add(ROOT/'evidence/q2-shared-q8-producer-component-r3/results'/name,
+                            arcname='oracle-replay-data/'+name)
         if args.source_variant in NORM_SHAPE_VARIANTS:
             info = json.loads((ROOT/'config/q2-norm-fixed-shape-source.json').read_text())
             parent_path = ROOT/'config/q2-iq2-mixed-model-source.json'

@@ -166,6 +166,13 @@ target_include_directories(q2_shared_q8_producer SYSTEM PRIVATE
   ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_shared_q8_producer PRIVATE hip::host roc::hipblaslt OpenSSL::Crypto)
 
+# Unchanged independent format oracle; replay only saved arrays, no provider kernels.
+add_executable(q2_shared_q8_oracle_replay EXCLUDE_FROM_ALL
+  ../../tests/q2_shared_q8_oracle_replay.cpp ../../tests/q2_shared_q8_scalar_oracle.hip)
+target_compile_options(q2_shared_q8_oracle_replay PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_link_libraries(q2_shared_q8_oracle_replay PRIVATE hip::host)
+
 # Preserved norm controls and paired producer, both using the actual HC library.
 add_executable(q2_hc_library_norm EXCLUDE_FROM_ALL ../../tests/q2_hc_library_norm.cpp
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"

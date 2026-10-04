@@ -14,6 +14,7 @@ from q2_process import supervise
 from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
 from q2_reuse import verify_sources
 from q2_binary_replay import verify_replay, libraries
+from q2_oracle_replay import verify as verify_oracle_replay
 from q2_native_curve import MODES as NATIVE_CURVE_MODES, POINT_MODES, verify_source as verify_native_curve
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -78,8 +79,8 @@ def main():
     model_mode = counting_mode or curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
     mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
-    hc_mode = mixed_mode or mode in ('shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
-    hc_target = 'q2_shared_q8_producer' if mode == 'shared-q8-producer-check' else 'q2_scaled_row_reuse' if mode == 'scaled-row-check' else 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode in ('hc-library-norm-bench', 'hc-norm-ragged-bench') else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
+    hc_mode = mixed_mode or mode in ('shared-q8-oracle-replay', 'shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
+    hc_target = 'q2_shared_q8_oracle_replay' if mode == 'shared-q8-oracle-replay' else 'q2_shared_q8_producer' if mode == 'shared-q8-producer-check' else 'q2_scaled_row_reuse' if mode == 'scaled-row-check' else 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode in ('hc-library-norm-bench', 'hc-norm-ragged-bench') else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
     if not cpu_mode and mode not in ('hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode and not terminal_build:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -181,6 +182,9 @@ def main():
             if any(handle.endswith('.gguf') for proc in result['preflight_observers']['observers'] for handle in proc['handles']):
                 raise RuntimeError('Foreign model handle before build/launch')
             register('start');registered=True
+        if mode == 'shared-q8-oracle-replay':
+            result['oracle_replay_data'] = verify_oracle_replay(ROOT, staged=True)
+            save()
         if model_mode:
             if profile_mode:
                 profiler=shutil.which('rocprofv3')
@@ -346,7 +350,7 @@ def main():
                 if mode == 'hc-library-bench': run(['ldd',str(binary)],env,30)
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 try:
-                    run([str(binary)] + ([('mixed' if mode == 'iq2-mixed-check' else 'reference')] if mixed_mode else ['tiles16'] if mode == 'packed-tiles16-bench' else ['tiles'] if mode == 'packed-tiles-bench' else [] if mode in ('shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench') else ['ragged' if mode == 'hc-norm-ragged-bench' else 'library' if mode == 'hc-library-bench' else 'bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
+                    run([str(binary)] + ([('mixed' if mode == 'iq2-mixed-check' else 'reference')] if mixed_mode else ['tiles16'] if mode == 'packed-tiles16-bench' else ['tiles'] if mode == 'packed-tiles-bench' else [] if mode in ('shared-q8-oracle-replay', 'shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench') else ['ragged' if mode == 'hc-norm-ragged-bench' else 'library' if mode == 'hc-library-bench' else 'bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),
                         300 if mode in ('hc-library-bench', 'hc-library-ragged-bench', 'hc-norm-ragged-bench') else 120)
                 finally:
@@ -386,6 +390,7 @@ def main():
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
         if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'
         if mixed_mode: result['state']='SYNTHETIC_IQ2_MIXED_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
+        if mode == 'shared-q8-oracle-replay': result['state']='SAVED_ARRAY_ORACLE_REPLAY_COMPLETE_NOT_MODEL_QUALITY'
         if mode == 'iq2-live-epilogue-check': result['state']='SYNTHETIC_IQ2_EPILOGUE_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode == 'iq2-wmma-signs-check': result['state']='SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode == 'iq2-signs-check': result['state']='SYNTHETIC_IQ2_SIGN_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
@@ -396,6 +401,10 @@ def main():
         result['state'] = 'FAILED'; result['error'] = repr(ex)
     finally:
         try:
+            if 'oracle_replay_data' in result:
+                result['oracle_replay_data_after'] = verify_oracle_replay(ROOT, staged=True)
+                if result['oracle_replay_data_after'] != result['oracle_replay_data']:
+                    raise RuntimeError('Q8 replay corpus changed during run')
             if terminal_run and result['model_access'] and not mode.endswith('probe'):
                 run(['python3',str(ROOT/'tools/q2-terminal-session.py'),'--cleanup'],env,120)
             if 'mmq_reuse' in result:

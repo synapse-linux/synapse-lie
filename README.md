@@ -540,3 +540,8 @@ Only the two new candidates run; historical Q2/UD results are retained.
 The first preserves all21 Q2 replay files; the second preserves the previous
 norm replay, including its changed logits. Fixed UD prefill parity remains open.
 [All samples, comparisons and graph](docs/Q2-REAUDIT-COMPOSITION.md).
+
+The [independent Q8 saved-array replay](config/q2-shared-q8-oracle-replay-plan.json)
+prepares a bounded test of buffer initialization ordering on the unchanged R3
+oracle and saved inputs. Host Debug/ASan pass23/23 each. No model, production
+kernel or qualified control rerun is required; the GPU hypothesis is pending.

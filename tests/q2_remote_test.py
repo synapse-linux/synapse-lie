@@ -606,6 +606,23 @@ class RemoteGuardTests(unittest.TestCase):
             mkdir.assert_called_once()
             run.assert_not_called()
 
+    def test_saved_q8_oracle_scope(self):
+        mode = 'shared-q8-oracle-replay'
+        self.refuse([mode, 'q2-fixture'], 'requires its saved-array provider')
+        self.refuse([mode, 'q2-fixture', '--source-variant', 'reaudit-q8-row'],
+                    'Historical counting requires its matched provider')
+        args = [mode, 'q2-fixture', '--source-variant', 'shared-q8-producer']
+        self.refuse(args + ['--rebuild-mmq'], 'builds kernels directly')
+        self.refuse(args + ['--detach'], 'Persistent launch is limited')
+        self.refuse(args + ['--native-curve'], 'Native curve requires')
+        self.refuse(args + ['--point-only'], 'Focused point requires')
+        with patch.object(sys, 'argv', [str(path), *args]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_fixed_norm_shape_model_scope(self):
         self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
                      'norm-shape-reference', '--rebuild-mmq'],

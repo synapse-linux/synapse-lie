@@ -2635,3 +2635,14 @@ away, with no context sweep or independent quality promotion. Fresh19:29:44UTC
 closure retires457 identities/353groups, empty KFD, four original leases free
 and six model stat tuples unchanged; core receives release.
 [Complete sample values, graph and report](Q2-REAUDIT-COMPOSITION.md).
+
+## Independent Q8 saved-array replay prepared (2026-10-04)
+
+The new standalone fixture retains the exact R3 independent GPU kernel and
+15 verified saved arrays across five shapes. Eight alternating repetitions
+compare legacy default-stream initialization with initialization on the same
+nonblocking stream as the oracle. It launches no production kernel or model
+forward and cannot report PP/TG, task quality or current model promotion.
+New launcher guards pass75 local unit tests; .157 Debug and ASan/UBSan CTest
+each pass23/23. The race cause remains unproven until a fresh coordinated GPU
+window executes this replay. [Frozen plan](../config/q2-shared-q8-oracle-replay-plan.json).
