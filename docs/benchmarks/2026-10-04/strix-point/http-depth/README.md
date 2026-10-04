@@ -51,6 +51,37 @@ not a cross-build speedup measurement. The two repetitions within each engine
 produce identical assistant text; LIE and Gufo text differs after a common
 initial prefix. No quality or token-ID parity is inferred from this curve.
 
+MTP uses the separately pinned predictor with seven allowed draft tokens.
+The prefill remains a cold full-prompt computation; accepted drafts affect
+decode. Counts below are per measured request, and are identical across the
+two repetitions within each engine.
+
+| MTP target | Prefill LIE / Gufo (tok/s) | Decode LIE / Gufo (tok/s) | TTFT LIE / Gufo (s) | Accepted / proposed LIE | Accepted / proposed Gufo |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 8,192 | 470.453 / 467.976 | 14.407 / 13.291 | 18.034 / 17.488 | 74 / 112 | 74 / 127 |
+| 32,768 | 439.684 / 438.820 | 13.396 / 14.182 | 75.141 / 74.704 | 60 / 86 | 77 / 116 |
+| 131,072 | 403.518 / 402.133 | 14.328 / 12.052 | 325.468 / 326.573 | 78 / 113 | 63 / 111 |
+| 258,794 | 378.945 / 378.643 | 14.293 / 12.097 | 683.606 / 683.989 | 85 / 129 | 65 / 103 |
+
+At 8K/32K/128K/~256K, LIE's MTP/AR decode ratios are
+1.387/1.299/1.424/1.473; Gufo's are 1.285/1.383/1.243/1.255.
+MTP prefill is 1.4–2.8% below each engine's AR value at these points.
+At ~256K, MTP's faster decode saves 4.23 s in LIE's server phase but its
+prefill takes 12.70 s longer; median HTTP wall time increases by 8.51 s
+(Gufo: +8.09 s). MTP lowers total wall time at 8K and 32K, but raises it
+at 128K and ~256K in this cold-prompt workload. Differences in accepted
+drafts and generated text
+prevent interpreting an inter-engine MTP rate gap as a pure scheduler effect.
+The [mode-effect CSV](generated/mode-effect.csv) and
+[MTP/AR decode graph](generated/mtp-over-ar-decode.svg) contain the ratios.
+Within each of the 16 windows the two outputs are byte-identical; in all eight
+LIE/Gufo pairs the cross-engine output differs. This is a performance and
+protocol measurement, not a quality or token-ID equivalence result.
+
+Across all 16 successful windows, sampled maxima are 86.125 °C CPU,
+88 °C GPU, 73.85 °C NVMe and 90.524 GiB GTT used. There is no thermal stop.
+The CPU and NVMe guards were enforced; GPU temperature was observed only.
+
 The server's current hard context cap is 262,144 tokens. The 258,794-token
 target leaves room for the 128-token output; a one-million-token HTTP run is
 outside this backend's present contract. Large-context prefill can only be
@@ -66,3 +97,47 @@ before writing the generated tables and graphs. Only
 the CPU guard is 98 °C, the NVMe guard 85 °C, and GPU temperature is observed
 without a software ceiling. Every new GPU arm independently reacquires the
 private lease and checks its own model stat before/after.
+
+## Sealed evidence and offline regeneration
+
+The [verification record](generated/verification.json) binds 361 archived
+members across 16 successful model-serving windows and the retained first
+pilot, which exited 1 before model load because its LIE request timeout
+exceeded the server's 1,800,000 ms maximum. The pilot's child/supervisor
+exits remain 1; its router and lease were restored/released. All 16 corrected
+windows have client, container and supervisor exits 0, unchanged model files,
+retired owned GPU processes, active router and free private lease. They
+contain 32 measured 128-token responses plus excluded calibration requests.
+
+The three raw archives include exact request/response JSONL, phase metrics,
+source and binary pins, server/client logs, one-second thermal/GTT samples,
+controller exits and collection hashes:
+
+- [AR windows](data/ar.tar.gz), SHA-256
+  `25ff3ceb1e51f9e85502cd28441806e45cd3ae292a24caf9e22dbae5c55632a3`.
+- [MTP windows](data/mtp.tar.gz), SHA-256
+  `e9980c181fdd0977b77dc79166301194669a15fe6a7587fe9e0d5955e11d6e6a`.
+- [Failed pilot](data/history.tar.gz), SHA-256
+  `56f2c0bd98a2a3971da57fda7391d58bbfcd2b530c7c611fc8fac446eff3355c`.
+
+From the repository root, verify and regenerate into a **new** directory
+without GPU, model files or network access:
+
+```sh
+cd docs/benchmarks/2026-10-04/strix-point/http-depth/data
+sha256sum -c archives.sha256
+cd ../../../../../..
+python3 -B docs/benchmarks/2026-10-04/strix-point/http-depth/make-report.py \
+  evidence/point-http-depth-reproduction
+```
+
+The reproduction checks each archived member, every remote collection SHA,
+controller exit, source stage, router/lease closure and the failed pilot before
+recalculating the eight matched comparisons. Its eight CSV/JSON/SVG outputs
+match the committed [generated files](generated/) byte for byte. The
+[archive inventory](data/inventory.json), [seal script](seal-data.py) and
+[offline report builder](make-report.py) document the provenance and method.
+The [release receipt](../../../../development/validation/point-http-depth-release-2026-10-04.json)
+summarizes exits, source pins, postflight checks and archive hashes.
+This C1 cold-context campaign does not measure long-context concurrent HTTP,
+allocation-exact peak HIP memory, cold-file model startup or 1M context.

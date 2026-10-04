@@ -169,6 +169,18 @@ corpus. The long-context generator can prepare larger inputs, but does not
 extend the model's context limit. `--timeout` is the deadline in seconds for a
 complete HTTP request, including response streaming.
 
+For the [Point cold-context comparison](../benchmarks/2026-10-04/strix-point/http-depth/README.md),
+run one target per **fresh** 262,144-context server and use
+`--preset long-context --sizes TARGET --tg 128 --warmups 0 --repetitions 2
+--context-capacity 262144 --rope-scaling native --corpus-seed 20261004
+--server-kv-cache off --timeout 1800`. LIE needs `--kv-cache-ram-mb 0`
+and no SSD options; official Gufo needs a JSON request-options file containing
+`{"cache_prompt":false}`. The campaign runner pins the servers and model,
+acquires the GPU lease and archives both original requests and results. The
+offline verifier removes only that Gufo-specific cache-control field when
+checking matched request bodies. Client declarations alone do not disable a
+server cache or raise its context capacity.
+
 ## Prepared HTTP multi-user cohorts
 
 Use a running server with prefix caching enabled and at least eight active
@@ -273,9 +285,9 @@ Use a new output directory for each report: existing artifacts are not replaced.
 
 | Published workload | LIE coverage |
 | --- | --- |
-| AR single user at eight prefix depths. | Simplified direct suite and local Gufo control measured through 128K. |
-| AR multiple users. | Native batching measured through eight users. Prepared `http-multi` client and per-request-rate summation are implemented; paired GPU qualification remains pending. |
-| MTP single and multiple users. | MTP is integrated in `core`; `http-multi` supplies mixed/repetitive corpora and the preparation barrier. The matched performance campaigns remain pending. |
+| AR single user at eight prefix depths. | Direct LIE/Gufo GPU comparisons reach near 256K on Strix Point. Fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) now reaches the same target with two measured repetitions per engine. The current HTTP backend caps context at 262,144; 1M remains open. |
+| AR multiple users. | Native batching and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) both compare LIE and official Gufo through C8. The HTTP campaign includes fresh sessions=C and fixed eight-session capacity. Long-context multi-client HTTP is still open. |
+| MTP single and multiple users. | Direct core and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) compare AR/MTP and LIE/Gufo through C8 on prose and repetition. The cold served [long-context campaign](../benchmarks/2026-10-04/strix-point/http-depth/README.md) matches MTP and AR through near 256K at C1, with prefill, draft acceptance, decode and wall time. Long-context multi-client HTTP is still open. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |
 | Peak HIP memory. | Still missing; `memory` exports provider estimates, not allocation-exact peak usage. |
 

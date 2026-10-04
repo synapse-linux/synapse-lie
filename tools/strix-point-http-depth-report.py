@@ -198,7 +198,7 @@ def main():
                'unpaired_or_failed': missing}
     (args.output/'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
     with (args.output/'comparison.csv').open('w', newline='') as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator='\n')
         writer.writerow(('mode', 'target_prompt_tokens', 'implementation', 'actual_prompt_tokens',
                          'prefill_tps', 'prefill_ms', 'decode_tps', 'decode_ms',
                          'ttft_ms', 'wall_ms', 'same_assistant_outputs'))
@@ -210,7 +210,7 @@ def main():
                                  m['decode_ms'], m['ttft_ms'], m['wall_ms'],
                                  row['same_assistant_outputs']))
     with (args.output/'mode-effect.csv').open('w', newline='') as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator='\n')
         writer.writerow(('target_prompt_tokens', 'implementation', 'prefill_mtp_over_ar',
                          'decode_mtp_over_ar', 'mtp_acceptance_rate'))
         for row in mode_effect:

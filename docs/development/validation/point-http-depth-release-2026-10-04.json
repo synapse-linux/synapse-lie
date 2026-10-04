@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.point-http-depth-release.v1",
+  "date_utc": "2026-10-04",
+  "platform": "pop@192.168.5.161 gfx1150 Fedora 43 ROCm 10 Distrobox",
+  "model": "Unsloth Qwen3.8 Flash Next UD-Q4_K_XL",
+  "runtime_source_commit": "128f490cfff9713f84f658ad17118272a1cd4ad7",
+  "campaign_runner_commit": "bff9a43d49e5b9459db3d4d6e3aa962c303d3db2",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Fresh C1 OpenAI HTTP AR/MTP, 8K/32K/128K/near-256K, two cold measured full-128-output samples per engine and target",
+  "successful_windows": 16,
+  "matched_pairs": 8,
+  "measured_responses": 32,
+  "historical_failed_pilot": {
+    "label": "point-http-depth-r1-ar-p8192-lie",
+    "controller_exit_code": 1,
+    "reason": "Requested 3600000 ms exceeded LIE server maximum 1800000 ms before model load",
+    "router_restored": true,
+    "lease_released": true
+  },
+  "closure": "All 16 corrected controller/child/client exits 0, model and predictor stats unchanged, owned GPU processes retired, named router active and private lease free",
+  "resource_peaks": {
+    "cpu_c": 86.125,
+    "gpu_c_observed": 88.0,
+    "nvme_c": 73.85,
+    "gtt_gib": 90.524
+  },
+  "archive_members": 361,
+  "archive_sha256": {
+    "ar.tar.gz": "25ff3ceb1e51f9e85502cd28441806e45cd3ae292a24caf9e22dbae5c55632a3",
+    "mtp.tar.gz": "e9980c181fdd0977b77dc79166301194669a15fe6a7587fe9e0d5955e11d6e6a",
+    "history.tar.gz": "56f2c0bd98a2a3971da57fda7391d58bbfcd2b530c7c611fc8fac446eff3355c"
+  },
+  "archive_inventory_sha256": "49e1064adb49f5a16b78cbdb682bdd6ddc642dfab847f02bb1cea1df86327f05",
+  "summary_sha256": "41e44ff7070cf0d838f5a6a5533c00d9f4ff2ddc4bb195c5880167f6c2f4882b",
+  "offline_verification_sha256": "e48c23637d97369a983aa80a190a34fe8501b1f1fc5a4920c7b9157bd62776a6",
+  "offline_report_exit_code": 0,
+  "offline_generated_files": 8,
+  "local_python_tests": "40/40 passed",
+  "unresolved_scope": [
+    "Long-context concurrent HTTP",
+    "Context above the current 262144-token server cap, including 1M",
+    "Cold-file HTTP startup",
+    "Allocation-exact HIP peak memory",
+    "Independent long-context quality and token-ID equivalence"
+  ]
+}

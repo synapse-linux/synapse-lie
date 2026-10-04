@@ -4,6 +4,7 @@
 
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import subprocess
@@ -59,13 +60,28 @@ def main():
                         if not block:
                             break
                         output.write(block)
+    spec = importlib.util.spec_from_file_location('point_http_depth_seal', HERE/'seal-data.py')
+    seal = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(seal)
+    checked = 0
+    for group in inventory['groups'].values():
+        for label, expected in group['runs'].items():
+            files, actual = seal.files_for(target/'evidence', label)
+            if actual != expected:
+                raise ValueError('Archived run identity drift: '+label)
+            checked += len(files)
+    if checked != len(members):
+        raise ValueError('Archived member count drift')
     report = [sys.executable, '-B', str(ROOT/'tools/strix-point-http-depth-report.py'),
               '--evidence-root', str(target/'evidence'), '--output', str(target/'generated')]
     result = subprocess.run(report, capture_output=True, text=True, check=False)
     receipt = {'schema': 'synapse-lie.point-http-depth-offline-report.v1',
                'archives': declared, 'archive_members': len(members),
                'report_source_sha256': sha(ROOT/'tools/strix-point-http-depth-report.py'),
-               'report_argv': report, 'report_exit_code': result.returncode,
+               'report_command': ['python3', '-B', 'tools/strix-point-http-depth-report.py',
+                                  '--evidence-root', 'NEW_OUTPUT/evidence',
+                                  '--output', 'NEW_OUTPUT/generated'],
+               'report_exit_code': result.returncode,
                'report_stdout': result.stdout, 'report_stderr': result.stderr}
     if result.returncode == 0:
         receipt['generated_sha256'] = {p.name: sha(p) for p in sorted((target/'generated').iterdir())

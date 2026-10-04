@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Point cold HTTP AR/MTP through near 256K complete — 2026-10-04 UTC
+
+Sixteen fresh-server original-weight ROCm 10 `gfx1150` windows on `.161`
+compare LIE with independently pinned official Gufo in AR and MTP at
+8K/32K/128K/near-256K. Each C1 window uses context 262,144, no cross-request
+KV prefix reuse, two measured complete 128-token outputs, and server-reported
+prefill/decode plus client TTFT/wall timing. All 16 child/controller exits are
+0, model stats unchanged, owned GPU processes retired, the named router
+restored and the private lease released. The initial LIE timeout-bound pilot
+remains a failed historical window with exit 1. The offline release checks
+361 archived members and regenerates all eight matched comparisons with
+byte-identical CSV/JSON/SVG outputs.
+
+At 258,788 physical prompt tokens, AR LIE/Gufo median prefill is
+386.128/384.685 token/s and decode 9.706/9.638. MTP prefill is
+378.945/378.643 and decode 14.293/12.097; LIE/Gufo accept 85/65 draft
+tokens per measured request. MTP improves the decode phase but increases
+median end-to-end wall time by 8.51/8.09 seconds at this cold context. From
+8K to near 256K, AR prefill declines 20.3%/19.3% on LIE/Gufo. The C1 curves
+are close, so they do not identify the C17 reactive flow as the cause of the
+high-context decline. All eight cross-engine output pairs differ in text;
+performance matching is not a quality-equivalence claim. Sampled CPU/GPU/NVMe
+maxima are 86.125/88/73.85 °C, with GPU temperature observed only. The
+[full report](benchmarks/2026-10-04/strix-point/http-depth/README.md) has
+per-sample values, draft counts, graphs, raw archives and offline reproduction.
+Long-context multi-client HTTP, cold-file loading, allocation-exact HIP peaks
+and 1M context remain open; the current server cap is 262,144 tokens.
+
 ## Point served HTTP AR/MTP comparison complete — 2026-10-04 UTC
 
 The `128f490` LIE C17 server/native HTTP client and independently pinned
@@ -22,7 +50,9 @@ at C8. MTP repetition at C1 reaches 21.037/21.496 versus the matched AR
 10.423/10.504; MTP prose gains at C1 but is below AR at C8 for both engines.
 Measured prefill is all-hit and has no executed PP rate; isolated cold warmup
 rates are reported separately. This 4K HTTP campaign does not extend the
-previous direct-engine 128K/near-256K qualification to long-context serving.
+previous direct-engine 128K/near-256K qualification to long-context serving;
+the separate [cold HTTP depth report](benchmarks/2026-10-04/strix-point/http-depth/README.md)
+does that for C1.
 The setup notes below preserve the historical sequence and failures.
 
 ## Point prepared HTTP qualification setup — 2026-10-04 UTC

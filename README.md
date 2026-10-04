@@ -79,7 +79,12 @@ passes four matched direct-core pairs through 128K. The new
 adds complete original-weight LIE/official Gufo comparisons at C1/2/4/6/8,
 with fixed eight-session and fresh sessions=C lifecycles, prefill accounting,
 telemetry, graphs and sealed raw evidence. It measures 4K context; longer
-served-context performance remains a separate gate.
+served-context performance is in the separate
+[cold HTTP depth report](docs/benchmarks/2026-10-04/strix-point/http-depth/README.md):
+LIE and official Gufo AR/MTP pass paired, cache-disabled C1 GPU measurements
+at 8K, 32K, 128K and near 256K, with prefill, decode, TTFT, resource samples
+and offline-verifiable raw archives. The server's current maximum is 262,144
+tokens; this does not qualify 1M or long-context multi-client throughput.
 The [r5 direct reactive and vision gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
 exercise held output credit, peer completion, cancellation and Q8-projector
 AR/MTP parity on the original GPU weights; they are functional, not a new

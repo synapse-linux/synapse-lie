@@ -35,6 +35,12 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- A supervised Strix Point cold HTTP context campaign compares original-weight
+  LIE and official Gufo AR/MTP through near 256K with two full-prefill
+  repetitions per engine, physical-token/cache validation, draft acceptance,
+  TTFT/wall timing, resource samples, sealed raw evidence and offline
+  regeneration of CSV/JSON/SVG comparisons.
+
 - Native C `http-multi` benchmark for prepared C1/2/4/6/8 HTTP cohorts, with
   pinned Gufo prose/repetition prompts, complete-stream validation and four
   graph panels separating prefill, server decode rates, wall throughput and TTFT.

@@ -34,6 +34,11 @@ official Gufo server using AR and MTP at C1/2/4/6/8, both with fresh
 sessions=C and fixed eight-session lifecycles. It includes complete raw
 archives, prefill, decode, first-output timing, telemetry and graphs at 4K
 context. The direct results below answer different measurement questions.
+The separate [cold HTTP depth report](../../../2026-10-04/strix-point/http-depth/README.md)
+measures C1 AR/MTP through near 256K with two full-prefill repetitions per
+engine, exact request comparison, TTFT and sealed raw evidence. Its prefill
+curve declines with context in both LIE and official Gufo; it does not cover
+concurrent long-context clients or 1M context.
 
 | Direct benchmark | LIE prefill | LIE decode | Same-stack Gufo decode | Scope |
 | --- | ---: | ---: | ---: | --- |

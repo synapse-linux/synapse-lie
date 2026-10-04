@@ -152,7 +152,9 @@ greedy text output and eight clients at most; the separate
 [Point long-context report](../../../models/qwen3.8-flash-next/strix-point/README.md)
 covers direct-executor prefill through 128K and near 256K. This HTTP campaign
 does not by itself qualify served 256K, 1M context, vision or statistical MTP
-quality. The focused native HTTP benchmark contract also passes 1/1 under
+quality. The separate [cold HTTP depth campaign](../http-depth/README.md)
+qualifies C1 AR/MTP serving through near 256K with full prefill and no prefix
+reuse. The focused native HTTP benchmark contract also passes 1/1 under
 ASan, UBSan and LeakSanitizer on a private local loopback port; this fixture
 validates reporting behavior, while the archived `.161` windows establish
 the GPU results above.

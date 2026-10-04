@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Point cold HTTP depth campaign released — 2026-10-04 UTC
+
+The `.161` Point thread retires all 16 AR/MTP LIE/official Gufo C1
+original-weight HTTP windows at 8K, 32K, 128K and near 256K. All corrected
+model windows have controller, child and client exits 0, unchanged model and
+predictor stat witnesses, retired owned GPU PIDs, active
+`llama-router.service` and a free private lease after collection. The one
+failed first pilot (invalid 3,600,000 ms LIE timeout) remains archived with
+its actual exit 1 and successful cleanup. The
+[sealed report](benchmarks/2026-10-04/strix-point/http-depth/README.md)
+checks 361 archive members and independently regenerates eight matched
+comparisons from raw evidence. CPU/NVMe guards remained below 98/85 °C;
+GPU temperature was observed, not capped. No standing `.161` ownership follows.
+Any further GPU work requires a fresh admission under this protocol.
+
 ## Point HTTP campaign released — 2026-10-04 UTC
 
 The `.161` Point thread has retired all 40 original-weight LIE/official Gufo

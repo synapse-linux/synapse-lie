@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Reactive execution inside pure inference — investigation, not a speed claim
 
 The user asks whether reactive execution can improve **model inference itself**,
@@ -21,6 +22,20 @@ completion/cancellation counters; the latter drafts 100 tokens and accepts
 retained. This establishes bounded ready-row progress on the tested GPU path;
 it does not measure an internal-forward speedup or replace the matched
 reactive-versus-serial performance experiments below.
+
+The later [cold served HTTP Point comparison](benchmarks/2026-10-04/strix-point/http-depth/README.md)
+adds two full-prefill C1 measurements per engine and mode at 8K, 32K, 128K
+and near 256K. LIE and independently served official Gufo follow almost the
+same AR prefill curve: 484.214/476.398 token/s at 8K and 386.128/384.685
+at near 256K. MTP changes decode according to accepted drafts, but does not
+make long-context prefill constant; at near 256K its faster decode accompanies
+about eight seconds *higher* total wall time in both engines. This is evidence
+about the C1 serving path, not an A/B of reactive dispatch switched on/off
+inside one identical executor. It neither proves an internal reactive speedup
+nor blames the C17 flow for the shared high-context decline. The separate
+[4K multi-client HTTP campaign](benchmarks/2026-10-04/strix-point/http-multi/README.md)
+measures C1–C8 serving throughput and must not be conflated with this C1
+prefill curve.
 
 ## Three different questions
 
