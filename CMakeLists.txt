@@ -50,6 +50,8 @@ add_test(NAME q2_thermal COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_thermal_test.py)
 add_test(NAME q2_reuse COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_reuse_test.py)
+add_test(NAME q2_binary_replay COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_binary_replay_test.py)
 add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
 add_library(iq2_mixed_tiles STATIC experiments/iq2_mixed_tiles.c)

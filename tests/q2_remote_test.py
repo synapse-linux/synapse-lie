@@ -179,6 +179,7 @@ class RemoteGuardTests(unittest.TestCase):
             for wrong in set(remote.COUNTING_SOURCES.values()) - {variant}:
                 self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
                             'requires the existing library component only' if wrong in remote.NORM_SHAPE_VARIANTS
+                            else 'Shared Q8 producer requires its isolated component mode and source' if wrong == remote.Q8_PRODUCER_VARIANT
                             else 'Historical counting requires its matched provider')
             with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
                  patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
@@ -187,6 +188,20 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 mkdir.assert_called_once()
                 run.assert_not_called()
+
+    def test_binary_replay_scope(self):
+        controls = [('q2-counting-iq2-mixed', 'curve-iq2-mixed-q2', 'q2-norm-fixed-model-before-r1'),
+                    ('ud-counting-legacy', 'qualified', 'q2-norm-fixed-model-ud-r1')]
+        for mode, variant, label in controls:
+            argv = [mode, 'q2-fixture', '--source-variant', variant, '--replay-from', label]
+            for extra in (['--rebuild-mmq'], ['--native-curve'], ['--detach'], ['--point-only']):
+                self.refuse(argv+extra, 'Binary replay requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')):
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+        self.refuse(['q2-counting-shared-q8', 'q2-fixture', '--source-variant', 'shared-q8-producer',
+                     '--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
 
     def test_historical_counting_harness_is_frozen(self):
         root = path.parents[1]

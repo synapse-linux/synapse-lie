@@ -522,3 +522,8 @@ Branch `feature/antirez-compat-audit` starts at empty `develop` (`ce3ce59`).
 The server/cache branch is separate. Q4, MXFP4 predictor execution, HTTP
 integration, concurrency qualification and long-context qualification remain
 separate gates. The original Q2 predictor descriptor is understood with MTP off.
+
+The [shared-Q8 focused model plan](config/q2-shared-q8-fixed-model-plan.json)
+retains the existing exact2048 Q2/UD references and runs only the new candidate
+under the owner’s explicit exploratory authorization. Host gates pass23/23 in
+Debug and ASan/UBSan; component numerical rejection remains recorded.

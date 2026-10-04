@@ -2583,3 +2583,14 @@ No further independent preparation is needed before testing the two isolated
 HC candidates. Their GPU operator, model replay and performance measurements
 await the external window return. Q2 remains at the measured packed checkpoint
 1250.45 PP/22.97 TG versus UD 1685.15/24.32; the full parity objective is unmet.
+
+## Shared-Q8 focused model preparation (2026-10-04)
+
+The owner requests an exploratory original-weight run despite the retained R3
+format-oracle rejection, and then restricts GPU work to the new candidate only.
+The exact2048 input and direct-executor pp2048/tg128 timers remain frozen;
+historical qualified Q2/UD results supply the comparison without rerunning controls.
+The isolated launcher passes23/23 Debug and23/23 ASan/UBSan CTest on .157.
+A pinned whole-control binary replay guard is prepared and CPU tested, but it is
+not executed in this candidate-only campaign. No numerical promotion or curve
+qualification is implied. [Plan](../config/q2-shared-q8-fixed-model-plan.json).

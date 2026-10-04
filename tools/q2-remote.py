@@ -31,6 +31,7 @@ COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
                     'q2-counting-norm-fixed': 'norm-fixed-shape',
+                    'q2-counting-shared-q8': 'shared-q8-producer',
                     'ud-counting-legacy': 'qualified'}
 COUNTING_CURVES = {'q2-counting-iq2': 'q2-curve-iq2',
                    'q2-counting-iq2-mixed': 'q2-curve-iq2-mixed'}
@@ -77,11 +78,19 @@ def main():
     p.add_argument('--point-only', action='store_true', help='One canonical d0 point, one warmup and three measured repetitions; native client only')
     p.add_argument('--native-curve', action='store_true', help='Use the frozen native C canonical benchmark; no Python curve fallback')
     p.add_argument('--detach', action='store_true', help='Persistent supervisor for Terminal-Bench tasks only')
+    p.add_argument('--replay-from', choices=['q2-norm-fixed-model-before-r1', 'q2-norm-fixed-model-ud-r1'],
+                   help='Replay an immutable qualified counting control without compiling')
     p.add_argument('--rebuild-mmq', action='store_true',
                    help='Recompile all MMQ sources for bench2k, decode-baseline or original-baseline; no prior archive reuse')
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
+    if args.replay_from:
+        expected = {'q2-norm-fixed-model-before-r1': ('q2-counting-iq2-mixed', 'curve-iq2-mixed-q2'),
+                    'q2-norm-fixed-model-ud-r1': ('ud-counting-legacy', 'qualified')}
+        if ((args.mode, args.source_variant) != expected[args.replay_from] or args.rebuild_mmq
+                or args.detach or args.native_curve or args.point_only):
+            p.error('Binary replay requires its qualified unchanged counting control and no build')
     if args.point_only and (not args.native_curve or args.mode not in POINT_MODES):
         p.error('Focused point requires the native ordered Q2, paired norm Q2 or UD mode')
     if args.mode == 'q2-point-norm' and not args.point_only:
@@ -107,9 +116,9 @@ def main():
     if args.mode == 'q2-curve-scale' and not args.native_curve:
         p.error('Scale model comparison requires the native C canonical benchmark')
     if args.mode == 'shared-q8-producer-check' or args.source_variant == Q8_PRODUCER_VARIANT:
-        if args.mode != 'shared-q8-producer-check' or args.source_variant != Q8_PRODUCER_VARIANT:
+        if args.mode not in ('shared-q8-producer-check', 'q2-counting-shared-q8') or args.source_variant != Q8_PRODUCER_VARIANT:
             p.error('Shared Q8 producer requires its isolated component mode and source')
-        if args.rebuild_mmq:
+        if args.rebuild_mmq and args.mode == 'shared-q8-producer-check':
             p.error('Shared Q8 producer builds kernels directly; no MMQ selection')
     if args.mode == 'scaled-row-check' or args.source_variant in ROW_VARIANTS:
         if args.mode != 'scaled-row-check' or args.source_variant not in ROW_VARIANTS:
@@ -142,7 +151,7 @@ def main():
     if args.mode in COUNTING_SOURCES:
         if args.source_variant != COUNTING_SOURCES[args.mode]:
             p.error('Historical counting requires its matched provider')
-        if not args.rebuild_mmq:
+        if not args.rebuild_mmq and not args.replay_from:
             p.error('Historical counting requires a full MMQ rebuild')
     if provider_mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
         expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
@@ -156,7 +165,7 @@ def main():
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
         if args.source_variant != expected:
             p.error('Canonical curve requires its matched Q2 or UD composition')
-        if not args.rebuild_mmq:
+        if not args.rebuild_mmq and not args.replay_from:
             p.error('Canonical curve requires a full MMQ rebuild')
     if args.detach and args.mode not in ('q2-terminal-smoke', 'q2-terminal-full'):
         p.error('Persistent launch is limited to Terminal-Bench task runs')
@@ -301,7 +310,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_native_curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/q2_route_profile.hpp', 'tools/analyze-q2-route-profile.py', 'experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h', 'experiments/counting-baseline', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/analyze-q2-ple-cache-first.py', 'tools/analyze-q2-iq2-wmma-signs.py', 'tools/analyze-q2-iq2-live-epilogue.py', 'tools/analyze-q2-iq2-mixed.py', 'tools/q2_native_curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/q2_binary_replay.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline','ud-original-baseline','ud-counting-legacy') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
@@ -536,7 +545,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>16000000: raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--point-only') if args.point_only else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()

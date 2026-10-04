@@ -13,6 +13,7 @@ import sys
 from q2_process import supervise
 from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
 from q2_reuse import verify_sources
+from q2_binary_replay import verify_replay, libraries
 from q2_native_curve import MODES as NATIVE_CURVE_MODES, POINT_MODES, verify_source as verify_native_curve
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,8 +56,13 @@ def main():
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
-    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'ud-counting-legacy')
-    if counting_mode and '--rebuild-mmq' not in sys.argv[2:]:
+    replay_label = sys.argv[sys.argv.index('--replay-from')+1] if '--replay-from' in sys.argv[2:] else None
+    replay_modes = {'q2-norm-fixed-model-before-r1': 'q2-counting-iq2-mixed',
+                    'q2-norm-fixed-model-ud-r1': 'ud-counting-legacy'}
+    if replay_label and (replay_modes.get(replay_label) != mode or '--rebuild-mmq' in sys.argv[2:]):
+        raise SystemExit('Binary replay requires its qualified unchanged counting control and no build')
+    counting_mode = mode in ('q2-counting-legacy', 'q2-counting-iq2', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed', 'q2-counting-shared-q8', 'ud-counting-legacy')
+    if counting_mode and '--rebuild-mmq' not in sys.argv[2:] and not replay_label:
         raise SystemExit('Historical counting requires a full MMQ rebuild')
     original_mode = mode in ('q2-original-baseline', 'ud-original-baseline')
     if original_mode and '--rebuild-mmq' not in sys.argv[2:]:
@@ -203,6 +209,11 @@ def main():
         env = {k:v for k,v in os.environ.items() if not k.startswith(('GUFO_','DS4_','HIP_','ROCR_','HSA_','CUDA_')) and k not in ('LD_PRELOAD','LD_LIBRARY_PATH')}
         env.update(LC_ALL='C',HIP_VISIBLE_DEVICES='-1',ROCR_VISIBLE_DEVICES='-1',
                    ASAN_OPTIONS='detect_leaks=1:halt_on_error=1',UBSAN_OPTIONS='halt_on_error=1')
+        replay_binary = None
+        if replay_label:
+            replay_binary, replay = verify_replay(ROOT, replay_label, mode, env)
+            result['qualified_binary_replay'] = replay
+            save()
         reuse_args=[]
         if mode.endswith('bench2k') and '--rebuild-mmq' not in sys.argv[2:]:
             observation()
@@ -246,21 +257,22 @@ def main():
         profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
-            run(['cmake','-S',str(ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
-                 '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
-                 '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
-                 '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_POINT_NORM=ON'] if point_norm else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
-            # Bound CPU build pressure after the recorded two-job thermal
-            # stop. This changes build concurrency, not runtime device policy.
-            build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
-            if native_cpu:
-                build_args += ['--target', 'synapse-lie-bench', 'test-native-bench',
-                               'test-http-multi-native', 'test-http-curve-native',
-                               'test-ssd-http-server', 'test-synthetic-lie-bench']
-            if not cpu_mode:build_args+=['--target','synapse-lie-server' if terminal_build or curve_mode else 'q2_original_baseline' if original_mode else 'q2_ple_io' if io_mode else ple_target if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
-            if mode == 'iq2-signs-check':build_args+=['q2_operators']
-            run(build_args,env)
+            if not replay_label:
+                run(['cmake','-S',str(ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
+                     '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
+                     '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
+                     '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
+                     '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_POINT_NORM=ON'] if point_norm else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                # Bound CPU build pressure after the recorded two-job thermal
+                # stop. This changes build concurrency, not runtime device policy.
+                build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
+                if native_cpu:
+                    build_args += ['--target', 'synapse-lie-bench', 'test-native-bench',
+                                   'test-http-multi-native', 'test-http-curve-native',
+                                   'test-ssd-http-server', 'test-synthetic-lie-bench']
+                if not cpu_mode:build_args+=['--target','synapse-lie-server' if terminal_build or curve_mode else 'q2_original_baseline' if original_mode else 'q2_ple_io' if io_mode else ple_target if ple_mode else 'q2_model' if model_mode else hc_target if hc_mode else 'q2_operators']
+                if mode == 'iq2-signs-check':build_args+=['q2_operators']
+                run(build_args,env)
             if cpu_mode:
                 run(['ctest','--test-dir',str(build),'--output-on-failure']+
                     (['-R', '^native-(http-curve|http-multi|benchmark)-contract$'] if native_cpu else [])+
@@ -341,7 +353,7 @@ def main():
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                     if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
             elif model_mode:
-                binary=build/'cmake/hip'/(ple_target if ple_mode else 'q2_model')
+                binary=replay_binary if replay_binary else build/'cmake/hip'/(ple_target if ple_mode else 'q2_model')
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 run(['ldd',str(binary)],env,30)
                 result['model_access']=True
@@ -361,6 +373,9 @@ def main():
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
                 result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
+                result['runtime_libraries'] = libraries(binary, env)
+                if replay_label and result['runtime_libraries'] != replay['libraries']:
+                    raise RuntimeError('Replay libraries changed during model run')
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if cpu_mode else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
         if terminal_build: result['state']='TERMINAL_SERVER_BUILT_NO_MODEL_EXECUTION'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
