@@ -29,6 +29,12 @@ CMake verifies the provider sources and archives. HTTP benchmark clients and
 CSV/JSON/SVG/PNG exports are first-party C17 code; PNG encoding links libpng.
 Python is used only by explicitly selected legacy test oracles and historical
 development/qualification scripts, outside the normal build and runtime.
+Terminal Bench Mini is an optional external evaluation harness under Apache-2.0,
+independently fetched at `07034484346dc724d0e2c47c821fd196add1d6fb` in a private
+source directory, with its license and notice retained. It and Harbor are not
+linked, bundled or required by the native product. Its
+[source preparation receipt](../docs/development/validation/terminal-bench-source-preparation-2026-10-04.json)
+does not claim task evaluation or model quality.
 Incremental function events, retained fragment journals and `allowed_tools`
 parsing are first-party C17 implementations against published OpenAI protocol
 documentation. No OpenAI SDK implementation or runtime dependency is imported.

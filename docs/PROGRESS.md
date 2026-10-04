@@ -8,6 +8,22 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Terminal Bench source and client prerequisites prepared — 2026-10-04 UTC
+
+An independently downloaded official Terminal Bench Mini archive at
+`07034484346dc724d0e2c47c821fd196add1d6fb` matches all 231 recorded reference
+file hashes. The persistent private source keeps the upstream Apache-2.0
+license/notice and unchanged tasks; the official loader verifies Core-19 1.0.0
+content and its one-task smoke tier. This adds no product/build dependency.
+Read-only client checks find existing Harbor 0.20.0 and Docker 29.7.2 on `.157`;
+root job directories will be separate from Q2's environment and results.
+
+Actual model inference remains on `.161`, over ordinary HTTP port 8000. No task
+is executed, no GPU admission or dependency installation occurs, and the
+20:19:42 UTC read-only check still sees the unrelated `.161` training process.
+Full task-image/runtime prerequisites must also pass before a long evaluation.
+[Pinned source, unchanged task verification and scope](development/validation/terminal-bench-source-preparation-2026-10-04.json).
+
 ## DS4 sampling GPU profile admission prepared — 2026-10-04 UTC
 
 The optional Point supervisor accepts an explicit, complete seven-control

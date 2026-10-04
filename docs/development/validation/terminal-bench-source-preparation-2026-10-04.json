@@ -1,0 +1,75 @@
+{
+  "schema": "synapse-lie.terminal-bench-source-preparation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "INDEPENDENT_SOURCE_AND_READ_ONLY_PREREQUISITES_NOT_TASK_EVALUATION",
+  "repository": "https://github.com/kyuz0/terminal-bench-mini",
+  "revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
+  "archive_sha256": "9c84cbb90c2ad76361b6826b60b006a7f033729185fd29e1cfb326e2453699cb",
+  "reference_files_verified": 231,
+  "reference_mismatches": [],
+  "source_directory": ".deps/terminal-bench-mini-07034484346d",
+  "source_receipt_sha256": "de5485c2bc4934350ed53879778099a2a4439586b7ee5eb85354636141b55074",
+  "source_license": "Apache-2.0; upstream LICENSE and NOTICE retained, outside product/runtime distribution.",
+  "core19_manifest_sha256": "2f40baa79c73b357830dc09388170e318411b9b99db0b5dbe14c7f5bbd91f9ad",
+  "suite_identity": {
+    "id": "core19",
+    "version": "1.0.0",
+    "full_tasks": 19,
+    "smoke_tasks": [
+      "git-leak-recovery"
+    ],
+    "content_validation": "Official SuiteManifest.load verify_content=True passes for the unchanged extracted task trees."
+  },
+  "native_product_dependency_added": false,
+  "installation_performed": false,
+  "task_or_model_run": false,
+  "functional_source_check": {
+    "evidence_directory": "evidence/terminal-bench-source-list-r1",
+    "result": {
+      "argv": [
+        "python3",
+        "-B",
+        ".deps/terminal-bench-mini-07034484346d/terminal_bench.py",
+        "list",
+        "--suite",
+        "core19"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 57.5
+      },
+      "elapsed_s": 1.0263121780008078
+    },
+    "command_log_sha256": "2a8bf7c259d0f2f29a2bdbda5afa990dbd30a8cefc9e54faa839658f1592a63b"
+  },
+  "optional_external_harness": {
+    "client_host": "192.168.5.157",
+    "read_only_verified_utc": "2026-10-04T20:21:44Z",
+    "existing_harbor": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-terminal-bench/uv-cache/archive-v0/qA-lg2O5IRWu3Q05/bin/harbor",
+    "harbor_version": "0.20.0",
+    "harbor_version_exit": 0,
+    "docker_client_and_server": "29.7.2",
+    "docker_version_exit": 0,
+    "use": "Existing third-party CPU client only; root jobs must have a separate directory and no Q2 environment/source/cache changes.",
+    "gpu_host": "192.168.5.161",
+    "target_http": "http://192.168.5.161:8000/v1"
+  },
+  "pending": [
+    "Fresh actual GPU availability, owned source/binary build and server admission on .161.",
+    "Read-only complete task image/runtime prerequisites for all19 tasks before any long run.",
+    "Unchanged smoke task, then full Core-19 with original instructions/verifiers and score denominator."
+  ],
+  "gpu_observation": {
+    "utc": "2026-10-04T20:19:42Z",
+    "foreign_pid": 19916,
+    "foreign_start_ticks": 1073961,
+    "state": "R",
+    "command_exit": 0,
+    "root_gpu_action": "None."
+  }
+}
