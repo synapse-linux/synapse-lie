@@ -314,7 +314,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -748,6 +748,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-http-depth':
+            return self.modern_http_depth_gate()
         if profile == 'modern-http-multi':
             return self.modern_http_multi_gate()
         if profile == 'modern-http':
@@ -1038,6 +1040,81 @@ class Campaign:
         finally:
             if (self.root/'http-result.json').exists():
                 self.r['http_partial'] = {'result_sha256': sha(self.root/'http-result.json')}
+            self.check_model_after(rows)
+    def modern_http_depth_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern HTTP depth requires ROCm 10 Distrobox')
+        impl, mode = self.m.get('http_impl'), self.m.get('decode_mode')
+        size = self.m.get('http_size')
+        if (impl not in ('lie', 'gufo') or mode not in ('ar', 'mtp') or
+                type(size) is not int or size not in (1500, 8192, 32768, 131072, 258794) or
+                self.m.get('http_repetitions') != 2):
+            raise ValueError('Invalid bounded HTTP depth profile')
+        helper = checked_path(self.root/'http-depth-gate.py')
+        if sha(helper) != self.m.get('http_depth_gate_sha256'):
+            raise ValueError('HTTP depth helper drift')
+        if impl == 'gufo':
+            artifacts = self.m['artifacts']
+            control = self.m.get('gufo_control')
+            bundle = checked_path(Path(self.m['bundle'])/'BUNDLE.json')
+            if ('runtime/bin/gufo' not in artifacts or
+                    sha(bundle) != artifacts.get('BUNDLE.json') or
+                    type(control) is not dict or
+                    set(control) != {'upstream_pin', 'upstream_manifest_sha256',
+                                     'port_patch_sha256', 'port_build_result_sha256',
+                                     'rocwmma_pin', 'rocwmma_files_sha256',
+                                     'binary_sha256', 'target'} or
+                    control['upstream_pin'] != 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
+                    control['rocwmma_pin'] != '48b7db12a9ade97f0b7ab2ff9321ba0cbb4e5b77' or
+                    control['target'] != 'gfx1150' or
+                    control['binary_sha256'] != artifacts['runtime/bin/gufo'] or
+                    json.loads(bundle.read_text()).get('gufo_control') != control):
+                raise ValueError('Official Point Gufo control provenance drift')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR HTTP depth must not admit a predictor')
+        command = ['/usr/bin/python3', '-B', '/work/http-depth-gate.py',
+                   '--impl', impl, '--mode', mode, '--size', str(size),
+                   '--repetitions', '2',
+                   '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--server', '/bundle/runtime/bin/'+
+                   ('synapse-lie-server' if impl == 'lie' else 'gufo'),
+                   '--client', '/bundle/runtime/bin/synapse-lie-bench']
+        if predictor:
+            command += ['--predictor', '/mtp/'+predictor.name]
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 8200, model)
+            result = json.loads((self.root/'http-depth-result.json').read_text())
+            measurements = [json.loads(line) for line in
+                            (self.root/'measurements.jsonl').read_text().splitlines()]
+            if (result.get('schema') != 'synapse-lie.point-http-depth-original.v1' or
+                    result.get('state') != 'PASSED' or result.get('client_exit_code') != 0 or
+                    result.get('server_exit_code') not in (0, -15) or
+                    result.get('implementation') != impl or result.get('mode') != mode or
+                    result.get('size') != size or result.get('samples') != 2 or
+                    result.get('measurements_sha256') != sha(self.root/'measurements.jsonl') or
+                    result.get('requests_sha256') != sha(self.root/'requests.jsonl') or
+                    not measurements or measurements[0].get('schema') != 'synapse-lie.http-bench.v1' or
+                    measurements[-1] != {'event': 'complete', 'exit_code': 0}):
+                raise RuntimeError('Incomplete original-weight HTTP depth comparison')
+            self.r['bench_result'] = {'profile': 'modern-http-depth',
+                                      'implementation': impl, 'mode': mode,
+                                      'size': size, 'samples': 2,
+                                      'measurements_sha256': result['measurements_sha256'],
+                                      'requests_sha256': result['requests_sha256'],
+                                      'result_sha256': sha(self.root/'http-depth-result.json')}
+        finally:
+            if (self.root/'http-depth-result.json').exists():
+                self.r['http_partial'] = {'result_sha256': sha(self.root/'http-depth-result.json')}
+            if (self.root/'measurements.jsonl').exists():
+                self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
+                                           'bytes': (self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
     def modern_http_multi_gate(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':

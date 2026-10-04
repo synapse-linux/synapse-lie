@@ -49,6 +49,11 @@ def main():
             parser.error('Prepared HTTP helper or corpus SHA-256 differs from manifest')
         files['http-multi-gate.py'] = helper
         files['corpus.jsonl'] = corpus
+    if manifest.get('bench_profile') == 'modern-http-depth':
+        helper = (ROOT/'tools/strix-point-http-depth-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('http_depth_gate_sha256'):
+            parser.error('HTTP depth helper SHA-256 differs from manifest')
+        files['http-depth-gate.py'] = helper
     for name, data in files.items(): (out/name).write_bytes(data)
     encoded = {name: base64.b64encode(data).decode() for name, data in files.items()}
     program = '''import base64,os,pathlib,sys
