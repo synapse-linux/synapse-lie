@@ -43,7 +43,9 @@ def main():
     for name in ('03.log', '06.log'):
         require('100% tests passed out of 22' in (host_path/'results'/name).read_text(),
                 'Missing complete Debug/ASan gate')
-    host_receipt = read(ROOT/'config/q2-counting-regression-host-results.json')
+    host_receipt = read(ROOT/plan['host_receipt'])
+    require(audit.digest(ROOT/plan['host_receipt']) == plan['host_result_sha256'],
+            'Host qualification receipt changed')
     require(audit.digest(host_path/'source.tar.gz') == host_receipt['capsule_sha256'],
             'Host capsule changed')
     with tarfile.open(host_path/'source.tar.gz') as archive:

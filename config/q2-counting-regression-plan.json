@@ -1035,7 +1035,7 @@
   },
   "arms": [
     {
-      "label": "q2-counting-regression-legacy-r1",
+      "label": "q2-counting-regression-legacy-r2",
       "mode": "q2-counting-legacy",
       "variant": "library-norm-cycle"
     },
@@ -1055,7 +1055,7 @@
       "variant": "qualified"
     }
   ],
-  "host": "q2-counting-regression-host-r1",
+  "host": "q2-counting-regression-host-r2",
   "full_mmq_rebuild": true,
   "context": 9216,
   "chunk": 2048,
@@ -2091,5 +2091,17 @@
     "version.txt": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
   },
   "historical_ud_archive_sha256": "de77d85d9bf852ba1c6b1a7f579e54eea9522ac2fe28c964db87a3765504b698",
-  "host_result_sha256": "554f397581617a2979880e94729eeb69e804519b0e829bb7f1bf08f5e2d6c9ad"
+  "host_result_sha256": "31d2bd5d1e544c1ddc9f7ef2921853f4fa0fbddd279636aacf1f442ca2d20944",
+  "host_receipt": "config/q2-counting-regression-host-r2-results.json",
+  "retained_preparation_failures": [
+    {
+      "label": "q2-counting-regression-legacy-r1",
+      "state": "FAILED",
+      "model_access": false,
+      "exit_code": 1,
+      "reason": "CMake PROJECT_SOURCE_DIR belongs to upstream; qualification fixture paths incorrectly used it.",
+      "result_sha256": "ba8b1a0ca548757c41709594674298bbc5cae6f8f9e699c9ff393f0fdb825e91"
+    }
+  ],
+  "amendment": "Same admitted four-model workload; first configure failure retained and replaced by legacy-r2 after fixture-root correction and new host checks. No numerical provider or historical tester changes."
 }

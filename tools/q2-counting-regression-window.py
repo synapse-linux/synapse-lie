@@ -13,7 +13,7 @@ ROOT = Path('/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run')
 REGISTRY = Path('/tmp/synapse-lie-ds4-coordination/runs.jsonl')
 PREVIOUS = ROOT/'q2-iq2-mixed-model-window-release.json'
 PREVIOUS_SHA = '5b171da1f0cd4a4d64faf78fe7d07ab07b9a36a6da17dc4c36afc00df35f60f5'
-LABELS = ('q2-counting-regression-legacy-r1', 'q2-counting-regression-iq2-r1',
+LABELS = ('q2-counting-regression-legacy-r1', 'q2-counting-regression-legacy-r2', 'q2-counting-regression-iq2-r1',
           'q2-counting-regression-mixed-r1', 'q2-counting-regression-ud-r1')
 
 
@@ -59,12 +59,14 @@ def main():
         groups = set(previous['retired_groups'])
         cohorts = []
         labels = ['q2-counting-regression-host-r1']
-        if mode == 'release': labels.extend(n for n in LABELS if (ROOT/n/'results/result.json').exists())
+        if mode == 'release':
+            labels.extend(n for n in ('q2-counting-regression-host-r2', *LABELS)
+                          if (ROOT/n/'results/result.json').exists())
         for label in labels:
             r = read(ROOT/label/'results/result.json')
             if 'finished_at' not in r:
                 raise RuntimeError('Cohort still live')
-            if label == 'q2-counting-regression-host-r1' and (r['state'] != 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' or
+            if label.startswith('q2-counting-regression-host-') and (r['state'] != 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' or
                     len(r['commands']) != 6 or any(c['exit_code'] for c in r['commands'])):
                 raise RuntimeError('Host gate did not pass')
             identities[r['pid']] = dict(pid=r['pid'], start_ticks=None)
