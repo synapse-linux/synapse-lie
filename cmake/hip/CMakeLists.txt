@@ -153,6 +153,7 @@ target_link_libraries(q2_hc_input PRIVATE hip::host roc::hipblaslt OpenSSL::Cryp
 
 # Raw-HC Q8 producer and complete shared-expert consumer, direct kernel build.
 add_executable(q2_shared_q8_producer EXCLUDE_FROM_ALL ../../tests/q2_shared_q8_producer.cpp
+  ../../tests/q2_shared_q8_scalar_oracle.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"

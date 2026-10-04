@@ -3,6 +3,16 @@
 
 ## Shared-Q8 producer component prepared — 2026-10-04
 
+R2 later retains0/0/1 and92 artifacts. All five GPU shapes and44 recorded
+whole-buffer/padding comparisons match, including2048. CPU format fails on12
+of5,242,880 codes at half rounding boundaries; all scales match. R3 adds an
+independent serial GPU format oracle with production HIP FP32 operations and
+keeps the CPU ideal as a diagnostic. Byte/FP64 gates remain; nonfatal numerical
+verdicts no longer prevent recording performance. Host Debug/ASan22/22 pass
+on unchanged executed host sources; the final GPU-only aggregation is bound
+separately. R2 release17:55:30UTC checks417identities/320groups and original
+leases/stat/KFD. No model result or context curve has been added.
+
 R1 later terminates0/0/1 with32 verified artifacts. Two independent HC checks
 pass; all eight producer/consumer buffers at96 rows match. The strict CPU Q8
 oracle fails before later shapes/timing. Retained analysis finds317 one-ULP

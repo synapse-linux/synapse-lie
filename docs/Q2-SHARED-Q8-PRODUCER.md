@@ -78,3 +78,26 @@ R1 release at2026-10-04T17:44:28.780292Z checks406identities/311groups retired,
 empty KFD, four original leases free and six model stat tuples unchanged.
 No Q2 job/reservation/waiter/restart or remote cleanup remains. Core acknowledges.
 [Release](../config/q2-shared-q8-producer-window-release.json).
+
+R2 preserves exits0/0/1 and92 artifacts. All five GPU shapes and44 whole
+buffer/padding checks are exact. Four CPU format cases pass; at2048 the
+rounded-reciprocal CPU oracle still differs on12 of5,242,880 codes near half
+rounding boundaries, with every scale matching. The original and fused GPU
+paths remain byte-identical at those positions. No timing samples were reached.
+[R2 retained result](../config/q2-shared-q8-producer-r2-results.json).
+Release17:55:30.661335Z checks417identities/320groups retired, empty KFD,
+four original leases and unchanged model stats.
+[R2 release](../config/q2-shared-q8-producer-r2-window-release.json).
+
+R3 adds a separate serial-per-block GPU format oracle with the production
+HIP FP32 arithmetic. It shares no upstream helpers, vector lanes or shuffle
+reduction. Every scale/code/padded byte must match both production paths;
+the correctly rounded CPU behavior remains a recorded diagnostic. All original
+HC FP64 thresholds remain. Nonfatal numerical verdicts are aggregated so the
+performance samples are collected even when qualification fails; memory guard,
+launch, input mutation and producer/consumer replay failures still abort.
+[R3 plan](../config/q2-shared-q8-producer-r3-plan.json),
+[R3 host receipt](../config/q2-shared-q8-producer-r3-host-results.json).
+Host Debug/ASan22/22 cover unchanged executed host/guard sources. The final
+GPU-only boolean aggregation is separately bound in the GPU plan and will be
+compiled/executed on GPU; it is not claimed as CPU inference or ASan GPU coverage.

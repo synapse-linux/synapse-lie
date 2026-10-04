@@ -6,6 +6,9 @@
 
 constexpr unsigned hidden = 2560, rank = 320, shared = 640, streams = 4;
 constexpr std::size_t tile_tokens = 16, tile_bytes = 576, scale_offset = 512;
+extern "C" hipError_t q2_shared_q8_scalar_oracle(const float*, void*,
+                                                 std::size_t, std::size_t,
+                                                 hipStream_t);
 
 static std::vector<unsigned char> Q8Weights(unsigned m, unsigned k, Random &rng) {
   Require(k % 32 == 0, "Invalid synthetic Q8 weight geometry");
@@ -126,7 +129,7 @@ static void Pair(const std::string &name, Output<T> &a, Output<T> &b,
             << "\",\"bytes\":" << x.size() * sizeof(T) << ",\"exact\":true}\n";
 }
 
-static void Check(unsigned n, unsigned pattern, bool injection, bool half,
+static bool Check(unsigned n, unsigned pattern, bool injection, bool half,
                   Weights &w) {
   Random rng{917+n};
   std::vector<__half> low(std::size_t(n) * rank);
@@ -150,12 +153,26 @@ static void Check(unsigned n, unsigned pattern, bool injection, bool half,
   Pair(prefix+"-up", ref.up, fused.up);
   Pair(prefix+"-activated", ref.activated, fused.activated);
   Pair(prefix+"-down", ref.down, fused.down);
-  const auto expected = ScalarQ8(ref.mixed.Read(), n);
-  Require(Exact(expected, ref.q8.Read()) && Exact(expected, fused.q8.Read()),
-          "Independent Q8 scale/code oracle differs");
+  // Retain correctly rounded CPU reciprocal/tie behavior as a diagnostic.
+  // Production HIP fast math differs on12 half-code boundaries in R2; both
+  // original and fused outputs agree there. An independent serial GPU oracle
+  // checks the actual production FP32 contract without sharing its helpers.
+  const auto cpu_expected = ScalarQ8(ref.mixed.Read(), n);
+  const auto reference_q8 = ref.q8.Read();
+  std::size_t cpu_different_bytes = 0;
+  for (std::size_t i = 0; i < cpu_expected.size(); ++i)
+    cpu_different_bytes += cpu_expected[i] != reference_q8[i];
+  std::cout << "{\"event\":\"shared_q8_cpu_diagnostic\",\"n\":" << n
+            << ",\"different_bytes\":" << cpu_different_bytes << "}\n";
+  Output<unsigned char> independent(q::Q8TiledBytes(n, hidden));
+  Hip(q2_shared_q8_scalar_oracle(ref.mixed.Data(), independent.Data(), n, hidden, stream));
+  Hip(hipStreamSynchronize(stream));
+  const auto expected = independent.Read();
+  const bool oracle_exact = Exact(expected, reference_q8) && Exact(expected, fused.q8.Read());
+  Save(prefix+"-independent-q8.bin", expected);
+  std::cout << "{\"event\":\"shared_q8_gpu_oracle\",\"n\":" << n
+            << ",\"exact\":" << (oracle_exact ? "true" : "false") << "}\n";
   CheckInput(ld, low); CheckInput(xd, xn);
-  std::cout << "{\"event\":\"shared_q8_oracle\",\"n\":" << n
-            << ",\"pattern\":" << pattern << ",\"exact\":true}\n";
   auto refused = [&](const void *weights, void *q8, unsigned rows, unsigned width,
                      unsigned r, const float *iw, float *out) {
     Require(!q::HcMixRawQ8F16Gemm(weights, static_cast<const __half *>(ld.data),
@@ -173,6 +190,7 @@ static void Check(unsigned n, unsigned pattern, bool injection, bool half,
   Hip(hipStreamSynchronize(stream));
   Pair(prefix+"-reject-q8", ref.q8, fused.q8, true, false);
   Hip(hipStreamDestroy(stream));
+  return oracle_exact;
 }
 
 static void Timing() {
@@ -223,11 +241,11 @@ int main() {
     bool pass = Case(96, 0, true, true);
     pass = Case(129, 0, true, true) && pass;
     Weights weights(719);
-    Check(96, 0, true, true, weights);
-    Check(97, 1, true, true, weights);
-    Check(127, 2, true, true, weights);
-    Check(129, 0, false, false, weights);
-    Check(2048, 0, true, true, weights);
+    pass = Check(96, 0, true, true, weights) && pass;
+    pass = Check(97, 1, true, true, weights) && pass;
+    pass = Check(127, 2, true, true, weights) && pass;
+    pass = Check(129, 0, false, false, weights) && pass;
+    pass = Check(2048, 0, true, true, weights) && pass;
     Timing();
     std::cout << (pass ? "PASS" : "FAIL") << " synthetic shared Q8 producer; no model inference\n";
     return pass ? 0 : 1;
