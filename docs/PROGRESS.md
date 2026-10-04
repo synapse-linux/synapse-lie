@@ -7,6 +7,22 @@ from pending fixed-output/quality 1M gates, MTP OpenAI controls, agent evaluatio
 C17 executor work. Earlier platform and long-context matrices remain explicitly
 historical; their raw receipts and failures are unchanged.
 
+## Native progress GPU qualification prepared — 2026-10-04 UTC
+
+The optional Point supervisor now forwards a declared `progress_interval_ms`
+to regular core benchmark clients and checks matching result identity. A bounded
+streaming reader verifies live observations and retired final jobs against the
+actual measured counters/times, preserving raw stderr hashes. A final metadata
+flag cannot replace successful inference or a complete fixed-output sample.
+Quiet historical runs remain compatible; reactive probes keep progress disabled.
+
+All 75 optional Point CPU fixtures pass, including adversarial progress tests
+for synthetic records, missing/fake retirement, wrong counts, duplicate users,
+clock/counter regression, interval drift, oversized lines and missing snapshots.
+Local maximum CPU is 57.125 C. No C core, inference thread or product dependency
+changes; actual GPU exercise remains pending while the foreign `.161` process
+uses the device. [Receipt](development/validation/core-progress-point-supervisor-2026-10-04.json).
+
 ## Corrected OpenAI AR controls pass on Point — 2026-10-04 UTC
 
 The sealed `abb69d5` r11 runtime passes all **34 original-weight AR HTTP checks**

@@ -167,8 +167,19 @@ inference or device retirement. Inspect the result file's terminal and job data.
 Progress observations are separate from benchmark samples. The interval is
 recorded in result identity and must match in a paired report, since logging
 can affect client wall time. Older records without the field mean disabled.
-The GPU run already in progress uses its frozen binary and has no live counter
-output; this option applies to newly built clients.
+The collected physical 1M run used its frozen r10 binary without this option.
+Live counters apply to newly built clients; that result cannot be retrofitted.
+
+The optional `.161` qualification supervisor accepts `progress_interval_ms`
+for regular `modern-core` campaigns, including RAM/SSD variants. Missing or
+zero means disabled. It verifies the declared interval against result identity,
+requires live and final observations for each warmup/measured sample, and checks
+every final job's retirement, consumed output, prefill/decode counters and times
+against the completed benchmark record. Metadata alone cannot pass the run.
+Malformed, oversized, synthetic or regressing observations refuse qualification.
+Raw stderr is retained and hash-bound; partial/in-flight prefill observations
+are reported separately. This optional private supervisor uses Python; the
+benchmark and its progress output remain native C and need no supervisor.
 
 To check credit handling directly in the core, prepare a JSON array of physical
 token IDs and run the optional functional probe:

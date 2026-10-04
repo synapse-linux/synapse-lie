@@ -49,6 +49,8 @@ stable release is declared. Detailed validation history is in
 - Native core benchmark progress on stderr with `--progress-ms`, reporting
   completed prefill, cache reuse and confirmed/consumer-observed output. Paired reports
   require matching progress policy; benchmark samples remain separate.
+- Optional Point qualification verifies declared native progress intervals and
+  matches retired final observations to completed job counts and phase timings.
 - Optional original-weight HTTP qualification controls for 2/8 choices,
   probabilities, structured output and retained Responses lifecycle, with
   pinned helpers and independently recorded AR/MTP outcomes. All 34 corrected

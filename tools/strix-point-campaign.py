@@ -54,6 +54,88 @@ HTTP_CONTROL_CHECKS = {
     'responses_delete', 'responses_truncation', 'unsupported_fields',
 }
 
+def validate_core_progress(path, jobs, settings):
+    """Stream native stderr; require live and matching retired final observations.
+
+    Provider diagnostics may accompany the JSONL. An observation is metadata,
+    not a benchmark sample or proof of completion on its own.
+    """
+    total = settings['warmups'] + settings['repetitions']
+    fields = ('prompt_tokens', 'cached_tokens', 'prefill_tokens', 'prefill_calls',
+              'output_tokens', 'decode_calls', 'prefill_ns', 'decode_ns')
+    expected = {(row['rep'], row['user']): row for row in jobs}
+    if (len(expected) != total * settings['users'] or
+            set(expected) != {(r, u) for r in range(total) for u in range(settings['users'])}):
+        raise RuntimeError('Progress requires complete job identities')
+    latest = {}; final = set(); live = set(); begin = {}; previous_time = 0
+    observations = partial_prefill = inflight_prefill = 0
+    with path.open(encoding='utf-8') as stream:
+        while raw := stream.readline(65537):
+            if len(raw) > 65536:
+                raise RuntimeError('Oversized core progress line')
+            if not raw.lstrip().startswith('{'):
+                continue
+            try:
+                row = json.loads(raw)
+            except ValueError as exc:
+                raise RuntimeError('Malformed core progress JSON') from exc
+            if row.get('event') != 'core_progress':
+                continue
+            if (row.get('schema') != 'synapse-lie.core-progress.v1' or
+                    row.get('synthetic') is not False or
+                    type(row.get('final_snapshot')) is not bool or
+                    row.get('executor_phase') not in ('idle', 'prefill', 'decode', 'capture', 'restore')):
+                raise RuntimeError('Unexpected core progress identity')
+            numbers = ('rep', 'warmup', 'snapshot_monotonic_ns', 'elapsed_ns',
+                       'queued', 'active', 'output_blocked', 'prefill_started', 'prefill_returned')
+            if any(type(row.get(k)) is not int or not 0 <= row[k] <= 2**64-1 for k in numbers):
+                raise RuntimeError('Invalid core progress counters')
+            rep = row['rep']; stamp = row['snapshot_monotonic_ns']
+            if (not 0 <= rep < total or row['warmup'] != int(rep < settings['warmups']) or
+                    rep in final or stamp <= previous_time or row['elapsed_ns'] > stamp):
+                raise RuntimeError('Invalid core progress ordering')
+            origin = stamp - row['elapsed_ns']
+            if begin.setdefault(rep, origin) != origin:
+                raise RuntimeError('Core progress clock origin drift')
+            previous_time = stamp
+            states = row.get('jobs')
+            if (type(states) is not list or len(states) != settings['users'] or
+                    any(type(s) is not dict or type(s.get('user')) is not int for s in states) or
+                    {s['user'] for s in states} != set(range(settings['users']))):
+                raise RuntimeError('Incomplete core progress jobs')
+            for state in states:
+                key = (rep, state['user'])
+                if (any(type(state.get(k)) is not int or not 0 <= state[k] <= 2**64-1
+                        for k in (*fields, 'consumer_tokens')) or
+                        any(type(state.get(k)) is not bool for k in
+                            ('prepared', 'retired', 'terminal_observed')) or state.get('error')):
+                    raise RuntimeError('Invalid core progress job counters')
+                prior = latest.get(key)
+                if prior and any(state[k] < prior[k] for k in (*fields, 'consumer_tokens')):
+                    raise RuntimeError('Core progress job counter regression')
+                latest[key] = state
+                if row['final_snapshot']:
+                    measured = expected[key]
+                    if (not all(state[k] for k in ('prepared', 'retired', 'terminal_observed')) or
+                            state['consumer_tokens'] != measured['output_tokens'] or
+                            any(state[k] != measured[k] for k in fields)):
+                        raise RuntimeError('Core progress final state differs from completed job')
+                elif not state['retired']:
+                    if 0 < state['prefill_tokens'] < expected[key]['prompt_tokens']:
+                        partial_prefill += 1
+            observations += 1
+            if row['final_snapshot']:
+                final.add(rep)
+            else:
+                live.add(rep)
+                if row['executor_phase'] == 'prefill':
+                    inflight_prefill += 1
+    if final != set(range(total)) or live != final:
+        raise RuntimeError('Missing live or final core progress observation')
+    return {'observations': observations, 'live_samples': len(live),
+            'final_samples': len(final), 'partial_prefill_job_observations': partial_prefill,
+            'inflight_prefill_observations': inflight_prefill, 'stderr_sha256': sha(path)}
+
 def vision_fixture_png():
     """An owned 224x224 white canvas with a central red square."""
     width = height = 224
@@ -871,6 +953,11 @@ class Campaign:
         ram_cache = profile == 'modern-core-ram'
         ssd_cache = profile == 'modern-core-ssd'
         reactive_probe = profile == 'modern-core-reactive-probe'
+        progress_ms = self.m.get('progress_interval_ms', 0)
+        if (type(progress_ms) is not int or
+                (progress_ms != 0 and not 100 <= progress_ms <= 60000) or
+                (reactive_probe and progress_ms)):
+            raise ValueError('Core progress interval must be zero or 100..60000 ms, outside reactive probes')
         mode = self.m.get('decode_mode')
         if mode not in ('ar', 'mtp'):
             raise ValueError('Modern core benchmark mode must be ar or mtp')
@@ -924,6 +1011,8 @@ class Campaign:
                    '--kv-cache-policy', 'ds4', '--timeout-ms', str(timeout_seconds * 1000)]
         if rope != 'native':
             command.extend(('--rope-scaling', rope))
+        if progress_ms:
+            command.extend(('--progress-ms', str(progress_ms)))
         if reactive_probe:
             command.append('--reactive-probe')
         if ssd_cache:
@@ -946,6 +1035,8 @@ class Campaign:
                     identity.get('mode') != mode or identity.get('synthetic') or
                     identity.get('build_id') != self.m.get('runtime_build_id') or
                     identity.get('rope_scaling', 'native') != rope or
+                    type(identity.get('progress_interval_ms', 0)) is not int or
+                    identity.get('progress_interval_ms', 0) != progress_ms or
                 identity.get('cache_policy') != ('ram' if ram_cache else 'ssd' if ssd_cache else 'off') or
                 identity.get('reactive_probe', False) != reactive_probe):
                 raise RuntimeError('Unexpected modern core benchmark identity')
@@ -990,6 +1081,8 @@ class Campaign:
                               not any(row.get('ssd_hits', 0) > 0 for row in samples if not row.get('warmup')) or
                               any(row.get('ssd_errors', 0) for row in samples)):
                 raise RuntimeError('Modern SSD cache gate did not restore a measured prefix')
+            progress_result = (validate_core_progress(self.root/'distrobox.stderr.log', jobs, settings)
+                               if progress_ms else None)
             self.r['bench_result'] = {'profile': profile, 'mode': mode,
                                       'jobs': len(jobs), 'samples': len(samples),
                                       'drafted': drafted, 'accepted': accepted,
@@ -998,6 +1091,8 @@ class Campaign:
                                       'measured_ssd_cached_tokens': sum(row.get('ssd_cached_tokens', 0) for row in jobs if not row.get('warmup')),
                                       'measured_ssd_hits': sum(row.get('ssd_hits', 0) for row in samples if not row.get('warmup')),
                                       'measurements_sha256': sha(self.root/'measurements.jsonl')}
+            if progress_result is not None:
+                self.r['bench_result']['progress'] = progress_result
         finally:
             if (self.root/'measurements.jsonl').exists():
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),

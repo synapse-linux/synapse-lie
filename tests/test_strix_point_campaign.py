@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 """CPU-only ownership/restore fixtures. Commands and observations are mocked."""
 import importlib.util
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -46,6 +47,142 @@ class Tests(unittest.TestCase):
         root = self.base/name; root.mkdir()
         (root/'manifest.json').write_text('{}')
         return Fixture(root, {'authorization': 'CPU fixture; not an actual grant'})
+    def progress_fixture(self):
+        settings = {'context':4096, 'chunk':2048, 'users':2, 'tg':32,
+                    'warmups':1, 'repetitions':1}
+        jobs = []; observations = []
+        for rep in range(2):
+            final_states = []
+            for user in range(2):
+                job = {'rep':rep, 'user':user, 'warmup':int(rep == 0),
+                       'prompt_tokens':3, 'cached_tokens':0, 'prefill_tokens':3,
+                       'prefill_calls':1, 'output_tokens':32, 'decode_calls':32,
+                       'prefill_ns':10, 'decode_ns':20}
+                jobs.append(job)
+                state = {k:v for k,v in job.items() if k not in ('rep', 'warmup')}
+                state.update(prepared=True, retired=True, terminal_observed=True, consumer_tokens=32)
+                final_states.append(state)
+            live_states = copy.deepcopy(final_states)
+            for state in live_states:
+                state.update(retired=False, terminal_observed=False, prefill_tokens=1,
+                             output_tokens=0, consumer_tokens=0, decode_calls=0,
+                             prefill_ns=1, decode_ns=0)
+            base = {'event':'core_progress', 'schema':'synapse-lie.core-progress.v1',
+                    'synthetic':False, 'rep':rep, 'warmup':int(rep == 0), 'queued':0,
+                    'active':2, 'output_blocked':0, 'prefill_started':2, 'prefill_returned':1}
+            observations.append(dict(base, snapshot_monotonic_ns=100 + rep*100,
+                                     elapsed_ns=0, final_snapshot=False, executor_phase='prefill',
+                                     jobs=live_states))
+            observations.append(dict(base, snapshot_monotonic_ns=150 + rep*100,
+                                     elapsed_ns=50, final_snapshot=True, executor_phase='idle',
+                                     jobs=final_states))
+        return settings, jobs, observations
+    def write_progress(self, observations):
+        path = self.base/'progress.log'
+        path.write_text('Provider diagnostic\n' + ''.join(json.dumps(r)+'\n' for r in observations))
+        return path
+    def test_progress_warmup_two_users_matches_completed_jobs(self):
+        settings, jobs, observations = self.progress_fixture()
+        path = self.write_progress(observations)
+        result = point.validate_core_progress(path, jobs, settings)
+        self.assertEqual(result['observations'], 4)
+        self.assertEqual(result['live_samples'], 2)
+        self.assertEqual(result['final_samples'], 2)
+        self.assertEqual(result['partial_prefill_job_observations'], 4)
+        self.assertEqual(result['inflight_prefill_observations'], 2)
+        self.assertEqual(result['stderr_sha256'], point.sha(path))
+    def test_final_progress_flag_cannot_replace_retirement_or_job_evidence(self):
+        settings, jobs, observations = self.progress_fixture()
+        for key, value in [('retired',False), ('terminal_observed',False), ('prepared',False),
+                           ('output_tokens',31), ('consumer_tokens',31), ('prefill_tokens',2),
+                           ('prefill_calls',2), ('prefill_ns',11), ('error','fixture failure')]:
+            with self.subTest(key=key):
+                bad = copy.deepcopy(observations); bad[1]['jobs'][0][key] = value
+                with self.assertRaises(RuntimeError):
+                    point.validate_core_progress(self.write_progress(bad), jobs, settings)
+        with self.assertRaisesRegex(RuntimeError, 'job identities'):
+            point.validate_core_progress(self.write_progress(observations), jobs[:-1], settings)
+    def test_progress_rejects_synthetic_invalid_typed_or_missing_observations(self):
+        settings, jobs, observations = self.progress_fixture()
+        for key, value in [('synthetic',True), ('rep',True), ('warmup',0),
+                           ('prefill_started',-1), ('final_snapshot',1),
+                           ('schema','other'), ('executor_phase','unknown')]:
+            with self.subTest(key=key):
+                bad = copy.deepcopy(observations); bad[0][key] = value
+                with self.assertRaises(RuntimeError):
+                    point.validate_core_progress(self.write_progress(bad), jobs, settings)
+        for omitted in (0,1,2,3):
+            with self.subTest(omitted=omitted), self.assertRaises(RuntimeError):
+                point.validate_core_progress(self.write_progress(observations[:omitted]+observations[omitted+1:]), jobs, settings)
+        bad = copy.deepcopy(observations); bad[0]['jobs'][1]['user'] = 0
+        with self.assertRaisesRegex(RuntimeError, 'progress jobs'):
+            point.validate_core_progress(self.write_progress(bad), jobs, settings)
+    def test_progress_refuses_clock_counter_regression_and_unbounded_input(self):
+        settings, jobs, observations = self.progress_fixture()
+        bad = copy.deepcopy(observations); bad[1]['elapsed_ns'] = 49
+        with self.assertRaisesRegex(RuntimeError, 'clock origin'):
+            point.validate_core_progress(self.write_progress(bad), jobs, settings)
+        bad = copy.deepcopy(observations); bad[1]['snapshot_monotonic_ns'] = 100
+        with self.assertRaisesRegex(RuntimeError, 'ordering'):
+            point.validate_core_progress(self.write_progress(bad), jobs, settings)
+        bad = copy.deepcopy(observations); bad[0]['jobs'][0]['prefill_ns'] = 11
+        with self.assertRaisesRegex(RuntimeError, 'counter regression'):
+            point.validate_core_progress(self.write_progress(bad), jobs, settings)
+        with self.assertRaisesRegex(RuntimeError, 'ordering'):
+            point.validate_core_progress(self.write_progress(observations[:2]+[observations[1]]+observations[2:]), jobs, settings)
+        path = self.write_progress(observations); path.write_text('x'*65537)
+        with self.assertRaisesRegex(RuntimeError, 'Oversized'):
+            point.validate_core_progress(path, jobs, settings)
+        path.write_text('{"event":"core_progress"\n')
+        with self.assertRaisesRegex(RuntimeError, 'Malformed'):
+            point.validate_core_progress(path, jobs, settings)
+    def test_modern_core_progress_is_explicit_and_checked_against_results(self):
+        c = self.campaign('progress-command')
+        settings, jobs, observations = self.progress_fixture()
+        settings.update(users=2, warmups=0, repetitions=1)
+        jobs = jobs[2:]; observations = observations[2:]
+        for row in jobs + observations:
+            row.update(rep=0, warmup=0)
+        tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-core', decode_mode='ar', bundle=str(self.base),
+                   model_plan={'files':[{'name':'target.gguf'}]}, tokens_sha256=point.sha(tokens),
+                   prompt_tokens_expected=3, runtime_build_id='fixture-runtime', settings=settings,
+                   progress_interval_ms=1000)
+        reported_interval = [1000]
+        emit_progress = [True]
+        def run(command, _bundle, _timeout, _model):
+            self.assertEqual(command[command.index('--progress-ms')+1], '1000')
+            rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1', 'synthetic':False,
+                     'mode':'ar','build_id':'fixture-runtime','cache_policy':'off',
+                     'progress_interval_ms':reported_interval[0]}]
+            rows += [dict(job,event='job') for job in jobs]
+            rows += [{'event':'sample'}, {'event':'complete','exit_code':0}]
+            (c.root/'measurements.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+            (c.root/'distrobox.stderr.log').write_text(''.join(json.dumps(r)+'\n' for r in observations) if emit_progress[0] else '')
+        with patch.object(c,'verified_model',return_value=(self.base,[])), \
+             patch.object(c,'run_container',side_effect=run), patch.object(c,'check_model_after'):
+            c.bench()
+        self.assertEqual(c.r['bench_result']['progress']['final_samples'],1)
+        for interval in (False,0,2000):
+            reported_interval[0] = interval
+            with self.subTest(reported_interval=interval), \
+                 patch.object(c,'verified_model',return_value=(self.base,[])), \
+                 patch.object(c,'run_container',side_effect=run), patch.object(c,'check_model_after'), \
+                 self.assertRaisesRegex(RuntimeError,'benchmark identity'):
+                c.bench()
+        reported_interval[0] = 1000; emit_progress[0] = False
+        with patch.object(c,'verified_model',return_value=(self.base,[])), \
+             patch.object(c,'run_container',side_effect=run), patch.object(c,'check_model_after'), \
+             self.assertRaisesRegex(RuntimeError,'Missing live or final'):
+            c.bench()
+        for interval in (True,-1,1,99,60001):
+            c.m['progress_interval_ms'] = interval
+            with self.subTest(interval=interval), self.assertRaisesRegex(ValueError,'progress interval'):
+                c.bench()
+        c.m.update(progress_interval_ms=1000,bench_profile='modern-core-reactive-probe')
+        with self.assertRaisesRegex(ValueError,'progress interval'):
+            c.bench()
     def test_restore_and_release(self):
         c = self.campaign(); c.enter()
         self.assertFalse(c.active)
