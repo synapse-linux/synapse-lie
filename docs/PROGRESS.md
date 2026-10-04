@@ -56,7 +56,7 @@ requirement while retaining default-ON Zstandard compression. A clean core
 ASan/UBSan build has no LZ4 cache or direct dynamic dependency; focused
 checkpoint/store/reactive CTest passes 3/3 with leak detection disabled in
 this ptrace sandbox. The first LeakSanitizer attempt failed because LSan
-cannot operate under ptrace, not because of a test assertion. Modern GPU
+cannot operate under ptrace, not because of a test assertion.
 The predictor has since been copied directly from `.157` to `.161`: all
 2,786,568,256 bytes match the recorded SHA-256, the source inode/stat is
 unchanged, both private leases were released, and both services restored.
@@ -90,6 +90,20 @@ rates, with focused normal and ASan/UBSan tests passing. Final `.161` postflight
 finds the service active, only its PID in KFD, no LIE container and the private
 lease free. These are one-repetition direct-core results; served HTTP and
 statistically replicated MTP performance remain open.
+
+Four further `.161` original-weight gates pass the modern C17 core's MTP and
+AR paths with one cold and one hot 8,192-token/32-output request each. Both
+RAM-cache arms restore all 8,192 tokens from RAM; both explicitly enabled
+SSD-cache arms restore all 8,192 tokens from SSD, with no new prefill and zero
+SSD errors. Every cold/hot output sequence matches across MTP and AR. The
+[Point cache report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ram-and-opt-in-ssd-kv-reuse-with-mtp)
+includes exact decode/wall values, graphs, raw receipts and offline replay.
+All four remote inventories pass 62/62 SHA-256 checks in total; all
+children/supervisors exit zero, models remain unchanged and each private GPU
+window restores the named service and releases its lease. The last `.161`
+postflight sees only the restored router PID 101236 in KFD, no LIE container
+and the private lease free. SSD remains opt-in; one hot sample per arm does not
+establish steady-state performance.
 
 ## Original-weight vision, MTP and reactive continuation — 2026-10-03
 

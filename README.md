@@ -35,7 +35,8 @@ remain open; other real model bindings remain open.
   with explicit model configuration and complete predictor checkpoints.
   Original-weight checkpoint and cancellation checks pass. Paired direct-core
   GPU MTP/AR checks on Strix Point now cover 1.5K, 8K and 128K fresh prompts,
-  including C2 at 8K; broader quality and replicated performance gates remain open.
+  including C2 at 8K. Original-weight MTP/AR RAM and opt-in SSD KV reuse at 8K
+  also passes; broader quality and replicated performance gates remain open.
 - Experimental [vision image inputs](docs/development/VISION.md),
   with explicit model configuration and semantic RAM/SSD cache binding.
   F16/Q8_0 projector weights are decoded once in C for the BF16 GPU encoder.
