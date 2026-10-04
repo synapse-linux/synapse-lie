@@ -233,13 +233,47 @@ bad:
 static const char *policy_keys[] = {"cache_min_tokens", "cache_cold_max_tokens",
                                     "cache_continued_tokens",
                                     "cache_trim_tokens", "cache_align_tokens"};
+static json_object *core_generation(json_object *id) {
+  const char *keys[] = {"temperature", "top_p", "frequency_penalty", "presence_penalty"};
+  const double lower[] = {0, 0, -2, -2}, upper[] = {2, 1, 2, 2};
+  double values[] = {0, 1, 0, 0};
+  int64_t seed = -1;
+  json_object *declared = NULL;
+  if (json_object_object_get_ex(id, "generation", &declared)) {
+    if (!json_object_is_type(declared, json_type_object) ||
+        json_object_object_length(declared) != 5)
+      return NULL;
+    for (size_t k = 0; k < 4; ++k) {
+      json_object *v = nb_get(declared, keys[k]);
+      if (!json_object_is_type(v, json_type_int) && !json_object_is_type(v, json_type_double))
+        return NULL;
+      values[k] = json_object_get_double(v);
+      if (!isfinite(values[k]) || values[k] < lower[k] || values[k] > upper[k] ||
+          (k == 1 && values[k] == 0))
+        return NULL;
+    }
+    json_object *v = nb_get(declared, "seed");
+    if (!json_object_is_type(v, json_type_int))
+      return NULL;
+    seed = json_object_get_int64(v);
+    if (seed < -1 || (seed >= 0 && json_object_get_uint64(v) > INT64_MAX) ||
+        (values[0] > 0 && seed < 0))
+      return NULL;
+  }
+  /* Historical core streams predate configurable sampling and are greedy. */
+  json_object *out = json_object_new_object();
+  for (size_t k = 0; k < 4; ++k)
+    nb_real(out, keys[k], values[k]);
+  nb_num(out, "seed", seed);
+  return out;
+}
 static json_object *core(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
               *out = json_object_new_object(),
               *points = json_object_new_array(),
               *input = select_rows(rows, "input"),
               *samples = select_rows(rows, "sample"),
-              *jobs = select_rows(rows, "job");
+              *jobs = select_rows(rows, "job"), *generation = NULL;
   nb_add(out, "identity", id);
   json_object_object_add(out, "configurations", points);
   nb_add(out, "samples", samples);
@@ -250,6 +284,8 @@ static json_object *core(json_object *rows, nb_error *e) {
             nb_count(id, "users", 1, 8, NULL) &&
             nb_count(id, "prefill_chunk", 1, 2048, NULL),
         "Invalid core identity");
+  generation = core_generation(id);
+  CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
   size_t users = (size_t)nb_number(id, "users"),
          reps =
              (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
@@ -368,7 +404,7 @@ static json_object *core(json_object *rows, nb_error *e) {
       CHECK(total > 0 && tg <= nb_number(id, "output_limit") &&
                 output_ids(nb_get(r, "output_ids"), tg) &&
                 nb_same(r, first, "output_ids"),
-            "Core output count or greedy drift");
+            "Core output count or reproducible drift");
       CHECK(eqs(r, "finish", "stop") || (eqs(r, "finish", "length") &&
                                          tg == nb_number(id, "output_limit")),
             "Core completion reason");
@@ -420,6 +456,7 @@ static json_object *core(json_object *rows, nb_error *e) {
   }
   json_object *point = json_object_new_object();
   json_object_array_add(points, point);
+  nb_add(point, "generation", generation);
   fields(point, id,
          "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
@@ -479,8 +516,10 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object_put(input);
   json_object_put(samples);
   json_object_put(jobs);
+  json_object_put(generation);
   return out;
 bad:
+  json_object_put(generation);
   json_object_put(out);
   json_object_put(input);
   json_object_put(samples);
@@ -775,7 +814,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
                               "prefill_chunk",   "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),

@@ -87,6 +87,25 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+To measure the dense sampler on original weights, use a fixed seed and keep
+sampling parameters identical in both builds:
+
+```sh
+"$LIE_BENCH" --model "$LIE_MODEL" --suite core \
+  --prompt-file prompt.txt --context 32768 --chunk 2048 \
+  --users 1 --tg 128 --warmups 1 --repetitions 3 \
+  --temperature 0.8 --top-p 0.9 --seed 123 \
+  --frequency-penalty 0.2 --presence-penalty 0.1 \
+  --kv-cache-ram-mb 0 --output results/core-sampled.jsonl
+```
+
+The default remains greedy. Nonzero temperature requires `--seed`; each request
+uses that seed independently, including warmups and concurrent users. The raw
+identity and report record all five controls, and a matched comparison refuses
+different sampling settings. Older core results without those fields retain
+their historical greedy defaults. These controls select the existing shared-core
+sampling API; top-k and min-p are not exposed by that API.
+
 MTP is integrated in the shared-core suite. Add an explicit compatible predictor
 and draft budget to separate runs (one cohort size per invocation):
 

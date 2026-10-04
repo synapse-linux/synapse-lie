@@ -28,8 +28,8 @@ lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t
 lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model **m,lie_error *e) {
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:"};
-    for (int i=0;i<7;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:"};
+    for (int i=0;i<8;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
@@ -89,7 +89,11 @@ lie_status lie_model_token_text(lie_model *m,int32_t token,char *out,size_t cap,
     (void)m;(void)e;*n=1;if(cap<1)return LIE_BUFFER_SMALL;out[0]=(char)('a'+token%26);return LIE_OK;
 }
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
-    (void)s;(void)e;return o->abi_version==LIE_GENERATION_ABI?LIE_OK:LIE_INVALID;
+    (void)e;
+    if (s->m->mode==7 && (o->temperature!=.75 || o->top_p!=.9 ||
+        o->frequency_penalty!=.25 || o->presence_penalty!=-.5 || o->seed!=INT64_MAX))
+        return LIE_INVALID;
+    return o->abi_version==LIE_GENERATION_ABI?LIE_OK:LIE_INVALID;
 }
 lie_status lie_sequence_constrain(lie_sequence *s,
                                   const lie_generation_constraints *o,

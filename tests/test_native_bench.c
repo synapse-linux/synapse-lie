@@ -196,6 +196,15 @@ static json_object *read_json(const char *name, bool lines) {
   require(o != NULL, e.message);
   return o;
 }
+static void save_rows(const char *name, json_object *rows) {
+  char p[2400];
+  path(p, name);
+  FILE *f = fopen(p, "w");
+  require(f != NULL, "sampling evidence fixture");
+  for (size_t i = 0; i < json_object_array_length(rows); ++i)
+    require(nb_emit(f, json_object_array_get_idx(rows, i)), "sampling fixture write");
+  require(!fclose(f), "sampling fixture close");
+}
 static void graph_files(const char *name) {
   char p[2400];
   char n[256];
@@ -357,6 +366,63 @@ static void reordered_comparison(json_object *rows, const char *original) {
             "comparison graph changed when reference workload order changed");
   }
 }
+static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
+  char output[2400], graphs[2400];
+  path(output, "sampled-core.jsonl");
+  path(graphs, "sampled-core-graphs");
+  char *args[] = {bench, "--suite", "core", "--model", ":sampling:",
+                 "--tokens-file", tokens, "--tg", "8", "--users", "2",
+                 "--warmups", "1", "--repetitions", "2", "--temperature", ".75",
+                 "--top-p", ".9", "--frequency-penalty", ".25",
+                 "--presence-penalty", "-.5", "--seed", "9223372036854775807",
+                 "--kv-cache-ram-mb", "0", "--output", output, "--graphs", graphs, NULL};
+  run(args, 0); /* The fixture refuses configuration unless all five controls arrive. */
+  graph_files("sampled-core-graphs");
+  json_object *summary = read_json("sampled-core-graphs/summary.json", false);
+  json_object *point = json_object_array_get_idx(nb_get(nb_get(summary, "primary"), "configurations"), 0);
+  require(nb_number(nb_get(point, "generation"), "seed") == INT64_MAX &&
+          json_object_get_double(nb_get(nb_get(point, "generation"), "temperature")) == .75,
+          "sampling controls missing from summary");
+  json_object_put(summary);
+  const char *bad[][2] = {{"--temperature", "NaN"}, {"--temperature", "0x1p-1"},
+                         {"--temperature", "2.01"}, {"--temperature", ".8"},
+                         {"--top-p", "0"}, {"--top-p", "1.01"},
+                         {"--frequency-penalty", "-2.1"}, {"--presence-penalty", "3"},
+                         {"--seed", "9223372036854775808"}, {"--seed", "-1"},
+                         {"--seed", ""}};
+  for (size_t i = 0; i < sizeof(bad) / sizeof(*bad); ++i) {
+    char *invalid[] = {bench, "--suite", "core", "--build-info", (char *)bad[i][0], (char *)bad[i][1], NULL};
+    run(invalid, 2);
+  }
+  char *duplicate[] = {bench, "--suite", "core", "--build-info", "--seed", "1", "--seed", "2", NULL};
+  run(duplicate, 2);
+  json_object *rows = read_json("sampled-core.jsonl", true);
+  json_object *generation = nb_get(json_object_array_get_idx(rows, 0), "generation");
+  nb_num(generation, "seed", 7);
+  save_rows("sampled-other-seed.jsonl", rows);
+  char changed[2400], refused[2400];
+  path(changed, "sampled-other-seed.jsonl");
+  path(refused, "sampled-other-seed-graphs");
+  nb_error error = {0};
+  require(nb_report(output, refused, "primary", changed, "other seed", false, &error) != 0,
+          "different sampling controls accepted as matched comparison");
+  struct stat st;
+  require(lstat(refused, &st) && errno == ENOENT, "mismatched sampling published graphs");
+  json_object_object_add(generation, "seed", json_object_new_uint64((uint64_t)INT64_MAX + 1));
+  save_rows("sampled-seed-overflow.jsonl", rows);
+  path(changed, "sampled-seed-overflow.jsonl");
+  require(nb_report(changed, refused, "primary", NULL, NULL, false, &error) != 0,
+          "unsigned sampling seed silently saturated");
+  json_object_put(rows);
+  rows = read_json("core.jsonl", true);
+  json_object_object_del(json_object_array_get_idx(rows, 0), "generation");
+  save_rows("historical-greedy-core.jsonl", rows);
+  json_object_put(rows);
+  path(changed, "historical-greedy-core.jsonl");
+  path(graphs, "historical-greedy-core-graphs");
+  require(!nb_report(greedy, graphs, "current", changed, "historical", false, &error),
+          "historical greedy identity lost compatibility");
+}
 int main(int argc, char **argv) {
   require(argc == 3, "server and bench paths required");
   require(atexit(stop_server) == 0, "cleanup registration");
@@ -396,6 +462,7 @@ int main(int argc, char **argv) {
               nb_number(nb_get(point, "cached_tokens"), "median") == 4,
           "cached prefill presented as executed work");
   json_object_put(sum);
+  core_sampling_contract(argv[2], tokens, output);
   path(output, "direct.jsonl");
   path(graphs, "direct-graphs");
   char *direct[] = {

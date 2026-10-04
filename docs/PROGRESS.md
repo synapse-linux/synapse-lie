@@ -1,6 +1,52 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Integrated sampler/vision GPU qualification — 2026-10-04 UTC
+
+The frozen `032d847` composition completes all **12/12** intended original-weight
+functional arms on `.157`. AR ON/OFF each pass 32 assertions; MTP HTTP passes 12
+and combined HTTP 20. Fifteen matched AR JSON generations retain exact outputs,
+usage and logprobs after transport-ID normalization. MTP ON/OFF state streams
+match; seven RAM/SSD probes verify **312** fresh/restored dispatch pairs and
+**168** complete 248320-logit greedy AR frontiers. The direct-core probe confirms
+stalled-loan peer progress, stable cancelled loans, no late publication and
+in-flight PP/TG cancellation, with one device owner.
+
+The initial old-checker `prompt_tokens_details` failure remains raw; the server
+exits 0 and the failed supervisor/controller exit 1. Corrected R2 consumers come
+from the exact historical arms that passed, without a runtime source change.
+Nine continuation arms and controller/SSH exit 0. Independent quality, exact GPU
+allocation peaks, live RNG-session resume and sampled/MTP/vision performance
+remain open. The new parametrized benchmark below is outside these GPU binaries.
+
+Closure at **00:47:22.850674 UTC** verifies 28 retired identities, empty KFD,
+unchanged/free original leases, six unchanged model stats and both capsules.
+All 129 collected remote artifacts hash-verify. Sampled peaks are CPU84.75/GPU86/
+NVMe70.85 C, without CPU/SSD stop or observed crash; OS model-child threads range
+1–52 including HIP/runtime workers. Full source/exit/state evidence is in the
+[integrated receipt](development/validation/integrated-gpu-functional-2026-10-04.json)
+and the [single platform page](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md#integrated-runtime-functional-checks--october-4).
+Root returns `.157` to Q2; the Point thread continues independent `.161` work.
+
+
+## Reproducible sampled core benchmark — 2026-10-04 UTC
+
+The native C shared-core benchmark now accepts temperature, top-p, a fixed seed
+and frequency/presence penalties through the existing generation ABI. Nonzero
+temperature requires an explicit seed; defaults remain greedy. JSON identities
+and reports preserve all controls, and comparisons reject mismatched sampling
+settings. Historical greedy streams retain their actual defaults.
+
+The focused native benchmark contract passes **1/1** with ASan, UBSan and
+LeakSanitizer. Its synthetic provider verifies all five options arrive unchanged,
+including `INT64_MAX`; invalid/duplicate CLI arguments, a comparison between
+identical outputs with different seeds and unsigned seed overflow are refused.
+Local CPU peaks at 69.125 C with no thermal stop. These are NOT-INFERENCE checks;
+matched original-weight sampler performance remains pending. Commands and source
+witnesses are bound by the
+[host receipt](development/validation/core-sampling-benchmark-2026-10-04.json).
+
+
 ## Clocked GPU follow-up complete — 2026-10-03 UTC
 
 Frozen `15c6082` completes ten arms on `.157`: the missing 12288-depth pair,
@@ -35,7 +81,7 @@ retain the same values, zero-based separate PP/TG scales and observed ranges.
 ## Integrated HIP compositions linked — 2026-10-03 UTC
 
 The `.155` host builds three source-bound `gfx1151` providers and their clients:
-sampler/decoder ON/ON, OFF/ON and ON/OFF. All nine configure/build steps exit0,
+sampler/decoder ON/ON, OFF/ON and ON/OFF. All nine configure/build steps exit 0,
 and twelve masked identity/help commands pass without opening a model. Fifteen
 linked client hashes and provider archives are bound by the
 [link receipt](development/validation/c17-vision-link-2026-10-03.json).
@@ -78,7 +124,7 @@ The resulting source passes **44/44** native ASan/UBSan/LeakSanitizer tests and
 **1/1** independently pinned decoder reference test: all 63,488 finite F16 and
 16,252,928 Q8 values match at the BF16 rounding boundary. Exact inherited
 sampler/glue/fixture hashes preserve the earlier 17-suite host result; it is
-not rerun here. Six configure/build/test commands exit0, with CPU/GPU/NVMe
+not rerun here. Six configure/build/test commands exit 0, with CPU/GPU/NVMe
 peaks of 73.375/51/33.85 C and no thermal stop. The
 [integration receipt](development/validation/c17-vision-integration-2026-10-03.json)
 binds source, raw commands, sanitizer checks and their NOT-INFERENCE scope.
@@ -100,7 +146,7 @@ cursor. API, ABI, allocation shape, reactive flow and GPU operations are unchang
 ASan/UBSan/LeakSanitizer passes 17/17 host-reference suites, 1/1 native C contract
 and three cost smokes. All 54 measured distributions/draws/RNG witnesses match
 both controls and the original baseline; all 162 allocation scopes retire, and
-all twelve measurement processes exit0 and retire. Worst CPU case ratio versus
+all twelve measurement processes exit 0 and retire. Worst CPU case ratio versus
 Gufo improves from 2.00 to **1.20**; median ratio stays **1.07**. Full-vocabulary
 sine greedy measures 53.43/49.94 µs, unfiltered sampling 1549.44/1354.22 µs.
 The cost gate remains open; these generated-logit CPU measurements do not
@@ -128,7 +174,7 @@ ASan/UBSan/LeakSanitizer passes **17/17** host-reference tests, **1/1** native
 C contract and three cost smokes. The expanded full-vocabulary matrix contains
 24 cases, including adversarial orderings. All 54 measured distribution/draw/RNG
 witnesses match controls and the original baseline; all 162 allocation scopes
-retire, twelve measurement processes exit0 and retire. New control-relative
+retire, twelve measurement processes exit 0 and retire. New control-relative
 median case cost falls from **1.71 to 1.07**, but the worst ratio remains **2.00**.
 The performance acceptance gate stays open, with original-weight sampled GPU
 qualification still pending. Complete retained baseline/current values are in
@@ -152,7 +198,7 @@ Pristine official Gufo, C17 and the same-layout OFF control use three balanced
 process orders, seven measured repetitions each. All distributions, draws and
 RNG witnesses match. Expanded ASan/UBSan/LeakSanitizer CTest passes **17/17**;
 three additional cost-probe sanitizer smokes pass. All twelve measurement
-children exit0 and retire, and all 162 counted allocation scopes reach zero.
+children exit 0 and retire, and all 162 counted allocation scopes reach zero.
 
 The **cost acceptance gate fails**: C17/reference per-call time ratios range
 from 0.55 to 3.43, with a median across cases of 1.71. Several full-vocabulary
@@ -167,7 +213,7 @@ greedy path retains device argmax. Runtime source is unchanged in this checkpoin
 Measurement peaks are CPU82.5/GPU55/NVMe34.85 C; the sanitizer suite peaks at
 CPU94.5 C. No thermal stop or hardware shutdown occurs. The failed preparation
 argument and initial compiler warnings remain retained; corrected builds and
-all validation commands exit0. No GPU run/staging on `.157` occurs: its Q2
+all validation commands exit 0. No GPU run/staging on `.157` occurs: its Q2
 reservation remains in force. The owner separately resumes the existing Strix
 Point thread for `.161` qualification and current-core integration; historical
 target results remain bound to their original binaries.
@@ -207,7 +253,7 @@ kernel timeline or preemption claim.
 Focused ASan/UBSan/LeakSanitizer `native-benchmark-contract` passes, including
 four malformed clock cases, old-evidence compatibility and existing HTTP/SSD
 fixtures. Both pinned HIP compositions link with GPU visibility masked. The
-first build's incorrect helper name/exit1 is preserved and corrected. Re-export
+first build's incorrect helper name/exit 1 is preserved and corrected. Re-export
 of all three original-weight datasets adds duration columns without changing
 any existing witness, comparison or SVG/PNG hash. The
 [source-bound receipt](development/validation/bench-phase-clocks-2026-10-03.json)
@@ -844,7 +890,7 @@ remain unimplemented; this is shared policy parity, not full format parity.
 R8 passes native-v3 SSD producer and context131072→262144 reader, with three
 exact full-logit/token pairs, then the 8K legacy core control. The first DS4
 core arm fails at end-of-generation capture: the adapter still rejected
-`sampling_started` sources. Its exit1 and empty surfaced job error are retained.
+`sampling_started` sources. Its exit 1 and empty surfaced job error are retained.
 The repair allows completed capture after decode while restore still requires
 an empty unstarted destination, and publishes capture failure before waking a
 flow consumer. A zero-frontier shutdown edge is also corrected. The state bench
@@ -997,9 +1043,9 @@ checker, binds corpus and restarted producer/store/summary identities, and
 retains resource/thermal admission. Four focused ASan/UBSan CTest suites pass
 (including 16 core-bench, six HTTP-client and two thermal-guard checks), followed
 by a passing expanded supervisor/client fixture. R3 tests peak at CPU80.25/GPU57 C;
-R4 at CPU71.75/GPU55 C. Commands exit0. [Protocol and receipt](development/protocols/SSD-HTTP-PROTOCOL.md).
+R4 at CPU71.75/GPU55 C. Commands exit 0. [Protocol and receipt](development/protocols/SSD-HTTP-PROTOCOL.md).
 The final R5 source repeats the four focused suites with leak detection and
-halt-on-error sanitizer settings: 4/4 pass, CPU75.625/GPU54 C, exit0.
+halt-on-error sanitizer settings: 4/4 pass, CPU75.625/GPU54 C, exit 0.
 No original-model HTTP SSD result is claimed; `.157` is coordinated for the
 owner's direct model copy to `.161` following Q2, with no core interleaving.
 

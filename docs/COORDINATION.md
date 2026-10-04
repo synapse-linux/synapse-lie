@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Integrated runtime window released — 2026-10-04 UTC
+
+Root accepts Q2's IQ2-signs release and admits the frozen `032d847` functional
+campaign at **00:20:40.080542 UTC**. R1 completes AR ON/OFF and MTP HTTP, then
+stops at an old private checker's missing zero-cache field; child 0/supervisor 1
+and SSH 1 remain preserved. R2 independently admits at **00:32:00.267582 UTC**,
+using the exact already-qualified HTTP/SSD/reactive consumers. Its nine arms,
+controller and SSH exit 0; all twelve intended functional arms are complete.
+
+Verified release at **00:47:22.850674 UTC** checks 28 PID/start identities and
+thirteen child process groups retired, empty KFD, four unchanged/free original
+leases, six model stat witnesses and both capsules unchanged. All 129 collected
+remote artifacts hash-verify. Canonical `.157` receipt:
+`run/gpu-integrated-032d-window-release.json`, SHA256
+`81abc9e5d930980df8a9a574d3786b725dc05bf28a86cd056b0225f120bacbf8`.
+Root returns `.157` to Q2's next model comparison; no observer, automatic restart,
+waiter or GPU reservation remains. Further admission is fresh.
+
+The CPU guard is 98 C, GPU observe-only, SSD 85 C or lower; per-arm CPU cooldown
+is <=60 C before load. Sampled peaks across all attempts are CPU84.75/GPU86/
+NVMe70.85 C, without thermal stop or observed crash. Root's newer sampled
+benchmark CLI is separately CPU-qualified and is outside these frozen binaries.
+
+
 ## Clocked root window released — 2026-10-03 UTC
 
 R3 completes ten arms and the SSH controller exits 0. Root closes at

@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <json-c/json.h>
 #include <limits.h>
+#include <math.h>
 #include <openssl/evp.h>
 #include <poll.h>
 #include <signal.h>
@@ -34,6 +35,18 @@ static bool integer(const char *s,unsigned lo,unsigned hi,unsigned *out) {
     char *end;errno=0;unsigned long value=strtoul(s,&end,10);
     if(errno||!*s||*s=='-'||*end||value<lo||value>hi)return false;
     *out=(unsigned)value;return true;
+}
+static bool real(const char *s,double lo,double hi,double *out) {
+    if(!*s||strspn(s,"-+0123456789.eE")!=strlen(s))return false;
+    char *end;errno=0;double value=strtod(s,&end);
+    if(errno||*end||!isfinite(value)||value<lo||value>hi)return false;
+    *out=value;return true;
+}
+static bool seed_value(const char *s,int64_t *out) {
+    if(!*s||strspn(s,"+0123456789")!=strlen(s))return false;
+    char *end;errno=0;long long value=strtoll(s,&end,10);
+    if(errno||*end||value<0||value>INT64_MAX)return false;
+    *out=(int64_t)value;return true;
 }
 static json_object *ids_json(const int32_t *p,size_t n) {
     json_object *a=json_object_new_array();for(size_t i=0;i<n;++i)json_object_array_add(a,json_object_new_int(p[i]));return a;
@@ -124,7 +137,7 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         }else if(n!=w->count||memcmp(input,w->prompt,n*sizeof(*input))){free(input);snprintf(error,256,"physical prompt drift");goto done;}
         free(input);
         if(lie_job_output_tokens(rows[i].job,output,LIE_CORE_MAX_OUTPUT,&n)!=LIE_OK||n!=info.output_tokens){snprintf(error,256,"output witness failure");goto done;}
-        if(w->initialized && (n!=w->output_count||memcmp(output,w->output,n*sizeof(*output)))){snprintf(error,256,"greedy output drift");goto done;}
+        if(w->initialized && (n!=w->output_count||memcmp(output,w->output,n*sizeof(*output)))){snprintf(error,256,"reproducible output drift");goto done;}
         if(!w->initialized){w->output_count=n;memcpy(w->output,output,n*sizeof(*output));w->initialized=true;}
         json_object *job=event("job");number(job,"rep",rep);number(job,"warmup",warmup);number(job,"user",i);
         number(job,"prompt_tokens",info.prompt_tokens);number(job,"output_tokens",info.output_tokens);number(job,"output_bytes",rows[i].bytes);
@@ -163,6 +176,7 @@ done:
     return ok;
 }
 int lie_core_bench_main(int argc,char **argv) {
+    lie_core_request request;lie_core_request_init(&request);
     const char *mtp=NULL;unsigned mtp_drafts=0;
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
     const char *encoder=NULL,*image_path=NULL;
@@ -171,7 +185,7 @@ int lie_core_bench_main(int argc,char **argv) {
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
     bool build_info=false;unsigned seen=0;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR, RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 4096]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2]\n  [--timeout-ms 600000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\nDirect shared reactive core; raw text has no chat template. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(i+1==argc)goto usage;
         const char *key=lie_cache_option_name(argv[i]),*value=argv[++i];unsigned bit=0;
@@ -190,6 +204,11 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--tg")){bit=256u;if(!integer(value,1,LIE_CORE_MAX_OUTPUT,&tg))goto usage;}
         else if(!strcmp(key,"--repetitions")){bit=512u;if(!integer(value,1,100,&repetitions))goto usage;}
         else if(!strcmp(key,"--warmups")){bit=1024u;if(!integer(value,0,10,&warmups))goto usage;}
+        else if(!strcmp(key,"--temperature")){bit=2097152u;if(!real(value,0,2,&request.generation.temperature))goto usage;}
+        else if(!strcmp(key,"--top-p")){bit=4194304u;if(!real(value,0,1,&request.generation.top_p)||request.generation.top_p==0)goto usage;}
+        else if(!strcmp(key,"--frequency-penalty")){bit=8388608u;if(!real(value,-2,2,&request.generation.frequency_penalty))goto usage;}
+        else if(!strcmp(key,"--presence-penalty")){bit=16777216u;if(!real(value,-2,2,&request.generation.presence_penalty))goto usage;}
+        else if(!strcmp(key,"--seed")){bit=33554432u;if(!seed_value(value,&request.generation.seed))goto usage;}
         else if(!strcmp(key,"--timeout-ms")){bit=2048u;if(!integer(value,1,3600000,&timeout))goto usage;}
         else if(!strcmp(key,"--graphs")){bit=4096u;graphs=value;}
         else if(!strcmp(key,"--kv-cache-ram-mb")){bit=8192u;if(!integer(value,0,1048576,&cache_mib))goto usage;}
@@ -201,6 +220,7 @@ int lie_core_bench_main(int argc,char **argv) {
         seen|=bit;
     }
     if(mtp_drafts&&!mtp)goto usage;
+    if(request.generation.temperature>0&&request.generation.seed<0)goto usage;
     if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
@@ -209,6 +229,10 @@ int lie_core_bench_main(int argc,char **argv) {
     text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?(encoder?"mtp+vision":"mtp"):(encoder?"vision":"ar"));text(identity,"vision_model",encoder?encoder:"");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
     text(identity,"dense_sampling",lie_backend_dense_sampling());
+    json_object *generation=json_object_new_object();
+    nb_real(generation,"temperature",request.generation.temperature);nb_real(generation,"top_p",request.generation.top_p);
+    nb_real(generation,"frequency_penalty",request.generation.frequency_penalty);nb_real(generation,"presence_penalty",request.generation.presence_penalty);
+    nb_num(generation,"seed",request.generation.seed);json_object_object_add(identity,"generation",generation);
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
     text(identity,"cache_policy",ssd.directory?(cache_mib?"ram+ssd":"ssd"):(cache_mib?"ram":"off"));number(identity,"prefix_cache_bytes",(uint64_t)cache_mib*1024u*1024u);
@@ -227,7 +251,7 @@ int lie_core_bench_main(int argc,char **argv) {
     number(identity,"output_limit",tg);number(identity,"warmups",warmups);number(identity,"repetitions",repetitions);
     if(build_info)return emit(stdout,identity)?0:1;
     if(!model||!*model||!output||!*output||!!prompt_path==!!tokens_path||tg>=context){json_object_put(identity);goto usage;}
-    lie_core_request request;lie_core_request_init(&request);request.max_tokens=tg;
+    request.max_tokens=tg;
     size_t bytes=0;char *data=read_input(prompt_path?prompt_path:tokens_path,&bytes);int32_t *ids=NULL;
     if(!data){json_object_put(identity);goto usage;}
     if(prompt_path){request.kind=LIE_INPUT_TEXT;request.text=data;request.text_bytes=bytes;

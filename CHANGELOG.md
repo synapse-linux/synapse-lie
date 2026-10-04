@@ -22,6 +22,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared-core benchmark controls for temperature, top-p, a reproducible seed and
+  frequency/presence penalties, with parameter validation and matched-report checks.
+
 - Native benchmark prefill/decode durations in CSV and JSON, with monotonic
   phase bounds for telemetry correlation and validation of incomplete or
   contradictory clocks. Retained evidence without clocks remains readable.

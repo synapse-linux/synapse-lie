@@ -1,6 +1,48 @@
 <!-- SPDX-License-Identifier: MIT -->
 # C17 sampling and integrated GPU qualification
 
+## Integrated runtime campaign — 2026-10-04 UTC
+
+`gpu-integrated-032d-r1` uses the merged sampler/vision source checkpoint
+`032d847`, with default-ON C17 sampler and projector decoder. Its three HIP
+compositions are locally built and linked; those checks alone do not qualify
+inference. New GPU admission at **00:20:40.080542 UTC** verifies Q2's canonical
+release, 34 retired PIDs and 28 process groups, empty KFD, four unchanged/free
+original leases and six unchanged model stat witnesses. The existing Point
+thread independently owns `.161`.
+
+The twelve sequential arms cover:
+
+- Full OpenAI AR checks with C17 ON and the same-layout C++ selector control.
+- MTP HTTP and combined MTP/image HTTP, including scoped image cache reuse.
+- MTP RAM continuation with both selectors, and combined image/MTP continuation.
+- MTP and combined image/MTP SSD write plus fresh-process read.
+- Direct-core output loans, stalled-consumer peer progress and cancellation.
+
+Every arm retains fresh original leases until its child and checker retire.
+The CPU guard is 98 C with lower exposed bounds; the GPU is observed with a
+null software temperature limit. NVMe retains 85 C or lower exposed bounds.
+CPU must cool to at most 60 C before loading, within a bounded 240 s wait.
+No hardware setting or foreign process changes. A failed arm stops the driver;
+there is no automatic retry or admission inferred from a gap between arms.
+
+The capsule binds 336 frozen Git source witnesses and matches 201 native
+sanitizer source witnesses. Six masked identities and three probe links pass
+without opening a model. Evidence is local under
+`evidence/gpu-integrated-032d-r1` and persistent remote under
+`run/gpu-integrated-032d-r1`. The initial capsule preserves its old-checker failure; R2 selects the exact
+consumers from the historical HTTP, SSD and reactive arms that actually passed.
+All twelve intended arms complete across R1/R2. Closure at 00:47:22.850674 UTC
+verifies 28 retired identities, empty KFD, unchanged/free original leases and
+six unchanged model stats; 129 collected artifacts hash-verify. See the
+[integrated functional receipt](../validation/integrated-gpu-functional-2026-10-04.json).
+Exact matches here remain same-provider evidence; independent quality,
+allocation-exact GPU peaks and sampled/MTP/vision performance gates remain open.
+The decoder-OFF build has no equivalent original-Q8 projector path and is not
+used as a same-feature Q8 runtime control.
+
+## Initial runtime qualification — 2026-10-03 UTC
+
 The owner requests completion of the remaining GPU tests on `.157`, with CPU
 development as the fallback while that machine is occupied. The Q2 campaign
 records its release at **2026-10-03 17:37:05.108908 UTC**, with no scheduled

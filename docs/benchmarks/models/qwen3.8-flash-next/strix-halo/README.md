@@ -177,6 +177,27 @@ build/release/synapse-lie-bench-report --suite report results/clocked-c17.jsonl 
   --compare results/clocked-cpp.jsonl --reference-label 'LIE C++ control'
 ```
 
+## Integrated runtime functional checks — October 4
+
+The merged C17 sampler/vision runtime at `032d847` passes all twelve planned
+functional arms on `.157`: AR with both selectors, MTP/image HTTP, RAM continuation,
+SSD write/fresh-process read and direct-core backpressure/cancellation. Fifteen
+AR JSON generation pairs match requests, outputs, usage and logprobs after
+transport-ID normalization. The state probes verify 312 fresh/restored dispatch
+pairs and 168 complete greedy AR frontiers of 248,320 logits; the MTP C17/C++
+control streams also match exactly. These checks do not measure throughput or
+establish an independent quality oracle.
+
+Sampled peaks across all attempts are CPU84.75/GPU86/NVMe70.85 C, with no CPU/SSD
+guard stop or observed crash. GPU temperature is observation-only. The initial
+combined HTTP attempt failed in an old private verifier; its server exited 0,
+and that failure remains in the [complete raw archive](data/integrated-032d-functional.tar.gz).
+A new capsule uses the separately qualified consumers and completes the remaining
+arms. The [source-bound receipt](../../../../development/validation/integrated-gpu-functional-2026-10-04.json)
+records actual exits, all 129 artifact hashes and the verified release of 28
+owned identities. MTP/vision performance, live RNG-session resume and quality
+remain separate gates.
+
 ## Reproduce and download
 
 [Full-precision values and timing ranges](charts/current-values.csv) combine all
@@ -209,6 +230,7 @@ for the reference protocol.
 | --- | --- |
 | Eight AR prefix depths. | Covered by the original seven depths plus the clocked 12288 pair; a single-window eight-point rerun is separate. |
 | Multi-user AR over HTTP. | Implement and run Gufo's per-request-rate protocol. |
+| Sampled AR. | Native core controls are CPU-qualified; matched original-weight sampling performance remains pending. |
 | MTP single/multiple users. | MTP is integrated; mixed/repetitive performance campaigns remain pending. |
 | Cold model loading. | Measure cold target files to HTTP readiness; current model load leaves OS cache uncontrolled. |
 | Peak HIP memory. | Allocation-exact peak accounting; provider estimates are insufficient. |

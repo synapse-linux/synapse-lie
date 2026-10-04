@@ -14,8 +14,9 @@ contexts up to 262,144 tokens and up to eight active sequences.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and
 can be configured together. Recorded original-weight functional checkpoints
-cover HTTP, RAM/SSD checkpoints and reactive cancellation. The newly integrated
-runtime awaits GPU retesting; quality and performance gates remain open.
+cover HTTP, RAM/SSD checkpoints and reactive cancellation. The integrated
+sampler/vision runtime passes the recorded GPU functional checks; quality and
+performance gates remain open.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)
@@ -45,7 +46,7 @@ runtime awaits GPU retesting; quality and performance gates remain open.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, including separate prefill/decode durations, with CSV, JSON,
-  SVG and PNG exports.
+  SVG and PNG exports, plus reproducible shared-core sampling controls.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
 
