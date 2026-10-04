@@ -357,3 +357,10 @@ limited renaming and all runtime provider files are recorded in
 `config/q2-hc-bk256-run-source.json`. The new component fixture, preparation,
 launch guards and orchestration are first-party MIT. Neither this copy nor
 successful syntax compilation constitutes a new owned model executor.
+
+The completed HC BK256 component/model results retain those exact source
+capsules and public MIT derivation. The offline FP64 tool reconstructs only
+deterministic synthetic fixture weights and reads this workstream's saved F16
+arrays; it imports no model or sibling project artifact. Analysis and plotting
+tools are first-party MIT. GPU performance evidence does not establish owned
+executor replacement or independent model quality.

@@ -16,13 +16,13 @@ false failures, independent improvements or composable gains is established.
 
 The shared-Q8 candidate now completes the fixed model test despite the original
 oracle rejection. All21 Q2 replay files, including full logits, are exact;
-median PP1446.083285/TG25.10338822. The independent GPU oracle's unwritten0xff
-pattern has a possible initialization race: guarded allocation calls default
-stream hipMemset immediately before a nonblocking stream writes its codes.
-The GPU race hypothesis remains untested. Current official HIP implementation
-allows device-memory memset to be asynchronous; this supports investigating
-an explicit stream dependency, not declaring the installed runtime faulty.
-[Official runtime source](https://github.com/ROCm/clr/blob/develop/hipamd/src/hip_memory.cpp).
+median PP1446.083285/TG25.10338822. The later
+[unchanged-kernel saved-array replay](Q2-ORACLE-REPLAY.md) confirms an
+initialization race in the independent fixture:40/40 ordered outputs match
+every production byte while39/40 legacy cross-stream outputs corrupt codes.
+The independent GPU kernel arithmetic stays exact. The fixture now orders
+initialization on its nonblocking stream. Original failures remain immutable;
+the Q8 performance increment is already in the measured compositions.
 
 The HC norm/library tests use default-stream launches and device synchronization;
 they do not share that nonblocking-oracle ordering. Their independent library
@@ -62,6 +62,17 @@ mechanisms already in the fixed reference. The latter still selects7526 for
 the bounded original-F16 M320/K10240 projection. These are retained gains,
 not additional gains lost solely through the nineteen recorded failures.
 Source presence does not establish independent numerical acceptance.
+
+The subsequent [original-F16 HC-down port](Q2-HC-DOWN-BK256.md) demonstrates
+why numeric and performance results are retained independently: strict byte
+replay fails but the bounded kernel saves9–13% of complete component time,
+and its new model measures1477.969324 PP (+2.375639% versus fixed Q2).
+No qualified controls are rerun. All128 greedy tokens match; logits change.
+Recovered small-shape FP64 errors are roughly half the library's errors,
+passing5/6 cases against0/6 under unchanged limits;2048 recovery is unavailable.
+This is additional measured progress, not nineteen additive gains or full parity.
+The [additive HC audit update](../config/q2-rejected-test-reaudit-hc-update.json)
+binds these new reports without rewriting the original nineteen failures.
 
 Further fixed-model tests remain pending for candidates needing new integration
 or composition. Existing qualified controls will not be relaunched. Each new

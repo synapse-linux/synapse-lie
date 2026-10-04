@@ -1,7 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## Native HC-down runtime qualification prepared — 2026-10-04
+## Native HC-down fixed-model performance measured — 2026-10-04
+
+Only the new bounded model runs on .157 under the unchanged exact2048 tester,
+input and timers. PP measures1479.463683/1477.969324/1476.888762; median1477.969324,
+up2.375639% against fixed1443.672867 Q2 and1.793785% against saved Q8+row.
+Candidate prefill remains12.327120% below fixed1685.777092 UD.
+TG median25.10545360, effectively unchanged versus fixed Q2 (+0.037849%)
+and0.174315% below the saved composition parent. No qualified model control is
+rerun. All128 output tokens match Q2; eight logit files differ, with maximum
+matched-history KL0.001731634. Nine within-arm replay checks are exact.
+
+Both component candidates complete56 timing samples,44 verified artifacts and
+actual0/0/1 exits. Bounded native projection saves32.934% ordinary/29.849% MoE;
+complete cycles save13.048%/8.827%. The initial spilled candidate regresses
+98.595%/75.687% in complete cycles. All40 retained tensor files and22 full-buffer
+replay records match between unroll siblings; producer buffers match library.
+Strict down-byte differences remain and do not suppress performance.
+
+Library diagnostics changed cout to fixed2, rounding printed error fields to
+0.00. Offline FP64 reconstruction from retained F16 buffers recovers small-shape
+errors without GPU reruns: native passes5/6 cases versus0/6 for the library,
+under the same2e-5 limits. Native n97 ordinary peak2.1601903e-5 still fails.
+Reconstruction uses deterministic synthetic fixture weights, not captured old
+weight hashes, and does not cover2048. Future logging restores precision12;
+measured capsules/logs stay immutable. Independent model/task quality is open.
+
+Release21:17:36UTC SHA1ce3548048452661f65ebe3282a1ab1ccc571dfe1962553b499621d26be29810
+verifies513 retired identities/399 groups, KFD empty, four original leases free,
+six model stat tuples unchanged. Core acknowledges; no Q2 GPU job, reservation,
+waiter or cleanup remains. [All samples, graph, limits and identities](Q2-HC-DOWN-BK256.md).
+
+## Native HC-down runtime qualification preparation — 2026-10-04
 
 Two formatted runtime sources preserve all noncomment tokens against the
 retained original-F16 BK256 ports. The new target compares against the exact

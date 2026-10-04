@@ -551,9 +551,16 @@ arithmetic and15 saved arrays are unchanged. Configure/build/replay exit0/0/0;
 on the same stream; host Debug/ASan pass23/23 each. No model, production kernel
 or qualified inference control rerun occurs, and existing PP/TG values remain.
 
-The [original-F16 HC-down port](docs/Q2-HC-DOWN-BK256.md) is prepared against
-the exact Q8+row composition. Its bounded-unroll sibling compiles with 138
-VGPRs and zero fixed private scratch versus 256 VGPRs/500 bytes in the first
-version. Both use the original model bytes and are retained. These compiler
-observations are not measured speedups; GPU/operator/model qualification and
-remote-runner integration remain pending.
+The [original-F16 HC-down comparison](docs/Q2-HC-DOWN-BK256.md) now measures
+the bounded port at **1477.969324 PP /25.10545360 TG** on the unchanged fixed
+2048 model input: **+2.376% PP versus fixed Q2**, +1.794% versus its saved
+Q8+row parent, and **12.327% below fixed UD**. Only this new model runs;
+qualified controls are reused. All128 greedy tokens match Q2, while eight
+logit files change (maximum matched-history KL0.001732). Strict component
+failures remain recorded and independent task quality remains open.
+The bounded kernel saves30–33% of projection time and9–13% of complete
+producer/projection time; the spilled first version is much slower and retained.
+All112 component samples,16 plotted model samples, graphs and source identities
+are saved. Small-shape FP64 recovery finds native errors roughly half the library
+errors, with5/6 native cases passing the original limits; it does not cover2048.
+The .157 GPU window is released. Full curves still wait for fixed-point parity.

@@ -40,6 +40,8 @@ static bool Check(q::HcBlasLtControl& control, q::BlasLt& native, unsigned n,
   Projection(native, in, candidate, weights, 0, moe, true);
   Hip(hipGetLastError());
   Hip(hipDeviceSynchronize());
+  // Library plan diagnostics change cout to fixed2; restore numeric JSON precision.
+  std::cout << std::defaultfloat << std::setprecision(12);
   const std::string prefix = "hc-bk256-n" + std::to_string(n) + "-p" +
                              std::to_string(pattern) + "-moe" +
                              std::to_string(moe);
@@ -80,6 +82,7 @@ static bool Bench(q::HcBlasLtControl& control, q::BlasLt& native, bool moe) {
     Projection(native, in, candidate, weights, i, moe, true);
   }
   Hip(hipDeviceSynchronize());
+  std::cout << std::defaultfloat << std::setprecision(12);
   hipEvent_t begin{}, end{};
   Hip(hipEventCreate(&begin));
   Hip(hipEventCreate(&end));
