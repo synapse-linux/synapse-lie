@@ -8,6 +8,27 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Owned C17 steering bank implemented — 2026-10-04 UTC
+
+The shared core library now provides a model-neutral direction-bank loader with
+exact flat f32 values, explicit geometry/budget, immutable references and separate
+file/geometry identities. Invalid files, nonfinite directions, ABI mistakes,
+overflow and over-budget input refuse without changing the output handle.
+No HTTP types, GPU work, extra runtime thread or new dependency enters this API.
+
+Four focused Debug tests and four ASan/UBSan/LSan tests pass, including concurrent
+reference lifetime, source unlink/mutation, multichunk values and independent
+SHA oracles; local CPU maximum is 66.625 C. The loader does not activate steering
+in the model. HIP edits, shared admission/session scales, cache binding and
+HTTP/bench flags remain roadmap item 5.
+[Contract and exact binding requirements](development/STEERING.md) ·
+[Validation receipt](development/validation/steering-bank-host-2026-10-04.json).
+
+Read-only DS4 source audit at `0aaea5a` confirms attention's projected-block
+edit and FFN's post-combine per-HC-residual edit. The Gufo provider's fused
+normalization must be refreshed after an FFN edit; editing only the MoE block
+would implement different behavior. DS4 source/workspaces remain untouched.
+
 ## Terminal Bench source and client prerequisites prepared — 2026-10-04 UTC
 
 An independently downloaded official Terminal Bench Mini archive at

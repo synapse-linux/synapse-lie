@@ -46,6 +46,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 direction-bank loading with geometry/budget checks, immutable
+  references and file/shape identities. Provider steering and client controls
+  remain under development.
 - Shared-core top-k/min-p controls in Chat, Responses and the native benchmark.
   Paired reports reject different filter settings and accept historical disabled
   filters. Generation/request ABI callers must rebuild; greedy defaults remain.

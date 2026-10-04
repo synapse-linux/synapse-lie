@@ -9,6 +9,10 @@ No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only
 under their publisher's terms. A C API wrapper does not relicense its dependencies.
+The C17 direction-bank loader is independently implemented against DS4's flat
+f32 format. Only read-only official source identities and reference observations
+are retained for its binding audit; no DS4 implementation enters the product.
+It uses the existing OpenSSL Crypto dependency and adds no model-forward code.
 
 ## Actual external dependencies
 

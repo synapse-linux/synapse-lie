@@ -170,6 +170,20 @@ If reactive inference motivates an asynchronous ABI, add explicit submitted vers
 completed outcomes, tickets and retained lifetimes. Do not change `LIE_OK` from
 completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](../INFERENCE-REACTIVE.md).
 
+## Shared direction-bank ABI 1
+
+`lie/steering.h` owns an immutable C17 bank with independent version/size checks.
+Geometry has model-derived layer count, hidden width and an explicit host byte
+budget; no model/platform type crosses the contract. Exact flat little-endian
+f32 values and file/geometry digests are exposed only while an owned reference
+is held. Failed loads/queries preserve output handles and fields. Reference
+operations are thread-safe under the documented existing-pin lifetime rule.
+
+This host primitive does not activate provider steering, change request or
+executor ABIs, or alter state/KVC framing. Actual admission, session scale
+history, cache scopes and numerical binding remain required.
+[Format, ownership and binding requirements](../development/STEERING.md).
+
 ## Additive generation configuration
 
 `lie_generation_options` has its own ABI 3 version and exact struct size.

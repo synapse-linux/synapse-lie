@@ -49,7 +49,9 @@ do not constitute implementation tasks. GPU qualification in this queue uses
 5. **Implement DS4 directional steering in LIE.** Load its per-layer `.f32`
    directions, validate geometry against the loaded model, and expose FFN and
    attention scales through model-neutral shared-core contracts used by HTTP
-   and bench. Cover both prompt evaluation and generation, session scale changes,
+   and bench. The [owned C17 bank loader](development/STEERING.md) passes four
+   Debug and four sanitizer checks; this does not activate provider steering.
+   Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance
    with steering on. DS4 documents Qwen's 48-by-2560 bank and its HC branches;
