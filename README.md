@@ -46,6 +46,11 @@ requests retaining the marginal candidate for targeted composition. All111
 host/model artifacts verify; the GPU window is released and no curve is admitted.
 The [renewed DeepSeek/shared-Q8 audit](docs/Q2-DEEPSEEK-SHARED-PREFILL.md)
 identifies two remaining producer/fusion hypotheses without a new GPU run.
+The [raw-HC shared-Q8 producer](docs/Q2-SHARED-Q8-PRODUCER.md) now has an
+isolated source and complete-cycle fixture. Existing device kernel bodies are
+unchanged; FFN cache publication enables their existing Q8 output. Host Debug
+and ASan/UBSan each pass22/22 on `.157`. GPU component validation is pending;
+no new model rate or curve is claimed.
 
 The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
 four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycle

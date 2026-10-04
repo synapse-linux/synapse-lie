@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Shared-Q8 producer component prepared — 2026-10-04
+
+After reactivation, checkpoint3338c93 is clean and the fixed model comparison
+still lacks UD PP parity. The renewed audit identifies an unused existing Q8
+output in raw-HC. A new isolated candidate enables it only for the FFN mixer,
+then publishes the existing tiled-input cache after successful launches. The
+old raw entry and all device kernel bodies remain unchanged; four provider
+files change and1018 stay exact. Norm-fixed stays separately retained.
+
+One directly compiled GPU fixture alternates reference/candidate/reference
+for15 repetitions in producer and full shared gate/up/SwiGLU/down scopes,
+rotating191,037,440 weight bytes. It checks whole outputs, scalar Q8 format,
+independent HC limits, padding, zero/small/ragged cases and disabled outputs.
+Host checks pass22/22 Debug and22/22 ASan/UBSan on `.157`, including72 wrapper
+checks. Two initial local guard-test errors are preserved and corrected before
+staging. No GPU build/run has occurred yet; fresh coordinated admission is
+required. [Protocol and scope](Q2-SHARED-Q8-PRODUCER.md).
+
 ## Fixed model comparison complete; marginal candidate retained — 2026-10-04
 
 The owner-requested four-arm original-weight comparison completes on `.157`

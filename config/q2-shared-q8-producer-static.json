@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-static.v1",
+  "parent_manifest_sha256": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+  "source_manifest_sha256": "edcb6d73784c885b50876f14a84fb599201dad90cf6dd9ba81e3dd859aff96bd",
+  "device_kernels_unchanged": 65,
+  "device_kernel_body_changes": 0,
+  "old_raw_entry_unchanged": true,
+  "new_entry_only_in_kernel_translation_unit": true,
+  "provider_files_changed": 4,
+  "provider_files_unchanged": 1018,
+  "rotating_weight_bytes": 191037440,
+  "rotating_weights_exceed_32mib": true,
+  "gpu_compiled": false,
+  "runtime_validated": false,
+  "promoted": false,
+  "goal_met": false
+}

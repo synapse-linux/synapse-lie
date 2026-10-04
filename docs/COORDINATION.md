@@ -6,6 +6,13 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Next Q2 component is prepared locally after host Debug/ASan22/22 each on `.157`:
+raw-HC shared-Q8 producer, one fixture with alternating unchanged reference,
+candidate and repeated control at2048, no model or context curve. Core confirms
+no `.157` job/reservation/waiter and will not interleave; its `.161` job is
+independent. Q2 has not yet admitted this component or reserved the GPU.
+[Frozen protocol](../config/q2-shared-q8-producer-plan.json).
+
 Latest Q2 window: **released at2026-10-04T16:39:20.111498+00:00** after the
 owner-requested four-arm exact2048 original-weight model comparison. All22
 host/model command exits are zero and111 artifacts verify. Candidate PP remains

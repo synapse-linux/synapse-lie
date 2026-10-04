@@ -557,6 +557,27 @@ class RemoteGuardTests(unittest.TestCase):
                 mkdir.assert_called_once()
                 run.assert_not_called()
 
+    def test_shared_q8_producer_scope(self):
+        for mode in ('cpu', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed',
+                     'q2-curve-iq2-mixed', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'shared-q8-producer'],
+                        'Shared Q8 producer requires its isolated component')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture'],
+                    'Shared Q8 producer requires its isolated component')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture', '--source-variant',
+                     'shared-q8-producer', '--rebuild-mmq'], 'builds kernels directly')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture', '--source-variant',
+                     'shared-q8-producer', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'shared-q8-producer-check', 'q2-fixture',
+                '--source-variant', 'shared-q8-producer']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
     def test_fixed_norm_shape_model_scope(self):
         self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
                      'norm-shape-reference', '--rebuild-mmq'],
