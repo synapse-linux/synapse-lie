@@ -9,6 +9,9 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Optional qualification staging can explicitly verify a filesystem device
+  renumbering after reboot against boot ID and filesystem UUID, preserving
+  pinned model receipts and all other file identity checks.
 - Strict JSON function frames now stream exact argument fragments once the
   complete function name is known, including nested and escaped JSON values.
 - Explicit smaller prefill chunks now bound provider scratch allocation while

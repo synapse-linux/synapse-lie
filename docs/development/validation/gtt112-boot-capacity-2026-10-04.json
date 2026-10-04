@@ -1,0 +1,416 @@
+{
+  "schema": "synapse-lie.gtt112-context-capacity-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "VERIFIED_HOST_REBOOT_AND_ORIGINAL_WEIGHT_1M_CAPACITY_SHORT_PROMPT_NOT_PHYSICAL_1M_QUALITY_OR_REPLICATED_PERFORMANCE",
+  "target": "pop@192.168.5.161",
+  "runtime_source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+  "supervisor_parent": "bb0b9f08dff69ff56b3f34c659f8ffcecd75734e",
+  "authorization_quote": "autorizzo il riavvio",
+  "boot": {
+    "at_unix": 1791131177.8260248,
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "kernel": "7.1.5-76070105-generic",
+    "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.1.5-76070105-generic root=UUID=720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ro quiet splash ttm.pages_limit=29360128 vt.handoff=7",
+    "ttm_pages_limit": 29360128,
+    "page_bytes": 4096,
+    "commands": [
+      {
+        "argv": [
+          "sudo",
+          "-n",
+          "cat",
+          "/boot/grub/grub.cfg"
+        ],
+        "exit_code": 0,
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "sudo",
+          "-n",
+          "grub-script-check",
+          "/boot/grub/grub.cfg"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "llama-router.service",
+          "--property=MainPID,ActiveState,SubState"
+        ],
+        "exit_code": 0,
+        "stdout": "MainPID=1974\nActiveState=active\nSubState=running\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "docker",
+          "ps",
+          "--format",
+          "{{.ID}} {{.Names}} {{.Status}}"
+        ],
+        "exit_code": 0,
+        "stdout": "7a338380b48d ds4-prometheus Up About a minute\n07f8a945f62c ds4-grafana Up About a minute\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "findmnt",
+          "-T",
+          "/home/pop/workspace/synapse-lie/campaign.lock",
+          "-n",
+          "-o",
+          "UUID,FSTYPE,TARGET"
+        ],
+        "exit_code": 0,
+        "stdout": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb ext4   /\n",
+        "stderr": ""
+      }
+    ],
+    "reboot_request": {
+      "schema": "synapse-lie.gtt-reboot.v1",
+      "state": "AUTHORIZED_REBOOT_REQUESTED",
+      "authorization": {
+        "quote": "autorizzo il riavvio",
+        "scope": "Reboot .161 for the already verified GTT112 GRUB configuration"
+      },
+      "requested_at_unix": 1791131015.8552692,
+      "boot_id_before": "00a38eef-12f6-4354-8aec-6783c34c7208",
+      "lease": {
+        "device": 66308,
+        "inode": 105946405
+      },
+      "router_before": "MainPID=255761\nActiveState=active\nSubState=running\n",
+      "kfd_before": [
+        "255761"
+      ],
+      "grub_syntax_exit": 0,
+      "argv": [
+        "sudo",
+        "-n",
+        "systemctl",
+        "reboot"
+      ],
+      "command_exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "command_returned_at_unix": 1791131015.8768427
+    },
+    "memory": {
+      "MemTotal": 132542648320,
+      "MemAvailable": 124581691392,
+      "SwapTotal": 21474828288,
+      "SwapFree": 21474828288
+    },
+    "gpu": {
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 18636800,
+      "gpu_busy_percent": 0
+    },
+    "temperatures": [
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 33.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 45.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 33.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 34.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 33.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 34.85
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 39.0
+      },
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 39.5
+      }
+    ],
+    "kernel_kfd": [
+      "1974"
+    ],
+    "lease": {
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000
+    },
+    "lease_free": true,
+    "GRUB_dropin_sha256": "24e4cb6126daf579d407c5afd27dfd2ab9a99b2fe3f3638771f04204c79dc571",
+    "generated_grub_sha256": "5a417c147065baee1780d82c3bc62b4a0745f5e2962a533a3194a9b23586fb36",
+    "model_stats": {
+      "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf": {
+        "device": 66307,
+        "inode": 106208485,
+        "bytes": 10946624,
+        "mtime_ns": 1790931367673069984
+      },
+      "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf": {
+        "device": 66307,
+        "inode": 106208488,
+        "bytes": 49859583136,
+        "mtime_ns": 1790937784808778309
+      },
+      "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf": {
+        "device": 66307,
+        "inode": 106208496,
+        "bytes": 49376141504,
+        "mtime_ns": 1790938850707596045
+      },
+      "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf": {
+        "device": 66307,
+        "inode": 106208547,
+        "bytes": 12087983520,
+        "mtime_ns": 1790939114356256438
+      }
+    },
+    "state": "REBOOTED_GTT112_VERIFIED"
+  },
+  "boot_verification_sha256": "1b16796682e93ef4dd1c24c02632913cf721f9f1c8dee037d4787a12c89fe5ea",
+  "reboot_controller": {
+    "argv": [
+      "ssh",
+      "-F",
+      "/dev/null",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=8",
+      "pop@192.168.5.161",
+      "python3",
+      "-"
+    ],
+    "started_at_unix": 1791131015.4332962,
+    "ended_at_unix": 1791131015.870197,
+    "ssh_exit": 255,
+    "authorization_quote": "autorizzo il riavvio",
+    "post_boot_verification_pending": true
+  },
+  "prior_rejection_preserved": "gtt-memory-admission-2026-10-04.json",
+  "prior_post_boot_verification_failure": {
+    "exit": 1,
+    "reason": "The original st_dev66308 comparison failed after kernel device renumbering; same inode/UUID and all boot/GTT checks subsequently verified."
+  },
+  "capacity_gate": {
+    "label": "context-r10-yarn4-capacity1m-r2",
+    "capacity": 1048576,
+    "rope_scaling": "yarn4",
+    "chunk": 256,
+    "users": 1,
+    "decode_mode": "ar",
+    "prompt_tokens": 1500,
+    "output_tokens": 32,
+    "warmups": 0,
+    "repetitions": 1,
+    "cache_policy": "off",
+    "controller_exit": 0,
+    "child_exit": 0,
+    "supervisor_exit": 0,
+    "collection_exit": 0,
+    "released_at": "2026-10-04T16:31:43.810798+00:00",
+    "collection_sha256": "d40eb159ec4edcae5d25de0d2fd41fed489e0c356f92176150a3ce4dfe2795fe",
+    "verified_files": {
+      "manifest.json": {
+        "bytes": 4460,
+        "sha256": "f791ce92e3e0adf07bbef081dfc848a0d0fa56497cb07aadf78498e6fc52d1af"
+      },
+      "runner.py": {
+        "bytes": 88342,
+        "sha256": "b569bbce61da8ec4a5ce1f631db446206c2cafd897bc6ae1a53e8a3e66f343a0"
+      },
+      "result.json": {
+        "bytes": 97183,
+        "sha256": "6e7353359ca1e48df2f4700f4c98d49135fbf98f37229ca86b2d49ccc24d7067"
+      },
+      "measurements.jsonl": {
+        "bytes": 9386,
+        "sha256": "4964802f50700a9e4183a148bd375c732c4e50bfacd216b4c2bbd89b6c4c2bcd"
+      },
+      "telemetry.jsonl": {
+        "bytes": 170040,
+        "sha256": "52ee66254cf55eb415cfcb860f927108708d50d1f9e2d0ffafa69bb09bcc1485"
+      },
+      "stdout.log": {
+        "bytes": 65822,
+        "sha256": "d69a5e4c0bd69862db026b2aae0a59fbdb73fd80ff091e703d9b8f13880913fa"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 287,
+        "sha256": "f40e798ba59f786363573e22da3fcf36e190a9a6f35766cb0f88e4fa17a21d8d"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "tokens.json": {
+        "bytes": 6704,
+        "sha256": "770fe072a3b368bfad515f9b322060b8c1bdf4d6f262e94703a9343f6e6b466c"
+      }
+    },
+    "closure": {
+      "supervisor_absent": true,
+      "gpu_child_absent": true,
+      "owned_child_absent": true,
+      "lease_free": true
+    },
+    "router_restored": {
+      "MainPID": "4888",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "model_stat_unchanged": true,
+    "staging_filesystem_rebind": {
+      "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+      "filesystem_uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "previous_device": 66308,
+      "current_device": 66307
+    },
+    "sampled_peak_gtt_bytes": 117234307072,
+    "sampled_min_available_ram_bytes": 8563200000,
+    "sampled_peak_temperatures_c": {
+      "nvme": 64.85,
+      "amdgpu": 70.0,
+      "k10temp": 67.75
+    },
+    "sampled_min_swap_free_bytes": 21013934080,
+    "prefill_ns": 29873750172,
+    "decode_ns": 3056444825,
+    "prefill_tps": 50.21130562328651,
+    "decode_tps": 10.469680243614409,
+    "output_ids": [
+      2,
+      17775,
+      314,
+      279,
+      42770,
+      43009,
+      9988,
+      5606,
+      271,
+      760,
+      3766,
+      2313,
+      8129,
+      20454,
+      264,
+      15352,
+      11,
+      35234,
+      3286,
+      314,
+      25569,
+      13343,
+      3808,
+      25292,
+      36165,
+      12103,
+      25593,
+      11,
+      23245,
+      494,
+      10623,
+      220
+    ],
+    "output_ids_equal_capacity512k": true
+  },
+  "earlier_capacity_attempt": {
+    "label": "context-r10-yarn4-capacity1m",
+    "state": "FAILED_BEFORE_MODEL_LAUNCH",
+    "controller_exit": 1,
+    "supervisor_exit": 1,
+    "collection_exit": 1,
+    "collection_sha256": "830815b7b553d65374985a83e9d09d6899895d5e02a728932164a7b5f7228382",
+    "reason": "RuntimeError('Model identity drift before launch')",
+    "closure": {
+      "supervisor_absent": true,
+      "gpu_child_absent": true,
+      "owned_child_absent": true,
+      "lease_free": true
+    },
+    "missing_measurements_expected": true,
+    "retained_files": 5
+  },
+  "staging_rebind_host_fixtures": {
+    "passed": 44,
+    "result": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 66.375
+      },
+      "elapsed_s": 1.0814892826601863
+    },
+    "command_log_sha256": "c1b4b6d8c12f5283d754fe842cb01dff1768b9d5cd2309662b4e9f81098d0994"
+  },
+  "physical_1m_gate": {
+    "state": "RUNNING_NOT_YET_QUALIFIED",
+    "label": "context-r10-yarn4-physical1m-smoke",
+    "prompt_tokens": 1048448,
+    "output_tokens_requested": 128,
+    "corpus": "Repeated real tokenizer-ID corpus; functional stress, not recall quality or canonical Gufo/Halogen benchmark",
+    "tokens_sha256": "a791ba5a527559f04a8ed86db9f035127a2516bb4fa4a534a6c52695af667142",
+    "manifest_sha256": "bfa1ca9f62ef3c0107594ae9995fe214303f635b688dcffe02d62da320cf01b1"
+  },
+  "limitations": [
+    "Capacity allocation with PP1500 does not exercise physical extended positions.",
+    "The 50.21 t/s short-gate prefill is a single cold sample, not performance parity; its slowdown requires investigation.",
+    "Fresh RAM/GTT admission and sampled guards do not guarantee prevention of host OOM.",
+    "Full Terminal Bench task evaluation and long-context recall remain outstanding."
+  ],
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "b569bbce61da8ec4a5ce1f631db446206c2cafd897bc6ae1a53e8a3e66f343a0",
+    "tests/test_strix_point_campaign.py": "8eac65429560661e088c80210cb8ee8f750d3454c07a06a324f4d083cf0e6c37"
+  },
+  "model_mutation": false,
+  "DS4_configuration_mutation": false,
+  "publication": false
+}

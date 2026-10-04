@@ -83,9 +83,9 @@ available RAM and measured peaks for each original-weight run.
 
 ## GTT on the Point test host
 
-Read-only inspection on `.161` reports Linux `7.1.5-76070105-generic`, 4 KiB
-pages, `ttm.pages_limit=25165824` (96 GiB GTT), `amdgpu.gttsize=-1`, and
-123.44 GiB visible RAM. A 112 GiB ceiling corresponds to the boot argument:
+After the explicitly authorized reboot on 2026-10-04, `.161` runs Linux
+`7.1.5-76070105-generic` with 4 KiB pages, 123.44 GiB visible RAM and an
+effective GTT ceiling of **112 GiB**. The verified boot argument is:
 
 ```text
 ttm.pages_limit=29360128
@@ -115,13 +115,20 @@ verify `/proc/cmdline`, `/sys/module/ttm/parameters/pages_limit` and the AMD GPU
 `mem_info_gtt_total`: the expected values are 29,360,128 pages and
 120,259,084,288 bytes. Rollback removes only this owned file, runs
 `sudo update-grub` and schedules another reboot; recovery entries retain their
-original arguments. The isolated GRUB file is now installed and the generated
-configuration passes syntax and all five Linux normal/recovery argument checks.
-Backups are collected. **The host has not rebooted: effective GTT remains
-96 GiB.** Automatic approval review rejects reboot until the owner explicitly
-approves that interruption; no indirect reboot was attempted.
-[Maintenance receipt](../development/validation/gtt-memory-admission-2026-10-04.json).
+original arguments. The isolated GRUB file is installed; generated configuration
+passes syntax and all five normal/recovery argument checks. Backups are collected.
+The owner subsequently explicitly authorized reboot; a new boot ID and the
+effective 120,259,084,288-byte GTT manager are verified. The earlier approval
+rejection remains recorded as an action that did not execute.
+[Boot receipt](../development/validation/gtt112-boot-capacity-2026-10-04.json).
 Other hosts need their own boot and memory check.
+
+Linux renumbered the filesystem device after reboot. Qualification may explicitly
+bind the previous and current device numbers to the witnessed boot ID and
+filesystem UUID. Model, predictor and projector receipts stay unchanged; path,
+inode, length and both modification/change times must still match. Every window
+checks exact current identities again at closure. This is an optional supervisor
+control, not an inference or benchmark runtime dependency.
 
 The corrected provider binds scratch allocation to the C17 prefill bound,
 retaining space for admitted decode and MTP rows. For the current UD model,
@@ -139,15 +146,18 @@ sampled baselines give the following budget:
 | ---: | ---: | ---: | --- |
 | 262,144 | 7.69 GiB | 85.90 GiB | Estimated from the 4K baseline. |
 | 524,288 | 15.38 GiB | 93.68 GiB | Measured capacity allocation with PP1500. |
-| 1,048,576 | 30.75 GiB | 109.18 GiB | Estimated from the 512K capacity gate. |
+| 1,048,576 | 30.75 GiB | 109.18 GiB | Measured capacity allocation with PP1500 after GTT112 boot. |
 
-The 1M estimates leave about 1.82 to 3.15 GiB from the minimum available RAM
-observed in the two new windows; host residency differs between them. The
-estimated GTT allocation exceeds the present 96 GiB ceiling. A 112 GiB ceiling
-permits that estimated allocation, but a fresh RAM budget and supervised 1M
-capacity gate are still required before a physical 1M prompt. Host buffers and
+The earlier baselines projected only 1.82–3.15 GiB available RAM remaining;
+host residency differs between windows. After reboot, the actual short capacity-1M
+gate passes with 7.98 GiB minimum available RAM and the same 32 output IDs as the
+512K gate. Its single cold PP1500 sample records 50.21 token/s, compared with
+about 266 token/s in the smaller-capacity gates. This slowdown needs investigation;
+short prompts do not establish physical 1M throughput or recall quality.
+
+Every physical 1M window still needs fresh RAM/GTT admission. Host buffers and
 an admitted operating-system margin must fit. MTP adds predictor and draft
-state plus rollback, which this AR estimate does not include.
+state plus rollback, which this AR budget does not include.
 The optional qualification supervisor accepts `memory_admission` with
 `expected_peak_gtt_bytes` and `min_available_ram_bytes`; the prepared C1 AR
 gate uses 117,234,307,072 predicted peak bytes and a 1 GiB available-RAM floor.

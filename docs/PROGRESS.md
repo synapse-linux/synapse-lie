@@ -1,25 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## GTT112 configured; reboot awaiting explicit approval — 2026-10-04 UTC
+## GTT112 boot verified; 1M capacity passes — 2026-10-04 UTC
 
-Read-only inspection verifies `.161`'s active EFI stub loads `/boot/grub/grub.cfg`.
-The isolated GTT112 GRUB file is now installed, with three backed-up inputs,
-generated configuration and all five Linux normal/recovery argument lists
-verified. Configuration controller and collection exit 0. Effective GTT stays
-96 GiB and the boot ID is unchanged. Automatic approval review rejects the
-reboot because the owner's availability statement does not explicitly approve
-interrupting services; the reboot command was not executed or bypassed.
+Following the owner's explicit reboot authorization, `.161` returns with a new
+boot ID, the same qualified kernel and **112 GiB effective GTT**. GRUB identity,
+syntax, lease inode and filesystem UUID verify. The router and both monitor
+containers return automatically. The earlier rejected reboot remains historical
+evidence of a command that did not execute.
 
-An optional qualification memory admission checks predicted peak GTT and
-a declared available-RAM floor before stopping the router and while the owned
-child runs. CPU fixtures verify refusal, pressure, router restoration and lease
-release; all 41 control tests pass under CPU98/NVMe85 guards. These tests do not
-load a model. The prepared first 1M gate uses C1 AR, YaRN4, chunk256 and a short
-PP1500/TG32 prompt. A separate physical 1,048,448-token stress input plus TG128
-uses repeated real tokenizer IDs, not a recall-quality or canonical Gufo corpus.
-Neither GPU gate is submitted. There is no active lease, GPU job or restart.
-[Maintenance receipt](development/validation/gtt-memory-admission-2026-10-04.json).
+The first capacity attempt refuses the filesystem device renumbering before
+model launch; supervisor/controller/collection exits remain 1, with five files
+retained and successful ownership closure. Optional staging binding now verifies
+the witnessed boot ID, filesystem UUID and exact old/new device numbers while
+preserving SOURCE.json and all other stat fields. All 44 CPU control fixtures
+pass. No runtime dependency is added.
+
+The separately admitted C1 AR YaRN4 chunk256 capacity-1,048,576 gate passes
+PP1500/TG32. Controller, child and collection exit 0; eleven files hash-verify,
+model stats stay unchanged, the router is restored and the lease released at
+16:31:43.810798 UTC. Peak GTT is 109.18 GiB, minimum available RAM 7.98 GiB,
+and CPU/GPU/NVMe maxima 67.75/70/64.85 C. All 32 output IDs equal the 512K gate.
+The single cold sample records PP50.21/TG10.47 token/s; prefill is slower than
+the short 512K gate and has not been diagnosed or qualified as performance parity.
+
+A fresh physical PP1,048,448/TG128 window is running under the RAM/GTT and
+CPU98/NVMe85 guards, with GPU observed only. Its repeated tokenizer-ID corpus
+tests extended positions, not recall quality or canonical Gufo/Halogen performance.
+Physical 1M is not yet qualified.
+[Boot and capacity receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
 
 ## Current integration and remaining gates — 2026-10-04 UTC
 
@@ -28,13 +37,13 @@ Neither GPU gate is submitted. There is no active lease, GPU job or restart.
 | Strix Point integration | Owner checkpoint `40b2ac7` merged into `develop` as `30598a3`; merge Debug 48/48. | No implicit publication. |
 | OpenAI native functions | Corrected runtime `e6f537f` passes all thirteen original-weight HTTP checks on `.161`. Chat/Responses each stream five argument fragments, accept correlated results, and retained Responses replay byte-identically. | Full task evaluation of this runtime; hosted cloud tools remain outside the local API. |
 | Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens. | Physical extended positions, recall quality and generic attention performance above 256K. |
-| Reduced scratch | C1 chunk256 reserves 256 rows, samples 78.33 GiB GTT and preserves all 32 output IDs against the previous chunk256 gate. A separate 512K capacity gate passes at 93.68 GiB GTT using PP1500 only. | Fresh 1M allocation gate; short prompts do not establish extended-position quality or performance parity. |
-| Physical 1M fit | Updated source-formula estimate is 109.18 GiB GTT. The two new baselines predict about 1.82–3.15 GiB RAM remaining, depending on host residency. GRUB112 is configured and verified. | Present effective GTT is 96 GiB. Reboot needs explicit approval after automatic rejection; fresh RAM admission and GPU qualification follow. |
+| Reduced scratch | C1 chunk256 passes short 4K/512K/1M capacity gates at 78.33/93.68/109.18 GiB GTT with exactly equal output IDs. | Diagnose the cold short-prompt prefill slowdown at capacity 1M; no replicated performance parity claim. |
+| Physical 1M fit | GTT112 boot and short capacity-1M allocation pass; minimum available RAM is 7.98 GiB after reboot. | Physical PP1,048,448/TG128 stress is running; recall quality and canonical comparisons remain open. |
 
 The active work is isolated in `feature/context-million-openai`. Native Debug
 passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Build, HTTP and reduced
-scratch windows have collected successful closure; there is no standing `.161`
-lease or publication. The later GRUB maintenance state is recorded above.
+scratch/capacity windows have collected successful closure. The separate physical
+1M window owns its current `.161` lease; there is no publication.
 Earlier failed gates remain failed evidence.
 [GPU receipt](development/validation/tool-context-point-gpu-2026-10-04.json) ·
 [Context configuration and memory budget](guides/CONTEXT.md).
@@ -59,7 +68,8 @@ The default 2048 allocation is unchanged. Exact source edits and adapter/engine
 headers verify. The r10 GPU gate samples a 1.21 GiB GTT reduction and exactly
 equal output IDs; PP1500/TG32 records 266.94/10.52 token/s. This single sample
 uses capacity 4096, no warmup, AR and both cache tiers off. It is not physical
-1M or a replicated performance qualification. No GTT change or reboot has occurred.
+1M or a replicated performance qualification. The subsequent boot and capacity
+gate are recorded above.
 
 ## Incremental native functions — 2026-10-04 UTC
 

@@ -1,6 +1,26 @@
 # DS4 / synapse-lie coordination
 
-## GTT configuration applied; reboot rejected — 2026-10-04 UTC
+## GTT112 reboot verified; physical 1M window active — 2026-10-04 UTC
+
+The owner explicitly authorizes reboot. `.161` returns with boot ID
+`c82c90ed-7f94-4212-bc52-681c63eac395`, unchanged kernel and 112 GiB effective
+GTT. Router and monitor containers return without service configuration changes.
+The original ext4 UUID and lease inode verify; the kernel renumbers the filesystem
+device from 66308 to 66307. The first capacity attempt refuses that change before
+model launch and retains exit 1 with successful ownership closure. An explicit
+boot/UUID/device binding preserves pinned receipts and all remaining stat fields;
+44 CPU-only fixtures pass.
+
+A fresh original-weight capacity-1M PP1500/TG32 gate passes and releases at
+16:31:43.810798 UTC. Eleven collected files hash-verify, model stats stay
+unchanged, the router is restored and the lease free. Peak GTT/minimum available
+RAM are 109.18/7.98 GiB, with CPU/GPU/NVMe maxima 67.75/70/64.85 C. The subsequent
+physical PP1,048,448/TG128 stress window is active under a new private lease.
+No other `.161` job may interleave until its collected closure. Root has no
+`.157` reservation/job/waiter and does not interleave Q2's exact2048 campaign.
+[Receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
+
+## Earlier GTT configuration and rejected reboot — 2026-10-04 UTC
 
 Root's fresh `.161` maintenance inspection reacquires original lease
 dev66308/inode105946405 and verifies active GRUB plus unchanged kernel/boot.

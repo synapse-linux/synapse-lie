@@ -150,6 +150,18 @@ class Campaign:
                 any(type(value) is not int or not 1 <= value <= 2**63-1
                     for value in self.memory_admission.values())):
             raise ValueError('Memory admission requires positive byte budgets')
+        self.staging_rebind = manifest.get('staging_filesystem_rebind')
+        if self.staging_rebind is not None:
+            b = self.staging_rebind
+            if (type(b) is not dict or
+                    set(b) != {'boot_id', 'filesystem_uuid', 'previous_device', 'current_device'} or
+                    any(type(b[k]) is not str or not re.fullmatch(
+                        r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', b[k])
+                        for k in ('boot_id', 'filesystem_uuid')) or
+                    any(type(b[k]) is not int or not 1 <= b[k] <= 2**63-1
+                        for k in ('previous_device', 'current_device')) or
+                    b['previous_device'] == b['current_device']):
+                raise ValueError('Staging filesystem rebind requires explicit boot, UUID and device identities')
         self.r = {'state': 'PREFLIGHT', 'started_at': now(), 'pid': os.getpid(), 'start_ticks': ticks(os.getpid()),
                   'manifest_sha256': sha(root/'manifest.json'), 'runner_sha256': sha(__file__),
                   'authorization': manifest['authorization'], 'commands': [], 'container': None,
@@ -698,6 +710,26 @@ class Campaign:
         if (self.root/'download-result.json').exists():
             self.r['download'] = json.loads((self.root/'download-result.json').read_text())
         if self.child.returncode: raise RuntimeError('Pinned download failed; see retained download.log')
+    def staging_identity_matches(self, current, staged):
+        if all(current[k] == staged[k] for k in current):
+            return True
+        b = self.staging_rebind
+        # Device numbers can change across boots. Rebind only an explicitly
+        # named old/new pair on the witnessed filesystem; preserve the pinned
+        # SOURCE.json and every other stat field. Postflight compares the exact
+        # new identity, so no exception applies to changes during a window.
+        if (b is None or staged['device'] != b['previous_device'] or
+                current['device'] != b['current_device'] or
+                any(current[k] != staged[k] for k in current if k != 'device')):
+            return False
+        if Path('/proc/sys/kernel/random/boot_id').read_text().strip() != b['boot_id']:
+            raise RuntimeError('Staging filesystem rebind boot mismatch')
+        mount = json.loads(self.command(['findmnt', '--json', '--target', current['path'],
+                                        '--output', 'UUID']).stdout)
+        if mount.get('filesystems') != [{'uuid': b['filesystem_uuid']}]:
+            raise RuntimeError('Staging filesystem rebind UUID mismatch')
+        self.r['staging_filesystem_rebind'] = dict(b)
+        return True
     def verified_model(self):
         model = checked_path(self.m['model_plan']['destination'])
         source = json.loads((model/'SOURCE.json').read_text())
@@ -708,7 +740,7 @@ class Campaign:
             path = checked_path(model/expected['name']); s = path.stat()
             current = {'path': str(path), 'bytes': s.st_size, 'device': s.st_dev, 'inode': s.st_ino,
                        'mtime_ns': s.st_mtime_ns, 'ctime_ns': s.st_ctime_ns}
-            if any(current[k] != staged[k] for k in current) or staged['sha256'] != expected['sha256']:
+            if staged['sha256'] != expected['sha256'] or not self.staging_identity_matches(current, staged):
                 raise RuntimeError('Model identity drift before launch')
             rows.append(current)
         self.r['models_before'] = rows
@@ -725,7 +757,7 @@ class Campaign:
         current = {'path': str(path), 'bytes': st.st_size, 'device': st.st_dev,
                    'inode': st.st_ino, 'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns}
         if (staged.get('sha256') != expected['sha256'] or
-                any(current[k] != staged[k] for k in current)):
+                not self.staging_identity_matches(current, staged)):
             raise RuntimeError('Predictor identity drift before launch')
         return path, current
     def verified_projector(self):
@@ -740,7 +772,7 @@ class Campaign:
         current = {'path': str(path), 'bytes': st.st_size, 'device': st.st_dev,
                    'inode': st.st_ino, 'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns}
         if (staged.get('sha256') != expected['sha256'] or
-                any(current[k] != staged[k] for k in current)):
+                not self.staging_identity_matches(current, staged)):
             raise RuntimeError('Projector identity drift before launch')
         return path, current
     def check_model_after(self, rows):

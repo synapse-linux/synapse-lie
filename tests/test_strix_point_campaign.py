@@ -267,6 +267,72 @@ class Tests(unittest.TestCase):
             with self.assertRaises(RuntimeError): c.core()
         self.assertTrue(c.r['model_stat_unchanged'])
         self.assertIn('synthetic load failure', c.r['measurements_raw'])
+    def rebind_fixture(self):
+        root = self.base/'rebind-run'; root.mkdir()
+        (root/'manifest.json').write_text('{}')
+        model = self.base/'rebind-model'; model.mkdir()
+        path = model/'fixture.gguf'; path.write_bytes(b'unchanged fixture bytes')
+        st = path.stat()
+        row = {'path':str(path),'bytes':st.st_size,'device':st.st_dev+1,
+               'inode':st.st_ino,'mtime_ns':st.st_mtime_ns,'ctime_ns':st.st_ctime_ns,
+               'sha256':point.sha(path)}
+        plan = {'destination':str(model),'files':[{'name':path.name,'sha256':row['sha256']}]}
+        source = model/'SOURCE.json'
+        source.write_text(json.dumps({'result':{'state':'VERIFIED','files':[row]},'plan':plan}))
+        binding = {'boot_id':'c82c90ed-7f94-4212-bc52-681c63eac395',
+                   'filesystem_uuid':'720d3f3a-db4b-4287-bf9c-77cc76bcb7cb',
+                   'previous_device':row['device'],'current_device':st.st_dev}
+        c = Fixture(root, {'authorization':'fixture','model_plan':plan,
+                           'staging_filesystem_rebind':binding})
+        return c, path, source, row, binding
+    def test_boot_rebind_keeps_pinned_source_and_exact_postflight(self):
+        c, path, source, row, binding = self.rebind_fixture()
+        original = source.read_bytes()
+        read_text = point.Path.read_text
+        def read(p, *args, **kwargs):
+            if str(p) == '/proc/sys/kernel/random/boot_id': return binding['boot_id']
+            return read_text(p, *args, **kwargs)
+        mount = subprocess.CompletedProcess([],0,stdout=json.dumps(
+            {'filesystems':[{'uuid':binding['filesystem_uuid']}]}),stderr='')
+        with patch.object(point.Path,'read_text',read), patch.object(c,'command',return_value=mount):
+            model, before = c.verified_model()
+        self.assertEqual(model,path.parent)
+        self.assertEqual(source.read_bytes(),original)
+        self.assertEqual(c.r['staging_filesystem_rebind'],binding)
+        c.check_model_after(before)
+        self.assertTrue(c.r['model_stat_unchanged'])
+        path.write_bytes(b'changed after launch')
+        with self.assertRaisesRegex(RuntimeError,'during run'): c.check_model_after(before)
+    def test_rebind_refuses_unapproved_device_and_any_other_stat_drift(self):
+        c, path, source, row, binding = self.rebind_fixture()
+        c.staging_rebind = None
+        with self.assertRaisesRegex(RuntimeError,'identity drift'): c.verified_model()
+        c.staging_rebind = binding
+        original = json.loads(source.read_text())
+        for field in ('bytes','inode','mtime_ns','ctime_ns','device'):
+            changed = json.loads(json.dumps(original))
+            changed['result']['files'][0][field] += 1
+            source.write_text(json.dumps(changed))
+            with self.subTest(field=field), self.assertRaisesRegex(RuntimeError,'identity drift'):
+                c.verified_model()
+        source.write_text(json.dumps(original))
+        with patch.object(point.Path,'read_text',autospec=True,side_effect=lambda p,*a,**k:
+                'different-boot' if str(p)=='/proc/sys/kernel/random/boot_id' else json.dumps(original)):
+            with self.assertRaisesRegex(RuntimeError,'boot mismatch'): c.verified_model()
+        read_text = point.Path.read_text
+        def read(p,*args,**kwargs):
+            return binding['boot_id'] if str(p)=='/proc/sys/kernel/random/boot_id' else read_text(p,*args,**kwargs)
+        wrong = subprocess.CompletedProcess([],0,stdout='{"filesystems":[{"uuid":"foreign"}]}',stderr='')
+        with patch.object(point.Path,'read_text',read), patch.object(c,'command',return_value=wrong):
+            with self.assertRaisesRegex(RuntimeError,'UUID mismatch'): c.verified_model()
+    def test_rebind_manifest_requires_complete_typed_identities(self):
+        c, path, source, row, binding = self.rebind_fixture()
+        for key,value in [('boot_id','unbound'),('filesystem_uuid',None),
+                          ('previous_device',True),('current_device',0),
+                          ('current_device',binding['previous_device'])]:
+            invalid = dict(binding); invalid[key] = value
+            with self.subTest(key=key,value=value), self.assertRaisesRegex(ValueError,'explicit boot'):
+                Fixture(c.root, {'authorization':'fixture','staging_filesystem_rebind':invalid})
     def test_direct_bench_keeps_partial_failure_and_model_identity(self):
         c = self.campaign(); model = self.base/'model'; model.mkdir()
         shard = model/'fixture.gguf'; shard.write_bytes(b'fixture model identity')
