@@ -10,7 +10,9 @@ Sampler correctness checks pass; performance qualification remains open.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports
-contexts up to 262,144 tokens and up to eight active sequences.
+native contexts up to 262,144 tokens and up to eight active sequences.
+Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to
+1,048,576 tokens; GPU memory fit and long-context quality require qualification.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and
 can be configured together. Recorded original-weight functional checkpoints
@@ -83,8 +85,8 @@ served-context performance is in the separate
 [cold HTTP depth report](docs/benchmarks/2026-10-04/strix-point/http-depth/README.md):
 LIE and official Gufo AR/MTP pass paired, cache-disabled C1 GPU measurements
 at 8K, 32K, 128K and near 256K, with prefill, decode, TTFT, resource samples
-and offline-verifiable raw archives. The server's current maximum is 262,144
-tokens; this does not qualify 1M or long-context multi-client throughput.
+and offline-verifiable raw archives. These measurements use native context
+through 262,144 tokens; they do not qualify YaRN, 1M or long-context multi-client throughput.
 The [r5 direct reactive and vision gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#direct-reactive-core-and-q8-vision-gates)
 exercise held output credit, peer completion, cancellation and Q8-projector
 AR/MTP parity on the original GPU weights; they are functional, not a new

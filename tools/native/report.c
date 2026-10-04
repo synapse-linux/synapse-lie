@@ -467,11 +467,12 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object_array_add(points, point);
   nb_add(point, "generation", generation);
   fields(point, id,
-         "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit "
+         "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit rope_scaling "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
          "checkpoint_compression checkpoint_codec checkpoint_policy "
          "state_format ssd_quota_bytes ssd_staging_bytes");
   nb_str(point, "cache_policy", cache);
+  nb_str(point, "rope_scaling", nb_get(id, "rope_scaling") ? nb_string(id, "rope_scaling") : "native");
   nb_num(point, "prefix_cache_bytes", nb_number(id, "prefix_cache_bytes"));
   nb_num(point, "ssd_quota_bytes", nb_number(id, "ssd_quota_bytes"));
   nb_num(point, "ssd_staging_bytes", nb_number(id, "ssd_staging_bytes"));
@@ -832,7 +833,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
                               "prefill_chunk",   "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),

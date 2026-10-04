@@ -7,6 +7,7 @@
 | --- | --- |
 | [Build](guides/BUILD.md) | Dependencies, GPU and CPU builds, and build options. |
 | [Usage](guides/USAGE.md) | Model files, HTTP requests, streaming, Pi and cache settings. |
+| [Context](guides/CONTEXT.md) | Native and YaRN profiles, memory requirements and qualification limits. |
 | [Run benchmarks](guides/BENCHMARKS.md) | Commands, metric definitions and graph export. |
 | [Benchmark results](benchmarks/README.md) | Tables and graphs, grouped by model and platform. |
 | [Changelog](../CHANGELOG.md) | User-visible additions, changes and fixes. |

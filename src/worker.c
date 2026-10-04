@@ -1117,7 +1117,7 @@ static bool decode_ready(lie_core *w) {
 }
 static void *work(void *arg) {
     lie_core *w=arg; lie_error error={0};
-    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk};
+    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk,w->options.rope_profile};
     lie_model_info model={0};lie_mtp_info mtp={.abi_version=LIE_MTP_ABI,.struct_bytes=sizeof(mtp)};
     lie_vision_info vision={.abi_version=LIE_VISION_ABI,.struct_bytes=sizeof(vision)};
     lie_status rc=w->mtp_path&&w->vision_path?
@@ -1198,7 +1198,8 @@ void lie_core_options_init(lie_core_options *o){
 }
 lie_core *lie_core_create(const lie_core_options *o) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
-        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
+        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS ||
+        !lie_rope_profile_name(o->rope_profile)) return NULL;
     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
     /* Prefix support is model-specific and checked after capability admission.
      * A provider without predictor state may run only with caches disabled. */
@@ -1207,6 +1208,7 @@ lie_core *lie_core_create(const lie_core_options *o) {
        o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT))return NULL;
     if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
+    w->info.rope_profile=o->rope_profile;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     unsigned char output_nonce[16];
     if(RAND_bytes(output_nonce,sizeof(output_nonce))!=1)goto fail;

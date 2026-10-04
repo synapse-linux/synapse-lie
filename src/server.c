@@ -1451,6 +1451,7 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"tools",json_object_new_boolean(true));
     json_object_object_add(b,"tool_streaming",json_object_new_string("buffered-complete-turn"));
     json_object_object_add(b,"context_tokens",json_object_new_int64(info.model.context_tokens));
+    json_object_object_add(b,"rope_scaling",json_object_new_string(lie_rope_profile_name(info.rope_profile)));
     json_object_object_add(b,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
     json_object_object_add(b,"max_request_bytes",json_object_new_int64(LIE_CHAT_BODY_BYTES));
     json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
@@ -2173,7 +2174,7 @@ int main(int argc, char **argv) {
            "[--management-host IPv4] [--management-port N]\n  [--model "
            "FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens "
            "N] [--model-vision PROJECTOR.gguf] [--model-id ID] [--context "
-           "128..262144] [--prefill-chunk N] [--max-active 1..8] "
+           "128..1048576] [--rope-scaling native|yarn2|yarn4] [--prefill-chunk N] [--max-active 1..8] "
            "[--request-timeout-ms N] [--response-store-ram-mb 64] "
            "[--response-store-records 128] [--response-store-ttl-seconds 3600] "
            "[--kv-cache-ram-mb 4096] "
@@ -2222,6 +2223,9 @@ int main(int argc, char **argv) {
       model_id = argv[++i];
     else if (!strcmp(key, "--context"))
       options.context = (uint32_t)number(argv[++i], LIE_WORKER_MAX_CONTEXT);
+    else if (!strcmp(key, "--rope-scaling")) {
+      if(!lie_rope_profile_parse(argv[++i], &options.rope_profile)) return 2;
+    }
     else if (!strcmp(key, "--prefill-chunk"))
       options.chunk = (uint32_t)port_number(argv[++i]);
     else if (!strcmp(key, "--response-store-ram-mb")) {
@@ -2264,7 +2268,7 @@ int main(int argc, char **argv) {
       else
         options.ssd.staging_bytes = (uint64_t)mib * 1024u * 1024u;
     } else if (!strcmp(key, "--request-timeout-ms"))
-      timeout_ms = number(argv[++i], 1800000);
+      timeout_ms = number(argv[++i], 86400000);
     else {
       int rc = lie_cache_policy_option(&options.cache_policy, key, argv[i + 1]);
       if (rc != 1) {

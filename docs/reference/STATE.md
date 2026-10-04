@@ -1,5 +1,11 @@
 # C17 prefix state, RAM cache and optional SSD
 
+The selected static RoPE profile and the exact frequency/amplitude plan bind
+SSD cache identity. Native policy identity is preserved; YaRN2/YaRN4 checkpoints
+cannot be reused by native or differently scaled models. RAM stores belong to
+one model runtime and likewise cannot cross profiles. DS4 tensor payload framing
+does not change. See [context configuration](../guides/CONTEXT.md).
+
 RAM prefix retention is **enabled by default**, with a lazy 4 GiB budget shared
 by consumers of each core instance. HTTP and `synapse-lie-bench --suite core`
 use the same implementation; separate processes do not share a RAM store.

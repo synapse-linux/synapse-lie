@@ -31,7 +31,7 @@ def payload(text):
 
 def main():
     binary=sys.argv[1]
-    for option,value in [('--context','262145'),('--context','-1'),('--context','4294967296'),('--context','262144x'),('--port','262144')]:
+    for option,value in [('--context','1048577'),('--context','-1'),('--context','4294967296'),('--context','1048576x'),('--rope-scaling','yarn3'),('--port','262144')]:
         p=subprocess.run([binary,option,value],capture_output=True,timeout=5)
         assert p.returncode==2,(option,value,p.returncode)
     a,m=port(),port()

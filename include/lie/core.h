@@ -11,7 +11,7 @@
 
 #define LIE_CORE_JOBS 8
 #define LIE_OUTPUT_SLOTS 8
-#define LIE_CORE_MAX_CONTEXT 262144u
+#define LIE_CORE_MAX_CONTEXT LIE_CONTEXT_LIMIT
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
@@ -69,6 +69,7 @@ typedef struct {
     uint32_t mtp_draft_tokens; /* Zero selects this model provider's default. */
     const char *vision_model_path; /* Explicit encoder admission. */
     uint32_t context, chunk, max_active;
+    lie_rope_profile rope_profile; /* Native default; explicit extended profile. */
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
     lie_cache_policy cache_policy;
     lie_store_options ssd; /* Explicit directory enables; zero defaults off. */
@@ -90,6 +91,7 @@ typedef struct {
     lie_cache_policy cache_policy;
     lie_store_info ssd;
     lie_model_info model;
+    lie_rope_profile rope_profile;
     lie_mtp_info mtp;
     lie_vision_info vision;
     char error[256];

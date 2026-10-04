@@ -35,6 +35,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Explicit native/YaRN2/YaRN4 context profiles in the shared C17 core, HTTP
+  server and direct benchmark, with capacity up to 1,048,576 physical tokens
+  and profile-specific cache identity. Extended GPU fit and quality are pending.
+
 - A supervised Strix Point cold HTTP context campaign compares original-weight
   LIE and official Gufo AR/MTP through near 256K with two full-prefill
   repetitions per engine, physical-token/cache validation, draft acceptance,

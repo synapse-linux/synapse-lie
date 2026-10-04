@@ -118,7 +118,7 @@ static void family(const char *predictor, unsigned burst) {
   lie_core_destroy(c);
 }
 static void cache_state(const char *predictor) {
-  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};lie_error e={0};
+  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4,LIE_ROPE_NATIVE};lie_error e={0};
   lie_model *m=NULL;assert(lie_backend_open_mtp(":fixture:",&o,2,predictor,0,&m,&e)==LIE_OK);
   lie_sequence *source=NULL;assert(lie_sequence_create(m,&source,&e)==LIE_OK);
   int32_t tokens[]={1,10,10,10};assert(lie_sequence_prefill(source,tokens,4,&e)==LIE_OK);
@@ -140,7 +140,7 @@ static void cache_state(const char *predictor) {
   assert(lie_sequence_close(&source,&e)==LIE_OK&&lie_model_close(&m,&e)==LIE_OK);
 }
 static void cache_identity(void) {
-  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};
+  lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4,LIE_ROPE_NATIVE};
   const char *predictors[]={":fixture:",":wide-fixture:",":fixture:"};
   uint32_t drafts[]={2,2,3};lie_state_identity ids[3];
   for(unsigned i=0;i<3;++i){lie_model *m=NULL;uint64_t domain;
@@ -193,7 +193,7 @@ static void *cancel_during(void *v) {
 static void dispatch(void) {
   lie_error e = {0};
   lie_model *m = NULL;
-  lie_model_options o = {LIE_EXECUTOR_ABI, sizeof(o), 128, 4};
+  lie_model_options o = {LIE_EXECUTOR_ABI,sizeof(o), 128, 4,LIE_ROPE_NATIVE};
 #ifdef TEST_VISION
   assert(lie_backend_open_mtp_vision(":fixture:",&o,2,":wide-fixture:",12,":vision-b:",&m,&e)==LIE_OK);
   unsigned char *pixels=NULL;size_t bytes=0;lie_image_format format;
@@ -259,7 +259,7 @@ static void dispatch(void) {
 }
 static void invalid_burst(void) {
   lie_model *m = NULL;
-  lie_model_options options = {LIE_EXECUTOR_ABI, sizeof(options), 128, 4};
+  lie_model_options options = {LIE_EXECUTOR_ABI,sizeof(options), 128, 4,LIE_ROPE_NATIVE};
   assert(lie_backend_open_mtp(":fixture:", &options, 2, ":wide-fixture:", 0, &m, NULL) == LIE_OK);
   lie_inference_row rows[2] = {0};
   lie_sequence *seq[2] = {0};

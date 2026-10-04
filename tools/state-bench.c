@@ -114,7 +114,7 @@ int lie_state_bench_main(int argc,char **argv){
     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);sigaction(SIGINT,&sa,NULL);sigaction(SIGTERM,&sa,NULL);
     lie_model *m=NULL;lie_sequence *s=NULL;lie_state *state=NULL;lie_error e={0};float *witness=NULL,*row=NULL;int code=1;
     lie_store *store=NULL;lie_store_result disk={0};bool read_ssd=ssd_mode&&!strcmp(ssd_mode,"read");
-    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,chunk};lie_model_info mi={0};
+    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,chunk,LIE_ROPE_NATIVE};lie_model_info mi={0};
     uint64_t load_start=ns();
     if(!emit(f,identity())||lie_backend_open(model,&o,&m,&e)!=LIE_OK||lie_model_get_info(m,&mi,&e)!=LIE_OK||!mi.vocab_tokens||mi.vocab_tokens>1048576)goto done;
     uint64_t load_ns=ns()-load_start;

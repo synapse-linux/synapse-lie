@@ -1,7 +1,15 @@
-# Experimental transitional execution ABI 2
+# Experimental transitional execution ABI 3
+
+Executor ABI 3 adds `rope_profile` to `lie_model_options` (20 bytes, offset 16).
+ABI 2 callers must rebuild: version and size checks reject the old structure.
+The shared C17 `lie/rope.h` contract supplies immutable native/YaRN2/YaRN4
+plans, frequency tables and cache identities. The adapter uploads the selected
+plan for attention and indexer rotary lanes. Scalar AR, sampling, MTP and
+vision operations keep their existing meanings.
+See [context configuration and qualification](../guides/CONTEXT.md).
 
 The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
-ownership without changing executor ABI 2, request ABI 5 or generation ABI 2.
+ownership independently of request ABI 5 and generation ABI 2.
 `lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).

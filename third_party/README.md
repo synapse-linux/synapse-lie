@@ -39,6 +39,17 @@ upstream source/archive pins are unchanged by this increment.
 
 ## Gufo source acquisition
 
+`adapters/gufo-state/context-edits.json` adds exact, hash-guarded integration
+edits to the separately derived state-access variant of `f783fedb`. Eight files
+bind the LIE C17 static RoPE frequency/amplitude plan to existing Qwen attention,
+indexer and vision-coordinate kernels and grow configured session/scratch
+bounds. The pristine source and its upstream MIT/third-party notices remain
+unchanged. The numerical plan in `src/rope.c` is independently implemented C17,
+using the published Qwen YaRN settings and the
+[Transformers parameter specification](https://github.com/huggingface/transformers/blob/main/src/transformers/modeling_rope_utils.py).
+No Transformers code or Python dependency is imported. Build receipts derive
+and verify these edits with all existing state/sampler/vision edits before link.
+
 Official repository: https://github.com/gufo-org/gufo
 
 `tools/fetch-gufo.py` explicitly fetches only the pinned GitHub API tarball,

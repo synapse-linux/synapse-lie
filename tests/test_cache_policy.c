@@ -80,7 +80,7 @@ int main(void){
     }
     char cwd[2048],base[2200],path[2300];assert(getcwd(cwd,sizeof(cwd)));
     snprintf(base,sizeof(base),"%s/ds4-policy-XXXXXX",cwd);assert(mkdtemp(base));snprintf(path,sizeof(path),"%s/store",base);
-    lie_model_options mo={LIE_EXECUTOR_ABI,sizeof(mo),128,4};lie_model *m=NULL;lie_error error={0};
+    lie_model_options mo={LIE_EXECUTOR_ABI,sizeof(mo),128,4,LIE_ROPE_NATIVE};lie_model *m=NULL;lie_error error={0};
     assert(lie_backend_open(":fixture:",&mo,&m,&error)==LIE_OK);
     lie_state *p=state(m,10);uint64_t domain=lie_state_description(p)->domain;lie_state_identity id={{4}};
     lie_store_options options={path,1024u*1024u,1024u*1024u};lie_store *store=NULL;

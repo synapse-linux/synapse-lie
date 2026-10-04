@@ -50,6 +50,7 @@ struct Runtime {
     uint8_t state_quant{};
     bool failed{false}, vision_admitted{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
+    lie_rope_plan rope{};
     struct StateFile { int fd;struct stat stat; };
     std::vector<StateFile> state_files;
     std::shared_ptr<const gufo::sampling::ConstraintVocabulary> vocabulary;
@@ -106,7 +107,8 @@ extern "C" int lie_backend_prefix_state_supported(void) {
 static lie_status open_model(const char *path, const lie_model_options *o, uint32_t width, const char *mtp_path, uint32_t drafts, const char *vision, lie_model **out, lie_error *e) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
-        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
+        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048 ||
+        !lie_rope_profile_name(o->rope_profile))
         return error(e, LIE_INVALID, "invalid model options/output handle");
     try {
         std::string template_error;
@@ -114,6 +116,17 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         if (!metadata || !gufo::tokenization::QwenChatTemplate::ValidateGgufTemplate(*metadata, &template_error))
             return error(e, LIE_INVALID, template_error.c_str());
         auto r = std::make_shared<Runtime>(); r->chunk = o->prefill_chunk_tokens; r->width=width;r->drafts=mtp_path?drafts:0;r->vision_admitted=vision!=nullptr;
+        const auto config=qfn::Config::FromGguf(*metadata,true,&template_error);
+        lie_rope_plan rope{};
+        if(!config || !lie_rope_plan_build(o->rope_profile,config->context_length,
+                config->rotary_dim,config->rope_theta,&rope) ||
+           o->context_tokens>rope.context_limit)
+            return error(e,LIE_INVALID,"context exceeds the selected model RoPE profile");
+#ifndef LIE_GUFO_STATE_ACCESS
+        if(o->rope_profile!=LIE_ROPE_NATIVE)
+            return error(e,LIE_UNSUPPORTED,"static YaRN requires the verified LIE context provider variant");
+#endif
+        r->rope=rope;
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
@@ -170,6 +183,14 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         qfn::ModelOptions options;
         if(vision)options.vision_model_path=vision;
         options.max_context = o->context_tokens;
+#ifdef LIE_GUFO_STATE_ACCESS
+        if(o->rope_profile!=LIE_ROPE_NATIVE) {
+            options.lie_context_limit=rope.context_limit;
+            options.lie_rope_inv_frequency.assign(rope.inv_frequency,
+                                                  rope.inv_frequency+rope.rotary_dim/2);
+            options.lie_rope_attention=rope.attention_factor;
+        }
+#endif
         options.decode_concurrency = width;
         options.max_draft_tokens = mtp_path?drafts:1;
         if(mtp_path)options.mtp_model_path=mtp_path;
@@ -238,6 +259,14 @@ extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *
         int n=std::snprintf(policy,sizeof(policy),"gufo-f783fedb/state-access-v1/%s/thinking-off/context-growth-v1/chunk=%u/width=%u%s/%s",format,
             m->runtime->chunk,m->runtime->width,mtp_policy,device);
         if(n<0||static_cast<size_t>(n)>=sizeof(policy))return error(e,LIE_INVALID,"SSD policy identity overflow");
+        if(m->runtime->rope.profile!=LIE_ROPE_NATIVE) {
+            const auto at=static_cast<size_t>(n);
+            n=std::snprintf(policy+at,sizeof(policy)-at,"/rope=%s/rope-plan-v1=%016llx",
+                lie_rope_profile_name(m->runtime->rope.profile),
+                static_cast<unsigned long long>(lie_rope_plan_domain(&m->runtime->rope)));
+            if(n<0||static_cast<size_t>(n)>=sizeof(policy)-at)return error(e,LIE_INVALID,"RoPE policy identity overflow");
+            n+=static_cast<int>(at);
+        }
         if(m->runtime->vision_admitted){
             const auto at=static_cast<size_t>(n);
             n=std::snprintf(policy+at,sizeof(policy)-at,"/vision-full-prompt-scope-v1");

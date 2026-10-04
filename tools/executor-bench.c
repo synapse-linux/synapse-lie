@@ -158,7 +158,7 @@ int main(int argc,char **argv) {
     FILE *file=fdopen(fd,"w"); if (!file) { close(fd); return 1; }
     lie_model *model=NULL; lie_error error={{0}}; int code=1;
     struct prompt prompts[PROFILES]={0}; struct witness witnesses[PROFILES]={0};
-    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),CONTEXT,CHUNK}; lie_model_info info={0};
+    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),CONTEXT,CHUNK,LIE_ROPE_NATIVE}; lie_model_info info={0};
     if (!record(file,identity()) || lie_backend_open(argv[2],&options,&model,&error)!=LIE_OK || interrupted ||
         lie_model_get_info(model,&info,&error)!=LIE_OK) goto done;
     if (info.abi_version!=LIE_EXECUTOR_ABI || info.context_tokens!=CONTEXT || !info.vocab_tokens || info.vocab_tokens>1048576) goto done;

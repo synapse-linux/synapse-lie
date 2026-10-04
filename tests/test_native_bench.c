@@ -463,6 +463,16 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   json_object *rows = read_json("sampled-core.jsonl", true);
   core_clock_contract(rows);
   json_object *generation = nb_get(json_object_array_get_idx(rows, 0), "generation");
+  json_object *identity = json_object_array_get_idx(rows, 0);
+  nb_str(identity, "rope_scaling", "yarn4");
+  save_rows("sampled-other-rope.jsonl", rows);
+  char rope_changed[2400], rope_refused[2400];
+  path(rope_changed, "sampled-other-rope.jsonl");
+  path(rope_refused, "sampled-other-rope-graphs");
+  nb_error rope_error = {0};
+  require(nb_report(output, rope_refused, "native", rope_changed, "yarn4", false, &rope_error) != 0,
+          "different RoPE profiles accepted as matched comparison");
+  nb_str(identity, "rope_scaling", "native");
   nb_num(generation, "seed", 7);
   save_rows("sampled-other-seed.jsonl", rows);
   char changed[2400], refused[2400];

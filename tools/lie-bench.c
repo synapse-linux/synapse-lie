@@ -75,7 +75,7 @@ static bool open_model(const struct config *c,unsigned context,unsigned users,li
 #else
     (void)users;
 #endif
-    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,2048};uint64_t begin=ns();
+    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,2048,LIE_ROPE_NATIVE};uint64_t begin=ns();
 #ifdef LIE_BENCH_REFERENCE
     if(lie_backend_open(c->model,&o,m,e)!=LIE_OK)return false;
 #else

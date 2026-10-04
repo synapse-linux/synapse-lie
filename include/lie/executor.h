@@ -6,10 +6,11 @@
 #define LIE_EXECUTOR_H
 #include <stddef.h>
 #include <stdint.h>
+#include "lie/rope.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define LIE_EXECUTOR_ABI 2u
+#define LIE_EXECUTOR_ABI 3u
 typedef struct lie_model lie_model;
 typedef struct lie_sequence lie_sequence;
 typedef enum {
@@ -23,6 +24,7 @@ typedef struct {
     uint32_t struct_bytes;
     uint32_t context_tokens;
     uint32_t prefill_chunk_tokens;
+    lie_rope_profile rope_profile;
 } lie_model_options;
 typedef struct {
     uint32_t abi_version, context_tokens, vocab_tokens, prefill_capacity;

@@ -42,6 +42,10 @@ The management endpoint listens on loopback, port 19880, separately from the
 inference API. Its development dashboard is at `http://127.0.0.1:19880/monitor`.
 Stop the foreground server with Ctrl+C.
 
+For context above the model's native limit, select an explicit
+[YaRN profile](CONTEXT.md). The configured ceiling is 1,048,576 tokens;
+actual original-weight capacity depends on memory and GPU qualification.
+
 ## Chat, streaming and Responses
 
 A non-streaming Chat Completions request:

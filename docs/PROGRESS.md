@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Context 1M implementation and Point merge — 2026-10-04 UTC
+
+The completed Point checkpoint `40b2ac7` is merged into `develop` as `30598a3`;
+48/48 native Debug tests pass on the merge. `feature/context-million-openai`
+continues from that integration and carries the native conversation benchmark.
+
+Shared C17 plans now expose explicit native/YaRN2/YaRN4 profiles. HTTP and direct
+clients accept total capacity up to 1,048,576. The verified provider variant
+uploads the plan for both attention and indexer, preserves mRoPE positions,
+grows session/scratch bounds, and binds scaled SSD identity. Defaults remain
+native, RAM retention enabled and SSD persistence opt-in. The profile changes
+executor ABI to 3; old callers must rebuild.
+
+CPU tests check independent frequency/rotation formulas and an actual 1,048,575
+token fixture prefill plus one output. ASan/UBSan/LSan focused tests pass after
+rerunning outside the ptrace sandbox; the sandbox failure remains preserved.
+State-access adapter headers compile against the fully derived, hash-verified
+official source variant. These checks are NOT-INFERENCE: original-weight 1M
+memory fit, quality and throughput are not qualified. The larger sparse mask
+currently selects generic attention above the 256K WMMA bound.
+
+The owner prefers `.161` for new GPU qualification. Metadata shows 96 GiB GTT
+and approximately 123.44 GiB visible physical RAM; increasing GTT requires
+separate host-driver configuration, not an inference capacity flag. No host
+tuning is performed by this code checkpoint. Commands, initial compiler and
+sandbox failures and exact exits remain under `evidence/point-merge-20261004`.
+See [usage and limits](guides/CONTEXT.md).
+
 ## Native canonical conversation benchmark — 2026-10-04 UTC
 
 `synapse-lie-bench --suite http-curve` implements the independently fetched
