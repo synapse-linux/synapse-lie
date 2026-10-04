@@ -2,13 +2,20 @@
 # SPDX-License-Identifier: MIT
 """Reject misleading timing/count evidence before comparing Q2 with UD."""
 import importlib.util
+import copy
+import hashlib
+import json
 from pathlib import Path
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('canonical', ROOT/'tools/q2-canonical-http.py')
 client = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(client)
+spec = importlib.util.spec_from_file_location('iq2_curve', ROOT/'tools/analyze-q2-iq2-curve.py')
+iq2_curve = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(iq2_curve)
 
 
 def reply():
@@ -38,6 +45,40 @@ class MetricsContract(unittest.TestCase):
         client.check_backend(info,True)
         with self.assertRaises(ValueError):
             client.check_backend(info)
+        info['backend']['build_id'] = 'q2-canonical-curve-iq2-signs'
+        client.check_backend(info,iq2_signs=True)
+        for options in ({},{'profile_ple':True},{'profile_ple':True,'iq2_signs':True}):
+            with self.assertRaises(ValueError):
+                client.check_backend(info,**options)
+        info['backend']['build_id'] = 'q2-canonical-curve-experiment'
+        with self.assertRaises(ValueError):
+            client.check_backend(info,iq2_signs=True)
+
+    def test_complete_history_includes_prefix_and_work_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            a,b = [Path(directory)/k for k in ('a','b')]
+            a.mkdir();b.mkdir()
+            payload = dict(stream=True,messages=[dict(role='user',content='Prefix')])
+            rows = [dict(index=i,payload=payload,
+                         payload_sha256=hashlib.sha256(json.dumps(payload).encode()).hexdigest(),
+                         response=reply()) for i in range(2)]
+            for root in (a,b):
+                for i,row in enumerate(rows):
+                    (root/f'request-{i:04d}.json').write_text(json.dumps(row))
+            self.assertTrue(iq2_curve.history(a,b,client)['exact'])
+            changed = copy.deepcopy(rows[0])
+            changed['response'][0]['choices'][0]['delta']['content'] = 'Changed prefix reply'
+            (b/'request-0000.json').write_text(json.dumps(changed))
+            self.assertFalse(iq2_curve.history(a,b,client)['exact'])
+            changed = copy.deepcopy(rows[0])
+            changed['response'][1]['lie_timings']['cached_tokens'] -= 1
+            changed['response'][1]['lie_timings']['prefill_tokens'] += 1
+            changed['response'][2]['usage']['prompt_tokens_details']['cached_tokens'] -= 1
+            (b/'request-0000.json').write_text(json.dumps(changed))
+            self.assertFalse(iq2_curve.history(a,b,client)['rows'][0]['counts_exact'])
+            (b/'request-0000.json').unlink()
+            with self.assertRaisesRegex(ValueError,'Missing/reordered'):
+                iq2_curve.history(a,b,client)
 
     def test_completed_executor_scope(self):
         sample, text = client.parse_reply(reply(), True)

@@ -15,7 +15,12 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
-    assert report['schema'] == 'synapse-lie.q2-ud-canonical-comparison.v1'
+    assert report['schema'] in ('synapse-lie.q2-ud-canonical-comparison.v1',
+                               'synapse-lie.q2-iq2-canonical-comparison.v1')
+    iq2 = report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
+    variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
+        ('q2','#007f8b','Q2 ordered IQ2' if iq2 else 'Q2'), ('ud','#d66a28','UD')]
+    assert set(report['models']) == {k for k,_,_ in variants}
     args.output.mkdir(parents=True, exist_ok=False)
     cache = tempfile.TemporaryDirectory(prefix='q2-curve-mpl-')
     os.environ.setdefault('MPLCONFIGDIR', cache.name)
@@ -39,14 +44,17 @@ def main():
     labels = ['0', '4K', '8K', '12K', '16K', '32K', '64K', '128K']
     for ax, metric, title in zip(axes, ('prefill_tokens_per_second', 'decode_tokens_per_second'),
                                ('New-turn prefill', 'Completed AR decode')):
-        for variant, color in (('q2', '#007f8b'), ('ud', '#d66a28')):
+        for variant, color, label in variants:
             rows = report['models'][variant]['rows']
-            ax.plot(range(8), [r[metric] for r in rows], 'o-', color=color, label=variant.upper())
+            ax.plot(range(8), [r[metric] for r in rows], 'o-', color=color, label=label)
         ax.set(title=title, xlabel='Cached-prefix target', ylabel='tokens / second',
                xticks=range(8), xticklabels=labels)
         ax.grid(alpha=.2)
         ax.legend(frameon=False)
-    fig.suptitle('Q2 / UD: Gufo prose workload over C17 HTTP', fontsize=16)
+    title = 'Q2 / UD: Gufo prose workload over C17 HTTP'
+    if iq2 and not report['matched_history']:
+        title = 'Diagnostic only: IQ2 request/output history differs'
+    fig.suptitle(title, fontsize=16)
     fig.text(.06, .04, 'C1 AR, thinking/MTP off; approximately 2048 new tokens + 128 outputs; capacity 133760.\n'
              'One warmed sample per depth; actual counts and durations in CSV. LIE executor-call timers; numerical acceptance remains open.',
              fontsize=9)
@@ -56,7 +64,7 @@ def main():
     svg = args.output/'curve.svg'
     svg.write_text('\n'.join(x.rstrip() for x in svg.read_text().splitlines())+'\n')
     cache.cleanup()
-    print(json.dumps({'rows':16,'output':str(args.output)}))
+    print(json.dumps({'rows':8*len(variants),'output':str(args.output)}))
 
 
 if __name__ == '__main__':

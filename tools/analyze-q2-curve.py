@@ -67,10 +67,17 @@ def validate_recipe(request, curve, row, curve_dir, client, upstream):
     require(payload['messages'] == messages, 'Measured workload differs from canonical recipe')
 
 
-def model(root, key, host_root, manifest, client, upstream):
+def model(root, key, host_root, manifest, client, upstream, experiment=None):
+    require(experiment in (None, 'iq2-signs-ordered') and
+            (experiment is None or key == 'q2'), 'Unknown provider experiment')
     r = artifacts(root)
     require(r['state'] == 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT' and
-            r['mode'] == key+'-curve' and r['model_access'], 'No completed model curve')
+            r['mode'] == (key+'-curve-iq2' if experiment else key+'-curve') and
+            r['model_access'], 'No completed model curve')
+    if experiment:
+        transport = read(root/'transport.json')
+        require(transport['source_variant'] == 'curve-iq2-q2' and transport['rebuild_mmq']
+                and 'mmq_reuse' not in r, 'IQ2 curve needs its full provider build')
     require(r['models_before'] == r['models_after'] and r['binary_sha256'] == r['binary_sha256_after'],
             'Model or binary identity changed')
     expected_leases = [(52,3232146), (52,3206482), (52,3228451), (55,45067)]
@@ -89,6 +96,7 @@ def model(root, key, host_root, manifest, client, upstream):
             require(actual == files, 'Frozen source composition differs: '+prefix)
     session = read(root/'results/curve-session.json')
     require(session['state'] == 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT' and
+            session.get('provider_experiment') == experiment and
             session['variant'] == key and session['server_binary_sha256'] == r['binary_sha256'] and
             session['client_exit_code'] == 0 and session['server_exit_code'] == 0,
             'HTTP children did not complete/retire cleanly')
@@ -97,10 +105,11 @@ def model(root, key, host_root, manifest, client, upstream):
     require(curve['state'] == 'MEASURED_NOT_PARITY_OR_QUALITY_VERDICT' and curve['variant'] == key and
             curve['depths'] == client.DEPTHS and curve['full_grid'] is True and
             not curve.get('instrumentation') and
+            curve.get('provider_experiment') == experiment and
             curve['context_capacity'] == 133760 and curve['new_prompt_target'] == 2048 and
             curve['output_tokens'] == 128 and curve['timing_scope'] == client.TIMING_SCOPE,
             'Different or incomplete curve protocol')
-    client.check_backend(curve['backend_before'])
+    client.check_backend(curve['backend_before'], iq2_signs=experiment is not None)
     require([row['depth'] for row in curve['rows']] == client.DEPTHS, 'Missing/reordered depth rows')
     for row in curve['rows']:
         request = read(curve_dir/f'request-{row["accepted_request"]:04d}.json')

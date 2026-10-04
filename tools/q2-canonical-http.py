@@ -198,14 +198,16 @@ def loopback_url(value):
     return value.rstrip('/')
 
 
-def check_backend(info, profile_ple=False):
+def check_backend(info, profile_ple=False, iq2_signs=False):
+    require(not (profile_ple and iq2_signs), 'Instrumented and IQ2 curves are separate')
     require(isinstance(info, dict) and info.get('schema') == 'synapse-lie.llm.v1' and
             info.get('ready') is True, 'Model is not ready')
     backend = info.get('backend', {})
     require(backend.get('synthetic') is False and backend.get('mtp') is False and
             backend.get('vision') is False and backend.get('prefix_state') is True and
             backend.get('model') == 'bench' and backend.get('context_tokens') == 133760 and
-            backend.get('build_id') == ('q2-canonical-curve-ple-profile' if profile_ple else
+            backend.get('build_id') == ('q2-canonical-curve-iq2-signs' if iq2_signs else
+                                        'q2-canonical-curve-ple-profile' if profile_ple else
                                         'q2-canonical-curve-experiment') and
             backend.get('source_pin') == 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e',
             'Endpoint is not the admitted C1 AR curve composition')
@@ -224,11 +226,15 @@ def main():
     parser.add_argument('--gufo-source', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--variant', choices=('q2', 'ud'), required=True)
-    parser.add_argument('--profile-ple', action='store_true',
+    composition = parser.add_mutually_exclusive_group()
+    composition.add_argument('--profile-ple', action='store_true',
                         help='Diagnostic instrumentation; rates are not benchmark evidence')
+    composition.add_argument('--iq2-signs', action='store_true',
+                        help='Measured ordered IQ2 vector-sign provider; same canonical workload')
     parser.add_argument('--depths', default=','.join(map(str, DEPTHS)))
     parser.add_argument('--timeout', type=float, default=1800)
     args = parser.parse_args()
+    require(not args.iq2_signs or args.variant == 'q2', 'IQ2 signs requires the Q2 model')
     base_url = loopback_url(args.base_url)
     management_url = loopback_url(args.management_url)
     require(math.isfinite(args.timeout) and 0 < args.timeout <= 1800, 'Invalid timeout')
@@ -240,6 +246,7 @@ def main():
     report = dict(schema='synapse-lie.canonical-http-curve.v1', variant=args.variant,
         state='RUNNING', timing_scope=TIMING_SCOPE, context_capacity=133760,
         instrumentation='ple-forward' if args.profile_ple else None,
+        provider_experiment='iq2-signs-ordered' if args.iq2_signs else None,
         headline_eligible=not args.profile_ple,
         new_prompt_target=2048, output_tokens=128, depths=depths,
         full_grid=depths == DEPTHS, rows=[], goal_met=False,
@@ -253,7 +260,7 @@ def main():
             data = response.read(MAX_REPLY+1)
             require(len(data) <= MAX_REPLY, 'Oversized backend response')
             report['backend_before'] = json.loads(data)
-        check_backend(report['backend_before'], args.profile_ple)
+        check_backend(report['backend_before'], args.profile_ple, args.iq2_signs)
         session = Session(serving, args.output, args.timeout)
         tokenizer = llm.Tokenizer(session, base_url)
         session.request(base_url, llm.synthetic_text(8888, tokenizer.words_for(2048)), 16)

@@ -97,3 +97,35 @@ All results remain component evidence. The acceptance target is still PP
 and TG parity against UD at every canonical context depth, with model quality
 verified separately. The measured PLE/storage prefill deficit is unaffected
 by this decode-only candidate.
+
+## Canonical model integration prepared
+
+`q2-remote.py q2-curve-iq2 <label> --source-variant curve-iq2-q2 --rebuild-mmq`
+now selects the measured ordered-sign source with the unchanged frozen C17
+core. The server has build identity `q2-canonical-curve-iq2-signs`; the client
+requires `--iq2-signs` and records `provider_experiment=iq2-signs-ordered`.
+The ordinary reference and diagnostic-profile modes reject that identity.
+The CMake composition checks the exact ordered header; source staging and
+analysis retain full provider/core inventories. No model arithmetic beyond
+the already measured header is added by this integration.
+
+`analyze-q2-iq2-curve.py` compares fresh Q2 baseline, candidate and UD curves.
+It reconstructs the accepted prose requests and checks all raw baseline/Q2
+request histories, including calibration, warmup and prefix preparation.
+Payload, output or physical-count differences remain explicit, retain analyzer
+exit 1 and prevent a matched-history parity claim. The plotting tool exports
+all three PP/TG series and complete counts/durations to CSV; it marks unmatched
+history as diagnostic. No candidate model plot or rate exists yet.
+
+Local source checks verify 333 frozen core files and 1020 candidate files;
+nine Python sources parse. Reanalysis of the retained second Q2/UD pair yields
+identical JSON data and identical chart CSV. The new history comparison also
+replays the retained Q2 pair's 20 requests exactly. These are report/source
+checks, not execution of the new host tests or candidate model.
+[Preparation evidence](../config/q2-iq2-curve-preparation.json).
+
+The runtime cohort remains pending on `.157`, whose next window belongs to
+core's integrated qualification. The changed endpoint/history/staging guards
+must pass Debug/ASan there before the three full 0–128K sweeps. No Q2 source
+capsule is staged, and no GPU reservation or automatic restart is scheduled.
+[Model plan](../config/q2-iq2-signs-model-plan.json).

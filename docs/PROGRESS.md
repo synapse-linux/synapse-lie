@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Ordered IQ2: canonical model path prepared — 2026-10-04
+
+The measured component candidate now has an isolated full-model HTTP mode,
+with its own build identity and explicit source inventory. Q2 baseline,
+ordered IQ2 Q2 and pristine UD retain the same frozen C17 core, canonical
+prose recipe, all eight context depths, C1 sampling and timing boundaries.
+The analyzer compares complete baseline/candidate request histories in
+addition to PP/TG and actual physical counts; the plotter supports all three
+series and exports complete durations/counts. No new model rate is claimed.
+
+All 333 core and 1020 candidate source files verify. Nine Python AST checks
+pass, and the retained second Q2/UD sweep reanalyzes to exactly the same JSON
+and CSV. The retained Q2 r1/r2 histories contain 20 requests per model sweep
+and replay exactly. The new runtime tests remain pending on `.157`: core owns
+its integrated qualification window, and Q2 will not enter gaps between arms.
+[Prepared path, evidence and remaining checks](Q2-IQ2-SIGNS.md).
+
 ## IQ2 packed signs: exact component gain measured — 2026-10-04
 
 The isolated runner now builds reference/candidate MMQ from their complete

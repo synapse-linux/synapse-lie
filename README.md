@@ -35,7 +35,9 @@ opportunities. The [packed-sign decode experiment](docs/Q2-IQ2-SIGNS.md)
 reduces the complete 512-expert rotating component cycle from 85.352 to
 50.047 µs (41.364% less time), with 110 byte-exact output comparisons after
 constraining scale rounding. This is component evidence, not a model speedup.
-Canonical whole-model PP/TG measurement remains pending.
+The canonical whole-model path, complete-history comparison and three-series
+plot export are implemented locally; runtime validation and model PP/TG
+measurement remain pending on `.157` after the core qualification window.
 Histogram tile selection is already present, while D2R and producer-Q8 reuse
 are inactive stubs in the pinned DeepSeek HIP port.
 

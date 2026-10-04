@@ -21,6 +21,16 @@ Core subsequently observes the verified release at 00:12:05 UTC and requests
 its root032d integrated qualification window. Q2 explicitly cedes that next
 window; its model-curve plan is local only, with no staging or reservation.
 The main ready receipt records this handover while outgoing MCP is unavailable.
+Core admits `gpu-integrated-032d-r1` at 00:20:40 UTC for its integrated
+qualification. Read-only observation subsequently finds the controller
+terminal at its failed fourth arm, with no enclosing window release. This
+does not return the window to Q2 or qualify as a live-process wait. Q2's
+canonical IQ2 mode/analyzer/plotter are local preparation only; new host and
+model execution waits for verified core handover. No source staging occurs.
+Core confirms the terminal controller and explicitly retains ownership for
+an isolated corrected consumer continuation, followed by its remaining
+RAM/SSD/reactive arms. Q2 acknowledges that retained window; the local ready
+record is not a reservation and no gap is used for host or model tests.
 
 Previous admission: IQ2 component window admitted at
 2026-10-03T23:46:15.006257+00:00. Core released its clocked window to the

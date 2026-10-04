@@ -1,5 +1,5 @@
 {
-  "state": "PREPARED_NEXT_MODEL_EXPERIMENT_NOT_ADMITTED",
+  "state": "IMPLEMENTED_RUNTIME_VALIDATION_PENDING_CORE_HANDOVER",
   "goal": "Q2 PP and TG parity at every canonical context depth; component gains are insufficient",
   "machine": "192.168.5.157",
   "provider": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
@@ -22,6 +22,38 @@
   ],
   "gpu_reserved": false,
   "restart_scheduled": false,
-  "model_dispatch_implemented": false,
-  "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes"
+  "model_dispatch_implemented": true,
+  "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes",
+  "at": "2026-10-04T00:30:55.198078+00:00",
+  "checkpoint_base": "9334a5b",
+  "model_mode": "q2-curve-iq2",
+  "model_source_variant": "curve-iq2-q2",
+  "build_id": "q2-canonical-curve-iq2-signs",
+  "client_flag": "--iq2-signs",
+  "report_analyzer": "tools/analyze-q2-iq2-curve.py",
+  "plotter": "tools/plot-q2-curve.py",
+  "proposed_sequence": [
+    {
+      "mode": "cpu",
+      "label": "q2-iq2-curve-host-r1"
+    },
+    {
+      "mode": "q2-curve",
+      "source_variant": "curve-q2",
+      "label": "q2-iq2-curve-baseline-r1",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2",
+      "label": "q2-iq2-curve-candidate-r1",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "ud-curve",
+      "source_variant": "curve-ud",
+      "label": "q2-iq2-curve-ud-r1",
+      "rebuild_mmq": true
+    }
+  ]
 }

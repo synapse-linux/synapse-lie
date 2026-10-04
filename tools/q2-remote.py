@@ -17,8 +17,8 @@ REMOTE = '/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/'
 COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
 ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
 SIGN_VARIANTS = ('iq2-signs-reference', 'iq2-signs-candidate', 'iq2-signs-ordered')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud')
+CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2')
+CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2')
 
 
 def file_sha256(path):
@@ -70,7 +70,8 @@ def main():
             p.error('IQ2 signs requires a full MMQ rebuild')
     if args.mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
         expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
-                    'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud'}.get(args.mode)
+                    'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
+                    'q2-curve-iq2': 'curve-iq2-q2'}.get(args.mode)
         if args.source_variant != expected:
             p.error('Canonical curve requires its matched Q2 or UD composition')
         if not args.rebuild_mmq:
@@ -218,7 +219,7 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
+        for name in ['CMakeLists.txt', 'cmake', 'tests', 'config', 'experiments/q2_curve_profile.hpp', 'experiments/ple_flow.c', 'experiments/ple_flow.h', 'experiments/gpu_fork.c', 'experiments/gpu_fork.h', 'experiments/q2_shared_fork.hpp', 'tools/analyze-q2-terminal.py', 'tools/collect-q2-terminal.py', 'tools/q2-terminal-session.py', 'tools/q2-runner.py', 'tools/q2-remote.py', 'tools/q2-canonical-http.py', 'tools/q2-curve-session.py', 'tools/analyze-q2-curve-profile.py', 'tools/analyze-q2-curve.py', 'tools/analyze-q2-iq2-curve.py', 'tools/q2_process.py', 'tools/q2_thermal.py', 'tools/axb35-fan-curves.py', 'tools/q2_reuse.py', 'tools/analyze-q2-profile.py', 'tools/analyze-q2-expert-profile.py', 'tools/q2-resource-report.py', 'tools/analyze-q2-hc-up.py']:
             archive.add(ROOT / name, arcname=name)
         source = '.deps/gufo-base' if args.mode in ('ud-base','ud-profile','ud-bench2k','ud-decode-baseline','ud-original-baseline') else '.deps/gufo-q2-register-reference' if args.mode == 'operators-reference' else '.deps/gufo-q2'
         if args.source_variant != 'qualified':
@@ -246,11 +247,19 @@ def main():
             curve = __import__('json').loads((ROOT/'config/q2-curve-source.json').read_text())
             key = args.mode.split('-')[0]
             provider = curve
+            if args.mode == 'q2-curve-iq2':
+                candidate = json.loads((ROOT/'config/q2-iq2-signs-ordered-asm-source.json').read_text())
+                provider = {'variants': {'q2': {'source': candidate['candidate'],
+                                               'files': candidate['files']}}}
             if args.mode.endswith('-ple'):
                 provider = __import__('json').loads((ROOT/'config/q2-curve-profile-source.json').read_text())
                 if file_sha256(ROOT/'config/q2-curve-source.json') != provider['parent_manifest_sha256']:
                     p.error('Canonical profile parent changed')
             source = provider['variants'][key]['source']
+            if args.mode == 'q2-curve-iq2' and {
+                    str(f.relative_to(ROOT/source)) for f in (ROOT/source).rglob('*') if f.is_file()
+                    } != set(provider['variants'][key]['files']):
+                p.error('Canonical IQ2 provider inventory changed')
             for name, expected in provider['variants'][key]['files'].items():
                 if file_sha256(ROOT/source/name) != expected:
                     p.error('Canonical provider source changed')

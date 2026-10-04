@@ -107,3 +107,21 @@ Q2/UD pair has a common timer; the published Gufo scheduler timer is not claimed
 identical. Neither historical Gufo values nor native counting-fixture rates
 are used to fill this measured curve. Direct reproduction of the published
 server's timing remains a separate check if needed for cross-server claims.
+
+## Isolated provider experiments
+
+The ordered IQ2 candidate uses build ID `q2-canonical-curve-iq2-signs` and
+requires client flag `--iq2-signs`. Raw session/curve records declare
+`provider_experiment: iq2-signs-ordered`. Ordinary controls use
+`q2-canonical-curve-experiment`; PLE profiles use
+`q2-canonical-curve-ple-profile` and remain ineligible for headline rates.
+The client rejects mixed or mismatched identities. These are benchmark
+composition markers, not changes to the C17 ABI, prefix-state layout or
+`synchronous_executor_calls` metrics contract.
+
+The three-arm report includes fresh Q2 baseline, ordered IQ2 Q2 and pristine
+UD. Candidate/baseline comparisons check every retained request, including
+calibration, warmup and prefix replies, for payload/output/work-count identity.
+A mismatch is preserved with analyzer exit 1 and no matched-history parity
+claim. It is not replaced by another prompt, a shorter context or a preferred
+sample. Runtime validation of the new composition is pending on `.157`.
