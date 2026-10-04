@@ -20,9 +20,9 @@ def sha(path):
     return digest.hexdigest()
 
 
-def load(level, impl, mode, case):
+def load(evidence, level, impl, mode, case):
     label = f'point-http-fresh-r7-{mode}-{case}-c{level}-{impl}'
-    root = EVIDENCE / label
+    root = evidence / label
     collection = json.loads((root / 'collection.json').read_text())
     inventory = collection['inventory']
     for key in ('model_stat_unchanged', 'supervisor_absent', 'gpu_child_absent',
@@ -72,13 +72,15 @@ def main():
     parser.add_argument('--impl', choices=('lie', 'gufo'), required=True)
     parser.add_argument('--mode', choices=('ar', 'mtp'), required=True)
     parser.add_argument('--case', choices=('prose', 'repetition'), required=True)
+    parser.add_argument('--evidence-root', type=Path, default=EVIDENCE)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.mode == 'ar' and args.case == 'repetition':
         parser.error('AR repetition has only a C1 reference, not a full curve')
     if args.output.exists() or args.output.with_suffix('.provenance.json').exists():
         parser.error('Refusing to replace merged evidence')
-    parts = [load(level, args.impl, args.mode, args.case) for level in LEVELS]
+    parts = [load(args.evidence_root, level, args.impl, args.mode, args.case)
+             for level in LEVELS]
     first = parts[0][1][0].copy()
     for _, rows, _ in parts[1:]:
         other = rows[0].copy()
