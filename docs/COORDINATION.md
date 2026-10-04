@@ -14,7 +14,10 @@ Fresh checks verify all 28 core identities and 13 groups absent, empty KFD,
 the four original lease inodes EX|NB/free and CPU 38.75 C. Remote admission,
 main ready/active receipts and shared registry record the bounded host plus
 full-MMQ Q2 baseline / ordered IQ2 / UD canonical 0–128K campaign. Host checks
-pass 19/19 Debug and ASan/UBSan before the baseline build. No interleaving,
+pass 19/19 Debug and ASan/UBSan before the baseline build. The baseline completes
+at 01:02:10 UTC, all five exits zero and all 30 artifacts verified. The ordered
+candidate starts at 01:03 UTC; Q2 retains the window through the UD arm and
+verified closure. No interleaving,
 dependency, tuning, foreign termination, model mutation or restart is included.
 The separately prepared PLE source has no admitted model arm.
 

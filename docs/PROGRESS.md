@@ -7,9 +7,14 @@ Core releases its integrated window at 00:47:22 UTC with all 28 identities and
 13 child groups retired. Fresh Q2 admission at 00:51:48 rechecks those processes,
 empty KFD, the unchanged four original lease inodes and CPU 38.75 C. Host guards
 pass 19/19 Debug and 19/19 ASan/UBSan; six command exits are zero and seven
-artifacts are collected and verified. The canonical Q2 baseline is now building
-from full MMQ sources. Ordered IQ2 Q2 and pristine UD follow sequentially;
-no model gain is claimed before their complete histories and curves validate.
+artifacts are collected and verified. The canonical Q2 baseline completes at
+01:02:10 UTC with all five command exits zero, all eight accepted depths and
+30 artifacts collected/verified. Its 20 request histories, outputs and physical
+counts replay exactly against the previous Q2 sweep. Rates still vary: depth0
+is 833.320 PP / 24.885 TG, and 128K is 1112.411 PP / 24.394 TG, while 4K TG
+falls to 20.617. These are baseline observations, not candidate gains. The
+ordered IQ2 candidate is running next; pristine UD remains pending. No model
+gain is claimed before their complete histories and curves validate.
 
 In parallel source work, the [PLE cache-first candidate](Q2-PLE-CACHE-FIRST.md)
 checks all resident rows before publishing misses and removes the redundant
