@@ -574,3 +574,9 @@ graph and 88 artifacts remain. Every new output matches the parent. Unrounded
 FP64 checks at 2048 pass for the native kernel and fail for the library under
 unchanged limits; 97 ordinary remains slightly outside. Independent model
 quality remains open. Host Debug/ASan pass 23/23; the .157 window is released.
+
+Two [wider-token HC tiles](docs/Q2-HC-BN64.md) now prepare 64-token workgroups
+with two wave partitions. They change only the launch template/grid, retaining
+original F16 operands and each output's two K16 chains. Both compile without
+spills; host Debug/ASan pass 23/23. GPU component/model qualification is pending.
+No speedup is inferred from the smaller grid or compiler resource counts.

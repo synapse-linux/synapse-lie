@@ -24,12 +24,18 @@ EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogu
 ROW_VARIANTS = ('scaled-row-reference', 'scaled-row-reuse')
 NORM_SHAPE_VARIANTS = ('norm-shape-reference', 'norm-fixed-shape')
 Q8_PRODUCER_VARIANT = 'shared-q8-producer'
-HC_BK_VARIANTS = ('hc-bk256-initial', 'hc-bk256-bounded', 'hc-bk128-single', 'hc-bk128-double')
+HC_BK_VARIANTS = ('hc-bk256-initial', 'hc-bk256-bounded', 'hc-bk128-single', 'hc-bk128-double',
+                  'hc-bn64-token', 'hc-bn64-output')
 HC_BK_MODE = 'hc-bk256-bench'
 HC_BK_COUNTING = {'q2-counting-hc-bk256-initial': 'hc-bk256-initial',
                   'q2-counting-hc-bk256-bounded': 'hc-bk256-bounded',
                   'q2-counting-hc-bk128-single': 'hc-bk128-single',
-                  'q2-counting-hc-bk128-double': 'hc-bk128-double'}
+                  'q2-counting-hc-bk128-double': 'hc-bk128-double',
+                  'q2-counting-hc-bn64-token': 'hc-bn64-token',
+                  'q2-counting-hc-bn64-output': 'hc-bn64-output'}
+HC_BK_MANIFESTS = {v: 'config/q2-hc-bn64-source.json' if v.startswith('hc-bn64-')
+                     else 'config/q2-hc-bk128-source.json' if v.startswith('hc-bk128-')
+                     else 'config/q2-hc-bk256-run-source.json' for v in HC_BK_VARIANTS}
 REAUDIT_SOURCES = {'q2-counting-reaudit-exact': 'reaudit-q8-row',
                    'q2-counting-reaudit-norm': 'reaudit-q8-row-norm'}
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
@@ -375,9 +381,7 @@ def main():
                 p.error('PLE cache-first must change only row-read scheduling')
             archive.add(ROOT/control, arcname='ple-control-source')
         if args.source_variant in HC_BK_VARIANTS:
-            manifest = ('config/q2-hc-bk128-source.json' if args.source_variant.startswith('hc-bk128-')
-                        else 'config/q2-hc-bk256-run-source.json')
-            info = json.loads((ROOT/manifest).read_text())
+            info = json.loads((ROOT/HC_BK_MANIFESTS[args.source_variant]).read_text())
             variant = info['variants'][args.source_variant]
             if file_sha256(ROOT/variant['parent_manifest']) != variant['parent_manifest_sha256']:
                 p.error('HC BK256 retained parent manifest changed')

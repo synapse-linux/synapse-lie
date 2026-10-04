@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Wider-token HC geometry prepared — 2026-10-04 UTC
+
+Two new 64x64/BK128 tiles use 16x32 or 32x16 wave partitions against the
+measured bounded parent. Each changes only the launch template and matching
+token-grid division in one of 1023 source files; original operands and per-output
+two K16 chains remain. Grid workgroups halve 320→160 at 2048. Both device
+objects compile without private scratch, at 143/144 VGPRs and 34816 LDS bytes.
+These resource observations do not establish speed or numerical equivalence.
+
+Local 77 launch guards pass. Host .157 CPU capsule verifies 16 files and
+passes 23/23 Debug/ASan each. Frozen scope is two new components then at most
+one new model if complete-cycle normalized time improves the saved parent.
+Numeric rejection and small gains remain visible; no qualified comparator
+rerun, context sweep, install, tuning or cleanup. GPU admission is pending.
+[Source, objects and runtime plan](Q2-HC-BN64.md).
+
 ## BK128 runtime comparison rejects smaller K staging — 2026-10-04
 
 Both new component fixtures finish 0/0/1, 44 artifacts each and 112 total timings.
