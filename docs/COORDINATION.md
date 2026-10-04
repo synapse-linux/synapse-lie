@@ -122,9 +122,15 @@ pass at P1500/C1/TG32, P8192/C1/TG128, P131072/C1/TG128 and P8192/C2/TG128;
 all eight children/supervisors exit zero with exact output IDs. The first AR
 control supervisor failure on a stale owned KFD PID is retained separately,
 followed by a bounded retirement fix and successful fresh rerun. Final `.161`
-postflight on 2026-10-04 shows `llama-router.service` active as the sole KFD
-client (PID 96285), no LIE container and the private lease EX|NB free
-(device 66308/inode 105946405). There is no standing `.161` GPU ownership.
+postflight for those uncached pairs on 2026-10-04 shows
+`llama-router.service` active as the sole KFD client (PID 96285), no LIE
+container and the private lease EX|NB free (device 66308/inode 105946405).
+Four later RAM/opt-in SSD cache MTP/AR GPU windows also pass: each restores
+8,192 cached tokens with no hot prefill, and all cold/hot output IDs match.
+Each window restores the named service and releases its lease; 62/62 collected
+remote files verify by SHA-256. Final postflight at 01:12:44 UTC finds only
+restored router PID 101236 in KFD, no LIE container and the same private lease
+free. There is no standing `.161` GPU ownership.
 See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
 

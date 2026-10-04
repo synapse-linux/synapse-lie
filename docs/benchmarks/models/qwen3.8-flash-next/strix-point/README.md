@@ -226,6 +226,58 @@ build/point-report/synapse-lie-bench --suite report \
   --output run/point-modern-mtp-replay-r3/report-8192
 ```
 
+### RAM and opt-in SSD KV reuse with MTP
+
+Four additional original-weight `gfx1150` runs compare MTP and AR at an
+8,192-token physical prompt and 32 generated tokens, separately with a 4 GiB
+RAM cache and an explicitly enabled SSD cache (4 GiB quota, 512 MiB staging,
+zero retained RAM budget). Each run has one cold warmup followed by one hot
+measured request. The hot request restores all 8,192 tokens and performs zero
+prefill calls. RAM records one RAM hit; SSD records one SSD hit, 8,192
+SSD-cached tokens and zero SSD errors. All eight cold/hot requests have the
+same physical input and 32 output token IDs. The predictor drafts 33 and
+accepts 18 tokens per MTP request. Default SSD caching remains disabled.
+
+| Hot cache / path | Reused tokens | Prefill | Decode tok/s | Complete-wall tok/s |
+| --- | ---: | ---: | ---: | ---: |
+| RAM / AR | 8,192 | 0 | 10.407 | 10.254 |
+| RAM / MTP | 8,192 | 0 | 13.272 | 12.983 |
+| SSD / AR | 8,192 | 0 | 10.380 | 8.306 |
+| SSD / MTP | 8,192 | 0 | 13.222 | 9.939 |
+
+These are functional cache gates with one measured request per arm, not a
+statistical performance claim. The SSD read and checkpoint write remain in
+complete-wall time; the archived SSD KV metadata reports 1,068,054,635 bytes
+for AR and 1,128,102,871 bytes for MTP. The payload files remain on `.161` and
+are excluded from the portable [raw evidence archive](data/rocm10-modern-mtp-cache-r3.tar.gz).
+The [collection receipt](charts/rocm10-modern-mtp-cache-collection.json)
+binds source, binary, remote SHA-256 checks (62/62 files), exact identities,
+cache counters, temperatures and lease/service closure. The [RAM CSV](charts/rocm10-modern-mtp-ram8192/summary.csv)
+and [SSD CSV](charts/rocm10-modern-mtp-ssd8192/summary.csv) contain full
+prefill, decode, cache and wall values; the [RAM graph](charts/rocm10-modern-mtp-ram8192/benchmark.svg)
+and [SSD graph](charts/rocm10-modern-mtp-ssd8192/benchmark.svg) have PNG and
+JSON counterparts. Across these four runs, sampled CPU/GPU/NVMe peaks were
+71.25/72/71.85 C. Every child and supervisor exited 0, model and predictor
+stat identities remained unchanged, and the named service and private lease
+were restored and released. Final postflight found only the restored router
+PID 101236 in KFD, no LIE container and the private lease free.
+
+Replay the two comparisons with the native C17 reporter:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-cache-replay-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz \
+  -C run/point-modern-cache-replay-r3
+for cache in ram ssd; do
+  build/point-report/synapse-lie-bench --suite report \
+    "run/point-modern-cache-replay-r3/evidence/point-modern-r3-mtp-${cache}-p8192-r1/measurements.jsonl" \
+    --compare "run/point-modern-cache-replay-r3/evidence/point-modern-r3-ar-${cache}-p8192-r1/measurements.jsonl" \
+    --label "LIE MTP ${cache^^}" --reference-label "LIE AR ${cache^^}" \
+    --output "run/point-modern-cache-replay-r3/report-${cache}"
+done
+```
+
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
 cover the earlier ROCm 7.2 fresh physical prompts through 258,794 tokens,

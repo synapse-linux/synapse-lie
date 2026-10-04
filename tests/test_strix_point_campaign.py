@@ -279,6 +279,80 @@ class Tests(unittest.TestCase):
                 self.assertEqual(c.r['bench_result']['accepted'], 3 if mode=='mtp' else 0)
         c.m['mtp_draft_tokens'] = 8
         with self.assertRaisesRegex(ValueError, 'draft bound'): c.bench()
+    def test_modern_mtp_ram_gate_requires_a_measured_prefix_restore(self):
+        c = self.campaign('modern-ram')
+        tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-core-ram', decode_mode='mtp',
+                   bundle=str(self.base), tokens_sha256=point.sha(tokens),
+                   prompt_tokens_expected=3,
+                   runtime_build_id='rocm10-point-modern-r3-runtime',
+                   settings={'context':4096,'chunk':2048,'users':1,'tg':32,
+                             'warmups':1,'repetitions':1},
+                   model_plan={'files':[{'name':'target.gguf'}]})
+        rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                 'mode':'mtp','synthetic':False,'cache_policy':'ram',
+                 'build_id':'rocm10-point-modern-r3-runtime'},
+                {'event':'job','warmup':1,'prompt_tokens':3,'output_tokens':32,
+                 'cached_tokens':0,'mtp_drafted_tokens':4,'mtp_accepted_tokens':3},
+                {'event':'sample','warmup':1,'cache_hits':0},
+                {'event':'job','warmup':0,'prompt_tokens':3,'output_tokens':32,
+                 'cached_tokens':3,'mtp_drafted_tokens':4,'mtp_accepted_tokens':3},
+                {'event':'sample','warmup':0,'cache_hits':1},
+                {'event':'complete','exit_code':0}]
+        def run(command, _bundle, _timeout, _model):
+            self.assertEqual(command[command.index('--kv-cache-ram-mb')+1], '4096')
+            self.assertEqual(command[command.index('--kv-cache-policy')+1], 'ds4')
+            self.assertIn('--model-mtp', command)
+            (c.root/'measurements.jsonl').write_text(
+                ''.join(json.dumps(row)+'\n' for row in rows))
+        with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+             patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+             patch.object(c, 'check_model_after'), \
+             patch.object(c, 'run_container', side_effect=run):
+            c.bench()
+            self.assertEqual(c.r['bench_result']['measured_cached_tokens'], 3)
+            self.assertEqual(c.r['bench_result']['measured_cache_hits'], 1)
+            rows[3]['cached_tokens'] = 0
+            with self.assertRaisesRegex(RuntimeError, 'did not restore'):
+                c.bench()
+    def test_modern_mtp_ssd_gate_is_explicit_and_requires_disk_hit(self):
+        c = self.campaign('modern-ssd')
+        tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+        c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                   bench_profile='modern-core-ssd', decode_mode='mtp',
+                   bundle=str(self.base), tokens_sha256=point.sha(tokens),
+                   prompt_tokens_expected=3,
+                   runtime_build_id='rocm10-point-modern-r3-runtime',
+                   settings={'context':4096,'chunk':2048,'users':1,'tg':32,
+                             'warmups':1,'repetitions':1},
+                   model_plan={'files':[{'name':'target.gguf'}]})
+        def run(command, _bundle, _timeout, _model):
+            self.assertEqual(command[command.index('--kv-cache-ram-mb')+1], '0')
+            self.assertEqual(command[command.index('--kv-disk-dir')+1], '/work/kv')
+            self.assertEqual(command[command.index('--kv-disk-space-mb')+1], '4096')
+            self.assertTrue((c.root/'kv').is_dir())
+            rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                     'mode':'mtp','synthetic':False,'cache_policy':'ssd',
+                     'build_id':'rocm10-point-modern-r3-runtime'},
+                    {'event':'job','warmup':1,'prompt_tokens':3,'output_tokens':32,
+                     'cached_tokens':0,'ssd_cached_tokens':0,
+                     'mtp_drafted_tokens':4,'mtp_accepted_tokens':3},
+                    {'event':'sample','warmup':1,'ssd_hits':0,'ssd_errors':0},
+                    {'event':'job','warmup':0,'prompt_tokens':3,'output_tokens':32,
+                     'cached_tokens':3,'ssd_cached_tokens':3,
+                     'mtp_drafted_tokens':4,'mtp_accepted_tokens':3},
+                    {'event':'sample','warmup':0,'ssd_hits':1,'ssd_errors':0},
+                    {'event':'complete','exit_code':0}]
+            (c.root/'measurements.jsonl').write_text(
+                ''.join(json.dumps(row)+'\n' for row in rows))
+        with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+             patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+             patch.object(c, 'check_model_after'), \
+             patch.object(c, 'run_container', side_effect=run):
+            c.bench()
+        self.assertEqual(c.r['bench_result']['measured_ssd_cached_tokens'], 3)
+        self.assertEqual(c.r['bench_result']['measured_ssd_hits'], 1)
     def test_rocm_stack_identity_is_explicit(self):
         c = self.campaign()
         self.assertEqual(c.image_and_rocm(), (point.IMAGE, point.ROCM))
