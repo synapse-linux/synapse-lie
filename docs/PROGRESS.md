@@ -48,6 +48,14 @@ headers come independently from official commit `48b7db1`, which announces
 by SHA-256. No package is installed. The full-server build and GPU control
 remain unqualified until their own fresh leased runs.
 
+The first full-server Point build verifies the sources and passes CMake
+configuration and 235/236 object compilations, then fails at the final HIP
+executable link with Fedora's default PIE and non-PIC upstream static archives
+(`R_X86_64_32`). Its compiler child/supervisor exit 1, 13 collected files,
+restored service and free lease are preserved. A subsequent build selects an
+explicit non-PIE executable link in the private recipe; it does not change
+upstream Gufo source or install packages.
+
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
 Root integrates Point `c3e9916`, preserving the native prepared HTTP client,

@@ -19,6 +19,14 @@ sampled CPU/GPU/NVMe maxima are 63.875/66/65.85 C and the router/lease are
 restored/released. No standing ownership follows; Gufo and larger cohorts
 require separate admissions.
 
+The separate device-free official Gufo `gfx1150` full-server build r1 on `.161`
+verifies the 1,019-file upstream pin and 116-file rocWMMA 2.2.0 staging,
+configures and compiles 235 objects, then fails the final HIP executable link
+on Fedora PIE versus non-PIC static archives. Compiler child/supervisor exit 1;
+13 collected files hash-verify, CPU peaks at 86.875 C under 98 C, the router
+is restored and the lease free. An explicit non-PIE link needs a new build
+window. This failure is retained; no Gufo GPU control has started.
+
 ## Seeded shared-core window released — 2026-10-04 UTC
 
 Root accepts Q2's canonical curve release at 01:33:37 UTC and independently

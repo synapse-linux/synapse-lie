@@ -127,6 +127,7 @@ def main():
                           '-DCMAKE_HIP_ARCHITECTURES=gfx1150',
                           '-DCMAKE_CXX_FLAGS=-include chrono',
                           '-DCMAKE_HIP_FLAGS=-include chrono',
+                          '-DCMAKE_EXE_LINKER_FLAGS=-no-pie',
                           '-DGUFO_REVISION='+PIN,
                           '-DROCWMMA_INCLUDE_DIR=/wmma/include'], 900)
         run('link', ['cmake', '--build', str(build), '--target', 'gufo',
