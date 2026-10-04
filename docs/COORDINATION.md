@@ -1,7 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at 2026-10-04T23:08:53.407509Z after one diagnostic
+Latest Q2 window is released at 2026-10-04T23:51:12.818938Z after the new grouped
+Q8 component and only its new original exact2048/tg128 model. Command exits are
+0/0/0 and 0/0/0/0; four component and 26 model artifacts verify. No qualified
+comparator or old component cohort rerun, full curve or cleanup occurs. New PP
+1495.403157 adds no observed gain over saved parent 1496.830907; all 21 model
+input/output/logit files are exact to the parent. Closure verifies 584 recorded
+identities / 457 groups absent, empty KFD, four original leases free and six
+unchanged model stat tuples. Main/remote release and active/ready mirrors are
+identical, and core acknowledges. No Q2 GPU job, reservation, waiter, restart
+or cleanup remains. Later GPU work needs fresh admission.
+[Release](../config/q2-q8-grouped-window-release.json), SHA256
+`5f9870a0d33b98de64236275a9b69b5ddf6802cb52d91f2efb6ed88da2183e00`.
+
+Previous Q2 window is released at 2026-10-04T23:08:53.407509Z after one diagnostic
 trace of the saved MoE candidate, same original2048 input and no compilation.
 All five commands exit0 and24 artifacts verify. No new benchmark headline,
 qualified comparator/component rerun or curve. Closure verifies568 recorded

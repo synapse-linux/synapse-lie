@@ -586,13 +586,13 @@ cycle regresses 42.973%; no model is selected. Unchanged FP64 limits pass at
 Graphs and all samples are saved; the .157 window is released. Fixed-model
 PP remains 1477.969324 against UD 1685.777092.
 
-The [current rejected-family recovery audit](config/q2-rejected-recovery-status.json)
+The [current rejected-family recovery audit](config/q2-rejected-recovery-moe-update.json)
 verifies all nineteen original report hashes: fifteen candidate records represent
 eleven families, alongside four host/status reports. Five mechanisms already
-belong to fixed Q2, three families have new measured compositions, one has measured
-cycle regressions, and two selective integrations remain pending. Only shared-Q8
+belong to fixed Q2, four families have new measured compositions, one has measured
+cycle regressions, and one selective integration remains pending. Only shared-Q8
 has a confirmed false format-rejection cause. This does not establish nineteen
-independent gains or parity; best PP still needs 14.060% higher throughput for UD.
+independent gains or parity; best PP still needs 12.623% higher throughput for UD.
 
 A [new MoE-only deferred-norm composition](docs/Q2-HC-MOE-DEFERRED.md) integrates
 one pending family into the best measured provider. It reuses HC-gate scratch
@@ -616,3 +616,13 @@ keeping reactive concurrency and serving gains separate. Complete stage/kernel/
 routing CSVs and a graph are retained. The shortened diagnostic decode does
 not replace the fixed pp2048/tg128 result1496.830907/25.17435733; quality and
 the complete context-curve target remain. The .157 window is released.
+
+A [grouped Q8 decode/store experiment](docs/Q2-Q8-GROUPED.md) now tests that
+diagnosis. Its new operator passes 12 complete output comparisons and saves
+2.280% SSM / 1.208% output-projection time, but the original exact2048/tg128
+model measures **1495.403157 PP / 25.16620404 TG**, within the saved parent's
+sample range. No whole-model gain is observed. All 21 model input/output/logit
+files match the parent byte-for-byte. The best measured composition remains
+**1496.830907 PP**, against unchanged fixed UD **1685.777092**. The variant and
+all samples remain available without promotion; only new candidate runs occur,
+no qualified comparator rerun or full curve. The `.157` window is released.

@@ -1,6 +1,40 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Grouped Q8 measured on the original fixed model — 2026-10-04 UTC
+
+Only the new Q8 grouped candidate is built and run on `.157`; no qualified
+Q2/UD/parent model or old component cohort is rerun. The source changes one
+of 1025 provider files and decodes/stores eight signed Q8 codes at a time,
+retaining the original numerical operations and LDS addresses. A compiler
+scheduling barrier adds no GPU stream synchronization or reactive policy.
+Static instructions rise by 40; the SSM kernel retains 222 VGPRs, 49152 LDS
+bytes and zero private bytes/thread. No instruction-count gain is claimed.
+
+Host Debug and ASan/UBSan pass 24/24 each. The new literal-parent differential
+component passes 12/12 complete outputs with 28 retained timings and exits
+0/0/0. Weight rotations exceed MALL; SSM median time falls 2.279684% and output
+projection 1.208064%. The original exact2048/tg128 model then measures
+1497.493010 / 1494.494113 / 1495.403157 PP; median 1495.403157 differs by
+-0.095385% versus saved MoE parent 1496.830907. Ranges overlap, and a whole-model
+gain is not observed. TG is 25.16620404. All 21 input/output/logit files are
+byte-exact to the parent and nine within-arm replays pass. Inherited differences
+to original Q2 remain; independent model quality is still open.
+
+The best measured composition remains 1496.830907 PP, +3.682139% over fixed
+Q2 and needing +12.623081% throughput for fixed UD 1685.777092. The candidate
+is retained without promotion; no full curve is run. Nineteen original report
+hashes verify again, but they represent eleven candidate families rather than
+nineteen independent gains or confirmed false failures. Selective scaled-tile
+integration remains the pending recovered family.
+
+All four new model exits are zero; 26 artifacts, 26 fixtures and 1025 sources
+verify. Release at 23:51:12.818938Z checks 584 identities / 457 groups retired,
+empty KFD, four original leases free and six unchanged model stats. Core
+acknowledges the release; no Q2 GPU job/reservation/waiter/restart/cleanup remains.
+All new and saved samples and the graph are exported.
+[Complete values, replay and source](Q2-Q8-GROUPED.md).
+
 ## Saved best-candidate diagnosis identifies remaining costs — 2026-10-04 UTC
 
 One installed-rocprof trace reuses the measured MoE binary and the same
