@@ -1,0 +1,26 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4241,6 +4241,13 @@
+   const int half_id = lane_id >> 4;
+   constexpr int kRows = kPair ? BM / 2 : BM;
+   const int r_block = static_cast<int>(blockIdx.x) * kRows;
++  // DeepSeek's IQ2 loaders stage this 2 KiB codebook once per workgroup.
++  // Adapt only its storage: signed bytes and every floating operation stay.
++  __shared__ uint2 iq2_grid_lds[kIQ2 && kPair ? 256 : 1];
++  if constexpr (kIQ2 && kPair) {
++    iq2_grid_lds[tid] = reinterpret_cast<const uint2*>(iq2xxs_grid)[tid];
++    __syncthreads();
++  }
+ 
+   // Weight fetch: unit u of a thread is (row = tid / 2 + 128 u, chunk c =
+   // tid % 2). Q4_K: the two 16-byte halves of one 32-byte nibble group (two
+@@ -4337,7 +4344,8 @@
+           const unsigned code = (group.x >> (8 * part)) & 255U;
+           const unsigned sign = (group.y >> (7 * part)) & 127U;
+           const uint2 magnitude =
+-              reinterpret_cast<const uint2*>(iq2xxs_grid)[code];
++              kPair ? iq2_grid_lds[code]
++                    : reinterpret_cast<const uint2*>(iq2xxs_grid)[code];
+           const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+           signed_codes[part] =
+               make_uint2((magnitude.x ^ mask.x) + (mask.x & 0x01010101U),

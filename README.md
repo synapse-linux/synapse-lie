@@ -31,6 +31,16 @@ UD at every point. The graph retains both controls, the candidate and UD,
 with all 32 observations and complete request durations in the CSV. The broader
 latency, concurrency, resource and quality acceptance gates remain open.
 
+The [exact historical counting replay](docs/Q2-COUNTING-REGRESSION.md) confirms
+1435.999/1440.579/1443.673 PP for old/ordered/mixed Q2, against 1685.777 for fresh
+UD. Every saved Q2 output and logit file remains exact. The old 1439 result is
+reproduced on its original repetitive input; it is not a canonical prose rate.
+The complete four-arm graph includes all measured sessions and warmups.
+
+The [latest DeepSeek prefill audit](docs/Q2-IQ2-PREFILL-REUSE.md) prepares
+isolated shared-codebook and block-scale reuse probes. Both compile, with
+register/LDS tradeoffs recorded; neither has GPU qualification or a speed claim.
+
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
 no stable additional PLE gain: at 128K candidate/control PP is 1156.229/1154.364,

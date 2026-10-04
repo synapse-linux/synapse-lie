@@ -1,16 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## Historical 1439-token/s regression replay prepared — 2026-10-04
+## Further DeepSeek prefill reuse probes prepared — 2026-10-04
 
-The exact old counting tester is recovered from its retained source archive,
-with byte-identical marker code and both original provider inventories verified.
-Four fixed modes compare old Q2, ordered IQ2, mixed maps and UD with this same
-tester, full MMQ rebuilds and the original warmup/measurement/timer contract.
-The new guards pass 22/22 Debug and 22/22 ASan/UBSan on .157; no GPU model arm
-has yet been admitted. [Scope and source identities](Q2-COUNTING-REGRESSION.md).
-This checks preservation of the old result, without replacing the canonical
-curve or reducing the broader acceptance target.
+The new audit prepares separate IQ2 codebook-LDS and superblock-scale reuse
+patches, each changing one file of the measured ordered provider. Matched local
+gfx1151 assembly succeeds with unchanged non-IQ2 bodies and zero scratch.
+Codebook staging adds 2 KiB LDS and raises BN128 VGPR from 148 to 169; scale
+reuse adds one VGPR. These tradeoffs are retained, with no runtime or speedup
+claim. Existing wide affine stores and per-token narrowing are already present.
+[Source identities, static values and next GPU gates](Q2-IQ2-PREFILL-REUSE.md).
+The core thread owns the requested canonical bench C integration; no core
+source is changed by this Q2 workstream.
+
+## Historical 1439-token/s result reproduced — 2026-10-04
+
+The exact historical counting tester completes with fresh Q2 old/ordered/mixed
+PP medians 1435.999/1440.579/1443.673 token/s, versus UD 1685.777. All 21 saved
+files in each Q2 comparison are byte-identical. The old source replays within
+−0.227% of its historical 1439.264 result; ordered decode improves 4.237% against
+the fresh old source. No prefill collapse reproduces on this workload.
+The counting input has 2009 identical tokens out of 2048; it is distinct from
+canonical prose. The separate curve's gap remains and cannot be blamed on
+HTTP transport, which its PP timer excludes.
+
+All 16 model command exits are zero and 104 artifacts verify. Both host cohorts
+pass 22/22 Debug and 22/22 ASan/UBSan. The initial CMake configure failure is
+preserved with exit 1/no model access and corrected in checkpoint `e033d08`.
+Fresh release at 10:59:08 UTC checks retirement, empty KFD, original leases and
+model stats. [Full table, graph, all samples and limits](Q2-COUNTING-REGRESSION.md).
+Independent model quality and the full Q2/UD acceptance target remain open.
 
 ## Mixed IQ2 canonical comparison complete; parity remains open — 2026-10-04
 

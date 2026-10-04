@@ -6,7 +6,29 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at 2026-10-04T10:16:14.814706+00:00** after all
+Latest Q2 window: **released at 2026-10-04T10:59:08.481566+00:00** after all
+four historical counting arms. Their 16 command exits are zero and 104 artifacts
+verify. Both host cohorts and the initial configure failure (exit 1, no model)
+remain in the closure audit. Fresh checks retire 106 identities and 79 groups,
+verify empty KFD, four unchanged original leases free and six original model
+stat tuples unchanged. Remote/main release/active/ready and the registry record
+closure. [Release](../config/q2-counting-regression-window-release.json) SHA256
+`0b931377b0fcbbb43302047f5172a44fa5cfc34b75792e66ec2bb4cb4089312f`.
+Core is notified. No Q2 GPU reservation, job, observer, waiter or restart remains.
+No cleanup occurs on .157. Further DeepSeek prefill probes are local source and
+static device-assembly preparation only; they have no GPU admission.
+
+Previous Q2 window: **admitted at 2026-10-04T10:30:08.545635+00:00** for
+four frozen historical counting replays. Admission verifies retired process
+groups, empty KFD, four unchanged free leases and six original model stat tuples.
+The initial CMake attempt is preserved with exit 1 and no model access; after
+fixture-root correction, host-r2 again passes 22/22 Debug and 22/22 ASan/UBSan.
+The amended plan replaces only the failed legacy label with legacy-r2. Source
+checkpoint `e033d08` retains the correction. Core is notified, all arms remain
+sequential and no remote cleanup occurs. [Admission](../config/q2-counting-regression-window-admission.json),
+[amended plan](../config/q2-counting-regression-plan.json).
+
+Previous Q2 window: **released at 2026-10-04T10:16:14.814706+00:00** after all
 four mixed-map canonical curves. All 20 model commands exit zero and 120 model
 artifacts verify; the two complete Q2 history comparisons are exact. Fresh
 closure checks 70 recorded identities and 50 groups retired, empty KFD, four

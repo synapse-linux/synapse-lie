@@ -35,6 +35,13 @@ def main():
     require(not args.output.exists(), 'Refusing to overwrite results')
     plan = read(ROOT/'config/q2-counting-regression-plan.json')
     harness = read(ROOT/'config/q2-counting-harness.json')
+    for failure in plan['retained_preparation_failures']:
+        path = ROOT/'evidence'/failure['label']
+        receipt = read(path/'results/result.json')
+        require(audit.digest(path/'results/result.json') == failure['result_sha256'] and
+                receipt['state'] == failure['state'] and not receipt['model_access'] and
+                receipt['commands'][-1]['exit_code'] == failure['exit_code'],
+                'Preparation failure evidence changed')
     host_path = ROOT/'evidence'/plan['host']
     host = curve.artifacts(host_path)
     require(host['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and
@@ -104,6 +111,7 @@ def main():
     report = dict(schema='synapse-lie.q2-counting-regression.v1',
         scope=harness['scope'], model=models, historical=old, replay=replay,
         histories_exact=histories_exact, median_change_percent=changes,
+        retained_preparation_failures=plan['retained_preparation_failures'],
         promoted=False, goal_met=False, independent_model_quality=False,
         limits='Historical counting regression check only. Sequential arms, three measurements each; no canonical HTTP, broad-context or statistical zero-margin acceptance.')
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False)+'\n')

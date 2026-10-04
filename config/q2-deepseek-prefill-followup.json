@@ -1,0 +1,57 @@
+{
+  "schema": "synapse-lie.q2-deepseek-prefill-followup.v1",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_files": {
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_iq2_gate.hip.hpp": "5c746c5836f129c0da3220e9bf2a0e71de82d64db104e5c8edd7cd1a129d3f5b",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_q2_down.hip.hpp": "2e98e7c172e430ea61a64bbf76bcb2d637051377a2513628d1e2a7f4eeb8d77f",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/detail/ds4_rocm_moe_launch.hip.hpp": "37532a73bedf10ff193ef940aa27fb1c7c884017871ef81e0103d336ff50ebb2",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq.hip.cpp": "337cdb8ad2a6779adaab3839ef89c38b53dbd0c8480621d488da06322c5492de"
+  },
+  "qwen_files": {
+    ".deps/gufo-q2-curve-iq2-signs-ordered-asm/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "c814538cb15699f3c0ace8d4abc4773efc6d9bbf78c0e2a663fc4554f0d0b331",
+    ".deps/gufo-q2-curve-iq2-signs-ordered-asm/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "971ba0a95ef30820920f2e9d90c8e29bc3f62fd1cd4aeea7b5c82b68de8738c8",
+    ".deps/gufo-q2-curve-iq2-signs-ordered-asm/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "24d259a90bbe6130240ca80576274864abd3f014d4e999b0078fca2aa1db45c1"
+  },
+  "findings": [
+    {
+      "id": "iq2-grid-lds",
+      "status": "prepared_static_only",
+      "mechanism": "Adapt DeepSeek IQ2 shared codebook to paired Qwen prefill; 2 KiB extra LDS, tile128 VGPR148->169, no scratch."
+    },
+    {
+      "id": "iq2-scale-reuse",
+      "status": "prepared_static_only",
+      "mechanism": "Reuse one IQ2 superblock scale over four K stages, preserving scale arithmetic order; extra VGPR1."
+    },
+    {
+      "id": "live-activation-stage",
+      "status": "previously_prepared_static_only",
+      "mechanism": "Existing separate candidate omits stores for wholly unread 16-row fragments; no GPU result yet."
+    },
+    {
+      "id": "affine-wide-store",
+      "status": "already_emitted",
+      "mechanism": "Qwen Q2 scaled active kernel already emits ds_store_2addr_stride64_b64 for two affine pairs; replacing scalar source stores with float2 is not a demonstrated missing optimization."
+    },
+    {
+      "id": "token-compact-activation",
+      "status": "already_present_in_active_path",
+      "mechanism": "Qwen caches NarrowActivations per token matrix and routes via rows_token; avoid claiming a new top-k-fold reduction."
+    },
+    {
+      "id": "ds4-mmq-prefill",
+      "status": "not_a_drop_in",
+      "mechanism": "Active DeepSeek large IQ2 prompt path uses MMQ Q8 activations; Qwen current custom F16 path differs. Existing original-MMQ regressions and numerical comparisons must be retained."
+    },
+    {
+      "id": "d2r-direct-fused",
+      "status": "unavailable_on_current_hip",
+      "mechanism": "Prior audited HIP D2R entry points are stubs; CUDA direct-fused producer hooks are not a functioning gfx1151 path."
+    }
+  ],
+  "sibling_imports": false,
+  "gpu_execution": false,
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false
+}
