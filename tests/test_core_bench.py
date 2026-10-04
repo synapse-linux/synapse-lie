@@ -46,6 +46,36 @@ class CoreBench(unittest.TestCase):
             refused=subprocess.run(command[:-1]+['--reactive-probe','--reactive-probe'],
                                    capture_output=True,text=True,timeout=15)
             self.assertEqual(refused.returncode,2)
+    def test_reactive_probe_mtp_bursts_and_failed_peer_cleanup(self):
+        with tempfile.TemporaryDirectory(prefix='lie-core-reactive-mtp-') as tmp:
+            root=Path(tmp);source=root/'tokens.json';source.write_text(json.dumps([0,1,2,3]))
+            base=[BINARY,'--suite','core','--tokens-file',str(source),
+                  '--context','128','--chunk','4','--users','2','--tg','32',
+                  '--warmups','0','--repetitions','1','--kv-cache-ram-mb','0',
+                  '--timeout-ms','30000','--reactive-probe']
+            for name,predictor in [('mtp',':fixture:'),('wide-mtp',':wide-fixture:')]:
+                with self.subTest(predictor=predictor):
+                    output=root/(name+'.jsonl')
+                    p=subprocess.run(base+['--model',':fixture:','--model-mtp',predictor,
+                                           '--output',str(output)],capture_output=True,text=True,timeout=15)
+                    self.assertEqual(p.returncode,0,p.stderr)
+                    rows=[json.loads(line) for line in output.read_text().splitlines()]
+                    probe=next(row for row in rows if row['event']=='reactive')
+                    self.assertGreater(probe['mtp_accepted_delta'],0)
+                    self.assertEqual(probe['peer_output_tokens'],32)
+                    self.assertEqual(probe['held_output_blocked'],1)
+                    self.assertEqual(probe['completed_delta'],1)
+                    self.assertEqual(probe['cancelled_delta'],1)
+                    self.assertEqual(rows[-1],{'event':'complete','exit_code':0})
+            for model in [':eos:',':failure:']:
+                with self.subTest(model=model):
+                    output=root/(model.strip(':')+'.jsonl')
+                    p=subprocess.run(base+['--model',model,'--output',str(output)],
+                                     capture_output=True,text=True,timeout=15)
+                    self.assertEqual(p.returncode,1,p.stderr)
+                    rows=[json.loads(line) for line in output.read_text().splitlines()]
+                    self.assertEqual(rows[-1]['event'],'failed')
+                    self.assertFalse(any(row['event']=='reactive' for row in rows))
     def test_model_load_error_is_preserved(self):
         with tempfile.TemporaryDirectory(prefix='lie-core-load-failure-') as tmp:
             p,path=self.run_case(tmp,model=':load-failure:')

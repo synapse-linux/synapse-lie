@@ -16,6 +16,10 @@ SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
 FILES = {
     'bench': ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
               'telemetry.jsonl', 'stdout.log', 'stderr.log'),
+    'distrobox-bench': ('manifest.json', 'runner.py', 'result.json',
+                       'measurements.jsonl', 'telemetry.jsonl', 'stdout.log',
+                       'stderr.log', 'distrobox-create.log',
+                       'distrobox.stdout.log', 'distrobox.stderr.log'),
     'diagnostic': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
                    'stdout.log', 'stderr.log'),
     'image-build': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',

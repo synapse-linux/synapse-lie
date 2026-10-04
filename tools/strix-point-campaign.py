@@ -13,9 +13,11 @@ import os
 from pathlib import Path
 import re
 import signal
+import struct
 import subprocess
 import sys
 import time
+import zlib
 
 BASE = Path('/home/pop/workspace/synapse-lie')
 SERVICE = 'llama-router.service'
@@ -41,6 +43,22 @@ THERMAL_OVERRIDE_QUOTE = ('la gpu arriva a 100 gradi senza problemi ed è import
                           'testare la sua capacità, non limitarsi a 85*')
 CPU_GUARD_QUOTE = 'è la CPU che deve avere il guard, non la gpu'
 CPU_GUARD_POLICY = 'cpu-98-nvme-85-gpu-observe-v1'
+VISION_PROMPT = 'Describe the main color and shape shown in the image in one sentence.'
+
+def vision_fixture_png():
+    """An owned 224x224 white canvas with a central red square."""
+    width = height = 224
+    raw = bytearray()
+    for y in range(height):
+        raw.append(0)  # PNG filter: none
+        for x in range(width):
+            raw.extend((220, 24, 24) if 32 <= x < 192 and 32 <= y < 192 else (255, 255, 255))
+    def chunk(kind, data):
+        return (struct.pack('>I', len(data)) + kind + data +
+                struct.pack('>I', zlib.crc32(kind+data)))
+    return (b'\x89PNG\r\n\x1a\n' +
+            chunk(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 2, 0, 0, 0)) +
+            chunk(b'IDAT', zlib.compress(raw, 9)) + chunk(b'IEND', b''))
 
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def kfd_group(): return Path('/dev/kfd').stat().st_gid
@@ -284,10 +302,14 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-http') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
+        if self.m.get('bench_profile') == 'modern-core-vision':
+            projector = checked_path(self.m['projector_plan']['destination'])
+            create[create.index('--additional-flags'):create.index('--additional-flags')] = [
+                '--volume', str(projector)+':/vision:ro']
         env = dict(os.environ, DBX_CONTAINER_MANAGER='docker', DBX_NON_INTERACTIVE='1')
         self.sample()
         with (self.root/'distrobox-create.log').open('x') as log:
@@ -610,6 +632,21 @@ class Campaign:
                 any(current[k] != staged[k] for k in current)):
             raise RuntimeError('Predictor identity drift before launch')
         return path, current
+    def verified_projector(self):
+        plan = self.m['projector_plan']
+        directory = checked_path(plan['destination'])
+        source = json.loads((directory/'SOURCE.json').read_text())
+        if source['result']['state'] != 'VERIFIED' or source['plan'] != plan or len(plan['files']) != 1:
+            raise RuntimeError('Pinned projector staging receipt mismatch')
+        expected, staged = plan['files'][0], source['result']['files'][0]
+        path = checked_path(directory/expected['name'])
+        st = path.stat()
+        current = {'path': str(path), 'bytes': st.st_size, 'device': st.st_dev,
+                   'inode': st.st_ino, 'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns}
+        if (staged.get('sha256') != expected['sha256'] or
+                any(current[k] != staged[k] for k in current)):
+            raise RuntimeError('Projector identity drift before launch')
+        return path, current
     def check_model_after(self, rows):
         after = []
         for before in rows:
@@ -647,6 +684,8 @@ class Campaign:
             return self.modern_http_gate()
         if profile == 'modern-core-ssd-restart':
             return self.modern_ssd_restart_gate()
+        if profile == 'modern-core-vision':
+            return self.modern_vision_bench()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
@@ -811,6 +850,86 @@ class Campaign:
             if (self.root/'measurements.jsonl').exists():
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                            'bytes': (self.root/'measurements.jsonl').stat().st_size}
+            self.check_model_after(rows)
+    def modern_vision_bench(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern vision benchmark requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern vision mode must be ar or mtp')
+        settings = self.m.get('settings')
+        if settings != {'context':8192,'chunk':2048,'users':1,'tg':32,
+                        'warmups':0,'repetitions':1}:
+            raise ValueError('Expected bounded modern vision C1 settings')
+        image = vision_fixture_png()
+        prompt = VISION_PROMPT.encode()
+        if (hashlib.sha256(image).hexdigest() != self.m.get('vision_fixture_sha256') or
+                hashlib.sha256(prompt).hexdigest() != self.m.get('vision_prompt_sha256')):
+            raise ValueError('Vision fixture or prompt identity mismatch')
+        image_path = self.root/'image.png'
+        prompt_path = self.root/'prompt.txt'
+        with image_path.open('xb') as output: output.write(image)
+        with prompt_path.open('xb') as output: output.write(prompt)
+        model, rows = self.verified_model()
+        projector, witness = self.verified_projector()
+        rows.append(witness)
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR vision benchmark must not admit a predictor')
+        command = ['/bundle/runtime/bin/synapse-lie-bench', '--suite', 'core',
+                   '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--model-vision', '/vision/'+projector.name,
+                   '--image-file', '/work/image.png', '--prompt-file', '/work/prompt.txt',
+                   '--output', '/work/measurements.jsonl', '--kv-cache-ram-mb', '0',
+                   '--timeout-ms', '3600000']
+        for key in ('context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'):
+            command.extend(('--'+key, str(settings[key])))
+        if predictor:
+            command.extend(('--model-mtp', '/mtp/'+predictor.name,
+                            '--mtp-draft-tokens', str(self.m.get('mtp_draft_tokens', 7))))
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 3600, model)
+            measurements = [json.loads(line) for line in (self.root/'measurements.jsonl').read_text().splitlines()]
+            if not measurements or measurements[-1] != {'event':'complete','exit_code':0}:
+                raise RuntimeError('Incomplete modern vision benchmark')
+            identity = measurements[0]
+            if (identity.get('schema') != 'synapse-lie.core-bench.v1' or
+                    identity.get('mode') != ('mtp+vision' if predictor else 'vision') or
+                    identity.get('synthetic') is not False or
+                    identity.get('input_kind') != 'messages-with-image' or
+                    identity.get('image_sha256') != self.m['vision_fixture_sha256'] or
+                    identity.get('vision_model') != '/vision/'+projector.name or
+                    identity.get('cache_policy') != 'off' or
+                    identity.get('build_id') != self.m.get('runtime_build_id')):
+                raise RuntimeError('Unexpected modern vision benchmark identity')
+            inputs = [row for row in measurements if row.get('event') == 'input']
+            jobs = [row for row in measurements if row.get('event') == 'job']
+            samples = [row for row in measurements if row.get('event') == 'sample']
+            if (len(inputs) != 1 or len(jobs) != 1 or len(samples) != 1 or
+                    inputs[0].get('prompt_tokens', 0) < 1 or
+                    not 0 < jobs[0].get('output_tokens', 0) <= settings['tg'] or
+                    jobs[0].get('prefill_tokens', 0) < 1 or
+                    len(jobs[0].get('output_ids', [])) != jobs[0]['output_tokens'] or
+                    (mode == 'mtp' and jobs[0].get('mtp_accepted_tokens', 0) < 1) or
+                    (mode == 'ar' and (jobs[0].get('mtp_drafted_tokens') or
+                                       jobs[0].get('mtp_accepted_tokens')))):
+                raise RuntimeError('Incomplete original-weight vision output')
+            self.r['bench_result'] = {'profile':'modern-core-vision','mode':mode,
+                                      'prompt_tokens':inputs[0]['prompt_tokens'],
+                                      'physical_ids_sha256':inputs[0]['physical_ids_sha256'],
+                                      'output_ids':jobs[0]['output_ids'],
+                                      'output_tokens':jobs[0]['output_tokens'],
+                                      'mtp_accepted_tokens':jobs[0].get('mtp_accepted_tokens', 0),
+                                      'measurements_sha256':sha(self.root/'measurements.jsonl')}
+        finally:
+            if (self.root/'measurements.jsonl').exists():
+                self.r['bench_partial'] = {'measurements_sha256':sha(self.root/'measurements.jsonl'),
+                                           'bytes':(self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
     def modern_http_gate(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':

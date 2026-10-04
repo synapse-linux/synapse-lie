@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 """CPU-only ownership/restore fixtures. Commands and observations are mocked."""
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -359,6 +360,48 @@ class Tests(unittest.TestCase):
                     c.m['settings']['users'] = 1
                     with self.assertRaisesRegex(ValueError, 'C2'):
                         c.bench()
+    def test_modern_vision_gate_uses_pinned_image_and_real_output(self):
+        fixture = point.vision_fixture_png()
+        self.assertEqual(fixture[:8], b'\x89PNG\r\n\x1a\n')
+        self.assertEqual(hashlib.sha256(fixture).hexdigest(),
+                         '93fb5acb49b2a7f77581f957663f3e4572ccb1dbd8f496dcc163f6eca5c8b76e')
+        for mode in ('ar', 'mtp'):
+            with self.subTest(mode=mode):
+                c = self.campaign('modern-vision-'+mode)
+                c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                           bench_profile='modern-core-vision', decode_mode=mode,
+                           bundle=str(self.base), runtime_build_id='rocm10-point-modern-r4-runtime',
+                           model_plan={'files':[{'name':'target.gguf'}]},
+                           projector_plan={'files':[{'name':'projector.gguf'}]},
+                           vision_fixture_sha256=hashlib.sha256(fixture).hexdigest(),
+                           vision_prompt_sha256=hashlib.sha256(point.VISION_PROMPT.encode()).hexdigest(),
+                           settings={'context':8192,'chunk':2048,'users':1,'tg':32,
+                                     'warmups':0,'repetitions':1})
+                if mode == 'mtp': c.m['predictor_plan'] = {'files':[{'name':'mtp.gguf'}]}
+                def run(command, _bundle, _timeout, _model):
+                    self.assertEqual(command[command.index('--model-vision')+1], '/vision/projector.gguf')
+                    self.assertEqual('--model-mtp' in command, mode == 'mtp')
+                    self.assertEqual((c.root/'image.png').read_bytes(), fixture)
+                    self.assertEqual((c.root/'prompt.txt').read_text(), point.VISION_PROMPT)
+                    rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1',
+                             'mode':'mtp+vision' if mode=='mtp' else 'vision',
+                             'synthetic':False,'input_kind':'messages-with-image',
+                             'image_sha256':c.m['vision_fixture_sha256'],
+                             'vision_model':'/vision/projector.gguf','cache_policy':'off',
+                             'build_id':'rocm10-point-modern-r4-runtime'},
+                            {'event':'input','prompt_tokens':150,'physical_ids_sha256':'a'*64},
+                            {'event':'job','output_tokens':2,'prefill_tokens':150,
+                             'output_ids':[4,5],'mtp_accepted_tokens':1 if mode=='mtp' else 0,
+                             'mtp_drafted_tokens':2 if mode=='mtp' else 0},
+                            {'event':'sample'}, {'event':'complete','exit_code':0}]
+                    (c.root/'measurements.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+                with patch.object(c, 'verified_model', return_value=(self.base/'model', [])), \
+                     patch.object(c, 'verified_projector', return_value=(self.base/'projector.gguf', {})), \
+                     patch.object(c, 'verified_predictor', return_value=(self.base/'mtp.gguf', {})), \
+                     patch.object(c, 'check_model_after'), \
+                     patch.object(c, 'run_container', side_effect=run):
+                    c.bench()
+                    self.assertEqual(c.r['bench_result']['output_ids'], [4,5])
     def test_modern_mtp_ssd_gate_is_explicit_and_requires_disk_hit(self):
         c = self.campaign('modern-ssd')
         tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
