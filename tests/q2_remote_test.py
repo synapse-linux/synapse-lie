@@ -689,7 +689,9 @@ class EpilogueCycleReportTests(unittest.TestCase):
         for variant, manifest in (
                 ('iq2-live-epilogue', 'q2-iq2-live-epilogue-source.json'),
                 ('iq2-epilogue-break', 'q2-iq2-epilogue-break-source.json'),
-                ('iq2-live-stage', 'q2-iq2-live-stage-source.json')):
+                ('iq2-live-stage', 'q2-iq2-live-stage-source.json'),
+                ('iq2-prefill-scale-reuse', 'q2-iq2-prefill-scale-reuse-source.json'),
+                ('iq2-prefill-grid-lds', 'q2-iq2-prefill-grid-lds-source.json')):
             self.assertEqual(self.report.source_manifest(variant, True), manifest)
             with self.assertRaises(ValueError):
                 self.report.source_manifest(variant, False)

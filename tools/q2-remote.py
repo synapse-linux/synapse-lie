@@ -18,7 +18,8 @@ COMBINED_VARIANTS = ('combined-retained', 'combined-scaled')
 ORIGINAL_BASELINE_MODES = ('q2-original-baseline', 'ud-original-baseline')
 SIGN_VARIANTS = ('iq2-signs-reference', 'iq2-signs-candidate', 'iq2-signs-ordered')
 WMMA_SIGN_VARIANTS = ('iq2-wmma-reference', 'iq2-wmma-signs')
-EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogue-break', 'iq2-live-stage')
+EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogue-break', 'iq2-live-stage',
+                     'iq2-prefill-scale-reuse', 'iq2-prefill-grid-lds')
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
 CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed')
 CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2')
@@ -300,7 +301,9 @@ def main():
             if actual != manifest['files']:
                 p.error('IQ2 mixed tiles provider inventory changed')
         if args.mode in ('iq2-wmma-signs-check', 'iq2-live-epilogue-check'):
-            manifest = ('q2-iq2-live-stage-source.json' if args.source_variant == 'iq2-live-stage'
+            manifest = ('q2-iq2-prefill-scale-reuse-source.json' if args.source_variant == 'iq2-prefill-scale-reuse'
+                        else 'q2-iq2-prefill-grid-lds-source.json' if args.source_variant == 'iq2-prefill-grid-lds'
+                        else 'q2-iq2-live-stage-source.json' if args.source_variant == 'iq2-live-stage'
                         else 'q2-iq2-epilogue-break-source.json' if args.source_variant == 'iq2-epilogue-break'
                         else 'q2-iq2-live-epilogue-source.json' if args.mode == 'iq2-live-epilogue-check'
                         else 'q2-iq2-wmma-signs-source.json')
@@ -309,7 +312,8 @@ def main():
             if file_sha256(parent_path) != info['parent_manifest_sha256']:
                 p.error('IQ2 WMMA ordered parent changed')
             parent = json.loads(parent_path.read_text())
-            candidate = args.source_variant in ('iq2-wmma-signs', 'iq2-live-epilogue', 'iq2-epilogue-break', 'iq2-live-stage')
+            candidate = args.source_variant in ('iq2-wmma-signs', 'iq2-live-epilogue', 'iq2-epilogue-break', 'iq2-live-stage',
+                                                 'iq2-prefill-scale-reuse', 'iq2-prefill-grid-lds')
             source = info['candidate'] if candidate else info['base']
             if info['base'] != parent['candidate']:
                 p.error('IQ2 WMMA reference must preserve ordered decode')

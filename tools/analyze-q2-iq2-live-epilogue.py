@@ -157,7 +157,9 @@ def source_manifest(variant, candidate):
         return 'q2-iq2-signs-ordered-asm-source.json'
     manifests = {'iq2-live-epilogue': 'q2-iq2-live-epilogue-source.json',
                  'iq2-epilogue-break': 'q2-iq2-epilogue-break-source.json',
-                 'iq2-live-stage': 'q2-iq2-live-stage-source.json'}
+                 'iq2-live-stage': 'q2-iq2-live-stage-source.json',
+                 'iq2-prefill-scale-reuse': 'q2-iq2-prefill-scale-reuse-source.json',
+                 'iq2-prefill-grid-lds': 'q2-iq2-prefill-grid-lds-source.json'}
     require(variant in manifests, 'Wrong candidate provider')
     return manifests[variant]
 
@@ -218,6 +220,8 @@ def main():
     for name in ('host', 'reference', 'candidate'):
         p.add_argument(name, type=Path)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--host-tests', type=int, choices=(21, 22), default=21,
+                   help='Exact qualified Debug and sanitizer test count for this cohort')
     args = p.parse_args()
     require(not args.output.exists(), 'Refusing to overwrite retained evidence')
     provenance = verify_routing_provenance()
@@ -226,7 +230,7 @@ def main():
             len(host['commands']) == 6 and host['model_access'] is False,
             'Missing successful host qualification')
     for name in ('03.log', '06.log'):
-        require('100% tests passed out of 21' in (args.host/'results'/name).read_text(),
+        require(f'100% tests passed out of {args.host_tests}' in (args.host/'results'/name).read_text(),
                 'Missing complete Debug/ASan suite')
     reports = {k:arm(getattr(args, k), k == 'candidate', args.host) for k in ('reference', 'candidate')}
     require(reports['reference']['weights'] == reports['candidate']['weights'], 'Different weight bytes')

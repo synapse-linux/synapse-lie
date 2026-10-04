@@ -1,0 +1,44 @@
+{
+  "schema": "synapse-lie.q2-iq2-prefill-reuse-host.v1",
+  "label": "q2-iq2-prefill-reuse-host-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 7,
+  "capsule_sha256": "f3dd4f99a0492daa4f6751912ffc479ef45f048a21ab29167f183d3a2913486c",
+  "archive_sha256": "f51604512d1f7475738d64c0aca32aa8450de0bf16afaee2354b94f163972136",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+    "tests/q2_iq2_wmma_signs.cpp": "2c3dfb879a433953579482f7744f48d90ceb0eef995df21fa54da42aa6d5b213",
+    "tests/q2_iq2_live_epilogue.cpp": "d298be5a0cd025e24fc6b272ba10f73f43374defd98b53de0fd1543c30510e3e",
+    "tests/q2_iq2_routes.hpp": "da5475020b4b2f76c466e56353c78e539263e7a95436f62c3adf61799051aa1d",
+    "tests/q2_iq2_routes.cpp": "bc09dee47bef06707c1e35da474e5f4c1aa34c2ab9e8c0a3d5ec32f0fd47fd0f",
+    "tests/q2_iq2_pair.cpp": "0a84f47a10354d103197378bb5ab4f94552b7713ea2453b38651c8f83d929e4e",
+    "tests/q2_packed_fixture.hpp": "8670f40fbd7da541fb7e1204c0c2f9c7856159cc628ec75e45a3598873baa8e3",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "tests/q2_remote_test.py": "97090e31ede0b4c22aee781a808731c0c6109359fc9a70f93ef804fbe9c22f7b",
+    "config/q2-iq2-live-epilogue-plan.json": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+    "tools/analyze-q2-iq2-live-epilogue.py": "09a7d84787e585c0b3d5c67a806b02b32500dda93c2acaeb1eded9c7a9ba6e2a",
+    "tools/q2-remote.py": "fdf30727768ab783c6902f0f0113acbc040cc3b6dd326853c0d51f83926e031d",
+    "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "source_manifests": {
+    "q2-iq2-signs-ordered-asm-source.json": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+    "q2-iq2-prefill-scale-reuse-source.json": "70bf2949b5fdcbed91df0796eb39d5a01da6db0283714bb0eafa17910e1704fe",
+    "q2-iq2-prefill-grid-lds-source.json": "e95625dab5de3deec1d9dad204bfc9001e2b8cc7312fddc2e393dfbb80ff4c65"
+  },
+  "model_inference": false
+}
