@@ -39,6 +39,19 @@ results, memory and actual batch/row counters before any batching claim.
 
 ## Why the recent measurements do not establish this target
 
+### Focused iteration before another complete curve — 2026-10-04
+
+The owner requests a less costly development loop while the representative
+diagnostic still trails UD. Qualify one changed component and a control first,
+then one native canonical model point with unchanged Q2 before/after and a
+matched UD observation. Add a medium-depth point only when the mechanism is
+context-dependent. Repeat only to resolve noise. Do not automatically launch
+another full 0..128K curve for every small component gain. Reserve the full
+curve for a representative point that closes the deficit or a justified
+cumulative qualification checkpoint. This changes experiment order, not the
+per-point final acceptance criteria. The [paired norm probe](Q2-NORM-RAGGED.md)
+starts with the real 2040-row depth-zero shape and an aligned control.
+
 The historical C17 benchmark was restored to reconcile UD's approximately
 26 token/s decode reference with a diagnostic that used a different sampler
 and timer. Its approximately 2K case has 2042 physical input tokens. That case

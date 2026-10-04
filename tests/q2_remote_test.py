@@ -476,6 +476,27 @@ class RemoteGuardTests(unittest.TestCase):
                      '--source-variant', 'scaled-library'],
                     'requires one of its three frozen Q2 variants')
 
+    def test_ragged_paired_norm_scope(self):
+        for variant in ('qualified', 'library-norm-cycle', 'hc-library-ragged'):
+            self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires its isolated component mode and source')
+        for mode in ('cpu', 'q2-bench2k', 'q2-curve-iq2', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-norm-ragged'],
+                        'requires its isolated component mode and source')
+        self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-norm-ragged', '--rebuild-mmq'], 'builds its kernels directly')
+        self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-norm-ragged', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'hc-norm-ragged-bench', 'q2-fixture',
+                '--source-variant', 'hc-norm-ragged']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
     def test_library_norm_cycle_scope(self):
         for variant in ('qualified', 'scaled-library', 'hc-sequence'):
             self.refuse(['hc-library-norm-bench', 'q2-fixture', '--source-variant', variant],

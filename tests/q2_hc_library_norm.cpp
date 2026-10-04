@@ -54,6 +54,8 @@ static bool LibraryCase(q::BlasLt &blas, unsigned tokens, unsigned pattern,
           "Paired dispatch refused");
   Hip(hipGetLastError());
   Hip(hipDeviceSynchronize());
+  // Library plan diagnostics modify cout's precision on first use.
+  std::cout << std::defaultfloat << std::setprecision(12);
   const auto label = "hc-library-norm-n" + std::to_string(tokens) + "-p" +
                      std::to_string(pattern) + "-moe" + std::to_string(moe);
   // Full arrays are always compared and hashed; bounded small cases are saved.
@@ -86,8 +88,8 @@ static bool LibraryCase(q::BlasLt &blas, unsigned tokens, unsigned pattern,
   return pass;
 }
 
-static bool LibraryBench(q::BlasLt &blas, bool moe) {
-  constexpr unsigned tokens = 2048, iterations = 16;
+static bool LibraryBench(q::BlasLt &blas, bool moe, unsigned tokens = 2048) {
+  constexpr unsigned iterations = 16;
   Inputs in(tokens, 10, 3, 0);
   Weights weights(iterations); // Rotate 100 MiB; preserve original F16 layout.
   State a(tokens), b(tokens);
@@ -100,6 +102,7 @@ static bool LibraryBench(q::BlasLt &blas, bool moe) {
     }
   Hip(hipDeviceSynchronize());
   hipEvent_t begin, end;
+  std::cout << std::defaultfloat << std::setprecision(12);
   Hip(hipEventCreate(&begin));
   Hip(hipEventCreate(&end));
   bool pass = true;
@@ -130,7 +133,8 @@ static bool LibraryBench(q::BlasLt &blas, bool moe) {
           << double(elapsed) * 1000 / iterations << "}\n";
     }
     pass = Compare(in, *state[0], *state[1], weights, iterations - 1,
-                   "hc-library-norm-bench-moe" + std::to_string(moe) + "-rep" +
+                   "hc-library-norm-bench-n" + std::to_string(tokens) +
+                       "-moe" + std::to_string(moe) + "-rep" +
                        std::to_string(rep),
                    false, false, moe) &&
            pass;
@@ -144,7 +148,10 @@ static bool LibraryBench(q::BlasLt &blas, bool moe) {
 
 int main(int argc, char **argv) {
   try {
-    Require(argc == 2 && std::string(argv[1]) == "bench", "Expected bench");
+    Require(argc == 2 && (std::string(argv[1]) == "bench" ||
+                         std::string(argv[1]) == "ragged"),
+            "Expected bench or ragged");
+    const bool ragged = std::string(argv[1]) == "ragged";
     Hip(hipSetDevice(0));
     std::cout << std::setprecision(12) << std::boolalpha;
     std::string error;
@@ -157,9 +164,16 @@ int main(int argc, char **argv) {
       pass = LibraryCase(*blas, 129, 2, moe) && pass;
       pass = LibraryCase(*blas, 2048, 0, moe) && pass;
       pass = LibraryCase(*blas, 2048, 1, moe) && pass;
+      if (ragged) {
+        pass = LibraryCase(*blas, 2040, 0, moe) && pass;
+        pass = LibraryCase(*blas, 2047, 1, moe) && pass;
+      }
     }
-    for (bool moe : {false, true})
+    for (bool moe : {false, true}) {
+      if (ragged)
+        pass = LibraryBench(*blas, moe, 2040) && pass;
       pass = LibraryBench(*blas, moe) && pass;
+    }
     std::cout << (pass ? "PASS" : "FAIL")
               << " synthetic HC library cycle; no model inference\n";
     return pass ? 0 : 1;

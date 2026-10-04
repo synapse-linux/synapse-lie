@@ -77,6 +77,10 @@ threshold, so no further model curve is launched. All 105 samples and the
 graph are retained; the GPU window is released. Existing host qualification
 is reused after exact comparison of all sixteen measured files.
 
+Further prefill iteration starts with the [paired norm at 2040 rows](docs/Q2-NORM-RAGGED.md),
+the actual canonical depth-zero size. Component evidence and a single model
+point precede another full context curve; complete Q2/UD parity remains required.
+
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
 no stable additional PLE gain: at 128K candidate/control PP is 1156.229/1154.364,

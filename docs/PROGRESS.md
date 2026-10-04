@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Focused paired-norm preparation — 2026-10-04
+
+The owner asks to defer complete curves while the representative point still
+trails UD. The next isolated change matches the paired F32/F16 norm producer
+to the already ragged HC library consumer: only executor dispatch changes;
+1019 provider files stay exact. Local static executor/fixture checks pass.
+The retained native d0 has 2040 physical input rows, outside the old exact-2048
+producer predicate. The existing complete-cycle fixture now covers that row
+count plus the aligned control; no full model curve is admitted.
+
+The initial host cohort retains CTest exit 8 from guard-diagnostic ordering,
+with all other 21 tests passing. After correcting scope-guard order, fresh
+host Debug and ASan/UBSan each pass 22/22, with six zero exits and seven
+verified artifacts. Core confirms no .157 reservation or interleaving; it
+remains on .161. GPU admission is separate and still pending at preparation.
+[Mechanism and reduced-cost plan](Q2-NORM-RAGGED.md).
+
 ## Distinct live-stage component complete; no new model curve — 2026-10-04
 
 Three GPU arms complete with nine zero exits and 318 verified artifacts.
