@@ -52,7 +52,9 @@ static void Save(const std::string& name, const std::vector<unsigned char>& byte
 static bool Case(unsigned n, unsigned pattern) {
   constexpr unsigned k = 2560;
   constexpr std::size_t guard = 32;
-  const std::size_t bytes = ((n+15)/16)*(k/32)*576;
+  // The codec's logical tiles contain16 rows, but its consumer allocation
+  // pads the entire batch to128 rows. Preserve every saved padding byte.
+  const std::size_t bytes = ((n+127)/128)*8*(k/32)*576;
   const std::string prefix = "shared-q8-n"+std::to_string(n)+"-p"+std::to_string(pattern);
   const auto input = Load(prefix+"-mixed-reference.bin", std::size_t(n)*k*4);
   const auto expected = Load(prefix+"-q8-reference.bin", bytes);
