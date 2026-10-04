@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Preserve WMMA performance evidence on numerical failure — 2026-10-04
+
+The prepared WMMA fixture now preserves every finite output and continues all
+timing cases after a numerical-tolerance failure, while retaining exit1 and the
+unchanged independent limits. Runtime/guard faults still stop immediately.
+The analyzer requires a complete20-case verdict matching actual errors and
+command exit, and keeps numerical qualification separate from exact replay and
+cycle speed. Model-curve analysis still rejects every failed command.
+Strict fixture syntax and formatting pass; the retained full four-arm canonical
+report reanalyzes to exactly the same JSON after the integrity-helper refactor.
+New runtime guards remain pending in the21-test Debug/ASan cohort on `.157`.
+
+Core admits `gpu-sampled-core-r1` at02:21:54 UTC. A fresh02:31:22 observation
+verifies controller3359322/start164616187 alive and its seventh arm
+`unfiltered-0-on` running under supervisor3361058. Q2 neither stages nor runs
+inside the window. This is a verified live controller wait, not inferred activity
+from a reservation. The goal remains complete canonical PP/TG parity.
+
 ## Active IQ2 WMMA sign-load experiment prepared — 2026-10-04
 
 Source inspection distinguishes the generic MMQ IQ2 tile loader from the selected

@@ -186,6 +186,17 @@ starts with the paired PLE 21-test Debug/ASan host cohort, then the two componen
 arms, after core's next window has been released. No observer, waiter or restart
 is scheduled. Existing independent model numerical rejection remains open.
 
+Before runtime admission, a review closes an evidence gap in the new fixture:
+numerical-tolerance failures now save their arrays and allow the remaining
+operator cases and timings to finish. Limits and the original scalar oracle
+are unchanged. The completed fixture and analyzer still return exit1 whenever
+any numerical case fails; runtime, nonfinite-value and guard faults stop the
+run. A complete failure summary is required, so an interrupted run cannot be
+reported as a completed numerical failure. The model analyzers retain their
+strict all-zero command requirement. [Updated harness evidence](../config/q2-iq2-wmma-ready.json)
+records corrected syntax and a byte-equivalent reanalysis of the retained
+four-arm canonical result after separating artifact integrity from success.
+
 ## Provenance
 
 The sign technique is adapted from official Gufo's DeepSeek port, retaining

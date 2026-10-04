@@ -463,6 +463,8 @@ class WmmaCycleReportTests(unittest.TestCase):
                              tile=tile, tiles=tiles, output_values=n*10*640,
                              active_weight_bytes=active*640*10*66*2,
                              input_sha256='c'*64, ids_sha256='d'*64))
+        rows.append(dict(event='iq2_wmma_complete', numerical_pass=True,
+                         independent_checks=20, failures=0, model_inference=False))
         return rows
 
     def parse(self, rows):
@@ -482,6 +484,22 @@ class WmmaCycleReportTests(unittest.TestCase):
             rows[1].update(change)
             with self.subTest(change=change), self.assertRaises(ValueError):
                 self.parse(rows)
+
+    def test_numerical_failure_is_retained_without_success(self):
+        rows = self.events()
+        rows[-1].update(numerical_pass=False, failures=3)
+        result = self.parse(rows)
+        self.assertFalse(result['completion']['numerical_pass'])
+        self.assertEqual(len(result['cases']), 2)
+        rows[-1]['numerical_pass'] = True
+        with self.assertRaises(ValueError):
+            self.parse(rows)
+
+    def test_model_artifacts_still_reject_command_failure(self):
+        with patch.object(self.report.common, 'artifact_integrity', return_value=(
+                {'commands': [{'exit_code': 0}, {'exit_code': 1}]}, {'exit_code': 1})):
+            with self.assertRaises(ValueError):
+                self.report.common.artifacts(Path('/unused-no-access'))
 
 
 class PleHostReportTests(unittest.TestCase):

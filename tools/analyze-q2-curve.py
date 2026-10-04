@@ -29,7 +29,8 @@ def read(path):
     return json.loads(path.read_text())
 
 
-def artifacts(root):
+def artifact_integrity(root):
+    """Verify retained bytes independently of whether the command succeeded."""
     receipt = read(root/'results/result.json')
     transport, collection = read(root/'transport.json'), read(root/'collection.json')
     require(sha(root/'source.tar.gz') == transport['capsule_sha256'], 'Source capsule changed')
@@ -39,6 +40,11 @@ def artifacts(root):
         p = root/'results'/name
         require(p.stat().st_size == expected['bytes'] and sha(p) == expected['sha256'], 'Artifact changed: '+name)
     require(collection['verified_artifacts'] == len(receipt['artifacts']), 'Incomplete collection')
+    return receipt, transport
+
+
+def artifacts(root):
+    receipt, transport = artifact_integrity(root)
     require(transport['exit_code'] == 0 and all(c['exit_code'] == 0 for c in receipt['commands']),
             'Command failure retained; cannot publish a complete curve')
     return receipt

@@ -1,5 +1,32 @@
 // SPDX-License-Identifier: MIT
 // Synthetic WMMA cycle over original-size IQ2 experts; no model forward.
+// Keep the existing independent oracle and its limits, but retain failed
+// arrays and continue timings after numerical failures. Runtime faults stop.
+#define Compare OriginalCompare
+#include "q2_operator_fixture.hpp"
+#undef Compare
+static unsigned numerical_failures = 0, independent_checks = 0;
+
+void Compare(const std::vector<float> &got, const std::vector<double> &expected,
+             const std::string &label) {
+  ++independent_checks;
+  try {
+    OriginalCompare(got, expected, label);
+  } catch (const std::exception &e) {
+    if (std::string(e.what()) != "independent operator tolerance exceeded")
+      throw;
+    ++numerical_failures;
+    auto filename = label;
+    std::replace(filename.begin(), filename.end(), '/', '-');
+    std::ofstream saved("results/operator-" + filename + ".f32",
+                        std::ios::binary);
+    saved.write(reinterpret_cast<const char *>(got.data()),
+                got.size() * sizeof(float));
+    Check(bool(saved), "Cannot save failed WMMA operator output");
+    std::cout << "NUMERICAL_FAILURE: " << label << '\n';
+  }
+}
+
 #define Q2_IQ2_PAIR_NO_MAIN 1
 #include "q2_iq2_pair.cpp"
 #include "src/core/crypto/sha256.hpp"
@@ -171,6 +198,7 @@ void Cycle(unsigned tokens, unsigned active, unsigned tile,
 int main() {
   try {
     Hip(hipSetDevice(0));
+    std::cout << std::unitbuf;
     std::cout.precision(12);
     for (int tile : {16, 48, 64, 128})
       for (bool tiny : {false, true}) {
@@ -188,7 +216,14 @@ int main() {
               << Digest(gate) << "\",\"up_sha256\":\"" << Digest(up) << "\"}\n";
     Cycle(2040, 512, 64, gate, up, gd, ud);
     Cycle(2048, 128, 128, gate, up, gd, ud);
-    std::cout << "PASS synthetic IQ2 WMMA cycles; no model throughput\n";
+    std::cout << "{\"event\":\"iq2_wmma_complete\",\"numerical_pass\":"
+              << (numerical_failures ? "false" : "true")
+              << ",\"independent_checks\":" << independent_checks
+              << ",\"failures\":" << numerical_failures
+              << ",\"model_inference\":false}\n";
+    std::cout << (numerical_failures ? "FAIL" : "PASS")
+              << " synthetic IQ2 WMMA cycles; no model throughput\n";
+    return numerical_failures ? 1 : 0;
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
     return 1;

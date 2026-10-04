@@ -62,6 +62,8 @@ source, retaining the measured decode improvement. Device assembly trades eight
 loads for extra integer instructions with unchanged register allocation. Two
 full-size component cycles and complete output replay are prepared; runtime and
 canonical performance remain unmeasured.
+Numerical failures retain their output arrays and performance samples with exit1;
+they cannot become a successful qualification through partial reporting.
 
 A separate [PLE cache-first candidate](docs/Q2-PLE-CACHE-FIRST.md) consumes
 resident rows before colliding misses can replace them. Capacity and all row

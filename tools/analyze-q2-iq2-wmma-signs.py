@@ -32,7 +32,7 @@ FIXTURES = ('CMakeLists.txt', 'cmake/hip/CMakeLists.txt', 'tests/q2_iq2_wmma_sig
 
 def observations(log):
     events = [json.loads(line) for line in log.splitlines() if line.startswith('{')]
-    require(len(events) == 17, 'Incomplete cycle event inventory')
+    require(len(events) == 18, 'Incomplete cycle event inventory')
     weights = events[0]
     require(weights['event'] == 'iq2_wmma_weights' and weights['bytes'] == 432537600,
             'Wrong encoded weight inventory')
@@ -59,7 +59,13 @@ def observations(log):
             require(re.fullmatch('[0-9a-f]{64}', geometry[field]), 'Missing operand identity')
         cases[str(tokens)] = dict(geometry=geometry, samples=samples,
             median_us=statistics.median(r['microseconds_per_call'] for r in samples[2:]))
-    return dict(weights=weights, cases=cases)
+    completion = events[-1]
+    require(completion['event'] == 'iq2_wmma_complete' and
+            type(completion['numerical_pass']) is bool and completion['independent_checks'] == 20
+            and type(completion['failures']) is int and 0 <= completion['failures'] <= 20
+            and completion['numerical_pass'] is (completion['failures'] == 0)
+            and completion['model_inference'] is False, 'Incomplete numerical verdict')
+    return dict(weights=weights, cases=cases, completion=completion)
 
 
 def output_inventory():
@@ -77,11 +83,16 @@ def output_inventory():
 
 
 def arm(root, candidate, host):
-    r = common.artifacts(root)
-    transport = read(root/'transport.json')
-    require(r['state'] == 'SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT' and
+    r, transport = common.artifact_integrity(root)
+    exits = [c['exit_code'] for c in r['commands']]
+    require(exits in ([0,0,0], [0,0,1]) and transport['exit_code'] == exits[-1],
+            'Incomplete or interrupted component execution')
+    require(r['state'] in ('SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT', 'FAILED') and
             r['mode'] == 'iq2-wmma-signs-check' and r['model_access'] is False and
-            len(r['commands']) == 3, 'Incomplete component execution')
+            'finished_at' in r, 'Incomplete component execution')
+    for row in [r, *r['commands']]:
+        require(not any(row.get(k) for k in ('thermal_stop', 'postflight_error', 'timeout',
+                    'foreign_kfd', 'lingering_descendants')), 'Runtime/retirement failure')
     require(transport['source_variant'] == ('iq2-wmma-signs' if candidate else 'iq2-wmma-reference')
             and not transport['rebuild_mmq'] and 'mmq_reuse' not in r and
             r['binary_sha256'] == r['binary_sha256_after'], 'Wrong component binary/source')
@@ -99,7 +110,8 @@ def arm(root, candidate, host):
             require(source.extractfile(name).read() == h.extractfile(name).read(),
                     'Host/fixture mismatch: '+name)
     log = (root/'results/03.log').read_text()
-    require(log.count('PASS synthetic IQ2 WMMA cycles; no model throughput') == 1,
+    marker = ('PASS' if exits[-1] == 0 else 'FAIL') + ' synthetic IQ2 WMMA cycles; no model throughput'
+    require(log.splitlines().count(marker) == 1,
             'Missing complete fixture marker')
     report = observations(log)
     checks = re.findall(r'^(\S+) rrms=(\S+) scaled_max=(\S+)$', log, re.M)
@@ -107,8 +119,13 @@ def arm(root, candidate, host):
                        for n in output_inventory() if n.startswith('operator-')}
     require(len(checks) == 20 and {r[0] for r in checks} == expected_labels,
             'Missing independent oracle checks')
-    require(all(math.isfinite(float(v)) and 0 <= float(v) <= .002
-                for row in checks for v in row[1:]), 'Independent tolerance failed')
+    require(all(math.isfinite(float(v)) and float(v) >= 0
+                for row in checks for v in row[1:]), 'Invalid independent error metric')
+    failed = sum(any(float(v) > .002 for v in row[1:]) for row in checks)
+    require(report['completion']['failures'] == failed and exits[-1] == bool(failed) and
+            r['state'] == ('FAILED' if failed else
+                'SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'),
+            'Numerical failure or command exit was not retained')
     report.update(directory=str(root), source_files=len(actual), artifacts=len(r['artifacts']),
                   checks=checks, command_exits=[c['exit_code'] for c in r['commands']])
     return report
@@ -144,13 +161,16 @@ def main():
                     (args.candidate/'results'/name).read_bytes(), 'f', size)
              for name, size in expected.items()}
     exact = all(row['exact'] for row in pairs.values())
+    numerical_pass = all(r['completion']['numerical_pass'] for r in reports.values())
     result = dict(schema='synapse-lie.q2-iq2-wmma-signs-results.v1',
         scope='Synthetic narrowing/compaction/fused IQ2 gate-up-SwiGLU cycles; no model rates',
-        arms=reports, cells=cells, pairs=pairs, exact=exact, promoted=False, goal_met=False,
-        component_candidate=exact and all(c['time_change_percent'] < 0 for c in cells.values()))
+        arms=reports, cells=cells, pairs=pairs, exact=exact, numerical_pass=numerical_pass,
+        promoted=False, goal_met=False,
+        component_candidate=exact and numerical_pass and
+                            all(c['time_change_percent'] < 0 for c in cells.values()))
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
-    print(json.dumps(dict(exact=exact, cells=cells, output_pairs=len(pairs))))
-    raise SystemExit(0 if exact else 1)
+    print(json.dumps(dict(exact=exact, numerical_pass=numerical_pass, cells=cells, output_pairs=len(pairs))))
+    raise SystemExit(0 if exact and numerical_pass else 1)
 
 
 if __name__ == '__main__':

@@ -51,5 +51,13 @@
   "restart_scheduled": false,
   "promoted": false,
   "goal_met": false,
-  "core_handover": "Core acknowledges Q2 release01:33:37 and prepares fresh admission for 18 sampled arms; Q2 no interleaving."
+  "core_handover": "Core acknowledges Q2 release01:33:37 and prepares fresh admission for 18 sampled arms; Q2 no interleaving.",
+  "current_harness_receipt": "config/q2-iq2-wmma-ready.json",
+  "core_live_observation": {
+    "at": "2026-10-04T02:31:22.028011+00:00",
+    "controller_pid": 3359322,
+    "start_ticks": 164616187,
+    "arm": "unfiltered-0-on",
+    "supervisor_pid": 3361058
+  }
 }
