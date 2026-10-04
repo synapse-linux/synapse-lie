@@ -12,7 +12,7 @@ stable release is declared. Detailed validation history is in
 - Shared-core benchmark reports refuse zero-time executed phases, inconsistent
   dispatch counts and phase durations outside the job's wall time, including warmups.
 
-- Single-category benchmark comparisons keep both markers visible when their
+- Benchmark comparisons keep both series visible in every category when their
   values coincide; data and vertical scales are unchanged.
 
 - Qualification supervisors apply temperature stops to the CPU and SSD;

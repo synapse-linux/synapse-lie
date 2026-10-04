@@ -3,11 +3,62 @@
 
 [All benchmarks](../../../README.md) · [Run these workloads](../../../../guides/BENCHMARKS.md)
 
-**Latest measurements: October 3, 2026.** PP means prefill throughput; TG means
+**Latest measurements: October 4, 2026.** The seeded shared-core comparison
+below is the latest run; the existing context/concurrency tables retain their
+recorded builds. PP means prefill throughput; TG means
 confirmed generation throughput, both in tokens per second. Tables include PP
 wait time. Charts use separate PP/TG scales beginning at zero; bars show observed
 minimum/maximum around the median. Duration columns in downloaded CSVs are
 seconds; throughput columns are tokens per second.
+
+## Seeded shared-core sampler comparison — October 4
+
+Frozen `5a377aa` compares the C17 dense selector with the Gufo selector inside
+LIE's same reactive core on `.157`. Original UD weights, **1500 physical input
+tokens, context 4096, chunk 2048, TG128, C1, seed 123**, RAM/SSD retention off,
+AR without MTP or vision. Each profile uses three fresh processes per variant,
+one warmup and three measurements per process: **nine measured samples per
+variant/profile**. Orders are ON/OFF, OFF/ON, ON/OFF; sample counts match, but
+first-position order is not perfectly balanced.
+
+| Profile | C17 PP tok/s | Control PP tok/s | C17 PP s | Control PP s | C17 decode tok/s | Control decode tok/s | C17 full-wall tok/s | Control full-wall tok/s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Greedy: T=0, P=1, no penalties | 1551.25 | 1553.13 | 0.9670 | 0.9658 | 26.650 | 26.643 | 22.122 | 22.122 |
+| Unfiltered: T=0.8, P=1, no penalties | 1544.80 | 1550.02 | 0.9710 | 0.9677 | 25.220 | 25.593 | 21.111 | 21.396 |
+| Top-p: T=0.8, P=0.9, frequency=0.2, presence=0.1 | 1538.61 | 1536.80 | 0.9749 | 0.9761 | 23.837 | 23.877 | 20.126 | 20.141 |
+
+All values are medians. Decode measures per-job executor time; full-wall rate
+includes preparation, queueing, prefill and consumption after core readiness.
+The C17/control decode differences are **+0.026%, -1.457% and -0.166%**.
+Slower measurements remain: unfiltered ranges are C17 **20.663–25.370** and
+control **22.089–25.609 tok/s**. Process/clock variation still prevents a stable
+parity claim. Across-profile outputs differ, so those rates do not isolate host
+sampler cost. This is not the separate Gufo HTTP server comparison.
+
+All **18 arms**, children, supervisors and SSH controller exit 0. The **36 paired
+outputs** match exactly, including warmups; all 72 streams reach 128 tokens.
+CPU/GPU/NVMe peaks are **86/89/71.85 C**, without CPU/SSD stops or observed crashes.
+GPU temperature has no software stop. The model child has 1–52 sampled OS threads
+including HIP/runtime/load/retirement; the core retains one device dispatcher.
+
+![Seeded core sampler: separate prefill, decode and full-wall scales](charts/sampled-core-5a377aa/benchmark.svg)
+
+The chart pools all nine measurements per variant/profile, with observed min/max
+bars and separate zero-based scales. `top-p` includes the penalties listed above.
+Both series' markers remain visible when their values coincide.
+
+[All 72 samples with controls, PP/decode durations and TTFT (CSV)](charts/sampled-core-5a377aa/all-samples.csv) ·
+[Complete distributions (JSON)](charts/sampled-core-5a377aa/summary.json) ·
+[Raw 18-arm evidence (tar.gz)](data/sampled-core-5a377aa.tar.gz) ·
+[Source/exit/closure receipt](../../../../development/validation/sampled-core-gpu-2026-10-04.json).
+
+Closure at 02:43:25 UTC verifies 37 retired identities, 36 empty groups, empty KFD,
+four original unchanged/free leases, model stats and capsules. All 233 collected
+files verify by SHA256. Model files and numerical sources are unchanged; OS file
+cache is uncontrolled, so loading is not a cold-load measurement. Independent
+quality, allocation-exact GPU accounting and the broader benchmark gates remain open.
+
+## Original AR context campaign — October 3
 
 | Measurement setup | Value |
 | --- | --- |

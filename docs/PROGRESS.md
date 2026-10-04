@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Seeded shared-core GPU comparison complete — 2026-10-04 UTC
+
+Frozen `5a377aa` completes 18/18 original-weight `.157` arms across greedy,
+unfiltered and top-p/penalty profiles. Each variant/profile has nine measurements
+in three processes; 54 measured jobs plus 18 warmups complete, and 36 paired output
+streams match exactly. C17/control median decode is 26.650/26.643, 25.220/25.593
+and 23.837/23.877 tok/s. Slow samples stay visible; stable performance parity,
+independent quality and exact allocation gates remain open.
+
+CPU/GPU/NVMe peaks are 86/89/71.85 C, with CPU 98 C guard, GPU observe-only and no
+thermal stops. Release at 02:43:25 UTC verifies 37 identities and36 groups retired,
+empty KFD, four unchanged/free original leases, model stats and capsules.
+All 233 collected artifacts verify. Root remains offline; Point completes its
+separate projector copy and returns `.157` to Q2. The post-run native renderer
+now separates coincident markers at every category; a focused ASan/UBSan/LSan
+CTest passes and pooled statistics remain byte-identical.
+See the [complete results and graph](benchmarks/models/qwen3.8-flash-next/strix-halo/README.md#seeded-shared-core-sampler-comparison--october-4)
+and [source-bound receipt](development/validation/sampled-core-gpu-2026-10-04.json).
+
 ## Core benchmark phase validation — 2026-10-04 UTC
 
 The native report now rejects zero-time executed phases, inconsistent dispatch

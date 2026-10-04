@@ -349,6 +349,29 @@ static void reordered_comparison(json_object *rows, const char *original) {
       !nb_report(original, graphs, "primary", original, "reference", false, &e),
       e.message);
   graph_files("self-comparison");
+  char marker_path[2400], marker_line[256];
+  path(marker_path, "self-comparison/benchmark.svg");
+  FILE *markers = fopen(marker_path, "r");
+  require(markers != NULL, "comparison marker file");
+  int positions[2][8][2];
+  size_t marker_counts[2] = {0};
+  while (fgets(marker_line, sizeof(marker_line), markers)) {
+    int x, y;
+    unsigned color;
+    if (sscanf(marker_line, "<circle cx=\"%d\" cy=\"%d\" r=\"4\" fill=\"#%x", &x, &y, &color) != 3)
+      continue;
+    require(color == 0x1769aa || color == 0xb34b17, "comparison marker color");
+    unsigned series = color == 0x1769aa ? 0 : 1;
+    require(marker_counts[series] < 8, "unexpected comparison marker count");
+    positions[series][marker_counts[series]][0] = x;
+    positions[series][marker_counts[series]++][1] = y;
+  }
+  require(!fclose(markers) && marker_counts[0] == 8 && marker_counts[1] == 8,
+          "missing four-category comparison markers");
+  for (size_t i = 0; i < 8; ++i)
+    require(positions[0][i][1] == positions[1][i][1] &&
+                abs(positions[1][i][0] - positions[0][i][0]) >= 8,
+            "coincident comparison markers hide a series");
   path(graphs, "reordered-comparison");
   require(
       !nb_report(original, graphs, "primary", reversed, "reference", false, &e),

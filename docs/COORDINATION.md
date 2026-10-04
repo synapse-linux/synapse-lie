@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Seeded shared-core window released — 2026-10-04 UTC
+
+Root accepts Q2's canonical curve release at 01:33:37 UTC and independently
+admits at 02:21:54 UTC, checking 39 retired identities, 26 empty groups, empty KFD,
+four original lease identities and UD model stats. All 18 frozen `5a377aa` arms
+exit 0, reacquiring the four leases and applying CPU<=60 C prearm cooldown.
+CPU guard 98 C, GPU observe-only and NVMe 85 C or lower remain; no tuning occurs.
+
+Closure at 02:43:25.968475 UTC checks 37 retired PID/start identities, 36 empty
+groups, empty KFD, four unchanged/free leases, four model stats, 19 capsule files
+and 18 manifests. Canonical `run/gpu-sampled-core-window-release.json` SHA256:
+`17312b22e2c780cc1c6d296986d373f4fa2467671dda5c69d5ff70346f570483`.
+All 233 collected result files verify. Root has no job, observer/waiter or restart.
+Point subsequently verifies its separate 616,703,104-byte projector copy and
+postflight at 02:51:05 UTC; root relays the release to Q2 for fresh WMMA admission.
+No standing lease or formal DS4 ACK is implied.
+
 ## Integrated runtime window released — 2026-10-04 UTC
 
 Root accepts Q2's IQ2-signs release and admits the frozen `032d847` functional

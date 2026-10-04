@@ -1,0 +1,1201 @@
+{
+  "scope": "Original-weight shared-core AR, same provider with different dense selector; not independent model quality",
+  "source_checkpoint": "5a377aac531390c3b50571483a79ce45a31b8a86",
+  "profiles": {
+    "greedy": {
+      "on": {
+        "generation": {
+          "temperature": 0,
+          "top_p": 1,
+          "frequency_penalty": 0,
+          "presence_penalty": 0,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1559.4052190217533,
+            1558.2959156530076,
+            1548.272745944052,
+            1554.2955167331243,
+            1552.0546447564877,
+            1551.2480513454666,
+            1537.4353768250623,
+            1533.8485024623953,
+            1540.5237704820465
+          ],
+          "decode_tps": [
+            26.64959342697372,
+            26.646603134593352,
+            26.654629996618034,
+            26.316709379021802,
+            26.673210772222063,
+            26.65956282070557,
+            26.66547796965655,
+            26.63257233557079,
+            26.610541055088053
+          ],
+          "full_wall_tps": [
+            22.14655179944635,
+            22.127045888206442,
+            22.121982392770285,
+            21.8953139971084,
+            22.147080059469843,
+            22.131241464691218,
+            22.104127120098724,
+            22.075237655558492,
+            22.074237199033483
+          ]
+        },
+        "prefill_seconds": [
+          0.961905207,
+          0.962589958,
+          0.968821549,
+          0.965067443,
+          0.966460817,
+          0.966963342,
+          0.975650764,
+          0.977932304,
+          0.97369481
+        ],
+        "decode_seconds": [
+          4.803075152,
+          4.803614155,
+          4.802167579,
+          4.863829978,
+          4.79882235,
+          4.801279033,
+          4.800213975,
+          4.806144836,
+          4.810123918
+        ],
+        "first_token_ms": [
+          1007.660415,
+          1011.845528,
+          1014.693304,
+          1012.907866,
+          1011.982259,
+          1012.991492,
+          1020.648768,
+          1022.287055,
+          1019.018337
+        ],
+        "warmups": 3,
+        "processes": [
+          "greedy-0-on",
+          "greedy-1-on",
+          "greedy-2-on"
+        ]
+      },
+      "off": {
+        "generation": {
+          "temperature": 0,
+          "top_p": 1,
+          "frequency_penalty": 0,
+          "presence_penalty": 0,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1555.8518531349494,
+            1549.4479940191886,
+            1546.1698054807061,
+            1554.5909843603888,
+            1553.950794023791,
+            1553.513843197702,
+            1553.129370289257,
+            1546.4198208941925,
+            1550.4524402657266
+          ],
+          "decode_tps": [
+            26.419180474788426,
+            26.639398217908965,
+            26.639023019491553,
+            26.36778235489268,
+            26.64276316809255,
+            26.647895289646996,
+            26.66163755973688,
+            26.660512254041024,
+            26.67183309519995
+          ],
+          "full_wall_tps": [
+            21.980563797738455,
+            22.11928886726839,
+            22.106986511482457,
+            21.93251917098883,
+            22.12712005613815,
+            22.134693038013733,
+            22.1365877625071,
+            22.122454916578697,
+            22.143847836490213
+          ]
+        },
+        "prefill_seconds": [
+          0.964102075,
+          0.968086703,
+          0.97013924,
+          0.964884021,
+          0.96528153,
+          0.965553031,
+          0.965792051,
+          0.969982394,
+          0.967459537
+        ],
+        "decode_seconds": [
+          4.844964821,
+          4.804913345,
+          4.80498102,
+          4.854409001,
+          4.80430649,
+          4.803381228,
+          4.80090541,
+          4.80110805,
+          4.799070223
+        ],
+        "first_token_ms": [
+          1009.301828,
+          1012.768208,
+          1015.946106,
+          1012.613348,
+          1011.389067,
+          1010.273794,
+          1012.029364,
+          1015.604312,
+          1012.143908
+        ],
+        "warmups": 3,
+        "processes": [
+          "greedy-0-off",
+          "greedy-1-off",
+          "greedy-2-off"
+        ]
+      },
+      "all_24_streams_identical": true
+    },
+    "unfiltered": {
+      "on": {
+        "generation": {
+          "temperature": 0.8,
+          "top_p": 1,
+          "frequency_penalty": 0,
+          "presence_penalty": 0,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1550.7330649639516,
+            1544.8014368309389,
+            1539.8891673395187,
+            1543.4461714828522,
+            1547.971860013978,
+            1544.6003537497277,
+            1547.41441164234,
+            1549.1246800089332,
+            1543.085169225943
+          ],
+          "decode_tps": [
+            25.329549790935594,
+            25.32861553068612,
+            25.36963732530724,
+            25.22383135289604,
+            25.21981901124168,
+            25.216309854762592,
+            20.662905286954167,
+            21.302899886288866,
+            24.17840609207688
+          ],
+          "full_wall_tps": [
+            21.19850436237935,
+            21.189202713126235,
+            21.21127055982604,
+            21.11573597675179,
+            21.11105797703381,
+            21.09768741849673,
+            17.825696964906314,
+            18.297717779396628,
+            20.378440562449658
+          ]
+        },
+        "prefill_seconds": [
+          0.967284463,
+          0.970998579,
+          0.974096079,
+          0.971851191,
+          0.969009863,
+          0.971124988,
+          0.969358944,
+          0.96828875,
+          0.972078554
+        ],
+        "decode_seconds": [
+          5.053386304,
+          5.053572701,
+          5.045401255,
+          5.07456612,
+          5.075373457,
+          5.076079757,
+          6.194675832,
+          6.008571635,
+          5.293980071
+        ],
+        "first_token_ms": [
+          1017.70399,
+          1020.191916,
+          1021.199349,
+          1020.438633,
+          1020.672427,
+          1023.808536,
+          1031.843353,
+          1031.888482,
+          1027.97662
+        ],
+        "warmups": 3,
+        "processes": [
+          "unfiltered-0-on",
+          "unfiltered-1-on",
+          "unfiltered-2-on"
+        ]
+      },
+      "off": {
+        "generation": {
+          "temperature": 0.8,
+          "top_p": 1,
+          "frequency_penalty": 0,
+          "presence_penalty": 0,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1552.9833359121312,
+            1550.0180421583434,
+            1552.7773605781317,
+            1547.6002768244202,
+            1544.2011996981478,
+            1543.1513368114793,
+            1552.3536307106465,
+            1550.4129034837952,
+            1549.3561372720364
+          ],
+          "decode_tps": [
+            25.592591431039953,
+            25.60575210175789,
+            25.593871132936506,
+            22.089302864176393,
+            22.197359591751656,
+            25.104972347603553,
+            25.608961282360028,
+            25.453321260428,
+            25.60867258183922
+          ],
+          "full_wall_tps": [
+            21.395694143498822,
+            21.401915056735472,
+            21.39959894981515,
+            18.881002820613688,
+            18.956735529304513,
+            21.03246782814485,
+            21.399694456366284,
+            21.298343399575476,
+            21.405504675168917
+          ]
+        },
+        "prefill_seconds": [
+          0.965882869,
+          0.967730671,
+          0.966010993,
+          0.969242525,
+          0.97137601,
+          0.972036873,
+          0.966274675,
+          0.967484208,
+          0.968144098
+        ],
+        "decode_seconds": [
+          5.001447405,
+          4.998876795,
+          5.001197331,
+          5.794660012,
+          5.766451612,
+          5.098591555,
+          4.998250362,
+          5.028813281,
+          4.99830671
+        ],
+        "first_token_ms": [
+          1013.33585,
+          1013.983413,
+          1012.07009,
+          1028.983696,
+          1027.272037,
+          1022.614744,
+          1015.298961,
+          1013.260523,
+          1013.88866
+        ],
+        "warmups": 3,
+        "processes": [
+          "unfiltered-0-off",
+          "unfiltered-1-off",
+          "unfiltered-2-off"
+        ]
+      },
+      "all_24_streams_identical": true
+    },
+    "top-p-penalty": {
+      "on": {
+        "generation": {
+          "temperature": 0.8,
+          "top_p": 0.9,
+          "frequency_penalty": 0.2,
+          "presence_penalty": 0.1,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1547.6963425223862,
+            1532.431408296097,
+            1533.5188107295812,
+            1538.611345552456,
+            1534.452841005626,
+            1539.3838172518408,
+            1546.4743661945438,
+            1539.6748164292676,
+            1528.8748736136474
+          ],
+          "decode_tps": [
+            23.8679332328147,
+            23.857318921440598,
+            23.886848639951605,
+            20.702348425835776,
+            23.22364461076261,
+            23.854793614011665,
+            23.82909201521299,
+            23.837436192469916,
+            23.81833591151499
+          ],
+          "full_wall_tps": [
+            20.162262756058976,
+            20.131327520331986,
+            20.148789123666504,
+            17.83884149987637,
+            19.676758512292555,
+            20.132516758264877,
+            20.12633439411155,
+            20.124635069202814,
+            20.09058343059933
+          ]
+        },
+        "prefill_seconds": [
+          0.969182364,
+          0.978836633,
+          0.97814255,
+          0.974905069,
+          0.977547149,
+          0.974415856,
+          0.969948182,
+          0.974231691,
+          0.981113645
+        ],
+        "decode_seconds": [
+          5.362843894,
+          5.365229866,
+          5.35859719,
+          6.182873429,
+          5.511624129,
+          5.365797838,
+          5.371585284,
+          5.369704987,
+          5.374011034
+        ],
+        "first_token_ms": [
+          1017.810834,
+          1026.206425,
+          1027.459726,
+          1034.775426,
+          1025.915112,
+          1024.669789,
+          1020.916335,
+          1023.862533,
+          1030.664012
+        ],
+        "warmups": 3,
+        "processes": [
+          "top-p-penalty-0-on",
+          "top-p-penalty-1-on",
+          "top-p-penalty-2-on"
+        ]
+      },
+      "off": {
+        "generation": {
+          "temperature": 0.8,
+          "top_p": 0.9,
+          "frequency_penalty": 0.2,
+          "presence_penalty": 0.1,
+          "seed": 123
+        },
+        "rates": {
+          "prefill_tps": [
+            1551.3263698257092,
+            1538.8623734409705,
+            1534.2866704707021,
+            1538.0921171305504,
+            1534.5374664688218,
+            1536.7991977432805,
+            1534.798267788612,
+            1530.762151810685,
+            1538.009671220134
+          ],
+          "decode_tps": [
+            21.11962960573114,
+            21.530939204877065,
+            23.829236798318956,
+            23.758875384978516,
+            24.10004434357323,
+            23.935226780995844,
+            23.876959159737844,
+            24.07352717974991,
+            24.062821570765458
+          ],
+          "full_wall_tps": [
+            18.16543025955206,
+            18.454127044568597,
+            20.11430181118676,
+            20.067936540574678,
+            20.303878482700938,
+            20.186669714832767,
+            20.140917711984308,
+            20.272837539843884,
+            20.279556011771206
+          ]
+        },
+        "prefill_seconds": [
+          0.966914525,
+          0.974746037,
+          0.977653022,
+          0.975234177,
+          0.97749324,
+          0.976054648,
+          0.977327139,
+          0.979904029,
+          0.975286455
+        ],
+        "decode_seconds": [
+          6.060712351,
+          5.944933418,
+          5.371552647,
+          5.387460388,
+          5.311193547,
+          5.347766335,
+          5.360816641,
+          5.317043865,
+          5.319409431
+        ],
+        "first_token_ms": [
+          1033.175215,
+          1027.700256,
+          1025.785608,
+          1024.403267,
+          1026.109443,
+          1025.614843,
+          1027.015664,
+          1030.271166,
+          1026.001383
+        ],
+        "warmups": 3,
+        "processes": [
+          "top-p-penalty-0-off",
+          "top-p-penalty-1-off",
+          "top-p-penalty-2-off"
+        ]
+      },
+      "all_24_streams_identical": true
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/greedy-0-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/greedy-pair-0",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/greedy-0-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/greedy-1-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/greedy-pair-1",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/greedy-1-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/greedy-2-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/greedy-pair-2",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/greedy-2-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-0-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/unfiltered-pair-0",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-0-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-1-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/unfiltered-pair-1",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-1-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-2-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/unfiltered-pair-2",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/unfiltered-2-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-0-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/top-p-penalty-pair-0",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-0-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-1-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/top-p-penalty-pair-1",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-1-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/gpu-sampled-core-r1/capsule/synapse-lie-bench-report",
+        "--suite",
+        "report",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-2-on/results/measurements.jsonl",
+        "--output",
+        "evidence/gpu-sampled-core-r1/analysis/top-p-penalty-pair-2",
+        "--compare",
+        "evidence/gpu-sampled-core-r1/collected/top-p-penalty-2-off/results/measurements.jsonl",
+        "--label",
+        "LIE C17 selector",
+        "--reference-label",
+        "LIE Gufo selector"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/c17-sampling/evidence/sampled-core-preparation-r1/plot-campaign",
+        "evidence/gpu-sampled-core-r1/analysis/summary.json",
+        "evidence/gpu-sampled-core-r1/analysis/pooled"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "arms": [
+    {
+      "name": "greedy-0-on",
+      "raw_sha256": "d212cabc412a38b252c58acad1e96f13ae99722b5981e0eb58a2db31ad90fcd7",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "greedy-0-off",
+      "raw_sha256": "71bac46ecfc78c67098e3a52049227b38de0d13c6e569b2c7778416005298cf2",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "greedy-1-off",
+      "raw_sha256": "af4f57a964263dd5a683634c2f2f64f1c0ccd0c1be413eccfbc1b4f38f1f233d",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "greedy-1-on",
+      "raw_sha256": "02dcd7feca907e31a786bf5cf1ef07fbfb3f3bc2b7fd25cf9ba0c41513588bb6",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "greedy-2-on",
+      "raw_sha256": "882d11fed1cbf9c611b36e287b5821ee88e24734ec5d74b0cabaf38f97e7a686",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "greedy-2-off",
+      "raw_sha256": "a8b9c54e670b30682de0d39915ae91716347892cfe7ed0af65202e743467209c",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-0-on",
+      "raw_sha256": "1d5ee3666ea4d10813c0cc0f75bdd70a3d65a98a1052f84c880c7f324b61119e",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-0-off",
+      "raw_sha256": "0073e8102f7c7a9157d98a375a67f1062fd4d405463ab987acade4bd9fb8b12b",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-1-off",
+      "raw_sha256": "6eeb56a1a4d79c5dee9eff1321ce53ecff6d96f2caafff3dfc770a41e66c1d20",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-1-on",
+      "raw_sha256": "1c98a59d67d6e2a94832346b8794ede0c88604f8cff4446c3e5d6572f00190ee",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-2-on",
+      "raw_sha256": "768d79087096a2449d284e730b2697f9bffd3f0f5e5b9508d70cf8d527bdfd4b",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "unfiltered-2-off",
+      "raw_sha256": "373033ba4adf75e3b4666b96503739e75d19f2774f8047f5b5fc45b12a2fce48",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-0-on",
+      "raw_sha256": "8166d6ddf5cd153625875e55c588230d577e82fab687533e61a395c09ee9c7ee",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-0-off",
+      "raw_sha256": "21f5f6b08a346da6ccbfddda34a83942fdb0406d6e232177901e135293154ad9",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-1-off",
+      "raw_sha256": "4957e24ba7acbf5d00cb8b360d032ec6fa64b22c89086a98091762dd539cde60",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-1-on",
+      "raw_sha256": "0fa8f2dc80b7ea26f5fc15d0030f0344bbdaf15d8dbb61ebe89921d17399b155",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-2-on",
+      "raw_sha256": "ec404f65fb03b4c89714915d756309b2c3076caf1e4699f29ec532102ad5fbef",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    },
+    {
+      "name": "top-p-penalty-2-off",
+      "raw_sha256": "9dac6f4b97d91bdc40792195e5af2c41296ad59ca03239b2dea05e42d64cbe62",
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0
+    }
+  ],
+  "thermal_peaks_C": {
+    "NVMe": 71.85,
+    "GPU": 89.0,
+    "CPU": 86.0
+  },
+  "GPU_software_limit": null,
+  "OS_child_threads": {
+    "min": 1,
+    "max": 52
+  },
+  "output_ID_pairs_matched": 36,
+  "physical_input_sha256": "bf9a348337957a561326f06f7a7943bcbcccf449754c9ee8447ac4a6c242337b",
+  "measured_jobs": 54,
+  "warmup_jobs": 18,
+  "pooled_native_distributions": {
+    "greedy/on/prefill_tps": {
+      "median": 1551.2480513454666,
+      "mean": 1548.3755270248216,
+      "min": 1533.8485024623953,
+      "max": 1559.4052190217533,
+      "n": 9,
+      "p50": 1551.2480513454666,
+      "p95": 1559.4052190217533,
+      "p99": 1559.4052190217533,
+      "all": [
+        1559.4052190217533,
+        1558.2959156530076,
+        1548.272745944052,
+        1554.2955167331243,
+        1552.0546447564877,
+        1551.2480513454666,
+        1537.4353768250623,
+        1533.8485024623953,
+        1540.5237704820465
+      ]
+    },
+    "unfiltered/on/prefill_tps": {
+      "median": 1544.8014368309389,
+      "mean": 1545.674035028687,
+      "min": 1539.8891673395187,
+      "max": 1550.7330649639516,
+      "n": 9,
+      "p50": 1544.8014368309389,
+      "p95": 1550.7330649639516,
+      "p99": 1550.7330649639516,
+      "all": [
+        1550.7330649639516,
+        1544.8014368309389,
+        1539.8891673395187,
+        1543.4461714828522,
+        1547.971860013978,
+        1544.6003537497277,
+        1547.41441164234,
+        1549.1246800089332,
+        1543.085169225943
+      ]
+    },
+    "top-p-penalty/on/prefill_tps": {
+      "median": 1538.611345552456,
+      "mean": 1537.9020690661607,
+      "min": 1528.8748736136474,
+      "max": 1547.6963425223862,
+      "n": 9,
+      "p50": 1538.611345552456,
+      "p95": 1547.6963425223862,
+      "p99": 1547.6963425223862,
+      "all": [
+        1547.6963425223862,
+        1532.431408296097,
+        1533.5188107295812,
+        1538.611345552456,
+        1534.452841005626,
+        1539.3838172518408,
+        1546.4743661945438,
+        1539.6748164292676,
+        1528.8748736136474
+      ]
+    },
+    "greedy/off/prefill_tps": {
+      "median": 1553.129370289257,
+      "mean": 1551.5029895184334,
+      "min": 1546.1698054807061,
+      "max": 1555.8518531349494,
+      "n": 9,
+      "p50": 1553.129370289257,
+      "p95": 1555.8518531349494,
+      "p99": 1555.8518531349494,
+      "all": [
+        1555.8518531349494,
+        1549.4479940191886,
+        1546.1698054807061,
+        1554.5909843603888,
+        1553.950794023791,
+        1553.513843197702,
+        1553.129370289257,
+        1546.4198208941925,
+        1550.4524402657266
+      ]
+    },
+    "unfiltered/off/prefill_tps": {
+      "median": 1550.0180421583434,
+      "mean": 1549.2060248276812,
+      "min": 1543.1513368114793,
+      "max": 1552.9833359121312,
+      "n": 9,
+      "p50": 1550.0180421583434,
+      "p95": 1552.9833359121312,
+      "p99": 1552.9833359121312,
+      "all": [
+        1552.9833359121312,
+        1550.0180421583434,
+        1552.7773605781317,
+        1547.6002768244202,
+        1544.2011996981478,
+        1543.1513368114793,
+        1552.3536307106465,
+        1550.4129034837952,
+        1549.3561372720364
+      ]
+    },
+    "top-p-penalty/off/prefill_tps": {
+      "median": 1536.7991977432805,
+      "mean": 1537.4971428777183,
+      "min": 1530.762151810685,
+      "max": 1551.3263698257092,
+      "n": 9,
+      "p50": 1536.7991977432805,
+      "p95": 1551.3263698257092,
+      "p99": 1551.3263698257092,
+      "all": [
+        1551.3263698257092,
+        1538.8623734409705,
+        1534.2866704707021,
+        1538.0921171305504,
+        1534.5374664688218,
+        1536.7991977432805,
+        1534.798267788612,
+        1530.762151810685,
+        1538.009671220134
+      ]
+    },
+    "greedy/on/decode_tps": {
+      "median": 26.64959342697372,
+      "mean": 26.612100098938882,
+      "min": 26.316709379021802,
+      "max": 26.673210772222063,
+      "n": 9,
+      "p50": 26.64959342697372,
+      "p95": 26.673210772222063,
+      "p99": 26.673210772222063,
+      "all": [
+        26.64959342697372,
+        26.646603134593352,
+        26.654629996618034,
+        26.316709379021802,
+        26.673210772222063,
+        26.65956282070557,
+        26.66547796965655,
+        26.63257233557079,
+        26.610541055088053
+      ]
+    },
+    "unfiltered/on/decode_tps": {
+      "median": 25.21981901124168,
+      "mean": 24.203552681238794,
+      "min": 20.662905286954167,
+      "max": 25.36963732530724,
+      "n": 9,
+      "p50": 25.21981901124168,
+      "p95": 25.36963732530724,
+      "p99": 25.36963732530724,
+      "all": [
+        25.329549790935594,
+        25.32861553068612,
+        25.36963732530724,
+        25.22383135289604,
+        25.21981901124168,
+        25.216309854762592,
+        20.662905286954167,
+        21.302899886288866,
+        24.17840609207688
+      ]
+    },
+    "top-p-penalty/on/decode_tps": {
+      "median": 23.837436192469916,
+      "mean": 23.430861284890536,
+      "min": 20.702348425835776,
+      "max": 23.886848639951605,
+      "n": 9,
+      "p50": 23.837436192469916,
+      "p95": 23.886848639951605,
+      "p99": 23.886848639951605,
+      "all": [
+        23.8679332328147,
+        23.857318921440598,
+        23.886848639951605,
+        20.702348425835776,
+        23.22364461076261,
+        23.854793614011665,
+        23.82909201521299,
+        23.837436192469916,
+        23.81833591151499
+      ]
+    },
+    "greedy/off/decode_tps": {
+      "median": 26.64276316809255,
+      "mean": 26.59444727042212,
+      "min": 26.36778235489268,
+      "max": 26.67183309519995,
+      "n": 9,
+      "p50": 26.64276316809255,
+      "p95": 26.67183309519995,
+      "p99": 26.67183309519995,
+      "all": [
+        26.419180474788426,
+        26.639398217908965,
+        26.639023019491553,
+        26.36778235489268,
+        26.64276316809255,
+        26.647895289646996,
+        26.66163755973688,
+        26.660512254041024,
+        26.67183309519995
+      ]
+    },
+    "unfiltered/off/decode_tps": {
+      "median": 25.592591431039953,
+      "mean": 24.761644954877024,
+      "min": 22.089302864176393,
+      "max": 25.608961282360028,
+      "n": 9,
+      "p50": 25.592591431039953,
+      "p95": 25.608961282360028,
+      "p99": 25.608961282360028,
+      "all": [
+        25.592591431039953,
+        25.60575210175789,
+        25.593871132936506,
+        22.089302864176393,
+        22.197359591751656,
+        25.104972347603553,
+        25.608961282360028,
+        25.453321260428,
+        25.60867258183922
+      ]
+    },
+    "top-p-penalty/off/decode_tps": {
+      "median": 23.876959159737844,
+      "mean": 23.36525111430311,
+      "min": 21.11962960573114,
+      "max": 24.10004434357323,
+      "n": 9,
+      "p50": 23.876959159737844,
+      "p95": 24.10004434357323,
+      "p99": 24.10004434357323,
+      "all": [
+        21.11962960573114,
+        21.530939204877065,
+        23.829236798318956,
+        23.758875384978516,
+        24.10004434357323,
+        23.935226780995844,
+        23.876959159737844,
+        24.07352717974991,
+        24.062821570765458
+      ]
+    },
+    "greedy/on/full_wall_tps": {
+      "median": 22.121982392770285,
+      "mean": 22.091424175153694,
+      "min": 21.8953139971084,
+      "max": 22.147080059469843,
+      "n": 9,
+      "p50": 22.121982392770285,
+      "p95": 22.147080059469843,
+      "p99": 22.147080059469843,
+      "all": [
+        22.14655179944635,
+        22.127045888206442,
+        22.121982392770285,
+        21.8953139971084,
+        22.147080059469843,
+        22.131241464691218,
+        22.104127120098724,
+        22.075237655558492,
+        22.074237199033483
+      ]
+    },
+    "unfiltered/on/full_wall_tps": {
+      "median": 21.11105797703381,
+      "mean": 20.380590479374064,
+      "min": 17.825696964906314,
+      "max": 21.21127055982604,
+      "n": 9,
+      "p50": 21.11105797703381,
+      "p95": 21.21127055982604,
+      "p99": 21.21127055982604,
+      "all": [
+        21.19850436237935,
+        21.189202713126235,
+        21.21127055982604,
+        21.11573597675179,
+        21.11105797703381,
+        21.09768741849673,
+        17.825696964906314,
+        18.297717779396628,
+        20.378440562449658
+      ]
+    },
+    "top-p-penalty/on/full_wall_tps": {
+      "median": 20.12633439411155,
+      "mean": 19.82578322937833,
+      "min": 17.83884149987637,
+      "max": 20.162262756058976,
+      "n": 9,
+      "p50": 20.12633439411155,
+      "p95": 20.162262756058976,
+      "p99": 20.162262756058976,
+      "all": [
+        20.162262756058976,
+        20.131327520331986,
+        20.148789123666504,
+        17.83884149987637,
+        19.676758512292555,
+        20.132516758264877,
+        20.12633439411155,
+        20.124635069202814,
+        20.09058343059933
+      ]
+    },
+    "greedy/off/full_wall_tps": {
+      "median": 22.122454916578697,
+      "mean": 22.08934021746734,
+      "min": 21.93251917098883,
+      "max": 22.143847836490213,
+      "n": 9,
+      "p50": 22.122454916578697,
+      "p95": 22.143847836490213,
+      "p99": 22.143847836490213,
+      "all": [
+        21.980563797738455,
+        22.11928886726839,
+        22.106986511482457,
+        21.93251917098883,
+        22.12712005613815,
+        22.134693038013733,
+        22.1365877625071,
+        22.122454916578697,
+        22.143847836490213
+      ]
+    },
+    "unfiltered/off/full_wall_tps": {
+      "median": 21.395694143498822,
+      "mean": 20.796772984358128,
+      "min": 18.881002820613688,
+      "max": 21.405504675168917,
+      "n": 9,
+      "p50": 21.395694143498822,
+      "p95": 21.405504675168917,
+      "p99": 21.405504675168917,
+      "all": [
+        21.395694143498822,
+        21.401915056735472,
+        21.39959894981515,
+        18.881002820613688,
+        18.956735529304513,
+        21.03246782814485,
+        21.399694456366284,
+        21.298343399575476,
+        21.405504675168917
+      ]
+    },
+    "top-p-penalty/off/full_wall_tps": {
+      "median": 20.140917711984308,
+      "mean": 19.77618390189058,
+      "min": 18.16543025955206,
+      "max": 20.303878482700938,
+      "n": 9,
+      "p50": 20.140917711984308,
+      "p95": 20.303878482700938,
+      "p99": 20.303878482700938,
+      "all": [
+        18.16543025955206,
+        18.454127044568597,
+        20.11430181118676,
+        20.067936540574678,
+        20.303878482700938,
+        20.186669714832767,
+        20.140917711984308,
+        20.272837539843884,
+        20.279556011771206
+      ]
+    }
+  },
+  "exit_code": 0
+}
