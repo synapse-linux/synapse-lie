@@ -96,5 +96,12 @@
   "goal_met": false,
   "host_receipt": "config/q2-shared-q8-oracle-replay-host-results.json",
   "host_receipt_sha256": "5ce76b5e6077f95461a04e2d14ee5c3e8256a024aaa63b4fe5dee626f9bf6572",
-  "window_helper_sha256": "a4c995d771016273538d33e6f8c19e56ad757080cb9e01cea0ba979795836d58"
+  "window_helper_sha256": "eb44a787f2d434caad9e1482685f73c1b7571b2c6576a1aafb3649f73d112c93",
+  "window_helper": "tools/q2-shared-q8-oracle-replay-window-r2.py",
+  "failed_admission": {
+    "exit_code": 1,
+    "phase": "Before leases or registry admission; no GPU build or run",
+    "cause": "First helper accidentally pointed PREVIOUS to its own future release; corrected helper retained separately",
+    "helper_preserved": "tools/q2-shared-q8-oracle-replay-window.py"
+  }
 }
