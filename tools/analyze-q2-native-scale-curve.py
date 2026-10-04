@@ -28,6 +28,8 @@ def arm(row, key, plan, host, native_host, native_source, core):
     directory = ROOT/'evidence'/row['label']
     result = common.artifacts(directory)
     transport = read(directory/'transport.json')
+    point_only = plan.get('point_only', False)
+    require(transport.get('point_only', False) == point_only, 'Focused/full workload mismatch')
     require(result['state'] == 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT'
             and result['mode'] == row['mode'] and result['model_access'] is True
             and len(result['commands']) == 8 and transport['native_curve'] is True
@@ -60,6 +62,7 @@ def arm(row, key, plan, host, native_host, native_source, core):
             require(a == b and hashlib.sha256(a).hexdigest() == digest,
                     'Host-qualified harness differs: '+name)
     session = read(directory/'results/curve-session.json')
+    require(session.get('point_only', False) == point_only, 'Session workload scope differs')
     variant = key if key in ('ud', plan.get('candidate_key', 'scale')) else 'ordered'
     require(session['state'] == 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT' and
             session.get('client_driver') == 'synapse-lie-bench-native-C' and
@@ -72,7 +75,8 @@ def arm(row, key, plan, host, native_host, native_source, core):
     check_backend(session['backend_after'], variant)
     remote = Path(transport['remote'])
     require(session['commands'][0]['argv'] == client_argv(remote/'build/native-bench/synapse-lie-bench',
-            remote/'results/native-curve.jsonl', remote/'results/native-curve-graphs', variant),
+            remote/'results/native-curve.jsonl', remote/'results/native-curve-graphs', variant,
+            point_only=point_only),
             'Native client arguments changed')
     events = [json.loads(s) for s in (directory/'results/native-curve.jsonl').read_text().splitlines()]
     require(events[0]['schema'] == 'synapse-lie.http-curve-bench.v1' and
@@ -80,12 +84,14 @@ def arm(row, key, plan, host, native_host, native_source, core):
             'Native curve incomplete')
     requests = [e for e in events if e['event'] == 'request']
     points = [e for e in events if e['event'] == 'point']
+    expected_points = [(depth, rep) for depth in plan['depths'] for rep in range(plan['repetitions'])]
     require([r['index'] for r in requests] == list(range(len(requests))) and
-            events[-1]['requests'] == len(requests) and events[-1]['points'] == 8 and
-            [p['depth'] for p in points] == plan['depths'], 'Incomplete canonical grid/history')
+            events[-1]['requests'] == len(requests) and events[-1]['points'] == len(expected_points) and
+            [(p['depth'], p['rep']) for p in points] == expected_points,
+            'Incomplete canonical grid/history')
     summary = read(directory/'results/native-curve-graphs/summary.json')['primary']
     require(summary['identity'] == events[0] and
-            [r['observations'] for r in summary['configurations']] == [[p] for p in points],
+            [p for r in summary['configurations'] for p in r['observations']] == points,
             'C report differs from recorded protocol points')
     history = []
     for request in requests:
@@ -100,7 +106,7 @@ def arm(row, key, plan, host, native_host, native_source, core):
             counts={k:timing[k] for k in ('cached_tokens','prefill_tokens','decode_tokens','decode_calls')}))
     for point in points:
         o = requests[point['request_index']]['observation']; timing = o['server_timings']
-        require(point['rep'] == 0 and point['output_tokens'] == 128 and point['timing_source'] == 'lie' and
+        require(point['rep'] in range(plan['repetitions']) and point['output_tokens'] == 128 and point['timing_source'] == 'lie' and
                 abs(point['cached_tokens']-point['depth']) <= max(32,math.floor(point['depth']*.005)) and
                 abs(point['prefill_tokens']-2048) <= 32, 'Invalid accepted physical counts')
         require(point['completion_sha256'] == hashlib.sha256(o['assistant']['content'].encode()).hexdigest(),
@@ -160,7 +166,9 @@ def main():
                 encoded = json.dumps(request.pop(key), sort_keys=True,
                                      ensure_ascii=False, separators=(',', ':')).encode()
                 request[key+'_semantic_sha256'] = hashlib.sha256(encoded).hexdigest()
-    cells = {str(depth): {k: v['rows'][i] for k,v in arms.items()} for i,depth in enumerate(plan['depths'])}
+    cells = {(str(p['depth']) if plan['repetitions'] == 1 else f"{p['depth']}:{p['rep']}"):
+             {k: v['rows'][i] for k,v in arms.items()}
+             for i,p in enumerate(arms['before']['rows'])}
     result = dict(schema=plan['schema'].replace('-plan.', '-results.'), arms=arms, cells=cells,
         history_matches=matches, native_bench_commit=native['commit'],
         plan_sha256=sha(args.plan),

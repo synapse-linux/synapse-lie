@@ -21,6 +21,41 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_focused_norm_point_scope_and_driver(self):
+        for mode in ('cpu', 'q2-counting-iq2', 'q2-curve-scale', 'q2-curve-routes'):
+            self.refuse([mode, 'q2-fixture', '--native-curve', '--point-only'],
+                        'Focused point requires')
+        self.refuse(['q2-point-norm', 'q2-fixture', '--native-curve'],
+                    'Paired norm model requires the focused native point')
+        self.refuse(['q2-curve-iq2', 'q2-fixture', '--point-only'],
+                    'Focused point requires')
+        for mode, variant in [('q2-point-norm', 'point-norm-q2'),
+                              ('q2-curve-iq2', 'curve-iq2-q2'), ('ud-curve', 'curve-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant,
+                    '--native-curve', '--point-only']
+            self.refuse(argv, 'Canonical curve requires a full MMQ rebuild')
+            with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        from q2_native_curve import client_argv, check_backend
+        argv = client_argv(Path('/owned/bench'), Path('/owned/out'), Path('/owned/graphs'),
+                           'norm', point_only=True)
+        opts = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual([opts[k] for k in ('--depths','--pp','--tg','--warmups','--repetitions')],
+                         ['0','2048','128','1','3'])
+        self.assertEqual(opts['--context-capacity'], '133760')
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760, build_id='q2-canonical-point-norm-ragged',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'norm')
+        for variant in ('ordered','row','scale','ud'):
+            with self.assertRaises(ValueError): check_backend(info, variant)
+
     def test_scaled_row_component_scope(self):
         for variant in remote.ROW_VARIANTS:
             for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):

@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Native single-point model gate prepared — 2026-10-04
+
+The measured paired-norm candidate now has an explicit native-only d0 model
+mode. The frozen C client, C17 server, pp2048/tg128, capacity/chunk/cache and
+timers stay unchanged; one warmup and three measured repetitions address
+observed control variation. Four sequential arms retain ordered Q2 before and
+after, paired norm and UD. No full context curve is admitted. New wrapper
+Debug and ASan/UBSan checks each pass 22/22 on .157; the unchanged native client
+reuses its prior conformance. [Protocol and scope](Q2-NORM-POINT.md).
+
 ## Focused paired-norm component complete — 2026-10-04
 
 One `.157` process measures only the canonical d0 component size, 2040 rows,

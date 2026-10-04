@@ -13,7 +13,7 @@ import sys
 from q2_process import supervise
 from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
 from q2_reuse import verify_sources
-from q2_native_curve import MODES as NATIVE_CURVE_MODES, verify_source as verify_native_curve
+from q2_native_curve import MODES as NATIVE_CURVE_MODES, POINT_MODES, verify_source as verify_native_curve
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCKS = [
@@ -33,19 +33,25 @@ def main():
     if mode == 'iq2-signs-check' and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('IQ2 signs requires a full MMQ rebuild')
     native_curve = '--native-curve' in sys.argv[2:]
+    point_only = '--point-only' in sys.argv[2:]
+    if point_only and (not native_curve or mode not in POINT_MODES):
+        raise SystemExit('Focused point requires a native point mode')
+    if mode == 'q2-point-norm' and not point_only:
+        raise SystemExit('Paired norm model requires the focused native point')
     if native_curve and mode not in NATIVE_CURVE_MODES:
         raise SystemExit('Native curve requires an uninstrumented canonical mode')
     if mode == 'q2-curve-scale' and not native_curve:
         raise SystemExit('Scale model comparison requires the native C canonical benchmark')
-    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row')
+    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
     curve_routes = mode == 'q2-curve-routes'
     curve_cache_first = mode == 'q2-curve-ple-cache-first'
     curve_mixed = mode == 'q2-curve-iq2-mixed'
+    point_norm = mode == 'q2-point-norm'
     curve_row = mode == 'q2-curve-row'
     if curve_row and not native_curve:
         raise SystemExit('Scaled row model comparison requires the native C canonical benchmark')
     curve_scale = mode == 'q2-curve-scale'
-    curve_iq2 = curve_row or curve_scale or mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
+    curve_iq2 = point_norm or curve_row or curve_scale or mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
@@ -244,7 +250,7 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_POINT_NORM=ON'] if point_norm else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -285,7 +291,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()

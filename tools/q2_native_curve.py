@@ -4,7 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
-MODES = ('q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'ud-curve')
+MODES = ('q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm', 'ud-curve')
+POINT_MODES = ('q2-curve-iq2', 'q2-point-norm', 'ud-curve')
 DEPTHS = '0,4096,8192,12288,16384,32768,65536,131072'
 MANIFEST = 'config/q2-native-bench-source.json'
 
@@ -30,17 +31,18 @@ def verify_source(root, staged=False):
     return source, manifest
 
 
-def client_argv(binary, output, graphs, label):
+def client_argv(binary, output, graphs, label, *, point_only=False):
     return [str(binary), '--suite', 'http-curve', '--url', 'http://127.0.0.1:8000/v1',
             '--model', 'bench', '--server-label', label, '--output', str(output),
             '--graphs', str(graphs), '--mode', 'ar', '--endpoint-profile', 'openai',
-            '--task', 'prose', '--seed', '1', '--depths', DEPTHS, '--pp', '2048',
+            '--task', 'prose', '--seed', '1', '--depths', '0' if point_only else DEPTHS, '--pp', '2048',
             '--tg', '128', '--context-capacity', '133760', '--warmups', '1',
-            '--repetitions', '1', '--depth-tolerance', '0.005', '--timeout', '1800']
+            '--repetitions', '3' if point_only else '1', '--depth-tolerance', '0.005', '--timeout', '1800']
 
 
 def check_backend(info, variant):
     build = {'ordered': 'q2-canonical-curve-iq2-signs',
+             'norm': 'q2-canonical-point-norm-ragged',
              'scale': 'q2-canonical-curve-iq2-scale-reuse',
              'row': 'q2-canonical-curve-scaled-row-reuse',
              'ud': 'q2-canonical-curve-experiment'}.get(variant)

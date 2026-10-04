@@ -83,6 +83,10 @@ with exact paired output and unchanged independent down failures. This selects
 one model point before another full context curve. No model gain or complete
 Q2/UD parity is established by the component result.
 
+The [focused native model gate](docs/Q2-NORM-POINT.md) measures only canonical
+depth zero, with three repetitions and both unchanged Q2 controls. It retains
+the original C client/server and admits no full context sweep.
+
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
 no stable additional PLE gain: at 128K candidate/control PP is 1156.229/1154.364,

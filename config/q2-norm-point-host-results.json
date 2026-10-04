@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-norm-point-host.v1",
+  "label": "q2-norm-point-host-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_tests": 22,
+  "asan_ubsan_tests": 22,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 7,
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "cmake/curve/CMakeLists.txt": "21f58c9f3d168716466b9ef521a082e717eef169ae8f3694a638c2f90e3f50d6",
+    "tools/q2-remote.py": "46375ee13e033a65329b06eb115306fe370e1fb38156905cf48ea53f72d2cd72",
+    "tools/q2-runner.py": "5df4cc9b221f66679f98ed72d45b0305b5c024408e8ac8e48111d35d47a3d619",
+    "tools/q2-curve-session.py": "56d13f643a2a4ec089aa24a6f81fab490f69176fd724c8f661dc059606efe250",
+    "tools/q2_native_curve.py": "ace5290fa2085fe37f7859edf54bfda9d3a968bcca7c7d25630d8e59061c0138",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "7ae7314ed67ce4b1b474eef5adb5136508808b59eb170ade4c60f1edba6c619c"
+  },
+  "finished_at": "2026-10-04T14:51:34.900781+00:00",
+  "model_inference": false,
+  "gpu_access": false
+}

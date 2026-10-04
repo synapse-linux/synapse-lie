@@ -6,7 +6,7 @@ import datetime
 import hashlib
 import json
 from pathlib import Path
-from q2_native_curve import MODES as NATIVE_CURVE_MODES, verify_source as verify_native_curve
+from q2_native_curve import MODES as NATIVE_CURVE_MODES, POINT_MODES, verify_source as verify_native_curve
 import re
 import shlex
 import subprocess
@@ -23,8 +23,8 @@ EPILOGUE_VARIANTS = ('iq2-epilogue-reference', 'iq2-live-epilogue', 'iq2-epilogu
                      'iq2-prefill-scale-reuse', 'iq2-prefill-grid-lds')
 ROW_VARIANTS = ('scaled-row-reference', 'scaled-row-reuse')
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2')
+CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
+CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2', 'point-norm-q2')
 COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
@@ -71,6 +71,7 @@ def main():
     p.add_argument('label')
     p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
+    p.add_argument('--point-only', action='store_true', help='One canonical d0 point, one warmup and three measured repetitions; native client only')
     p.add_argument('--native-curve', action='store_true', help='Use the frozen native C canonical benchmark; no Python curve fallback')
     p.add_argument('--detach', action='store_true', help='Persistent supervisor for Terminal-Bench tasks only')
     p.add_argument('--rebuild-mmq', action='store_true',
@@ -78,6 +79,10 @@ def main():
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     args = p.parse_args()
+    if args.point_only and (not args.native_curve or args.mode not in POINT_MODES):
+        p.error('Focused point requires the native ordered Q2, paired norm Q2 or UD mode')
+    if args.mode == 'q2-point-norm' and not args.point_only:
+        p.error('Paired norm model requires the focused native point')
     if args.mode == 'hc-norm-ragged-bench' or args.source_variant == 'hc-norm-ragged':
         if args.mode != 'hc-norm-ragged-bench' or args.source_variant != 'hc-norm-ragged':
             p.error('Ragged paired norm requires its isolated component mode and source')
@@ -130,6 +135,7 @@ def main():
                     'q2-curve-iq2': 'curve-iq2-q2',
                     'q2-curve-scale': 'curve-scale-q2',
                     'q2-curve-row': 'curve-row-q2',
+                    'q2-point-norm': 'point-norm-q2',
                     'q2-curve-iq2-mixed': 'curve-iq2-mixed-q2',
                     'q2-curve-ple-cache-first': 'curve-ple-cache-first-q2',
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
@@ -397,6 +403,17 @@ def main():
                 candidate = json.loads((ROOT/'config/q2-iq2-signs-ordered-asm-source.json').read_text())
                 provider = {'variants': {'q2': {'source': candidate['candidate'],
                                                'files': candidate['files']}}}
+            if provider_mode == 'q2-point-norm':
+                candidate = json.loads((ROOT/'config/q2-norm-ragged-source.json').read_text())
+                component_plan = json.loads((ROOT/'config/q2-norm-ragged-plan.json').read_text())
+                component = json.loads((ROOT/'config/q2-norm-ragged-results.json').read_text())
+                if (file_sha256(ROOT/'config/q2-norm-ragged-source.json') != component_plan['source_manifest_sha256'] or
+                    file_sha256(ROOT/'config/q2-norm-ragged-plan.json') != component['plan_sha256'] or
+                    file_sha256(ROOT/'config/q2-iq2-signs-ordered-asm-source.json') != candidate['parent_manifest_sha256'] or
+                    component['disposition'] != 'SELECT_ONE_CANONICAL_POINT_WITH_QUALITY_OPEN' or
+                    component['validation_pass'] is not True or component['promoted'] is not False):
+                    p.error('Paired norm provider or component decision changed')
+                provider = {'variants': {'q2': {'source': candidate['candidate'], 'files': candidate['files']}}}
             if provider_mode == 'q2-curve-row':
                 candidate = json.loads((ROOT/'config/q2-scaled-row-reuse-source.json').read_text())
                 component = json.loads((ROOT/'config/q2-scaled-row-results.json').read_text())
@@ -449,7 +466,7 @@ def main():
                 if file_sha256(ROOT/'config/q2-curve-source.json') != provider['parent_manifest_sha256']:
                     p.error('Canonical profile parent changed')
             source = provider['variants'][key]['source']
-            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row') and {
+            if provider_mode in ('q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm') and {
                     str(f.relative_to(ROOT/source)) for f in (ROOT/source).rglob('*') if f.is_file()
                     } != set(provider['variants'][key]['files']):
                 p.error('Canonical IQ2 provider inventory changed')
@@ -479,7 +496,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>16000000: raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--point-only') if args.point_only else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()
@@ -493,7 +510,7 @@ def main():
         script = '\n'.join(lines)
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'point_only': args.point_only, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'detached': args.detach, 'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:

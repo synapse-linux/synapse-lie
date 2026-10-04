@@ -30,33 +30,42 @@ def main():
         native_bench, flags = Path(flags[1]), flags[2:]
         if not native_bench.is_absolute() or not native_bench.is_file():
             raise ValueError('Native benchmark must be an existing absolute binary')
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row']):
+    point_only = flags[:1] == ['--point-only']
+    if point_only:
+        flags = flags[1:]
+        if native_bench is None:
+            raise ValueError('Focused point requires the native benchmark')
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged']):
         raise ValueError('Unknown diagnostic flags')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
     cache_first = flags == ['--ple-cache-first']
     routes = flags == ['--profile-routes']
     mixed = flags == ['--iq2-mixed']
+    norm_ragged = flags == ['--norm-ragged']
+    if norm_ragged and not point_only:
+        raise ValueError('Paired norm requires focused point')
     row_reuse = flags == ['--scaled-row']
     scale = flags == ['--iq2-scale']
     if variant not in ('q2', 'ud'):
         raise ValueError('Unknown curve variant')
-    if (iq2_signs or cache_first or routes or mixed or scale or row_reuse) and variant != 'q2':
+    if (iq2_signs or cache_first or routes or mixed or scale or row_reuse or norm_ragged) and variant != 'q2':
         raise ValueError('IQ2 signs requires the Q2 model')
     if (scale or row_reuse) and native_bench is None:
         raise ValueError('Scale model comparison requires the native C canonical benchmark')
-    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale or row_reuse):
+    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale or row_reuse or norm_ragged):
         raise ValueError('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD provider')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
-                   provider_experiment='scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   point_only=point_only,
+                   provider_experiment='norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:
         receipt['client_driver'] = 'synapse-lie-bench-native-C'
         receipt['client_binary_sha256'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
-        native_variant = 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
+        native_variant = 'norm' if norm_ragged else 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
@@ -106,7 +115,7 @@ def main():
             if native_bench is not None:
                 check_backend(receipt['backend_ready'], native_variant)
                 argv = client_argv(native_bench, result/'native-curve.jsonl',
-                                   result/'native-curve-graphs', native_variant)
+                                   result/'native-curve-graphs', native_variant, point_only=point_only)
             command = dict(argv=argv, started_ns=time.monotonic_ns())
             receipt['commands'].append(command)
             with (result/'curve-client.log').open('xb') as client_log:
