@@ -547,6 +547,13 @@ class Tests(unittest.TestCase):
             c.m['http_case'] = 'prose'
             corpus.write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError, 'corpus drift'): c.bench()
+            corpus.write_bytes(b'{"id":"prose"}\n')
+            c.m['http_impl'] = 'gufo'
+            bundle_receipt = self.base/'BUNDLE.json'; bundle_receipt.write_text('{}')
+            c.m['artifacts'].update({'runtime/bin/gufo':'fixture',
+                                     'BUNDLE.json':point.sha(bundle_receipt)})
+            with self.assertRaisesRegex(ValueError, 'Gufo control provenance'):
+                c.bench()
     def test_modern_ssd_restart_requires_a_cross_process_disk_hit(self):
         c = self.campaign('modern-ssd-restart')
         helper = c.root/'ssd-restart-gate.py'; helper.write_bytes(b'fixture restart helper')

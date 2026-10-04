@@ -1054,8 +1054,25 @@ class Campaign:
         if (sha(helper) != self.m.get('http_multi_gate_sha256') or
                 sha(corpus) != self.m.get('corpus_sha256')):
             raise ValueError('Prepared HTTP helper or corpus drift')
-        if impl == 'gufo' and 'runtime/bin/gufo' not in self.m['artifacts']:
-            raise ValueError('Official Gufo control binary must be pinned')
+        if impl == 'gufo':
+            artifacts = self.m['artifacts']
+            control = self.m.get('gufo_control')
+            bundle = checked_path(Path(self.m['bundle'])/'BUNDLE.json')
+            if ('runtime/bin/gufo' not in artifacts or
+                    sha(bundle) != artifacts.get('BUNDLE.json') or
+                    type(control) is not dict or
+                    set(control) != {'upstream_pin', 'upstream_manifest_sha256',
+                                     'port_patch_sha256', 'port_build_result_sha256',
+                                     'rocwmma_pin', 'rocwmma_files_sha256',
+                                     'binary_sha256', 'target'} or
+                    control['upstream_pin'] !=
+                    'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
+                    control['rocwmma_pin'] !=
+                    '48b7db12a9ade97f0b7ab2ff9321ba0cbb4e5b77' or
+                    control['target'] != 'gfx1150' or
+                    control['binary_sha256'] != artifacts['runtime/bin/gufo'] or
+                    json.loads(bundle.read_text()).get('gufo_control') != control):
+                raise ValueError('Official Point Gufo control provenance drift')
         model, rows = self.verified_model()
         predictor = None
         if mode == 'mtp':
