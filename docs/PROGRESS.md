@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Mixed IQ2 canonical comparison complete; parity remains open — 2026-10-04
+
+Four full 0–128K curves complete on .157 with 20 zero model-command exits and
+120 verified artifacts. Both 20-request Q2 history comparisons are exact.
+Mixed-map PP differs from the unchanged second control by −4.331% at 0,
+−0.074% at 4K, +31.047% at 8K, −2.359% at 12K and +0.088–1.124% at 16–128K.
+The large order variability and the low 8K control are retained; no uniform
+model gain is established. Candidate PP is below UD at all eight points.
+Decode retains the earlier ordered-IQ2 gain; the map introduces no new decode
+optimization. Independent model quality and the broader acceptance matrix
+(latency, C2/C4/C8, resources and native-context frontier) remain open.
+
+[Complete report, four-series graph and 32-row CSV](Q2-IQ2-MIXED-CANONICAL.md).
+Fresh release at 10:16:14.814706 UTC verifies 70 identities and 50 groups retired,
+empty KFD, four original leases free and six unchanged model stat tuples.
+Source checkpoint `452b0dd` succeeds after the earlier Git index failures.
+No .157 cleanup occurs. The historical 1439.264 counting result remains valid
+for its own workload; a same-harness regression replay is the next distinct
+check, without replacing the canonical optimization target.
+
 ## Mixed map wired to full canonical model comparison — 2026-10-04
 
 The isolated model provider changes three host/build files and adds the exact
@@ -11,7 +31,7 @@ Executor syntax and ten Python AST checks pass locally. The new .157 host cohort
 passes22/22 Debug and22/22 ASan/UBSan, six zero command exits, seven artifacts.
 The planned four-arm comparison retains ordered Q2 before/after the candidate
 and pristine UD, full MMQ builds and the complete canonical0–128K PP/TG workload.
-Original-model execution remains pending fresh admission; the parity goal is open.
+The subsequent completed model comparison is recorded above; the parity goal is open.
 [Integration, provenance and plan](Q2-IQ2-MIXED.md#model-integration-and-four-arm-plan).
 
 ## Mixed IQ2 GPU comparison improves recorded-routing cases — 2026-10-04

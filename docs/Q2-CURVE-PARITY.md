@@ -11,6 +11,32 @@ at pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. The
 Published UD numbers remain historical references; acceptance requires fresh
 paired Q2/UD measurements on `.157` with recorded builds and model identities.
 
+This curve is the immediate optimization priority, not the entire acceptance
+contract. The [Q2 validation protocol](Q2-VALIDATION.md) continues to require
+the following separate evidence; a successful C1 curve cannot close them.
+
+| Requirement | Relation to the canonical C1 curve |
+| --- | --- |
+| PP and TG without regression in each case | Required at every depth, with repeated paired observations; no cross-metric averaging or automatic 5% allowance. |
+| Complete request latency, HTTP TTFT and delivery | Executor PP/TG alone does not cover tokenization, cache work, queueing or transport. |
+| Native C2/C4/C8 and unchanged UD shared-code control | Separate concurrent-serving and regression comparisons remain required. |
+| Startup/load time, host/device peak memory, I/O and thermal/power/clock telemetry | Record actual values and unavailable measurements; throughput alone is insufficient. |
+| Independent numerical and task quality, correct memory/lifecycle behavior | Exact same-Q2 response replay is useful but is not an independent model-quality certificate. |
+| Fresh long-prompt ingestion and native context frontier | The continuation graph stops at 128K; native 256K requires its own admitted workload and output headroom. |
+| 512K/1M, MTP and other capability extensions | Separate common-engine capability, resource and quality gates; not established by this C1 campaign. |
+
+The active mixed128/64 campaign measures only the complete canonical C1
+performance subset. Its ordered-Q2 repeat checks order variability; it does not
+establish a formal zero-margin statistical certificate or complete the broader
+goal. Historical short-prompt controls remain scope-labelled diagnostics.
+
+The C1 backend advertises capacity 1 because this workload opens it with
+`max_active=1`. Its `native_batching=false` observation does not demonstrate
+that a Q2 batch path is absent: the shared adapter has `Session::DecodeBatch`.
+Core confirms no later Q2 IQ2_XXS/Q2_K C2/C4/C8 qualification is available.
+Those tests must exercise the patched provider, 640/768 padding, numerical
+results, memory and actual batch/row counters before any batching claim.
+
 ## Why the recent measurements do not establish this target
 
 The historical C17 benchmark was restored to reconcile UD's approximately

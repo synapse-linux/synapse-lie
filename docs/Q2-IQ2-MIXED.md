@@ -161,4 +161,7 @@ Q2 again, then pristine UD. All four require full MMQ rebuilds, the same frozen
 C17 core, all eight0–128K depths and128 completed outputs per cell. The analyzer
 checks all complete Q2 histories and physical work counts and retains both
 controls. No model promotion, prefill gain or Q2/UD parity is claimed from
-source integration or host tests. Fresh coordinated GPU admission is required.
+source integration or host tests. The subsequent
+[completed four-arm model comparison](Q2-IQ2-MIXED-CANONICAL.md) preserves all
+20 Q2 histories but establishes no uniform model gain; PP remains below UD
+at every depth. Its verified window is released at 10:16:14.814706 UTC.

@@ -6,7 +6,31 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 window: **released at2026-10-04T08:32:30.689733+00:00**. The previous
+Latest Q2 window: **released at 2026-10-04T10:16:14.814706+00:00** after all
+four mixed-map canonical curves. All 20 model commands exit zero and 120 model
+artifacts verify; the two complete Q2 history comparisons are exact. Fresh
+closure checks 70 recorded identities and 50 groups retired, empty KFD, four
+unchanged original leases EX|NB/free and six unchanged model stat tuples.
+Remote/main active/release/ready receipts and the shared registry record closure;
+[receipt](../config/q2-iq2-mixed-model-window-release.json) SHA256
+`5b171da1f0cd4a4d64faf78fe7d07ab07b9a36a6da17dc4c36afc00df35f60f5`.
+Core receives the release message. No Q2 workload, reservation, waiter or restart
+remains, and no cleanup occurs on .157. A historical counting regression check
+is local preparation only and requires a fresh admitted window.
+
+Previous Q2 window: **admitted at 2026-10-04T09:40:03.638575+00:00** for
+four complete canonical 0–128K curves: ordered Q2, mixed128/64 Q2, ordered
+Q2 repeated, then UD, all with full MMQ rebuilds and the same frozen C17 core.
+Core explicitly confirms it retains no .157 window, then acknowledges this
+admission. Fresh original-lease, retirement, KFD, six-model-stat and thermal
+checks pass; the previous Q2 release is still the latest registry event.
+Source checkpoint is `452b0dd`. Remote/main receipts and the shared registry
+record admission; [receipt](../config/q2-iq2-mixed-model-window-admission.json)
+SHA256 `4b75724b77418fca00373ff529fdb17f723e2d8f14a866175099a3f11579124a`.
+Q2 retains this bounded window until verified release. No .157 cleanup occurs.
+Outgoing coordination messages now succeed.
+
+Previous Q2 window: **released at2026-10-04T08:32:30.689733+00:00**. The previous
 Q2 release remains latest at fresh08:28:59 admission, with no intervening core
 admission. Under continuing owner authorization, both bounded mixed-tile
 component arms complete with six zero command exits and28 verified artifacts.

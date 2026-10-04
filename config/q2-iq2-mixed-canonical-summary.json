@@ -1,0 +1,60 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-canonical-summary.v1",
+  "result_sha256": "50cafa80ed31c4b329c270b5ecf5ce339115e65e1145914f39a3b7d1210f9e58",
+  "release_sha256": "5b171da1f0cd4a4d64faf78fe7d07ab07b9a36a6da17dc4c36afc00df35f60f5",
+  "host_tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "model_commands": 20,
+  "model_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "model_verified_artifacts": 120,
+  "matched_history": true,
+  "full_curve_parity_observed": false,
+  "uniform_model_gain_established": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false,
+  "thermal_peaks_c": {
+    "baseline": {
+      "amdgpu": 98.0,
+      "k10temp": 93.125
+    },
+    "q2": {
+      "amdgpu": 97.0,
+      "k10temp": 95.25
+    },
+    "baseline_repeat": {
+      "amdgpu": 98.0,
+      "k10temp": 96.375
+    },
+    "ud": {
+      "amdgpu": 100.0,
+      "k10temp": 96.0
+    }
+  },
+  "broader_acceptance": "docs/Q2-VALIDATION.md",
+  "next_regression_control": "Replay historical exact2048 counting harness without replacing the canonical target",
+  "remote_cleanup": false
+}

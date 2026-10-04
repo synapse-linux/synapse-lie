@@ -14,7 +14,7 @@ long-context crossings remain sensitive to UD variability. Whole-curve parity
 and independent model numerical qualification remain open. The complete graph
 and CSV retain the candidate, UD and both unchanged Q2 controls.
 
-The next [DeepSeek-inspired mixed 128/64 tile comparison](docs/Q2-IQ2-MIXED.md)
+The [DeepSeek-inspired mixed 128/64 tile comparison](docs/Q2-IQ2-MIXED.md)
 uses unchanged numerical kernels with a new C17 descriptor map. Its host
 qualification passes 22/22 Debug and 22/22 ASan/UBSan on .157. The GPU comparison
 now saves1.487–4.148% of complete component time across four measured-routing
@@ -22,6 +22,14 @@ cases, or1.723–3.765% including map construction/upload. All ten output pairs
 are exact and independent FP64 checks pass. The full-tile control costs0.3%
 more; no model prefill gain is claimed. Full results, graph and140-sample CSV
 are retained, and the GPU window is released.
+
+Its [complete four-arm model comparison](docs/Q2-IQ2-MIXED-CANONICAL.md) now
+finishes all eight depths. All 20 Q2 histories replay exactly, but mixed-map
+prefill is 4.331% lower at depth 0 and 0.750% higher at 128K than the repeated
+unchanged control; no uniform model gain is established. Q2 PP remains below
+UD at every point. The graph retains both controls, the candidate and UD,
+with all 32 observations and complete request durations in the CSV. The broader
+latency, concurrency, resource and quality acceptance gates remain open.
 
 The subsequent [PLE four-arm comparison](docs/Q2-PLE-CANONICAL.md) completes
 all eight depths and retains both unchanged ordered-Q2 controls. It establishes
