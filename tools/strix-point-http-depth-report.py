@@ -25,8 +25,10 @@ def checked_run(mode, size, impl, evidence):
     collection = json.loads((path/'collection.json').read_text())
     inventory = collection['inventory']
     if (collection['exit_code'] or inventory['result_state'] != 'PASSED' or
-            inventory['child_exit_code'] != 0 or
+            inventory['result_exit_code'] != 0 or inventory['child_exit_code'] != 0 or
             not inventory['model_stat_unchanged'] or
+            inventory['service_exit'] != 0 or
+            'ActiveState=active' not in inventory['service'] or
             not all(inventory[k] for k in ('supervisor_absent', 'gpu_child_absent',
                                            'owned_child_absent', 'lease_free'))):
         raise ValueError(f'Incomplete remote closure: {label}')

@@ -46,7 +46,17 @@ def files_for(evidence, label):
     if (inventory.get('result_state') != ('FAILED' if expected_exit else 'PASSED') or
             not inventory.get('model_stat_unchanged')):
         raise ValueError(label+': invalid model or result state')
+    controller = json.loads((root/'controller-result.json').read_text())
+    plan = json.loads((root/'plan.json').read_text())
+    if (controller.get('exit_code') != expected_exit or
+            {k: v for k, v in controller.items() if k != 'exit_code'} != plan or
+            any(inventory['files'].get(name, {}).get('sha256') != digest
+                for name, digest in controller['source_sha256'].items())):
+        raise ValueError(label+': controller exit drift')
     result = [(collection, f'evidence/{label}/collection.json')]
+    for name in ('plan.json', 'controller-result.json', 'controller-stdout.log',
+                 'controller-stderr.log'):
+        result.append((root/name, f'evidence/{label}/{name}'))
     for relative, info in sorted(inventory['files'].items()):
         if (Path(relative).is_absolute() or '..' in Path(relative).parts or
                 relative == 'collection.json'):
