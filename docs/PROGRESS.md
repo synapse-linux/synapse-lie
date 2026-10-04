@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Focused optimization audit complete — 2026-10-04
+
+Three independently fetched public source snapshots are pinned and retained
+as private local research evidence. The [follow-up queue](Q2-OPTIMIZATION-FOLLOWUP.md)
+distinguishes a specialized F16 HC-down loader/epilogue and eight-value IQ2
+producer partition from already tested tile/sign variants. Cross-query key
+reuse and distributed exact attention selection are future depth hypotheses,
+inactive at the fixed2048 point. Existing compact attention, shared Q8 reuse
+and predictor-tail work are not presented as missing ports. Numerical
+compatibility reports suggest examining compiler contraction, alongside the
+new independent fixture's0xff store pattern. Negative tuning/measurement
+corrections remain in the private audit. No GPU, source port or host tuning
+is performed by this audit; the fixed comparator and curve gate remain.
+
+## Shared-Q8 component improves time; independent oracle remains failed — 2026-10-04
+
+R3 completes90 interleaved samples and97 verified artifacts, with actual
+configure/build/fixture exits0/0/1. Producer medians are1339.582801 /
+1280.712605 /1339.500308us before/candidate/after; complete shared-expert
+medians are2088.712215 /2046.679020 /2090.072155us. Candidate savings are
+4.39% and2.01–2.08%, with15/15 wins against both controls in both scopes.
+All50 whole-buffer/padding comparisons match; both FP64 HC checks pass.
+Independent GPU Q8 checks fail127/2048, so the numerical gate prevents the
+next model run. Read-only diagnosis records107/64503 differing code bytes,
+all0xff on the independent side, with matching scales/padding. Store coverage
+and compiler arithmetic both need investigation. No failed verdict is waived.
+
+The candidate remains retained; fixed1443.672867 Q2 /1685.777092 UD and the
+full PP/TG parity goal remain unchanged. Release18:10:39UTC verifies428
+identities/329groups retired, empty KFD, four original leases and six unchanged
+model stat tuples; core acknowledges. No Q2 .157 job/build/reservation/waiter/
+restart or cleanup remains. [Report, every sample and graph](Q2-SHARED-Q8-PRODUCER.md#r3-timing-retained-independent-format-qualification-remains-open).
+
 ## Shared-Q8 producer component prepared — 2026-10-04
 
 R2 later retains0/0/1 and92 artifacts. All five GPU shapes and44 recorded

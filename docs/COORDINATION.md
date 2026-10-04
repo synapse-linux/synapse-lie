@@ -6,7 +6,17 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
-Latest Q2 component R2 is released at2026-10-04T17:55:30.661335Z. Exits0/0/1
+Latest Q2 component R3 is released at2026-10-04T18:10:39.735343Z. Exits0/0/1
+and97 artifacts retain both passing timing and failed independent format
+qualification. Closure verifies428identities/329groups retired, empty KFD,
+four original lease identities free and six model stat tuples unchanged.
+Main/remote release/active/ready and the shared registry mark closure; core
+acknowledges. No Q2 .157 job/build/reservation/waiter/restart or cleanup remains.
+[Release](../config/q2-shared-q8-producer-r3-window-release.json), SHA256
+`7fc079af128dc0d5c8fcf1ce3a835046440429a2e652011cbe716931628725c4`.
+The subsequent external-source audit is read-only and takes no GPU window.
+
+Previous Q2 component R2 is released at2026-10-04T17:55:30.661335Z. Exits0/0/1
 and92 artifacts are preserved. All five whole GPU shapes match; CPU format
 oracle fails on12 rounding-boundary codes at2048. No timing samples or model
 qualification. Closure checks417identities/320groups retired, empty KFD,

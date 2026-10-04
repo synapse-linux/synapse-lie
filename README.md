@@ -49,8 +49,12 @@ identifies two remaining producer/fusion hypotheses without a new GPU run.
 The [raw-HC shared-Q8 producer](docs/Q2-SHARED-Q8-PRODUCER.md) now has an
 isolated source and complete-cycle fixture. Existing device kernel bodies are
 unchanged; FFN cache publication enables their existing Q8 output. Host Debug
-and ASan/UBSan each pass22/22 on `.157`. GPU component validation is pending;
-no new model rate or curve is claimed.
+and ASan/UBSan each pass22/22 on `.157`. The completed GPU component preserves
+all50 reference/candidate output checks and records90 timing samples:
+producer time falls4.39%, complete shared-expert time2.01–2.08%, with15/15
+paired wins. The independent GPU format oracle fails127/2048; its exit1 and
+97 artifacts remain. The candidate is retained, the GPU window released,
+and no new model rate or context curve is claimed.
 
 The [latest DeepSeek prefill comparison](docs/Q2-IQ2-PREFILL-REUSE.md) completes
 four GPU component arms. Block-scale reuse saves 0.815–3.743% of complete-cycle

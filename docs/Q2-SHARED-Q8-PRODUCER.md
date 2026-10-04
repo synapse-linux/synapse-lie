@@ -99,5 +99,48 @@ launch, input mutation and producer/consumer replay failures still abort.
 [R3 plan](../config/q2-shared-q8-producer-r3-plan.json),
 [R3 host receipt](../config/q2-shared-q8-producer-r3-host-results.json).
 Host Debug/ASan22/22 cover unchanged executed host/guard sources. The final
-GPU-only boolean aggregation is separately bound in the GPU plan and will be
-compiled/executed on GPU; it is not claimed as CPU inference or ASan GPU coverage.
+GPU-only boolean aggregation is separately bound in the GPU plan; its later
+GPU execution below is not CPU inference or ASan GPU coverage.
+
+## R3 timing retained; independent format qualification remains open
+
+R3 completes all90 measured samples and97 verified artifacts. Configure/build/
+fixture exits are0/0/1. All50 reference/candidate whole-buffer and padding
+comparisons match, including the timed producer and complete-cycle outputs.
+Both independent HC FP64 cases pass their original limits. The independent
+serial GPU Q8 fixture passes96/97/129 but fails127/2048. Its numerical verdict
+stays failed; no fixed-point model run is admitted by the frozen protocol.
+[Complete report](../config/q2-shared-q8-producer-r3-results.json).
+
+| Scope | Reference before, us | Candidate, us | Reference after, us | Candidate time change before / after | Wins against both |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| HC/Q8 producer | 1339.582801 | 1280.712605 | 1339.500308 | -4.3947% / -4.3888% | 15/15 |
+| Complete shared-expert cycle | 2088.712215 | 2046.679020 | 2090.072155 | -2.0124% / -2.0762% | 15/15 |
+
+Each entry is the median of15 interleaved measurements. Unchanged-control
+drift is-0.0062% for the producer and+0.0651% for the complete cycle.
+The timing gate passes, separately from the failed numerical gate. The
+candidate is retained, with no whole-model gain or independent quality claim.
+The fixed1443.672867 Q2 /1685.777092 UD model reference does not change.
+
+![All ninety component samples](figures/q2-shared-q8-producer.svg)
+
+[All samples in CSV](figures/q2-shared-q8-producer.csv),
+[exportable PNG](figures/q2-shared-q8-producer.png).
+
+Read-only buffer diagnosis finds no independent-oracle scale or padded-byte
+differences, but107/64503 code bytes differ at127/2048. Every differing oracle
+byte is0xff, concentrated in the first one/six positions of each32-value
+block. These are not all half-integer rounding discrepancies; fixture store
+coverage and generated device code need investigation. CPU ideal diagnostics
+remain exact at127 and differ by12 codes at2048. A CPU fused-remainder
+reconstruction matches the production code at the mismatching positions;
+the actual GPU reciprocal was not captured, so this is diagnostic evidence,
+not an explanation of all oracle failures or a waived gate.
+[Format diagnosis](../config/q2-shared-q8-producer-r3-format-diagnostic.json).
+
+Release at2026-10-04T18:10:39.735343Z verifies428identities/329groups retired,
+KFD empty, four original leases free and six original model stat tuples
+unchanged. Core acknowledges. Peak observed CPU/GPU temperatures are70.750/
+62C. No Q2 job, build, reservation, waiter, restart or remote cleanup remains.
+[Verified release](../config/q2-shared-q8-producer-r3-window-release.json).
