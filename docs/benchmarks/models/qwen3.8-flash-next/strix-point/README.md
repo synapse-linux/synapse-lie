@@ -318,6 +318,15 @@ Terminal Bench task evaluation and qualification of later sampling-filter,
 fixed-EOS and steering changes remain pending. The earlier short gates below
 retain their original methods and results.
 
+The newer r12 runtime (`a3066a7`) passes **37/37 AR checks**, adding advertised
+context/output limits and automatic omitted/null budgets. Both APIs generate
+327 tokens in JSON and SSE, beyond the earlier implicit 128-token default,
+with identical complete constrained output. This verifies budget behavior,
+not task quality or throughput. The new MTP37 window is interrupted by an
+external GPU client and remains unqualified; its actual failure and successful
+process/service/lease closure are retained in the
+[r12 receipt](../../../../development/validation/automatic-output-point-gpu-2026-10-04.json).
+
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
 enabled. Both use the original UD shards, 16,384-token configured context,

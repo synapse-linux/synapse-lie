@@ -8,6 +8,31 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Original-weight automatic AR budgets qualified; MTP interrupted — 2026-10-04 UTC
+
+The device-free `.161` r12 build verifies all 2,457 capsule files and the 1,019
+official Gufo files, compiles `a3066a7`, exits 0 and closes its lease. The separately
+admitted AR window passes **37/37** checks: the previous 34 controls plus model
+limit agreement and actual automatic output in both APIs. Chat and Responses
+each produce 327 tokens with omitted JSON and null SSE limits, with identical
+complete constrained text, usage and resolved budget 4,096. All runtime/controller
+exits are 0; collection verifies seventeen artifacts. CPU/GPU/NVMe maxima are
+61.25/64/62.85 C. Router and original lease are restored at 23:11:50.074654 UTC.
+
+The subsequent MTP window completes the 21 controls sidecar but is interrupted
+at 23:16:24 UTC by external Python 3.12 PID29223/start2470351 in `session-424`.
+Supervisor/controller exit 1, owned child exit 137 and container-init exit 143
+are retained; OOM is false. Sixteen artifacts verify and the actual owned GPU
+PID29140/start2464442 is absent. Models are unchanged, router PID29377 is active
+and the original lease is free. The new MTP37 gate remains unqualified; the
+historical r11 AR/MTP34 gates are unchanged. No automatic retry or standing
+root GPU ownership remains. [Combined receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
+
+Terminal Bench's unchanged official source is separately staged for the existing
+Harbor 0.20.0/Docker client. The smoke image is cached; only 4/19 Core-19 images
+are present. No dependency is installed and no task is executed. Inference still
+targets `.161` over HTTP8000 after a newly admitted server window.
+
 ## Automatic shared-core output budgets implemented — 2026-10-04 UTC
 
 The subsequent optional GPU protocol requires actual output past 128 tokens
@@ -39,10 +64,10 @@ failed to expose the resolved Responses budget. The correction uses its standard
 field, and the failed run remains preserved. Local CPU maximum is 74 C.
 [Commands, hashes and retained failures](development/validation/automatic-output-host-2026-10-04.json).
 
-These are host fixtures, not original-weight inference or a Terminal Bench score.
-The frozen r11 GPU controls receipt remains unchanged; this newer runtime needs
-a fresh `.161` build and GPU window. No task has run and no harness output cap,
-product dependency or GPU job is added by this slice.
+These host fixtures do not establish a Terminal Bench score. The subsequent
+r12 AR37 GPU window is recorded above; the newer MTP gate remains interrupted.
+The frozen r11 receipts are unchanged. No task has run and no harness output
+cap or product dependency is added by this slice.
 
 ## Original-weight OpenAI MTP controls completed — 2026-10-04 UTC
 

@@ -1,5 +1,34 @@
 # DS4 / synapse-lie coordination
 
+## Automatic-budget r12 windows released — 2026-10-04 UTC
+
+Fresh admission at 22:57:20.466869 UTC verifies empty actual/kernel KFD clients
+after stopping only the authorized router. The device-free r12 compilation of
+`a3066a7` exits 0 and releases at 22:59:56.903782 UTC. Its six collected artifacts
+verify; router PID26789 is restored and lease dev66307/inode105946405 is free.
+
+The separately admitted AR37 window passes all original-weight checks and
+releases at 23:11:50.074654 UTC. Seventeen artifacts verify, models are unchanged,
+owned processes retire and router PID28052 is restored. Collection SHA-256:
+`8e3b670072e24b44819423b5c31bfc955e33d849adce370e1746174b8f51a288`.
+
+Fresh MTP admission at 23:14:10.712962 UTC initially verifies empty KFD.
+External PID29223/start2470351 subsequently opens KFD/renderD128 in `session-424`,
+outside the owned container. The guard stops only the root window and preserves
+supervisor/controller 1, owned child 137, container-init 143 and `OOMKilled=false`.
+Release is 23:16:24.366038 UTC, with router PID29377 restored and the original
+lease free. Sixteen artifacts verify; collection SHA-256:
+`8dd6b5f981615a1cf296ab2f3a7c5f2d0a37f1f0732a3a3099267bd7716df8b4`.
+Separate read-only closure at 23:19:18 UTC verifies actual owned GPU
+PID29140/start2464442 absent and the foreign executable `/usr/bin/python3.12`
+still present. Point confirms it owns no remote process or reservation.
+
+The MTP37 window remains unqualified. Foreign processes are unchanged; no root
+GPU job, waiter, automatic retry or reservation remains on `.161` or `.157`.
+Further GPU work requires fresh availability and admission. CPU98/NVMe85 and
+GPU observation remain; no tuning or dependency installation occurs.
+[Receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
+
 ## OpenAI MTP controls released — 2026-10-04 UTC
 
 Read-only inspection at 22:19:44 UTC finds the unrelated training process gone,

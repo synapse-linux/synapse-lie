@@ -41,8 +41,12 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    function calls have separate checks; clients execute the commands.
    The shared core now resolves omitted/null HTTP output budgets after prompt
    preparation, preserving the existing 4,096-token output ceiling, and exposes
-   model context/output limits. Nine Debug and nine sanitizer host checks pass;
-   the new behavior still needs original-weight GPU qualification before tasks.
+   model context/output limits. Nine Debug and nine sanitizer host checks pass.
+   The new r12 AR runtime passes 37 original-weight HTTP checks, including actual
+   327-token omitted/null output in both APIs; the new MTP gate is interrupted
+   by an external GPU client. The unchanged smoke source/client and its cached
+   task image are ready; Core-19 currently has 4/19 cached task images. No task
+   score exists yet. [Current receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
 3. **Close full 1M context acceptance.** The `.161` physical gate completes all
    1,048,448 prefill tokens but stops naturally after 43 output tokens; the
    required TG128 gate remains failed. Require full physical prefill and all
