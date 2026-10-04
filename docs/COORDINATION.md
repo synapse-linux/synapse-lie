@@ -106,6 +106,22 @@ At the owner's request, the existing Strix Point thread continues its isolated
 Root does not access or change that target; newer-runtime GPU qualification
 must remain distinct from these old-source baseline measurements.
 
+## Point projector copy released — 2026-10-04 UTC
+
+The `.157` root sampled window was released at 02:43:25.968475 UTC on
+2026-10-04 with canonical SHA-256
+`17312b22e2c780cc1c6d296986d373f4fa2467671dda5c69d5ff70346f570483`.
+Point then took one direct, read-only projector copy window: all 616,703,104
+bytes of the original Q8 projector reached `.161` and hash to
+`b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad`.
+The `.157` source stat identity remained unchanged; its three owned process
+identities retired, KFD is empty, and all four original leases are unchanged
+and EX|NB free. `.161` restored `llama-router.service` (PID 108508), which is
+its sole KFD client; no LIE container remains and its private lease is free.
+The verified [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
+and persistent private evidence bind the result. Point has no .157 job,
+waiter or reservation; the window is returned to Q2/WMMA. Vision inference
+qualification on `.161` remains separate.
 
 The `.161` ROCm 10 Distrobox `fresh-128k` baseline closes in two serial GPU
 windows on 2026-10-03. LIE and direct Gufo each pass 10/10 original UD samples
@@ -150,6 +166,24 @@ restored router PID 101236 in KFD, no LIE container and the same private lease
 free. There is no standing `.161` GPU ownership.
 See the
 [Point results page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+
+Two later `.161` original-weight HTTP windows pass AR and explicit MTP
+`/v1/models`, Chat Completions and Responses JSON/SSE checks with server,
+Distrobox child and supervisor exit 0. Both stop/restore only the authorized
+router, preserve model/predictor stat identities and release the private
+lease; 34/34 remote files hash-verify. Postflight at 02:19:26 UTC finds only
+restored router PID 103651 in KFD, no LIE container and the private lease
+EX|NB free (device 66308/inode 105946405). This closes those windows only;
+no standing GPU ownership follows.
+
+Two subsequent `.161` opt-in SSD restart windows pass AR and MTP with two
+distinct inference processes each. The cold process writes the 8,192-token
+prefix; the hot process reads it from SSD with no prefill, no SSD error and
+identical physical input/output IDs. Both restore only the named router and
+release their private leases; 42/42 remote files hash-verify. Final postflight
+at 02:37:17 UTC finds only router PID 106168 in KFD, no LIE container and
+the private lease EX|NB free (device 66308/inode 105946405). No standing
+GPU ownership follows from these windows.
 
 Three subsequent `.161` ROCm 10 Distrobox `multi` windows are closed: LIE
 reactive, direct Gufo and LIE serial each passed C1/2/4/6/8 with 20/20 full

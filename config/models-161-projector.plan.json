@@ -1,0 +1,15 @@
+{
+  "schema": "synapse-lie.model-source.v1",
+  "source": "read-only original Q8 projector on .157",
+  "target": "pop@192.168.5.161",
+  "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-mmproj-q8-r1",
+  "total_bytes": 616703104,
+  "files": [
+    {
+      "name": "mmproj-Qwen3.8-Flash-Next-Q8_0.gguf",
+      "bytes": 616703104,
+      "sha256": "b2e9b5e4a44c107f8867e67dbf09b607fd99ae33c1a97a60a6720aeb252a9dad"
+    }
+  ],
+  "verification": "Historical pinned SHA-256 and full destination stream hash; no source mutation"
+}

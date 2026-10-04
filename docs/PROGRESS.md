@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Point HTTP/SSD and direct-core probe integration — 2026-10-04 UTC
+
+Root integrates Point `080177b`, keeping sampling controls and the optional
+native `--reactive-probe`. The probe checks peer progress while a borrowed
+output block holds its credits, then cancellation and retirement. Root strengthens
+the snapshot check to compare every borrowed byte and covers MTP bursts of 8/13
+tokens plus early-EOS/failure cleanup. It adds no inference worker and changes
+no executor ABI, provider or model implementation.
+
+Focused ASan/UBSan/LeakSanitizer CTest passes 19/19; the strengthened synthetic
+client suite passes 20/20 and the repeated native contract passes 1/1. Mocked
+Point supervision/SSD/thermal fixtures pass 34/34. Local CPU peaks at 84.875 C;
+CPU guard is 98 C and GPU temperature is observe-only. These are host checks,
+with GPU visibility masked and no model forward.
+
+Offline root verification confirms all 34 HTTP and 42 SSD archived SHA entries,
+short original-weight AR/MTP JSON/SSE exchanges, four exact cold/hot output
+streams, 8,192 restored SSD tokens and zero hot prefill/errors. Native C reporting
+accepts the matched SSD comparison. Seven retained Point artifacts stay byte
+identical. Original GPU evidence remains bound to `9b109998`; the strengthened
+probe still needs its own GPU qualification. Projector-copy bookkeeping retains
+the retired temporary SSH agent's exit 2 separately from successful transfer
+commands. The [integration receipt](development/validation/point-functional-integration-2026-10-04.json)
+binds actual exits, merged source and scope; the [Point page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+keeps results, archives and usage together.
+
 ## Seeded shared-core GPU comparison complete — 2026-10-04 UTC
 
 Frozen `5a377aa` completes 18/18 original-weight `.157` arms across greedy,
@@ -11,7 +37,7 @@ and 23.837/23.877 tok/s. Slow samples stay visible; stable performance parity,
 independent quality and exact allocation gates remain open.
 
 CPU/GPU/NVMe peaks are 86/89/71.85 C, with CPU 98 C guard, GPU observe-only and no
-thermal stops. Release at 02:43:25 UTC verifies 37 identities and36 groups retired,
+thermal stops. Release at 02:43:25 UTC verifies 37 identities and 36 groups retired,
 empty KFD, four unchanged/free original leases, model stats and capsules.
 All 233 collected artifacts verify. Root remains offline; Point completes its
 separate projector copy and returns `.157` to Q2. The post-run native renderer
@@ -357,6 +383,55 @@ binds every trial, 380 sensor samples, OS thread counts (up to five), raw hashes
 and temperature/fan/throughput plots. Raw files stay under local `evidence/`.
 
 ## Strix Point core integration checkpoint — 2026-10-03
+
+The original Q8 vision projector was copied directly from `.157` to `.161`
+after the coordinated root release, with no source transfer or WAN download.
+The destination's complete 616,703,104 bytes match the pinned SHA-256; source
+stat identity is unchanged. The copy controller, sender and receiver exit 0,
+and the temporary SSH agent is retired. Final `.157` postflight finds KFD
+empty and all four established leases unchanged/free; `.161` has only its
+restored router PID 108508 in KFD, no LIE container and its private lease
+free. The [copy receipt](development/validation/point-projector-copy-2026-10-04.json)
+and [destination plan](../config/models-161-projector.plan.json) bind the
+source, destination and release. Ownership was returned to Q2/WMMA; the
+projector's presence alone is not a vision inference result.
+
+The native C17 core benchmark now has an opt-in `--reactive-probe` functional
+mode: a direct client keeps one output loan and its credits withheld while a
+second row completes, then cancels the held row and verifies the borrowed text
+and retirement counters. It uses no HTTP and reports no speedup. The focused
+synthetic contract passes in normal and ASan/UBSan builds; the sandboxed first
+CTest attempt was blocked by loopback permissions and is retained in ignored
+evidence. This source change still needs a fresh pinned `gfx1150` build and
+original-weight GPU run before it can be cited as Point inference evidence.
+
+The Point `modern-http` GPU gate now passes for both AR and explicit MTP in
+separate lease-supervised ROCm 10 Distrobox windows. It starts the
+original-weight server with fresh requests, verifies `/v1/models`, Chat
+Completions and Responses in JSON/SSE and records each wire exchange.
+Both paths return `4` across both APIs and projections. The backend reports
+`synthetic=false`, with `mtp=false` for AR and `mtp=true` for the predictor
+run. All 34 collected remote files hash-verify; both servers, children and
+supervisors exit zero, model/predictor identities are unchanged and each
+window restores the named service and releases the lease. The
+[Point HTTP receipt](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-http-ar-and-mtp-gates)
+includes the raw requests/responses, temperatures and postflight. These are
+short loopback functional requests inside the container: external Pi-agent
+access, long-context HTTP, tools, and served performance remain untested on
+`.161`.
+
+The separate opt-in SSD restart gate now passes AR and MTP with original
+weights. Each arm starts a cold direct-core process at 8,192 physical prompt
+tokens, persists its KV and exits; a distinct process in the same admitted
+Distrobox reads the same SSD directory. Both hot processes restore all 8,192
+tokens with zero prefill, one SSD hit, zero SSD errors and exact cold/hot
+output IDs. AR and MTP physical/output IDs also match each other; MTP accepts
+18 drafts in both processes. Both windows preserve model identities and
+restore/release service and lease. The [SSD restart report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-kv-reuse-across-inference-processes)
+contains 42/42 remote-file SHA checks, raw archive, telemetry and one-sample
+decode/wall values. Final `.161` postflight finds only the restored router
+PID 106168 in KFD, no LIE container and the private lease free. This qualifies
+cross-process persistence, not crash recovery or statistical performance.
 
 `feature/strix-point-ud` integrates the `feature/vision-q8` C17 core, MTP and
 vision contracts while retaining explicit `gfx1150` build receipts and HIP

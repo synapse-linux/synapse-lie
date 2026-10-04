@@ -89,6 +89,25 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+To check credit handling directly in the core, prepare a JSON array of physical
+token IDs and run the optional functional probe:
+
+```sh
+"$LIE_BENCH" --suite core --model "$LIE_MODEL" \
+  --tokens-file tokens.json --context 4096 --chunk 2048 \
+  --users 2 --tg 128 --warmups 0 --repetitions 1 \
+  --kv-cache-ram-mb 0 --reactive-probe \
+  --output results/core-reactive.jsonl
+```
+
+The probe holds a borrowed output block without returning its credits, requires
+the peer to finish, then cancels the held job and checks loan stability and
+retirement. It needs two users, at least 16 output tokens, one repetition, no
+warmup, and cache and vision disabled. MTP may be enabled with its predictor.
+This produces functional evidence about backpressure and cancellation; use the
+regular suites above for throughput measurements. A synthetic build checks the
+consumer contract; original-weight inference requires a qualified GPU build.
+
 To measure the dense sampler on original weights, use a fixed seed and keep
 sampling parameters identical in both builds:
 

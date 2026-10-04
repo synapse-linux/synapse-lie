@@ -1,0 +1,106 @@
+{
+  "schema": "synapse-lie.point-http-original-gpu-collection.v1",
+  "target": "pop@192.168.5.161",
+  "kernel": "7.1.5-76070105-generic",
+  "gpu": "gfx1150 Radeon 890M",
+  "rocm_image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "source_commit": "9b109998eff6321b5000ea336e561aab70720d72",
+  "runner_commit": "697344dad0d40e03f09bf9208a5d172e794d5848",
+  "server_binary_sha256": "70fc794afd543c77aebf9ca8b29b9da83b1dc8e9c3102c6559ab7f34e40433c0",
+  "gufo_source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "archive_sha256": "67d6a42638ec3d272c5cc2067ace3d5f20f0dd040a959e66b8892e59730248c6",
+  "scope": "direct loopback HTTP inside leased Distrobox; original UD weights; 16K configured context, short requests; no external Pi client or high-context HTTP measurement",
+  "fresh_ram_kv_cache_mib": 0,
+  "ssd_enabled": false,
+  "arms": [
+    {
+      "mode": "ar",
+      "run": "point-modern-r3-ar-http-r1",
+      "remote_files_sha256_verified": 17,
+      "manifest_sha256": "751e1a826109d22c33dc3fde979d5f15735e2e43a16a7cdf8e50038277af85c0",
+      "runner_sha256": "1003cb541dbf6d6ea206a37a0afacf229f9a763b2184498bbbebabd9c6440ec3",
+      "helper_sha256": "c4c22578dc633bda1d757eb41b77bd166181d280c3e06b22b0df378f196552c4",
+      "http_result_sha256": "170b7aa6a0ef143adcf936ee25729b884af9b4abfedd83c0f65e6292c4b187f8",
+      "http_wire_sha256": "2beb8fc3706e39ce0183e94048b21af7484b7e9bf10fedd80177d88bb8360488",
+      "result_sha256": "b55b1e0809b18bf006de3ab41d1b83771c0a9a67986d96544bf40b26a0d917fd",
+      "server_exit_code": 0,
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "backend_mtp": false,
+      "backend_synthetic": false,
+      "backend_ready": true,
+      "backend_native_batch_capacity": 2,
+      "backend_max_decode_output_tokens": 1,
+      "model_and_predictor_stat_unchanged": true,
+      "service_after_active": true,
+      "lease_released_at": "2026-10-04T02:16:41.272998+00:00",
+      "checks_passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse"
+      ],
+      "chat_text": "4",
+      "responses_text": "4",
+      "peak_temperature_c": {
+        "k10temp": 59.375,
+        "amdgpu": 54.0,
+        "nvme": 65.85
+      },
+      "gpu_busy_peak_percent": 67
+    },
+    {
+      "mode": "mtp",
+      "run": "point-modern-r3-mtp-http-r1",
+      "remote_files_sha256_verified": 17,
+      "manifest_sha256": "5aba29c95572c8bdb3d72c39b18f83869ea91d1f74e769aeb835cbdee06d58f9",
+      "runner_sha256": "1003cb541dbf6d6ea206a37a0afacf229f9a763b2184498bbbebabd9c6440ec3",
+      "helper_sha256": "c4c22578dc633bda1d757eb41b77bd166181d280c3e06b22b0df378f196552c4",
+      "http_result_sha256": "aad9d425112b35c0341710c846725802b383380cec3e86adbeb57b10ae2a7cb3",
+      "http_wire_sha256": "3f4a2ca05ea08437e76a1046436401dda2e152d022a247e5563f28eda06c217a",
+      "result_sha256": "8a2d2d712cae26d22a297f46ac8d5a327911e3b46f1dabe770749f24f81d3166",
+      "server_exit_code": 0,
+      "child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "backend_mtp": true,
+      "backend_synthetic": false,
+      "backend_ready": true,
+      "backend_native_batch_capacity": 2,
+      "backend_max_decode_output_tokens": 8,
+      "model_and_predictor_stat_unchanged": true,
+      "service_after_active": true,
+      "lease_released_at": "2026-10-04T02:18:14.744193+00:00",
+      "checks_passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse"
+      ],
+      "chat_text": "4",
+      "responses_text": "4",
+      "peak_temperature_c": {
+        "k10temp": 63.375,
+        "amdgpu": 54.0,
+        "nvme": 66.85
+      },
+      "gpu_busy_peak_percent": 76
+    }
+  ],
+  "final_postflight": {
+    "at": "2026-10-04T02:19:26.540848+00:00",
+    "service": {
+      "MainPID": "103651",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "kernel_kfd": [
+      103651
+    ],
+    "lie_containers": [],
+    "lease_free": true,
+    "lease_device": 66308,
+    "lease_inode": 105946405
+  }
+}

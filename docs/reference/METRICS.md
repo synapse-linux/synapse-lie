@@ -271,6 +271,21 @@ permits only those feature differences, reports them, and still requires matched
 workload/runtime settings and output tokens. This is an ON/OFF ablation, not an
 unqualified model/server comparison.
 
+## Direct-core reactive probe
+
+Core benchmark identity includes the optional `reactive_probe` boolean. When
+true, the client emits a `reactive` event instead of measured job/sample rows.
+`scope=direct-c-core-held-loan-peer-cancel` identifies the check: one borrowed
+text block remains held while a peer completes, then the held job is cancelled.
+All bytes of that block must remain unchanged until release. The event records
+peer and held output counts, borrowed token count, blocked rows, completion and
+cancellation deltas, decode batch deltas and MTP draft/acceptance deltas.
+
+These are functional assertions, without elapsed-time or throughput estimates;
+the regular benchmark report requires measured samples and does not export this
+probe as a performance comparison. The `synthetic` field retains its usual
+meaning. Historical normal core records without `reactive_probe` remain readable.
+
 ## Shared progressive cache policy
 
 `/actuator/llm.cache.checkpoint_policy` reports kind (`ds4`/`legacy`), text-prefix

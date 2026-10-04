@@ -25,6 +25,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Direct-core `--reactive-probe` checks peer progress during a held output loan,
+  full loan stability across cancellation, and retirement. It is a functional
+  check, separate from throughput benchmarks.
+
 - Explicit `gfx1150` Strix Point support, with provider target verification and
   paired GPU benchmark results grouped on the platform page.
 

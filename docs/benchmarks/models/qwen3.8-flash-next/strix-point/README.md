@@ -16,6 +16,15 @@ The shared branch includes this target. Its
 [integration receipt](../../../../development/validation/point-integration-2026-10-04.json)
 records host checks and offline report reproduction; the GPU measurements below
 remain bound to each campaign's recorded source and binaries.
+The later [HTTP/SSD integration receipt](../../../../development/validation/point-functional-integration-2026-10-04.json)
+verifies both raw archives and the optional direct-core reactive consumer. Its
+host fixtures do not qualify a newer runtime on the Point GPU.
+
+The original Q8 vision projector is now present on `.161` after a direct
+read-only copy from `.157`. Its 616,703,104 bytes match the pinned SHA-256;
+the source file is unchanged and both machines' leases were released. The
+[copy receipt](../../../../development/validation/point-projector-copy-2026-10-04.json)
+records the handover. Vision inference on this GPU has not yet been qualified.
 
 | Direct benchmark | LIE prefill | LIE decode | Same-stack Gufo decode | Scope |
 | --- | ---: | ---: | ---: | --- |
@@ -277,6 +286,90 @@ for cache in ram ssd; do
     --output "run/point-modern-cache-replay-r3/report-${cache}"
 done
 ```
+
+### Original-weight HTTP AR and MTP gates
+
+Two additional `.161` windows start `synapse-lie-server` in the same supervised
+ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
+enabled. Both use the original UD shards, 16,384-token configured context,
+fresh short requests, one private server on loopback and no retained RAM/SSD
+KV cache. The server reports `synthetic=false`, `READY` and the pinned Gufo
+provider in both runs; its MTP flag is false for AR and true for the predictor
+run. This exercises the C HTTP/worker/flow path with real GPU inference.
+
+| Check | AR | MTP |
+| --- | --- | --- |
+| `/v1/models` lists the configured model | pass | pass |
+| Chat Completions JSON and SSE, same output | `4` | `4` |
+| Responses JSON and SSE, same output | `4` | `4` |
+| Server / Distrobox child / supervisor exit | 0 / 0 / 0 | 0 / 0 / 0 |
+
+The [collection receipt](charts/rocm10-modern-http-collection.json) records
+the binary and helper identities, API checks, backend mode, thermal peaks,
+34/34 collected remote-file SHA-256 checks and lease/service closure. The
+[portable raw archive](data/rocm10-modern-http-r3.tar.gz) contains every
+request/response, server and supervisor log, telemetry and original manifest;
+transient container home/cache files are omitted. Sampled CPU/GPU/NVMe peaks
+were 63.375/54/66.85 C across the two windows. Final postflight found only
+the restored router PID 103651 in KFD, no LIE container and the private lease
+free. Recheck the archive from the repository root:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-http-replay-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz \
+  -C run/point-modern-http-replay-r3
+for mode in ar mtp; do
+  (cd "run/point-modern-http-replay-r3/point-modern-r3-${mode}-http-r1" && \
+   sha256sum -c remote.sha256)
+done
+```
+
+These short loopback requests establish functional serving for the tested
+paths. External Pi-agent connectivity, tool-call generation, 128K/256K HTTP
+requests and served performance still need separate Point qualification.
+
+### SSD KV reuse across inference processes
+
+Two more original-weight GPU windows test **process restart**, separately for
+AR and MTP. In each window a cold `synapse-lie-bench --suite core` process
+prefills the same 8,192 physical tokens, writes the opt-in SSD KV state and
+exits. A distinct process then opens the same private SSD directory and
+generates 32 tokens. RAM KV retention is zero; SSD quota and staging are 4 GiB
+and 512 MiB. The hot process restores all 8,192 tokens from SSD, records one
+SSD hit and zero SSD errors, and performs no prefill. Cold/hot physical input
+and output IDs match within each arm; AR and MTP output IDs also match each
+other. MTP accepts 18 drafted tokens in both processes.
+
+| Path | Cold prefill tokens | Hot SSD-cached tokens | Hot prefill tokens | Hot decode tok/s | Hot complete-wall tok/s |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| AR | 8,192 | 8,192 | 0 | 10.262 | 8.226 |
+| MTP | 8,192 | 8,192 | 0 | 12.550 | 9.696 |
+
+Each row is one hot request after one cold request; these rates do not
+establish a stable performance difference. The [collection receipt](charts/rocm10-modern-ssd-restart-collection.json)
+links all four process exit codes, exact identity comparisons, KV file stats,
+temperature and 42/42 remote-file SHA-256 checks. The
+[portable raw archive](data/rocm10-modern-ssd-restart-r3.tar.gz) contains both
+processes' JSONL, logs and telemetry. It excludes the SSD payloads, whose
+retained sizes are 1,068,054,635 bytes for AR and 1,128,102,871 bytes for
+MTP. Sampled CPU/GPU/NVMe peaks are 70.75/71/72.85 C. Both windows restore
+the authorized router and release the private lease; final postflight sees
+only router PID 106168 in KFD and no LIE container.
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-modern-ssd-restart-r3
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz \
+  -C run/point-modern-ssd-restart-r3
+for mode in ar mtp; do
+  (cd "run/point-modern-ssd-restart-r3/point-modern-r3-${mode}-ssd-restart-r1" && \
+   sha256sum -c remote.sha256)
+done
+```
+
+This qualifies normal cross-process persistence on `.161`. Abrupt process
+failure, host reboot and SSD eviction remain separate tests.
 
 The [full Strix Point report](../../../../STRIX-POINT-RESULT.md) and
 [direct benchmark report](../../../../STRIX-POINT-BENCHMARK-RESULT.md)
