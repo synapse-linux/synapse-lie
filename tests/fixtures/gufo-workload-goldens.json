@@ -1,0 +1,222 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "origin": "Official independently fetched Gufo; offline goldens, NOT-INFERENCE",
+  "gufo_commit": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+  "cases": [
+    {
+      "kind": "text",
+      "seed": 0,
+      "words": 1,
+      "bytes": 6,
+      "sha256": "4ac04ccb622858fc2a2a670d44f0f5945f7cb2394ddd938455d2ce3ff987df0a"
+    },
+    {
+      "kind": "text",
+      "seed": 1,
+      "words": 6,
+      "bytes": 37,
+      "sha256": "036a10f989abcc6d0b817d037d524de6b08f9982ec54b43ad1ad710443bcaa5b"
+    },
+    {
+      "kind": "text",
+      "seed": 1,
+      "words": 14,
+      "bytes": 91,
+      "sha256": "eda4140efa63a352d39f2cb49a68719c610176218ff054e63f859bbfbfd68b8e"
+    },
+    {
+      "kind": "text",
+      "seed": 7777,
+      "words": 3000,
+      "bytes": 17947,
+      "sha256": "439577d472e46dd325c6d165090a2b09f9f261b99e61605c507b16d0be4ea0b8"
+    },
+    {
+      "kind": "text",
+      "seed": 8888,
+      "words": 1755,
+      "bytes": 10564,
+      "sha256": "1a69d93b02cfada3c504dcc0511d941054a1366173c817c35d502c6e0186c239"
+    },
+    {
+      "kind": "text",
+      "seed": 4294967297,
+      "words": 100,
+      "bytes": 583,
+      "sha256": "6eb95f27c9108a7b00a172daa7182bf3fc957785c8a7ab94013935b9ab164db4"
+    },
+    {
+      "kind": "text",
+      "seed": 131073,
+      "words": 112301,
+      "bytes": 677761,
+      "sha256": "e751f61869dcd3e466d42ee8946ccc28a5de3e6a442a6fd866fbac4e93fa6393"
+    },
+    {
+      "kind": "turn",
+      "task": "prose",
+      "depth": 0,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10582,
+      "sha256": "93945d40fdbc2aa69ecdcaf8c36552788c7f8e756a1b4c863d2aae43683f3383"
+    },
+    {
+      "kind": "turn",
+      "task": "prose",
+      "depth": 4096,
+      "rep": 1,
+      "attempt": 3,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10417,
+      "sha256": "3b0ed2b772312ffa2deb12a17f58dc582e4823d60cf6259612335be9192dbb45"
+    },
+    {
+      "kind": "turn",
+      "task": "prose",
+      "depth": 131072,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.17123,
+      "target": 2036,
+      "bytes": 10464,
+      "sha256": "8232527f59e8bcf184d7353f20f646bf47acd86fe35e4cedb04ccad7ae68d1b0"
+    },
+    {
+      "kind": "turn",
+      "task": "repetition",
+      "depth": 0,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10582,
+      "sha256": "b7b9e6a3b00182fca0a28476a01d18e4427b014950c99d9dd2ec789b237f2674"
+    },
+    {
+      "kind": "turn",
+      "task": "repetition",
+      "depth": 4096,
+      "rep": 1,
+      "attempt": 3,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10430,
+      "sha256": "06e070bae580562d8255ac15898d7e168b889be970013aca9c42c6eb0ab8209b"
+    },
+    {
+      "kind": "turn",
+      "task": "repetition",
+      "depth": 131072,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.17123,
+      "target": 2036,
+      "bytes": 10468,
+      "sha256": "41c07d0f6ad13b7ccc7fb630762d496c926239533f8c7f5273c29a56b6f323db"
+    },
+    {
+      "kind": "turn",
+      "task": "copy",
+      "depth": 0,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10606,
+      "sha256": "d03bb8f7bd422096cef324a11950bf95a18b9b407199c567a0c9473c4c4b9ec1"
+    },
+    {
+      "kind": "turn",
+      "task": "copy",
+      "depth": 4096,
+      "rep": 1,
+      "attempt": 3,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10430,
+      "sha256": "eb549789c0e7f120644687a0c3fad5114e8b7d59799dfc67e1fcc67c05d9fcf6"
+    },
+    {
+      "kind": "turn",
+      "task": "copy",
+      "depth": 131072,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.17123,
+      "target": 2036,
+      "bytes": 10473,
+      "sha256": "054a11c143786823b96988eaf2f46cb3266c1b563a5b576b6d50a3a49923330a"
+    },
+    {
+      "kind": "turn",
+      "task": "story",
+      "depth": 0,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10599,
+      "sha256": "491355af82a8c32c9293c7d6a5efafb1b611c97f51c01cd57e2d69a50bdca9c3"
+    },
+    {
+      "kind": "turn",
+      "task": "story",
+      "depth": 4096,
+      "rep": 1,
+      "attempt": 3,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10422,
+      "sha256": "6cc020eb7bbee9b7ddc2b4e54b1f5949212bdc82e33716d639c149a2c9586cc1"
+    },
+    {
+      "kind": "turn",
+      "task": "story",
+      "depth": 131072,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.17123,
+      "target": 2036,
+      "bytes": 10459,
+      "sha256": "aded0252b2b776ada1cc3179288100573b5f373a144d3f2682ead683b7de921f"
+    },
+    {
+      "kind": "turn",
+      "task": "thinking",
+      "depth": 0,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10593,
+      "sha256": "ec6ada177ff5d03b3cddd73728062ebbbe23b40acc9dc50de2aed4311376858c"
+    },
+    {
+      "kind": "turn",
+      "task": "thinking",
+      "depth": 4096,
+      "rep": 1,
+      "attempt": 3,
+      "ratio": 1.167,
+      "target": 2036,
+      "bytes": 10431,
+      "sha256": "acf37c7c90a344f9816333a7cc07bebc627b4e12b9544d61355764baf91dbc7b"
+    },
+    {
+      "kind": "turn",
+      "task": "thinking",
+      "depth": 131072,
+      "rep": 0,
+      "attempt": 0,
+      "ratio": 1.17123,
+      "target": 2036,
+      "bytes": 10477,
+      "sha256": "43104826123cc7dbdd9fb795fdb795e7f89ac4d241fd71e5d86d6b244476f42f"
+    }
+  ]
+}

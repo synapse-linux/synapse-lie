@@ -228,6 +228,7 @@ target_include_directories(lie_runtime PUBLIC include)
 target_link_libraries(lie_runtime PUBLIC lie_core PkgConfig::JSON Threads::Threads m)
 find_package(PNG REQUIRED)
 add_library(lie_bench_native STATIC tools/native/common.c tools/native/http_transport.c
+  tools/native/gufo_workload.c tools/native/http_curve.c
   tools/native/http_bench.c tools/native/http_multi.c tools/native/ssd_bench.c tools/native/report.c tools/native/plot.c)
 target_include_directories(lie_bench_native PUBLIC tools/native)
 target_link_libraries(lie_bench_native PUBLIC PkgConfig::JSON PkgConfig::CURL OpenSSL::Crypto PNG::PNG Threads::Threads m)
@@ -476,6 +477,14 @@ if(BUILD_TESTING)
   target_link_libraries(test-http-multi-native PRIVATE lie_bench_native)
   add_test(NAME native-http-multi-contract COMMAND test-http-multi-native $<TARGET_FILE:test-synthetic-lie-bench>)
   set_tests_properties(native-http-multi-contract PROPERTIES TIMEOUT 90)
+  add_executable(test-http-curve-native tests/test_http_curve_native.c)
+  target_link_libraries(test-http-curve-native PRIVATE lie_bench_native)
+  add_test(NAME native-http-curve-contract COMMAND test-http-curve-native
+    $<TARGET_FILE:synapse-lie-bench>
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/gufo-workload-goldens.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/gufo-curve-trace.json
+    ${CMAKE_CURRENT_BINARY_DIR}/curve-CPU-XXXXXX)
+  set_tests_properties(native-http-curve-contract PROPERTIES TIMEOUT 90)
   lie_python_test(core-bench-contract ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_core_bench.py $<TARGET_FILE:test-synthetic-lie-bench>)
   lie_python_test(simplified-bench-contract ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_lie_bench.py $<TARGET_FILE:test-synthetic-lie-bench>)
   lie_python_test(http-bench-contract ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_bench_http.py $<TARGET_FILE:test-synthetic-lie-bench>)

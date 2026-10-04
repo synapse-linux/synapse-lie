@@ -438,3 +438,39 @@ retirement barrier as foreground cancellation. JSON/schema violations use
 `output_validation_errors`; successful object compilation and host sampler
 checks do not mark `hardware_qualified` true. Response history has its own
 conservative RAM quota and TTL, independent of the KV cache statistics.
+
+## Canonical cached conversation benchmark
+
+`synapse-lie.http-curve-bench.v1` records the pinned Gufo recipe separately from
+the simplified direct-executor and prepared-cohort protocols. Its identity binds
+model alias, declared context, depth list, task, seed, output/prompt budgets,
+warmups, repetitions, endpoint profile, requested AR/MTP mode and tolerance.
+`request` events retain calibration, warmup, non-streaming prefix preparation and
+streamed measured attempts, including the complete request, payload hash, actual
+assistant text, raw response chunks, usage and monotonic HTTP bounds. The client
+is a single curl-multi event loop and introduces no worker per request.
+
+Each accepted `point` references its measured request index and records physical
+prompt/cached/new-prefill/output counts, completion hash and draft counters.
+`pp_tps = (prompt_tokens - cached_tokens) × 1000 / prefill_ms` and
+`tg_tps = output_tokens × 1000 / decode_ms` use executed server phases.
+`timing_source` identifies validated LIE `synchronous_executor_calls` or Gufo
+`usage.gufo` phases; their implementations retain their distinct boundaries.
+HTTP wall time, client TTFT and output over HTTP wall are separate metrics.
+Phase sums cannot exceed complete request wall time. Measured output must fill
+its budget; an EOS-shortened response fails the curve. Preparations retain their
+actual reply even if their 8-token budget ends early, matching the Gufo recipe.
+
+The offline report reconstructs calibration and all expected prompts, replies,
+attempts and accepted points before aggregation. It requires the final successful
+request/point counts and rejects missing events, altered payloads, output budgets,
+terminals, timings and point aggregates. Statistics expose every sample, mean,
+sample standard deviation, median and min/max. Unexecuted phases remain JSON
+null and plot gaps. PP, TG, HTTP wall and TTFT use four independent plot panels.
+
+Comparisons require matching protocol declarations and disclose exact request,
+completion and physical-count equality per depth. Gufo's adaptive history may
+differ between model quantizations; such a comparison is a workload comparison,
+not numerical equivalence or an inference-quality certificate. These records do
+not measure server cold loading or peak allocation. CPU fixture values remain
+explicitly `NOT-INFERENCE`; they must never be published as GPU results.

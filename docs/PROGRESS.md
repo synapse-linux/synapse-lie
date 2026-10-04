@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native canonical conversation benchmark — 2026-10-04 UTC
+
+`synapse-lie-bench --suite http-curve` implements the independently fetched
+Gufo `f783fedb` single-user cached-conversation protocol in C17. Exact seeded
+prose/tasks, tokenizer calibration, real prefix replies, carried recalibration
+and four-attempt tolerance remain distinct from the simplified direct suite.
+Requests, retries, usage, raw responses and physical cache counts are retained.
+Offline C reports reconstruct the protocol before exporting statistics and
+four separately scaled PP/TG/HTTP-wall/TTFT panels. Comparisons expose dynamic
+history/count differences instead of inferring numerical equivalence.
+
+Focused native contracts pass 3/3 in Debug and 3/3 with ASan/UBSan/leak checking.
+The new contract checks 22 upstream prompt goldens, a 35-request oracle through
+128K with two repetitions and forced recalibration, and independent traces for
+thinking, early prefix EOS, four failed retries and a 1M client boundary.
+Benchmark/report subprocesses run with a PATH containing no interpreter or
+external tools. Synthetic timing/chart values stay private and NOT-INFERENCE.
+The standalone Release client also passes the independent wire fixture. Across
+the device-masked commands, CPU peaks at 75.25 C under the CPU98 guard, with
+separate SSD bounds and observe-only GPU temperatures.
+The server/provider/executor ABI and inference scheduler are unchanged.
+The provider ceiling remains 262,144; declaring 1M client capacity does not
+enable 1M inference. No GPU/model access, remote build, dependency installation
+or publication occurs in this implementation window.
+
+The [benchmark guide](guides/BENCHMARKS.md#canonical-gufo-conversation-curve)
+contains build/run/report commands. Static oracle provenance is recorded in
+[the upstream port receipt](../third_party/gufo-bench-source.json).
+Commands, actual failure/success exits, source and binary hashes and temperature
+bounds are recorded in the
+[host validation receipt](development/validation/bench-curve-native-2026-10-04.json).
+
 ## Point cold HTTP AR/MTP through near 256K complete — 2026-10-04 UTC
 
 Sixteen fresh-server original-weight ROCm 10 `gfx1150` windows on `.161`

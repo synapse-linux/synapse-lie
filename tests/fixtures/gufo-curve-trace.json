@@ -1,0 +1,608 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "origin": "Official independently fetched Gufo; offline goldens, NOT-INFERENCE",
+  "gufo_commit": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+  "scope": "Independent upstream request-sequence oracle; one forced depth recalibration, two repetitions, full 0..128K",
+  "requests": [
+    {
+      "phase": "calibration-overhead",
+      "budget": 1,
+      "stream": true,
+      "prompt": 13,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "c78dd08d6154e3bc473d869f254473bc646e3707a2a3f04160ba5bfc2ec5ec47",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "calibration-probe",
+      "budget": 1,
+      "stream": true,
+      "prompt": 3513,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "90d1a3dfe190482ca611879ceae8e5d19fbaaa02cdf44b13731c4e0b27e475b5",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "warmup",
+      "budget": 16,
+      "stream": true,
+      "prompt": 2057,
+      "cached": 0,
+      "output": 16,
+      "messages_sha256": "4d1459c5b670457e8209eb6900aff28507a4ca2d18da51c863179663a3afef78",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2048,
+      "cached": 0,
+      "output": 128,
+      "messages_sha256": "46a225ddef15e23d57de9a63aa306c915b6234856d408c6d6b33098aa5181541",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2048,
+      "cached": 0,
+      "output": 128,
+      "messages_sha256": "c6184491f951185094dc8e9aed63eb7b3a57cbdf307b3368cf7201ebcddf5230",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 4088,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "c8c072785ea9d51639eb6ef953eef72896b686c004d4488190ea014f988c5fd2",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 5900,
+      "cached": 4000,
+      "output": 128,
+      "messages_sha256": "39da2fca5104003c9ee56859da1cb314fee195b770cfb448248b1ce745a1c0a7",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 4088,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "752a85e0b738e218cf67b6323a0bbdcd39b6f1f41e872496fd0b1f5f0bf636c9",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 6144,
+      "cached": 4096,
+      "output": 128,
+      "messages_sha256": "9af360895c66b4f91c4b63ff7383e1e6ef9c696db757c3d0d958024f1a749089",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 4088,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "752a85e0b738e218cf67b6323a0bbdcd39b6f1f41e872496fd0b1f5f0bf636c9",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 6144,
+      "cached": 4096,
+      "output": 128,
+      "messages_sha256": "49c714c8523b5d4ae19f40cd30e4d3f54554f4e873e6de6a26653f628ea254b8",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 8184,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "58334600b7afdaedbcffe371449c26fd889e08e098b20eb5506defd3f2d6e6bc",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 10240,
+      "cached": 8192,
+      "output": 128,
+      "messages_sha256": "b36735b42f3cdd26dc68833432683838f9e8b59ab8a8ca57ff04a6e55a41d060",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 8184,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "58334600b7afdaedbcffe371449c26fd889e08e098b20eb5506defd3f2d6e6bc",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 10240,
+      "cached": 8192,
+      "output": 128,
+      "messages_sha256": "69018da493cb36f9ffd0f1d2c75d8144f6fad468ca007eec3645614eeb30e2c8",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 12280,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "0df238ba78738d096a73d5f3321f9602e99561b43c9b46e41182b49d90e71b8a",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 14336,
+      "cached": 12288,
+      "output": 128,
+      "messages_sha256": "7f115dc30691ff6a0d3809250a817792b4d51a54ffb4731c609e450aef72e35f",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 12280,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "0df238ba78738d096a73d5f3321f9602e99561b43c9b46e41182b49d90e71b8a",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 14336,
+      "cached": 12288,
+      "output": 128,
+      "messages_sha256": "70f94e6fa2eaa4d57d7c2fdbb348447be62682ced2c39e19605ffced1706e4fb",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 16376,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "1abdfaa8e2911f564910a567306319fbb99718a930248b3bead1720fd5b31d6c",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 18432,
+      "cached": 16384,
+      "output": 128,
+      "messages_sha256": "30fc65dca6adab46df9beeb9008880d0e61ea7f1a1115a3932afc7f2bab7ee64",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 16376,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "1abdfaa8e2911f564910a567306319fbb99718a930248b3bead1720fd5b31d6c",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 18432,
+      "cached": 16384,
+      "output": 128,
+      "messages_sha256": "c4c9934e555fa9397787d7c0730f9c185ee1babae41d459a372a2a867102da19",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 32760,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "e5224bd36056865e8860de705bbc4c61722e81f46257ef189d60258198f7fa23",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 34816,
+      "cached": 32768,
+      "output": 128,
+      "messages_sha256": "83d3ee168fa4a445aefff6fc29cc53cb5eb14c37b76f46956551c02be891b65e",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 32760,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "e5224bd36056865e8860de705bbc4c61722e81f46257ef189d60258198f7fa23",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 34816,
+      "cached": 32768,
+      "output": 128,
+      "messages_sha256": "2f069cd02857f1c30f2fcfb625058163ed67587e03f353998ba87350c1f2992d",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 65528,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "5e8204a02f462a96156ec3bf96b4975ec0b596db7d98a723c4eb01e9374cbd3b",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 67584,
+      "cached": 65536,
+      "output": 128,
+      "messages_sha256": "af43fd704e528595e9c6992ebc3aeda1a91aee6a4b7d63b2effbb2b7f1f3bba8",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 65528,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "5e8204a02f462a96156ec3bf96b4975ec0b596db7d98a723c4eb01e9374cbd3b",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 67584,
+      "cached": 65536,
+      "output": 128,
+      "messages_sha256": "2b2b5346828898fd9c29f0bd9de8964bb584341e01e3a07a0b9d99b576d5804c",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 131064,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "dc8b29c30a2b1bc4056e7a24bed85e419762c216757c6054aa08391a8d9bd1eb",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 133120,
+      "cached": 131072,
+      "output": 128,
+      "messages_sha256": "ba46db967387a05508b1f10e388c8525972a27da24b5d50b6b505229eba9f305",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 131064,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "dc8b29c30a2b1bc4056e7a24bed85e419762c216757c6054aa08391a8d9bd1eb",
+      "content": "Prefix fixture response."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 133120,
+      "cached": 131072,
+      "output": 128,
+      "messages_sha256": "9f2b0845b1af82d7d896aaf7a782980919440d712108cab6358bc32c703cc2b1",
+      "content": "NOT-INFERENCE fixture output."
+    }
+  ],
+  "exhausted_requests": [
+    {
+      "phase": "calibration-overhead",
+      "budget": 1,
+      "stream": true,
+      "prompt": 13,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "c78dd08d6154e3bc473d869f254473bc646e3707a2a3f04160ba5bfc2ec5ec47",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "calibration-probe",
+      "budget": 1,
+      "stream": true,
+      "prompt": 3513,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "90d1a3dfe190482ca611879ceae8e5d19fbaaa02cdf44b13731c4e0b27e475b5",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "warmup",
+      "budget": 16,
+      "stream": true,
+      "prompt": 2057,
+      "cached": 0,
+      "output": 16,
+      "messages_sha256": "4d1459c5b670457e8209eb6900aff28507a4ca2d18da51c863179663a3afef78",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2000,
+      "cached": 100,
+      "output": 128,
+      "messages_sha256": "46a225ddef15e23d57de9a63aa306c915b6234856d408c6d6b33098aa5181541",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2000,
+      "cached": 100,
+      "output": 128,
+      "messages_sha256": "cf53710f80e3f6f0f74c3bb44e02bbc107477bd644a160cf3c5af0de1ed12cf2",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2000,
+      "cached": 100,
+      "output": 128,
+      "messages_sha256": "d60f8b8aade51d45f590ecbf1f6d2627b9ac80c9a1ac8c4e32cad254a6e4fbb6",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2000,
+      "cached": 100,
+      "output": 128,
+      "messages_sha256": "cc3f341e58704c6d22078251b8a78cf8615bcb304486fac1e72027368254f7d9",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    }
+  ],
+  "thinking_requests": [
+    {
+      "phase": "calibration-overhead",
+      "budget": 1,
+      "stream": true,
+      "prompt": 13,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "c78dd08d6154e3bc473d869f254473bc646e3707a2a3f04160ba5bfc2ec5ec47",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "calibration-probe",
+      "budget": 1,
+      "stream": true,
+      "prompt": 3513,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "90d1a3dfe190482ca611879ceae8e5d19fbaaa02cdf44b13731c4e0b27e475b5",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "warmup",
+      "budget": 16,
+      "stream": true,
+      "prompt": 2057,
+      "cached": 0,
+      "output": 16,
+      "messages_sha256": "4d1459c5b670457e8209eb6900aff28507a4ca2d18da51c863179663a3afef78",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 2048,
+      "cached": 0,
+      "output": 128,
+      "messages_sha256": "971f5be96e92ac0aad523c7a14d621409191d4b016ff71afc8ca70be1f5ae7c0",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": true
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 4088,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "c8c072785ea9d51639eb6ef953eef72896b686c004d4488190ea014f988c5fd2",
+      "content": "Prefix fixture response.",
+      "thinking": true
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 6144,
+      "cached": 4096,
+      "output": 128,
+      "messages_sha256": "be28e070751711744a6e358bdc41c9cacb194d810867b825abf39be6b33dadb3",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": true
+    }
+  ],
+  "prefix_eos_requests": [
+    {
+      "phase": "calibration-overhead",
+      "budget": 1,
+      "stream": true,
+      "prompt": 13,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "c78dd08d6154e3bc473d869f254473bc646e3707a2a3f04160ba5bfc2ec5ec47",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "calibration-probe",
+      "budget": 1,
+      "stream": true,
+      "prompt": 3513,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "90d1a3dfe190482ca611879ceae8e5d19fbaaa02cdf44b13731c4e0b27e475b5",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "warmup",
+      "budget": 16,
+      "stream": true,
+      "prompt": 2057,
+      "cached": 0,
+      "output": 16,
+      "messages_sha256": "4d1459c5b670457e8209eb6900aff28507a4ca2d18da51c863179663a3afef78",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 4088,
+      "cached": 0,
+      "output": 2,
+      "messages_sha256": "c8c072785ea9d51639eb6ef953eef72896b686c004d4488190ea014f988c5fd2",
+      "content": "Prefix fixture response.",
+      "thinking": false
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 6144,
+      "cached": 4096,
+      "output": 128,
+      "messages_sha256": "39da2fca5104003c9ee56859da1cb314fee195b770cfb448248b1ce745a1c0a7",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    }
+  ],
+  "million_requests": [
+    {
+      "phase": "calibration-overhead",
+      "budget": 1,
+      "stream": true,
+      "prompt": 13,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "c78dd08d6154e3bc473d869f254473bc646e3707a2a3f04160ba5bfc2ec5ec47",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "calibration-probe",
+      "budget": 1,
+      "stream": true,
+      "prompt": 3513,
+      "cached": 0,
+      "output": 1,
+      "messages_sha256": "90d1a3dfe190482ca611879ceae8e5d19fbaaa02cdf44b13731c4e0b27e475b5",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "warmup",
+      "budget": 16,
+      "stream": true,
+      "prompt": 2057,
+      "cached": 0,
+      "output": 16,
+      "messages_sha256": "4d1459c5b670457e8209eb6900aff28507a4ca2d18da51c863179663a3afef78",
+      "content": "NOT-INFERENCE fixture output."
+    },
+    {
+      "phase": "prefix",
+      "budget": 8,
+      "stream": false,
+      "prompt": 1048568,
+      "cached": 0,
+      "output": 8,
+      "messages_sha256": "d90e4ebce1ae8501efb9655cb4c64b5b0fa742f716815c254fbbe10a6d2bf829",
+      "content": "Prefix fixture response.",
+      "thinking": false
+    },
+    {
+      "phase": "measured",
+      "budget": 128,
+      "stream": true,
+      "prompt": 1050624,
+      "cached": 1048576,
+      "output": 128,
+      "messages_sha256": "a11c8e539c756ba23acdb0af7bc4031e39ddb054bf542112a201f6cb71409936",
+      "content": "NOT-INFERENCE fixture output.",
+      "thinking": false
+    }
+  ]
+}

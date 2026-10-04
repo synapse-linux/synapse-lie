@@ -40,6 +40,10 @@ stable release is declared. Detailed validation history is in
   repetitions per engine, physical-token/cache validation, draft acceptance,
   TTFT/wall timing, resource samples, sealed raw evidence and offline
   regeneration of CSV/JSON/SVG comparisons.
+- Native `http-curve` benchmark reproduces the pinned Gufo cached-conversation
+  depth protocol: exact seeded prompts, token calibration, actual prefix replies
+  and bounded retries. Execution and validated CSV/JSON/SVG/PNG reports require
+  no Python; failed or incomplete curves cannot produce averages.
 
 - Native C `http-multi` benchmark for prepared C1/2/4/6/8 HTTP cohorts, with
   pinned Gufo prose/repetition prompts, complete-stream validation and four

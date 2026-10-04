@@ -5,8 +5,10 @@
 
 `synapse-lie-bench` runs repeatable workloads and saves raw JSONL. Its direct
 executor suites simplify the AR context-depth and multi-user workloads used by
-Gufo. The separate `http-multi` suite implements its prepared-session HTTP
-cohorts. The results page identifies the measurements already qualified on GPU.
+Gufo. The `http-curve` suite implements its canonical cached-conversation depth
+protocol; `http-multi` implements prepared-session HTTP cohorts. Execution,
+reports and graphs are native C and require no Python. The results page
+identifies the measurements already qualified on GPU.
 
 ## Choose the measurement
 
@@ -17,6 +19,7 @@ cohorts. The results page identifies the measurements already qualified on GPU.
 | `fresh` | The cost of processing a complete new prompt. | Full prompt prefill from an empty sequence, then decode. |
 | `core` | The shared C engine, including admission and cache behavior. | Per-job TTFT, executed prefill, decode and output over cohort wall time. |
 | `http` | Client-visible API latency and replayable conversation workloads. | HTTP request wall time and reported executor timings. |
+| `http-curve` | Canonical Gufo conversation depth curve, through 128K by default. | Executed new-turn PP and TG, with HTTP wall time and TTFT recorded separately. |
 | `http-multi` | Gufo-style prepared HTTP cohorts at C1/2/4/6/8, for AR or a separately configured MTP server. | Sum of individual server decode rates, common HTTP wall throughput, TTFT and preparation prefill. |
 | `http-kv-disk` | KV checkpoint persistence across a server restart, including concurrent consumers. | HTTP latency, actual restored tokens and disk accounting. |
 
@@ -27,7 +30,66 @@ Decode rate and total output divided by request wall time are different metrics.
 The core report rejects missing executed-phase time, inconsistent call counts
 and phase times beyond the job's wall time before publishing graphs or a summary.
 
-## Context depth and concurrent users
+## Canonical Gufo conversation curve
+
+Use an already running, authorized HTTP server. For the README server example:
+
+```sh
+mkdir -p results
+build/release/synapse-lie-bench --suite http-curve \
+  --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
+  --depths 0,4096,8192,12288,16384,32768,65536,131072 \
+  --pp 2048 --tg 128 --context-capacity 262144 \
+  --warmups 1 --repetitions 3 --server-label LIE \
+  --output results/lie-curve.jsonl --graphs results/lie-curve
+```
+
+The suite follows official Gufo `f783fedb`: calibrate template overhead with
+`Hi` and tokens per word with the seeded 3,000-word probe, warm up, then prepare
+each depth with an **8-token output budget**. Its actual assistant reply enters
+the next request. The measured turn adds about 2,048 new tokens and requests
+128 output tokens. Cached depth and new prefill must each lie within
+`max(32, floor(target × 0.005))` tokens; a miss recalibrates and retries, at most
+four times. The corrected ratio carries forward to deeper points. Early EOS in
+the measured turn fails the curve instead of shortening the output workload.
+All probes, warmups, preparations, retries and measured requests remain in JSONL.
+
+The default task is `prose`; `--task repetition|copy|story|thinking` selects the
+other pinned recipes. Thinking changes template options for both prefix and
+measured turns. Greedy sampling and neutral penalties are explicit. Use a
+separately configured MTP server with `--mode mtp`; this client does not enable
+MTP or load a predictor itself. `X-Client-ID: model-bench` is shared across the
+sequential requests, so run one curve at a time against an otherwise idle server.
+RAM prefix caching must retain the tested state; a miss is visible in actual
+cached/new-token counts and cannot be presented as a successful depth sample.
+
+For a Gufo control, use the same model alias, context, workload and budgets,
+a separate output filename, and `--endpoint-profile gufo --server-label Gufo`.
+That profile adds Gufo's neutral top-k/min-p/repetition controls. Compare native
+curve files offline:
+
+```sh
+build/release/synapse-lie-bench --suite report results/lie-curve.jsonl \
+  --compare results/gufo-curve.jsonl --output results/curve-comparison \
+  --label LIE --reference-label Gufo
+```
+
+The report regenerates the complete expected request sequence from retained
+replies and token counts before calculating statistics. `summary.csv` and JSON
+include arithmetic mean, sample standard deviation, median and min/max. Four
+separate graph panels show PP, TG, HTTP wall time and TTFT with their own scales.
+The comparison exposes differences in request hashes, completions and physical
+counts. Different calibrated histories across quantizations remain visible;
+matching the recipe alone does not establish numerical parity.
+
+Depths up to 1,048,576 can be declared when the remote server supports enough
+capacity for **depth + new prefill + output**. This is a client protocol limit:
+the current LIE provider ceiling remains 262,144, so 1M inference is not enabled
+by selecting a larger benchmark argument. Exact text/protocol equivalence has
+CPU fixture coverage through 128K and a 1M client protocol boundary; new GPU
+performance results require a separate coordinated run.
+
+## Simplified executor depth and concurrent users
 
 Use a GPU build and the first model shard. Pick unused output filenames; the
 benchmark refuses to overwrite results. On the shared `.157` host, runs must
@@ -263,7 +325,9 @@ the model:
 Each export contains `benchmark.svg`, `benchmark.png`, `summary.csv` and
 `summary.json`. Throughput axes start at zero; prefill and generation have
 separate scales. Error bars show the observed minimum and maximum, with the
-median as the plotted value. Preserve raw JSONL and the build/model identities.
+median as the plotted value for direct/core/ordinary HTTP and prepared cohorts.
+Canonical `http-curve` plots arithmetic means, as Gufo does, and also exports
+sample standard deviation. Preserve raw JSONL and the build/model identities.
 Direct-suite CSV/JSON also include prefill/decode seconds with median, minimum
 and maximum. These durations are summarized independently of throughput.
 New raw direct samples carry monotonic phase bounds and a wall-clock sample
@@ -285,7 +349,7 @@ Use a new output directory for each report: existing artifacts are not replaced.
 
 | Published workload | LIE coverage |
 | --- | --- |
-| AR single user at eight prefix depths. | Direct LIE/Gufo GPU comparisons reach near 256K on Strix Point. Fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) now reaches the same target with two measured repetitions per engine. The current HTTP backend caps context at 262,144; 1M remains open. |
+| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. The current HTTP backend caps context at 262,144; 1M remains open. |
 | AR multiple users. | Native batching and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) both compare LIE and official Gufo through C8. The HTTP campaign includes fresh sessions=C and fixed eight-session capacity. Long-context multi-client HTTP is still open. |
 | MTP single and multiple users. | Direct core and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) compare AR/MTP and LIE/Gufo through C8 on prose and repetition. The cold served [long-context campaign](../benchmarks/2026-10-04/strix-point/http-depth/README.md) matches MTP and AR through near 256K at C1, with prefill, draft acceptance, decode and wall time. Long-context multi-client HTTP is still open. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |

@@ -45,6 +45,9 @@ No model weights or sibling-project source are imported by this recipe.
 The owned C17 dense sampling implementation in src/sampling.c is a port of
 official src/core/sampling.cpp at f783fedb9bea2ec7de941f6da4e02f4a4596b29e.
 Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained here.
+The native canonical benchmark workload/protocol port in tools/native/gufo_workload.c
+and tools/native/http_curve.c uses the same independently fetched pin and license.
+gufo-bench-source.json records its source hash, scope and offline test goldens.
 adapters/gufo-state/dense-sampling-edits.json identifies the conditional provider
 integration. C17 owns dense selection and random draws; grammar, history and
 compact speculative distributions remain transitional Gufo responsibilities.

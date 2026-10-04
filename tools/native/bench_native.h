@@ -42,6 +42,14 @@ int nb_report(const char *, const char *, const char *, const char *,
 int nb_report_main(int, char **);
 int nb_http_main(int, char **);
 int nb_http_multi_main(int, char **);
+int nb_http_curve_main(int, char **);
+char *nb_gufo_text(uint64_t, size_t, nb_error *);
+char *nb_gufo_turn(double, double, const char *, uint64_t, unsigned, unsigned, nb_error *);
+const char *nb_gufo_instruction(const char *);
+size_t nb_gufo_words(double, double);
+size_t nb_gufo_word_count(const char *);
+json_object *nb_http_curve_summary(json_object *, nb_error *);
+int nb_http_curve_export(json_object *, json_object *, const char *, const char *, const char *, nb_error *);
 json_object *nb_http_multi_summary(json_object *, nb_error *);
 int nb_http_multi_export(json_object *, json_object *, const char *,
                          const char *, const char *, nb_error *);
@@ -60,6 +68,7 @@ typedef struct {
 } nb_plot_series;
 typedef struct {
   const char *title, *unit, *x_label;
+  bool mean; /* Otherwise median; the subtitle must identify the statistic. */
   nb_plot_series series[3];
   size_t count;
 } nb_plot_panel;

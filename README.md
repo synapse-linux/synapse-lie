@@ -194,8 +194,10 @@ The results page brings together context-depth, multi-user and full-prefill
 measurements. Each section states what was measured and how it relates to
 Gufo's protocol. Use the [benchmark guide](docs/guides/BENCHMARKS.md) to reproduce
 workloads or generate graphs from existing results.
-The guide also covers the native `http-multi` client, with prepared sessions,
-the canonical Gufo prompts and separate prefill/decode graphs.
+The native `http-curve` client reproduces Gufo's calibrated cached-conversation
+curve through 128K; `http-multi` measures prepared concurrent sessions. Both
+save complete request evidence and generate CSV, JSON, SVG and PNG in C.
+See [commands and measurement scopes](docs/guides/BENCHMARKS.md).
 
 ## Documentation and support
 
