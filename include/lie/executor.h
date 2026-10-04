@@ -67,7 +67,7 @@ typedef struct {
 } lie_chat_template;
 /* Additive generation controls; default initialization is greedy. The caller
  * supplies ABI/version size; configuration occurs before any prefill/dispatch. */
-#define LIE_GENERATION_ABI 2u
+#define LIE_GENERATION_ABI 3u
 #define LIE_LOGIT_BIAS_MAX 1024u
 #define LIE_TOP_LOGPROBS_MAX 20u
 typedef struct {
@@ -87,6 +87,8 @@ typedef struct {
   const lie_logit_bias *logit_bias;
   size_t logit_bias_count;
   uint32_t logprobs, top_logprobs;
+  int32_t top_k; /* Zero disables; a positive value caps candidate count. */
+  double min_p; /* 0..1; relative to the most probable retained candidate. */
 } lie_generation_options;
 lie_status lie_sequence_configure(lie_sequence *,
                                   const lie_generation_options *, lie_error *);
@@ -166,7 +168,7 @@ typedef struct { lie_status status; lie_decode_result result; } lie_decode_outco
 lie_status lie_sequences_decode(lie_sequence *const *, size_t,
                                 lie_decode_outcome *, lie_error *);
 lie_status lie_sequence_logits(lie_sequence *, float *out, size_t capacity, size_t *required, lie_error *);
-/* Target logits after grammar/bias/penalties and temperature, before top-p. */
+/* Target logits after grammar/bias/penalties and temperature, before filters. */
 lie_status lie_sequence_sampling_logits(lie_sequence *, float *, size_t, size_t *, lie_error *);
 /* Thread-safe latch only; no GPU preemption. In-flight work completes; its
  * output is suppressed on cancellation. Lifetime must be pinned externally. */

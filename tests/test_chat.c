@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/chat.h"
+#include "lie/responses.h"
 #include "lie/wire.h"
 #include <assert.h>
 #include <json-c/json.h>
@@ -12,7 +13,42 @@ static void rejects(const char *body) {
     assert(!lie_chat_parse(body,strlen(body),"m",&r,error));
     assert(error[0] && !r.count);
 }
+static void sampling_filters(void) {
+    const char *prefixes[] = {
+        "{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}]}",
+        "{\"model\":\"m\",\"input\":\"x\"}"
+    };
+    const char *invalid[] = {
+        ",\"top_k\":-1", ",\"top_k\":2147483648", ",\"top_k\":18446744073709551615",
+        ",\"top_k\":1.0", ",\"top_k\":true", ",\"top_k\":null", ",\"top_k\":\"5\"",
+        ",\"min_p\":-0.01", ",\"min_p\":1.01", ",\"min_p\":1e999",
+        ",\"min_p\":NaN", ",\"min_p\":true", ",\"min_p\":null", ",\"min_p\":\"0.05\""
+    };
+    const char *valid[] = {"", ",\"top_k\":5,\"min_p\":0.05",
+                           ",\"top_k\":2147483647,\"min_p\":1"};
+    const int32_t expected_k[] = {0, 5, INT32_MAX};
+    const double expected_p[] = {0, .05, 1};
+    for (size_t api = 0; api < 2; ++api) {
+        bool (*parse)(const char *,size_t,const char *,lie_chat_request *,char *) =
+            api ? lie_responses_parse : lie_chat_parse;
+        for (size_t i = 0; i < sizeof(valid)/sizeof(*valid); ++i) {
+            char body[512], error[256]; lie_chat_request r;
+            snprintf(body,sizeof(body),"%.*s%s}",(int)strlen(prefixes[api])-1,prefixes[api],valid[i]);
+            assert(parse(body,strlen(body),"m",&r,error));
+            assert(r.generation.top_k==expected_k[i] && r.generation.min_p==expected_p[i]);
+            assert(r.generation.abi_version==LIE_GENERATION_ABI);
+            lie_chat_free(&r);
+        }
+        for (size_t i = 0; i < sizeof(invalid)/sizeof(*invalid); ++i) {
+            char body[512], error[256]; lie_chat_request r;
+            snprintf(body,sizeof(body),"%.*s%s}",(int)strlen(prefixes[api])-1,prefixes[api],invalid[i]);
+            assert(!parse(body,strlen(body),"m",&r,error));
+            assert(error[0] && !r.count);
+        }
+    }
+}
 int main(void) {
+    sampling_filters();
     lie_chat_request r; char error[256];
     const char *sampling="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.7,\"top_p\":0.8,\"frequency_penalty\":-1,\"presence_penalty\":1.5,\"seed\":42}";
     lie_chat_request controls; char controls_error[256];

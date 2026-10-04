@@ -54,7 +54,8 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
         strcmp(name, "chat_template_kwargs") && strcmp(name, "tools") &&
         strcmp(name, "tool_choice") && strcmp(name, "parallel_tool_calls") &&
         strcmp(name, "max_completion_tokens") && strcmp(name, "store") &&
-        strcmp(name, "top_p") && strcmp(name, "frequency_penalty") &&
+        strcmp(name, "top_p") && strcmp(name, "top_k") && strcmp(name, "min_p") &&
+        strcmp(name, "frequency_penalty") &&
         strcmp(name, "presence_penalty") && strcmp(name, "stop") &&
         strcmp(name, "n") && strcmp(name, "logit_bias") &&
         strcmp(name, "logprobs") && strcmp(name, "top_logprobs") &&
@@ -69,12 +70,12 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
     goto fail;
   why = "invalid_sampling";
   const char *keys[] = {"temperature", "top_p", "frequency_penalty",
-                        "presence_penalty"};
+                        "presence_penalty", "min_p"};
   double *values[] = {&out->generation.temperature, &out->generation.top_p,
                       &out->generation.frequency_penalty,
-                      &out->generation.presence_penalty};
-  const double lo[] = {0, 0, -2, -2}, hi[] = {2, 1, 2, 2};
-  for (size_t i = 0; i < 4; ++i)
+                      &out->generation.presence_penalty, &out->generation.min_p};
+  const double lo[] = {0, 0, -2, -2, 0}, hi[] = {2, 1, 2, 2, 1};
+  for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
     if (json_object_object_get_ex(root, keys[i], &v)) {
       if ((!json_object_is_type(v, json_type_double) &&
            !json_object_is_type(v, json_type_int)) ||
@@ -85,6 +86,12 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
         goto fail;
       *values[i] = x;
     }
+  if (json_object_object_get_ex(root, "top_k", &v)) {
+    if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0 ||
+        json_object_get_uint64(v) > INT32_MAX)
+      goto fail;
+    out->generation.top_k = (int32_t)json_object_get_int64(v);
+  }
   if (json_object_object_get_ex(root, "seed", &v)) {
     if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0)
       goto fail;

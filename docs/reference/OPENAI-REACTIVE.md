@@ -21,8 +21,8 @@ owner. It never executes model forward on the HTTP loop or on a CPU fallback.
 
 | Surface | Implemented behavior | Remaining limit |
 |---|---|---|
-| Chat Completions | Text/vision/functions, correlated results, JSON/SSE, `n=1..8`, stop sequences, stored completion operations | Original-weight qualification of the new controls remains pending |
-| Sampling | Temperature, top-p, penalties, seed, token bias, logprobs and up to 20 alternatives | Logprobs are target probabilities before top-p truncation; greedy requests report the underlying distribution |
+| Chat Completions | Text/vision/functions, correlated results, JSON/SSE, `n=1..8`, stop sequences, stored completion operations | The recorded AR runtime passes 34 original-weight checks; the corresponding MTP gate remains pending |
+| Sampling | Temperature, top-p, penalties, seed, token bias, logprobs and up to 20 alternatives; `top_k`/`min_p` extensions on both APIs | Logprobs are target probabilities before candidate filters; top-k/min-p client exposure is CPU-qualified only |
 | Responses | Text/function/image input, instructions, JSON/SSE, stored retrieval/deletion, `previous_response_id`, background polling/cancellation, paginated input items, automatic truncation and stream replay | Named Conversations and compaction services are not implemented |
 | Function output | Shared C extraction/validation and stable call IDs; strict arguments constrained during target sampling | Provisional argument deltas stream before completion; clients execute only validated successful turns |
 | Structured output | JSON object and JSON schema constraints, including strict schemas | The transitional provider compiles the supported schema subset; unsupported schemas are refused |
@@ -37,7 +37,7 @@ history, credits and cancellation. Constrained token selection uses the verified
 Gufo sampler through neutral C controls; its C++ types remain inside the adapter.
 This is transitional delegation, not an autonomous C grammar executor. Token
 probability normalization is owned C code. Executor ABI 3 includes explicit
-context profiles; request ABI 5, generation ABI 2 and event ABI 2 describe the
+context profiles; request ABI 6, generation ABI 3 and event ABI 2 describe the
 controls and incremental function events. DS4 payload framing is unchanged.
 
 Stop sequences are removed before publication, including matches split across

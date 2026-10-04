@@ -100,6 +100,7 @@ lie_status lie_model_token_text(lie_model *m,int32_t token,char *out,size_t cap,
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     (void)e;
     if (s->m->mode==7 && (o->temperature!=.75 || o->top_p!=.9 ||
+        o->top_k!=5 || o->min_p!=.05 ||
         o->frequency_penalty!=.25 || o->presence_penalty!=-.5 || o->seed!=INT64_MAX))
         return LIE_INVALID;
     return o->abi_version==LIE_GENERATION_ABI?LIE_OK:LIE_INVALID;

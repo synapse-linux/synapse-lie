@@ -237,12 +237,20 @@ static json_object *core_generation(json_object *id) {
   const char *keys[] = {"temperature", "top_p", "frequency_penalty", "presence_penalty"};
   const double lower[] = {0, 0, -2, -2}, upper[] = {2, 1, 2, 2};
   double values[] = {0, 1, 0, 0};
-  int64_t seed = -1;
+  int64_t seed = -1, top_k = 0;
+  double min_p = 0;
   json_object *declared = NULL;
   if (json_object_object_get_ex(id, "generation", &declared)) {
-    if (!json_object_is_type(declared, json_type_object) ||
-        json_object_object_length(declared) != 5)
+    if (!json_object_is_type(declared, json_type_object))
       return NULL;
+    json_object_object_foreach(declared, name, entry) {
+      (void)entry;
+      bool known = !strcmp(name, "seed") || !strcmp(name, "top_k") || !strcmp(name, "min_p");
+      for (size_t k = 0; k < 4; ++k)
+        known = known || !strcmp(name, keys[k]);
+      if (!known)
+        return NULL;
+    }
     for (size_t k = 0; k < 4; ++k) {
       json_object *v = nb_get(declared, keys[k]);
       if (!json_object_is_type(v, json_type_int) && !json_object_is_type(v, json_type_double))
@@ -259,12 +267,27 @@ static json_object *core_generation(json_object *id) {
     if (seed < -1 || (seed >= 0 && json_object_get_uint64(v) > INT64_MAX) ||
         (values[0] > 0 && seed < 0))
       return NULL;
+    if (json_object_object_get_ex(declared, "top_k", &v)) {
+      if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0 ||
+          json_object_get_uint64(v) > INT32_MAX)
+        return NULL;
+      top_k = json_object_get_int64(v);
+    }
+    if (json_object_object_get_ex(declared, "min_p", &v)) {
+      if (!json_object_is_type(v, json_type_int) && !json_object_is_type(v, json_type_double))
+        return NULL;
+      min_p = json_object_get_double(v);
+      if (!isfinite(min_p) || min_p < 0 || min_p > 1)
+        return NULL;
+    }
   }
   /* Historical core streams predate configurable sampling and are greedy. */
   json_object *out = json_object_new_object();
   for (size_t k = 0; k < 4; ++k)
     nb_real(out, keys[k], values[k]);
   nb_num(out, "seed", seed);
+  nb_num(out, "top_k", top_k);
+  nb_real(out, "min_p", min_p);
   return out;
 }
 static json_object *core(json_object *rows, nb_error *e) {

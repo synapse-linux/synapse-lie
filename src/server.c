@@ -423,6 +423,7 @@ static json_object *stored_options(lie_chat_request *request, bool responses) {
   }
   const char *keys[] = {
       "instructions", "previous_response_id", "metadata", "temperature",
+      "top_k",        "min_p",
       "top_p",        "max_output_tokens",    "text",     "tools",
       "tool_choice",  "parallel_tool_calls",  "user",     "safety_identifier",
       "service_tier"};

@@ -373,12 +373,14 @@ extern "C" lie_status lie_sequence_configure(lie_sequence *s,const lie_generatio
     if (o->abi_version!=LIE_GENERATION_ABI || o->struct_bytes!=sizeof(*o) || s->session->Position() ||
         !std::isfinite(o->temperature) || o->temperature<0 || o->temperature>2 ||
         !std::isfinite(o->top_p) || o->top_p<=0 || o->top_p>1 ||
+        o->top_k<0 || !std::isfinite(o->min_p) || o->min_p<0 || o->min_p>1 ||
         !std::isfinite(o->frequency_penalty) || std::abs(o->frequency_penalty)>2 ||
         !std::isfinite(o->presence_penalty) || std::abs(o->presence_penalty)>2 || o->seed < -1)
         return error(e,LIE_INVALID,"invalid generation controls or started sequence");
     try {
         gufo::sampling::SamplingConfig c;
         c.temperature=static_cast<float>(o->temperature); c.top_p=static_cast<float>(o->top_p);
+        c.top_k=o->top_k; c.min_p=static_cast<float>(o->min_p);
         c.frequency_penalty=static_cast<float>(o->frequency_penalty); c.presence_penalty=static_cast<float>(o->presence_penalty);
         c.seed = o->seed;
 #ifdef LIE_GUFO_STATE_ACCESS

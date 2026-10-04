@@ -9,7 +9,7 @@ vision operations keep their existing meanings.
 See [context configuration and qualification](../guides/CONTEXT.md).
 
 The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
-ownership independently of request ABI 5 and generation ABI 2.
+ownership independently of request ABI 6 and generation ABI 3.
 `lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
@@ -51,7 +51,7 @@ model types remain inside the adapter.
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
 their meanings. Request ABI 3 introduced owned image spans; current
-`LIE_CORE_REQUEST_ABI=5` owns parallel-tool policy, output format, schema, stop sequences and oldest-turn truncation.
+`LIE_CORE_REQUEST_ABI=6` owns parallel-tool policy, output format, schema, stop sequences, oldest-turn truncation and the embedded generation ABI 3.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -172,12 +172,16 @@ completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](../INFERENCE-REA
 
 ## Additive generation configuration
 
-`lie_generation_options` has its own ABI 2 version and exact struct size
-(ABI 1 receipts describe earlier sampling-only checkpoints).
+`lie_generation_options` has its own ABI 3 version and exact struct size.
+ABI 3 appends `top_k` (nonnegative signed 32-bit integer) and `min_p` (finite
+double in 0..1); zero disables each filter. Request ABI 6 embeds this expanded
+structure. Callers must rebuild and initialize both tags: request ABI 5 or
+generation ABI 2, including truncated structures, is rejected before provider
+mutation. Earlier ABI receipts retain their historical meaning.
 `lie_sequence_configure` runs on the model owner before prefill; a started
 sequence or invalid/nonfinite/range-invalid option is refused. Existing ABI-2
 model/message layouts are unchanged. Parsed requests own their scalar controls;
-there are no upstream types. Temperature, top_p, frequency/presence penalties
+there are no upstream types. Temperature, top_k, top_p, min_p, frequency/presence penalties
 and seed bind a per-sequence sampler. Its penalty history is initialized from
 the entire completed prompt immediately before first decode, not the first
 prefill chunk. Ordinary benchmark callers may retain the default greedy sampler
@@ -325,12 +329,12 @@ Language/build ownership and feature qualification remain separate; see the
 ## Shared core client API 1
 
 [Semantic event ABI 2](EVENTS.md) is the common output contract for HTTP, Responses
-and direct benchmarks. Current request ABI 5 retains `parallel_tool_calls=true` by
+and direct benchmarks. Current request ABI 6 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
 `lie/core.h` is an experimental C client contract, distinct from executor ABI 3.
 `lie_core_request_init` sets required version/size tags, greedy generation
-(`temperature=0`, `top_p=1`, `seed=-1`) and output limit 128. The caller chooses
+(`temperature=0`, `top_p=1`, `top_k=0`, `min_p=0`, `seed=-1`) and output limit 128. The caller chooses
 exactly one input: normalized messages/tools, physical token IDs, or raw UTF-8
 text (no implicit chat template). Initialize `*out` to NULL before submit.
 
@@ -447,10 +451,11 @@ unchanged to `state_layout.c` so offline mapping links without provider stubs.
 
 ## OpenAI generation and response records
 
-Generation ABI 2 adds bounded token bias and optional target log-probability
-reporting. Request ABI 5 adds neutral JSON/schema controls, stop sequences and
-optional complete-turn truncation.
-All borrowed strings and bias entries are copied at admission. Executor ABI 2
+Generation ABI 3 retains ABI 2's bounded token bias and optional target
+log-probability reporting and adds top-k/min-p. Request ABI 6 retains ABI 5's
+neutral JSON/schema controls, stop sequences and optional complete-turn
+truncation, with the expanded generation options.
+All borrowed strings and bias entries are copied at admission. Executor ABI 3
 and DS4 state payloads retain their existing layouts. Constraints and vocabulary
 tries stay inside the explicitly selected transitional provider.
 

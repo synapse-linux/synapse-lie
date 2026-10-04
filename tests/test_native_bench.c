@@ -443,20 +443,26 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   char *args[] = {bench, "--suite", "core", "--model", ":sampling:",
                  "--tokens-file", tokens, "--tg", "8", "--users", "2",
                  "--warmups", "1", "--repetitions", "2", "--temperature", ".75",
-                 "--top-p", ".9", "--frequency-penalty", ".25",
+                 "--top-p", ".9", "--top-k", "5", "--min-p", ".05", "--frequency-penalty", ".25",
                  "--presence-penalty", "-.5", "--seed", "9223372036854775807",
                  "--kv-cache-ram-mb", "0", "--output", output, "--graphs", graphs, NULL};
-  run(args, 0); /* The fixture refuses configuration unless all five controls arrive. */
+  run(args, 0); /* The fixture refuses configuration unless all seven controls arrive. */
   graph_files("sampled-core-graphs");
   json_object *summary = read_json("sampled-core-graphs/summary.json", false);
   json_object *point = json_object_array_get_idx(nb_get(nb_get(summary, "primary"), "configurations"), 0);
   require(nb_number(nb_get(point, "generation"), "seed") == INT64_MAX &&
+          nb_number(nb_get(point, "generation"), "top_k") == 5 &&
+          json_object_get_double(nb_get(nb_get(point, "generation"), "min_p")) == .05 &&
           json_object_get_double(nb_get(nb_get(point, "generation"), "temperature")) == .75,
           "sampling controls missing from summary");
   json_object_put(summary);
   const char *bad[][2] = {{"--temperature", "NaN"}, {"--temperature", "0x1p-1"},
                          {"--temperature", "2.01"}, {"--temperature", ".8"},
                          {"--top-p", "0"}, {"--top-p", "1.01"},
+                         {"--top-k", "-1"}, {"--top-k", "2147483648"},
+                         {"--top-k", "1.0"}, {"--top-k", "true"},
+                         {"--min-p", "-0.01"}, {"--min-p", "1.01"},
+                         {"--min-p", "NaN"}, {"--min-p", "0x1p-1"}, {"--min-p", "null"},
                          {"--frequency-penalty", "-2.1"}, {"--presence-penalty", "3"},
                          {"--seed", "9223372036854775808"}, {"--seed", "-1"},
                          {"--seed", ""}};
@@ -466,6 +472,8 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   }
   char *duplicate[] = {bench, "--suite", "core", "--build-info", "--seed", "1", "--seed", "2", NULL};
   run(duplicate, 2);
+  char *duplicate_filter[] = {bench, "--suite", "core", "--build-info", "--top-k", "5", "--top-k", "6", NULL};
+  run(duplicate_filter, 2);
   json_object *rows = read_json("sampled-core.jsonl", true);
   core_clock_contract(rows);
   json_object *generation = nb_get(json_object_array_get_idx(rows, 0), "generation");
@@ -479,6 +487,23 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   require(nb_report(output, rope_refused, "native", rope_changed, "yarn4", false, &rope_error) != 0,
           "different RoPE profiles accepted as matched comparison");
   nb_str(identity, "rope_scaling", "native");
+  const char *filter_keys[] = {"top_k", "min_p"};
+  for (size_t i = 0; i < 2; ++i) {
+    char name[128], changed_filter[2400], refused_filter[2400];
+    if (i == 0) nb_num(generation, "top_k", 6);
+    else nb_real(generation, "min_p", .06);
+    snprintf(name, sizeof(name), "sampled-other-%s.jsonl", filter_keys[i]);
+    save_rows(name, rows); path(changed_filter, name);
+    snprintf(name, sizeof(name), "sampled-other-%s-graphs", filter_keys[i]);
+    path(refused_filter, name);
+    nb_error filter_error = {0};
+    require(nb_report(output, refused_filter, "primary", changed_filter, "other filter", false, &filter_error) != 0,
+            "different sampling filters accepted as matched comparison");
+    struct stat filter_stat;
+    require(lstat(refused_filter, &filter_stat) && errno == ENOENT,
+            "mismatched filters published graphs");
+    nb_num(generation, "top_k", 5); nb_real(generation, "min_p", .05);
+  }
   nb_num(generation, "seed", 7);
   save_rows("sampled-other-seed.jsonl", rows);
   char changed[2400], refused[2400];
@@ -494,8 +519,29 @@ static void core_sampling_contract(char *bench, char *tokens, char *greedy) {
   path(changed, "sampled-seed-overflow.jsonl");
   require(nb_report(changed, refused, "primary", NULL, NULL, false, &error) != 0,
           "unsigned sampling seed silently saturated");
+  nb_num(generation, "seed", INT64_MAX);
+  for (unsigned i = 0; i < 4; ++i) {
+    if (i == 0) json_object_object_add(generation, "top_k", json_object_new_uint64(UINT64_MAX));
+    if (i == 1) json_object_object_add(generation, "top_k", json_object_new_boolean(true));
+    if (i == 2) json_object_object_add(generation, "min_p", json_object_new_boolean(true));
+    if (i == 3) nb_num(generation, "unknown_filter", 5);
+    char name[128]; snprintf(name, sizeof(name), "sampled-invalid-filter-%u.jsonl", i);
+    save_rows(name, rows); path(changed, name);
+    require(nb_report(changed, refused, "primary", NULL, NULL, false, &error) != 0,
+            "invalid sampling filter identity accepted");
+    nb_num(generation, "top_k", 5); nb_real(generation, "min_p", .05);
+    json_object_object_del(generation, "unknown_filter");
+  }
   json_object_put(rows);
   rows = read_json("core.jsonl", true);
+  generation = nb_get(json_object_array_get_idx(rows, 0), "generation");
+  json_object_object_del(generation, "top_k");
+  json_object_object_del(generation, "min_p");
+  save_rows("historical-five-control-core.jsonl", rows);
+  path(changed, "historical-five-control-core.jsonl");
+  path(graphs, "historical-five-control-core-graphs");
+  require(!nb_report(greedy, graphs, "current", changed, "historical", false, &error),
+          "historical five-control identity lost compatibility");
   json_object_object_del(json_object_array_get_idx(rows, 0), "generation");
   save_rows("historical-greedy-core.jsonl", rows);
   json_object_put(rows);

@@ -94,7 +94,7 @@ one dense tensor. GPU resource and performance qualification must measure these
 costs separately from prompt preparation, image encoding and decode throughput.
 
 `include/lie/vision.h` defines encoded PNG/JPEG spans, message placement and
-versioned provider capabilities. `lie_core_request` ABI 5 includes images and
+versioned provider capabilities. `lie_core_request` ABI 6 includes images and
 `lie_core_options.vision_model_path` configures admission. Submission deep-copies
 encoded bytes and text. `text_offset` is a UTF-8 byte boundary; equal offsets
 preserve image order. Input images belong to user messages.

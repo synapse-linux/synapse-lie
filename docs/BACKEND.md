@@ -57,9 +57,11 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    [Upstream steering contract](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
 6. **Complete DS4 sampling-temperature coverage.** Temperature already exists
    in LIE; verify its greedy and positive-temperature behavior against DS4's
-   declared profiles, including temperature 1, top-p 1 and min-p 0.05. Expose
-   missing top-k/min-p controls consistently in the shared contract and clients,
-   retain explicit seeds, and qualify AR and exact target-distribution MTP.
+   declared profiles, including temperature 1, top-p 1 and min-p 0.05. The
+   top-k/min-p controls are now exposed in the shared contract, both HTTP APIs
+   and native core bench, with CPU contract checks. Retain explicit seeds and
+   qualify the new profile on original weights in AR and exact
+   target-distribution MTP.
    Require filter/probability oracles, correct tool-mode transitions and measured
    cost; record the selected defaults rather than silently changing profiles.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·

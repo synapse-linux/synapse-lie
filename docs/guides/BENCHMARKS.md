@@ -207,17 +207,21 @@ sampling parameters identical in both builds:
 "$LIE_BENCH" --model "$LIE_MODEL" --suite core \
   --prompt-file prompt.txt --context 32768 --chunk 2048 \
   --users 1 --tg 128 --warmups 1 --repetitions 3 \
-  --temperature 0.8 --top-p 0.9 --seed 123 \
+  --temperature 0.8 --top-p 0.9 --top-k 0 --min-p 0.05 --seed 123 \
   --frequency-penalty 0.2 --presence-penalty 0.1 \
   --kv-cache-ram-mb 0 --output results/core-sampled.jsonl
 ```
 
 The default remains greedy. Nonzero temperature requires `--seed`; each request
 uses that seed independently, including warmups and concurrent users. The raw
-identity and report record all five controls, and a matched comparison refuses
-different sampling settings. Older core results without those fields retain
-their historical greedy defaults. These controls select the existing shared-core
-sampling API; top-k and min-p are not exposed by that API.
+identity and report record all seven controls, and a matched comparison refuses
+different sampling settings. `--top-k` accepts 0..2147483647 and `--min-p` accepts
+0..1; zero disables the corresponding filter. Missing top-k/min-p fields in
+historical results mean zero; results without generation settings retain their
+historical greedy defaults. These controls use the shared-core sampling API.
+To request the DS4 server sampling profile explicitly, select
+`--temperature 1 --top-p 1 --top-k 0 --min-p 0.05 --seed 123`.
+Original-weight AR/exact-MTP qualification of the newly exposed filters is pending.
 
 MTP is integrated in the shared-core suite. Add an explicit compatible predictor
 and draft budget to separate runs (one cohort size per invocation):

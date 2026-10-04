@@ -42,7 +42,9 @@ static bool generation_valid(const lie_generation_options *o) {
   return o->abi_version == LIE_GENERATION_ABI &&
          o->struct_bytes == sizeof(*o) && isfinite(o->temperature) &&
          o->temperature >= 0 && o->temperature <= 2 && isfinite(o->top_p) &&
-         o->top_p > 0 && o->top_p <= 1 && isfinite(o->frequency_penalty) &&
+         o->top_p > 0 && o->top_p <= 1 && o->top_k >= 0 &&
+         isfinite(o->min_p) && o->min_p >= 0 && o->min_p <= 1 &&
+         isfinite(o->frequency_penalty) &&
          o->frequency_penalty >= -2 && o->frequency_penalty <= 2 &&
          isfinite(o->presence_penalty) && o->presence_penalty >= -2 &&
          o->presence_penalty <= 2 && o->seed >= -1 &&

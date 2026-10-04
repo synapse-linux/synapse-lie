@@ -151,6 +151,8 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
                                  "max_output_tokens",
                                  "temperature",
                                  "top_p",
+                                 "top_k",
+                                 "min_p",
                                  "stream",
                                  "store",
                                  "text",
@@ -180,12 +182,15 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
     goto fail;
   }
   bool background = v && json_object_get_boolean(v);
-  const char *keys[] = {"model",       "temperature", "top_p",
+  const char *keys[] = {"model",       "temperature", "top_p", "top_k", "min_p",
                         "stream",      "store",       "parallel_tool_calls",
                         "metadata",    "user",        "safety_identifier",
                         "service_tier"};
   for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
-    if ((v = get(root, keys[i])))
+    /* Candidate filters have the same strict types as the chat contract;
+     * preserve explicit null so that normalization cannot silently disable them. */
+    if (json_object_object_get_ex(root, keys[i], &v) &&
+        (v || !strcmp(keys[i], "top_k") || !strcmp(keys[i], "min_p")))
       json_object_object_add(chat, keys[i], json_object_get(v));
   if ((v = get(root, "instructions"))) {
     if (!json_object_is_type(v, json_type_string))

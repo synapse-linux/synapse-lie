@@ -206,6 +206,44 @@ static void stream_choices(const char *text) {
               indexes[1] && indexes[2],
           "complete multi-choice SSE");
 }
+static void sampling_filters_http(const char *api) {
+  const char *paths[] = {"/chat/completions", "/responses"};
+  const char *prefixes[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"ok\"}],\"max_tokens\":16",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"ok\",\"max_output_tokens\":16"
+  };
+  const char *bad[] = {",\"top_k\":-1", ",\"top_k\":2147483648",
+                      ",\"top_k\":18446744073709551615", ",\"top_k\":1.0",
+                      ",\"top_k\":true", ",\"top_k\":null",
+                      ",\"min_p\":-0.01", ",\"min_p\":1.01",
+                      ",\"min_p\":true", ",\"min_p\":null"};
+  for (size_t endpoint = 0; endpoint < 2; ++endpoint) {
+    char body[1024];
+    snprintf(body, sizeof(body), "%s,\"top_k\":5,\"min_p\":0.05}", prefixes[endpoint]);
+    json_object *j = json_transfer(api, paths[endpoint], "POST", body, 200);
+    if (endpoint == 1) {
+      require(json_object_get_int(field(j, "top_k")) == 5 &&
+                  json_object_get_double(field(j, "min_p")) == .05,
+              "response sampling filter echo");
+      char retained[256];
+      snprintf(retained, sizeof(retained), "/responses/%s", json_object_get_string(field(j, "id")));
+      json_object *stored = json_transfer(api, retained, "GET", NULL, 200);
+      require(json_object_get_int(field(stored, "top_k")) == 5 &&
+                  json_object_get_double(field(stored, "min_p")) == .05,
+              "stored response sampling filters");
+      json_object_put(stored);
+      stored = json_transfer(api, retained, "DELETE", NULL, 200);
+      json_object_put(stored);
+    }
+    json_object_put(j);
+    for (size_t i = 0; i < sizeof(bad)/sizeof(*bad); ++i) {
+      snprintf(body, sizeof(body), "%s%s}", prefixes[endpoint], bad[i]);
+      j = json_transfer(api, paths[endpoint], "POST", body, 400);
+      require(field(j, "error") != NULL, "invalid filter error object");
+      json_object_put(j);
+    }
+  }
+}
 static uint64_t response_sequences(const char *text, int64_t after) {
   const char *p = text;
   uint64_t last = 0;
@@ -279,6 +317,7 @@ int main(int argc, char **argv) {
     pause_ms();
   }
   require(ready, "readiness");
+  sampling_filters_http(api);
   json_object *j =
       json_transfer(api, "/models/cpu-test-fixture", "GET", NULL, 200);
   require(lie_json_literal(field(j, "object"), "model"), "model detail");

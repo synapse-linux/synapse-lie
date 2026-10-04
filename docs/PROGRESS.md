@@ -8,6 +8,28 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## DS4 candidate filters exposed in the shared core — 2026-10-04 UTC
+
+Top-k and min-p now pass through generation ABI 3/request ABI 6, Chat and
+Responses, and the native core benchmark to the transitional sampler. Both
+APIs enforce strict numeric types and bounds; Responses retains supplied filter
+values in stored objects. Greedy defaults and disabled filters remain unchanged.
+Native reports record all seven sampling controls, refuse mismatched or malformed
+filters, and normalize missing historical top-k/min-p settings to zero.
+
+All eight focused native Debug checks and the same eight ASan/UBSan/LSan checks
+pass. Existing mathematical sampler oracles pass; adapter object and full
+state/cache/MTP/vision syntax checks use independently verified pinned source.
+The initial null-normalization test failure (exit 8) and a stale-header check
+(exit 1) remain preserved. The maximum local CPU reading is 81.25 C, during
+source composition. No model or GPU inference runs in this slice.
+[Commands, hashes, retained failures and scope](development/validation/ds4-sampling-controls-2026-10-04.json).
+
+Original-weight qualification of the DS4 sampling profile and its AR/exact-MTP
+cost remains open. The read-only `.161` check at 20:01:31 UTC still sees the
+unrelated training process; no new root GPU lease or job is started. Directional
+steering remains a separate task, and DS4-owned files are unchanged.
+
 ## Roadmap ownership and DS4 controls — 2026-10-04 UTC
 
 At the owner's request, the active queue excludes separately assigned DGX

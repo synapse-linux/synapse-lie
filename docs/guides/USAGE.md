@@ -231,6 +231,22 @@ Chat accepts `n`, `stop`, `logit_bias`, `logprobs`, `top_logprobs`, and
 `top_logprobs` for optional probability reporting. Strict functions use
 `strict:true` in their definition. Unsupported schema features are errors.
 
+Both APIs accept the LIE sampling extensions `top_k` (integer 0..2147483647)
+and `min_p` (number 0..1). Zero disables that filter. Null, strings, booleans and
+out-of-range values are errors. Defaults remain `temperature:0`, `top_p:1`,
+`top_k:0`, `min_p:0`; requesting the DS4 sampling profile is explicit:
+
+```sh
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Hello!"}],"temperature":1,"top_p":1,"top_k":0,"min_p":0.05,"seed":123,"max_tokens":128}'
+```
+
+Responses uses the same candidate filters and retains supplied values in stored
+response objects. Top-k limits candidate count; min-p drops candidates below
+its fraction of the highest retained probability. These controls use the shared
+core; original-weight qualification of this new client exposure is pending.
+
 ```sh
 curl http://127.0.0.1:8000/v1/responses \
   -H 'Content-Type: application/json' \

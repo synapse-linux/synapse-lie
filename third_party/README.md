@@ -32,6 +32,11 @@ development/qualification scripts, outside the normal build and runtime.
 Incremental function events, retained fragment journals and `allowed_tools`
 parsing are first-party C17 implementations against published OpenAI protocol
 documentation. No OpenAI SDK implementation or runtime dependency is imported.
+Top-k/min-p public controls are first-party C17 parser/client additions mapped
+to the existing pinned provider sampler. They introduce no dependency or copied
+DS4 code. The [CPU receipt](../docs/development/validation/ds4-sampling-controls-2026-10-04.json)
+binds independent source composition and adapter header checks; original-weight
+qualification of the newly exposed filters remains pending.
 The optional `tests/sampling` cost/allocation project compares the pristine
 official sampler with generated LIE ON/OFF variants, without HIP or model
 forward. Its first-party C++20 QA probes link ICU and libm; allocation hooks

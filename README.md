@@ -28,7 +28,7 @@ performance gates remain open.
 ## Features
 
 - Chat Completions and Responses, with JSON/SSE, multiple choices, token
-  probabilities and constrained JSON output.
+  probabilities, constrained JSON output and configurable temperature/top-k/top-p/min-p.
 - Stored Responses, conversation continuation and cancellable background jobs;
   history and resource limits live in the shared C core.
 - Function calls, incremental arguments and tool results through the standard
