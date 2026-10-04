@@ -155,9 +155,11 @@ def source_manifest(variant, candidate):
     if not candidate:
         require(variant == 'iq2-epilogue-reference', 'Wrong reference provider')
         return 'q2-iq2-signs-ordered-asm-source.json'
-    require(variant in ('iq2-live-epilogue', 'iq2-epilogue-break'), 'Wrong candidate provider')
-    return ('q2-iq2-live-epilogue-source.json' if variant == 'iq2-live-epilogue'
-            else 'q2-iq2-epilogue-break-source.json')
+    manifests = {'iq2-live-epilogue': 'q2-iq2-live-epilogue-source.json',
+                 'iq2-epilogue-break': 'q2-iq2-epilogue-break-source.json',
+                 'iq2-live-stage': 'q2-iq2-live-stage-source.json'}
+    require(variant in manifests, 'Wrong candidate provider')
+    return manifests[variant]
 
 
 def arm(root, candidate, host):

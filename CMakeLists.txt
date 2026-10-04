@@ -51,6 +51,13 @@ add_test(NAME q2_reuse COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_reuse_test.py)
 add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
+add_library(iq2_mixed_tiles STATIC experiments/iq2_mixed_tiles.c)
+target_include_directories(iq2_mixed_tiles PUBLIC experiments)
+target_compile_options(iq2_mixed_tiles PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_executable(test_iq2_mixed_tiles tests/iq2_mixed_tiles.c)
+target_link_libraries(test_iq2_mixed_tiles PRIVATE iq2_mixed_tiles)
+target_compile_options(test_iq2_mixed_tiles PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME iq2_mixed_tiles COMMAND test_iq2_mixed_tiles)
 add_executable(test_q2_iq2_routes tests/q2_iq2_routes.cpp)
 target_include_directories(test_q2_iq2_routes PRIVATE "${GUFO_SOURCE}")
 target_compile_options(test_q2_iq2_routes PRIVATE -Wall -Wextra -Werror -Wpedantic)

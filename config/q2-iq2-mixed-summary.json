@@ -1,0 +1,30 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-summary.v1",
+  "at": "2026-10-04T08:40:01.012390+00:00",
+  "result_sha256": "ce4d88d6efed77c98ec7dc5ce12612257c3b37ac299ebc145db1b6422e703172",
+  "release_sha256": "a60daa4f4328529c0184f3aa2704fe5cf1801a570964f59c91eb8bef2885c8a0",
+  "host_tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "gpu_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_gpu_artifacts": 28,
+  "complete_pairs": 10,
+  "exact": true,
+  "numerical_pass": true,
+  "samples": 140,
+  "model_rates_measured": false,
+  "model_promoted": false,
+  "goal_met": false,
+  "decision": "Prepare a full-model mixed-map candidate. Four measured-routing component shapes improve in both scopes; full-128 control costs approximately 0.3% more. Do not attribute component percentages to model prefill.",
+  "checkpoint_commit_created": false,
+  "checkpoint_failure": "git add repeatedly fails: fatal: unable to write new index file. Local ENOSPC was observed earlier; a later 81920-byte metadata write probe succeeds, so the exact remaining Git failure cause is unresolved.",
+  "remote_cleanup": false
+}

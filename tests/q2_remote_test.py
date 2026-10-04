@@ -20,6 +20,23 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_mixed_component_scope(self):
+        for mode in remote.MIXED_TILE_MODES:
+            self.refuse([mode, 'q2-fixture'], 'IQ2 mixed tiles requires')
+            argv = [mode, 'q2-fixture', '--source-variant', 'iq2-mixed']
+            self.refuse(argv + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        for mode in ('cpu', 'q2-curve', 'q2-bench', 'operators', 'iq2-live-epilogue-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'iq2-mixed'],
+                        'IQ2 mixed tiles requires')
+
     def test_iq2_epilogue_component_scope(self):
         for variant in remote.EPILOGUE_VARIANTS:
             for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators', 'iq2-wmma-signs-check'):
@@ -130,6 +147,25 @@ class RemoteGuardTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError,'staging reached'):
                 remote.main()
             mkdir.assert_called_once();run.assert_not_called()
+
+    def test_mixed_model_scope(self):
+        mode, variant = 'q2-curve-iq2-mixed', 'curve-iq2-mixed-q2'
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base, 'Canonical curve requires a full MMQ rebuild')
+        self.refuse(base + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for wrong in ('curve-q2', 'curve-iq2-q2', 'curve-ud'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
+                        'Canonical curve requires its matched Q2 or UD composition')
+        for wrong in ('q2-curve-iq2', 'ud-curve', 'q2-bench'):
+            self.refuse([wrong, 'q2-fixture', '--source-variant', variant, '--rebuild-mmq'],
+                        'Canonical curve requires its matched Q2 or UD composition')
+        with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
 
     def test_route_profile_valid_selection_reaches_staging(self):
         argv=[str(path),'q2-curve-routes','q2-fixture','--source-variant','curve-routes-q2',
@@ -625,7 +661,8 @@ class EpilogueCycleReportTests(unittest.TestCase):
     def test_candidate_cannot_replace_reference(self):
         for variant, manifest in (
                 ('iq2-live-epilogue', 'q2-iq2-live-epilogue-source.json'),
-                ('iq2-epilogue-break', 'q2-iq2-epilogue-break-source.json')):
+                ('iq2-epilogue-break', 'q2-iq2-epilogue-break-source.json'),
+                ('iq2-live-stage', 'q2-iq2-live-stage-source.json')):
             self.assertEqual(self.report.source_manifest(variant, True), manifest)
             with self.assertRaises(ValueError):
                 self.report.source_manifest(variant, False)
@@ -634,6 +671,64 @@ class EpilogueCycleReportTests(unittest.TestCase):
         for variant in ('iq2-epilogue-reference', 'qualified', 'curve-iq2-q2'):
             with self.assertRaises(ValueError):
                 self.report.source_manifest(variant, True)
+
+
+class MixedTileReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'mixed_report', path.with_name('analyze-q2-iq2-mixed.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    def events(self, mixed):
+        rows = [dict(event='iq2_mixed_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for name, geometry in self.report.geometry(mixed).items():
+            for scope in self.report.SCOPES:
+                rows.extend(dict(event='iq2_mixed_cycle', sample=i, warmup=i < 2,
+                    case=name, scope=scope, policy='mixed' if mixed else 'reference',
+                    calls=8, microseconds_per_call=100+i,
+                    wall_microseconds_per_call=110+i) for i in range(7))
+            rows.append(dict(event='iq2_mixed_geometry', input_sha256='c'*64, **geometry))
+        rows.append(dict(event='iq2_mixed_complete', numerical_pass=True,
+                         independent_checks=5, failures=0, model_inference=False))
+        return rows
+
+    def parse(self, rows, mixed):
+        return self.report.observations('\n'.join(json.dumps(r) for r in rows), mixed)
+
+    def test_both_scopes_and_policy(self):
+        for mixed in (False, True):
+            result = self.parse(self.events(mixed), mixed)
+            self.assertEqual(len(result['cases']), 5)
+            for case in result['cases'].values():
+                self.assertEqual(case['scopes']['map-upload-cycle']['median_us'], 104)
+                self.assertEqual(case['scopes']['resident-map-cycle']['median_wall_us'], 114)
+            with self.assertRaises(ValueError):
+                self.parse(self.events(mixed), not mixed)
+        self.assertEqual(len(self.report.output_inventory()), 10)
+        self.assertEqual(self.report.geometry(False)['full-tiles'],
+                         self.report.geometry(True)['full-tiles'])
+
+    def test_incomplete_wrong_map_and_scope_rejected(self):
+        with self.assertRaises(ValueError):
+            self.parse(self.events(True)[:-1], True)
+        for index, change in ((1, dict(calls=1)), (1, dict(scope='resident-kernel-only')),
+                              (1, dict(wall_microseconds_per_call=float('nan'))),
+                              (15, dict(wide_tiles=0)), (15, dict(map_sha256='f'*64)),
+                              (-1, dict(independent_checks=1))):
+            rows = self.events(True)
+            rows[index].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows, True)
+
+    def test_numeric_failure_keeps_timings(self):
+        rows = self.events(True)
+        rows[-1].update(failures=1, numerical_pass=False)
+        report = self.parse(rows, True)
+        self.assertFalse(report['completion']['numerical_pass'])
+        self.assertEqual(len(report['cases']), 5)
 
 
 class PleHostReportTests(unittest.TestCase):

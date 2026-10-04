@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-plan.v1",
+  "at": "2026-10-04T08:12:28.936157+00:00",
+  "provider_manifest": "config/q2-iq2-signs-ordered-asm-source.json",
+  "provider_manifest_sha256": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+  "routing_plan": "config/q2-iq2-live-epilogue-plan.json",
+  "routing_plan_sha256": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+  "mechanism": "One 128-row span followed by 64-row tails, using unchanged ordered-IQ2 production kernels and current Qwen descriptor encoding.",
+  "source_delta": "No provider change. A first-party C17 map builder is shared by the host checks and isolated component fixture.",
+  "provenance": "Mechanism inspected in independently fetched official Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e DeepSeek ds4_rocm_q2_down_tile_map; no sibling DS4 sources or artifacts imported.",
+  "scopes": [
+    "resident-map-cycle",
+    "map-upload-cycle"
+  ],
+  "scope_note": "Both include narrowing, compaction and every gate/up/SwiGLU launch. The second also rebuilds and uploads a pinned host map with stream synchronization before reuse. It measures a serialized component, not production overlap with the shared expert.",
+  "shape_note": "Four retained count vectors at canonical depths 0 and 128K plus one full-128-row control; activations and weights are synthetic. Prefix processing and model rates are not measured.",
+  "samples": {
+    "warmup": 2,
+    "measured": 5,
+    "calls_per_sample": 8
+  },
+  "numerics": {
+    "independent_fp64_samples_per_case": 256,
+    "rrms_limit": 0.002,
+    "scaled_max_limit": 0.002,
+    "complete_buffer_pairs": 10,
+    "exact_replay_required": true
+  },
+  "sequence": [
+    "Host Debug and ASan/UBSan on .157",
+    "Fresh coordinated admission with original four lease identities",
+    "Reference component",
+    "Mixed component",
+    "Collect complete outputs, errors and both timing scopes",
+    "Qualify a model-integrated candidate only if evidence supports it; full canonical 0\u2013128K PP/TG remains required"
+  ],
+  "runtime_validated": false,
+  "gpu_admitted": false,
+  "model_promoted": false,
+  "goal_met": false
+}

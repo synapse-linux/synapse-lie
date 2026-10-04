@@ -1,0 +1,150 @@
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -55,7 +55,10 @@
+     ${QFN_ROCM_DIR}/executor.cpp
+     ${QFN_ROCM_DIR}/batch.cpp
+     engine.cpp)
+-  target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES})
++  target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES}
++    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c)
++  set_target_properties(gufo_qwen38_flash_next PROPERTIES
++    C_STANDARD 17 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
+   set_source_files_properties(${QFN_ROCM_DIR}/w8a8_wave64.hip
+     PROPERTIES COMPILE_OPTIONS "-mwavefrontsize64")
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,4 +1,5 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
++#include "iq2_mixed_tiles.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -896,7 +897,7 @@
+ }
+ 
+ bool Executor::RouteHints(std::uint32_t n_tokens,
+-                          std::string* error_msg) const {
++                          std::string* error_msg, bool mixed_iq2) const {
+   // Every column tile past an expert's bucket still costs a dispatch and a
+   // full shared-memory reservation, so the grid is cut to the real largest
+   // bucket. Counts are downloaded before the shared expert; wait only for
+@@ -907,6 +908,8 @@
+   routed_pair_tiles_ = 0;
+   routed_pair_offset_ = 0;
+   routed_pair_rows_ = 64;
++  routed_iq2_tail_tiles_ = 0;
++  routed_iq2_mixed_ = false;
+   if (!ExpertMatrixRows(n_tokens)) {
+     return true;
+   }
+@@ -933,7 +936,26 @@
+   // Append the 64-token map for gate/up and eligible down projections.
+   // Wide expert buckets also get a 128-token gate/up map: it amortizes
+   // weight decoding, while short buckets retain the cheaper 64-token tile.
+-  if (n_tokens >= 1024 && routed_tile_rows_ == kRoutedTileRowsWide) {
++  if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
++      c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide) {
++    // Keep the original down map at offset zero. Append only the two
++    // gate/up spans; their total fits one existing map-capacity reservation.
++    lie_iq2_tile_spans spans{};
++    const auto capacity = RoutedTileCapacity(
++        static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
++    if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
++                              c.num_experts_used, tiles_host_ + n_tiles,
++                              capacity, &spans)) {
++      AssignError(error_msg, "invalid IQ2 mixed expert map");
++      return false;
++    }
++    routed_pair_offset_ = n_tiles;
++    routed_pair_rows_ = 128;
++    routed_pair_tiles_ = spans.wide;
++    routed_iq2_tail_tiles_ = spans.tail;
++    routed_iq2_mixed_ = true;
++    n_tiles += spans.wide + spans.tail;
++  } else if (n_tokens >= 1024 && routed_tile_rows_ == kRoutedTileRowsWide) {
+     for (std::uint32_t e = 0; e < c.num_experts; ++e) {
+       const std::uint32_t padded = (counts_host_[e] + 15u) / 16u * 16u;
+       for (std::uint32_t j = 0; j < (padded + 63u) / 64u; ++j)
+@@ -1676,7 +1698,13 @@
+   const Config& c = config();
+   const std::uint32_t used = c.num_experts_used;
+   const std::uint32_t slots = n_tokens * used;
+-  if (!RouteHints(n_tokens, error_msg)) {
++  const bool iq2_wmma = ExpertMatrixRows(n_tokens) &&
++                        l.ffn_gate_exps.type == GgmlType::kIQ2_XXS &&
++                        l.ffn_up_exps.type == GgmlType::kIQ2_XXS &&
++                        l.ffn_down_exps.type == GgmlType::kQ2_K &&
++                        c.hidden_size == 2560 && c.expert_ff == 640 &&
++                        l.ffn_down_exps.cols == 768;
++  if (!RouteHints(n_tokens, error_msg, iq2_wmma)) {
+     return false;
+   }
+   // Tiled batches take the WMMA route: assignments compacted by expert
+@@ -1689,12 +1717,6 @@
+                             (l.ffn_down_exps.type == GgmlType::kQ5_1 ||
+                              l.ffn_down_exps.type == GgmlType::kQ8_0) &&
+                             c.hidden_size % 256 == 0 && c.expert_ff % 64 == 0;
+-  const bool iq2_wmma = ExpertMatrixRows(n_tokens) &&
+-                        l.ffn_gate_exps.type == GgmlType::kIQ2_XXS &&
+-                        l.ffn_up_exps.type == GgmlType::kIQ2_XXS &&
+-                        l.ffn_down_exps.type == GgmlType::kQ2_K &&
+-                        c.hidden_size == 2560 && c.expert_ff == 640 &&
+-                        l.ffn_down_exps.cols == 768;
+   if (iq2_wmma) {
+     RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds, s_.routed_cursors,
+                   s_.rows_token, s_.rows_slot, n_tokens, used, c.num_experts,
+@@ -1715,14 +1737,24 @@
+     auto* scaled = reinterpret_cast<__half*>(s_.up_e);
+     auto* inverse = reinterpret_cast<float*>(
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+-    if (!RoutedGatedIQ2Gemm(
+-            l.ffn_gate_exps.data, l.ffn_up_exps.data,
+-            static_cast<const __half*>(s_.x_half),
+-            s_.routed_tiles + (pair_map ? routed_pair_offset_ : 0),
+-            pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+-            pair_map ? routed_pair_rows_ : routed_tile_rows_, s_.routed_bounds,
+-            s_.rows_token, s_.rows_slot, s_.gate_e, c.expert_ff, c.hidden_size,
+-            stream_) ||
++    const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
++                             std::uint32_t rows) {
++      return RoutedGatedIQ2Gemm(
++          l.ffn_gate_exps.data, l.ffn_up_exps.data,
++          static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
++          count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot,
++          s_.gate_e, c.expert_ff, c.hidden_size, stream_);
++    };
++    const bool gate_ok = routed_iq2_mixed_
++        ? ((!routed_pair_tiles_ ||
++            gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
++           (!routed_iq2_tail_tiles_ ||
++            gate_up(routed_pair_offset_ + routed_pair_tiles_,
++                    routed_iq2_tail_tiles_, 64)))
++        : gate_up(pair_map ? routed_pair_offset_ : 0,
++                  pair_map ? routed_pair_tiles_ : routed_n_tiles_,
++                  pair_map ? routed_pair_rows_ : routed_tile_rows_);
++    if (!gate_ok ||
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+         !RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -328,7 +328,8 @@
+   void RoutedHints(const DeviceTensor& w, std::uint32_t n_tokens) const;
+   /// Reads the routing of the current batch back and derives the tile
+   /// hints for its expert GEMMs (tiled batches only).
+-  bool RouteHints(std::uint32_t n_tokens, std::string* error_msg) const;
++  bool RouteHints(std::uint32_t n_tokens, std::string* error_msg,
++                  bool mixed_iq2 = false) const;
+   /// Routed gate/up projections followed by SwiGLU.
+   bool GatedExperts(const DeviceTensor& a, const DeviceTensor& b,
+                     const float* x, const std::int32_t* ids, float* out,
+@@ -534,6 +535,8 @@
+   mutable std::uint32_t routed_pair_offset_{0};
+   mutable std::uint32_t routed_pair_tiles_{0};
+   mutable std::uint32_t routed_pair_rows_{64};
++  mutable std::uint32_t routed_iq2_tail_tiles_{0};
++  mutable bool routed_iq2_mixed_{false};
+   mutable std::uint32_t routed_tile_rows_{48};  ///< token rows per tile
+   mutable int routed_tile_cols_{0};
+   float* logits_host_{nullptr};

@@ -74,10 +74,11 @@ def validate_recipe(request, curve, row, curve_dir, client, upstream):
 
 
 def model(root, key, host_root, manifest, client, upstream, experiment=None):
-    require(experiment in (None, 'iq2-signs-ordered', 'ple-cache-first-ordered') and
+    require(experiment in (None, 'iq2-signs-ordered', 'ple-cache-first-ordered', 'iq2-mixed-ordered') and
             (experiment is None or key == 'q2'), 'Unknown provider experiment')
     r = artifacts(root)
-    mode, variant = {'iq2-signs-ordered': ('q2-curve-iq2', 'curve-iq2-q2'),
+    mode, variant = {'iq2-mixed-ordered': ('q2-curve-iq2-mixed', 'curve-iq2-mixed-q2'),
+                     'iq2-signs-ordered': ('q2-curve-iq2', 'curve-iq2-q2'),
                      'ple-cache-first-ordered': ('q2-curve-ple-cache-first', 'curve-ple-cache-first-q2'),
                      None: (key+'-curve', 'curve-'+key)}[experiment]
     require(r['state'] == 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT' and
@@ -94,7 +95,10 @@ def model(root, key, host_root, manifest, client, upstream, experiment=None):
             r['locks'] == r['postflight_locks'] and not r['preflight_kfd'] and
             not r['postflight_kfd'], 'Ownership observations do not match the admitted run')
     with tarfile.open(root/'source.tar.gz') as archive, tarfile.open(host_root/'source.tar.gz') as host:
-        for name in FIXTURES:
+        extra = ('experiments/iq2_mixed_tiles.c', 'experiments/iq2_mixed_tiles.h',
+                 'tests/iq2_mixed_tiles.c', 'cmake/hip/CMakeLists.txt',
+                 'config/q2-iq2-mixed-model-source.json') if experiment == 'iq2-mixed-ordered' else ()
+        for name in (*FIXTURES, *extra):
             raw = archive.extractfile(name).read()
             require(raw == host.extractfile(name).read(),
                     'Runtime/host fixture differs: '+name)
@@ -119,7 +123,8 @@ def model(root, key, host_root, manifest, client, upstream, experiment=None):
             curve['output_tokens'] == 128 and curve['timing_scope'] == client.TIMING_SCOPE,
             'Different or incomplete curve protocol')
     client.check_backend(curve['backend_before'], iq2_signs=experiment == 'iq2-signs-ordered',
-                         ple_cache_first=experiment == 'ple-cache-first-ordered')
+                         ple_cache_first=experiment == 'ple-cache-first-ordered',
+                         iq2_mixed=experiment == 'iq2-mixed-ordered')
     require([row['depth'] for row in curve['rows']] == client.DEPTHS, 'Missing/reordered depth rows')
     for row in curve['rows']:
         request = read(curve_dir/f'request-{row["accepted_request"]:04d}.json')

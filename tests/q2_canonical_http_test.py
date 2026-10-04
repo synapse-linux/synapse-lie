@@ -70,6 +70,14 @@ class MetricsContract(unittest.TestCase):
                         {'profile_routes':True,'profile_ple':True},
                         {'profile_routes':True,'ple_cache_first':True}):
             with self.assertRaises(ValueError):client.check_backend(info,**options)
+        info['backend']['build_id'] = 'q2-canonical-curve-iq2-mixed'
+        client.check_backend(info, iq2_mixed=True)
+        for options in ({}, {'iq2_signs':True}, {'ple_cache_first':True},
+                        {'profile_routes':True}, {'profile_ple':True},
+                        {'iq2_mixed':True, 'iq2_signs':True}):
+            with self.assertRaises(ValueError):client.check_backend(info, **options)
+        info['backend']['build_id'] = 'q2-canonical-curve-iq2-signs'
+        with self.assertRaises(ValueError):client.check_backend(info, iq2_mixed=True)
 
     def test_complete_history_includes_prefix_and_work_counts(self):
         with tempfile.TemporaryDirectory() as directory:

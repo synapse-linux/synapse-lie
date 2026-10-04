@@ -31,10 +31,11 @@ def main():
     mode = sys.argv[1]
     if mode == 'iq2-signs-check' and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('IQ2 signs requires a full MMQ rebuild')
-    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes')
+    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed')
     curve_routes = mode == 'q2-curve-routes'
     curve_cache_first = mode == 'q2-curve-ple-cache-first'
-    curve_iq2 = mode == 'q2-curve-iq2' or curve_cache_first or curve_routes
+    curve_mixed = mode == 'q2-curve-iq2-mixed'
+    curve_iq2 = mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
     curve_profile = curve_mode and mode.endswith('-ple')
     if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
@@ -50,8 +51,9 @@ def main():
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
     model_mode = curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
     profile_mode = mode in ('q2-profile','ud-profile')
-    hc_mode = mode in ('iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
-    hc_target = 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode == 'hc-library-norm-bench' else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
+    mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
+    hc_mode = mixed_mode or mode in ('iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
+    hc_target = 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode == 'hc-library-norm-bench' else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
     if not cpu_mode and mode not in ('hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode and not terminal_build:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
@@ -208,7 +210,7 @@ def main():
                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
             # Bound CPU build pressure after the recorded two-job thermal
             # stop. This changes build concurrency, not runtime device policy.
             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -244,7 +246,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -283,7 +285,7 @@ def main():
                 if mode == 'hc-library-bench': run(['ldd',str(binary)],env,30)
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 try:
-                    run([str(binary)] + (['tiles16'] if mode == 'packed-tiles16-bench' else ['tiles'] if mode == 'packed-tiles-bench' else [] if mode in ('iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench') else ['library' if mode == 'hc-library-bench' else 'bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
+                    run([str(binary)] + ([('mixed' if mode == 'iq2-mixed-check' else 'reference')] if mixed_mode else ['tiles16'] if mode == 'packed-tiles16-bench' else ['tiles'] if mode == 'packed-tiles-bench' else [] if mode in ('iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench') else ['library' if mode == 'hc-library-bench' else 'bench-up' if mode == 'hc-up-bench' else 'bench' if mode.endswith('-bench') else 'operators']),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),
                         300 if mode in ('hc-library-bench', 'hc-library-ragged-bench') else 120)
                 finally:
@@ -319,6 +321,7 @@ def main():
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
         if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'
+        if mixed_mode: result['state']='SYNTHETIC_IQ2_MIXED_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode == 'iq2-live-epilogue-check': result['state']='SYNTHETIC_IQ2_EPILOGUE_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode == 'iq2-wmma-signs-check': result['state']='SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'
         if mode == 'iq2-signs-check': result['state']='SYNTHETIC_IQ2_SIGN_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'

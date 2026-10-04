@@ -17,11 +17,13 @@ def main():
     report = json.loads(args.report.read_text())
     assert report['schema'] in ('synapse-lie.q2-ud-canonical-comparison.v1',
                                'synapse-lie.q2-iq2-canonical-comparison.v1',
-                               'synapse-lie.q2-ple-canonical-comparison.v1')
+                               'synapse-lie.q2-ple-canonical-comparison.v1',
+                               'synapse-lie.q2-iq2-mixed-canonical-comparison.v1')
     ple = report['schema'] == 'synapse-lie.q2-ple-canonical-comparison.v1'
-    iq2 = ple or report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
+    mixed = report['schema'] == 'synapse-lie.q2-iq2-mixed-canonical-comparison.v1'
+    iq2 = ple or mixed or report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
     variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
-        ('q2','#007f8b','Q2 ordered IQ2 + PLE' if ple else 'Q2 ordered IQ2' if iq2 else 'Q2'),
+        ('q2','#007f8b','Q2 ordered IQ2 + mixed tiles' if mixed else 'Q2 ordered IQ2 + PLE' if ple else 'Q2 ordered IQ2' if iq2 else 'Q2'),
         ('ud','#d66a28','UD')]
     if iq2 and 'baseline_repeat' in report['models']:
         variants[0] = ('baseline','#a2a7b0','Q2 control before')

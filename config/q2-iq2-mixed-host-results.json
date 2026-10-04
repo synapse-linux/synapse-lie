@@ -1,0 +1,54 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-host-results.v1",
+  "at": "2026-10-04T08:24:16.713206+00:00",
+  "directory": "evidence/q2-iq2-mixed-host-r2",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_tests": 22,
+  "asan_ubsan_tests": 22,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 7,
+  "finished_at": "2026-10-04T08:20:43.728913+00:00",
+  "fixtures": {
+    "CMakeLists.txt": "7a74908643594a93e9483bd4d9b9069424977caca6fc91cbf46142ab124db965",
+    "cmake/hip/CMakeLists.txt": "e84e26e52dbdc03a8b1cee64f24007a58a7bc3082a4194991dd22437f0e46707",
+    "tests/q2_iq2_wmma_signs.cpp": "2c3dfb879a433953579482f7744f48d90ceb0eef995df21fa54da42aa6d5b213",
+    "tests/q2_iq2_live_epilogue.cpp": "d298be5a0cd025e24fc6b272ba10f73f43374defd98b53de0fd1543c30510e3e",
+    "tests/q2_iq2_routes.hpp": "da5475020b4b2f76c466e56353c78e539263e7a95436f62c3adf61799051aa1d",
+    "tests/q2_iq2_routes.cpp": "bc09dee47bef06707c1e35da474e5f4c1aa34c2ab9e8c0a3d5ec32f0fd47fd0f",
+    "tests/q2_iq2_pair.cpp": "0a84f47a10354d103197378bb5ab4f94552b7713ea2453b38651c8f83d929e4e",
+    "tests/q2_packed_fixture.hpp": "8670f40fbd7da541fb7e1204c0c2f9c7856159cc628ec75e45a3598873baa8e3",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "tests/q2_remote_test.py": "147e88c061d5897be25acd5c1613d2e3896b798d05b1b31318cc96bfd530f7c3",
+    "config/q2-iq2-live-epilogue-plan.json": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+    "tools/analyze-q2-iq2-live-epilogue.py": "836d98868d930e8a619e04fdfde4ff4810a6e218b03988de31655b97fee2ed76",
+    "tools/q2-remote.py": "57d4497acb7a92f57bb2ccbeb10e2aae1f04eb5bc8002778c83edb3e15fbf7d7",
+    "tools/q2-runner.py": "60c079e378fefbd19853857d660460f3016ac4473b55e35088e5b271ae83e985",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/iq2_mixed_tiles.c": "f7a3348868af68a1be4bdb07883930c72991f5a70e13b48a047c977bce678028",
+    "experiments/iq2_mixed_tiles.h": "8fdda61906beb1827e58337f1ae54992d4d40d45682f01c538a5427a0b0ff5ce",
+    "tests/iq2_mixed_tiles.c": "43384570484ef3a1bb514574b988a3f75351c86620d045b3f3fc11f703f3a465",
+    "tests/q2_iq2_mixed_tiles.cpp": "06db58870370063038ae588886be161d2b104914f953b3cab99283a1c0641e2a",
+    "config/q2-iq2-mixed-plan.json": "c767eb9aed040b6387852b3e6ef1faaceba723261d498f8743a787accfed38a1",
+    "tools/analyze-q2-iq2-mixed.py": "6d78bd7f5c9e23cc5a36a6569e4a82fbe000f9acf91d48a34fb0a04a76ec38f6"
+  },
+  "failed_first_attempt": {
+    "directory": "evidence/q2-iq2-mixed-host-r1",
+    "command_exits": [
+      0,
+      0,
+      8
+    ],
+    "cause": "General remote source allowlist missed iq2-mixed; corrected without weakening component guards."
+  },
+  "gpu_execution": false,
+  "model_inference": false,
+  "goal_met": false
+}

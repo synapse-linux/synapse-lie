@@ -1,6 +1,51 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Mixed map wired to full canonical model comparison — 2026-10-04
+
+The isolated model provider changes three host/build files and adds the exact
+component-qualified C17 map source/header. All1017 other parent files, including
+every numerical kernel, remain unchanged. The original down map and existing
+allocation capacities are preserved; mixed IQ2 gate/up uses two disjoint spans.
+Executor syntax and ten Python AST checks pass locally. The new .157 host cohort
+passes22/22 Debug and22/22 ASan/UBSan, six zero command exits, seven artifacts.
+The planned four-arm comparison retains ordered Q2 before/after the candidate
+and pristine UD, full MMQ builds and the complete canonical0–128K PP/TG workload.
+Original-model execution remains pending fresh admission; the parity goal is open.
+[Integration, provenance and plan](Q2-IQ2-MIXED.md#model-integration-and-four-arm-plan).
+
+## Mixed IQ2 GPU comparison improves recorded-routing cases — 2026-10-04
+
+Both .157 arms complete, six command exits are zero and28 artifacts verify.
+The ordered provider is unchanged across1020 files. All ten saved output pairs
+are exact and every independent FP64 check passes. Complete-cycle time falls
+1.487–4.148% across the four actual count distributions; including map building
+and pinned upload saves1.723–3.765%. The full-tile control takes about0.3% longer.
+These are component results, with no new model prefill claim or parity verdict.
+The evidence supports preparing full-model integration and the canonical curve.
+[All values, graph and140 samples](Q2-IQ2-MIXED.md#completed-gpu-component-comparison--2026-10-04).
+
+Verified release at08:32:30 UTC checks31 processes/24 groups retired, KFD empty,
+four original leases free and six original model stat tuples unchanged. No Q2
+GPU job, reservation, waiter or restart remains. Git cannot currently write its
+index after local ENOSPC; no commit is claimed. A verified source checkpoint also
+exists in a persistent .157 run directory; no remote cleanup was performed.
+
+## Mixed IQ2 tiles implemented; host qualification passes — 2026-10-04
+
+The DeepSeek-inspired 128/64 map now has an isolated first-party C17 builder,
+exhaustive bounded coverage checks and a complete production-kernel component
+fixture. All1020 ordered-provider files remain unchanged. Separate timing
+scopes include every GPU launch, then additionally pinned-map preparation and
+upload; neither is described as original-model throughput.
+
+The first .157 host cohort preserves CTest exit8 for an incomplete CLI allowlist.
+After correction, the second passes22/22 Debug and22/22 ASan/UBSan with six zero
+command exits and seven verified artifacts. GPU numerical identity, timings
+and the complete canonical PP/TG curve remain pending. Existing ordered-sign
+decode gains are retained; the unmeasured live-stage LDS variant is separate.
+See [scope, provenance and host evidence](Q2-IQ2-MIXED.md).
+
 ## IQ2 epilogue GPU comparison: exact outputs, mixed timing — 2026-10-04
 
 The reference, continue guard and break guard complete on `.157` with all nine

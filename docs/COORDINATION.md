@@ -6,6 +6,20 @@ and core/server LIE threads. This authorization persists: do not ask for user
 confirmation for each message. GPU ownership still follows current coordinated
 windows and the existing four nonblocking leases.
 
+Latest Q2 window: **released at2026-10-04T08:32:30.689733+00:00**. The previous
+Q2 release remains latest at fresh08:28:59 admission, with no intervening core
+admission. Under continuing owner authorization, both bounded mixed-tile
+component arms complete with six zero command exits and28 verified artifacts.
+All ten output pairs are exact; no original model is loaded. Fresh closure
+checks31 process identities and24 groups retired, empty KFD, four unchanged
+original lease identities EX|NB/free and six unchanged model stat tuples.
+Remote/main `run/q2-iq2-mixed-window-release.json`, shared registry and
+[tracked receipt](../config/q2-iq2-mixed-window-release.json) retain SHA256
+`a60daa4f4328529c0184f3aa2704fe5cf1801a570964f59c91eb8bef2885c8a0`.
+Core may freshly admit; no Q2 GPU job, reservation, observer/waiter or restart
+remains. Outgoing MCP fails; no message delivery is claimed. Source/evidence
+remain persistent, and no cleanup occurs on .157.
+
 Latest Q2 window: **released at2026-10-04T06:36:53.263312+00:00**. Core first
 explicitly returns the GPU with canonical HTTP release SHA
 `dbbae9d785b1895da0b43420b7d676717e583f6d485cf725d4d35be339354840`.

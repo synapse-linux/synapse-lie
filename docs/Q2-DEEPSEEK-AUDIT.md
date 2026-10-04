@@ -14,7 +14,7 @@ the retained experiment history. No sibling DS4 source or artifact is imported.
 | Mechanism | DeepSeek implementation | Current Qwen difference and proposed check |
 | --- | --- | --- |
 | Packed integer IQ2 sign expansion in vector decode | `dev_iq2_i8x8_lut`, `ds4_rocm_iq2_gate.hip.hpp:57`: parity completion, multiply/mask to spread sign bits, packed xor/add negation. | Completed in the ordered Qwen candidate: full-model decode improves 4.446–5.188% against an unchanged order control across all eight canonical depths. This change is retained in the current PLE campaign; it does not improve prefill. |
-| Large row groups followed by smaller tails in one expert map | `ds4_rocm_q2_down_tile_map`, `ds4_rocm_q2_down.hip.hpp:11`, with separate launch spans in `ds4_rocm_moe_launch.hip.hpp:303`. | Qwen gate/up chooses 64 or 128 rows for the whole layer; selected scaled down uses 48. Earlier 64/128 down tests selected one width for the whole cohort. None of the recorded experiments measures a mixed map per expert. Collect canonical routing histograms, then compare full/tail partitions against the existing selector. |
+| Large row groups followed by smaller tails in one expert map | `ds4_rocm_q2_down_tile_map`, `ds4_rocm_q2_down.hip.hpp:11`, with separate launch spans in `ds4_rocm_moe_launch.hip.hpp:303`. | The isolated Qwen mixed128/64 component now saves1.487–4.148% across four recorded-routing cases, with exact complete outputs and independent FP64 checks passing. Including map construction/upload saves1.723–3.765%; the full-tile control costs about0.3% more. Full-model integration and canonical PP/TG comparison remain pending. |
 | Stage the IQ2 codebook once per workgroup | DeepSeek vector gate/up stages 256 eight-byte grid entries plus bounded Q8_K activations in shared memory before reusing them across output rows (`ds4_rocm_iq2_gate.hip.hpp:238`). | Qwen vector dot reads the constant grid. A separate candidate could stage the 2 KiB codebook while retaining Q8_1 activation layout. Test the extra barrier/LDS cost and actual global-cache behavior; do not combine this with the sign change initially. |
 
 The mixed-map proposal must preserve every slot exactly once and the ordered
@@ -29,8 +29,12 @@ counts with unchanged numerical kernels. Inspection also confirms that Qwen
 already omits empty WMMA fragments but still executes their paired epilogue
 stores/barriers. A separate [live-epilogue candidate](Q2-IQ2-LIVE-EPILOGUE.md)
 adds only a uniform guard, with unchanged VGPR/LDS and zero scratch in device
-assembly. It remains unmeasured; neither reserved padding nor static compilation
-is a model performance result.
+assembly. Its completed GPU comparison is numerically exact but shows mixed,
+sub-percent timing; neither variant advances to a model run. The distinct
+[mixed 128/64 map experiment](Q2-IQ2-MIXED.md) now has a C17 map builder and
+complete component fixture, with 22/22 Debug and ASan/UBSan host checks on .157.
+Its completed GPU comparison improves all four recorded-routing cases, with
+the small full-tile regression retained. Reserved padding is not a model speedup.
 
 The codebook experiment is distinct from the earlier Q2 affine-palette LDS
 staging, packed-weight staging and register code-byte reuse. Those concern

@@ -58,14 +58,17 @@ def main():
         p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--baseline-repeat', type=Path,
                    help='Unchanged Q2 control after candidate; retain both baselines')
-    p.add_argument('--ple-cache-first', action='store_true',
+    composition = p.add_mutually_exclusive_group()
+    composition.add_argument('--ple-cache-first', action='store_true',
                    help='Compare composed PLE reader against ordered IQ2 control, retaining UD')
+    composition.add_argument('--iq2-mixed', action='store_true',
+                   help='Compare mixed128/64 map against ordered IQ2 control, retaining UD')
     args = p.parse_args()
     require(not args.output.exists(), 'Refusing to overwrite a result')
     host = common.artifacts(args.host)
     require(host['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and not host['model_access'],
             'Host qualification incomplete')
-    tests = 21 if args.ple_cache_first else 19
+    tests = 22 if args.iq2_mixed else 21 if args.ple_cache_first else 19
     for name in ('03.log','06.log'):
         require(f'100% tests passed out of {tests}' in (args.host/'results'/name).read_text(),
                 'Missing complete Debug/ASan host cohort')
@@ -103,6 +106,34 @@ def main():
         composed = copy.deepcopy(base)
         composed['variants']['q2'] = dict(source=ple['candidate'], files=ple['files'])
         baseline_experiment, experiment = 'iq2-signs-ordered', 'ple-cache-first-ordered'
+    if args.iq2_mixed:
+        require(args.baseline_repeat is not None and host['mode'] == 'cpu',
+                'Mixed IQ2 comparison requires the host suite and unchanged order control')
+        candidate_manifest = ROOT/'config/q2-iq2-mixed-model-source.json'
+        mixed = read(candidate_manifest)
+        component_path = ROOT/'config/q2-iq2-mixed-results.json'
+        component = read(component_path)
+        require(mixed['parent_manifest_sha256'] == sha(ROOT/'config/q2-iq2-signs-ordered-asm-source.json')
+                and mixed['component_result_sha256'] == sha(component_path)
+                and component['exact'] is True and component['numerical_pass'] is True,
+                'Mixed IQ2 component provenance changed')
+        prefix = 'src/models/qwen38_flash_next/'
+        changed = {prefix+'CMakeLists.txt', prefix+'kernels/rocm/executor.cpp',
+                   prefix+'kernels/rocm/executor.hpp'}
+        added = {prefix+'kernels/rocm/iq2_mixed_tiles.'+suffix for suffix in ('c','h')}
+        require(set(mixed['changed_files']) == changed and set(mixed['added_files']) == added and
+                set(mixed['files']) == set(candidate['files']) | added and
+                {n for n in candidate['files'] if mixed['files'][n] != candidate['files'][n]} == changed,
+                'Mixed IQ2 candidate changed numerical kernels or unrelated provider files')
+        qualified_host = read(ROOT/'config/q2-iq2-mixed-host-results.json')
+        for name in added:
+            local = 'experiments/'+Path(name).name
+            require(mixed['files'][name] == sha(ROOT/local) == qualified_host['fixtures'][local],
+                    'Model map differs from the component-qualified C17 helper')
+        base = composed
+        composed = copy.deepcopy(base)
+        composed['variants']['q2'] = dict(source=mixed['candidate'], files=mixed['files'])
+        baseline_experiment, experiment = 'iq2-signs-ordered', 'iq2-mixed-ordered'
     client = module('q2-canonical-http.py')
     upstream,_ = client.load_upstream(ROOT/'.deps/gufo-base')
     models = dict(baseline=common.model(args.baseline,'q2',args.host,base,client,upstream,
@@ -148,6 +179,10 @@ def main():
     if args.ple_cache_first:
         report.update(schema='synapse-lie.q2-ple-canonical-comparison.v1',
             scope='Unchanged Gufo prose context curve and C17 timers; ordered IQ2 Q2 control, same Q2 plus PLE cache-first, pristine UD',
+            baseline_experiment=baseline_experiment, candidate_experiment=experiment)
+    if args.iq2_mixed:
+        report.update(schema='synapse-lie.q2-iq2-mixed-canonical-comparison.v1',
+            scope='Unchanged Gufo prose context curve and C17 timers; ordered IQ2 Q2 control, same kernels with mixed128/64 dispatch, pristine UD',
             baseline_experiment=baseline_experiment, candidate_experiment=experiment)
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(matched_history=matched,cells=cells,goal_met=False)))
