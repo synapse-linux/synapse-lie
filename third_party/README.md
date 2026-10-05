@@ -370,3 +370,12 @@ attributed include; no additional source is imported. Saved device objects,
 standalone analysis and plots retain the failed numerical exits alongside
 actual performance. Their FP64 checks use synthetic fixture operands and
 do not stand in for an original-model teacher.
+
+The compact-expert-chain experiment derives only from the retained scaled-wave-pack
+provider and its independently fetched official Gufo pin
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. It copies the attributed routed HIP
+bodies into a private include and changes row addressing, retaining original
+quantization and WMMA arithmetic. Its source manifest binds all1028 files and
+the four-file patch. New orchestration, fixtures and analysis are first-party
+MIT. No sibling DS4/CachyOS source or artifacts are imported; this remains a
+transitional numerical port, not an owned C17 executor or quality acceptance.

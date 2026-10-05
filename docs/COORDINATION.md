@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Compact expert chain prepares after9002cdc and release13ba43fc. Root reports
+no .157 job/reservation; its physical1M work remains on .161. Host27+27 is
+terminal and collection/verification follows. New GPU work requires the frozen
+80-fixture/four-manifest plan, source checkpoint and fresh full registry/PID/
+group/KFD/original-lease/model-stat admission. No ownership is inherited.
+
 Expert-order window releases2026-10-05T17:11:36.064569UTC, SHA256
 13ba43fc1b39ae5906d62f36515a3f6061059912f76c9bfa9dd41b99a4360571.
 Fresh admission55c0bfbb from23bce68 followed root non-use and release6abd77bc.

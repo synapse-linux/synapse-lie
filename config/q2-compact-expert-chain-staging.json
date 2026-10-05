@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-compact-expert-chain-staging.v1",
+  "arms": [
+    {
+      "mode": "compact-expert-chain-check",
+      "capsule_sha256": "03986a89d9e9c07e590cd02fd3705854108cfb86e1bcfea0bf53979fc8d0ab39",
+      "provider_files": 1028,
+      "fixture_files": 80,
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-compact-expert-chain",
+      "capsule_sha256": "5a21568f09be3062431ad54dee209572095a8ece8e03718abfc275a56a8d8467",
+      "provider_files": 1028,
+      "fixture_files": 80,
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

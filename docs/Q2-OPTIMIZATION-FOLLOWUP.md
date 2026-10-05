@@ -55,6 +55,7 @@ control rerun or context-curve expansion follows this update.
 
 | Region | Remaining concrete work | Status / priority |
 | --- | --- | --- |
+| Compact expert producer layout | Write compact expert-major rows in gate/up, preserve wave packing, then consume contiguous rows in down. | [Prepared candidate](Q2-COMPACT-EXPERT-CHAIN.md): local compilation and162 unchanged kernels pass; guarded GPU routing/chain and original model remain pending. No new allocation or dispatch. |
 | Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | Source audit only; high. Existing fallback routing/quantization reuse is already present. |
 | Measured marginal: active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [Completed candidate](Q2-SCALED-WAVE-PACK.md):52 exact component pairs,21 exact parent model files; packing/down time-0.632%, model1574.505432 PP nominal+0.056191% with overlapping ranges. Scalar oracle exit1 retained and fully attributed to signed zero in both arms. This trial is no longer pending; full producer fusion remains open. |
 | Active-chain activation traversal | Pack scaled half rows in existing expert order, then read contiguously in down. | [Completed experiment](Q2-SCALED-EXPERT-ORDER.md):107 exact component pairs,cycle-4.745%; model1571.009498 PP (-0.222034%) and21 exact parent files. Preserve variant; keep1574. This test is no longer pending. |

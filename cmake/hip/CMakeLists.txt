@@ -715,3 +715,14 @@ target_compile_definitions(q2_scaled_expert_order PRIVATE QFN_ROCM_BUILD=1 ENGIN
 target_include_directories(q2_scaled_expert_order PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
 target_include_directories(q2_scaled_expert_order SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_scaled_expert_order PRIVATE hip::host OpenSSL::Crypto)
+
+# Compact expert producer, original packing and ordered down output.
+add_executable(q2_compact_expert_chain EXCLUDE_FROM_ALL ../../tests/q2_compact_expert_chain.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_compact_expert_chain PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_compact_expert_chain PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_compact_expert_chain PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_compact_expert_chain SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_compact_expert_chain PRIVATE hip::host OpenSSL::Crypto)

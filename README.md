@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [compact expert chain](docs/Q2-COMPACT-EXPERT-CHAIN.md) prepares the next Q2 experiment from saved1574.
+Gate/up writes compact expert-major rows; unchanged wave packing and adapted
+down consume that order. Original buffers, arithmetic and dispatch counts are
+retained. Local compilation and162 unchanged kernel bodies pass; GPU component
+and original2048/tg128 model validation remain pending. This is not a speed claim.
+
 Expert-ordered scaled-Q2 activation trial completes at1571.009498 PP, nominal
 -0.222034% versus saved1574.505432. Its packing/down component saves4.745116%,
 but all21 exact parent model files accompany no whole-model speed gain. Keep

@@ -445,6 +445,34 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_compact_expert_chain_manifest_binding(self):
+        self.assertEqual(remote.COMPACT_EXPERT_CHAIN_MANIFEST,
+                         'config/q2-compact-expert-chain-source.json')
+        self.assertTrue((remote.ROOT / remote.COMPACT_EXPERT_CHAIN_MANIFEST).is_file())
+
+    def test_compact_expert_chain_new_component_or_matched_counting_only(self):
+        variant = 'compact-expert-chain'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Compact expert chain requires its component or matched historical counting provider')
+        self.refuse([remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-fixture'], 'Compact expert chain requires')
+        base = [remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Compact expert chain component builds')
+        for mode in (remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-counting-compact-expert-chain'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_shared_q8_pair_manifest_binding(self):
         self.assertEqual(remote.SHARED_Q8_PAIR_MANIFEST,
                          'config/q2-shared-q8-pair-source.json')
