@@ -142,9 +142,13 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    ICU remains the property/set/conversion dependency. Snapshot reader/writer
    planning, validation and payload copies now use C17
    ([host witnesses](development/validation/c17-grammar-snapshot-host-2026-10-05.json));
-   provider vector storage
-   remains private typed translation. JSON Schema compilation still needs
-   extraction within the same task;
+   provider vector storage remains private typed translation. Concrete rule/
+   class/literal/repetition/JSON-primitive/generic-value/unsigned-interval
+   construction, productivity/nullable analysis, iterative cycle checks and
+   dead-alternative pruning now use the C17 builder
+   ([host witnesses](development/validation/c17-grammar-builder-host-2026-10-05.json)).
+   JSON Schema traversal, references, conjunction and finite-value normalization
+   still need extraction within the same task;
    original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in

@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Grammar construction C17 host slice — 2026-10-05
+
+From `2bbb2e6`, the shared C17 builder owns concrete rule/class/literal and
+repetition construction, JSON byte primitives, depth-bounded generic values,
+shared-prefix unsigned intervals, productive/nullable fixed points, iterative
+non-consuming-cycle checks and dead-alternative pruning. The selected provider
+compiler calls these operations; its original bodies remain the explicit OFF
+reference. Base runtime tables come directly from C. The adapter still copies
+private templates for reasoning/tool composition. Schema traversal, reference
+resolution, conjunction, finite-value normalization, binary-double normalization,
+compile cache and model/controller storage remain transitional.
+
+The [host receipt](development/validation/c17-grammar-builder-host-2026-10-05.json)
+records 28 Debug, 28 sanitizer and 28 pristine/ON/OFF checks. All thirteen prior
+complete witness hashes remain unchanged. Independent fixtures cover 11,169
+language/boundary oracles, the 512/513-digit boundary, a 4096-rule chain and all
+113 owned allocation refusal points. Requested fixture payload peaks at 38,090
+bytes, excluding headers/provider/ICU/process/GPU costs. No new original-weight
+GPU correctness, fault, fit, allocation-exact cost or performance is claimed.
+Four minimal-core ICU-OFF checks, 43 public headers and strict C17/symbol checks
+also pass. Local CPU maximum is 91.5 C without tuning.
+
+The private inventory grows from 32 to 35 files, with 21 additional exact
+runtime edits; matching sealed provider/application rebuilds are required.
+No inference worker, event/RNG/engine ABI or DS4 framing changes. All six root
+tasks remain open. `.161` still runs foreign Gemma/router processes, so root
+performs no GPU build/run/model hash/conversion or foreign mutation. One initial
+recipe-preparation assertion guessed the old edit count incorrectly and refused
+before any writes; the preserved failure is corrected against the actual HEAD.
+
 
 ## Snapshot read/write bridge C17 host slice — 2026-10-05
 

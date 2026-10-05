@@ -57,7 +57,9 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies JSON Schema compilation and private container storage. Unicode registry/
+supplies JSON Schema transformations and private container storage. Concrete
+rule/primitive construction and productive/nullable/cycle validation now use
+the C17 builder. Unicode registry/
 input and snapshot read/write planning/copies now use shared C17 contracts, with
 ICU retained for set/property/conversion semantics. Its private layout requires a matching source,
 archive and application rebuild.
@@ -97,7 +99,10 @@ assertion expansion scratch are now owned and retired in C17; UTF16 input and
 opaque set callbacks are borrowed for one synchronous call. The Unicode context
 owns full-set registry, range translations and UTF8 buffers through ICU C APIs;
 ICU remains the property/set/conversion dependency. JSON Schema compilation and
-provider container storage remain transitional. Snapshot bridge planning,
+provider container storage remain transitional. The C17 builder owns concrete
+rule/primitive construction and iterative validation, while schema traversal/
+references/conjunction/finite-value normalization and provider composition
+templates remain transitional. Snapshot bridge planning,
 validation and payload copies now use C17.
 
 ## MTP development boundary

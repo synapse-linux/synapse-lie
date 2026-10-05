@@ -156,3 +156,18 @@ private vector/string State layout remains; this is not full provider/model
 storage ownership or C++ dependency removal. No sibling CachyOS/DS4 source
 or artifact is imported. Synthetic host lifetimes/refusal/full-payload tests
 are not original-weight GPU correctness/resources/performance qualification.
+
+Concrete grammar construction extraction
+---------------------------------------
+The rule/class/literal/repetition, JSON byte primitive, generic-value,
+shared-prefix unsigned interval and productive/nullable/cycle/pruning algorithms
+in src/grammar_builder.c are attributed C17 ports of the independently pinned
+official Gufo f783fedb JsonConstraintCompiler. The iterative cycle stack and
+owned construction/flat-table lifetimes use the public model-neutral contract
+in include/lie/grammar_builder.h. Adapter gufo_grammar_builder.hpp translates
+typed views/errors and preserves private reasoning/tool composition templates.
+JSON Schema traversal/reference/conjunction/finite-value transformations and
+binary-double normalization remain transitional; this is not full compiler,
+provider/model storage ownership or C++ dependency removal. No DS4 or sibling
+CachyOS source/artifact is imported. Host language/lifetime/refusal witnesses
+do not qualify original-weight GPU numerical/resource/performance behavior.

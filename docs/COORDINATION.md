@@ -1,5 +1,31 @@
 # DS4 / synapse-lie coordination
 
+## Grammar construction C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only observations still identify Gemma training PID 29223/
+start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD. A brief
+nonblocking probe of the original lease is released; it is no GPU admission or
+reservation. Root advances C17 grammar construction and validation locally,
+with GPUs masked. No root GPU build/run/model hash/conversion, foreign signal,
+service/dependency/tuning mutation, standing lease or waiter occurs.
+
+The [source-bound host receipt](development/validation/c17-grammar-builder-host-2026-10-05.json)
+records 28 Debug, 28 sanitizer, 28 pristine/ON/OFF and four minimal ICU-OFF
+checks, plus 43 headers/strict C17. All thirteen prior complete witnesses remain
+unchanged. Local CPU peak is 91.5 C; own allocator refusals are 113. The 35-file
+inventory and 21 additional exact runtime edits require new matching sealed
+provider/application builds. Shared worker/events/RNG/engine and DS4 layouts
+are unchanged. All six root tasks remain open; new GPU gates use `.161` after
+fresh coordinated admission. Schema transformations and private provider
+composition/model/controller storage remain transitional.
+
+Q2 separately reports terminal release `a8e0d9f6` at 14:11:27.395434 UTC from
+source `a831c87`, followed by result `931ce30`: its fixed-width candidate retains
+numerical differences, a component exit 1 and measured regression. Root sends
+fresh non-use and has no `.157` GPU job/build/client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving. Those are separate assignments and reported
+results, not root tasks, root qualification or inherited ownership.
+
 
 ## Snapshot bridge C17 host-only ownership — 2026-10-05
 

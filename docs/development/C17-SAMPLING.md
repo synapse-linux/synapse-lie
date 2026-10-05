@@ -40,7 +40,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, JSON Schema compilation,
+deep copies, deferred draws, entropy acquisition, JSON Schema transformations,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -328,7 +328,7 @@ and exception translation. Syntax/assertion expansion now use C17; the Unicode
 context below preserves insertion-ordered full-set identity through ICU C APIs.
 JSON Schema compilation and provider container storage remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
-32-file provider inventory and recipes require matching archive/application
+35-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -358,7 +358,7 @@ compiler and provider container storage still need extraction. No upstream type 
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
-ON; OFF retains the original syntax/expansion implementation. The 32-file
+ON; OFF retains the original syntax/expansion implementation. The 35-file
 provider inventory and recipes require matching source/archive/application
 builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
 records independent C language/refusal/allocator tests and pristine/ON/OFF
@@ -392,7 +392,7 @@ The provider glue now supplies context RAII, a synchronous borrowed input view,
 exception and enum translation. `LIE_C17_SAMPLING` selects this path by default;
 OFF retains the pinned C++ path. `LIE_UNICODE_ICU=ON` builds the standalone C
 module by default; a minimal core can omit it with OFF. A C17 provider build
-requires ICU. The 32-file private inventory and changed compiler/parser/build
+requires ICU. The 35-file private inventory and changed compiler/parser/build
 recipes require a new matching sealed provider/application rebuild.
 
 [Host evidence](validation/c17-grammar-uset-host-2026-10-05.json) records 26 Debug,
@@ -449,13 +449,63 @@ copy/source/program-release lifetimes. All twelve earlier full witness hashes
 remain unchanged. Three minimal-core checks with ICU OFF also pass. All 42 public
 headers and strict C17/symbol checks pass; local CPU maximum is 90.5 C.
 
-The 32-file inventory and changed runtime recipe/glue require matching sealed
+The 35-file inventory and changed runtime recipe/glue require matching sealed
 provider/application rebuilds. Worker/events, RNG, request/executor/generation
 and DS4 RAM/SSD layouts remain unchanged. These synthetic tests are not new
 original-weight AR/MTP/tool/grammar continuation, GPU fault/fit, allocation-exact
 whole-provider resources or matched performance qualification. Export adds
-bounded transient planning storage; no speedup is claimed. JSON Schema compiler
-extraction remains the next identified grammar responsibility.
+bounded transient planning storage; no speedup is claimed. Schema traversal,
+reference/conjunction and finite-value normalization remain grammar responsibilities.
+
+## Grammar construction and validation
+
+`lie/grammar_builder.h` exposes a model-neutral C17 construction ABI 1. The
+builder owns rule alternatives, sequences, terminal classes and dense sealed
+tables. It copies inputs and supplies literal chunking, optional/repeated/exact/
+bounded repetition, JSON byte primitives, cached depth-bounded generic values
+and shared-prefix unsigned decimal intervals. JSON strings retain UTF8 and
+surrogate-pair escape rules; normalized decimal bounds support 512 digits.
+
+Finalization computes productive and nullable fixed points, checks every rule
+for a cycle before input consumption and removes impossible alternatives.
+Cycle traversal uses a heap stack, including the independently tested 4096-rule
+chain. The result borrows immutable tables until builder release; the runtime
+program copies them and can outlive the builder. Predicate and allocator
+contexts remain caller-owned. No provider or ICU type enters the public header.
+
+Default limits preserve 262,144 rules and uint32 table counts, with a 64-million-
+unit construction budget. Argument/result publication is explicit. A failed
+mutation latches its status; prior successful primitives may remain, and the
+caller retires the builder. Invalid output arguments can refuse before mutation.
+Finalization publishes only after successful allocation and validation, then
+rejects further mutations. Paired allocator hooks retire partial storage.
+
+The selected provider compiler now calls this C builder for these operations;
+its original construction and validation bodies execute only with
+`LIE_C17_SAMPLING=OFF`. The adapter translates typed inputs/errors and copies
+private templates needed by the still-transitional reasoning/tool composition.
+The base grammar creates its runtime program directly from the C tables.
+Schema-tree traversal, reference resolution, conjunction, enum/const
+canonicalization, binary-double bound normalization, compile cache and provider
+template/model/controller storage remain transitional. This is not a completed
+JSON Schema compiler or autonomous model executor.
+
+[Source-bound host evidence](validation/c17-grammar-builder-host-2026-10-05.json)
+records 28 Debug, 28 sanitizer and 28 pristine/ON/OFF tests. There are 11,169
+independent language/boundary oracles, 113 owned allocation refusal points,
+512/513-digit boundary checks and the 4096-rule chain. All thirteen earlier full
+witness hashes are unchanged. The fixture's requested payload peak is 38,090
+bytes, excluding allocation headers and the provider/ICU/process/GPU.
+Four minimal-core ICU-OFF checks, 43 public headers and strict C17/symbol checks
+pass; local CPU maximum is 91.5 C. These are host languages and lifetimes, not
+new original-weight correctness, memory fit, allocation-exact whole-provider
+cost or performance evidence.
+
+The current private inventory grows from 32 to 35 files, with 21 additional exact
+runtime edits. Source/header/glue/recipe changes require matching sealed provider
+and application rebuilds. Worker/events, RNG, executor/request/generation and
+DS4 RAM/SSD layouts remain unchanged. Full JSON Schema ownership and GPU gates
+remain part of the existing task.
 
 ## Build selection and observability
 
@@ -463,7 +513,8 @@ extraction remains the next identified grammar responsibility.
 An explicit OFF build retains legacy provider selection, history bookkeeping
 and compact/speculative probability arithmetic, byte-grammar runtime, numeric/Unicode
 predicates, vocabulary/cache algorithms and regex syntax/assertion/expression/derivative/DFA
-construction and Unicode registry/input handling. Use the same
+construction, Unicode registry/input handling, concrete byte-grammar construction
+and productivity/cycle validation. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:

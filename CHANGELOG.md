@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 grammar construction, JSON byte primitives, decimal-prefix
+  intervals, productivity/cycle validation and dead-alternative pruning.
+  Schema transformations and provider composition templates remain transitional;
+  host language/lifetime checks pass, while GPU resources/cost remain pending.
+
 - Shared C17 snapshot read/write bridge with bounded import, staged export,
   capacity and overlap validation. Provider container views/growth preserve
   its existing private layout; callbacks retain no input/context. Host

@@ -19,7 +19,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 32-file provider inventory and numeric edit recipe bind its selection;
+current 35-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -27,7 +27,7 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 32-file inventory and owned recipes bind the source selection. Vocabulary
+The 35-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
 algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
 range translation and input buffers are C17 using ICU C APIs. ICU remains the
@@ -59,6 +59,14 @@ not timing or throughput. Import states retire on any callback refusal;
 private provider vector/string staging retires at the exception boundary.
 No inference worker, HTTP metric or DS4 tensor/cache identity changes. Actual
 whole-provider allocation cost and GPU continuation remain separate gates.
+
+Grammar construction adds bounded C rule/class/table and
+productivity/cycle scratch allocations. Its 64-million-unit default work budget
+is admission accounting, not elapsed time or throughput. The provider retains
+private composition templates and schema transformations. The independent
+fixture peak counts requested owned payload only, excluding helper headers,
+provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
+is introduced; original-weight allocation-exact cost remains unqualified.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source
