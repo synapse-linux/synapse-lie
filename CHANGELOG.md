@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 per-compilation schema reference memo with bounded storage,
+  recursive placeholders and allocation accounting. Default-ON and original
+  OFF paths pass host recursion/lifetime/refusal comparisons; matching GPU
+  qualification remains pending.
+
 - Original-weight Terminal Bench Core-19 smoke qualification on Strix Point:
   1/1 unchanged task passes at the first attempt, with portable score/transcript
   and verified CPU/GPU closure. The full 19-task evaluation starts separately

@@ -62,6 +62,42 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Reference identity memo
+
+`lie/schema_memo.h` defines separate ABI 1. `src/schema_memo.c` owns the
+per-compilation opaque-node identity table, lookup, assignment, bounded growth
+and storage accounting. Its default limit is 262,144 entries. Node addresses
+are stable borrowed identities; the C module never dereferences or retains JSON
+values. A placeholder rule ID is published before visiting children, preserving
+recursive reference order. This memo is separate from the compiled-schema
+cache and RAM/SSD KV retention.
+
+The table grows geometrically at a load factor no greater than one half.
+Allocation refusal preserves every published key/value and capacity. Existing
+keys can be reassigned without allocation at the entry limit. An unsuccessful
+lookup leaves its value output untouched. Operations are caller-serialized;
+allocator callbacks and output objects stay disjoint, callbacks cannot reenter,
+and destruction follows retirement. `inspect` reports live C allocation bytes,
+excluding borrowed JSON/rule storage and private provider allocations.
+
+`gufo_schema_memo.hpp` only translates opaque identities, rule IDs and status/
+exceptions. Three exact `schema-memo-edits.json` replacements join the current
+48-file provider inventory and `schema_memo_edits_sha256` build binding under
+default-ON `LIE_C17_SAMPLING`; OFF keeps the original `std::map` body. The
+visitor and its empty-branch behavior retain their order; main Visit/VisitBody
+dispatch, binary-double leaf policy and private composition/model/controller
+storage remain transitional. Shared worker/event/RNG and DS4 persisted formats
+are unchanged.
+
+The [host receipt](validation/c17-schema-memo-host-2026-10-05.json) records
+1,085,705 independent identity/value checks, all fourteen owned allocation
+sites, 32 complete recursive-reference cases / 1,706 transitions, seven Debug
+and seven sanitizer contracts, plus 32 pristine/ON/OFF tests. All sixteen prior
+complete witness hashes stay unchanged. All 47 public headers compile as both
+C17 and C++17. Matching new provider/application GPU builds and original-weight
+branch/fault/resource/cost gates remain pending. The ongoing Core-19 GPU run
+retains frozen source `2359488` and does not include this memo slice.
+
 ## Compiled-schema cache
 
 `lie/grammar_cache.h` defines separate ABI 1; `src/grammar_cache.c` owns ordered
@@ -92,10 +128,14 @@ original compilation-cache body. Two exact edits and `grammar_cache_edits_sha256
 join the 45-file provider inventory. The
 [host receipt](validation/c17-grammar-cache-host-2026-10-05.json) binds policy,
 concurrency, real private-holder failure, C refusals and unchanged earlier
-pristine/ON/OFF witnesses. New matching provider/application GPU builds and
-original-weight continuation, resources and cost remain pending. Schema
-Visit/VisitBody/reference memo and private reasoning/tool composition caches
-remain transitional. Shared reactive execution and RNG are unchanged.
+pristine/ON/OFF witnesses. A matching `2359488` provider/application rebuild
+passes selected original-weight AR37/MTP37 controls
+([GPU receipt](validation/c17-finite-cache-point-gpu-2026-10-05.json)).
+Individual branches, faults, allocation-exact resources and matched cost remain
+pending. That frozen build excludes the newer reference memo. Schema
+Visit/VisitBody and private reasoning/tool composition caches remain
+transitional; the per-compilation reference memo now uses the C17 module above.
+Shared reactive execution and RNG are unchanged.
 
 ## Request history
 
@@ -528,7 +568,7 @@ translation. Format expansion and binary-double `multipleOf` translation remain
 leaf policy in the provider; they do not perform C traversal or merging. The
 default-ON sampler selection uses five exact `schema-transform-edits.json`
 replacements; OFF retains original function bodies. The 45-file sealed inventory
-requires matching provider/application builds. Schema dispatch/reference memo and model/controller storage remain transitional;
+requires matching provider/application builds. Schema dispatch and model/controller storage remain transitional;
 finite-value/container algorithms and the compiled-schema cache now use C17. A conjunction helper is not full schema admission.
 
 The [host receipt](validation/c17-schema-transform-host-2026-10-05.json)
@@ -566,8 +606,8 @@ These checks exclude provider JSON/ICU staging and whole-process cost.
 
 `gufo_schema_values.hpp` supplies borrowed views, private JSON staging,
 nonthrowing error translation, cached string/number leaf predicates and
-binary-double serialization. The child visitor still owns dispatch/reference
-memo; compiled-schema cache policy and synchronization now use C17. Nine unique pinned `schema-values-edits.json`
+binary-double serialization. The child visitor still owns dispatch; reference
+memo and compiled-schema cache policy now use C17. Nine unique pinned `schema-values-edits.json`
 replacements select the C17 algorithms under the existing default-ON switch;
 OFF retains the original bodies. Matching provider/application builds require
 the 45-file inventory and `schema_values_edits_sha256`. This adds no inference
@@ -580,10 +620,13 @@ between pristine Gufo, C17 and OFF, and all 14 earlier full witness hashes are
 unchanged. Four Debug, four ASan/UBSan/LeakSanitizer, 30 reference-project and
 four ICU-OFF checks pass, with 45 public C++ headers. The sandbox's `ptrace`
 prevents LeakSanitizer from operating; failed attempts are preserved and reruns
-outside that constraint keep every sanitizer enabled. Original-weight GPU
-continuation, private provider allocation faults, allocation-exact resources
-and matched cost remain open for this newer source, including the preserved
-reactive scheduling path. Frozen `1bff953` GPU receipts do not cover it.
+outside that constraint keep every sanitizer enabled. The newer matching
+`2359488` provider/application build passes selected original-weight AR37/MTP37
+controls ([GPU receipt](validation/c17-finite-cache-point-gpu-2026-10-05.json)).
+Private provider allocation faults, individual numerical branches,
+allocation-exact resources and matched cost remain open, including the
+preserved reactive scheduling path. Frozen `1bff953` GPU receipts do not cover
+this finite-value source; `2359488` excludes the newer reference memo.
 
 ## Grammar construction and validation
 
@@ -613,7 +656,7 @@ its original construction and validation bodies execute only with
 `LIE_C17_SAMPLING=OFF`. The adapter translates typed inputs/errors and copies
 private templates needed by the still-transitional reasoning/tool composition.
 The base grammar creates its runtime program directly from the C tables.
-Schema dispatch/reference memo, binary-double leaf translation
+Schema dispatch, binary-double leaf translation
 and provider template/model/controller storage remain transitional. Structural
 transformations and finite-value/container algorithms now use C17. This is not a completed
 JSON Schema compiler or autonomous model executor.

@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## Local schema memo extraction during unchanged Core-19 — 2026-10-05
+
+Read-only observation at 20:42 UTC confirms GPU supervisor `65159` / start
+`9972757`, model `65982` / start `9978951` and own HTTP-permit guardian `66074`
+/ start `9984711` alive. Endpoint source remains frozen `2359488`; its original
+lease is retained. CPU client `20794` / start `179631020`, runner `20860` /
+start `179631128` and Harbor `20925` / start `179631192` are alive on `.157`.
+Core-19 remains on its first task with eighteen pending and zero infrastructure
+errors. An unfinished aggregate is progress, not a task score or release.
+Q2 continues `.157` non-use until actual root client/children/container/lease
+closure and fresh handover. No second GPU build/run is admitted.
+
+The new [C17 memo host receipt](development/validation/c17-schema-memo-host-2026-10-05.json)
+binds 48 owned provider files, 47 headers and passing 7 Debug / 7 sanitizer /
+32 pristine/ON/OFF checks. This local source does not enter the frozen GPU eval.
+Local CPU maximum is 90.75 C, with GPU devices masked; CPU98/NVMe85/lower guards
+and sanitizer checks stay enabled. No dependency installation, tuning, foreign
+signal/cache/source/service mutation or publication occurs. GPU qualification
+of the new source requires a later freshly admitted `.161` window.
+
 ## Smoke actual closure and fresh full19 admission — 2026-10-05
 
 The earlier `.157` CPU smoke supervisor `4191489` (start ticks `179295094`)

@@ -173,8 +173,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    JSON quoting and object/array construction now use C17 with bounded shared
    counts and independent host refusal/language tests. The compiled-schema cache now also uses C17 ordering, synchronization and
    opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
-   Dispatch/reference memo and private composition caches still need extraction
-   within the same task. Newer finite-value/cache slices have a matching
+   Per-compilation reference identity lookup, placeholder publication and bounded
+   storage now also use C17, with [host witnesses](development/validation/c17-schema-memo-host-2026-10-05.json).
+   Its 32 pristine/ON/OFF checks and recursive states agree; matching GPU
+   qualification remains pending. Visit/VisitBody dispatch and private composition
+   caches still need extraction within the same task. Newer finite-value/cache slices have a matching
    provider/application rebuild and pass their own AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).
    The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls

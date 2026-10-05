@@ -7,6 +7,14 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The per-compilation reference identity policy in src/schema_memo.c follows
+  official JsonConstraintCompiler::Visit in src/core/json_constraint.cpp at
+  independently fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT, gufo-LICENSE retained). Bounded identity lookup, insertion, growth and
+  storage are C17; recursive placeholders retain original visit order. The
+  hash table is independently implemented. schema-memo-edits.json records
+  three exact default-ON/OFF replacements. VisitBody, node/rule storage and
+  exceptions remain private; no DS4 or sibling source/artifact is imported.
 - The compiled-schema cache policy in src/grammar_cache.c follows official
   src/core/json_constraint.cpp at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
@@ -20,8 +28,9 @@ Adapted code includes:
   replacements. C17 owns type matching, finite-value filtering/canonicalization,
   JSON string/key quoting, object suffix/array bound rule construction and
   iterative character accounting. JSON staging, cached leaf predicates,
-  binary-double serialization and schema dispatch/reference memo remain
-  provider glue. gufo-LICENSE is retained; no DS4 or sibling source is imported.
+  binary-double serialization and schema dispatch remain provider glue;
+  reference identity memo now uses the separate C17 module above.
+  gufo-LICENSE is retained; no DS4 or sibling source is imported.
 - The C17 schema transformation algorithms in src/schema_transform.c follow
   official src/core/json_constraint.cpp at the independently fetched immutable
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e pin (MIT, gufo-LICENSE retained).

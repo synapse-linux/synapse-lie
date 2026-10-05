@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Per-compilation schema reference memo moves to C17 — 2026-10-05 UTC
+
+The shared C17 memo owns opaque node identity lookup, rule-ID assignment,
+bounded geometric storage and live-byte accounting. Recursive placeholders
+retain the original visitor order. It adds no worker or inference thread and
+changes no RNG, reactive event, model state or DS4 RAM/SSD payload. The default
+`LIE_C17_SAMPLING=ON` selection retains the exact original OFF implementation.
+Visit/VisitBody dispatch and private model/controller/composition remain C++.
+
+The [host receipt](development/validation/c17-schema-memo-host-2026-10-05.json)
+records 7 focused Debug, 7 focused ASan/UBSan/LeakSanitizer and 32 pristine/ON/OFF
+checks, outside ptrace. Independent C fixtures cover 1,085,705 identity/value
+comparisons and allocation refusal at all 14 selected sites. Thirty-two
+recursive/reference cases produce 1,706 identical transitions; all sixteen
+earlier complete witness hashes remain unchanged. Forty-seven public headers
+compile as both C17 and C++17; the provider inventory now binds 48 owned files.
+Local CPU maximum is 90.75 C, with GPU devices masked and no tuning. Failed
+pre-regeneration build exit 2 and incomplete mock-recipe test exit 8 are
+preserved; corrected focused suites pass without weakening verification.
+The older native-bench closed-stderr SIGABRT remains unresolved.
+
+This source is host-qualified only. The running Core-19 endpoint stays frozen
+at `2359488`, code `5bdd405`, and includes no new memo code. At 20:42 UTC its
+actual CPU supervisor/runner/Harbor and GPU supervisor/model are alive; the
+first task is still running, eighteen are pending and infrastructure errors
+are zero. Harbor's aggregate file has no finish timestamp and is not a final
+score. GPU-host CPU/GPU readings are 76.75/77 C. Both owned windows remain
+active until actual closure. All six owned roadmap tasks remain open.
+
 ## Terminal smoke closes; unchanged Core-19 full starts — 2026-10-05 UTC
 
 The `2359488` original-weight smoke now passes **1/1, first attempt, zero
