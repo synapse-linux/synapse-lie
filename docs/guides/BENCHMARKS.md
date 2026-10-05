@@ -156,6 +156,13 @@ repeated prompt reuse. The file is raw text, without a chat template. The core
 exports executed prefill and cache counters so hits remain distinguishable from
 recomputation. KV disk options match those in the [server guide](USAGE.md#kv-cache-in-ram-and-on-disk).
 
+The `core` suite accepts the same [initial steering controls](USAGE.md#directional-steering)
+as the server. JSONL records requested scales and actual READY bank hashes and
+host/device vector bytes. Matched reports require the same bank identity and
+scales; they refuse inconsistent admission or a different steering configuration.
+Older records without steering metadata mean unsteered inference. Vector-data
+metadata and host fixtures are separate from numerical GPU qualification.
+
 For a fixed-token decode measurement, add `--ignore-eos` to this **core** command.
 Official Gufo's pinned native TG method continues past EOS to its stated output
 budget. This flag gives LIE the same completion policy: an EOS token is sampled

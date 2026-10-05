@@ -36,8 +36,13 @@ Initial scale configuration and C17 retained-forward prepare/complete are wired
 into provider source; an independently observed frontier mismatch or failed
 post-mutation commit poisons the model. Existing model opens keep their absent-bank
 path. These additive functions do not change existing executor/request/generation
-structures. Shared-worker/public-client integration and GPU qualification
-remain open. See [direct binding](../development/STEERING.md#direct-modelsession-binding).
+structures. Additive `lie_core_create_steered` copies the tagged options and file
+path before return, admitting on the existing owner. `lie_core_steering_snapshot`
+copies a READY-only admission record under the core gate; failure preserves the
+tagged output. Existing unversioned core options/info layouts remain unchanged.
+Server and native core bench use the same factory, scopes and CLI parser.
+Live changes and GPU qualification remain open.
+See [direct binding](../development/STEERING.md#direct-modelsession-binding).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
 geometry, finite scale, checked span capacities and caller-owned output. Every
@@ -235,8 +240,8 @@ operations are thread-safe under the documented existing-pin lifetime rule.
 
 This host primitive does not activate provider steering, change request or
 executor ABIs, or alter state/KVC framing. Model-derived admission and session
-history and typed model-state are now bound in provider source; shared-worker integration and
-numerical GPU qualification remain required.
+history and typed model-state are now bound in provider and shared-worker source;
+live scale changes and numerical GPU qualification remain required.
 [Format, ownership and binding requirements](../development/STEERING.md).
 
 ## Additive generation configuration

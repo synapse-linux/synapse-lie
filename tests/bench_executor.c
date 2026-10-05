@@ -5,6 +5,7 @@
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#include "lie/steering.h"
 #include <math.h>
 #include <errno.h>
 #include <stdatomic.h>
@@ -15,6 +16,20 @@
 struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
 struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; lie_eos_policy eos_policy; };
 static atomic_uint_fast64_t domain_counter=1;
+/* This accounting-only fixture does not implement steering. The separate
+ * shared-core steering fixture exercises bank/policy/cache/client lifetimes. */
+lie_status lie_backend_open_steered(const char *p,const lie_model_options *o,uint32_t width,const char *d,uint32_t n,
+    const char *v,const lie_steering_model_options *s,lie_model **out,lie_error *e){
+    (void)p;(void)o;(void)width;(void)d;(void)n;(void)v;(void)s;(void)out;
+    if(e)snprintf(e->message,sizeof(e->message),"accounting fixture has no steering");
+    return LIE_UNSUPPORTED;
+}
+lie_status lie_model_steering_info(lie_model *m,lie_steering_model_info *out,lie_error *e){
+    (void)m;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_steering_cache_scope(lie_sequence *s,const unsigned char semantic[32],unsigned char out[32],lie_error *e){
+    (void)s;(void)semantic;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_dense_sampling(void) { return "synthetic-test-fixture"; }

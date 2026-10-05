@@ -1500,6 +1500,23 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
     json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()&&(!info.model.speculative_supported||info.mtp.prefix_state_supported)&&(!info.vision.max_images||info.vision.prefix_state_supported)));
     json_object_object_add(b,"state_format",json_object_new_string(lie_backend_state_format()));
+    lie_steering_model_info steering={.abi_version=LIE_STEERING_MODEL_ABI,.struct_bytes=sizeof(steering)};
+    if(lie_worker_steering_snapshot(s->worker,&steering,NULL)==LIE_OK){
+        json_object *direction=json_object_new_object();char file[65]={0},scope[65]={0};
+        if(steering.admitted)for(unsigned k=0;k<32;++k){
+            snprintf(file+2*k,3,"%02x",steering.bank.file_sha256[k]);
+            snprintf(scope+2*k,3,"%02x",steering.bank.scope_sha256[k]);}
+        json_object_object_add(direction,"admitted",json_object_new_boolean(steering.admitted));
+        json_object_object_add(direction,"ffn",json_object_new_double(steering.defaults.ffn));
+        json_object_object_add(direction,"attention",json_object_new_double(steering.defaults.attention));
+        json_object_object_add(direction,"host_vector_bytes",json_object_new_uint64(steering.bank.bytes));
+        json_object_object_add(direction,"device_vector_bytes",json_object_new_uint64(steering.device_vector_bytes));
+        json_object_object_add(direction,"bank_file_sha256",json_object_new_string(file));
+        json_object_object_add(direction,"bank_scope_sha256",json_object_new_string(scope));
+        json_object_object_add(direction,"prefix_state_supported",json_object_new_boolean(steering.prefix_state_supported));
+        json_object_object_add(direction,"scope",json_object_new_string("model_admission_vector_data_excludes_allocator_overhead_and_workspaces"));
+        json_object_object_add(b,"steering",direction);
+    }
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
 }
@@ -2201,6 +2218,9 @@ int main(int argc, char **argv) {
       lie_backend_is_synthetic() ? "cpu-test-fixture" : "qwen3.8-flash-next";
   lie_worker_options options;
   lie_core_options_init(&options);
+  lie_steering_model_options steering;
+  lie_steering_model_options_init(&steering);
+  unsigned steering_seen=0;
   lie_records_options record_options = {128, 64u * 1024u * 1024u, 3600};
   int timeout_ms = (int)(INFERENCE_TIMEOUT_NS / 1000000);
   for (int i = 1; i < argc; ++i) {
@@ -2235,7 +2255,12 @@ int main(int argc, char **argv) {
            "[--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix "
            "on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir "
            "ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb "
-           "N]\nWithout --model: management only. Embedded Gufo requires an "
+           "N]\n  [--dir-steering-file LAYER-MAJOR.f32 "
+           "--dir-steering-ffn -100..100 --dir-steering-attn -100..100]\n"
+           "Steering uses fixed initial model-wide scales (defaults FFN 1, attention 0), "
+           "a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. "
+           "Live scale changes and numerical GPU qualification remain pending.\n"
+           "Without --model: management only. Embedded Gufo requires an "
            "opt-in HIP build.\nAR, explicit MTP and vision (also combined) "
            "with per-sequence sampling, thinking disabled. OpenAI function "
            "tools (execution by client). Credit-driven native decode batching. "
@@ -2319,6 +2344,12 @@ int main(int argc, char **argv) {
         options.ssd.staging_bytes = (uint64_t)mib * 1024u * 1024u;
     } else if (!strcmp(key, "--request-timeout-ms"))
       timeout_ms = number(argv[++i], 86400000);
+    else if (!strncmp(key,"--dir-steering-",15)) {
+      unsigned bit=!strcmp(key,"--dir-steering-file")?1u:!strcmp(key,"--dir-steering-ffn")?2u:4u;
+      if((steering_seen&bit)||lie_steering_model_option(&steering,key,argv[++i])!=1){
+        fputs("Invalid, duplicate or unavailable directional steering option\n",stderr);return 2;}
+      steering_seen|=bit;
+    }
     else {
       int rc = lie_cache_policy_option(&options.cache_policy, key, argv[i + 1]);
       if (rc != 1) {
@@ -2328,6 +2359,9 @@ int main(int argc, char **argv) {
       }
       ++i;
     }
+  }
+  if(steering_seen&&(!steering.file||!options.model_path)){
+    fputs("Directional steering requires --model and --dir-steering-file\n",stderr);return 2;
   }
   if ((options.ssd.directory &&
        (!options.model_path || *options.ssd.directory != '/' ||
@@ -2414,7 +2448,7 @@ int main(int argc, char **argv) {
   s.terminate.data = &s;
   uv_signal_start(&s.terminate, shutdown_server, SIGTERM);
   if (options.model_path) {
-    s.worker = lie_worker_create(&options);
+    s.worker = steering.file?lie_worker_create_steered(&options,&steering):lie_worker_create(&options);
     rc = s.worker
              ? uv_poll_init(&s.loop, &s.worker_poll, lie_worker_fd(s.worker))
              : UV_ENOMEM;

@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 static pid_t server_pid = -1;
+static const char *steering_server_bank;
 static bool gate_mode;
 static bool closed_stderr;
 static char root[2300], logpath[2400];
@@ -171,6 +172,12 @@ static void start_server(const char *binary, char api[128],
     dup2(fd, STDOUT_FILENO);
     dup2(fd, STDERR_FILENO);
     close(fd);
+    if(steering_server_bank){
+      execl(binary,binary,"--model",":fixture:","--port",aps,"--management-port",mps,
+            "--context","128","--prefill-chunk","4","--max-active","2",
+            "--dir-steering-file",steering_server_bank,"--dir-steering-ffn","-2","--dir-steering-attn","0.25",(char *)NULL);
+      _exit(127);
+    }
     execl(binary, binary, "--model", ":fixture:", "--port", aps,
           "--management-port", mps, "--context", "4096", "--prefill-chunk", "4",
           "--max-active", "2", "--kv-cache-policy", "legacy",
@@ -748,8 +755,77 @@ static void core_progress_contract(char *bench) {
   }
   char *duplicate[]={bench,"--suite","core","--build-info","--progress-ms","100","--progress-ms","100",NULL};run(duplicate,2);
 }
+static void steering_contract(char *server,char *bench){
+  const char *invalid[]={"nan","inf","101","-101","1x"," 1","1,5"};
+  for(size_t k=0;k<sizeof(invalid)/sizeof(*invalid);++k){
+    char *a[]={bench,"--suite","core","--build-info","--dir-steering-ffn",(char *)invalid[k],NULL};run(a,2);
+    char *b[]={server,"--dir-steering-ffn",(char *)invalid[k],NULL};run(b,2);
+  }
+  char *missing[]={bench,"--suite","core","--build-info","--dir-steering-ffn","1",NULL};run(missing,2);
+  char *missing_model[]={server,"--dir-steering-file","unused.f32",NULL};run(missing_model,2);
+  if(!LIE_DIRECTIONAL_STEERING)return;
+  char bank[2400],input[2400],outputs[3][2400],graphs[2400];path(bank,"steering.f32");path(input,"steering.txt");
+  const unsigned char data[]={0,0,128,63,0,0,0,64,0,0,64,64,0,0,128,64};
+  FILE *f=fopen(bank,"wb");require(f&&fwrite(data,1,sizeof(data),f)==sizeof(data)&&!fclose(f),"private direction bank");
+  save("steering.txt","abcdefgh");
+  for(unsigned k=0;k<3;++k){
+    char name[96];snprintf(name,sizeof(name),"steering-%u.jsonl",k);path(outputs[k],name);
+    char *a[]={bench,"--suite","core","--model",":fixture:","--prompt-file",input,"--output",outputs[k],
+      "--context","128","--chunk","4","--users","2","--tg","4","--repetitions","2",
+      "--kv-cache-min-tokens","1","--kv-cache-boundary-trim-tokens","0","--kv-cache-boundary-align-tokens","0",
+      "--kv-cache-capture-finish","off","--dir-steering-file",bank,"--dir-steering-ffn",k==1?"0":"1",NULL};run(a,0);
+    if(k==0){unsigned char other[16];memcpy(other,data,16);other[2]=0;other[3]=64;
+      char b[2400];path(b,"steering-other.f32");f=fopen(b,"wb");
+      require(f&&fwrite(other,1,16,f)==16&&!fclose(f),"second bank");}
+    if(k==1)path(bank,"steering-other.f32");
+  }
+  nb_error error={0};path(graphs,"steering-matched-graphs");
+  require(!nb_report(outputs[0],graphs,"same",outputs[0],"same",false,&error),error.message);
+  for(unsigned k=1;k<3;++k){char name[96];snprintf(name,sizeof(name),"steering-refused-%u",k);path(graphs,name);
+    require(nb_report(outputs[0],graphs,"first",outputs[k],"different",false,&error)!=0,"steering scale/bank mismatch accepted as matched");
+    struct stat st;require(lstat(graphs,&st)&&errno==ENOENT,"mismatched steering published graphs");}
+  json_object *rows=read_json("steering-0.jsonl",true),*ready=NULL;
+  for(size_t k=0;k<json_object_array_length(rows);++k){json_object *r=json_object_array_get_idx(rows,k);
+    if(!strcmp(nb_string(r,"event"),"core_ready"))ready=r;}
+  require(ready&&nb_number(nb_get(ready,"steering"),"host_vector_bytes")==16&&
+          nb_number(nb_get(ready,"steering"),"device_vector_bytes")==0,"native admission/resource projection");
+  json_object_object_add(nb_get(ready,"steering"),"admitted",json_object_new_boolean(false));
+  save_rows("steering-invalid-admission.jsonl",rows);json_object_put(rows);
+  char corrupted[2400];path(corrupted,"steering-invalid-admission.jsonl");path(graphs,"steering-corrupt-graphs");
+  require(nb_report(corrupted,graphs,"invalid",NULL,NULL,false,&error)!=0,"inconsistent steering admission accepted");
+  rows=read_json("core.jsonl",true);
+  json_object_object_del(json_object_array_get_idx(rows,0),"steering");
+  for(size_t k=0;k<json_object_array_length(rows);++k){json_object *r=json_object_array_get_idx(rows,k);
+    if(!strcmp(nb_string(r,"event"),"core_ready"))json_object_object_del(r,"steering");}
+  save_rows("historical-no-steering.jsonl",rows);json_object_put(rows);
+  char historical[2400],current[2400];path(historical,"historical-no-steering.jsonl");path(current,"core.jsonl");path(graphs,"historical-no-steering-graphs");
+  require(!nb_report(current,graphs,"current",historical,"historical",false,&error),"legacy unsteered reports lost compatibility");
+  path(bank,"steering.f32");char *duplicate[]={bench,"--suite","core","--build-info","--dir-steering-file",bank,
+    "--dir-steering-ffn","1","--dir-steering-ffn","1",NULL};run(duplicate,2);
+  char *server_duplicate[]={server,"--model",":fixture:","--dir-steering-file",bank,
+    "--dir-steering-ffn","1","--dir-steering-ffn","1",NULL};run(server_duplicate,2);
+  char api[128],management[128],url[256];steering_server_bank=bank;start_server(server,api,management);
+  snprintf(url,sizeof(url),"%s/actuator/info",management);json_object *info=nb_http_get(url,2,&error);
+  require(info!=NULL,error.message);json_object *s=nb_get(nb_get(info,"backend"),"steering");
+  require(json_object_get_boolean(nb_get(s,"admitted"))&&nb_number(s,"host_vector_bytes")==16&&
+          nb_number(s,"device_vector_bytes")==0&&json_object_get_double(nb_get(s,"ffn"))==-2&&json_object_get_double(nb_get(s,"attention"))==.25,
+          "HTTP admission projection differs from the core");json_object_put(info);
+  require(!unlink(bank),"bank release after model admission");
+  for(unsigned responses=0;responses<2;++responses)for(unsigned stream=0;stream<2;++stream){
+    char body[512];snprintf(body,sizeof(body),
+      "{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"LONG\"}],\"%s\":4,\"stream\":%s%s}",
+      responses?"input":"messages",responses?"max_output_tokens":"max_tokens",stream?"true":"false",
+      stream&&!responses?",\"stream_options\":{\"include_usage\":true}":"");
+    json_object *request=nb_parse(body,strlen(body),&error);require(request!=NULL,error.message);
+    nb_http_options o={.url=api,.model="cpu-test-fixture",.provider="cpu-test-fixture-NOT-INFERENCE",
+      .timeout=5,.responses=responses,.stream=stream,.strict=true};
+    json_object *result=nb_http_request(&o,request,&error);require(result&&nb_number(result,"output_tokens")==4,error.message);
+    json_object_put(result);json_object_put(request);
+  }
+  stop_server();steering_server_bank=NULL;
+}
 int main(int argc, char **argv) {
-  require(argc == 3, "server and bench paths required");
+  require(argc == 4, "server, accounting bench and steering bench paths required");
   require(atexit(stop_server) == 0, "cleanup registration");
   char cwd[2048];
   require(getcwd(cwd, sizeof(cwd)) != NULL, "working directory");
@@ -791,6 +867,7 @@ int main(int argc, char **argv) {
   core_sampling_contract(argv[2], tokens, output);
   core_eos_contract(argv[2], tokens);
   core_progress_contract(argv[2]);
+  steering_contract(argv[1],argv[3]);
   path(output, "direct.jsonl");
   path(graphs, "direct-graphs");
   char *direct[] = {

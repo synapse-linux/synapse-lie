@@ -49,8 +49,8 @@ int lie_store_fd(const lie_store *);
 /* Single producer (core owner), one admitted operation including completed
  * results. Zero means busy/refused; no unbounded queue or disk access here. */
 uint64_t lie_store_read(lie_store *,const int32_t *,size_t,uint32_t chunk);
-/* Copies the semantic prepared-input scope along with the token key. NULL is
- * text-only. The I/O worker never invokes a provider or owns image pixels. */
+/* Copies the semantic/steering scope along with the token key. NULL is the
+ * unsteered text scope. The I/O worker never invokes a provider or owns pixels. */
 uint64_t lie_store_read_scoped_key(lie_store *,const int32_t *,size_t,uint32_t,uint32_t,const unsigned char scope[32]);
 uint64_t lie_store_read_key(lie_store *,const int32_t *,size_t,uint32_t chunk,uint32_t flags);
 bool lie_store_can_write(lie_store *,uint64_t retained_bytes);
@@ -65,6 +65,10 @@ bool lie_store_write_prompt(lie_store *,lie_state *,const lie_cache_metadata *,s
  * and validate the suffix before restoring. All copied inputs are bounded. */
 uint64_t lie_store_read_text(lie_store *,const char *,size_t,uint32_t chunk);
 uint64_t lie_store_read_text_key(lie_store *,const char *,size_t,uint32_t chunk,uint32_t key_flags);
+/* Copies the complete scope at admission, before selecting any text candidate.
+ * Legacy text reads use the zero scope; steered text uses its policy/history. */
+uint64_t lie_store_read_text_scoped_key(lie_store *,const char *,size_t,uint32_t chunk,
+                                       uint32_t key_flags,const unsigned char scope[32]);
 void lie_store_cancel(lie_store *,uint64_t ticket);
 bool lie_store_take(lie_store *,lie_store_result *);
 /* Release the completed operation after any owner upload. The slot and staging

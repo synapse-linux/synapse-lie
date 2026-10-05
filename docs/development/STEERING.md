@@ -5,8 +5,9 @@ The C17 shared library owns direction-bank loading, bounded host allocation,
 immutable values, session policy transactions, history/cache identities and
 explicit state metadata. Owned HIP activation operators and target-provider
 hooks are qualified only by host contracts and syntax checks. Direct C model and
-session/model-state binding is present in provider source; shared-worker integration,
-public HTTP/bench controls and GPU qualification remain open.
+session/model-state binding is present in provider and shared-worker source.
+Server/native core bench share initial model-wide controls and scoped RAM/SSD
+lookup. Live scale changes and GPU qualification remain open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -90,8 +91,9 @@ retained work used steering. An unused on/off toggle does not invent such histor
 
 Inactive steering with no steered history preserves the exact existing text or
 image scope. Otherwise, nonzero steering and image scopes combine under a
-separate semantic domain. These are identity primitives: current core jobs do
-not yet attach them to live model RAM/SSD lookup/capture or HTTP controls.
+separate semantic domain. Core jobs compose this identity on the device owner
+before any RAM/SSD text or token candidate is selected. The same scope is checked
+again by physical restore/capture; image identity is preserved when combined.
 The metadata codec below serializes the required history/scales/frontier without
 dumping C padding; the provider must bind it to complete validated model state.
 
@@ -175,14 +177,14 @@ proposals/correction assumptions. Define and retain the effective scale history
 when capturing RAM/SSD state; a token-only prefix must not reuse state produced
 under different steering. No extra provider/HTTP thread is introduced.
 
-Remaining work in roadmap item 5 is qualification of the HIP binding,
-shared-worker admission/accounting, scoped RAM/SSD text lookup, live scale
-changes, HTTP and native bench exposure. GPU gates on
+Remaining work in roadmap item 5 is qualification of the HIP binding and live
+scale changes. Initial admission/resource projection, scoped RAM/SSD text lookup
+and server/native core bench controls have host qualification. GPU gates on
 `.161` must prove unchanged output with steering absent/zero, malformed input
 refusal before model mutation, prompt/decode edits, scale transitions, independent
 AR/MTP checks and measured quality/cost. The user-visible naming follows DS4's
-`--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn` once those
-controls are implemented; they are not available CLI flags yet.
+`--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn` for fixed initial
+model-wide scales. See the [usage guide](../guides/USAGE.md#directional-steering).
 
 ## Provider activation operators
 
@@ -207,7 +209,7 @@ The exact pinned-source variant adds initial immutable provider-only admission:
 direction geometry and finite values are checked before the model's first GPU
 upload, then one bank copy is owned by the executor. Borrowed host spans are
 cleared after loading. Its separate `LieSteeringBytes()` diagnostic reports bank
-bytes; public core resource/metrics projection is still pending. Absent directions
+bytes; the core and clients expose those vector-data counts separately. Absent directions
 allocate nothing. `LIE_DIRECTIONAL_STEERING=ON` is the default compile selection;
 it requires the verified state-access variant and matching application/archive
 receipts. With it disabled, nonempty direction admission refuses before upload.
@@ -227,7 +229,7 @@ scalars immutable and introduces no worker, HTTP state or scheduling thread.
 Active steering refuses both private provider snapshot APIs. The direct LIE
 state binding below uses owned C17 metadata admission instead of those APIs.
 Existing model opens without a bank retain their RAM/SSD path. These private
-provider hooks are not a working HTTP/bench steering feature.
+provider hooks alone do not qualify HTTP/bench numerical steering on GPU.
 
 `steering-edits.json` records 25 exact replacements against independently fetched
 Gufo `f783fedb`; owned kernels retain MIT markers and no DS4 source is imported.
@@ -266,10 +268,33 @@ Vector bytes do not include allocator overhead or model workspace.
 
 The direct query now advertises the source binding's prefix-state support when
 the verified provider is compiled; this is not hardware qualification. The shared
-worker, HTTP and native bench do not yet call the steering factory. Resource
-admission and scoped lookup must be completed before exposing it through those
-clients. SSD model identity still binds actual admitted weight descriptors and
+worker and both clients now use the explicit factory, validate the admission
+record, and refuse cache-enabled admission without complete prefix-state support.
+SSD model identity still binds actual admitted weight descriptors and
 arithmetic/device policy; bank/scales/history belong to the checked prefix scope.
+
+## Shared core and initial client controls
+
+`lie_core_create_steered` copies options and the path before returning. The
+existing worker loads the bank against model geometry, validates its bounded
+host bytes/capabilities and publishes READY. Client snapshots copy this admission
+under the core gate without provider calls; no new inference thread is created.
+An absent bank retains the original model-open path and zero semantic scope.
+Existing unversioned core options/info layouts and legacy zero-scope cache
+wrappers are retained.
+
+The shared CLI parser validates finite [-100,100] scales. Both server and native
+core bench require a file for explicit scales and reject duplicates. Defaults
+with a file are FFN 1, attention 0 and a 16 MiB host vector budget. Changing the
+file or initial scales between starts selects a distinct prefix scope; an unused
+zero-scale bank can reuse exact unsteered legacy state. Text and token lookup
+both copy/check their full scope before selection and before transfer.
+
+Native JSONL records requested settings and the actual READY bank hashes/data
+bytes. Reports validate request/admission agreement and reject matched
+comparisons whose bank identity or scales differ. Historical records without
+either steering object retain their unsteered meaning. These host checks do not
+establish actual output equivalence, neural quality or performance.
 
 ## Model-state cache binding
 

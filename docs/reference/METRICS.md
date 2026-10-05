@@ -166,12 +166,17 @@ Independent steering-policy snapshots report completed retained target positions
 revision, effective history epochs, at most two outstanding plans, policy bytes
 and staged bytes. The shared bank's vector bytes are separate. These are host
 policy/resource metadata, not executed-token counters, GPU timing or evidence
-that a numerical steering edit occurred. Core jobs/HTTP/benchmark metrics do not
-yet project them; [provider/cache integration remains open](../development/STEERING.md).
+that a numerical steering edit occurred. Per-job live-policy projection remains
+open; [initial core/provider/cache binding is present](../development/STEERING.md).
 The direct C model query reports immutable bank geometry/host vector bytes and
 the private provider's owned device vector allocation separately from model
 weights; allocator overhead and workspace are not included. The sequence query
-reports the C17 policy metadata. Shared-worker/HTTP projection remains open.
+reports the C17 policy metadata. `lie_core_steering_snapshot`, the backend's
+`steering` object in actuator info/LLM snapshots, and native `core_ready.steering`
+project the READY model admission. `host_vector_bytes` and `device_vector_bytes`
+are vector-data counts, not allocation peaks or additions to reported weight
+residency. Bank file/geometry hashes and initial FFN/attention scales identify
+the admission; a synthetic fixture correctly reports zero device bytes.
 No public GPU steering counters or performance
 samples are qualified by the activation descriptor or syntax checks.
 The 192-byte policy metadata serializes semantic history/scales/frontier only;
@@ -179,7 +184,7 @@ it does not restore source revision, capacity, allocation or executed-token
 counters. A restore uses the destination's capacity and advances its own local
 revision once. Typed policy/scope tails use ordinary retained RAM/SSD accounting;
 the source binding adds no tensor scratch copy or runtime thread. Shared-worker
-resource/HTTP projection and GPU continuation remain pending. Host state
+live-policy projection and GPU continuation remain pending. Host state
 roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new

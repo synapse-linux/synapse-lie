@@ -46,6 +46,24 @@ For context above the model's native limit, select an explicit
 [YaRN profile](CONTEXT.md). The configured ceiling is 1,048,576 tokens;
 actual original-weight capacity depends on memory and GPU qualification.
 
+## Directional steering
+
+Experimental initial steering uses DS4-compatible layer-major `.f32` directions:
+
+```sh
+build/release/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
+  --dir-steering-file /path/to/directions.f32 \
+  --dir-steering-ffn 1 --dir-steering-attn 0
+```
+
+Both scales are finite in [-100,100], fixed for the model's lifetime. File defaults
+are FFN 1 and attention 0; vector data has a 16 MiB admission budget. Use the same
+file and initial scales after restart to reuse steered RAM/SSD prefixes. Omit the
+file for ordinary inference. These controls also work in `--suite core` bench;
+direct executor suites do not accept them. Initial controls have host tests;
+live changes and numerical GPU quality/performance qualification remain pending.
+See [format and implementation](../development/STEERING.md).
+
 ## Chat, streaming and Responses
 
 A non-streaming Chat Completions request:

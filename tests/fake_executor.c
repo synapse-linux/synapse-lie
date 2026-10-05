@@ -5,6 +5,7 @@
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#include "lie/steering_state.h"
 #include "fake_executor.h"
 #include <assert.h>
 #include <pthread.h>
@@ -14,7 +15,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed, mtp; uint64_t domain; uint32_t drafts, predictor; bool mtp_state; unsigned vision; bool vision_state; };
+struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; bool failed, mtp; uint64_t domain; uint32_t drafts, predictor; bool mtp_state; unsigned vision; bool vision_state;
+  lie_steering_bank *steering_bank;
+  lie_steering_settings steering_defaults;
+};
 struct lie_sequence {
   lie_model *model;
   unsigned position, step;
@@ -22,6 +26,7 @@ struct lie_sequence {
   unsigned predictor_position;
   int32_t *prompt;
   unsigned char scope[32];
+  lie_steering_policy *steering_policy;
   atomic_bool cancelled;
   lie_eos_policy eos_policy;
   const char *constrained_output;
@@ -104,7 +109,7 @@ lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model
 lie_status lie_model_get_info(lie_model *m, lie_model_info *out, lie_error *e) {
     (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
 }
-lie_status lie_model_close(lie_model **m, lie_error *e) { (void)e; owner(*m); assert(!(*m)->sequences); free(*m); *m=NULL; return LIE_OK; }
+lie_status lie_model_close(lie_model **m, lie_error *e) { (void)e; owner(*m); assert(!(*m)->sequences); lie_steering_bank_release(&(*m)->steering_bank); free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages, size_t count, int32_t *out, size_t capacity, size_t *required, lie_error *e) {
     owner(m); assert(count && !m->failed);
     const char *text=messages[count-1].content;
@@ -181,16 +186,22 @@ lie_status lie_model_token_text(lie_model *m, int32_t token, char *out, size_t c
     memcpy(out,pieces[token],*required); return LIE_OK;
 }
 lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_error *e) {
-    (void)e; owner(m); assert(!m->failed); atomic_fetch_add(&create_calls,1);
+    owner(m); assert(!m->failed);
     lie_sequence *s=calloc(1,sizeof(*s)); assert(s);
-    s->prompt=calloc(m->context,sizeof(*s->prompt));assert(s->prompt);s->model=m; atomic_init(&s->cancelled,false); ++m->sequences; *out=s; return LIE_OK;
+    s->prompt=calloc(m->context,sizeof(*s->prompt));assert(s->prompt);s->model=m;
+    if(m->steering_bank){
+        lie_steering_policy_options o={LIE_STEERING_POLICY_ABI,sizeof(o),m->context,m->steering_bank,m->steering_defaults};
+        lie_status rc=lie_steering_policy_create(&o,&s->steering_policy,e);
+        if(rc!=LIE_OK){free(s->prompt);free(s);return rc;}
+    }
+    atomic_fetch_add(&create_calls,1);atomic_init(&s->cancelled,false); ++m->sequences; *out=s; return LIE_OK;
 }
 lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     (void)e; owner((*s)->model); atomic_fetch_add(&close_calls,1);
     barrier(FAKE_CLOSE);
-    --(*s)->model->sequences; free((*s)->prompt);free(*s); *s=NULL; return LIE_OK;
+    --(*s)->model->sequences; lie_steering_policy_release(&(*s)->steering_policy);free((*s)->prompt);free(*s); *s=NULL; return LIE_OK;
 }
-lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {
+static lie_status fixture_prefill(lie_sequence *s, const int32_t *tokens, size_t count, lie_error *e) {
     owner(s->model); assert(!s->model->failed && count>s->position && count-s->position<=s->model->chunk);
     atomic_fetch_add(&prefill_calls,1); barrier(FAKE_PREFILL);
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
@@ -201,7 +212,7 @@ lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *tokens, size_t c
     if (s->mode==7 && count>2) { s->model->failed=true; return error(e,LIE_BACKEND_FAILED,"synthetic_prefill_failure"); }
     memcpy(s->prompt,tokens,count*sizeof(*tokens));s->position=(unsigned)count;s->predictor_position=(unsigned)count-1; return LIE_OK;
 }
-lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
+static lie_status fixture_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
     owner(s->model); assert(!s->model->failed); atomic_fetch_add(&decode_calls,1); barrier(FAKE_DECODE);
     if (s->mode==9) { struct timespec t={0,50000000}; nanosleep(&t,NULL); }
     if (s->mode==DECODE_REFUSAL) return error(e,LIE_INVALID,"synthetic_decode_refusal");
@@ -250,6 +261,27 @@ lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_erro
     if(out->emitted==1&&out->position<=s->model->context)s->prompt[out->position-1]=out->token;
     if(s->model->mtp)s->predictor_position=s->position-1;
     return LIE_OK;
+}
+/* Simulate retained frontiers only; no numerical steering or device allocation. */
+static lie_status fixture_forward_finish(lie_sequence *s,lie_steering_update **update,lie_status rc,lie_error *e){
+    if(rc==LIE_OK){rc=lie_steering_forward_complete(s->steering_policy,update,s->position,e);
+        if(rc!=LIE_OK)s->model->failed=true;}
+    lie_steering_update_discard(update);return rc;
+}
+lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *tokens,size_t count,lie_error *e){
+    if(!s->steering_policy)return fixture_prefill(s,tokens,count,e);
+    lie_steering_update *u=NULL;
+    lie_status rc=lie_steering_forward_prepare(s->steering_policy,s->position,count,&u,e);
+    if(rc==LIE_OK)rc=fixture_prefill(s,tokens,count,e);
+    return fixture_forward_finish(s,&u,rc,e);
+}
+lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *out,lie_error *e){
+    if(!s->steering_policy)return fixture_decode(s,out,e);
+    lie_steering_update *u=NULL;
+    lie_status rc=lie_steering_forward_prepare(s->steering_policy,s->position,
+        s->position<s->model->context?s->position+1:s->position,&u,e);
+    if(rc==LIE_OK)rc=fixture_decode(s,out,e);
+    return fixture_forward_finish(s,&u,rc,e);
 }
 lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
     (void)out; (void)capacity; (void)required; owner(s->model); return error(e,LIE_UNSUPPORTED,"fixture_has_no_logits");
@@ -320,7 +352,7 @@ const char *lie_backend_state_format(void){
     return "synthetic-aligned-components";
 #endif
 }
-lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
+static lie_status fixture_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
     owner(s->model);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if((from?(s->position||from->domain!=s->model->domain||from->context_tokens>s->model->context):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=1,.domain=s->model->domain,
@@ -355,7 +387,7 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     if(atomic_load(&state_fault)==1)out->sections[0].bytes++;
     return LIE_OK;
 }
-lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *bytes,size_t n,lie_error *e){
+static lie_status fixture_state_read(lie_sequence *s,const lie_state_layout *l,void *bytes,size_t n,lie_error *e){
     owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected);
     atomic_fetch_add(&capture_calls,1);barrier(FAKE_CAPTURE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(atomic_load(&state_fault)==2){s->model->failed=true;return error(e,LIE_BACKEND_FAILED,"synthetic state read fault");}
@@ -371,10 +403,10 @@ lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,voi
     }
     return LIE_OK;
 }
-lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
+static lie_status fixture_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,const unsigned char expected_scope[32],lie_error *e){
     owner(s->model);uint64_t expected;assert(lie_state_validate(l,&expected)&&n==expected&&!s->position);
     for(unsigned i=3;i<l->section_count;++i){const lie_state_section *part=&l->sections[i];
-        if(part->role==LIE_STATE_CACHE_SCOPE&&memcmp((const char*)bytes+part->offset,s->scope,32))return error(e,LIE_INVALID,"fixture semantic scope mismatch before mutation");
+        if(part->role==LIE_STATE_CACHE_SCOPE&&memcmp((const char*)bytes+part->offset,expected_scope,32))return error(e,LIE_INVALID,"fixture semantic scope mismatch before mutation");
     }
     atomic_fetch_add(&restore_calls,1);barrier(FAKE_RESTORE);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     for(unsigned i=3;i<l->section_count;++i)if(l->sections[i].role==LIE_STATE_MODEL_COMPONENT+9){
@@ -392,6 +424,47 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
         else if(p->role!=LIE_STATE_CACHE_SCOPE)for(uint64_t i=0;i<p->bytes;++i)assert(((const unsigned char *)bytes)[p->offset+i]==0x5a);
     }
     s->mode=recurrent[0];s->step=(unsigned)recurrent[1];return LIE_OK;
+}
+
+static uint32_t fixture_state_format(lie_sequence *s){
+#ifdef LIE_TEST_KVC_STATE
+    const unsigned char zero[32]={0};
+    return s->model->mtp||memcmp(s->scope,zero,32)?LIE_STATE_KVC_AUX:LIE_STATE_KVC;
+#else
+    (void)s;return LIE_STATE_ALIGNED;
+#endif
+}
+lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *from,lie_state_layout *out,lie_error *e){
+    if(!s->steering_policy)return fixture_state_describe(s,from,out,e);
+    lie_state_layout model;
+    if(!from){lie_status rc=fixture_state_describe(s,NULL,&model,e);
+        return rc==LIE_OK?lie_steering_state_plan(s->steering_policy,&model,out,e):rc;}
+    lie_steering_state_view v={.abi_version=LIE_STEERING_STATE_BINDING_ABI,.struct_bytes=sizeof(v)};
+    lie_status rc=lie_steering_state_inspect(from,fixture_state_format(s),&v,e);
+    if(rc==LIE_OK)rc=fixture_state_describe(s,&v.model,&model,e);
+    if(rc==LIE_OK){
+        if(v.policy_offset==LIE_STEERING_STATE_NO_OFFSET)*out=model;
+        else rc=lie_steering_state_extend(&model,out,e);
+    }
+    if(rc==LIE_OK&&!lie_state_layout_equal(from,out))return error(e,LIE_INVALID,"fixture steering layout mismatch");
+    return rc;
+}
+lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *bytes,size_t n,lie_error *e){
+    if(!s->steering_policy)return fixture_state_read(s,l,bytes,n,e);
+    lie_steering_state_view v={.abi_version=LIE_STEERING_STATE_BINDING_ABI,.struct_bytes=sizeof(v)};
+    lie_status rc=lie_steering_state_inspect(l,fixture_state_format(s),&v,e);
+    if(rc==LIE_OK)rc=fixture_state_read(s,&v.model,bytes,(size_t)v.model_bytes,e);
+    return rc==LIE_OK?lie_steering_state_capture(s->steering_policy,l,v.model.format,s->scope,bytes,n,e):rc;
+}
+lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,const void *bytes,size_t n,lie_error *e){
+    if(!s->steering_policy)return fixture_state_write(s,l,bytes,n,s->scope,e);
+    lie_steering_state_view v={.abi_version=LIE_STEERING_STATE_BINDING_ABI,.struct_bytes=sizeof(v)};
+    lie_steering_update *u=NULL;unsigned char combined[32];
+    lie_status rc=lie_steering_state_inspect(l,fixture_state_format(s),&v,e);
+    if(rc==LIE_OK)rc=lie_steering_state_prepare_restore(s->steering_policy,l,v.model.format,s->scope,bytes,n,&u,combined,e);
+    if(rc==LIE_OK)rc=fixture_state_write(s,&v.model,bytes,(size_t)v.model_bytes,combined,e);
+    if(rc==LIE_OK){rc=lie_steering_update_commit(&u,s->position,e);if(rc!=LIE_OK)s->model->failed=true;}
+    lie_steering_update_discard(&u);return rc;
 }
 
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){
@@ -465,4 +538,52 @@ lie_status lie_backend_open_mtp_vision(const char *p,const lie_model_options *o,
     rc=lie_backend_open_mtp(p,o,w,d,n,out,e);
     if(rc==LIE_OK){(*out)->vision=encoder->vision;(*out)->vision_state=encoder->vision_state;}
     (void)lie_model_close(&encoder,NULL);return rc;
+}
+
+lie_status lie_backend_open_steered(const char *p,const lie_model_options *o,uint32_t width,
+    const char *predictor,uint32_t drafts,const char *projector,const lie_steering_model_options *steering,
+    lie_model **out,lie_error *e){
+    if(!LIE_DIRECTIONAL_STEERING)return error(e,LIE_UNSUPPORTED,"steering disabled at build time");
+    if(!out||*out||(!predictor&&drafts))return LIE_INVALID;
+    barrier(FAKE_STEERING_OPEN);
+    lie_steering_bank *bank=NULL;
+    /* Tiny independent fixture geometry, deliberately not a model family. */
+    lie_status rc=lie_steering_model_bank_load(steering,1,4,&bank,e);
+    lie_model *m=NULL;
+    if(rc==LIE_OK)rc=predictor&&projector?lie_backend_open_mtp_vision(p,o,width,predictor,drafts,projector,&m,e):
+        projector?lie_backend_open_vision(p,o,width,projector,&m,e):
+        predictor?lie_backend_open_mtp(p,o,width,predictor,drafts,&m,e):lie_backend_open_batch(p,o,width,&m,e);
+    if(rc==LIE_OK){m->steering_bank=bank;m->steering_defaults=steering->defaults;*out=m;}
+    else lie_steering_bank_release(&bank);
+    return rc;
+}
+lie_status lie_model_steering_info(lie_model *m,lie_steering_model_info *out,lie_error *e){
+    owner(m);
+    if(!out||out->abi_version!=LIE_STEERING_MODEL_ABI||out->struct_bytes!=sizeof(*out))return LIE_INVALID;
+    lie_steering_model_info value={.abi_version=LIE_STEERING_MODEL_ABI,.struct_bytes=sizeof(value),
+        .admitted=m->steering_bank!=NULL,.prefix_state_supported=true};
+    value.bank.abi_version=LIE_STEERING_ABI;value.bank.struct_bytes=sizeof(value.bank);
+    lie_steering_settings_init(&value.defaults,false);
+    if(m->steering_bank){lie_status rc=lie_steering_bank_info(m->steering_bank,&value.bank,e);
+        if(rc!=LIE_OK)return rc;
+        value.defaults=m->steering_defaults;}
+    /* device_vector_bytes stays zero: this fixture never allocates on a GPU. */
+    *out=value;return LIE_OK;
+}
+lie_status lie_sequence_configure_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e){
+    owner(s->model);
+    if(s->position||s->step)return LIE_UNSUPPORTED;
+    if(!s->steering_policy)return LIE_UNSUPPORTED;
+    lie_steering_update *u=NULL;lie_status rc=lie_steering_policy_prepare_change(s->steering_policy,settings,&u,e);
+    if(rc==LIE_OK)rc=lie_steering_update_commit(&u,0,e);
+    lie_steering_update_discard(&u);return rc;
+}
+lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e){
+    owner(s->model);
+    return s->steering_policy?lie_steering_policy_snapshot(s->steering_policy,out,e):LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_steering_cache_scope(lie_sequence *s,const unsigned char semantic[32],unsigned char out[32],lie_error *e){
+    owner(s->model);if(!out)return LIE_INVALID;
+    if(s->steering_policy)return lie_steering_policy_cache_scope(s->steering_policy,semantic,out,e);
+    memset(out,0,32);if(semantic)memcpy(out,semantic,32);return LIE_OK;
 }

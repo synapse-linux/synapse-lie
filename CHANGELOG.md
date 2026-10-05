@@ -56,19 +56,14 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
-- C17 steering prefix-state binding for RAM/SSD. Direction history and semantic
-  scope are validated before model transfer; inactive unused directions keep
-  legacy framing. Host tests preserve DS4 payloads and predictor/vision state;
-  shared-worker/client integration and GPU qualification remain pending.
-- Direct C model admission for directional steering and retained-frontier policy
-  binding in provider prefill, AR and batch AR/MTP source. Host checks pass;
-  shared-worker integration, public controls and GPU qualification remain open.
-- Versioned C17 steering-policy metadata and transactional restore, with a typed
-  RAM/SSD auxiliary component. Host roundtrips preserve the DS4 model payload;
-  actual GPU continuation remains pending.
-- Experimental directional activation operators and target scalar/batch hooks,
-  selected at compilation by default. Public steering controls and GPU gates
-  remain pending; active state capture/restore refuses without steering history.
+- Experimental initial directional-steering controls shared by server and native
+  core bench: `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn`.
+  Admission and bank resources stay in the C17 core; reports refuse matched
+  comparisons with different banks/scales. Host tests pass; live scale changes
+  and numerical GPU quality/performance qualification remain pending.
+- C17 history-aware steering prefix-state binding for RAM/SSD, including scoped
+  text lookup and predictor/vision composition. Direction history is validated
+  before model transfer; inactive unused directions keep legacy DS4 framing.
 - Optional original-weight output-budget qualification checks model limits and
   actual generation past 128 tokens with omitted/null limits in JSON and SSE.
   The server and native benchmark gain no Python dependency.

@@ -80,14 +80,17 @@ bool lie_prefix_cache_metadata(lie_prefix_cache *c,lie_state *state,const lie_ca
     }
     return false;
 }
-lie_state *lie_prefix_cache_match_text(lie_prefix_cache *c,const char *text,size_t bytes,uint32_t flags,const lie_cache_metadata **metadata){
+lie_state *lie_prefix_cache_match_text_scope(lie_prefix_cache *c,const char *text,size_t bytes,uint32_t flags,const unsigned char scope[32],const lie_cache_metadata **metadata){
     lie_prefix_entry *best=NULL;
     for(unsigned i=0;i<c->capacity;++i){lie_prefix_entry *e=&c->entries[i];
-        if(e->state&&lie_state_scope_equal(e->state,NULL)&&(e->metadata.flags&6u)==(flags&6u)&&e->metadata.text_bytes&&e->metadata.text_bytes<=bytes&&
+        if(e->state&&lie_state_scope_equal(e->state,scope)&&(e->metadata.flags&6u)==(flags&6u)&&e->metadata.text_bytes&&e->metadata.text_bytes<=bytes&&
            (!best||e->metadata.text_bytes>best->metadata.text_bytes)&&!memcmp(e->metadata.text,text,e->metadata.text_bytes))best=e;
     }
     if(metadata)*metadata=best?&best->metadata:NULL;
     return best?best->state:NULL;
+}
+lie_state *lie_prefix_cache_match_text(lie_prefix_cache *c,const char *text,size_t bytes,uint32_t flags,const lie_cache_metadata **metadata){
+    return lie_prefix_cache_match_text_scope(c,text,bytes,flags,NULL,metadata);
 }
 lie_state *lie_prefix_cache_find_scope(lie_prefix_cache *c,const int32_t *tokens,size_t n,const unsigned char scope[32]){
     for(unsigned i=0;i<c->capacity;++i){lie_state *s=c->entries[i].state;const lie_state_layout *l=lie_state_description(s);

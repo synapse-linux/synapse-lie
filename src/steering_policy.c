@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/steering.h"
 #include <float.h>
+#include <errno.h>
 #include <math.h>
 #include <openssl/evp.h>
 #include <pthread.h>
@@ -548,6 +549,20 @@ void lie_steering_model_options_init(lie_steering_model_options *o) {
   *o = (lie_steering_model_options){.abi_version = LIE_STEERING_MODEL_ABI,
     .struct_bytes = sizeof(*o), .vector_budget_bytes = LIE_STEERING_DEFAULT_VECTOR_BUDGET};
   lie_steering_settings_init(&o->defaults, true);
+}
+int lie_steering_model_option(lie_steering_model_options *o,const char *key,const char *value){
+  if(!key)return 0;
+  bool file=!strcmp(key,"--dir-steering-file"),ffn=!strcmp(key,"--dir-steering-ffn");
+  if(!file&&!ffn&&strcmp(key,"--dir-steering-attn"))return 0;
+  if(!LIE_DIRECTIONAL_STEERING||!o||o->abi_version!=LIE_STEERING_MODEL_ABI||o->struct_bytes!=sizeof(*o)||
+     o->defaults.abi_version!=LIE_STEERING_POLICY_ABI||o->defaults.struct_bytes!=sizeof(o->defaults)||!value||!*value)return -1;
+  if(file){o->file=value;return 1;}
+  if(strspn(value,"-+0123456789.eE")!=strlen(value))return -1;
+  char *end;errno=0;float scale=strtof(value,&end);
+  if(errno||end==value||*end||!isfinite(scale)||fabsf(scale)>100)return -1;
+  if(scale==0)scale=0;
+  if(ffn)o->defaults.ffn=scale;else o->defaults.attention=scale;
+  return 1;
 }
 lie_status lie_steering_model_bank_load(const lie_steering_model_options *o,
   uint32_t layers, uint32_t width, lie_steering_bank **out, lie_error *e) {

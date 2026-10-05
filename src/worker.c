@@ -70,6 +70,9 @@ struct lie_core {
   char output_namespace[33]; /* Independent of HTTP; unique across core
                                 restarts. */
   char *mtp_path, *vision_path;
+  char *steering_path;
+  lie_steering_model_options steering_options;
+  lie_steering_model_info steering_info; /* Immutable READY admission record. */
   lie_job *jobs[LIE_CORE_JOBS];
   unsigned preparing; /* Bounded admission copies, protected by gate. */
   int wake, notice;
@@ -387,7 +390,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     if(frontier==j->tokens&&j->request.cache.text_bytes){metadata.text=j->request.cache.text;metadata.text_bytes=j->request.cache.text_bytes;metadata.flags=j->request.cache.flags;}
     if(restore&&j->text_lookup){const lie_cache_metadata *m=NULL;
         size_t key_bytes;const char *key=lookup_text(j,&key_bytes);
-        lie_state *candidate=lie_prefix_cache_match_text(&w->cache,key,key_bytes,j->request.cache.flags,&m);
+        lie_state *candidate=lie_prefix_cache_match_text_scope(&w->cache,key,key_bytes,j->request.cache.flags,j->cache_scope,&m);
         if(candidate)(void)rebuild_prompt(w,j,candidate,m);
         tokens=j->prompt;
     }
@@ -685,6 +688,11 @@ static bool step(lie_core *w, size_t index) {
       rc = lie_sequence_attach_vision(sequence, vision, &error);
     if (vision)
       (void)lie_vision_prompt_close(&vision, NULL);
+    if (rc == LIE_OK && w->steering_path) {
+      unsigned char combined[32];
+      rc = lie_sequence_steering_cache_scope(sequence, j->cache_scope, combined, &error);
+      if (rc == LIE_OK) memcpy(j->cache_scope, combined, sizeof(combined));
+    }
     if (rc == LIE_OK)
       rc = lie_sequence_configure(sequence, &j->request.generation, &error);
     if (rc == LIE_OK && r->eos_policy != LIE_EOS_STOP)
@@ -788,8 +796,8 @@ static bool step(lie_core *w, size_t index) {
     const char *key = lookup_text(j, &key_bytes);
     j->ssd_ticket =
         j->text_lookup
-            ? lie_store_read_text_key(w->store, key, key_bytes,
-                                      w->options.chunk, j->request.cache.flags)
+            ? lie_store_read_text_scoped_key(w->store, key, key_bytes,
+                                      w->options.chunk, j->request.cache.flags,j->cache_scope)
             : lie_store_read_scoped_key(w->store, j->prompt, j->tokens,
                                         w->options.chunk,
                                         j->request.cache.flags, j->cache_scope);
@@ -1135,12 +1143,32 @@ static void *work(void *arg) {
     lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk,w->options.rope_profile};
     lie_model_info model={0};lie_mtp_info mtp={.abi_version=LIE_MTP_ABI,.struct_bytes=sizeof(mtp)};
     lie_vision_info vision={.abi_version=LIE_VISION_ABI,.struct_bytes=sizeof(vision)};
-    lie_status rc=w->mtp_path&&w->vision_path?
+    lie_steering_model_info steering={.abi_version=LIE_STEERING_MODEL_ABI,.struct_bytes=sizeof(steering)};
+    steering.bank.abi_version=LIE_STEERING_ABI;steering.bank.struct_bytes=sizeof(steering.bank);
+    lie_steering_settings_init(&steering.defaults,false);
+    steering.prefix_state_supported=lie_backend_prefix_state_supported()!=0;
+    lie_status rc=w->steering_path?
+        lie_backend_open_steered(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,w->vision_path,&w->steering_options,&w->model,&error):
+        w->mtp_path&&w->vision_path?
         lie_backend_open_mtp_vision(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,w->vision_path,&w->model,&error):
         w->vision_path?lie_backend_open_vision(w->path,&options,w->options.max_active,w->vision_path,&w->model,&error):
         w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
         lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
+    if(rc==LIE_OK&&w->steering_path){
+        rc=lie_model_steering_info(w->model,&steering,&error);
+        uint64_t elements=(uint64_t)steering.bank.layers*steering.bank.width;
+        if(rc==LIE_OK&&(steering.abi_version!=LIE_STEERING_MODEL_ABI||steering.struct_bytes!=sizeof(steering)||
+           !steering.admitted||steering.bank.abi_version!=LIE_STEERING_ABI||steering.bank.struct_bytes!=sizeof(steering.bank)||
+           !elements||elements>UINT64_MAX/4||steering.bank.bytes!=elements*4||
+           steering.bank.bytes>w->steering_options.vector_budget_bytes||
+           steering.defaults.abi_version!=LIE_STEERING_POLICY_ABI||steering.defaults.struct_bytes!=sizeof(steering.defaults)||
+           steering.defaults.ffn!=w->steering_options.defaults.ffn||steering.defaults.attention!=w->steering_options.defaults.attention)){
+            rc=LIE_BACKEND_FAILED;snprintf(error.message,sizeof(error.message),"invalid admitted steering capabilities");}
+    }
+    if(rc==LIE_OK&&w->steering_path&&(w->options.prefix_cache_bytes||w->options.ssd.directory)&&!steering.prefix_state_supported){
+        rc=LIE_UNSUPPORTED;snprintf(error.message,sizeof(error.message),"admitted steering model has no complete prefix-state support; rebuild with state access or explicitly disable prefix caches");
+    }
     if(rc==LIE_OK&&w->mtp_path){
         rc=lie_model_mtp_info(w->model,&mtp,&error);
         if(rc==LIE_OK&&(!model.speculative_supported||mtp.abi_version!=LIE_MTP_ABI||mtp.struct_bytes!=sizeof(mtp)||
@@ -1172,6 +1200,7 @@ static void *work(void *arg) {
     lie_store_info initial_store;lie_store_snapshot(w->store,&initial_store);
     pthread_mutex_lock(&w->gate);
     w->info.model=model;w->info.mtp=mtp;w->info.vision=vision;
+    w->steering_info=steering;
     w->info.ssd=initial_store;
     w->info.state=atomic_load(&w->stop)?LIE_STOPPING:rc==LIE_OK?LIE_READY:LIE_FAILED;
     if (rc!=LIE_OK) snprintf(w->info.error,sizeof(w->info.error),"%s",error.message);
@@ -1211,7 +1240,7 @@ void lie_core_options_init(lie_core_options *o){
     if(o){*o=(lie_core_options){.context=4096,.chunk=2048,.max_active=1,.mtp_draft_tokens=0,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
         lie_cache_policy_init(&o->cache_policy);o->cache_policy.enabled=LIE_DS4_CACHE_POLICY!=0;}
 }
-lie_core *lie_core_create(const lie_core_options *o) {
+lie_core *lie_core_create_steered(const lie_core_options *o,const lie_steering_model_options *steering) {
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
         !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS ||
         !lie_rope_profile_name(o->rope_profile)) return NULL;
@@ -1222,6 +1251,11 @@ lie_core *lie_core_create(const lie_core_options *o) {
     if(o->mtp_model_path&&(!LIE_MTP||!*o->mtp_model_path||
        o->mtp_draft_tokens>LIE_MTP_MAX_DRAFT))return NULL;
     if(o->vision_model_path&&(!LIE_VISION||!*o->vision_model_path))return NULL;
+    if(steering&&(!LIE_DIRECTIONAL_STEERING||steering->abi_version!=LIE_STEERING_MODEL_ABI||
+       steering->struct_bytes!=sizeof(*steering)||!steering->file||!*steering->file||!steering->vector_budget_bytes||
+       steering->defaults.abi_version!=LIE_STEERING_POLICY_ABI||steering->defaults.struct_bytes!=sizeof(steering->defaults)||
+       !isfinite(steering->defaults.ffn)||fabsf(steering->defaults.ffn)>100||
+       !isfinite(steering->defaults.attention)||fabsf(steering->defaults.attention)>100))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
     w->info.rope_profile=o->rope_profile;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
@@ -1231,6 +1265,8 @@ lie_core *lie_core_create(const lie_core_options *o) {
         snprintf(w->output_namespace+2*k,3,"%02x",output_nonce[k]);
     if(o->mtp_model_path){w->mtp_path=strdup(o->mtp_model_path);if(!w->mtp_path)goto fail;w->options.mtp_model_path=w->mtp_path;}
     if(o->vision_model_path){w->vision_path=strdup(o->vision_model_path);if(!w->vision_path)goto fail;w->options.vision_model_path=w->vision_path;}
+    if(steering){w->steering_path=strdup(steering->file);if(!w->steering_path)goto fail;
+        w->steering_options=*steering;w->steering_options.file=w->steering_path;}
     if(o->ssd.directory){
         w->ssd_path=strdup(o->ssd.directory);w->options.ssd.directory=w->ssd_path;
         if(!w->ssd_path||*w->ssd_path!='/'||o->ssd.quota_bytes<4096||o->ssd.staging_bytes<32768||
@@ -1247,7 +1283,20 @@ lie_core *lie_core_create(const lie_core_options *o) {
 fail:
     if (w->wake>=0) close(w->wake);
     if (w->notice>=0) close(w->notice);
-    free(w->vision_path);free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
+    free(w->steering_path);free(w->vision_path);free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
+}
+lie_core *lie_core_create(const lie_core_options *o){return lie_core_create_steered(o,NULL);}
+lie_status lie_core_steering_snapshot(lie_core *w,lie_steering_model_info *out,lie_error *e){
+    if(!w||!out||out->abi_version!=LIE_STEERING_MODEL_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid core steering snapshot");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&w->gate);
+    lie_status rc=w->info.state==LIE_READY?LIE_OK:
+        w->info.state==LIE_FAILED?LIE_BACKEND_FAILED:LIE_UNSUPPORTED;
+    if(rc==LIE_OK)*out=w->steering_info;
+    else if(e)snprintf(e->message,sizeof(e->message),"%s",w->info.error[0]?w->info.error:"core steering admission is not READY");
+    pthread_mutex_unlock(&w->gate);return rc;
 }
 void lie_core_stop(lie_core *w) {
     atomic_store(&w->stop,true);
@@ -1258,7 +1307,7 @@ void lie_core_stop(lie_core *w) {
 void lie_core_destroy(lie_core *w) {
     lie_core_info info; lie_core_snapshot(w,&info); if (info.state!=LIE_STOPPED) abort();
     pthread_join(w->thread,NULL); close(w->wake); close(w->notice);
-    pthread_mutex_destroy(&w->gate);free(w->vision_path);free(w->mtp_path);free(w->ssd_path); free(w->path); free(w);
+    pthread_mutex_destroy(&w->gate);free(w->steering_path);free(w->vision_path);free(w->mtp_path);free(w->ssd_path); free(w->path); free(w);
 }
 int lie_core_fd(lie_core *w) { return w->notice; }
 void lie_core_drain(lie_core *w) { drain_fd(w->notice); }

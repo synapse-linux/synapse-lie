@@ -8,6 +8,33 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Shared core steering and initial server/bench controls — 2026-10-05 UTC
+
+The additive core constructor copies bank options/path before return and admits
+them on the existing inference owner. READY snapshots project bank hashes and
+host/device vector data without calling the provider from a client thread.
+Complete steering/image scope is composed before RAM/SSD text or token lookup,
+then checked by capture/restore. Zero-scope legacy reads and unused-bank state
+remain compatible. Executor/request/generation/state ABIs and unversioned core
+options/info layouts are unchanged; no inference thread or Python dependency is added.
+
+Server and native core bench share DS4's initial file/FFN/attention controls.
+Native reports validate actual admission against requested scales and refuse
+matched comparisons whose bank or scales differ. Sixteen Debug and sixteen
+ASan/UBSan/LeakSanitizer checks pass, covering synthetic AR/MTP/vision and joint
+RAM/SSD process restart, copied option lifetimes, both HTTP APIs in JSON/SSE,
+and native reports. Three build-off checks and 32 public C++ headers pass.
+Local CPU peak is 78.5 C. Retained failures comprise the sandbox socket refusal,
+an integer accessor for fractional scale, a missing strict-client fingerprint
+and missing requested Chat SSE usage; fixture corrections preserve protocol behavior.
+
+Live scale transitions and actual GPU continuation/numerical quality/cost remain
+open. The read-only `.161` witness at 03:20:53.768099 UTC still observes external
+PID29223/start2470351 and restored router PID29377/start2474081 in actual/kernel
+KFD lists. No remote GPU build/run/hash, service change, waiter or reservation
+starts. The six open roadmap tasks and frozen GPU/evaluation results remain.
+[Commands, source/artifact hashes and failures](development/validation/steering-core-host-2026-10-05.json).
+
 ## Steering model-prefix RAM/SSD binding — 2026-10-05 UTC
 
 The model-neutral C17 state binding plans and validates steering metadata tails

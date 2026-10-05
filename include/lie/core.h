@@ -4,6 +4,7 @@
 #include "lie/executor.h"
 #include "lie/mtp.h"
 #include "lie/vision.h"
+#include "lie/steering.h"
 #include "lie/flow.h"
 #include "lie/store.h"
 #include <stdbool.h>
@@ -125,6 +126,17 @@ typedef struct {
 /* One device owner; cancellation is a lifetime-protected cross-thread latch.
  * Request/metadata APIs never call the numerical provider on client threads. */
 lie_core *lie_core_create(const lie_core_options *);
+/* Explicit initial model-wide directions. Both option structures and the path
+ * are copied before return; admission/load runs on the existing device owner.
+ * NULL preserves lie_core_create's exact absent-bank provider path. Existing
+ * unversioned options/info layouts and request ABI are unchanged. */
+lie_core *lie_core_create_steered(const lie_core_options *,
+                                  const lie_steering_model_options *);
+/* READY-only admission record copied under the core gate; never a provider
+ * call on the client. Tagged output required; refusal leaves it unchanged.
+ * Host vector bytes and provider-reported device vector bytes are separate
+ * from model weights/KV and do not include allocation overhead/workspaces. */
+lie_status lie_core_steering_snapshot(lie_core *, lie_steering_model_info *, lie_error *);
 void lie_core_stop(lie_core *);
 /* STOPPED and all consumer job references released are required. */
 void lie_core_destroy(lie_core *);

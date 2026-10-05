@@ -70,13 +70,14 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    provider source to prefill, AR and batch AR/MTP, committing only the actual
    retained frontier. The provider source now binds policy metadata to model
    capture/restore, retaining DS4 framing and validating combined semantic scope
-   before transfer. Ten Debug and ten sanitizer host checks plus complete
-   adapter syntax pass. Shared-worker admission/resource accounting, scoped
-   lookup, live scale transitions and HTTP/bench exposure remain open; this
-   source increment has no GPU qualification.
-   Expose DS4's `--dir-steering-file`, `--dir-steering-ffn` and
-   `--dir-steering-attn` through the same core used by server and bench;
-   these CLI controls are not available yet.
+   before transfer. Shared-worker admission/resource projection, scoped text
+   lookup and initial server/native core bench controls are wired. Sixteen Debug
+   and sixteen sanitizer host checks pass, including synthetic AR/MTP/vision
+   RAM/SSD process restart and both HTTP APIs. Live scale transitions and
+   original-weight GPU qualification remain open.
+   DS4's `--dir-steering-file`, `--dir-steering-ffn` and
+   `--dir-steering-attn` now select fixed initial model-wide scales through the
+   same core used by server and bench.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance

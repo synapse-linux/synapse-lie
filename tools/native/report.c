@@ -290,13 +290,59 @@ static json_object *core_generation(json_object *id) {
   nb_real(out, "min_p", min_p);
   return out;
 }
+static bool steering_scale(json_object *o,const char *key,double *out){
+  json_object *v=nb_get(o,key);
+  if(!json_object_is_type(v,json_type_int)&&!json_object_is_type(v,json_type_double))return false;
+  double x=json_object_get_double(v);if(!isfinite(x)||fabs(x)>100)return false;
+  *out=x==0?0:x;return true;
+}
+static bool steering_hash(json_object *o,const char *key,bool bank){
+  json_object *v=nb_get(o,key);if(!json_object_is_type(v,json_type_string))return false;
+  const char *s=json_object_get_string(v);size_t n=json_object_get_string_len(v);
+  return n==(bank?64u:0u)&&strlen(s)==n&&strspn(s,"0123456789abcdef")==n;
+}
+static json_object *core_steering(json_object *id,json_object *loading){
+  json_object *requested=NULL;bool declared=json_object_object_get_ex(id,"steering",&requested),bank=false;
+  double ffn=0,attention=0;int64_t budget=16u*1024u*1024u;
+  if(declared){
+    if(!json_object_is_type(requested,json_type_object)||
+       !json_object_is_type(nb_get(requested,"requested"),json_type_boolean)||
+       !steering_scale(requested,"ffn",&ffn)||!steering_scale(requested,"attention",&attention)||
+       !nb_count(requested,"vector_budget_bytes",1,INT64_MAX,&budget))return NULL;
+    bank=flag(requested,"requested");if(!bank&&(ffn||attention))return NULL;
+    json_object_object_foreach(requested,key,value){
+      (void)value;if(strcmp(key,"requested")&&strcmp(key,"ffn")&&strcmp(key,"attention")&&strcmp(key,"vector_budget_bytes"))return NULL;
+    }
+  }
+  json_object *admitted=NULL;
+  if(json_object_array_length(loading)==1)admitted=nb_get(json_object_array_get_idx(loading,0),"steering");
+  if(declared&&!json_object_is_type(admitted,json_type_object))return NULL;
+  if(admitted){
+    double actual_ffn,actual_attention;int64_t host=0;
+    if(!json_object_is_type(admitted,json_type_object)||
+       !json_object_is_type(nb_get(admitted,"admitted"),json_type_boolean)||flag(admitted,"admitted")!=bank||
+       !steering_scale(admitted,"ffn",&actual_ffn)||!steering_scale(admitted,"attention",&actual_attention)||
+       actual_ffn!=ffn||actual_attention!=attention||
+       !nb_count(admitted,"host_vector_bytes",bank?4:0,bank?budget:0,&host)||host%4||
+       !nb_count(admitted,"device_vector_bytes",0,bank?INT64_MAX:0,NULL)||
+       !steering_hash(admitted,"bank_file_sha256",bank)||!steering_hash(admitted,"bank_scope_sha256",bank))return NULL;
+  }
+  /* Historical streams with no steering declaration/admission are unsteered.
+   * Allocation counts are observations, not arithmetic comparison keys. */
+  json_object *out=json_object_new_object();
+  json_object_object_add(out,"admitted",json_object_new_boolean(bank));
+  nb_real(out,"ffn",ffn);nb_real(out,"attention",attention);nb_num(out,"vector_budget_bytes",budget);
+  nb_str(out,"bank_file_sha256",bank?nb_string(admitted,"bank_file_sha256"):"");
+  nb_str(out,"bank_scope_sha256",bank?nb_string(admitted,"bank_scope_sha256"):"");
+  return out;
+}
 static json_object *core(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
               *out = json_object_new_object(),
               *points = json_object_new_array(),
               *input = select_rows(rows, "input"),
               *samples = select_rows(rows, "sample"),
-              *jobs = select_rows(rows, "job"), *generation = NULL;
+              *jobs = select_rows(rows, "job"), *generation = NULL, *steering = NULL;
   nb_add(out, "identity", id);
   json_object_object_add(out, "configurations", points);
   nb_add(out, "samples", samples);
@@ -309,6 +355,8 @@ static json_object *core(json_object *rows, nb_error *e) {
         "Invalid core identity");
   generation = core_generation(id);
   CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
+  steering = core_steering(id, nb_get(out, "loading"));
+  CHECK(steering, "Invalid core steering request/admission identity");
   json_object *eos_value = NULL;
   bool eos_declared = json_object_object_get_ex(id, "eos_policy", &eos_value);
   CHECK(!eos_declared || (json_object_is_type(eos_value, json_type_string) &&
@@ -501,6 +549,7 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object *point = json_object_new_object();
   json_object_array_add(points, point);
   nb_add(point, "generation", generation);
+  nb_add(point, "steering", steering);
   nb_str(point, "eos_policy", ignore_eos ? "ignore" : "stop");
   fields(point, id,
          "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit rope_scaling "
@@ -569,9 +618,11 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object_put(samples);
   json_object_put(jobs);
   json_object_put(generation);
+  json_object_put(steering);
   return out;
 bad:
   json_object_put(generation);
+  json_object_put(steering);
   json_object_put(out);
   json_object_put(input);
   json_object_put(samples);
@@ -870,7 +921,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
                               "prefill_chunk",   "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "rope_scaling", "progress_interval_ms", "eos_policy"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "steering", "rope_scaling", "progress_interval_ms", "eos_policy"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),

@@ -139,6 +139,10 @@ typedef struct {
   lie_steering_settings defaults;
 } lie_steering_model_options;
 void lie_steering_model_options_init(lie_steering_model_options *);
+/* Shared en_US CLI parsing: 1 accepted, 0 unknown option, -1 invalid/disabled.
+ * The file value remains borrowed until core/model admission copies it.
+ * Both clients require a file whenever any scale option is supplied. */
+int lie_steering_model_option(lie_steering_model_options *,const char *,const char *);
 /* Bounded C17 admission shared by model providers, no device/model forward. */
 lie_status lie_steering_model_bank_load(const lie_steering_model_options *,
   uint32_t layers, uint32_t width, lie_steering_bank **, lie_error *);
