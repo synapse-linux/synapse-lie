@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Scaled-wave-pack prepares fromc64ca6c after release10329ad7. Host27+27 is
+terminal/collected with no GPU/model access. Root's prospective CPU-only .157
+Terminal Bench client has not started; root explicitly yields the next brief
+Q2 numerical window and will wait for full release before starting that client.
+Fresh actual registry/PID/group/KFD/four-original-lease/seven-model-stat
+admission is still required. No ownership or GPU reservation is inherited.
+
 Shared-Q8 pair releases at2026-10-05T15:49:37.623036+00:00, SHA256
 10329ad71b7f407d36bb290992a8a8f0a4f06b648bc18d79155398b7c1f3d907.
 Admission15:40:39.275297UTC fromaed98f2 follows release986ffa09 and fresh

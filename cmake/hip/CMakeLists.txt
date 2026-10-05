@@ -693,3 +693,14 @@ target_compile_definitions(q2_shared_q8_pair PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENA
 target_include_directories(q2_shared_q8_pair PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
 target_include_directories(q2_shared_q8_pair SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_shared_q8_pair PRIVATE hip::host OpenSSL::Crypto)
+
+# Wave-owned scaled packing, retained row control and unchanged Q2 down cycle.
+add_executable(q2_scaled_wave_pack EXCLUDE_FROM_ALL ../../tests/q2_scaled_wave_pack.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_scaled_wave_pack PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_scaled_wave_pack PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_scaled_wave_pack PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_scaled_wave_pack SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_scaled_wave_pack PRIVATE hip::host OpenSSL::Crypto)

@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Wave-owned scaled-Q2 packing preparation follows checkpointc64ca6c. One wave
+retains/reduces/packs one640-value row; eight rows per block remove both block
+barriers and reduce the20480-slot grid to2560 blocks. VGPR13→30,LDS36→0,
+private0;161 other kernels retain exact instructions/operands/resources.
+No arithmetic/layout/lifetime/public contract change is intended. New25-case
+packing oracle,2 down replays and28 timing samples are prepared; numerical and
+model evidence remain pending. Local132 guards and .15727 Debug+27 ASan pass;
+six host exits0/seven artifacts collected. Initial format/import failures and
+corrected results are retained. [Plan](../config/q2-scaled-wave-pack-plan.json),
+[design and scope](Q2-SCALED-WAVE-PACK.md).
+
 Shared-Q8 pair completes on .157 from checkpointaed98f2. The original fixed
 exact2048/tg128 comparison measures1573.621201 PP /25.11363913 TG, nominal
 +0.121187% /-0.371646% against saved1571.716479 /25.20732109. Historical PP

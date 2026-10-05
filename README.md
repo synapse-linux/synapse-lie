@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The new [wave-owned Q2 activation pack](docs/Q2-SCALED-WAVE-PACK.md) prepares
+eight rows per block while preserving whole-row scaling. Local compilation,
+132 launcher guards and .157 host27+27 pass;161 other production kernels
+remain exact. GPU component/model timing is pending. The retained1573.621201
+PP result and fixed UD target remain unchanged.
+
 The shared-Q8 gate/up fusion completes at1573.621201 PP /25.11363913 TG,
 nominal+0.121187% /-0.371646% against saved1571.716479 /25.20732109. Preserve
 both sources: PP ranges overlap. All43 component pairs,24 sampled FP64 checks

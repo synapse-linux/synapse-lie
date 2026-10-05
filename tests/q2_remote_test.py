@@ -389,6 +389,34 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_scaled_wave_pack_manifest_binding(self):
+        self.assertEqual(remote.SCALED_WAVE_PACK_MANIFEST,
+                         'config/q2-scaled-wave-pack-source.json')
+        self.assertTrue((remote.ROOT / remote.SCALED_WAVE_PACK_MANIFEST).is_file())
+
+    def test_scaled_wave_pack_new_component_or_matched_counting_only(self):
+        variant = 'scaled-wave-pack'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Scaled wave pack requires its component or matched historical counting provider')
+        self.refuse([remote.SCALED_WAVE_PACK_MODE, 'q2-fixture'], 'Scaled wave pack requires')
+        base = [remote.SCALED_WAVE_PACK_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Scaled wave pack component builds')
+        for mode in (remote.SCALED_WAVE_PACK_MODE, 'q2-counting-scaled-wave-pack'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_shared_q8_pair_manifest_binding(self):
         self.assertEqual(remote.SHARED_Q8_PAIR_MANIFEST,
                          'config/q2-shared-q8-pair-source.json')

@@ -56,6 +56,7 @@ control rerun or context-curve expansion follows this update.
 | Region | Remaining concrete work | Status / priority |
 | --- | --- | --- |
 | Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | Source audit only; high. Existing fallback routing/quantization reuse is already present. |
+| Active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [New prepared candidate](Q2-SCALED-WAVE-PACK.md), host/static pass; GPU packing/down and fixed model pending. This reduces synchronization/CTA overhead inside the existing pass, without claiming full producer fusion. |
 | Expert-output consumer | Feed ordered weighted combine directly, avoiding the remaining100MiB F16 intermediate at2048. | Unimplemented; high. Half storage and vector stores are already measured. Logical bytes do not establish DRAM savings. |
 | HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
 | Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
