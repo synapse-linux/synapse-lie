@@ -76,7 +76,7 @@ files as the preceding experiment; every changed numerical file passes the
 focused check preserving include order. No GPU/device execution or .157 host
 qualification is implied by those editing-host checks.
 
-[Plan](../config/q2-producer-q8-plan.json),
+[Plan](../config/q2-producer-q8-plan-v2.json),
 [staging audit](../config/q2-producer-q8-staging.json).
 Fresh coordinated host qualification and GPU admission are still required;
 release88dcb8d8 transfers no new ownership. No remote cleanup is permitted.
@@ -90,3 +90,13 @@ and mmq/VENDOR.md remain. The official DeepSeek source is a design reference,
 not an import from another agent's DS4 or the sibling CachyOS workspace.
 The manifests bind inspected files, full inventories and patches. No core C17
 ABI, persistent state, scheduler or public metrics contract changes.
+
+The second plan revision corrects only the copied window receipt label and
+scope before any admission. The initial plan/helper are preserved; all82
+fixture and four manifest hashes, component geometry and benchmark stay exact.
+
+The .157 host cohort now completes27 Debug and27 ASan/UBSan checks, six
+commands exit0 and seven artifacts collected. All82 frozen fixtures and1020
+host-provider files verify. This is CPU qualification only. Root freshly
+confirms .157 exclusion through collected numerical-window release.
+[Host evidence](../config/q2-producer-q8-host-results.json).

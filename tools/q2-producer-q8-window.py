@@ -106,14 +106,14 @@ def main():
             raise RuntimeError('CPU above admission temperature')
         now = datetime.datetime.now(datetime.timezone.utc).isoformat()
         report = dict(schema='synapse-lie.q2-producer-q8-window.v1', at=now,
-            state='Q2_COMPACT_EXPERT_CHAIN_WINDOW_ADMITTED' if mode == 'admit' else 'Q2_COMPACT_EXPERT_CHAIN_WINDOW_RELEASED',
+            state='Q2_PRODUCER_Q8_WINDOW_ADMITTED' if mode == 'admit' else 'Q2_PRODUCER_Q8_WINDOW_RELEASED',
             owner='synapse-lie-q2', source_checkpoint=checkpoint,
             previous_release=str(PREVIOUS), previous_release_sha256=PREVIOUS_SHA,
             previous_registry_event=rows[-1], cohorts=cohorts,
             retired_identities=list(identities.values()), retired_groups=sorted(groups),
             owned_group_members=[], kfd=kfd, leases=previous['leases'],
             models=previous['models'], model_stats_unchanged=True, thermal=thermal,
-            scope='One new compact expert producer/packing/down chain from saved1574.24 complete routing/chain checks,96 numeric comparisons,432 full arrays and56 timing samples; original2048/tg128 model despite safe numerical/timing rejection. No qualified control rerun,Q4,full curve,cleanup,tuning or dependency installation',
+            scope='One new producer-Q8/integer-down chain from saved1574.64 routing/format/consumer checks,1088 arrays and56 timing samples; original2048/tg128 model despite safe numerical/timing rejection. No qualified control rerun,Q4,full curve,cleanup,tuning or dependency installation',
             gpu_reserved=mode == 'admit', restart_scheduled=False,
             observer_or_waiter=False, remote_cleanup=False, model_inference=any(c['label'].endswith('-model-r1') for c in cohorts), planned_labels=LABELS)
         if mode == 'release': report['next_window_owner'] = 'core'
