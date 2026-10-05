@@ -63,7 +63,8 @@ This branch exposes [VISION inference inputs/output](../development/VISION.md),
 and its live complete-history provider now binds semantic image identity and
 MRoPE positions to shared RAM/SSD lookup and restore. `LIE_STATE_CACHE_SCOPE`
 is a model-neutral U8[32] component (layer zero), containing the full prepared
-image-prompt SHA-256. Text-only state has no scope section and uses the zero key.
+image-prompt SHA-256 when steering is unused. Legacy unsteered text state has no
+scope section and uses the zero key; steered text has an explicit policy scope.
 KVC scope resides after the AUXILIARY boundary; the DS4 tensor payload remains
 unchanged. Old AR files/names retain their existing framing.
 

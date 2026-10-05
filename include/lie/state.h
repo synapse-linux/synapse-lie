@@ -80,9 +80,10 @@ const char *lie_state_compression_codec(void);
 bool lie_state_compress(lie_state **,uint64_t peak_budget);
 const lie_state_layout *lie_state_description(const lie_state *);
 const int32_t *lie_state_tokens(const lie_state *);
-/* Zero identifies text-only state. A scope binds the complete prepared image
- * prompt (pixels, placement, preprocessing and encoder), separately from tokens.
- * Providers publish it as one U8[32], layer-zero section. */
+/* Zero identifies state with no additional semantic/steering scope. Image
+ * prompts bind pixels, placement, preprocessing and encoder; steering also
+ * binds its bank/scales/history, even for text-only state. These identities are
+ * separate from tokens. Providers publish one U8[32], layer-zero section. */
 bool lie_state_cache_scope(const lie_state *,unsigned char out[32]);
 bool lie_state_scope_equal(const lie_state *,const unsigned char scope[32]);
 /* Shared layout builder/validator for model providers, CPU fixtures and core.
