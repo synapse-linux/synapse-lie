@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue after shared-Q8 component timing
 
+The [candidate result analyzer](Q2-SSM-FOLLOWUP-ANALYSIS.md) is now prepared for the same four SSM sources: full component coverage, safe numeric-failure timing retention, separate theoretical resource metadata and unchanged saved model comparisons. Eleven focused local checks pass. Fresh campaign freezing, runtime integration and actual device results remain pending; measured performance is unchanged.
+
 The four additional SSM variants now have an [unapplied runtime wiring patch](Q2-SSM-FOLLOWUP-RUNTIME.md): matching component/model modes, fixture/source bindings and eight locally verified capsules. Seven focused plus142 existing launcher tests pass. Original row-group88/5 stays frozen and first; candidate-bound result analysis, new campaign plans and GPU qualification remain pending. No performance result changes.
 
 The fixed model comparator remains exact2048, original direct-executor input

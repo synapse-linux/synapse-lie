@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Read-only2026-10-05T21:33:40.108179UTC confirms original Core-19
+supervisor20794/start179631020 and runner20860/start179631128 alive in their
+original groups. KFD remains empty. The SSM follow-up analyzer and synthetic
+parser/saved-log tests are local only; no Q2 remote host/build/client/lease/
+waiter/reservation/cleanup occurs. The first row-group campaign88/5/helper
+remains frozen, and the later runtime patch remains unapplied. Actual CPU,
+children, containers and lease closure plus fresh handover remain required.
+Observation: `evidence/q2-ssm-row-group-compose-preparation/core-full-observation-r12-*`.
+
 Read-only2026-10-05T21:25:55.411855UTC verifies the same Core-19
 supervisor20794/start179631020 and runner20860/start179631128 alive in their
 original groups. KFD is empty; that is not admission. Follow-up SSM launcher

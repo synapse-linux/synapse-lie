@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM follow-up analyzer](docs/Q2-SSM-FOLLOWUP-ANALYSIS.md) now preserves
+complete component timings through safe numeric rejection and prints original
+model comparisons against saved Q2/UD/1580 references. Eleven local parser and
+saved-evidence checks pass; no new GPU result or throughput gain is claimed.
+
 The [SSM follow-up launcher patch](docs/Q2-SSM-FOLLOWUP-RUNTIME.md) is prepared
 and verified locally for fixed-shape, fixed-bounds, compact-LDS and alternating
 activation slots. Seven focused and142 existing launcher tests pass; eight

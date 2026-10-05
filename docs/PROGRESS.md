@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM follow-up result analyzer](Q2-SSM-FOLLOWUP-ANALYSIS.md) now covers
+all four prepared sources without modifying the frozen row-group tools.
+It reuses30-pair/60-FP64/14-timing validation, retains safe numerical failures,
+rejects unsafe/incomplete output and keeps HIP theoretical resource limits
+separate from actual timing. Model reports bind original2048/tg128, revalidate
+raw component evidence and compare with saved fixed Q2/UD/1580 samples; the CLI
+prints all references with PP/TG and elapsed times. Eleven synthetic/parser and
+saved-log checks pass, including exact reproduction of the historical comparison
+values. No inference is rerun. New campaign freezing and actual GPU output
+remain pending after first row-group qualification and fresh handover. At
+21:33:40UTC the original Core-19 supervisor20794 and runner20860 remain alive
+on .157; no Q2 remote work or ownership starts. Measured1580 is unchanged.
+
 The [SSM follow-up runtime patch](Q2-SSM-FOLLOWUP-RUNTIME.md) is now prepared
 on a durable local copy and remains unapplied. Four component modes and four
 matched original2048/tg128 modes bind their1027-file sources and exact fixtures.
