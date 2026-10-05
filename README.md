@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [alternating-buffer SSM follow-up](docs/Q2-SSM-PINGPONG.md) keeps32768 LDS
+bytes and zero scratch while reducing source block barriers160→81 versus the
+compact-LDS candidate. Local ownership checks and compilation pass;161 other
+kernels remain exact. GPU timing/numerical qualification is pending, with
+retained Q2 throughput unchanged at1580.226725 PP.
+
 The new [compact-LDS SSM candidate](docs/Q2-SSM-COMPACT-LDS.md) compiles with
 49152→32768 shared bytes and222→207 actual VGPRs, zero scratch, and161 other
 kernels unchanged. It also doubles K-stage barriers; GPU timing is pending.

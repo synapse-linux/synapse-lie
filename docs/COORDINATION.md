@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Read-only2026-10-05T21:17:22.799256UTC confirms Core-19
+supervisor20794/start179631020 and runner20860/start179631128 still alive
+in their original groups; KFD remains empty. SSM alternating-buffer preparation
+is local only, with no Q2 host/build/client/lease/waiter/reservation/cleanup on
+.157. The frozen row-group88-fixture/five-manifest campaign and helper remain
+unchanged. Actual CPU/child/container/lease closure and fresh handover are
+required before runtime. Observation:
+`evidence/q2-ssm-row-group-compose-preparation/core-full-observation-r9-*`.
+
 Read-only2026-10-05T21:02:51.568570UTC again verifies Core-19
 supervisor20794/start179631020 and runner20860/start179631128 alive in their
 original groups; KFD is empty. Compact-LDS SSM source, fixture and compilation

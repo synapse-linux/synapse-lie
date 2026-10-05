@@ -1,0 +1,144 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5778,8 +5778,10 @@
+   // One K block of one row or token is four 16-byte chunks; the chunks of
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+   // stride) covers all bank groups.
+-  constexpr int kLdsChunks = BK * (BM + BN) * 4;
+-  constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
++  // SSM A is wave-owned; B alternates two slots across all eight waves.
++  constexpr int kLdsChunks = BK * (BM + (kSsmConv ? 2 : 1) * BN) * 4;
++  constexpr int kTransposeChunks =
++      (kSsmConv ? 8 * 32 * 32 : 8 * 16 * 36) * sizeof(float) / sizeof(uint4);
+   constexpr int kLdsStorage =
+       kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
+   static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
+@@ -5878,7 +5880,7 @@
+ 
+   const __half2 magic = __floats2half2_rn(-1152.0F, -1152.0F);
+   const __half2 zero2 = __floats2half2_rn(0.0F, 0.0F);
+-  const auto commit_stage = [&]() {
++  const auto commit_stage = [&](int stage_slot) {
+ #pragma unroll
+     for (int p = 0; p < kAPer; ++p) {
+       const int idx = (p * kBlockThreads) + tid;
+@@ -5923,7 +5925,8 @@
+       const int kk = idx % BK;
+ #pragma unroll
+       for (int c = 0; c < 4; ++c) {
+-        s_b[kk][t][swizzle(t, c)] = b_data[p][c];
++        s_b[(kSsmConv ? stage_slot * BK : 0) + kk][t][swizzle(t, c)] =
++            b_data[p][c];
+       }
+     }
+   };
+@@ -5943,7 +5946,7 @@
+ 
+   fetch_stage(0);
+   for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
+-    commit_stage();
++    commit_stage(kSsmConv ? (kb0 & 1) : 0);
+     __syncthreads();
+     if (kb0 + BK < num_kb) {
+       fetch_stage(kb0 + BK);
+@@ -5974,7 +5977,8 @@
+         uint4 c[4];
+ #pragma unroll
+         for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
+-          c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++          c[q] = s_b[(kSsmConv ? (kb0 & 1) * BK : 0) + kb][t]
++                    [swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
+         }
+         v16h b_lo;
+         v16h b_hi;
+@@ -5991,6 +5995,16 @@
+         }
+       }
+     }
++    if constexpr (kSsmConv) {
++      // A readers/writers belong to one wave; the next B slot is disjoint.
++      static_assert(BK == 1 && WM == 8 && WN == 1 && kWaveRowTiles == 2);
++      __builtin_amdgcn_wave_barrier();
++    } else {
++      __syncthreads();
++    }
++  }
++  if constexpr (kSsmConv) {
++    // The transpose reuses other waves' A/B bytes: retire the complete block.
+     __syncthreads();
+   }
+ 
+@@ -6207,7 +6221,11 @@
+   // line (half lines cost a read-modify-write on the fabric).
+   // Four padding floats reduce scatter bank conflicts and retain float4
+   // alignment for both output stores and the fused convolution's reads.
+-  constexpr unsigned kOutputStride = 36;
++  // SSM keeps float4 alignment with an XOR row permutation, without padding.
++  constexpr unsigned kOutputStride = kSsmConv ? 32 : 36;
++  const auto ssm_index = [](unsigned token, unsigned row) {
++    return token * 32 + (row ^ ((token & 7) << 2));
++  };
+   // Pair token tiles for SSM: half as many convolutions cross a tile edge.
+   // The larger transpose still fits the projection's existing LDS allocation.
+   constexpr unsigned kOutputTokens = kSsmConv ? kSsmProjectionTileTokens : 16;
+@@ -6226,10 +6244,17 @@
+         // scratch[token][row], with 32 output rows per token.
+ #pragma unroll
+         for (int l = 0; l < 8; ++l) {
++          if constexpr (kSsmConv) {
++            tile_scratch[ssm_index(sub_lane + group * 16, 2 * l + half_id)] =
++                acc[i][j + group][l];
++            tile_scratch[ssm_index(sub_lane + group * 16, 16 + 2 * l + half_id)] =
++                acc[i + 1][j + group][l];
++          } else {
+           tile_scratch[((sub_lane + group * 16) * kOutputStride) + (2 * l) +
+                        half_id] = acc[i][j + group][l];
+           tile_scratch[((sub_lane + group * 16) * kOutputStride) + 16 +
+                        (2 * l) + half_id] = acc[i + 1][j + group][l];
++          }
+         }
+       }
+       __builtin_amdgcn_wave_barrier();
+@@ -6248,7 +6273,7 @@
+         const auto* src = reinterpret_cast<const float4*>(
+             tile_scratch + (tok_l * kOutputStride) + row_l);
+         if constexpr (kSsmConv) {
+-          static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
++          static_assert(BM == 256 && BN == 128 && BK == 1 && WM == 8 &&
+                         WN == 1);
+           static_assert(!kHcMix && kRowGroup == 1);
+           constexpr std::uint32_t channels = 10240;
+@@ -6258,18 +6283,19 @@
+               const unsigned row = r0 + row_l + v * 4;
+               if (row >= m)
+                 continue;
+-              const float4 current = src[v];
++              const float4 current = *reinterpret_cast<const float4*>(
++                  tile_scratch + ssm_index(tok_l, row_l + v * 4));
+               if (row >= channels || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
+                   tok + 3 >= batch) {
+                 *reinterpret_cast<float4*>(y + tok * m + row) = current;
+               }
+               if (row < channels && tok_l >= 3) {
+                 const float4 x0 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 3) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 3, row_l + v * 4));
+                 const float4 x1 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 2) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 2, row_l + v * 4));
+                 const float4 x2 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 1) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 1, row_l + v * 4));
+                 const float4 w0 =
+                     *reinterpret_cast<const float4*>(conv_w + (row + 0) * 4);
+                 const float4 w1 =
+@@ -6504,7 +6530,7 @@
+       kernel != kSsmConvTaps) {
+     return false;
+   }
+-  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true>),
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 1, 8, 1, 1, false, true>),
+                      dim3((n_tokens + 127) / 128, m / 256), dim3(kThreads), 0,
+                      stream, w, x, qkvz, n_tokens, m, k, nullptr, nullptr,
+                      nullptr, conv_w, convolved);

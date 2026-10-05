@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM alternating activation slots](Q2-SSM-PINGPONG.md) retain32768 LDS
+bytes and zero scratch at212 actual VGPRs, versus207 for compact LDS and222
+for the saved parent. Source block barriers fall160→81, with80 wave barriers
+and mandatory final block retirement.129 integer schedules pass82560 versioned
+stage reads; unsafe one-slot and missing-final-barrier controls expose their
+expected conflicts. These are ownership models, not GPU execution. Source
+reconstruction,161 unchanged kernels and host/device fixture syntax pass.
+The same30-pair/60-FP64/14-timing fixture is reused unchanged; no new runtime
+or admission is started. Initial inherited manifest counts were corrected
+with the initial JSON retained and no source change. Frozen row-group88/5
+remains first and exact. Measured1580 and the fixed Q2/UD target do not change.
+
 The [compact SSM transpose](Q2-SSM-COMPACT-LDS.md) reduces compiled shared
 allocation49152→32768 bytes and actual VGPRs222→207, with zero scratch.
 BK1 preserves ordered K16 fragments but doubles source K-loop barriers80→160;
