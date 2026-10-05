@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM pingpong releases .157 at2026-10-05T22:17:43.200520UTC,SHA256
+`22289680bc658145644a707475f43b42c819fe4f9a6c5181a65699cc0eff4078`.
+Admission22:11:58UTC fromc75e03e follows verified Core CPU closure/non-use and
+previousrelease413de339. Host27+27, component and original2048/tg128 model are
+terminal and collected before release:13exits0/37artifacts.1131 identities/
+902 groups are retired,KFD empty,four original lease inodes free and seven
+model stat tuples unchanged. Canonical/main/remote release-active-ready mirrors
+agree; Core receives the release. No Q2 job/build/client/lease/waiter/reservation,
+automatic restart or cleanup remains. Any next candidate requires fresh admission.
+[Release](../config/q2-ssm-pingpong-window-release.json),
+[final audit](../config/q2-ssm-pingpong-final-audit.json).
+
 SSM pingpong revalidation at 2026-10-05T22:10:24.301780 UTC confirms the
 original Core client processes/groups retired, CPU lease52/4486194 free,
 empty KFD and latest GPU release413de339 unchanged. Core's explicit non-use

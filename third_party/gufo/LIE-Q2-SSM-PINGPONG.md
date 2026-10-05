@@ -17,3 +17,9 @@ The compact-LDS operator fixture and independent oracle are reused unchanged,
 with a distinct provider manifest. Static resource and compilation checks are
 not GPU memory-ordering, numerical or throughput qualification. See the
 [mechanism and evidence](../../docs/Q2-SSM-PINGPONG.md).
+
+The subsequent .157 campaign passes30 complete component pairs,60 sampled
+FP64 checks and21 exact parent model files. The candidate remains a retained
+negative performance experiment: component time+12.434211%, model PP-1.620152%
+versus saved1580. No source is discarded or promoted. The measured source
+inventory, original model protocol and complete results are linked above.

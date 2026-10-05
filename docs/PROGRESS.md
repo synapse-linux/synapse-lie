@@ -1,16 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The SSM pingpong runtime patch is applied after the completed row-group
-campaign. The new plan freezes 90 fixtures, ten manifests and its own window
-helper; component/model archives each verify 1027 provider files. Six integrated
-launcher tests, 142 existing guards and eleven analysis checks pass. The old
-preparation receipts remain historical snapshots; their unapplied status does
-not describe this new campaign. The prior caching explanation was informational
-and made no goal progress. Fresh 22:10:24 UTC checks confirm original Core
-processes/groups retired, its original CPU lease free, empty KFD and unchanged
-release413de339. Host q2-ssm-pingpong-host-r1 starts under Core's explicit non-use;
-GPU admission is still separate. Only the new candidate will run against saved
-fixed Q2/UD/1580 results, with original exact2048/tg128, no Q4 or curve sweep.
+The [SSM pingpong campaign](Q2-SSM-PINGPONG.md) completes on .157:
+1554.624652 PP /25.17458636 TG against saved1580.226725/25.10411864,
+nominal-1.620152%/+0.280702%. All21 parent files and nine internal replays
+are exact. Component4932.395617→5545.700073us is12.434211% slower, with all30
+output pairs exact and60 FP64 checks passing. HIP confirms49152→32768 LDS,
+222→212 registers, zero scratch and theoretical block limit1→2; active occupancy
+and hardware causes were not measured. Keep1580 and retain the experiment.
+
+After the prior informational caching answer, concrete goal progress consists
+of this new measured rejection and the applied launcher checkpointc75e03e.
+Six integrated launcher checks,142 existing guards,11 analysis checks and27+27
+remote host tests pass. All13 runtime exits0/37 artifacts/90 fixtures/ten manifests
+verify. Both numerical providers bind1027 files. Original exact2048/tg128 and
+all saved fixed-Q2/UD/1580 controls remain unchanged and are not rerun. Six
+CSV/SVG/PNG exports retain every component and model sample. Model CPU/GPU
+peaks81.375/74C; build154.752473s/load10.92958722s are outside PP/TG.
+
+Fresh22:11:58UTC admission follows explicit Core closure/non-use and registry
+release413de339. Release22:17:43.200520UTC verifies1131 retired identities/
+902 groups, empty KFD, four original leases free and seven unchanged model
+stat tuples; canonical/main/remote mirrors agree and Core is notified. No Q2
+job, client, waiter, reservation, restart or cleanup remains. Next priority is
+the prepared fixed-M/K specialization, preserving geometry while reducing
+static instructions4027→3882. It still needs separate GPU measurement. The
+retained fixed-point gap remains6.6794445%; no Q4/full-curve expansion or
+independent task-quality acceptance follows from this campaign.
 
 The [composed SSM row-group campaign](Q2-SSM-ROW-GROUP.md) completes on .157:
 component projection/convolution4941.275597→4875.997225µs (-1.321083%),

@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [alternating-buffer SSM campaign](docs/Q2-SSM-PINGPONG.md) now uses the
-applied follow-up launcher, with 90 frozen fixtures and ten manifest bindings.
-Six integrated launcher checks, 142 existing checks and eleven analysis checks
-pass locally; both candidate archives verify. Fresh .157 handover checks pass
-at 22:10:24 UTC and host checks have started. GPU admission and measured results
-remain pending. Saved Q2 1580.226725 and fixed UD 1685.777092 PP are unchanged.
+The [alternating-buffer SSM campaign](docs/Q2-SSM-PINGPONG.md) completes:
+model prefill1554.624652 is1.620152% below saved1580.226725. All30 component
+pairs,60 FP64 checks and21 parent model files pass, but component cycle time
+increases12.434211% despite a theoretical block limit1→2. Keep1580 as the base
+and retain this experiment. Full PP/TG samples and charts are available; .157
+is released. Next is the prepared fixed-M/K specialization, still unmeasured.
 
 The [SSM row-group trial](docs/Q2-SSM-ROW-GROUP.md) is complete: component
 cycle time improves1.321%, but original-model PP1576.943074 is0.207796% below
@@ -19,11 +19,11 @@ complete component timings through safe numeric rejection and prints original
 model comparisons against saved Q2/UD/1580 references. Eleven local parser and
 saved-evidence checks pass; no new GPU result or throughput gain is claimed.
 
-The [SSM follow-up launcher patch](docs/Q2-SSM-FOLLOWUP-RUNTIME.md) is prepared
-and verified locally for fixed-shape, fixed-bounds, compact-LDS and alternating
-activation slots. Seven focused and142 existing launcher tests pass; eight
-source capsules verify without executing SSH. The patch remains unapplied,
-preserving the frozen first row-group campaign. No new throughput is measured.
+The [SSM follow-up launcher patch](docs/Q2-SSM-FOLLOWUP-RUNTIME.md) supports
+fixed-shape, fixed-bounds, compact-LDS and alternating activation slots. The
+original preparation passed seven focused and142 existing tests with eight
+local capsules. The patch is now applied after row-group completion; pingpong
+is measured separately above, while the other three variants remain unmeasured.
 
 The [alternating-buffer SSM follow-up](docs/Q2-SSM-PINGPONG.md) keeps32768 LDS
 bytes and zero scratch while reducing source block barriers160→81 versus the

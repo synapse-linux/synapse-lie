@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Prepared runtime wiring for the SSM follow-ups
+# Runtime wiring for the SSM follow-ups
+
+The patch is applied at checkpoint `c75e03e`, after the original row-group
+campaign completed. Six applicable integrated tests,142 existing launcher
+tests and11 analyzer tests pass against the applied files. A separate90-fixture,
+ten-manifest pingpong plan passes27 Debug and27 ASan/UBSan host checks. Its
+component completes with exact outputs but12.434211% longer cycle time; the
+model measures1554.624652 PP,1.620152% below saved1580. The window is released.
+The other three prepared variants remain
+unmeasured. [Current pingpong evidence](Q2-SSM-PINGPONG.md).
+
+The following section records the original unapplied preparation; its receipts
+are preserved unchanged and are superseded for runtime state by the
+[applied receipt](../config/q2-ssm-followup-runtime-applied.json).
+
+## Original preparation record
 
 Four existing numerical candidates now have a locally verified, unapplied
 launcher patch. The first row-group campaign remains frozen: its88 fixtures,
