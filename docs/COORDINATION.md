@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 half-fixed-width preparation follows566faa9 and terminal releasebc66783c. Fresh core non-use handover requested; local preparation and host-only checks create no GPU reservation. Plan freezes72fixtures/4manifests for one new consumer component and original fixed model. Full registry/PID/group/KFD/original-lease/model-stat admission remains required. No Q4/full curve/cleanup.
+
 Q2 half-consumer-eight terminal release at2026-10-05T13:49:16.626977+00:00 has SHA256
 bc66783cb6ae88bd862b917b78804f036c95f009e13bbd4bd77c89441a6522d4.
 Collection completes2026-10-05T13:48:58.763480+00:00 before release.

@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Fixed-width half-consumer preparation changes integer geometry only; the runtime floating normalization divisor remains.160 other kernel bodies are exact; consumer1763 to1093 static instructions,VGPR84 to91,LDS10368,no spill. New105-check component and original2048/tg128 model are planned against saved1571/Q2/UD evidence. No measured gain yet. See Q2-HALF-FIXED-WIDTH.md.
+
 Half-consumer-eight completes at1571.716479 PP /25.20732109 TG, nominal+1.610095 PP (+0.102547%) against saved1570.106384. Historical PP ranges overlap; retain both sources without a stable-gain claim.105 complete component comparisons,35 immutable cases and21 parent model files are exact. All13 runtime commands exit0/37 artifacts verify; the initial local CMake-anchor error is preserved. GPU released13:49:16.626977UTC. A fixed-width integer-indexing proposal is retained for subsequent work; no new runtime result. See Q2-HALF-CONSUMER-EIGHT.md.
 # Progress — Q2 compatibility workstream
 

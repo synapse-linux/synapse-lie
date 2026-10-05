@@ -238,6 +238,17 @@ target_include_directories(q2_iq2_fused_grid PRIVATE "${GUFO_SOURCE}" "${Q2_FIXT
 target_include_directories(q2_iq2_fused_grid SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_iq2_fused_grid PRIVATE hip::host OpenSSL::Crypto)
 
+# Q2 fixed-width integer consumer geometry; literal measured eight-value control.
+add_executable(q2_half_fixed_width EXCLUDE_FROM_ALL ../../tests/q2_half_fixed_width.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_half_fixed_width PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_half_fixed_width PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_half_fixed_width PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_half_fixed_width SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_half_fixed_width PRIVATE hip::host OpenSSL::Crypto)
+
 # Q2 eight-value half consumer; literal measured four-value parent control.
 add_executable(q2_half_consumer_eight EXCLUDE_FROM_ALL ../../tests/q2_half_consumer_eight.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"

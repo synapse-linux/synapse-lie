@@ -21,6 +21,35 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_half_fixed_width_manifest_binding(self):
+        self.assertEqual(remote.HALF_FIXED_WIDTH_MANIFEST,
+                         'config/q2-half-fixed-width-source.json')
+        self.assertTrue((remote.ROOT / remote.HALF_FIXED_WIDTH_MANIFEST).is_file())
+
+    def test_half_fixed_width_new_component_or_matched_counting_only(self):
+        variant = 'half-fixed-width'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 half fixed width requires its component or matched historical counting provider')
+        self.refuse([remote.HALF_FIXED_WIDTH_MODE, 'q2-fixture'], 'Q2 half fixed width requires')
+        base = [remote.HALF_FIXED_WIDTH_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 half fixed width component builds')
+        for mode in (remote.HALF_FIXED_WIDTH_MODE, 'q2-counting-half-fixed-width'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_half_consumer_eight_manifest_binding(self):
         self.assertEqual(remote.HALF_CONSUMER_EIGHT_MANIFEST,
                          'config/q2-half-consumer-eight-source.json')
