@@ -174,7 +174,7 @@ static lie_schema_status finite(body_context *c, lie_schema_node schema,
                                 uint32_t *out) {
   lie_schema_context *s = &c->shared;
   static const char *const keys[] = {"enum", "const", "$defs"};
-  lie_schema_node base, temporary;
+  lie_schema_node base = NULL, temporary = NULL;
   uint32_t ignored = 0;
   TRY(without(c, schema, keys, 3, &temporary));
   TRY(keep(c, temporary, &base));

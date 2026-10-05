@@ -204,6 +204,11 @@ See the [format and restore contract](../development/STEERING.md#state-metadata-
 Lookup, deduplication, supersession and protected prefixes all compare scope.
 SSD indexes read only a bounded provisional scope; complete file digest/layout
 validation and scope revalidation still precede returning a usable state.
+Text-prefix restore reconstructs the saved physical tokens and tokenizes only
+the suffix before checking the prompt frontier. A saved spelling can contain
+more tokens than a fresh tokenizer pass. Scope validation precedes reconstruction;
+geometry validation still precedes upload. Scheduled steering uses token-prefix
+lookup and disables reconstruction to preserve its physical token indices.
 Image jobs never use text-prefix reconstruction. Original images must be
 resupplied after restart; neither pixels nor embeddings are persisted. Changing
 future images conservatively prevents earlier-prefix reuse. The live Qwen

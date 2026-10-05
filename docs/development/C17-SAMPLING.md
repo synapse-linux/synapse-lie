@@ -96,6 +96,14 @@ accepted complete values and 10,660 transitions. All 19 earlier complete
 witness hashes remain unchanged; 50 public headers compile in C17 and C++17.
 Local CPU maximum is 94.375 C with GPU devices masked.
 
+Subsequent [Release/cache host qualification](validation/release-cache-host-2026-10-05.json)
+initializes body temporaries explicitly for strict optimized compilation and
+retains assertions only in test targets. All 79 Release/79 sanitizer/35
+three-arm checks pass; all 20 complete witness hashes remain unchanged.
+The r17 device-free HIP provider builds, but the older application source fails
+on the optimized-local warning; that run is collected and actually retired.
+Corrected source still needs a matching sealed build and original-weight gates.
+
 Retained failures include incorrect fixture callback declarations, missing
 fixture leaves, an EMPTY/CYCLE oracle mismatch and duplicate JSON input
 rejected by the wire parser. Corrected opaque duplicate-value tests use the

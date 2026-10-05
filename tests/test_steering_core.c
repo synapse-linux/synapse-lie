@@ -309,6 +309,47 @@ static void scheduled_bounds(const char *bank){
   c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);j=NULL;
   assert(lie_core_submit_steering(c,&r,&plan,&j)==3&&!j);stop(c);
 }
+/* A saved five-token spelling survives a fresh four-token BPE spelling without
+ * a schedule. Explicit plans retain their original physical token indices and
+ * use token-prefix lookup, which must reject the changed spelling. */
+static void scheduled_text_restart(const char *bank,const char *store){
+  if(!LIE_DS4_CACHE_POLICY)return;
+  lie_core_options o=options(store,false);
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;
+  r.text="abcdx";r.text_bytes=5;r.max_tokens=4;
+  for(unsigned boundary=3;boundary<=6;++boundary){
+    /* Each case owns a fresh store: a previous miss may legitimately replace
+     * the same text key with its newly completed four-token spelling. */
+    fake_tokenizer_merge(false);
+    lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+    lie_job *j=NULL;assert(!lie_core_submit(c,&r,&j));
+    lie_job_info seeded=drain_job(j,true);
+    assert(seeded.prompt_tokens==5&&seeded.prefill_tokens==5&&!seeded.cached_tokens);
+    lie_job_release(j);stop(c);
+    fake_tokenizer_merge(true);
+    c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+    j=NULL;unsigned restored=fake_calls_snapshot().restore;
+    assert(!lie_core_submit(c,&r,&j));lie_job_info reused=drain_job(j,true);
+    assert(reused.prompt_tokens==5&&!reused.prefill_tokens&&reused.cached_tokens==5&&reused.ssd_cached_tokens==5);
+    assert(fake_calls_snapshot().restore==restored+1);
+    lie_job_release(j);stop(c);
+    c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+    lie_steering_step step={.position=boundary};
+    lie_steering_settings_init(&step.settings,true);step.settings.ffn=2;
+    lie_steering_schedule plan={LIE_STEERING_SCHEDULE_ABI,sizeof(plan),1,&step};
+    j=NULL;unsigned uploads=fake_calls_snapshot().restore;
+    assert(!lie_core_submit_steering(c,&r,&plan,&j));
+    lie_job_info result=drain_job(j,true);
+    lie_steering_schedule_info final=plan_snapshot(j);
+    assert(final.terminal&&final.applied==1&&final.results[0].actual_position==boundary);
+    assert(result.output_tokens==4);
+    assert(result.prompt_tokens==4&&result.prefill_tokens==4&&!result.cached_tokens&&!result.ssd_cached_tokens);
+    assert(fake_calls_snapshot().restore==uploads);
+    lie_job_release(j);stop(c);clean(store);
+  }
+  fake_tokenizer_merge(false);
+}
 static void scheduled_choices(const char *bank){
   lie_core_options o=options(NULL,LIE_MTP!=0);o.prefix_cache_bytes=0;
   lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
@@ -390,6 +431,7 @@ int main(int argc,char **argv){
   scheduled_case(a,NULL,false,false,1,false);
   scheduled_case(a,NULL,LIE_MTP!=0,false,2,false);
   scheduled_peers(a);scheduled_bounds(a);scheduled_choices(a);
+  snprintf(store,sizeof(store),"%s/text-plan-store",base);scheduled_text_restart(a,store);
   assert(fake_calls_snapshot().create==fake_calls_snapshot().close);
   lie_steering_model_options_init(&so);so.file=a;so.vector_budget_bytes=15;
   c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_FAILED);stop(c);

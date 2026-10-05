@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Release validation and SSD text-prefix correction — 2026-10-05 UTC
+
+The [host receipt](development/validation/release-cache-host-2026-10-05.json)
+records 79 Release, 79 ASan/UBSan/LSan and 35 pristine/ON/OFF checks passing.
+All 20 earlier complete witness hashes remain unchanged. Schema-body locals
+are explicitly initialized for strict optimized compilation. Test targets retain
+assertions in Release, including core-only builds; production flags are unchanged.
+
+The full suites exposed a real SSD restore ordering bug: a saved five-token
+spelling was rejected against a fresh four-token spelling before reconstruction.
+Scope validation now precedes reconstruction; the physical frontier is checked
+against the rebuilt history. Existing RAM/SSD cache expectations pass unchanged.
+New aligned/KVC fixtures verify this with a direction bank, then verify that
+scheduled steering preserves its original physical token indices and rejects
+the changed spelling without uploading state. The worker's stale zero-output
+rejection oracle now checks the implemented automatic budget. No ABI, payload
+format, reactive ownership or thread count changes.
+
+CPU peak is 90.25 C under CPU98/NVMe85/lower guards, with GPUs masked and all
+sanitizers enabled outside ptrace. Failed checks and fixture/generator corrections
+are retained; passing current native-bench checks do not diagnose the earlier
+closed-stderr SIGABRT.
+
+The device-free `.161` r17 HIP provider builds, but the application fails at
+strict optimized C compilation on the uninitialized-local warning. Its actual
+exit is 1; no model is attempted. The build is collected and freshly verified
+closed, with the original lease released and router restored. A corrected sealed
+build and matching original-weight gates remain pending. Terminal Bench stays
+deferred until functional modifications and qualification finish; all six owned
+tasks remain open. No publication occurs.
+
 ## C17 schema body host qualification — 2026-10-05 UTC
 
 The [body receipt](development/validation/c17-schema-body-host-2026-10-05.json)

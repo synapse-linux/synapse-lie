@@ -195,6 +195,10 @@ client/server restart or machine reservation is queued in the meantime.
    All 19 earlier complete witnesses remain unchanged. The new memo/dispatch/
    Visit/body source still needs matching GPU qualification. Private composition
    caches and binary-double leaf policies need extraction within the same task.
+   [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
+   pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
+   builds but its application fails a strict optimized C warning; the collected
+   build is retired. Corrected source still needs matching sealed GPU gates.
    Earlier finite-value/cache slices have a matching
    provider/application rebuild and pass their own AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).

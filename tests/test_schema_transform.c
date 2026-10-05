@@ -138,7 +138,8 @@ static void conjunction_oracles(void) {
   for (unsigned i=0;i<20;++i) for (unsigned j=0;j<20;++j) {
     node *l=schema(&a,"integer"),*r=schema(&a,"number"); field(l,"minimum",num(&a,i)); field(r,"minimum",num(&a,j));
     field(l,"maximum",num(&a,40-i)); field(r,"maximum",num(&a,40-j)); node *v=joined(&a,root,l,r);
-    assert(!strcmp(get(v,"type")->text,"integer")); assert(get(v,"minimum")->value.number==(i>j?i:j)); assert(get(v,"maximum")->value.number==40-(i>j?i:j)); oracles+=3;
+    node *type=get(v,"type"); assert(type && type->value.kind==LIE_SCHEMA_STRING);
+    assert(!strcmp(type->text,"integer")); assert(get(v,"minimum")->value.number==(i>j?i:j)); assert(get(v,"maximum")->value.number==40-(i>j?i:j)); oracles+=3;
   }
   node *l=schema(&a,"integer"),*r=schema(&a,"integer"),*le=arr(&a),*re=arr(&a),*lr=arr(&a),*rr=arr(&a);
   add(le,NULL,0,num(&a,1)); add(le,NULL,0,num(&a,2)); add(le,NULL,0,num(&a,2)); add(re,NULL,0,num(&a,2)); add(re,NULL,0,num(&a,3));

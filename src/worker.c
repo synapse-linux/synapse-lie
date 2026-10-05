@@ -586,7 +586,12 @@ static bool ssd_collect(lie_core *w){
         const lie_state_layout *layout=lie_state_description(result.state);
         /* Complete file validation precedes this model geometry check. Both
          * are nonmutating; only a compatible admitted upload is fatal on error. */
-        bool text_ok=layout->token_count<=steering_restore_limit(j)&&lie_state_scope_equal(result.state,j->cache_scope)&&(!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata));
+        /* Text keys can reuse a saved tokenization longer than a fresh BPE
+         * pass. Rebuild first, then bound by that exact physical history;
+         * schedules keep text reconstruction disabled and their physical
+         * steering boundaries remain exact. */
+        bool text_ok=lie_state_scope_equal(result.state,j->cache_scope)&&
+            (!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata))&&layout->token_count<=steering_restore_limit(j);
         lie_status rc=info.state==LIE_READY&&text_ok?lie_sequence_state_describe(j->sequence,layout,&expected,&error):LIE_INVALID;
         if(rc==LIE_OK&&lie_state_layout_equal(layout,&expected)){
             pthread_mutex_lock(&w->gate);w->dispatch=j;j->executing=true;w->info.executor_phase=LIE_EXECUTOR_RESTORE;pthread_mutex_unlock(&w->gate);

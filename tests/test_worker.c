@@ -53,9 +53,8 @@ static void stop(lie_worker *w) { lie_worker_stop(w); wait_state(w,LIE_STOPPED);
 int main(void) {
     lie_worker_options opts={.model_path=":fixture:",.context=1024,.chunk=2,.max_active=2};
     lie_worker *w=lie_worker_create(&opts); assert(w); wait_state(w,LIE_READY);
-    lie_chat_request invalid=request("normal",0); lie_job *none=NULL;
+    lie_chat_request invalid=request("normal",LIE_CHAT_MAX_OUTPUT+1); lie_job *none=NULL;
     assert(lie_worker_submit(w,&invalid,&none)==3 && !none && invalid.count==1);
-    invalid.max_tokens=LIE_CHAT_MAX_OUTPUT+1; assert(lie_worker_submit(w,&invalid,&none)==3);
     invalid.max_tokens=8; invalid.count=LIE_CHAT_MAX_MESSAGES+1;
     assert(lie_worker_submit(w,&invalid,&none)==3); invalid.count=1; lie_chat_free(&invalid);
     lie_job *jobs[LIE_WORKER_JOBS];
@@ -84,6 +83,7 @@ int main(void) {
     for (unsigned i=0;i<LIE_WORKER_JOBS;++i) lie_job_release(jobs[i]);
     for (unsigned i=0;i<3000;++i) { lie_worker_snapshot(w,&info); if (!info.active && !info.queued && info.cancelled_requests==8) break; pause_short(); }
     assert(!info.active && !info.queued && !info.output_blocked && info.cancelled_requests==8);
+    assert(consume(submit(w,"normal",0))==8); /* Automatic output budget. */
     assert(consume(submit(w,"normal",128))==8);
     assert(consume(submit(w,"normal",3))==3);
     assert(consume(submit(w,"EMPTY",128))==0);

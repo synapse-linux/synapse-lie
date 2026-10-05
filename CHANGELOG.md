@@ -280,6 +280,13 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- SSD text-prefix restoration when a saved spelling uses more tokens than a
+  fresh tokenization. Rebuild the saved history before checking its physical
+  frontier, while preserving scheduled steering boundaries and cache scopes.
+
+- Optimized C17 schema-body compilation with strict warnings. Release test
+  executables now retain their assertion checks; production flags are unchanged.
+
 - Gufo adapter compilation with the C17 distribution bridge and live steering:
   provide its private bridge-header include path and fully initialize the
   steering snapshot without relaxing compiler warnings.

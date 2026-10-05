@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Failed r17 build retired; corrected host source qualified — 2026-10-05
+
+The device-free `.161` build of `9add7bb` starts at 22:46:19 UTC under the
+original lease and authorized named router stop/restore. The HIP provider builds;
+application C compilation fails under `-O3 -Werror` on a possibly uninitialized
+schema-body local. Supervisor/container exit 1 at 22:48:40 UTC; no model is
+attempted. Seventeen compile files are collected. No r17 bundle is created.
+
+Fresh read-only closure at 23:04:08 UTC verifies supervisor 68787/start10933564,
+container init 68861/start10933677 and old router68087 absent, exact own container
+absent, HTTP8000 unbound and original lease dev66307/inode105946405 briefly free
+then released. Restored router71493 is active and the only current KFD client.
+The first closure script guessed Docker diagnostic capitalization and failed;
+the fresh corrected witness also checks the exact owned container label.
+[Build failure and host receipt](development/validation/release-cache-host-2026-10-05.json).
+
+Corrected local source passes 79 Release/79 sanitizer/35 three-arm host checks;
+20 prior hashes remain unchanged and CPU peak is 90.25 C with GPU devices masked.
+This is no new original-weight qualification. Root retains `.157` non-use,
+with no client/job/lease/waiter/reservation there. Point/DGX receive the actual
+`.161` closure; a corrected build needs fresh admission. Terminal Bench remains
+stopped and deferred until functional modifications and qualification finish.
+
 ## Local C17 body qualification; eval stays deferred — 2026-10-05
 
 The [body host receipt](development/validation/c17-schema-body-host-2026-10-05.json)

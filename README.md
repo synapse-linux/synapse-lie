@@ -72,6 +72,7 @@ the functional modifications are finished.
   vision gates also pass with the copied Q8 projector and exact output IDs.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
+  Text-prefix reuse preserves saved token boundaries in both RAM and SSD.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, including separate prefill/decode durations, with CSV, JSON,
   SVG and PNG exports, reproducible shared-core sampling controls and optional
