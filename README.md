@@ -10,7 +10,7 @@ Dense sampling has recorded GPU checks. Checkpoint `2359488`, including C17
 finite values, container construction and compiled-schema caching, passes
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
 Broader numerical, fault, resource and performance gates remain open.
-Gufo still owns model/controller state, remaining schema visitor orchestration and private
+Gufo still owns model/controller state, selected numeric leaves and private
 container/composition templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

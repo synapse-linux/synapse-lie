@@ -50,8 +50,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, remaining schema orchestration
-and private composition caching,
+deep copies, deferred draws, entropy acquisition and private composition caching,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -62,6 +61,50 @@ Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Schema body control
+
+`lie/schema_body.h` exposes model-neutral ABI 1. C17 validates schema keys and
+schema depth, visits ordered `$defs`, resolves/distributes local `$ref` and
+`anyOf`, validates the complete base before finite choices, and applies the
+`enum/const` type, equality, character and count rules. It reuses the owned C17
+normalizer through the declared callback and composes ordered rule IDs. This
+replaces the remaining `VisitBody` control algorithm; it does not move private
+JSON storage, scalar numerical leaves or reasoning/tool composition to C.
+
+Immutable reader views stay borrowed. A duplicate-preserving writer supplies
+short-lived copies; the keep callback copies visited schemas into stable
+per-compilation storage before publishing their identities to the memo. This
+preserves cached leaf lifetimes. Canonical values live until the body call
+retires. Counters retain depth 16, enum/const count 1,000, global characters
+120,000 and the 15,000-character bound for string enums above 250 entries.
+The paired transform allocator owns alternatives beyond the 16-entry local
+scratch. A refusal preserves the result; prior builder, memo, storage and count
+mutations may remain, so retire the whole failed compilation. Calls are
+serialized, synchronous and create no thread or device call.
+
+Two exact `schema-body-edits.json` replacements select this path under the
+existing default-ON `LIE_C17_SAMPLING` option. OFF retains the original body.
+The private provider inventory contains 57 files with a separate
+`schema_body_edits_sha256` binding. The
+[host receipt](validation/c17-schema-body-host-2026-10-05.json) records 72
+independent language/order/limit oracles, all 2,204 selected callback refusals
+and all 279 selected construction allocation sites; 16 C++ exception controls
+also pass. Ten Debug and ten sanitizer contracts and 35 pristine/ON/OFF checks
+pass. The new witness includes 106 cases, 52 successful compilations, 112
+accepted complete values and 10,660 transitions. All 19 earlier complete
+witness hashes remain unchanged; 50 public headers compile in C17 and C++17.
+Local CPU maximum is 94.375 C with GPU devices masked.
+
+Retained failures include incorrect fixture callback declarations, missing
+fixture leaves, an EMPTY/CYCLE oracle mismatch and duplicate JSON input
+rejected by the wire parser. Corrected opaque duplicate-value tests use the
+value API. Earlier native closed-stderr SIGABRT remains undiagnosed. Matching
+new sealed provider/application GPU builds, original-weight branch/fault and
+allocation-exact resource/cost gates remain pending. Frozen GPU checkpoint
+`2359488` contains none of the newer memo/dispatch/Visit/body code. Terminal
+Bench remains stopped and deferred until functional changes and qualification
+finish.
 
 ## Reference identity memo
 
@@ -86,8 +129,8 @@ exceptions. Three exact `schema-memo-edits.json` replacements joined the
 48-file provider inventory and `schema_memo_edits_sha256` build binding under
 default-ON `LIE_C17_SAMPLING`; OFF keeps the original `std::map` body. The
 visitor and its empty-branch behavior retain their order. Visit sequencing now
-uses the separate C17 module below; remaining VisitBody orchestration,
-binary-double leaf policy and private composition/model/controller
+uses the separate C17 module below; body control uses the C17 module above.
+Binary-double leaf policy and private composition/model/controller
 storage remain transitional. Shared worker/event/RNG and DS4 persisted formats
 are unchanged.
 

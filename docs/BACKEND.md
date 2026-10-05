@@ -190,8 +190,12 @@ client/server restart or machine reservation is queued in the meantime.
    Identity-first Visit sequencing, recursive placeholder publication and
    successful/empty body commitment now also use C17, with
    [host witnesses](development/validation/c17-schema-visit-host-2026-10-05.json).
-   Remaining VisitBody reference/anyOf/finite-choice orchestration and
-   private composition caches need extraction within the same task. Newer finite-value/cache slices have a matching
+   Ordered definitions, reference/anyOf distribution and enum/const body policy
+   now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
+   All 19 earlier complete witnesses remain unchanged. The new memo/dispatch/
+   Visit/body source still needs matching GPU qualification. Private composition
+   caches and binary-double leaf policies need extraction within the same task.
+   Earlier finite-value/cache slices have a matching
    provider/application rebuild and pass their own AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).
    The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls

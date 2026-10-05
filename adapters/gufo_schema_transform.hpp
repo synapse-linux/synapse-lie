@@ -106,6 +106,13 @@ class SchemaArena {
     return protect(p,[&](auto &a){ *out=a.store(gufo::sampling::JsonSchemaLexeme::IntersectMultipleOf(schema_value(l),schema_value(r))); });
   }
 public:
+  static lie_schema_status append_member(void *p,lie_schema_node n,
+      lie_schema_bytes key,lie_schema_node value) noexcept {
+    return protect(p,[&](auto &){
+      auto &target=*const_cast<SchemaValue *>(static_cast<const SchemaValue *>(n));
+      target.append_member(std::string(key.data,key.size),schema_value(value));
+    });
+  }
   template<class F> lie_schema_status invoke(F &&f) noexcept {
     try { f(*this); return LIE_SCHEMA_OK; }
     catch (const gufo::sampling::JsonSchemaEmpty &) { failure_=std::current_exception(); return LIE_SCHEMA_EMPTY; }
@@ -116,8 +123,11 @@ public:
     d.access.clone=clone; d.access.create=create; d.access.put=put; d.access.append=append;
     d.access.format=format; d.access.multiple=multiple; return d;
   }
-  void check(lie_schema_status rc,const lie_schema_error &e) {
+  void rethrow_if_failed(lie_schema_status rc,const lie_schema_error &e) {
     if (failure_ && (rc==LIE_SCHEMA_CALLBACK || (rc==LIE_SCHEMA_EMPTY && !e.message))) std::rethrow_exception(failure_);
+  }
+  void check(lie_schema_status rc,const lie_schema_error &e) {
+    rethrow_if_failed(rc,e);
     schema_check(rc,e);
   }
   SchemaValue take(lie_schema_node n) {

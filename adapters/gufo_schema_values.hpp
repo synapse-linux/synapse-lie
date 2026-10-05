@@ -97,6 +97,9 @@ public:
   void check(lie_schema_status rc, const lie_schema_error &e) {
     arena_.check(rc, e);
   }
+  void rethrow_if_failed(lie_schema_status rc,const lie_schema_error &e) {
+    arena_.rethrow_if_failed(rc,e);
+  }
   std::optional<SchemaValue> normalize(const SchemaValue &root,
                                        const SchemaValue &schema,
                                        const SchemaValue &value, size_t depth) {

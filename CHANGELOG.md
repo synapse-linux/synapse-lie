@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 JSON Schema body policy for definitions, references, `anyOf` and
+  `enum/const`, with preserved validation order and lifetime/refusal checks.
+  Default-ON and original OFF host grammars agree; GPU qualification is pending.
+
 - Shared C17 recursive schema Visit sequencing, including identity hits,
   placeholder publication and empty branches. Default-ON and original OFF
   paths retain host grammar behavior; matching GPU qualification is pending.

@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 schema body host qualification — 2026-10-05 UTC
+
+The [body receipt](development/validation/c17-schema-body-host-2026-10-05.json)
+records full `VisitBody` control in shared C17: ordered definitions, local
+reference/anyOf distribution, enum/const base validation and counts/filters,
+declared canonicalization and rule composition. Two exact default-ON/OFF edits
+join the 57-file provider inventory. Private JSON staging/retention, scalar
+leaves and exceptions remain translation; binary-double leaf policy and private
+composition/model/controller ownership remain pending.
+
+Ten Debug/ten sanitizer/35 pristine-ON-OFF checks pass: 72 independent C oracles,
+2,204 callback refusals, all 279 selected construction allocation sites, 16
+private exception controls and 106 complete cases / 10,660 transitions. All 19
+prior full hashes remain unchanged. Fifty public headers and strict C17 checks
+pass. CPU peak is 94.375 C with GPU devices masked, CPU98/NVMe85/lower bounds
+active. Fixture/generator failures and actual nonzero exits are retained; the
+older closed-stderr native SIGABRT is not diagnosed by these passing checks.
+
+The frozen GPU checkpoint `2359488` excludes memo/dispatch/Visit/body changes.
+New sealed GPU provider/application build and matching original-weight AR/MTP,
+branch/fault/resource/cost gates remain open on freshly admitted `.161` windows.
+No root `.157` or `.161` build/run/client/lease/waiter/reservation is started for
+this host slice. Terminal Bench remains deferred until the functional work and
+qualification finish; all six owned roadmap tasks remain open.
+
 ## Recursive schema Visit sequencing moves to C17 — 2026-10-05 UTC
 
 The C17 core now owns identity-first Visit lookup, rule reservation, recursive

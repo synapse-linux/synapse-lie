@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Local C17 body qualification; eval stays deferred — 2026-10-05
+
+The [body host receipt](development/validation/c17-schema-body-host-2026-10-05.json)
+records 10 Debug/10 sanitizer/35 pristine-ON-OFF checks, 57 owned provider files,
+50 public headers and CPU peak 94.375 C with GPU devices masked. All 19 earlier
+full witness hashes remain unchanged. This source is absent from frozen GPU
+`2359488`; matching sealed provider/application and original-weight qualification
+still require a fresh `.161` admission. No new thread or model call is added.
+
+Root preserves `.157` non-use after verified eval CPU handover. Q2 separately
+reports its bounded new SSM releases/admissions; those are not root numerical
+qualification or resource ownership. Root starts no remote build/run/client,
+GPU job, lease, waiter or standing reservation for this local slice. Terminal
+Bench stays stopped, collected and deferred until functional changes and
+qualification finish. No automatic migration or restart is scheduled.
+
 ## Local C17 Visit qualification after eval retirement — 2026-10-05
 
 The [Visit host receipt](development/validation/c17-schema-visit-host-2026-10-05.json)

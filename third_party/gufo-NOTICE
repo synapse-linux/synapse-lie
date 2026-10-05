@@ -7,12 +7,21 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Full schema body control in src/schema_body.c follows official
+  JsonConstraintCompiler::VisitBody at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns ordered definitions, reference/anyOf distribution, enum/const base
+  validation, counts/filters and rule composition. Borrowed JSON/storage,
+  scalar leaves and exceptions remain private; C17 normalization is reused
+  through its declared hook, preserving private cached-node lifetimes.
+  schema-body-edits.json records two exact default-ON/OFF replacements.
+  No DS4 or sibling source/artifact is imported.
 - The recursive Visit sequencing in src/schema_visit.c follows official
   JsonConstraintCompiler::Visit at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
   Identity hit, new-rule reservation, placeholder publication, body/empty-rule
-  commitment and result publication use C17. Body-specific VisitBody policy,
-  borrowed JSON views and exception translation remain private.
+  commitment and result publication use C17. Body-specific VisitBody control
+  now uses the separate C17 module above; views/exceptions remain private.
   schema-visit-edits.json records two exact default-ON/OFF replacements.
   No DS4 or sibling source/artifact is imported.
 - The type/nullable/keyword compatibility and ordered route policy in
@@ -21,7 +30,8 @@ Adapted code includes:
   (MIT, gufo-LICENSE retained). schema-dispatch-edits.json records three exact
   default-ON/OFF replacements. C17 selects routes and composes ordered rule IDs;
   opaque leaf/child callbacks and exception translation remain private. This
-  does not move all VisitBody orchestration or model/controller storage to C.
+  does not move model/controller storage to C. Body orchestration now uses
+  the separate owned module above.
   No DS4 or sibling source/artifact is imported.
 - The per-compilation reference identity policy in src/schema_memo.c follows
   official JsonConstraintCompiler::Visit in src/core/json_constraint.cpp at
@@ -29,8 +39,8 @@ Adapted code includes:
   (MIT, gufo-LICENSE retained). Bounded identity lookup, insertion, growth and
   storage are C17; recursive placeholders retain original visit order. The
   hash table is independently implemented. schema-memo-edits.json records
-  three exact default-ON/OFF replacements. VisitBody, node/rule storage and
-  exceptions remain private; no DS4 or sibling source/artifact is imported.
+  three exact default-ON/OFF replacements. Node storage and exceptions stay
+  private; body control now uses C17. No DS4 or sibling source is imported.
 - The compiled-schema cache policy in src/grammar_cache.c follows official
   src/core/json_constraint.cpp at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
@@ -44,7 +54,7 @@ Adapted code includes:
   replacements. C17 owns type matching, finite-value filtering/canonicalization,
   JSON string/key quoting, object suffix/array bound rule construction and
   iterative character accounting. JSON staging, cached leaf predicates,
-  binary-double serialization and remaining schema orchestration stay private;
+  binary-double serialization and private composition stay private;
   reference identity memo now uses the separate C17 module above.
   gufo-LICENSE is retained; no DS4 or sibling source is imported.
 - The C17 schema transformation algorithms in src/schema_transform.c follow
@@ -87,8 +97,8 @@ Synapse LIE's explicitly selected state-access variant applies independently
 recorded MIT source edits for state access, MTP/vision state and target sampling
 controls. adapters/gufo-state/sampling-edits.json identifies the exact pinned
 bias/reporting replacements; the build receipt and source inventory bind their
-hashes. Schema compilation and vocabulary token-mask generation remain delegated
-Gufo implementation; the owned runtime/numeric ports are attributed below.
+hashes. Model/controller and private composition remain delegated Gufo
+implementation; the owned runtime/numeric ports are attributed below.
 No model weights or sibling-project source are imported by this recipe.
 
 The owned C17 dense sampling implementation in src/sampling.c is a port of
