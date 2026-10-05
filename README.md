@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [producer-Q8/integer-down candidate](docs/Q2-PRODUCER-Q8.md) is locally prepared from saved1574.
+It removes the F32 gate materialization and separate half-packing pass, with an
+explicit activation-arithmetic change. A bounded K-loop revision removes all
+new consumer spills;162 parent kernels stay instruction/resource exact. Local
+fixture syntax,138 launcher guards and frozen capsule checks pass. GPU/model
+evidence and .157 host qualification remain pending; no speedup is claimed.
+
 The [compact expert chain](docs/Q2-COMPACT-EXPERT-CHAIN.md) completes at 1572.956730 PP /
 25.17514880 TG, nominal -0.098361% PP versus saved 1574.505432. All 96
 component pairs and 21 parent model files match; independent routing and

@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Producer-Q8 preparation follows c6ef68b and release88dcb8d8. Durable initial
+and bounded providers,64-case component, frozen plan and original fixed model
+are local only. Root confirms no .157 job/build/client/lease/waiter/reservation;
+its frozen1M run remains on .161. Fresh host qualification and actual registry/
+PID/group/KFD/original-lease/model-stat admission remain required. No .157
+work or GPU ownership is implied by source/assembly checks; no cleanup.
+
 Compact expert chain releases 2026-10-05T17:50:10.710664 UTC, SHA256
 88dcb8d8d4ef79e78ec412f4e346a63ae125b179d6c5e7cc2a538a0faddf9e5a.
 Fresh admission 55d1b15f from 852ce69 follows release 13ba43fc and root non-use;

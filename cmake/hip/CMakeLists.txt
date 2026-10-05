@@ -726,3 +726,16 @@ target_compile_definitions(q2_compact_expert_chain PRIVATE QFN_ROCM_BUILD=1 ENGI
 target_include_directories(q2_compact_expert_chain PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
 target_include_directories(q2_compact_expert_chain SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_compact_expert_chain PRIVATE hip::host OpenSSL::Crypto)
+
+# Original F16 chain versus producer-Q8/integer-down, plus unchanged MMQ
+# format/reference calls and an independent sampled FP64 affine operator.
+add_executable(q2_producer_q8 EXCLUDE_FROM_ALL ../../tests/q2_producer_q8.hip
+  ../../tests/q2_producer_q8_reference.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_producer_q8 PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_producer_q8 PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1 GGML_HIP_NO_VMM)
+target_include_directories(q2_producer_q8 PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}" "${MMQ}")
+target_include_directories(q2_producer_q8 SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_producer_q8 PRIVATE gufo_qwen38_flash_next_mmq hip::host OpenSSL::Crypto)
