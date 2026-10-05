@@ -1,0 +1,133 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
+@@ -313,11 +313,13 @@
+           const uint2 magnitude =
+               reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+           const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          const uint2 decoded = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                                           magnitude.y ^ (mask.y & 0x80808080U));
++          const uint2 decoded =
++              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                         magnitude.y ^ (mask.y & 0x80808080U));
+           const int peer_row = (peer_tid >> 1) + (u * 128);
+           const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+-          reinterpret_cast<uint2*>(s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++          reinterpret_cast<uint2*>(
++              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
+         }
+         const float scale =
+             __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+@@ -729,6 +731,60 @@
+     }
+   }
+   if (out_half == nullptr) {
++    // SPDX-License-Identifier: MIT
++    // Wave-local register transpose of the already-rounded sixteen-value rows.
++    // Each half-wave owns alternating output columns of the same sixteen
++    // tokens. Four word exchanges supply the opposite parity without an LDS
++    // round trip.
++    if (m % 8 == 0 && reinterpret_cast<std::uintptr_t>(out) % 16 == 0) {
++      auto* dst_half = reinterpret_cast<__half*>(out);
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        const int r0 = r_block + wave_id * 16 + u * 128;
++#pragma unroll
++        for (int j = 0; j < kTokTiles; ++j) {
++          const int token = t_local + j * 16 + sub_lane;
++          const int slot =
++              token < bucket_rows ? rows_out[bucket_begin + token] : -1;
++          std::uint32_t own[4] = {};
++          if (slot >= 0) {
++            const float inverse = static_cast<const float*>(w_up)[slot];
++#pragma unroll
++            for (int p = 0; p < 4; ++p) {
++              float a = acc[u][j][2 * p] * inverse;
++              float b = acc[u][j][2 * p + 1] * inverse;
++              asm("" : "+v"(a), "+v"(b));
++              const __half ha = __float2half_rn(a);
++              const __half hb = __float2half_rn(b);
++              own[p] =
++                  __builtin_bit_cast(std::uint32_t, __halves2half2(ha, hb));
++            }
++          }
++          // All lanes execute the exchange, including poisoned/padded slots.
++          // The original slot guard remains the only permission to store.
++          std::uint32_t peer[4];
++#pragma unroll
++          for (int p = 0; p < 4; ++p) {
++            peer[p] = __builtin_amdgcn_permlanex16(own[p], own[p], 0x76543210u,
++                                                   0xfedcba98u, false, false);
++          }
++          const std::uint32_t even0 = half_id ? peer[2] : own[0];
++          const std::uint32_t odd0 = half_id ? own[2] : peer[0];
++          const std::uint32_t even1 = half_id ? peer[3] : own[1];
++          const std::uint32_t odd1 = half_id ? own[3] : peer[1];
++          const uint4 packed = make_uint4((even0 & 0xffffu) | (odd0 << 16),
++                                          (even0 >> 16) | (odd0 & 0xffff0000u),
++                                          (even1 & 0xffffu) | (odd1 << 16),
++                                          (even1 >> 16) | (odd1 & 0xffff0000u));
++          const int row = r0 + half_id * 8;
++          if (slot >= 0 && row < m_i) {
++            const std::size_t o = std::size_t(slot) * m + std::size_t(row);
++            *reinterpret_cast<uint4*>(dst_half + o) = packed;
++          }
++        }
++      }
++      return;
++    }
+     // Each original accumulator owner restores and rounds its eight values
+     // using one slot scale. Transpose the already-rounded half bytes through
+     // wave-private scratch, then issue one aligned word per adjacent pair.
+@@ -742,18 +798,21 @@
+       for (int j = 0; j < kTokTiles; ++j) {
+         const int t0 = t_local + j * 16;
+         const int token = t0 + sub_lane;
+-        const int slot = token < bucket_rows ? rows_out[bucket_begin + token] : -1;
++        const int slot =
++            token < bucket_rows ? rows_out[bucket_begin + token] : -1;
+         if (slot >= 0) {
+           const float inverse = static_cast<const float*>(w_up)[slot];
+ #pragma unroll
+           for (int l = 0; l < 8; ++l) {
+             float restored = acc[u][j][l] * inverse;
+             asm("" : "+v"(restored));
+-            half_tile[sub_lane * 16 + 2 * l + half_id] = __float2half_rn(restored);
++            half_tile[sub_lane * 16 + 2 * l + half_id] =
++                __float2half_rn(restored);
+           }
+         }
+         __builtin_amdgcn_wave_barrier();
+-        if (m % 8 == 0 && reinterpret_cast<std::uintptr_t>(dst_half) % 16 == 0) {
++        if (m % 8 == 0 &&
++            reinterpret_cast<std::uintptr_t>(dst_half) % 16 == 0) {
+           // Two lanes cover one complete token row of the 16x16 half tile.
+           // Both addresses are 16-byte aligned; m and r are multiples of 8,
+           // so r<m implies all eight output halves are valid.
+@@ -769,7 +828,7 @@
+             }
+           }
+         } else {
+-  #pragma unroll
++#pragma unroll
+           for (int s = 0; s < 4; ++s) {
+             const int flat = (s * 32 + lane_id) * 2;
+             const int t = t0 + (flat >> 4);
+@@ -778,7 +837,8 @@
+               const int dst = rows_out[bucket_begin + t];
+               if (dst >= 0) {
+                 const std::size_t o = std::size_t(dst) * m + std::size_t(r);
+-                const __half2 packed = *reinterpret_cast<const __half2*>(half_tile + flat);
++                const __half2 packed =
++                    *reinterpret_cast<const __half2*>(half_tile + flat);
+                 if (m % 2 == 0 && r + 1 < m_i) {
+                   *reinterpret_cast<__half2*>(dst_half + o) = packed;
+                 } else {
+@@ -838,7 +898,6 @@
+     }
+   }
+ }
+-
+ template<int BN>
+ void LaunchRoutedQ2HalfStorage(const void* w, const __half* x, const float* inverse,
+                           const std::int32_t* tiles, std::uint32_t n_tiles,

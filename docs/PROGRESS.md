@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [Q2 half-output register transpose](Q2-DOWN-REGISTER-SCATTER.md) is prepared from saved1574:
+two half-wave word exchanges bypass the aligned epilogue LDS round trip.
+Local checks preserve159 other kernels and all register/LDS capacities;140
+launcher guards pass. GPU numerics and original-model performance are pending.
+Only one production component distribution and the unchanged2048/tg128 model
+comparison are planned; best throughput remains1574.505432 PP.
+
 The [producer-Q8/integer-down experiment](Q2-PRODUCER-Q8.md) completes at1090.135499 PP /
 25.17363991 TG, losing30.763307% PP against saved1574.505432. All64 Q8 format
 comparisons and sampled FP64 checks pass; strict MMQ replay retains exit1

@@ -1,0 +1,211 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-preparation.v1",
+  "plan_sha256": "2d38b954d2fd8da8bc9ed0d50b7f4003792c36ccd8df0c428dac99935992c14d",
+  "selected_source_sha256": "ffd3d89a9b5134c9954dad52d000c4b4d5d5f602f3dc5d42b026bf8b36740380",
+  "static_sha256": "a816c9f3a43f13e873359c257c1721077b5bf6726c117595080f4ef92eda602d",
+  "staging_sha256": "b7cf50d3690098004acadb73f31e80fe2dedc46264339d288b767b4c28388ada",
+  "fixtures_verified": 85,
+  "manifests_verified": 4,
+  "launcher_guards": 140,
+  "final_fixture_sha256": "0ca6fb57a9c60d6398d719f5291c2333c684334f14f0a489cfb1c1c13fc66ae1",
+  "shared_format_unchanged_file_findings": {
+    "src/core/sampling.cpp": 22,
+    "src/core/sampling.hpp": 3,
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": 1,
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp": 5,
+    "src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.h": 8,
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": 1,
+    "src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h": 48
+  },
+  "initial_changed_format_failure": "Checker stripped only formatted output newline; texts already identical. Initial command/helper retained, corrected check exits0; no source change.",
+  "local_commands": {
+    "assembly": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-05T18:59:16.045090+00:00",
+      "finished_at": "2026-10-05T18:59:26.039555+00:00",
+      "exit_code": 0
+    },
+    "assembly-pair": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "assembly-pair"
+      ],
+      "started_at": "2026-10-05T19:02:20.778728+00:00",
+      "finished_at": "2026-10-05T19:02:30.854113+00:00",
+      "exit_code": 0
+    },
+    "changed-format": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/changed-format.py"
+      ],
+      "started_at": "2026-10-05T19:06:51.399792+00:00",
+      "finished_at": "2026-10-05T19:06:51.454101+00:00",
+      "exit_code": 1
+    },
+    "changed-format-corrected": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/changed-format.py"
+      ],
+      "started_at": "2026-10-05T19:08:16.679750+00:00",
+      "finished_at": "2026-10-05T19:08:16.721821+00:00",
+      "exit_code": 0
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-05T19:00:35.903417+00:00",
+      "finished_at": "2026-10-05T19:00:37.936428+00:00",
+      "exit_code": 0
+    },
+    "fixture-device-final": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-device-pair"
+      ],
+      "started_at": "2026-10-05T19:06:54.290324+00:00",
+      "finished_at": "2026-10-05T19:06:56.243774+00:00",
+      "exit_code": 0
+    },
+    "fixture-device-pair": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-device-pair"
+      ],
+      "started_at": "2026-10-05T19:03:38.317624+00:00",
+      "finished_at": "2026-10-05T19:03:40.433478+00:00",
+      "exit_code": 0
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-05T19:00:35.902690+00:00",
+      "finished_at": "2026-10-05T19:00:37.930304+00:00",
+      "exit_code": 0
+    },
+    "fixture-host-final": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-host-pair"
+      ],
+      "started_at": "2026-10-05T19:06:54.290673+00:00",
+      "finished_at": "2026-10-05T19:06:56.417002+00:00",
+      "exit_code": 0
+    },
+    "fixture-host-pair": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/compile-local.py",
+        "fixture-host-pair"
+      ],
+      "started_at": "2026-10-05T19:03:38.321022+00:00",
+      "finished_at": "2026-10-05T19:03:40.377680+00:00",
+      "exit_code": 0
+    },
+    "freeze-plan": {
+      "argv": [
+        "python3",
+        "tools/freeze-q2-down-register-scatter-plan.py"
+      ],
+      "started_at": "2026-10-05T19:08:42.737123+00:00",
+      "finished_at": "2026-10-05T19:08:42.754669+00:00",
+      "exit_code": 0
+    },
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-down-register-scatter.py"
+      ],
+      "started_at": "2026-10-05T18:59:06.210788+00:00",
+      "finished_at": "2026-10-05T18:59:06.456187+00:00",
+      "exit_code": 0
+    },
+    "generation-pair": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-down-register-scatter.py",
+        "--pair-exchange"
+      ],
+      "started_at": "2026-10-05T19:02:20.464326+00:00",
+      "finished_at": "2026-10-05T19:02:20.741965+00:00",
+      "exit_code": 0
+    },
+    "launcher-guards": {
+      "argv": [
+        "python3",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-05T19:03:37.210475+00:00",
+      "finished_at": "2026-10-05T19:03:38.710252+00:00",
+      "exit_code": 0
+    },
+    "launcher-guards-final": {
+      "argv": [
+        "python3",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-05T19:08:16.818007+00:00",
+      "finished_at": "2026-10-05T19:08:18.289624+00:00",
+      "exit_code": 0
+    },
+    "shared-format": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/shared-format.py"
+      ],
+      "started_at": "2026-10-05T19:03:38.317684+00:00",
+      "finished_at": "2026-10-05T19:03:40.406474+00:00",
+      "exit_code": 1
+    },
+    "staging": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/stage-local.py"
+      ],
+      "started_at": "2026-10-05T19:08:42.785008+00:00",
+      "finished_at": "2026-10-05T19:08:45.747840+00:00",
+      "exit_code": 0
+    },
+    "static-analysis": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-down-register-scatter-static.py"
+      ],
+      "started_at": "2026-10-05T19:05:33.795482+00:00",
+      "finished_at": "2026-10-05T19:05:35.160572+00:00",
+      "exit_code": 0
+    },
+    "wiring": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-scatter-preparation/wire.py"
+      ],
+      "started_at": "2026-10-05T19:03:37.172444+00:00",
+      "finished_at": "2026-10-05T19:03:37.189908+00:00",
+      "exit_code": 0
+    }
+  },
+  "predecessor_release_sha256": "b52d7308325786da5373cd32095fddc99048403ed07511364c4a4171c19c0de6",
+  "remote_host_checks_pending": true,
+  "root_cpu_window_requires_closure": true,
+  "gpu_admission_pending": true,
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

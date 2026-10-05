@@ -79,6 +79,35 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_down_register_scatter_manifest_binding(self):
+        self.assertEqual(remote.DOWN_REGISTER_SCATTER_MANIFEST,
+                         'config/q2-down-register-scatter-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_REGISTER_SCATTER_MANIFEST).is_file())
+
+    def test_down_register_scatter_new_component_or_matched_counting_only(self):
+        variant = 'down-register-scatter'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down register scatter requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_REGISTER_SCATTER_MODE, 'q2-fixture'], 'Q2 down register scatter requires')
+        base = [remote.DOWN_REGISTER_SCATTER_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down register scatter component builds')
+        for mode in (remote.DOWN_REGISTER_SCATTER_MODE, 'q2-counting-down-register-scatter'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_down_half_vector_manifest_binding(self):
         self.assertEqual(remote.DOWN_HALF_VECTOR_MANIFEST,
                          'config/q2-down-half-vector-source.json')

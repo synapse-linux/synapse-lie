@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-staging.v1",
+  "arms": [
+    {
+      "mode": "down-register-scatter-check",
+      "capsule_sha256": "3032dad677b6d42c144ade8dab34d3a37fc4295929269b6eb7872b27c4f4337d",
+      "provider_files": 1027,
+      "fixture_files": 85,
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-down-register-scatter",
+      "capsule_sha256": "c720f5ef6612c6196ed80e1172cc1f8cd7343a859d958a0104e4e8527433137e",
+      "provider_files": 1027,
+      "fixture_files": 85,
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}
