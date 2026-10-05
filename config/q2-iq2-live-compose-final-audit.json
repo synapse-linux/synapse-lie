@@ -1,0 +1,109 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-compose-final-audit.v1",
+  "fixtures_verified": 61,
+  "manifests_verified": 6,
+  "provider_files": 1025,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 33,
+  "retained_component_result_sha256": "8ecb318353abbc975cfed7e2652741ca3375ec31b57159f5c8f153ab3a4a9587",
+  "retained_component_verification_sha256": "66e6de4ea6391064feeb6d3289aa4a1e4de8dc3e8354f3f18cfe9d6040ec40d7",
+  "model_result_sha256": "f50cce8bd5a11be6e089ac819c9a5c1d049a9980127b168a199324230e87a7a9",
+  "within_arm_exact": true,
+  "changed_parent_files": [],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1508.605796,
+        1512.288237,
+        1511.097261
+      ],
+      "min": 1508.605796,
+      "median": 1511.097261,
+      "max": 1512.288237
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.1404487,
+        25.14684805,
+        25.14869047
+      ],
+      "min": 25.1404487,
+      "median": 25.14684805,
+      "max": 25.14869047
+    },
+    "prefill_s": {
+      "samples": [
+        1.357544831,
+        1.354239192,
+        1.35530654
+      ],
+      "min": 1.354239192,
+      "median": 1.35530654,
+      "max": 1.357544831
+    },
+    "decode_s": {
+      "samples": [
+        5.05162026,
+        5.050334727,
+        5.049964735
+      ],
+      "min": 5.049964735,
+      "median": 5.050334727,
+      "max": 5.05162026
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 4.670337411002956,
+      "decode_steps_s": 0.2027938766238524,
+      "prefill_s": -4.461949297520917,
+      "decode_s": -0.20238346374312766
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -10.361976789752237,
+      "decode_steps_s": 3.3075098862345165,
+      "prefill_s": 11.559800640429184,
+      "decode_s": -3.2016161466486115
+    },
+    "best_parent": {
+      "prefill_tok_s": 0.0824560788693196,
+      "decode_steps_s": -0.23566943322427258,
+      "prefill_s": -0.082388098461883,
+      "decode_s": 0.2362261216324546
+    }
+  },
+  "thermal_peaks_c": {
+    "q2-iq2-live-compose-host-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 65.5
+    },
+    "q2-iq2-live-compose-model-r1": {
+      "amdgpu": 75.0,
+      "k10temp": 84.875
+    }
+  },
+  "admission_exit": 0,
+  "release_sha256": "e65aad220a89f4f4f9ca40c824c0c2a047ff6441853811de7bea068f5c3dd777",
+  "retired_identities": 878,
+  "retired_groups": 696,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

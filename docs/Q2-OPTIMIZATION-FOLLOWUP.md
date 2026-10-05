@@ -46,12 +46,13 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 ## Current remaining work — 5 October 2026
 
 This update supersedes the historical queue above. Best retained nominal Q2
-is now1509.852296 PP /25.20625148 TG from the four-lane IQ2 candidate, compared
-with its saved1505.152258 parent. Its component is slower, so the small positive
-historical model comparison does not establish a stable causal gain. Original
-fixed Q2 remains1443.672867 and UD1685.777092; reaching that UD PP requires
-11.651788% more throughput. The original exact2048/tg128 input/timers remain
-fixed. No new runtime work is scheduled by this inventory; Q4 stays deferred.
+prefill is now1511.097261 PP /25.14684805 TG from the live-stage composition,
+compared with its saved1509.852296 /25.20625148 four-lane parent. The new
+comparison is+0.082456% PP/-0.235669% TG with overlapping historical PP ranges;
+it does not establish a stable causal gain. Both sources remain available.
+Original fixed Q2 remains1443.672867 and UD1685.777092; reaching that UD PP
+requires11.559801% more throughput. The original exact2048/tg128 input/timers
+remain fixed. No new runtime work is scheduled by this inventory; Q4 stays deferred.
 
 The independent Q8 initialization race is already diagnosed and corrected.
 Raw-HC Q8 publication, row reuse, native HC-down BK256 and MoE-only deferred
@@ -68,8 +69,9 @@ component and full-model results. Their existing cohorts need no rerun.
 | Measured negative: routed Q2 down output reuse | Change output-row BM128 to BM256 only for scaled BN48, keeping token routing width and original K order. | [Completed new candidate](Q2-DOWN-OUTPUT-REUSE.md):135 exact component pairs and21 exact parent model files. PP1501.068984 regresses0.581733% against saved1509.852296. Component time improves2.618742% at64 experts but regresses1.550516%/3.811054% at128/512. Preserve the source and distribution-specific result; no unconditional promotion or rerun. |
 | Measured negative: whole short-expert tiles | BN48 for entire buckets1..48, with original128/64 elsewhere. | Completed39 exact GPU pairs and21 exact parent model files; actual192 model records retain45120 short48 descriptors. PP1493.009363 regresses0.806755% against best1505.152258. The original64 kernel already skips nonlive WMMA fragments, so this replacement does not reduce useful matrix operations for1..48. Retain evidence without promotion or rerun; exact <=16 counts remain absent. |
 | High: routed Q2 down / expert consumer chain | Adapt DS4 fused SwiGLU/down or producer-Q8 consumer ideas to the active Qwen route, with logical640/stored768 tail handling and explicit activation arithmetic. | MMQ audit only. Existing fallback already shares routing/quantization and fixed2048 uses paired IQ2 WMMA instead. A real new dispatch/consumer is needed before a speed claim. |
+| Bounded follow-up: scaled-Q2 down activation stores | Apply unread-fragment store suppression to active scaled-down BN48/64, preserving BN16, final live16-row padding and the640/768 K tail. | A [new source audit](../config/q2-scaled-live-stage-opportunity.json) verifies131 slot-ownership cases. The down compute loop already skips those fragments; the current IQ2 store predicate excludes this route. Not implemented or GPU-tested. It needs a new guarded down component and model test; old IQ2 component evidence cannot qualify it. |
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
-| Integration: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [New composition](Q2-IQ2-LIVE-COMPOSE.md) is prepared and locally compiled: six changed IQ2 bodies,151 unchanged, same VGPR/LDS and zero private bytes. The [old component](Q2-LIVE-STAGE.md) is exact and saves0.817–2.081% against the repeated reference, but missed its historical advancement rule in two cases. Its318 artifacts are verified and reused without rerun. One new original fixed-model test remains pending. |
+| Measured marginal: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [New composition](Q2-IQ2-LIVE-COMPOSE.md) completes at1511.097261 PP /25.14684805 TG,+0.082456%/-0.235669% against saved1509.852296 /25.20625148. All21 parent files are exact. The old component's318 artifacts are reused without rerun. Preserve both sources and the marginal result; this model test is no longer pending. |
 | Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
 | Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination; an F16 representation would introduce rounding and require separate quality evidence. Neither is a qualified replacement. Logical bytes are not measured DRAM traffic or a promised gain. |
 | Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
@@ -93,9 +95,10 @@ exact component pairs,21 exact parent model files and all13 command exits0.
 Its source is retained for the next composition; the original1505 parent stays
 available. The distinct Q2 down BM256/BN48 experiment is also complete and
 negative at the model level. Neither wider-output tile replaces the1509 base.
-The next bounded composition is the retained IQ2 live-stage store predicate on
-that base, using the saved component evidence and a new original fixed-model
-run. Its source-only audit does not qualify numerical safety or performance.
+The IQ2 live-stage store predicate on that base now has its completed original
+fixed-model result above. The next bounded source-backed opportunity is the
+scaled-Q2 down store predicate, which would affect a different active consumer.
+Its source-only131-case audit does not qualify GPU numerical safety or performance.
 
 The inventory also retains component-only IQ2 live-epilogue and prefill
 codebook-LDS candidates, with mixed timing evidence and no complete-model

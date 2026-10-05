@@ -1,9 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-IQ2 live-store composition is prepared locally from checkpoint eb9ed56. Fresh root non-use handover after release1626b7e4 is received; no reservation is inherited. The new plan permits one original2048/tg128 model and reuses all historical component/control evidence. Fresh admission is still required before GPU build/run. The host-only27+27 cohort is separate from model inference.
+Latest IQ2 live-store composition window releases at2026-10-05T11:27:01.876120UTC, SHA256 `e65aad220a89f4f4f9ca40c824c0c2a047ff6441853811de7bea068f5c3dd777`. Fresh admission11:21:43.529360UTC from checkpoint526a8db followed root non-use handover and release1626b7e4. One new original2048/tg128 model and separate27+27 host cohort complete/collect:10 exits0/33 verified artifacts. No component or qualified control rerun. Closure verifies878 retired identities/696 groups, empty KFD, four free original lease inodes and seven unchanged model stat tuples. Canonical/main/remote active/ready mirrors agree and core receives release. No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains. Future work requires fresh admission; local scaled-down source audit creates no reservation. [Release](../config/q2-iq2-live-compose-window-release.json), [final audit](../config/q2-iq2-live-compose-final-audit.json).
 
-Latest Q2 down output-reuse window releases at2026-10-05T11:03:17.478662 UTC,
+Historical preparation: IQ2 live-store composition was prepared locally from checkpoint eb9ed56. Fresh root non-use handover after release1626b7e4 is received; no reservation is inherited. The new plan permits one original2048/tg128 model and reuses all historical component/control evidence. Fresh admission is still required before GPU build/run. The host-only27+27 cohort is separate from model inference.
+
+Previous Q2 down output-reuse window releases at2026-10-05T11:03:17.478662 UTC,
 SHA256 `1626b7e453101e90b13e9e6df8a52a0acf9a1360571950a6b100d93f89d255a4`.
 Fresh admission10:56:37.020983 UTC from checkpoint259503b followed root
 non-use handover and release73a6cae4. New component and original2048/tg128
