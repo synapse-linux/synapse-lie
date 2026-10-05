@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
+The [new four-lane IQ2 producer](docs/Q2-IQ2-LANE-COMMIT.md) is prepared from
+the measured1505.152258 parent. It redistributes compact decode/publication
+ownership, with unchanged raw fetch, arithmetic and routing. Static next-free
+VGPR rises8; no performance gain is inferred. One new component and original
+fixed2048/tg128 model are planned, reusing qualified Q2/UD/best evidence.
+
 The [1KiB IQ2 sign-mask candidate](docs/Q2-IQ2-SIGN-MASK.md) completes on .157
 at PP1504.885103/TG25.17103717. Prefill differs-0.017749% from saved best
 1505.152258 with overlapping ranges; retain the marginal candidate while

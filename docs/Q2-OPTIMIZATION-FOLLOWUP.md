@@ -75,6 +75,11 @@ component and full-model results. Their existing cohorts need no rerun.
 | Later: sparse indexer at high context | Reuse keys across query rows and distribute exact selection with deterministic rank/tie ordering. | Source-backed Halogen/GSQ hypotheses, no LIE runtime result. Selection is inactive at the fixed2048 point and cannot close that point's gap. |
 | Later: attention K/V layout at high context | Compare packed K/V against direct gathers by actual sparse-attention shape, including packing cost. | Existing fused WMMA attention and mask-window compaction are already present. New layout/full-cycle qualification remains open; no fixed-point or high-context gain is inferred. |
 
+The first ownership repartition is now [prepared](Q2-IQ2-LANE-COMMIT.md):
+four lanes share raw groups and publish their eight-value slices into the
+unchanged compact staging. Its next-free VGPR grows8 with no LDS/private change;
+GPU component and model evidence remain pending. The static change is not a gain.
+
 The saved MoE diagnostic attributes254.797ms to IQ2 gate/up,188.349ms to Q2
 down,293.725ms to Q8/F16 dense and211.530ms to HC combine/norm/inject. It
 profiles the earlier1496.830907 provider, not a new baseline or the current

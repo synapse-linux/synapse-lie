@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [four-lane IQ2 commit candidate](Q2-IQ2-LANE-COMMIT.md) is prepared from
+best1505:1025 provider files,149 unrelated kernel bodies unchanged, eight IQ2
+bodies changing ownership only. Mapping covers1024 unique slices/8192 bytes;
+next-free VGPR grows8, LDS/private scratch remain unchanged. Production and
+fixture compilation plus107 launcher guards pass; local staging binds57 fixtures
+and1025 provider files. New .157 host Debug/ASan gates each pass27/27, all six
+commands exit0/seven artifacts verify. Checkpoint and fresh admission precede
+one component/original model. No speedup, independent quality or parity is claimed.
+
 The [1KiB IQ2 sign-mask candidate](Q2-IQ2-SIGN-MASK.md) completes its new
 component and original fixed model. Component times fall0.371712–1.121926%;
 PP1504.885103/TG25.17103717 changes-0.017749%/+0.063998% versus saved best

@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+One new IQ2 lane-ownership candidate is prepared from best1505. Root confirms
+no .157 job/build/client/KFD/lease/waiter/reservation/restart/cleanup after
+release5ba496c80441d0fc615227384c0529001ab615ccc89b32ea8b82a9175b0dd3f0.
+The new host cohort passes27 Debug/27 ASan with no GPU/model access;57 fixtures,
+four manifests and1025 numerical source files are frozen. No reservation is
+inherited. Checkpoint plus fresh helper admission remain required before the
+single new component and original2048/tg128 model. No old cohort, Q4, full curve,
+cleanup, tuning or dependency installation is planned.
+[Plan](../config/q2-iq2-lane-commit-plan.json),
+[host receipt](../config/q2-iq2-lane-commit-host-results.json).
+
 Latest Q2 short48 window releases at2026-10-05T09:39:41.445380UTC, SHA256 `5ba496c80441d0fc615227384c0529001ab615ccc89b32ea8b82a9175b0dd3f0`. New host27+27,39 complete GPU pairs and original fixed2048/tg128 model complete with13 exits0/37 verified artifacts; all21 saved-parent model files are exact, PP1493.009363 is a retained negative result. Closure verifies818 retired identities/647 groups, empty KFD, four original lease inodes free and seven unchanged model stat tuples. Canonical/main/remote/active/ready mirrors agree; core is notified. No Q2 GPU job/build/eval/client/lease/waiter/reservation/restart/cleanup remains. Future work requires fresh admission anchored to this receipt. [Release](../config/q2-iq2-short-tiles-window-release.json).
 
 Compact IQ2 commit window releases at2026-10-05T08:50:49.013536UTC after two
