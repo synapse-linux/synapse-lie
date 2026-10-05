@@ -656,3 +656,12 @@ Its new original exact2048/tg128 model also runs:1465.267121 PP /25.19208710 TG,
 -2.109% PP versus parent, with all21 parent replay files exact. No default
 promotion follows; source, all samples and graph are retained. The `.157`
 window is released. The fixed Q2/UD comparison and full-curve target remain.
+
+A [compact IQ2 half-byte candidate](docs/Q2-IQ2-HALFBYTE.md) keeps one byte per
+weight in the existing LDS stage and reconstructs its exact signed F16 bits.
+Local assembly removes the consumer half additions, retains rounded half FMA
+and ordered WMMA, and preserves LDS/register sizes at widths 48/64/128. Both
+encodings pass exhaustive host format checks; the permutation variant uses
+fewer instructions while shifts add instructions. Only one new component/model
+pair is planned with the unchanged fixed comparison. GPU speedup and model
+quality remain unmeasured at this preparation checkpoint.

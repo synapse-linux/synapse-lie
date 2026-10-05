@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Compact IQ2 half-byte candidate prepared — 2026-10-05 UTC
+
+The new one-byte half-bit weight representation removes all 32 static packed
+half adds while retaining the half FMA and ordered WMMA. Parent LDS sizes and
+load/store counts remain; permutation VGPR stays equal at widths 48/64/128.
+Local assembly preserves 149 unrelated bodies and changes eight paired IQ2
+bodies. The shift variant adds instructions and is retained without GPU work.
+Both format encodings pass 262,144 scalar and 1,296 packed host bit checks.
+
+The new component adds exhaustive half-scale bit replay to 81 complete outputs
+and 42 rotated-weight timings. Only its new original exact2048/tg128 model is
+planned afterward, including after numerical/timing rejection. Qualified model
+controls and old components remain saved; no full curve runs before fixed-point
+parity. Initial formatter/scope failures are preserved and explained; the new
+file/fixture formatting, device syntax and all 83 scope guards pass. GPU/model
+performance remains pending fresh coordinated admission.
+The new `.157` CPU capsule passes 25/25 Debug and 25/25 ASan/UBSan; all six
+commands, seven artifacts, 32 frozen fixtures and 1020 source files verify.
+[Mechanism, static resources and scope](Q2-IQ2-HALFBYTE.md),
+[frozen plan](../config/q2-iq2-halfbyte-plan.json).
+
 ## IQ2 halfstage measured: exact outputs, slower prefill — 2026-10-05 UTC
 
 The new component preserves81 complete outputs across ragged/packed widths
