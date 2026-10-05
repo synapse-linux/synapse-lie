@@ -78,7 +78,7 @@ def main():
                    ref['measurements'][metric]['median'] - 1) for metric in metrics} for key, ref in references.items()}
     release_path = ROOT / 'config/q2-q8-halfpair-window-release.json'
     release = read(release_path)
-    require(release['state'] == 'Q2_IQ2_HALFBYTE_WINDOW_RELEASED' and not release['gpu_reserved'] and
+    require(release['state'] == 'Q2_Q8_HALFPAIR_WINDOW_RELEASED' and not release['gpu_reserved'] and
             not release['kfd'] and not release['owned_group_members'] and release['model_stats_unchanged'] and
             all(row['unchanged_free_EX_NB'] for row in release['leases']), 'GPU window not closed')
     require({row['label'] for row in release['cohorts']} == {plan['host'], plan['component']['label'], arm['label']},

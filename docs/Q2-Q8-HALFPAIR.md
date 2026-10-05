@@ -6,7 +6,9 @@ TG25.16866636 on the original exact2048/tg128 input. It changes the Q8-weight
 branch of the dense F16 matrix-core projection, keeping the compact IQ2 change
 and all prior parent composition. Fixed Q2 remains1443.672867 /25.09595499 and
 fixed UD1685.777092 /24.34174251. No qualified control or old component cohort
-is rerun. GPU/model results are pending coordinated admission; no gain is claimed.
+is rerun. The new original-weight model measures PP1114.763382 /TG25.16483410,
+a 25.622913% PP regression versus the compact parent. That parent remains the
+retained composition base; this lookup is retained as a measured rejection.
 
 The saved parent profile assigns293.725ms,21.183% of its prefill kernel work,
 to Q8/F16 dense projections. That diagnostic is reused rather than profiled
@@ -83,7 +85,104 @@ failure reclassification or altered qualified evidence.
 
 The new `.157` CPU cohort passes25/25 Debug and25/25 ASan/UBSan CTest.
 All six commands exit0; these checks access no model or GPU and are separate
-from the pending new component and original-weight performance evidence.
+from the completed new component and original-weight performance evidence.
+
+## Completed component and write-coverage diagnosis
+
+The new `.157` component finishes with command exits0/0/1 and ten verified
+artifacts. All1048576 format entries /2097152 packed word pairs match exactly,
+including scale exceptional values, stamps and guards. All twelve complete
+output-buffer hashes also match the control. The fixture nevertheless reports
+three SSM raw-projection coverage failures; its original verdict and exit1
+remain retained.
+
+Read-only analysis of all six saved134217728-byte arrays proves that every
+nonfinite/poison value is in the raw buffer region intentionally not written by
+the fused SSM kernel. It publishes first/last three raw rows per32-token tile
+for channels0..10239, plus all channels10240..16383; convolution consumes the
+interior directly from LDS. Each saved array has exactly17039360 such unused
+cells. All16515072 required raw values are finite/written, with zero unexpected
+poison positions; every convolution cell is finite/written and exact in the
+recorded full-buffer comparison. This diagnoses a fixture contract mistake,
+not a numerical disagreement. No production byte, frozen fixture, old verdict
+or qualified report is replaced, and no component is rerun for the diagnosis.
+
+| Rotated-weight component | Parent median microseconds | New lookup median microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| SSM projection + convolution | 4805.734952 | 12515.633901 | +160.431214% |
+| Output projection | 1728.428682 | 4790.042241 | +177.132768% |
+
+All28 samples remain in the result and CSV. The lookup is a strong component
+regression despite exact arithmetic. Static SSM code adds32 indexed global
+32-bit loads and31 wait instructions while removing32 half adds and32 byte
+permutations; physical cache misses/bandwidth were not measured. This supports
+rejecting this lookup placement, not claiming a measured cache bottleneck.
+The planned new original-weight model also completes to measure its full effect;
+no qualified control, old component or full curve is relaunched.
+
+[Component outputs and every timing](../config/q2-q8-halfpair-component-results.json),
+[all28 samples](figures/q2-q8-halfpair-component.csv),
+[saved-array coverage diagnosis](../config/q2-q8-halfpair-write-coverage-diagnostic.json).
+
+## Original fixed model result
+
+Only the new lookup model runs on `.157`. All four configure/build/link/model
+commands exit0. Compilation takes154.248971 seconds outside PP/TG timers.
+The fixed input remains2048 tokens, capacity9216, chunk2048, one warmup and
+three measured sessions,128 output tokens/127 timed decode calls, with15-second
+waits outside timers. The saved fixed Q2, compact parent and UD are not rebuilt
+or rerun; the original benchmark and reference definition stay unchanged.
+
+| Session | Prefill seconds | Prefill tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.835180734 | 1115.966380 | 5.042038112 | 25.18822690 |
+| Measured1 | 1.837161171 | 1114.763382 | 5.048160359 | 25.15767943 |
+| Measured2 | 1.833598383 | 1116.929432 | 5.044107628 | 25.17789258 |
+| Measured3 | 1.838991929 | 1113.653610 | 5.046725104 | 25.16483410 |
+| Original measured median | 1.837161171 | 1114.763382 | 5.046725104 | 25.16483410 |
+
+| Same saved fixed comparison | Prefill tokens/s | Decode calls/s |
+| --- | ---: | ---: |
+| Original Q2 | 1443.672867 | 25.09595499 |
+| Retained compact IQ2 parent | 1498.799455 | 25.16866636 |
+| New Q8 lookup | 1114.763382 | 25.16483410 |
+| Original UD | 1685.777092 | 24.34174251 |
+
+New PP is25.622913% below the retained parent and33.872433% below UD. All21
+parent input/output/full-logit files are byte-exact, and all nine within-arm
+replays are exact. The128 generated tokens match fixed Q2 and UD. The eight
+large-logit differences to fixed Q2 are inherited from the measured MoE parent;
+matched-history KL maxima remain0 to compact parent,0.001256655237 to Q2 and
+0.008626378682 to UD. This is differential evidence, not independent task-quality
+qualification. The decode change versus parent is only−0.015226%; no stable
+change is established by saved historical comparators.
+
+The256KiB indexed device table remains an added resource cost. The model logs
+resident_bytes43156012544, session_bytes376777748 and deferred scratch7946240;
+the static module table is not part of that resident weight allocation metric.
+Maximum recorded CPU/GPU temperatures, including compilation, are83.625/72 C.
+No default promotion or full-curve admission follows. The best measured Q2
+composition remains1498.799455, nominally3.818496% above original Q2 and needing
+12.475160% more PP throughput to reach original UD.
+
+The first local model analyzer exits1 because it checks the previous IQ2
+window's enum name. Its log is preserved; the corrected Q8-window name verifies
+the actual closed window and publishes the report with exit0. This is an
+analysis-script error, not a model or GPU failure, and requires no new run.
+
+The window is released at02:49:29.395288 UTC. Closure verifies644 retired
+identities/506 groups, empty KFD, four free original leases and unchanged six
+model stat tuples. Main/remote canonical/active/ready mirrors match release
+SHA256 `d11f482be0b9dc71a6c9c43a5178aaf4d751af47212326c359f04ea425cc6943`.
+Core receives the release; no Q2 GPU job, reservation or waiter remains.
+All43 host/component/model artifacts and33 frozen fixture identities verify.
+
+![All new and saved fixed samples](figures/q2-q8-halfpair-model.svg)
+
+[Full model report](../config/q2-q8-halfpair-model-results.json),
+[all16 model samples](figures/q2-q8-halfpair-model.csv),
+[retained composition decision](../config/q2-q8-halfpair-retained-update.json),
+[release](../config/q2-q8-halfpair-window-release.json).
 
 The isolated provider has1026 files:1024 inherited files stay exact, one kernel
 file changes and one generated table is added. It derives from this workstream's

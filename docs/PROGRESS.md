@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## New exact Q8 pair lookup prepared — 2026-10-05 UTC
+## Exact Q8 pair lookup measured: false coverage flag, strong regression — 2026-10-05 UTC
 
 The new candidate starts from compact IQ2 PP1498.799455 and changes only the
 dense Q8 weight conversion, adding a generated256KiB signed-int8 pair table.
@@ -10,21 +10,38 @@ preserves149 others and keeps VGPR/LDS/zero scratch. Indexing adds instructions
 even though all magic half adds disappear; no runtime speedup is inferred.
 Original scale/FMA, K16 order, fused convolution and model weights stay intact.
 
-The new GPU fixture plans1048576 format entries /2097152 packed-word pairs,
-12 whole guarded output comparisons and28 alternating rotated-weight timings.
+The new GPU fixture completes1048576 exact format entries /2097152 packed-word
+pairs,12 whole guarded output comparisons and28 alternating rotated timings.
 It shares one stream for initialization and work, poisons outputs, verifies
 write stamps/guards and saves numeric rejections without suppressing timing.
-Only its new original exact2048/tg128 model follows, including after numerical
-or component timing rejection. Saved Q2/compact-parent/UD controls stay fixed;
-no old cohort or full curve is rerun. All84 launch guards pass.
+The three reported raw SSM failures come from checking unused output cells:
+all12 buffer hashes are exact, and read-only analysis of six saved arrays proves
+all16515072 required values written/finite, with17039360 intentionally unused
+poisoned cells each. Raw command exits0/0/1 remain. Component median time grows
+160.431214% /177.132768% for SSM/output. All84 launch guards pass.
+
+Only its new original exact2048/tg128 model follows despite rejection. Measured
+PP is1114.763382 /1116.929432 /1113.653610, median1114.763382; TG25.16483410.
+PP regresses25.622913% versus saved compact parent; all21 parent files and nine
+within-arm replays are exact. Saved Q2/compact-parent/UD controls stay fixed;
+no old cohort or full curve is rerun. The retained base remains1498.799455,
+still requiring12.475160% PP increase to original UD. The false fixture flag
+does not turn this exact but slower candidate into a useful optimization.
 
 The new `.157` CPU cohort passes25/25 Debug and25/25 ASan/UBSan, six command
 exits0. It accesses no GPU/model. Shared formatter exit1 remains for seven
 unchanged inherited files; a local omitted-style failure is corrected without
-changing fixture bytes. Actual failures remain retained. GPU/model performance
-needs fresh coordinated admission; no runtime gain, promotion or parity claim.
+changing fixture bytes. The first local model analyzer uses the previous
+window enum and exits1; correcting only that enum gives exit0 without a rerun.
+Actual failures remain retained. All43 artifacts/33 frozen fixtures verify.
+CPU/GPU recorded maxima including154.248971-second compilation are83.625/72 C.
+Release02:49:29.395288 UTC checks644 identities/506 groups absent, KFD empty,
+four free original leases and unchanged six model stat tuples; main/remote
+mirrors match SHA d11f482b... Core receives the release. No GPU reservation,
+waiter, cleanup, promotion or parity claim remains.
 [Mechanism and scope](Q2-Q8-HALFPAIR.md),
-[frozen plan](../config/q2-q8-halfpair-plan.json).
+[all samples and graph](Q2-Q8-HALFPAIR.md#original-fixed-model-result),
+[retained decision](../config/q2-q8-halfpair-retained-update.json).
 
 ## Compact IQ2 model measured; marginal candidate retained — 2026-10-05 UTC
 

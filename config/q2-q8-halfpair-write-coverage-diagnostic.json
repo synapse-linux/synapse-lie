@@ -1,0 +1,104 @@
+{
+  "schema": "synapse-lie.q2-q8-halfpair-write-coverage-diagnostic.v1",
+  "at": "2026-10-05T02:38:01.247729+00:00",
+  "component_result_sha256": "5ac9ea963fc3443ffd979af52c5d0f610f8a8e0b5138afb99af12fbb929bbb35",
+  "source_manifest_sha256": "9440d87512f5eab015e4e970e292cca9c54d2a0c63bd4d61b7314d7f4211f453",
+  "cpu_array_analysis_only": true,
+  "new_gpu_or_build": false,
+  "qualified_controls_rerun": false,
+  "raw_component_command_exits": [
+    0,
+    0,
+    1
+  ],
+  "original_numerical_verdict_retained": false,
+  "false_rejection_cause": "Fixture requires every raw SSM qkv cell written; fused kernel intentionally publishes only first/last3 of each32-token tile for channels0..10239, plus all channels10240..16383. Remaining raw cells stay poisoned and are not consumed; fused/boundary convolution publishes every convolution cell.",
+  "production_output_contract": {
+    "tokens": 2048,
+    "projection_rows": 16384,
+    "convolution_channels": 10240,
+    "output_tile_tokens": 32,
+    "raw_first_last_tokens": 3
+  },
+  "ssm_projection_replay": [
+    {
+      "rotation": 0,
+      "complete_buffers_exact": true,
+      "proof": [
+        {
+          "arm": "reference",
+          "artifact": "q8-halfpair-ssm-0-projection-reference.bin",
+          "sha256": "cef571d4aff2731b63f2bf29c71c67c1d06841cebe8333f74454d387b3369fa9",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        },
+        {
+          "arm": "candidate",
+          "artifact": "q8-halfpair-ssm-0-projection-candidate.bin",
+          "sha256": "cef571d4aff2731b63f2bf29c71c67c1d06841cebe8333f74454d387b3369fa9",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        }
+      ]
+    },
+    {
+      "rotation": 1,
+      "complete_buffers_exact": true,
+      "proof": [
+        {
+          "arm": "reference",
+          "artifact": "q8-halfpair-ssm-1-projection-reference.bin",
+          "sha256": "1616695269b443a46b5d3b1565098a4dd8b957ff95e12a3a7db5fff0efb64cab",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        },
+        {
+          "arm": "candidate",
+          "artifact": "q8-halfpair-ssm-1-projection-candidate.bin",
+          "sha256": "1616695269b443a46b5d3b1565098a4dd8b957ff95e12a3a7db5fff0efb64cab",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        }
+      ]
+    },
+    {
+      "rotation": 2,
+      "complete_buffers_exact": true,
+      "proof": [
+        {
+          "arm": "reference",
+          "artifact": "q8-halfpair-ssm-2-projection-reference.bin",
+          "sha256": "ea44e3625c33408fd17b4309cf6c16fd4b504ff5abdf7ec2906bff6e5c99fde0",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        },
+        {
+          "arm": "candidate",
+          "artifact": "q8-halfpair-ssm-2-projection-candidate.bin",
+          "sha256": "ea44e3625c33408fd17b4309cf6c16fd4b504ff5abdf7ec2906bff6e5c99fde0",
+          "expected_live_values": 16515072,
+          "expected_unused_poison_values": 17039360,
+          "unexpected_poison_locations": 0,
+          "nonfinite_live_values": 0
+        }
+      ]
+    }
+  ],
+  "complete_buffer_pairs_exact": 12,
+  "live_output_coverage_consistent": true,
+  "format_packed_word_pairs_exact": 2097152,
+  "independent_model_quality": false,
+  "model_speedup": false,
+  "promoted": false,
+  "goal_met": false
+}

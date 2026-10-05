@@ -675,6 +675,11 @@ compact parent and replaces dense Q8 conversion with a generated 256 KiB
 device table. Original rounded scale/FMA, WMMA order and stage sizes remain.
 Local assembly preserves 149 other bodies; indexed loads increase total
 instruction counts despite removing the conversion adds. All 84 launch guards
-and the new `.157` Debug/ASan host fixtures pass. Only a new component and its
-original fixed-input model are planned; GPU/model performance remains pending
-fresh admission, with no rerun of qualified controls or full context curve.
+and the new `.157` Debug/ASan host fixtures pass. All 12 component buffer pairs
+are exact; a false coverage failure checks intentionally unused SSM raw cells.
+The actual component exit 1 and saved-array diagnosis are retained separately.
+Its new original fixed-input model completes at 1114.763382 PP/25.16483410 TG,
+a 25.622913% PP regression versus the compact parent, with all 21 parent replay
+files exact. The lookup is retained as a measured rejection; the best composition
+remains 1498.799455 PP. Qualified controls and the full curve are not rerun.
+All samples and a comparison graph are saved; the `.157` window is released.
