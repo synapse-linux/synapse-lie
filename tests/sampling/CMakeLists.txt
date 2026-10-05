@@ -42,7 +42,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   if(arm STREQUAL "reference")
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
-    list(APPEND sources "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -76,6 +77,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-probe PRIVATE ${arm})
   add_executable(${arm}-history "${REPO}/tests/sampling/history.cpp")
   target_link_libraries(${arm}-history PRIVATE ${arm})
+  add_executable(${arm}-grammar-probe "${REPO}/tests/sampling/grammar.cpp")
+  target_link_libraries(${arm}-grammar-probe PRIVATE ${arm})
   add_executable(${arm}-distribution "${REPO}/tests/sampling/distribution.cpp")
   target_link_libraries(${arm}-distribution PRIVATE ${arm})
   add_executable(${arm}-vocabulary "${REPO}/tests/sampling/vocabulary.cpp")
@@ -133,3 +136,10 @@ add_test(NAME compact-distribution-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/distribution-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(compact-distribution-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME byte-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-grammar-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-grammar-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-grammar-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/grammar-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(byte-grammar-reference-parity PROPERTIES TIMEOUT 120)

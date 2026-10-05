@@ -1,0 +1,77 @@
+{
+  "schema": "synapse-lie.gufo-grammar-runtime.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Owned C17 byte pushdown runtime, state ordering/deduplication and dense/compact logit masking. Schema compiler, lexical/regex predicates and vocabulary trie/cache remain transitional, explicitly not autonomous C grammar. DefaultON/OFF preserves language, probability and draw witnesses; model/reactive controller unchanged.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"src/core/json_constraint.hpp\"",
+      "new": "#include \"src/core/json_constraint.hpp\"\n#if LIE_C17_SAMPLING\n#include \"gufo_grammar.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "#include <bitset>",
+      "new": "#include \"lie/grammar.h\"\n\n#include <bitset>"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  bool stop_only_when_complete_{true};",
+      "new": "  bool stop_only_when_complete_{true};\n  void BuildC17Program();\n  std::shared_ptr<const lie_grammar_program> c17_program_;"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    (void)grammar_->Start();",
+      "new": "    grammar_->BuildC17Program();\n    (void)grammar_->Start();"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  grammar->root_ = base;\n  const std::lock_guard lock(mutex);",
+      "new": "  grammar->root_ = base;\n  grammar->BuildC17Program();\n  const std::lock_guard lock(mutex);"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  grammar->rules_.push_back(std::move(alternatives));\n  const std::lock_guard lock(mutex);",
+      "new": "  grammar->rules_.push_back(std::move(alternatives));\n  grammar->BuildC17Program();\n  const std::lock_guard lock(mutex);"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "JsonConstraint::State JsonConstraint::Expand(State pending) const {\n  State output;\n  std::size_t work = 0;\n  while (!pending.empty()) {\n    if (++work > kMaxWork || pending.size() + output.size() > kMaxStates)\n      throw std::runtime_error(\"JSON grammar state limit exceeded\");\n    auto stack = std::move(pending.back());\n    pending.pop_back();\n    if (stack.symbols.empty() || (stack.symbols.back() & kLeaf)) {\n      output.push_back(std::move(stack));\n      continue;\n    }\n    const auto rule = stack.symbols.back();\n    stack.symbols.pop_back();\n    for (const auto& sequence : rules_.at(rule)) {\n      if (stack.symbols.size() + sequence.size() > kMaxStack)\n        throw std::runtime_error(\"JSON grammar stack limit exceeded\");\n      auto next = stack;\n      next.symbols.insert(next.symbols.end(), sequence.rbegin(),\n                          sequence.rend());\n      pending.push_back(std::move(next));\n    }\n  }\n  std::ranges::sort(output);\n  output.erase(std::unique(output.begin(), output.end()), output.end());\n  return output;\n}\n\n",
+      "new": "JsonConstraint::State JsonConstraint::Expand(State pending) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::grammar_run(c17_program_.get(), pending, 3);\n#else\n  State output;\n  std::size_t work = 0;\n  while (!pending.empty()) {\n    if (++work > kMaxWork || pending.size() + output.size() > kMaxStates)\n      throw std::runtime_error(\"JSON grammar state limit exceeded\");\n    auto stack = std::move(pending.back());\n    pending.pop_back();\n    if (stack.symbols.empty() || (stack.symbols.back() & kLeaf)) {\n      output.push_back(std::move(stack));\n      continue;\n    }\n    const auto rule = stack.symbols.back();\n    stack.symbols.pop_back();\n    for (const auto& sequence : rules_.at(rule)) {\n      if (stack.symbols.size() + sequence.size() > kMaxStack)\n        throw std::runtime_error(\"JSON grammar stack limit exceeded\");\n      auto next = stack;\n      next.symbols.insert(next.symbols.end(), sequence.rbegin(),\n                          sequence.rend());\n      pending.push_back(std::move(next));\n    }\n  }\n  std::ranges::sort(output);\n  output.erase(std::unique(output.begin(), output.end()), output.end());\n  return output;\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "JsonConstraint::State JsonConstraint::Start() const {\n  return Expand({{{root_}, {}}});\n}\n\n",
+      "new": "JsonConstraint::State JsonConstraint::Start() const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::grammar_run(c17_program_.get(), {}, 0);\n#else\n  return Expand({{{root_}, {}}});\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "JsonConstraint::State JsonConstraint::Advance(const State& state,\n                                              unsigned char byte) const {\n  State next;\n  for (const auto& stack : state) {\n    if (stack.symbols.empty())\n      continue;\n    const auto symbol = stack.symbols.back();\n    if (symbol & kLexeme) {\n      const auto& lexeme = lexemes_.at(symbol & ~kLexeme);\n      if (!lexeme->AllowsByte(byte))\n        continue;\n      auto candidate = stack;\n      const auto result = lexeme->Advance(candidate.lexeme, byte);\n      if (result.prefix)\n        next.push_back(candidate);\n      if (result.complete) {\n        candidate.symbols.pop_back();\n        candidate.lexeme.clear();\n        next.push_back(std::move(candidate));\n      }\n    } else if (classes_.at(symbol & ~kTerminal).test(byte)) {\n      next.push_back(stack);\n      next.back().symbols.pop_back();\n    }\n  }\n  return Expand(std::move(next));\n}\n\n",
+      "new": "JsonConstraint::State JsonConstraint::Advance(const State& state,\n                                              unsigned char byte) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::grammar_run(c17_program_.get(), state, 1, byte);\n#else\n  State next;\n  for (const auto& stack : state) {\n    if (stack.symbols.empty())\n      continue;\n    const auto symbol = stack.symbols.back();\n    if (symbol & kLexeme) {\n      const auto& lexeme = lexemes_.at(symbol & ~kLexeme);\n      if (!lexeme->AllowsByte(byte))\n        continue;\n      auto candidate = stack;\n      const auto result = lexeme->Advance(candidate.lexeme, byte);\n      if (result.prefix)\n        next.push_back(candidate);\n      if (result.complete) {\n        candidate.symbols.pop_back();\n        candidate.lexeme.clear();\n        next.push_back(std::move(candidate));\n      }\n    } else if (classes_.at(symbol & ~kTerminal).test(byte)) {\n      next.push_back(stack);\n      next.back().symbols.pop_back();\n    }\n  }\n  return Expand(std::move(next));\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "bool JsonConstraint::Complete(const State& state) const {\n  return std::ranges::any_of(\n      state, [](const auto& stack) { return stack.symbols.empty(); });\n}\n\n",
+      "new": "bool JsonConstraint::Complete(const State& state) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::grammar_complete(c17_program_.get(), state);\n#else\n  return std::ranges::any_of(\n      state, [](const auto& stack) { return stack.symbols.empty(); });\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "JsonConstraint::State JsonConstraint::CanonicalMaskState(\n    const State& state, std::size_t token_bytes) const {\n  auto canonical = state;\n  for (auto& stack : canonical)\n    if (!stack.symbols.empty() && (stack.symbols.back() & kLexeme))\n      lexemes_.at(stack.symbols.back() & ~kLexeme)\n          ->CanonicalMaskState(stack.lexeme, token_bytes);\n  std::ranges::sort(canonical);\n  canonical.erase(std::unique(canonical.begin(), canonical.end()),\n                  canonical.end());\n  return canonical;\n}\n\n",
+      "new": "JsonConstraint::State JsonConstraint::CanonicalMaskState(\n    const State& state, std::size_t token_bytes) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::grammar_run(c17_program_.get(), state, 2, 0, token_bytes);\n#else\n  auto canonical = state;\n  for (auto& stack : canonical)\n    if (!stack.symbols.empty() && (stack.symbols.back() & kLexeme))\n      lexemes_.at(stack.symbols.back() & ~kLexeme)\n          ->CanonicalMaskState(stack.lexeme, token_bytes);\n  std::ranges::sort(canonical);\n  canonical.erase(std::unique(canonical.begin(), canonical.end()),\n                  canonical.end());\n  return canonical;\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "JsonConstraint::State JsonConstraint::Expand(State pending) const {",
+      "new": "void JsonConstraint::BuildC17Program() {\n#if LIE_C17_SAMPLING\n  c17_program_ = lie_gufo::grammar_program(rules_, classes_, lexemes_, root_);\n#endif\n}\n\nJsonConstraint::State JsonConstraint::Expand(State pending) const {"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "std::vector<float> SamplerState::ConstrainedLogits(\n    std::span<const float> logits, std::span<const TokenId> ids) const {\n  const auto mask = config_.constraint->Allowed(constraint_state_);\n  if ((!ids.empty() && ids.size() != logits.size()) ||\n      (ids.empty() && logits.size() != mask->size()))\n    throw std::invalid_argument(\n        \"JSON constraint vocabulary differs from logits\");\n  std::vector<float> masked(logits.begin(), logits.end());\n  for (std::size_t i = 0; i < masked.size(); ++i) {\n    const auto token = ids.empty() ? i : ids[i];\n    if (token >= mask->size())\n      throw std::invalid_argument(\"invalid compact token ID\");\n    if (!(*mask)[token])\n      masked[i] = -std::numeric_limits<float>::infinity();\n  }\n  return masked;\n}\n\n",
+      "new": "std::vector<float> SamplerState::ConstrainedLogits(\n    std::span<const float> logits, std::span<const TokenId> ids) const {\n#if LIE_C17_SAMPLING\n  const auto mask = config_.constraint->Allowed(constraint_state_);\n  return lie_gufo::grammar_mask(logits, ids, *mask);\n#else\n  const auto mask = config_.constraint->Allowed(constraint_state_);\n  if ((!ids.empty() && ids.size() != logits.size()) ||\n      (ids.empty() && logits.size() != mask->size()))\n    throw std::invalid_argument(\n        \"JSON constraint vocabulary differs from logits\");\n  std::vector<float> masked(logits.begin(), logits.end());\n  for (std::size_t i = 0; i < masked.size(); ++i) {\n    const auto token = ids.empty() ? i : ids[i];\n    if (token >= mask->size())\n      throw std::invalid_argument(\"invalid compact token ID\");\n    if (!(*mask)[token])\n      masked[i] = -std::numeric_limits<float>::infinity();\n  }\n  return masked;\n#endif\n}\n\n"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "#include \"gufo_distribution.hpp\"",
+      "new": "#include \"gufo_distribution.hpp\"\n#include \"gufo_grammar.hpp\""
+    }
+  ]
+}

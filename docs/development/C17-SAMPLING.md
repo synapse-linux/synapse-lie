@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# C17 sampling, request history and speculative probabilities
+# C17 sampling and byte-grammar runtime
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -32,16 +32,17 @@ as the pinned control, including its 1024-entry threshold.
 
 The contract is model-neutral C17 ABI 1. Logits, already-compiled grammar masks,
 sorted penalty counts, bias and RNG are borrowed from the caller. A growth
-callback supplies bounded scratch storage and preserves live entries. The C
-module creates no threads, performs no device call, allocates no memory itself
+callback supplies bounded scratch storage and preserves live entries. The dense
+selection module creates no threads, performs no device call, allocates no memory itself
 and retains no input pointer. Failed builds publish a zero result count;
 invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, grammar compilation/masking,
-model/session and speculative-controller state, and selected GPU numerical
+deep copies, deferred draws, entropy acquisition, schema compilation, primitive
+lexical/regex predicates, vocabulary trie/mask cache, model/session and
+speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
 Existing eligible GPU argmax shortcuts remain delegated and preserved.
@@ -73,7 +74,8 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-grammar algorithms and speculative model/controller state remain transitional.
+schema/primitive predicates, vocabulary mask cache and speculative model/controller
+state remain transitional.
 
 Host qualification passes 14,400 independent FIFO/count transitions, refusal,
 copy and overflow fixtures, 1,728 complete history transitions across 48 profiles,
@@ -99,7 +101,8 @@ second normalization and filter rounding. It is distinct from the dense linear
 fast path. Compact output IDs index the logits; proposal creation remaps them to
 raw model token IDs. Dense bias remains a dense target operation; compact
 sampling retains the pinned bias-free behavior. Compiled grammar can mask the
-borrowed logits before these operations; its implementation remains delegated.
+borrowed logits before these operations; mask generation still uses the
+transitional vocabulary trie/cache with the owned byte runtime described below.
 
 Sparse repeated IDs accumulate in original occurrence order. Residual rows keep
 target order and fall back to the target when p-q has no positive mass. Ordinary
@@ -116,7 +119,7 @@ pointer, inference thread or device call belongs to this module. Borrowed source
 must be disjoint from mutable workspaces/output, and growth must preserve them.
 The exact `distribution-sampling-edits.json` recipe selects C17 by default and
 compiles the legacy numerical helpers only for OFF. Provider receipts bind all
-nine sampling source/header/glue files and all three extraction recipes.
+twelve sampling/grammar source/header/glue files and all four extraction recipes.
 
 Independent C oracles cover 2,048 residual draws and 768 proposal/verification
 draws, plus mapped penalties, zero/duplicate/nonfinite masses, buffer aliasing,
@@ -129,11 +132,60 @@ and limits are recorded in the
 Original-weight GPU continuation, resource fit and matched performance remain
 pending; existing dense-selector GPU receipts do not qualify this increment.
 
+## Byte grammar and logit masking
+
+`lie/grammar.h` adds model-neutral ABI 1; `src/grammar.c` owns immutable compiled
+tables and bounded byte-state snapshots. C17 expands rule alternatives, handles
+terminal/lexeme branches, preserves complete-and-prefix continuations, sorts and
+deduplicates full stacks/encoded lexemes, and computes completion and canonical
+cache-key states. Applying an already resolved token mask to dense/compact
+logits is also C17, retaining allowed NaN/Inf bits and refusing bad IDs or overlap
+before output mutation. UTF-8 and JSON escapes may span token boundaries.
+
+Programs deep-copy rule/sequence/symbol/terminal tables; source mutation cannot
+change them. They borrow immutable predicate and allocator contexts whose owner
+must outlive all program/state uses. Snapshots own their frame data and callers
+release them explicitly. Paired allocation hooks support fault injection; NULL
+hooks select malloc/free. Default limits retain Gufo's 8,192 states, 16,384 stack
+symbols and 2,000,000 expansion operations, with 4,160 bytes of primitive scratch.
+Refusal preserves caller inputs and output ownership; an empty state denotes a
+dead language prefix rather than a resource failure. This module allocates
+bounded state/table storage and creates no thread, RNG, model or device operation.
+
+The provider seals an independent C program after schema compilation and after
+reasoning/tool composition, binding callbacks to the composed grammar's own
+immutable primitive list. ON/OFF provider layouts agree, but private grammar
+layout/source changes require a matching provider/application rebuild. The
+`grammar-runtime-edits.json` recipe routes expansion, start, byte advance,
+completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
+Storage/error/predicate translation stays in `gufo_grammar.hpp`.
+
+This is a byte-runtime extraction, not a complete C grammar compiler. JSON
+Schema compilation, exact-decimal/string/Unicode-DFA predicates and the
+vocabulary trie, transition interning and shared mask cache remain delegated.
+The provider still marshals snapshots between vector storage and C state. Those
+algorithms/storage and their cost remain explicit work in the same grammar task.
+The direct Gufo reference now selects legacy byte-grammar methods as well as
+legacy sampler methods before the shared archive; inline model/controller
+arithmetic remains shared. New GPU compilation/continuation/performance gates
+must validate that reference composition; host checks do not qualify it.
+
+Independent C checks cover 134,402 byte transitions, every construction/start/
+advance allocation refusing without leaks, bounded cycles/state/stack expansion,
+immutable tables, prefix-and-complete primitives, canonical clone independence
+and bit-preserving dense/mapped masks. Complete pristine/ON/OFF witnesses cover
+20 grammars, 23 texts, 13,700 byte transitions and 7,089 masks, including Unicode,
+recursive schemas, numeric/string constraints, reasoning and tool composition.
+Final 19 Debug, 19 sanitizer, 17 host-reference checks and 35 public headers pass.
+[Executed commands, source and complete witnesses](validation/c17-grammar-runtime-host-2026-10-05.json)
+retain their host-only limits. Original-weight AR/MTP/structured-tool continuation,
+allocation-exact resources and matched cost remain pending on `.161`.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
-and compact/speculative probability arithmetic. Use the same
+and compact/speculative probability arithmetic and byte-grammar runtime. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:
@@ -154,7 +206,8 @@ build information, actuator and benchmark identity reports `lie-c17-dense`,
 `delegated` while the Gufo model/session executor is required.
 
 The direct Gufo reference executable resolves a separately compiled legacy
-sampler before the provider archive, with the same verified layouts. Its
+sampler and byte-grammar methods before the provider archive, with the same
+verified layouts. Shared inline model/controller arithmetic is unchanged. Its
 `dense_sampling` value is `gufo`; comparing LIE to a control that also used the
 new C selector would not isolate this extraction.
 

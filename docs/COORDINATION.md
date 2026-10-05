@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## C17 byte-grammar host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 08:12:22.016655 UTC observes external Gemma training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD.
+CPU is 90.5 C, available RAM 86,135,402,496 bytes. Original lease dev 66307 /
+inode 105946405 is free; boot/filesystem/four shard stats remain unchanged.
+The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts the byte-state runtime and mask application into C17. Final
+19 Debug, 19 sanitizer, 17 pristine/ON/OFF host checks and 35 headers pass with
+GPUs masked; local CPU peak is 90.75 C. [Receipt](development/validation/c17-grammar-runtime-host-2026-10-05.json)
+binds commands, sources and complete byte/mask witnesses. Compiler/predicate/
+trie/cache extraction and original-weight continuation/resources/cost remain open.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reports mirror source `c6b637c` and
+release `2fa8f9c0e8268dcf44800ad1494faa79eb14723af786b6d7c9f56d893a86a709`
+at 07:57:20.795336 UTC, followed by local checkpoint `252a2d8` and a new local
+compact-producer candidate. Those reports are not root qualification/tasks;
+every further agent window requires its own fresh ownership/admission.
+
 ## C17 probability host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 07:28:56.951902 UTC observes external Gemma

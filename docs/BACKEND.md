@@ -119,7 +119,12 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    now also use C17, with caller-owned storage and transactional RNG refusal.
    [Host comparison evidence](development/validation/c17-distribution-host-2026-10-05.json)
    covers complete rows, decisions and draw states; its GPU gates remain open.
-   Grammar/masking is the remaining source extraction in this three-component task.
+   The byte grammar runtime and dense/compact mask application now use C17,
+   with immutable programs, bounded snapshots and complete host state/mask
+   [witnesses](development/validation/c17-grammar-runtime-host-2026-10-05.json).
+   Schema compilation, primitive lexical/regex predicates and vocabulary
+   trie/mask-cache algorithms still need extraction within the same grammar task;
+   original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in
 [progress](PROGRESS.md), [coordination](COORDINATION.md) and the
@@ -139,7 +144,7 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; corrected r11 AR and MTP pass all 34 HTTP/function/control checks, including disconnected background completion. | Full agent task evaluation, newer output-budget qualification and performance. |
-| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; new owned history and compact/speculative probabilities have host checks only. Grammar/masking and model/controller state remain delegated. |
+| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; new owned history and compact/speculative probabilities have host checks only. Byte-grammar runtime and mask application have host checks only; schema/predicate/trie/cache and model/controller state remain delegated. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. Physical PP1,048,448 completes with 43 output tokens. | The declared TG128 gate fails on natural EOS; extended quality and matched performance remain open. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
@@ -481,8 +486,9 @@ contracts and remains a libuv reactor; background/replay adds no model worker.
 The generation contract exposes sparse vocabulary bias, target reporting logits
 and JSON/tool constraints without upstream types.
 
-Constraint grammar compilation and token masking remain delegated to the
-pinned Gufo sampler. The independently fetched state variant also applies the
+Schema compilation and vocabulary trie/mask caching remain delegated to the
+pinned Gufo sampler. Byte-state expansion/transitions and applying resolved
+dense/compact masks now use the owned C17 runtime; new GPU gates remain open. The independently fetched state variant also applies the
 exact `adapters/gufo-state/sampling-edits.json` recipe for bias and reporting;
 source inventory and `sampling_edits_sha256` are verified before linking.
 Empty bias preserves upstream fast paths. Bias uses AR steps because compact

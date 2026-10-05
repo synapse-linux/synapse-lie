@@ -6,10 +6,15 @@ Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
 The request-history C17 component implements the same pinned Gufo semantics
 against independently fetched source. `history-sampling-edits.json` records exact
 integration; `gufo_history.hpp` only adapts vector storage and exceptions. Provider
-receipts bind all nine owned sampler source/header/glue files and the dense,
-history and compact-distribution recipes. The latter ports official ordered
+receipts bind all twelve owned sampler/grammar source/header/glue files and the
+dense, history, compact-distribution and byte-runtime recipes. The latter ports official ordered
 probabilities, residual correction and host MTP proposal/verification arithmetic
 from the same pin; vector/error glue remains transitional. Gufo notices remain applicable; no DS4 cache code is copied.
+The C17 byte runtime in `src/grammar.c` ports rule expansion, byte transitions,
+completion and canonical-state ordering from official `json_constraint.cpp` at
+the same pin. Predicate/compiler and vocabulary trie/cache implementations remain
+transitional; `gufo_grammar.hpp` adapts tables/state/predicates/errors. No sibling
+code is imported by this extraction.
 The native Gufo conversation benchmark port has its own
 [pinned source and fixture provenance](gufo-bench-source.json).
 No sibling DS4/CachyOS project sources, recipes,

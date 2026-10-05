@@ -8,6 +8,30 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## C17 byte-grammar runtime; complete host state/mask checks — 2026-10-05 UTC
+
+Rule expansion, byte branching, stack/lexeme ordering, canonical snapshots and
+completion now use C17, together with dense/compact logit mask application.
+Programs deep-copy immutable tables; snapshots own bounded state, and allocation
+refusals preserve input/output ownership. Provider glue seals independent
+programs after schema/reasoning/tool composition. ON/OFF layouts agree; matched
+source/archive/application rebuilds are required. Reactive owner, request/RNG
+semantics and DS4 RAM/SSD framing remain unchanged.
+
+Final 19 Debug, 19 ASan/UBSan/LeakSanitizer and 17 pristine/ON/OFF host checks pass,
+with 35 public headers and strict C17/symbol checks. Independent C fixtures cover
+134,402 transitions. Full witnesses compare 13,700 byte states and 7,089 masks
+across 20 grammars/23 texts; older probability/history witness hashes agree.
+CPU peak is 90.75 C, without guard trips. [Source-bound commands and limits](development/validation/c17-grammar-runtime-host-2026-10-05.json)
+retain the older unresolved closed-stderr abort without claiming a fix.
+
+Schema compiler, primitive exact-decimal/string/Unicode-DFA predicates and
+vocabulary trie/cache algorithms still need extraction within the same grammar
+task. New original-weight continuation/resources/cost remain unqualified. At 08:12:22.016655 UTC,
+the read-only `.161` witness still observes foreign Gemma PID 29223 and router
+PID 29377 in KFD. No root GPU build/run/hash, service mutation, foreign signal,
+waiter or standing lease occurs. All six owned tasks remain open.
+
 ## C17 compact distributions and host MTP arithmetic — 2026-10-05 UTC
 
 Ordered/compact normalization, mapped penalties, p-q residual correction and

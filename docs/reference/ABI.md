@@ -33,6 +33,18 @@ probability arithmetic only; model/controller state stays with its existing owne
 Provider ON/OFF layouts and executor/request/generation/persisted-state ABIs do
 not change. See [exact numerical/draw rules](../development/C17-SAMPLING.md#ordered-distributions-and-mtp-probabilities).
 
+`lie/grammar.h` adds separate grammar ABI 1: immutable copied program tables,
+opaque owned snapshots, borrowed exported frame views and explicit release.
+Tagged limits bound state/stack/work/primitive scratch; paired allocator hooks
+must return fresh aligned storage and outlive program/state use. Predicate
+contexts are immutable borrowed callbacks, not a claim that their algorithm is
+C17. Advance supports exact input/output alias in predicate scratch; mask
+application supports exact in-place logits but refuses other overlap. Refusal
+preserves output ownership; empty snapshots are valid dead language prefixes.
+Private provider grammar layout/source changes require matching archive/application
+rebuilds and the twelve-file receipt. Executor/request/generation and DS4 payload
+ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
+
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,
 confirmed retained-target history and locked metadata snapshots. Its scope hashes

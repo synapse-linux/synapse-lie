@@ -59,6 +59,16 @@ src/core/sampling.cpp and src/models/qwen38_flash_next/mtp_sampling.hpp at the
 same pin, including exact rounding and draw order. Its conditional integration
 is recorded in adapters/gufo-state/distribution-sampling-edits.json. C17 owns
 ordered/compact normalization, residual correction and host discrete proposal/
-verification arithmetic. Vector storage/deep copies, grammar, entropy acquisition,
-deferred draws, speculative controller and GPU-resident numerical kernels remain
+verification arithmetic. Vector storage/deep copies, schema/primitive predicates, vocabulary trie/cache,
+entropy acquisition, deferred draws, speculative controller and GPU-resident
+numerical kernels remain
 transitional Gufo responsibilities.
+
+The owned C17 src/grammar.c byte-runtime and mask-application port follows
+src/core/json_constraint.cpp and src/core/sampling.cpp at the same official pin.
+Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained. Exact
+integration is recorded in adapters/gufo-state/grammar-runtime-edits.json.
+C17 owns rule expansion, byte branching, stack/lexeme ordering/deduplication,
+completion/canonical snapshots and mask application. Schema compilation,
+primitive lexical/regex predicates and vocabulary trie/cache algorithms remain
+upstream; their callback/storage bridge does not reimplement those algorithms.

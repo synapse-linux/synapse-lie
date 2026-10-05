@@ -11,7 +11,11 @@ The new compact/speculative probability extraction likewise adds no worker or
 metric. Its additional source/header/glue and exact recipe are receipt-bound;
 `dense_sampling` still identifies the dense selector, not complete sampler or
 model ownership. Caller storage includes transient bulk and probability scratch;
-allocation-exact provider cost remains a separate gate.
+allocation-exact provider cost remains a separate gate. The new byte-grammar
+runtime adds no worker or metric; its copied program tables, owned snapshots
+and vector marshalling are extra bounded storage, still requiring measured
+allocation-exact resources and matched cost. Schema/predicate/trie/cache
+ownership is not implied by `dense_sampling`.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

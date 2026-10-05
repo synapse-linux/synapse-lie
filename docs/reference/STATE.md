@@ -48,6 +48,14 @@ Verification refusal does not publish its acceptance draw or a correction token.
 Rollback, pending/deferred corrections and confirmed model frontier remain with
 the existing inference owner; host probability checks do not qualify GPU restore.
 
+Owned C17 byte-grammar snapshots are request-local and independently copied
+while sampling or verifying speculation. Programs/mask-cache predicates are not
+serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
+canonicalization does not change the request's live state. The provider still
+supplies schema/primitive predicates and vector/trie/cache storage; its new
+private layout requires a matching source/archive/application rebuild.
+Original-weight grammar/correction/cache continuation remains pending.
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw

@@ -56,6 +56,12 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 byte-grammar runtime and dense/compact mask application, with copied
+  immutable tables, bounded owned snapshots and allocation/refusal checks. The
+  default-ON sampler option selects it; OFF retains Gufo runtime methods. Host
+  state/mask comparisons pass. Schema/predicate/trie/cache extraction and GPU
+  correctness/resources/cost remain pending.
+
 - Shared C17 compact probability distributions, p-q residual correction and exact
   host MTP proposal/verification arithmetic. Caller-owned storage and refusal
   checks preserve RNG/results. The default-ON sampler option selects the port;
