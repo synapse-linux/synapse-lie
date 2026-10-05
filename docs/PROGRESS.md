@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [eight-half output-store candidate](Q2-DOWN-HALF-VECTOR.md) is prepared
+from80f3f05 /1566.950178 PP. Only three epilogues change, with unchanged
+register/LDS allocations and zero private scratch. Local assembly, syntax and
+121 launcher guards pass. The new720-output/108-consumer fixture covers the
+aligned vector path and retained fallback;168 timings and the fixed2048 model
+remain pending. No prior qualified cohort is rerun.
+
 The [paired-half epilogue](Q2-DOWN-HALF-PAIR.md) completes from checkpointe71a834
 at1566.950178 PP /25.19259094 TG, nominally+1.271715%/+0.081855% against saved
 1547.273268 /25.17198641. All513 guarded down pairs,99 ordered consumers,21

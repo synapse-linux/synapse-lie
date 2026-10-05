@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-down-half-vector-staging.v1",
+  "capsule_sha256": "51dfdc57ab2dadf7bceb4bcbd26e571225ae0c3732988b751cacf3ba5e73f871",
+  "fixture_files_verified": 68,
+  "provider_files_verified": 1026,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

@@ -45,6 +45,11 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
+Next prepared experiment: [eight-half output stores](Q2-DOWN-HALF-VECTOR.md)
+replace four paired scatter rounds with one aligned vector copy, preserving
+the pair fallback and all arithmetic. Local compilation passes;720 guarded
+outputs and108 consumers are prepared. No GPU/model gain is yet established.
+
 Latest completed experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
 measures1566.950178 PP /25.19259094 TG,+1.271715% PP against saved1547.273268.
 It restores/rounds in registers and transposes halves before paired stores.

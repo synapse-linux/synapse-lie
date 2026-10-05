@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
+The next [eight-half output-store candidate](docs/Q2-DOWN-HALF-VECTOR.md)
+is prepared from1566.950178. It retains the pair fallback for unaligned rows
+and bases; GPU/model timing is pending and no new performance is claimed.
+
 The [paired-half epilogue experiment](docs/Q2-DOWN-HALF-PAIR.md) completes at
 1566.950178 PP /25.19259094 TG, nominally+1.271715% PP versus saved1547.273268
 and+8.539144% versus fixed Q2. All513 down-output/99 consumer pairs and21

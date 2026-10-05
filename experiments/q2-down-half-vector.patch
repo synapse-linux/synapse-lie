@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
+@@ -753,22 +753,39 @@
+           }
+         }
+         __builtin_amdgcn_wave_barrier();
+-#pragma unroll
+-        for (int s = 0; s < 4; ++s) {
+-          const int flat = (s * 32 + lane_id) * 2;
++        if (m % 8 == 0 && reinterpret_cast<std::uintptr_t>(dst_half) % 16 == 0) {
++          // Two lanes cover one complete token row of the 16x16 half tile.
++          // Both addresses are 16-byte aligned; m and r are multiples of 8,
++          // so r<m implies all eight output halves are valid.
++          const int flat = lane_id * 8;
+           const int t = t0 + (flat >> 4);
+           const int r = r0 + (flat & 15);
+           if (t < bucket_rows && r < m_i) {
+             const int dst = rows_out[bucket_begin + t];
+             if (dst >= 0) {
+               const std::size_t o = std::size_t(dst) * m + std::size_t(r);
+-              const __half2 packed = *reinterpret_cast<const __half2*>(half_tile + flat);
+-              if (m % 2 == 0 && r + 1 < m_i) {
+-                *reinterpret_cast<__half2*>(dst_half + o) = packed;
+-              } else {
+-                dst_half[o] = __low2half(packed);
+-                if (r + 1 < m_i)
+-                  dst_half[o + 1] = __high2half(packed);
++              *reinterpret_cast<uint4*>(dst_half + o) =
++                  *reinterpret_cast<const uint4*>(half_tile + flat);
++            }
++          }
++        } else {
++  #pragma unroll
++          for (int s = 0; s < 4; ++s) {
++            const int flat = (s * 32 + lane_id) * 2;
++            const int t = t0 + (flat >> 4);
++            const int r = r0 + (flat & 15);
++            if (t < bucket_rows && r < m_i) {
++              const int dst = rows_out[bucket_begin + t];
++              if (dst >= 0) {
++                const std::size_t o = std::size_t(dst) * m + std::size_t(r);
++                const __half2 packed = *reinterpret_cast<const __half2*>(half_tile + flat);
++                if (m % 2 == 0 && r + 1 < m_i) {
++                  *reinterpret_cast<__half2*>(dst_half + o) = packed;
++                } else {
++                  dst_half[o] = __low2half(packed);
++                  if (r + 1 < m_i)
++                    dst_half[o + 1] = __high2half(packed);
++                }
+               }
+             }
+           }

@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 eight-half preparation starts from80f3f05 and releasef2415f57. Root confirms
+fresh .157 non-use. `config/q2-down-half-vector-plan.json` freezes the new
+host/component/fixed2048 scope. The new window requires full registry, retired
+PID/group, KFD, four original lease and seven model-stat checks; no reservation
+is inherited. No old comparator, Q4, full curve, cleanup or tuning is scheduled.
+
 Q2 paired-half terminal release at2026-10-05T12:59:27.317557+00:00 has SHA256
 f2415f576f49438911a070b53fd43fb2b937e83a7837854a916fb4e1fe2092e9.
 All13 commands exit0/37 artifacts were collected and verified before closure;
