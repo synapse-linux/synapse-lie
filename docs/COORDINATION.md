@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM composition preparation follows releaseb9e05fd2 and checkpointd4ba5ac.
+Core starts full19 CPU .157 at20:08:35.909805UTC, with GPU work on .161.
+Read-only observation at20:11:40.671811UTC verifies supervisor20794/start179631020
+and runner20860/start179631128 alive with their original process groups; KFD
+is empty. Q2 maintains non-use until actual CPU closure and fresh handover.
+Only local source, plan, staging and analysis work plus that process observation
+is performed; no host/build/client/lease/waiter/reservation or cleanup is
+started. The88-fixture plan does not grant runtime admission. Observation:
+`evidence/q2-ssm-row-group-compose-preparation/core-full-observation-r1-*`.
+
 Register-scatter window releases2026-10-05T19:46:56.076123UTC,SHA256
 b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e.
 Fresh admissionb22e0907 from6937344 followsb52d7308 and explicit root CPU-smoke

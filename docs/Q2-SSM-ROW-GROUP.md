@@ -1,14 +1,51 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Four-row grouping for the fused SSM projection
 
-This is local preparation, without GPU numerics or model timing. It derives
-from saved1574.505432 PP /25.17589001 TG at original exact2048/tg128, against
-fixed Q2/UD1443.672867 /1685.777092 PP. The independently completed
+This is local preparation, without GPU numerics or model timing. The original
+standalone experiment derives from saved1574.505432 PP /25.17589001 TG at
+original exact2048/tg128, against fixed Q2/UD1443.672867 /1685.777092 PP.
+The independently completed
 [register-scatter experiment](Q2-DOWN-REGISTER-SCATTER.md) subsequently measures
-1580.226725 PP /25.10411864 TG and becomes the next retained composition base.
-The SSM source here is still the original standalone1574-derived experiment;
-its composition with register-scatter is not silently implemented or measured.
-The existing85 register-scatter fixtures and four manifests were unchanged.
+1580.226725 PP /25.10411864 TG. A separate composition now applies the same
+two SSM changes to that retained1580 provider. Both source inventories and
+their preparation evidence remain available; neither SSM variant has run on
+a GPU. Saved model results and archived register-scatter capsules are unchanged.
+
+## Composition and runnable scope
+
+The1027-file composition preserves the inherited register-scatter include
+exactly. Comparison against saved1580 assembly preserves161 other kernels,
+including all register-scatter specializations; the new SSM body is identical
+to the previously compiled standalone group4 body. The literal test control
+also matches the current1580 parent. No qualified parent is recompiled.
+
+Launcher modes `ssm-row-group-check` and `q2-counting-ssm-row-group` admit only
+the matched `ssm-row-group` source. The frozen plan binds88 runtime fixtures,
+five manifests and a separate coordination helper. Both real source capsules
+are constructed locally with SSH intercepted, then their1027 provider files,
+88 fixtures and five manifests are verified.142 launcher guards and eight
+analysis checks pass. The analysis checks use synthetic log records only;
+they are neither GPU execution nor throughput evidence.
+
+An initial analysis test run retains exit1 because five negative tests expected
+RuntimeError while the shared checker raises ValueError; correcting only the
+test exception expectations gives eight passes. The initial composition
+verifier temporarily reused the historical standalone filename. The historical
+file is restored exactly; the composition uses its own tool, and both initial
+and final receipts are retained. No numerical source or tolerance changed.
+
+Remote host27 Debug +27 ASan/UBSan, GPU component and original model remain
+pending. Core's CPU .157 full19 window is active; both reported process
+identities are independently observed live at20:11:40UTC. Q2 has no remote
+job, build, client, lease, waiter or reservation. A fresh handover and full ownership
+checks are required before runtime work. The planned component is followed by
+one new original2048/tg128 model even after safe numerical/timing rejection.
+Saved Q2/UD/1580 controls are reused; no Q4 or full curve is included.
+
+[Composition source](../config/q2-ssm-row-group-compose-source.json),
+[assembly audit](../config/q2-ssm-row-group-compose-static.json),
+[frozen plan](../config/q2-ssm-row-group-plan.json),
+[local preparation](../config/q2-ssm-row-group-compose-preparation.json).
 
 ## Why this region
 
@@ -81,9 +118,10 @@ retains the existing enumeration warnings.
 
 ## Prepared component and remaining execution
 
-The new standalone fixture contains the literal saved1574 dense template and
-SSM wrapper under test-only names. Host and gfx1151 device syntax checks pass.
-It is not yet wired into the launcher and has never executed on a GPU.
+The fixture contains the literal saved1574 dense template and SSM wrapper under
+test-only names, also verified exact to saved1580. Host and gfx1151 device
+syntax checks pass. Its composed source is wired into the launcher as described
+above, but the fixture has never executed on a GPU.
 
 Five shapes1024/1025/1057/2048/2049 with three weight rotations cover30 complete
 projection/convolution output pairs, poisoned intentionally-unwritten raw rows,
@@ -100,8 +138,8 @@ kernel. Safe numerical failures retain exit1 and continue timing; runtime or
 guard exceptions exit2. The new original-model experiment must still follow
 safe execution even if this component is numerically or temporally negative.
 
-Future work needs its own launcher wiring, frozen plan, .157 host qualification
-and fresh coordinated ownership before any remote numerical build/run. No
+The launcher and frozen plan are prepared; future work needs .157 host
+qualification and fresh coordinated ownership before any remote numerical build/run. No
 current remote job, GPU reservation or waiting process is created here. No
 qualified comparator rerun, Q4 test, full curve, model conversion or .157 cleanup
 is part of this preparation. Independent inherited F16 task quality stays open.

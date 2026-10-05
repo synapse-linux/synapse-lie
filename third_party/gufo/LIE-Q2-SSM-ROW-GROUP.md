@@ -19,3 +19,11 @@ command exits are bound by `config/q2-ssm-row-group-preparation.json`.
 
 Local preparation establishes no GPU numerical, model-quality or performance
 acceptance. Runtime source integration remains separate from this experiment.
+
+The subsequent local composition uses retained LIE register-scatter1580 as
+its parent and applies the same two substitutions. Its independent manifest
+is `config/q2-ssm-row-group-compose-source.json`; all inherited numerical
+includes remain byte-exact. The test control is separately checked against
+this parent. Launcher staging and analysis preparation are recorded in
+`config/q2-ssm-row-group-compose-preparation.json`, preserving the standalone
+source, verifier and evidence. No public C17 ABI/state/metrics contract changes.

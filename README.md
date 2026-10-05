@@ -1,10 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-An independent [SSM row-group experiment](docs/Q2-SSM-ROW-GROUP.md) is prepared
-locally from saved1574. It changes grid traversal, retaining161 other kernels,
-register/LDS capacities and arithmetic source. The new guarded fixture passes
-host/device syntax checks; no GPU or model result exists. The existing
-register-scatter campaign and fixed Q2/UD comparison stay unchanged.
+The [SSM row-group experiment](docs/Q2-SSM-ROW-GROUP.md) is now composed locally
+with retained1580.226725 PP, preserving its register-scatter kernels and161
+other kernel bodies/resources. Launcher and analysis checks pass142+8; both
+locally staged capsules verify1027 provider files,88 fixtures and five manifests.
+One new component and the original2048/tg128 model await .157 host checks and
+fresh coordinated ownership after core's CPU window. No SSM GPU/model result
+exists; fixed Q2/UD and saved parent results are reused without rerunning them.
 
 The [Q2 half-output register transpose](docs/Q2-DOWN-REGISTER-SCATTER.md) now
 measures1580.226725 PP /25.10411864 TG on the unchanged exact2048/tg128 model,

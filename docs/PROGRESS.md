@@ -1,5 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The SSM experiment is now composed with retained1580.226725/25.10411864,
+without recompiling the saved parent. Its inherited register-scatter bodies
+and161 other kernel bodies/resources match; only the SSM row-group changes.
+The new launcher, frozen88-fixture/five-manifest plan and both local source
+capsules verify, with142 launcher and eight analysis checks. Thirty complete
+output pairs, sixty sampled FP64 checks and fourteen timings are prepared;
+only2048 is timed. Safe numerical rejection retains performance; missing
+writes/guards stop further device work. The original2048/tg128 model follows
+the component with saved Q2/UD/1580 comparisons, without Q4 or a curve sweep.
+No remote host/build/client/lease/reservation is started during core's full19
+CPU .157 window. Read-only20:11:40 observation verifies supervisor20794/start
+179631020 and runner20860/start179631128 alive. Host27+27 and numerical
+execution remain pending after actual closure and fresh handover.
+An initial parser test expected the wrong exception class; its actual failure
+and corrected tests are retained. A composition-verifier naming collision was
+corrected by restoring the historical verifier exactly and using a separate
+composition tool; both initial and corrected preparation receipts remain.
+[Composition preparation](../config/q2-ssm-row-group-compose-preparation.json),
+[plan](../config/q2-ssm-row-group-plan.json).
+
+The standalone preparation below is retained as history.
+
 Local [SSM row-group preparation](Q2-SSM-ROW-GROUP.md) selects the existing
 group4 mapping for the fused projection, changing exactly two source fragments.
 Saved-parent assembly comparison preserves161 other bodies/resources; SSM
