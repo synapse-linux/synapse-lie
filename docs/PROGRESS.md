@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## New exact Q8 pair lookup prepared — 2026-10-05 UTC
+
+The new candidate starts from compact IQ2 PP1498.799455 and changes only the
+dense Q8 weight conversion, adding a generated256KiB signed-int8 pair table.
+All131072 integer format checks pass. Local assembly changes eight Q8 bodies,
+preserves149 others and keeps VGPR/LDS/zero scratch. Indexing adds instructions
+even though all magic half adds disappear; no runtime speedup is inferred.
+Original scale/FMA, K16 order, fused convolution and model weights stay intact.
+
+The new GPU fixture plans1048576 format entries /2097152 packed-word pairs,
+12 whole guarded output comparisons and28 alternating rotated-weight timings.
+It shares one stream for initialization and work, poisons outputs, verifies
+write stamps/guards and saves numeric rejections without suppressing timing.
+Only its new original exact2048/tg128 model follows, including after numerical
+or component timing rejection. Saved Q2/compact-parent/UD controls stay fixed;
+no old cohort or full curve is rerun. All84 launch guards pass.
+
+The new `.157` CPU cohort passes25/25 Debug and25/25 ASan/UBSan, six command
+exits0. It accesses no GPU/model. Shared formatter exit1 remains for seven
+unchanged inherited files; a local omitted-style failure is corrected without
+changing fixture bytes. Actual failures remain retained. GPU/model performance
+needs fresh coordinated admission; no runtime gain, promotion or parity claim.
+[Mechanism and scope](Q2-Q8-HALFPAIR.md),
+[frozen plan](../config/q2-q8-halfpair-plan.json).
+
 ## Compact IQ2 model measured; marginal candidate retained — 2026-10-05 UTC
 
 Only the new compact half-byte component and model run on `.157`. All 81 whole

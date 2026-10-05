@@ -669,3 +669,12 @@ and 3,670,016 packed format-word pairs are exact. New model PP 1498.799455 / TG
 replay file exact. The marginal candidate is retained without default promotion
 or stable-gain proof. Fixed UD still needs 12.475160% more PP throughput; model
 task quality and full-curve parity remain open. The `.157` window is released.
+
+A new [Q8 integer-half pair lookup](docs/Q2-Q8-HALFPAIR.md) starts from that
+compact parent and replaces dense Q8 conversion with a generated 256 KiB
+device table. Original rounded scale/FMA, WMMA order and stage sizes remain.
+Local assembly preserves 149 other bodies; indexed loads increase total
+instruction counts despite removing the conversion adds. All 84 launch guards
+and the new `.157` Debug/ASan host fixtures pass. Only a new component and its
+original fixed-input model are planned; GPU/model performance remains pending
+fresh admission, with no rerun of qualified controls or full context curve.

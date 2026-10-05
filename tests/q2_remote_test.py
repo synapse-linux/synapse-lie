@@ -21,6 +21,29 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_q8_halfpair_new_component_or_matched_counting_only(self):
+        variant = 'q8-halfpair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 halfpair requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_HALFPAIR_MODE, 'q2-fixture'], 'Q8 halfpair requires')
+        base = [remote.Q8_HALFPAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 halfpair component builds')
+        for mode in (remote.Q8_HALFPAIR_MODE, 'q2-counting-q8-halfpair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_iq2_halfbyte_new_component_or_matched_counting_only(self):
         variant = 'iq2-halfbyte-perm'
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
