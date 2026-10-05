@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM follow-up launcher patch](docs/Q2-SSM-FOLLOWUP-RUNTIME.md) is prepared
+and verified locally for fixed-shape, fixed-bounds, compact-LDS and alternating
+activation slots. Seven focused and142 existing launcher tests pass; eight
+source capsules verify without executing SSH. The patch remains unapplied,
+preserving the frozen first row-group campaign. No new throughput is measured.
+
 The [alternating-buffer SSM follow-up](docs/Q2-SSM-PINGPONG.md) keeps32768 LDS
 bytes and zero scratch while reducing source block barriers160→81 versus the
 compact-LDS candidate. Local ownership checks and compilation pass;161 other

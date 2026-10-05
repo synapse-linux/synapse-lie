@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue after shared-Q8 component timing
 
+The four additional SSM variants now have an [unapplied runtime wiring patch](Q2-SSM-FOLLOWUP-RUNTIME.md): matching component/model modes, fixture/source bindings and eight locally verified capsules. Seven focused plus142 existing launcher tests pass. Original row-group88/5 stays frozen and first; candidate-bound result analysis, new campaign plans and GPU qualification remain pending. No performance result changes.
+
 The fixed model comparator remains exact2048, original direct-executor input
 and timers: Q2 PP1443.672867 / UD1685.777092. PP/TG parity over the requested
 curve remains the goal. No context-curve expansion is admitted while the fixed

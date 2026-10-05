@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM follow-up runtime patch](Q2-SSM-FOLLOWUP-RUNTIME.md) is now prepared
+on a durable local copy and remains unapplied. Four component modes and four
+matched original2048/tg128 modes bind their1027-file sources and exact fixtures.
+Seven focused test methods cover matching/crossed modes and altered source,
+parent and fixture rejection; all142 existing launcher checks also pass against
+the prepared copy. Eight source archives reach an intercepted first SSH call,
+with1035 bindings verified each and no subprocess executed. Patch applicability
+passes. Existing88 frozen fixtures/five manifests/window helper remain exact;
+no old numerical reference is rebuilt or rerun. Fresh21:25:55UTC observation
+finds the original Core-19 supervisor20794 and runner20860 alive on .157, so no
+Q2 remote host/build/client/lease/reservation starts. New candidate-bound result
+analysis, campaign freezing and GPU qualification follow after the first SSM
+campaign and fresh handover. Measured1580 and full-goal status remain unchanged.
+
 The [SSM alternating activation slots](Q2-SSM-PINGPONG.md) retain32768 LDS
 bytes and zero scratch at212 actual VGPRs, versus207 for compact LDS and222
 for the saved parent. Source block barriers fall160→81, with80 wave barriers
