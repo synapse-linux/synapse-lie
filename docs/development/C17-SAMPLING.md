@@ -19,6 +19,16 @@ agree exactly. TG medians differ by less than 1% except the retained un-warmed
 1500-token fresh point, which loses 16.64% and still requires investigation.
 Ordinary greedy retains GPU argmax and does not isolate C dense-filter cost.
 
+The newer integrated grammar/history/distribution checkpoint `1bff953` passes
+37 original-weight HTTP controls in both AR and MTP on `.161`. Greedy AR and
+the DS4 temperature-1/top-p-1/top-k-0/min-p-0.05 profile in AR/MTP each complete
+two PP1500/TG128 sessions with exact per-profile same-seed token replay.
+[GPU evidence](validation/c17-sampling-point-gpu-2026-10-05.json) records the
+source/binaries and two retained build failures. This exercises selected
+structured-output/tool paths; it does not qualify every grammar branch,
+independent GPU probability behavior, faults, allocation-exact resources or
+matched cost. Finite-value/visitor extraction remains outside that checkpoint.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /

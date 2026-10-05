@@ -4,6 +4,16 @@
 not a timer, counter or proof of GPU execution. Values distinguish the owned
 C17 dense selector, Gufo control, unavailable backend and synthetic fixture.
 It changes no inference-worker count or existing timing/count semantics.
+
+The `1bff953` [Point GPU receipt](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+records 37 AR/37 MTP controls and six fixed-TG128 sessions. Up to 44 observed
+process threads include provider/runtime helpers; this is not a reactive-worker
+count or speedup claim. Native `--progress-ms` snapshots are emitted on stderr,
+independently of final measurement JSONL. `prefill_started`/`prefill_returned`
+and confirmed per-job token counts remain progress, not completion or a finished
+throughput sample. Sampled GTT/temperatures are observational resources, not
+allocation-exact or device-fault qualification.
+
 The new sampler-history extraction adds no counter/timer or worker. Its selected
 source/header/glue and exact integration recipe are bound in the provider build
 receipt; this does not extend older dense-selector GPU qualification to history.

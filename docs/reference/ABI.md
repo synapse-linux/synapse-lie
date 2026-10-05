@@ -14,6 +14,12 @@ ownership independently of request ABI 8 and generation ABI 3.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+The `1bff953` Point build keeps these layouts and versions unchanged. Its
+private adapter include-path and full snapshot-initialization fixes add no
+public ABI. [Original-weight AR/MTP controls](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+qualify that frozen integrated build within the stated wire/profile scope;
+they do not qualify an unfinished finite-value ABI or a complete owned executor.
+
 `lie/sampling_history.h` adds separate model-neutral history ABI 1: tagged options,
 caller-owned token/penalty storage and growth callbacks. Reset counts prompt tokens
 only for repetition; accept counts all committed generated tokens independently

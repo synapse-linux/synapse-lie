@@ -46,15 +46,18 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    model context/output limits. Nine Debug and nine sanitizer host checks pass.
    The new r12 AR runtime passes 37 original-weight HTTP checks, including actual
    327-token omitted/null output in both APIs; the new MTP gate is interrupted
-   by an external GPU client. The unchanged smoke source/client and its cached
-   task image are ready; Core-19 currently has 4/19 cached task images. No task
-   score exists yet. [Current receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
+   by an external GPU client. The newer integrated `1bff953` runtime now passes
+   all 37 checks in both AR and MTP on `.161`; the interrupted result remains
+   evidence for r12. The unchanged smoke source/client and its cached task image
+   are ready; Core-19 currently has 4/19 cached task images. No task score exists
+   yet. [Current GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
 3. **Close full 1M context acceptance.** The `.161` physical gate completes all
    1,048,448 prefill tokens but stops naturally after 43 output tokens; the
    required TG128 gate remains failed. Require full physical prefill and all
    128 output tokens in a newly declared run, then long-context recall checks.
    The native core bench now has an explicit `--ignore-eos` method matching
-   Gufo's fixed-token TG completion policy. Host tests do not close this GPU gate.
+   Gufo's fixed-token TG completion policy. A new `1bff953` physical1M/TG128
+   `.161` window is running with that policy; it has no completion verdict yet.
    Exercise the native progress client without treating snapshots as completion.
 4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
@@ -102,7 +105,12 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    Require filter/probability oracles, correct tool-mode transitions and measured
    cost; record the selected defaults rather than silently changing profiles.
    The [declared GPU protocol](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md)
-   and optional supervisor pass 78 CPU fixtures; actual profile gates remain pending.
+   and optional supervisor pass 78 CPU fixtures. The integrated `1bff953`
+   runtime now completes two seeded PP1500/TG128 sessions for greedy AR and
+   the DS4 profile in AR/MTP, with exact per-profile token replay and actual MTP
+   drafts/acceptance. [GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
+   Independent original-weight probability/tool-transition coverage and matched
+   cost remain pending.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
 7. **Extract the identified remaining sampling responsibilities into C17.**
@@ -152,8 +160,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
    Provider container views/staging and format/binary-double multipleOf leaf
    translation remain private glue/policy. Schema visiting and finite-value
-   normalization still need extraction within the same task;
-   original-weight continuation, allocation-exact resources and cost remain open.
+   normalization still need extraction within the same task.
+   The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls
+   in both AR and MTP, including selected grammar/tool paths, and six seeded
+   native TG128 sessions. This does not close individual grammar-branch,
+   independent numerical, fault, allocation-exact resource or matched cost gates.
 
 Current commands, ownership and evidence are maintained in
 [progress](PROGRESS.md), [coordination](COORDINATION.md) and the

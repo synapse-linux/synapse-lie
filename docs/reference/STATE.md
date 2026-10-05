@@ -35,6 +35,12 @@ complete raw index retention and eager pooled keys. Source/build hashes identify
 this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
+The newer `1bff953` Point grammar/history/distribution GPU controls and seeded
+profiles preserve these DS4 payload and cache identities. Their
+[receipt](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+is wire/generation qualification with prompt cache disabled, not new original-
+weight RAM/SSD continuation, mixed-history lookup or state-fault evidence.
+
 The C17 Unicode context owns construction-only set/input storage. It performs
 no model or checkpoint operation and changes no DS4 RAM/SSD payload or cache
 identity. Sealed grammar programs copy their runtime tables independently of

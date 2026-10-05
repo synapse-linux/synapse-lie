@@ -327,6 +327,27 @@ external GPU client and remains unqualified; its actual failure and successful
 process/service/lease closure are retained in the
 [r12 receipt](../../../../development/validation/automatic-output-point-gpu-2026-10-04.json).
 
+The integrated r15 runtime (`1bff953`) now passes **37/37 in both AR and MTP**,
+including automatic output budgets. Its newer C17 grammar/history/distribution
+components remain tied to that source and binary inventory.
+The [GPU receipt](../../../../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+also records two seeded PP1500/TG128 sessions for each profile below. Each pair
+reproduces identical output token IDs. These short functional samples use an
+empty prompt cache and explicit ignore-EOS; they are not a paired Gufo cost or
+long-context/quality comparison. Rates are the two complete samples, in tok/s.
+
+| Profile | Prefill samples | Decode samples |
+| --- | ---: | ---: |
+| Greedy AR, temperature 0 | 460.451 / 461.022 | 10.587 / 10.573 |
+| DS4 AR, temperature 1, min-p 0.05 | 461.621 / 462.139 | 10.314 / 10.434 |
+| DS4 MTP, temperature 1, min-p 0.05 | 449.433 / 456.537 | 12.634 / 12.660 |
+
+All profiles use seed 123, top-p 1, top-k 0 and no frequency/presence penalty;
+greedy min-p is 0. MTP drafts 228 and accepts 124 tokens across its two sessions.
+The five completed r15 windows have CPU/GPU/NVMe maxima 71.125/71/67.85 C,
+verified model/process/service/lease closure and 67 SHA-verified artifacts.
+The new physical1M fixed-TG128 gate is running separately; it has no result yet.
+
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
 enabled. Both use the original UD shards, 16,384-token configured context,

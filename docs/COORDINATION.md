@@ -1,5 +1,34 @@
 # DS4 / synapse-lie coordination
 
+## New Point GPU handover and integrated runtime — 2026-10-05
+
+The owner again states `.161` is available. Root recovers the already recorded
+explicit `llama si può stoppaare` grant below for the named router's temporary
+stop/restore, combined with this fresh handover. No additional permission is
+required. Every window acquires the original lease dev 66307/inode 105946405
+EX|NB, validates actual/kernel KFD retirement and resources, and restores the
+initially active router. No other foreign service/process, installation or
+tuning is changed. Root GPU work remains `.161` only.
+
+Two terminal builds fail and are collected, restored and released. Fixed
+checkpoint `1bff953` then builds/seals r15. Its AR37, MTP37 and three two-session
+native profile gates all exit zero, retain unchanged original model/predictor
+stat identities and have SHA-verified collection/process/service/lease closure.
+The [receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json)
+records these five completed windows and their precise limits. The private
+finite-value draft is preserved separately in Git; no draft source enters r15.
+
+The new physical1M fixed-TG128 window is active on `.161` with supervisor
+53019/start 8719211 and owned container `3e0b2888247f63d9f9e1760d8987bb7ad75940f5456151d67d14d92f2748319b`.
+Its original lease remains held until actual retirement; progress is not
+completion. CPU guard is 98 C, NVMe 85 C and GPU temperature is observed only.
+There is no root `.157` GPU job, build, client, lease, waiter or reservation.
+Terminal Bench's `.157` CPU-only client is coordinated separately and remains
+unstarted while the physical1M gate runs. Q2's reported `.157` release
+`6abd77bc` at 16:35:19.738986 UTC is separate evidence, not inherited ownership
+or root numerical qualification. No root `.157` client slot is reserved.
+
+
 ## JSON Schema C17 host-only ownership — 2026-10-05
 
 Fresh `.161` read-only observation sees training PID 29223 gone and router

@@ -240,6 +240,10 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Gufo adapter compilation with the C17 distribution bridge and live steering:
+  provide its private bridge-header include path and fully initialize the
+  steering snapshot without relaxing compiler warnings.
+
 - Omitting an HTTP output limit, or passing null, now uses the remaining context
   up to the existing 4,096-token engine ceiling instead of silently defaulting
   to 128. Explicit positive budgets remain exact. Models advertise their context

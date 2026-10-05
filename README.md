@@ -6,8 +6,9 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling and grammar components](docs/development/C17-SAMPLING.md).
-Dense sampling has recorded GPU checks. More recent C17 extractions have host
-checks and await GPU correctness, resource and performance qualification.
+Dense sampling has recorded GPU checks. The integrated C17 grammar/history/
+distribution runtime also passes 37 OpenAI controls in both AR and MTP on
+Strix Point; broader numerical, resource and performance gates remain open.
 Gufo still owns model/controller state, schema visiting/value normalization and private
 container templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
@@ -32,8 +33,9 @@ sampler/vision runtime passes the recorded GPU functional checks; quality and
 performance gates remain open.
 
 The [original-weight OpenAI control gates](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-http-ar-and-mtp-gates)
-pass 34 checks in both AR and MTP on Strix Point, including tools and retained
-Responses lifecycle. The receipts identify the tested runtime and limits.
+pass 37 checks in both AR and MTP on Strix Point, including tools, automatic
+output budgets and retained Responses lifecycle. The receipts identify the
+tested runtime and limits.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)

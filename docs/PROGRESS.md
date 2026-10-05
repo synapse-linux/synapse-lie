@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Integrated C17 runtime on Strix Point — 2026-10-05
+
+Checkpoint `1bff953` builds and passes **37 original-weight OpenAI controls in
+AR and 37 in MTP** on `.161`. Six native sessions also complete PP1500/TG128:
+greedy AR and the DS4 temperature-1/min-p-0.05 profile in AR/MTP, two sessions
+per profile with exact same-seed token replay. MTP drafts 228 tokens and accepts
+124 across its two profile sessions. These are functional controls and short
+generation samples, not matched Gufo cost or independent model-quality proof.
+
+The [GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json)
+binds source/binaries, all five collected runs, temperatures and closure.
+Their CPU/GPU/NVMe maxima are 71.125/71/67.85 C. The observed model process has
+up to 44 threads, including runtime helpers; this is not the number of reactive
+workers or evidence of a scheduling speedup. The earlier two build failures
+remain collected: missing private adapter include path, then GCC's rejection
+of partial live-steering snapshot initialization. Both fixes preserve strict
+warnings, and the fixed device-free build succeeds. No dependency installation,
+tuning or publication occurs. The unfinished finite-value extraction is saved
+separately in Git and is excluded from this checkpoint.
+
+The physical PP1,048,448/TG128 gate is now running with explicit YaRN4,
+`--ignore-eos` and progress snapshots under fresh `.161` admission. Completion,
+recall, matched long-context benchmarks, nonzero steering and broader sampling/
+grammar faults/resources/cost remain open. Terminal Bench source and existing
+client prerequisites are checked; no task reward or task run exists yet.
+
+
 ## JSON Schema transformation C17 host slice — 2026-10-05
 
 From `7f385c3`, structural JSON equality, local reference resolution,
