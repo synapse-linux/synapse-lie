@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Selective Q2 down measured with actual routing — 2026-10-05 UTC
+
+Only the new selective model is run on `.157`; the old component and all saved
+Q2/UD/parent references are reused. Original exact2048/tg128 samples are
+1496.484629 / 1497.606050 / 1498.948698 PP; median 1497.606050 differs by
++0.051786% versus parent with overlapping ranges. The marginal candidate is
+retained without stable-gain proof or default promotion. TG is 25.15356932.
+Overall PP is +3.735831% over fixed Q2 but still needs +12.564789% throughput
+to reach fixed UD. No full-context curve is admitted.
+
+All 21 parent input/output/logit files are exact and nine within-arm replays
+pass. Original Q2 logit differences are inherited unchanged. Actual routing
+metadata records all 192 layer/session maps after the original complete event:
+28.591105% of rows select64, descriptors decrease5.227040% but reserved rows
+only0.400847%. These counts do not establish occupancy or kernel timing.
+Preparation and split launches remain timed. The limited reservation change is
+consistent with the small overall PP difference; these records do not isolate
+its cause or invalidate the old component gain.
+
+The final selective family is now model-composed and measured. All19 original
+report hashes verify again; disposition is five mechanisms already in fixed Q2,
+five new measured composition families and one measured regression, with zero
+pending selective integration families. Numerical acceptance, independent quality
+and full parity remain open; no blanket false-failure or additive-gain claim.
+
+Host25/25 Debug and25/25 ASan/UBSan pass. All four model exits are0,26 artifacts,
+29 fixtures and1027 provider files verify. Window releases00:21:01.418692Z:
+596 identities/467 groups retired, empty KFD, four original leases free and six
+unchanged model stats. Core acknowledges; no Q2 GPU job/reservation/waiter/
+restart/cleanup remains. All16 model samples and192 routing records are exported.
+[Complete values, source and routing](Q2-SCALED-SELECTIVE.md).
+
 ## Selective Q2 down map prepared — 2026-10-05 UTC
 
 The remaining rejected family is composed into the saved MoE provider as an

@@ -1,7 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at 2026-10-04T23:51:12.818938Z after the new grouped
+Latest Q2 window is released at 2026-10-05T00:21:01.418692Z after only the new
+selective Q2 down model. All four commands exit0 and26 artifacts verify.
+Original exact2048/tg128 PP1497.606050 is marginally above saved parent, with
+overlapping ranges; all21 model input/output/logit files are exact to parent.
+No qualified comparator or old component rerun, full curve or cleanup occurs.
+Closure verifies596 identities/467 groups absent, empty KFD, four original
+leases free and six unchanged model stat tuples. Main/remote release and
+active/ready mirrors are identical; core acknowledges. No Q2 GPU job,
+reservation, waiter, restart or cleanup remains. Later GPU work needs fresh
+admission. [Release](../config/q2-scaled-selective-window-release.json), SHA256
+`34d41ad1eb66648c9822249b8a76eefc94fb70fa2463057f80fb38a581782399`.
+
+Previous Q2 window is released at 2026-10-04T23:51:12.818938Z after the new grouped
 Q8 component and only its new original exact2048/tg128 model. Command exits are
 0/0/0 and 0/0/0/0; four component and 26 model artifacts verify. No qualified
 comparator or old component cohort rerun, full curve or cleanup occurs. New PP

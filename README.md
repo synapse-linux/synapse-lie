@@ -586,13 +586,15 @@ cycle regresses 42.973%; no model is selected. Unchanged FP64 limits pass at
 Graphs and all samples are saved; the .157 window is released. Fixed-model
 PP remains 1477.969324 against UD 1685.777092.
 
-The [current rejected-family recovery audit](config/q2-rejected-recovery-moe-update.json)
+The [current rejected-family recovery audit](config/q2-rejected-recovery-scaled-update.json)
 verifies all nineteen original report hashes: fifteen candidate records represent
 eleven families, alongside four host/status reports. Five mechanisms already
-belong to fixed Q2, four families have new measured compositions, one has measured
-cycle regressions, and one selective integration remains pending. Only shared-Q8
+belong to fixed Q2, five families have new measured compositions, and one has
+measured cycle regressions. No selective model integration in that inventory
+remains pending. Only shared-Q8
 has a confirmed false format-rejection cause. This does not establish nineteen
-independent gains or parity; best PP still needs 12.623% higher throughput for UD.
+independent gains or parity; the new selective candidate still needs 12.565%
+higher throughput for UD.
 
 A [new MoE-only deferred-norm composition](docs/Q2-HC-MOE-DEFERRED.md) integrates
 one pending family into the best measured provider. It reuses HC-gate scratch
@@ -627,9 +629,14 @@ files match the parent byte-for-byte. The best measured composition remains
 all samples remain available without promotion; only new candidate runs occur,
 no qualified comparator rerun or full curve. The `.157` window is released.
 
-The [remaining selective Q2 tile composition](docs/Q2-SCALED-SELECTIVE.md)
-is prepared on the saved MoE parent. A C17 selector assigns 64-row down tiles
+The [selective Q2 tile composition](docs/Q2-SCALED-SELECTIVE.md)
+is measured on the saved MoE parent. A C17 selector assigns 64-row down tiles
 to large expert buckets only when row reservation does not increase; others
 retain 48. Existing numerical kernels and gate/up maps remain byte-identical.
-It reuses buffers and retained component evidence, and permits one new model
-on the original fixed benchmark. No GPU speedup is inferred from preparation.
+It reuses buffers and retained component evidence. Only the new original fixed
+model runs: **1497.606050 PP / 25.15356932 TG**, +0.051786% PP versus parent,
+with overlapping ranges. All21 model input/output/logit files are exact to
+parent. Actual routing selects64 for28.591105% of rows but reduces total row
+reservation only0.400847%. The marginal candidate is retained without promotion;
+fixed UD remains1685.777092 and full-curve/independent quality remain open.
+The `.157` window is released; complete samples and routing records are saved.

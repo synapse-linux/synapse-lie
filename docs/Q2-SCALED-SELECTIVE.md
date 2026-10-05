@@ -56,6 +56,65 @@ and 29 frozen fixtures verify. No GPU or model is opened by this gate. Parent
 and old component result hashes remain unchanged; no performance or quality
 acceptance is inferred from CPU success.
 
+The one new original-weight model completes with all four commands exiting
+zero. Its 26 artifacts, 29 frozen fixtures and 1027 provider files verify.
+No qualified comparator or old component is rerun.
+
+| Sample | Prefill seconds | Prefill tokens/s | Decode seconds | Decode forward calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.364813316 | 1500.571526 | 5.044581668 | 25.17552661 |
+| Measured 1 | 1.368540619 | 1496.484629 | 5.048945594 | 25.15376679 |
+| Measured 2 | 1.367515843 | 1497.606050 | 5.048985230 | 25.15356932 |
+| Measured 3 | 1.366290923 | 1498.948698 | 5.052048869 | 25.13831582 |
+
+| Fixed comparison | Median prefill tokens/s | Median decode forward calls/s |
+| --- | ---: | ---: |
+| Saved fixed Q2 | 1443.672867 | 25.09595499 |
+| Saved MoE parent | 1496.830907 | 25.17435733 |
+| New selective Q2 down | 1497.606050 | 25.15356932 |
+| Saved fixed UD | 1685.777092 | 24.34174251 |
+
+Median PP is +0.051786% versus parent, with overlapping measured ranges.
+This marginal result is retained without a demonstrated stable increment or
+default promotion. TG differs by -0.082576%; the selector changes large-batch
+prefill, so no decode optimization or regression is attributed to it. Overall
+PP is +3.735831% over fixed Q2 and 11.162273% below fixed UD, needing 12.564789%
+more candidate throughput for that fixed point. Full-curve parity remains open.
+
+All 21 input/output/full-logit files are byte-exact to the parent. Nine within-arm
+replays are exact; all 128 output tokens match original Q2/UD. The eight large
+logit differences versus original Q2 remain identical to the parent's, with
+maximum matched-history KL 0.001256655. The new map adds no observed drift at
+these inputs. The old independent component failures and task-quality gate
+remain; no tolerance or golden is changed. Maxima including compilation are
+CPU 84.375 C and GPU 76 C; the 51 runtime library hashes are retained.
+
+All 192 routing records (48 layers × four sessions) appear after the original
+complete event. Their histograms and choices replay exactly across sessions.
+The first session routes 983040 actual rows, selecting 281062 rows (28.591105%)
+in 452 expert buckets, averaging 9.416667 selected experts per layer. Original
+down descriptors total 31184; the candidate uses 25039 narrow and 4515 wide,
+29554 total (-5.227040%). Reserved rows fall from 1496832 to 1490832 (-0.400847%).
+These are map/work-reservation counts, not measured lane occupancy or stage
+timing. Extra split launches and preparation remain in actual PP wall time.
+The limited change in total reserved work is consistent with the marginal PP
+difference; the records do not measure the individual causes of that difference.
+
+The additive recovery update re-verifies all nineteen original report hashes.
+All eleven families now have a disposition: five already in fixed Q2, five
+with new measured compositions and one measured regression. No selective model
+integration remains pending in that inventory. This does not establish nineteen
+false failures, additive speedups, numerical acceptance or completed quality.
+
+Admission at 2026-10-05T00:15:11.797836Z uses checkpoint `83cc244` after core's
+coordination acknowledgement and fresh lease/KFD/process/model/thermal checks.
+Release at 2026-10-05T00:21:01.418692Z verifies 596 retired identities / 467
+groups, empty KFD, four original leases free and six model stat tuples unchanged.
+Canonical release and main/remote active/ready mirrors share SHA256
+`34d41ad1eb66648c9822249b8a76eefc94fb70fa2463057f80fb38a581782399`.
+Core acknowledges. No Q2 GPU job, reservation, waiter, restart or cleanup remains;
+another GPU run requires fresh coordinated admission.
+
 [Source and original kernel identities](../config/q2-scaled-selective-source.json),
 [owned policy](../experiments/q2_scaled_tiles_map.h),
 [coverage fixture](../tests/q2_scaled_tiles_map.c),
@@ -63,4 +122,11 @@ acceptance is inferred from CPU success.
 [retained component and failures](../config/q2-scaled-tiles-results.json),
 [static checks](../config/q2-scaled-selective-static.json),
 [host receipt](../config/q2-scaled-selective-host-results.json),
-[frozen model plan](../config/q2-scaled-selective-plan.json).
+[frozen model plan](../config/q2-scaled-selective-plan.json),
+[model samples and complete replay](../config/q2-scaled-selective-model-results.json),
+[all model samples CSV](figures/q2-scaled-selective-model.csv),
+[all routing records CSV](figures/q2-scaled-selective-model-routing.csv),
+[recovery update](../config/q2-rejected-recovery-scaled-update.json),
+[window release](../config/q2-scaled-selective-window-release.json).
+
+![Selective Q2 down model with saved comparisons](figures/q2-scaled-selective-model.svg)
