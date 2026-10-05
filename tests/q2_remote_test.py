@@ -56,6 +56,27 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_selective_scaled_fixed_counting_scope(self):
+        variant = 'scaled-selective'
+        for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'scaled-tiles-check',
+                     'q8-grouped-check', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Selective scaled tiles require their matched historical counting provider')
+        argv = ['q2-counting-scaled-selective', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--rebuild-mmq', '--native-curve'], 'Native curve requires')
+        self.refuse(argv + ['--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+        self.refuse(['q2-counting-scaled-selective', 'q2-fixture', '--rebuild-mmq'],
+                    'Historical counting requires its matched provider')
+        with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_moe_deferred_fixed_counting_scope(self):
         variant = 'hc-moe-deferred'
         for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'hc-bk256-bench',

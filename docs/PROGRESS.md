@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Selective Q2 down map prepared — 2026-10-05 UTC
+
+The remaining rejected family is composed into the saved MoE provider as an
+owned C17 per-expert selector: 64-row down tiles only at >=256 padded rows
+and no larger row reservation than the original 48-row map. Small buckets
+retain 48; existing IQ2 gate/up maps and all numerical kernels are unchanged.
+The new map reuses existing device/pinned capacity and adds no stream or
+synchronization. Bounded routing metadata emits at teardown outside original
+PP/TG timers; map preparation remains timed. Host coverage exhausts bucket
+lengths/splits through 4096 and includes exact buffer bounds and failure
+immutability. Syntax passes and local launch guards pass 81/81.
+
+The frozen scope allows only one new original exact2048/tg128 model, no
+qualified comparator or old component rerun. The retained old tile64 gains
+and regressions, whole-output equality and independent rejection stay intact.
+No GPU result follows from this preparation; fresh admission is required.
+[Policy, contracts and planned scope](Q2-SCALED-SELECTIVE.md).
+
 ## Grouped Q8 measured on the original fixed model — 2026-10-04 UTC
 
 Only the new Q8 grouped candidate is built and run on `.157`; no qualified

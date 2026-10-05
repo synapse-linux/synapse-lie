@@ -626,3 +626,10 @@ files match the parent byte-for-byte. The best measured composition remains
 **1496.830907 PP**, against unchanged fixed UD **1685.777092**. The variant and
 all samples remain available without promotion; only new candidate runs occur,
 no qualified comparator rerun or full curve. The `.157` window is released.
+
+The [remaining selective Q2 tile composition](docs/Q2-SCALED-SELECTIVE.md)
+is prepared on the saved MoE parent. A C17 selector assigns 64-row down tiles
+to large expert buckets only when row reservation does not increase; others
+retain 48. Existing numerical kernels and gate/up maps remain byte-identical.
+It reuses buffers and retained component evidence, and permits one new model
+on the original fixed benchmark. No GPU speedup is inferred from preparation.
