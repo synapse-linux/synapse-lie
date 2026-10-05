@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Routed IQ2 producer-Q8 and bounded integer Q2 down
 
-This candidate is prepared from retained scaled-wave-pack1574.505432 PP /
-25.17589001 TG. It has no GPU component or model result yet. Fixed original
-Q2 remains1443.672867 PP, UD1685.777092 PP; closing the point requires7.067086%
-more PP before expanding the context curve. Q4 and qualified control reruns
-remain excluded.
+This experiment completes at **1090.135499 PP /25.17363991 TG**, versus the
+retained scaled-wave-pack1574.505432 PP /25.17589001 TG: **-30.763307% PP**.
+Keep saved1574 as the base; preserve all source revisions and negative evidence.
+The fixed original Q2/UD references1443.672867/1685.777092 and their input/timers
+are unchanged and were not rerun. Full point/curve parity remains unmet.
 
 The paired IQ2 WMMA gate/up retains its weight decoding, K accumulation and
 rounded F32 SwiGLU operations. Its epilogue emits64-value Q8 groups directly
@@ -43,7 +43,7 @@ compiler resources, not occupancy measurements or throughput evidence.
 [bounded source](../config/q2-producer-q8-source-v2.json),
 [bounded static audit](../config/q2-producer-q8-bounded-static.json).
 
-## Prepared qualification
+## Completed qualification
 
 The new fixture compares the retained F16 and candidate Q8 full chains in
 one binary.60 small cases cover1/9/17/33/97 tokens, four gate widths, three down
@@ -78,8 +78,9 @@ qualification is implied by those editing-host checks.
 
 [Plan](../config/q2-producer-q8-plan-v2.json),
 [staging audit](../config/q2-producer-q8-staging.json).
-Fresh coordinated host qualification and GPU admission are still required;
-release88dcb8d8 transfers no new ownership. No remote cleanup is permitted.
+Fresh admission from release88dcb8d8 completes before the new GPU work.
+The collected window releases at18:39:19UTC; receiptb52d7308 is canonical.
+No remote cleanup occurs and subsequent ownership requires fresh admission.
 
 ## Provenance and boundaries
 
@@ -100,3 +101,65 @@ commands exit0 and seven artifacts collected. All82 frozen fixtures and1020
 host-provider files verify. This is CPU qualification only. Root freshly
 confirms .157 exclusion through collected numerical-window release.
 [Host evidence](../config/q2-producer-q8-host-results.json).
+
+## Complete results
+
+All64 Q8 comparisons are byte-exact after canonicalizing the saved routing
+maps, all640/768 tails and poisoned holes pass, and all64 sampled FP64 checks
+(6144 sampled outputs) pass. The strict existing-MMQ comparison retains exit1:
+102464 half-output changes across all cases. Production balanced/skew checks
+change25720/25428 of52,428,800 outputs, at most one half ULP (including1/2
+signed-zero pairs). This does not establish independent original-model quality.
+
+| Complete GPU scope | Parent microseconds | Candidate microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| balanced / gate_up | 5500.419617 | 5565.603892 | +1.185078% |
+| balanced / expert_chain | 8788.566589 | 17928.429921 | +103.997202% |
+| skew / gate_up | 6199.986776 | 6236.638387 | +0.591156% |
+| skew / expert_chain | 10354.536056 | 23895.904541 | +130.777163% |
+
+The down change dominates the measured regression; the producer alone adds
+only0.59–1.19% gate/up time. Removing intermediate passes does not compensate
+for this integer consumer's cost. The current experiment does not isolate
+bandwidth/cache/occupancy or reject all possible integer kernels.
+
+| New original-model sample | Prefill seconds | Prefill tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.875298859 | 1092.092596 | 5.059709741 | 25.10025407 |
+| Measured 1 | 1.876205209 | 1091.565033 | 5.052238655 | 25.13737150 |
+| Measured 2 | 1.879687617 | 1089.542742 | 5.043103164 | 25.18290740 |
+| Measured 3 | 1.878665544 | 1090.135499 | 5.044959745 | 25.17363991 |
+
+All128 generated tokens match the saved parent; eight logit arrays differ,
+max matched-history KL0.009712839842. Within-arm replay is9/9 exact. The scalar
+decode implementation is unchanged; its small observed timing difference is
+not attributed causally. Greedy agreement on this input is not Core-19 quality.
+
+![All fixed-model samples](figures/q2-producer-q8-model-wrapped.png)
+![All component samples](figures/q2-producer-q8-component.png)
+
+[Model CSV](figures/q2-producer-q8-model-wrapped.csv),
+[component CSV](figures/q2-producer-q8-component.csv),
+[model analysis](../config/q2-producer-q8-model-results.json),
+[component analysis](../config/q2-producer-q8-component-results.json),
+[final audit](../config/q2-producer-q8-final-audit.json),
+[disposition](../config/q2-producer-q8-disposition.json).
+
+All13 runtime command exits are retained: twelve0 and the component's numeric1.
+1125 artifacts include1088 full arrays;82 fixtures/four manifests/1029 numerical
+provider files verify. CPU/GPU peaks are78.875/70C in the component and78.625/75C
+in model/build; no thermal stop. Collection precedes release, which verifies
+1083 identities/863 groups retired, KFD empty, four original leases free and
+seven unchanged model stat tuples. Main/remote receipt mirrors agree; core is
+notified. No Q2 job, build, client, lease, waiter, reservation or restart remains.
+
+## Retained new source opportunity
+
+A separate local-only prototype reuses dead weight LDS for output route IDs,
+after the final K barrier and before one added terminal barrier. This lowers
+BN48 LDS from32960 to32768 bytes, with241 VGPR and zero private scratch. It
+crosses a shared-memory size boundary, but hardware occupancy and GPU speed
+are unmeasured. It was not included in the completed candidate or model run.
+[Opportunity and source identity](../config/q2-producer-q8-ids-opportunity.json).
+Producer/down fusion preserving F16 and direct ordered expert consumption
+remain separate open hypotheses; saved1574 remains the common starting point.

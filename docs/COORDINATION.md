@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Producer-Q8 window releases2026-10-05T18:39:19.580005UTC,SHA256
+b52d7308325786da5373cd32095fddc99048403ed07511364c4a4171c19c0de6.
+Fresh admission3bb1d161 from030cf9d follows88dcb8d8 and root explicit non-use.
+Host/component/model terminal and collected:13 command exits (numeric1 and
+otherwise0),1125 artifacts including1088 arrays.1083 identities/863 groups
+retired,KFD empty,four original leases free,seven model stat tuples unchanged.
+Canonical/main/remote release-active-ready mirrors agree; core notified.
+No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains.
+Keep saved1574; new ownership requires fresh admission. The local dead-LDS
+prototype is not a runtime candidate or reservation.
+[Release](../config/q2-producer-q8-window-release.json).
+
 Producer-Q8 preparation follows c6ef68b and release88dcb8d8. Durable initial
 and bounded providers,64-case component, frozen plan and original fixed model
 are local only. Root confirms no .157 job/build/client/lease/waiter/reservation;

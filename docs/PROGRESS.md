@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [producer-Q8/integer-down candidate](Q2-PRODUCER-Q8.md) is locally prepared from saved1574.
-It removes the F32 gate materialization and separate half-packing pass, with an
-explicit activation-arithmetic change. A bounded K-loop revision removes all
-new consumer spills;162 parent kernels stay instruction/resource exact. Local
-fixture syntax,138 launcher guards and frozen capsule checks pass. The .157
-host passes27 Debug+27 ASan/UBSan; GPU/model evidence remains pending. No
-speedup is claimed.
+The [producer-Q8/integer-down experiment](Q2-PRODUCER-Q8.md) completes at1090.135499 PP /
+25.17363991 TG, losing30.763307% PP against saved1574.505432. All64 Q8 format
+comparisons and sampled FP64 checks pass; strict MMQ replay retains exit1
+for rounding differences. Full-chain component time increases104.0% balanced
+and130.8% skew. Preserve the candidate and keep saved1574 as the base. All
+1125 artifacts are collected; .157 is released. Independent task quality and
+full-curve parity remain open.
 
 The [compact expert chain](Q2-COMPACT-EXPERT-CHAIN.md) completes at 1572.956730 PP /
 25.17514880 TG, nominal -0.098361% PP versus saved 1574.505432. All 96
