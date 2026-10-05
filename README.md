@@ -762,3 +762,5 @@ the compact parent, with all21 parent files/logits exact. Retain this new base;
 no default/independent quality promotion or full curve follows. Fixed UD still
 needs12.000436% more PP throughput. All samples/graphs and original local launch
 failures remain. The R2 GPU window is released; no qualified control is rerun.
+
+A new [persistent Q8 mirror experiment](docs/Q2-Q8-MIRROR.md) preserves native Q8 accumulation/decode while preparing GPU F16 dense weights once at upload. The own C17 policy bounds auxiliary allocations to6GiB; expected resident increase is5,348,130,816 bytes. All157 original kernels preserve instructions/operands/resources. New whole-output, scale/code and unchanged2048/tg128 model checks are prepared; performance remains unmeasured. Q4/curve and qualified control reruns remain suspended.

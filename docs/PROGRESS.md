@@ -3294,3 +3294,5 @@ forward and cannot report PP/TG, task quality or current model promotion.
 New launcher guards pass75 local unit tests; .157 Debug and ASan/UBSan CTest
 each pass23/23. The race cause remains unproven until a fresh coordinated GPU
 window executes this replay. [Frozen plan](../config/q2-shared-q8-oracle-replay-plan.json).
+
+A new [persistent Q8 mirror experiment](Q2-Q8-MIRROR.md) preserves native Q8 accumulation/decode while preparing GPU F16 dense weights once at upload. The own C17 policy bounds auxiliary allocations to6GiB; expected resident increase is5,348,130,816 bytes. All157 original kernels preserve instructions/operands/resources. New whole-output, scale/code and unchanged2048/tg128 model checks are prepared; performance remains unmeasured. Q4/curve and qualified control reruns remain suspended.
