@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 FP16 mirror window releases .157 at2026-10-05T23:48:42.989734UTC,
+SHA14c2b9bb927888df9167a81e9afc91fa46176ed7b02524587cefd24e322e4ce4.
+Host/component/model terminal and collected:13 exits0/37 artifacts.
+All1187 recorded identities/947 groups retired, KFD empty, four unchanged
+leases free, seven model stat tuples unchanged, mirrors exact; Core notified.
+No job/build/waiter/reservation or cleanup remains. The corrected antirez/ds4
+compressed-cache task is local preparation and requires fresh GPU admission.
+[Final audit](../config/q2-expert-cache-final-audit.json).
+
 Shared-down BN64 releases .157 at 2026-10-05T23:13:40.480692UTC, SHA256
 `973388223cae971705e3027fd281af760ee38bce247c2468848b89a88055a6e9`.
 Host/component are terminal and collected: nine exit0 commands/11 artifacts.

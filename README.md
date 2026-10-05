@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner clarifies the cache reference as **antirez/ds4**, not its Gufo port.
+The initial FP16 expert-mirror experiment completes but loses5.565692% PP
+against retained1585; all21 parent files stay exact. Thirteen runtime exits0
+and37 artifacts verify; .157 is released without cleanup. This experiment
+does not satisfy the requested compressed slot-cache mechanism. Official
+antirez/ds4 source is independently fetched at0aaea5a238fb41a35106a551e73c8409dfb751ac
+for the corrected implementation; no other agent's DS4 tree is accessed.
+The 225GiB figure describes hypothetical full FP16 expansion, not DS4 needs.
+Older pending entries below are historical.
+
 The owner-requested [routed Q2 expert cache](docs/Q2-EXPERT-CACHE.md) is now
 prepared from retained1585: IQ2 gate/up and Q2_K down, six layers within32GiB,
 expected28.125GiB payload. All162 encoded kernels remain exact;12 new kernels

@@ -1,0 +1,99 @@
+{
+  "schema": "synapse-lie.q2-expert-cache-final.v1",
+  "plan_sha256": "2bae853ed85607831ea05b02620dffbf4456069fb67591d4104a0330b73edf57",
+  "model_result_sha256": "65803b46614ba9bec3c903fdd2867f0ad1045d2a3302efe6625811d854e30975",
+  "component_result_sha256": "305bda90ff7b1c5e49db8351da89c3dcdfd741b830ea2eba954684f1bac526da",
+  "release_sha256": "14c2b9bb927888df9167a81e9afc91fa46176ed7b02524587cefd24e322e4ce4",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "frozen_fixtures_verified": 98,
+  "frozen_manifests_verified": 9,
+  "provider_files_verified": 1029,
+  "host_reused": false,
+  "retired_identities": 1187,
+  "retired_groups": 947,
+  "thermal_max_c": {
+    "q2-expert-cache-host-r1": {
+      "amdgpu": 40.0,
+      "k10temp": 66.75
+    },
+    "q2-expert-cache-component-r1": {
+      "amdgpu": 48.0,
+      "k10temp": 64.625
+    },
+    "q2-expert-cache-model-r1": {
+      "amdgpu": 73.0,
+      "k10temp": 77.25
+    }
+  },
+  "figures": {
+    "docs/figures/q2-expert-cache-component.csv": "5204b0a2961f89ad0b4f329b78c012a5a070481e90c06cd3ea69eb8ddebc95b2",
+    "docs/figures/q2-expert-cache-component.svg": "17d837ab6333fa0c8bb08fe88248fd5ee2992155a497b14c79b75b54e7ce339d",
+    "docs/figures/q2-expert-cache-component.png": "616ac6851d7a7f46b577eeb48c17e1a615cbb4495f6700aeae675ba9471583db",
+    "docs/figures/q2-expert-cache-model.csv": "ed3f9cf0c69c7eda0803de680353579969440c2db715405ad8bd748466e356cb",
+    "docs/figures/q2-expert-cache-model.svg": "0884980cd7a024f15c5a4796b7d1f238546afb1ba28e6e07da4828e5f7af742d",
+    "docs/figures/q2-expert-cache-model.png": "b77f9d307fcdc94622b68f9f1d7277dc522970c770cbd6e82538839390434a3e"
+  },
+  "preserved_nonzero_exits": {
+    "assembly-command.json": 1
+  },
+  "failure_classification": {
+    "assembly-command.json": "Initial local compile: epilogue LDS too small and dependent includes reordered. Revision3 passes."
+  },
+  "component_numerical_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "cache": {
+    "event": "q2_expert_cache_ready",
+    "layers": 6,
+    "bytes": 30199062528,
+    "budget_bytes": 34359738368,
+    "prepare_s": 0.733510805
+  },
+  "candidate_median_change_percent": {
+    "fixed_q2": {
+      "prefill_tok_s": 3.699086144839203,
+      "decode_steps_s": 0.3157966295029624,
+      "prefill_s": -3.56713477251841,
+      "decode_s": -0.31480249353890155
+    },
+    "best_parent": {
+      "prefill_tok_s": -5.565691858569377,
+      "decode_steps_s": 0.057297245363652216,
+      "prefill_s": 5.893717989216363,
+      "decode_s": -0.05726443420820404
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -11.19374102872197,
+      "decode_steps_s": 3.4240139532229374,
+      "prefill_s": 12.604675737685579,
+      "decode_s": -3.3106566305427187
+    }
+  },
+  "decision": "RETAIN_EXPERIMENT_KEEP_SAVED1585",
+  "next_composition_variant": "ssm-fixed-bounds",
+  "controls_rerun": false,
+  "independent_model_quality": false,
+  "full_curve": false,
+  "promoted": false,
+  "goal_met": false
+}
