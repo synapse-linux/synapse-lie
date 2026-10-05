@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Recheck of rejected test records
 
+The latest retained fixed-point composition reaches PP1505.152258 /
+TG25.15493858, +4.258540% prefill versus the original Q2 reference1443.672867.
+Fixed UD remains1685.777092, requiring another12.000436% from the candidate.
+The [current summary](../config/q2-rejected-recovery-current-summary.json)
+binds these later measurements to the unchanged nineteen-report inventory.
+The new [Q8 K16-phase composition](Q2-Q8-K16-PHASES.md) is exact to that parent
+but measures1501.482502 PP; it does not replace the retained base. The table
+below preserves the earlier selective-recovery checkpoint and its comparisons.
+
 The current recovery has measured every selective integration from the original
 inventory. Of eleven candidate families, five mechanisms already belong to the
 fixed Q2 reference, five have new measured model compositions and one has a

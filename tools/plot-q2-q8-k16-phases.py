@@ -17,7 +17,7 @@ def main():
     arms['q8_k16_phases'] = report['model']
     arms['fixed_ud'] = report['references']['fixed_ud']
     labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved IQ2\nraw prefetch',
-              'q8_k16_phases': 'New Q8 K16 phases\nraw prefetch', 'fixed_ud': 'Fixed UD'}
+              'q8_k16_phases': 'New Q8\nK16 phases', 'fixed_ud': 'Fixed UD'}
     output = ROOT / 'docs/figures/q2-q8-k16-phases-model-wrapped'
     if any(output.with_suffix(suffix).exists() for suffix in ('.csv', '.svg', '.png')):
         raise ValueError('Refusing to overwrite model exports')
@@ -55,7 +55,7 @@ def main():
         ax.set_axisbelow(True)
         ax.grid(axis='y', alpha=.2)
         ax.legend(loc='lower left', fontsize=8)
-    fig.suptitle('Q8 K16 phases raw prefetch: one new fixed model on .157')
+    fig.suptitle('Q8 K16 phases: one new fixed model on .157')
     fig.text(.5, .025, 'Original exact2048 input and timers; capacity9216,chunk2048,tg128,127 timed decode calls.\n'
              'All four new and twelve saved samples shown. Qualified controls are not rerun; inherited Q2/UD logit differences remain.',
              ha='center', fontsize=9)

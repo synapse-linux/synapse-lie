@@ -1,19 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-New Q8 K16-phase preparation has a fresh core handover after release50aeb558,
+Latest Q8 K16-phase window releases at 2026-10-05T05:05:32.390541+00:00 after
+one new component and one original exact2048/tg128 model. All 13 host/component/
+model commands exit zero and all 37 artifacts verify. All 66 component output
+pairs, 21 parent model files and nine internal model replays are exact. New
+PP1501.482502/TG25.17806319 does not improve the saved IQ2 parent PP1505.152258;
+that parent remains the composition base and the entire candidate is retained.
+Qualified controls, old component cohorts and context curves are not rerun.
+Closure retires 715 identities/564 groups, with empty KFD, four original leases
+free and six unchanged model stat tuples. Main/remote canonical/active/ready
+mirrors match. Core is notified of release; no Q2 GPU/build/job/lease/waiter/
+reservation/restart or cleanup remains. Future GPU work requires new handover
+and admission from [this release](../config/q2-q8-k16-phases-window-release.json),
+SHA256 `11ba034fa212a7b4668c8d831b4c87feac383dc7c8ff94d0e2f1561825236a1b`.
+
+Q8 K16-phase preparation had a fresh core handover after release50aeb558,
 with no root .157 job/build/eval/lease/waiter/reservation or interleaving. One new
 component and original model are frozen with40 fixtures/four manifests. Host
 Debug and ASan/UBSan each pass25/25; six commands zero and seven artifacts,
 with no model/GPU access. The distinct helper anchors the down release and
-still needs a new checkpoint admission before GPU build/run. No qualified
+required a new checkpoint admission before GPU build/run. No qualified
 control or old component cohort is rerun; no curve/reservation/cleanup is
 inferred from this preparation.
 [Plan](../config/q2-q8-k16-phases-plan.json),
 [host](../config/q2-q8-k16-phases-host-results.json).
 
 
-Latest Q2 down raw-prefetch window releases at2026-10-05T04:39:45.626957+00:00 after only one new
+Previous Q2 down raw-prefetch window releases at2026-10-05T04:39:45.626957+00:00 after only one new
 component and one original exact2048/tg128 model. The host/component/model
 command exits are six zeros,0/0/0 and four zeros; all37 artifacts verify.
 All117 component outputs and21 parent model files are exact. New PP1503.711045

@@ -17,6 +17,13 @@ performance. No cache, table, allocation, new stream or dispatch geometry is
 introduced. F16 weight paths and all routed/decode paths remain unchanged.
 Public ABI, state and metrics contracts are unchanged.
 
+The independently fetched upstream ledger at pin
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e` already records rejected SSM K16
+fragment-lifetime and compiler-scheduling experiments. This candidate measures
+the current Q2 composition across plain, SSM and attention projections; it is
+not presented as a previously unexplored technique. See the upstream
+[experiment ledger](https://github.com/gufo-org/gufo/blob/f783fedb9bea2ec7de941f6da4e02f4a4596b29e/docs/models/qwen3.8-flash-next/EXPERIMENTS.md).
+
 Matched production assembly reuses the saved parent without a rebuild. It
 verifies three changed bodies and 154 other bodies exact, including the retained
 IQ2 improvement. All three retain LDS49152, zero private bytes, next-free
@@ -85,3 +92,80 @@ not numerical acceptance, independent task quality or performance evidence.
 [patch](../experiments/q2-q8-k16-phases.patch),
 [literal parent](../experiments/q2-q8-k16-phases-control.inc),
 [new fixture](../tests/q2_q8_k16_phases.hip).
+
+
+## Component measurement completed
+
+The new component completes at04:59:26.470463UTC with three zero command exits.
+Four artifacts,40 frozen fixtures and1025 provider files verify. All66 output
+pairs are byte-exact, including required SSM raw cells/full convolution and
+complete Q/gate/K/V outputs. Original inputs remain immutable. All42 timings
+are retained regardless of the differential verdict.
+
+| Projection | Literal parent median microseconds | New median microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| ssm2048 |4934.030533 |4935.644468 |+0.032710% |
+| output2048 |1769.740264 |1784.793377 |+0.850583% |
+| attention2048 |4157.824198 |4192.090352 |+0.824137% |
+
+No component speedup is established; the original model is still measured as
+requested, without qualified historical controls/cohorts. All alternating
+samples, including warmups, are retained in the
+[CSV](figures/q2-q8-k16-phases-component.csv) and
+[report](../config/q2-q8-k16-phases-component-results.json).
+
+![All component samples](figures/q2-q8-k16-phases-component.svg)
+
+
+## Completed original-weight comparison
+
+One new candidate is measured with the original fixed input and tester; all26 artifacts,40 frozen fixtures and1025 provider files verify. The four command exits are zero.
+
+| Arm | Sample | PP tokens/s | TG calls/s | PP seconds | TG seconds |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Fixed Q2, saved |Warmup |1438.259006 |25.08847266 |1.423943804 |5.062085753 |
+| Fixed Q2, saved |Measured 1 |1443.398207 |25.10565683 |1.418873870 |5.058620886 |
+| Fixed Q2, saved |Measured 2 |1443.672867 |25.08698337 |1.418603928 |5.062386263 |
+| Fixed Q2, saved |Measured 3 |1443.841794 |25.09595499 |1.418437954 |5.060576497 |
+| IQ2 raw parent, saved |Warmup |1501.690147 |25.15123490 |1.363796655 |5.049453854 |
+| IQ2 raw parent, saved |Measured 1 |1505.152258 |25.16777240 |1.360659687 |5.046135906 |
+| IQ2 raw parent, saved |Measured 2 |1503.530071 |25.14904438 |1.362127728 |5.049893669 |
+| IQ2 raw parent, saved |Measured 3 |1505.315370 |25.15493858 |1.360512249 |5.048710399 |
+| New Q8 phases |Warmup |1501.972313 |25.17932092 |1.363540448 |5.043821492 |
+| New Q8 phases |Measured 1 |1501.638312 |25.17806319 |1.363843732 |5.044073448 |
+| New Q8 phases |Measured 2 |1500.630746 |25.17709169 |1.364759456 |5.044268081 |
+| New Q8 phases |Measured 3 |1501.482502 |25.18935283 |1.363985259 |5.041812740 |
+| Fixed UD, saved |Warmup |1689.043527 |24.34239962 |1.212520558 |5.217234208 |
+| Fixed UD, saved |Measured 1 |1686.364042 |24.34621613 |1.214447147 |5.216416355 |
+| Fixed UD, saved |Measured 2 |1685.777092 |24.34174251 |1.214869991 |5.217375049 |
+| Fixed UD, saved |Measured 3 |1685.400011 |24.15102104 |1.215141798 |5.258576845 |
+
+| Arm | Median PP tokens/s | Median TG calls/s | Median PP seconds | Median TG seconds |
+| --- | ---: | ---: | ---: | ---: |
+| Fixed Q2, saved |1443.672867 |25.09595499 |1.418603928 |5.060576497 |
+| IQ2 raw parent, saved |1505.152258 |25.15493858 |1.360659687 |5.048710399 |
+| New Q8 phases |1501.482502 |25.17806319 |1.363985259 |5.044073448 |
+| Fixed UD, saved |1685.777092 |24.34174251 |1.214869991 |5.217375049 |
+
+New PP changes-0.243813% versus the saved parent and+4.004344% versus fixed Q2. The measured IQ2 raw-prefetch parent remains the next retained base. All candidate source, failures, samples and comparisons stay preserved; no default promotion or stable increment is established.
+
+The retained base still requires12.000436% extra prefill throughput to match fixed UD; goal parity remains open. All21 parent input/output/full-logit files are exact and nine internal replay checks pass. The inherited Q2 versus original/UD logit differences remain; this is differential evidence, not independent task-quality qualification.
+
+Fresh build/configure/ldd/model command durations are[1.52131, 153.747593, 0.521276, 98.293529]; build, loading and15-second waits stay outside PP/TG. GPU closure at2026-10-05T05:05:32.390541+00:00 verifies original leases, empty KFD, retired processes and unchanged model stats.
+
+The model cohort records maxima of 83.25 C for the CPU (`k10temp`) and 73 C
+for the GPU (`amdgpu`), with no thermal stop. The user-authorized inclusive
+98 C threshold concerns the CPU; it is not a GPU temperature allowance.
+
+Final read-only verification passes: all 13 command exits and 37 artifacts,
+40 frozen fixtures/four manifests/1025 provider files, all 66 component pairs,
+21 exact parent files/nine replays, all 16 CSV samples and release mirrors
+verify. All 19 original rejection reports remain unchanged. The verification
+does not run another GPU build, model, component or qualified control.
+
+The [MMQ reuse audit](Q2-MMQ-REUSE-AUDIT.md) records already implemented paired
+routing/quantization and the differences a future fused route must address.
+
+[Complete16-sample CSV](figures/q2-q8-k16-phases-model-wrapped.csv), [model report](../config/q2-q8-k16-phases-model-results.json), [retained disposition](../config/q2-q8-k16-phases-retained-update.json) and [release](../config/q2-q8-k16-phases-window-release.json) preserve full values.
+
+![Complete model samples](figures/q2-q8-k16-phases-model-wrapped.svg)
