@@ -78,7 +78,7 @@ whole-provider allocation cost and GPU continuation remain separate gates.
 Grammar construction adds bounded C rule/class/table and
 productivity/cycle scratch allocations. Its 64-million-unit default work budget
 is admission accounting, not elapsed time or throughput. The provider retains
-private composition templates, schema dispatch/caching and leaf translation. The independent
+private composition templates, schema dispatch and private composition caching and leaf translation. The independent
 fixture peak counts requested owned payload only, excluding helper headers,
 provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
 is introduced; original-weight allocation-exact cost remains unqualified.

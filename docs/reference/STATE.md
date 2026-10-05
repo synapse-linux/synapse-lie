@@ -68,7 +68,7 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema dispatch/caching and private container storage. Concrete
+supplies schema dispatch and private composition caching and private container storage. Concrete
 rule/primitive construction and productive/nullable/cycle validation now use
 the C17 builder. Unicode registry/input and snapshot read/write planning/copies
 now use shared C17 contracts, with ICU retained for set/property/conversion
@@ -80,7 +80,7 @@ C17 schema transformations borrow immutable typed JSON views and publish only
 private staging results. Equality/pointer/pattern scratch retires on every path;
 the provider retires its deque/container staging at the exception boundary.
 Conjunction refusal leaves input trees and the published result unchanged.
-Format/binary-double leaf policy and schema dispatch/caching
+Format/binary-double leaf policy and schema dispatch and private composition caching
 remain transitional. These construction objects add no inference state, DS4
 payload, RAM/SSD identity, RNG transition or reactive frontier.
 

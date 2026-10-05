@@ -50,7 +50,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema dispatch/caching,
+deep copies, deferred draws, entropy acquisition, schema dispatch and private composition caching,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -528,8 +528,8 @@ translation. Format expansion and binary-double `multipleOf` translation remain
 leaf policy in the provider; they do not perform C traversal or merging. The
 default-ON sampler selection uses five exact `schema-transform-edits.json`
 replacements; OFF retains original function bodies. The 45-file sealed inventory
-requires matching provider/application builds. Schema dispatch/reference memo, compile caching and model/controller storage
-remain transitional; finite-value/container algorithms now use C17 below. A conjunction helper is not full schema admission.
+requires matching provider/application builds. Schema dispatch/reference memo and model/controller storage remain transitional;
+finite-value/container algorithms and the compiled-schema cache now use C17. A conjunction helper is not full schema admission.
 
 The [host receipt](validation/c17-schema-transform-host-2026-10-05.json)
 records independent ordered-tree/boundary/refusal oracles and complete pristine/
@@ -567,7 +567,7 @@ These checks exclude provider JSON/ICU staging and whole-process cost.
 `gufo_schema_values.hpp` supplies borrowed views, private JSON staging,
 nonthrowing error translation, cached string/number leaf predicates and
 binary-double serialization. The child visitor still owns dispatch/reference
-memo and the compile cache. Nine unique pinned `schema-values-edits.json`
+memo; compiled-schema cache policy and synchronization now use C17. Nine unique pinned `schema-values-edits.json`
 replacements select the C17 algorithms under the existing default-ON switch;
 OFF retains the original bodies. Matching provider/application builds require
 the 45-file inventory and `schema_values_edits_sha256`. This adds no inference
@@ -613,7 +613,7 @@ its original construction and validation bodies execute only with
 `LIE_C17_SAMPLING=OFF`. The adapter translates typed inputs/errors and copies
 private templates needed by the still-transitional reasoning/tool composition.
 The base grammar creates its runtime program directly from the C tables.
-Schema dispatch/reference memo, binary-double leaf translation, compile cache
+Schema dispatch/reference memo, binary-double leaf translation
 and provider template/model/controller storage remain transitional. Structural
 transformations and finite-value/container algorithms now use C17. This is not a completed
 JSON Schema compiler or autonomous model executor.
