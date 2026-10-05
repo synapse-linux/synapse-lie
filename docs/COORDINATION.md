@@ -1,7 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at2026-10-05T02:49:29.395288Z after only the new
+Latest Q2 window is released at2026-10-05T03:24:18.993858Z after only the new
+SSM row128 component and original exact2048/tg128 model. Host/component/model
+command exits are six zeros,0/0/0 and0/0/0/0; all37 artifacts and34 frozen
+fixtures verify. All24 component pairs and21 parent model files are byte-exact,
+with required raw/convolution cells finite/written. New PP1434.616272 regresses
+4.282306% versus saved compact parent1498.799455; that retained base remains.
+The initial helper self-anchor fails before GPU/lease/registry access; its
+distinct corrected helper/plan preserves all fixtures/manifests and reuses
+the qualified host capsule without rerun. Original failure retained. No
+qualified control, old component or full curve rerun, cleanup or promotion.
+Closure verifies660 identities/519 groups absent, KFD empty, four original
+leases free and six unchanged model stat tuples. Main/remote canonical/active/
+ready mirrors agree; core receives the release. No Q2 GPU job, reservation,
+waiter or restart remains; later GPU work requires fresh admission.
+[Release](../config/q2-ssm-row128-window-release.json), SHA256
+`58d6fd7e72b9ff0ba36c05968e062863e2c1e38a3fd74bfd14de2c870195ac4b`.
+
+Previous Q2 window is released at2026-10-05T02:49:29.395288Z after only the new
 Q8 half-pair component and original exact2048/tg128 model. Host/component/model
 command exits are six zeros,0/0/1 and0/0/0/0; all43 artifacts and33 frozen
 fixtures verify. All12 component buffer pairs and21 parent model files are

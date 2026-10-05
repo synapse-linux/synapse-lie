@@ -5,8 +5,11 @@ This candidate starts from the retained compact IQ2 composition, measured at
 1498.799455 PP / 25.16866636 TG on the original exact2048/tg128 tester. It does
 not include the rejected Q8 lookup or selectively add the earlier routed tiles.
 The fixed comparison stays Q2 1443.672867 and UD 1685.777092 PP. Only the new
-component and model are planned; qualified controls and old cohorts are saved
-references. Performance and numerical results remain pending fresh admission.
+component and model run; qualified controls and old cohorts remain saved
+references. The new model measures1434.616272 PP /25.16688019 TG,4.282306%
+less PP than its retained parent, with all21 parent replay files exact.
+This geometry is retained as a measured rejection; the compact parent stays
+the composition base.
 
 ## Mechanism and cost
 
@@ -63,6 +66,91 @@ sessions,128 output tokens/127 timed decode calls and15-second waits outside
 timers. The saved Q2/compact-parent/UD model controls are not rebuilt or rerun.
 The full context curve still waits for fixed-point parity; independent task
 quality is not inferred from differential output equality.
+
+## Completed component
+
+The new `.157` component completes with all three commands exit0 and four
+verified artifacts. All24 full raw-projection/convolution buffer pairs are
+byte-exact. Every required value is finite/written, unused raw cells stay
+poisoned, all guards remain intact and all original inputs are immutable.
+The corrected live mask passes without hiding a missing required store.
+
+| Session,2048-token component | Parent microseconds | New row128 microseconds |
+| --- | ---: | ---: |
+| Warmup1 | 4834.550222 | 9251.285553 |
+| Warmup2 | 4880.122821 | 9135.967890 |
+| Measured1 | 4985.333125 | 8944.586436 |
+| Measured2 | 4877.509435 | 9099.969228 |
+| Measured3 | 4966.413816 | 9163.340886 |
+| Measured4 | 4894.895554 | 9226.205826 |
+| Measured5 | 4917.015076 | 9438.266754 |
+| Measured median | 4917.015076 | 9163.340886 |
+
+Median component time increases86.359829%. All14 samples, including warmups,
+order and rotation metadata, are retained. Halving per-block WMMA/half
+operations still doubles the row-block grid; static barrier instructions stay
+two per loop body and activation traffic is repeated. These source/static
+tradeoffs are plausible contributors, not measured hardware counters or an
+isolated cause. The model performance test also completes after this regression.
+No qualified control or old component is relaunched.
+
+[Every output and timing](../config/q2-ssm-row128-component-results.json),
+[all14 component samples](figures/q2-ssm-row128-component.csv).
+
+## Original fixed model result
+
+Only this new model is built and run on `.157`. Its four configure/build/link/
+model commands exit0, and all26 artifacts verify. Compilation takes153.747153
+seconds outside PP/TG timers. The original exact2048 input and timer contract
+remain unchanged; saved Q2, compact parent and UD are not rebuilt or rerun.
+
+| Session | Prefill seconds | Prefill tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.427406562 | 1434.769921 | 5.048829269 | 25.15434633 |
+| Measured1 | 1.427336009 | 1434.840841 | 5.044082601 | 25.17801750 |
+| Measured2 | 1.429956722 | 1432.211177 | 5.049526071 | 25.15087519 |
+| Measured3 | 1.427559439 | 1434.616272 | 5.046314802 | 25.16688019 |
+| Original measured median | 1.427559439 | 1434.616272 | 5.046314802 | 25.16688019 |
+
+| Same saved fixed comparison | Prefill tokens/s | Decode calls/s |
+| --- | ---: | ---: |
+| Original Q2 | 1443.672867 | 25.09595499 |
+| Retained compact IQ2 parent | 1498.799455 | 25.16866636 |
+| New SSM row128 | 1434.616272 | 25.16688019 |
+| Original UD | 1685.777092 | 24.34174251 |
+
+PP regresses4.282306% versus the retained parent and is14.898816% below UD.
+Decode differs−0.007097% versus parent, with overlapping ranges and no stable
+change established. All21 parent input/output/full-logit files and nine
+within-arm replays are byte-exact. The128 generated tokens match Q2 and UD.
+Eight large-logit differences to fixed Q2 remain inherited from the measured
+MoE parent; matched-history KL is0 to compact parent,0.001256655237 to Q2 and
+0.008626378682 to UD. This is differential evidence, not independent task
+quality qualification or full-curve parity.
+
+Model resident_bytes43156012544, session_bytes376777748 and deferred scratch
+7946240 remain unchanged; no extra table or persistent allocation is introduced.
+Recorded CPU/GPU maxima, including compilation, are84.125/74 C. The lower
+per-block ISA/register/LDS counts do not compensate for the grid/work changes
+in either the new component or original model. Their exact causal shares were
+not isolated by hardware counters. The candidate is retained without default
+promotion; the best composition remains1498.799455 PP, requiring12.475160%
+more PP throughput to reach original UD.
+
+Release at03:24:18.993858 UTC checks660 retired identities/519 groups, empty
+KFD, four original leases free and six unchanged model stat tuples. Main/remote
+canonical/active/ready mirrors match SHA256
+`58d6fd7e72b9ff0ba36c05968e062863e2c1e38a3fd74bfd14de2c870195ac4b`.
+Core receives the release. No Q2 GPU job, reservation, waiter, restart or
+cleanup remains. All37 host/component/model artifacts and34 frozen fixtures
+verify; the failed original admission is preserved separately.
+
+![Every new and saved fixed sample](figures/q2-ssm-row128-model.svg)
+
+[Full model result](../config/q2-ssm-row128-model-results.json),
+[all16 model samples](figures/q2-ssm-row128-model.csv),
+[retained decision](../config/q2-ssm-row128-retained-update.json),
+[release](../config/q2-ssm-row128-window-release.json).
 
 ## Preparation and provenance
 

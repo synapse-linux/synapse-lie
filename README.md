@@ -689,6 +689,11 @@ compact IQ2 source, halves accumulator values per thread and explicitly sizes
 the existing convolution transpose to36KiB. The row grid doubles, so lower
 static counts are not a speedup claim. Local compilation preserves156 other
 kernel bodies; the new fixture verifies all required raw SSM values and full
-convolution outputs at1024/1025/1057/2048 tokens. Only its new component/model
-are planned with unchanged saved comparisons. GPU/model performance remains
-pending fresh coordinated admission; no qualified control or curve is rerun.
+convolution outputs at1024/1025/1057/2048 tokens: all24 pairs are exact and all
+required values written/finite. Component time regresses86.359829%; its new
+original fixed model measures1434.616272 PP/25.16688019 TG,4.282306% less PP
+than the retained compact parent, with all21 replay files exact. All samples
+and the graph are saved. The measured rejection does not replace the best
+1498.799455 PP composition; no qualified control or curve is rerun. The initial
+admission helper-path failure and corrected plan remain retained; the `.157`
+GPU window is released.

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-## SSM row128 candidate prepared — 2026-10-05 UTC
+## SSM row128 measured: exact outputs, slower model — 2026-10-05 UTC
 
 The new candidate starts from retained compact IQ2 PP1498.799455 and changes
 only fused SSM geometry, BM256/BN128/BK2/WM8/WN1 to BM128/BN128/BK2/WM4/WN2.
@@ -12,23 +12,34 @@ The grid doubles and repeats activation reads, so static reduction is no gain
 claim. Local assembly replaces one body, preserves156 exactly, has zero private
 scratch and next-free-VGPR241→217, instructions4027→2102 per block.
 
-New fixture plans24 guarded full-buffer pairs over1024/1025/1057/2048 tokens,
+New fixture completes24 exact guarded full-buffer pairs over1024/1025/1057/2048 tokens,
 including all required raw values and every convolution value. Unused raw
 cells must remain poisoned, correcting the previous fixture contract without
 rewriting its failure. Only2048 is timed,14 alternating samples with133693440
-rotated weight bytes. The new fixed model follows any safe numerical/timing
-verdict; Q2/compact-parent/UD controls stay saved and no full curve is admitted.
+rotated weight bytes. Component median time increases86.359829%,4917.015076
+to9163.340886 microseconds. The model still runs with original exact2048/tg128:
+PP samples1434.840841 /1432.211177 /1434.616272, median1434.616272, TG25.16688019.
+All21 parent files and nine within-arm replays are byte-exact; PP regresses
+4.282306% versus retained parent. Q2/compact-parent/UD controls stay saved and
+no full curve is admitted. Best compact PP1498.799455 remains the base,
+still needing12.475160% more throughput to reach original UD.
 
 All85 scope guards, production/fixture compilation and new-file formatting
 pass. Shared formatter exit1 remains for nine unchanged inherited files;
 an initial local wrapper-path exit2 is retained separately. New `.157` host
 fixtures pass25/25 Debug and25/25 ASan/UBSan, no model/GPU access. Plan freezes
-four manifests and34 fixtures. Performance remains pending fresh admission.
+four manifests and34 fixtures. All13 host/component/model commands exit0,
+and all37 artifacts verify. CPU/GPU maxima including153.747153-second build
+are84.125/74 C. Release03:24:18.993858 UTC verifies660 identities/519 groups
+absent, KFD empty, four free original leases and six unchanged model stat tuples;
+main/remote mirrors agree, SHA58d6fd7e... Core receives the release. No Q2 GPU
+job, reservation, waiter, restart, cleanup or promotion remains.
 The initial admission exits1 before GPU/lease/registry access because a copied
 helper points PREVIOUS to the new release. A distinct corrected helper/plan
 anchors the saved Q8-pair release; all manifests/fixtures stay identical and
 the qualified host capsule is rebound without rerun. Original failure retained.
-[Mechanism, coverage and scope](Q2-SSM-ROW128.md).
+[Every sample, exact replay and graph](Q2-SSM-ROW128.md),
+[retained decision](../config/q2-ssm-row128-retained-update.json).
 
 ## Exact Q8 pair lookup measured: false coverage flag, strong regression — 2026-10-05 UTC
 
