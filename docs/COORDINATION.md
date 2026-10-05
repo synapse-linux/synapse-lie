@@ -1,6 +1,40 @@
 # DS4 / synapse-lie coordination
 
 
+## Snapshot bridge C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training PID 29223/start
+2470351 and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB and released; no GPU admission or
+reservation follows. Boot/filesystem/four original shard stat identities remain
+unchanged. Root performs no GPU build/run/hash/conversion, service mutation,
+foreign signal, waiter or standing lease on `.161` or `.157`.
+
+Root advances C17 snapshot read/write construction/planning/overlap validation/
+payload copies with [host evidence](development/validation/c17-grammar-snapshot-host-2026-10-05.json).
+27 Debug, 27 sanitizer, 28 pristine/ON/OFF and final 2 Debug/2 sanitizer contracts
+pass, including 8192 frames and 84 actual C++ staging allocation refusals.
+Three minimal-core ICU-OFF checks also pass. All twelve previous full witnesses
+remain unchanged; 42 headers and strict C17 pass. Local CPU peak is 90.5 C,
+without tuning. The 32-file inventory/runtime recipe needs new matching sealed
+provider/application builds. Original provider vector/string State layout is
+preserved; callbacks only translate views/growth/errors. Shared worker/events/
+RNG/engine ABIs and DS4 framing are unchanged. All six root tasks stay open.
+
+Q2 separately reports terminal release
+`f2415f576f49438911a070b53fd43fb2b937e83a7837854a916fb4e1fe2092e9`
+at 12:59:27.317557 UTC from half-pair source `e71a834`: 13 exits zero/37 artifacts,
+926 identities/735 groups retired, KFD empty, four leases free and seven model
+stats unchanged. Q2 then separately reports eight-half admission `4776f984`
+at 13:13:35.365884 UTC/source `746605f`, followed by terminal release
+`bfc1475dbf18309dbdbb6dd27746e1681aaaf309e8664a72032834950dd31cc9`
+at 13:22:07.300470 UTC: 13 exits zero/37 artifacts, 942 identities/748 groups
+retired, KFD empty, four leases free and seven model stats unchanged. Result
+checkpoint is `15bbcc9`. Root sends fresh non-use handover and has no `.157` job/
+build/client/KFD/lease/waiter/reservation/signals/restart/cleanup/interleaving.
+These are separately assigned/reported results, not root qualification/tasks;
+inherited F16 quality remains open and no ownership is inherited.
+
 ## Unicode-set/input C17 host-only ownership — 2026-10-05
 
 Fresh `.161` read-only witness still observes Gemma training PID 29223/start

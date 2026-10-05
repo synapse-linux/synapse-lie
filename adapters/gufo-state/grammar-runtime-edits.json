@@ -1,7 +1,7 @@
 {
   "schema": "synapse-lie.gufo-grammar-runtime.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "scope": "Owned C17 byte pushdown runtime, state ordering/deduplication and dense/compact logit masking. Schema compiler, lexical/regex predicates and vocabulary trie/cache remain transitional, explicitly not autonomous C grammar. DefaultON/OFF preserves language, probability and draw witnesses; model/reactive controller unchanged.",
+  "scope": "C17 owns byte-state expansion/advance/completion/canonicalization/logit masking and snapshot read/write planning, bounds, overlap checks, copied payloads and temporary lifetimes. Provider glue retains typed container views/growth, predicate/context, shared_ptr and error translation; original private State vector layout and defaultON/OFF retained. JSONSchema compiler and primitive/provider storage remain transitional; no complete autonomous model executor or GPU qualification claim.",
   "edits": [
     {
       "path": "src/core/json_constraint.cpp",

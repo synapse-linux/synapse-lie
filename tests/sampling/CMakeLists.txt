@@ -83,6 +83,12 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-unicode-probe PRIVATE ${arm})
   add_executable(${arm}-compiler-probe "${REPO}/tests/sampling/compiler.cpp")
   target_link_libraries(${arm}-compiler-probe PRIVATE ${arm})
+  add_executable(${arm}-snapshot-probe "${REPO}/tests/sampling/snapshot.cpp")
+  target_link_libraries(${arm}-snapshot-probe PRIVATE ${arm})
+  if(NOT arm STREQUAL "reference")
+    add_test(NAME ${arm}-snapshot-staging-refusals COMMAND ${arm}-snapshot-probe faults)
+    set_tests_properties(${arm}-snapshot-staging-refusals PROPERTIES TIMEOUT 30)
+  endif()
   add_executable(${arm}-uset-probe "${REPO}/tests/sampling/uset.cpp")
   target_link_libraries(${arm}-uset-probe PRIVATE ${arm})
   add_executable(${arm}-parser-probe "${REPO}/tests/sampling/parser.cpp")
@@ -214,3 +220,11 @@ add_test(NAME uset-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/uset-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(uset-grammar-reference-parity PROPERTIES TIMEOUT 300)
+
+add_test(NAME snapshot-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-snapshot-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-snapshot-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-snapshot-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/snapshot-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(snapshot-grammar-reference-parity PROPERTIES TIMEOUT 180)

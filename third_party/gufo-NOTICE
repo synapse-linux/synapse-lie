@@ -144,3 +144,15 @@ and error/enum translation. Earlier descriptions of delegated registry/input
 storage refer to their historical slices. JSON Schema compilation and provider
 snapshot marshalling remain transitional. Own allocator fault injection does
 not cover ICU internal allocations/OOM. No DS4 or sibling CachyOS code is imported.
+
+Snapshot read/write bridge extraction
+------------------------------------
+The additive snapshot reader/writer ABI in include/lie/grammar.h and
+src/grammar.c extends the attributed official Gufo f783fedb C17 state port.
+C owns import traversal/construction, export planning, capacity/overlap
+validation and copied payloads; adapter gufo_grammar.hpp supplies only typed
+container views/growth and nonthrowing error translation. Its original
+private vector/string State layout remains; this is not full provider/model
+storage ownership or C++ dependency removal. No sibling CachyOS/DS4 source
+or artifact is imported. Synthetic host lifetimes/refusal/full-payload tests
+are not original-weight GPU correctness/resources/performance qualification.

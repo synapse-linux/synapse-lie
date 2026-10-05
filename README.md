@@ -13,8 +13,9 @@ interning and canonical-state mask cache policy are C17, together with regex
 syntax parsing, assertion expansion, expression simplification, derivatives,
 Unicode partitioning and DFA construction. A reusable C17 module also owns the
 Unicode-set registry and UTF8 input buffers through ICU’s C API. ICU remains the
-set/property/conversion dependency; JSON Schema compilation and provider snapshot
-marshalling remain transitional.
+set/property/conversion dependency. Snapshot read/write planning and payload
+copies also use C17; provider container storage and JSON Schema compilation
+remain transitional.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

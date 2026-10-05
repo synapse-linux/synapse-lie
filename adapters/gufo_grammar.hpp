@@ -111,29 +111,61 @@ inline std::shared_ptr<const lie_grammar_program> grammar_program(
   return std::shared_ptr<const lie_grammar_program>(p, lie_grammar_program_release);
 }
 using GrammarState = std::unique_ptr<lie_grammar_state, decltype(&lie_grammar_state_release)>;
-inline GrammarState grammar_import(const lie_grammar_program *p,
-    const gufo::sampling::JsonConstraint::State &source) {
-  std::vector<lie_grammar_frame> frames;
-  frames.reserve(source.size());
-  for (const auto &f : source)
-    frames.push_back({f.symbols.data(), f.symbols.size(),
-                     reinterpret_cast<const uint8_t *>(f.lexeme.data()), f.lexeme.size()});
+inline lie_grammar_status
+grammar_snapshot_read(const void *ctx, size_t index,
+                      lie_grammar_frame *out) noexcept {
+  const auto &f =
+      (*static_cast<const gufo::sampling::JsonConstraint::State *>(ctx))[index];
+  *out = {f.symbols.data(), f.symbols.size(),
+          reinterpret_cast<const uint8_t *>(f.lexeme.data()), f.lexeme.size()};
+  return LIE_GRAMMAR_OK;
+}
+inline lie_grammar_status grammar_snapshot_prepare(void *ctx,
+                                                   size_t count) noexcept {
+  try {
+    static_cast<gufo::sampling::JsonConstraint::State *>(ctx)->resize(count);
+    return LIE_GRAMMAR_OK;
+  } catch (const std::bad_alloc &) {
+    return LIE_GRAMMAR_RESOURCE;
+  } catch (...) {
+    return LIE_GRAMMAR_INVALID;
+  }
+}
+inline lie_grammar_status
+grammar_snapshot_write(void *ctx, size_t index, size_t symbols, size_t bytes,
+                       lie_grammar_writable_frame *out) noexcept {
+  try {
+    auto &f =
+        (*static_cast<gufo::sampling::JsonConstraint::State *>(ctx))[index];
+    f.symbols.resize(symbols);
+    f.lexeme.resize(bytes);
+    *out = {f.symbols.data(), f.symbols.size(),
+            reinterpret_cast<uint8_t *>(f.lexeme.data()), f.lexeme.size()};
+    return LIE_GRAMMAR_OK;
+  } catch (const std::bad_alloc &) {
+    return LIE_GRAMMAR_RESOURCE;
+  } catch (...) {
+    return LIE_GRAMMAR_INVALID;
+  }
+}
+inline GrammarState
+grammar_import(const lie_grammar_program *p,
+               const gufo::sampling::JsonConstraint::State &source) {
+  const lie_grammar_snapshot_reader reader{
+      LIE_GRAMMAR_SNAPSHOT_ABI, sizeof(lie_grammar_snapshot_reader), &source,
+      source.size(), grammar_snapshot_read};
   lie_grammar_state *state = nullptr;
-  grammar_check(lie_grammar_state_import(p, frames.data(), frames.size(), &state));
+  grammar_check(lie_grammar_state_read(p, &reader, &state));
   return GrammarState(state, lie_grammar_state_release);
 }
-inline gufo::sampling::JsonConstraint::State grammar_export(const lie_grammar_state *s) {
-  gufo::sampling::JsonConstraint::State output;
-  output.resize(lie_grammar_state_count(s));
-  for (size_t i = 0; i < output.size(); ++i) {
-    lie_grammar_frame f{};
-    grammar_check(lie_grammar_state_frame(s, i, &f));
-    if (f.symbol_count)
-      output[i].symbols.assign(f.symbols, f.symbols + f.symbol_count);
-    if (f.lexeme_bytes)
-      output[i].lexeme.assign(reinterpret_cast<const char *>(f.lexeme), f.lexeme_bytes);
-  }
-  return output;
+inline gufo::sampling::JsonConstraint::State
+grammar_export(const lie_grammar_state *s) {
+  gufo::sampling::JsonConstraint::State staging;
+  const lie_grammar_snapshot_writer writer{
+      LIE_GRAMMAR_SNAPSHOT_ABI, sizeof(lie_grammar_snapshot_writer), &staging,
+      grammar_snapshot_prepare, grammar_snapshot_write};
+  grammar_check(lie_grammar_state_write(s, &writer));
+  return staging;
 }
 inline gufo::sampling::JsonConstraint::State grammar_run(
     const lie_grammar_program *p, const gufo::sampling::JsonConstraint::State &source,

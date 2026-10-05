@@ -2,6 +2,32 @@
 # Development progress
 
 
+## Snapshot read/write bridge C17 host slice — 2026-10-05
+
+From `2514938`, C17 now owns snapshot import construction, export planning,
+capacity/overlap validation and payload copies. Synchronous reader/writer hooks
+expose typed views and private staging buffers without retaining input/context.
+Partial imports/plans retire on all failures; payload export starts only after
+all destinations pass validation. Provider glue keeps container access/growth
+and exception translation. Its original vector/string State layout remains;
+JSON Schema compilation and model/controller/container storage are transitional.
+
+The [host receipt](development/validation/c17-grammar-snapshot-host-2026-10-05.json)
+records 27 Debug, 27 sanitizer and 28 pristine/ON/OFF checks, plus final 2 Debug/
+2 sanitizer contracts. There are 2080 frame oracles, 8192 maximum-frame copies,
+36 C allocation refusals, 17 callback refusals and four overlap/capacity cases.
+All 84 actual C++ staging allocation points refuse in both fixtures, preserving
+source hashes. Complete 65-snapshot/2080-frame witnesses match; all twelve prior
+full witness hashes are unchanged. Three minimal-core checks with ICU OFF,
+42 public headers and strict C17/symbol checks pass. Local CPU maximum is 90.5 C.
+
+The 32-file source-bound inventory/runtime recipe requires new matching
+provider/application builds. Shared reactive ownership/events, worker count,
+RNG, engine ABIs and DS4 framing are unchanged. No GPU build/run/hash/conversion,
+service mutation, foreign signal or reservation occurs. The `.161` foreign
+Gemma/router workload still occupies the GPU. All six root tasks remain open;
+original-weight continuation/fault/fit/cost and JSON Schema extraction are pending.
+
 ## Unicode-set registry/input C17 host slice — 2026-10-05
 
 From `65d7edb`, the reusable C17 Unicode context owns full-set identity, private

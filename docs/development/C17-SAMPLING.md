@@ -41,7 +41,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
 deep copies, deferred draws, entropy acquisition, JSON Schema compilation,
-provider snapshot marshalling, model/session and
+provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -74,7 +74,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema compilation, provider snapshot marshalling
+schema compilation, provider container storage
 and speculative model/controller
 state remain transitional.
 
@@ -162,11 +162,12 @@ completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
 Storage/error/predicate translation stays in `gufo_grammar.hpp`.
 
 This is a byte-runtime extraction, not a complete C grammar compiler. JSON
-JSON Schema compilation remains delegated; the later Unicode-context section
+Schema compilation remains delegated; the later Unicode-context section
 describes the C17 set registry/input buffers and retained ICU dependency. Vocabulary/transition/cache and expression/DFA compiler ownership are
 described in their sections below.
-The provider still marshals snapshots between vector storage and C state. Those
-algorithms/storage and their cost remain explicit work in the same grammar task.
+The snapshot bridge below now owns import/export planning, validation and copies
+in C17. Provider vector/string storage stays private translation; its measured
+whole-provider cost and original-weight continuation remain open.
 The direct Gufo reference now selects legacy byte-grammar methods as well as
 legacy sampler methods before the shared archive; inline model/controller
 arithmetic remains shared. New GPU compilation/continuation/performance gates
@@ -205,7 +206,7 @@ explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GP
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
 to this component. JSON library numeric conversion/representability and exception
 translation remain in `gufo_grammar_number.hpp`. JSON Schema compilation and
-provider snapshot marshalling still need extraction within the same task. The
+provider container storage still need extraction within the same task. The
 Unicode registry/input context below now uses public ICU C APIs.
 
 The four exact `grammar-number-edits.json` edits select C17 by the existing
@@ -325,7 +326,7 @@ creates no inference thread, RNG, device call or HTTP operation.
 `gufo_grammar_regex_compile.hpp` retains C context RAII, normalized operation
 and exception translation. Syntax/assertion expansion now use C17; the Unicode
 context below preserves insertion-ordered full-set identity through ICU C APIs.
-JSON Schema compilation and provider snapshot marshalling remain open. The three exact `grammar-compiler-edits.json` edits select the C
+JSON Schema compilation and provider container storage remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
 32-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
@@ -353,7 +354,7 @@ synchronous call. Fresh set handles and all AST/expansion storage retire on
 every path. `gufo_grammar_regex_parse.hpp` now keeps a synchronous borrowed
 input view and status-to-exception translation. The C17 Unicode context below
 owns decoding buffers and full-set registry through ICU C APIs. The JSON Schema
-compiler and provider snapshot marshalling still need extraction. No upstream type enters the public C header. No inference worker,
+compiler and provider container storage still need extraction. No upstream type enters the public C header. No inference worker,
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
@@ -409,9 +410,52 @@ empty scalar class. No implementation refusal or assertion was removed.
 
 The provider source-list check also detects the previously combined compiler/
 parser filename; that recipe is corrected, without claiming a GPU build.
-JSON Schema compilation and provider snapshot marshalling remain open, as do
+JSON Schema compilation and provider container storage remain open, as do
 original-weight continuation/fault/fit, allocation-exact resources and matched
 cost. This adds no inference worker or metric and changes no DS4 RAM/SSD format.
+
+## Snapshot read/write bridge
+
+The additive snapshot ABI 1 in `lie/grammar.h` moves provider snapshot traversal,
+import construction, writable-span planning, overlap checks, payload copies and
+temporary lifetimes into C17. Reader callbacks supply borrowed typed frame views,
+valid until the next callback or completion. C immediately copies them into an
+owned snapshot and retires partial construction on every refusal. Export plans
+all destinations before writing any payload, validates capacities and rejects
+input/output/plan overlap. A bounded heap sort checks intervals using the state
+work budget; default frame/stack/lexeme limits remain 8192/16384/4160.
+
+Writer callbacks allocate private staging containers. Successful writable views
+remain valid until completion. Capacity/storage may change on refusal; the caller
+publishes only after OK and retires staging on every
+failure. `gufo_grammar.hpp` now supplies container views, resize/allocation and
+nonthrowing exception translation. It no longer constructs a C++ descriptor
+array, walks exported frames or copies their payloads. Provider `State` remains
+the existing vector of symbol vectors and strings, preserving private ON/OFF
+layout and the current direct-reference composition. Those containers and model/
+controller storage remain transitional; this is not complete C++ dependency or
+model-executor removal. No callback or input pointer is retained.
+
+[Source-bound host evidence](validation/c17-grammar-snapshot-host-2026-10-05.json)
+records 27 Debug and 27 sanitizer shared-contract tests, 28 pristine/ON/OFF
+checks, plus final 2 Debug/2 sanitizer contract checks after adding the maximum
+frame case. There are 2080 explicit ordered-frame roundtrip oracles, 8192 maximum-
+frame copies, 36 owned C allocation refusal points, 17 callback refusals and four
+capacity/NULL/output-output/cross-input overlap cases. All 84 actual C++ staging
+allocation points refuse cleanly in both candidate and fallback fixtures, leaving
+the source hash unchanged. The complete three-arm witness preserves all payloads
+for 65 snapshots/2080 frames, including NUL/arbitrary bytes and independent
+copy/source/program-release lifetimes. All twelve earlier full witness hashes
+remain unchanged. Three minimal-core checks with ICU OFF also pass. All 42 public
+headers and strict C17/symbol checks pass; local CPU maximum is 90.5 C.
+
+The 32-file inventory and changed runtime recipe/glue require matching sealed
+provider/application rebuilds. Worker/events, RNG, request/executor/generation
+and DS4 RAM/SSD layouts remain unchanged. These synthetic tests are not new
+original-weight AR/MTP/tool/grammar continuation, GPU fault/fit, allocation-exact
+whole-provider resources or matched performance qualification. Export adds
+bounded transient planning storage; no speedup is claimed. JSON Schema compiler
+extraction remains the next identified grammar responsibility.
 
 ## Build selection and observability
 

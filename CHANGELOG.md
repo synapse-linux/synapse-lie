@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 snapshot read/write bridge with bounded import, staged export,
+  capacity and overlap validation. Provider container views/growth preserve
+  its existing private layout; callbacks retain no input/context. Host
+  copy/refusal comparisons pass; original-weight resources/cost remain pending.
+
 - Reusable C17 Unicode-set registry and UTF8 input handling through public ICU
   C APIs. The default-ON module preserves full-set identity, supplementary/NUL
   input and replacement decoding. ICU remains the set/property/conversion

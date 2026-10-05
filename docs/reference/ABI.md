@@ -45,6 +45,21 @@ Private provider grammar layout/source changes require matching archive/applicat
 rebuilds and the current 32-file receipt. Executor/request/generation and DS4 payload
 ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
 
+The additive snapshot-reader/writer ABI 1 in `lie/grammar.h` moves frame
+traversal, construction, span/overlap checks, payload copies and temporary
+planning into C17. Reader views remain valid until the next callback or call
+completion. Writers allocate private staging containers; C validates every
+capacity and input/output/plan overlap before copying any payload. Their storage
+may change on refusal; publish only after OK and retire staging on every failure.
+Callbacks are synchronous, nonthrowing and never retained. Successful read states
+own their data; program/input release does not invalidate an exported snapshot.
+Paired program/state allocator hooks retire import/plan storage on all paths.
+Default frame/stack/lexeme limits remain 8192/16384/4160; counted heap-sort work
+uses the state work budget. Provider vector/State layout remains unchanged,
+with only view/growth/exception glue, and requires a matching 32-file rebuild.
+No executor/request/generation or DS4 persisted layout changes. See
+[snapshot bridge ownership](../development/C17-SAMPLING.md#snapshot-readwrite-bridge).
+
 `lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
 numeric policies, borrowed exact decimal spans and transactional match/value/LCM
 outputs. Lower/upper bound selection, integer-grid reduction, prefix interval
@@ -698,7 +713,8 @@ truncation, with the expanded generation options.
 All borrowed strings and bias entries are copied at admission. Executor ABI 3
 and DS4 state payloads retain their existing layouts. Schema/regex compilation
 stays inside the explicitly selected transitional provider; byte predicates, token trie and mask-cache policy use the shared C17
-grammar module. Provider snapshot marshalling remains transitional.
+grammar module. Snapshot read/write planning, validation and copies use C17;
+provider vector storage stays private typed translation.
 
 `lie_core_submit_choices` owns independently seeded jobs on the same device
 worker. Failure cancels and releases its own admitted children. `lie_records`

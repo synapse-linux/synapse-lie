@@ -31,8 +31,8 @@ The 32-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
 algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
 range translation and input buffers are C17 using ICU C APIs. ICU remains the
-property/set/conversion dependency; JSON Schema compilation and provider snapshot
-marshalling remain delegated.
+property/set/conversion dependency; JSON Schema compilation and provider container
+storage remain transitional. Snapshot bridge planning/validation/copies use C17.
 
 Vocabulary queries expose optional local counters for visited nodes, advances,
 interned states (including dead/input slots), direct nodes, transition hits and
@@ -52,6 +52,13 @@ Parser AST/expansion vectors are bounded C17 transient allocations and are retir
 on success/refusal. The Unicode context owns UTF16 input, handles and registry arrays; ICU
 allocates its own set internals. Own allocator hooks exclude ICU allocations. Counted work and fixture peaks do not establish whole-process
 cost, GPU fit or speedup. No HTTP metric or inference worker is introduced.
+
+Snapshot bridge planning adds bounded transient C storage for writable frame
+views and input/output intervals. Heap-sort work is a construction budget,
+not timing or throughput. Import states retire on any callback refusal;
+private provider vector/string staging retires at the exception boundary.
+No inference worker, HTTP metric or DS4 tensor/cache identity changes. Actual
+whole-provider allocation cost and GPU continuation remain separate gates.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

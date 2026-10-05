@@ -251,6 +251,128 @@ lie_grammar_status lie_grammar_state_import(const lie_grammar_program *p,
   *out = s;
   return LIE_GRAMMAR_OK;
 }
+lie_grammar_status lie_grammar_state_read(const lie_grammar_program *p,
+  const lie_grammar_snapshot_reader *reader, lie_grammar_state **out) {
+  if (!p || !reader || !out || reader->abi_version != LIE_GRAMMAR_SNAPSHOT_ABI ||
+      reader->struct_bytes != sizeof(*reader) || (reader->count && !reader->frame))
+    return LIE_GRAMMAR_INVALID;
+  if (reader->count > p->d.limits.max_states)
+    return LIE_GRAMMAR_STATE_LIMIT;
+  lie_grammar_state *s = new_state(p);
+  if (!s) return LIE_GRAMMAR_RESOURCE;
+  lie_grammar_status rc = LIE_GRAMMAR_OK;
+  for (size_t i = 0; rc == LIE_GRAMMAR_OK && i < reader->count; ++i) {
+    lie_grammar_frame input = {0};
+    frame copied = {0};
+    rc = reader->frame(reader->context, i, &input);
+    if (rc == LIE_GRAMMAR_OK && !valid_frame(p, input)) rc = LIE_GRAMMAR_INVALID;
+    if (rc == LIE_GRAMMAR_OK) rc = copy_frame(s, input, 0, &copied);
+    if (rc == LIE_GRAMMAR_OK) rc = push(s, &copied);
+    release_frame(s, &copied);
+  }
+  if (rc != LIE_GRAMMAR_OK) { lie_grammar_state_release(s); return rc; }
+  *out = s;
+  return LIE_GRAMMAR_OK;
+}
+typedef struct { uintptr_t first, end; bool writable; } snapshot_span;
+static bool snapshot_overlap(snapshot_span a, snapshot_span b) {
+  return a.first < b.end && b.first < a.end;
+}
+static bool snapshot_add_span(snapshot_span *spans, size_t *count,
+  const void *p, size_t n, size_t width, bool writable) {
+  if (!n) return true;
+  if (!p || n > SIZE_MAX / width) return false;
+  size_t bytes = n * width;
+  uintptr_t first = (uintptr_t)p;
+  if (first > UINTPTR_MAX - bytes) return false;
+  spans[(*count)++] = (snapshot_span){first, first + bytes, writable};
+  return true;
+}
+static bool snapshot_less(snapshot_span a, snapshot_span b) {
+  return a.first < b.first || (a.first == b.first && a.end < b.end);
+}
+static void snapshot_swap(snapshot_span *a, snapshot_span *b) {
+  snapshot_span t = *a; *a = *b; *b = t;
+}
+static lie_grammar_status snapshot_sink(snapshot_span *v, size_t count, size_t at,
+  size_t *work, size_t maximum) {
+  while (at < count / 2) {
+    if (*work >= maximum) return LIE_GRAMMAR_WORK_LIMIT;
+    ++*work;
+    size_t child = at * 2 + 1;
+    if (child + 1 < count && snapshot_less(v[child], v[child + 1])) ++child;
+    if (!snapshot_less(v[at], v[child])) break;
+    snapshot_swap(v + at, v + child); at = child;
+  }
+  return LIE_GRAMMAR_OK;
+}
+static lie_grammar_status snapshot_disjoint(snapshot_span *v, size_t count,
+  size_t maximum) {
+  size_t work = 0;
+  for (size_t i = count / 2; i; --i) {
+    lie_grammar_status rc = snapshot_sink(v, count, i - 1, &work, maximum);
+    if (rc != LIE_GRAMMAR_OK) return rc;
+  }
+  for (size_t i = count; i > 1; --i) {
+    snapshot_swap(v, v + i - 1);
+    lie_grammar_status rc = snapshot_sink(v, i - 1, 0, &work, maximum);
+    if (rc != LIE_GRAMMAR_OK) return rc;
+  }
+  uintptr_t source_end = 0, output_end = 0;
+  for (size_t i = 0; i < count; ++i) {
+    if (v[i].writable) {
+      if (v[i].first < source_end || v[i].first < output_end) return LIE_GRAMMAR_INVALID;
+      output_end = v[i].end;
+    } else {
+      if (v[i].first < output_end) return LIE_GRAMMAR_INVALID;
+      if (v[i].end > source_end) source_end = v[i].end;
+    }
+  }
+  return LIE_GRAMMAR_OK;
+}
+lie_grammar_status lie_grammar_state_write(const lie_grammar_state *s,
+  const lie_grammar_snapshot_writer *writer) {
+  if (!s || !writer || writer->abi_version != LIE_GRAMMAR_SNAPSHOT_ABI ||
+      writer->struct_bytes != sizeof(*writer) || !writer->prepare ||
+      (s->count && !writer->frame)) return LIE_GRAMMAR_INVALID;
+  const size_t width = sizeof(lie_grammar_writable_frame) + 4 * sizeof(snapshot_span);
+  if (s->count > (SIZE_MAX - 2 * sizeof(snapshot_span)) / width) return LIE_GRAMMAR_RESOURCE;
+  size_t allocation_bytes = s->count * width + 2 * sizeof(snapshot_span);
+  void *memory = s->count ? s->allocator.allocate(s->allocator.context, allocation_bytes) : NULL;
+  if (s->count && !memory) return LIE_GRAMMAR_RESOURCE;
+  lie_grammar_writable_frame *plans = memory;
+  snapshot_span *spans = s->count ? (snapshot_span *)(plans + s->count) : NULL;
+  size_t span_count = 0;
+  lie_grammar_status rc = LIE_GRAMMAR_OK;
+  if (s->count && (!snapshot_add_span(spans, &span_count, s, 1, sizeof(*s), false) ||
+      !snapshot_add_span(spans, &span_count, s->frames, s->capacity, sizeof(frame), false)))
+    rc = LIE_GRAMMAR_INVALID;
+  if (rc == LIE_GRAMMAR_OK) rc = writer->prepare(writer->context, s->count);
+  for (size_t i = 0; rc == LIE_GRAMMAR_OK && i < s->count; ++i) {
+    lie_grammar_frame input = view(s->frames + i);
+    plans[i] = (lie_grammar_writable_frame){0};
+    rc = writer->frame(writer->context, i, input.symbol_count, input.lexeme_bytes, plans + i);
+    if (rc != LIE_GRAMMAR_OK) break;
+    if (plans[i].symbol_capacity < input.symbol_count || plans[i].lexeme_capacity < input.lexeme_bytes ||
+        !snapshot_add_span(spans, &span_count, s->frames[i].allocation, input.symbol_count * sizeof(uint32_t) + s->frames[i].capacity, 1, false) ||
+        !snapshot_add_span(spans, &span_count, plans[i].symbols, plans[i].symbol_capacity, sizeof(uint32_t), true) ||
+        !snapshot_add_span(spans, &span_count, plans[i].lexeme, plans[i].lexeme_capacity, 1, true)) {
+      rc = LIE_GRAMMAR_INVALID; break;
+    }
+    snapshot_span plan_storage = {(uintptr_t)memory, (uintptr_t)memory + allocation_bytes, false};
+    for (size_t j = span_count - (plans[i].symbol_capacity != 0) - (plans[i].lexeme_capacity != 0); j < span_count; ++j)
+      if (snapshot_overlap(spans[j], plan_storage)) rc = LIE_GRAMMAR_INVALID;
+  }
+  if (rc == LIE_GRAMMAR_OK) rc = snapshot_disjoint(spans, span_count, s->limits.max_work);
+  if (rc == LIE_GRAMMAR_OK)
+    for (size_t i = 0; i < s->count; ++i) {
+      const frame *f = s->frames + i;
+      if (f->count) memcpy(plans[i].symbols, f->symbols, f->count * sizeof(uint32_t));
+      if (f->bytes) memcpy(plans[i].lexeme, f->lexeme, f->bytes);
+    }
+  if (memory) s->allocator.release(s->allocator.context, memory);
+  return rc;
+}
 size_t lie_grammar_state_count(const lie_grammar_state *s) {
   return s ? s->count : 0;
 }

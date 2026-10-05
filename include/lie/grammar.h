@@ -82,6 +82,39 @@ void lie_grammar_program_release(lie_grammar_program *);
 lie_grammar_status lie_grammar_state_import(const lie_grammar_program *,
                                            const lie_grammar_frame *, size_t,
                                            lie_grammar_state **output);
+/* Synchronous model-neutral provider snapshot bridge, separate ABI 1.
+ * Reader views stay valid until the next read callback or call completion.
+ * Write callbacks allocate fresh private staging. Successful writable views
+ * remain valid until call completion; storage/capacity may change on refusal.
+ * The caller publishes the staging result only after OK and retires it on all
+ * other statuses. C validates all writable spans before copying any payload,
+ * rejects writable overlap with every input/output span, and owns bounded
+ * planning/import/copy lifetimes. Callbacks are nonthrowing and serialize with
+ * their storage owner; no callback pointer/context is retained. */
+#define LIE_GRAMMAR_SNAPSHOT_ABI 1u
+typedef struct {
+  uint32_t abi_version, struct_bytes;
+  const void *context;
+  size_t count;
+  lie_grammar_status (*frame)(const void *, size_t, lie_grammar_frame *);
+} lie_grammar_snapshot_reader;
+typedef struct {
+  uint32_t *symbols;
+  size_t symbol_capacity;
+  uint8_t *lexeme;
+  size_t lexeme_capacity;
+} lie_grammar_writable_frame;
+typedef struct {
+  uint32_t abi_version, struct_bytes;
+  void *context;
+  lie_grammar_status (*prepare)(void *, size_t);
+  lie_grammar_status (*frame)(void *, size_t, size_t, size_t,
+                              lie_grammar_writable_frame *);
+} lie_grammar_snapshot_writer;
+lie_grammar_status lie_grammar_state_read(const lie_grammar_program *,
+  const lie_grammar_snapshot_reader *, lie_grammar_state **);
+lie_grammar_status lie_grammar_state_write(const lie_grammar_state *,
+  const lie_grammar_snapshot_writer *);
 void lie_grammar_state_release(lie_grammar_state *);
 size_t lie_grammar_state_count(const lie_grammar_state *);
 /* Exported pointers are borrowed until state release and never mutable. */
