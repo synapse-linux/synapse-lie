@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q4-oneshot-failure.v1",
+  "model": "Antirez Q4",
+  "runner_exit_code": 1,
+  "model_command_exit_code": 1,
+  "log": "FAIL: missing GGUF array qwen4exp.rope.dimension_sections\n",
+  "model_forward": false,
+  "upload": false,
+  "pp_tg_samples": 0,
+  "artifacts_verified": 2,
+  "release_sha256": "f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424",
+  "release_at": "2026-10-05T06:09:10.187334+00:00",
+  "binary_unchanged": true,
+  "model_unchanged": true,
+  "next_scope": "Complete one-shot on the working UD Q4 format; preserve plain Q4 compatibility failure, no guessed metadata or model mutation"
+}
