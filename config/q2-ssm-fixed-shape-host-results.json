@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-shape-host.v1",
+  "host_reused": true,
+  "host_rerun": false,
+  "reused_label": "q2-ssm-pingpong-host-r1",
+  "capsule_sha256": "e682c820abf56ef52f3baf06b41f159ec5ca9554a74de95eea18f7b2ee10eed5",
+  "archive_sha256": "55bcc6fd752aed947b48532081a0c44328b77b40db2d51740a4a019057d223a4",
+  "fixture_files_verified": 90,
+  "source_files_verified": 1020,
+  "plan_sha256": "6f8cab7412398505533f3f9d586bac375ba33a710ae89a92a4b920ba74f7675e",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

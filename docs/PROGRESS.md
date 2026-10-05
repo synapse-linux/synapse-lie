@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The next fixed-M/K SSM campaign binds the existing 1027-file candidate and
+unchanged runtime to 90 fixtures/12 manifests. The prior pingpong turn made
+concrete progress by measuring a negative variant; retained1580 is unchanged.
+Host27+27 is explicitly reused after raw artifact and fixture verification.
+No qualified model control is rebuilt or rerun. Fresh 22:24:16 UTC observation
+confirms release22289680 still latest, Core processes/groups absent, its original
+CPU lease free and KFD empty. Only one new component and original2048/tg128
+model are planned; new four-lease admission is required before GPU work.
+
 The [SSM pingpong campaign](Q2-SSM-PINGPONG.md) completes on .157:
 1554.624652 PP /25.17458636 TG against saved1580.226725/25.10411864,
 nominal-1.620152%/+0.280702%. All21 parent files and nine internal replays

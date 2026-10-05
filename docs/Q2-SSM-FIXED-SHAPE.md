@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Fixed-shape SSM compilation experiments
 
+## Fixed-M/K runtime campaign
+
+After the completed row-group and alternating-buffer trials, the fixed-M/K
+candidate has its own frozen plan: 90 unchanged fixtures, 12 manifests and a
+separate admission helper. All 1027 provider files verify. The previous
+27 Debug and 27 ASan/UBSan host tests are reused after validating their raw
+artifacts and byte-identical fixtures; they are not rerun. Only the new
+component and original exact2048/tg128 model will execute. Fresh .157 checks
+at 22:24:16 UTC verify the previous release22289680, retired Core processes,
+free original CPU lease and empty KFD. GPU admission remains separate.
+
+[Frozen plan](../config/q2-ssm-fixed-shape-plan.json),
+[reused host evidence](../config/q2-ssm-fixed-shape-host-results.json).
+
+## Original preparation
+
 Both candidates derive from retained original exact2048/tg128 Q2
 1580.226725 PP /25.10411864 TG. They have only local compilation evidence;
 neither has GPU numerical or throughput results. The fixed UD comparator
