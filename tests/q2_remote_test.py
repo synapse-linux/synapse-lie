@@ -137,6 +137,31 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_iq2_live_compose_manifest_binding(self):
+        self.assertEqual(remote.IQ2_LIVE_COMPOSE_MANIFEST,
+                         'config/q2-iq2-live-compose-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_LIVE_COMPOSE_MANIFEST).is_file())
+
+    def test_iq2_live_compose_matched_new_counting_only(self):
+        variant = 'iq2-live-compose'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'scaled-tiles-check', 'q2-counting-scaled-selective',
+                     'q2-counting-iq2-raw-prefetch'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 live composition requires its matched historical counting provider')
+        argv = ['q2-counting-iq2-live-compose', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        argv += ['--rebuild-mmq']
+        self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--native-curve'], 'Native curve requires')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_iq2_raw_selective_manifest_binding(self):
         self.assertEqual(remote.IQ2_RAW_SELECTIVE_MANIFEST,
                          'config/q2-iq2-raw-selective-source.json')
