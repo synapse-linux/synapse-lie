@@ -101,12 +101,10 @@ original lease inodes and seven unchanged model stat tuples. Canonical/main/
 remote release-active-ready mirrors agree and Core receives the release.
 No Q2 workload, reservation, waiter, restart or .157 cleanup remains.
 
-Next is the prepared fixed-bounds variant, which retains these constant
-dimensions and removes proven row/K checks. It has 3864 static instructions
-but 24 additional LDS loads, so another gain is not presumed. Its next result
-must also compare against this saved1582 result; the fixed1443/UD references
-and original benchmark stay unchanged. The fixed-bounds source itself remains
-unmeasured, as do compact LDS and the small shared-down mirror alternatives.
+The subsequent [fixed-bounds campaign](Q2-SSM-FIXED-BOUNDS.md) completes at
+1585.308983 PP, nominal +0.155659% against this saved1582 result. All21 files
+match exactly. Both sources and the original fixed1443/UD references remain;
+no saved model is rerun. Compact LDS and small shared-down remain unmeasured.
 
 [Frozen plan](../config/q2-ssm-fixed-shape-plan.json),
 [reused host report](../config/q2-ssm-fixed-shape-host-results.json),

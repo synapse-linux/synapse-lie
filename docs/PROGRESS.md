@@ -1,5 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed-bounds SSM campaign](Q2-SSM-FIXED-BOUNDS.md) completes on .157 at
+22:45:11UTC with1585.308983 PP /25.16079073 TG. This retains a nominal
++0.155659% PP against saved1582, +0.321616% against construction parent1580,
+and +9.810818% against fixed1443. The three PP samples are1586.342395,
+1584.079076 and1585.308983; every saved comparison is reused without rerun.
+All30 complete component pairs,60 FP64 checks,21 model files against each
+saved parent and nine internal replays pass. Inherited quality gaps remain.
+Component time4999.54255422 to4841.17444356us improves3.167652%; this is a
+separate paired component result, not the model speedup.
+
+Host27+27 evidence is reused after90-fixture/raw-byte verification. Seven new
+commands exit0/30 new artifacts verify, with six earlier host commands/seven
+artifacts separate. The14 manifests/helper/1027 provider files and six exports
+verify; all14 component and20 model samples plus elapsed times are preserved.
+Compilation154.247917s/load10.91203465s are excluded; model CPU/GPU80.75/74C.
+Release22:47:04.899994UTC SHAfc00b067 retires1149 identities/916 groups, KFD
+empty, four unchanged original leases free and seven model stat tuples unchanged.
+Canonical/main/remote mirrors agree and Core is notified. No Q2 workload,
+reservation, waiter, restart or cleanup remains. Checkpoint candidate becomes
+ssm-fixed-bounds, retaining1582 and1580. The fixed UD gap needs6.337447% PP;
+compact LDS/shared-down remain unmeasured, with Q4/full curve still deferred.
+
+The expert-cache source review confirms resident encoded expert weights in
+Qwen DeviceModel, without persistent routed-Q2 dequantized copies. Pinned
+official Gufo DS4 additionally caches selected Q8-to-F16 tensors, including
+shared experts. The measured broad mirror trial remains negative; the small
+shared-down component is a distinct pending experiment.
+
 The previous turn makes concrete progress by retaining measured1582.845143 PP.
 The next [fixed-bounds campaign](Q2-SSM-FIXED-BOUNDS.md) freezes90 identical
 fixtures/14 manifests and explicitly includes that saved1582 comparison while

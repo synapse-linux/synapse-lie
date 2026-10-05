@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Fixed-bounds SSM releases .157 at2026-10-05T22:47:04.899994UTC, SHA256
+`fc00b067802482077ab97819fc02547a1fdbd055ea5066dbfe58c5c4391c08cd`.
+Admission22:39:22.358626UTC from72b4473 follows previousrelease81d7fcbb and
+persistent Core non-use. The new component and model are terminal and collected:
+seven new exits0/30 new artifacts; host27+27 is explicitly reused. Release
+verifies1149 retired identities/916 groups, empty KFD, four original lease
+inodes unchanged and free, and seven unchanged model stat tuples. Canonical,
+main and remote release-active-ready mirrors agree; Core receives closure.
+No Q2 job/build/client/lease/waiter/reservation, restart or cleanup remains.
+Any following GPU campaign requires fresh admission.
+[Release](../config/q2-ssm-fixed-bounds-window-release.json),
+[final audit](../config/q2-ssm-fixed-bounds-final-audit.json).
+
 Fixed-M/K SSM releases .157 at2026-10-05T22:31:03.357917UTC, SHA256
 `81d7fcbbe2aea754bbd4bc8acdc044a03275406f15099e2d057695a1333d805a`.
 Admission22:25:10UTC from94331f2 follows fresh release22289680 and persistent

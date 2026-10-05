@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed-bounds SSM campaign](docs/Q2-SSM-FIXED-BOUNDS.md) now measures
+**1585.308983 PP /25.16079073 TG** on the unchanged original2048/tg128 model,
+nominal +0.155659% PP versus saved1582.845143. All30 component pairs/60 FP64
+checks and21 files against each saved1580/1582 parent pass; component time is
+3.167652% lower. Retain the marginal gain and both saved sources. Seven new
+commands exit0/30 new artifacts verify; host27+27 is explicitly reused.
+All samples and plots are retained and .157 is released. Fixed UD still needs
+6.337447% more PP. Compact LDS and small shared-down remain unmeasured.
+
+The following entries preserve the earlier experimental progression; their
+then-pending SSM states are superseded by the completed result above.
+
 The [fixed-M/K SSM candidate](docs/Q2-SSM-FIXED-SHAPE.md) measures
 **1582.845143 PP / 25.11696030 TG** on the original exact2048/tg128 benchmark,
 nominally +0.165699% PP versus saved1580.226725. Retain this marginal gain and

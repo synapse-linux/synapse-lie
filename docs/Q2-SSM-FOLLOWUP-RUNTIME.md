@@ -1,11 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Runtime wiring for the SSM follow-ups
 
-Fixed-M/K now completes at1582.845143 PP, nominal +0.165699% versus saved1580,
-with exact parent outputs and no fixture/runtime changes. The90 identical
-fixtures permit reusing qualified host27+27; only the new component and model
-run. Fixed bounds and compact LDS remain unmeasured. Both completed follow-up
-windows are released. [Fixed-M/K results](Q2-SSM-FIXED-SHAPE.md).
+Fixed bounds now completes at1585.308983 PP, nominal +0.155659% against
+saved fixed-M/K1582.845143. Both21-file parent comparisons are exact. The90
+unchanged fixtures again permit explicitly reusing qualified host27+27; only
+the new component/model run. Compact LDS remains unmeasured. All three
+completed follow-up windows are released.
+[Fixed-bounds results](Q2-SSM-FIXED-BOUNDS.md),
+[fixed-M/K results](Q2-SSM-FIXED-SHAPE.md).
 
 The patch is applied at checkpoint `c75e03e`, after the original row-group
 campaign completed. Six applicable integrated tests,142 existing launcher

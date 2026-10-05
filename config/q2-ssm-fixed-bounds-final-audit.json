@@ -1,0 +1,94 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-bounds-final.v1",
+  "plan_sha256": "9498b2a095b02a7eed473e593c38bfb4570096f6156a7cc9227caac77d459462",
+  "model_result_sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+  "component_result_sha256": "c5ab887dc152301c199c807e15e2520d14c98eee4ec6ce0f396c23542c666a9f",
+  "release_sha256": "fc00b067802482077ab97819fc02547a1fdbd055ea5066dbfe58c5c4391c08cd",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "new_artifacts_verified": 30,
+  "reused_host_artifacts": 7,
+  "host_reused": true,
+  "host_rerun": false,
+  "reused_host_label": "q2-ssm-pingpong-host-r1",
+  "new_runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "reused_host_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "frozen_fixtures_verified": 90,
+  "frozen_manifests_verified": 14,
+  "provider_files_verified": 1027,
+  "retired_identities": 1149,
+  "retired_groups": 916,
+  "thermal_max_c": {
+    "q2-ssm-pingpong-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.875
+    },
+    "q2-ssm-fixed-bounds-component-r1": {
+      "amdgpu": 43.0,
+      "k10temp": 65.0
+    },
+    "q2-ssm-fixed-bounds-model-r1": {
+      "amdgpu": 74.0,
+      "k10temp": 80.75
+    }
+  },
+  "resources": [],
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_rerun": false,
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-fixed-bounds-component.csv": "bbb8efa91cb77f0f3becd7528c12e4f66827554b16aa482d69e6c280728f1f4f",
+    "docs/figures/q2-ssm-fixed-bounds-component.svg": "864d6e1a05bb29300c1e91a5b1db4a35f797a9746fd9ce07ac5d5459bb7983c9",
+    "docs/figures/q2-ssm-fixed-bounds-component.png": "c25b110f1546fc6345777a72c80c55aff42295d57f03d7f603470f495ee2add2",
+    "docs/figures/q2-ssm-fixed-bounds-model-wrapped.csv": "edefc0b12bc6c00895e5501f126218e8863c89d5043ffe7fa03048d54cc968d2",
+    "docs/figures/q2-ssm-fixed-bounds-model-wrapped.svg": "5f64402ccab93e21ff9e1311149c202b6f1812fac789fe90efc2959495d2a047",
+    "docs/figures/q2-ssm-fixed-bounds-model-wrapped.png": "d44686941f1f0d90bf2a0a5d533126eb1d76a9478d1618ff1e4cc271b426fe7c"
+  },
+  "preserved_nonzero_exits": {},
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

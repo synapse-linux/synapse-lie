@@ -21,7 +21,10 @@ quality or full-model acceptance.
 The subsequent fixed-M/K GPU campaign passes30 complete output pairs,
 60 sampled FP64 checks and21 parent model files. Original-model prefill is
 1582.845143 versus saved1580.226725, a nominal +0.165699%; both sources are
-retained. Fixed bounds and producer fusion remain unmeasured. Independent
-model task quality and full context/concurrency parity remain open.
+retained. The subsequent bounds experiment passes the same component checks
+and both21-file saved-model comparisons, measuring1585.308983 PP, nominal
++0.155659% versus saved1582. Both sources remain. Producer fusion is unmeasured;
+independent model task quality and full context/concurrency parity remain open.
+[Bounds results](../../docs/Q2-SSM-FIXED-BOUNDS.md).
 
 See [mechanisms and evidence](../../docs/Q2-SSM-FIXED-SHAPE.md).

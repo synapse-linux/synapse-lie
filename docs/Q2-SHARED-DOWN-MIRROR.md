@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Shared-down cache and fixed-shape component preparation
 
+The expert-cache source review distinguishes resident encoded weights from
+persistent dequantized copies. Qwen `DeviceModel::Upload` copies every layer's
+`ffn_gate_exps`, `ffn_up_exps` and `ffn_down_exps` through `Uploader::Copy`
+into owned HIP allocations, kept until model destruction. The retained Q2
+provider has no persistent dequantized routed-expert cache or LRU eviction.
+Expert weights therefore do not require another disk read for each token.
+
+In independently fetched official Gufo revision
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, DS4 separately maintains resident
+model tensor ranges and optional Q8-to-F16 copies. Its
+`hip_q8_f16_cache_allowed` explicitly includes shared gate/up/down tensors;
+`hip_q8_f16_ptr` reuses copies subject to memory budget and falls back to Q8
+when expansion is unavailable. This is not a general cache of all dequantized
+routed Q2 experts. The comparison concerns that pinned upstream source, not
+the other agent's live DS4 branch. Both mechanisms cache weights, not KV state.
+
 This is a new component experiment for M2560/N2048/K640 shared down, excluded
 from the already measured [large Q8 mirror trial](Q2-Q8-MIRROR.md). That earlier
 trial lost2.164926% whole-model PP; it is not repeated or relabeled here.
