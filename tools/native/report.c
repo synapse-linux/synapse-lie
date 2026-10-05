@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "bench_native.h"
+#include "lie/core.h"
 #include <inttypes.h>
 #include <limits.h>
 #include <math.h>
@@ -311,7 +312,20 @@ static json_object *core_steering(json_object *id,json_object *loading){
        !nb_count(requested,"vector_budget_bytes",1,INT64_MAX,&budget))return NULL;
     bank=flag(requested,"requested");if(!bank&&(ffn||attention))return NULL;
     json_object_object_foreach(requested,key,value){
-      (void)value;if(strcmp(key,"requested")&&strcmp(key,"ffn")&&strcmp(key,"attention")&&strcmp(key,"vector_budget_bytes"))return NULL;
+      (void)value;if(strcmp(key,"requested")&&strcmp(key,"ffn")&&strcmp(key,"attention")&&strcmp(key,"vector_budget_bytes")&&strcmp(key,"schedule"))return NULL;
+    }
+  }
+  json_object *schedule=declared?nb_get(requested,"schedule"):NULL;
+  if(schedule){
+    if(!json_object_is_type(schedule,json_type_array)||json_object_array_length(schedule)>LIE_STEERING_SCHEDULE_MAX||
+       (!bank&&json_object_array_length(schedule)))return NULL;
+    int64_t previous=-1;
+    for(size_t i=0;i<json_object_array_length(schedule);++i){json_object *row=json_object_array_get_idx(schedule,i);int64_t position;double f,a;
+      if(!json_object_is_type(row,json_type_object)||json_object_object_length(row)!=3||
+         !nb_count(row,"position",0,LIE_CORE_MAX_CONTEXT-1,&position)||position<=previous||
+         !steering_scale(row,"ffn",&f)||!steering_scale(row,"attention",&a)||
+         (double)(float)f!=f||(double)(float)a!=a)return NULL;
+      previous=position;
     }
   }
   json_object *admitted=NULL;
@@ -334,7 +348,39 @@ static json_object *core_steering(json_object *id,json_object *loading){
   nb_real(out,"ffn",ffn);nb_real(out,"attention",attention);nb_num(out,"vector_budget_bytes",budget);
   nb_str(out,"bank_file_sha256",bank?nb_string(admitted,"bank_file_sha256"):"");
   nb_str(out,"bank_scope_sha256",bank?nb_string(admitted,"bank_scope_sha256"):"");
+  json_object_object_add(out,"schedule",schedule?json_object_get(schedule):json_object_new_array());
   return out;
+}
+static bool core_schedule_result(json_object *job,json_object *steering,int64_t prompt,int64_t budget){
+  json_object *plan=nb_get(steering,"schedule"),*actual=nb_get(job,"steering_schedule");
+  size_t count=json_object_array_length(plan);if(!count)return actual==NULL;
+  if(!json_object_is_type(actual,json_type_object)||
+     !nb_count(actual,"completed",count,count,NULL)||!nb_count(actual,"applied",count,count,NULL)||
+     !json_object_is_type(nb_get(actual,"terminal"),json_type_boolean)||!flag(actual,"terminal")||
+     !nb_count(actual,"completed_positions",prompt+nb_number(job,"output_tokens"),prompt+nb_number(job,"output_tokens"),NULL)||
+     !nb_count(actual,"history_epochs",0,prompt+nb_number(job,"output_tokens"),NULL)||
+     !steering_hash(actual,"combined_scope_sha256",true))return false;
+  json_object *results=nb_get(actual,"steps");
+  if(!json_object_is_type(results,json_type_array)||json_object_array_length(results)!=count)return false;
+  for(size_t i=0;i<count;++i){json_object *step=json_object_array_get_idx(plan,i),*result=json_object_array_get_idx(results,i);
+    int64_t position=nb_number(step,"position");
+    if(position>=prompt+budget||position>prompt+nb_number(job,"output_tokens")||
+       !nb_count(result,"position",position,position,NULL)||!nb_count(result,"actual_position",position,position,NULL)||
+       !nb_count(result,"status",LIE_OK,LIE_OK,NULL)||
+       !nb_same(result,step,"ffn")||!nb_same(result,step,"attention")||
+       !json_object_is_type(nb_get(result,"attempted"),json_type_boolean)||!flag(result,"attempted")||
+       !json_object_is_type(nb_get(result,"applied"),json_type_boolean)||!flag(result,"applied"))return false;
+  }
+  json_object *last=json_object_array_get_idx(plan,count-1);double f,a;
+  return steering_scale(actual,"final_ffn",&f)&&steering_scale(actual,"final_attention",&a)&&
+         f==json_object_get_double(nb_get(last,"ffn"))&&a==json_object_get_double(nb_get(last,"attention"));
+}
+static int64_t core_schedule_cache_limit(json_object *steering,int64_t prompt){
+  json_object *plan=nb_get(steering,"schedule");
+  for(size_t i=0;i<json_object_array_length(plan);++i){int64_t position=nb_number(json_object_array_get_idx(plan,i),"position");
+    if(position>0)return position<prompt?position:prompt;
+  }
+  return prompt;
 }
 static json_object *core(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
@@ -451,6 +497,10 @@ static json_object *core(json_object *rows, nb_error *e) {
               ssd = nb_number(r, "ssd_cached_tokens"),
               tg = nb_number(r, "output_tokens"),
               total = nb_number(r, "total_ns");
+      CHECK(core_schedule_result(r,steering,pp,nb_number(id,"output_limit"))&&nb_same(r,first,"steering_schedule"),
+            "Core steering schedule boundaries or applied history mismatch");
+      int64_t cache_limit=core_schedule_cache_limit(steering,pp);
+      CHECK(cached<=cache_limit,"Core steering schedule cache boundary crossed");
       CHECK(!ignore_eos || (tg == nb_number(id, "output_limit") && eqs(r, "finish", "length")),
             "Incomplete fixed-budget core decode");
       CHECK((!nb_get(r, "cached_tokens") ||
@@ -464,7 +514,7 @@ static json_object *core(json_object *rows, nb_error *e) {
                 (disk || !nb_number(r, "ssd_read_ns")),
             "Core disk timing");
       CHECK(!eqs(id, "checkpoint_policy", "legacy") || cached == pp ||
-                cached % nb_number(id, "prefill_chunk") == 0,
+                cached % nb_number(id, "prefill_chunk") == 0 || (cache_limit<pp&&cached==cache_limit),
             "Unaligned legacy cache reuse");
       CHECK(nb_number(r, "prompt_tokens") == pp &&
                 nb_count(r, "prefill_tokens", 0, pp, NULL) &&

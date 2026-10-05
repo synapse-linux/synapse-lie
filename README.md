@@ -8,8 +8,9 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with an owned [C17 dense sampler](docs/development/C17-SAMPLING.md).
 Sampler correctness checks pass; performance qualification remains open.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
-and server/bench controls with host validation. The shared core also supports
-live job updates; dynamic client controls and numerical GPU qualification remain pending.
+and server/bench controls with host validation, including scheduled benchmark
+changes and live updates to stored single-choice HTTP requests. Numerical GPU
+qualification remains pending.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports

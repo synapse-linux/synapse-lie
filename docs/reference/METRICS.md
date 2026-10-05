@@ -169,8 +169,14 @@ policy/resource metadata, not executed-token counters, GPU timing or evidence
 that a numerical steering edit occurred. `lie_job_steering_snapshot` projects the
 latest owner-confirmed policy, submitted/completed tickets, pending status,
 application status and retained application position. The semantic image scope
-is separate from the combined scope. HTTP/bench live-policy projection remains
-open; [core/provider/cache binding is present](../development/STEERING.md).
+is separate from the combined scope. The retained-request HTTP `/steering`
+extension projects these snapshots without waiting for inference. Native core
+identity carries the complete binary32 scale schedule; every planned job reports
+attempted/applied steps, actual positions, final scales and confirmed history/scope.
+Optional progress includes the same schedule snapshot. Reports refuse unfulfilled
+or crossed steps and compare the complete plan, treating absent historical plans
+as empty. These host projections do not qualify numerical changes.
+[Core/provider/cache binding](../development/STEERING.md).
 The direct C model query reports immutable bank geometry/host vector bytes and
 the private provider's owned device vector allocation separately from model
 weights; allocator overhead and workspace are not included. The sequence query

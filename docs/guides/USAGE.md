@@ -48,7 +48,7 @@ actual original-weight capacity depends on memory and GPU qualification.
 
 ## Directional steering
 
-Experimental initial steering uses DS4-compatible layer-major `.f32` directions:
+Experimental steering uses DS4-compatible layer-major `.f32` directions:
 
 ```sh
 build/release/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
@@ -56,13 +56,38 @@ build/release/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
   --dir-steering-ffn 1 --dir-steering-attn 0
 ```
 
-Both scales are finite in [-100,100], fixed for the model's lifetime. File defaults
+Both scales are finite in [-100,100]. The flags set initial session defaults;
+they do not change completed prompt/state. File defaults
 are FFN 1 and attention 0; vector data has a 16 MiB admission budget. Use the same
 file and initial scales after restart to reuse steered RAM/SSD prefixes. Omit the
 file for ordinary inference. These controls also work in `--suite core` bench;
-direct executor suites do not accept them. Initial controls have host tests;
-dynamic HTTP/bench controls and numerical GPU quality/performance qualification
-remain pending. The shared core has a separate asynchronous live-job API.
+direct executor suites do not accept them. Initial and dynamic controls have host
+tests; numerical GPU quality/performance qualification remains pending.
+
+For an active request created with `store:true`, use its returned ID to submit a
+live change. These `/steering` routes are LIE extensions to the two APIs:
+
+```sh
+LIE_REQUEST_ID=resp_ID_FROM_THE_RUNNING_REQUEST
+curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering \
+  -H 'Content-Type: application/json' -d '{"ffn":-1,"attention":0.25}'
+curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering
+```
+
+For Chat Completions, use `/v1/chat/completions/CHAT_ID/steering` and `n:1`.
+POST returns **202** with an admission `ticket`; GET reports `pending`,
+`completed`, `last_result` and the last confirmed `policy`. Wait for
+`completed == ticket` and status `0` before treating the change as applied.
+`applied_position` is the retained physical boundary actually used. An already
+selected call can finish first; this API does not promise the next output-token
+index. A pending change, finished job or multi-choice request returns **409**;
+an absent bank returns **501**. Both scales are required. Past state and sampled
+corrections remain intact. Use a sufficiently long running request to exercise
+the control before retirement.
+
+The native core bench also accepts `--dir-steering-plan FILE.json` for changes
+at exact declared physical positions; see
+[scheduled benchmarks](BENCHMARKS.md#scheduled-steering).
 See [format and implementation](../development/STEERING.md).
 
 ## Chat, streaming and Responses

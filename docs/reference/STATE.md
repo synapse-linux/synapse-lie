@@ -86,6 +86,13 @@ host qualification. The core refreshes scope after every completed changed-polic
 forward, preserving the separate image identity and refusing uniform-history
 reuse of mixed state. Actual GPU continuation remains pending. Existing opens
 without a bank retain their RAM/SSD path.
+Scheduled jobs select token-key candidates bounded by the first unapplied
+physical step. Position-zero settings are applied before lookup; a longer
+uniform cached prompt cannot skip a future change. Captures retain actual
+mixed-history scopes. The initial lookup does not yet seek a mixed-history
+checkpoint beyond that first boundary. No state framing or DS4 tensor body
+changes for schedule metadata, which is a copied client control rather than
+model state.
 See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.

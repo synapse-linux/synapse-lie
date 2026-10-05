@@ -297,6 +297,7 @@ add_library(lie_bench_native STATIC tools/native/common.c tools/native/http_tran
   tools/native/gufo_workload.c tools/native/http_curve.c
   tools/native/http_bench.c tools/native/http_multi.c tools/native/ssd_bench.c tools/native/report.c tools/native/plot.c)
 target_include_directories(lie_bench_native PUBLIC tools/native)
+target_include_directories(lie_bench_native PRIVATE include)
 target_link_libraries(lie_bench_native PUBLIC PkgConfig::JSON PkgConfig::CURL OpenSSL::Crypto PNG::PNG Threads::Threads m)
 add_executable(synapse-lie-bench tools/lie-bench.c tools/core-bench.c tools/state-bench.c)
 target_link_libraries(synapse-lie-bench PRIVATE lie_core lie_bench_native)

@@ -264,6 +264,48 @@ or its sum of individual request rates. The direct `single`/`multi`/`fresh`
 suites currently support AR only; using `core` does not complete those MTP
 comparison workloads.
 
+## Scheduled steering
+
+Use `--suite core --dir-steering-plan FILE.json` to compare repeatable changes
+during prompt processing or generation. The model must also have an admitted
+`--dir-steering-file`. For a physical input file containing exactly 1,500 token
+IDs, this plan changes scales before evaluation, at position 1,024 and at the
+completed prompt boundary:
+
+```sh
+cat > results/steering-plan.json <<'JSON'
+[
+  {"position":0,"ffn":1,"attention":0},
+  {"position":1024,"ffn":-1,"attention":0},
+  {"position":1500,"ffn":0,"attention":0.25}
+]
+JSON
+build/release/synapse-lie-bench --suite core \
+  --model "$LIE_MODEL" --tokens-file prompt-1500.json \
+  --context 4096 --tg 128 --ignore-eos --users 2 --repetitions 3 \
+  --dir-steering-file /path/to/directions.f32 \
+  --dir-steering-plan results/steering-plan.json \
+  --output results/lie-steering.jsonl --graphs results/lie-steering
+```
+
+The JSON array contains 1–64 steps with strictly increasing integer `position`
+and both finite scales in [-100,100]. Positions count retained physical prompt
+and generated positions. The inference owner splits prefill and caps each row's
+AR/MTP burst to reach those boundaries exactly. Past tensors, logits and sampled
+corrections remain intact; scales affect future forward work. A step outside the
+prepared prompt/output budget is refused. An unreached step on early EOS fails
+the sample and retains its final status.
+
+Identity records the complete canonical binary32 scale plan. Each job records
+actual application positions, status and final history/scope. Reports reject
+crossed/unapplied changes and require matching plans, bank identities, sampling
+and the other existing comparison settings. Ordinary runs have an empty plan;
+historical reports without a plan retain that meaning. Cache reuse is limited
+to a compatible token prefix before the first unapplied step; mixed histories
+cannot replace uniform ones. The fixed plan disallows additional live changes
+and `--reactive-probe`. Host fixtures verify scheduling and accounting; numerical
+GPU quality, continuation and cost still need their own qualification.
+
 ## HTTP workloads
 
 Start the server first. This suite uses the native C HTTP client:

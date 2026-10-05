@@ -46,6 +46,7 @@ struct lie_job {
   unsigned char cache_scope[32];
   unsigned char semantic_scope[32]; /* Image identity before steering composition. */
   lie_job_steering_info steering; /* Copied requests/snapshots under job gate. */
+  lie_steering_schedule_info *schedule; /* Optional copied immutable steps. */
   int32_t *prompt;
   size_t tokens, fed;
   size_t checkpoint, next_continued, last_capture;
@@ -150,6 +151,7 @@ static void job_drop(lie_job *j) {
   free(j->scores);
   free(j->score_offsets);
   free(j->reporting_logits);
+  free(j->schedule);
   free(j->prompt);
   free(j->rendered);
   free(j->text_offsets);
@@ -167,10 +169,22 @@ lie_status lie_job_steering_snapshot(lie_job *j,lie_job_steering_info *out,lie_e
     }
     pthread_mutex_lock(&j->gate);*out=j->steering;pthread_mutex_unlock(&j->gate);return LIE_OK;
 }
+static bool steering_settings_valid(const lie_steering_settings *s){
+    return s&&s->abi_version==LIE_STEERING_POLICY_ABI&&s->struct_bytes==sizeof(*s)&&
+           isfinite(s->ffn)&&fabsf(s->ffn)<=100&&isfinite(s->attention)&&fabsf(s->attention)<=100;
+}
+lie_status lie_job_steering_schedule_snapshot(lie_job *j,lie_steering_schedule_info *out,lie_error *e){
+    if(!j||!out||out->abi_version!=LIE_STEERING_SCHEDULE_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid steering schedule snapshot");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&j->gate);
+    if(j->schedule)*out=*j->schedule;
+    else *out=(lie_steering_schedule_info){.abi_version=LIE_STEERING_SCHEDULE_ABI,.struct_bytes=sizeof(*out),.terminal=j->info.retired};
+    pthread_mutex_unlock(&j->gate);return LIE_OK;
+}
 lie_status lie_job_change_steering(lie_job *j,const lie_steering_settings *settings,uint64_t *ticket,lie_error *e){
-    if(!j||!ticket||!settings||settings->abi_version!=LIE_STEERING_POLICY_ABI||
-       settings->struct_bytes!=sizeof(*settings)||!isfinite(settings->ffn)||fabsf(settings->ffn)>100||
-       !isfinite(settings->attention)||fabsf(settings->attention)>100){
+    if(!j||!ticket||!steering_settings_valid(settings)){
         if(e)snprintf(e->message,sizeof(e->message),"invalid job steering scales");
         return LIE_INVALID;
     }
@@ -178,6 +192,7 @@ lie_status lie_job_change_steering(lie_job *j,const lie_steering_settings *setti
     pthread_mutex_lock(&j->gate);
     if(!w->steering_path)rc=LIE_UNSUPPORTED;
     else if(j->info.retired||j->info.finish!=LIE_FINISH_NONE||atomic_load(&j->cancel)||atomic_load(&w->stop))rc=LIE_CANCELLED;
+    else if(j->schedule)rc=LIE_INVALID;
     else if(j->steering.pending||j->steering.submitted==UINT64_MAX)rc=LIE_RESOURCE_LIMIT;
     if(rc==LIE_OK){
         j->steering.requested=*settings;
@@ -221,6 +236,7 @@ size_t lie_job_retention_bytes(lie_job *j) {
   size_t n = sizeof(*j) + j->request_bytes +
              (size_t)info.model.context_tokens * sizeof(int32_t) +
              j->request.max_tokens * sizeof(int32_t);
+  if(j->schedule)n+=sizeof(*j->schedule);
   if (j->request.generation.logprobs)
     n += j->request.max_tokens * (sizeof(lie_token_logprobs) + sizeof(size_t));
   n += (size_t)j->request.max_tokens * LIE_CORE_TOKEN_BYTES * 12;
@@ -375,6 +391,11 @@ static void finish_job(lie_core *w, size_t index, lie_job_finish finish,
     j->steering.status=finish==LIE_FINISH_BACKEND?LIE_BACKEND_FAILED:LIE_CANCELLED;
     snprintf(j->steering.error,sizeof(j->steering.error),"job retired before steering change applied");
   }
+  if(j->schedule){
+    j->schedule->terminal=true;
+    for(size_t i=j->schedule->completed;i<j->schedule->count;++i)
+      j->schedule->results[i].status=finish==LIE_FINISH_BACKEND?LIE_BACKEND_FAILED:LIE_CANCELLED;
+  }
   lie_sequence *sequence = j->sequence;
   j->sequence = NULL;
   pthread_mutex_unlock(&j->gate);
@@ -441,6 +462,9 @@ static lie_status steering_apply(lie_job *j,lie_error *e){
     pthread_mutex_unlock(&j->gate);if(!pending)return LIE_OK;
     lie_status rc=lie_sequence_change_steering(j->sequence,&settings,e);
     if(rc==LIE_OK&&steering_refresh(j,e)!=LIE_OK)rc=LIE_BACKEND_FAILED;
+    if(rc==LIE_OK&&(j->steering.policy.settings.ffn!=settings.ffn||j->steering.policy.settings.attention!=settings.attention)){
+      rc=LIE_BACKEND_FAILED;if(e)snprintf(e->message,sizeof(e->message),"steering change did not confirm requested scales");
+    }
     pthread_mutex_lock(&j->gate);
     j->steering.pending=false;j->steering.completed=ticket;j->steering.status=rc;
     if(rc==LIE_OK)j->steering.applied_position=j->position;
@@ -450,6 +474,37 @@ static lie_status steering_apply(lie_job *j,lie_error *e){
     /* Pure refusal leaves this job usable. A mutating provider failure is
      * fatal to the shared model and is propagated to the owner below. */
     return rc==LIE_BACKEND_FAILED?rc:LIE_OK;
+}
+static uint64_t steering_boundary(const lie_job *j){
+    return j->schedule&&j->schedule->completed<j->schedule->count?
+           j->schedule->steps[j->schedule->completed].position:UINT64_MAX;
+}
+/* Existing owner only. A plan is fixed before publication; no client polling
+ * decides where a change occurs, and no speculative burst may cross it. */
+static lie_status steering_schedule_apply(lie_job *j,lie_error *e){
+    uint64_t boundary=steering_boundary(j);
+    if(boundary>j->position)return LIE_OK;
+    if(boundary<j->position){
+      if(e)snprintf(e->message,sizeof(e->message),"steering schedule boundary %llu crossed at %u",(unsigned long long)boundary,j->position);
+      return LIE_BACKEND_FAILED;
+    }
+    size_t index=j->schedule->completed;
+    lie_status rc=lie_sequence_change_steering(j->sequence,&j->schedule->steps[index].settings,e);
+    if(rc==LIE_OK&&steering_refresh(j,e)!=LIE_OK)rc=LIE_BACKEND_FAILED;
+    if(rc==LIE_OK&&(j->steering.policy.settings.ffn!=j->schedule->steps[index].settings.ffn||
+       j->steering.policy.settings.attention!=j->schedule->steps[index].settings.attention)){
+      rc=LIE_BACKEND_FAILED;if(e)snprintf(e->message,sizeof(e->message),"steering schedule did not confirm requested scales");
+    }
+    pthread_mutex_lock(&j->gate);
+    j->schedule->results[index]=(lie_steering_step_result){true,rc==LIE_OK,rc,j->position};
+    ++j->schedule->completed;if(rc==LIE_OK)++j->schedule->applied;
+    pthread_mutex_unlock(&j->gate);
+    signal_fd(j->owner->notice);
+    return rc;
+}
+static size_t steering_restore_limit(const lie_job *j){
+    uint64_t boundary=steering_boundary(j);
+    return boundary<j->tokens?(size_t)boundary:j->tokens;
 }
 static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reason reason,lie_error *error) {
     if(!restore){lie_status checked=steering_refresh(j,error);if(checked!=LIE_OK)return checked;}
@@ -474,7 +529,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
-    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,j->tokens,w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,j->cache_scope,&reused,error):
+    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,steering_restore_limit(j),w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,j->cache_scope,&reused,error):
         lie_prefix_cache_capture_scope(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
                                         w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,j->cache_scope,error);
     if(!restore&&rc==LIE_OK&&w->store){
@@ -531,7 +586,7 @@ static bool ssd_collect(lie_core *w){
         const lie_state_layout *layout=lie_state_description(result.state);
         /* Complete file validation precedes this model geometry check. Both
          * are nonmutating; only a compatible admitted upload is fatal on error. */
-        bool text_ok=lie_state_scope_equal(result.state,j->cache_scope)&&(!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata));
+        bool text_ok=layout->token_count<=steering_restore_limit(j)&&lie_state_scope_equal(result.state,j->cache_scope)&&(!j->text_lookup||rebuild_prompt(w,j,result.state,&result.metadata));
         lie_status rc=info.state==LIE_READY&&text_ok?lie_sequence_state_describe(j->sequence,layout,&expected,&error):LIE_INVALID;
         if(rc==LIE_OK&&lie_state_layout_equal(layout,&expected)){
             pthread_mutex_lock(&w->gate);w->dispatch=j;j->executing=true;w->info.executor_phase=LIE_EXECUTOR_RESTORE;pthread_mutex_unlock(&w->gate);
@@ -742,6 +797,10 @@ static bool step(lie_core *w, size_t index) {
     }
     if (j->automatic_output && j->output_limit > w->options.context - j->tokens)
       j->output_limit = (unsigned)(w->options.context - j->tokens);
+    if(j->schedule&&j->schedule->steps[j->schedule->count-1].position>=j->tokens+j->output_limit){
+      if(vision)(void)lie_vision_prompt_close(&vision,NULL);
+      finish_job(w,index,LIE_FINISH_INVALID,"steering_schedule_outside_generation");return true;
+    }
     for (size_t k = 0; k < j->tokens; ++k)
       if (j->prompt[k] < 0 || (uint32_t)j->prompt[k] >= wi.model.vocab_tokens) {
         if (vision)
@@ -832,14 +891,15 @@ static bool step(lie_core *w, size_t index) {
     j->info.prepared = true;
     checkpoint_targets(w, j);
     pthread_mutex_unlock(&j->gate);
-    rc=steering_refresh(j,&error);
-    if(rc!=LIE_OK){poison(w,&error);finish_job(w,index,LIE_FINISH_BACKEND,error.message);return true;}
+    rc=steering_schedule_apply(j,&error);
+    if(rc==LIE_OK)rc=steering_refresh(j,&error);
+    if(rc!=LIE_OK){if(rc==LIE_BACKEND_FAILED)poison(w,&error);finish_job(w,index,rc==LIE_BACKEND_FAILED?LIE_FINISH_BACKEND:rc==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_INVALID,error.message);return true;}
     if (w->store || ((w->options.prefix_cache_bytes || w->store) &&
                      w->options.cache_policy.enabled &&
                      w->options.cache_policy.text_prefix &&
                      j->request.kind != LIE_INPUT_TOKENS)) {
       j->text_complete = render_prompt(w, j);
-      j->text_lookup = !j->request.image_count &&
+      j->text_lookup = !j->schedule && !j->request.image_count &&
                        j->request.kind != LIE_INPUT_TOKENS &&
                        w->options.cache_policy.enabled &&
                        w->options.cache_policy.text_prefix &&
@@ -878,7 +938,7 @@ static bool step(lie_core *w, size_t index) {
         j->text_lookup
             ? lie_store_read_text_scoped_key(w->store, key, key_bytes,
                                       w->options.chunk, j->request.cache.flags,j->cache_scope)
-            : lie_store_read_scoped_key(w->store, j->prompt, j->tokens,
+            : lie_store_read_scoped_key(w->store, j->prompt, steering_restore_limit(j),
                                         w->options.chunk,
                                         j->request.cache.flags, j->cache_scope);
     if (j->ssd_ticket)
@@ -892,10 +952,17 @@ static bool step(lie_core *w, size_t index) {
   if(steering_apply(j,&error)!=LIE_OK){
     poison(w,&error);finish_job(w,index,LIE_FINISH_BACKEND,error.message);return true;
   }
+  lie_status planned=steering_schedule_apply(j,&error);
+  if(planned!=LIE_OK){
+    if(planned==LIE_BACKEND_FAILED)poison(w,&error);
+    finish_job(w,index,planned==LIE_BACKEND_FAILED?LIE_FINISH_BACKEND:planned==LIE_CANCELLED?LIE_FINISH_CANCEL:LIE_FINISH_INVALID,error.message);return true;
+  }
   if (j->fed < j->tokens) {
     size_t add = j->tokens - j->fed;
     if (add > w->options.chunk)
       add = w->options.chunk;
+    uint64_t boundary=steering_boundary(j);
+    if(boundary-j->fed<add)add=(size_t)(boundary-j->fed);
     if (w->options.cache_policy.enabled) {
       if (j->checkpoint > j->fed && j->checkpoint - j->fed < add)
         add = j->checkpoint - j->fed;
@@ -971,10 +1038,10 @@ static bool decode_ready(lie_core *w) {
     lie_job *j = w->jobs[i];
     pthread_mutex_unlock(&w->gate);
     if (j && j->sequence && j->fed == j->tokens && !j->capture_pending &&
-        !j->finish_pending && !atomic_load(&j->cancel) &&
+        !j->finish_pending && steering_boundary(j)>j->position && !atomic_load(&j->cancel) &&
         !atomic_load(&w->stop)) {
       indices[n] = i;
-      rows[n++] = (lie_inference_row){
+      rows[n] = (lie_inference_row){
           .sequence = j->sequence,
           .flow = j->flow,
           .position = j->position,
@@ -989,6 +1056,9 @@ static bool decode_ready(lie_core *w) {
                          ? j->output_limit - j->info.output_tokens
                          : wi.mtp.max_output_tokens)
                   : 1};
+      uint64_t boundary=steering_boundary(j);
+      if(boundary-j->position<rows[n].step_tokens)rows[n].step_tokens=(uint32_t)(boundary-j->position);
+      ++n;
     }
   }
   if (!n)
@@ -1400,12 +1470,19 @@ void lie_core_destroy(lie_core *w) {
 }
 int lie_core_fd(lie_core *w) { return w->notice; }
 void lie_core_drain(lie_core *w) { drain_fd(w->notice); }
-int lie_core_submit(lie_core *w, const lie_core_request *request,
-                    lie_job **out) {
+int lie_core_submit_steering(lie_core *w, const lie_core_request *request,
+                            const lie_steering_schedule *schedule,lie_job **out) {
   if (!w || !request || !out || *out ||
       request->abi_version != LIE_CORE_REQUEST_ABI ||
       request->struct_bytes != sizeof(*request))
     return 3;
+  if(schedule){
+    if(!w->steering_path||schedule->abi_version!=LIE_STEERING_SCHEDULE_ABI||
+       schedule->struct_bytes!=sizeof(*schedule)||!schedule->count||schedule->count>LIE_STEERING_SCHEDULE_MAX||!schedule->steps)return 3;
+    for(size_t i=0;i<schedule->count;++i)
+      if(!steering_settings_valid(&schedule->steps[i].settings)||schedule->steps[i].position>=w->options.context||
+         (i&&schedule->steps[i-1].position>=schedule->steps[i].position))return 3;
+  }
   pthread_mutex_lock(&w->gate);
   int result = w->info.state != LIE_READY || atomic_load(&w->stop) ? 1
                : w->info.active + w->info.queued + w->preparing >= LIE_CORE_JOBS
@@ -1429,6 +1506,15 @@ int lie_core_submit(lie_core *w, const lie_core_request *request,
       !lie_core_input_copy_sized(request, &j->request, &j->request_storage,
                                  &j->request_bytes))
     goto prepare_failed;
+  if(schedule){
+    j->schedule=calloc(1,sizeof(*j->schedule));if(!j->schedule)goto prepare_failed;
+    j->schedule->abi_version=LIE_STEERING_SCHEDULE_ABI;j->schedule->struct_bytes=sizeof(*j->schedule);
+    j->schedule->count=schedule->count;
+    for(size_t i=0;i<schedule->count;++i){j->schedule->steps[i]=schedule->steps[i];
+      if(j->schedule->steps[i].settings.ffn==0)j->schedule->steps[i].settings.ffn=0;
+      if(j->schedule->steps[i].settings.attention==0)j->schedule->steps[i].settings.attention=0;
+    }
+  }
   j->automatic_output = !j->request.max_tokens;
   if (j->automatic_output)
     j->request.max_tokens = w->options.context - 1 < LIE_CORE_MAX_OUTPUT
@@ -1500,12 +1586,16 @@ prepare_failed:
     free(j->output_ids);
     free(j->scores);
     free(j->score_offsets);
+    free(j->schedule);
     free(j);
   }
   pthread_mutex_lock(&w->gate);
   --w->preparing;
   pthread_mutex_unlock(&w->gate);
   return 3;
+}
+int lie_core_submit(lie_core *w,const lie_core_request *r,lie_job **out){
+    return lie_core_submit_steering(w,r,NULL,out);
 }
 lie_flow *lie_job_flow(lie_job *j) {
     if(!j||j->output_mode==2)return NULL;

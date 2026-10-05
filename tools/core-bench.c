@@ -4,6 +4,7 @@
 #include "lie/events.h"
 #include "bench_native.h"
 #include "lie/text.h"
+#include "../src/output_json.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <json-c/json.h>
@@ -67,6 +68,57 @@ static char *read_input(const char *path,size_t *bytes) {
     bool valid=*bytes && *bytes<=LIE_CHAT_BODY_BYTES && !ferror(f);fclose(f);
     if(!valid){free(p);return NULL;}p[*bytes]=0;return p;
 }
+static bool read_schedule(const char *path,lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX],lie_steering_schedule *plan){
+    size_t bytes=0;char *data=read_input(path,&bytes);if(!data)return false;
+    oj_node *unique=oj_parse(data,bytes);nb_error error={0};json_object *array=unique?nb_parse(data,bytes,&error):NULL;oj_free(unique);free(data);
+    bool valid=json_object_is_type(array,json_type_array);
+    size_t count=valid?json_object_array_length(array):0;
+    valid=valid&&count&&count<=LIE_STEERING_SCHEDULE_MAX;
+    for(size_t i=0;valid&&i<count;++i){
+        json_object *row=json_object_array_get_idx(array,i);int64_t position=0;
+        valid=json_object_is_type(row,json_type_object)&&json_object_object_length(row)==3&&
+              nb_count(row,"position",0,LIE_CORE_MAX_CONTEXT-1,&position)&&(!i||(uint64_t)position>steps[i-1].position);
+        const char *keys[]={"ffn","attention"};float *values[]={&steps[i].settings.ffn,&steps[i].settings.attention};
+        lie_steering_settings_init(&steps[i].settings,true);steps[i].position=(uint64_t)position;
+        for(unsigned k=0;valid&&k<2;++k){json_object *v=nb_get(row,keys[k]);double x=json_object_get_double(v);
+            valid=(json_object_is_type(v,json_type_int)||json_object_is_type(v,json_type_double))&&isfinite(x)&&fabs(x)<=100;
+            if(valid)*values[k]=(float)(x==0?0:x);
+        }
+    }
+    json_object_put(array);
+    if(valid)*plan=(lie_steering_schedule){LIE_STEERING_SCHEDULE_ABI,sizeof(*plan),count,steps};
+    return valid;
+}
+static json_object *schedule_json(const lie_steering_schedule *plan){
+    json_object *array=json_object_new_array();
+    for(size_t i=0;plan&&i<plan->count;++i){json_object *step=json_object_new_object();
+        number(step,"position",plan->steps[i].position);nb_real(step,"ffn",plan->steps[i].settings.ffn);
+        nb_real(step,"attention",plan->steps[i].settings.attention);json_object_array_add(array,step);
+    }
+    return array;
+}
+static json_object *schedule_result(lie_job *job,bool *complete){
+    lie_steering_schedule_info plan={.abi_version=LIE_STEERING_SCHEDULE_ABI,.struct_bytes=sizeof(plan)};
+    lie_job_steering_info policy={.abi_version=LIE_JOB_STEERING_ABI,.struct_bytes=sizeof(policy)};
+    if(lie_job_steering_schedule_snapshot(job,&plan,NULL)!=LIE_OK||lie_job_steering_snapshot(job,&policy,NULL)!=LIE_OK)return NULL;
+    *complete=plan.terminal&&plan.completed==plan.count&&plan.applied==plan.count;
+    json_object *out=json_object_new_object(),*results=json_object_new_array();
+    number(out,"completed",plan.completed);number(out,"applied",plan.applied);
+    json_object_object_add(out,"terminal",json_object_new_boolean(plan.terminal));
+    json_object_object_add(out,"steps",results);
+    for(size_t i=0;i<plan.count;++i){json_object *step=json_object_new_object();
+        number(step,"position",plan.steps[i].position);number(step,"actual_position",plan.results[i].actual_position);
+        nb_real(step,"ffn",plan.steps[i].settings.ffn);nb_real(step,"attention",plan.steps[i].settings.attention);
+        json_object_object_add(step,"attempted",json_object_new_boolean(plan.results[i].attempted));
+        json_object_object_add(step,"applied",json_object_new_boolean(plan.results[i].applied));
+        nb_num(step,"status",plan.results[i].status);json_object_array_add(results,step);
+        *complete=*complete&&plan.results[i].applied&&plan.results[i].actual_position==plan.steps[i].position;
+    }
+    nb_real(out,"final_ffn",policy.policy.settings.ffn);nb_real(out,"final_attention",policy.policy.settings.attention);
+    number(out,"history_epochs",policy.policy.history_epochs);number(out,"completed_positions",policy.policy.completed_positions);
+    char scope[65];for(unsigned k=0;k<32;++k)snprintf(scope+2*k,3,"%02x",policy.combined_scope[k]);text(out,"combined_scope_sha256",scope);
+    return out;
+}
 static bool wait_core(lie_core *c,lie_core_state wanted,uint64_t deadline) {
     for(;;){lie_core_info info;lie_core_snapshot(c,&info);if(info.state==wanted)return true;
         if(wanted!=LIE_STOPPED && (interrupted||info.state==LIE_FAILED||!now()||now()>=deadline))return false;
@@ -76,7 +128,7 @@ static bool wait_core(lie_core *c,lie_core_state wanted,uint64_t deadline) {
     }
 }
 typedef struct {
-    lie_job *job;uint64_t start,first,end,tokens,bytes;bool terminal;
+    lie_job *job;uint64_t start,first,end,tokens,bytes;bool terminal,scheduled;
 } consumer;
 typedef struct { int32_t *prompt;size_t count;bool initialized;int32_t output[LIE_CORE_MAX_OUTPUT];size_t output_count; } witness;
 /* Metadata snapshots only. Sampling does not consume output loans or invoke
@@ -107,18 +159,19 @@ static bool progress(lie_core *core,const consumer *rows,unsigned users,
         number(row,"output_tokens",job.output_tokens);number(row,"consumer_tokens",rows[i].tokens);
         number(row,"decode_calls",job.decode_calls);number(row,"prefill_ns",job.prefill_ns);number(row,"decode_ns",job.decode_ns);
         if(job.error[0])text(row,"error",job.error);
+        if(rows[i].scheduled){bool complete=false;json_object_object_add(row,"steering_schedule",schedule_result(rows[i].job,&complete));}
         json_object_array_add(jobs,row);
     }
     return emit(stderr,line);
 }
 static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned rep,bool warmup,
-                   unsigned timeout,unsigned progress_ms,witness *w,FILE *f,char error[256]) {
+                   unsigned timeout,unsigned progress_ms,const lie_steering_schedule *plan,witness *w,FILE *f,char error[256]) {
     consumer rows[LIE_CORE_JOBS]={0};bool ok=false;unsigned finished=0;
     uint64_t begin=now(),last=0,deadline=begin+(uint64_t)timeout*1000000u,next_progress=begin;
     if(!begin){snprintf(error,256,"clock failure");return false;}
     lie_core_info before;lie_core_snapshot(c,&before);
-    for(unsigned i=0;i<users;++i){rows[i].start=now();
-        if(!rows[i].start||lie_core_submit(c,r,&rows[i].job)){snprintf(error,256,"core admission refused");goto done;}}
+    for(unsigned i=0;i<users;++i){rows[i].start=now();rows[i].scheduled=plan!=NULL;
+        if(!rows[i].start||lie_core_submit_steering(c,r,plan,&rows[i].job)){snprintf(error,256,"core admission refused");goto done;}}
     while(finished<users){
         if(interrupted||!now()||now()>=deadline){snprintf(error,256,"interrupted or core deadline exceeded");goto done;}
         uint64_t observed=progress_ms?now():0;
@@ -161,6 +214,12 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     }
     for(unsigned i=0;i<users;++i){
         lie_job_info info;lie_job_snapshot(rows[i].job,&info);size_t n=0;
+        if(plan){bool complete=false;json_object *result=schedule_result(rows[i].job,&complete);
+            if(!result||!complete){json_object *failure=event("steering_failure");number(failure,"rep",rep);number(failure,"user",i);
+                json_object_object_add(failure,"steering_schedule",result);(void)emit(f,failure);
+                snprintf(error,256,"steering schedule was not completely applied at its declared boundaries");goto done;}
+            json_object_put(result);
+        }
         if(r->eos_policy==LIE_EOS_IGNORE &&
            (info.finish!=LIE_FINISH_LENGTH || info.output_tokens!=r->max_tokens)){
             snprintf(error,256,"incomplete fixed-budget core decode");goto done;}
@@ -190,6 +249,7 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         number(job,"total_ns",rows[i].end-rows[i].start);
         json_object_object_add(job,"first_token_ns",rows[i].first?json_object_new_uint64(rows[i].first-rows[i].start):NULL);
         text(job,"finish",info.finish==LIE_FINISH_STOP?"stop":"length");json_object_object_add(job,"output_ids",ids_json(output,n));
+        if(plan){bool complete=false;json_object_object_add(job,"steering_schedule",schedule_result(rows[i].job,&complete));}
         if(!emit(f,job))goto done;
     }
     lie_core_info after;lie_core_snapshot(c,&after);
@@ -366,7 +426,8 @@ int lie_core_bench_main(int argc,char **argv) {
     lie_core_request request;lie_core_request_init(&request);
     const char *mtp=NULL;unsigned mtp_drafts=0;
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
-    const char *encoder=NULL,*image_path=NULL;
+    const char *encoder=NULL,*image_path=NULL,*plan_path=NULL;
+    lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX]={0};lie_steering_schedule plan={0};
     lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=2048,users=1,tg=128,repetitions=3,warmups=0,timeout=600000,progress_ms=0;
     unsigned cache_mib=(unsigned)(LIE_PREFIX_CACHE_DEFAULT_BYTES/(1024u*1024u));
@@ -375,7 +436,7 @@ int lie_core_bench_main(int argc,char **argv) {
     bool steering_supplied=false;
     lie_rope_profile rope_profile=LIE_ROPE_NATIVE;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2] [--ignore-eos]\n  [--dir-steering-file LAYER-MAJOR.f32 --dir-steering-ffn -100..100 --dir-steering-attn -100..100]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. EOS ends generation by default; --ignore-eos continues to the fixed token budget and records the EOS token without masking it. Only raw-text/token samples allow this flag; vision and reactive probes retain natural EOS. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nSteering uses fixed initial model-wide scales (defaults FFN 1, attention 0), a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. Live scale changes and numerical GPU qualification remain pending.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--chunk 2048] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2] [--ignore-eos]\n  [--dir-steering-file LAYER-MAJOR.f32 --dir-steering-ffn -100..100 --dir-steering-attn -100..100] [--dir-steering-plan JSON-FILE]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. EOS ends generation by default; --ignore-eos continues to the fixed token budget and records the EOS token without masking it. Only raw-text/token samples allow this flag; vision and reactive probes retain natural EOS. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nSteering uses fixed initial model-wide scales (defaults FFN 1, attention 0), a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. --dir-steering-plan reads 1..64 changes [{\"position\":0,\"ffn\":1,\"attention\":0}, ...] at strictly increasing retained physical frontiers, splitting prefill/MTP work and recording applied results. Unreached changes fail the sample. Plans require a bank and are excluded from --reactive-probe. Numerical GPU qualification remains pending.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(!strcmp(argv[i],"--ignore-eos")){if(request.eos_policy==LIE_EOS_IGNORE)goto usage;request.eos_policy=LIE_EOS_IGNORE;continue;}
         if(!strcmp(argv[i],"--reactive-probe")){if(probe)goto usage;probe=true;continue;}
@@ -387,6 +448,7 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--model")){bit=2u;model=value;}
         else if(!strcmp(key,"--model-vision")){bit=524288u;encoder=value;}
         else if(!strcmp(key,"--image-file")){bit=1048576u;image_path=value;}
+        else if(!strcmp(key,"--dir-steering-plan")){bit=UINT64_C(1)<<33;plan_path=value;}
         else if(!strncmp(key,"--dir-steering-",15)){
             bit=!strcmp(key,"--dir-steering-file")?UINT64_C(1)<<30:
                 !strcmp(key,"--dir-steering-ffn")?UINT64_C(1)<<31:UINT64_C(1)<<32;
@@ -423,6 +485,7 @@ int lie_core_bench_main(int argc,char **argv) {
     }
     if(mtp_drafts&&!mtp)goto usage;
     if(steering_supplied&&!steering.file)goto usage;
+    if(plan_path&&(!steering.file||probe||!read_schedule(plan_path,steps,&plan)))goto usage;
     if(request.generation.temperature>0&&request.generation.seed<0)goto usage;
     if(request.eos_policy==LIE_EOS_IGNORE&&(encoder||image_path||probe))goto usage;
     if(probe&&(users!=2||warmups||repetitions!=1||cache_mib||ssd.directory||encoder||image_path||!tokens_path||tg<16||progress_ms))goto usage;
@@ -445,6 +508,7 @@ int lie_core_bench_main(int argc,char **argv) {
     nb_real(directions,"ffn",steering.file?steering.defaults.ffn:0);
     nb_real(directions,"attention",steering.file?steering.defaults.attention:0);
     number(directions,"vector_budget_bytes",steering.vector_budget_bytes);
+    json_object_object_add(directions,"schedule",schedule_json(plan_path?&plan:NULL));
     json_object_object_add(identity,"steering",directions);
     json_object_object_add(identity,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     text(identity,"scope","core client submit through confirmed output; per-job executor durations overlap in batches; cache transfer timing is separate; no HTTP");
@@ -529,7 +593,7 @@ int lie_core_bench_main(int argc,char **argv) {
     text(bank,"scope","model_admission_vector_data_excludes_allocator_overhead_and_workspaces");
     json_object_object_add(ready,"steering",bank);if(!emit(f,ready))goto done;
     if(probe){if(!reactive_probe(core,&request,tg,timeout,mtp!=NULL,f,error))goto done;}
-    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,progress_ms,&w,f,error))goto done;
+    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,progress_ms,plan_path?&plan:NULL,&w,f,error))goto done;
     code=0;
 done:
     if(core){lie_core_stop(core);if(!wait_core(core,LIE_STOPPED,0))code=1;else {

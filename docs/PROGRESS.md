@@ -8,6 +8,34 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Scheduled steering and HTTP controls — 2026-10-05 UTC
+
+The shared C17 core now copies an immutable steering plan and applies it at
+declared retained token positions. Prefill chunks, AR rows and MTP bursts stop at
+each boundary; prefix lookup cannot skip the first unapplied change. The native
+bench accepts `--dir-steering-plan`, reports actual application positions and
+history, and rejects incomplete plans or comparisons with different steering.
+Stored single-choice Chat and Responses requests expose asynchronous GET/POST
+`/steering` controls through the same inference owner. No inference thread or
+Python product/default-test dependency is added.
+
+Final checks pass: 21 Debug, 21 ASan/UBSan/LeakSanitizer, three build-off tests and
+32 public C++ headers. They cover exact boundaries, concurrent policies, RAM/SSD
+reuse, cancellation, provider failures, strict report identities and both HTTP
+routes. Local CPU peak is 75 C. The initial boundary-crossing failure, compiler
+failures and corrected EOS fixture remain recorded with actual exit codes in
+the [host receipt](development/validation/steering-schedule-host-2026-10-05.json).
+The previous closed-stderr sanitizer abort remains unexplained; subsequent
+passing checks do not establish its cause or a fix.
+
+Original-weight GPU continuation, numerical quality, graph/correction behavior
+and cost remain unqualified. HTTP multi-choice control and creation-time plans,
+and replay-based lookup of later mixed-history checkpoints, remain open. The
+fresh `.161` witness at 05:01:54.702189 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. No remote build/run/hash, service mutation, waiter or reservation
+starts. All six open roadmap tasks and frozen GPU/evaluation receipts remain.
+
 ## Live steering on the existing inference owner — 2026-10-05 UTC
 
 The shared C17 core now admits one copied scale change per job and returns an

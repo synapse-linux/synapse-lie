@@ -1,0 +1,371 @@
+{
+  "schema": "synapse-lie.steering-schedule-host-qualification.v1",
+  "at_utc": "2026-10-05T05:17:00.871315+00:00",
+  "baseline_checkpoint": "35a8d64eae1b8ecf43882c7b75773beec1b6bce7",
+  "scope": "Executed C17 scheduling, cache, HTTP and native CLI/report contracts with synthetic model frontiers. NOT-INFERENCE; no original-weight GPU numerical, quality or performance qualification.",
+  "implementation": [
+    "Separate schedule ABI 1 and submit factory copy 1..64 ascending physical position/scale steps before publication. Request ABI 8, existing core option/info and live-job ABI layouts are unchanged.",
+    "One existing inference owner splits prefill and caps each row AR/MTP advance. A due last-prefill/first-decode row waits for its change; actual retained position and effective scales are confirmed.",
+    "Position zero applies before scoped cache lookup; token-key restore is bounded by the next step. Compatible shorter prefixes remain usable; mixed-history captures preserve image identity.",
+    "Native core --dir-steering-plan records canonical binary32 plan, applied positions, statuses and final scope/history. Reports reject unfulfilled/crossed steps, excessive cache reuse and different plan identities.",
+    "LIE extension GET/POST /v1/responses/{id}/steering and /v1/chat/completions/{id}/steering projects asynchronous tickets and confirmed policy for retained single-choice requests; no provider call or wait on the libuv thread.",
+    "No inference thread, product/default-test Python dependency, numerical-provider edit or DS4 tensor/framing change."
+  ],
+  "coverage": [
+    "Executed aligned and DS4-KVC AR/MTP/vision/joint lifetimes and real RAM/SSD codecs; cache reuse cannot skip an intermediate change.",
+    "Copied caller inputs, malformed/duplicate JSON, no-op initial changes, full 64-step admission, out-of-generation refusal, unreached EOS/cancellation, pure refusal and model-poison failure.",
+    "One scheduled and one uniform peer share native dispatch with independent burst limits and histories; native C2 cohorts repeat complete plan identities and output IDs.",
+    "Both HTTP APIs admit a change during an owned slow-prefill fixture, reject malformed scales and retirement, and project owner confirmation; tests own private ephemeral loopback ports.",
+    "21 final Debug and 21 final ASan/UBSan/LeakSanitizer CTest checks, 3 build-off checks and 32 C++ public headers pass. Test children use a PATH without Python; GPUs masked. Host fixtures only."
+  ],
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "0b633b0641c0c4953eedd61fdbad6399963dae10e77db3be878725e745234f16"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "9a77d47b7976e49d29a5c7f59857d360dadf0889ffcfcaf8b5b7fb2579576b83"
+    },
+    {
+      "path": "src/worker.c",
+      "sha256": "07bcc8e8cb3bcc190aca92b8b5466bd168ac0fe06f8bc1741569f37c6199a0d8"
+    },
+    {
+      "path": "src/server.c",
+      "sha256": "ae590e4b92127f532ec2f67f6f13ce508152cdac4ee11be43a80876db4338261"
+    },
+    {
+      "path": "tools/core-bench.c",
+      "sha256": "3eeaf1d531e4f29f301989cb7f8c4a4be346b9eefe93d8e4236a94ba0a00e1c9"
+    },
+    {
+      "path": "tools/native/report.c",
+      "sha256": "610b62114e71928d52d8fdd87efa53f983154865189d8666bf64e11b06ed55ff"
+    },
+    {
+      "path": "tests/test_steering_core.c",
+      "sha256": "6e62a2770cf0685cfdc8a71287db44998ae77c679a2b3c53aa565951c6253bdd"
+    },
+    {
+      "path": "tests/test_native_bench.c",
+      "sha256": "ac2162b7d25fe2dd5a8aa6360613f3268cd6b5f1457f3e2e5702cf3afd53053e"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "sha256": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103"
+    },
+    {
+      "path": "adapters/gufo.cpp",
+      "sha256": "f18846eb97b4590cd488053926f483bc4f6b12cfa904706f88043a9ae7f3d441"
+    },
+    {
+      "path": "adapters/gufo-state/steering-edits.json",
+      "sha256": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/steering-schedule-debug-build-r9",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 66.0,
+      "result_sha256": "02633573df084480bfbe88c445def9575210b7cb37d99dea4c443d8129335fb6",
+      "log_sha256": "5ec6ae23f373280971fa01831b4c774ab536a015f8c8c3c03e0d993af1f0be9f",
+      "temperature_log_sha256": "e1f46e31d46fffff47325176b6b300134dd2b51f35f0084d01fffc6e06282214"
+    },
+    {
+      "directory": "evidence/steering-schedule-asan-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 65.875,
+      "result_sha256": "5c672eac14096bb2fb89e0e0b32be9347a3accac5d6f7981b87dedd582d20425",
+      "log_sha256": "8f5863270f03ca302b2226cde005047039a2108f66d0951c9bd8f12f8250be6e",
+      "temperature_log_sha256": "007f36ebddd3c334f493e959e870bd9222c528053e128a2479ddac773906aa26"
+    },
+    {
+      "directory": "evidence/steering-schedule-off-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/steering-core-off",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 55.875,
+      "result_sha256": "86ea5ba76f2f4b9699b29f79ee977487f88e62ec445ab6b876652eee2ca0b62c",
+      "log_sha256": "ac3f8b5924c122d83b8f6ecc6597eb30347a1c6938214b35ae44a2bf6d894692",
+      "temperature_log_sha256": "ef5be97134f72a355460e9631ca2a23154f7cc09f72e9d2c64e23e98114faa68"
+    },
+    {
+      "directory": "evidence/steering-schedule-debug-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 58.75,
+      "result_sha256": "379105a2868528e890ee3c662151c4e7733fab607dbb9a6fb71881025e96b687",
+      "log_sha256": "1ef5992fd3ca91f04d6cf1fcb9b8ce5282cfadd5638c5a180e26cc58bf3cedde",
+      "temperature_log_sha256": "2d86d103adae6d2fe10ab192741dd50f4ad96d5876eea250586bbce2f37acffb"
+    },
+    {
+      "directory": "evidence/steering-schedule-asan-test-r3",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 58.625,
+      "result_sha256": "7054c3fd4170d5b2592e5ad46fd21122795b1b094a4aefeb483199a28f095252",
+      "log_sha256": "de6eabb7d1f0790b1c3a15608fd5a0474e30b5d500f93ae51b9294e0fb9f1cbf",
+      "temperature_log_sha256": "2a6c2e094deb4c27c4fa479e424d6d56c57117856bf8642663e07b37684daaae"
+    },
+    {
+      "directory": "evidence/steering-schedule-off-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/steering-core-off",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-core-.*|context-million-admission-lifecycle)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 51.5,
+      "result_sha256": "ef111482004aae918107b61dd7b82a418f513fc6919f3e4db1373b1b2e5606ec",
+      "log_sha256": "759a9f6d8ec7a638a5c52be8c88c64425a618a7d0103c53122354e401bf38962",
+      "temperature_log_sha256": "82b846ffd2fbcd982ee609d448b7f40dfed61132ad864b614ed276e048c4f5c6"
+    },
+    {
+      "directory": "evidence/steering-schedule-public-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "evidence/steering-binding-public-headers-r1.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 65.125,
+      "result_sha256": "c6dcb3ffe16c57b23bc53873d211bfa777b37d56e02e32648143928bb180a024",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "e881c07e612c2c322ef0e4f7fc88472ff6eff75bbb1cb72828439f66893f5c42"
+    }
+  ],
+  "retained_failed_checks": [
+    {
+      "directory": "evidence/steering-schedule-debug-core-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^steering-core-"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 54.5,
+      "result_sha256": "bf67e0f244ebd3e21f425f84b81e44f4241d10369a68abbfa3ece799d87144cc",
+      "log_sha256": "3ef86b70efca8d1f74cd61a2cd552aedd0cd297564ad40fcbda78fc1ab1d9134",
+      "temperature_log_sha256": "85cc18d10973f302df01f9158e9b77ce4d0e0b2b92b96fd29addb034f7bed3d3"
+    },
+    {
+      "directory": "evidence/steering-schedule-debug-core-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^steering-core-"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 60.75,
+      "result_sha256": "35f7b6fc69fa3f007816b708568f0c33e8809ba27ba338a4e3d664ecde54b400",
+      "log_sha256": "b82da407c92d4d3d51fec303d3df385dd247b567af1fb0d2ca583b837a2eeec3",
+      "temperature_log_sha256": "178e7dcb00c60f679723b6ceeadd53de2b41f99cf86d208f00b9c41c6b36c31e"
+    },
+    {
+      "directory": "evidence/steering-schedule-debug-core-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^steering-core-"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 52.25,
+      "result_sha256": "844449ba170317e9169c9211b1c1348a3d11fbfffd33e6fc8bca36bff7e79d03",
+      "log_sha256": "722162246883c1049f38df2ae2b2e261ff678f21d52adb3afd28023dd5d169c0",
+      "temperature_log_sha256": "94812cbfd0ad09b01cba6411aa33c20221657f345d0b64baa516744d7a2875f4"
+    },
+    {
+      "directory": "evidence/steering-schedule-debug-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 51.875,
+      "result_sha256": "dee301497c47757ce341197620c3dc5b200c9ddb91d352468e15fbfbf0b99281",
+      "log_sha256": "e1f561ca9d1dc472fc73c80063235469798c69b58c7d4952807e121b65e0d1ce",
+      "temperature_log_sha256": "57c2333bd33c28deffd63d31965116e368f2114d302fc9567f2398e79534a8ab"
+    },
+    {
+      "directory": "evidence/steering-schedule-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 51.875,
+      "result_sha256": "704d8191079639f8554713b0370542a54e5362cbd6678dedd0515db2086b33e6",
+      "log_sha256": "aacf19844e9ba9b3b2ce44f3ae50b6ab9a53989a2e0c494cb91231f0200643d0",
+      "temperature_log_sha256": "7246dd026fc9ad3e52a29dafbb846e7b2ffe05d959e4b3d0e7ee811882b6d863"
+    },
+    {
+      "directory": "evidence/steering-schedule-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 55.0,
+      "result_sha256": "b9cff2c63dca315b718de01f080fd1f3cf7f6b3c2cb2a0e5ffb0f7ca075f6940",
+      "log_sha256": "fafefcd5bd756bf6b8560a8e48df7df6a5c25623214c854e54ce13876d951f45",
+      "temperature_log_sha256": "22205587c2626807db566cca606cd50016a223c513d80782e41f98fc08aff6e7"
+    },
+    {
+      "directory": "evidence/steering-schedule-asan-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 56.25,
+      "result_sha256": "e211eb461f1012ae0b6513a649b306c671c5c1a7564ef440f2ba14cba31eb26f",
+      "log_sha256": "ad1ea51c9bfc77d1d63a29e5b146f7bca65306a05bfeb725471f4b55d2d81723",
+      "temperature_log_sha256": "c2b9f7ac4835bcf61a9e844fefb6acd1930a769d5c0b09aabce2495f3501e06c"
+    }
+  ],
+  "failure_resolution": [
+    "Initial owner-only plan tests exposed physical boundary 8 crossed at 9: decode was selected in the same round as the final prefill. Fixed by withholding a row with a due change, without weakening boundary assertions.",
+    "Report compilation initially lacked the public header include directory; fixed the native library build recipe.",
+    "The new EOS fixture incorrectly used raw text, which cannot select its chat mode. Corrected it to the existing explicit physical mode-6 tokens; kept the zero-output/unattempted assertions.",
+    "First Debug HTTP attempts were refused socket creation in the sandbox. Final owned-loopback tests run outside that restriction; both failed commands and actual exits are retained.",
+    "The prior live-steering closed-stderr sanitizer abort remains unexplained in steering-live-host-2026-10-05.json. No fix is claimed from later successful suites; its diagnostic sink/assertions remain intact."
+  ],
+  "intermediate_checks": "Earlier successful builds/core subsets/full suites remain local; final current-source checks above supersede them. No failed build/stale executable is used as current-source proof.",
+  "local_cpu_max_c": 75.0,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only",
+    "tuning": false
+  },
+  "latest_readonly_gpu_witness": {
+    "path": "evidence/context-steering-availability-r14.json",
+    "sha256": "6163f433465b013f4484db298c0cb58563d023af7b67a982e0602af5f181742c",
+    "at_utc": "2026-10-05T05:01:54.702189+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "external_pid": 29223,
+    "router_pid": 29377,
+    "cpu_c": 79.25,
+    "available_ram_bytes": 86524407808,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "limits": [
+    "Original-weight absent/zero/active steering, graph rebuild, retained correction distribution, AR/MTP/image continuation, quality, faults and cost remain unqualified on .161.",
+    "HTTP live control is asynchronous at an available retained frontier and requires a stored single-choice job. Multi-choice controls and an HTTP creation-time deterministic plan are not implemented.",
+    "Scheduled lookup does not seek later mixed-history cached states by replaying a declared plan; initial reuse is limited to the first unapplied boundary.",
+    "No remote GPU build/run, heavyweight model hash, conversion, service mutation, foreign signal, waiter, standing lease, dependency installation or publication."
+  ],
+  "owned_open_task_count": 6,
+  "all_goal_requirements_verified": false
+}

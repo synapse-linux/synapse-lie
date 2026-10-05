@@ -7,8 +7,8 @@ explicit state metadata. Owned HIP activation operators and target-provider
 hooks are qualified only by host contracts and syntax checks. Direct C model and
 session/model-state binding is present in provider and shared-worker source.
 Server/native core bench share initial model-wide controls and scoped RAM/SSD
-lookup. The shared core supports asynchronous live job changes; dynamic client
-controls and GPU qualification remain open.
+lookup. The shared core supports asynchronous live job changes, native benchmark
+schedules and stored single-choice HTTP controls. GPU qualification remains open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -325,10 +325,45 @@ different scale adds a history epoch. Mixed history must not reuse a uniform
 token-only prefix or masquerade as its initial scale. The actual host tests cover
 AR/MTP, images, RAM/SSD capture, concurrent isolated policies, cancellation,
 one-slot saturation, copied inputs, no-ops and mutating failure. Fixed CLI flags
-still select initial model-wide scales. Dynamic HTTP/bench controls and actual
-GPU continuation, graph rebuilding, deferred-correction oracles, quality and
+still select initial model-wide scales. Actual GPU continuation, graph rebuilding,
+deferred-correction oracles, quality and
 performance remain open.
 [Host qualification](validation/steering-live-host-2026-10-05.json).
+
+## Deterministic schedules and HTTP controls
+
+Additive schedule ABI 1 copies 1–64 position/settings steps before job publication,
+without changing request ABI 8 or existing option/info layouts. Its separate
+snapshot preserves attempted/applied results and terminal unattempted outcomes.
+The prepared prompt and resolved output budget bound every requested position.
+Position zero applies before cache selection; prefill chunks split at later
+boundaries. Decode selection excludes a row whose due change has not yet applied,
+including the last-prefill/first-decode transition. Each selected AR/MTP row caps
+its advance at the next step. Other rows continue independently; no new thread,
+callback or client polling determines the boundary.
+
+The owner confirms both retained position and effective scales. A planned pure
+refusal ends that job explicitly; mutation failure poisons the model without retry.
+Natural EOS/cancellation records unreached steps without calling them successful.
+Planned jobs reject asynchronous changes to preserve their declared identity.
+Only these jobs allocate the bounded plan record; retention accounting includes it.
+
+Scheduled cache lookup uses token keys and cannot restore past the first
+unapplied step. Compatible shorter prefixes remain eligible; subsequent captures
+use actual mixed history. This does not implement lookup of later planned mixed
+histories by replaying declared control metadata. Existing absent-plan lookup,
+state framing and numerical paths remain in use.
+
+The native bench accepts `--dir-steering-plan`, records canonical binary32
+settings and actual results, and refuses mismatched/unfulfilled plan comparisons.
+The HTTP GET/POST `/v1/responses/{id}/steering` and
+`/v1/chat/completions/{id}/steering` routes are LIE extensions for retained
+single-choice requests. POST returns 202 admission, GET projects the confirmed
+ticket/policy, and finished/multi-choice requests refuse controls. This
+asynchronous path promises an available retained boundary rather than an exact
+output index. All numerical work remains on the shared owner.
+[Host receipt](validation/steering-schedule-host-2026-10-05.json) ·
+[Commands](../guides/BENCHMARKS.md#scheduled-steering).
 
 ## Model-state cache binding
 

@@ -7,10 +7,12 @@
 #include "lie/tools.h"
 #include "lie/wire.h"
 #include "lie/worker.h"
+#include "output_json.h"
 #include <errno.h>
 #include <json-c/json.h>
 #include <llhttp.h>
 #include <locale.h>
+#include <math.h>
 #include <poll.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -122,6 +124,7 @@ struct stored_request {
   json_object *completion;
   uint64_t started;
   connection *foreground;
+  unsigned choices;
 };
 static void close_connection(connection *c);
 static void pump_job(connection *c);
@@ -138,6 +141,10 @@ static const char *reason(int code) {
   switch (code) {
   case 200:
     return "OK";
+  case 202:
+    return "Accepted";
+  case 501:
+    return "Not Implemented";
   case 400:
     return "Bad Request";
   case 404:
@@ -354,6 +361,65 @@ static stored_request *stored_find(server *s, const char *id, bool responses) {
       return r;
   }
   return NULL;
+}
+/* Optional LIE extension for a retained single-generation request. Admission
+ * and snapshots only: this libuv thread never runs or waits for inference. */
+static void stored_steering(connection *c,stored_request *r,const char *id){
+  lie_job *job=lie_record_job(r->record);
+  if(r->choices>1){error_response(c,409,"steering_requires_single_choice");return;}
+  if(!job){error_response(c,409,"steering_job_unavailable");return;}
+  uint64_t ticket=0;
+  if(c->parser.method==HTTP_POST){
+    bool valid=false;oj_node *unique=c->body_size<=2048?oj_parse(c->body,c->body_size):NULL;
+    json_object *root=unique?lie_json_parse(c->body,c->body_size,&valid):NULL;oj_free(unique);
+    lie_steering_settings settings;lie_steering_settings_init(&settings,true);
+    valid=valid&&json_object_is_type(root,json_type_object)&&json_object_object_length(root)==2;
+    const char *keys[]={"ffn","attention"};float *values[]={&settings.ffn,&settings.attention};
+    for(unsigned i=0;valid&&i<2;++i){json_object *v=NULL;json_object_object_get_ex(root,keys[i],&v);double x=json_object_get_double(v);
+      valid=(json_object_is_type(v,json_type_int)||json_object_is_type(v,json_type_double))&&isfinite(x)&&fabs(x)<=100;
+      if(valid)*values[i]=(float)(x==0?0:x);
+    }
+    json_object_put(root);
+    if(!valid){error_response(c,400,"invalid_steering_scales");return;}
+    lie_error error={0};lie_status status=lie_job_change_steering(job,&settings,&ticket,&error);
+    if(status!=LIE_OK){
+      int code=status==LIE_UNSUPPORTED?501:status==LIE_INVALID?400:status==LIE_BACKEND_FAILED?500:409;
+      error_detail(c,code,status==LIE_UNSUPPORTED?"steering_unavailable":status==LIE_RESOURCE_LIMIT?"steering_change_pending":"steering_change_refused",error.message);return;
+    }
+  }
+  lie_job_steering_info info={.abi_version=LIE_JOB_STEERING_ABI,.struct_bytes=sizeof(info)};
+  if(lie_job_steering_snapshot(job,&info,NULL)!=LIE_OK){error_response(c,500,"steering_snapshot_unavailable");return;}
+  json_object *out=json_object_new_object(),*policy=NULL,*last=NULL;
+  json_object_object_add(out,"object",json_object_new_string("synapse-lie.steering"));
+  json_object_object_add(out,"id",json_object_new_string(id));
+  if(ticket)json_object_object_add(out,"ticket",json_object_new_uint64(ticket));
+  json_object_object_add(out,"pending",json_object_new_boolean(info.pending));
+  json_object_object_add(out,"submitted",json_object_new_uint64(info.submitted));
+  json_object_object_add(out,"completed",json_object_new_uint64(info.completed));
+  json_object *requested=NULL;
+  if(info.submitted){requested=json_object_new_object();
+    json_object_object_add(requested,"ffn",json_object_new_double(info.requested.ffn));
+    json_object_object_add(requested,"attention",json_object_new_double(info.requested.attention));
+  }
+  json_object_object_add(out,"requested",requested);
+  if(info.completed){last=json_object_new_object();
+    json_object_object_add(last,"ticket",json_object_new_uint64(info.completed));
+    json_object_object_add(last,"status",json_object_new_int(info.status));
+    json_object_object_add(last,"applied_position",info.status==LIE_OK?json_object_new_uint64(info.applied_position):NULL);
+    json_object_object_add(last,"error",info.error[0]?json_object_new_string(info.error):NULL);
+  }
+  json_object_object_add(out,"last_result",last);
+  if(info.policy_ready){policy=json_object_new_object();char scope[65],image[65];
+    for(unsigned i=0;i<32;++i){snprintf(scope+2*i,3,"%02x",info.combined_scope[i]);snprintf(image+2*i,3,"%02x",info.semantic_scope[i]);}
+    json_object_object_add(policy,"ffn",json_object_new_double(info.policy.settings.ffn));
+    json_object_object_add(policy,"attention",json_object_new_double(info.policy.settings.attention));
+    json_object_object_add(policy,"completed_positions",json_object_new_uint64(info.policy.completed_positions));
+    json_object_object_add(policy,"history_epochs",json_object_new_uint64(info.policy.history_epochs));
+    json_object_object_add(policy,"combined_scope_sha256",json_object_new_string(scope));
+    json_object_object_add(policy,"image_scope_sha256",json_object_new_string(image));
+  }
+  json_object_object_add(out,"policy",policy);
+  char *body=json_text(out);respond(c,ticket?202:200,"application/json",body);free(body);
 }
 static void stored_closed(uv_handle_t *h) {
   stored_request *r = h->data;
@@ -1278,6 +1344,7 @@ static void submit_chat(connection *c) {
     stored->responses = c->responses;
     stored->store = request.store;
     stored->background = request.background;
+    stored->choices = request.choices;
     stored->options = stored_options(&request, c->responses);
     size_t options_charge =
         stored->options ? strlen(json_object_to_json_string_ext(
@@ -1677,6 +1744,9 @@ static void route(connection *c) {
         return;
       }
       const char *tail = prefix + n;
+      if(!strcmp(tail,"/steering")&&!query&&(c->parser.method==HTTP_GET||c->parser.method==HTTP_POST)){
+        stored_steering(c,r,id);return;
+      }
       if (!*tail && c->parser.method == HTTP_GET && (responses || !query)) {
         bool stream = false;
         int64_t after = -1;

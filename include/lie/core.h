@@ -158,6 +158,42 @@ typedef struct {
 lie_status lie_job_change_steering(lie_job *, const lie_steering_settings *,
                                   uint64_t *ticket, lie_error *);
 lie_status lie_job_steering_snapshot(lie_job *, lie_job_steering_info *, lie_error *);
+#define LIE_STEERING_SCHEDULE_ABI 1u
+#define LIE_STEERING_SCHEDULE_MAX 64u
+typedef struct {
+    uint64_t position; /* Retained physical frontier, including prompt positions. */
+    lie_steering_settings settings;
+} lie_steering_step;
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    size_t count;
+    const lie_steering_step *steps;
+} lie_steering_schedule;
+typedef struct {
+    bool attempted, applied;
+    lie_status status;
+    uint64_t actual_position;
+} lie_steering_step_result;
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    size_t count, completed, applied;
+    bool terminal;
+    lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX];
+    lie_steering_step_result results[LIE_STEERING_SCHEDULE_MAX];
+} lie_steering_schedule_info;
+/* Admission copies 1..64 strictly increasing steps before job publication.
+ * Position zero changes the initial session policy before cache lookup; later
+ * boundaries split prefill and limit each row's retained AR/MTP burst. Existing
+ * logits/tensors remain unchanged. Cache reuse cannot cross an unapplied step.
+ * Positions must fit the prepared prompt plus output budget; natural EOS can
+ * retire before a step, which remains unapplied/Cancelled in the final snapshot.
+ * Live unscheduled changes are refused for planned jobs to preserve identity.
+ * NULL schedule preserves lie_core_submit. Return codes are those of submit. */
+int lie_core_submit_steering(lie_core *, const lie_core_request *,
+                              const lie_steering_schedule *, lie_job **out);
+/* Tagged snapshot, unchanged on refusal. No plan reports count zero. */
+lie_status lie_job_steering_schedule_snapshot(lie_job *,
+                                             lie_steering_schedule_info *, lie_error *);
 void lie_core_stop(lie_core *);
 /* STOPPED and all consumer job references released are required. */
 void lie_core_destroy(lie_core *);

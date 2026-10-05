@@ -59,8 +59,12 @@ stable release is declared. Detailed validation history is in
 - Experimental initial directional-steering controls shared by server and native
   core bench: `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn`.
   Admission and bank resources stay in the C17 core; reports refuse matched
-  comparisons with different banks/scales. Host tests pass; dynamic client
-  controls and numerical GPU quality/performance qualification remain pending.
+  comparisons with different banks/scales. Host tests pass; numerical GPU
+  quality/performance qualification remains pending.
+- Native `--dir-steering-plan` changes at exact retained physical positions,
+  prefill/MTP boundary enforcement and strict applied-plan report identity.
+  Stored single-choice requests expose asynchronous HTTP `/steering` controls
+  with admission tickets and confirmed policy snapshots. Host qualification only.
 - Asynchronous per-job steering changes in the shared C17 core, with bounded
   admission, completion tickets and mixed-history RAM/SSD scopes. The provider
   source invalidates graphs and MTP controller/proposal scratch while preserving

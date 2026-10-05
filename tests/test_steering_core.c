@@ -131,7 +131,9 @@ static lie_job_info drain_job(lie_job *j,bool success){
   for(unsigned k=0;k<5000&&!done;++k){
     lie_flow_event e;lie_flow_status rc=lie_flow_next(lie_job_flow(j),&e);
     if(rc==LIE_FLOW_WOULD_BLOCK){pause_short();continue;}assert(rc==LIE_FLOW_OK);
-    if(e.end!=LIE_FLOW_ACTIVE){assert((e.end==LIE_FLOW_COMPLETE)==success);done=true;}
+    if(e.end!=LIE_FLOW_ACTIVE){
+      if((e.end==LIE_FLOW_COMPLETE)!=success){lie_job_snapshot(j,&info);fprintf(stderr,"Steering drain expected success=%d, finish=%d: %s\n",success,info.finish,info.error);}
+      assert((e.end==LIE_FLOW_COMPLETE)==success);done=true;}
     else {assert(lie_flow_release(lie_job_flow(j),e.ticket)==LIE_FLOW_OK);lie_flow_request(lie_job_flow(j),e.tokens);}
   }
   assert(done);
@@ -203,6 +205,109 @@ static void live_peers(const char *bank){
   lie_core_info info;lie_core_snapshot(c,&info);assert(info.decode_batches&&info.decode_batch_rows>=2);
   lie_job_release(a);lie_job_release(b);stop(c);
 }
+static lie_steering_schedule_info plan_snapshot(lie_job *j){
+  lie_steering_schedule_info s={.abi_version=LIE_STEERING_SCHEDULE_ABI,.struct_bytes=sizeof(s)};
+  assert(lie_job_steering_schedule_snapshot(j,&s,NULL)==LIE_OK);return s;
+}
+/* Boundaries deliberately split a chunk and an MTP burst. A longer cached
+ * prompt must never skip a change; a compatible shorter prefix remains usable. */
+static void scheduled_case(const char *bank,const char *store,bool mtp,bool vision,unsigned fault,bool cancel){
+  lie_core_options o=options(store,mtp);o.cache_policy.capture_finish=!fault&&!cancel;
+  if(vision)o.vision_model_path=":vision-a:";
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=4;
+  if(!vision){
+    lie_core_request shorter=r;shorter.text="ab";shorter.text_bytes=2;lie_job *seed=NULL;
+    assert(!lie_core_submit(c,&shorter,&seed));assert(drain_job(seed,true).prompt_tokens==2);lie_job_release(seed);
+    assert(run(c).prompt_tokens==8); /* Warm full prefix would cross position3. */
+  }
+  unsigned char *pixels=NULL;size_t bytes=0;lie_image_format format;lie_image_input image={0};
+  lie_chat_message message={LIE_CHAT_USER,"normal",6};
+  if(vision){assert(lie_image_data_url(image_url,strlen(image_url),&pixels,&bytes,&format,NULL)==LIE_OK);
+    image=(lie_image_input){pixels,bytes,format,0,3};r.kind=LIE_INPUT_MESSAGES;r.text=NULL;r.text_bytes=0;
+    r.images=&image;r.image_count=1;r.chat.messages=&message;r.chat.count=1;}
+  lie_steering_step steps[5]={0};const uint64_t positions[]={0,3,6,8,10};
+  const float scales[]={1,2,0,-2,1};
+  for(size_t i=0;i<5;++i){steps[i].position=positions[i];lie_steering_settings_init(&steps[i].settings,true);steps[i].settings.ffn=scales[i];}
+  steps[3].settings.attention=0.5f;
+  lie_steering_schedule plan={LIE_STEERING_SCHEDULE_ABI,sizeof(plan),5,steps};lie_job *j=NULL;
+  lie_steering_schedule invalid=plan;invalid.count=0;assert(lie_core_submit_steering(c,&r,&invalid,&j)==3&&!j);
+  invalid=plan;invalid.count=LIE_STEERING_SCHEDULE_MAX+1;assert(lie_core_submit_steering(c,&r,&invalid,&j)==3&&!j);
+  invalid=plan;invalid.abi_version=0;assert(lie_core_submit_steering(c,&r,&invalid,&j)==3&&!j);
+  invalid=plan;invalid.steps=NULL;assert(lie_core_submit_steering(c,&r,&invalid,&j)==3&&!j);
+  steps[1].position=0;assert(lie_core_submit_steering(c,&r,&plan,&j)==3&&!j);steps[1].position=3;
+  steps[1].settings.ffn=NAN;assert(lie_core_submit_steering(c,&r,&plan,&j)==3&&!j);steps[1].settings.ffn=2;
+  fake_barrier_arm_phase(FAKE_PREFILL);assert(!lie_core_submit_steering(c,&r,&plan,&j));free(pixels);fake_barrier_wait();
+  lie_steering_schedule_info pending=plan_snapshot(j);assert(pending.count==5&&pending.completed==1&&pending.applied==1&&!pending.terminal);
+  uint64_t ticket=888;assert(lie_job_change_steering(j,&so.defaults,&ticket,NULL)==LIE_INVALID&&ticket==888);
+  memset(steps,0,sizeof(steps));memset(&plan,0,sizeof(plan)); /* Admission owns a complete copy. */
+  fake_steering_fault(fault);if(cancel)lie_job_cancel(j);fake_barrier_release();
+  lie_job_info result=drain_job(j,!fault&&!cancel);lie_steering_schedule_info final=plan_snapshot(j);
+  assert(final.terminal&&final.count==5);
+  if(!fault&&!cancel){
+    assert(final.completed==5&&final.applied==5&&result.output_tokens==4&&result.cached_tokens<=3);
+    if(!vision)assert(result.cached_tokens==2);
+    for(size_t i=0;i<5;++i)assert(final.steps[i].position==positions[i]&&final.steps[i].settings.ffn==scales[i]&&
+      final.results[i].attempted&&final.results[i].applied&&final.results[i].status==LIE_OK&&final.results[i].actual_position==positions[i]);
+    lie_job_steering_info policy=job_policy(j);
+    assert(policy.policy.history_epochs==5&&policy.policy.completed_positions==result.prompt_tokens+4);
+    assert(policy.policy.settings.ffn==1&&policy.policy.settings.attention==0);
+  }else if(cancel){
+    assert(result.finish==LIE_FINISH_CANCEL&&final.completed==1&&final.applied==1);
+    for(size_t i=1;i<5;++i)assert(!final.results[i].attempted&&!final.results[i].applied&&final.results[i].status==LIE_CANCELLED);
+  }else{
+    assert(final.completed==2&&final.applied==1&&final.results[1].attempted&&!final.results[1].applied);
+    assert(final.results[1].actual_position==3&&final.results[1].status==(fault==2?LIE_BACKEND_FAILED:LIE_INVALID));
+    assert(result.finish==(fault==2?LIE_FINISH_BACKEND:LIE_FINISH_INVALID));
+  }
+  lie_steering_schedule_info tagged={0},before=tagged;
+  assert(lie_job_steering_schedule_snapshot(j,&tagged,NULL)==LIE_INVALID&&!memcmp(&tagged,&before,sizeof(tagged)));
+  lie_job_release(j);if(fault==2)wait_state(c,LIE_FAILED);stop(c);fake_steering_fault(0);
+  if(store)clean(store);
+}
+static void scheduled_peers(const char *bank){
+  lie_core_options o=options(NULL,LIE_MTP!=0);o.prefix_cache_bytes=0;
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=4;
+  lie_steering_step step={.position=9};lie_steering_settings_init(&step.settings,true);step.settings.ffn=-2;
+  lie_steering_schedule plan={LIE_STEERING_SCHEDULE_ABI,sizeof(plan),1,&step};lie_job *a=NULL,*b=NULL;
+  fake_barrier_arm_phase(FAKE_PREFILL);assert(!lie_core_submit_steering(c,&r,&plan,&a));fake_barrier_wait();
+  assert(!lie_core_submit(c,&r,&b));fake_barrier_release();assert(drain_job(a,true).output_tokens==4&&drain_job(b,true).output_tokens==4);
+  lie_steering_schedule_info sa=plan_snapshot(a),sb=plan_snapshot(b);
+  assert(sa.applied==1&&sa.results[0].actual_position==9&&sb.count==0&&sb.terminal);
+  lie_job_steering_info pa=job_policy(a),pb=job_policy(b);
+  assert(pa.policy.settings.ffn==-2&&pa.policy.history_epochs==2&&pb.policy.settings.ffn==1&&pb.policy.history_epochs==1);
+  lie_core_info info;lie_core_snapshot(c,&info);assert(info.decode_batches&&info.decode_batch_rows>=2);
+  lie_job_release(a);lie_job_release(b);stop(c);
+}
+static void scheduled_bounds(const char *bank){
+  lie_core_options o=options(NULL,false);o.prefix_cache_bytes=0;
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=2;
+  lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX]={0};lie_steering_settings_init(&steps[0].settings,true);steps[0].position=10;
+  lie_steering_schedule plan={LIE_STEERING_SCHEDULE_ABI,sizeof(plan),1,steps};lie_job *j=NULL;
+  assert(!lie_core_submit_steering(c,&r,&plan,&j));assert(drain_job(j,false).finish==LIE_FINISH_INVALID);
+  assert(!plan_snapshot(j).results[0].attempted);lie_job_release(j);j=NULL;
+  int32_t empty[]={6,10,10,10};r.kind=LIE_INPUT_TOKENS;r.text=NULL;r.text_bytes=0;
+  r.tokens=empty;r.token_count=4;r.max_tokens=4;steps[0].position=7;
+  assert(!lie_core_submit_steering(c,&r,&plan,&j));lie_job_info end=drain_job(j,true);
+  lie_steering_schedule_info cancelled=plan_snapshot(j);
+  assert(end.finish==LIE_FINISH_STOP&&!end.output_tokens&&cancelled.terminal&&!cancelled.completed&&!cancelled.applied&&cancelled.results[0].status==LIE_CANCELLED);
+  lie_job_release(j);j=NULL;
+  int32_t tokens[80];for(unsigned i=0;i<80;++i)tokens[i]=i?10:0;
+  r.kind=LIE_INPUT_TOKENS;r.text=NULL;r.text_bytes=0;r.tokens=tokens;r.token_count=80;r.max_tokens=2;
+  plan.count=LIE_STEERING_SCHEDULE_MAX;
+  for(size_t i=0;i<plan.count;++i){steps[i].position=i;lie_steering_settings_init(&steps[i].settings,true);steps[i].settings.ffn=i%2?2:1;}
+  assert(!lie_core_submit_steering(c,&r,&plan,&j));assert(drain_job(j,true).output_tokens==2);
+  lie_steering_schedule_info full=plan_snapshot(j);assert(full.applied==LIE_STEERING_SCHEDULE_MAX);
+  for(size_t i=0;i<plan.count;++i)assert(full.results[i].applied&&full.results[i].actual_position==i);
+  lie_job_release(j);stop(c);
+  c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);j=NULL;
+  assert(lie_core_submit_steering(c,&r,&plan,&j)==3&&!j);stop(c);
+}
 int main(int argc,char **argv){
   if(argc==6){
     bool bank=strcmp(argv[1],"none")!=0,mtp=!strcmp(argv[5],"mtp")||!strcmp(argv[5],"mtp-vision"),
@@ -255,6 +360,14 @@ int main(int argc,char **argv){
   live_case(a,NULL,false,false,1,false,false);
   live_case(a,NULL,LIE_MTP!=0,false,2,false,false);
   live_peers(a);
+  for(unsigned k=0;k<4;++k){if((k&1)&&!LIE_MTP)continue;if(k>=2&&!LIE_VISION)continue;
+    snprintf(store,sizeof(store),"%s/plan-store-%u",base,k);
+    scheduled_case(a,store,(k&1)!=0,k>=2,0,false);
+  }
+  scheduled_case(a,NULL,LIE_MTP!=0,false,0,true);
+  scheduled_case(a,NULL,false,false,1,false);
+  scheduled_case(a,NULL,LIE_MTP!=0,false,2,false);
+  scheduled_peers(a);scheduled_bounds(a);
   assert(fake_calls_snapshot().create==fake_calls_snapshot().close);
   lie_steering_model_options_init(&so);so.file=a;so.vector_budget_bytes=15;
   c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_FAILED);stop(c);
