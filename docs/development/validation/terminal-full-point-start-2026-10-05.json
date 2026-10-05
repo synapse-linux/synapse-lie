@@ -1,0 +1,158 @@
+{
+  "schema": "synapse-lie.terminal-full-point-actual-start.v1",
+  "at_utc": "2026-10-05T20:12:23.002226+00:00",
+  "state": "RUNNING_NOT_QUALIFIED",
+  "observation_UTC": "2026-10-05T20:10:04.168919+00:00",
+  "source_commit": "23594881f406adcaf47e156d4f8e880aa735b081",
+  "code_checkpoint": "5bdd40573698a7afe74846ded1f9b18add616cd7",
+  "scope": "Actual persistent full Core19 start; metadata/doctor/Harbor and original-weight endpoint running. No final19-task aggregate or retirement is claimed.",
+  "GPU_host": "192.168.5.161",
+  "CPU_host": "192.168.5.157",
+  "model": "Qwen3.8-Flash-Next",
+  "served_model_id": "qwen3.8-flash-next",
+  "quantization": "UD-Q4_K_XL",
+  "inference_profile": "ar",
+  "platform": "strix-point",
+  "backend": "ROCm10.0",
+  "context": 262144,
+  "output_ceiling": 4096,
+  "benchmark": {
+    "upstream_repository": "https://github.com/kyuz0/terminal-bench-mini",
+    "upstream_revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
+    "source_files_verified": 232,
+    "source_receipt_sha256": "de5485c2bc4934350ed53879778099a2a4439586b7ee5eb85354636141b55074",
+    "suite": "core19",
+    "tier": "full",
+    "requested_tasks": 19,
+    "attempt_budget": 2,
+    "concurrency": 1,
+    "timeout_per_attempt_seconds": 10800,
+    "model_request_timeout_seconds": 10800,
+    "original_tasks_prompts_verifiers": true,
+    "arbitrary_model_call_turn_output_caps": false,
+    "job": "lie-point-r16-core19-full-r1",
+    "job_directory": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/full-r1/benchmark/jobs/lie-point-r16-core19-full-r1"
+  },
+  "CPU_supervisor": {
+    "pid": 20794,
+    "start_ticks": 179631020
+  },
+  "GPU_supervisor": {
+    "pid": 65159,
+    "start_ticks": 9972757
+  },
+  "model_process": {
+    "pid": 65982,
+    "start_ticks": 9978951
+  },
+  "Harbor_process": {
+    "pid": 20925,
+    "start_ticks": 179631192,
+    "pgrp": 20860,
+    "state": "S",
+    "cmdline": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-terminal-bench/uv-cache/archive-v0/qA-lg2O5IRWu3Q05/bin/python /home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-terminal-bench/uv-cache/archive-v0/qA-lg2O5IRWu3Q05/bin/harbor run --config /home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/full-r1/benchmark/.runner/configs/lie-point-r16-core19-full-r1.json --yes "
+  },
+  "CPU_lease": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+    "device": 52,
+    "inode": 4486194,
+    "scope": "Own CPU client only; no foreign GPU lock held"
+  },
+  "GPU_lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66307,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "HTTP_endpoint": "http://192.168.5.161:8000/v1",
+  "temporary_HTTP_permit": {
+    "state": "HTTP_PERMIT_ACTIVE",
+    "pid": 66074,
+    "owner": {
+      "schema": "synapse-lie.persistent-eval-launch.v1",
+      "state": "SUPERVISOR_STARTED_NOT_READY",
+      "at_utc": "2026-10-05T20:06:11.092881+00:00",
+      "pid": 65159,
+      "start_ticks": 9972757,
+      "pgrp": 65159,
+      "remote_root": "/home/pop/workspace/synapse-lie/context-r16-terminal-full-r1",
+      "scope": "Detached persistent supervised GPU endpoint; lease/admission and child retirement belong to eval-window, no Terminal task score"
+    },
+    "source": "192.168.5.157",
+    "destination": "192.168.5.161",
+    "port": 8000
+  },
+  "GPU_outer_window_seconds": 482760,
+  "outer_window_scope": "Covers unchanged source worst-case480060s plus startup/export/cleanup, not a shorter task timeout.",
+  "observed_server_process_threads_max": 44,
+  "thread_scope": "Whole server process including runtime helpers; does not identify reactive workers or establish speedup",
+  "Q2_release_sha256": "b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e",
+  "CPU_guard_c": 98,
+  "NVMe_guard_c": 85,
+  "GPU_observation_only": true,
+  "final_reward": null,
+  "final_CPU_GPU_release": null,
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-terminal-full-start-r16.tar.gz",
+    "bytes": 6274,
+    "sha256": "5eeacf6824d57334aa15c62ed3f681d96c2f7835927147f37e3c196141c80797",
+    "bound_files": 11
+  },
+  "portable_bindings": {
+    "terminal-full-cpu-admission-r16-stdout.json": {
+      "origin": "evidence/terminal-full-cpu-admission-r16-stdout.json",
+      "bytes": 2942,
+      "sha256": "cbb908921f5d1b56934fe838c59f565c91b7587ba8a7056c1b2be51c07baef7b"
+    },
+    "terminal-client-full-plan-r16.json": {
+      "origin": "evidence/terminal-client-full-plan-r16.json",
+      "bytes": 1701,
+      "sha256": "c40a64943ea1d1377b8c7bf1b8adb6a2b0efc784143272651cb2c1b41aed4295"
+    },
+    "terminal-client-full-stage-r16.json": {
+      "origin": "evidence/terminal-client-full-stage-r16.json",
+      "bytes": 968,
+      "sha256": "1cf2c00035a157447fa3be0174f914aaa5861df3df55929cc8a883c3cae4e397"
+    },
+    "terminal-client-full-launch-r16.json": {
+      "origin": "evidence/terminal-client-full-launch-r16.json",
+      "bytes": 608,
+      "sha256": "4733f7df7ca6ccc4ccf13951ee24b8b898de2ebe857da45a57fb4f94c6aa7f2c"
+    },
+    "terminal-client-full-actual-start-r16.json": {
+      "origin": "evidence/terminal-client-full-actual-start-r16.json",
+      "bytes": 3323,
+      "sha256": "ba40ea2c7787c3ad21efc786162674652c600064f9c9825e8cdd40f351e1923d"
+    },
+    "terminal-full-gpu-progress-r16-r1.json": {
+      "origin": "evidence/terminal-full-gpu-progress-r16-r1.json",
+      "bytes": 3419,
+      "sha256": "0d8f92b254086b3370d6d29cafdee0aecd54febe94bccf76839b97b8bd233990"
+    },
+    "terminal-http-permit-full-launch-r16.json": {
+      "origin": "evidence/terminal-http-permit-full-launch-r16.json",
+      "bytes": 1240,
+      "sha256": "e1e0e14d0c879a45ef76585308498f3fb1208578cb82bb09de1f0f1037a4d5bb"
+    },
+    "gpu-manifest.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/manifest.json",
+      "bytes": 4597,
+      "sha256": "ef13254b59887e0cb5283e9618b149c661e436c0bc2aaa350c20a704278672fb"
+    },
+    "gpu-launch.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/launch.json",
+      "bytes": 429,
+      "sha256": "69245ffd025ab588a0899ede74963c46fe2785e33ee44295b30bf3d3518906f8"
+    },
+    "gpu-plan.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/plan.json",
+      "bytes": 714,
+      "sha256": "13e7992f9ba6d82ef45eace3ab19ffcb1fee22a2a89176e721fa9d5556d38ea5"
+    },
+    "gpu-controller-result.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/controller-result.json",
+      "bytes": 17,
+      "sha256": "e89df0eae5ec7db81135aed16463968955c578bcc4f2ec43172eff351f080c17"
+    }
+  }
+}

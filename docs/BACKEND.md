@@ -48,12 +48,17 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    327-token omitted/null output in both APIs; the new MTP gate is interrupted
    by an external GPU client. The newer integrated `1bff953` runtime now passes
    all 37 checks in both AR and MTP on `.161`; the interrupted result remains
-   evidence for r12. The unchanged smoke source/client and its cached task image
-   are ready; Core-19 currently has 4/19 cached task images. No task score exists
-   yet in those earlier windows. The newer finite-value/cache runtime `2359488`
-   also passes AR37/MTP37. Its unchanged Core-19 smoke task is now running under
-   persistent supervision, with the CPU client on `.157` and GPU HTTP port 8000 on
-   `.161`; no final task reward is available.
+   evidence for r12. Earlier preparation verifies the unchanged smoke source,
+   client and cached image, plus 4/19 cached Core-19 images; it records no task
+   score. The newer finite-value/cache runtime `2359488`
+   also passes AR37/MTP37. Its unchanged Core-19 smoke now passes **1/1 task at
+   the first attempt**, with CPU/GPU/process/container/lease/HTTP-permit closure
+   verified. The full **19-task** run starts at 20:08:35 UTC under persistent
+   supervision: CPU client `.157`, GPU HTTP port 8000 `.161`, original two
+   conditional attempts, C1 and three hours per attempt. No final full score
+   exists at this start observation.
+   [Smoke qualification](development/validation/terminal-smoke-point-gpu-2026-10-05.json) ·
+   [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json).
    [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
 3. **Close full 1M context acceptance.** The newly declared `1bff953` `.161`
    run completes all **1,048,448 physical prefill tokens and 128 output tokens**

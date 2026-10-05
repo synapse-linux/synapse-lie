@@ -1,9 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Qwen3.8 Flash Next benchmarks
 
-**[AMD Strix Halo: complete results and graphs](strix-halo/README.md)**
+The measured format is Unsloth UD-Q4_K_XL. Choose the GPU platform:
 
-The measured format is Unsloth UD-Q4_K_XL. No measurements for Strix Point,
-DGX Spark or antirez weight formats are integrated into this branch yet.
+| Platform | Results |
+| --- | --- |
+| AMD Strix Halo, `gfx1151` | [Tables, graphs and commands](strix-halo/README.md) |
+| AMD Strix Point, `gfx1150` | [Tables, graphs and commands](strix-point/README.md), [physical 1M](strix-point/README.md#physical-1m-context-and-fixed-generation), [Terminal Bench](strix-point/README.md#terminal-bench-core-19) |
+
+DGX Spark and antirez weight-format measurements are not integrated here.
 
 [All models and platforms](../../README.md) · [Run benchmarks](../../../guides/BENCHMARKS.md)

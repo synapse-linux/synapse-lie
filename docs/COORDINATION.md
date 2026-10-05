@@ -1,5 +1,42 @@
 # DS4 / synapse-lie coordination
 
+## Smoke actual closure and fresh full19 admission — 2026-10-05
+
+The earlier `.157` CPU smoke supervisor `4191489` (start ticks `179295094`)
+and all owned process groups/task containers are absent at 19:30:42 UTC; its
+original CPU lease device 52 / inode 4486194 is briefly free and released.
+Reward 1/1 and 34 generated client files are collected before the nonce-bound
+GPU release. `.161` supervisor `63047` (start ticks `9598139`) actually retires,
+twenty GPU files are collected, models stay unchanged, router restores and the
+original lease releases at 19:35:47.787692 UTC. The own HTTP8000 permit retires
+with identical before/after firewall status. No release is inferred from a task
+reward alone. [Closure receipt](development/validation/terminal-smoke-point-gpu-2026-10-05.json).
+
+Q2 separately runs its bounded register-scatter window, then reports collected
+release `b9e05fd2` at 19:46:56.076123 UTC and fresh `.157` non-use. Root's fresh
+read-only admission verifies 1,099 identities / 876 groups retired, kernel KFD
+empty, four original locks unchanged/free EX|NB briefly and seven unchanged
+model stat witnesses. Foreign GPU locks are not retained by the CPU client.
+The Point thread confirms no `.161` job/build/client/lease/waiter/reservation.
+
+The own full19 GPU supervisor starts at 20:06:11 UTC: `65159` (start ticks
+`9972757`), original lease device 66307 / inode 105946405, fresh admission and
+authorized named router stop/restore. Model `65982` (start ticks `9978951`)
+actually becomes READY at 262,144 context. The own `.157` persistent CPU client
+starts at 20:08:35 UTC: `20794` (start ticks `179631020`), original CPU lease
+device 52 / inode 4486194, own `run/root-terminal-bench-r16/full-r1` source/job/
+cache. Doctor exits zero; Harbor `20925` (start ticks `179631192`) actually runs
+the unchanged 19-task suite. [Startup receipt](development/validation/terminal-full-point-start-2026-10-05.json).
+
+GPU work remains `.161` only. Q2 maintains non-use of `.157` until actual root
+CPU closure, not a progress/reward snapshot. Original attempts/timeouts/C1,
+CPU98/NVMe85/lower sensor guards and GPU observation remain intact. The separate
+own HTTP permit supervisor `66074` (start ticks `9984711`) admits only `.157`
+to `.161:8000` until exact eval-owner retirement; no tunnel, installation,
+foreign signal/cache/source/deployment/tuning mutation or global firewall
+disable occurs. Both current leases remain held; there is no completed full
+score or release at this startup record.
+
 ## Real Terminal smoke CPU/GPU window — 2026-10-05
 
 New `2359488` build, AR37 and MTP37 finish, collect and retire under their own

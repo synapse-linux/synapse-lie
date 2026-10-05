@@ -58,6 +58,53 @@ frontiers differ at every point, so the cross-stack rates are observations
 across changed kernel/runtime/container configurations, not a controlled
 quality-equivalent comparison.
 
+## Terminal Bench Core-19
+
+The unchanged `git-leak-recovery` smoke passes **1/1 at the first attempt**
+(configured pass@2). Harbor 0.20 / Terminus-2 2.0 executes the terminal commands
+on CPU host `.157`; original-weight GPU inference uses `.161` HTTP port 8000.
+The upstream benchmark is independently fetched at `07034484346d`, with 232
+source files verified. Tasks, prompts and verifiers stay unchanged.
+
+| Run | Final score | Attempts executed | Input tokens | Output tokens | Task duration |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Core-19 smoke, `git-leak-recovery` | 1/1, zero errors | 1 | 26,497 | 1,907 | 401.330 s |
+| Core-19 full, 19 tasks | Running; no final aggregate | — | — | — | — |
+
+The [smoke receipt](../../../../development/validation/terminal-smoke-point-gpu-2026-10-05.json)
+and [portable score, transcript and closure evidence](data/rocm10-terminal-smoke-r16.tar.gz)
+bind 65 files. The client, task containers and model processes actually retire;
+both original leases are free, the router is restored and the own temporary
+HTTP permit is removed with identical firewall status before/after. GPU host
+CPU/GPU/NVMe maxima are 76.75/77/66.85 C; client CPU maximum is 65.5 C. The
+server observes 44 whole-process threads, including runtime helpers; this does
+not count reactive workers or establish a speedup. This single task does not
+establish the full 19-task score or native OpenAI function-call quality.
+
+The full run starts separately at **20:08:35 UTC, 2026-10-05**, using the same
+`2359488` runtime/code `5bdd405`, UD-Q4_K_XL, ROCm 10 and AR profile.
+The [startup receipt](../../../../development/validation/terminal-full-point-start-2026-10-05.json)
+and [startup evidence](data/rocm10-terminal-full-start-r16.tar.gz) verify doctor,
+actual Harbor and a real model endpoint; startup is not a score or release.
+Both runs preserve the original C1, two conditional attempts and three hours
+per attempt, with context 262,144 discovered from `/v1/models`. The full run can
+take many hours. Run from the independently fetched external benchmark root:
+
+```sh
+./terminal_bench.py run --tier full \
+  --endpoint http://192.168.5.161:8000/v1 \
+  --model qwen3.8-flash-next --platform strix-point \
+  --model-name Qwen3.8-Flash-Next --engine synapse-lie \
+  --engine-version 23594881f406adcaf47e156d4f8e880aa735b081 \
+  --backend rocm --backend-version 10.0 \
+  --quant UD-Q4_K_XL --inference-profile ar \
+  --job-name lie-point-r16-core19-full-r1
+```
+
+Harbor/Terminal Bench are optional external evaluation tools that use Python.
+Synapse LIE and `synapse-lie-bench`, including their default tests and native
+CSV/JSON/SVG/PNG reports, remain Python-free.
+
 ## Fresh full-prompt prefill through 128K
 
 The paired `fresh-128k` runs each begin with an empty sequence, reserve 262,144
@@ -350,8 +397,8 @@ bind the original weights, predictor, source/binaries, exact checks and closure.
 The MTP window verifies fifteen artifacts and releases at 22:22:10.325729 UTC;
 server/client/controller/supervisor exits are 0, CPU/GPU/NVMe maxima are
 61.5/66/66.85 C, models are unchanged and the named router/lease are restored.
-Terminal Bench task evaluation and qualification of later sampling-filter,
-fixed-EOS and steering changes remain pending. The earlier short gates below
+Terminal Bench full evaluation and qualification of later sampling-filter,
+fixed-EOS and steering changes remain separate gates. The earlier short gates below
 retain their original methods and results.
 
 The newer r12 runtime (`a3066a7`) passes **37/37 AR checks**, adding advertised
@@ -393,8 +440,8 @@ process/model/service/lease closure. The
 and [portable archive](data/rocm10-finite-cache-openai-r16.tar.gz) identify that
 source. These are functional checks; the earlier rate tables retain their
 original runtimes. Broader numerical/fault/resource/matched-cost gates remain
-open. The later unchanged Terminal Bench smoke is running separately; it has
-no final task reward at this checkpoint.
+open. The later unchanged [Terminal smoke](#terminal-bench-core-19) passes 1/1;
+the full 19-task evaluation is running separately.
 
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly

@@ -1,0 +1,465 @@
+{
+  "schema": "synapse-lie.terminal-smoke-point-original-qualification.v1",
+  "at_utc": "2026-10-05T20:11:36.630719+00:00",
+  "state": "PASSED_CLOSED",
+  "source_commit": "23594881f406adcaf47e156d4f8e880aa735b081",
+  "code_checkpoint": "5bdd40573698a7afe74846ded1f9b18add616cd7",
+  "model": "Qwen3.8-Flash-Next",
+  "served_model_id": "qwen3.8-flash-next",
+  "quantization": "UD-Q4_K_XL",
+  "inference_profile": "ar",
+  "platform": "strix-point",
+  "gpu_inference_host": "192.168.5.161",
+  "cpu_client_host": "192.168.5.157",
+  "backend": "ROCm10.0",
+  "context": 262144,
+  "output_ceiling": 4096,
+  "HTTP_endpoint": "http://192.168.5.161:8000/v1",
+  "benchmark": {
+    "repository": "https://github.com/kyuz0/terminal-bench-mini",
+    "revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
+    "source_files_verified": 232,
+    "SOURCE_sha256": "de5485c2bc4934350ed53879778099a2a4439586b7ee5eb85354636141b55074",
+    "suite": "core19",
+    "suite_fingerprint": "8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7",
+    "tier": "smoke",
+    "task": "git-leak-recovery",
+    "harbor": "0.20.0",
+    "agent": "Terminus2.0.0",
+    "profile_hash": "98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0",
+    "concurrency": 1,
+    "attempt_budget": 2,
+    "retry_policy": "stop_after_first_reward_exactly1",
+    "agent_timeout_seconds": 10800,
+    "model_request_timeout_seconds": 10800,
+    "instructions_verifiers_unchanged": true
+  },
+  "result": {
+    "passed": 1,
+    "total": 1,
+    "pass_at_2": 1.0,
+    "attempts_executed": 1,
+    "reward": 1.0,
+    "errors": 0,
+    "input_tokens": 26497,
+    "output_tokens": 1907,
+    "cached_tokens": 0,
+    "trial_duration_ms": 401330,
+    "raw_job": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/smoke-r1/benchmark/jobs/lie-point-r16-core19-smoke-r1",
+    "normalized_results": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/smoke-r1/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results",
+    "trial_started_at": "2026-10-05T19:12:42.277365Z",
+    "trial_finished_at": "2026-10-05T19:19:23.607585Z"
+  },
+  "closure": {
+    "CPU_verified_at": "2026-10-05T19:30:42.127055+00:00",
+    "all_client_children_retired": true,
+    "owned_trial_containers_absent": true,
+    "CPU_supervisor_absent": true,
+    "original_CPU_lease_free": true,
+    "GPU_lease_released_at": "2026-10-05T19:35:47.787692+00:00",
+    "GPU_supervisor_absent": true,
+    "model_process_absent": true,
+    "original_GPU_lease_free": true,
+    "model_stat_unchanged": true,
+    "router_restored": true,
+    "kernel_KFD_empty_before_router_restore": true,
+    "own_HTTP_rule_retired": true,
+    "firewall_before_after_status_exact": true,
+    "CPU_supervisor": {
+      "pid": 4191489,
+      "start_ticks": 179295094,
+      "pgrp": 4191489,
+      "state": "R"
+    },
+    "GPU_supervisor": {
+      "pid": 63047,
+      "start_ticks": 9598139
+    },
+    "model_process": {
+      "pid": 63857,
+      "start_ticks": 9601616
+    },
+    "CPU_lease": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+      "device": 52,
+      "inode": 4486194,
+      "scope": "Own CPU client only; no foreign GPU lock held"
+    },
+    "GPU_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "cooperative_lie_only": true
+    },
+    "actual_exit_codes": {
+      "doctor": 0,
+      "runner": 0,
+      "CPU_supervisor": 0,
+      "server": 0,
+      "GPU_child": 0,
+      "GPU_supervisor": 0,
+      "GPU_controller": 0,
+      "GPU_collector": 0
+    },
+    "cleanup_failures": []
+  },
+  "resources": {
+    "GPU_host_max_cpu_c": 76.75,
+    "GPU_host_max_gpu_c": 77.0,
+    "GPU_host_max_nvme_c": 66.85,
+    "CPU_client_max_cpu_c": 65.5,
+    "observed_server_process_threads_max": 44,
+    "thread_scope": "Whole server process including runtime helpers; does not identify reactive workers or establish speedup",
+    "CPU_guard_c": 98,
+    "NVMe_guard_c": 85,
+    "GPU_observation_only": true,
+    "fan_clock_power_tuning": false
+  },
+  "retained_failures": {
+    "initial_HTTP_GET_client_exit_code": 1,
+    "initial_HTTP_GET_local_exit_code": 28,
+    "cause": "Missing scoped HTTP8000 UFW permit; exact owned temporary permit fixed and retired",
+    "native_closed_stderr_abort": "Historical sanitizer SIGABRT remains unresolved; not diagnosed by this task gate"
+  },
+  "scope": "One unchanged Core19 smoke task on original weights, including actual endpoint/client and closure. Not full19 aggregate, native OpenAI function-call score, 1M recall, matched performance, steering or complete C17 branch/fault qualification. Product/default tests remain Python-free; optional external Harbor benchmark and ignored campaign orchestration use Python.",
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-terminal-smoke-r16.tar.gz",
+    "bytes": 155560,
+    "sha256": "157569d8a95a102626ed1eba4534059e6801f07a1d756b2120565391efe390d2",
+    "bound_files": 65,
+    "cpu_collected_files": 34,
+    "GPU_collected_files": 20,
+    "solution_source_included": false,
+    "third_party_notices": [
+      "cpu/benchmark/LICENSE",
+      "cpu/benchmark/NOTICE.md"
+    ]
+  },
+  "portable_bindings": {
+    "cpu/benchmark/LICENSE": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "cpu/benchmark/NOTICE.md": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/NOTICE.md",
+      "bytes": 811,
+      "sha256": "97ec1c177ea40225f0a0e683299083473c9397e621540564ecce828f5f3c1bf2"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/config.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/config.json",
+      "bytes": 1072,
+      "sha256": "5393766499678c614b821c8c3ffba71ce3a275823f272faae962c84cf2ffc92a"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/recording.cast": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/recording.cast",
+      "bytes": 9303,
+      "sha256": "019b3171b9f6499295842edde3d11780558c54d767a71641a07448cdd3b58a43"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/terminus_2.pane": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/terminus_2.pane",
+      "bytes": 5582,
+      "sha256": "3ca3a6f8dc6ac14cedfa3ff0efc3429fc45e8f9e067f3771f1ea33ea18315efc"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/trajectory.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/agent/trajectory.json",
+      "bytes": 20989,
+      "sha256": "2cdd8a8f61aefe1699cd344f48d3d28fccd95b951aa91250793c266ae1771881"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/artifacts/manifest.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/artifacts/manifest.json",
+      "bytes": 159,
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/config.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/config.json",
+      "bytes": 984,
+      "sha256": "516c4127f1bd21d67eae53f5845568d80175b41469b65250accd6337d0c81191"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/lock.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/lock.json",
+      "bytes": 1432,
+      "sha256": "f4c0eebca8058ccb3bd2dd36a2a5a4c986fbb3f900e0928f22ae90acfac36872"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/result.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/result.json",
+      "bytes": 4907,
+      "sha256": "691033152b31a0e58b83f19b2f602a3c5f34283918a9981e981efb20ec13f89f"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/trial.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/trial.log",
+      "bytes": 1942,
+      "sha256": "f2d59ddbaa4c40bb76a69831f78f2aa5a38820ac9d4bb8f15aa443322e2c27dc"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/ctrf.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/ctrf.json",
+      "bytes": 2190,
+      "sha256": "c78b04bcd87d2d7565ddb36d409024397c8df9b267ed4c9f919f1084d0cc390c"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/reward.txt": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/reward.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/test-stdout.txt": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/git-leak-recovery__qAhm732/verifier/test-stdout.txt",
+      "bytes": 4371,
+      "sha256": "3c1a5ed4140efa14be547804a1b9c82f455e22fa97fcc4957369c05ae16a80d5"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/harbor-console.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/harbor-console.log",
+      "bytes": 1325,
+      "sha256": "0b6dff372d31990e14f2f4f55defe776735768ed224e0a2eb252f2ac16f9acdb"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/job.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/job.log",
+      "bytes": 4369,
+      "sha256": "605b35ae969a657741c8b6fb195322863dd8aa2106ccafb098f62c23b9a5876b"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/lock.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/lock.json",
+      "bytes": 2530,
+      "sha256": "e814c794569b9297ab437e0e0253f28d8e6b21e616c47204196e85e15691a97a"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/result.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/result.json",
+      "bytes": 1130,
+      "sha256": "49631969c3a5e4b20cd8a02fb8bc61372164254fb6eb0aa17e44838034e13970"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-smoke-r1/runner-meta.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-smoke-r1/runner-meta.json",
+      "bytes": 3679,
+      "sha256": "e441f04c23474067250d69ff6a3bfed3fce317ffa955b3063b06e2ade0d0f095"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/results-git-leak-recovery.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/results-git-leak-recovery.json",
+      "bytes": 4287,
+      "sha256": "916f970726f0199c8dcbb4d2e4e8bbc5f85a19b8b52cd950efc6d7fcca0a602e"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/run-meta.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/run-meta.json",
+      "bytes": 3786,
+      "sha256": "6895cd9d2d5cc40105dfc3cac2d4528dd2a313c3581c0f400f6aa86277767ee4"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/runs/lie-point-r16-core19-smoke-r1-summary.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/runs/lie-point-r16-core19-smoke-r1-summary.json",
+      "bytes": 493,
+      "sha256": "b1262a6a393fe5555042332bcb09262919665c6d0f617c2d3625df6bd42696d3"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/runs/lie-point-r16-core19-smoke-r1.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/runs/lie-point-r16-core19-smoke-r1.json",
+      "bytes": 3786,
+      "sha256": "6895cd9d2d5cc40105dfc3cac2d4528dd2a313c3581c0f400f6aa86277767ee4"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/summary.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/summary.json",
+      "bytes": 1256,
+      "sha256": "0ce8eeec012ed67577ed976bfdac487eb10358584befb26960ddbe532259d67c"
+    },
+    "cpu/benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/transcript-git-leak-recovery.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:benchmark/results/suites/core19-8db507125de192b10b0930110efe9e014696fa30c274dc8e76c8337a84e23cf7/strix-point/qwen3.8-flash-next-9b17db7a-synapse-lie-rocm-UD-Q4_K_XL-ar-terminus-2-98c92dbef340f6f7430ebbd230e9ad030ac8b75d1340e645296967cad62f91d0_results/transcript-git-leak-recovery.json",
+      "bytes": 20989,
+      "sha256": "2cdd8a8f61aefe1699cd344f48d3d28fccd95b951aa91250793c266ae1771881"
+    },
+    "cpu/client-plan.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:client-plan.json",
+      "bytes": 1586,
+      "sha256": "3e9af26c63d8d2cf838a030dee42449c4e314dd9f00df9cfe9802bd75d712722"
+    },
+    "cpu/client-result.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:client-result.json",
+      "bytes": 13958,
+      "sha256": "10bab39aaa56fa36238dd993662c6fedade07be4d788e2c6f0168603099bc559"
+    },
+    "cpu/client-supervisor.py": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:client-supervisor.py",
+      "bytes": 11751,
+      "sha256": "0666bf4222c61e7c560b4ce781865ea9b942f9aa8d50969c441240579d3c7562"
+    },
+    "cpu/client-temperatures.jsonl": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:client-temperatures.jsonl",
+      "bytes": 390608,
+      "sha256": "70989662f82e7ff83f315210c684091d142c549251dc53eb7a3ef0469848b5df"
+    },
+    "cpu/doctor.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:doctor.log",
+      "bytes": 622,
+      "sha256": "81479ccffe2ae04e54128688b33ec001df95f2bffef68f670632549233ad785f"
+    },
+    "cpu/launch.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:launch.json",
+      "bytes": 532,
+      "sha256": "bc789001dfaadfb30cf763fc092da5e6fd895b613af8797e1696d08cc0552e41"
+    },
+    "cpu/runner.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:runner.log",
+      "bytes": 4255,
+      "sha256": "70dc7e86643eebef9ca2b31d5cdee68469c9bd9852e1de11ea1d828bd854e69f"
+    },
+    "cpu/stage.json": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:stage.json",
+      "bytes": 542,
+      "sha256": "044753960b0ed9170687e559f6a13a13beb5aa3ae616f1ebf24b3b1f8e5e00bb"
+    },
+    "cpu/supervisor.log": {
+      "origin": "evidence/terminal-smoke-client-r16.tar.gz:supervisor.log",
+      "bytes": 257,
+      "sha256": "6f539329c5a1d98569630651439fae3b2e5810fb507b28f07bed4f432cf63efe"
+    },
+    "gpu/manifest.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/manifest.json",
+      "bytes": 4554,
+      "sha256": "5a5d295da1cc7cc620e21e5a81c89401f308d167799200d585d26dcea5221227"
+    },
+    "gpu/runner.py": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/runner.py",
+      "bytes": 100339,
+      "sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322"
+    },
+    "gpu/eval-window.py": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/eval-window.py",
+      "bytes": 1851,
+      "sha256": "03a7c3fa48681a9944f301a0607bc148fbb36ad5db46b41e71d4fc7f3b2b7ca6"
+    },
+    "gpu/eval-server.py": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/eval-server.py",
+      "bytes": 4890,
+      "sha256": "73ab8b46921f2bcbec0aa2fcf613d4709957a056928c2126e0a5d6b7c64f1883"
+    },
+    "gpu/result.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/result.json",
+      "bytes": 98496,
+      "sha256": "9d1ea658502032369aa4509ac6967ebd7ef605f8d173900fa2183cb8f66a92bb"
+    },
+    "gpu/telemetry.jsonl": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/telemetry.jsonl",
+      "bytes": 3436596,
+      "sha256": "0ebc8fb0693f4aebfb546ddc7b884686538e6d483e6c317cea6067a7671d2cda"
+    },
+    "gpu/eval-server-result.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/eval-server-result.json",
+      "bytes": 1823,
+      "sha256": "ae1725f43ac0e9c16b95be143438a52b39b1fa968623384533481f63ae7d3238"
+    },
+    "gpu/eval-ready.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/eval-ready.json",
+      "bytes": 1182,
+      "sha256": "8f5b516e0445007bbefb3b3144d053ea96726e3f443be2e537858cea713bc5fb"
+    },
+    "gpu/eval-release.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/eval-release.json",
+      "bytes": 521,
+      "sha256": "d9cdbe994027210680a251abcbac02d25e5e2e4a34bd2b47cd59ac0379600122"
+    },
+    "gpu/server.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/server.log",
+      "bytes": 89,
+      "sha256": "f205f84a4702ff6b5f1551fa4a507ec052f2316fef6362eee8c7edbe5fdf2a14"
+    },
+    "gpu/launch.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/launch.json",
+      "bytes": 430,
+      "sha256": "f3111119b719c838602391ae4423a014e2d099b52217fb5ab9bcc25fe78a7f17"
+    },
+    "gpu/supervisor-stdout.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/supervisor-stdout.log",
+      "bytes": 94184,
+      "sha256": "5f55af23cfed530a60b5857b90580b0ff0528f93b57da23473dfac9d63e011d5"
+    },
+    "gpu/supervisor-stderr.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/supervisor-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gpu/distrobox-create.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/distrobox-create.log",
+      "bytes": 281,
+      "sha256": "c0bd72bf894947744675eebddc439c87885e136a264858162540e83229af03a8"
+    },
+    "gpu/distrobox.stdout.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gpu/distrobox.stderr.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "gpu/http-permit-supervisor.py": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/http-permit-supervisor.py",
+      "bytes": 3439,
+      "sha256": "9cdc5c0c66cfc0f188b65882e8bec3675f9b049d76c1f71562d9e9b3adcd97a7"
+    },
+    "gpu/http-permit-result.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/http-permit-result.json",
+      "bytes": 10714,
+      "sha256": "32caa7c2d01189b9661292cafdb2cff9f589b9ec3951bb42694c658bab5cd662"
+    },
+    "gpu/http-permit-launch.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/http-permit-launch.json",
+      "bytes": 170,
+      "sha256": "6a442e40cc6dabb04ce4508db8aa0e913ea325f855507b74c98272b512c403b6"
+    },
+    "gpu/http-permit-supervisor.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/http-permit-supervisor.log",
+      "bytes": 9652,
+      "sha256": "7fe47ba032bf3baea30dbd42a819fd2d119ee2b49e50ea64a01aacb55eeba286"
+    },
+    "metadata/terminal-smoke-client-closure-r16.json": {
+      "origin": "evidence/terminal-smoke-client-closure-r16.json",
+      "bytes": 9483,
+      "sha256": "906b93f04fb29eeef756ec433990dd16a3842ef67cd7bddd609b2fc34118551e"
+    },
+    "metadata/terminal-smoke-server-release-r16.json": {
+      "origin": "evidence/terminal-smoke-server-release-r16.json",
+      "bytes": 368,
+      "sha256": "123a85cbfdcfd1ab97d2e5e6a5662aa2048a79289344e4d9ac874b4efe6958e4"
+    },
+    "metadata/terminal-http-reachability-r16-r2.json": {
+      "origin": "evidence/terminal-http-reachability-r16-r2.json",
+      "bytes": 878,
+      "sha256": "3fb4c17417639583686122322fa2f1497cd07f9a441d6e36ace636f04664da01"
+    },
+    "metadata/terminal-client-157-preparation-r16.json": {
+      "origin": "evidence/terminal-client-157-preparation-r16.json",
+      "bytes": 2191,
+      "sha256": "0bc0bc7ef7a45ba2f8c2b1002b7122e7199506610bbf877d72f2963da500d486"
+    },
+    "metadata/terminal-client-smoke-stage-r16.json": {
+      "origin": "evidence/terminal-client-smoke-stage-r16.json",
+      "bytes": 871,
+      "sha256": "757b241dae213ab9b2d6336a08b6f12157c10c51c953a184ab73104cd4e0de63"
+    },
+    "metadata/terminal-client-smoke-launch-r16.json": {
+      "origin": "evidence/terminal-client-smoke-launch-r16.json",
+      "bytes": 690,
+      "sha256": "d4a29d8aab867db57c12a1f132b839cb8d7753f338f5c2b1e56ae0c9c565b84f"
+    },
+    "metadata/collection.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/collection.json",
+      "bytes": 11080,
+      "sha256": "8764a25f508a537052616556a966001a915058605b5351de13a5f6de3ae18a56"
+    },
+    "metadata/plan.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/plan.json",
+      "bytes": 715,
+      "sha256": "f79069d406e8fbaf42503df390a5044bdeabac992ced005c3454a11ef67d7e92"
+    },
+    "metadata/controller-result.json": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/controller-result.json",
+      "bytes": 17,
+      "sha256": "e89df0eae5ec7db81135aed16463968955c578bcc4f2ec43172eff351f080c17"
+    },
+    "metadata/controller-stdout.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/controller-stdout.log",
+      "bytes": 412,
+      "sha256": "b36861beb82bdee9cd70d14a281752ae50cd704c0ddb513edd3a20b6486d638d"
+    },
+    "metadata/controller-stderr.log": {
+      "origin": "evidence/context-r16-terminal-smoke-r1/controller-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,6 +1,41 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Terminal smoke closes; unchanged Core-19 full starts — 2026-10-05 UTC
+
+The `2359488` original-weight smoke now passes **1/1, first attempt, zero
+errors**, with unchanged `git-leak-recovery` instructions/verifier. It records
+26,497 input / 1,907 output tokens and 401.330 s task duration.
+The [receipt](development/validation/terminal-smoke-point-gpu-2026-10-05.json)
+binds 65 portable files, original benchmark pin/source, normalized reward and
+transcript, actual CPU/GPU process/container/lease closure, unchanged models,
+router restoration and retirement of the own scoped HTTP permit. Client closes
+at 19:19:25 UTC; fresh actual CPU closure verifies at 19:30:42; GPU lease releases
+at 19:35:47.787692 UTC. GPU-host CPU/GPU/NVMe maxima are 76.75/77/66.85 C;
+client CPU maximum is 65.5 C. Previous HTTP timeout failures stay retained.
+
+After Q2 release `b9e05fd2` at 19:46:56 and fresh non-use confirmations, root
+verifies 1,099 retired identities / 876 groups, empty `.157` KFD, four unchanged
+briefly free original locks, seven unchanged model stats and existing
+Harbor/Docker/Compose without installation. The own full client uses a separate
+232-file verified official source copy, job, cache and persistent CPU lease.
+The full **19-task** run starts at 20:08:35.909805 UTC: supervisor `20794`
+(start ticks `179631020`), runner `20860` (start ticks `179631128`) and actual
+Harbor `20925` (start ticks `179631192`). Doctor passes all 19 selected tasks.
+GPU inference is `.161` only: supervisor `65159` (start ticks `9972757`), model
+`65982` (start ticks `9978951`), original lease device 66307 / inode 105946405.
+The [startup receipt](development/validation/terminal-full-point-start-2026-10-05.json)
+binds these observations. Context 262,144, output ceiling 4,096, AR/C1,
+two conditional attempts and three hours per attempt stay unchanged. The outer
+supervisor budget covers the source-defined worst case plus cleanup, rather
+than imposing a shorter benchmark timeout. HTTP port 8000 is direct, with only
+the own client-specific temporary permit. No full score or release is claimed.
+
+All six roadmap tasks remain open. The physical1M PP/TG gate is closed but
+recall remains pending; comparisons, nonzero steering, independent sampling
+probabilities and further C17 branch/fault/cost coverage remain queued. Separate
+agent assignments stay excluded. No push or implicit publication occurs.
+
 ## Finite-value/cache GPU controls and real Terminal smoke — 2026-10-05 UTC
 
 The newly sealed `2359488` runtime, code checkpoint `5bdd405`, compiles on
