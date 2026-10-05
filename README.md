@@ -2,12 +2,13 @@
 # Synapse LIE — original Q2 support for official Gufo
 
 The [new scaled-Q2 down extraction candidate](docs/Q2-DOWN-RAW-PREFETCH.md)
-retains the measured IQ2 raw-prefetch base1505.152258 PP. It changes three
-active down bodies, preserving154 other bodies and arithmetic; local compile,
-89 guards and complete capsule staging pass. New117-output/42-timing component
-and original fixed-input model await fresh admission; .157 host Debug/ASan
-each passes25/25 with no model or GPU access. No old
-qualified control/cohort rerun or context sweep is authorized by this preparation.
+now completes117 exact component output pairs and its original fixed model on
+.157. PP1503.711045/TG25.16358276 changes PP
+-0.095752% versus saved IQ2 parent1505.152258. The retained
+base is PP1505.152258; fixed UD1685.777092 remains unmet. All21
+parent model files are exact, host Debug/ASan25/25 each pass and the GPU window
+is released. No qualified controls/cohorts or curve are rerun; full values and
+graphs are retained.
 
 
 This isolated workstream adds the original antirez Q2 GGUF to official Gufo

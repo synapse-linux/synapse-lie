@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+Latest Q2 down raw-prefetch window releases at2026-10-05T04:39:45.626957+00:00 after only one new
+component and one original exact2048/tg128 model. The host/component/model
+command exits are six zeros,0/0/0 and four zeros; all37 artifacts verify.
+All117 component outputs and21 parent model files are exact. New PP1503.711045
+is nominally0.095752% below saved IQ2 parent1505.152258, which remains the base;
+the entire rejected candidate and timings are retained. Qualified controls,
+old component cohorts and context sweeps are not rerun. Closure retires699
+identities/551 groups, with empty KFD,four original leases free and six
+unchanged model stat tuples. Main/remote canonical/active/ready mirrors match;
+core receives the release. No Q2 GPU/build/job/lease/waiter/reservation/restart
+or cleanup remains. Future GPU work requires new handover/admission from
+[release](../config/q2-down-raw-prefetch-window-release.json), SHA256
+`50aeb55869a3dc2a106f1592fb2998d592322939c663a2ae5726b8796f9cfbed`.
+
+
 New scaled-Q2 down raw-prefetch preparation has a fresh core handover after
 release79cb5091, with no root .157 job/build/eval/lease/waiter/reservation or
 interleaving. The new frozen plan binds38 fixtures,four manifests and one new
