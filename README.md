@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
-The [new IQ2 signed-codebook candidate](docs/Q2-IQ2-FUSED-GRID.md) is prepared
-on the saved1505.152258 parent:262144 independent scalar format checks pass,
-eight IQ2 bodies lose31–32 static instructions and10-to6 global64-bit loads,
-with149 other kernels exact and unchanged registers/LDS. New95 launch guards
-and25 Debug/25 ASan tests pass. Only a new component and the original fixed
-model will measure the candidate; no throughput improvement is claimed yet.
+The [new fused IQ2 table](docs/Q2-IQ2-FUSED-GRID.md) completes on .157 at
+PP1331.128807/TG25.11415619, an11.561850% prefill regression against saved
+best1505.152258. All81 component output pairs and21 parent model files are
+exact despite fewer static instructions. The full candidate, samples and
+graphs remain preserved; the1505.152258 provider stays the base. All13
+commands/39 artifacts verify and the GPU window is released. Q4 stays deferred.
 
 The [Q4 one-shot](docs/Q4-ONESHOT.md) stops before inference because the plain Antirez Q4 GGUF lacks required rope.dimension_sections metadata. Exit1 and original evidence are retained, the window is released, and the owner defers Q4 and resumes Q2 from the saved1505.152258 prefill parent. No followup Q4/UD test is started.
 

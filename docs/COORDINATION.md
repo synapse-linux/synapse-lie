@@ -1,13 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-New fused IQ2 sign/code-table preparation follows the owner-requested return
-to Q2. Frozen42 fixtures/four manifests, host25 Debug+25 ASan/UBSan pass and
-95 launch guards pass without GPU/model access. The bounded helper anchors
-the Q4 releasef1eaaae, with a fresh core non-use handover. Checkpoint and
-new admission remain mandatory for one new component and original model;
-no old Q2/UD comparator/cohort, Q4, context curve or cleanup is admitted.
-[Plan](../config/q2-iq2-fused-grid-plan.json).
+Fused IQ2 window releases at2026-10-05T06:39:20.614047UTC after one new
+component and original exact2048/tg128 model. All13 commands exit0/39 artifacts
+verify;81 output pairs and21 parent model files are exact. PP1331.128807
+regresses11.561850% against saved best1505.152258, which remains the base.
+Closure retires745 identities/588 groups, KFD empty, four unchanged original
+leases free and seven unchanged model stat tuples. Canonical/main/remote/
+active/ready mirrors match and core is notified. No Q2 job/build/GPU/lease/
+reservation/waiter/restart/cleanup remains. Core owns next window; new GPU
+work needs fresh handover/admission anchored to [release](../config/q2-iq2-fused-grid-window-release.json),
+SHA d0437a918ee5de4155f56b4206ba37482d226694a755a8dc6e4f71e00c8ebdd4.
+Q4 remains deferred; qualified controls/cohorts and full curves are not rerun.
 
 The owner defers Q4 and resumes Q2. Q4 window releases at2026-10-05T06:09:10.187334+00:00, SHA f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424:729 identities/575 groups retired, KFD empty, four original leases free and seven unchanged model stat tuples. Main/remote/active/ready mirrors match. One attempted model command exits1 at metadata binding before GPU Upload/Forward; no PP/TG samples. No Q4/UD followup, GPU/build/job/lease/waiter/reservation/restart/cleanup remains. Future Q2 work requires new checkpoint admission from this release and fresh core handover; core confirms non-use.
 
