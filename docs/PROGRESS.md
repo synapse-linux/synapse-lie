@@ -1,5 +1,50 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-Q8 pair completes on .157 from checkpointaed98f2. The original fixed
+exact2048/tg128 comparison measures1573.621201 PP /25.11363913 TG, nominal
++0.121187% /-0.371646% against saved1571.716479 /25.20732109. Historical PP
+ranges overlap: retain this marginal candidate for subsequent composition and
+the saved1571 parent. Scalar decode dispatch/kernels are unchanged; the measured
+TG difference is not causally assigned to this prefill fusion. Fixed original
+Q21443.672867 and UD1685.777092 are unchanged and were neither rebuilt nor rerun.
+Reaching UD still requires7.127248% more PP; no context-curve expansion follows.
+
+| Sample | PP seconds | PP tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.302888892 | 1571.891519 | 5.053410088 | 25.13154440 |
+| Measured1 | 1.299892328 | 1575.515107 | 5.057013018 | 25.11363913 |
+| Measured2 | 1.303571798 | 1571.068048 | 5.056180622 | 25.11777357 |
+| Measured3 | 1.301456792 | 1573.621201 | 5.063508496 | 25.08142331 |
+
+All21 parent model files and nine within-arm replays are exact. The new
+component verifies43 full output pairs and24 sampled FP64 projection/SwiGLU
+checks, maximum relative RMS0.0003905143 against0.002. Its projection cycle
+falls456.551812→448.024836us (-1.867691% time), and the complete shared cycle
+including down falls719.017722→695.225542us (-3.308984%). All five candidate
+samples are faster than all five component controls for both scopes. These
+local times are separate from complete-model throughput and independent tasks.
+
+All13 runtime commands exit0;37 standard artifacts and86 separately collected
+complete output arrays verify.75 fixtures/four manifests and1027 provider
+files match. Both initial spilling compiled sources and shared-formatter exit1
+remain preserved. CPU/GPU peaks are68.25/38C for component and83.125/73C for
+model/build; no thermal stop. Collection completes before release at
+15:49:37.623036UTC (SHA10329ad7), with1019 retired identities/811groups, empty
+KFD, four original leases free and seven unchanged model stat tuples. Mirrors
+match and core is notified. No Q2 job/reservation/restart/cleanup remains.
+Inherited F16 task-quality differences remain open; no production promotion.
+
+[Disposition](../config/q2-shared-q8-pair-disposition.json),
+[model result](../config/q2-shared-q8-pair-model-results.json),
+[component result](../config/q2-shared-q8-pair-component-results.json),
+[final audit](../config/q2-shared-q8-pair-final-audit.json),
+[all model samples](figures/q2-shared-q8-pair-model-wrapped.csv).
+
+![Shared pair model comparison](figures/q2-shared-q8-pair-model-wrapped.svg)
+![Shared pair complete component cycles](figures/q2-shared-q8-pair-component.svg)
+
+The following preparation record is historical; its runtime gates are complete.
+
 Shared-Q8 gate/up fusion preparation adds one kernel and dispatch from the
 saved1571 provider, with no new allocation, stream or weight conversion.
 The original ordered W8A8 K32 updates feed the existing SwiGLU/F16 boundary;

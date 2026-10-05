@@ -46,10 +46,12 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 ## Current remaining work — 5 October 2026
 
 The inventory below separates unimplemented mechanisms from component-only
-candidates and measured features awaiting integration. Best retained original
-exact2048/tg128 performance remains1571.716479 PP /25.20732109 TG; fixed
-UD1685.777092 requires7.257073% more PP. Q4 stays deferred. This recap launches
-no GPU work and does not rerun qualified controls or expand the context curve.
+candidates and measured features awaiting integration. Latest retained original
+exact2048/tg128 shared-pair result is1573.621201 PP /25.11363913 TG; saved1571.716479
+/25.20732109 also remains available. The nominal PP gain is0.121187% with
+overlapping historical ranges; scalar decode is unchanged. Fixed UD1685.777092
+requires7.127248% more PP from the new candidate. Q4 stays deferred. No qualified
+control rerun or context-curve expansion follows this update.
 
 | Region | Remaining concrete work | Status / priority |
 | --- | --- | --- |
@@ -57,7 +59,7 @@ no GPU work and does not rerun qualified controls or expand the context curve.
 | Expert-output consumer | Feed ordered weighted combine directly, avoiding the remaining100MiB F16 intermediate at2048. | Unimplemented; high. Half storage and vector stores are already measured. Logical bytes do not establish DRAM savings. |
 | HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
 | Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
-| Wide shared-Q8 gate/up | Pair corresponding gate/up row tiles inside each wave and emit rounded SwiGLU directly at M640/N2048/K2560. | New isolated candidate prepared:161 old kernels exact, VGPR180/LDS18432/private0, host27+27. Component43-pair/24-oracle/28-timing and original model pending fresh admission. No reduction of total activation tile fetches is claimed. Quantization sharing and raw-HC Q8 publication already exist. |
+| Measured marginal: wide shared-Q8 gate/up | Pair corresponding gate/up row tiles inside each wave and emit rounded SwiGLU directly at M640/N2048/K2560. | Completed:43 component pairs/24 sampled FP64 checks/21 parent model files pass. Component cycle time-3.309%; original model1573.621201 PP is nominal+0.121187% with overlapping ranges. Retain both sources; this trial is no longer pending. No reduction of total activation tile fetches is claimed. |
 | Small shared-down | Shape-specific native/library path at M2560/N2048/K640; any GPU F16 mirror is bounded to150MiB across48 layers. | Source proposal; lower. This shape was excluded from the failed large-mirror trial. |
 | IQ2 component candidates | Selectively compose live-epilogue or prefill codebook-LDS variants with the current provider. | Components already tested with mixed/marginal timings; current full-model composition unqualified. No blanket rerun. |
 | PLE/ngram preparation | Compose the measured two-slot lookahead with saved1571 and check first-access/warm behavior. | Integration pending. Historical8K first-access10.982→7.791s; warm gain0.57%, not a warm GPU-matrix gain. |
@@ -77,6 +79,15 @@ IQ2 gate/up239.500ms, HC combine/norm186.168ms and Q2 down161.558ms. The older14
 trace remains historical. Decode15-call busy/span is86.971%; bandwidth/cache/
 active-wave attribution is still unisolated. This closes the profiling proposal
 below without changing original1571.716479 PP/25.20732109 TG or the curve gate.
+It profiles the saved parent, not the subsequently measured shared-pair provider.
+
+The [shared-pair disposition](../config/q2-shared-q8-pair-disposition.json)
+retains1573.621201 PP for the next measured composition alongside saved1571.
+All128 model tokens and complete parent files match, while inherited F16
+independent task quality remains open. The remaining high-priority work is
+active routed-expert producer/consumer fusion, direct ordered combination and
+HC materialization; current hardware bandwidth/cache/occupancy causes remain
+unisolated. Marginal component/model gains are not summed into an invented rate.
 
 The [aligned-pair Q8 fetch trial](Q2-Q8-ALIGNED-PAIR.md) is now complete:
 102 exact component pairs and21 exact parent model files, but1496.176691 PP /
@@ -162,7 +173,7 @@ component and full-model results. Their existing cohorts need no rerun.
 | Measured marginal: half-input MoE consumer | Process eight hidden values per lane with two independent ordered F32 accumulation vectors, then preserve the existing shared row and all HC/norm arithmetic. | [Retained ISA review](../config/q2-half-consumer-vector-opportunity.json) confirms the current four-value consumer already uses64-bit expert loads. Eight-value ownership would reduce outer passes from three to two and may permit128-bit loads; Local compilation preserves VGPR84/LDS10368 and160 other kernels exactly.105 component comparisons and21 parent model files are exact; original-model1571.716479 PP is nominal+0.102547% with overlapping ranges. Preserve both sources; this model test is complete. |
 | Measured negative: fixed-width half consumer | Make the existing wrapper-only hidden2560 contract explicit inside the kernel to simplify integer indexing and bounds. | [Current source/ISA review](../config/q2-half-consumer-fixed-width-opportunity.json) retains generic divisions despite the fixed wrapper. The [new candidate](Q2-HALF-FIXED-WIDTH.md) completes with1763 to1093 static instructions but1569.533792 PP (-0.138873%). Scale/half outputs and eight model logits differ despite matching tokens. Preserve all evidence and keep1571 parent; no rerun queued. |
 | Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination. The [F16-storage candidate](Q2-DOWN-HALF-STORAGE.md) is now measured at1547.273268 PP:315 rounding checks,99 consumer checks and original model complete. Eight parent logits differ despite exact generated tokens; independent quality remains open. A direct ordered consumer that avoids the materialization entirely is still unimplemented. Logical bytes are not measured DRAM traffic or a promised gain. |
-| Medium: wide shared-Q8 gate/up | Pair corresponding projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | The new [isolated source](../config/q2-shared-q8-pair-source.json) and [bounded plan](../config/q2-shared-q8-pair-plan.json) are prepared as recorded above; GPU performance remains unmeasured. Input quantization was already shared. DeepSeek's small-batch pair is not copied as a working2048 implementation. |
+| Measured marginal: wide shared-Q8 gate/up | Pair corresponding projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | [Completed result](../config/q2-shared-q8-pair-model-results.json):1573.621201 PP, nominal+0.121187%, exact parent files and retained overlapping ranges. This test is no longer pending. Input quantization was already shared. |
 | Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |
 | Integration: bounded reactive PLE preparation | Compose the measured two-slot lookahead with the current best provider and verify first-access/warm complete model behavior. | Earlier8K first-access gain is measured, but this best-provider composition remains unqualified. It addresses row I/O, not warmed GPU matrix time. |
 | Separate decode/concurrency: Q8 GEMV and native batching | Measure useful native C2/C4/C8 grouping, complete-token throughput, C1 latency and memory. | Existing vector quantization caches are already covered. The outer C dispatcher does not establish profitable batching of the internal numerical executor; current fixed-point decode does not qualify the context/concurrency curve. |

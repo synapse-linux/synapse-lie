@@ -1,11 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The new shared-Q8 gate/up fusion is prepared from saved1571. Each wave pairs
-the corresponding projections and emits the existing F16 SwiGLU result,
-avoiding two F32 intermediates. All161 existing kernel bodies remain exact;
-the new kernel uses VGPR180/LDS18432/private0. Two earlier spilling source
-versions remain preserved. Host27+27 and130 launcher guards pass; component
-and original-model performance require fresh GPU admission. [Remaining work](docs/Q2-OPTIMIZATION-FOLLOWUP.md).
+The shared-Q8 gate/up fusion completes at1573.621201 PP /25.11363913 TG,
+nominal+0.121187% /-0.371646% against saved1571.716479 /25.20732109. Preserve
+both sources: PP ranges overlap. All43 component pairs,24 sampled FP64 checks
+and21 parent model files pass; the complete shared-expert component saves3.309%
+time. The new kernel removes two F32 intermediates without new allocations or
+spills. Fixed UD1685.777092 still requires7.127248% more PP. GPU released;
+inherited task quality and full-curve parity remain open.
+[Disposition](config/q2-shared-q8-pair-disposition.json),
+[all model samples](docs/figures/q2-shared-q8-pair-model-wrapped.csv),
+[remaining work](docs/Q2-OPTIMIZATION-FOLLOWUP.md).
 
 The [cooperative aligned Q8 fetch](docs/Q2-Q8-ALIGNED-PAIR.md) completes at1496.176691 PP /25.17052112 TG, a4.806197% PP regression against saved1571.716479. All102 component pairs and21 parent model files are exact. Preserve the negative candidate and keep1571 as the base. GPU released; [remaining-work inventory](docs/Q2-OPTIMIZATION-FOLLOWUP.md) distinguishes new mechanisms, pending integration and qualification.
 

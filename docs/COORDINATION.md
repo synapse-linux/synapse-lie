@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-Q8 pair releases at2026-10-05T15:49:37.623036+00:00, SHA256
+10329ad71b7f407d36bb290992a8a8f0a4f06b648bc18d79155398b7c1f3d907.
+Admission15:40:39.275297UTC fromaed98f2 follows release986ffa09 and fresh
+root non-use. Host/component/model are terminal and collected:13 commands0,
+37 standard artifacts plus86 complete operator arrays collected separately
+without remote mutation.1019 identities/811groups retired,KFD empty,four
+original leases free,seven model stat tuples unchanged. Canonical/main/remote
+release-active-ready mirrors agree; core notified. No Q2 job/build/client/lease/
+waiter/reservation/restart/cleanup remains. Core is next owner; new work needs
+fresh admission. [Release](../config/q2-shared-q8-pair-window-release.json),
+[final audit](../config/q2-shared-q8-pair-final-audit.json).
+
 Shared-Q8 pair preparation follows1724363 and release986ffa09. Fresh root
 non-use confirms no .157 job/build/client/KFD/lease/waiter/reservation/restart/
 cleanup/interleaving; root GPU work remains assigned to .161. Host27+27 is
