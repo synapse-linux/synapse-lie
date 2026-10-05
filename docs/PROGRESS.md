@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Recovery explanation reconciled with completed integrations — 2026-10-05 UTC
+
+The detailed rejected-test explanation now leads with the final selective
+recovery status: eleven candidate families comprise five mechanisms already in
+fixed Q2, five new measured compositions and one measured complete-cycle
+regression. Zero selective integrations from that inventory remain pending.
+Its older two-pending table and one-pending narrative are explicitly historical;
+their receipts and family CSV remain unchanged. Nineteen report records do not
+establish nineteen distinct false failures or additive speedups.
+
+The saved original exact2048/tg128 comparison remains Q2 1443.672867 PP,
+retained MoE 1496.830907, selective 1497.606050 and UD 1685.777092. The selective
+median is +3.735831% over Q2 and needs +12.564789% more throughput for UD;
+the marginal +0.051786% over its parent has overlapping sample ranges.
+This reconciliation changes documentation. No component, control, model,
+context curve or GPU build runs. All nineteen original report hashes and the
+saved result arithmetic are checked locally. Independent quality and parity
+remain open. [Reconciled explanation](Q2-REJECTED-TEST-REAUDIT.md),
+[retained final receipt](../config/q2-rejected-recovery-scaled-update.json).
+
 ## Selective Q2 down measured with actual routing — 2026-10-05 UTC
 
 Only the new selective model is run on `.157`; the old component and all saved

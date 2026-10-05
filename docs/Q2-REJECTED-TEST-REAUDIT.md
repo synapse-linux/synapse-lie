@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Recheck of rejected test records
 
+The current recovery has measured every selective integration from the original
+inventory. Of eleven candidate families, five mechanisms already belong to the
+fixed Q2 reference, five have new measured model compositions and one has a
+measured complete-cycle regression. The latest
+[recovery receipt](../config/q2-rejected-recovery-scaled-update.json) records
+zero pending selective integrations. All nineteen original reports remain
+unchanged; they are not nineteen independent optimizations or confirmed false
+failures. The shared-Q8 fixture race is the confirmed false format rejection.
+
+| Original fixed-point comparison | Prefill tokens/s | Decode forward calls/s |
+| --- | ---: | ---: |
+| Saved fixed Q2 | 1443.672867 | 25.09595499 |
+| Retained MoE composition | 1496.830907 | 25.17435733 |
+| New selective tile composition | 1497.606050 | 25.15356932 |
+| Saved fixed UD | 1685.777092 | 24.34174251 |
+
+The selective composition is +3.735831% above fixed Q2 and still needs
+12.564789% more throughput to reach fixed UD. Its +0.051786% difference from
+the MoE parent falls within overlapping sample ranges; a stable additional
+gain is not established. These are saved original exact2048/tg128 model
+measurements, not a new benchmark or a sum of component improvements.
+Independent task quality remains open even where greedy tokens match.
+The sections below retain the recovery sequence and its historical receipts.
+
 The owner requests revisiting candidate failures after questioning the Q8
 format oracle, and asks to run only new candidates against already collected
 controls. The exact2048 original-executor input and Q2/UD reference stay fixed.
@@ -80,7 +104,7 @@ This is additional measured progress, not nineteen additive gains or full parity
 The [additive HC audit update](../config/q2-rejected-test-reaudit-hc-update.json)
 binds these new reports without rewriting the original nineteen failures.
 
-The [current recovery-status receipt](../config/q2-rejected-recovery-status.json)
+The [first recovery-status receipt](../config/q2-rejected-recovery-status.json)
 verifies all nineteen original hashes again and binds the subsequent reports.
 It classifies recovery of performance mechanisms, separately from numerical
 acceptance or proof that an original rejection was false:
@@ -94,12 +118,13 @@ acceptance or proof that an original rejection was false:
 
 The four host/status records are outside this eleven-family count. The shared-Q8
 race is the only confirmed false format-rejection family; no blanket verdict on
-all nineteen reports is established. The current best PP 1477.969324 remains
+all nineteen reports is established. At that stage, best PP 1477.969324 remains
 12.327120% below UD 1685.777092, requiring 14.060357% more throughput from the
 candidate to reach that rate. These numbers retain the original fixed input and
 historical comparator, with all individual samples available in the model report.
 Component improvements must not be added together as model throughput gains.
-The [family CSV](figures/q2-rejected-recovery-status.csv) records each disposition.
+The [historical family CSV](figures/q2-rejected-recovery-status.csv) records each
+disposition at that stage; the later receipts below supersede its pending counts.
 
 The later [MoE-only deferred-norm composition](Q2-HC-MOE-DEFERRED.md) recovers
 one of the two pending integrations and measures1496.830907 PP,1.276182% above
@@ -112,7 +137,20 @@ regression and one pending routing-specific tile64 integration. It does not
 rewrite the earlier recovery receipt or infer nineteen independent gains.
 Fixed UD point parity is still unachieved; no full curve runs.
 
-Further fixed-model tests remain pending for candidates needing new integration
+The subsequent [selective Q2 tile composition](Q2-SCALED-SELECTIVE.md) measures
+the last pending family using the retained component evidence without rerunning
+it. The new model reaches 1497.606050 PP / 25.15356932 TG and matches all 21 parent
+input/output/full-logit files. Its marginal difference is retained without
+promotion. Actual routing selects 64-row tiles for 28.591105% of rows but reduces
+total row reservation by only 0.400847%; synthetic tile savings do not become
+equivalent whole-model gains. The
+[final selective recovery receipt](../config/q2-rejected-recovery-scaled-update.json)
+records five already-present families, five new measured compositions, one
+measured regression and zero pending selective integrations. Numerical
+acceptance, independent quality and fixed-point parity remain separate open
+questions. Original reports and earlier receipts are preserved.
+
+Further fixed-model tests apply to new candidates needing new integration
 or composition. Existing qualified controls will not be relaunched. Each new
 candidate needs a source manifest, unchanged timer/input contract, fresh .157
 lease admission and saved complete outputs, with performance measured separately

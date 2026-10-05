@@ -595,6 +595,9 @@ remains pending. Only shared-Q8
 has a confirmed false format-rejection cause. This does not establish nineteen
 independent gains or parity; the new selective candidate still needs 12.565%
 higher throughput for UD.
+The [reconciled recovery explanation](docs/Q2-REJECTED-TEST-REAUDIT.md) shows
+the saved complete-model comparison and identifies earlier pending counts as
+historical; no qualified measurement is rerun or overwritten.
 
 A [new MoE-only deferred-norm composition](docs/Q2-HC-MOE-DEFERRED.md) integrates
 one pending family into the best measured provider. It reuses HC-gate scratch
