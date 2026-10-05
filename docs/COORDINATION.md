@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Read-only2026-10-05T21:02:51.568570UTC again verifies Core-19
+supervisor20794/start179631020 and runner20860/start179631128 alive in their
+original groups; KFD is empty. Compact-LDS SSM source, fixture and compilation
+are local only. Frozen row-group88/5 and window helper remain unchanged.
+No Q2 host/build/client/lease/waiter/reservation/cleanup is started on .157;
+actual CPU/child/container/lease closure and fresh handover remain required.
+Observation: `evidence/q2-ssm-row-group-compose-preparation/core-full-observation-r7-*`.
+
 Read-only2026-10-05T20:48:42.523944UTC verifies the same Core-19
 supervisor20794/start179631020 and runner20860/start179631128 alive with
 original groups; KFD is empty. The shared-down component preparation is local

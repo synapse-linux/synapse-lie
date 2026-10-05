@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [compact SSM transpose](Q2-SSM-COMPACT-LDS.md) reduces compiled shared
+allocation49152→32768 bytes and actual VGPRs222→207, with zero scratch.
+BK1 preserves ordered K16 fragments but doubles source K-loop barriers80→160;
+static instructions increase4027→4120. No speedup or active-wave measurement
+is inferred. The generator proves1024 unique stores and3808 scalar read
+coordinates per wave; source reconstruction and161 unchanged kernel bodies
+verify. Host/device fixture syntax passes, preparing30 pairs/60 FP64 checks/
+14 timings and two HIP resource-limit records. The fixture remains unwired
+and unexecuted on GPU; frozen SSM88/5 and its helper are unchanged. Original
+model input/timers and retained1580 remain fixed. Read-only20:53:59UTC still
+finds Core-19 supervisor20794 and runner20860 alive on .157; no Q2 remote work
+or ownership is started.
+
 The [shared-down cache investigation](Q2-SHARED-DOWN-MIRROR.md) now prepares
 a four-arm M2560/K640 component: original Q8, generic F16 mirror, fixed Q8,
 fixed F16. It isolates a shape excluded from the negative large-mirror trial.

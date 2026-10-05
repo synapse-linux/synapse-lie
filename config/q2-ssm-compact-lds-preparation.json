@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-ssm-compact-lds-preparation.v1",
+  "files": {
+    "tools/prepare-q2-ssm-compact-lds.py": "ef141ce77a4f20745c2eb7c40d135c1ba8f0bd4ac3ad2f44923615c8040f9197",
+    "tools/analyze-q2-ssm-compact-lds-static.py": "ce58efe7efd136ed6669800f0efbc4b8e25e142932146132cff17672e379a068",
+    "config/q2-ssm-compact-lds-source.json": "bec917cbcf3ae1cb70dff98bb9950d8ec434e1eed0cd23fbebec934b571789fc",
+    "config/q2-ssm-compact-lds-static.json": "490f5beb3249f1b24b1026df03e4f084fa0b90e34fea160402408b2a8c76dd30",
+    "experiments/q2-ssm-compact-lds.patch": "98b5196dbcc8120b1fe4b9645173de28be230cafd157e34b8c31f0b92d572096",
+    "experiments/q2-ssm-compact-lds-oracle.inc": "2152c5f4371f6df25506d2cee494cd9f79b9468894194dcf2dfbcffe0a2a8e7e",
+    "tests/q2_ssm_compact_lds.hip": "8319195ce49e839f9bbc42b6206ff7a5c105e82e73b89a56095c5ba5b21bf0a0",
+    "docs/Q2-SSM-COMPACT-LDS.md": "133f129dabd3aa0820f0c7d51937aa77f889b98de4162daaa10a7fffdd8a1b4c",
+    "third_party/gufo/LIE-Q2-SSM-COMPACT-LDS.md": "d994f752c2cb6f43d1e188cd28675b73dcf20f18294652b5a873d4996f05b110"
+  },
+  "frozen_fixtures": 88,
+  "frozen_manifests": 5,
+  "window_helper_unchanged": true,
+  "other_kernels_exact": 161,
+  "prepared_pairs": 30,
+  "prepared_fp64_checks": 60,
+  "prepared_timing_rows": 14,
+  "resource_api_rows": 2,
+  "local_compile_and_audit_exits_zero": true,
+  "remote_launcher_wired": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

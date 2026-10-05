@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The new [compact-LDS SSM candidate](docs/Q2-SSM-COMPACT-LDS.md) compiles with
+49152→32768 shared bytes and222→207 actual VGPRs, zero scratch, and161 other
+kernels unchanged. It also doubles K-stage barriers; GPU timing is pending.
+The frozen row-group campaign remains first, with measured Q2 still1580.226725 PP.
+
 The [small shared-down experiment](docs/Q2-SHARED-DOWN-MIRROR.md) now has a
 four-arm component fixture separating F16 weight caching from fixed-shape
 indexing. Local compilation preserves162 production kernels; new arms spill
