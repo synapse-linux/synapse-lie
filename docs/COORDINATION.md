@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Aligned Q8 pair window releases at2026-10-05T15:04:53.959507+00:00, SHA256
+986ffa094380f4448d8dcdcf9e889e1200200a859b9d20f52789061dd8a8e63f. Host,
+component and model are terminal/collected:13 commands exit0,37 artifacts verify.
+1003 identities/798 groups retired,KFD empty,four original leases free,seven
+model stat tuples unchanged. Canonical/main/remote release-active-ready mirrors
+match; core acknowledges separately reported closure and fresh non-use.
+No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains. Core is
+next owner; any future run needs fresh admission. This recap only analyzes
+collected evidence. [Release](../config/q2-q8-aligned-pair-window-release.json),
+[final audit](../config/q2-q8-aligned-pair-final-audit.json).
+
 Aligned Q8 pair preparation follows353ac32 and releasec8a42fec. Fresh core non-use after that release is received; no ownership/admission is inherited. Scope: new host27+27,one new102-pair component then one original2048/tg128 model despite safe numerical/timing rejection. Fresh registry/PID/group/KFD/original-lease/model-stat admission remains required. No Q4/control rerun/full curve/cleanup.
 
 Current-best diagnostic releases at2026-10-05T14:33:58.538462+00:00, SHA256 c8a42fec09697e22beb28f8f209c6ea328c2f19e99133e9db10d705015afc49e. Admission14:32:11.165838UTC from5cd9680 follows releasea8e0d9f6/core non-use. Host and one saved1571 trace complete/collect with11exits0/31artifacts; zero GPU build/control reruns.987identities/785groups retired,KFD empty,four original leases free,seven model stat tuples unchanged. Canonical/main/remote release-active-ready mirrors match;core notified. No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains. New source-only Q8 pair audit has no admission/reservation. [Release](../config/q2-current-best-profile-window-release.json), [final audit](../config/q2-current-best-profile-final-audit.json).

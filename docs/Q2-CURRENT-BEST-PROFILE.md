@@ -66,6 +66,11 @@ fusion, Q8 data movement and HC materialization work.
 
 ## New compact-Q8 fetch hypothesis
 
+The subsequently completed [aligned-pair trial](Q2-Q8-ALIGNED-PAIR.md) is
+exact to the saved parent but regresses model PP4.806197%. Keep1571 as the
+base. The following source-audit description is retained as proposal history;
+implementation, component and original-model tests are no longer pending.
+
 The [aligned-pair audit](../config/q2-q8-aligned-pair-opportunity.json) identifies
 a distinct candidate in the active wide Q8 loader. BK2 assigns adjacent lanes
 to the two K32 blocks of one row. Jointly reading the original68-byte encoded

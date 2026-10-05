@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-q8-aligned-pair-model-admission.v1",
+  "at": "2026-10-05T14:58:04.141830+00:00",
+  "component_sha256": "b67a30e034fb6b1a716a1a3bb311dcaf93ee1d2985a395f1d2c5aa87cd57ef63",
+  "component_numerical_exact": true,
+  "all102_pairs_complete": true,
+  "all42_timings_retained": true,
+  "guards_pass": true,
+  "required_outputs_finite_written": true,
+  "model_performance_admitted": true,
+  "scope": "One new original2048/tg128 candidate; saved1571/fixedQ2/UD references. Component timing or safe numerical rejection does not suppress model performance.",
+  "quality_accepted": false,
+  "goal_met": false
+}

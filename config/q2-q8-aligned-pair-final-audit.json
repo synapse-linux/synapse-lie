@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-q8-aligned-pair-final.v1",
+  "plan_sha256": "e7d6c7359f4c20c0f662a37bb80ac87af53b191c494f553ff2c93b91397df1e0",
+  "model_result_sha256": "b794f8388fe20aa4ec5556f30fce64c695853f14df1436781400d605a5b86310",
+  "component_result_sha256": "b67a30e034fb6b1a716a1a3bb311dcaf93ee1d2985a395f1d2c5aa87cd57ef63",
+  "release_sha256": "986ffa094380f4448d8dcdcf9e889e1200200a859b9d20f52789061dd8a8e63f",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "frozen_fixtures_verified": 74,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1026,
+  "retired_identities": 1003,
+  "retired_groups": 798,
+  "figures": {
+    "docs/figures/q2-q8-aligned-pair-component.csv": "3c977a7b3e75cad3253313760a5388894058fa1f6eb52da41def463c66768755",
+    "docs/figures/q2-q8-aligned-pair-component.png": "e676bfb6f4271817fde1d09b791758373b18128afd66cf6ccf0a9d5f88c91519",
+    "docs/figures/q2-q8-aligned-pair-component.svg": "8506b1088b145df0a50f696df3c98e6d0e957d0fa9de56a41d86e6cef8dd3b10",
+    "docs/figures/q2-q8-aligned-pair-model-wrapped.csv": "4ca316a74bdba8b2508fc10dacbbbf196902b8dccecd5b84d3659050d3acbf12",
+    "docs/figures/q2-q8-aligned-pair-model-wrapped.svg": "c2732d2baf87aa81e4f0d5787d3c0c923738018d8bec88613fb76b83356086cd",
+    "docs/figures/q2-q8-aligned-pair-model-wrapped.png": "4317cbf6d260bdf9765b0ffd63655d7c5a25f6a3af6b35f2a02cf30c17d365b5"
+  },
+  "preserved_preparation_failures": {
+    "assembly-command.json": 1
+  },
+  "all102_component_pairs_exact": true,
+  "all42_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

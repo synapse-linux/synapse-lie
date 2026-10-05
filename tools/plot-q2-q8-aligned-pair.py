@@ -14,14 +14,14 @@ def main():
     if report['controls_rerun'] or report['component_rerun'] or not report['original_tester_unchanged']:
         raise ValueError('Expected one new model with saved comparisons')
     arms = {key: report['references'][key] for key in ('fixed_q2', 'best_parent')}
-    arms['q8_k16_phases'] = report['model']
+    arms['q8_aligned_pair'] = report['model']
     arms['fixed_ud'] = report['references']['fixed_ud']
-    labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved IQ2\nraw prefetch',
-              'q8_k16_phases': 'New Q8\nK16 phases', 'fixed_ud': 'Fixed UD'}
+    labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved1571\nparent',
+              'q8_aligned_pair': 'New Q8\naligned pair', 'fixed_ud': 'Fixed UD'}
     output = ROOT / 'docs/figures/q2-q8-aligned-pair-model-wrapped'
     if any(output.with_suffix(suffix).exists() for suffix in ('.csv', '.svg', '.png')):
         raise ValueError('Refusing to overwrite model exports')
-    rows = [dict(candidate=key, historical=key != 'q8_k16_phases', source=Path(arm['path']).name,
+    rows = [dict(candidate=key, historical=key != 'q8_aligned_pair', source=Path(arm['path']).name,
                  **{field: sample[field] for field in ('rep', 'warmup', 'prompt_tokens', 'output_tokens',
                      'decode_steps', 'prefill_s', 'decode_s', 'prefill_tok_s', 'decode_steps_s')})
             for key, arm in arms.items() for sample in arm['samples']]

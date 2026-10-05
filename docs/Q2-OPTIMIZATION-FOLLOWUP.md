@@ -45,6 +45,31 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
+The inventory below separates unimplemented mechanisms from component-only
+candidates and measured features awaiting integration. Best retained original
+exact2048/tg128 performance remains1571.716479 PP /25.20732109 TG; fixed
+UD1685.777092 requires7.257073% more PP. Q4 stays deferred. This recap launches
+no GPU work and does not rerun qualified controls or expand the context curve.
+
+| Region | Remaining concrete work | Status / priority |
+| --- | --- | --- |
+| Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | Source audit only; high. Existing fallback routing/quantization reuse is already present. |
+| Expert-output consumer | Feed ordered weighted combine directly, avoiding the remaining100MiB F16 intermediate at2048. | Unimplemented; high. Half storage and vector stores are already measured. Logical bytes do not establish DRAM savings. |
+| HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
+| Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
+| Wide shared-Q8 gate/up | Share the activation tile and emit rounded SwiGLU directly at M640/N2048/K2560. | Unimplemented; medium. Quantization sharing and raw-HC Q8 publication already exist. |
+| Small shared-down | Shape-specific native/library path at M2560/N2048/K640; any GPU F16 mirror is bounded to150MiB across48 layers. | Source proposal; lower. This shape was excluded from the failed large-mirror trial. |
+| IQ2 component candidates | Selectively compose live-epilogue or prefill codebook-LDS variants with the current provider. | Components already tested with mixed/marginal timings; current full-model composition unqualified. No blanket rerun. |
+| PLE/ngram preparation | Compose the measured two-slot lookahead with saved1571 and check first-access/warm behavior. | Integration pending. Historical8K first-access10.982→7.791s; warm gain0.57%, not a warm GPU-matrix gain. |
+| Scalar HC decode | Fuse up projection with ordered mix/injection using the retained eight-wave design. | Unimplemented proposal; separate decode work. |
+| IQ2 vector decode | Stage the2KiB codebook in LDS while preserving Q8_1 activations. | Source proposal; barrier/cache tradeoff unmeasured. Distinct from prefill codebook experiments. |
+| Q8 GEMV and batching | Qualify native C2/C4/C8 useful-token throughput, C1 latency and memory with the current numerical executor. | Unqualified. The outer reactive dispatcher and existing quantization caches do not establish a numerical batching gain. |
+| GPU scheduling and buffer lifetimes | Resource-aware region admission, last-reader retirement, and critical-path attribution of CPU route-map/upload before a device port. | General policy unimplemented/unqualified. Naive shared/routed two-stream overlap already regressed1.029%. |
+| Long-context indexer | Reuse keys across queries and distribute exact top-k with deterministic ordering/ties. | Source-backed proposals; after fixed-point parity. Selection is inactive at2048. |
+| Long-context attention | Compare packed K/V with direct gathers including packing cost. | Unqualified new layout; after fixed-point parity. Fused WMMA attention and mask-window compaction already exist. |
+| Diagnosis and source organization | Isolate hardware bandwidth/cache/active-wave limits; further separate decode, staging, arithmetic and buffer ownership without changing instruction bodies. | Current stage trace complete; hardware attribution and further organization remain. Neither is a measured throughput gain. |
+| Acceptance | Complete independent Core-19 quality, then qualify the retained provider over the requested PP/TG context curve after the point gate. | Open qualification, not kernel optimization. F16 lineage differences remain. |
+
 The [saved1571 current profile](Q2-CURRENT-BEST-PROFILE.md) now completes with
 zero GPU builds/control reruns and exact saved prefill logits/first16 tokens.
 Its prefill totals1321.833498ms kernel work in1326.923958ms: Q8/F16 dense293.227ms,
@@ -53,16 +78,14 @@ trace remains historical. Decode15-call busy/span is86.971%; bandwidth/cache/
 active-wave attribution is still unisolated. This closes the profiling proposal
 below without changing original1571.716479 PP/25.20732109 TG or the curve gate.
 
-A [new compact aligned-pair Q8 fetch audit](../config/q2-q8-aligned-pair-opportunity.json)
-targets the active wide dense loader, led by160.218ms fused SSM. Adjacent lanes
-read the same original68-byte pair with aligned word groups, reconstruct payload
-and exchange the second scale. This is distinct from prior LDS-store, table and
-K16 changes. Symbolic byte coverage passes; implementation/device compilation/
-new guarded component/original model remain pending. Extra shifts, lane exchange
-and register demand can erase the gain. No hardware-transaction reduction is
-claimed. Retain original odd-K/unaligned/other-shape fallback and saved controls.
+The [aligned-pair Q8 fetch trial](Q2-Q8-ALIGNED-PAIR.md) is now complete:
+102 exact component pairs and21 exact parent model files, but1496.176691 PP /
+25.17052112 TG, nominal-4.806197% PP versus saved1571. Component times increase
+10.840–16.393%. Preserve this negative candidate and keep1571 as the base.
+The source-only opportunity record remains historical; this mechanism is no
+longer pending. Hardware transaction/cache attribution remains unisolated.
 
-Latest completed experiment: [fixed-width half consumer](Q2-HALF-FIXED-WIDTH.md)
+Previous completed experiment: [fixed-width half consumer](Q2-HALF-FIXED-WIDTH.md)
 measures1569.533792 PP /25.16043516 TG, nominal-0.138873% PP against saved1571.716479.
 The candidate is preserved and1571 remains the base.105 residual outputs are
 exact,93 scale/61 normalized-half outputs differ (max2/1ULP); generated model
@@ -70,10 +93,9 @@ tokens match while eight logits change, max parentKL0.007411541178. All42
 component timings and model performance are retained despite numerical failure.
 This experiment is complete. A38% static instruction reduction does not improve
 the complete model; prioritize changed data movement over further generic
-index simplification. [New saved-best diagnostic proposal](../config/q2-current-best-profile-opportunity.json)
-would profile the retained1571 executable without rebuilding it or rerunning
-Q2/UD comparators, before choosing the next expert-chain/Q8/HC fusion. Existing
-1496 stage costs are historical, not a current profile or a throughput baseline.
+index simplification. The saved-best diagnostic proposal has since completed
+as recorded above. Existing1496 stage costs remain historical, not a current
+profile or a throughput baseline.
 
 
 Previous completed experiment: [eight-value half consumer](Q2-HALF-CONSUMER-EIGHT.md)

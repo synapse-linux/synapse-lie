@@ -1,6 +1,45 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Cooperative aligned Q8 weight-pair fetch
 
+## Completed result — 5 October 2026
+
+The candidate completes at1496.176691 PP /25.17052112 decode forward calls/s,
+nominal-4.806197% /-0.145989% against saved1571.716479 /25.20732109. Keep the
+saved1571 source as the base and retain this negative candidate. Fixed original
+Q2/UD input, timers and controls remain unchanged; no control was rerun.
+
+| Component,2048 rows | Parent microseconds | Candidate microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| SSM | 4847.487450 | 5622.653325 | +15.991086% |
+| Output | 1801.046371 | 2096.292019 | +16.393006% |
+| Attention | 4175.598145 | 4628.239632 | +10.840159% |
+
+All102 full component pairs,21 parent model files and nine within-arm logit
+checks are exact; all42 timing rows remain. Guarded and allocation-end cases
+pass. The three model PP samples are1496.176691,1496.474389,1495.165943;
+decode samples25.17382639,25.17052112,25.16030796. Complete samples include
+the warmup separately in the CSV. Exactness to the parent does not close the
+inherited independent F16 task-quality gap. No runtime default is promoted.
+
+Host27/27 Debug and27/27 ASan/UBSan pass. All13 runtime commands exit0,
+37 artifacts verify,74 fixtures/four manifests and1026 provider files match.
+The initial preparation include-sort failure remains recorded as exit1.
+After terminal collection, release at15:04:53.959507UTC retires1003 process
+identities/798 groups, with empty KFD, four original leases free and seven
+unchanged model stat tuples. Canonical/main/remote release-active-ready mirrors
+match986ffa094380f4448d8dcdcf9e889e1200200a859b9d20f52789061dd8a8e63f;
+core acknowledges closure. No Q2 GPU job or reservation remains.
+
+[Component result](../config/q2-q8-aligned-pair-component-results.json),
+[model result](../config/q2-q8-aligned-pair-model-results.json),
+[final audit](../config/q2-q8-aligned-pair-final-audit.json),
+[all model samples](figures/q2-q8-aligned-pair-model-wrapped.csv).
+
+![Component timings](figures/q2-q8-aligned-pair-component.svg)
+![Original model comparison](figures/q2-q8-aligned-pair-model-wrapped.svg)
+
+## Retained preparation record
+
 One new candidate starts from retained half-consumer-eight,1571.716479 PP /
 25.20732109 TG, preserving the original exact2048/tg128 tester and fixed Q2
 1443.672867 /UD1685.777092 PP. The current trace attributes293.227373ms to
