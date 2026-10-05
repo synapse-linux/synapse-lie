@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Scaled-wave-pack releases at2026-10-05T16:35:19.738986+00:00,SHA256
+6abd77bc99a836750801e741cdbc313e047be39d7080b2ab7e5f3493abfefa35.
+Fresh admission88e68b79 at16:27:45.501373UTC follows release10329ad7 and root's
+explicit non-use/handover. Root CPU smoke never starts during this window.
+Host/component/model are terminal and collected:141 artifacts,13 exits
+(component numeric1 and twelve0),104 full arrays.1035 identities/824groups
+retired,KFD empty,four original leases free,seven modelstat tuples unchanged.
+Canonical/main/remote release-active-ready mirrors match; core notified.
+No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains.
+Any next GPU work needs fresh admission.
+[Release](../config/q2-scaled-wave-pack-window-release.json).
+
 Scaled-wave-pack prepares fromc64ca6c after release10329ad7. Host27+27 is
 terminal/collected with no GPU/model access. Root's prospective CPU-only .157
 Terminal Bench client has not started; root explicitly yields the next brief

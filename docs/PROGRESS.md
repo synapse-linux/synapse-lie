@@ -1,5 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Wave-owned scaled-Q2 packing completes from19b38b1 at1574.505432 PP /
+25.17589001 TG, nominal+0.056191%/+0.247877% versus saved1573.621201/25.11363913.
+PP samples1573.956493/1576.398959/1574.505432 overlap the parent's historical
+range. Retain both and the marginal gain; scalar decode is unchanged.52
+component pairs and21 complete parent model files are exact, with nine exact
+within-arm replays. Packing369.315624→354.565889us (-3.993802%); complete
+packing/down3690.278689→3666.972796us (-0.631548%). The independent component
+exit1 remains:110080 negative-zero→positive-zero cells per arm fully account
+for all reported oracle errors; production packing passes its scalar oracle.
+No guard/nonfinite fault, altered golden or repeated candidate/control run.
+
+All13 runtime exits are retained (component numeric1, twelve0),141 artifacts
+include104 full arrays;77 fixtures/four manifests/1027 provider files verify.
+Model finishes16:34:25.556897UTC and collection precedes release16:35:19.738986UTC
+SHA6abd77bc.1035 identities/824groups retired,KFD empty,four original leases
+free,seven modelstat tuples unchanged; mirrors match/core notified. CPU/GPU
+peaks65.375/41C component and84.5/74C model/build. No Q2 job,reservation,restart
+or cleanup remains. UD needs+7.067086% PP; quality/full curve still open.
+[Full result and samples](Q2-SCALED-WAVE-PACK.md),
+[disposition](../config/q2-scaled-wave-pack-disposition.json).
+
+The preparation record below is historical; its runtime scope is now complete.
+
 Wave-owned scaled-Q2 packing preparation follows checkpointc64ca6c. One wave
 retains/reduces/packs one640-value row; eight rows per block remove both block
 barriers and reduce the20480-slot grid to2560 blocks. VGPR13→30,LDS36→0,

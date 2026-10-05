@@ -47,16 +47,16 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 The inventory below separates unimplemented mechanisms from component-only
 candidates and measured features awaiting integration. Latest retained original
-exact2048/tg128 shared-pair result is1573.621201 PP /25.11363913 TG; saved1571.716479
-/25.20732109 also remains available. The nominal PP gain is0.121187% with
-overlapping historical ranges; scalar decode is unchanged. Fixed UD1685.777092
-requires7.127248% more PP from the new candidate. Q4 stays deferred. No qualified
+exact2048/tg128 wave-packing result is1574.505432 PP /25.17589001 TG; saved shared
+pair1573.621201/25.11363913 and earlier sources remain available. The nominal
+PP gain is0.056191% with overlapping historical ranges; scalar decode is unchanged.
+Fixed UD1685.777092 requires7.067086% more PP from the new candidate. Q4 stays deferred. No qualified
 control rerun or context-curve expansion follows this update.
 
 | Region | Remaining concrete work | Status / priority |
 | --- | --- | --- |
 | Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | Source audit only; high. Existing fallback routing/quantization reuse is already present. |
-| Active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [New prepared candidate](Q2-SCALED-WAVE-PACK.md), host/static pass; GPU packing/down and fixed model pending. This reduces synchronization/CTA overhead inside the existing pass, without claiming full producer fusion. |
+| Measured marginal: active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [Completed candidate](Q2-SCALED-WAVE-PACK.md):52 exact component pairs,21 exact parent model files; packing/down time-0.632%, model1574.505432 PP nominal+0.056191% with overlapping ranges. Scalar oracle exit1 retained and fully attributed to signed zero in both arms. This trial is no longer pending; full producer fusion remains open. |
 | Expert-output consumer | Feed ordered weighted combine directly, avoiding the remaining100MiB F16 intermediate at2048. | Unimplemented; high. Half storage and vector stores are already measured. Logical bytes do not establish DRAM savings. |
 | HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
 | Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
@@ -82,8 +82,8 @@ active-wave attribution is still unisolated. This closes the profiling proposal
 below without changing original1571.716479 PP/25.20732109 TG or the curve gate.
 It profiles the saved parent, not the subsequently measured shared-pair provider.
 
-The [shared-pair disposition](../config/q2-shared-q8-pair-disposition.json)
-retains1573.621201 PP for the next measured composition alongside saved1571.
+The [wave-packing disposition](../config/q2-scaled-wave-pack-disposition.json)
+retains1574.505432 PP for the next measured composition alongside saved1573/1571.
 All128 model tokens and complete parent files match, while inherited F16
 independent task quality remains open. The remaining high-priority work is
 active routed-expert producer/consumer fusion, direct ordered combination and
