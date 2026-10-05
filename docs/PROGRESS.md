@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## New IQ2 producer-half staging prepared — 2026-10-05 UTC
+
+One numerical provider file changes from the retained MoE-deferred composition;
+1024 files remain exact. Paired IQ2 producers retain CodesToHalves add/FMA,
+stage each weight in F16 once and eliminate duplicate consumer expansion.
+XOR quarter/token activation layout keeps BN128 at32768 LDS bytes. A separate
+corrected row swizzle avoids repeated producer bank groups. The initial source
+and assembly remain retained. Local gfx1151 compilation changes eight IQ2
+paired bodies while149 other bodies are exact, with zero private scratch.
+Larger LDS and register requirements remain unmeasured tradeoffs.
+
+The new fixture compares81 complete parent/candidate outputs, covers four
+widths and ragged/packed paths, and records42 timings on three rotating weight
+sets exceeding MALL. It measures fused gate/up and SwiGLU, not a complete MoE
+cycle. Numerical mismatches retain buffers and do not prevent performance
+collection; corrupted guards stop device work. Initial local scope failure1
+is preserved and corrected; final82 launch guards pass before staging.
+One new `.157` CPU host capsule passes25/25 Debug and25/25 ASan/UBSan,
+with six command exits0, seven artifacts and31 frozen fixtures verified.
+GPU/model performance remains
+pending fresh coordinated admission. Fixed exact2048/tg128 references remain
+unchanged and no qualified controls or full context sweep run.
+[Mechanism and risks](Q2-IQ2-HALFSTAGE.md),
+[frozen plan](../config/q2-iq2-halfstage-plan.json).
+
 ## Recovery explanation reconciled with completed integrations — 2026-10-05 UTC
 
 The detailed rejected-test explanation now leads with the final selective

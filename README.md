@@ -643,3 +643,13 @@ parent. Actual routing selects64 for28.591105% of rows but reduces total row
 reservation only0.400847%. The marginal candidate is retained without promotion;
 fixed UD remains1685.777092 and full-curve/independent quality remain open.
 The `.157` window is released; complete samples and routing records are saved.
+
+A [new IQ2 shared-F16 stage](docs/Q2-IQ2-HALFSTAGE.md) targets duplicated
+half-wave weight conversion in the saved254.797 ms gate/up stage. The producer
+uses the same packed add/FMA and ordered K16 consumers read staged halves.
+XOR activation layout keeps the expanded BN128 stage at32768 bytes. Local
+compilation preserves149 other kernel bodies and has zero private scratch;
+larger LDS/register requirements remain a runtime risk. The new fixture has
+a literal saved control, ragged/packed output coverage and rotating weights.
+GPU performance and original-model replay remain pending fresh admission;
+resource counts do not establish speedup. The fixed Q2/UD comparison remains.
