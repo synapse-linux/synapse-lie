@@ -1,5 +1,32 @@
 # DS4 / synapse-lie coordination
 
+## JSON Schema C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only observation sees training PID 29223 gone and router
+PID 29377/start 2474081 still in actual/kernel KFD. Available RAM is
+120,803,872,768 bytes and CPU 44.25 C at that observation. The original campaign
+lease is briefly probed EX|NB and released; this admits/reserves no GPU work.
+The Point thread confirms no GPU/router use or reservation and no explicit
+router-stop authorization held. Root mutates no service and performs no GPU
+build/run/model hash/conversion or foreign signal on `.161` or `.157`.
+
+The [host receipt](development/validation/c17-schema-transform-host-2026-10-05.json)
+binds actual C17 equality/reference/key/conjunction algorithms, 29 Debug,
+29 sanitizer, 29 pristine/ON/OFF and five minimal ICU-OFF checks. All thirteen
+previous witnesses stay unchanged; 1996 new complete transformations agree.
+Local CPU maximum is 92 C without tuning. The 38-file inventory and five exact
+schema edits require new matching sealed provider/application builds. No new
+worker/event/RNG/engine/DS4 layout, original-weight or performance gate is claimed.
+All six root tasks remain open; further schema visiting/normalization can proceed
+locally while fresh `.161` GPU admission remains unavailable.
+
+Q2 separately reports terminal release `986ffa09` at 15:04:53.959507 UTC,
+13 exits zero/37 artifacts and a slower aligned-pair candidate. Root sends fresh
+non-use after that report, with no `.157` job/build/client/KFD/lease/waiter/
+reservation/restart/cleanup/interleaving. Separate reports are neither root
+qualification nor inherited ownership/admission.
+
+
 ## Grammar construction C17 host-only ownership — 2026-10-05
 
 Fresh `.161` read-only observations still identify Gemma training PID 29223/

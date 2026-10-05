@@ -7,6 +7,14 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The C17 schema transformation algorithms in src/schema_transform.c follow
+  official src/core/json_constraint.cpp at the independently fetched immutable
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e pin (MIT, gufo-LICENSE retained).
+  schema-transform-edits.json records default-ON/OFF integration. C17 owns
+  structural equality, local pointer resolution, keyword validation and schema
+  conjunction/distribution/merging. Provider storage/error translation and
+  format/binary-double multipleOf leaf policies remain transitional. No sibling
+  source/artifact, DS4 checkout modification or model payload is imported.
 - llama.cpp / ggml: Copyright (c) 2023-2026 The ggml authors (MIT).
 - DS4: Copyright (c) 2026 The ds4.c authors (MIT).
 - DS4 GB10/GX10 changes: Copyright (c) 2026 Marco Palaferri (MIT).

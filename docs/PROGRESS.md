@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## JSON Schema transformation C17 host slice — 2026-10-05
+
+From `7f385c3`, structural JSON equality, local reference resolution,
+supported-key validation and complete conjunction traversal/distribution/merging
+now use the shared C17 contract. The provider supplies borrowed views, private
+staging and error translation, plus format/binary-double multipleOf leaf policy.
+Schema visiting, finite-value normalization, compile cache and model/controller
+storage remain transitional. Default ON keeps explicit original OFF bodies.
+Reactive worker/events/RNG, engine ABIs and DS4 framing do not change.
+
+The [source-bound host receipt](development/validation/c17-schema-transform-host-2026-10-05.json)
+records 29 Debug, 29 sanitizer, 29 pristine/ON/OFF and five minimal ICU-OFF checks,
+plus strict C17 and 44 public C++ headers. Independent fixtures cover 1645
+tree/boundary oracles, all 192 callbacks in the declared composite path, six
+owned allocation refusals and a 4096-level iterative equality chain. Complete
+transformation witnesses match in 1996 cases; all thirteen earlier complete
+witness hashes remain unchanged. Fixture hooks do not qualify private provider/
+ICU/GPU allocation faults or whole-process resources/cost. CPU maximum is 92 C.
+Initial Debug and sanitizer builds refused six misleading-indentation warnings
+in the new test fixture; logs/exits are retained and the fixture formatting is
+corrected without weakening checks. No test command fails in this slice.
+
+Five exact source edits and the 38-file private inventory require matching new
+sealed provider/application builds. Fresh `.161` observation finds the Gemma
+training process gone, but `llama-router` still holds the GPU devices. No root
+GPU build/run/hash/conversion, service mutation, foreign signal, standing lease
+or waiter occurs. All six owned tasks remain open; original-weight continuation,
+allocation-exact resources and matched cost still require fresh GPU admission.
+
+
 ## Grammar construction C17 host slice — 2026-10-05
 
 From `2bbb2e6`, the shared C17 builder owns concrete rule/class/literal and

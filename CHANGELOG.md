@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 JSON Schema conjunction, local reference resolution, structural
+  value equality and keyword validation. The default-ON selection retains an
+  OFF reference. Provider JSON storage and format/binary-double leaf policy
+  remain transitional; GPU correctness, resources and cost remain pending.
+
 - Shared C17 grammar construction, JSON byte primitives, decimal-prefix
   intervals, productivity/cycle validation and dead-alternative pruning.
   Schema transformations and provider composition templates remain transitional;

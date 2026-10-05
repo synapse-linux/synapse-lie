@@ -1,0 +1,2026 @@
+{
+  "schema": "synapse-lie.c17-schema-transform-host-qualification.v1",
+  "at_utc": "2026-10-05T15:30:21.465460+00:00",
+  "baseline_checkpoint": "7f385c3960ec4c8e1e018f0691602bb213030339",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed structural JSON equality, local reference resolution, supported-key validation and complete schema conjunction traversal/distribution/merging in shared C17 through the actual default-ON provider. Complete pristine/ON/OFF and independent tree/refusal host witnesses. NOT-INFERENCE; no new original-weight numerical/fault/fit/allocation-exact/cost or performance qualification.",
+  "implementation": [
+    "Separate model-neutral ABI1 reads stable borrowed JSON nodes through synchronous typed views; writers copy spans into private staging and never modify input trees. Unique object keys retain order. Output/error storage is disjoint; error detail borrows input. Refused calls preserve result ownership and caller retires staging on both outcomes.",
+    "C17 owns structural numeric/string/bool/null equality, order-independent object equality and ordered arrays; sixteen inline pairs avoid scratch allocation for small comparisons, with bounded iterative growth for large frontiers. Local JSON pointer resolution preserves escape decoding, leading-zero array indices, exact size_t overflow refusal, root/empty/NUL keys and missing-reference diagnostics.",
+    "C17 owns supported-key validation and complete reference/anyOf/format-distribution/bounds/enum/required/type/pattern/items/properties conjunction traversal and merging, including numeric/integer intersections, closed-object filtering and swallowed empty branches. Malformed nonobject properties preserve pinned helper behavior; full schema admission still belongs to the visitor.",
+    "Default 64000000 counted work units, 262144 equality pairs and pinned64 conjunction depth. Paired C allocation hooks cover equality/pointer/pattern scratch and retire on all tested refusals. Work budgets are resource admission, not timing. Provider staging has262144-node bound; actual C++/ICU allocation faults and whole-process resources remain unqualified.",
+    "Typed provider glue exposes JSON views, private deque/container staging and nonthrowing exception translation. Format expansion and binary-double multipleOf translation remain provider leaf policy. Empty leaf refusal can be swallowed by C anyOf distribution without leaking a stale exception into success. Schema visiting, finite-value canonicalization/filtering, compile cache and model/controller/private composition storage remain transitional.",
+    "Five unique exact replacements select C functions under existing default-ON LIE_C17_SAMPLING; OFF retains original algorithms.38-file inventory and schema_transform_edits_sha256 require new matching sealed provider/application builds; no engine/request/generation/State/event/RNG/worker or DS4 RAM/SSD layout changes.",
+    "The new direct test-only copied constraint source exposes exactly one local compiler access marker and appends wrappers; algorithms remain pristine/selected/OFF. Upstream source is independently hash-verified and never modified. No CPU model forward or product/default-CTest Python dependency."
+  ],
+  "coverage": {
+    "independent_tree_and_boundary_oracles": 1645,
+    "composite_path_callback_refusal_points": 192,
+    "own_allocator_refusal_points": 6,
+    "iterative_equality_depth": 4096,
+    "complete_transformation_cases": 1996,
+    "previous_complete_witness_hashes_unchanged": 13,
+    "public_cpp_headers": 44,
+    "private_inventory_files": 38,
+    "notes": [
+      "All192 actual callbacks in the declared format/pattern/multiple/type composite path refuse transactionally; earlier private staging is retired. Six C allocation points cover large iterative equality frontier growth, pattern composition and pointer scratch. These hooks do not measure actual C++ staging OOM or model/ICU/GPU faults.",
+      "400 independent bound/type intersections, duplicate-preserving enum intersection/required union, closed properties, reference cycles/escapes/overflow/NUL keys, empty callback branches, malformed member arrays, ABI/hook/pair/work refusal and source immutability.",
+      "Final29 Debug+29 ASan/UBSan/LeakSanitizer+29 reference-project+5 minimal ICU-OFF checks pass; 1Debug/1sanitizer final provenance-contract rechecks pass after adding the named schema recipe hash. All13 prior full witness hashes remain unchanged."
+    ]
+  },
+  "sources": [
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "src/grammar.c",
+      "sha256": "8916abc13c0450befb55bb624737167916f54be37cd217845d2b0884ab83a4f3"
+    },
+    {
+      "path": "include/lie/grammar.h",
+      "sha256": "ffa1e0c91788fac658e4b6ffb6d8e1b5a597cf415b79f7989a82e49174ab9631"
+    },
+    {
+      "path": "adapters/gufo_grammar.hpp",
+      "sha256": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125"
+    },
+    {
+      "path": "src/grammar_number.c",
+      "sha256": "1d0aa31ef73b2f8b81d61de0f2d931d09c54cdf5c4aef996489546b9e200b95d"
+    },
+    {
+      "path": "include/lie/grammar_number.h",
+      "sha256": "894708afc6b7c57d756f04814666fd74278e55366dfd58d4957a34fa52f4048d"
+    },
+    {
+      "path": "adapters/gufo_grammar_number.hpp",
+      "sha256": "ceb9b43371f7c2369fcf220a7bbdfaa12b2b39366cc51904ea70cc7c9f5eae65"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-number-edits.json",
+      "sha256": "c1129f9699244a01375a6835eb612ab8b63269c030009309c91c01b951b02828"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-runtime-edits.json",
+      "sha256": "19562a5dcf5dcb7a3dfc83a96e77aafce299eafe9f2d5b6c12c41be9dff1d83f"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "628b5833dfb52a813a064a9617a9d4ba9246b1008aa86add6a64f6a4afb18fa6"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "be6ae622f709c51e4eff92da5232fef6b2fb30066b285421f18afae1f1b795e9"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "c5e8ed4707a1b5f13928f6ce39905243c13558b253055cef5527c5481b86beb4"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "77dad8bc907f7fc018a548d233a050ab30fd4e526cb0f4608f0edbcac31a6c2d"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "68edc374f8a9f9a8887d6d167b679b996b90c552093006eebfdcc73ba0ed4e23"
+    },
+    {
+      "path": "tests/test_grammar_number.c",
+      "sha256": "d801e3c6c501d7884da5204d60bf571bfd961d83729b56ca5350047f2389460b"
+    },
+    {
+      "path": "tests/sampling/number.cpp",
+      "sha256": "64a02b18488d599dc218ad8d48649dee30bacef2176112bcd67c4e46f95ba2c7"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "217ccf53ad0cc29a9f037a380286ef56ef69192c3f5d8004f4f9dc061ee340c6"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "2590381ad6a53455c718700ec37a75661fe76104269fb01a66a5c86d5d8b2cbd"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    {
+      "path": "third_party/gufo-NOTICE",
+      "sha256": "35f5fd891ef65c659c74644c016cfc98193b917dba6575ea05a83172d8846173"
+    },
+    {
+      "path": "third_party/gufo-LICENSE",
+      "sha256": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001"
+    },
+    {
+      "path": "src/grammar_regex.c",
+      "sha256": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f"
+    },
+    {
+      "path": "include/lie/grammar_regex.h",
+      "sha256": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex.hpp",
+      "sha256": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f"
+    },
+    {
+      "path": "src/grammar_string.c",
+      "sha256": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef"
+    },
+    {
+      "path": "include/lie/grammar_string.h",
+      "sha256": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9"
+    },
+    {
+      "path": "adapters/gufo_grammar_string.hpp",
+      "sha256": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-regex-edits.json",
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-string-edits.json",
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    {
+      "path": "tests/test_grammar_unicode.c",
+      "sha256": "3679c7a8603a1127e25f1e2173091b6c890d209940ba4f43c3d601253917b8b0"
+    },
+    {
+      "path": "tests/sampling/unicode.cpp",
+      "sha256": "6bcd80115ea2b3967df27dbe7e723e302546072c8533dc5690e8b72877a87589"
+    },
+    {
+      "path": "src/grammar_vocabulary.c",
+      "sha256": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b"
+    },
+    {
+      "path": "include/lie/grammar_vocabulary.h",
+      "sha256": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619"
+    },
+    {
+      "path": "adapters/gufo_grammar_vocabulary.hpp",
+      "sha256": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-vocabulary-edits.json",
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    {
+      "path": "tests/test_grammar_vocabulary.c",
+      "sha256": "17dbda0a1e0d49e7e125cc43986595195440954bd254fbeeb4eb33484a2fe502"
+    },
+    {
+      "path": "tests/sampling/grammar_vocabulary.cpp",
+      "sha256": "a90a3f1bd332e701c5cc3a5960ae7d6de3236e27efcfcd7d09a950525811e154"
+    },
+    {
+      "path": "tests/sampling/vocabulary_layout.cpp",
+      "sha256": "4be8ef4994fc9835c7d2d582a83fcc41aed60592aebbedc91224e6618cec5b82"
+    },
+    {
+      "path": "src/grammar_regex_compile.c",
+      "sha256": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb"
+    },
+    {
+      "path": "include/lie/grammar_regex_compile.h",
+      "sha256": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_compile.hpp",
+      "sha256": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-compiler-edits.json",
+      "sha256": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0"
+    },
+    {
+      "path": "tests/test_grammar_compiler.c",
+      "sha256": "df8beaf8ad016ca2d01d7cc13cc598218246ccce555bcd9af9c0494ad8c0d034"
+    },
+    {
+      "path": "tests/sampling/compiler.cpp",
+      "sha256": "5eeeae0760393fd2902f0c78c8e6ad66ba657410cc39ad47b46fd908ac428de6"
+    },
+    {
+      "path": "src/grammar_regex_parse.c",
+      "sha256": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112"
+    },
+    {
+      "path": "include/lie/grammar_regex_parse.h",
+      "sha256": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_parse.hpp",
+      "sha256": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-parser-edits.json",
+      "sha256": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a"
+    },
+    {
+      "path": "tests/test_grammar_parser.c",
+      "sha256": "3a48d8b73d0479ed0c1d396000dad77f1728936fb309e0edf1097a81476efa0d"
+    },
+    {
+      "path": "tests/sampling/parser.cpp",
+      "sha256": "1b350b4580111e596eebd235c883b9815b034ba6a3e030a8fc54296d43afcc7f"
+    },
+    {
+      "path": "src/grammar_unicode.c",
+      "sha256": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23"
+    },
+    {
+      "path": "include/lie/grammar_unicode.h",
+      "sha256": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86"
+    },
+    {
+      "path": "tests/test_grammar_uset.c",
+      "sha256": "8aab26b573971b78e8378082864533ab914cf4937bab345c3cf313f40ad511ed"
+    },
+    {
+      "path": "tests/sampling/uset.cpp",
+      "sha256": "831c715a5a885c35ef0730b8ad8740ee010c04057e69d238ad4b79459f323d95"
+    },
+    {
+      "path": "tests/provider_sources.cmake",
+      "sha256": "3d3724096895e8bb98affd124e30a10a147298a47b192ec08d41cbcd1a64c033"
+    },
+    {
+      "path": "README.md",
+      "sha256": "0ea98df137bd23e93322c888b1c77a9824faaac899529ce5c7a51fbedf3b2b5f"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "4eb473d006d23c670d2a0a906b36946911b81dafacfd4787f0b6ec665f644693"
+    },
+    {
+      "path": "docs/PROGRESS.md",
+      "sha256": "1834f2980e7fb4423d856437d77f8ef836f349c566d21e336bb902105dda1c0d"
+    },
+    {
+      "path": "docs/COORDINATION.md",
+      "sha256": "ab90ef0f4d8279411f019103e939774d5ee27473a21937d017cc7761a5a56e9f"
+    },
+    {
+      "path": "docs/BACKEND.md",
+      "sha256": "ce296a9b007000e3ebb61b46c1ad74b20d0af65f42800ac100f7f1f2048462dc"
+    },
+    {
+      "path": "docs/development/C17-SAMPLING.md",
+      "sha256": "54c1fddc58715633b3751f8de24d346f95763217544fa72a7fe1f337381cc858"
+    },
+    {
+      "path": "docs/guides/BUILD.md",
+      "sha256": "f12e2c8f57fbb08c003420612f16cb8a2081bc3d792e8bc8ed13fde6b7dcd81b"
+    },
+    {
+      "path": "docs/reference/ABI.md",
+      "sha256": "a2c198044d97e42a6e4042fedc25d472bc14fc44794e179dab9f3fba41a4a40c"
+    },
+    {
+      "path": "docs/reference/STATE.md",
+      "sha256": "6d00c9ca225cc032cd7b6e1f8868aadf17feaf2e9c9dfca34aab4c091b99cf88"
+    },
+    {
+      "path": "docs/reference/METRICS.md",
+      "sha256": "7aa3da6683f7b24d789ec82d9cd89482dc92d1cf1b4d2aed7e062b83421c9993"
+    },
+    {
+      "path": "tests/test_grammar_snapshot.c",
+      "sha256": "280faf93a93442acf7e357a2aa6dd10e0682d9dbc2913cc5247698927d638ddc"
+    },
+    {
+      "path": "tests/sampling/snapshot.cpp",
+      "sha256": "df561f6379c37012bd032cf298d1c9f8bfd3398be3dc48dd29892fd2355807b7"
+    },
+    {
+      "path": "src/grammar_builder.c",
+      "sha256": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8"
+    },
+    {
+      "path": "include/lie/grammar_builder.h",
+      "sha256": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a"
+    },
+    {
+      "path": "adapters/gufo_grammar_builder.hpp",
+      "sha256": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5"
+    },
+    {
+      "path": "tests/test_grammar_builder.c",
+      "sha256": "56cdbb2393b8b48d6c85da2e9997c64574c80cec9e3013aa95b78b26ce4b8b28"
+    },
+    {
+      "path": "include/lie/cache_policy.h",
+      "sha256": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26"
+    },
+    {
+      "path": "include/lie/chat.h",
+      "sha256": "82472f625b54ad0500d49826e38d4a71373185ff299bc00473526a63335a5928"
+    },
+    {
+      "path": "include/lie/choices.h",
+      "sha256": "f7ee9270485bdf70aa790367cb4b0b6b37e0dfab21ace036424dd27bd5327e06"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "9a77d47b7976e49d29a5c7f59857d360dadf0889ffcfcaf8b5b7fb2579576b83"
+    },
+    {
+      "path": "include/lie/events.h",
+      "sha256": "dff13acbe7a67bfa5836c780b2846fe18eab2405c9b6d8680a72c3fd25ead2c0"
+    },
+    {
+      "path": "include/lie/executor.h",
+      "sha256": "b383e011e374f46f0de752e679d568c2844ca5850504eef59b47ee80c6e62dfd"
+    },
+    {
+      "path": "include/lie/flow.h",
+      "sha256": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5"
+    },
+    {
+      "path": "include/lie/inference.h",
+      "sha256": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8"
+    },
+    {
+      "path": "include/lie/kvc.h",
+      "sha256": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1"
+    },
+    {
+      "path": "include/lie/kvc_qwen.h",
+      "sha256": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b"
+    },
+    {
+      "path": "include/lie/kvc_qwen_map.h",
+      "sha256": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f"
+    },
+    {
+      "path": "include/lie/kvc_state.h",
+      "sha256": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab"
+    },
+    {
+      "path": "include/lie/metrics.h",
+      "sha256": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba"
+    },
+    {
+      "path": "include/lie/mtp.h",
+      "sha256": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372"
+    },
+    {
+      "path": "include/lie/output.h",
+      "sha256": "a3690237f02fdd15964e68b8c55cef4a4d413b0c8926900a23a526177d38788d"
+    },
+    {
+      "path": "include/lie/prometheus.h",
+      "sha256": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a"
+    },
+    {
+      "path": "include/lie/qwen_state.h",
+      "sha256": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae"
+    },
+    {
+      "path": "include/lie/records.h",
+      "sha256": "aeba28c5b14b0b1fb4eb2164adca4f9f7e096cf3437e9dbc26b10003f6053519"
+    },
+    {
+      "path": "include/lie/responses.h",
+      "sha256": "dc4856e7ffe7c081bfa9aa454d7b33480c60b4d40d4ec8bbd4655f2f62ac0d06"
+    },
+    {
+      "path": "include/lie/state.h",
+      "sha256": "2b1e1733ec114b69ac84bdbf25a0dc2d4b51812a30b299c3d671e9c56259a815"
+    },
+    {
+      "path": "include/lie/store.h",
+      "sha256": "98e4192fe821a31774b675b8252238b620c3bb651daaa72f60ff97b8bae2ce53"
+    },
+    {
+      "path": "include/lie/text.h",
+      "sha256": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b"
+    },
+    {
+      "path": "include/lie/tools.h",
+      "sha256": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408"
+    },
+    {
+      "path": "include/lie/vision.h",
+      "sha256": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e"
+    },
+    {
+      "path": "include/lie/weight_decode.h",
+      "sha256": "7024d7e5ed34f51b2e737902882de186e9843890554c679472c5160921777906"
+    },
+    {
+      "path": "include/lie/wire.h",
+      "sha256": "14d87a652a7ad8a900cf1c0a90bf182f53a2d251d1a3b3644209de1b0e9534ff"
+    },
+    {
+      "path": "include/lie/worker.h",
+      "sha256": "52eb2dcb5f05bab3aeaf0ffbc31a745bf4fe0ac39689a7ddc1e640b2c365a1d1"
+    },
+    {
+      "path": "include/lie/rope.h",
+      "sha256": "8ca6cb6297f587fafa4ae5ea7ef0ec6441f63297fac80a01b026dab36c4f1186"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "sha256": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103"
+    },
+    {
+      "path": "include/lie/steering_activation.h",
+      "sha256": "fb1e1df449eecb13aa6601a5ac5b5099c23574fee5dac0697c127a6c85550cfc"
+    },
+    {
+      "path": "include/lie/steering_state.h",
+      "sha256": "2b652e888965e7f0175028eb83b91214b00b159c9056bb42af1211b5e4e63f87"
+    },
+    {
+      "path": "include/lie/schema_transform.h",
+      "sha256": "9eb58f6eba63b0b2fa3d9678c312bf3097f81f30c3a583221bd7bf424704fd7d"
+    },
+    {
+      "path": "src/schema_transform.c",
+      "sha256": "6b69fe799716da5a4a3395341e62adc8e6a46dc254c8539f40498a2d9304242a"
+    },
+    {
+      "path": "adapters/gufo_schema_transform.hpp",
+      "sha256": "bc233750fec8b10146aab890a5b1cb6c6125419af65437d98bb2f03d8467bb68"
+    },
+    {
+      "path": "adapters/gufo-state/schema-transform-edits.json",
+      "sha256": "20e1e08b9e32f1dea9c47d1c633f66fcdb812ddeb6f58bcfb7135c970ee70bdc"
+    },
+    {
+      "path": "tests/test_schema_transform.c",
+      "sha256": "dc62dc4a045e76357471995a5d235098b2545a9ce879c4b568a93178d1c2b5c7"
+    },
+    {
+      "path": "tests/sampling/schema.cpp",
+      "sha256": "b28397b2f84ca4297a81602b914aa36269b429376559cf4772e32322f997f883"
+    }
+  ],
+  "previous_receipt": {
+    "path": "docs/development/validation/c17-grammar-builder-host-2026-10-05.json",
+    "sha256": "54a5289d04fc999ff5bc05f34c2607fd931a71649e4c2e39498445657092e105"
+  },
+  "checks": [
+    {
+      "directory": "evidence/schema-reference-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/schema-transform-host",
+        "-G",
+        "Ninja",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_SAMPLING_PERFORMANCE=OFF"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.375,
+      "result_sha256": "31e1a0450fdf948a82772021635aa085ba55b693a6775b4d0a9633784443aafb",
+      "log_sha256": "5dcbb36324bb6f725f06469e61a9f702fb251b498499371a1c9560f6e9be23a7",
+      "temperature_log_sha256": "297a3ee4f37e37caa006a661c1576fd7236116a0f0b924742c4e4fb83fd52494",
+      "plan_sha256": "5367ab9750bcde7e43dd91902498ffcd3d14e27842d9d15cca22b719d545b492"
+    },
+    {
+      "directory": "evidence/schema-reference-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/schema-transform-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 75.75,
+      "result_sha256": "1b57f5adb05b3524c400a3b8d1d8ebfc0b4e6421558b4e48e037424c52dc8643",
+      "log_sha256": "4498e4350f2e06827c573983c6211321aae9ea13df6ae2baab9cd7804ee3487f",
+      "temperature_log_sha256": "2a6d962204919f3751b90636580eaa2edd3f9e74ab0ea39d6cb94e792fa5c95d",
+      "plan_sha256": "6bf25476162808dd8e16bfe7e7c3f35a7f010c48042bcf9bba98ac6920fb5e4e"
+    },
+    {
+      "directory": "evidence/schema-debug-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 74.75,
+      "result_sha256": "7639c87698aa8ab512a7cd143c46e01078c56a470c095d3efe64e1da874642f8",
+      "log_sha256": "e97ecd0db28778d86f7c0254ec8050368c7b2e63e8fb456f421d6cad8fee0245",
+      "temperature_log_sha256": "c6239a1867f510cffa05c2c3aafd6667aad4635516cbfaa79b95de12ec7270ed",
+      "plan_sha256": "745334add2e528466f1f9e7fdd8af8db781510c649eb976766ee307c55ed6194"
+    },
+    {
+      "directory": "evidence/schema-asan-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 75.875,
+      "result_sha256": "780cb9a3f73f16f17180d44b77769f1463581fb598233825762ac6ce47e74d1f",
+      "log_sha256": "8db02201c55fc6d9fb8163614c7eda8989102d42671682c01db3df1c7cbbe036",
+      "temperature_log_sha256": "6e90a7861a370a65912a8b0d3f1758f7b2c336ac5ac9fd33366605eef2bbe736",
+      "plan_sha256": "46cefe970e9a6c98c4f12e9b373c393b167b356724da8ab4fdc6525d895dc433"
+    },
+    {
+      "directory": "evidence/schema-off-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-off-core",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 68.75,
+      "result_sha256": "101db9071b522fc9ec439276607353495b2e1da69180ae9d5fafa19a8fb9a839",
+      "log_sha256": "9fd97442940978368eb1f3a6acd1d19e6a8889e9a4bee2851e35d55b3bb6efe6",
+      "temperature_log_sha256": "e1e1b58440a28900f505d5f19c0094ab102d83338b740e035373ef26fc23b6bb",
+      "plan_sha256": "5f7388edc9777cf49158921812812857d1e63b72eef33c8ce2e7c29c1ecd3bc7"
+    },
+    {
+      "directory": "evidence/schema-debug-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 89.5,
+      "result_sha256": "c8413e6df7baeaf39841d2faf8bcc8b3ee0f671017e7938db4eebf24a718882a",
+      "log_sha256": "216456096f6f52c6a20f2e837c14bcc8ad33d428d4c60645d81a0749919c17cf",
+      "temperature_log_sha256": "600609b91d32058e8a862c8cddae46cfb1d54c72cf9e3a729048ed9876aa43ae",
+      "plan_sha256": "b89b461d46564cb0eae060cebf5f196db203a627bc42781010855d222cb67864"
+    },
+    {
+      "directory": "evidence/schema-asan-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 90.125,
+      "result_sha256": "e35482d08019a799e1bf8bb81f7ec87d9c68dc3151cde2f9498578bde29f451b",
+      "log_sha256": "6237fb41a4c11c1c7aeb777f9284275cc6bd2fa8a2d3619698e13d6be39f81b0",
+      "temperature_log_sha256": "a5511a96b874d674f6700d1ae9e712ef5e4e1a80cafb4a52351cc9ae65400325",
+      "plan_sha256": "2f604b98a1d8b2a4eaa14f620e2770d7470d3591b204f818564470877ed829e9"
+    },
+    {
+      "directory": "evidence/schema-reference-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/schema-transform-host",
+        "-V",
+        "--output-on-failure"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 92.0,
+      "result_sha256": "c3fcfda7abfe8109d605a42504a9b375795c9c7f2a704f8ed68e8c3d703839b5",
+      "log_sha256": "b29bf77370a31b903468ebd3602953d3938ed2e87fd4b7cb0014814a2dd6ecd3",
+      "temperature_log_sha256": "8dfa94845905a2137e27f9ad0e4702d19825f9060e1450a24d4ddb7f8508b71f",
+      "plan_sha256": "86f7e8bc263b480a2cf1d6f0a3e042c2743b3fde1280cd9943e18821565b475d"
+    },
+    {
+      "directory": "evidence/schema-off-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/grammar-uset-off-core",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-builder-grammar-contract|c17-snapshot-grammar-contract|native-provider-verification|core-semantic-events)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 5,
+      "cpu_max_c": 90.125,
+      "result_sha256": "9b6dbc88c9c270796f2ea1ca640006af660d61dace63b1fd9872b40b76f03639",
+      "log_sha256": "312f6a83a375b966bb6676f0d1e75b57202c10f8572aa44b9294021e8b6f6ae5",
+      "temperature_log_sha256": "8e02091ee0cb52ebdc51f35ac89e7fab8b8ca7a1a671d3fc6c564acc09fdc9ef",
+      "plan_sha256": "47bd88d1fead02d00c314954cd8d80afdf51c47642f2a10bb0669e548493a09e"
+    },
+    {
+      "directory": "evidence/schema-c17-strict-r2",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/schema_transform.c",
+        "-o",
+        "evidence/schema-transform-r2.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 85.5,
+      "result_sha256": "2fcb2f41b48c60d2f97d73e6baee3b751d32da33fd5cec08f8c96f6e08d05397",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "73ae288d12757f15054242997a252c3431dbf100479e4138b6247644d4928102",
+      "plan_sha256": "99f27813e9b2af21535b770b95ca271dccf1aaab0b4996945044cb8d92d8a850"
+    },
+    {
+      "directory": "evidence/schema-c17-symbols-r1",
+      "argv": [
+        "nm",
+        "-u",
+        "evidence/schema-transform-r2.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 52.125,
+      "result_sha256": "e91082cac202d3a5076e37723b65d4349c5deff824906ba1423c195dcbaf0a48",
+      "log_sha256": "0a7bcdf852a08ea997dbd4ab9c1e7d5b532ea8c024ff35b72a47bb60f9774763",
+      "temperature_log_sha256": "7f7a65d997ecba05f768e8d0e4abf50e4b8bb74a3039c1690252279ce8c83420",
+      "plan_sha256": "607aac30e99c4ecd61b867b6689ca41fcb0b052467aa57e304397a58b5c59212"
+    },
+    {
+      "directory": "evidence/schema-cxx-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-fsyntax-only",
+        "evidence/schema-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 85.5,
+      "result_sha256": "db59aec3315ac880baaca0b83aea30b0da3e5f82f2e96b9f4b6eac23f3b8f6b5",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "eaacf4afdee82a0d076fffc66d108fa114379083f5030f08556707a40639f26c",
+      "plan_sha256": "d1771edcd2f40f3f0db5606186e859b3cd2efe135fd22cafa9bba5e4aac9ba23"
+    },
+    {
+      "directory": "evidence/schema-debug-final-provider-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^native-provider-verification$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 52.875,
+      "result_sha256": "8d51f67d65346ce677712f5ff6b68625ce6c2099caf6de9ecdbb2dc3c6fd7a9e",
+      "log_sha256": "f62ec1be1eeadeed481057900746528ad8d6634be2ebe98ba79d52a6c954410b",
+      "temperature_log_sha256": "5ed33d3b2b7996f7be53184541ef7b3ae43996d7c2cee55908c21fd5612f0919",
+      "plan_sha256": "17963266fa40e2a870379d7fa42cc6beae713075655970c2ec9d3aeec2d0b689"
+    },
+    {
+      "directory": "evidence/schema-asan-final-provider-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^native-provider-verification$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 53.75,
+      "result_sha256": "e9e03a32c7b73c26187d75fc537afdfa6694e00767d3e69e3f344e3e81d723b6",
+      "log_sha256": "eb6d32313bd3ef351aedf97fd29b049bfed385c3c10aebf869633f593b3e2e12",
+      "temperature_log_sha256": "447dab1481a397df84604f638711ae1ef8e5363a3c203c5b9fdf0f73841694e4",
+      "plan_sha256": "80cb65c5c7296096e7a172026e035db11a855dc27c2b0484aaf8646ec1570618"
+    }
+  ],
+  "preliminary_successes": [
+    {
+      "directory": "evidence/schema-c17-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/schema_transform.c",
+        "-o",
+        "evidence/schema-transform-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 56.625,
+      "result_sha256": "49deb7d068e40eac1e9f1a76dab1aedc28362dd884a033290bdff3570b071fe0",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "20ab1e371711ed8848cb01c9a39cab17e0f5f3b0aa16e60bb4e908a6e417ef23",
+      "plan_sha256": "978beb85037348c029340b8683697d33848a0fd9eed3cf7798b9b2a206360233"
+    },
+    {
+      "directory": "evidence/schema-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.375,
+      "result_sha256": "09e2e20ce0fd2bcef3e2eb3bfb79394d80a36e6d131cf347859f87ab0af86ed0",
+      "log_sha256": "832aebf9619db8efa3726fb717cb9868c85522dbbc91a6635459878bbb31c9a4",
+      "temperature_log_sha256": "04d102a91a7412b03a3e3c6da08a93470a87226a0f205558db80aee96daf3b5f",
+      "plan_sha256": "745334add2e528466f1f9e7fdd8af8db781510c649eb976766ee307c55ed6194"
+    },
+    {
+      "directory": "evidence/schema-asan-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.25,
+      "result_sha256": "14e9845e18bd8b2b94b10b0cf37f4921ca91a6662cd910047021901e2812c590",
+      "log_sha256": "b402f8904351d24ef1cbf69b163706833ee6de0d742f0364baafd25be20a016d",
+      "temperature_log_sha256": "55397b896742074a7cae466063ade2ff019552ad28dbd0e64e94f76d5a1a26ac",
+      "plan_sha256": "46cefe970e9a6c98c4f12e9b373c393b167b356724da8ab4fdc6525d895dc433"
+    },
+    {
+      "directory": "evidence/schema-debug-unit-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^c17-schema-transform-contract$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 64.375,
+      "result_sha256": "350cb36b437c0fc21cf66c15c8797e1375fa4ba7770b407fa18d341d846966ea",
+      "log_sha256": "98d24e6955d6086bf987f9878d80ae38b3356b9ac9573f267f5fd3971f79c9cc",
+      "temperature_log_sha256": "8c3fa4f8e1582a6dccab847ab08bea92dbbb14271e60eefb311253c6b1853c1d",
+      "plan_sha256": "71e03eaf0ad5e905c67126a887e9610a56fe2ae9b1045042baa8d8e0e16ac03f"
+    },
+    {
+      "directory": "evidence/schema-reference-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/schema-transform-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 80.375,
+      "result_sha256": "ffd872387c059419a499a4113bdc65c50fccbcc0dd01c2b6f489e5e197fd7e08",
+      "log_sha256": "3c382998bfc7abf2056b4615cafaeb448e0a2ca78fa2346818abfe66fe02c25d",
+      "temperature_log_sha256": "7c792e3e243d423fea60fc2bcef658d210c38351becc69b8d791d616d74b2a16",
+      "plan_sha256": "6bf25476162808dd8e16bfe7e7c3f35a7f010c48042bcf9bba98ac6920fb5e4e"
+    },
+    {
+      "directory": "evidence/schema-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 88.125,
+      "result_sha256": "23b5d2c1d9e7c463f73d7a95b947e41c7b8ce7855a8620a0471e59851762a46f",
+      "log_sha256": "9a2027bacba54ada0c906c2822d2143b12f4e5fb205b97afbe6bd84f605c4cf4",
+      "temperature_log_sha256": "78f16e754b2f25d1f64e2086a7881b7b8db7fa5e38657e8efd8a7682dfeddca3",
+      "plan_sha256": "e15013fd0028fea8917fee045516a0b7ef5754b3f1db8d4a063ece3a46dac58f"
+    },
+    {
+      "directory": "evidence/schema-asan-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 86.5,
+      "result_sha256": "f5388cad0d9ee837c6e6d4c483e785c1d24903eff8065e3f798c86ef9d8633ae",
+      "log_sha256": "f77e8c6dc6f2fb1f159bf6576c638043b504e86277285643a5b61d5b6e532a0f",
+      "temperature_log_sha256": "19d8c1a58cc5291904ed59c535f809df5d965d074db60f26ae23edff3e763e3c",
+      "plan_sha256": "ca494f121e5b697d760d45bffc694ffe9c552ade304f7ae2744b640fb988ced6"
+    },
+    {
+      "directory": "evidence/schema-reference-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/schema-transform-host",
+        "-V",
+        "--output-on-failure"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 90.625,
+      "result_sha256": "19ac49af6a0f3727891aad939e6c209607b4dc18d3cbff0a50ea495b8908d3cf",
+      "log_sha256": "d2e0a8b9b0a7e54d1bb1fe16517bd5c5b9de6f987bf1fc64d540d35d1fb2f6d1",
+      "temperature_log_sha256": "6b91f25f920eab9d7dc29bffd80c3fcf107bc6394393675a420ac47605193472",
+      "plan_sha256": "692bde8df411b2d620b1222762655189a3d80af17bf172e2511c8071d8cd7a1f"
+    },
+    {
+      "directory": "evidence/schema-debug-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 70.25,
+      "result_sha256": "fcc3dee6da0769f94dc703f32fa80171e8392e9f98e2bc20a8e0286bb7e3c927",
+      "log_sha256": "e8aa32b166a536092f5d031188aefef9e966a707c59bc8261ab4c7bff3396f4c",
+      "temperature_log_sha256": "d5fe4345dfd4c0ec8cb6c3f0ee60741438ca2f867222b06f3233fe9f97ada864",
+      "plan_sha256": "745334add2e528466f1f9e7fdd8af8db781510c649eb976766ee307c55ed6194"
+    },
+    {
+      "directory": "evidence/schema-asan-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 70.375,
+      "result_sha256": "d95f3a52cba68db79d3202f7de167993ef519b727f57c9249793e60901fc0eaf",
+      "log_sha256": "01084de73bc2dc7f57297fcd66cd54ca8f4a83e18c525ac38a7b2baac0c160e0",
+      "temperature_log_sha256": "f67c46e5df1e98c8c453812a6bfaf40b776eef4f5789448c0732c0657511c7dc",
+      "plan_sha256": "46cefe970e9a6c98c4f12e9b373c393b167b356724da8ab4fdc6525d895dc433"
+    },
+    {
+      "directory": "evidence/schema-reference-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/schema-transform-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 86.0,
+      "result_sha256": "a8cdcf210c5978c126d98c516eaf2f892c6801e793a079329c16031725a2b89d",
+      "log_sha256": "3b99bc86493b99075bfe1effd587b0f24efbf1535300e710d23aa2bea16dae05",
+      "temperature_log_sha256": "dbb1064c912686d8f7fa5cb43a80dfb9bef9616381b606cb488925be88b9d690",
+      "plan_sha256": "6bf25476162808dd8e16bfe7e7c3f35a7f010c48042bcf9bba98ac6920fb5e4e"
+    },
+    {
+      "directory": "evidence/schema-debug-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 85.75,
+      "result_sha256": "00c4869438c22e81c9dc069b25e20ea0c7be22db2ede2774274d11999194d9cf",
+      "log_sha256": "38cb97b772b5e5d87f87ab2f366495adca7122662ec0a2b8eeb87a5aba3fe8ee",
+      "temperature_log_sha256": "f72b49f2ade659218686b1e73a1bb98e8e6de787e2941c17cd2a67cab855a727",
+      "plan_sha256": "fdbe987e64bc67049843e3597b0617cfdd2e1c3e8e1cf2cf86a8d99df1aae714"
+    },
+    {
+      "directory": "evidence/schema-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^(c17-schema-transform-contract|c17-(builder-grammar|snapshot-grammar|uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 29,
+      "cpu_max_c": 86.0,
+      "result_sha256": "6d4fb5e559bbf70c46669e654dcac91107089e707588a44b30c0c0e08670810d",
+      "log_sha256": "bc56ecb638253a37249d3651d955b50d887b922ed19db57cdd679804a532ff8a",
+      "temperature_log_sha256": "26e9e2dff1f593036783f6f90eef51c1c72cdb9f9ad36af2181f888a1db05e17",
+      "plan_sha256": "a650919d81e000e826424c9eb48e323fc1fa3b1a5351c57cfe6002c55e5ecdb9"
+    },
+    {
+      "directory": "evidence/schema-off-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-off-core",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 74.5,
+      "result_sha256": "54bf11675b502a00d7380255429e0f9a0d1ac6b870fd1d4fae4137b4d1945070",
+      "log_sha256": "b16bf638592a9d8150652a1249a03593666c015a963a6f05d9db71e828ea9946",
+      "temperature_log_sha256": "64338ae0987bb432e7c3a9a9e131766768ea7930d230515d69f2ea585a02ce81",
+      "plan_sha256": "5f7388edc9777cf49158921812812857d1e63b72eef33c8ce2e7c29c1ecd3bc7"
+    }
+  ],
+  "failed_checks": [
+    {
+      "directory": "evidence/schema-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 2,
+      "child_exit_code": 2,
+      "test_count": null,
+      "cpu_max_c": 60.125,
+      "result_sha256": "5667e2b907ef217fe2e89e417f21f6ddbb3efad4c7cc381923c043cf809ed537",
+      "log_sha256": "1b3109728b754c1a6676f09d1630a151943453509d37b9891cf5e412ad21e6b6",
+      "temperature_log_sha256": "dfa830b6ef867d472fe3d3bc2bec1f776087cca0c5f6edb42d67138702f6449e",
+      "plan_sha256": "745334add2e528466f1f9e7fdd8af8db781510c649eb976766ee307c55ed6194"
+    },
+    {
+      "directory": "evidence/schema-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit_code": 2,
+      "child_exit_code": 2,
+      "test_count": null,
+      "cpu_max_c": 60.125,
+      "result_sha256": "63c5a5880e8e82ebce93fdb8fbb110c665435d0f9d2c138f6d0454316e8e6ab7",
+      "log_sha256": "922e2914a0c3b1ad9ee4d9b775498742bce281500a76d2802c528b4ad5f8948c",
+      "temperature_log_sha256": "860199124284150fb50ae929f6cf0c8c1048e055035a44e7a6db5794827a9b5f",
+      "plan_sha256": "46cefe970e9a6c98c4f12e9b373c393b167b356724da8ab4fdc6525d895dc433"
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/schema-transform-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/schema-transform-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/schema-transform-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/distribution-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/CANDIDATE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/FALLBACK.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/distribution-parity/REFERENCE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/grammar-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/CANDIDATE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/FALLBACK.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-parity/REFERENCE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        }
+      ]
+    },
+    {
+      "suite": "number-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/number-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/CANDIDATE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/FALLBACK.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/number-parity/REFERENCE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        }
+      ]
+    },
+    {
+      "suite": "unicode-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/unicode-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/CANDIDATE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/FALLBACK.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/unicode-parity/REFERENCE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/CANDIDATE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/FALLBACK.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/grammar-vocabulary-parity/REFERENCE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        }
+      ]
+    },
+    {
+      "suite": "compiler-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/compiler-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/CANDIDATE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/FALLBACK.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/compiler-parity/REFERENCE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        }
+      ]
+    },
+    {
+      "suite": "parser-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/parser-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/CANDIDATE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/FALLBACK.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/parser-parity/REFERENCE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        }
+      ]
+    },
+    {
+      "suite": "uset-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/uset-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/CANDIDATE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/FALLBACK.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/uset-parity/REFERENCE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        }
+      ]
+    },
+    {
+      "suite": "snapshot-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/schema-transform-host/snapshot-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/CANDIDATE.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/FALLBACK.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/snapshot-parity/REFERENCE.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        }
+      ]
+    },
+    {
+      "suite": "schema-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": null,
+      "files": [
+        {
+          "path": "build/schema-transform-host/schema-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/CANDIDATE.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/FALLBACK.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-transform-host/schema-parity/REFERENCE.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        }
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/schema-transform-host/candidate-compiler-probe",
+      "sha256": "5bedc24cc9cae33eda5aacb40125216c13ed0d166596a6e1e3e9a1ee12938ecd"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-controls",
+      "sha256": "df4a1c8e4f98bda6b230521035b23f83ee3d6adda534a3c9e44d0aef08b4ba06"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-distribution",
+      "sha256": "2a49b651c213caaad990e0754be376f4601f165f8b652830a856eac8e5863125"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-grammar",
+      "sha256": "89a80c8f73095a710547ca7454a5385ac15468c3cad6950718a21906f42b1844"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-grammar-probe",
+      "sha256": "0f92fab6577495a05194ed7d666073cb20673c6e8424d41fc3115da06a31e3ac"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-grammar-vocabulary",
+      "sha256": "812c4573de02e9f495288d1a10e4f27dacbaaaee59e363acca69b98dc0bce787"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-history",
+      "sha256": "ea3e8d59e4a33579dd38bdb71f58fdda90779b6a803e92f416771077bceb172a"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-logit",
+      "sha256": "5a7b922f78146a74c7e202e3a2bc5d482315ec54241c5fe86b02fefdb5f93df7"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-mtp",
+      "sha256": "df7fe062ef350701a494ecf9e6669ad4566c7334c588485ef693d79110495cea"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-number-probe",
+      "sha256": "faef839b404d954c4d892279db8ab6d5f5025f2a2964183fd63cab9b9db7f596"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-parser-probe",
+      "sha256": "cdf65c5b2f6242599d4e1064e3cbcbcad38901ffefe7169624c461f79ee1020d"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-probe",
+      "sha256": "dfefbb54f8733774eeebcd57f7bc940f2dd5188e7aeefc73abc12c8c94175698"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-schema-probe",
+      "sha256": "5105e8bb05737aaa541d661b1c01c2ba49431a8edbffc104570451becedca03c"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-snapshot-probe",
+      "sha256": "568deef69496a417bc38e8a282baa3d1e6f9e578cf246ee1d218a35ca997e7fb"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-unicode-probe",
+      "sha256": "4ea4db6154090725821bfe3ca8d4e83fca0fd18f340eb1225ff17591ee79b52f"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-uset-probe",
+      "sha256": "d13205b41c460ba83fbdbb948a3adb484b9bcf0a5edb3f2e7a532f9b327a549f"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-vocabulary",
+      "sha256": "06616c3596bfd054f0f9a1540e4a53021f6dd60872bfa4162ce1035ca15ceed9"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-vocabulary-layout",
+      "sha256": "d16695aa0af02842b5055085fb7c3c1d846422131b6b30bc44ed8904cca5d2ef"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-compiler-probe",
+      "sha256": "f59f2efd120b8c50c60d64f613b39817a15b1a79650115be4b678469f7192ae7"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-controls",
+      "sha256": "d627cbd88742bdc15a53b27cda1ee1e51286fc872dcfee19b281d7a1f351433b"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-distribution",
+      "sha256": "293c8b7d544e79b92a3944575ec8a3ef5972984bbefe9fa41d6638ee26a46d08"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-grammar",
+      "sha256": "0534ccd2862c09d2060a99f6b32c97e35d83f98f88ccb64af663bc052f0e21ff"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-grammar-probe",
+      "sha256": "d98951c5b5b5da055d8ee30221a5a6202a93f89b83b6660ed4dd35fb1cc0ef2b"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-grammar-vocabulary",
+      "sha256": "1b1992d64c2ea54d68bbe778664b3ee4b769452be58ccab78c99ea85506ef1d1"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-history",
+      "sha256": "7bc353a8783dce2cdcd5925505756cc4e409b3fe60cc18add53ea6ddeed30590"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-logit",
+      "sha256": "e8a4378e393c89a6c17c307b217e452304db8e6b0a3d2f5c64cd6dde8278f030"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-mtp",
+      "sha256": "fe8e1108bc310c4c8b5cda1c0b53f423c126ed5de203585685957a14725b0b0b"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-number-probe",
+      "sha256": "5a9a76608bf10baf1e3f0e4941269bc4488d20d66737f84022f744b8542bdb63"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-parser-probe",
+      "sha256": "eedff9802437a9dd1ae7c3dee14ea40cf557524674d9d4448a65e35d30060f54"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-probe",
+      "sha256": "7354421228b344f3e433543cc7dae42355adcdcd845551ec901f2a1b39677c43"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-schema-probe",
+      "sha256": "e612d27924bd424e3f19c61015be4b613cde04b0678fd491e97fb5c6b48ed4ef"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-snapshot-probe",
+      "sha256": "568deef69496a417bc38e8a282baa3d1e6f9e578cf246ee1d218a35ca997e7fb"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-unicode-probe",
+      "sha256": "f71dcbaeadbdfa76e6adc49781d132be6ad6dd7a5344baa79e5b29ba20c1309a"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-uset-probe",
+      "sha256": "7f95be547d5787d3b47f14181318a0e446b4025d4f9468b2e273ea51a73275a2"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-vocabulary",
+      "sha256": "a44e1079a8878b4c0117b9a1f1f114b5eb12aad8959d3297be35475027112c9d"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-vocabulary-layout",
+      "sha256": "2d3657481519c8162a49418b3c937a0605cf50ea3aec072fbff96ea71b380bf7"
+    },
+    {
+      "path": "build/schema-transform-host/reference-compiler-probe",
+      "sha256": "479acd73569450165a2f086c588fe6fbffb6f613815ddaedaab0b249ac3c31a5"
+    },
+    {
+      "path": "build/schema-transform-host/reference-distribution",
+      "sha256": "adcd629cc214f78000ffbe384f94a382f3d1f4da18a3902507fcd823e2d0e2a0"
+    },
+    {
+      "path": "build/schema-transform-host/reference-grammar",
+      "sha256": "04e5000c44ade44bb83e0bcb5713c3e9d5a7d39b98c8ebd397842b74958aa774"
+    },
+    {
+      "path": "build/schema-transform-host/reference-grammar-probe",
+      "sha256": "7309d33983b131e62a58db7cf48d3bc2076a493e87227e0317fce5a3a7e6a244"
+    },
+    {
+      "path": "build/schema-transform-host/reference-grammar-vocabulary",
+      "sha256": "3dc5df0cf854bff7aca2b1d20db002fe0a332caaf8a2fd165aca3cdad07bec59"
+    },
+    {
+      "path": "build/schema-transform-host/reference-history",
+      "sha256": "42a352a89b2c83f25bfbb136b0059e4869e9bfcc105d9c9d153ca7bc8a4c9f95"
+    },
+    {
+      "path": "build/schema-transform-host/reference-logit",
+      "sha256": "b29baf12bab30f96fd4dd173ca2293a92c7ef2616f91681ec8d1d4a5096010a1"
+    },
+    {
+      "path": "build/schema-transform-host/reference-mtp",
+      "sha256": "899211df7a3ae3250453a2af912b2a00ec4345c46a3111a8c3e1e5d1ce1179f1"
+    },
+    {
+      "path": "build/schema-transform-host/reference-number-probe",
+      "sha256": "6803698d4745ca1615a20b31d01e0b80ac1ecd540cb4159228448af9baaa3859"
+    },
+    {
+      "path": "build/schema-transform-host/reference-parser-probe",
+      "sha256": "be6c1504c70c18163692e746ec340e6e0367e1a39300439f39542fc4d0e54f91"
+    },
+    {
+      "path": "build/schema-transform-host/reference-probe",
+      "sha256": "dc393a3b9610fb68e3c017e68eeddde33ab95542660b1694099e8afd8435fd1c"
+    },
+    {
+      "path": "build/schema-transform-host/reference-schema-probe",
+      "sha256": "dab8e188f6f6ff577d35cbdcd22e7cc5b8b520420e26b295db9841b2d6b61090"
+    },
+    {
+      "path": "build/schema-transform-host/reference-snapshot-probe",
+      "sha256": "c73a139307d9f45abc71113c04fde4efc0ece3a68ebf98580e655bde323771bf"
+    },
+    {
+      "path": "build/schema-transform-host/reference-unicode-probe",
+      "sha256": "3f9754d05840da5da15a4b45cb6ca149554b734bb25bdf4cadf5f9a17703544e"
+    },
+    {
+      "path": "build/schema-transform-host/reference-uset-probe",
+      "sha256": "7f95be547d5787d3b47f14181318a0e446b4025d4f9468b2e273ea51a73275a2"
+    },
+    {
+      "path": "build/schema-transform-host/reference-vocabulary",
+      "sha256": "2732b27840bf930036902a864da9ae93d4abd5715c4da7be9c741c54028189a2"
+    },
+    {
+      "path": "build/context-debug/test-schema-transform",
+      "sha256": "c4488e5fe402dafab186fe6684b2993a604dfa274a7ef3f7b2850a247ba3fecf"
+    },
+    {
+      "path": "build/tool-http-asan/test-schema-transform",
+      "sha256": "9266f21ee3ec1ac4e12c21da7be3594ccb295dc45a468de85c98cf63ac4aed44"
+    },
+    {
+      "path": "build/grammar-uset-off-core/test-schema-transform",
+      "sha256": "040fb54df8b40b680dfe441c4ea4f47a4e92116377724df0b9d766dab8547a44"
+    }
+  ],
+  "build_inputs": [
+    {
+      "path": "build/schema-transform-host/variant-files.json",
+      "sha256": "d287ed8c76d4cee6925fd5a2f7fd1e29eb5aa883d0109f2568215e2eb347386f"
+    },
+    {
+      "path": "build/schema-transform-host/CMakeCache.txt",
+      "sha256": "c7cb6dea490de8cab9923e622c192a88d6a59997c29d695be7fe51f44b67280e"
+    },
+    {
+      "path": "build/context-debug/CMakeCache.txt",
+      "sha256": "a4c52aaa58794d9a03a7d7d23d9c8b91d711b4e77f932dc2228f5f776833a946"
+    },
+    {
+      "path": "build/tool-http-asan/CMakeCache.txt",
+      "sha256": "112a38a54938a6fe8cc569395cc2d074939df9ae255ff77a4308ce480cd80639"
+    },
+    {
+      "path": "build/grammar-uset-off-core/CMakeCache.txt",
+      "sha256": "2d86fe096f6b4a8d767e08f681ea38a3282459d341fef5165457bafd07d090e8"
+    },
+    {
+      "path": "build/schema-transform-host/reference-schema-constraint.cpp",
+      "sha256": "e28963f8286ba9be4611541c4e34701e588930a116860c2a4b33fa14372ef1fa"
+    },
+    {
+      "path": "build/schema-transform-host/candidate-schema-constraint.cpp",
+      "sha256": "30814ed1e4d5c14fa332e0c3934401303236197c82cb6c29c2ad78a94b9d8630"
+    },
+    {
+      "path": "build/schema-transform-host/fallback-schema-constraint.cpp",
+      "sha256": "30814ed1e4d5c14fa332e0c3934401303236197c82cb6c29c2ad78a94b9d8630"
+    }
+  ],
+  "strict_imports": [
+    "__stack_chk_fail",
+    "free",
+    "malloc",
+    "memcmp",
+    "memcpy",
+    "memset",
+    "strlen"
+  ],
+  "orchestration_failures": [
+    {
+      "path": "evidence/schema-discovery-failure-r1.json",
+      "sha256": "e1221ded25ca1bdac14652c26a4357a069dfae57fcbc2b3f8a444817c01d497c",
+      "command_exit_code": 2
+    },
+    {
+      "path": "evidence/schema-doc-discovery-failure-r1.json",
+      "sha256": "43514388db02514d6ba5cf2c94ba863373674530e788303846f9d0105a2be244",
+      "command_exit_code": 2
+    },
+    {
+      "path": "evidence/schema-test-patch-failure-r1.json",
+      "sha256": "ba9a6a08e8cd821017628ac2ea9c28cda221c56196a24fbc3aebeddee4914d99",
+      "command_exit_code": null
+    },
+    {
+      "path": "evidence/schema-doc-patch-failure-r1.json",
+      "sha256": "8030e96be36621cec2a8ff694d2d43a54d4307c1f87889ac3cb85067bd84a1ad",
+      "command_exit_code": null
+    }
+  ],
+  "failures_and_limits": [
+    "Initial Debug and sanitizer build commands exit2 on six misleading-indentation warnings in the new test fixture; logs/exits retained, formatting corrected without weakening assertions. No failed CTest command.",
+    "Older native-bench closed-stderr signal6 remains unresolved; this increment does not claim a fix.",
+    "Private provider/ICU allocation-fault and allocation-exact resource gates remain open. Existing original-weight dense/r11/r12 receipts are not inherited by the new schema source."
+  ],
+  "local_cpu_max_c": 92.0,
+  "gpu_visible_devices": "Masked by optional thermal runner for every local host check.",
+  "latest_remote_readonly_witness": {
+    "path": "evidence/context-steering-availability-r48.json",
+    "sha256": "b2a30ac7ac33396b6584e66de2b3eb7190caade63a20f893b9ec17afd8d9cad5",
+    "at_utc": "2026-10-05T15:23:51.785191+00:00",
+    "kernel_kfd": [
+      29377
+    ],
+    "process_identity": [
+      {
+        "pid": 29377,
+        "comm": "llama-server",
+        "exe": "/home/pop/.local/opt/llama.cpp-b10242-rocm72/llama-server",
+        "cwd": "/home/pop",
+        "workload_markers": []
+      }
+    ],
+    "gpu": {
+      "gpu_busy_percent": 0,
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 18636800,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 151183360
+    },
+    "cpu_c": 36.375,
+    "available_ram_bytes": 120816742400,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "remote_mutations": [],
+  "publication": false,
+  "goal_complete": false,
+  "unqualified": [
+    "Remaining schema visitor/finite-value normalization/compile cache/binary-double policy/private composition/model/controller ownership.",
+    "New original-weight AR/MTP/tools/grammar continuation, numerical/fault/fit gates on .161 after fresh coordinated admission.",
+    "Actual C++ staging/ICU/GPU allocation faults, allocation-exact whole-provider resources and matched PP/TG/TTFT/cache cost.",
+    "Complete autonomous C17 model executor; all six owned queue items remain open."
+  ]
+}

@@ -40,7 +40,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, JSON Schema transformations,
+deep copies, deferred draws, entropy acquisition, schema visiting/value normalization,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -328,7 +328,7 @@ and exception translation. Syntax/assertion expansion now use C17; the Unicode
 context below preserves insertion-ordered full-set identity through ICU C APIs.
 JSON Schema compilation and provider container storage remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
-35-file provider inventory and recipes require matching archive/application
+38-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -358,7 +358,7 @@ compiler and provider container storage still need extraction. No upstream type 
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
-ON; OFF retains the original syntax/expansion implementation. The 35-file
+ON; OFF retains the original syntax/expansion implementation. The 38-file
 provider inventory and recipes require matching source/archive/application
 builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
 records independent C language/refusal/allocator tests and pristine/ON/OFF
@@ -392,7 +392,7 @@ The provider glue now supplies context RAII, a synchronous borrowed input view,
 exception and enum translation. `LIE_C17_SAMPLING` selects this path by default;
 OFF retains the pinned C++ path. `LIE_UNICODE_ICU=ON` builds the standalone C
 module by default; a minimal core can omit it with OFF. A C17 provider build
-requires ICU. The 35-file private inventory and changed compiler/parser/build
+requires ICU. The 38-file private inventory and changed compiler/parser/build
 recipes require a new matching sealed provider/application rebuild.
 
 [Host evidence](validation/c17-grammar-uset-host-2026-10-05.json) records 26 Debug,
@@ -449,13 +449,51 @@ copy/source/program-release lifetimes. All twelve earlier full witness hashes
 remain unchanged. Three minimal-core checks with ICU OFF also pass. All 42 public
 headers and strict C17/symbol checks pass; local CPU maximum is 90.5 C.
 
-The 35-file inventory and changed runtime recipe/glue require matching sealed
+The 38-file inventory and changed runtime recipe/glue require matching sealed
 provider/application rebuilds. Worker/events, RNG, request/executor/generation
 and DS4 RAM/SSD layouts remain unchanged. These synthetic tests are not new
 original-weight AR/MTP/tool/grammar continuation, GPU fault/fit, allocation-exact
 whole-provider resources or matched performance qualification. Export adds
 bounded transient planning storage; no speedup is claimed. Schema traversal,
 reference/conjunction and finite-value normalization remain grammar responsibilities.
+
+## JSON Schema conjunction and reference resolution
+
+`lie/schema_transform.h` defines model-neutral ABI 1 over synchronous borrowed
+JSON views and a private caller-owned staging arena. `src/schema_transform.c`
+owns structural equality (numeric equality, ordered arrays and order-independent
+objects), local JSON pointer decoding/index traversal, supported-key validation
+and the complete conjunction algorithm. This includes reference expansion,
+distribution over `anyOf`, bounds, enum intersection, required-field union,
+number/integer type intersection, pattern conjunction, nested items/properties
+and closed-object filtering. Equality uses an iterative stack with sixteen
+inline pairs and bounded heap growth; conjunction retains the pinned 64-level
+reference budget. The default work budget is 64 million counted units.
+
+The C contract borrows stable nodes and spans for the complete call. Writers
+copy supplied spans into private staging; input objects have unique ordered
+keys and remain immutable. Refusal preserves the result argument; all staging
+retires on either outcome. Paired allocator hooks cover C equality/pointer/
+pattern scratch. They do not cover private provider containers or ICU.
+Callbacks do not retain scratch, cross the C boundary with an exception, own
+inference state or add a worker.
+
+`gufo_schema_transform.hpp` supplies typed views, deque staging and exception
+translation. Format expansion and binary-double `multipleOf` translation remain
+leaf policy in the provider; they do not perform C traversal or merging. The
+default-ON sampler selection uses five exact `schema-transform-edits.json`
+replacements; OFF retains original function bodies. The 38-file sealed inventory
+requires matching provider/application builds. Schema visiting, finite-value
+filtering/canonicalization, compile caching and model/controller storage remain
+transitional. A conjunction helper is not full schema admission.
+
+The [host receipt](validation/c17-schema-transform-host-2026-10-05.json)
+records independent ordered-tree/boundary/refusal oracles and complete pristine/
+ON/OFF transformation witnesses, including malformed inputs, JSON pointer
+escapes/indices, object order and unchanged source values. New original-weight
+AR/MTP/tools/grammar continuation, allocation-exact resources and measured cost
+remain open. These host witnesses do not qualify an autonomous C model executor
+or a reactive speedup.
 
 ## Grammar construction and validation
 
@@ -501,8 +539,9 @@ pass; local CPU maximum is 91.5 C. These are host languages and lifetimes, not
 new original-weight correctness, memory fit, allocation-exact whole-provider
 cost or performance evidence.
 
-The current private inventory grows from 32 to 35 files, with 21 additional exact
-runtime edits. Source/header/glue/recipe changes require matching sealed provider
+At the builder checkpoint the private inventory grew from 32 to 35 files, with
+21 additional exact runtime edits. The schema slice now brings it to 38 files.
+Source/header/glue/recipe changes require matching sealed provider
 and application rebuilds. Worker/events, RNG, executor/request/generation and
 DS4 RAM/SSD layouts remain unchanged. Full JSON Schema ownership and GPU gates
 remain part of the existing task.

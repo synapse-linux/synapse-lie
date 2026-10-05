@@ -19,7 +19,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 35-file provider inventory and numeric edit recipe bind its selection;
+current 38-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -27,7 +27,7 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 35-file inventory and owned recipes bind the source selection. Vocabulary
+The 38-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
 algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
 range translation and input buffers are C17 using ICU C APIs. ICU remains the
@@ -67,6 +67,13 @@ private composition templates and schema transformations. The independent
 fixture peak counts requested owned payload only, excluding helper headers,
 provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
 is introduced; original-weight allocation-exact cost remains unqualified.
+
+Schema equality/reference/conjunction adds bounded C scratch and private provider
+staging, with no HTTP metric or inference worker. Sixteen inline equality pairs
+avoid heap storage for small comparisons; larger frontiers use bounded growth.
+The 64-million-unit work limit is a refusal budget, not timing or throughput.
+Own allocator checks exclude provider/ICU/process/GPU allocations. Original-weight
+allocation-exact resources and matched cost remain separate gates.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

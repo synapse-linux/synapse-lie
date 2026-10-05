@@ -147,8 +147,12 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    construction, productivity/nullable analysis, iterative cycle checks and
    dead-alternative pruning now use the C17 builder
    ([host witnesses](development/validation/c17-grammar-builder-host-2026-10-05.json)).
-   JSON Schema traversal, references, conjunction and finite-value normalization
-   still need extraction within the same task;
+   Structural JSON equality, local-reference resolution, supported-key validation
+   and schema conjunction/distribution/merging now use shared C17
+   ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
+   Provider container views/staging and format/binary-double multipleOf leaf
+   translation remain private glue/policy. Schema visiting and finite-value
+   normalization still need extraction within the same task;
    original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in

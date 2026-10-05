@@ -8,7 +8,7 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling and grammar components](docs/development/C17-SAMPLING.md).
 Dense sampling has recorded GPU checks. More recent C17 extractions have host
 checks and await GPU correctness, resource and performance qualification.
-Gufo still owns model/controller state, schema transformations and private
+Gufo still owns model/controller state, schema visiting/value normalization and private
 container templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
