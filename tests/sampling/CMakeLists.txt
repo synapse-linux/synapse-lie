@@ -43,7 +43,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -91,6 +91,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   add_executable(${arm}-values-probe "${REPO}/tests/sampling/values.cpp"
     "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
   target_link_libraries(${arm}-values-probe PRIVATE ${arm})
+  add_executable(${arm}-dispatch-probe "${REPO}/tests/sampling/dispatch.cpp")
+  target_link_libraries(${arm}-dispatch-probe PRIVATE ${arm})
   add_executable(${arm}-memo-probe "${REPO}/tests/sampling/memo.cpp")
   target_link_libraries(${arm}-memo-probe PRIVATE ${arm})
   add_executable(${arm}-cache-probe "${REPO}/tests/sampling/cache.cpp")
@@ -175,6 +177,13 @@ add_test(NAME schema-values-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/values-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(schema-values-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME schema-dispatch-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-dispatch-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-dispatch-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-dispatch-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/dispatch-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(schema-dispatch-reference-parity PROPERTIES TIMEOUT 120)
 add_test(NAME schema-reference-memo-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-memo-probe>"
   "-DCANDIDATE=$<TARGET_FILE:candidate-memo-probe>"

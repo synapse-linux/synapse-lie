@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Local type/route extraction while unchanged Core-19 stays live — 2026-10-05
+
+The 21:06 UTC read-only witnesses match CPU client `20794`/start `179631020`,
+runner `20860`/start `179631128`, Harbor `20925`/start `179631192`, GPU supervisor
+`65159`/start `9972757`, model `65982`/start `9978951` and own permit guardian
+`66074`/start `9984711`. Own descriptor 3 still holds each original CPU/GPU
+lease: device52/inode4486194 and device66307/inode105946405 respectively.
+Core-19 is still running its first task with eighteen pending and no final
+score/retirement. Q2 reconfirms actual CPU identities and maintains `.157`
+non-use until actual client/children/container/lease closure and fresh handover.
+No second root GPU job/build/waiter/reservation or remote runtime change occurs.
+
+New local [C17 type/ordered-route host qualification](development/validation/c17-schema-dispatch-host-2026-10-05.json)
+binds the 51-file inventory, 48 headers, Debug/sanitizer and complete corrected
+pristine/ON/OFF states. It is absent from frozen `2359488`, as is the newer
+memo. Local CPU maximum is 91.375 C with GPUs masked; CPU98/NVMe85/lower guards
+remain active. Actual new original-weight qualification awaits the endpoint's
+effective retirement, collection and a freshly admitted `.161` window.
+
 ## Local schema memo extraction during unchanged Core-19 — 2026-10-05
 
 Read-only observation at 20:42 UTC confirms GPU supervisor `65159` / start

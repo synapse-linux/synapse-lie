@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 JSON Schema type/nullable/keyword validation and ordered branch
+  dispatch. The default-ON provider retains original OFF bodies; host language
+  and refusal comparisons cover nested schemas. GPU qualification is pending.
+
 - Shared C17 per-compilation schema reference memo with bounded storage,
   recursive placeholders and allocation accounting. Default-ON and original
   OFF paths pass host recursion/lifetime/refusal comparisons; matching GPU

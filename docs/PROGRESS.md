@@ -1,6 +1,47 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Schema type and ordered branch dispatch moves to C17 — 2026-10-05 UTC
+
+The shared C17 core now validates type/nullable arrays, keyword/type
+compatibility and selects ordered object/array/integer/number/string/primitive
+routes. It invokes opaque leaf/child callbacks and composes IDs through the
+shared builder. Classification allocates nothing; refusal preserves published
+plans/results. Earlier private child/builder changes retire after failure.
+Definitions/reference/anyOf/finite-choice orchestration, binary-double leaf
+and model/controller/composition state remain transitional C++.
+The default-ON selection retains exact original OFF bodies; worker/events/RNG
+and DS4 RAM/SSD payloads are unchanged. There is no new inference thread.
+
+The [host receipt](development/validation/c17-schema-dispatch-host-2026-10-05.json)
+records 7 focused Debug and 7 ASan/UBSan/LeakSanitizer checks, 33 complete host
+checks followed by the corrected dispatch-only comparison. Independent C
+fixtures cover 12,936 oracles, 14 reader/work refusals, 10 leaf refusals and
+all 11 selected builder allocation sites. Four hundred nested schema cases
+yield 13,904 identical transitions, 88 successful compilations and 212 accepted
+values. All seventeen earlier complete witness hashes remain unchanged.
+Forty-eight public headers compile as C17/C++17, and the provider inventory
+binds 51 owned files plus three exact dispatch recipe edits. Local CPU peak
+is 91.375 C, with GPUs masked and every sanitizer enabled outside ptrace.
+
+The first new comparison had inadequate coverage: most primitive roots were
+refused before dispatch, yielding only 248 transitions despite exit zero.
+Its source, binaries and outputs are retained. The corrected fixture nests
+types beneath a valid object root and requires actual compilation/acceptance.
+Only three fixture executables rebuild; all 64 runtime-library/other-probe
+hashes and the other 32 checks remain applicable. A new fixture indentation
+warning is also fixed; the initial successful log is preserved. An initial
+documentation patch mismatch makes no mutation and is corrected from the
+actual NOTICE. The older native-bench SIGABRT remains undiagnosed.
+
+Core-19 stays frozen at `2359488`, code `5bdd405`; it includes neither this
+dispatch nor the newer reference memo. Read-only observation at 21:06 UTC
+confirms actual CPU client/runner/Harbor and GPU supervisor/model/permit
+identities alive, both original leases held by their own descriptor 3,
+first task running / eighteen pending / zero infrastructure errors and no
+final aggregate. No second GPU build/run is admitted. All six roadmap tasks
+remain open; matching new source GPU qualification needs a later fresh window.
+
 ## Per-compilation schema reference memo moves to C17 — 2026-10-05 UTC
 
 The shared C17 memo owns opaque node identity lookup, rule-ID assignment,

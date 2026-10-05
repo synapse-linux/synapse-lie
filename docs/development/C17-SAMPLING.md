@@ -50,7 +50,8 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema dispatch and private composition caching,
+deep copies, deferred draws, entropy acquisition, remaining schema orchestration
+and private composition caching,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -85,7 +86,7 @@ exceptions. Three exact `schema-memo-edits.json` replacements join the current
 48-file provider inventory and `schema_memo_edits_sha256` build binding under
 default-ON `LIE_C17_SAMPLING`; OFF keeps the original `std::map` body. The
 visitor and its empty-branch behavior retain their order; main Visit/VisitBody
-dispatch, binary-double leaf policy and private composition/model/controller
+orchestration, binary-double leaf policy and private composition/model/controller
 storage remain transitional. Shared worker/event/RNG and DS4 persisted formats
 are unchanged.
 
@@ -97,6 +98,42 @@ complete witness hashes stay unchanged. All 47 public headers compile as both
 C17 and C++17. Matching new provider/application GPU builds and original-weight
 branch/fault/resource/cost gates remain pending. The ongoing Core-19 GPU run
 retains frozen source `2359488` and does not include this memo slice.
+
+## Schema type and ordered branch dispatch
+
+`lie/schema_dispatch.h` defines a borrowed ABI-1 plan with one type or a
+nullable pair. The C17 module validates type-array shape, keyword/type
+compatibility in source order and selects object, array, bounded integer,
+numeric/string lexeme or primitive routes. It retains unknown type names for
+the existing primitive/finite-value policy, preserving diagnostic order.
+Readers supply immutable node/name views; output plans remain untouched on
+refusal. Classification allocates nothing and uses the existing counted work
+budget. Keys, schema depth and reference/finite-value orchestration have their
+separate contracts.
+
+C17 invokes leaf callbacks in type order and composes their rule IDs through
+the shared builder. Successful callbacks write IDs in that same private builder;
+they do not retain views or throw. Earlier successful child/builder mutations
+may remain after refusal, so retire staging rather than reuse it. The adapter
+translates borrowed JSON views, selected route callbacks and exceptions.
+Visit/VisitBody definitions, references, anyOf and finite-choice orchestration,
+binary-double leaf policy and private composition remain transitional.
+
+Three exact `schema-dispatch-edits.json` replacements join the 51-file owned
+provider inventory and `schema_dispatch_edits_sha256` binding. The existing
+default-ON `LIE_C17_SAMPLING` retains the exact original OFF bodies. No worker,
+event, RNG, engine or DS4 RAM/SSD layout changes. The ongoing Core-19 GPU run
+retains frozen `2359488` and includes neither this dispatch nor the newer memo.
+Matching sealed GPU builds, original-weight branch/fault/resource/cost and
+broader autonomous sampler acceptance remain pending.
+
+The [host receipt](validation/c17-schema-dispatch-host-2026-10-05.json) records
+12,936 independent C oracles, reader/leaf/builder-allocation refusal and
+complete type/nullable/context states against independently pinned Gufo and
+OFF. The corrected fixture nests its tested types in a valid object root and
+checks real compilation/acceptance counts; the weak initial root-only witness
+is preserved as inadequate evidence. All prior complete witness hashes stay
+unchanged; 48 public headers compile as C17 and C++17.
 
 ## Compiled-schema cache
 
