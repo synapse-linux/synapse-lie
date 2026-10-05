@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [new scaled-Q2 down extraction candidate](Q2-DOWN-RAW-PREFETCH.md)
+retains the measured IQ2 raw-prefetch base1505.152258 PP. It changes three
+active down bodies, preserving154 other bodies and arithmetic; local compile,
+89 guards and complete capsule staging pass. New117-output/42-timing component
+and original fixed-input model await fresh admission; .157 host Debug/ASan
+each passes25/25 with no model or GPU access. No old
+qualified control/cohort rerun or context sweep is authorized by this preparation.
+
+
 ## IQ2 raw prefetch measured: exact model, small PP increase — 2026-10-05 UTC
 
 New deferred IQ2 expansion retains compact LDS/tile geometry and original

@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+New scaled-Q2 down raw-prefetch preparation has a fresh core handover after
+release79cb5091, with no root .157 job/build/eval/lease/waiter/reservation or
+interleaving. The new frozen plan binds38 fixtures,four manifests and one new
+component/model. Its .157 host gate passes25/25 Debug and25/25 ASan/UBSan,
+six commands zero and seven artifacts; no model/GPU access. A distinct helper
+anchors that previous release and must admit the new checkpoint before GPU
+build/run. No GPU reservation or qualified control/cohort rerun is inferred.
+[Plan](../config/q2-down-raw-prefetch-plan.json),
+[host](../config/q2-down-raw-prefetch-host-results.json).
+
+
 Latest Q2 R2 window releases04:04:02.651364UTC after one new IQ2 raw-prefetch
 component and one original exact2048/tg128 model. All13 commands/37 artifacts
 verify;81 component pairs and21 parent model files are byte-exact. PP1505.152258

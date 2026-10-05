@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4453,14 +4453,19 @@
+         __builtin_memcpy(&f_dm[u], blk + 80, 4);
+         f_high[u] = blk[2 * (sb32 % 8)] |
+                     (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
+-        const unsigned shift = 2U * unsigned(sb32 % 4);
+-        const auto unpack = [shift](uint4 v) {
+-          return make_uint4(
+-              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
+-              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
+-        };
+-        f_codes[u] = unpack(f_codes[u]);
+-        f_codes_hi[u] = unpack(f_codes_hi[u]);
++        // SPDX-License-Identifier: MIT
++        // Active scaled-Q2 down keeps original code bytes in the prefetch;
++        // unpacking at commit avoids a dependency on these loads here.
++        if constexpr (!kScaled) {
++          const unsigned shift = 2U * unsigned(sb32 % 4);
++          const auto unpack = [shift](uint4 v) {
++            return make_uint4(
++                (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
++                (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
++          };
++          f_codes[u] = unpack(f_codes[u]);
++          f_codes_hi[u] = unpack(f_codes_hi[u]);
++        }
+       } else if constexpr (kQ8) {
+         // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
+         const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
+@@ -4552,7 +4557,7 @@
+     }
+   };
+ 
+-  const auto commit_stage = [&]() {
++  const auto commit_stage = [&](int kb0) {
+ #pragma unroll
+     for (int u = 0; u < kWaveRowTiles; ++u) {
+       const int row = (tid >> 1) + (u * 128);
+@@ -4585,6 +4590,15 @@
+         s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+         s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
+         scale_bias = f_live[u] ? dm : 0U;
++      } else if constexpr (kQ2 && kScaled) {
++        const unsigned shift = 2U * unsigned((kb0 + f_c) % 4);
++        const auto unpack = [shift](uint4 v) {
++          return make_uint4(
++              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
++              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
++        };
++        s_codes[swizzle(row, 2 * f_c)] = unpack(f_codes[u]);
++        s_codes[swizzle(row, (2 * f_c) + 1)] = unpack(f_codes_hi[u]);
+       } else if constexpr (kSigned || kQ2) {
+         s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+         s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
+@@ -4838,7 +4852,7 @@
+ 
+   fetch_stage(0);
+   for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
+-    commit_stage();
++    commit_stage(kb0);
+     __syncthreads();
+     if (kb0 + BK < num_kb) {
+       fetch_stage(kb0 + BK);
