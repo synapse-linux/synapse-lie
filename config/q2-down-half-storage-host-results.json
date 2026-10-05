@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-down-half-storage-host.v1",
+  "capsule_sha256": "12c375b8dfdabe33d8644a14c3a0ae6dd424ca8968f6ad1cd01332c529d65487",
+  "archive_sha256": "6aabe46798c9a5284479b4a39e2e5cf8c39429c8766b1c3285a2353b3128a648",
+  "fixture_files_verified": 64,
+  "source_files_verified": 1020,
+  "plan_sha256": "f3a828ab5c4155fa97c7c00d5040e4dc96f2f5b5418018b7313af26247519d71",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}
