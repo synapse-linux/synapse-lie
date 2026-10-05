@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-# LIE-owned build scope, unmodified pinned Qwen source. Not upstream release build.
+# LIE-owned build scope, verified pinned source/variant. Not upstream release build.
 cmake_minimum_required(VERSION 3.21)
 include("${CMAKE_CURRENT_LIST_DIR}/../hip-target.cmake")
 if(DEFINED CMAKE_HIP_ARCHITECTURES AND NOT CMAKE_HIP_ARCHITECTURES STREQUAL LIE_HIP_ARCHITECTURE)
@@ -10,7 +10,7 @@ project(lie_gufo_subset LANGUAGES C CXX HIP)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
-option(LIE_C17_SAMPLING "Use owned C17 sampling, history, byte grammar and numeric predicates" ON)
+option(LIE_C17_SAMPLING "Use owned C17 sampling and byte/numeric/Unicode grammar runtimes" ON)
 option(LIE_VISION_WEIGHT_DECODE "Decode F16/Q8 vision weights once into BF16" ON)
 option(LIE_DIRECTIONAL_STEERING "Build owned directional activation operators" ON)
 get_filename_component(LIE_ROOT "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
@@ -55,7 +55,7 @@ set(CORE
   src/models/qwen/hip/kernels/hipblaslt_gemm.hip
   src/models/qwen/hip/kernels/sample.hip)
 list(TRANSFORM CORE PREPEND "${GUFO_SOURCE}/")
-list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c" "${LIE_ROOT}/src/sampling_distribution.c" "${LIE_ROOT}/src/grammar.c" "${LIE_ROOT}/src/grammar_number.c")
+list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c" "${LIE_ROOT}/src/sampling_distribution.c" "${LIE_ROOT}/src/grammar.c" "${LIE_ROOT}/src/grammar_number.c" "${LIE_ROOT}/src/grammar_regex.c" "${LIE_ROOT}/src/grammar_string.c")
 list(APPEND CORE "${LIE_ROOT}/src/weight_decode.c")
 list(APPEND CORE "${LIE_ROOT}/src/steering_activation.c")
 add_library(gufo_core STATIC ${CORE})

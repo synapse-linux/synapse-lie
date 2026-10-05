@@ -42,7 +42,7 @@ C17. Advance supports exact input/output alias in predicate scratch; mask
 application supports exact in-place logits but refuses other overlap. Refusal
 preserves output ownership; empty snapshots are valid dead language prefixes.
 Private provider grammar layout/source changes require matching archive/application
-rebuilds and the fifteen-file receipt. Executor/request/generation and DS4 payload
+rebuilds and the twenty-one-file receipt. Executor/request/generation and DS4 payload
 ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
 
 `lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
@@ -54,6 +54,18 @@ Bounded arithmetic/refusal and allocator lifetime rules are declared in the
 header. JSON numeric representability checks stay in the adapter. Each call
 owns a bounded workspace and adds no inference worker or persisted state.
 See [numeric ownership](../development/C17-SAMPLING.md#exact-decimal-numeric-grammar).
+
+`lie/grammar_regex.h` adds separate Unicode-DFA ABI 1: tagged descriptions,
+immutable copied scalar-class/transition/acceptance tables, owned successor
+construction, accepting distances and bounded reachability/cycle queries.
+`lie/grammar_string.h` adds string-policy ABI 1: immutable caller-owned options
+borrow the DFA. State remains 20 native bytes for five uint32 fields; no wire or
+persisted endian format is implied. UTF8/escape/surrogate/pending and whitespace
+predicates and copied mask-key canonicalization are C17. Refusals preserve live
+state/matches; caller-owned policies/allocator contexts outlive calls. See
+[ownership and budgets](../development/C17-SAMPLING.md#string-and-unicode-dfa-runtime).
+Private provider construction layout/source requires matching builds and the
+21-file receipt; executor/request/generation/DS4 persisted layouts do not change.
 
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,

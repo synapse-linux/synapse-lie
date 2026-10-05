@@ -82,3 +82,13 @@ C17 owns canonical decimal parsing/comparison, long division/product, numeric
 bound/grid policy and prefix checking, integer multiple reduction and exact LCM.
 The adapter supplies JSON value conversion/representability and exception glue.
 String/regex/schema compilation and vocabulary trie/cache remain upstream.
+
+The attributed C17 src/grammar_regex.c and src/grammar_string.c ports follow
+src/core/json_schema_regex.cpp and src/core/json_schema_lexeme.cpp at the same
+official pin. Copyright (c) 2026 gufo contributors; MIT, gufo-LICENSE retained.
+Exact integration is in grammar-regex-edits.json and grammar-string-edits.json.
+C17 owns copied Unicode-DFA graph construction/distances/pruning/range and length
+queries, Brent cycle skipping, string UTF8/JSON escape/surrogate/pending/count
+runtime, mask-key canonicalization and bounded whitespace. JSON/regex compilation
+and vocabulary trie/transition/cache remain upstream; storage/exception glue
+in gufo_grammar_regex.hpp and gufo_grammar_string.hpp performs no runtime algorithm.

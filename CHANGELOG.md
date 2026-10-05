@@ -56,6 +56,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 string/Unicode-DFA runtime: UTF8, JSON escapes, surrogate pairs,
+  pending ranges, length reachability, cycle skipping, copied mask keys and
+  bounded whitespace. Temporary compiler tables are retired after C sealing.
+  Default ON retains an OFF reference; original-weight resources/cost remain pending.
+
 - Shared C17 exact-decimal numeric grammar policies, prefix matching and
   `multipleOf` intersection. The default-ON sampler selection retains an OFF
   reference. Host rational and complete prefix/value/LCM checks qualify the

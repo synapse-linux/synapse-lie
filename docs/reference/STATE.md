@@ -52,7 +52,7 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema/string/regex predicates and vector/trie/cache storage; its new
+supplies schema/regex compilation and vector/trie/cache storage; its new
 private layout requires a matching source/archive/application rebuild.
 Original-weight grammar/correction/cache continuation remains pending.
 
@@ -60,8 +60,16 @@ C17 numeric policies own their copied canonical bounds and multiple, including
 integer-grid reduction. Prefix checks own and retire private arithmetic scratch;
 refusal changes neither the policy nor the caller's match/value outputs. These
 policies are not serialized in DS4 model-prefix payloads and change no cache
-identity. The JSON value bridge and remaining string/regex compiler are still
+identity. The JSON value bridge and remaining schema/regex compiler are still
 transitional; host exact-decimal checks do not qualify GPU continuation or cost.
+
+C17 string state retains exactly the five native uint32 fields used by the
+provider: DFA/count/value/extra/mode. It keeps partial UTF8/escape/surrogate state
+across tokens and independently clones mask keys; canonicalizing a mask key does
+not change the live character count. Programs deep-copy DFA tables, derive and
+prune their own graph, and release query scratch on all paths. Schema/regex
+construction vectors are retired after sealing. Refusal leaves request state
+and match unchanged. These transient objects are not DS4 model-prefix payloads.
 
 ## MTP development boundary
 

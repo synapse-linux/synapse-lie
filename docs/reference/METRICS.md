@@ -19,9 +19,16 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-fifteen-file provider inventory and numeric edit recipe bind its selection;
+twenty-one-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
+
+The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
+edges and optional reachability scratch are owned C allocations. The provider
+retires transitional construction vectors after sealing; this is not a measured
+GPU memory or speed claim. State canonicalization touches only a copied mask key.
+The 21-file inventory and two Unicode recipes bind the source selection, while
+schema/regex compilation and vocabulary trie/cache ownership remain delegated.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

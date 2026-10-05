@@ -42,8 +42,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   if(arm STREQUAL "reference")
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
-    list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -77,6 +77,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-probe PRIVATE ${arm})
   add_executable(${arm}-history "${REPO}/tests/sampling/history.cpp")
   target_link_libraries(${arm}-history PRIVATE ${arm})
+  add_executable(${arm}-unicode-probe "${REPO}/tests/sampling/unicode.cpp")
+  target_link_libraries(${arm}-unicode-probe PRIVATE ${arm})
   add_executable(${arm}-number-probe "${REPO}/tests/sampling/number.cpp")
   target_link_libraries(${arm}-number-probe PRIVATE ${arm})
   add_executable(${arm}-grammar-probe "${REPO}/tests/sampling/grammar.cpp")
@@ -153,3 +155,11 @@ add_test(NAME number-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/number-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(number-grammar-reference-parity PROPERTIES TIMEOUT 120)
+
+add_test(NAME unicode-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-unicode-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-unicode-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-unicode-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/unicode-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(unicode-grammar-reference-parity PROPERTIES TIMEOUT 120)

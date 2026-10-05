@@ -124,9 +124,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    [witnesses](development/validation/c17-grammar-runtime-host-2026-10-05.json).
    Exact-decimal numeric policy/prefix/LCM now also use C17, with complete
    [host witnesses](development/validation/c17-grammar-number-host-2026-10-05.json).
-   JSON number representability stays in the adapter. Schema compilation,
-   string/regex predicates and vocabulary
-   trie/mask-cache algorithms still need extraction within the same grammar task;
+   JSON number representability stays in the adapter. String/UTF8/escape/surrogate
+   predicates, whitespace and Unicode-DFA graph/query runtime now also use C17,
+   with complete [host witnesses](development/validation/c17-grammar-unicode-host-2026-10-05.json).
+   Schema/regex compilation and vocabulary trie/transition/mask-cache algorithms
+   still need extraction within the same grammar task;
    original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in

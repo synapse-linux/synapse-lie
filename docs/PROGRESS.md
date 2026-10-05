@@ -8,6 +8,48 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## C17 string and Unicode-DFA runtime; host parity — 2026-10-05 UTC
+
+Root continues task 7 from `4aa7478` in the persistent context/OpenAI worktree.
+`lie/grammar_regex.h` and `src/grammar_regex.c` own copied scalar classes/raw DFA
+tables, unique successor/predecessor construction, shortest accepting distances,
+edge pruning, range lookup, bounded length reachability and Brent cycle skipping.
+`lie/grammar_string.h` and `src/grammar_string.c` own UTF8, JSON escapes,
+surrogate pairs, pending ranges, decoded lengths, completion, copied mask-key
+canonicalization and the 32-byte formatting-whitespace predicate.
+
+Eleven exact regex and three string edits route the pinned provider through
+storage/JSON/error glue under the existing default-ON/OFF selection. After C
+sealing the adapter retires temporary C++ state/alphabet vectors. The strict
+receipt binds 21 owned source/header/glue files and both new recipes. The direct
+legacy reference now compiles regex methods too; its original-weight build/link
+and continuation remain unqualified. Regex derivative/schema compilation and
+vocabulary trie/transition/cache still need extraction in the same grammar task.
+
+Independent C checks cover 5,832 automata, 507,384 finite-language queries and
+all 1,112,064 scalar codepoints in patterned/scalar modes with literal and escaped
+spellings: 4,448,256 full quoted-string checks. Constructor/query/work/capacity
+faults, malformed phases/shift states, copied tables and mask-key isolation pass.
+Complete pristine/ON/OFF witnesses match 14 admitted string policies, 2,018 byte
+steps, 10,090 canonical keys, 423,424 byte branches and 756 DFA query pairs.
+All seven prior probability/history/byte/numeric witnesses keep their exact hashes.
+Final 21 Debug, 21 ASan/UBSan/LeakSanitizer and 19 sanitizer reference-project
+tests, 38 public C++ headers and strict C17/symbol checks pass. No failed build
+or test command occurs in this slice; the older closed-stderr abort remains open.
+[Commands, sources, witnesses and limits](development/validation/c17-grammar-unicode-host-2026-10-05.json).
+
+Local Strix Halo CPU peak is 90.625 C, with no guard trip or tuning. Regex queries
+allocate at most 12 bytes per state only when their minimum requires reachability
+scratch; scalar decoding needs no additional allocator. This is not provider
+allocation-exact cost, memory-fit or a speedup measurement. One inference device
+owner remains, and no model operation, runtime thread, RNG or DS4 format changes.
+
+Fresh `.161` read-only witness at 09:34:11.650086 UTC still observes foreign Gemma
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD;
+GPU 100%, remote CPU 91.875 C. Original lease/boot/filesystem/four model stats
+remain unchanged. No root GPU build/run/hash/conversion, service mutation,
+foreign signal, waiter or standing lease follows. All six owned tasks remain open.
+
 ## C17 exact-decimal numeric grammar; host parity — 2026-10-05 UTC
 
 Root continues task 7 in `feature/context-million-openai` from `39b237e`.

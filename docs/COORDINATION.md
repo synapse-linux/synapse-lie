@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## C17 Unicode host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 09:34:11.650086 UTC observes foreign Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. GPU is 100%, CPU 91.875 C, available RAM 86,045,315,072 bytes. Original lease
+dev 66307/inode 105946405 is free; boot/filesystem/four shard stats are unchanged.
+The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts string/UTF8/escape/surrogate/whitespace predicates and copied
+Unicode-DFA graph/query runtime into C17. Final 21 Debug, 21 sanitizer and
+19 pristine/ON/OFF host tests and 38 public headers pass with GPUs masked;
+local Strix Halo CPU peak is 90.625 C. The
+[receipt](development/validation/c17-grammar-unicode-host-2026-10-05.json) binds
+commands, complete witnesses and limits. Compiler/trie/cache extraction and
+original-weight continuation/resources/cost stay open. No root GPU build/run/
+hash/conversion, service change, foreign signal, waiter or standing lease occurs.
+Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart or interleaving after Q2 release ddac7b0d. Q2 separately reports a new
+short48 admission from checkpoint `0e642c8`; that report is not root qualification
+or a root task. Ownership/admission/release are separate for every agent window.
+
 ## C17 numeric grammar host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 08:51:41.633432 UTC observes foreign Gemma
