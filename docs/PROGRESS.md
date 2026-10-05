@@ -1,4 +1,6 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+The half-consumer-eight candidate changes only ordered half-input MoE consumption from four to eight values/lane.160 other kernels are instruction/resource exact.35 shapes/105 complete comparisons and42 alternating timing samples are planned before one original fixed2048/tg128 model. Previous result1570.106384 is retained; no performance gain is inferred before runtime evidence. See Q2-HALF-CONSUMER-EIGHT.md.
 # Progress — Q2 compatibility workstream
 
 The [eight-half output-store candidate](Q2-DOWN-HALF-VECTOR.md) completes from

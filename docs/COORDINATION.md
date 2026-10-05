@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 half-consumer-eight preparation follows clean15bbcc9 and terminal releasebfc1475d. Fresh root non-use handover is received; no admission is inherited. The frozen70-fixture/4-manifest plan requires host27+27 and fresh registry/PID/group/KFD/four-original-lease/seven-model-stat checks before the new consumer component and fixed model. No Q4, full curve, comparator rerun or .157 cleanup.
+
 Q2 eight-half terminal release at2026-10-05T13:22:07.300470+00:00 has SHA256
 bfc1475dbf18309dbdbb6dd27746e1681aaaf309e8664a72032834950dd31cc9.
 Collection completes13:22:03.476793UTC; all13 commands exit0/37 artifacts verify.
