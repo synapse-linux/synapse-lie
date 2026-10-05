@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The previous turn makes concrete progress by retaining measured1582.845143 PP.
+The next [fixed-bounds campaign](Q2-SSM-FIXED-BOUNDS.md) freezes90 identical
+fixtures/14 manifests and explicitly includes that saved1582 comparison while
+preserving fixed1443/UD and construction parent1580. The additional-reference
+analyzer reproduces21 exact self-comparison files and rejects two corrupt
+bindings; no model is rerun. Host27+27 is reused. Fresh22:38:24UTC observation
+confirms previous release81d7fcbb, Core closure, free CPU lease and empty KFD.
+Only the new component/model are planned; GPU admission remains separate.
+
 The [fixed-M/K SSM campaign](Q2-SSM-FIXED-SHAPE.md) completes on .157 at
 22:30:47 UTC: 1582.845143 PP /25.11696030 TG, nominal +0.165699%/+0.051154%
 versus saved1580.226725/25.10411864. Retain this small prefill improvement as
