@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+Compact IQ2 commit preparation uses two new8/16-value variants from measured
+best1505 and retains the original exact2048/tg128 controls. Fresh root handover
+after release2fa8f9c0 confirms no root .157 job/build/eval/client/KFD/lease/
+waiter/reservation/restart/interleaving.103 launch guards and26+26 host tests
+pass. The first helper exits1 on an incorrect previous-receipt path before
+leases or GPU admission; original failure is retained. A distinct v2 helper
+anchors the actual Q8-mirror release, preserving all50 fixture/four manifest
+hashes and reusing host results. New checkpoint/admission remain necessary
+before GPU build/run; no ownership is inherited from handover.
+[Corrected plan](../config/q2-iq2-slice-commit-plan-v2.json).
+
 IQ2 sign-mask window releases at2026-10-05T06:58:48.219732UTC after one new
 component and original exact2048/tg128 model. All13 commands exit0/39 artifacts
 verify;81 output pairs and21 parent model files are exact. PP1504.885103 has

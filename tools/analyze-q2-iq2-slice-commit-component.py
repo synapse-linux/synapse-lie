@@ -18,7 +18,7 @@ def main():
     require(variant in ('iq2-slice-commit', 'iq2-pair-commit'), 'Unknown new variant')
     output = ROOT/('config/q2-'+variant+'-component-results.json')
     require(not output.exists(), 'Refusing to overwrite component evidence')
-    plan_path = ROOT/'config/q2-iq2-slice-commit-plan.json'
+    plan_path = ROOT/'config/q2-iq2-slice-commit-plan-v2.json'
     plan = read(plan_path)
     for name, digest in {**plan['manifests'], **plan['fixtures']}.items():
         require(sha(ROOT/name) == digest, 'Frozen identity changed: '+name)

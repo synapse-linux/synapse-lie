@@ -20,7 +20,7 @@ def main():
     require(variant in ('iq2-slice-commit', 'iq2-pair-commit'), 'Unknown new variant')
     output = ROOT / ('config/q2-'+variant+'-model-results.json')
     require(not output.exists(), 'Refusing to overwrite model evidence')
-    plan_path = ROOT / 'config/q2-iq2-slice-commit-plan.json'
+    plan_path = ROOT / 'config/q2-iq2-slice-commit-plan-v2.json'
     plan = read(plan_path)
     require(len(plan['arms']) == 2 and not plan['run_controls'] and
             plan['model_performance_test_despite_numeric_or_timing_rejection'], 'Candidate-only scope changed')

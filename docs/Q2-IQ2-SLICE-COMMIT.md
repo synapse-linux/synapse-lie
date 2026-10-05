@@ -54,6 +54,13 @@ the previous canonical release2fa8f9c0e8268dcf44800ad1494faa79eb14723af786b6d7c9
 fresh handover, host gates and checkpoint admission are required before GPU
 build/run. Local compilation is not model or GPU inference evidence.
 
+The first helper admission exits1 while reading an incorrect self-anchor,
+before opening leases or admitting any GPU work. The original helper, plan
+and command receipt remain. A distinct v2 helper names the actual previous
+Q8-mirror release; its corrected plan preserves all50 fixture/four manifest
+hashes and reuses the completed host cohort. Fresh root handover confirms no
+root .157 job/build/eval/client/lease/waiter/reservation/restart/interleaving.
+
 [Source inventory](../config/q2-iq2-slice-commit-source.json),
 [production assembly comparison](../config/q2-iq2-slice-commit-static.json),
-[fixed experiment plan](../config/q2-iq2-slice-commit-plan.json).
+[corrected fixed experiment plan](../config/q2-iq2-slice-commit-plan-v2.json).
