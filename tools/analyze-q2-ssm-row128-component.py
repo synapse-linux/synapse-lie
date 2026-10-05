@@ -17,7 +17,7 @@ def main():
     output = ROOT / 'config/q2-ssm-row128-component-results.json'
     csv_path = ROOT / 'docs/figures/q2-ssm-row128-component.csv'
     require(not output.exists() and not csv_path.exists(), 'Refusing to overwrite component evidence')
-    plan_path = ROOT / 'config/q2-ssm-row128-plan.json'
+    plan_path = ROOT / 'config/q2-ssm-row128-plan-fixed.json'
     plan = read(plan_path)
     for name, expected in {**plan['manifests'], **plan['fixtures']}.items():
         require(sha(ROOT / name) == expected, 'Frozen bytes changed: ' + name)

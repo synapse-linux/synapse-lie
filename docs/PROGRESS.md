@@ -24,6 +24,10 @@ pass. Shared formatter exit1 remains for nine unchanged inherited files;
 an initial local wrapper-path exit2 is retained separately. New `.157` host
 fixtures pass25/25 Debug and25/25 ASan/UBSan, no model/GPU access. Plan freezes
 four manifests and34 fixtures. Performance remains pending fresh admission.
+The initial admission exits1 before GPU/lease/registry access because a copied
+helper points PREVIOUS to the new release. A distinct corrected helper/plan
+anchors the saved Q8-pair release; all manifests/fixtures stay identical and
+the qualified host capsule is rebound without rerun. Original failure retained.
 [Mechanism, coverage and scope](Q2-SSM-ROW128.md).
 
 ## Exact Q8 pair lookup measured: false coverage flag, strong regression — 2026-10-05 UTC

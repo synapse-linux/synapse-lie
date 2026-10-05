@@ -75,6 +75,13 @@ The new `.157` CPU capsule passes25/25 Debug and25/25 ASan/UBSan CTest, all six
 commands exit0,34 frozen fixtures and seven artifacts verify. Those CPU fixtures
 access no model/GPU and establish no inference performance.
 
+The initial admission helper mistakenly points PREVIOUS to this new window's
+release. It exits1 before acquiring leases, writing a receipt/registry event or
+starting GPU work. The corrected helper changes only that path to the saved
+Q8-pair release. A separate corrected plan preserves all four manifests and34
+fixture hashes; it rebinds the same qualified host capsule without a CPU rerun.
+The original plan/helper/host result and failed command remain retained.
+
 The independent provider has1025 files, with only the kernel file changed from
 the retained compact source. It derives from this workstream's independently
 fetched official Gufo pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`.
@@ -85,6 +92,6 @@ there is no cleanup, dependency installation, tuning, deployment or publication.
 
 [Source identity](../config/q2-ssm-row128-source.json),
 [static evidence](../config/q2-ssm-row128-static.json),
-[frozen plan](../config/q2-ssm-row128-plan.json),
+[corrected frozen plan](../config/q2-ssm-row128-plan-fixed.json),
 [new HIP fixture](../tests/q2_ssm_row128.hip),
 [provenance](../third_party/gufo/LIE-Q2-SSM-ROW128.md).

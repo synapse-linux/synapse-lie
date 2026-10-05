@@ -17,7 +17,7 @@ require, sha, read = hc.require, hc.sha, hc.read
 def main():
     output = ROOT / 'config/q2-ssm-row128-model-results.json'
     require(not output.exists(), 'Refusing to overwrite model evidence')
-    plan_path = ROOT / 'config/q2-ssm-row128-plan.json'
+    plan_path = ROOT / 'config/q2-ssm-row128-plan-fixed.json'
     plan = read(plan_path)
     require(len(plan['arms']) == 1 and not plan['run_controls'] and
             plan['model_performance_test_despite_numeric_or_timing_rejection'], 'Candidate-only scope changed')
@@ -31,7 +31,7 @@ def main():
     for name in ('03.log', '06.log'):
         require('100% tests passed out of 25' in (host_path / 'results' / name).read_text(), 'Missing host gate')
     host_binding = hc.capsule(host_path, plan['fixtures'])
-    require(host_binding['capsule_sha256'] == read(ROOT / 'config/q2-ssm-row128-host-results.json')['capsule_sha256'],
+    require(host_binding['capsule_sha256'] == read(ROOT / 'config/q2-ssm-row128-host-fixed-results.json')['capsule_sha256'],
             'Host capsule changed')
     component_path = ROOT / 'config/q2-ssm-row128-component-results.json'
     component = read(component_path)

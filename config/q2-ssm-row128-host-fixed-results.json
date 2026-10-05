@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-ssm-row128-host.v1",
+  "capsule_sha256": "f50f040526527c0b11dd38f55bede2d74243b654cd5caa2332abb3da1d21ae32",
+  "archive_sha256": "9a77212b27c8275da53d5e41efd778a40905a82c017cd5e359f240d7acb7f724",
+  "fixture_files_verified": 34,
+  "source_files_verified": 1020,
+  "plan_sha256": "8c9b91fd37430f38e2d527fd2d390ec8251c5f9f2b31f229fbac6e122b8ea361",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false,
+  "reused_qualified_host_no_rerun": true,
+  "previous_host_result_sha256": "eb5ebf978c13e31d69756fda18dae225c06bf6f613ca8811a701214fc07ce2c1",
+  "previous_plan_sha256": "ffbdf137a07ca3aef41aa56266962ee8b6a9bf643ba44863be0792078a760759"
+}
