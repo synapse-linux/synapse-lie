@@ -45,12 +45,15 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
-Next prepared experiment: [eight-half output stores](Q2-DOWN-HALF-VECTOR.md)
-replace four paired scatter rounds with one aligned vector copy, preserving
-the pair fallback and all arithmetic. Local compilation passes;720 guarded
-outputs and108 consumers are prepared. No GPU/model gain is yet established.
+Latest completed experiment: [eight-half output stores](Q2-DOWN-HALF-VECTOR.md)
+measure1570.106384 PP /25.18915597 TG, a small nominal+0.201424% PP against
+saved1566.950178. All720 guarded outputs,108 consumers and21 parent model
+files are exact. Preserve both sources and the marginal gain; required PP
+increase to fixed UD is now7.367062%. This experiment is no longer pending.
+The new half-input consumer ownership proposal is listed below; it has no
+implementation or GPU result yet. Inherited quality and full curves remain open.
 
-Latest completed experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
+Previous completed experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
 measures1566.950178 PP /25.19259094 TG,+1.271715% PP against saved1547.273268.
 It restores/rounds in registers and transposes halves before paired stores.
 All513 down outputs,99 consumers and21 saved parent model files are exact.
@@ -96,6 +99,7 @@ component and full-model results. Their existing cohorts need no rerun.
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
 | Measured marginal: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [New composition](Q2-IQ2-LIVE-COMPOSE.md) completes at1511.097261 PP /25.14684805 TG,+0.082456%/-0.235669% against saved1509.852296 /25.20625148. All21 parent files are exact. The old component's318 artifacts are reused without rerun. Preserve both sources and the marginal result; this model test is no longer pending. |
 | Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
+| New source proposal: half-input MoE consumer | Process eight hidden values per lane with two independent ordered F32 accumulation vectors, then preserve the existing shared row and all HC/norm arithmetic. | [Retained ISA review](../config/q2-half-consumer-vector-opportunity.json) confirms the current four-value consumer already uses64-bit expert loads. Eight-value ownership would reduce outer passes from three to two and may permit128-bit loads; register pressure and full-cycle timing remain untested. No implementation or speedup yet. |
 | Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination. The [F16-storage candidate](Q2-DOWN-HALF-STORAGE.md) is now measured at1547.273268 PP:315 rounding checks,99 consumer checks and original model complete. Eight parent logits differ despite exact generated tokens; independent quality remains open. A direct ordered consumer that avoids the materialization entirely is still unimplemented. Logical bytes are not measured DRAM traffic or a promised gain. |
 | Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
 | Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |

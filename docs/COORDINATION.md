@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 eight-half terminal release at2026-10-05T13:22:07.300470+00:00 has SHA256
+bfc1475dbf18309dbdbb6dd27746e1681aaaf309e8664a72032834950dd31cc9.
+Collection completes13:22:03.476793UTC; all13 commands exit0/37 artifacts verify.
+942 identities/748 groups retired, KFD empty, four original leases free and
+seven model stat tuples unchanged. Canonical/main/remote release-active-ready
+mirrors match and core is notified. Q2 has no GPU job/build/client/lease/waiter/
+reservation/restart/cleanup. Further work needs fresh admission. Nominal
+PP1570.106384 and exact parent files do not close inherited quality or curve parity.
+
 Q2 eight-half preparation starts from80f3f05 and releasef2415f57. Root confirms
 fresh .157 non-use. `config/q2-down-half-vector-plan.json` freezes the new
 host/component/fixed2048 scope. The new window requires full registry, retired

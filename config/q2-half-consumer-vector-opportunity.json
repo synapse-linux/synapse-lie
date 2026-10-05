@@ -1,0 +1,29 @@
+{
+  "schema": "synapse-lie.q2-half-consumer-vector-opportunity.v1",
+  "measured_parent": "config/q2-down-half-pair-model-results.json",
+  "measured_parent_sha256": "02784123e40dae20453f616fe33d21d4fa324517a70139fe7ee65759affdb6c5",
+  "source_files": {
+    ".deps/gufo-q2-down-half-pair-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc": "aec9cfbf06993bb89a5dac192a6ee4f354593136e76d98adba71ec56006ea487",
+    ".deps/gufo-q2-down-half-pair-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "7ae6e5363264275f6136ab640765207d02b13ce2c67cc8d03972bd93f24304b3"
+  },
+  "retained_assembly": "evidence/q2-down-half-pair-preparation/candidate.s",
+  "retained_assembly_sha256": "92e5cdc7a8977dbe092a9b8aa91d8a8f559bf26fbc2a56110b9d530de60f1648",
+  "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm34HcCombineMoeHalfDeferredNormKernelEPfPK6__halfPKfS8_S8_jjS8_jS8_S3_jfPS4_",
+  "resources": {
+    "group_segment_fixed_size": 10368,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 84,
+    "next_free_sgpr": 32,
+    "wavefront_size32": 1
+  },
+  "current": "Four hidden values per lane; Load4(half) uses two half2 source loads, compiled as one64-bit global load inside the ordered expert loop. Row width2560 means three outer passes with256,256,128 live lanes. Explicit F32 fma order per expert is already anchored.",
+  "proposal": "Evaluate eight hidden values per lane with two independent ordered F32 accumulation vectors, reducing outer passes to256 and64 live lanes. Preserve every per-value expert order, shared expert fma, LDS row bytes and later HC/residual/norm code. Use aligned128-bit load only with valid alignment; retain fallback otherwise.",
+  "existing_vectorization_present": true,
+  "scalar_load_claim": false,
+  "risks": "Eight accumulators/loads can raise register pressure or memory stalls. The existing64-bit access is already vectorized; only a changed dataflow merits a new candidate.",
+  "implementation_prepared": false,
+  "gpu_run": false,
+  "performance_measured": false,
+  "quality_accepted": false,
+  "goal_met": false
+}

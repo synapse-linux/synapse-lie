@@ -1,12 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [eight-half output-store candidate](Q2-DOWN-HALF-VECTOR.md) is prepared
-from80f3f05 /1566.950178 PP. Only three epilogues change, with unchanged
-register/LDS allocations and zero private scratch. Local assembly, syntax and
-121 launcher guards pass. The new720-output/108-consumer fixture covers the
-aligned vector path and retained fallback;168 timings and the fixed2048 model
-remain pending. No prior qualified cohort is rerun.
+The [eight-half output-store candidate](Q2-DOWN-HALF-VECTOR.md) completes from
+checkpoint746605f at1570.106384 PP /25.18915597 TG, nominally+0.201424% /
+−0.013635% against retained1566.950178 /25.19259094. The small3.156206 PP
+increase is retained with both sources. All720 down pairs,108 consumers,21
+parent model files and nine internal replays are exact. Scalar decode dispatch
+is unchanged; no timing change there is attributed to this prefill kernel.
+
+Local121 guards, .157 host27+27 and all13 runtime commands pass. All37
+artifacts,68 fixtures/four manifests and1026 provider files verify. Release
+13:22:07.300470UTC follows collection and retires942 identities/748 groups,
+with empty KFD, four original leases free and seven model stat tuples unchanged.
+All mirrors agree and core is notified. No Q2 job/reservation/waiter/restart
+or cleanup remains. The fixed Q2/UD/input/timers are unchanged; parity needs
+another7.367062% PP. Independent inherited F16 quality remains open.
+
+A [read-only consumer audit](../config/q2-half-consumer-vector-opportunity.json)
+confirms the current half-input MoE consumer already issues64-bit loads.
+Eight-value per-thread ownership is a distinct source proposal for fewer outer
+passes, preserving ordered sums and later HC/norm arithmetic. It is not yet
+implemented or measured and is not counted as a performance improvement.
 
 The [paired-half epilogue](Q2-DOWN-HALF-PAIR.md) completes from checkpointe71a834
 at1566.950178 PP /25.19259094 TG, nominally+1.271715%/+0.081855% against saved
