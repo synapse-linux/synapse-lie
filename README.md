@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
+The [Q4 one-shot](docs/Q4-ONESHOT.md) stops before inference because the plain Antirez Q4 GGUF lacks required rope.dimension_sections metadata. Exit1 and original evidence are retained, the window is released, and the owner defers Q4 and resumes Q2 from the saved1505.152258 prefill parent. No followup Q4/UD test is started.
+
 An owner-requested [one-shot original Q4 comparison](docs/Q4-ONESHOT.md)
 is prepared using the two retained reference/candidate binaries, unchanged
 exact2048/tg128 timing and no compilation. This is a single separate campaign,

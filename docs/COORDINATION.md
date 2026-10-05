@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+The owner defers Q4 and resumes Q2. Q4 window releases at2026-10-05T06:09:10.187334+00:00, SHA f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424:729 identities/575 groups retired, KFD empty, four original leases free and seven unchanged model stat tuples. Main/remote/active/ready mirrors match. One attempted model command exits1 at metadata binding before GPU Upload/Forward; no PP/TG samples. No Q4/UD followup, GPU/build/job/lease/waiter/reservation/restart/cleanup remains. Future Q2 work requires new checkpoint admission from this release and fresh core handover; core confirms non-use.
+
 One owner-requested original Q4 comparison is prepared with two immutable
 retained LIE binaries and the unchanged exact2048/tg128 tester, no builds or
 recurring Q4 check. Fresh core handover after release4d34e1e confirms no

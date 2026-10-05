@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The original Q4 one-shot fails during metadata binding with exit1 before Upload/Forward: missing qwen4exp.rope.dimension_sections. There are no PP/TG samples or numerical verdict. The failure and all artifacts are retained, the GPU window is released, and the owner explicitly resumes Q2 and defers Q4. No UD followup is admitted or started.
+
 The owner requests one [original Q4 comparison](Q4-ONESHOT.md) of the cumulative
 applicable Q8/shared-path changes. The frozen plan reuses the actual fixed
 reference and best retained binaries without rebuilding, with the original

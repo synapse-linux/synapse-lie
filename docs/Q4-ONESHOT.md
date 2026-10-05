@@ -35,3 +35,5 @@ Preparation has no GPU admission. The fresh core handover confirms no
 The helper must freshly admit from release4d34e1e before either model run.
 No dependency installation, tuning, conversion, heavyweight model hash,
 deployment or remote cleanup is included.
+
+The original-model attempt exits1 before Upload/Forward: `missing GGUF array qwen4exp.rope.dimension_sections`. No performance sample exists. [Failure](../config/q4-oneshot-failure.json) preserves the actual exit and error; [release](../config/q4-oneshot-window-release.json) proves closure at06:09:10 UTC. [Owner deferral](../config/q4-oneshot-deferral.json) supersedes the briefly proposed UD followup: no UD comparison is started, and no automatic repetition remains.
