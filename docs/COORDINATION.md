@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Register-scatter window releases2026-10-05T19:46:56.076123UTC,SHA256
+b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e.
+Fresh admissionb22e0907 from6937344 followsb52d7308 and explicit root CPU-smoke
+closure/non-use. Host27+27/component/model terminal and collected before
+release:13 command exits0,37 verified artifacts,705 exact down pairs/93consumers,
+21 exact parent numerical files.1099 identities/876groups retired,KFD empty,
+four original leases free,seven unchanged model stat tuples. Canonical/main/
+remote release-active-ready mirrors agree; core notified and is next owner.
+No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains.
+The separately prepared SSM source/fixture is local only; no runtime window
+is reserved. Further Q2 work requires fresh handover and admission.
+[Release](../config/q2-down-register-scatter-window-release.json).
+
 Producer-Q8 window releases2026-10-05T18:39:19.580005UTC,SHA256
 b52d7308325786da5373cd32095fddc99048403ed07511364c4a4171c19c0de6.
 Fresh admission3bb1d161 from030cf9d follows88dcb8d8 and root explicit non-use.

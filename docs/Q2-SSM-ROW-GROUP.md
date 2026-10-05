@@ -1,11 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Four-row grouping for the fused SSM projection
 
-This is local preparation, without GPU numerics or model timing. The retained
-best remains1574.505432 PP /25.17589001 TG at original exact2048/tg128, against
-fixed Q2/UD1443.672867 /1685.777092 PP. UD still requires7.067086% more PP.
-Register-scatter remains the first prepared GPU campaign; its85 fixture and
-four manifest hashes are unchanged by this independent experiment.
+This is local preparation, without GPU numerics or model timing. It derives
+from saved1574.505432 PP /25.17589001 TG at original exact2048/tg128, against
+fixed Q2/UD1443.672867 /1685.777092 PP. The independently completed
+[register-scatter experiment](Q2-DOWN-REGISTER-SCATTER.md) subsequently measures
+1580.226725 PP /25.10411864 TG and becomes the next retained composition base.
+The SSM source here is still the original standalone1574-derived experiment;
+its composition with register-scatter is not silently implemented or measured.
+The existing85 register-scatter fixtures and four manifests were unchanged.
 
 ## Why this region
 

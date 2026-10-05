@@ -1,10 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Register transpose of Q2 half-output rows
 
-This is a prepared experiment, with **no GPU or original-model result yet**.
-The retained best stays1574.505432 PP /25.17589001 TG at original exact2048/tg128;
-fixed Q2 and UD remain1443.672867 /1685.777092 PP. Reaching UD still requires
-7.067086% more prefill throughput. No control binary is rebuilt or replayed.
+The GPU component and original-model experiment are now complete. The new
+candidate measures1580.226725 PP /25.10411864 TG at original exact2048/tg128,
+nominal+0.363371% PP /-0.285080% TG versus saved1574.505432 /25.17589001.
+All705 down pairs,93 consumer pairs and21 parent numerical files are exact.
+Retain both sources and the new prefill candidate; independent inherited task
+quality remains open. Fixed Q2/UD stay1443.672867 /1685.777092 PP; reaching UD
+still requires6.679444% more PP. No control binary is rebuilt or replayed.
+The preparation sections below retain the original scope and local evidence;
+the completed execution is recorded at the end.
 
 ## Concrete mechanism
 
@@ -132,4 +137,69 @@ markers and original attribution remain. No C17 ABI, persistent state, scheduler
 allocation policy, model weights or public metrics contract changes.
 
 Inherited independent task-quality qualification remains open. Static checks
-cannot establish byte-exact GPU output, throughput or full-curve Q2/UD parity.
+alone cannot establish byte-exact GPU output, throughput or full-curve Q2/UD parity.
+
+## Completed GPU and original-model experiment — 5 October 2026 UTC
+
+The aligned register exchange preserves all705 complete down outputs against
+the literal saved1574 control, including the independent RN-even conversion
+of the unchanged F32 path. All93 complete consumer comparisons pass. Allocation
+guards, required writes, invalid slots, fallback alignment and immutable inputs
+pass; all three component commands exit0. Every28 timing row remains available.
+
+| Production component cycle | Saved-parent microseconds | Candidate microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| Down only | 3267.104467 | 3327.269872 | +1.841551% |
+| Down and ordered combine | 4881.320000 | 4924.466133 | +0.883903% |
+
+This component is slower. The owner-requested model experiment still runs:
+safe numerical/component timing results do not substitute for model timing.
+
+| Model sample | PP seconds | PP tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.297178708 | 1578.810990 | 5.063357039 | 25.08217355 |
+| Measured1 | 1.295486041 | 1580.873846 | 5.057373249 | 25.11185031 |
+| Measured2 | 1.296016557 | 1580.226725 | 5.061072080 | 25.09349758 |
+| Measured3 | 1.296513428 | 1579.621125 | 5.058930841 | 25.10411864 |
+
+The unchanged fixed input/timers, capacity9216/chunk2048/MTP off,128 outputs,
+127 timed decode calls, one warmup/three measured sessions and15-second pauses
+remain verified. Resident model bytes43156012544 are unchanged. All21 parent
+numerical files and nine within-arm comparisons match, including all128 output
+tokens. Existing differences from fixed Q2 and UD persist; matching this parent
+does not close independent task quality.
+
+Model PP increases5.721293 tokens/s nominally against the retained parent.
+The measured ranges1579.621125–1580.873846 and1573.956493–1576.398959 do not
+overlap, but the parent is historical, not a contemporaneous repeated control.
+The slower component and faster model have different traffic/interleaving
+contexts; the causal bandwidth/cache/clock contribution has not been isolated.
+Neither result is suppressed or converted into an additive gain. Scalar decode
+dispatch and bodies are unchanged; its small measured TG reduction is retained
+without assigning it causally to the prefill epilogue.
+
+Host Debug27/27 and ASan/UBSan27/27 pass. All13 runtime commands exit0;
+37 standard artifacts,85 fixture hashes/four manifests and1027 numerical
+provider files verify. Component CPU/GPU peaks68.5/43C; model/build81.125/75C.
+No thermal stop occurs. Preparation failures remain preserved: inherited format
+diagnostics, checker newline comparison, local staging label length, and one
+sandbox-denied read-only SSH observation followed by a successful observation.
+None is a failed GPU numerical result.
+
+After core's CPU-smoke closure/non-use, admission19:40:28.546808UTC from6937344
+checks1090 retired identities/869groups and original leases/model stats. Model
+finishes19:46:31.101910UTC and is collected before release19:46:56.076123UTC.
+Release SHA256b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e
+checks1099 identities/876groups retired,KFD empty,four original leases free,
+seven model stat tuples unchanged. Canonical/main/remote release-active-ready
+mirrors match; core is notified. No Q2 remote job, client, build, reservation,
+lease, waiter, restart or cleanup remains. New work needs fresh admission.
+
+[Component report](../config/q2-down-register-scatter-component-results.json),
+[model report](../config/q2-down-register-scatter-model-results.json),
+[final audit](../config/q2-down-register-scatter-final-audit.json),
+[disposition](../config/q2-down-register-scatter-disposition.json),
+[all model samples](figures/q2-down-register-scatter-model-wrapped.csv).
+
+![Component cycles](figures/q2-down-register-scatter-component.svg)
+![Fixed model comparison](figures/q2-down-register-scatter-model-wrapped.svg)

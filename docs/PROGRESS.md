@@ -7,15 +7,22 @@ uses222 actual VGPRs/241 descriptor reservation,49152 LDS bytes and zero scratch
 in both arms. The changed body adds ten static instructions.1292 integer grid
 shapes preserve tile ownership and convolution masks. The new30-pair/60-sampled-
 oracle fixture passes host/device syntax, without GPU execution or launcher
-wiring.85 register-scatter fixtures/four manifests stay frozen. Best1574 and
-fixed UD1685.777092 remain; no speedup or quality acceptance is inferred.
+wiring.85 register-scatter fixtures/four manifests stay frozen. This SSM
+preparation uses saved1574; the subsequent register-scatter result below
+advances the retained model candidate. No SSM speedup or quality is inferred.
 
-The [Q2 half-output register transpose](Q2-DOWN-REGISTER-SCATTER.md) is prepared from saved1574:
-two half-wave word exchanges bypass the aligned epilogue LDS round trip.
-Local checks preserve159 other kernels and all register/LDS capacities;140
-launcher guards pass. GPU numerics and original-model performance are pending.
-Only one production component distribution and the unchanged2048/tg128 model
-comparison are planned; best throughput remains1574.505432 PP.
+The [register-scatter experiment](Q2-DOWN-REGISTER-SCATTER.md) completes at
+1580.226725 PP /25.10411864 TG, nominal+0.363371%/-0.285080% versus saved1574.
+All705 down pairs,93 consumers and21 parent numerical files are exact. Component
+time regresses1.841551% down/0.883903% down-combine, yet the fixed model gains
+5.721293 PP tokens/s. Keep both sources and the marginal model candidate;
+different component/model traffic and historical controls leave causality
+unisolated. Scalar decode is unchanged. Host27+27,13 runtime exits0,37 verified
+artifacts,85 fixtures/four manifests/1027 source files. CPU/GPU model peaks
+81.125/75C. Release19:46:56.076123UTC SHA b9e05fd2 verifies1099 retired IDs/
+876groups,KFD empty,four original leases free,seven model stats unchanged;
+mirrors match/core notified. No Q2 work/reservation/cleanup remains. Fixed UD
+needs another6.679444% PP; independent quality and full curve stay open.
 
 The [producer-Q8/integer-down experiment](Q2-PRODUCER-Q8.md) completes at1090.135499 PP /
 25.17363991 TG, losing30.763307% PP against saved1574.505432. All64 Q8 format

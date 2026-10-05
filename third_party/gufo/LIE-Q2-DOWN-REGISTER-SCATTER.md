@@ -17,3 +17,11 @@ are copied. First-party generator, fixture, analyzer and additions use MIT SPDX.
 Only local static/mapping/fixture-syntax evidence exists at preparation. No
 GPU numerical/performance, model quality, full-curve parity or promotion follows
 from source reconstruction or compiled resource metadata.
+
+Subsequent .157 qualification records705 exact full down pairs,93 exact
+consumers, and21 exact saved-parent numerical files. The original2048/tg128
+model measures1580.226725 PP /25.10411864 TG, while the isolated down/combine
+component is0.883903% slower. Both outcomes are retained in
+`config/q2-down-register-scatter-final-audit.json`; inherited independent
+task quality and full-curve parity remain open. Source inventories above are
+unchanged. There is no deployment or production promotion.

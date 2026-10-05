@@ -47,10 +47,12 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 The inventory below separates unimplemented mechanisms from component-only
 candidates and measured features awaiting integration. Latest retained original
-exact2048/tg128 wave-packing result is1574.505432 PP /25.17589001 TG; saved shared
-pair1573.621201/25.11363913 and earlier sources remain available. The nominal
-PP gain is0.056191% with overlapping historical ranges; scalar decode is unchanged.
-Fixed UD1685.777092 requires7.067086% more PP from the new candidate. Q4 stays deferred. No qualified
+exact2048/tg128 register-scatter result is1580.226725 PP /25.10411864 TG;
+saved wave-packing1574.505432/25.17589001 and earlier sources remain available.
+The nominal PP gain is0.363371%; historical PP ranges do not overlap, while
+component down/combine time regresses0.883903%. Both results are retained;
+causality is unisolated and scalar decode is unchanged. Fixed UD1685.777092
+requires6.679444% more PP from the new candidate. Q4 stays deferred. No qualified
 control rerun or context-curve expansion follows this update.
 
 | Region | Remaining concrete work | Status / priority |
@@ -59,11 +61,11 @@ control rerun or context-curve expansion follows this update.
 | Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | [Producer-Q8 experiment completed](Q2-PRODUCER-Q8.md):1090.135499 PP (-30.763307%),64 exact Q8-format comparisons and64 sampled FP64 passes; integer down slows the full chain. Preserve and keep1574. A separate dead-LDS route-ID prototype is local-only; full SwiGLU/down fusion remains unimplemented. |
 | Measured marginal: active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [Completed candidate](Q2-SCALED-WAVE-PACK.md):52 exact component pairs,21 exact parent model files; packing/down time-0.632%, model1574.505432 PP nominal+0.056191% with overlapping ranges. Scalar oracle exit1 retained and fully attributed to signed zero in both arms. This trial is no longer pending; full producer fusion remains open. |
 | Active-chain activation traversal | Pack scaled half rows in existing expert order, then read contiguously in down. | [Completed experiment](Q2-SCALED-EXPERT-ORDER.md):107 exact component pairs,cycle-4.745%; model1571.009498 PP (-0.222034%) and21 exact parent files. Preserve variant; keep1574. This test is no longer pending. |
-| Aligned Q2 half-output epilogue | Exchange already-rounded register words between half-waves instead of transposing through LDS. | [Prepared two-word candidate](Q2-DOWN-REGISTER-SCATTER.md):159 other kernels exact, unchanged resources, zero scratch,140 launcher guards. CPU bit routing passes; GPU/model untested. One production timing distribution, same fixed model point. |
+| Aligned Q2 half-output epilogue | Exchange already-rounded register words between half-waves instead of transposing through LDS. | [Completed candidate](Q2-DOWN-REGISTER-SCATTER.md):705 exact down pairs/93 consumers/21 parent files; model1580.226725 PP nominal+0.363371%, component down/combine time+0.883903%. Preserve both results and saved1574; this trial is no longer pending. |
 | Expert-output consumer | Feed ordered weighted combine directly, avoiding the remaining100MiB F16 intermediate at2048. | Unimplemented; high. Half storage and vector stores are already measured. Logical bytes do not establish DRAM savings. |
 | HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
 | Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
-| Fused SSM grid traversal | Group four output-row blocks per token tile using the existing HC mapping; preserve geometry, K order and convolution boundaries. | [Local source/fixture prepared](Q2-SSM-ROW-GROUP.md):161 other kernels exact, unchanged register/LDS capacities, new grid ownership checks and host/device syntax pass. GPU/model untested; independent of the first register-scatter campaign. |
+| Fused SSM grid traversal | Group four output-row blocks per token tile using the existing HC mapping; preserve geometry, K order and convolution boundaries. | [Local source/fixture prepared](Q2-SSM-ROW-GROUP.md):161 other kernels exact, unchanged register/LDS capacities, new grid ownership checks and host/device syntax pass. This is standalone saved1574 source; composition with retained1580 and GPU/model tests remain open. |
 | Measured marginal: wide shared-Q8 gate/up | Pair corresponding gate/up row tiles inside each wave and emit rounded SwiGLU directly at M640/N2048/K2560. | Completed:43 component pairs/24 sampled FP64 checks/21 parent model files pass. Component cycle time-3.309%; original model1573.621201 PP is nominal+0.121187% with overlapping ranges. Retain both sources; this trial is no longer pending. No reduction of total activation tile fetches is claimed. |
 | Small shared-down | Shape-specific native/library path at M2560/N2048/K640; any GPU F16 mirror is bounded to150MiB across48 layers. | Source proposal; lower. This shape was excluded from the failed large-mirror trial. |
 | IQ2 component candidates | Selectively compose live-epilogue or prefill codebook-LDS variants with the current provider. | Components already tested with mixed/marginal timings; current full-model composition unqualified. No blanket rerun. |

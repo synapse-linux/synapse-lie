@@ -6,12 +6,13 @@ register/LDS capacities and arithmetic source. The new guarded fixture passes
 host/device syntax checks; no GPU or model result exists. The existing
 register-scatter campaign and fixed Q2/UD comparison stay unchanged.
 
-The [Q2 half-output register transpose](docs/Q2-DOWN-REGISTER-SCATTER.md) is prepared from saved1574:
-two half-wave word exchanges bypass the aligned epilogue LDS round trip.
-Local checks preserve159 other kernels and all register/LDS capacities;140
-launcher guards pass. GPU numerics and original-model performance are pending.
-Only one production component distribution and the unchanged2048/tg128 model
-comparison are planned; best throughput remains1574.505432 PP.
+The [Q2 half-output register transpose](docs/Q2-DOWN-REGISTER-SCATTER.md) now
+measures1580.226725 PP /25.10411864 TG on the unchanged exact2048/tg128 model,
+nominal+0.363371% PP versus saved1574. All705 down/93 consumer comparisons and
+21 parent files are exact. The isolated component is slower1.842% down/0.884%
+with combine; both results remain visible. Keep both sources. Host27+27 and
+13 runtime commands pass;37 artifacts collected and .157 released. Fixed UD
+still requires6.679444% more PP; inherited quality/full-curve parity stay open.
 
 The [producer-Q8/integer-down experiment](docs/Q2-PRODUCER-Q8.md) completes at1090.135499 PP /
 25.17363991 TG, losing30.763307% PP against saved1574.505432. All64 Q8 format
