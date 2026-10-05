@@ -1,4 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+The subsequent [BN64 component campaign](Q2-SHARED-DOWN-N64.md) is now
+complete: numerical checks pass but fixed F16 remains 2.811486% slower than
+its original Q8 control. The preparation statements below are historical;
+no shared-down alternative has become the retained model path.
 # Shared-down weight caching: measured component and narrower-tile follow-up
 
 The four-arm GPU component completes on .157 at 2026-10-05T22:59:42.524472UTC.

@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-down BN64 releases .157 at 2026-10-05T23:13:40.480692UTC, SHA256
+`973388223cae971705e3027fd281af760ee38bce247c2468848b89a88055a6e9`.
+Host/component are terminal and collected: nine exit0 commands/11 artifacts.
+All 1171 recorded identities/934 groups are retired, KFD empty, four unchanged
+original leases free, seven model stat tuples unchanged. Canonical/main/remote
+release-active-ready mirrors agree and Core receives closure. No Q2 job,
+build, waiter, reservation, restart or cleanup remains. Compact-LDS preparation
+grants no GPU admission; a fresh coordinated observation is required.
+[Release](../config/q2-shared-down-n64-component-window-release.json),
+[final audit](../config/q2-shared-down-n64-component-final-audit.json).
 Shared-down component releases .157 at 2026-10-05T22:59:58.189609UTC, SHA256
 `c4efdddb7bad7a90977ef0d4fe09a70dc18f8916a81562156126a3a945179122`.
 Admission 22:58:57.751850UTC from 677bba9 follows fresh prior release fc00b067,

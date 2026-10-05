@@ -1,4 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+The [BN64 follow-up](../../docs/Q2-SHARED-DOWN-N64.md) is now GPU-qualified
+as exact on its component cases; fixed F16 remains 2.811486% slower than its
+original Q8 control. All source and failed performance experiments are retained.
+Preparation-only statements below are superseded by this completed evidence.
 # LIE shared-down storage and tile experiments
 
 These component providers derive from independently fetched official Gufo

@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [BN64 shared-down result](Q2-SHARED-DOWN-N64.md) completes at
+23:13:05.950401UTC. Original Q8 is 236.051699us; generic F16/fixed Q8/fixed F16
+are slower 24.189110%/34.202947%/2.811486%. All 126 output pairs, 168 FP64
+checks and 42 format checks pass. Preserve the failed speed hypotheses; no
+model dispatch changes. All 28 samples and three exports remain, PNG reviewed.
+Nine runtime exits0/11 artifacts, 92 fixtures/nine manifests/1028 provider
+files verify. Host27+27 is fresh. Release 23:13:40.480692UTC SHA97338822 retires
+1171 identities/934 groups; KFD empty, four leases free, seven model stat tuples
+unchanged. Mirrors agree and Core is notified. No Q2 work/reservation remains.
+The compact-LDS SSM candidate is the next unmeasured larger-cost target.
+Saved1585 and fixed Q2/UD remain unchanged. The preceding cache-answer turn
+rechecked existing evidence without changing authoritative state; this turn
+completes the BN64 checkpoint and advances the next safe experiment.
 Shared-down BN64 now has matched component-only routing, with seven focused
 launcher checks and142 existing checks passing. Analysis/plot/finalization
 reuse the same code with an explicit campaign name; three numerical parser

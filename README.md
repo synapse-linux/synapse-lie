@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [shared-down BN64 experiment](docs/Q2-SHARED-DOWN-N64.md) completes with
+zero spills but no component gain: original Q8 236.051699us, fixed F16
+242.688258us (+2.811486% time). All numerical checks pass, nine runtime exits
+are zero, and .157 is released. Retain **1585.308983 PP /25.16079073 TG**;
+fixed UD still needs 6.337447% additional PP. Compact-LDS SSM is next.
+
+Entries below preserve earlier experiment states; the BN64 completion above
+supersedes their pending shared-down timing claims.
 The [shared-down four-arm component](docs/Q2-SHARED-DOWN-MIRROR.md) now
 completes with126 exact output pairs,168 passing FP64 checks and 42 exact mirror
 checks. Original Q8 is 228.576839us; generic F16/fixed Q8/fixed F16 are slower
