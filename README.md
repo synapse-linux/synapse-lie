@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Expert-ordered scaled-Q2 activation preparation starts from retained1574.505432 PP.
+All162 existing kernel bodies remain exact; new layout/cycle/model qualification
+is pending. See [the experiment](docs/Q2-SCALED-EXPERT-ORDER.md). Fixed references, inherited quality and full-curve gates remain unchanged.
+
 The [wave-owned Q2 activation pack](docs/Q2-SCALED-WAVE-PACK.md) completes at
 1574.505432 PP /25.17589001 TG, nominal+0.056191% PP against saved1573.621201
 with overlapping ranges. Retain both sources.52 component pairs and21 parent

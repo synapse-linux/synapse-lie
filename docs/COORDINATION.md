@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Expert-order preparation follows534decd and release6abd77bc. Root freshly
+confirms no .157 GPU/CPU job,build,client,lease,waiter or reservation; its1M
+work is on .161. No ownership is inherited. New host/component/model work
+requires the frozen plan and fresh registry/PID/group/KFD/original-lease/model
+stat admission; no cleanup, tuning, Q4 or qualified reference rerun.
+
 Scaled-wave-pack releases at2026-10-05T16:35:19.738986+00:00,SHA256
 6abd77bc99a836750801e741cdbc313e047be39d7080b2ab7e5f3493abfefa35.
 Fresh admission88e68b79 at16:27:45.501373UTC follows release10329ad7 and root's

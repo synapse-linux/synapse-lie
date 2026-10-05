@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-scaled-expert-order-host.v1",
+  "capsule_sha256": "7db11499a12bce4ce85b1c8dd2c1fe099d556453565b2f2ab8eddf762bf145ae",
+  "archive_sha256": "a9a48607da851fb9c6104c21d62b6023d7c2f5f71b9f42d6f8c8b7117e04eeef",
+  "fixture_files_verified": 79,
+  "source_files_verified": 1020,
+  "plan_sha256": "c9c54a6f86ab3b6935cb92a182d8dea635b3bad38e4f6cfeaf512c3eacbcba31",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}
