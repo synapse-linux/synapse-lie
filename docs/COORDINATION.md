@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current-best profile preparation follows931ce30 and releasea8e0d9f6. Core non-use handover after that release is available; the separate new host27+27 cohort completes without GPU/model access. One saved1571 profile is planned, with no GPU build/control rerun/Q4/full curve/cleanup. Fresh admission must recheck registry/PID/group/KFD/original leases/model stats before device execution.
+
 Q2 half-fixed-width terminal release at2026-10-05T14:11:27.395434+00:00 has SHA256
 a8e0d9f6a30c8f0d10d6c4ed5896dc84c521ee28e9f682db223c982293cc59a4.
 Model collection finishes2026-10-05T14:11:14.088325+00:00 before release.

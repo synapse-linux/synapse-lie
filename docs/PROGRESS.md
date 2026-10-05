@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Saved1571 diagnostic preparation adds immutable original-library replay, explicit half-output attribution and126 launcher/eight replay guards.72 frozen fixtures/1026 provider files pass staging. Host27+27 completes on .157; collection/audit and fresh GPU admission remain pending. No new kernel timing or throughput result. See Q2-CURRENT-BEST-PROFILE.md.
+
 Fixed-width half consumer completes at1569.533792 PP /25.16043516 TG (-0.138873% PP vs1571 parent). Preserve the negative candidate and keep1571.716479.105 residuals exact;93 scale outputs and61 half outputs differ, max2/1ULP. All42timings retained; component exits0/0/1, model exits0/0/0/0 and generated tokens match while eight logit files change (parentKL0.007411541178). All874 artifacts verify across13 runtime commands. Release14:11:27.395434UTC; no live work/reservation/cleanup. A new saved-best profiling proposal is recorded; no new profiling result. See Q2-HALF-FIXED-WIDTH.md.
 
 Half-consumer-eight completes at1571.716479 PP /25.20732109 TG, nominal+1.610095 PP (+0.102547%) against saved1570.106384. Historical PP ranges overlap; retain both sources without a stable-gain claim.105 complete component comparisons,35 immutable cases and21 parent model files are exact. All13 runtime commands exit0/37 artifacts verify; the initial local CMake-anchor error is preserved. GPU released13:49:16.626977UTC. A fixed-width integer-indexing proposal is retained for subsequent work; no new runtime result. See Q2-HALF-CONSUMER-EIGHT.md.

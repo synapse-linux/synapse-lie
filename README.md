@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [saved1571 diagnostic](docs/Q2-CURRENT-BEST-PROFILE.md) is prepared to attribute current kernel costs without rebuilding its executable or rerunning Q2/UD controls. No new performance measurement is claimed.
+
 The [fixed-width half consumer](docs/Q2-HALF-FIXED-WIDTH.md) completes at1569.533792 PP /25.16043516 TG, nominal-0.138873% PP against saved1571.716479. Keep the1571 parent. The38% instruction reduction yields only a small component change; normalization and eight model logit files differ. Tokens match; independent quality remains open.
 
 The [eight-value half consumer](docs/Q2-HALF-CONSUMER-EIGHT.md) measures1571.716479 PP /25.20732109 TG: nominal+0.102547% PP against saved1570.106384, with overlapping ranges.105 component comparisons and21 parent model files are exact. Both sources are retained; inherited quality/full curves remain open. Fixed UD1685.777092 still requires7.257073% more PP.
