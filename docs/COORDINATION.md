@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 half-consumer-eight terminal release at2026-10-05T13:49:16.626977+00:00 has SHA256
+bc66783cb6ae88bd862b917b78804f036c95f009e13bbd4bd77c89441a6522d4.
+Collection completes2026-10-05T13:48:58.763480+00:00 before release.
+All13 runtime exits0/37 artifacts verify;958 identities/761 groups retired,
+KFD empty, four original leases free and seven model stat tuples unchanged.
+Canonical/main/remote release-active-ready mirrors match; core notified.
+No Q2 GPU job/build/client/lease/waiter/reservation/restart/cleanup remains.
+New work needs fresh admission; nominal1571.716479 PP does not close quality
+or full-curve parity. The local fixed-width source review creates no reservation.
+
 Q2 half-consumer-eight preparation follows clean15bbcc9 and terminal releasebfc1475d. Fresh root non-use handover is received; no admission is inherited. The frozen70-fixture/4-manifest plan requires host27+27 and fresh registry/PID/group/KFD/four-original-lease/seven-model-stat checks before the new consumer component and fixed model. No Q4, full curve, comparator rerun or .157 cleanup.
 
 Q2 eight-half terminal release at2026-10-05T13:22:07.300470+00:00 has SHA256

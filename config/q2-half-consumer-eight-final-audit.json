@@ -1,0 +1,115 @@
+{
+  "schema": "synapse-lie.q2-half-consumer-eight-final-audit.v1",
+  "fixtures_verified": 70,
+  "manifests_verified": 4,
+  "provider_files": 1026,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 37,
+  "component_result_sha256": "9cf6ac623596f32f3cca67e7347e1708185a31e8be6c24d2b8a3f8e5a69bc0f4",
+  "model_result_sha256": "929b9f47797975380e492c44b959dc45bac92f668cac4cb16a6ca404d3b9a89f",
+  "component_numerical_pass": true,
+  "component_parent_exact": true,
+  "within_arm_exact": true,
+  "changed_parent_files": [],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1572.749703,
+        1571.58159,
+        1571.716479
+      ],
+      "min": 1571.58159,
+      "median": 1571.716479,
+      "max": 1572.749703
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.20732109,
+        25.21066467,
+        25.18988477
+      ],
+      "min": 25.18988477,
+      "median": 25.20732109,
+      "max": 25.21066467
+    },
+    "prefill_s": {
+      "samples": [
+        1.30217796,
+        1.303145833,
+        1.303033993
+      ],
+      "min": 1.30217796,
+      "median": 1.303033993,
+      "max": 1.303145833
+    },
+    "decode_s": {
+      "samples": [
+        5.038218839,
+        5.037550642,
+        5.041706271
+      ],
+      "min": 5.037550642,
+      "median": 5.038218839,
+      "max": 5.041706271
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.869295456530878,
+      "decode_steps_s": 0.4437611561081356,
+      "prefill_s": -8.146737275917094,
+      "decode_s": -0.44180061329482934
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.766055461382436,
+      "decode_steps_s": 3.555943374408832,
+      "prefill_s": 7.257072991607028,
+      "decode_s": -3.4338380568278093
+    },
+    "best_parent": {
+      "prefill_tok_s": 0.10254687302768684,
+      "decode_steps_s": 0.0721148418852735,
+      "prefill_s": -0.10244185168123421,
+      "decode_s": -0.07206286296524977
+    }
+  },
+  "admission_exit": 0,
+  "host_rerun": false,
+  "preserved_preparation_failures": [
+    {
+      "argv": [
+        "python3",
+        "evidence/q2-half-consumer-eight-preparation/wire-local.py"
+      ],
+      "started_at": "2026-10-05T13:37:07.849768+00:00",
+      "finished_at": "2026-10-05T13:37:07.877960+00:00",
+      "exit_code": 1
+    }
+  ],
+  "release_sha256": "bc66783cb6ae88bd862b917b78804f036c95f009e13bbd4bd77c89441a6522d4",
+  "retired_identities": 958,
+  "retired_groups": 761,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

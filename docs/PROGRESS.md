@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The half-consumer-eight candidate changes only ordered half-input MoE consumption from four to eight values/lane.160 other kernels are instruction/resource exact.35 shapes/105 complete comparisons and42 alternating timing samples are planned before one original fixed2048/tg128 model. Previous result1570.106384 is retained; no performance gain is inferred before runtime evidence. See Q2-HALF-CONSUMER-EIGHT.md.
+Half-consumer-eight completes at1571.716479 PP /25.20732109 TG, nominal+1.610095 PP (+0.102547%) against saved1570.106384. Historical PP ranges overlap; retain both sources without a stable-gain claim.105 complete component comparisons,35 immutable cases and21 parent model files are exact. All13 runtime commands exit0/37 artifacts verify; the initial local CMake-anchor error is preserved. GPU released13:49:16.626977UTC. A fixed-width integer-indexing proposal is retained for subsequent work; no new runtime result. See Q2-HALF-CONSUMER-EIGHT.md.
 # Progress — Q2 compatibility workstream
 
 The [eight-half output-store candidate](Q2-DOWN-HALF-VECTOR.md) completes from

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-New [eight-value half consumer](docs/Q2-HALF-CONSUMER-EIGHT.md) is prepared from measured1570.106384 PP. One consumer changes,160 kernel bodies remain exact; GPU/model results pending. Fixed controls and inherited quality boundary remain unchanged.
+The [eight-value half consumer](docs/Q2-HALF-CONSUMER-EIGHT.md) measures1571.716479 PP /25.20732109 TG: nominal+0.102547% PP against saved1570.106384, with overlapping ranges.105 component comparisons and21 parent model files are exact. Both sources are retained; inherited quality/full curves remain open. Fixed UD1685.777092 still requires7.257073% more PP.
 # Synapse LIE — original Q2 support for official Gufo
 
 The [eight-half output-store candidate](docs/Q2-DOWN-HALF-VECTOR.md) completes

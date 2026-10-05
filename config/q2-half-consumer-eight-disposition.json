@@ -1,0 +1,69 @@
+{
+  "schema": "synapse-lie.q2-half-consumer-eight-disposition.v1",
+  "decision": "RETAIN_MARGINAL_EXPERIMENT_AND_PARENT",
+  "model_result_sha256": "929b9f47797975380e492c44b959dc45bac92f668cac4cb16a6ca404d3b9a89f",
+  "component_result_sha256": "9cf6ac623596f32f3cca67e7347e1708185a31e8be6c24d2b8a3f8e5a69bc0f4",
+  "final_audit_sha256": "4dd11283bb0794d1094622375f9ecd964e85eb5cc821d6f1bc8fe045e005d582",
+  "candidate_pp": 1571.716479,
+  "candidate_tg": 25.20732109,
+  "parent_pp": 1570.106384,
+  "parent_tg": 25.18915597,
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.869295456530878,
+      "decode_steps_s": 0.4437611561081356,
+      "prefill_s": -8.146737275917094,
+      "decode_s": -0.44180061329482934
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.766055461382436,
+      "decode_steps_s": 3.555943374408832,
+      "prefill_s": 7.257072991607028,
+      "decode_s": -3.4338380568278093
+    },
+    "best_parent": {
+      "prefill_tok_s": 0.10254687302768684,
+      "decode_steps_s": 0.0721148418852735,
+      "prefill_s": -0.10244185168123421,
+      "decode_s": -0.07206286296524977
+    }
+  },
+  "absolute_pp_gain": 1.6100950000000012,
+  "required_pp_increase_to_ud_percent": 7.257073048732732,
+  "parent_model_files_compared": 21,
+  "parent_model_exact": true,
+  "model_parent_tokens_exact": true,
+  "changed_parent_files": [],
+  "max_parent_kl": 0.0,
+  "within_arm_replays": {
+    "checks": 9,
+    "exact": 9
+  },
+  "inherited_quality_source": "config/q2-down-half-storage-disposition.json",
+  "inherited_quality_source_sha256": "41bc75e7ab6eaf21c2d39de1cca51bbb28c629f7def6f44a9caf0ac9770a58c5",
+  "component_output_pairs": 105,
+  "component_immutable_cases": 35,
+  "component_timings": 42,
+  "component_parent_exact": true,
+  "thermal_peaks_c": {
+    "q2-half-consumer-eight-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 69.375
+    },
+    "q2-half-consumer-eight-model-r1": {
+      "amdgpu": 71.0,
+      "k10temp": 80.375
+    }
+  },
+  "nominally_faster": true,
+  "observed_pp_ranges_nonoverlapping": false,
+  "collection_completed_before_release": true,
+  "model_collection_finished_at": "2026-10-05T13:48:58.763480+00:00",
+  "release_at": "2026-10-05T13:49:16.626977+00:00",
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "quality_accepted": false,
+  "promoted": false,
+  "goal_met": false,
+  "reason": "Original fixed2048/tg128 model and component evidence retained separately. Historical observed ranges are descriptive, not contemporaneous causal qualification. Exact half-parent replay does not close inherited half-storage task quality. Preserve sources, all samples and any marginal/negative result without changing UD target or comparator."
+}

@@ -66,6 +66,32 @@ def main():
     lines = svg.read_text().splitlines()
     lines.insert(1, '<!-- SPDX-License-Identifier: MIT -->')
     svg.write_text('\n'.join(line.rstrip() for line in lines) + '\n')
+    component = json.loads((ROOT/'config/q2-half-consumer-eight-component-results.json').read_text())
+    fig, axes = plt.subplots(1, 3, figsize=(13, 4.7))
+    for ax, group in zip(axes, component['summaries']):
+        for x, key, color in ((0, 'reference', '#379878'), (1, 'candidate', '#c4844e')):
+            values = group[key]['samples']
+            ax.bar(x, group[key]['median'], color=color)
+            ax.scatter([x-.08,x-.04,x,x+.04,x+.08], values, color='black', s=18, zorder=3)
+            warms = [t['us_per_iteration'] for t in component['timings']
+                     if t['case']==group['case'] and t['candidate']==(key=='candidate') and t['warmup']]
+            ax.scatter([x-.04,x+.04], warms, facecolors='none', edgecolors='black', s=25,zorder=3)
+        ax.set_xticks([0,1], ['Four values/lane','Eight values/lane'])
+        ax.set_title(f"{group['used']} experts: {group['candidate_time_change_percent']:+.2f}% time")
+        ax.set_ylabel('Complete consumer microseconds (lower is faster)')
+        ax.set_ylim(bottom=0)
+        ax.set_axisbelow(True); ax.grid(axis='y', alpha=.2)
+    fig.suptitle('Ordered half-input MoE + HC + deferred norm, 2048 tokens')
+    fig.text(.5,.025,'Two warmups (open) and five measured samples (filled); alternating arms, three rotated input sets.\n'
+             'Synthetic component timing; input upload and residual reset excluded equally.',ha='center',fontsize=9)
+    fig.tight_layout(rect=(0,.10,1,.94))
+    component_output=ROOT/'docs/figures/q2-half-consumer-eight-component'
+    for suffix in ('.svg','.png'):
+        if component_output.with_suffix(suffix).exists():raise ValueError('Refusing to overwrite component figure')
+        fig.savefig(component_output.with_suffix(suffix),dpi=150)
+    svg=component_output.with_suffix('.svg');lines=svg.read_text().splitlines()
+    lines.insert(1,'<!-- SPDX-License-Identifier: MIT -->')
+    svg.write_text('\n'.join(line.rstrip() for line in lines)+'\n')
     print(json.dumps(dict(new_samples=4, saved_samples=12, output=str(output))))
 
 
