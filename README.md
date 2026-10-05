@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [small shared-down component](docs/Q2-SHARED-DOWN-MIRROR.md) is now wired
+for a four-arm Q8/F16 and generic/fixed-shape comparison. Six focused launcher
+checks, 142 existing checks and three analyzer checks pass. New .157 host gates
+pass 27 Debug and 27 ASan/UBSan tests; 92 fixtures/eight manifests are frozen.
+GPU timing remains pending and measured Q2 stays at 1585.308983 PP.
+
 The [fixed-bounds SSM campaign](docs/Q2-SSM-FIXED-BOUNDS.md) now measures
 **1585.308983 PP /25.16079073 TG** on the unchanged original2048/tg128 model,
 nominal +0.155659% PP versus saved1582.845143. All30 component pairs/60 FP64

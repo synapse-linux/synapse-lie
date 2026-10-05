@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Shared-down cache and fixed-shape component preparation
 
+The four-arm component now has runtime wiring and a frozen
+[92-fixture/eight-manifest plan](../config/q2-shared-down-component-plan.json).
+Six launcher checks and 142 existing checks pass. Three analyzer checks verify
+complete coverage, preservation of timings after safe numerical rejection,
+and rejection of missing writes or changed scope. New host checks on .157 pass
+27 Debug and 27 ASan/UBSan tests; the previous host evidence is not reused.
+The initial launcher-test exit1 used an invalid test label lacking the required
+`q2-` prefix; the original test and log are retained, and the corrected test
+passes. This was not a numerical or GPU failure.
+
+Only the prepared component can be selected; its source manifest and all
+1028 files are verified. Model dispatch, original fixed2048/tg128 controls,
+and the retained1585.308983 PP candidate are unchanged. GPU timing still needs
+fresh admission after the preceding bounds release. No old control is rerun.
+
 The expert-cache source review distinguishes resident encoded weights from
 persistent dequantized copies. Qwen `DeviceModel::Upload` copies every layer's
 `ffn_gate_exps`, `ffn_up_exps` and `ffn_down_exps` through `Uploader::Copy`

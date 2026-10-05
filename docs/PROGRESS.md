@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The next [shared-down component](Q2-SHARED-DOWN-MIRROR.md) now has direct HIP
+build/launch routing, immutable provider checks and complete four-arm analysis.
+Six focused and 142 existing launcher checks pass; three analyzer checks keep
+safe numeric failures distinct from incomplete/unsafe evidence. The initial
+local test label failure is retained and corrected. Fresh .157 host gates pass
+27 Debug and 27 ASan/UBSan tests at 22:55:33 UTC. Their seven artifacts and
+92-fixture/1020-file capsule verify; GPU admission remains a separate step.
+The component source is unchanged at 1028 files. Eight manifests bind analysis,
+provenance, the saved1585 report and fixed Q2/UD references. No new model run,
+old control rerun, cleanup, tuning or dependency change occurs at preparation.
+
 The [fixed-bounds SSM campaign](Q2-SSM-FIXED-BOUNDS.md) completes on .157 at
 22:45:11UTC with1585.308983 PP /25.16079073 TG. This retains a nominal
 +0.155659% PP against saved1582, +0.321616% against construction parent1580,
