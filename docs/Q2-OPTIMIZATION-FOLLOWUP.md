@@ -45,13 +45,15 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
-Next prepared experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
-retains the1547 half-storage arithmetic, restores/rounds in registers and
-transposes halves before paired stores. Local assembly changes only three
-bodies;513 guarded output pairs and99 consumers are prepared. No GPU result
-is available yet; no inherited F16 quality gap is closed by preparation.
+Latest completed experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
+measures1566.950178 PP /25.19259094 TG,+1.271715% PP against saved1547.273268.
+It restores/rounds in registers and transposes halves before paired stores.
+All513 down outputs,99 consumers and21 saved parent model files are exact.
+The required increase to fixed UD falls to7.583324%; inherited F16 quality
+and full-curve parity remain open. This epilogue is no longer pending.
+The remaining hypotheses below retain their status; no blanket rerun follows.
 
-Latest update: [half expert-output storage](Q2-DOWN-HALF-STORAGE.md) completes
+Previous update: [half expert-output storage](Q2-DOWN-HALF-STORAGE.md) completes
 at1547.273268 PP /25.17198641 TG, nominal+2.394022%/+0.099966% against retained
 1511.097261 /25.14684805.315 rounding checks and99 consumer checks pass.
 All model tokens match but eight logits differ; max parentKL0.002693241666.

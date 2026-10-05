@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Paired Q2 half-output stores
 
+The completed original model measures **1566.950178 PP /25.19259094 TG**,
+nominally **+1.271715% PP /+0.081855% TG** against the retained1547.273268 /
+25.17198641 parent. PP improves19.676910 tokens/s, is8.539144% above fixed Q2,
+and still needs7.583324% to reach fixed UD1685.777092. All21 saved parent
+model files and nine within-arm replays are exact; no additional numerical
+change is observed. The parent's independent-quality gap remains open.
+[Disposition](../config/q2-down-half-pair-disposition.json).
+
+All513 down-output and99 consumer comparisons pass exactly. The down-only
+cycle saves6.181006–12.373910% time; down plus combine saves4.283152–8.009653%.
+All six distributions have nonoverlapping observed timing ranges in both
+scopes. This is component evidence, not that percentage of model throughput.
+All13 runtime commands exit0/37 artifacts verify. The GPU window is released
+at2026-10-05T12:59:27.317557+00:00, after collection, with926 retired identities,
+735 groups, empty KFD, four free original leases and seven model stats unchanged.
+The following preparation description is historical; completed results below
+supersede its pending fields. No production default or curve parity is promoted.
+
 The new candidate derives from the retained half-storage model at
 1547.273268 PP /25.17198641 TG. It applies the same F32 inverse scale and
 RN-even F16 conversion while each accumulator is still in registers, then
@@ -54,3 +72,39 @@ GPU and original-model results are pending. Remote GPU work requires a fresh
 window after release `f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf`;
 the preparation itself holds no reservation. Persistent source and evidence
 remain in the owned worktree; no cleanup is scheduled.
+
+## Completed GPU component and original model — 2026-10-05 UTC
+
+All513 guarded down comparisons and99 consumer comparisons are retained;168 timings cover two scopes and six rotated-weight distributions. Both timed arms use the same F16 representation; the F32 path supplies an additional independent rounding check. Positive time changes mean slower.
+
+| Scope / distribution | Reference median us | Candidate median us | Time change |
+| --- | ---: | ---: | ---: |
+| down / mixed-w48-e64 | 2808.301608 | 2562.187990 | -8.763789% |
+| down / mixed-w48-e128 | 2881.856283 | 2586.703936 | -10.241744% |
+| down / mixed-w48-e512 | 3496.324221 | 3280.216217 | -6.181006% |
+| down / mixed-w64-e64 | 2629.039605 | 2303.724607 | -12.373910% |
+| down / mixed-w64-e128 | 2870.506922 | 2628.176371 | -8.442082% |
+| down / mixed-w64-e512 | 3521.303813 | 3284.299533 | -6.730583% |
+| down-combine / mixed-w48-e64 | 4498.828252 | 4240.764936 | -5.736234% |
+| down-combine / mixed-w48-e128 | 4533.554395 | 4240.561803 | -6.462757% |
+| down-combine / mixed-w48-e512 | 5143.431981 | 4923.130989 | -4.283152% |
+| down-combine / mixed-w64-e64 | 4331.372897 | 3984.444936 | -8.009653% |
+| down-combine / mixed-w64-e128 | 4568.800290 | 4311.440150 | -5.632992% |
+| down-combine / mixed-w64-e512 | 5165.841738 | 4914.488157 | -4.865685% |
+
+The original model follows the completed guarded component; safe numerical or timing rejection would not suppress its performance measurement. All three comparator columns below are saved evidence, without rebuild or rerun.
+
+| Session | Fixed Q2 PP / TG | Saved best PP / TG | New half pairs PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1549.284195 / 25.13752662 | 1568.804018 / 25.16422103 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1550.357345 / 25.19031151 | 1567.287254 / 25.19259094 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1547.273268 / 25.16541178 | 1566.950178 / 25.16572880 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1547.003322 / 25.17198641 | 1564.061685 / 25.19837357 | 1685.400011 / 24.15102104 |
+| Median measured | 1443.672867 / 25.09595499 | 1547.273268 / 25.17198641 | 1566.950178 / 25.19259094 | 1685.777092 / 24.34174251 |
+
+There are0 changed parent model files. Within-arm replay is exact=True. PP change versus saved best=+1.271715%.
+
+Resident model memory remains43,156,012,544 bytes. Compilation/loading stay outside PP/TG. Independent task quality and the context/concurrency curve remain open. The window releases at2026-10-05T12:59:27.317557+00:00 with926 retired identities/735 groups, empty KFD, four free original leases and unchanged seven model stat tuples. All37 artifacts verify across13 runtime commands; canonical/main/remote mirrors agree.
+
+![All new and saved model samples](figures/q2-down-half-pair-model-wrapped.png)
+[All model samples](figures/q2-down-half-pair-model-wrapped.csv), [all component samples](figures/q2-down-half-pair-component.csv), [final audit](../config/q2-down-half-pair-final-audit.json).

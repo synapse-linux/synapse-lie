@@ -1,13 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [paired-half epilogue](Q2-DOWN-HALF-PAIR.md) is prepared from the retained
-1547.273268 provider. Local gfx1151 assembly and host/device syntax pass,
-as do119 launcher guards. Only three half-down bodies change;158 stay exact,
-with unchanged LDS and no private scratch. The new513-output/99-consumer
-fixture times the literal half-parent and new half-pair across168 samples.
-Real GPU and fixed2048 model results remain pending; no previous cohort rerun
-or quality promotion is implied. Source and failures remain persistent.
+The [paired-half epilogue](Q2-DOWN-HALF-PAIR.md) completes from checkpointe71a834
+at1566.950178 PP /25.19259094 TG, nominally+1.271715%/+0.081855% against saved
+1547.273268 /25.17198641. All513 guarded down pairs,99 ordered consumers,21
+parent model files and nine internal replays are exact. Component down-only
+time falls6.18–12.37%; down+combine falls4.28–8.01%, with all samples retained.
+The original fixed Q2/UD input and timers stay unchanged; no control is rerun.
+PP remains7.048792% below UD and needs another7.583324% throughput increase.
+
+Local119 launcher guards, .157 host27+27 checks and all13 runtime commands
+pass;37 artifacts,66 fixtures/four manifests and1026 provider files verify.
+Release12:59:27.317557UTC retires926 identities/735 groups with empty KFD,
+four original leases free and seven model stat tuples unchanged. Canonical,
+main and remote mirrors agree; core receives closure. No Q2 job, reservation,
+waiter, restart or cleanup remains. The inherited F16 quality gap stays open;
+the new parent-exact optimization does not qualify the full context curve.
 
 The [scaled Q2 down output-reuse candidate](Q2-DOWN-OUTPUT-REUSE.md) completes
 from checkpoint259503b, using the measured1509 parent. All135 complete GPU

@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 paired-half terminal release at2026-10-05T12:59:27.317557+00:00 has SHA256
+f2415f576f49438911a070b53fd43fb2b937e83a7837854a916fb4e1fe2092e9.
+All13 commands exit0/37 artifacts were collected and verified before closure;
+926 recorded identities/735 groups retired, KFD empty, four original leases
+free and seven model stat tuples unchanged. Canonical/main/remote release,
+active and ready mirrors match; root was notified. Q2 has no GPU job, build,
+client, lease, waiter, reservation, restart or cleanup. Next ownership requires
+fresh admission. Model PP1566.950178 retains exact half-parent files, but does
+not close inherited quality or full-curve qualification.
+
 Q2 paired-half preparation derives from checkpoint1184e1f and terminal release
 f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf at
 2026-10-05T12:25:17.460508+00:00. Root has explicitly confirmed fresh non-use.
