@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [shared-down cache investigation](Q2-SHARED-DOWN-MIRROR.md) now prepares
+a four-arm M2560/K640 component: original Q8, generic F16 mirror, fixed Q8,
+fixed F16. It isolates a shape excluded from the negative large-mirror trial.
+Static instruction counts3056/3067/812/690 coexist with0/64/68/68 scratch bytes;
+the shorter arms remain unmeasured. Both1028-file sources and patches are kept,
+162 original kernels match saved ISA, and converter ISA matches its qualified
+predecessor. Final fixture host/device syntax passes.126 complete pairs,
+168 sampled FP64 checks and28 timings are prepared; zero have run on GPU.
+An initial static checker assumed equal WMMA opcode totals; its exit1 is
+retained and corrected for the compiler's peeled final stage, with no candidate
+changes or numerical rejection. Model upload/dispatch and frozen SSM88/5 stay
+unchanged. Read-only20:48:42UTC still finds the original Core-19 supervisor/
+runner alive on .157. No Q2 remote work or ownership is started.
+
 Local [SSM fixed-shape/bounds experiments](Q2-SSM-FIXED-SHAPE.md) preserve
 161 other kernels and reduce SSM static instructions4027→3882/3864. Both host
 and device fixture compilations pass, with zero scratch and unchanged static

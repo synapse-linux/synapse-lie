@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [small shared-down experiment](docs/Q2-SHARED-DOWN-MIRROR.md) now has a
+four-arm component fixture separating F16 weight caching from fixed-shape
+indexing. Local compilation preserves162 production kernels; new arms spill
+64/68 bytes per thread, so no gain is inferred from shorter assembly. GPU
+execution and model integration remain pending; retained speed stays1580.226725 PP.
+
 Two additional [SSM specializations](docs/Q2-SSM-FIXED-SHAPE.md) reduce static
 instruction counts4027→3882/3864 while preserving161 other kernel bodies.
 The second adds24 LDS loads; neither has GPU timing or numerical acceptance.
