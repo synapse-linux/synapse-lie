@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current-best diagnostic releases at2026-10-05T14:33:58.538462+00:00, SHA256 c8a42fec09697e22beb28f8f209c6ea328c2f19e99133e9db10d705015afc49e. Admission14:32:11.165838UTC from5cd9680 follows releasea8e0d9f6/core non-use. Host and one saved1571 trace complete/collect with11exits0/31artifacts; zero GPU build/control reruns.987identities/785groups retired,KFD empty,four original leases free,seven model stat tuples unchanged. Canonical/main/remote release-active-ready mirrors match;core notified. No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains. New source-only Q8 pair audit has no admission/reservation. [Release](../config/q2-current-best-profile-window-release.json), [final audit](../config/q2-current-best-profile-final-audit.json).
+
 Current-best profile preparation follows931ce30 and releasea8e0d9f6. Core non-use handover after that release is available; the separate new host27+27 cohort completes without GPU/model access. One saved1571 profile is planned, with no GPU build/control rerun/Q4/full curve/cleanup. Fresh admission must recheck registry/PID/group/KFD/original leases/model stats before device execution.
 
 Q2 half-fixed-width terminal release at2026-10-05T14:11:27.395434+00:00 has SHA256

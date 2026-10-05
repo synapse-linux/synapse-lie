@@ -45,6 +45,23 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
+The [saved1571 current profile](Q2-CURRENT-BEST-PROFILE.md) now completes with
+zero GPU builds/control reruns and exact saved prefill logits/first16 tokens.
+Its prefill totals1321.833498ms kernel work in1326.923958ms: Q8/F16 dense293.227ms,
+IQ2 gate/up239.500ms, HC combine/norm186.168ms and Q2 down161.558ms. The older1496
+trace remains historical. Decode15-call busy/span is86.971%; bandwidth/cache/
+active-wave attribution is still unisolated. This closes the profiling proposal
+below without changing original1571.716479 PP/25.20732109 TG or the curve gate.
+
+A [new compact aligned-pair Q8 fetch audit](../config/q2-q8-aligned-pair-opportunity.json)
+targets the active wide dense loader, led by160.218ms fused SSM. Adjacent lanes
+read the same original68-byte pair with aligned word groups, reconstruct payload
+and exchange the second scale. This is distinct from prior LDS-store, table and
+K16 changes. Symbolic byte coverage passes; implementation/device compilation/
+new guarded component/original model remain pending. Extra shifts, lane exchange
+and register demand can erase the gain. No hardware-transaction reduction is
+claimed. Retain original odd-K/unaligned/other-shape fallback and saved controls.
+
 Latest completed experiment: [fixed-width half consumer](Q2-HALF-FIXED-WIDTH.md)
 measures1569.533792 PP /25.16043516 TG, nominal-0.138873% PP against saved1571.716479.
 The candidate is preserved and1571 remains the base.105 residual outputs are
