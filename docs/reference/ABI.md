@@ -21,22 +21,31 @@ are independent of chunk size and preserve steered history when scales become
 zero. Bank/session references and plan resources remain shared C17 concerns;
 there is no numerical operation or transport dependency in these interfaces.
 This additive library does not change executor ABI 3 or generation ABI 3.
-The current request ABI 8 budget semantics are documented below; the bank/policy
-interfaces do not activate live provider steering. Additive owner-only encode,
+The current request ABI 8 budget semantics are documented below. Additive owner-only encode,
 prepare-restore and staged cache-scope functions use explicit 192-byte version-1
 metadata; they retain the existing policy ABI and structures. Captured capacity,
 revision and runtime counters are not serialized. Restore validates the matched
 bank and independently confirmed model frontier before live mutation, and requires
 an exact completed transfer to commit. Host RAM/SSD fixtures qualify this protocol;
-the actual model/session/cache binding remains open.
+the actual model-cache binding remains open.
 See [format, policy and actual binding requirements](../development/STEERING.md).
+
+Independent steering model ABI 1 adds bounded model options, an explicit C
+factory composing predictor/projector admission, and model/sequence queries.
+Initial scale configuration and C17 retained-forward prepare/complete are wired
+into provider source; an independently observed frontier mismatch or failed
+post-mutation commit poisons the model. Existing model opens keep their absent-bank
+path. These additive functions do not change existing executor/request/generation
+structures. Shared-worker/cache/public-client integration and GPU qualification
+remain open. See [direct binding](../development/STEERING.md#direct-modelsession-binding).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
 geometry, finite scale, checked span capacities and caller-owned output. Every
 refusal preserves that output. It is not a model executor or a persisted state
 format. The owned HIP operator and private provider hooks have host/syntax
-validation only. Initial scales are immutable after numerical work; active
-steered capture/restore is refused until history-aware state wiring exists.
+validation only. Initial scales are immutable after numerical work; the LIE
+binding refuses capture/restore for all admitted banks until history-aware state
+wiring exists, including banks with zero scales.
 Executor ABI 3, generation ABI 3, request ABI 8 and DS4 payloads are unchanged.
 
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
@@ -216,8 +225,9 @@ is held. Failed loads/queries preserve output handles and fields. Reference
 operations are thread-safe under the documented existing-pin lifetime rule.
 
 This host primitive does not activate provider steering, change request or
-executor ABIs, or alter state/KVC framing. Actual admission, session scale
-history, cache scopes and numerical binding remain required.
+executor ABIs, or alter state/KVC framing. Model-derived admission and session
+history are now bound in provider source; shared-worker/cache integration and
+numerical GPU qualification remain required.
 [Format, ownership and binding requirements](../development/STEERING.md).
 
 ## Additive generation configuration

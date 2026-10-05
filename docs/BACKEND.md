@@ -11,7 +11,7 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Current roadmap — 2026-10-04 UTC
+## Current roadmap — 2026-10-05 UTC
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -62,15 +62,14 @@ do not constitute implementation tasks. GPU qualification in this queue uses
 5. **Implement DS4 directional steering in LIE.** Load its per-layer `.f32`
    directions, validate geometry against the loaded model, and expose FFN and
    attention scales through model-neutral shared-core contracts used by HTTP
-   and bench. The [owned C17 bank loader](development/STEERING.md) passes four
-   Debug and four sanitizer checks; this does not activate provider steering.
-   The subsequent C17 session-policy library owns staged scale updates and
-   history/cache identities. Owned HIP operators and scalar/batch target hooks
-   now pass six Debug/sanitizer host checks and enabled/disabled syntax checks;
-   no GPU qualification or public model/session/cache wiring exists yet.
-   Its explicit metadata codec and staged restore now pass eight Debug and eight
-   sanitizer checks through synthetic RAM/SSD state, preserving the DS4 model
-   payload. The actual provider/cache binding remains open.
+   and bench. The [owned C17 implementation](development/STEERING.md) now covers
+   immutable banks, scale transactions, history/cache identities and RAM/SSD
+   metadata. Direct C model admission and session policies are wired in the
+   provider source to prefill, AR and batch AR/MTP, committing only the actual
+   retained frontier. Nine Debug and nine sanitizer host checks plus complete
+   adapter syntax pass. Shared-worker admission/resource accounting, model-cache
+   binding, live scale transitions and HTTP/bench exposure remain open; this
+   source increment has no GPU qualification.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance

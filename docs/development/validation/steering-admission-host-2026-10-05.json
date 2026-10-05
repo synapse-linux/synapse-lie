@@ -1,0 +1,392 @@
+{
+  "schema": "synapse-lie.steering-admission-host.v1",
+  "date_utc": "2026-10-05",
+  "qualification": "C17 host admission/retained-forward transactions and provider syntax only; NOT-INFERENCE",
+  "source_base_commit": "fb5c335ad7e3813d8b5dc4e9e8af03ddf2a32d46",
+  "branch": "feature/context-million-openai",
+  "source_files_sha256": {
+    "CMakeLists.txt": "bf2bc757ee6241d7c339c109b0e90562aea0da94ec452071063b9c25efcd5867",
+    "include/lie/steering.h": "be1745f21872c870ef0ad427bee93e13d750aa359da7852ba4037631a50c0c20",
+    "src/steering_policy.c": "74293f034f4c38973e5e8d35ca6985de57d2f43fc52a24ce6efe92acfd9bd123",
+    "src/executor_unavailable.c": "57cac9c0c518e2ba268fd1c25e7dc885f289a27155eed55aa432a3446e7cff2d",
+    "adapters/gufo.cpp": "5099af6e3dd56230b5cecf9f332305f105560a84c15f20f4d397de1b01a6ca4e",
+    "tests/test_steering_forward.c": "ada7e05c11dd81cee6dfd0787e62fa0f9638de6de77a04b9f4d79f396e84130f",
+    "adapters/gufo-state/steering-edits.json": "a501d06f75f5a3b6fbc65afbc1fb61eb13816fec998de2fdf8e2adbb191ff135",
+    "adapters/hip/steering.hpp": "509e8d3c9414ac322bc2b4af443ebb7fd17e21cca8d7e216c524949e09fef526",
+    "adapters/hip/steering.hip": "7b8a152f6b3fba6ee596158ed27622db7001b7f1e5c8e776dd0d0873e19278cd"
+  },
+  "provider_variant": {
+    "official_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "derived_source": ".deps/steering-provider-source-check-r4",
+    "previous_operator_receipt": "docs/development/validation/steering-provider-host-2026-10-05.json",
+    "previous_operator_receipt_sha256": "2a4cbb4cb61b24ba709575803ddb68bdb89d279e60269d4427b5a25e77154d03",
+    "operator_edits_changed_this_increment": false
+  },
+  "abi": {
+    "bank": 1,
+    "policy": 1,
+    "activation": 1,
+    "model_admission": 1,
+    "state": 2,
+    "executor": 3,
+    "request": 8,
+    "generation": 3,
+    "existing_executor_request_generation_structures_changed": false
+  },
+  "host": {
+    "gpu_masked": true,
+    "cpu_guard_c": 98,
+    "nvme_guard_c": 85,
+    "gpu_guard": "observe-only",
+    "peak_cpu_c": 67.375,
+    "inference_thread_count": "No inference run or added inference/HTTP/scheduling thread"
+  },
+  "checks": [
+    {
+      "directory": "evidence/steering-admission-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+        },
+        "elapsed_s": 2.070310023613274
+      },
+      "result_sha256": "d321a6cced5df7bd695ececba8d2e6af934db547b37557e3084830f3d441a4b6",
+      "log_sha256": "19f6e56fa7d4dfe71729f676340113ccd06b089831b19948a4a6839c3ff07702",
+      "temperature_log_sha256": "2a527dd28e1b56701eee97fd579657398dee41378bc59dc843a2629c42264f94"
+    },
+    {
+      "directory": "evidence/steering-admission-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+        },
+        "elapsed_s": 2.0714989211410284
+      },
+      "result_sha256": "2ba904077d61bcdd5f06f6bc264ca82461ce769b6485f2eb96338d705241e17c",
+      "log_sha256": "465a291ebbb8f27faaa7069e803345c9d2fe1d6d6240dd07ebda7e85f6e68090",
+      "temperature_log_sha256": "1961ff0fba0d5719f883deea4618bbaeaddf299dad27388bce4c08db6bc1c3cb"
+    },
+    {
+      "directory": "evidence/steering-admission-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-model-admission-retained-forward|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.875
+        },
+        "elapsed_s": 1.1046899193897843
+      },
+      "result_sha256": "0cdb706f2ab2874deccf30f5a8c7e01babe84636da960fd2da25f07d45514071",
+      "log_sha256": "64e252eee2680f4971a27e9de2090090bd474e17641f11a2b2dcd3438cf61708",
+      "temperature_log_sha256": "dcf63b580044325b846f7cb377d9e1dcf490bd7f39bb809de1d83b68342a0678"
+    },
+    {
+      "directory": "evidence/steering-admission-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-model-admission-retained-forward|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.25
+        },
+        "elapsed_s": 1.1230544652789831
+      },
+      "result_sha256": "501e96ed82f067ddfb00fc7848c8391906c5810b4d3c763104342a5bf1b9b82b",
+      "log_sha256": "cbd95ac2fc6a29e03377e9b058d8c9720707fdc4ef4f00001910854cdf35a46f",
+      "temperature_log_sha256": "d012c0731200cbd064be1b735308098b79f30e20b59614f69c57110fd3b6d2f2"
+    },
+    {
+      "directory": "evidence/steering-admission-public-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-Wall",
+          "-Wextra",
+          "-Wpedantic",
+          "-Werror",
+          "-Iinclude",
+          "evidence/steering-provider-public-headers-r1.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.875
+        },
+        "elapsed_s": 1.056383947841823
+      },
+      "result_sha256": "e93ba478674028a137080425c3460e72b43a77b58b69c2ff30a6939942ea86cc",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "9b132db7ef66f3409f9f5e588816f2118a5776837ae98f296d9cbcda7fbe810f"
+    },
+    {
+      "directory": "evidence/steering-admission-adapter-syntax-r2",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.0
+        },
+        "elapsed_s": 2.141734088771045
+      },
+      "result_sha256": "1d3a30acb4b075925fe8b401607ba325936038e3bb313931b6adb868c6802320",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "b397c2f0cd56ef2ff87162bfff0137632b1e64dacc268a86b70f20c0eda40222"
+    },
+    {
+      "directory": "evidence/steering-admission-adapter-off-syntax-r2",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.0
+        },
+        "elapsed_s": 2.1455163033679128
+      },
+      "result_sha256": "1bb6c2c58c83fd7187fdc7e8276da231f5c52f00afbf961f1eaa7c4327882f65",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "59fbbb82aa2420f9f820031487291a6dd5408fea6f6088c7d79e4b8e4f666624"
+    },
+    {
+      "directory": "evidence/steering-admission-adapter-unavailable-syntax-r2",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_C17_SAMPLING=0",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/gufo-f783fedb",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 65.0
+        },
+        "elapsed_s": 1.1011404171586037
+      },
+      "result_sha256": "652684cee42256992dbc26cdfb100516719419cc3ddfd6710d680d6a5be5f34c",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "b9ea80e6b8f3ceb8757d4740fe0d6e115bd4b6cd75c8405e2e4a956296b3e1ef"
+    }
+  ],
+  "focused_tests": {
+    "Debug": 9,
+    "ASan_UBSan_LSan": 9,
+    "leak_detection": "Default enabled, outside sandbox ptrace; no disabling options",
+    "legacy_python_tests": false,
+    "native_new_fixture": "tests/test_steering_forward.c",
+    "meaning": "Tiny immutable host bank files and synthetic independently supplied retained positions; option tags/scales/bounds, known history SHA, chunk/burst invariance, partial/EOS/discard/cancelled-delivery/stale/foreign/wrong-owner transactions. Existing synthetic RAM/SSD framing is also exercised; no actual target/predictor work occurs."
+  },
+  "syntax": {
+    "public_CXX_headers": 31,
+    "complete_adapter_variants": [
+      "enabled steering with verified state and DS4",
+      "disabled steering with verified state and DS4",
+      "unavailable steering without state access on pristine source"
+    ],
+    "new_device_objects_or_linked_device_binary": false
+  },
+  "direct_model_contract": {
+    "factory": "lie_backend_open_steered",
+    "host_vector_budget_default_bytes": 16777216,
+    "default_ffn_scale": 1,
+    "default_attention_scale": 0,
+    "file_ownership": "Borrowed only through synchronous open/load; immutable C17 values retained by runtime/policies",
+    "geometry": "Derived from model metadata before device validation/upload; rechecked against actual admitted readers and owned device bank bytes",
+    "initial_configuration_only": true,
+    "retained_forward_source_sites": [
+      "prefill",
+      "scalar AR",
+      "native batch AR",
+      "native batch target MTP"
+    ],
+    "completion": "Observed Session::Position after retained work/rollback and before cancelled delivery suppression; failed post-mutation confirmation poisons model",
+    "resource_queries": "Direct C queries separate host/device vector bytes and policy metadata; no allocator overhead/workspace or shared-worker/HTTP projection",
+    "prefix_state_supported": false,
+    "state_transfer": "Every bank-enabled session refuses state/SSD identity, including zero scales, pending history-aware binding; absent-bank model opens retain existing RAM/SSD path",
+    "absent_bank_path": "No C17 policy/update allocation or cleanup call; remaining glue branches are not a performance result"
+  },
+  "semantic_limits": {
+    "direct_provider_binding": "Source and syntax only; actual C++ GPU runtime lifetimes not executed",
+    "shared_worker_factory_wiring": false,
+    "live_provider_cache_wiring": false,
+    "live_scale_transitions": false,
+    "public_HTTP_bench_steering_flags": false,
+    "GPU_or_original_weight_evidence": false,
+    "mixed_active_inactive_FFN_batch_output_and_cost_qualified": false,
+    "Python_product_dependency_added": false,
+    "DS4_files_changed": false,
+    "frozen_GPU_receipts_changed": false
+  },
+  "preserved_failures": [],
+  "point_readonly_witness": {
+    "path": "evidence/context-steering-availability-r6.json",
+    "sha256": "a1cf0c377a1034bb1ba7d1a64face91c67638e1ceba92c50bc27e47d4eeae6ac",
+    "at_utc": "2026-10-05T01:26:22.453930+00:00",
+    "kfd": [
+      {
+        "pid": 29223,
+        "start_ticks": 2470351,
+        "cgroup": "0::/user.slice/user-1000.slice/session-424.scope\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      },
+      {
+        "pid": 29377,
+        "start_ticks": 2474081,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "cpu_c": [
+      79.625
+    ],
+    "available_ram_bytes": 87568154624,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_filesystem_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "remote_build_or_GPU_run": false,
+  "goal_complete": false,
+  "next_gates": [
+    "Shared-worker admission, immutable options and host/device resource accounting",
+    "History-aware model-state capture/restore and scoped RAM/SSD/text lookup",
+    "Owner-only live scale changes with graph/speculation invalidation",
+    "HTTP/native bench controls in shared core",
+    "Fresh .161 admission and absent/zero/mixed/active AR-MTP numerical, quality and cost gates",
+    "Remaining seven-item owned roadmap"
+  ]
+}

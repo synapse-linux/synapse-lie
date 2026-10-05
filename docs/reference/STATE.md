@@ -75,8 +75,11 @@ layer-zero U8[192] `LIE_STATE_STEERING_POLICY` role requires a cache-scope secti
 and, for KVC, resides after the auxiliary boundary. Its contents and combined
 scope must be validated before model transfer; layout validation alone is
 insufficient. The DS4 tensor body and leading client extension remain unchanged.
-The live model/cache binding remains open; active steering still refuses provider
-state transfer. See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
+The live model-cache binding remains open. Direct model/session admission in
+provider source refuses state transfer for every admitted direction bank,
+including zero scales, until policy history and actual model positions can be
+restored together. Existing opens without a bank retain their RAM/SSD path.
+See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.
 SSD indexes read only a bounded provisional scope; complete file digest/layout

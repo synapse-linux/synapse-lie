@@ -94,6 +94,11 @@ if(BUILD_TESTING)
   target_compile_options(test-steering-policy PRIVATE -UNDEBUG)
   add_test(NAME steering-policy-history-cache-lifetimes COMMAND test-steering-policy)
   set_tests_properties(steering-policy-history-cache-lifetimes PROPERTIES TIMEOUT 30)
+  add_executable(test-steering-forward tests/test_steering_forward.c)
+  target_link_libraries(test-steering-forward PRIVATE lie_steering)
+  target_compile_options(test-steering-forward PRIVATE -UNDEBUG)
+  add_test(NAME steering-model-admission-retained-forward COMMAND test-steering-forward)
+  set_tests_properties(steering-model-admission-retained-forward PROPERTIES TIMEOUT 30)
   add_executable(test-steering-activation tests/test_steering_activation.c)
   target_link_libraries(test-steering-activation PRIVATE lie_steering)
   target_compile_options(test-steering-activation PRIVATE -UNDEBUG)
@@ -314,7 +319,7 @@ if(LIE_GUFO_RUNTIME)
   endif()
   target_compile_features(lie_gufo PRIVATE cxx_std_20)
   target_include_directories(lie_gufo PRIVATE include "${GUFO_SOURCE}")
-  target_link_libraries(lie_gufo PUBLIC lie_rope lie_vision
+  target_link_libraries(lie_gufo PUBLIC lie_rope lie_vision lie_steering
     lie_qwen_state lie_store
     "-Wl,--start-group"
     "${GUFO_BUILD}/src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a"

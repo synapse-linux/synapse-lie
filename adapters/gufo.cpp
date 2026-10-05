@@ -11,6 +11,7 @@
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#include "lie/steering.h"
 #include "gufo_chat.hpp"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
@@ -51,10 +52,13 @@ struct Runtime {
     bool failed{false}, vision_admitted{false};
     uint64_t state_domain{next_state_domain.fetch_add(1)};
     lie_rope_plan rope{};
+    lie_steering_bank *steering_bank{};
+    lie_steering_info steering_bank_info{};
+    lie_steering_settings steering_defaults{};
     struct StateFile { int fd;struct stat stat; };
     std::vector<StateFile> state_files;
     std::shared_ptr<const gufo::sampling::ConstraintVocabulary> vocabulary;
-    ~Runtime(){for(auto& f:state_files)::close(f.fd);}
+    ~Runtime(){for(auto& f:state_files)::close(f.fd);if(steering_bank)lie_steering_bank_release(&steering_bank);}
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
 struct lie_vision_prompt { std::shared_ptr<Runtime> runtime;std::shared_ptr<const gufo::models::qwen::vision::Prompt> prompt; };
@@ -65,6 +69,8 @@ struct lie_sequence {
     std::atomic<bool> cancelled{false};
     bool stopped{false}, sampling_started{false};
     bool stop_at_eos{true};
+    lie_steering_policy *steering{};
+    ~lie_sequence(){if(steering)lie_steering_policy_release(&steering);}
 };
 namespace {
 lie_status error(lie_error *e, lie_status s, const char *message) noexcept {
@@ -86,6 +92,27 @@ template<class F> lie_status guarded(const std::shared_ptr<Runtime> &r, lie_erro
 lie_status failed(const std::shared_ptr<Runtime> &r, lie_error *e, const std::string &message) noexcept {
     r->failed = true; lie_gufo_quiesce_or_exit(); return error(e, LIE_BACKEND_FAILED, message.c_str());
 }
+/* Only lifetime glue stays C++. C17 owns admission, reservations, history and
+ * actual-frontier confirmation. Rejected target rows/predictor work are excluded. */
+struct SteeringStep {
+    lie_steering_update *update{};
+    SteeringStep() = default;
+    SteeringStep(const SteeringStep&) = delete;
+    SteeringStep& operator=(const SteeringStep&) = delete;
+    ~SteeringStep(){if(update)lie_steering_update_discard(&update);}
+    lie_status prepare(lie_sequence *s,uint64_t maximum,lie_error *e) {
+        if(!s->steering)return LIE_OK;
+        auto rc=lie_steering_forward_prepare(s->steering,s->session->Position(),maximum,&update,e);
+        if(rc==LIE_BACKEND_FAILED)return failed(s->runtime,e,e?e->message:"model steering frontier divergence");
+        return rc;
+    }
+    lie_status complete(lie_sequence *s,lie_error *e) {
+        if(!s->steering)return LIE_OK;
+        auto rc=lie_steering_forward_complete(s->steering,&update,s->session->Position(),e);
+        if(rc!=LIE_OK)return failed(s->runtime,e,e?e->message:"unconfirmed model steering frontier");
+        return LIE_OK;
+    }
+};
 }
 extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
 extern "C" int lie_backend_is_synthetic(void) { return 0; }
@@ -105,12 +132,16 @@ extern "C" int lie_backend_prefix_state_supported(void) {
     return 0;
 #endif
 }
-static lie_status open_model(const char *path, const lie_model_options *o, uint32_t width, const char *mtp_path, uint32_t drafts, const char *vision, lie_model **out, lie_error *e) {
+static lie_status open_model(const char *path, const lie_model_options *o, uint32_t width, const char *mtp_path, uint32_t drafts, const char *vision, lie_model **out, lie_error *e,
+                             const lie_steering_model_options *steering=nullptr) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
         !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048 ||
         !lie_rope_profile_name(o->rope_profile))
         return error(e, LIE_INVALID, "invalid model options/output handle");
+#if !LIE_DIRECTIONAL_STEERING || !defined(LIE_GUFO_STATE_ACCESS) || !defined(LIE_DS4_RUNTIME_CACHE)
+    if(steering)return error(e,LIE_UNSUPPORTED,"steering requires the enabled verified DS4 state provider");
+#endif
     try {
         std::string template_error;
         auto metadata = gufo::core::GgufReader::OpenFile(path, &template_error);
@@ -128,6 +159,17 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
             return error(e,LIE_UNSUPPORTED,"static YaRN requires the verified LIE context provider variant");
 #endif
         r->rope=rope;
+        if(steering){
+            auto rc=lie_steering_model_bank_load(steering,config->num_layers,config->hidden_size,&r->steering_bank,e);
+            if(rc!=LIE_OK)return rc; // Complete host admission before device validation/upload.
+            r->steering_bank_info.abi_version=LIE_STEERING_ABI;
+            r->steering_bank_info.struct_bytes=sizeof(lie_steering_info);
+            rc=lie_steering_bank_info(r->steering_bank,&r->steering_bank_info,e);
+            if(rc!=LIE_OK)return rc;
+            r->steering_defaults=steering->defaults;
+            if(r->steering_defaults.ffn==0)r->steering_defaults.ffn=0;
+            if(r->steering_defaults.attention==0)r->steering_defaults.attention=0;
+        }
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto* expert=metadata->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!expert)return error(e,LIE_UNSUPPORTED,"KVC requires an identified routed-expert quantization");
@@ -182,6 +224,10 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         const auto device_status = lie_gufo_device_validate(e);
         if (device_status != LIE_OK) return device_status;
         qfn::ModelOptions options;
+#ifdef LIE_GUFO_STATE_ACCESS
+        if(r->steering_bank)options.lie_steering_values={lie_steering_bank_values(r->steering_bank),
+                static_cast<size_t>(r->steering_bank_info.bytes/sizeof(float))};
+#endif
         if(vision)options.vision_model_path=vision;
         options.max_context = o->context_tokens;
 #ifdef LIE_GUFO_STATE_ACCESS
@@ -203,6 +249,13 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto readers=qfn::LieStateAccess::ModelReaders(*r->model);
         if(!readers[0]||bool(readers[1])!=bool(mtp_path)||bool(readers[2])!=bool(vision))return error(e,LIE_INVALID,"admitted model readers incomplete");
+        if(r->steering_bank){
+            const auto admitted=qfn::Config::FromGguf(*readers[0],true,&message);
+            if(!admitted||admitted->num_layers!=r->steering_bank_info.layers||
+               admitted->hidden_size!=r->steering_bank_info.width||
+               r->model->LieSteeringBytes()!=r->steering_bank_info.bytes)
+                return error(e,LIE_INVALID,"admitted model steering geometry/allocation changed during load");
+        }
         // The metadata precheck may have observed an earlier pathname target.
         const auto* admitted_expert=readers[0]->FindTensor("blk.0.ffn_gate_exps.weight");
         if(!admitted_expert||admitted_expert->type!=precheck_quant)
@@ -238,9 +291,35 @@ extern "C" lie_status lie_backend_open_mtp_vision(const char *p,const lie_model_
 extern "C" lie_status lie_gufo_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     return lie_gufo_open_batch(path,o,1,out,e);
 }
+extern "C" lie_status lie_backend_open_steered(const char *p,const lie_model_options *o,uint32_t width,
+    const char *predictor,uint32_t drafts,const char *projector,const lie_steering_model_options *steering,
+    lie_model **m,lie_error *e) {
+    if(!steering || (predictor&&!*predictor) || (projector&&!*projector) || (!predictor&&drafts))
+        return error(e,LIE_INVALID,"invalid explicit steering/predictor/projector admission");
+    if((predictor&&!LIE_MTP)||(projector&&!LIE_VISION))return error(e,LIE_UNSUPPORTED,"requested feature was disabled at build time");
+    if(predictor){if(!drafts)drafts=qfn::kMaxMtpDraftTokens;
+        if(drafts>qfn::kMaxMtpDraftTokens||drafts>=LIE_MTP_MAX_OUTPUT)return error(e,LIE_INVALID,"invalid explicit MTP draft capacity");}
+    return open_model(p,o,width,predictor,drafts,projector,m,e,steering);
+}
+extern "C" lie_status lie_model_steering_info(lie_model *m,lie_steering_model_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_STEERING_MODEL_ABI||out->struct_bytes!=sizeof(*out))
+        return error(e,LIE_INVALID,"invalid model steering info output");
+    return guarded(m->runtime,e,[&]{
+        lie_steering_model_info value{};value.abi_version=LIE_STEERING_MODEL_ABI;value.struct_bytes=sizeof(value);
+        value.admitted=m->runtime->steering_bank!=nullptr;
+        value.bank.abi_version=LIE_STEERING_ABI;value.bank.struct_bytes=sizeof(value.bank);
+        lie_steering_settings_init(&value.defaults,false);
+        if(value.admitted){value.bank=m->runtime->steering_bank_info;value.defaults=m->runtime->steering_defaults;}
+#ifdef LIE_GUFO_STATE_ACCESS
+        value.device_vector_bytes=m->runtime->model->LieSteeringBytes();
+#endif
+        *out=value;return LIE_OK; // History-aware cache binding is not available yet.
+    });
+}
 extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
     if(!m||!id||!domain)return error(e,LIE_INVALID,"invalid SSD identity output");
     return guarded(m->runtime,e,[&]{
+        if(m->runtime->steering_bank)return error(e,LIE_UNSUPPORTED,"steered SSD identity requires the pending history-aware state binding");
         if(!lie_backend_prefix_state_supported())return error(e,LIE_UNSUPPORTED,"component state access required for SSD");
 #ifndef LIE_DS4_RUNTIME_CACHE
         if(m->runtime->drafts)return error(e,LIE_UNSUPPORTED,"complete predictor state required for MTP SSD identity");
@@ -361,11 +440,55 @@ extern "C" lie_status lie_sequence_create(lie_model *m, lie_sequence **out, lie_
     if (!m || !out || *out) return error(e, LIE_INVALID, "invalid sequence output");
     return guarded(m->runtime, e, [&] {
         auto result = std::make_unique<lie_sequence>(); result->runtime = m->runtime;
+        if(m->runtime->steering_bank){
+            lie_steering_policy_options options{LIE_STEERING_POLICY_ABI,sizeof(options),m->runtime->model->MaxContext(),
+                m->runtime->steering_bank,m->runtime->steering_defaults};
+            auto rc=lie_steering_policy_create(&options,&result->steering,e);
+            if(rc!=LIE_OK)return rc;
+        }
         std::string message;
         result->session = m->runtime->model->CreateSession(m->runtime->model->HasMtp()?gufo::core::SessionMode::kSpeculative:gufo::core::SessionMode::kAutoregressive,
                                                          m->runtime->model->MaxContext(), &message);
         if (!result->session) return failed(m->runtime, e, message);
+#ifdef LIE_GUFO_STATE_ACCESS
+        if(result->steering&&!result->session->LieConfigureSteering(m->runtime->steering_defaults.ffn,
+                m->runtime->steering_defaults.attention,&message))return failed(m->runtime,e,message);
+#endif
         *out = result.release(); return LIE_OK;
+    });
+}
+extern "C" lie_status lie_sequence_configure_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e) {
+    if(!s||!settings)return error(e,LIE_INVALID,"invalid sequence steering controls");
+    return guarded(s->runtime,e,[&]{
+        if(!s->steering)return error(e,LIE_UNSUPPORTED,"direction bank is not admitted");
+        if(s->session->Position()||s->sampling_started||s->stopped)
+            return error(e,LIE_INVALID,"steering configuration requires an unstarted sequence");
+        SteeringStep plan;
+        auto rc=lie_steering_policy_prepare_change(s->steering,settings,&plan.update,e);
+        if(rc!=LIE_OK)return rc;
+#ifdef LIE_GUFO_STATE_ACCESS
+        const auto *next=lie_steering_update_settings(plan.update);
+        std::string message;
+        if(!s->session->LieConfigureSteering(next->ffn,next->attention,&message))
+            return failed(s->runtime,e,message);
+#endif
+        rc=lie_steering_update_commit(&plan.update,0,e);
+        if(rc!=LIE_OK)return failed(s->runtime,e,e?e->message:"steering initial policy commit failed");
+        return LIE_OK;
+    });
+}
+extern "C" lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e) {
+    if(!s||!out)return error(e,LIE_INVALID,"invalid sequence steering info");
+    return guarded(s->runtime,e,[&]{
+        if(!s->steering)return error(e,LIE_UNSUPPORTED,"direction bank is not admitted");
+        return lie_steering_policy_snapshot(s->steering,out,e);
+    });
+}
+extern "C" lie_status lie_sequence_steering_cache_scope(lie_sequence *s,const unsigned char semantic[32],unsigned char out[32],lie_error *e) {
+    if(!s||!semantic||!out)return error(e,LIE_INVALID,"invalid sequence steering scope");
+    return guarded(s->runtime,e,[&]{
+        if(s->steering)return lie_steering_policy_cache_scope(s->steering,semantic,out,e);
+        std::memmove(out,semantic,32);return LIE_OK;
     });
 }
 extern "C" lie_status lie_sequence_set_eos_policy(lie_sequence *s,lie_eos_policy p,lie_error *e) {
@@ -519,7 +642,9 @@ extern "C" lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *prefi
         for (size_t i = 0; i < n; ++i) if (prefix[i] < 0 || static_cast<uint32_t>(prefix[i]) >= s->runtime->model->VocabSize())
             return error(e, LIE_INVALID, "prefill token outside vocabulary");
         std::string message;
+        SteeringStep steering;auto rc=steering.prepare(s,n,e);if(rc!=LIE_OK)return rc;
         if (!s->session->Sync({prefix, n}, &message)) return failed(s->runtime, e, message);
+        rc=steering.complete(s,e);if(rc!=LIE_OK)return rc;
         return s->cancelled.load() ? error(e, LIE_CANCELLED, "cancelled after completed step") : LIE_OK;
     });
 }
@@ -533,8 +658,10 @@ extern "C" lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *ou
         if (!s->sampling_started) { const auto tokens=s->session->Tokens();
             std::vector<gufo::sampling::TokenId> history(tokens.begin(),tokens.end());
             s->sampler.ResetHistory(history); s->sampling_started=true; }
+        SteeringStep steering;auto rc=steering.prepare(s,static_cast<uint64_t>(s->session->Position())+1,e);if(rc!=LIE_OK)return rc;
         qfn::Session::DecodeResult result; std::string message;
         if (!s->session->DecodeStep(1, s->sampler, &result, &message, s->stop_at_eos)) return failed(s->runtime, e, message);
+        rc=steering.complete(s,e);if(rc!=LIE_OK)return rc;
         if (s->cancelled.load()) return error(e, LIE_CANCELLED, "cancelled after completed decode; output suppressed");
         if (result.tokens.size() > 1) return failed(s->runtime, e, "unexpected AR result");
         s->stopped = result.stop;
@@ -560,10 +687,12 @@ extern "C" lie_status lie_sequences_decode(lie_sequence *const *rows,size_t n,li
         std::array<qfn::Session::DecodeResult,LIE_DECODE_MAX_ROWS> results;
         std::array<qfn::Session::BatchOutcome,LIE_DECODE_MAX_ROWS> outcomes;
         std::array<qfn::Session::DecodeRequest,LIE_DECODE_MAX_ROWS> requests;
+        std::array<SteeringStep,LIE_DECODE_MAX_ROWS> steering;
         std::array<size_t,LIE_DECODE_MAX_ROWS> map{};size_t active=0;
         for(size_t i=0;i<n;++i){
             auto s=rows[i];out[i]={LIE_CANCELLED,{}};
             if(s->cancelled.load())continue;
+            auto rc=steering[active].prepare(s,static_cast<uint64_t>(s->session->Position())+1,e);if(rc!=LIE_OK)return rc;
             if(!s->sampling_started){auto ids=s->session->Tokens();
                 std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
                 s->sampler.ResetHistory(history);s->sampling_started=true;}
@@ -576,6 +705,7 @@ extern "C" lie_status lie_sequences_decode(lie_sequence *const *rows,size_t n,li
         }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
         for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];
             if(!outcomes[k].completed||d.tokens.size()>1)return failed(r,e,"unconfirmed batch outcome");
+            auto rc=steering[k].complete(s,e);if(rc!=LIE_OK)return rc;
             s->stopped=d.stop;
             if(s->cancelled.load())continue;
             out[i]={LIE_OK,{d.tokens.empty()?-1:d.tokens.front(),static_cast<uint32_t>(d.tokens.size()),d.stop?1u:0u,s->session->Position()}};
@@ -605,10 +735,13 @@ extern "C" lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const u
         std::array<qfn::Session::BatchOutcome,LIE_DECODE_MAX_ROWS> outcomes;
         std::array<qfn::Session::DecodeRequest,LIE_DECODE_MAX_ROWS> requests;
         std::array<qfn::Session::SpeculativeStats,LIE_DECODE_MAX_ROWS> before{};
+        std::array<SteeringStep,LIE_DECODE_MAX_ROWS> steering;
         std::array<size_t,LIE_DECODE_MAX_ROWS> map{};size_t active=0;
         for(size_t i=0;i<n;++i){
             auto s=rows[i];out[i]={};out[i].status=LIE_CANCELLED;
             if(s->cancelled.load())continue;
+            const uint64_t maximum=std::min<uint64_t>(s->session->ContextSize(),static_cast<uint64_t>(s->session->Position())+limits[i]);
+            auto rc=steering[active].prepare(s,maximum,e);if(rc!=LIE_OK)return rc;
             if(!s->sampling_started){auto ids=s->session->Tokens();
                 std::vector<gufo::sampling::TokenId> history(ids.begin(),ids.end());
                 s->sampler.ResetHistory(history);s->sampling_started=true;}
@@ -622,6 +755,7 @@ extern "C" lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const u
         }else if(active>1&&!qfn::Session::DecodeBatch({requests.data(),active},&message))return failed(r,e,message);
         for(size_t k=0;k<active;++k){auto i=map[k];auto s=rows[i];auto &d=results[k];
             if(!outcomes[k].completed||d.tokens.size()>limits[i])return failed(r,e,"unconfirmed batch outcome");
+            auto rc=steering[k].complete(s,e);if(rc!=LIE_OK)return rc;
             s->stopped=d.stop;
             if(s->cancelled.load())continue;
             auto after=s->session->Statistics();
@@ -652,6 +786,7 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
     if(!s||!out)return error(e,LIE_INVALID,"invalid state description");
     return guarded(s->runtime,e,[&]{
         if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled before state description");
+        if(s->steering)return error(e,LIE_UNSUPPORTED,"steering requires the pending history-aware model-state binding");
 #ifdef LIE_GUFO_STATE_ACCESS
         /* Captures own only the completed token frontier, never sampler/RNG
          * state. Restoring still requires a fresh unstarted destination. */

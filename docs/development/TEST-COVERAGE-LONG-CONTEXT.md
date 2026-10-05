@@ -20,7 +20,7 @@ include the completed 40-window served HTTP AR/MTP concurrency campaign and
 conversation-curve client/report is implemented without Python; its extended
 GPU/quality campaigns remain separate. New OpenAI-control GPU gates and full
 Terminal Bench task evaluation remain pending. See the
-[current roadmap](../BACKEND.md#current-roadmap--2026-10-04-utc).
+[current roadmap](../BACKEND.md#current-roadmap--2026-10-05-utc).
 
 ## Historical audit — 2026-10-02
 

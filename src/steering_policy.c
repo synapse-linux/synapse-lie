@@ -287,6 +287,33 @@ lie_status lie_steering_policy_prepare_advance(lie_steering_policy *p,
                                                lie_error *e) {
   return prepare(p, NULL, maximum, true, u, e);
 }
+lie_status lie_steering_forward_prepare(lie_steering_policy *p,
+  uint64_t actual, uint64_t maximum, lie_steering_update **u, lie_error *e) {
+  if (!p || !u || *u)
+    return fail(e, LIE_INVALID, "invalid steering forward output");
+  if (!pthread_equal(p->owner, pthread_self()))
+    return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
+  if (actual != p->state.frontier)
+    return fail(e, LIE_BACKEND_FAILED, "model and steering frontiers diverged");
+  if (maximum < actual || maximum > p->state.limit)
+    return fail(e, LIE_INVALID, "invalid steering forward reservation");
+  if (maximum == actual) return ok(e);
+  return prepare(p, NULL, maximum, true, u, e);
+}
+lie_status lie_steering_forward_complete(lie_steering_policy *p,
+  lie_steering_update **u, uint64_t actual, lie_error *e) {
+  if (!p || !u)
+    return fail(e, LIE_INVALID, "invalid steering forward completion");
+  if (!pthread_equal(p->owner, pthread_self()))
+    return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
+  if (*u) {
+    if ((*u)->policy != p || !(*u)->advance || (*u)->restore)
+      return fail(e, LIE_INVALID, "foreign or non-forward steering plan");
+    return lie_steering_update_commit(u, actual, e);
+  }
+  return actual == p->state.frontier ? ok(e) :
+    fail(e, LIE_BACKEND_FAILED, "unreserved model steering advance");
+}
 const lie_steering_settings *
 lie_steering_update_settings(const lie_steering_update *u) {
   return u ? &u->next.settings : NULL;
@@ -515,4 +542,21 @@ lie_status lie_steering_update_cache_scope(const lie_steering_update *u,
   if (!pthread_equal(u->policy->owner, pthread_self()))
     return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
   return compose_scope(u->next.scope, semantic, out, e);
+}
+void lie_steering_model_options_init(lie_steering_model_options *o) {
+  if (!o) return;
+  *o = (lie_steering_model_options){.abi_version = LIE_STEERING_MODEL_ABI,
+    .struct_bytes = sizeof(*o), .vector_budget_bytes = LIE_STEERING_DEFAULT_VECTOR_BUDGET};
+  lie_steering_settings_init(&o->defaults, true);
+}
+lie_status lie_steering_model_bank_load(const lie_steering_model_options *o,
+  uint32_t layers, uint32_t width, lie_steering_bank **out, lie_error *e) {
+  lie_steering_settings canonical;
+  if (!o || o->abi_version != LIE_STEERING_MODEL_ABI ||
+      o->struct_bytes != sizeof(*o) || !o->file || !*o->file ||
+      !o->vector_budget_bytes || !settings_valid(&o->defaults, true, &canonical))
+    return fail(e, LIE_INVALID, "invalid steering model admission");
+  lie_steering_geometry g = {LIE_STEERING_ABI, sizeof(g), layers, width,
+                             o->vector_budget_bytes};
+  return lie_steering_bank_load(o->file, &g, out, e);
 }

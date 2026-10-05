@@ -56,6 +56,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Direct C model admission for directional steering and retained-frontier policy
+  binding in provider prefill, AR and batch AR/MTP source. Host checks pass;
+  shared-worker/cache integration, public controls and GPU qualification remain open.
 - Versioned C17 steering-policy metadata and transactional restore, with a typed
   RAM/SSD auxiliary component. Host roundtrips preserve the DS4 model payload;
   live model/cache integration and GPU qualification remain pending.
@@ -68,7 +71,7 @@ stable release is declared. Detailed validation history is in
 
 - The shared C17 steering library prepares bounded scale transactions and
   derives cache identities from retained target history, including steering
-  switched off after earlier use. Numerical/provider integration remains pending.
+  switched off after earlier use. Original-weight qualification remains pending.
 
 - Shared C17 direction-bank loading with geometry/budget checks, immutable
   references and file/shape identities. Provider steering and client controls

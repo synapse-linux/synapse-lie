@@ -168,13 +168,16 @@ and staged bytes. The shared bank's vector bytes are separate. These are host
 policy/resource metadata, not executed-token counters, GPU timing or evidence
 that a numerical steering edit occurred. Core jobs/HTTP/benchmark metrics do not
 yet project them; [provider/cache integration remains open](../development/STEERING.md).
-The private provider `LieSteeringBytes()` reports its owned device bank allocation
-separately from model weights. No public GPU steering counters or performance
+The direct C model query reports immutable bank geometry/host vector bytes and
+the private provider's owned device vector allocation separately from model
+weights; allocator overhead and workspace are not included. The sequence query
+reports the C17 policy metadata. Shared-worker/HTTP projection remains open.
+No public GPU steering counters or performance
 samples are qualified by the activation descriptor or syntax checks.
 The 192-byte policy metadata serializes semantic history/scales/frontier only;
 it does not restore source revision, capacity, allocation or executed-token
 counters. A restore uses the destination's capacity and advances its own local
-revision once. Actual model/resource/metrics wiring remains pending. Host state
+revision once. Actual cache/resource/HTTP metrics wiring remains pending. Host state
 roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new

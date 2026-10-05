@@ -5,6 +5,7 @@
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#include "lie/steering.h"
 #include <stdio.h>
 #define UNUSED __attribute__((unused))
 static lie_status unavailable(lie_error *e) {
@@ -70,3 +71,10 @@ lie_status lie_vision_prompt_close(lie_vision_prompt **p UNUSED,lie_error *e){re
 lie_status lie_vision_prompt_cache_scope(const lie_vision_prompt *p UNUSED,unsigned char o[32] UNUSED,lie_error *e){return unavailable(e);}
 
 lie_status lie_backend_open_mtp_vision(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,const char *d UNUSED,uint32_t n UNUSED,const char *v UNUSED,lie_model **m UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_backend_open_steered(const char *p UNUSED,const lie_model_options *o UNUSED,uint32_t w UNUSED,
+  const char *d UNUSED,uint32_t n UNUSED,const char *v UNUSED,const lie_steering_model_options *s UNUSED,
+  lie_model **m UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_model_steering_info(lie_model *m UNUSED,lie_steering_model_info *s UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_configure_steering(lie_sequence *s UNUSED,const lie_steering_settings *o UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_steering_info(lie_sequence *s UNUSED,lie_steering_policy_info *o UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_steering_cache_scope(lie_sequence *s UNUSED,const unsigned char in[32] UNUSED,unsigned char out[32] UNUSED,lie_error *e){return unavailable(e);}

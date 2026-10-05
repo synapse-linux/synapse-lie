@@ -1,12 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The [current roadmap](BACKEND.md#current-roadmap--2026-10-04-utc) is this thread's
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-05-utc) is this thread's
 owned queue: completed r11 OpenAI AR/MTP controls, Terminal Bench, full 1M acceptance, requested
 benchmark methods, DS4 directional steering and sampling temperatures, and the
 identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
+
+## Direct steering admission and retained-forward binding — 2026-10-05 UTC
+
+The C17 model contract now validates direction options against actual model
+geometry before GPU upload. The provider source owns the bank and per-sequence
+policy, applies initial scales and confirms only the actual retained frontier
+after prefill, AR and batch AR/MTP. Completed work commits before cancelled client
+delivery is suppressed; rejected drafts and predictor work are excluded. Failed
+post-mutation confirmation poisons the model. No thread or Python product
+dependency is added; existing executor/request/generation ABIs are unchanged.
+
+Nine Debug and nine ASan/UBSan/LSan host checks pass, as do all 31 public C++
+headers and complete-adapter syntax with steering enabled, disabled and without
+state access. The new native fixture uses host files and synthetic positions;
+it does not execute a model. Local CPU peak is 67.375 C. No GPU linking or
+original-weight numerical/quality/cost qualification exists for this increment.
+
+Shared-worker admission/accounting, model-cache binding, live changes and
+HTTP/bench controls remain open. Direction-enabled state transfer refuses even
+at zero scales until complete history-aware restore exists. Existing opens
+without directions retain their RAM/SSD path. The fresh read-only `.161` witness
+at 01:26:22.453930 UTC still finds external PID29223/start2470351 and restored
+router PID29377/start2474081 holding KFD. No GPU window is started. The seven
+owned tasks and frozen GPU/evaluation results remain unchanged.
+[Commands, hashes and scope](development/validation/steering-admission-host-2026-10-05.json).
 
 ## Steering metadata and staged RAM/SSD restore — 2026-10-05 UTC
 

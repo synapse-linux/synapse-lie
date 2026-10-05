@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Steering admission host work; no new GPU window — 2026-10-05 UTC
+
+The read-only `.161` witness at 01:26:22.453930 UTC still observes external
+PID29223/start2470351 in session-424 and router PID29377/start2474081 in descriptor
+and kernel KFD inventories. CPU is 79.625 C, available RAM 87,568,154,624 bytes;
+original lease dev66307/inode105946405 is free. Boot/filesystem/model stats are
+unchanged. This witness does not reserve a lease or admit GPU work.
+
+Root completes direct C steering admission/retained-forward source binding and
+nine Debug plus nine sanitizer host checks with GPUs masked; local CPU maximum
+is 67.375 C. No remote build/run, heavyweight hash, conversion, service mutation,
+foreign signal, retry, waiter or reservation occurs. Root has no GPU ownership
+on `.161` or `.157`. Q2 reports release eb0d6785 at 01:11:17.660053 UTC and now
+prepares a separate half-byte candidate; root hands over without interleaving,
+requiring a fresh Q2 admission. No root eval client starts on `.157`.
+[Host receipt](development/validation/steering-admission-host-2026-10-05.json).
+
 ## Steering state host work; no new GPU admission — 2026-10-05 UTC
 
 At 00:52:53.054202 UTC the read-only `.161` inspection still observes external

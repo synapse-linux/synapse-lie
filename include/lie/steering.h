@@ -80,6 +80,16 @@ lie_status lie_steering_policy_prepare_change(lie_steering_policy *,
  * [old, maximum]; old means no target advance and leaves policy unchanged. */
 lie_status lie_steering_policy_prepare_advance(lie_steering_policy *,
   uint64_t maximum_positions, lie_steering_update **, lie_error *);
+/* Model binding: independently observed retained frontier must agree with the
+ * owned policy before submission. Equal maximum is a no-op with NULL plan.
+ * A divergent actual frontier is BACKEND_FAILED and requires model poisoning.
+ * Complete after the model call (even when delivery is cancelled), with actual
+ * retained positions only. Refusals never consume the plan or publish history. */
+lie_status lie_steering_forward_prepare(lie_steering_policy *,
+  uint64_t actual_positions, uint64_t maximum_positions,
+  lie_steering_update **, lie_error *);
+lie_status lie_steering_forward_complete(lie_steering_policy *,
+  lie_steering_update **, uint64_t actual_positions, lie_error *);
 const lie_steering_settings *lie_steering_update_settings(const lie_steering_update *);
 /* Success consumes the update. Refusal preserves both update and live state.
  * A stale/wrong-owner commit after device mutation requires model poisoning,
@@ -116,6 +126,42 @@ lie_status lie_steering_policy_prepare_restore(lie_steering_policy *,
 /* On the owner, validate a staged restore's semantic scope before device
  * transfer. Uses the immutable prepared policy without committing live state. */
 lie_status lie_steering_update_cache_scope(const lie_steering_update *,
+  const unsigned char semantic_scope[32], unsigned char out[32], lie_error *);
+
+/* Independent model admission ABI. File is borrowed through open/load only;
+ * geometry is supplied by the admitted model before its first GPU upload. */
+#define LIE_STEERING_MODEL_ABI 1u
+#define LIE_STEERING_DEFAULT_VECTOR_BUDGET (UINT64_C(16) * 1024u * 1024u)
+typedef struct {
+  uint32_t abi_version, struct_bytes;
+  const char *file;
+  uint64_t vector_budget_bytes;
+  lie_steering_settings defaults;
+} lie_steering_model_options;
+void lie_steering_model_options_init(lie_steering_model_options *);
+/* Bounded C17 admission shared by model providers, no device/model forward. */
+lie_status lie_steering_model_bank_load(const lie_steering_model_options *,
+  uint32_t layers, uint32_t width, lie_steering_bank **, lie_error *);
+typedef struct {
+  uint32_t abi_version, struct_bytes;
+  bool admitted, prefix_state_supported;
+  lie_steering_info bank;
+  lie_steering_settings defaults;
+  uint64_t device_vector_bytes;
+} lie_steering_model_info;
+/* Explicit composition, never automatic fallback. Optional predictor/projector
+ * are admitted by the same selected provider. Existing open functions retain
+ * their exact absent-steering path. GPU qualification remains separate. */
+lie_status lie_backend_open_steered(const char *, const lie_model_options *,
+  uint32_t width, const char *predictor, uint32_t drafts, const char *projector,
+  const lie_steering_model_options *, lie_model **, lie_error *);
+lie_status lie_model_steering_info(lie_model *, lie_steering_model_info *, lie_error *);
+/* Initial owner-only configuration, before prefill, restore or sampling.
+ * Live scale changes and model-state cache wiring are not supported yet. */
+lie_status lie_sequence_configure_steering(lie_sequence *,
+  const lie_steering_settings *, lie_error *);
+lie_status lie_sequence_steering_info(lie_sequence *, lie_steering_policy_info *, lie_error *);
+lie_status lie_sequence_steering_cache_scope(lie_sequence *,
   const unsigned char semantic_scope[32], unsigned char out[32], lie_error *);
 #ifdef __cplusplus
 }

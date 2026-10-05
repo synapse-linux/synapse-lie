@@ -4,8 +4,9 @@
 The C17 shared library owns direction-bank loading, bounded host allocation,
 immutable values, session policy transactions, history/cache identities and
 explicit state metadata. Owned HIP activation operators and target-provider
-hooks are qualified only by host contracts and syntax checks. Public HTTP/bench
-controls, live model/session/cache integration and GPU qualification remain open.
+hooks are qualified only by host contracts and syntax checks. Direct C model and
+session binding is present in provider source; shared-worker/cache integration,
+public HTTP/bench controls and GPU qualification remain open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -174,8 +175,9 @@ proposals/correction assumptions. Define and retain the effective scale history
 when capturing RAM/SSD state; a token-only prefix must not reuse state produced
 under different steering. No extra provider/HTTP thread is introduced.
 
-Remaining work in roadmap item 5 is qualification of the HIP binding, shared model
-admission, policy integration into sessions/cache, HTTP and native bench exposure. GPU gates on
+Remaining work in roadmap item 5 is qualification of the HIP binding,
+shared-worker admission/accounting, policy integration into model cache, live scale
+changes, HTTP and native bench exposure. GPU gates on
 `.161` must prove unchanged output with steering absent/zero, malformed input
 refusal before model mutation, prompt/decode edits, scale transitions, independent
 AR/MTP checks and measured quality/cost. The user-visible naming follows DS4's
@@ -214,23 +216,61 @@ Target scalar prefill/decode/verification and native batches have both edit
 points described above. Batch slices retain each session's own scales and every
 HC branch. Active FFN steering skips the now-stale fused next normalization and
 invalidates cached F16/Q8 views; the following mixer recomputes from the edited
-residual. The separate MTP predictor loop is unchanged. Absent/zero steering keeps
-the existing numerical launches and normalization route; exact original-weight
-output and cost comparisons are still required.
+residual. The separate MTP predictor loop is unchanged. An entirely inactive
+batch keeps the existing numerical launches and normalization route. A mixed
+batch with active FFN rows refreshes normalization for all rows; inactive rows
+skip the direction edit but still need separate output and cost comparisons.
 
 The private scale setter accepts only a pristine session with no prior mutation,
 warm shape or graph. No live scale transition is exposed. This leaves graph
 scalars immutable and introduces no worker, HTTP state or scheduling thread.
-Active steering refuses both provider snapshot APIs and the LIE state-view path
-before any capture/restore transfer, until history-aware state compatibility is
-wired. Existing unsteered DS4 payloads and their formats are unchanged. These
-private provider hooks are not a working public steering feature.
+Active steering refuses both private provider snapshot APIs. The direct LIE
+binding refuses state transfer for every admitted bank, including zero scales,
+until history-aware state compatibility is wired. Existing model opens without
+a bank retain their RAM/SSD path. These private provider hooks are not a working
+HTTP/bench steering feature.
 
 `steering-edits.json` records 25 exact replacements against independently fetched
 Gufo `f783fedb`; owned kernels retain MIT markers and no DS4 source is imported.
 Every affected source hash, owned primitive file and compile selection is
 required in a new provider receipt. Old libraries cannot be accepted as this
 new composition. No remote build or GPU run was performed for this increment.
+
+## Direct model/session binding
+
+Independent model ABI 1 adds `lie_steering_model_options` and explicit
+`lie_backend_open_steered`, composing optional predictor/projector admission in
+the same provider. Existing executor ABI 3, request ABI 8 and generation ABI 3
+are unchanged. The borrowed file path is used only through synchronous open;
+defaults are a 16 MiB host vector budget, FFN scale 1 and attention scale 0.
+The C17 loader validates the actual model geometry before device validation or
+upload. The provider then rechecks the admitted reader geometry and owned device
+bank bytes. Disabled steering or missing verified DS4 state access refuses
+admission before upload; the unavailable executor has no model fallback.
+
+The runtime owns the immutable host bank. Each sequence creates a C17 policy
+before its GPU session allocation and applies initial scales before numerical
+work. Initial owner-only configuration is supported; live changes are not.
+`lie_steering_forward_prepare` compares the independently observed model frontier
+with the policy and reserves bounded work before submission. Prefill, AR and
+batch AR/MTP complete against actual retained `Session::Position()`, including
+completed work whose client delivery is cancelled. Sampling, predictor work and
+rejected drafts do not invent retained positions. Divergence or a failed
+post-mutation commit poisons the model rather than retrying it.
+
+C++ retains only model calls and lifetime glue; C17 owns admission, reservations,
+history and completion validation. No thread is added. Without a bank the new
+path allocates no policy/update and skips their cleanup calls; the remaining
+branches have not been performance-qualified. Model queries separate host/device
+vector bytes; sequence queries expose policy metadata and composed cache scope.
+Vector bytes do not include allocator overhead or model workspace.
+
+`prefix_state_supported` is false for this increment. All direction-enabled model
+state/SSD identity requests refuse before transfer or heavyweight hashing,
+including zero scales, so restore cannot silently desynchronize the two
+frontiers. The shared worker, HTTP and native bench do not yet call this factory.
+History-aware cache binding and resource admission must be completed before
+exposing the feature through those clients.
 
 ## Validation
 
@@ -267,3 +307,12 @@ Public C++ headers and the complete adapter syntax pass; no device objects are
 created. The first two Debug failures are test errors (transcribed oracle length
 and an unlinked SSD fixture rejected by the codec); their exits remain recorded.
 [Metadata validation receipt](validation/steering-state-host-2026-10-05.json).
+
+The direct-admission increment passes nine Debug and nine ASan/UBSan/LSan checks.
+Its native fixture uses actual tiny host bank files and synthetic retained
+frontiers, covering malformed options, bounds, independent history SHA, partial
+completion, discard, EOS/no-advance, cancelled delivery, foreign/stale plans and
+wrong-owner refusal. All 31 public C++ headers and complete-adapter syntax with
+steering enabled, disabled and without state access pass. No device object,
+linked GPU runtime, original-weight session or steering cost is qualified.
+[Admission validation receipt](validation/steering-admission-host-2026-10-05.json).
