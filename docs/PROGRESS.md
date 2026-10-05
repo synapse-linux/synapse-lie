@@ -8,6 +8,40 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## C17 exact-decimal numeric grammar; host parity — 2026-10-05 UTC
+
+Root continues task 7 in `feature/context-million-openai` from `39b237e`.
+`lie/grammar_number.h` and `src/grammar_number.c` now own canonical decimal
+parsing/comparison, exact division/product, strongest bounds, empty interval/grid
+refusal, integer `multipleOf` reduction, prefix interval intersection and exact
+LCM. Four source-bound edits route the pinned provider through storage/JSON/error
+glue with the existing default-ON selection; OFF retains the numerical reference.
+Schema-number representability remains a JSON-adapter responsibility.
+
+Independent C checks pass 7,413 fixed-point/integer value oracles and 1,600 LCM
+pairs, allocator/work/buffer refusal, copied policy and 4096-byte scalar limits.
+Complete pristine/ON/OFF witnesses agree for 49 admitted policies, 16,954 prefix
+checks, 539 values and 196 intersections. All six previous complete
+probability/history/byte-state/mask witness hashes remain unchanged. Final
+20 Debug, 20 ASan/UBSan/LeakSanitizer and 18 sanitizer reference-project checks
+pass, plus 36 public C++ headers and strict C17/symbol checks. Matching final
+provider/number contract rechecks pass 2 Debug and 2 sanitizer tests.
+
+CPU peak is 91.875 C, with no guard trip or tuning. The measured host policy is
+24,680 bytes; each numeric call owns/retires 114,856 bytes of scratch, copying
+only live digits. Original-weight allocation/cost remains unqualified. The first
+strict compiler warning and sandbox-only socket failures are retained with their
+actual exits in the [source-bound receipt](development/validation/c17-grammar-number-host-2026-10-05.json).
+The older closed-stderr abort remains unresolved; no numerical/GPU speedup is claimed.
+
+The read-only `.161` witness at 08:51:41.633432 UTC still observes foreign Gemma
+PID 29223 and router PID 29377 in actual/kernel KFD, GPU 100%, CPU 89.25 C.
+Original lease, boot/filesystem and four model stats remain unchanged. No root
+GPU build/run/hash/conversion, service mutation, foreign signal, waiter or standing
+lease follows. All six owned tasks remain open. String/Unicode-DFA/regex
+predicates, schema compilation and vocabulary trie/transition/cache extraction
+remain within the same grammar task, alongside its original-weight gates.
+
 ## C17 byte-grammar runtime; complete host state/mask checks — 2026-10-05 UTC
 
 Rule expansion, byte branching, stack/lexeme ordering, canonical snapshots and

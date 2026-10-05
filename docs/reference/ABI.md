@@ -42,8 +42,18 @@ C17. Advance supports exact input/output alias in predicate scratch; mask
 application supports exact in-place logits but refuses other overlap. Refusal
 preserves output ownership; empty snapshots are valid dead language prefixes.
 Private provider grammar layout/source changes require matching archive/application
-rebuilds and the twelve-file receipt. Executor/request/generation and DS4 payload
+rebuilds and the fifteen-file receipt. Executor/request/generation and DS4 payload
 ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
+
+`lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
+numeric policies, borrowed exact decimal spans and transactional match/value/LCM
+outputs. Lower/upper bound selection, integer-grid reduction, prefix interval
+intersection and decimal LCM belong to C17. Runtime prefixes retain 4096 bytes
+and 1024 integer shifts; complete values additionally support exponents.
+Bounded arithmetic/refusal and allocator lifetime rules are declared in the
+header. JSON numeric representability checks stay in the adapter. Each call
+owns a bounded workspace and adds no inference worker or persisted state.
+See [numeric ownership](../development/C17-SAMPLING.md#exact-decimal-numeric-grammar).
 
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,

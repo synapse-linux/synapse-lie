@@ -17,6 +17,12 @@ and vector marshalling are extra bounded storage, still requiring measured
 allocation-exact resources and matched cost. Schema/predicate/trie/cache
 ownership is not implied by `dense_sampling`.
 
+Numeric grammar extraction adds no metric or worker. Its copied policy and
+per-call arithmetic workspace count as additional bounded allocations. The
+fifteen-file provider inventory and numeric edit recipe bind its selection;
+`dense_sampling` does not identify complete grammar/compiler ownership. Actual
+allocation cost and original-weight GPU comparisons remain separate gates.
+
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source
 were retrieved; URLs, hashes and timestamps are in local evidence. Default

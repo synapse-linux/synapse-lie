@@ -122,7 +122,10 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    The byte grammar runtime and dense/compact mask application now use C17,
    with immutable programs, bounded snapshots and complete host state/mask
    [witnesses](development/validation/c17-grammar-runtime-host-2026-10-05.json).
-   Schema compilation, primitive lexical/regex predicates and vocabulary
+   Exact-decimal numeric policy/prefix/LCM now also use C17, with complete
+   [host witnesses](development/validation/c17-grammar-number-host-2026-10-05.json).
+   JSON number representability stays in the adapter. Schema compilation,
+   string/regex predicates and vocabulary
    trie/mask-cache algorithms still need extraction within the same grammar task;
    original-weight continuation, allocation-exact resources and cost remain open.
 

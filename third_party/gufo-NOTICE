@@ -39,7 +39,8 @@ Synapse LIE's explicitly selected state-access variant applies independently
 recorded MIT source edits for state access, MTP/vision state and target sampling
 controls. adapters/gufo-state/sampling-edits.json identifies the exact pinned
 bias/reporting replacements; the build receipt and source inventory bind their
-hashes. Constrained grammar selection remains delegated Gufo implementation.
+hashes. Schema compilation and vocabulary token-mask generation remain delegated
+Gufo implementation; the owned runtime/numeric ports are attributed below.
 No model weights or sibling-project source are imported by this recipe.
 
 The owned C17 dense sampling implementation in src/sampling.c is a port of
@@ -72,3 +73,12 @@ C17 owns rule expansion, byte branching, stack/lexeme ordering/deduplication,
 completion/canonical snapshots and mask application. Schema compilation,
 primitive lexical/regex predicates and vocabulary trie/cache algorithms remain
 upstream; their callback/storage bridge does not reimplement those algorithms.
+
+The attributed C17 src/grammar_number.c exact-decimal algorithm port follows
+src/core/json_schema_lexeme.cpp at the same independently fetched official pin.
+Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained. Exact
+integration is recorded in adapters/gufo-state/grammar-number-edits.json.
+C17 owns canonical decimal parsing/comparison, long division/product, numeric
+bound/grid policy and prefix checking, integer multiple reduction and exact LCM.
+The adapter supplies JSON value conversion/representability and exception glue.
+String/regex/schema compilation and vocabulary trie/cache remain upstream.

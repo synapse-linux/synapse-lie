@@ -1,0 +1,135 @@
+/* SPDX-License-Identifier: MIT */
+/* Independent integer/rational oracles; synthetic host checks, NOT-INFERENCE. */
+#include "lie/grammar_number.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+static lie_number_text text(const char *s) { return (lie_number_text){s, strlen(s)}; }
+static lie_number_policy *create(lie_number_description *d) {
+  lie_number_policy *p = NULL; assert(lie_number_create(d, &p) == LIE_NUMBER_OK); return p;
+}
+static void cents(char *out, int n) {
+  unsigned a = (unsigned)(n < 0 ? -n : n);
+  sprintf(out, "%s%u.%02u", n < 0 ? "-" : "", a / 100, a % 100);
+}
+static unsigned gcd(unsigned a, unsigned b) { while (b) { unsigned r = a % b; a = b; b = r; } return a; }
+static unsigned scientific_cents(const char *s, size_t n) {
+  size_t i = 0; unsigned value = 0;
+  while (i < n && s[i] != 'e') { assert(s[i] >= '0' && s[i] <= '9'); value = value * 10 + (unsigned)(s[i++] - '0'); }
+  assert(i < n && s[i++] == 'e'); bool negative = i < n && s[i] == '-'; if (negative) ++i;
+  unsigned e = 0; while (i < n) { assert(s[i] >= '0' && s[i] <= '9'); e = e * 10 + (unsigned)(s[i++] - '0'); }
+  int shift = 2 + (negative ? -(int)e : (int)e);
+  while (shift > 0) { value *= 10; --shift; }
+  while (shift < 0) { assert(value % 10 == 0); value /= 10; ++shift; }
+  return value;
+}
+typedef struct { size_t calls, fail, alive, policy_bytes, workspace_bytes; } allocation;
+static void *allocate(void *context, size_t bytes) {
+  allocation *a = context; if (++a->calls == a->fail) return NULL;
+  if (a->calls == 1) a->policy_bytes = bytes; else a->workspace_bytes = bytes;
+  void *p = malloc(bytes); if (p) ++a->alive; return p;
+}
+static void release(void *context, void *p) { allocation *a = context; assert(a->alive); --a->alive; free(p); }
+int main(void) {
+  size_t values = 0, intersections = 0;
+  lie_number_description d; lie_number_description_init(&d);
+  d.minimum = text("-12.5"); d.maximum = text("17.75"); d.multiple = text("0.15");
+  lie_number_policy *p = create(&d);
+  /* Fixed-point oracle uses only integer bounds/modulus, independently of
+   * the C decimal implementation and JSON/Gufo parser. */
+  for (int n = -2500; n <= 2500; ++n) {
+    char s[32]; cents(s, n); bool ok;
+    assert(lie_number_accept(p, text(s), &ok) == LIE_NUMBER_OK);
+    assert(ok == (n >= -1250 && n <= 1775 && n % 15 == 0)); ++values;
+  }
+  lie_number_release(p);
+  const char *steps[] = {"0.1", "0.15", "0.25", "1.2", "2.5", "1e-20"};
+  unsigned grids[] = {1, 3, 1, 6, 5, 1};
+  for (size_t i = 0; i < 6; ++i) {
+    lie_number_description_init(&d); d.integer = true; d.multiple = text(steps[i]); p = create(&d);
+    for (int n = -100; n <= 100; ++n) {
+      char s[32]; sprintf(s, "%d", n); bool ok;
+      assert(lie_number_accept(p, text(s), &ok) == LIE_NUMBER_OK); assert(ok == (n % (int)grids[i] == 0)); ++values;
+      cents(s, n * 100 + 1); assert(lie_number_accept(p, text(s), &ok) == LIE_NUMBER_OK); assert(!ok); ++values;
+    }
+    lie_number_release(p);
+  }
+  for (unsigned a = 1; a <= 40; ++a) for (unsigned b = 1; b <= 40; ++b) {
+    char left[32], right[32], out[128]; size_t n = 999;
+    sprintf(left, "%u.%u", a / 10, a % 10); cents(right, (int)b);
+    assert(lie_number_intersect(text(left), text(right), NULL, 0, out, sizeof(out), &n) == LIE_NUMBER_OK);
+    assert(scientific_cents(out, n) == (a * 10 / gcd(a * 10, b)) * b); ++intersections;
+  }
+  lie_number_description_init(&d); d.minimum = text("14"); d.maximum = text("15"); d.multiple = text("0.3"); p = create(&d);
+  struct { const char *s; bool prefix, complete; } cases[] = {
+    {"", true, false}, {"-", false, false}, {"1", true, false},
+    {"14.", true, false}, {"14.4", true, true}, {"14.5", false, false},
+    {"15", true, true}, {"15.0", true, true}, {"15.1", false, false},
+    {"1e1", false, false}, {"+14", false, false}, {".3", false, false},
+    {"01", false, false}, {"--1", false, false}, {"1..", false, false}
+  };
+  for (size_t i = 0; i < sizeof(cases)/sizeof(*cases); ++i) {
+    lie_number_match m; assert(lie_number_check(p, text(cases[i].s), &m) == LIE_NUMBER_OK);
+    assert(m.prefix == cases[i].prefix && m.complete == cases[i].complete);
+  }
+  bool ok = false; assert(lie_number_accept(p, text("144e-1"), &ok) == LIE_NUMBER_OK && ok);
+  ok = true; assert(lie_number_accept(p, text("14."), &ok) == LIE_NUMBER_INVALID && ok);
+  lie_number_release(p);
+  lie_number_description_init(&d); d.minimum = text("2"); d.maximum = text("1");
+  p = (lie_number_policy *)(uintptr_t)1;
+  assert(lie_number_create(&d, &p) == LIE_NUMBER_EMPTY_INTERVAL && p == (lie_number_policy *)(uintptr_t)1);
+  d.minimum = text("1"); d.maximum = text("2"); d.multiple = text("3");
+  assert(lie_number_create(&d, &p) == LIE_NUMBER_EMPTY_GRID);
+  d.minimum = text("0.1"); d.maximum = text("0.1"); d.integer = true; d.multiple = text("0.1");
+  assert(lie_number_create(&d, &p) == LIE_NUMBER_EMPTY_INTERVAL);
+  d.integer = false; d.exclusive_minimum = text("0.1");
+  assert(lie_number_create(&d, &p) == LIE_NUMBER_EMPTY_INTERVAL);
+  lie_number_description_init(&d); p = create(&d);
+  char large[4098]; memset(large, '9', sizeof(large)); lie_number_match m;
+  assert(lie_number_check(p, (lie_number_text){large,4096}, &m) == LIE_NUMBER_OK && m.prefix && m.complete);
+  assert(lie_number_check(p, (lie_number_text){large,4097}, &m) == LIE_NUMBER_OK && !m.prefix && !m.complete);
+  large[4095] = '.';
+  assert(lie_number_check(p, (lie_number_text){large,4096}, &m) == LIE_NUMBER_OK && !m.prefix && !m.complete);
+  m = (lie_number_match){true,true}; assert(lie_number_check(p, (lie_number_text){NULL,1}, &m) == LIE_NUMBER_INVALID && m.complete);
+  lie_number_release(p);
+  /* Every allocator refusal is transactional and leak-free. */
+  for (size_t fail = 1; fail <= 2; ++fail) {
+    allocation a = {.fail=fail}; lie_number_description_init(&d); d.allocator = (lie_grammar_allocator){&a,allocate,release};
+    p = (lie_number_policy *)(uintptr_t)1;
+    assert(lie_number_create(&d,&p) == LIE_NUMBER_RESOURCE && p == (lie_number_policy *)(uintptr_t)1 && !a.alive);
+  }
+  allocation a = {0}; lie_number_description_init(&d); d.allocator = (lie_grammar_allocator){&a,allocate,release};
+  char minimum[] = "-10"; d.minimum = text(minimum); p = create(&d); minimum[1] = '9';
+  a.fail = a.calls + 1; m = (lie_number_match){true,true};
+  assert(lie_number_check(p,text("1"),&m) == LIE_NUMBER_RESOURCE && m.prefix && m.complete && a.alive == 1);
+  a.fail = a.calls + 1; ok = true;
+  assert(lie_number_accept(p,text("1"),&ok) == LIE_NUMBER_RESOURCE && ok && a.alive == 1);
+  a.fail = 0; assert(lie_number_accept(p,text("-11"),&ok) == LIE_NUMBER_OK && !ok);
+  lie_number_release(p); assert(!a.alive);
+  lie_number_description_init(&d); d.max_work = 1; p = create(&d); m = (lie_number_match){true,true};
+  assert(lie_number_check(p,text("1"),&m) == LIE_NUMBER_WORK_LIMIT && m.prefix && m.complete); lie_number_release(p);
+  size_t policy_bytes = a.policy_bytes, workspace_bytes = a.workspace_bytes;
+  lie_number_description_init(&d); d.max_work = 1;
+  d.minimum = text("0.1"); d.maximum = text("0.2"); d.multiple = text("0.15");
+  p = (lie_number_policy *)(uintptr_t)1;
+  assert(lie_number_create(&d,&p) == LIE_NUMBER_WORK_LIMIT && p == (lie_number_policy *)(uintptr_t)1);
+  lie_number_description_init(&d); d.abi_version++;
+  assert(lie_number_create(&d,&p) == LIE_NUMBER_INVALID);
+  lie_number_description_init(&d); d.allocator.allocate = allocate;
+  assert(lie_number_create(&d,&p) == LIE_NUMBER_INVALID);
+  char out[64]; memset(out,'x',sizeof(out)); size_t length = 777;
+  allocation failed = {.fail=1};
+  lie_grammar_allocator hooks = {&failed,allocate,release};
+  assert(lie_number_intersect(text("0.3"),text("0.2"),&hooks,0,out,sizeof(out),&length) == LIE_NUMBER_RESOURCE);
+  assert(!failed.alive && length == 777 && out[0] == 'x');
+  assert(lie_number_intersect(text("0.3"),text("0.2"),NULL,1,out,sizeof(out),&length) == LIE_NUMBER_WORK_LIMIT);
+  assert(length == 777 && out[0] == 'x');
+  assert(lie_number_intersect(text("0.3"),text("0.2"),NULL,0,out,1,&length) == LIE_NUMBER_RESOURCE && length == 777 && out[0] == 'x');
+  assert(lie_number_intersect(text("0"),text("0.2"),NULL,0,out,sizeof(out),&length) == LIE_NUMBER_INVALID && length == 777);
+  strcpy(out,"0.3"); assert(lie_number_intersect(text(out),text("0.2"),NULL,0,out,sizeof(out),&length) == LIE_NUMBER_INVALID && !strcmp(out,"0.3"));
+  assert(lie_number_equal(text("-0e+4000"),text("0.00"),&ok) == LIE_NUMBER_OK && ok);
+  assert(lie_number_equal(text("3e-1"),text("0.3000"),&ok) == LIE_NUMBER_OK && ok);
+  ok = true; assert(lie_number_equal(text("1e4097"),text("0"),&ok) == LIE_NUMBER_RESOURCE && ok);
+  printf("NUMBER_RATIONAL_VALUES=%zu LCM_PAIRS=%zu POLICY_BYTES=%zu WORKSPACE_BYTES=%zu HOST_NOT_INFERENCE\n", values, intersections, policy_bytes, workspace_bytes);
+}

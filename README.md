@@ -5,11 +5,11 @@ Synapse LIE is a local GPU inference engine with an OpenAI-compatible HTTP API
 and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
-with owned [C17 sampling, history and byte-grammar runtime](docs/development/C17-SAMPLING.md).
+with owned [C17 sampling, history and grammar runtime](docs/development/C17-SAMPLING.md).
 Dense sampling has recorded GPU checks; the new history, speculative probability
-and byte-grammar extractions have host checks and still require GPU correctness
-and performance qualification. Schema compilation and primitive predicates
-remain transitional.
+and byte/numeric grammar extractions have host checks and still require GPU
+correctness and performance qualification. Schema compilation and string/regex
+predicates remain transitional.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

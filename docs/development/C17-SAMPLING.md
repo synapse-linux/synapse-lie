@@ -40,8 +40,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema compilation, primitive
-lexical/regex predicates, vocabulary trie/mask cache, model/session and
+deep copies, deferred draws, entropy acquisition, schema compilation, string/regex predicates, vocabulary trie/mask cache, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -74,7 +73,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema/primitive predicates, vocabulary mask cache and speculative model/controller
+schema/string/regex predicates, vocabulary mask cache and speculative model/controller
 state remain transitional.
 
 Host qualification passes 14,400 independent FIFO/count transitions, refusal,
@@ -161,7 +160,7 @@ completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
 Storage/error/predicate translation stays in `gufo_grammar.hpp`.
 
 This is a byte-runtime extraction, not a complete C grammar compiler. JSON
-Schema compilation, exact-decimal/string/Unicode-DFA predicates and the
+Schema compilation, string/Unicode-DFA predicates and the
 vocabulary trie, transition interning and shared mask cache remain delegated.
 The provider still marshals snapshots between vector storage and C state. Those
 algorithms/storage and their cost remain explicit work in the same grammar task.
@@ -181,11 +180,49 @@ Final 19 Debug, 19 sanitizer, 17 host-reference checks and 35 public headers pas
 retain their host-only limits. Original-weight AR/MTP/structured-tool continuation,
 allocation-exact resources and matched cost remain pending on `.161`.
 
+## Exact-decimal numeric grammar
+
+`lie/grammar_number.h` adds model-neutral ABI 1. `src/grammar_number.c` owns
+canonical decimal parsing/comparison, exact long division/product, strongest
+inclusive/exclusive bounds, empty interval/grid refusal, integer `multipleOf`
+reduction, prefix interval intersection and exact LCM for combined `multipleOf`.
+It preserves the pinned ordering of interval checks before integer-grid reduction.
+Plain runtime prefixes retain the 4096-byte scalar budget and 1024 integer shifts;
+complete JSON values additionally admit exponent spelling. Negative zero and
+trailing decimal zeros normalize exactly. No binary floating-point remainder
+participates in divisibility or LCM.
+
+Policies copy all supplied values; calls own/release bounded arithmetic scratch.
+Allocator hooks support failure injection and caller-synchronized sharing.
+On the measured x86_64 host a policy occupies 24,680 bytes and each call
+allocates/retires 114,856 bytes of arithmetic scratch; digit copies touch only
+the live prefix. These fixed capacities do not constitute measured GPU cost.
+Resource/work refusal preserves output ownership and matches. The header declares
+explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
+acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
+to this component. JSON library numeric conversion/representability and exception
+translation remain in `gufo_grammar_number.hpp`. String/Unicode-DFA/regex and
+schema compilation, vocabulary trie/transition/cache algorithms and provider
+snapshot marshalling still need extraction within the same identified task.
+
+The four exact `grammar-number-edits.json` edits select C17 by the existing
+`LIE_C17_SAMPLING=ON` default and retain the legacy numeric implementation with
+OFF. The provider receipt now binds 15 C sampling/grammar source/header/glue files
+and the numeric recipe; archive/application rebuilds are mandatory. The direct
+Gufo reference also compiles legacy numeric predicates before the shared archive.
+This source composition still requires admitted original-weight qualification.
+
+[Source-bound host commands and witnesses](validation/c17-grammar-number-host-2026-10-05.json)
+record independent rational/LCM oracles, pristine/ON/OFF complete prefix/value/LCM
+comparisons, failures and temperatures. These are synthetic host checks;
+original-weight AR/MTP/tool/grammar continuation, resources and matched cost
+remain unqualified on `.161`.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
-and compact/speculative probability arithmetic and byte-grammar runtime. Use the same
+and compact/speculative probability arithmetic, byte-grammar runtime and numeric predicates. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:
@@ -206,7 +243,7 @@ build information, actuator and benchmark identity reports `lie-c17-dense`,
 `delegated` while the Gufo model/session executor is required.
 
 The direct Gufo reference executable resolves a separately compiled legacy
-sampler and byte-grammar methods before the provider archive, with the same
+sampler, byte-grammar and numeric predicate methods before the provider archive, with the same
 verified layouts. Shared inline model/controller arithmetic is unchanged. Its
 `dense_sampling` value is `gufo`; comparing LIE to a control that also used the
 new C selector would not isolate this extraction.

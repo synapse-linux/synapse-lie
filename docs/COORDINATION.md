@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## C17 numeric grammar host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 08:51:41.633432 UTC observes foreign Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. GPU is 100%, CPU 89.25 C, available RAM 86,091,735,040 bytes. Original lease
+dev 66307/inode 105946405 is free, and boot/filesystem/four shard stats are
+unchanged. The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts exact-decimal numeric policy/prefix/LCM algorithms into C17.
+20 Debug, 20 sanitizer and 18 pristine/ON/OFF host checks and 36 headers pass
+with GPUs masked; local CPU peak is 91.875 C. The
+[receipt](development/validation/c17-grammar-number-host-2026-10-05.json) binds
+commands, source, complete witnesses and failures. Compiler/string/regex/trie/cache
+and original-weight continuation/resources/cost remain open. No root remote GPU
+build/run/hash/conversion, service change, foreign signal, waiter or standing
+lease occurs. Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reports release
+`ddac7b0d0a6c210dd2c03ab06ab1337c627bde773583f725764de22a8e121fe4`
+at 08:50:49 UTC after its compact IQ2 window. Those reports are not root
+qualification/tasks; every further agent window requires fresh ownership/admission.
+
 ## C17 byte-grammar host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 08:12:22.016655 UTC observes external Gemma training

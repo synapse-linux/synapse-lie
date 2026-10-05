@@ -56,6 +56,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 exact-decimal numeric grammar policies, prefix matching and
+  `multipleOf` intersection. The default-ON sampler selection retains an OFF
+  reference. Host rational and complete prefix/value/LCM checks qualify the
+  algorithm; original-weight continuation/resources/cost remain pending.
+
 - Shared C17 byte-grammar runtime and dense/compact mask application, with copied
   immutable tables, bounded owned snapshots and allocation/refusal checks. The
   default-ON sampler option selects it; OFF retains Gufo runtime methods. Host
