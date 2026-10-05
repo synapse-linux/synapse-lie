@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+New IQ2 raw-prefetch preparation has a fresh core handover confirming no root
+job/build/eval/client/lease/waiter/reservation/restart or interleaving on .157.
+Its new host gate passes25/25 Debug and25/25 ASan/UBSan without model/GPU access.
+The frozen plan covers one new component and one original exact2048/tg128 model,
+with36 fixtures/four manifests and no qualified controls or old component rerun.
+Fresh admission must revalidate the prior SSM release below, including registry,
+retired identities/groups, original lease inodes, KFD and unchanged model stats.
+No GPU run/build or reservation is inferred from preparation or core handover.
+[Plan](../config/q2-iq2-raw-prefetch-plan.json),
+[host receipt](../config/q2-iq2-raw-prefetch-host-results.json).
+
 Latest Q2 window is released at2026-10-05T03:24:18.993858Z after only the new
 SSM row128 component and original exact2048/tg128 model. Host/component/model
 command exits are six zeros,0/0/0 and0/0/0/0; all37 artifacts and34 frozen

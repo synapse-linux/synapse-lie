@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Deferred IQ2 raw prefetch prepared — 2026-10-05 UTC
+
+One new candidate uses the retained compact parent and moves unchanged IQ2
+codebook/sign expansion and scale conversion from fetch to LDS commit. Only
+the raw group/header stay live across prior-stage compute. Local assembly
+preserves149 unrelated bodies, reduces next-free VGPR by5–6 in eight IQ2 bodies,
+keeps LDS/private scratch unchanged and preserves ordered WMMA/half arithmetic.
+Static counts do not establish performance. A new guarded81-output fixture
+and42 rotated timings precede one original exact2048/tg128 model arm; saved
+format qualification, old candidates and Q2/UD controls are not rerun.
+All86 scope guards and new production/fixture compilation pass. Initial
+fixture wrapping and nine unchanged inherited format failures are retained.
+New `.157` host Debug/ASan gates each pass25/25 with all six commands zero;36 fixtures/four manifests are frozen. GPU evidence awaits fresh admission anchored to release58d6fd7e.
+[Mechanism, scope and frozen plan](Q2-IQ2-RAW-PREFETCH.md).
+
 ## SSM row128 measured: exact outputs, slower model — 2026-10-05 UTC
 
 The new candidate starts from retained compact IQ2 PP1498.799455 and changes

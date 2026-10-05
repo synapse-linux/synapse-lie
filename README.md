@@ -697,3 +697,10 @@ and the graph are saved. The measured rejection does not replace the best
 1498.799455 PP composition; no qualified control or curve is rerun. The initial
 admission helper-path failure and corrected plan remain retained; the `.157`
 GPU window is released.
+
+A new [deferred IQ2 raw-prefetch candidate](docs/Q2-IQ2-RAW-PREFETCH.md) keeps
+tile geometry and compact staging while moving unchanged expansion to LDS
+commit. Local assembly reduces next-free VGPR by5–6 in eight IQ2 bodies,
+preserves149 others and keeps LDS/private scratch unchanged. A new full-output
+fixture and the unchanged original fixed model comparison are prepared;
+no GPU performance, quality or parity claim follows from static counts.

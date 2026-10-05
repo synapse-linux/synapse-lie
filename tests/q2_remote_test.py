@@ -21,6 +21,29 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_raw_prefetch_new_component_or_matched_counting_only(self):
+        variant = 'iq2-raw-prefetch'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 raw prefetch requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_RAW_PREFETCH_MODE, 'q2-fixture'], 'IQ2 raw prefetch requires')
+        base = [remote.IQ2_RAW_PREFETCH_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 raw prefetch component builds')
+        for mode in (remote.IQ2_RAW_PREFETCH_MODE, 'q2-counting-iq2-raw-prefetch'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_ssm_row128_new_component_or_matched_counting_only(self):
         variant = 'ssm-row128'
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
