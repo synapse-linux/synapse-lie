@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Matching C17 schema GPU controls pass — 2026-10-05 UTC
+
+Source `6a48da3` now has a successful device-free gfx1150 provider/application
+build and **37 original-weight OpenAI controls in each AR/MTP mode** on `.161`.
+The [receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)
+binds all 57 owned sampling/schema files to the host-qualified source and
+records actual collection and retirement of all three windows. The
+[78-file portable evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-body-openai-r18.tar.gz)
+retains commands, wire results, telemetry, model-stat and lease/service closure.
+Earlier failed r17 remains retained; corrected optimized compilation passes.
+
+Inference-window maxima are CPU66.25/GPU69/NVMe65.85 C. Both modes observe 44
+whole-process threads, including runtime helpers; the extraction adds no
+inference thread and makes no performance claim. Original weights/predictor
+stay unchanged. Fresh final observation verifies the original lease free,
+HTTP8000 unbound and restored router77726 as the only current KFD client.
+Root continues `.157` non-use and holds no standing reservation.
+
+These gates qualify selected tool/grammar/output/lifecycle paths. Individual
+GPU branches/faults, independent probabilities, allocation-exact resources,
+matched cost and new original-weight SSD BPE regression remain open. Numeric
+leaves and private composition/model/controller extraction continue. All six
+owned roadmap tasks remain open; Terminal Bench stays deferred until functional
+modifications and matching qualification finish. No publication occurs.
+
 ## Release validation and SSD text-prefix correction — 2026-10-05 UTC
 
 The [host receipt](development/validation/release-cache-host-2026-10-05.json)

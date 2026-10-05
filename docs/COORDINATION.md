@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## R18 build and AR/MTP actually closed — 2026-10-05
+
+Point supplies fresh own non-use through turn01a10e5b-2674; DGX confirms
+`.161/.157` non-use and separate `.158` scope. Fresh 23:18:04 UTC observation
+finds original lease dev66307/inode105946405 briefly free then released, only
+router71493 on KFD, no foreign client/hot guard/HTTP8000 listener and exclusive
+r18 destinations absent. Source `6a48da3` is staged in its own persistent root.
+
+The device-free build supervisor71816/start11128413 owns the original lease,
+compiles the matching 57-file provider/application and exits zero at
+23:21:39 UTC. Fresh closure verifies it and its container absent, lease free
+and router75174 restored. AR and MTP are admitted separately after their own
+fresh resource/lease observations. Each passes 37 OpenAI controls and exits
+zero, releases at 23:27:54 and 23:32:50 UTC respectively, preserves model stats
+and restores the named router. All three actual handles and 40 run files plus
+17 compile files are collected. No window is inferred closed from HTTP success.
+
+Fresh final 23:34:40 UTC observation verifies HTTP8000 unbound, original lease
+free then released, router77726 active/only KFD and no foreign compute client or
+guard breach. [Receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json).
+CPU98/NVMe85/lower guards and GPU observation remain intact; no tuning/install/
+deployment or foreign mutation occurs. Root has no `.157` activity or standing
+reservation. Terminal Bench remains stopped and deferred until functional
+modifications and qualification finish; no automatic restart is scheduled.
+
 ## Failed r17 build retired; corrected host source qualified — 2026-10-05
 
 The device-free `.161` build of `9add7bb` starts at 22:46:19 UTC under the

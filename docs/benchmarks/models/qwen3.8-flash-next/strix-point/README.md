@@ -450,7 +450,19 @@ and [portable archive](data/rocm10-finite-cache-openai-r16.tar.gz) identify that
 source. These are functional checks; the earlier rate tables retain their
 original runtimes. Broader numerical/fault/resource/matched-cost gates remain
 open. The later unchanged [Terminal smoke](#terminal-bench-core-19) passes 1/1;
-the full 19-task evaluation is running separately.
+the full 19-task evaluation is stopped and deferred until functional changes
+and their qualification finish.
+
+The matching r18 runtime (`6a48da3`) adds C17 schema memo/dispatch/Visit/body
+control and passes **37/37 AR and 37/37 MTP controls**. The
+[receipt](../../../../development/validation/c17-schema-body-point-gpu-2026-10-05.json)
+and [portable evidence](data/rocm10-schema-body-openai-r18.tar.gz) bind the
+57-file provider, successful build and actual closure. CPU/GPU/NVMe maxima in
+the inference windows are 66.25/69/65.85 C. Both modes observe 44 whole-process
+threads, including runtime helpers; no inference worker is added and this is
+no measured reactive speedup. Earlier performance tables retain their source
+identities. New SSD BPE cases are host-qualified; original-weight cache/branch/
+fault/resource/cost acceptance remains separate.
 
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly

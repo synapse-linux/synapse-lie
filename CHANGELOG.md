@@ -11,20 +11,22 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 JSON Schema body policy for definitions, references, `anyOf` and
   `enum/const`, with preserved validation order and lifetime/refusal checks.
-  Default-ON and original OFF host grammars agree; GPU qualification is pending.
+  Default-ON and original OFF host grammars agree. The matching schema
+  memo/dispatch/Visit/body build passes 37 original-weight OpenAI controls in
+  both AR and MTP on Strix Point; broader branch, fault and cost gates remain open.
 
 - Shared C17 recursive schema Visit sequencing, including identity hits,
   placeholder publication and empty branches. Default-ON and original OFF
-  paths retain host grammar behavior; matching GPU qualification is pending.
+  paths retain host grammar behavior; selected matching AR/MTP GPU controls pass.
 
 - Shared C17 JSON Schema type/nullable/keyword validation and ordered branch
   dispatch. The default-ON provider retains original OFF bodies; host language
-  and refusal comparisons cover nested schemas. GPU qualification is pending.
+  and refusal comparisons cover nested schemas. Selected AR/MTP GPU controls pass.
 
 - Shared C17 per-compilation schema reference memo with bounded storage,
   recursive placeholders and allocation accounting. Default-ON and original
-  OFF paths pass host recursion/lifetime/refusal comparisons; matching GPU
-  qualification remains pending.
+  OFF paths pass host recursion/lifetime/refusal comparisons and selected
+  matching AR/MTP GPU controls.
 
 - Original-weight Terminal Bench Core-19 smoke qualification on Strix Point:
   1/1 unchanged task passes at the first attempt, with portable score/transcript

@@ -183,8 +183,8 @@ client/server restart or machine reservation is queued in the meantime.
    opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
    Per-compilation reference identity lookup, placeholder publication and bounded
    storage now also use C17, with [host witnesses](development/validation/c17-schema-memo-host-2026-10-05.json).
-   Its 32 pristine/ON/OFF checks and recursive states agree; matching GPU
-   qualification remains pending. Type/nullable/keyword compatibility, branch
+   Its 32 pristine/ON/OFF checks and recursive states agree. Type/nullable/keyword
+   compatibility, branch
    selection and ordered rule composition now also use C17, with
    [host witnesses](development/validation/c17-schema-dispatch-host-2026-10-05.json).
    Identity-first Visit sequencing, recursive placeholder publication and
@@ -192,13 +192,15 @@ client/server restart or machine reservation is queued in the meantime.
    [host witnesses](development/validation/c17-schema-visit-host-2026-10-05.json).
    Ordered definitions, reference/anyOf distribution and enum/const body policy
    now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
-   All 19 earlier complete witnesses remain unchanged. The new memo/dispatch/
-   Visit/body source still needs matching GPU qualification. Private composition
+   All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
+   Visit/body build now passes selected AR37/MTP37 GPU controls
+   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Private composition
    caches and binary-double leaf policies need extraction within the same task.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected
-   build is retired. Corrected source still needs matching sealed GPU gates.
+   build is retired. Corrected `6a48da3` builds and passes the selected GPU gates;
+   individual branches, faults, allocation-exact resources and matched cost remain open.
    Earlier finite-value/cache slices have a matching
    provider/application rebuild and pass their own AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).

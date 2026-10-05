@@ -29,6 +29,13 @@ structured-output/tool paths; it does not qualify every grammar branch,
 independent GPU probability behavior, faults, allocation-exact resources or
 matched cost. Finite-value/visitor extraction remains outside that checkpoint.
 
+The later matching `6a48da3` build includes the 57-file C17 schema memo,
+dispatch, Visit and body inventory. It passes 37 original-weight OpenAI
+controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-schema-body-point-gpu-2026-10-05.json)). This qualifies
+selected tool/grammar/output paths; individual branches, faults, independent
+probabilities, allocation-exact resources and matched cost remain open.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /
@@ -102,15 +109,16 @@ retains assertions only in test targets. All 79 Release/79 sanitizer/35
 three-arm checks pass; all 20 complete witness hashes remain unchanged.
 The r17 device-free HIP provider builds, but the older application source fails
 on the optimized-local warning; that run is collected and actually retired.
-Corrected source still needs a matching sealed build and original-weight gates.
+Corrected source now has a matching build and selected original-weight AR/MTP
+gates, recorded above; broader branch/fault/resource/cost gates remain open.
 
 Retained failures include incorrect fixture callback declarations, missing
 fixture leaves, an EMPTY/CYCLE oracle mismatch and duplicate JSON input
 rejected by the wire parser. Corrected opaque duplicate-value tests use the
-value API. Earlier native closed-stderr SIGABRT remains undiagnosed. Matching
-new sealed provider/application GPU builds, original-weight branch/fault and
-allocation-exact resource/cost gates remain pending. Frozen GPU checkpoint
-`2359488` contains none of the newer memo/dispatch/Visit/body code. Terminal
+value API. Earlier native closed-stderr SIGABRT remains undiagnosed. Individual
+original-weight branches/faults and allocation-exact resource/cost remain pending.
+The earlier GPU checkpoint `2359488` contains none of the newer
+memo/dispatch/Visit/body code; the matching later build is recorded above. Terminal
 Bench remains stopped and deferred until functional changes and qualification
 finish.
 
@@ -147,8 +155,8 @@ The [host receipt](validation/c17-schema-memo-host-2026-10-05.json) records
 sites, 32 complete recursive-reference cases / 1,706 transitions, seven Debug
 and seven sanitizer contracts, plus 32 pristine/ON/OFF tests. All sixteen prior
 complete witness hashes stay unchanged. All 47 public headers compile as both
-C17 and C++17. Matching new provider/application GPU builds and original-weight
-branch/fault/resource/cost gates remain pending. The stopped Core-19 GPU run
+C17 and C++17. Matching selected GPU controls are recorded above;
+individual branch/fault/resource/cost gates remain pending. The stopped Core-19 GPU run
 used frozen source `2359488` and did not include this memo slice. Terminal Bench
 is deferred until functional modifications and their qualification finish.
 
@@ -177,8 +185,8 @@ provider inventory and `schema_dispatch_edits_sha256` binding. The existing
 default-ON `LIE_C17_SAMPLING` retains the exact original OFF bodies. No worker,
 event, RNG, engine or DS4 RAM/SSD layout changes. The stopped Core-19 GPU run
 used frozen `2359488` and included neither this dispatch nor the newer memo.
-Matching sealed GPU builds, original-weight branch/fault/resource/cost and
-broader autonomous sampler acceptance remain pending.
+Matching selected GPU controls are recorded above. Original-weight individual
+branch/fault/resource/cost and broader autonomous sampler acceptance remain pending.
 
 The [host receipt](validation/c17-schema-dispatch-host-2026-10-05.json) records
 12,936 independent C oracles, reader/leaf/builder-allocation refusal and
@@ -212,16 +220,17 @@ Two exact `schema-visit-edits.json` replacements and the build receipt's
 `schema_visit_edits_sha256` bind the default-ON path and exact original OFF
 body. The owned provider inventory now has 54 files; 49 public headers compile
 as C17 and C++17. Worker/event/RNG, model and DS4 RAM/SSD contracts are unchanged.
-Definitions, references, anyOf and finite-choice policy in VisitBody,
-binary-double leaves and private model/controller/composition remain C++.
+Definitions, references, anyOf and finite-choice body policy now use the separate
+C17 module above. Binary-double leaves and private model/controller/composition
+remain C++.
 
 The [host receipt](validation/c17-schema-visit-host-2026-10-05.json) records
 independent publication, recursion, empty/cycle, identity-hit and refusal
 oracles. Its 112 three-arm cases include first visits at invalid depth and hits
 at depth17/SIZE_MAX: 61 compilations, 156 accepted values and 7,503 complete
 transitions agree. All eighteen prior witness hashes remain unchanged.
-Matching new provider/application GPU builds and original-weight branch,
-fault/resource/cost qualification remain pending. Terminal Bench stays deferred.
+Matching selected GPU controls are recorded above; original-weight individual
+branch/fault/resource/cost qualification remains pending. Terminal Bench stays deferred.
 
 ## Compiled-schema cache
 
