@@ -1,15 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [IQ2 wide-pair candidate](Q2-IQ2-WIDE-PAIR.md) prepares one new BN64/F32
-geometry from retained1509. Production assembly changes one specialization,
-preserves156 bodies and has zero private bytes. Block barriers10→2 accompany
-next-free VGPR104→169 and LDS17536→26752.109 launcher guards, production and
-fixture compilation pass; local staging binds59 fixtures/1025 provider files.
-Fresh host27+27 passes, six commands exit0/seven artifacts verify. Checkpoint
-and own admission precede84 new complete output pairs and one
-original2048/tg128 model, including safe numerical/timing negatives. No old
-controls, cohorts, Q4 or full curve are rerun. No runtime gain claimed yet.
+The [IQ2 wide-pair candidate](Q2-IQ2-WIDE-PAIR.md) completes from checkpoint
+41e5a1d. Its PP samples are 1494.649738 / 1494.661516 / 1492.591920;
+median 1494.649738 is 1.006890% below the saved 1509.852296 parent. Decode
+median is 25.19840692. All 84 component pairs, 21 parent model files and nine
+within-arm replays are exact. Component time changes +0.030532%, +2.930050%
+and -3.083296% for the three expert distributions; these do not imply a model
+gain. Retain the negative candidate and keep the 1509 parent as the next base.
+
+Host 27+27, 109 launcher guards and all 13 runtime commands pass; 37 artifacts,
+59 fixtures, four manifests and 1025 provider files verify. Release at
+10:41:18.352210 UTC retires 850 identities / 673 groups, with empty KFD, four
+free original leases and seven unchanged model stat tuples. All mirrors agree
+and core receives the release. No new GPU test, old comparator, Q4 or curve
+run follows. The owner-requested [remaining-work recap](Q2-OPTIMIZATION-FOLLOWUP.md)
+also records the unimplemented Q2-down BM256/BN48 output-reuse opportunity.
 
 The [four-lane IQ2 commit candidate](Q2-IQ2-LANE-COMMIT.md) completes from
 checkpoint56b816a. All81 complete component pairs and21 parent model files

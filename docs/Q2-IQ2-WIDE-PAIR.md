@@ -5,7 +5,10 @@ One new candidate starts from the retained nominal1509.852296 PP parent and
 changes only nonpacked IQ2 BN64. It doubles the combined gate/up tile from
 BM128 to BM256, computing128 logical output rows instead of64. Original
 fixed Q2/UD remain1443.672867/1685.777092 with the same exact2048/tg128 tester.
-The source is prepared; full GPU/component/model qualification is pending.
+The completed model measures 1494.649738 PP / 25.19840692 TG, a 1.006890%
+PP regression versus that parent, with all parent outputs exact. The negative
+candidate remains retained; the 1509.852296 parent stays the composition base.
+The completed results below supersede the historical preparation status.
 
 For BM256, weight fetch unit0 loads gate rows0..127 and unit1 the corresponding
 up rows. Each wave retains both projections' original K-ordered accumulators,
@@ -79,3 +82,38 @@ context curve remain deferred; independent quality/parity are not established.
 [host results](../config/q2-iq2-wide-pair-host-results.json),
 [ownership audit](../config/q2-iq2-wide-pair-opportunity.json),
 [local staging](../config/q2-iq2-wide-pair-staging-results.json).
+
+## Completed GPU component and original model — 2026-10-05 UTC
+
+All 84 guarded output pairs are exact; 42 timings cover three rotated-weight
+distributions. Positive time changes mean slower.
+
+| Distribution | Reference median us | Candidate median us | Time change |
+| --- | ---: | ---: | ---: |
+| mixed-e64 | 3754.486402 | 3755.632718 | +0.030532% |
+| mixed-e128 | 4088.925044 | 4208.732605 | +2.930050% |
+| mixed-e512 | 5559.606552 | 5388.187408 | -3.083296% |
+
+The original model benchmark runs despite component timing rejection. All three comparator columns below are saved evidence, without rebuild or rerun.
+
+| Session | Fixed Q2 PP / TG | Saved best PP / TG | New wide pair PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1512.701776 / 25.15742671 | 1493.555055 / 25.15350497 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1510.259601 / 25.20649263 | 1494.649738 / 25.14822809 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1509.852296 / 25.17944517 | 1494.661516 / 25.19840692 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1508.620907 / 25.20625148 | 1492.591920 / 25.20696594 | 1685.400011 / 24.15102104 |
+| Median measured | 1443.672867 / 25.09595499 | 1509.852296 / 25.20625148 | 1494.649738 / 25.19840692 | 1685.777092 / 24.34174251 |
+
+All 21 parent model files and nine within-arm replays are exact. Prefill changes
+-1.006890% versus the saved best. The wider tile is retained as negative evidence;
+the 1509.852296 parent remains the source for the next composition.
+
+Resident model memory remains 43,156,012,544 bytes. Compilation and loading
+stay outside PP/TG. Independent task quality and the context/concurrency curve
+remain open. The window releases at 2026-10-05T10:41:18.352210 UTC with
+850 retired identities / 673 groups, empty KFD, four free original leases and
+seven unchanged model stat tuples. All 37 artifacts verify across 13 runtime
+commands; canonical, main and remote mirrors agree.
+
+![All new and saved model samples](figures/q2-iq2-wide-pair-model-wrapped.png)
+[All model samples](figures/q2-iq2-wide-pair-model-wrapped.csv), [all component samples](figures/q2-iq2-wide-pair-component.csv), [final audit](../config/q2-iq2-wide-pair-final-audit.json).

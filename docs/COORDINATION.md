@@ -1,16 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-The new IQ2 wide-pair preparation has fresh root non-use handover after
-release5011dbe0: no root .157 job/build/client/KFD/lease/waiter/reservation/
-restart/cleanup/interleaving. Host27+27 passes with no GPU/model access;
-59 fixtures/four manifests/1025 provider files are frozen. Checkpoint and
-own helper admission remain required before one new component and original
-2048/tg128 model. No old controls, Q4 or full curve are rerun.
-[Plan](../config/q2-iq2-wide-pair-plan.json),
-[host](../config/q2-iq2-wide-pair-host-results.json).
+Latest IQ2 wide-pair window releases at 2026-10-05T10:41:18.352210 UTC,
+SHA256 `73a6cae420e59868a5ac29cb842cc45316992665d275b301ea1021d78b702e0f`.
+Fresh admission at 10:30:32.925931 UTC followed root non-use handover and
+checkpoint 41e5a1d, anchored to release 5011dbe0. The new component and original
+2048/tg128 model finish and are collected before release: 13 commands exit
+zero and 37 artifacts verify including the separate host 27+27 cohort.
+Closure verifies 850 retired identities / 673 groups, empty KFD, four original
+lease inodes free and seven model stat tuples unchanged. Canonical, main,
+remote, active and ready receipts match. Core receives verified release.
+No Q2 job, build, client, lease, waiter, reservation, restart or cleanup remains.
+The owner-requested recap is local work; later GPU work requires fresh admission.
+No qualified controls, Q4 or full curve are rerun.
+[Release](../config/q2-iq2-wide-pair-window-release.json),
+[final audit](../config/q2-iq2-wide-pair-final-audit.json).
 
-Latest Q2 lane-ownership window releases at2026-10-05T10:12:32.599494UTC,
+Previous Q2 lane-ownership window releases at2026-10-05T10:12:32.599494UTC,
 SHA2565011dbe0bde42ce6c865e0b568ac45905b9e4aa55bceae9be69cf4c4ab843c31.
 Host27+27,81 exact component pairs and one original fixed model complete;
 all13 commands exit0/37 artifacts verify. PP1509.852296 is a retained nominal

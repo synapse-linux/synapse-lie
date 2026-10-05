@@ -1,11 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
-The [new IQ2 paired-row candidate](docs/Q2-IQ2-WIDE-PAIR.md) is prepared from
-the1509 parent. Only nonpacked BN64 doubles logical output rows per block and
-keeps gate/up in the same wave. Other156 kernel bodies remain identical;
-next-free VGPR104→169 and LDS17536→26752 can offset the saved epilogue barriers.
-One new component and original model remain pending; no speedup is claimed.
+The [IQ2 paired-row candidate](docs/Q2-IQ2-WIDE-PAIR.md) completes at
+1494.649738 PP / 25.19840692 TG, a 1.006890% PP regression against the saved
+1509.852296 parent. All 84 component pairs and 21 parent model files are exact.
+The wider tile remains a measured negative; the 1509 parent stays the next
+composition source. All 13 commands exit zero and 37 artifacts verify; the
+GPU window is released. The [remaining-work inventory](docs/Q2-OPTIMIZATION-FOLLOWUP.md)
+separates unimplemented ideas, measured components awaiting composition and
+completed negative experiments. No new GPU test is scheduled by that recap.
 
 The [four-lane IQ2 producer](docs/Q2-IQ2-LANE-COMMIT.md) completes on .157:
 PP1509.852296/TG25.20625148, nominally+0.312263% PP versus saved1505.152258.

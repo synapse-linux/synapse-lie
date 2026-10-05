@@ -64,35 +64,55 @@ component and full-model results. Their existing cohorts need no rerun.
 
 | Priority / region | Actual remaining experiment | Current boundary |
 | --- | --- | --- |
-| High: compact IQ2 gate/up producer | Assess BM256 only for nonpacked BN64: keep gate/up accumulators in the same wave, share activation fetches across128 logical rows and avoid cross-wave epilogue pairing. | New candidate prepared and statically checked; accumulators double and LDS17536→26752. Four-lane commit ownership is now fully measured at1509.852296 PP, nominally+0.312263% despite0.61–2.41% slower component. Earlier8/16 commit variants remain measured negatives. No old cohort rerun. |
+| Measured negative: compact IQ2 gate/up producer | BM256 only for nonpacked BN64, same-wave gate/up and shared activation fetches across 128 logical rows. | Completed 84 exact component pairs and 21 exact parent model files. PP1494.649738 regresses 1.006890% against the saved1509.852296 parent. This experiment is no longer pending; all evidence is retained. |
+| High: routed Q2 down output reuse | Change output-row BM128 to BM256 only for scaled BN48, keeping token routing width and original K order. | [Source-only audit](../config/q2-down-output-reuse-opportunity.json): output blocks20→10, LDS18560→30848, accumulators24→48. The proposed dispatch is not implemented or compiled. Earlier scaled-tile tests varied BN with BM128; they did not test this mechanism. Larger resource demand can offset reduced activation staging. |
 | Measured negative: whole short-expert tiles | BN48 for entire buckets1..48, with original128/64 elsewhere. | Completed39 exact GPU pairs and21 exact parent model files; actual192 model records retain45120 short48 descriptors. PP1493.009363 regresses0.806755% against best1505.152258. The original64 kernel already skips nonlive WMMA fragments, so this replacement does not reduce useful matrix operations for1..48. Retain evidence without promotion or rerun; exact <=16 counts remain absent. |
 | High: routed Q2 down / expert consumer chain | Adapt DS4 fused SwiGLU/down or producer-Q8 consumer ideas to the active Qwen route, with logical640/stored768 tail handling and explicit activation arithmetic. | MMQ audit only. Existing fallback already shares routing/quantization and fixed2048 uses paired IQ2 WMMA instead. A real new dispatch/consumer is needed before a speed claim. |
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
+| Integration: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [Old component](Q2-LIVE-STAGE.md) is exact and saves0.817–2.081% against the repeated reference, but missed its then-frozen advancement rule in two cases. No complete-model result for this composition is recorded. Reuse those component results; count only a new composition as new work. |
 | Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
+| Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination; an F16 representation would introduce rounding and require separate quality evidence. Neither is a qualified replacement. Logical bytes are not measured DRAM traffic or a promised gain. |
 | Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
 | Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |
 | Integration: bounded reactive PLE preparation | Compose the measured two-slot lookahead with the current best provider and verify first-access/warm complete model behavior. | Earlier8K first-access gain is measured, but this best-provider composition remains unqualified. It addresses row I/O, not warmed GPU matrix time. |
 | Separate decode/concurrency: Q8 GEMV and native batching | Measure useful native C2/C4/C8 grouping, complete-token throughput, C1 latency and memory. | Existing vector quantization caches are already covered. The outer C dispatcher does not establish profitable batching of the internal numerical executor; current fixed-point decode does not qualify the context/concurrency curve. |
+| Separate decode: scalar HC up/mix fusion | Fuse the scalar projection with ordered mixing/injection while preserving reduction and injection-partial layout. | [Concrete eight-wave design](Q2-HC-DECODE-ATTRIBUTION.md) remains a proposal. The already measured wide HC up/mix fusion selects at least96 tokens and does not implement this scalar path. |
 | Separate scheduling: GPU region admission and buffer ownership | Select complementary ready regions by measured resource demand and retain every buffer until its last GPU reader completes. Attribute route-map preparation/upload before considering a device-side replacement. | The naive two-stream shared/routed fork regresses PP; a general internal resource policy is not yet implemented/qualified. Existing count/event/CPU-map overlap is already present. Reclamation can reduce memory without proving a throughput gain. |
 | Later: sparse indexer at high context | Reuse keys across query rows and distribute exact selection with deterministic rank/tie ordering. | Source-backed Halogen/GSQ hypotheses, no LIE runtime result. Selection is inactive at the fixed2048 point and cannot close that point's gap. |
 | Later: attention K/V layout at high context | Compare packed K/V against direct gathers by actual sparse-attention shape, including packing cost. | Existing fused WMMA attention and mask-window compaction are already present. New layout/full-cycle qualification remains open; no fixed-point or high-context gain is inferred. |
 
-The next BM256/BN64 [candidate is prepared](Q2-IQ2-WIDE-PAIR.md):156 unchanged
-kernel bodies, one replacement with104→169 next-free VGPR,17536→26752 LDS,
-zero private bytes and10→2 static block barriers. Its new59-file frozen fixture
-set and host27+27 pass; runtime component/model remain pending. No speed claim.
+The BM256/BN64 [IQ2 candidate is now measured](Q2-IQ2-WIDE-PAIR.md):
+156 unchanged kernel bodies and one replacement with104→169 next-free VGPR,
+17536→26752 LDS, zero private bytes and10→2 static block barriers.
+Those static reductions did not become a model gain. PP samples are
+1494.649738 /1494.661516 /1492.591920; TG median25.19840692. All13 commands
+exit0/37 artifacts verify and the GPU window is released. No comparator rerun.
 
 The first ownership repartition is [measured](Q2-IQ2-LANE-COMMIT.md), with81
 exact component pairs,21 exact parent model files and all13 command exits0.
 Its source is retained for the next composition; the original1505 parent stays
-available. The [next BM256 opportunity](../config/q2-iq2-wide-pair-opportunity.json)
-reduces duplicated activation staging and cross-wave epilogue traffic in theory,
-not matrix operation count. The implementation is prepared; no GPU gain yet.
+available. The distinct next output-reuse opportunity is Q2 down BM256/BN48,
+not another name for the completed IQ2 experiment. It targets duplicated
+activation staging without reducing weight decode or matrix operation count.
+
+The inventory also retains component-only IQ2 live-epilogue and prefill
+codebook-LDS candidates, with mixed timing evidence and no complete-model
+composition. They are lower-priority retained candidates, not untested
+mechanisms. The older DeepSeek audit separately proposes codebook staging for
+vector decode; its active Q8_1 path must be rechecked before preparing a port.
+No blanket rerun of these cohorts or the nineteen-report recovery is scheduled.
+
+Diagnosis remains distinct from implementation: hardware bandwidth, cache
+misses and active-wave occupancy have not been isolated for the current best
+provider. Existing traces can prioritize candidates but do not establish those
+causes. Further source organization can separate decoding, staging, arithmetic
+and lifetime ownership; an organization-only move must preserve instruction
+bodies and is not itself a performance result.
 
 The saved MoE diagnostic attributes254.797ms to IQ2 gate/up,188.349ms to Q2
 down,293.725ms to Q8/F16 dense and211.530ms to HC combine/norm/inject. It
 profiles the earlier1496.830907 provider, not a new baseline or the current
-1505 source. It prioritizes work but cannot predict additive model gains.
+1509 source. It prioritizes work but cannot predict additive model gains.
 
 Independent task quality remains open: Core-19 has only a partial historical
 run, not a complete matched result for the retained variants. Complete current
