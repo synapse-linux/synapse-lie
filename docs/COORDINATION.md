@@ -1,7 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window is released at 2026-10-05T01:11:17.660053Z after the new IQ2
+Latest Q2 window is released at 2026-10-05T01:57:25.099623Z after only the new
+compact IQ2 half-byte component and original exact2048/tg128 model. Host,
+component and model command exits are six zeros, 0/0/0 and 0/0/0/0; all 37
+artifacts and 32 frozen fixtures verify. All 81 whole component outputs,
+3,670,016 packed format-word pairs and 21 parent model files are exact. New
+PP 1498.799455 is nominally +0.131514% versus saved parent; the marginal
+candidate is retained without default promotion. Qualified controls and old
+components are not rerun, and no full curve or cleanup occurs. Closure verifies
+628 identities / 493 groups absent, empty KFD, four original leases free and six
+unchanged model stat tuples. Main/remote release and active/ready mirrors agree;
+core is notified. No Q2 GPU job, reservation, waiter, restart or cleanup remains.
+Later GPU work requires a fresh coordinated admission.
+[Release](../config/q2-iq2-halfbyte-window-release.json), SHA256
+`b776d02591cdd626e5104af334764198a1ca81e760e177b596ac4444f7a714dd`.
+
+Previous Q2 window is released at 2026-10-05T01:11:17.660053Z after the new IQ2
 halfstage component and only its new original exact2048/tg128 model. The host,
 component and model command exits are six zeros, 0/0/0 and 0/0/0/0; all 37
 artifacts and 31 frozen fixtures verify. All 81 component outputs and 21 model

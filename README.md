@@ -663,5 +663,9 @@ Local assembly removes the consumer half additions, retains rounded half FMA
 and ordered WMMA, and preserves LDS/register sizes at widths 48/64/128. Both
 encodings pass exhaustive host format checks; the permutation variant uses
 fewer instructions while shifts add instructions. Only one new component/model
-pair is planned with the unchanged fixed comparison. GPU speedup and model
-quality remain unmeasured at this preparation checkpoint.
+pair runs with the unchanged fixed comparison. All 81 whole component outputs
+and 3,670,016 packed format-word pairs are exact. New model PP 1498.799455 / TG
+25.16866636 nominally adds 0.131514% PP versus saved parent, with every parent
+replay file exact. The marginal candidate is retained without default promotion
+or stable-gain proof. Fixed UD still needs 12.475160% more PP throughput; model
+task quality and full-curve parity remain open. The `.157` window is released.

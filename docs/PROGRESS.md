@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## Compact IQ2 model measured; marginal candidate retained — 2026-10-05 UTC
+
+Only the new compact half-byte component and model run on `.157`. All 81 whole
+outputs and 3,670,016 packed format-word pairs are exact, including every half
+scale bit pattern. Component median time changes −0.238133% / −1.053920% /
+−0.842420% for 64/128/512 experts; all 42 samples are retained.
+
+Original exact2048/tg128 model PP samples are 1498.754109 / 1501.954777 /
+1498.799455, median 1498.799455 and TG 25.16866636. Nominal PP differs
++0.131514% versus MoE parent and +0.079688% versus saved selective tiles.
+All 21 parent files and nine within-arm replays are exact. The marginal new
+source is retained for compositions, without default promotion or stable-gain
+proof. Original fixed UD 1685.777092 still requires +12.475160% throughput.
+The new source does not include/selectively add the earlier tile dispatch.
+No qualified control, old component or full curve is rerun.
+
+All 13 new host/component/model commands exit 0, and all 37 artifacts, 32 frozen
+fixtures and source inventories verify. CPU/GPU maxima including the new full
+MMQ build are 85.25/74 C. Release at 01:57:25.099623 UTC verifies 628 retired
+identities / 493 groups, empty KFD, original lease/model identities unchanged.
+Main/remote canonical/active/ready SHA b776d025... agrees; core receives the
+release. No Q2 GPU job, reservation, waiter, restart or cleanup remains.
+[Complete samples, exact replay and graph](Q2-IQ2-HALFBYTE.md),
+[retained update](../config/q2-iq2-halfbyte-retained-update.json).
+
 ## Compact IQ2 half-byte candidate prepared — 2026-10-05 UTC
 
 The new one-byte half-bit weight representation removes all 32 static packed
