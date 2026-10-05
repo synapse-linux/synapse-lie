@@ -1,0 +1,204 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-pair-static.v1",
+  "source_manifest_sha256": "c29ac8c062f31a1d8a154bec734684e840444540137e810ea7e5544170e46cfa",
+  "provider_files": 1027,
+  "parent_assembly_sha256": "33e7077a4ddf0385076c3d909856090da973692d44a2c2541f41b0e4aa053504",
+  "parent_recompiled": false,
+  "candidate_assembly_path": "evidence/q2-shared-q8-pair-preparation/candidate.s",
+  "candidate_assembly_sha256": "2f8baa990df67c16660bfaf7838aa28fc0600bf22e725afd52370173ac415e7d",
+  "original_kernels_exact": 161,
+  "new_kernel": {
+    "resources": {
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 180,
+      "next_free_sgpr": 24,
+      "wavefront_size32": 1
+    },
+    "instructions": 1534,
+    "mnemonics": {
+      "buffer_gl0_inv": 3,
+      "ds_load_2addr_b32": 4,
+      "ds_load_b128": 48,
+      "ds_store_2addr_b32": 32,
+      "ds_store_b128": 5,
+      "ds_store_b32": 3,
+      "global_load_b128": 8,
+      "global_load_b32": 4,
+      "global_load_d16_b16": 2,
+      "global_store_b16": 16,
+      "global_store_b64": 8,
+      "global_store_d16_hi_b16": 16,
+      "s_add_i32": 4,
+      "s_and_b32": 4,
+      "s_and_not1_saveexec_b32": 9,
+      "s_and_saveexec_b32": 16,
+      "s_barrier": 3,
+      "s_branch": 2,
+      "s_cbranch_execz": 56,
+      "s_cbranch_scc1": 1,
+      "s_cbranch_vccnz": 2,
+      "s_clause": 5,
+      "s_cmp_eq_u64": 1,
+      "s_cmp_ge_i32": 1,
+      "s_cmp_gt_i32": 2,
+      "s_cmp_lt_i32": 2,
+      "s_cselect_b32": 5,
+      "s_delay_alu": 176,
+      "s_endpgm": 1,
+      "s_load_b128": 2,
+      "s_load_b64": 3,
+      "s_lshl_b64": 3,
+      "s_lshr_b32": 1,
+      "s_lshr_b64": 1,
+      "s_min_i32": 3,
+      "s_mov_b32": 46,
+      "s_mul_i32": 1,
+      "s_nop": 1,
+      "s_or_b32": 51,
+      "s_or_b64": 1,
+      "s_sendmsg": 1,
+      "s_waitcnt": 53,
+      "s_xor_b32": 13,
+      "v_add3_u32": 9,
+      "v_add_co_ci_u32_e64": 40,
+      "v_add_co_u32": 40,
+      "v_add_f32_e32": 7,
+      "v_add_nc_u32_e32": 1,
+      "v_and_b32_e32": 9,
+      "v_ashrrev_i32_e32": 1,
+      "v_bfe_u32": 1,
+      "v_cmp_eq_u32_e32": 1,
+      "v_cmp_gt_i32_e32": 3,
+      "v_cmp_gt_u32_e64": 1,
+      "v_cmp_gt_u64_e32": 4,
+      "v_cmp_lt_u32_e64": 1,
+      "v_cmp_lt_u64_e32": 8,
+      "v_cmpx_gt_u64_e64": 32,
+      "v_cndmask_b32_e32": 4,
+      "v_cndmask_b32_e64": 4,
+      "v_cvt_f32_f16_e32": 2,
+      "v_cvt_f32_i32_e32": 128,
+      "v_dual_add_f32": 13,
+      "v_dual_fmac_f32": 29,
+      "v_dual_mov_b32": 73,
+      "v_dual_mul_f32": 37,
+      "v_exp_f32_e32": 32,
+      "v_fma_mixhi_f16": 16,
+      "v_fma_mixlo_f16": 16,
+      "v_fmac_f32_e32": 67,
+      "v_lshl_or_b32": 4,
+      "v_lshlrev_b32_e32": 12,
+      "v_lshlrev_b64": 20,
+      "v_lshrrev_b32_e32": 5,
+      "v_mad_i64_i32": 5,
+      "v_mad_u64_u32": 10,
+      "v_min_i32_e32": 3,
+      "v_mov_b32_e32": 34,
+      "v_mul_f32_e32": 125,
+      "v_mul_i32_i24_e32": 3,
+      "v_mul_lo_u32": 11,
+      "v_or3_b32": 7,
+      "v_or_b32_e32": 33,
+      "v_rcp_f32_e32": 32,
+      "v_wmma_i32_16x16x16_iu8": 32
+    },
+    "body_sha256": "bbd6620ff90722ca7decda66f1a908bfa9211a5dbe2e1ed51ed2dcbc338797c3"
+  },
+  "retained_compiled_preparations": [
+    {
+      "name": "initial",
+      "source": ".deps/gufo-q2-shared-q8-pair-run-initial",
+      "assembly_sha256": "a4381daedcfcfeae71d55a7bbbabf1e8f93da49f1a16cca3086042d20c2b2781",
+      "resources": {
+        "group_segment_fixed_size": 18432,
+        "private_segment_fixed_size": 148,
+        "next_free_vgpr": 256,
+        "next_free_sgpr": 24,
+        "wavefront_size32": 1
+      },
+      "compile_succeeded": true,
+      "gpu_run": false
+    },
+    {
+      "name": "fenced",
+      "source": ".deps/gufo-q2-shared-q8-pair-run-fenced",
+      "assembly_sha256": "cd898bce8bb2c9b0f6d50d24c7a27b3da19a6dcda17ee3ef9a224fa9a5b6252a",
+      "resources": {
+        "group_segment_fixed_size": 18432,
+        "private_segment_fixed_size": 148,
+        "next_free_vgpr": 256,
+        "next_free_sgpr": 24,
+        "wavefront_size32": 1
+      },
+      "compile_succeeded": true,
+      "gpu_run": false
+    }
+  ],
+  "commands": {
+    "prepare-v3": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-shared-q8-pair.py"
+      ],
+      "started_at": "2026-10-05T15:25:24.272744+00:00",
+      "finished_at": "2026-10-05T15:25:24.704892+00:00",
+      "exit_code": 0
+    },
+    "assembly-v3": {
+      "argv": [
+        "python3",
+        "evidence/q2-shared-q8-pair-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-05T15:25:24.723838+00:00",
+      "finished_at": "2026-10-05T15:25:35.116116+00:00",
+      "exit_code": 0
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-shared-q8-pair-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-05T15:30:26.882157+00:00",
+      "finished_at": "2026-10-05T15:30:28.898728+00:00",
+      "exit_code": 0
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-shared-q8-pair-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-05T15:30:26.883714+00:00",
+      "finished_at": "2026-10-05T15:30:28.956772+00:00",
+      "exit_code": 0
+    },
+    "executor": {
+      "argv": [
+        "python3",
+        "evidence/q2-shared-q8-pair-preparation/compile-local.py",
+        "executor"
+      ],
+      "started_at": "2026-10-05T15:30:26.883599+00:00",
+      "finished_at": "2026-10-05T15:30:28.771533+00:00",
+      "exit_code": 0
+    },
+    "launcher-guards": {
+      "argv": [
+        "python3",
+        "-B",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-05T15:30:26.881967+00:00",
+      "finished_at": "2026-10-05T15:30:28.252882+00:00",
+      "exit_code": 0
+    }
+  },
+  "numerical_contract": "Unchanged Q8 activation quantizer/cache, original encoded weights, K32 accumulation sequence, SiluF and F16 rounding. Per-wave epilogue consumes corresponding rows. Preserve original down consumer and fallback.",
+  "gpu_run": false,
+  "numerical_acceptance": false,
+  "independent_quality": false,
+  "goal_met": false
+}

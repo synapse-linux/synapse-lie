@@ -682,3 +682,14 @@ target_compile_definitions(q2_q8_aligned_pair PRIVATE QFN_ROCM_BUILD=1 ENGINE_EN
 target_include_directories(q2_q8_aligned_pair PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
 target_include_directories(q2_q8_aligned_pair SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_q8_aligned_pair PRIVATE hip::host OpenSSL::Crypto)
+
+# Shared Q8 pair, production W8A8 reference and complete down cycle.
+add_executable(q2_shared_q8_pair EXCLUDE_FROM_ALL ../../tests/q2_shared_q8_pair.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_shared_q8_pair PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_shared_q8_pair PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_shared_q8_pair PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_shared_q8_pair SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_shared_q8_pair PRIVATE hip::host OpenSSL::Crypto)

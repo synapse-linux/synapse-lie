@@ -389,6 +389,34 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_shared_q8_pair_manifest_binding(self):
+        self.assertEqual(remote.SHARED_Q8_PAIR_MANIFEST,
+                         'config/q2-shared-q8-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.SHARED_Q8_PAIR_MANIFEST).is_file())
+
+    def test_shared_q8_pair_new_component_or_matched_counting_only(self):
+        variant = 'shared-q8-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Shared Q8 pair requires its component or matched historical counting provider')
+        self.refuse([remote.SHARED_Q8_PAIR_MODE, 'q2-fixture'], 'Shared Q8 pair requires')
+        base = [remote.SHARED_Q8_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Shared Q8 pair component builds')
+        for mode in (remote.SHARED_Q8_PAIR_MODE, 'q2-counting-shared-q8-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_q8_aligned_pair_manifest_binding(self):
         self.assertEqual(remote.Q8_ALIGNED_PAIR_MANIFEST,
                          'config/q2-q8-aligned-pair-source.json')

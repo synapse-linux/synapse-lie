@@ -1,5 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-Q8 gate/up fusion preparation adds one kernel and dispatch from the
+saved1571 provider, with no new allocation, stream or weight conversion.
+The original ordered W8A8 K32 updates feed the existing SwiGLU/F16 boundary;
+the original down consumer and unsupported-shape fallback remain. Pair mapping
+keeps total CTA count equal to the two old projections; no halving of activation
+reads is claimed. Two initial versions compile with148 private bytes/thread;
+the retained F32 LDS epilogue version removes spills at VGPR180/LDS18432.
+All161 original bodies/resources are exact.130 launcher guards, fixture/device
+and executor compilation, plus .157 host27 Debug/27 ASan checks pass. The shared
+formatter exits1 with88 violations across seven files; modified-file formatting
+with include sorting disabled passes. Both outcomes remain recorded.
+
+The new plan freezes75 fixtures/four manifests and1027 provider files for
+43 complete output pairs,24 sampled FP64 operator checks and28 timing rows.
+Eleven rotated gate/up weight sets exceed32MiB even for the projection-only
+scope; complete-cycle timing adds shared down. Arrays written in the owned
+component cohort root are separately collected and bound to the original log,
+without changing the original result receipt. Original exact2048/tg128 follows
+even after safe numerical/timing rejection. No GPU run/performance gain or
+quality acceptance is claimed yet. [Plan](../config/q2-shared-q8-pair-plan.json),
+[static result](../config/q2-shared-q8-pair-static.json),
+[host result](../config/q2-shared-q8-pair-host-results.json).
+
 Aligned Q8 pair fetch completes at1496.176691 PP /25.17052112 TG, nominal-4.806197% /-0.145989% against saved1571.716479 /25.20732109. All102 component pairs and21 parent model files are exact; component time increases10.840–16.393%. Keep1571 and retain the negative source/results. Host27+27,13 runtime commands exit0,37 artifacts and74 fixtures/four manifests verify. Initial include-sort preparation exit1 remains preserved. Release15:04:53.959507UTC SHA986ffa09; core acknowledges, no Q2 job/reservation remains. Remaining-work recap updated without a new GPU run. See Q2-Q8-ALIGNED-PAIR.md and Q2-OPTIMIZATION-FOLLOWUP.md.
 
 Saved1571 diagnostic completes with11 zero exits/31 verified artifacts including host27+27. No GPU build or comparator rerun. Current PP1321.833498ms kernel sum/1326.923958ms span; TG15calls533.881388ms/613.861203ms. Q8/F16 dense293.227ms remains largest; fused SSM160.218ms motivates a new aligned-pair compact fetch audit. Input, saved prefill logits/first16tokens,1026provider files and51libraries match. All72fixtures/four manifests verify. Release14:33:58.538462UTC SHA c8a42fec; no live work/reservation/cleanup. Original1571.716479 PP/25.20732109 TG, inherited quality and curve gate unchanged. See Q2-CURRENT-BEST-PROFILE.md.

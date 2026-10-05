@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-Q8 pair preparation follows1724363 and release986ffa09. Fresh root
+non-use confirms no .157 job/build/client/KFD/lease/waiter/reservation/restart/
+cleanup/interleaving; root GPU work remains assigned to .161. Host27+27 is
+terminal and collected, without model/GPU access. New43-pair component and
+one original2048/tg128 model need fresh full registry/PID/group/KFD/original-
+lease/model-stat admission. No ownership is inherited. Q4, qualified control
+reruns, curves, tuning, cleanup and deployment are excluded.
+
 Aligned Q8 pair window releases at2026-10-05T15:04:53.959507+00:00, SHA256
 986ffa094380f4448d8dcdcf9e889e1200200a859b9d20f52789061dd8a8e63f. Host,
 component and model are terminal/collected:13 commands exit0,37 artifacts verify.
