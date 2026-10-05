@@ -5,7 +5,10 @@ One new candidate starts from the measured IQ2 raw-prefetch provider:
 1505.152258 PP /25.15493858 TG. Original fixed Q2 remains1443.672867 and
 UD1685.777092, using the same exact2048 input/tg128 tester. This experiment
 changes the IQ2 gate/up producer's ownership, not expert routing geometry.
-Source and fixtures are prepared; no GPU or model result is claimed yet.
+The new component and original model now complete. All81 component pairs and
+21 parent model files are exact. Model PP1509.852296/TG25.20625148 is a small
+positive result versus saved1505.152258, despite slower operator timings.
+Every sample and the distinction between these observations are retained below.
 
 Every lane retains its original eight-byte encoded group and two-byte scale
 prefetch. Four-lane groups exchange those compressed words; each lane decodes
@@ -73,3 +76,62 @@ whole-curve parity remain open.
 [static evidence](../config/q2-iq2-lane-commit-static.json),
 [host evidence](../config/q2-iq2-lane-commit-host-results.json),
 [local capsule check](../config/q2-iq2-lane-commit-staging-results.json).
+
+## Completed GPU component and original model — 2026-10-05 UTC
+
+All81 guarded output pairs are retained;42 timings cover three rotated-weight distributions. Positive time changes mean slower.
+
+| Distribution | Reference median us | Candidate median us | Time change |
+| --- | ---: | ---: | ---: |
+| mixed-e64 | 3658.460617 | 3746.565819 | +2.408259% |
+| mixed-e128 | 4061.651548 | 4086.291313 | +0.606644% |
+| mixed-e512 | 5434.246699 | 5560.216904 | +2.318080% |
+
+The original model benchmark runs despite component timing rejection. All three comparator columns below are saved evidence, without rebuild or rerun.
+
+| Session | Fixed Q2 PP / TG | Saved best PP / TG | New lane commit PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1501.690147 / 25.15123490 | 1512.701776 / 25.15742671 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1505.152258 / 25.16777240 | 1510.259601 / 25.20649263 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1503.530071 / 25.14904438 | 1509.852296 / 25.17944517 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1505.315370 / 25.15493858 | 1508.620907 / 25.20625148 | 1685.400011 / 24.15102104 |
+| Median measured | 1443.672867 / 25.09595499 | 1505.152258 / 25.15493858 | 1509.852296 / 25.20625148 | 1685.777092 / 24.34174251 |
+
+There are0 changed parent model files. Within-arm replay is exact=True. PP change versus saved best=+0.312263%.
+
+Resident model memory remains43,156,012,544 bytes. Compilation/loading stay outside PP/TG. Independent task quality and the context/concurrency curve remain open. The window releases at2026-10-05T10:12:32.599494+00:00 with834 retired identities/660 groups, empty KFD, four free original leases and unchanged seven model stat tuples. All37 artifacts verify across13 runtime commands; canonical/main/remote mirrors agree.
+
+![All new and saved model samples](figures/q2-iq2-lane-commit-model-wrapped.png)
+[All model samples](figures/q2-iq2-lane-commit-model-wrapped.csv), [all component samples](figures/q2-iq2-lane-commit-component.csv), [final audit](../config/q2-iq2-lane-commit-final-audit.json).
+
+## Retained decision and the next ownership opportunity
+
+Retain the new nominal best as the next composition source; the previous1505
+source and every old control stay available unchanged. Model PP increases
+0.312263% against its parent and4.584101% against original Q2. Reaching fixed
+UD still requires11.651788% more PP. Opposite component/model trends and the
+historical model comparisons do not establish a stable causal gain. Vector
+decode is unchanged; its nominal0.203987% increase is not credited to IQ2.
+Inherited fixed-Q2/UD logit differences remain exactly the same. This is no
+independent quality, full-curve or qualified-runtime promotion.
+[Machine-readable decision](../config/q2-iq2-lane-commit-retained-update.json).
+
+Recorded CPU/GPU maxima including the new build are83.375/77 C. Component
+and model commands all exit0; build/loading remain outside throughput timers.
+The exported PNG is visually checked, with all new/saved samples retained.
+
+The [new source audit](../config/q2-iq2-wide-pair-opportunity.json) identifies a
+different possible saving in IQ2 BN64. A BM256 block could compute128 logical
+rows, with gate and up accumulators for each row held by the same wave. At
+M640 the output grid would shrink10→5 blocks, sharing each activation load
+across more output rows. It could publish only final SwiGLU values into a
+per-wave transpose, removing the present cross-wave pairing barriers while
+keeping every stage barrier and the original product/Sigmoid ordering.
+
+The audit enumerates512 fetch owners,4096 paired accumulator positions and
+2048 output positions, including nine ragged output widths. It establishes
+logical ownership only. Useful matrix products and total weight decoding do
+not decrease; accumulators double32→64 values per lane and stage LDS would
+grow17536→26752 bytes. Registers, occupancy and tails can erase any benefit.
+This proposal is not yet implemented, compiled or measured. It targets only
+nonpacked BN64, retaining128/48/16 maps, down, dense and scalar decode.

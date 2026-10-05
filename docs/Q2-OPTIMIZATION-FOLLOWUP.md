@@ -45,11 +45,13 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
-This update supersedes the historical queue above. Best retained Q2 is now
-1505.152258 PP /25.15493858 TG. Original fixed Q2 remains1443.672867 and
-UD1685.777092; reaching that UD PP requires12.000436% more throughput from
-the best. The original exact2048/tg128 input/timers remain fixed. No new
-runtime work is scheduled by this inventory; Q4 remains deferred.
+This update supersedes the historical queue above. Best retained nominal Q2
+is now1509.852296 PP /25.20625148 TG from the four-lane IQ2 candidate, compared
+with its saved1505.152258 parent. Its component is slower, so the small positive
+historical model comparison does not establish a stable causal gain. Original
+fixed Q2 remains1443.672867 and UD1685.777092; reaching that UD PP requires
+11.651788% more throughput. The original exact2048/tg128 input/timers remain
+fixed. No new runtime work is scheduled by this inventory; Q4 stays deferred.
 
 The independent Q8 initialization race is already diagnosed and corrected.
 Raw-HC Q8 publication, row reuse, native HC-down BK256 and MoE-only deferred
@@ -62,7 +64,7 @@ component and full-model results. Their existing cohorts need no rerun.
 
 | Priority / region | Actual remaining experiment | Current boundary |
 | --- | --- | --- |
-| High: compact IQ2 gate/up producer | Assess an actual fetch/decode ownership repartition while retaining compact staging and accumulation boundaries. | Eight-/sixteen-value commit lifetime variants are now measured:81 exact component pairs and21 exact parent model files each, but PP1493.182914/1500.783083 regress0.795225%/0.290281%. Allocated VGPR remains unchanged. These do not implement lane repartition; existing cohorts need no rerun. |
+| High: compact IQ2 gate/up producer | Assess BM256 only for nonpacked BN64: keep gate/up accumulators in the same wave, share activation fetches across128 logical rows and avoid cross-wave epilogue pairing. | New source/mapping audit only; accumulators double and LDS17536→26752. Four-lane commit ownership is now fully measured at1509.852296 PP, nominally+0.312263% despite0.61–2.41% slower component. Earlier8/16 commit variants remain measured negatives. No old cohort rerun. |
 | Measured negative: whole short-expert tiles | BN48 for entire buckets1..48, with original128/64 elsewhere. | Completed39 exact GPU pairs and21 exact parent model files; actual192 model records retain45120 short48 descriptors. PP1493.009363 regresses0.806755% against best1505.152258. The original64 kernel already skips nonlive WMMA fragments, so this replacement does not reduce useful matrix operations for1..48. Retain evidence without promotion or rerun; exact <=16 counts remain absent. |
 | High: routed Q2 down / expert consumer chain | Adapt DS4 fused SwiGLU/down or producer-Q8 consumer ideas to the active Qwen route, with logical640/stored768 tail handling and explicit activation arithmetic. | MMQ audit only. Existing fallback already shares routing/quantization and fixed2048 uses paired IQ2 WMMA instead. A real new dispatch/consumer is needed before a speed claim. |
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
@@ -75,10 +77,12 @@ component and full-model results. Their existing cohorts need no rerun.
 | Later: sparse indexer at high context | Reuse keys across query rows and distribute exact selection with deterministic rank/tie ordering. | Source-backed Halogen/GSQ hypotheses, no LIE runtime result. Selection is inactive at the fixed2048 point and cannot close that point's gap. |
 | Later: attention K/V layout at high context | Compare packed K/V against direct gathers by actual sparse-attention shape, including packing cost. | Existing fused WMMA attention and mask-window compaction are already present. New layout/full-cycle qualification remains open; no fixed-point or high-context gain is inferred. |
 
-The first ownership repartition is now [prepared](Q2-IQ2-LANE-COMMIT.md):
-four lanes share raw groups and publish their eight-value slices into the
-unchanged compact staging. Its next-free VGPR grows8 with no LDS/private change;
-GPU component and model evidence remain pending. The static change is not a gain.
+The first ownership repartition is [measured](Q2-IQ2-LANE-COMMIT.md), with81
+exact component pairs,21 exact parent model files and all13 command exits0.
+Its source is retained for the next composition; the original1505 parent stays
+available. The [next BM256 opportunity](../config/q2-iq2-wide-pair-opportunity.json)
+reduces duplicated activation staging and cross-wave epilogue traffic in theory,
+not matrix operation count. No candidate implementation or GPU gain yet.
 
 The saved MoE diagnostic attributes254.797ms to IQ2 gate/up,188.349ms to Q2
 down,293.725ms to Q8/F16 dense and211.530ms to HC combine/norm/inject. It

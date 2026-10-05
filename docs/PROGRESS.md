@@ -1,14 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [four-lane IQ2 commit candidate](Q2-IQ2-LANE-COMMIT.md) is prepared from
-best1505:1025 provider files,149 unrelated kernel bodies unchanged, eight IQ2
-bodies changing ownership only. Mapping covers1024 unique slices/8192 bytes;
-next-free VGPR grows8, LDS/private scratch remain unchanged. Production and
-fixture compilation plus107 launcher guards pass; local staging binds57 fixtures
-and1025 provider files. New .157 host Debug/ASan gates each pass27/27, all six
-commands exit0/seven artifacts verify. Checkpoint and fresh admission precede
-one component/original model. No speedup, independent quality or parity is claimed.
+The [four-lane IQ2 commit candidate](Q2-IQ2-LANE-COMMIT.md) completes from
+checkpoint56b816a. All81 complete component pairs and21 parent model files
+match exactly, with nine exact internal replays. The component slows0.61–2.41%,
+but original-model PP samples1510.259601/1509.852296/1508.620907 yield median
+1509.852296, nominally+0.312263% versus saved1505.152258; TG25.20625148.
+Retain the new nominal best as a composition source, with historical controls
+and opposite component behavior preventing a stable causal-gain claim.
+Fixed Q2/UD remain1443.672867/1685.777092; further PP needed11.651788%.
+No independent quality, full-curve parity or qualified-runtime promotion.
+
+All107 launcher guards, host27+27,13 runtime commands and37 artifacts pass;
+57 fixtures/four manifests/1025 provider files verify. Release10:12:32.599494UTC
+retires834 identities/660 groups, KFD empty, four original leases free and
+seven model stat tuples unchanged. Main/remote/canonical/active/ready agree;
+core is notified. No Q2 job/reservation/waiter/restart/cleanup remains.
+No old cohort, Q4 or full curve runs. A new source-only ownership audit proposes
+BM256 for IQ2 BN64: same-wave gate/up would halve output-grid blocks and share
+activation fetches, with larger accumulators/LDS. No implementation or speed
+claim yet. [Retained decision](../config/q2-iq2-lane-commit-retained-update.json).
 
 The [1KiB IQ2 sign-mask candidate](Q2-IQ2-SIGN-MASK.md) completes its new
 component and original fixed model. Component times fall0.371712–1.121926%;
