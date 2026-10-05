@@ -48,6 +48,14 @@ load scheduling. Preserve all measured paths and investigate register pressure.
 
 ## Follow-up: 64-token blocks, not yet run on the GPU
 
+The narrower provider now has isolated launcher routing and a separate
+[92-fixture/nine-manifest campaign](../config/q2-shared-down-n64-component-plan.json).
+Seven focused launcher checks,142 existing checks and three analysis checks
+pass. Fresh .157 host gates pass27 Debug and27 ASan/UBSan checks, with a new
+capsule binding the changed launcher/test bytes. The component analyzer,
+plotter and finalizer accept an explicit campaign name; numerical criteria and
+old reports are unchanged. GPU admission and results remain separate.
+
 The separately prepared `shared-down-n64` provider changes only the two fixed
 paths from 128 to 64 token columns per CTA. Model upload/dispatch remains
 unchanged; original Q8 and generic F16 controls remain exact. Complete source
@@ -64,8 +72,8 @@ syntax checks. Static comparison preserves 164 surrounding kernels exactly.
 
 The narrower paths eliminate compiler spills and reduce static resource use,
 while doubling token CTAs and reducing weight reuse. Their speed and numerical
-behavior still require the original GPU fixture. They are not wired to the
-launcher and do not reserve a GPU window. Only a measured useful implementation
+behavior still require the original GPU fixture. Source and launcher preparation
+do not reserve a GPU window. Only a measured useful implementation
 should progress to separately qualified model integration against saved 1585 and
 the unchanged fixed Q2/UD references; these preparation results do not replace
 the required original2048/tg128 model test.

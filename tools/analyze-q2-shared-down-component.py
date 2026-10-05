@@ -5,6 +5,7 @@ import importlib.util
 import json
 import math
 from pathlib import Path
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('hc', ROOT / 'tools/analyze-q2-hc-bk256.py')
@@ -70,8 +71,8 @@ def analyze_events(events, exit_code):
                 independent_operator_pass=all(r['pass'] for r in oracles))
 
 
-def main():
-    plan_path = ROOT / 'config/q2-shared-down-component-plan.json'
+def main(prefix='q2-shared-down-component'):
+    plan_path = ROOT / 'config' / (prefix + '-plan.json')
     plan = read(plan_path)
     for path, digest in {**plan['fixtures'], **plan['manifests'],
                          plan['window_helper']: plan['window_helper_sha256']}.items():
@@ -110,10 +111,13 @@ def main():
                       'unchanged in saved1585. Three candidate paths are component-only. '
                       'Independent FP64 is synthetic operator evidence, not task-quality qualification.',
                   full_model_speedup=False, goal_met=False, timing_scope=plan['timing_scope'])
-    hc.write(ROOT/'config/q2-shared-down-component-results.json', report)
+    hc.write(ROOT/'config'/(prefix + '-results.json'), report)
     print(json.dumps({k: report[k] for k in ('command_exits', 'parent_exact', 'independent_operator_pass',
                                             'format_pass', 'summaries', 'time_change_percent')}))
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('campaign', nargs='?', default='q2-shared-down-component',
+                        choices=('q2-shared-down-component', 'q2-shared-down-n64-component'))
+    main(parser.parse_args().campaign)

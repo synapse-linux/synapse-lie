@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-down BN64 now has matched component-only routing, with seven focused
+launcher checks and142 existing checks passing. Analysis/plot/finalization
+reuse the same code with an explicit campaign name; three numerical parser
+checks preserve safe failures and reject missing writes or changed timing scope.
+Fresh .157 host27+27 completes at23:10:17UTC and seven artifacts collect. The
+new plan binds92 fixtures/nine manifests and1028 provider files; no GPU result
+exists yet. The original whole-model fixed Q2/UD and retained1585 remain saved.
+
 The [shared-down component](Q2-SHARED-DOWN-MIRROR.md) completes at 22:59:42UTC:
 original Q8 228.576839us, generic F16 306.882997us (+34.258133%), fixed
 Q8 259.328286us (+13.453440%), fixed F16 254.426618us (+11.309011%). All 126

@@ -5,16 +5,17 @@ import csv
 import json
 import os
 from pathlib import Path
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main():
-    report = json.loads((ROOT/'config/q2-shared-down-component-results.json').read_text())
+def main(prefix='q2-shared-down-component'):
+    report = json.loads((ROOT/'config'/(prefix+'-results.json')).read_text())
     rows = report['timings']
     if report['model_inference'] or not report['device_work_safe'] or len(rows) != 28:
         raise ValueError('Expected complete safe four-arm component evidence')
-    output = ROOT/'docs/figures/q2-shared-down-component'
+    output = ROOT/'docs/figures'/prefix
     if any(output.with_suffix(s).exists() for s in ('.csv', '.svg', '.png')):
         raise ValueError('Refusing to overwrite component exports')
     with output.with_suffix('.csv').open('x') as stream:
@@ -44,7 +45,7 @@ def main():
                             'Fixed dimensions\nF16 copy'])
     ax.set_ylim(0, max(r['us_per_iteration'] for r in rows)*1.18)
     ax.set_ylabel('Projection microseconds; lower is faster')
-    ax.set_title('Shared-down M2560 / N2048 / K640 on .157')
+    ax.set_title('Shared-down M2560 / N2048 / K640 on .157\n' + report['source_variant'])
     ax.set_axisbelow(True)
     ax.grid(axis='y', alpha=.2)
     ax.legend(loc='lower left')
@@ -62,4 +63,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('campaign', nargs='?', default='q2-shared-down-component',
+                        choices=('q2-shared-down-component', 'q2-shared-down-n64-component'))
+    main(parser.parse_args().campaign)

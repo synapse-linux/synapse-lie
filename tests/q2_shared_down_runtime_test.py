@@ -19,6 +19,30 @@ spec.loader.exec_module(remote)
 
 
 class SharedDownRuntime(unittest.TestCase):
+    def test_n64_matches_only_its_bound_component(self):
+        variant = 'shared-down-n64'
+        self.assertEqual(remote.shared_down_source(argparse.ArgumentParser(), variant),
+                         '.deps/gufo-q2-shared-down-n64-run')
+        argv = ['shared-down-n64-check', 'q2-shared-down-guard', '--source-variant', variant]
+        with patch.object(sys, 'argv', ['q2-remote.py', *argv]), \
+                patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                patch.object(remote.subprocess, 'run', side_effect=AssertionError('Unexpected child')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+        for mode in ('cpu', 'q2-bench', 'shared-down-fixed-check', 'q2-counting-ssm-fixed-bounds'):
+            self.refused([mode, 'q2-shared-down-guard', '--source-variant', variant])
+        self.refused(['shared-down-n64-check', 'q2-shared-down-guard', '--source-variant', 'shared-down-fixed'])
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refused(argv + [flag])
+        original = remote.file_sha256
+        target = ROOT/'.deps/gufo-q2-shared-down-n64-run/src/models/qwen38_flash_next/kernels/rocm/q2_shared_down_mirror.inc'
+        with patch.object(remote, 'file_sha256', side_effect=lambda p: '0'*64 if p == target else original(p)), \
+                contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as error:
+                remote.shared_down_source(argparse.ArgumentParser(), variant)
+            self.assertEqual(error.exception.code, 2)
+
     def test_only_matched_component_reaches_staging(self):
         with patch.object(sys, 'argv', ['q2-remote.py', 'shared-down-fixed-check', 'q2-shared-down-guard',
                                       '--source-variant', 'shared-down-fixed']), \
@@ -69,14 +93,15 @@ class SharedDownRuntime(unittest.TestCase):
 
     def test_runner_selects_only_component_target(self):
         tree = ast.parse((ROOT / 'tools/q2-runner.py').read_text())
-        context = {'mode': 'shared-down-fixed-check', 'mixed_mode': False}
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
-                name = node.targets[0].id
-                if name in ('hc_mode', 'hc_target'):
-                    context[name] = eval(compile(ast.Expression(node.value), '<runner>', 'eval'), {}, context)
-        self.assertTrue(context['hc_mode'])
-        self.assertEqual(context['hc_target'], 'q2_shared_down_mirror')
+        for mode in ('shared-down-fixed-check', 'shared-down-n64-check'):
+            context = {'mode': mode, 'mixed_mode': False}
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+                    name = node.targets[0].id
+                    if name in ('hc_mode', 'hc_target'):
+                        context[name] = eval(compile(ast.Expression(node.value), '<runner>', 'eval'), {}, context)
+            self.assertTrue(context['hc_mode'])
+            self.assertEqual(context['hc_target'], 'q2_shared_down_mirror')
 
 
 if __name__ == '__main__':
