@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [ordered Q8 K16-phase candidate](Q2-Q8-K16-PHASES.md) preserves each output's original
+accumulation order while rescheduling independent outputs. Three wide dense
+bodies change and154 other bodies are exact; peak VGPR/LDS remain unchanged.
+Local compile,91 guards and40-file capsule staging pass. New66-output/42-timing
+component and original fixed model await admission; .157 host Debug/ASan each
+passes25/25 without model/GPU access. No old controls/cohorts
+or curve are rerun.
+
+
 The [new scaled-Q2 down extraction candidate](Q2-DOWN-RAW-PREFETCH.md)
 now completes117 exact component output pairs and its original fixed model on
 .157. PP1503.711045/TG25.16358276 changes PP

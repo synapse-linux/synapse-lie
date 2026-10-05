@@ -1,6 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+New Q8 K16-phase preparation has a fresh core handover after release50aeb558,
+with no root .157 job/build/eval/lease/waiter/reservation or interleaving. One new
+component and original model are frozen with40 fixtures/four manifests. Host
+Debug and ASan/UBSan each pass25/25; six commands zero and seven artifacts,
+with no model/GPU access. The distinct helper anchors the down release and
+still needs a new checkpoint admission before GPU build/run. No qualified
+control or old component cohort is rerun; no curve/reservation/cleanup is
+inferred from this preparation.
+[Plan](../config/q2-q8-k16-phases-plan.json),
+[host](../config/q2-q8-k16-phases-host-results.json).
+
+
 Latest Q2 down raw-prefetch window releases at2026-10-05T04:39:45.626957+00:00 after only one new
 component and one original exact2048/tg128 model. The host/component/model
 command exits are six zeros,0/0/0 and four zeros; all37 artifacts verify.
