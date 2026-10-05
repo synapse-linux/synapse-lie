@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Terminal Bench stopped and deferred — 2026-10-05 UTC
+
+The owner stops the full Core-19 evaluation at 21:42 UTC and defers it until
+the functional modifications are finished. No task completed; there is no
+qualified full score. The earlier first-attempt smoke **1/1** is unchanged.
+The [stop receipt](development/validation/terminal-full-stopped-point-2026-10-05.json)
+binds fifty collected files and actual closure: `.157` client/children/groups/
+task container and original CPU lease, `.161` model/supervisor/HTTP8000 listener/
+original GPU lease, temporary HTTP rule and restored router. Exit codes are
+preserved as cancellation: runner 130, CPU supervisor 1, GPU child 137/supervisor 1;
+both collectors exit 0. The stale endpoint READY file is retained and does not
+describe the stopped process. Models and the foreign `.157` GPU register are
+unchanged; Q2 receives the fresh CPU handover. No evaluation restart, migration
+or standing reservation is scheduled. Remaining functional work continues.
+
 ## Schema type and ordered branch dispatch moves to C17 — 2026-10-05 UTC
 
 The shared C17 core now validates type/nullable arrays, keyword/type

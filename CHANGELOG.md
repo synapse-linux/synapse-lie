@@ -20,8 +20,9 @@ stable release is declared. Detailed validation history is in
 
 - Original-weight Terminal Bench Core-19 smoke qualification on Strix Point:
   1/1 unchanged task passes at the first attempt, with portable score/transcript
-  and verified CPU/GPU closure. The full 19-task evaluation starts separately
-  with the original conditional retries and timeouts.
+  and verified CPU/GPU closure. The full 19-task evaluation is stopped at the
+  owner's request and deferred until functional modifications are finished;
+  cancelled logs and actual machine closure are retained.
 
 - Original-weight Strix Point 1M capacity/function qualification: complete
   physical prefill and fixed 128-token generation, with raw evidence, phase

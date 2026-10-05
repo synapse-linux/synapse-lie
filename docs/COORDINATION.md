@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## Operator stop; Terminal Bench deferred — 2026-10-05
+
+The owner's immediate-stop request is applied to the exact CPU/GPU supervisors
+at 21:42 UTC. Fresh closure at 21:45:02 UTC verifies `.157` supervisor 20794/start
+179631020 and all 287 known identities/two groups absent, own trial container
+absent, official source 232 unchanged and original CPU lease dev52/inode4486194
+briefly free then released. Q2 receives this handover and root non-use. Root
+performed no `.157` GPU work and did not update its foreign GPU register.
+
+Fresh `.161` verification at 21:46:36 UTC confirms supervisor 65159/start9972757,
+model 65982/start9978951 and permit 66074/start9984711 absent, HTTP8000 unbound,
+original lease dev66307/inode105946405 free briefly then released and restored
+router 68087 active. Its router is the only current kernel-KFD process. The
+earlier shutdown sample still contained 65982; it is retained rather than
+called an empty-KFD pre-restore witness. The stale endpoint READY file remains
+historical. The own HTTP rule is retired with identical firewall before/after.
+[Stop and collection receipt](development/validation/terminal-full-stopped-point-2026-10-05.json).
+
+Terminal Bench is deferred until functional modifications and qualification
+finish, as the owner now requests. No client migration, automatic restart,
+waiter or standing reservation occurs. Future windows require fresh admission.
+
 ## Local type/route extraction while unchanged Core-19 stays live — 2026-10-05
 
 The 21:06 UTC read-only witnesses match CPU client `20794`/start `179631020`,

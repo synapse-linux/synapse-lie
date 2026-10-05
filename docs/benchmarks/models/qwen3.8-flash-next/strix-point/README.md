@@ -69,7 +69,7 @@ source files verified. Tasks, prompts and verifiers stay unchanged.
 | Run | Final score | Attempts executed | Input tokens | Output tokens | Task duration |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Core-19 smoke, `git-leak-recovery` | 1/1, zero errors | 1 | 26,497 | 1,907 | 401.330 s |
-| Core-19 full, 19 tasks | Running; no final aggregate | — | — | — | — |
+| Core-19 full, 19 tasks | Stopped by owner; deferred | — | — | — | — |
 
 The [smoke receipt](../../../../development/validation/terminal-smoke-point-gpu-2026-10-05.json)
 and [portable score, transcript and closure evidence](data/rocm10-terminal-smoke-r16.tar.gz)
@@ -81,14 +81,23 @@ server observes 44 whole-process threads, including runtime helpers; this does
 not count reactive workers or establish a speedup. This single task does not
 establish the full 19-task score or native OpenAI function-call quality.
 
-The full run starts separately at **20:08:35 UTC, 2026-10-05**, using the same
+The full run started separately at **20:08:35 UTC, 2026-10-05**, using the same
 `2359488` runtime/code `5bdd405`, UD-Q4_K_XL, ROCm 10 and AR profile.
 The [startup receipt](../../../../development/validation/terminal-full-point-start-2026-10-05.json)
 and [startup evidence](data/rocm10-terminal-full-start-r16.tar.gz) verify doctor,
 actual Harbor and a real model endpoint; startup is not a score or release.
+The owner stopped it at **21:42 UTC**, before any task completed, and deferred
+Terminal Bench until the functional modifications are finished. The
+[stop receipt](../../../../development/validation/terminal-full-stopped-point-2026-10-05.json)
+and [retained logs and closure](data/rocm10-terminal-full-stopped-r16.tar.gz)
+record actual client/model/container/lease/HTTP retirement and router restoration.
+The unfinished run has no full score. A later run needs the finished runtime,
+a new job name and fresh machine coordination.
 Both runs preserve the original C1, two conditional attempts and three hours
 per attempt, with context 262,144 discovered from `/v1/models`. The full run can
-take many hours. Run from the independently fetched external benchmark root:
+take many hours. The command used for the stopped run is retained below; it is
+not an instruction to resume the cancelled job. From the independently fetched
+external benchmark root:
 
 ```sh
 ./terminal_bench.py run --tier full \

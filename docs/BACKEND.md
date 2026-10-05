@@ -26,6 +26,10 @@ do not constitute implementation tasks. GPU qualification in this queue uses
 `.161` with fresh coordination and admission for every run.
 
 Item 1 records completed qualification. The active queue is items 2–7 below.
+At the owner's request, Terminal Bench (item 2) is deferred until the functional
+modifications and their qualification are finished. Continue items 3–7 first;
+the next source work is the remaining C17 extraction (item 7). No Terminal Bench
+client/server restart or machine reservation is queued in the meantime.
 
 1. **Completed: OpenAI GPU controls for the r11 runtime.**
    The corrected `abb69d5` runtime passes the same 34 original-weight checks
@@ -36,7 +40,7 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    [MTP qualification](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
    This closes these wire/lifecycle checks for r11; later filters, fixed-EOS
    measurements and steering require their own qualification.
-2. **Run Terminal Bench tasks against the actual server.** Use the pinned
+2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
    Terminal Bench Mini smoke task, then Core-19 with unchanged instructions and
    verifiers. Record task rewards, transcripts, truncation and infrastructure
    failures separately. Its Terminus text command protocol and native OpenAI
@@ -53,12 +57,16 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    score. The newer finite-value/cache runtime `2359488`
    also passes AR37/MTP37. Its unchanged Core-19 smoke now passes **1/1 task at
    the first attempt**, with CPU/GPU/process/container/lease/HTTP-permit closure
-   verified. The full **19-task** run starts at 20:08:35 UTC under persistent
-   supervision: CPU client `.157`, GPU HTTP port 8000 `.161`, original two
-   conditional attempts, C1 and three hours per attempt. No final full score
-   exists at this start observation.
+   verified. The full **19-task** run started at 20:08:35 UTC with CPU client
+   `.157` and GPU HTTP port 8000 `.161`, then was stopped by the owner at
+   21:42 UTC before any task completed. Processes, owned task containers,
+   HTTP8000 listener, original leases and the temporary HTTP permit are closed;
+   the preexisting router is restored. No full score is qualified. The later
+   run must use the finished runtime and a freshly coordinated placement,
+   preserving original conditional attempts, C1 and three hours per attempt.
    [Smoke qualification](development/validation/terminal-smoke-point-gpu-2026-10-05.json) ·
-   [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json).
+   [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json) ·
+   [Operator stop and closure](development/validation/terminal-full-stopped-point-2026-10-05.json).
    [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
 3. **Close full 1M context acceptance.** The newly declared `1bff953` `.161`
    run completes all **1,048,448 physical prefill tokens and 128 output tokens**

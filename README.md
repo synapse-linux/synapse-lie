@@ -39,7 +39,8 @@ output budgets and retained Responses lifecycle. The receipts identify the
 tested runtime and limits.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
-passes 1/1 task on Strix Point. The full 19-task evaluation is running separately.
+passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until
+the functional modifications are finished.
 
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)
