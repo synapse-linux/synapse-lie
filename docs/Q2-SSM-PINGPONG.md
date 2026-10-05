@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Alternating SSM activation buffers
 
+## Runtime campaign prepared after row-group completion
+
+The first row-group campaign is now complete and released. Its model result
+1576.943074 PP does not replace saved1580.226725. The follow-up runtime patch
+is applied and this candidate has a separate frozen90-fixture/ten-manifest
+plan, with six integrated launcher checks,142 existing guards and11 analysis
+checks passing. Both actual-runtime source archives verify1027 provider files.
+Fresh .157 checks at22:10:24UTC confirm Core closure and continued non-use;
+host checks are running. Component and model inference remain unmeasured and
+require fresh GPU admission. Earlier preparation sections below are historical.
+
+[Frozen campaign](../config/q2-ssm-pingpong-plan.json),
+[applied runtime receipt](../config/q2-ssm-followup-runtime-applied.json),
+[archive staging](../config/q2-ssm-pingpong-staging.json).
+
+Host checks finish at22:11:07UTC:27/27 Debug and27/27 ASan/UBSan, six
+commands exit0 and seven artifacts verify. All90 fixture and ten manifest
+bindings pass. These checks are CPU fixtures; GPU admission remains pending.
+[Host report](../config/q2-ssm-pingpong-host-results.json).
+
 This local candidate follows the [compact-LDS SSM experiment](Q2-SSM-COMPACT-LDS.md)
 and retains both sources separately. It addresses that candidate's doubled
 block barriers without increasing the32768-byte shared allocation. It has no

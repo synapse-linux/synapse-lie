@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [alternating-buffer SSM campaign](docs/Q2-SSM-PINGPONG.md) now uses the
+applied follow-up launcher, with 90 frozen fixtures and ten manifest bindings.
+Six integrated launcher checks, 142 existing checks and eleven analysis checks
+pass locally; both candidate archives verify. Fresh .157 handover checks pass
+at 22:10:24 UTC and host checks have started. GPU admission and measured results
+remain pending. Saved Q2 1580.226725 and fixed UD 1685.777092 PP are unchanged.
+
 The [SSM row-group trial](docs/Q2-SSM-ROW-GROUP.md) is complete: component
 cycle time improves1.321%, but original-model PP1576.943074 is0.207796% below
 saved1580.226725. All30 component pairs/60 FP64 checks and21 parent model files

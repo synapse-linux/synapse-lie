@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The SSM pingpong runtime patch is applied after the completed row-group
+campaign. The new plan freezes 90 fixtures, ten manifests and its own window
+helper; component/model archives each verify 1027 provider files. Six integrated
+launcher tests, 142 existing guards and eleven analysis checks pass. The old
+preparation receipts remain historical snapshots; their unapplied status does
+not describe this new campaign. The prior caching explanation was informational
+and made no goal progress. Fresh 22:10:24 UTC checks confirm original Core
+processes/groups retired, its original CPU lease free, empty KFD and unchanged
+release413de339. Host q2-ssm-pingpong-host-r1 starts under Core's explicit non-use;
+GPU admission is still separate. Only the new candidate will run against saved
+fixed Q2/UD/1580 results, with original exact2048/tg128, no Q4 or curve sweep.
+
 The [composed SSM row-group campaign](Q2-SSM-ROW-GROUP.md) completes on .157:
 component projection/convolution4941.275597→4875.997225µs (-1.321083%),
 but original exact2048/tg128 model1576.943074 PP /25.12187977 TG is

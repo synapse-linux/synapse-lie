@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM pingpong revalidation at 2026-10-05T22:10:24.301780 UTC confirms the
+original Core client processes/groups retired, CPU lease52/4486194 free,
+empty KFD and latest GPU release413de339 unchanged. Core's explicit non-use
+persists. Host q2-ssm-pingpong-host-r1 starts; no GPU admission is claimed by
+that observation. The applied runtime and frozen90/10 plan require their own
+fresh four-lease admission before component/model work. Evidence is preserved
+in evidence/q2-ssm-pingpong-runtime-preparation/core-handover-r2-*.
+
 SSM row-group window releases at2026-10-05T21:55:33.594774UTC,
 SHA256 `413de339b4bacb22e34cb5c0221535dca0831ada6a1b7e4c2b074d9b4d1e3d99`.
 Core's actual CPU closure21:45:02UTC and explicit non-use handover precede

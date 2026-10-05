@@ -222,6 +222,7 @@ def model(path, plan, info, source, variant):
                     for metric in ('prefill_tok_s', 'decode_steps_s')),
                 release_at=release['at'], release_sha256=sha(release_path),
                 controls_rerun=False, component_rerun=False, contemporaneous_bookends=False,
+                original_tester_unchanged=True,
                 numerical_acceptance=False, independent_model_quality=False, promoted=False,
                 goal_met=False, full_curve_admitted=False,
                 limits='One new candidate on unchanged exact2048/tg128. Historical comparisons, '
