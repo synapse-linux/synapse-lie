@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [new IQ2 raw/selective-Q2 composition](Q2-IQ2-RAW-SELECTIVE.md)
+combines the retained PP1505.152258 base with the previously measured marginal
+48/64-row C17 down policy. All117 numerical source files remain exact to the
+best parent and all five changed files reproduce the measured selector.
+Local syntax,93 guards and40-file/1027-provider staging pass. Only the new
+original fixed model is planned; old components and Q2/UD controls are reused.
+
 The [ordered Q8 K16-phase candidate](Q2-Q8-K16-PHASES.md) now completes66 exact
 component output pairs and its original fixed model on .157.
 PP1501.482502/TG25.17806319 changes prefill

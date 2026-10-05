@@ -1,6 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+Fresh core handover after release11ba034f confirms no root .157 job/build/
+eval/client/lease/waiter/reservation/restart/interleaving. The new IQ2 raw/
+selective-Q2 composition freezes40 fixtures/seven manifests and one original
+exact2048/tg128 model. All numerical sources remain unchanged; preserved
+component evidence and qualified Q2/UD/best-parent model results are reused.
+The distinct helper anchors the latest Q8 K16 release. A preparation checkpoint
+and fresh helper admission remain required before GPU build/run; no GPU
+reservation, control/cohort rerun, full curve or cleanup is inferred.
+[Plan](../config/q2-iq2-raw-selective-plan.json).
+
+The new host gate passes25/25 Debug and25/25 ASan/UBSan, six command exits zero
+and seven verified artifacts, with no model/GPU access.
+[Host receipt](../config/q2-iq2-raw-selective-host-results.json).
+
 Latest Q8 K16-phase window releases at 2026-10-05T05:05:32.390541+00:00 after
 one new component and one original exact2048/tg128 model. All 13 host/component/
 model commands exit zero and all 37 artifacts verify. All 66 component output
