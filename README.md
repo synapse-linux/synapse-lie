@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM row-group trial](docs/Q2-SSM-ROW-GROUP.md) is complete: component
+cycle time improves1.321%, but original-model PP1576.943074 is0.207796% below
+saved1580.226725. All30 component pairs/60 FP64 checks and21 parent model files
+pass; retain the experiment and keep1580 as the base. Full samples and PP/TG
+charts are available. The .157 window is verified released; the other SSM
+variants remain unmeasured, with alternating buffers next.
+
 The [SSM follow-up analyzer](docs/Q2-SSM-FOLLOWUP-ANALYSIS.md) now preserves
 complete component timings through safe numeric rejection and prints original
 model comparisons against saved Q2/UD/1580 references. Eleven local parser and

@@ -1,15 +1,71 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Four-row grouping for the fused SSM projection
 
-This is local preparation, without GPU numerics or model timing. The original
-standalone experiment derives from saved1574.505432 PP /25.17589001 TG at
-original exact2048/tg128, against fixed Q2/UD1443.672867 /1685.777092 PP.
-The independently completed
-[register-scatter experiment](Q2-DOWN-REGISTER-SCATTER.md) subsequently measures
-1580.226725 PP /25.10411864 TG. A separate composition now applies the same
-two SSM changes to that retained1580 provider. Both source inventories and
-their preparation evidence remain available; neither SSM variant has run on
-a GPU. Saved model results and archived register-scatter capsules are unchanged.
+The composed SSM row-group4 experiment completes on .157 on5 October2026.
+Its complete projection/convolution cycle time decreases1.321083%, but original
+model prefill is1576.943074 tokens/s versus saved1580.226725 (-0.207796%).
+Decode is25.12187977 versus25.10411864 calls/s (+0.070750%), with overlapping
+sample ranges. Keep the source as a measured experiment and retain the1580
+register-scatter provider as the performance base. No decode speedup is inferred.
+
+All30 component output pairs are exact, all60 sampled FP64 checks pass, and
+all21 parent model files plus nine internal replays are exact. The largest
+sampled relative RMS/scaled errors are1.067384e-5/1.108063e-5, below0.002.
+Identical parent logits retain the inherited difference from fixed Q2/UD;
+independent task quality and full context/concurrency parity remain open.
+
+## Complete model samples
+
+The original exact2048/tg128 input,127 timed decode calls, capacity9216,
+chunk2048, greedy C1, MTP off, one warmup/three measurements and15-second
+cooldowns remain unchanged. Only the new SSM model runs. The other columns
+are saved evidence, without recompilation or another inference run.
+PP is prefill tokens/s; TG is decode forward calls/s.
+
+| Session | Fixed Q2 PP / TG | Saved1580 PP / TG | New SSM PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1578.810990 / 25.08217355 | 1578.011782 / 25.09727524 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1580.873846 / 25.11185031 | 1576.680364 / 25.10952130 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1580.226725 / 25.09349758 | 1576.943074 / 25.12409589 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1579.621125 / 25.10411864 | 1577.662261 / 25.12187977 | 1685.400011 / 24.15102104 |
+| Median | 1443.672867 / 25.09595499 | 1580.226725 / 25.10411864 | 1576.943074 / 25.12187977 | 1685.777092 / 24.34174251 |
+
+New measured prefill spans1576.680364–1577.662261 tokens/s; saved-parent
+values span1579.621125–1580.873846. Their observed ranges do not overlap,
+while historical controls do not establish a contemporaneous causal estimate.
+The required gain from the retained1580 base to fixed UD1685.777092 remains
+6.6794445%; this candidate does not close it.
+
+[All model rates and elapsed times](figures/q2-ssm-row-group-model-wrapped.csv),
+[model chart](figures/q2-ssm-row-group-model-wrapped.svg),
+[all14 component timings](figures/q2-ssm-row-group-component.csv),
+[component chart](figures/q2-ssm-row-group-component.svg).
+
+The component median is4941.275597→4875.997225 microseconds, timing projection
+and boundary convolution together with three weight rotations beyond32MiB.
+This is a component result; its small saving does not translate into a whole
+model gain in this run. The cause of the difference is not isolated by these
+measurements, and no hardware cache/bandwidth saturation claim follows.
+
+Host27 Debug +27 ASan/UBSan pass. All13 runtime commands exit0 and37 collected
+artifacts verify. Model CPU/GPU peaks are82.125/74.0°C, without a thermal stop.
+The154.251403-second candidate build and13.57126461-second load are excluded
+from PP/TG. Resident memory remains43,156,012,544 bytes.
+
+The window releases at21:55:33.594774UTC:1115 process identities and889 groups
+retired, KFD empty, four original leases free and seven model stat tuples
+unchanged. Canonical/main/remote mirrors agree. No job, waiter, restart,
+reservation or .157 cleanup remains. Further work requires fresh admission.
+
+[Model report](../config/q2-ssm-row-group-model-results.json),
+[component report](../config/q2-ssm-row-group-component-results.json),
+[final audit](../config/q2-ssm-row-group-final-audit.json),
+[disposition](../config/q2-ssm-row-group-disposition.json),
+[release](../config/q2-ssm-row-group-window-release.json).
+
+The original standalone source derives from saved1574 and remains unexecuted.
+The measured composition applies the same two SSM changes to saved1580.
+Both source inventories and their original preparation evidence are retained.
 
 ## Composition and runnable scope
 
@@ -34,13 +90,10 @@ verifier temporarily reused the historical standalone filename. The historical
 file is restored exactly; the composition uses its own tool, and both initial
 and final receipts are retained. No numerical source or tolerance changed.
 
-Remote host27 Debug +27 ASan/UBSan, GPU component and original model remain
-pending. Core's CPU .157 full19 window is active; both reported process
-identities are independently observed live at20:11:40UTC. Q2 has no remote
-job, build, client, lease, waiter or reservation. A fresh handover and full ownership
-checks are required before runtime work. The planned component is followed by
-one new original2048/tg128 model even after safe numerical/timing rejection.
-Saved Q2/UD/1580 controls are reused; no Q4 or full curve is included.
+Execution follows the fresh Core-19 CPU closure and explicit .157 handover.
+Original source/fixture/manifest hashes remain exact through host qualification,
+GPU admission, component and model execution, collection and release. Saved
+Q2/UD/1580 controls are reused; no Q4 or full curve is included.
 
 [Composition source](../config/q2-ssm-row-group-compose-source.json),
 [assembly audit](../config/q2-ssm-row-group-compose-static.json),
@@ -121,7 +174,7 @@ retains the existing enumeration warnings.
 The fixture contains the literal saved1574 dense template and SSM wrapper under
 test-only names, also verified exact to saved1580. Host and gfx1151 device
 syntax checks pass. Its composed source is wired into the launcher as described
-above, but the fixture has never executed on a GPU.
+above; its first GPU execution is the completed composition reported here.
 
 Five shapes1024/1025/1057/2048/2049 with three weight rotations cover30 complete
 projection/convolution output pairs, poisoned intentionally-unwritten raw rows,
@@ -138,11 +191,12 @@ kernel. Safe numerical failures retain exit1 and continue timing; runtime or
 guard exceptions exit2. The new original-model experiment must still follow
 safe execution even if this component is numerically or temporally negative.
 
-The launcher and frozen plan are prepared; future work needs .157 host
-qualification and fresh coordinated ownership before any remote numerical build/run. No
-current remote job, GPU reservation or waiting process is created here. No
-qualified comparator rerun, Q4 test, full curve, model conversion or .157 cleanup
-is part of this preparation. Independent inherited F16 task quality stays open.
+The original frozen plan is now completed. The prepared fixed-shape,
+fixed-bounds, compact-LDS and alternating-buffer variants remain separate,
+unmeasured sources. Prioritize the compact alternating-buffer implementation
+next; use a new frozen plan and fresh admission, without repeating this arm or
+its qualified saved model controls. Independent inherited F16 task quality
+stays open.
 
 [Source](../config/q2-ssm-row-group-source.json),
 [static audit](../config/q2-ssm-row-group-static.json),
@@ -156,4 +210,4 @@ The source derives from independently fetched official Gufo pin
 The existing HC tile mapping is reused without importing DS4 or sibling
 CachyOS sources or artifacts. MIT SPDX markers and upstream notices remain.
 No C17 ABI, persistent-state, resource-accounting or public metrics contract
-changes. This experiment supplies no throughput or quality acceptance yet.
+changes. Measured component/model timing is reported above; independent task-quality acceptance remains open.

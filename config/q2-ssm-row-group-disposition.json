@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-disposition.v1",
+  "decision": "RETAIN_EXPERIMENT_AND_KEEP_SAVED1580",
+  "next_composition_variant": "down-register-scatter",
+  "source_manifest": "config/q2-ssm-row-group-compose-source.json",
+  "retained_parent_manifest": "config/q2-down-register-scatter-pair-source.json",
+  "model_result_sha256": "42abc61075f8458dd4255715f5f88a6889e4f5c1076c52c3830969de4ed715c1",
+  "component_result_sha256": "048496bdf988b0f3c82cb81ff70398642eb0d5cdc3938b3257531d0fb237dffe",
+  "final_audit_sha256": "0868fed8461d08d848e34955a69da1c4ca3479719688667274b57d46bd5799ec",
+  "release_sha256": "413de339b4bacb22e34cb5c0221535dca0831ada6a1b7e4c2b074d9b4d1e3d99",
+  "prefill_tok_s": 1576.943074,
+  "decode_steps_s": 25.12187977,
+  "nominal_pp_gain_percent": -0.20779619456189335,
+  "nominal_decode_change_percent": 0.07074986481181433,
+  "observed_historical_pp_ranges_overlap": false,
+  "all21_parent_files_exact": true,
+  "component_cycle_time_change_percent": -1.3210833903831043,
+  "required_pp_increase_to_fixed_ud_percent": 6.9015819146810875,
+  "independent_quality": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "One new original2048/tg128 model with saved comparisons. Retain all sources; component and model timing are distinct. Inherited F16 task-quality gap remains. No full curve follows without point parity."
+}

@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM row-group window releases at2026-10-05T21:55:33.594774UTC,
+SHA256 `413de339b4bacb22e34cb5c0221535dca0831ada6a1b7e4c2b074d9b4d1e3d99`.
+Core's actual CPU closure21:45:02UTC and explicit non-use handover precede
+Q2 revalidation21:47:02UTC and admission21:48:54UTC. Closure receipt
+`terminal-full-client-stop-closure-r16.json` SHA1141a001a8ca79f85c266f8710170bca1ead77009fa3bbc6b3b6ac94ae7fc2b9
+belongs to Core; Q2 changes none of its artifacts, processes or containers.
+The unchanged GPU registry releaseb9e05fd2 is verified before admission.
+Host27+27, one new SSM component and one original2048/tg128 model finish and
+collect:13 exits0/37 verified artifacts. Release verifies1115 retired process
+identities/889 groups, empty KFD, four free original leases and seven unchanged
+model stat tuples. Canonical/main/remote release/active/ready mirrors agree;
+Core receives the closure. No Q2 job/build/client/lease/waiter/reservation,
+automatic restart or cleanup remains. Future variants require fresh admission.
+[Release](../config/q2-ssm-row-group-window-release.json),
+[final audit](../config/q2-ssm-row-group-final-audit.json).
+
 Read-only2026-10-05T21:33:40.108179UTC confirms original Core-19
 supervisor20794/start179631020 and runner20860/start179631128 alive in their
 original groups. KFD remains empty. The SSM follow-up analyzer and synthetic

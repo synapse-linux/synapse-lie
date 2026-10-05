@@ -1,5 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [composed SSM row-group campaign](Q2-SSM-ROW-GROUP.md) completes on .157:
+component projection/convolution4941.275597→4875.997225µs (-1.321083%),
+but original exact2048/tg128 model1576.943074 PP /25.12187977 TG is
+-0.207796%/+0.070750% against saved1580.226725/25.10411864. All30 component
+pairs are exact,60 FP64 checks pass,21 parent model files and nine internal
+replays are exact. Inherited fixed-Q2/UD differences remain unchanged.
+Retain the experiment without replacing1580. No isolated causal or decode
+speedup claim follows from the different component/model outcomes.
+Fresh Core CPU closure/non-use precedes admission21:48:54UTC. Host27+27,
+13 runtime exits0,37 verified artifacts,88 fixtures/five manifests/1027 provider
+files pass. Six CSV/SVG/PNG exports show all14 component timings and all16
+new/saved model samples. CPU/GPU model peaks82.125/74.0°C; no thermal stop.
+Release21:55:33.594774UTC verifies1115 retired identities/889 groups, empty
+KFD, four free original lease inodes and seven unchanged model stat tuples;
+canonical/main/remote mirrors agree and Core is notified. No Q2 job, waiter,
+reservation, restart or cleanup remains. Next priority is the separately
+prepared alternating-buffer SSM, after new plan binding and fresh admission.
+The fixed-point gap remains6.6794445% from retained1580; full-curve and
+independent task-quality acceptance remain open.
+
 The [SSM follow-up result analyzer](Q2-SSM-FOLLOWUP-ANALYSIS.md) now covers
 all four prepared sources without modifying the frozen row-group tools.
 It reuses30-pair/60-FP64/14-timing validation, retains safe numerical failures,
