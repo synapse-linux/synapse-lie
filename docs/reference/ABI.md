@@ -87,7 +87,7 @@ output argument can refuse before mutation. The default construction budget is
 64 million counted units, distinct from runtime state work. This adds no engine,
 request/generation, worker/event or persisted-state layout. The current 45-file
 inventory and extended runtime recipe require matching sealed provider/application
-builds. Schema dispatch/caching and provider composition templates remain
+builds. Schema dispatch and private caching/composition templates remain
 transitional. See [construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
 
 `lie/schema_transform.h` adds separate schema-transformation ABI 1. Tagged
