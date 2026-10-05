@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-iq2-slice-commit-staging.v1",
+  "capsule_sha256": "7048be41e6ef43b090739da1df59e546635770be6c824cf24a75320661562820",
+  "fixture_files_verified": 50,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}
