@@ -171,6 +171,11 @@ yet project them; [provider/cache integration remains open](../development/STEER
 The private provider `LieSteeringBytes()` reports its owned device bank allocation
 separately from model weights. No public GPU steering counters or performance
 samples are qualified by the activation descriptor or syntax checks.
+The 192-byte policy metadata serializes semantic history/scales/frontier only;
+it does not restore source revision, capacity, allocation or executed-token
+counters. A restore uses the destination's capacity and advances its own local
+revision once. Actual model/resource/metrics wiring remains pending. Host state
+roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new
 prompt tokens are processed. Decode time and call count must agree, and confirmed

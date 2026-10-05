@@ -8,6 +8,34 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Steering metadata and staged RAM/SSD restore — 2026-10-05 UTC
+
+The C17 policy now encodes explicit little-endian, checksummed 192-byte metadata
+instead of native structure padding. A pristine destination validates bank,
+history/scales and an independently confirmed target frontier before staging.
+The immutable plan supplies its combined semantic scope before transfer and
+commits only the exact completed restored position. Refusals preserve live state;
+plans retain their policy/bank. Capacity and revision remain destination-local.
+Absent metadata admits only unsteered legacy state with zero scales.
+
+The additive state role requires an existing cache-scope section and stays after
+the KVC auxiliary boundary. Eight Debug and eight ASan/UBSan/LSan host tests pass,
+including full independent wire oracles, checksummed malformed frames, scale
+history continuation, bank/geometry/frontier incompatibility, owner/stale/discard
+lifetimes and actual shared RAM/SSD framing with synthetic model bytes. The
+DS4 model payload and leading client extension remain byte-identical. All 31
+public C++ headers and complete-adapter syntax pass. Local CPU peak is 75 C.
+Two Debug exit-8 fixture failures remain retained: an incorrectly transcribed
+oracle length and prematurely unlinking the private file before SSD admission.
+
+This is host protocol qualification, not original-weight or GPU steering. Live
+model/session admission, resource metrics, scale transitions, provider/cache and
+HTTP/bench wiring remain pending. At 00:52:53.054202 UTC `.161` still has external
+PID29223/start2470351 and router PID29377/start2474081 as actual/kernel KFD
+clients. No GPU build/run, service change, retry, waiter or reservation follows.
+The seven-item roadmap and all frozen GPU/evaluation failures remain unchanged.
+[Commands, hashes and scope](development/validation/steering-state-host-2026-10-05.json).
+
 ## Directional activation operators and provider hooks — 2026-10-05 UTC
 
 The owned C17 activation descriptor validates row/branch spans, scale and byte

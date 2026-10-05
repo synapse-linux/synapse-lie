@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/steering.h"
+#include <float.h>
 #include <math.h>
 #include <openssl/evp.h>
 #include <pthread.h>
@@ -7,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+_Static_assert(sizeof(float) == 4 && FLT_RADIX == 2 && FLT_MANT_DIG == 24 &&
+               FLT_MAX_EXP == 128, "Steering metadata requires IEEE754 binary32");
 
 typedef struct {
   uint64_t limit, frontier, revision, epochs;
@@ -26,7 +29,7 @@ struct lie_steering_policy {
 struct lie_steering_update {
   lie_steering_policy *policy;
   uint64_t base_revision, base_frontier;
-  bool advance, changed;
+  bool advance, changed, restore;
   policy_state next;
 };
 static lie_status fail(lie_error *e, lie_status rc, const char *message) {
@@ -306,8 +309,9 @@ lie_status lie_steering_update_commit(lie_steering_update **handle,
   lie_steering_policy *p = u->policy;
   if (!pthread_equal(p->owner, pthread_self()))
     return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
-  if (completed < u->base_frontier || completed > u->next.frontier ||
-      (!u->advance && completed != u->base_frontier))
+  if (u->restore ? completed != u->next.frontier :
+      (completed < u->base_frontier || completed > u->next.frontier ||
+       (!u->advance && completed != u->base_frontier)))
     return fail(e, LIE_INVALID, "unconfirmed steering target frontier");
   pthread_mutex_lock(&p->gate);
   if (p->state.revision != u->base_revision ||
@@ -324,17 +328,156 @@ lie_status lie_steering_update_commit(lie_steering_update **handle,
   lie_steering_update_discard(handle);
   return ok(e);
 }
-lie_status lie_steering_policy_cache_scope(const lie_steering_policy *source,
-                                           const unsigned char semantic[32],
-                                           unsigned char out[32],
-                                           lie_error *e) {
-  if (!source || !semantic || !out)
-    return fail(e, LIE_INVALID, "invalid steering cache scope destination");
+
+/* Steering metadata v1. All offsets are protocol fields, independent of C
+ * padding, destination capacity/revision and target model/platform. The digest
+ * detects corruption; model/input/payload identity belongs to the state owner. */
+static void le32(unsigned char *p, uint32_t v) {
+  for (unsigned i = 0; i < 4; ++i) p[i] = (unsigned char)(v >> (8 * i));
+}
+static uint32_t read32(const unsigned char *p) {
+  uint32_t v = 0;
+  for (unsigned i = 0; i < 4; ++i) v |= (uint32_t)p[i] << (8 * i);
+  return v;
+}
+static uint64_t read64(const unsigned char *p) {
+  uint64_t v = 0;
+  for (unsigned i = 0; i < 8; ++i) v |= (uint64_t)p[i] << (8 * i);
+  return v;
+}
+static bool all_zero(const unsigned char *p, size_t bytes) {
+  for (size_t i = 0; i < bytes; ++i) if (p[i]) return false;
+  return true;
+}
+static bool metadata_hash(const unsigned char state[160], unsigned char out[32]) {
+  static const char domain[] = "synapse-lie.steering-state.v1";
+  unsigned char frame[sizeof(domain) + 160];
+  memcpy(frame, domain, sizeof(domain));
+  memcpy(frame + sizeof(domain), state, 160);
+  return hash(frame, sizeof(frame), out);
+}
+static bool read_settings(const unsigned char *p, bool bank,
+                           lie_steering_settings *out) {
+  uint32_t ffn = read32(p), attention = read32(p + 4);
+  /* The encoder canonicalizes zero; aliases must not produce other wire IDs. */
+  if (ffn == UINT32_C(0x80000000) || attention == UINT32_C(0x80000000))
+    return false;
+  lie_steering_settings s;
+  lie_steering_settings_init(&s, false);
+  memcpy(&s.ffn, &ffn, 4);
+  memcpy(&s.attention, &attention, 4);
+  return settings_valid(&s, bank, out);
+}
+lie_status lie_steering_policy_encode(const lie_steering_policy *source,
+  unsigned char *out, size_t capacity, lie_error *e) {
+  if (!source || !out)
+    return fail(e, LIE_INVALID, "invalid steering state output");
+  if (capacity < LIE_STEERING_STATE_BYTES)
+    return fail(e, LIE_BUFFER_SMALL, "steering state output is too small");
   lie_steering_policy *p = (lie_steering_policy *)source;
-  unsigned char steering[32], zero[32] = {0};
+  if (!pthread_equal(p->owner, pthread_self()))
+    return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
+  if (atomic_load_explicit(&p->updates, memory_order_relaxed))
+    return fail(e, LIE_RESOURCE_LIMIT, "unconfirmed steering update during capture");
   pthread_mutex_lock(&p->gate);
-  memcpy(steering, p->state.scope, 32);
+  policy_state s = p->state;
   pthread_mutex_unlock(&p->gate);
+  unsigned char frame[LIE_STEERING_STATE_BYTES] = {0};
+  memcpy(frame, "LIESTP1", 8);
+  le32(frame + 8, 1);
+  le32(frame + 12, LIE_STEERING_STATE_BYTES);
+  le32(frame + 16, (p->bank ? 1u : 0u) | (s.work ? 2u : 0u) |
+                         (s.history ? 4u : 0u));
+  le64(frame + 24, s.frontier);
+  le64(frame + 32, s.epochs);
+  scale_bytes(frame + 40, s.settings);
+  scale_bytes(frame + 48, s.work ? s.last : s.settings);
+  memcpy(frame + 56, p->bank_info.scope_sha256, 32);
+  memcpy(frame + 88, s.digest, 32);
+  memcpy(frame + 120, s.scope, 32);
+  if (!metadata_hash(frame, frame + 160))
+    return fail(e, LIE_RESOURCE_LIMIT, "cannot checksum steering state");
+  memcpy(out, frame, sizeof(frame));
+  return ok(e);
+}
+lie_status lie_steering_policy_prepare_restore(lie_steering_policy *p,
+  const unsigned char *state, size_t bytes, uint64_t completed,
+  lie_steering_update **out, lie_error *e) {
+  if (!p || !out || *out || (bytes ? !state : state != NULL))
+    return fail(e, LIE_INVALID, "invalid steering restore output or span");
+  if (!pthread_equal(p->owner, pthread_self()))
+    return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
+  pthread_mutex_lock(&p->gate);
+  policy_state current = p->state;
+  pthread_mutex_unlock(&p->gate);
+  if (current.frontier || current.work || current.history ||
+      completed > current.limit ||
+      atomic_load_explicit(&p->updates, memory_order_relaxed))
+    return fail(e, LIE_INVALID, "steering restore requires an idle pristine destination");
+  policy_state next = current;
+  if (bytes) {
+    unsigned char want[32];
+    if (bytes != LIE_STEERING_STATE_BYTES || memcmp(state, "LIESTP1", 8) ||
+        read32(state + 8) != 1 || read32(state + 12) != LIE_STEERING_STATE_BYTES ||
+        read32(state + 16) > 7 || !all_zero(state + 20, 4) ||
+        !all_zero(state + 152, 8) ||
+        !metadata_hash(state, want) || memcmp(want, state + 160, 32))
+      return fail(e, LIE_INVALID, "invalid steering state framing or checksum");
+    const uint32_t flags = read32(state + 16);
+    const bool bank = (flags & 1u) != 0;
+    next.work = (flags & 2u) != 0;
+    next.history = (flags & 4u) != 0;
+    next.frontier = read64(state + 24);
+    next.epochs = read64(state + 32);
+    if (bank != (p->bank != NULL) ||
+        memcmp(state + 56, p->bank_info.scope_sha256, 32) ||
+        !read_settings(state + 40, bank, &next.settings) ||
+        !read_settings(state + 48, bank, &next.last) ||
+        next.frontier != completed || next.work != (completed != 0) ||
+        next.history != (next.epochs != 0) || next.epochs > completed ||
+        (next.history && (!bank || !next.work || all_zero(state + 88, 32))) ||
+        (!next.history && !all_zero(state + 88, 32)) ||
+        (!next.work && !same(next.last, next.settings)) ||
+        (next.work && !next.history && active(next.last)) ||
+        (next.epochs == 1 && !active(next.last)))
+      return fail(e, LIE_INVALID, "incompatible steering bank, history or frontier");
+    memcpy(next.digest, state + 88, 32);
+    if (!scope(p, &next))
+      return fail(e, LIE_RESOURCE_LIMIT, "cannot prepare restored steering scope");
+    if (memcmp(next.scope, state + 120, 32))
+      return fail(e, LIE_INVALID, "steering state scope differs from its policy");
+  } else {
+    if (active(current.settings))
+      return fail(e, LIE_INVALID, "unsteered legacy state requires zero steering scales");
+    next.frontier = completed;
+    next.work = completed != 0;
+    next.last = next.settings;
+  }
+  if (current.revision == UINT64_MAX)
+    return fail(e, LIE_RESOURCE_LIMIT, "steering revision exhausted");
+  lie_steering_update *u = calloc(1, sizeof(*u));
+  if (!u)
+    return fail(e, LIE_RESOURCE_LIMIT, "cannot allocate steering restore update");
+  lie_status rc = lie_steering_policy_retain(p);
+  if (rc != LIE_OK) {
+    free(u);
+    return fail(e, rc, "cannot pin steering restore policy");
+  }
+  u->policy = p;
+  u->base_revision = current.revision;
+  u->base_frontier = current.frontier;
+  u->next = next;
+  u->restore = u->changed = true;
+  atomic_fetch_add_explicit(&p->updates, 1, memory_order_relaxed);
+  *out = u;
+  return ok(e);
+}
+static lie_status compose_scope(const unsigned char steering[32],
+                                 const unsigned char semantic[32],
+                                 unsigned char out[32], lie_error *e) {
+  if (!semantic || !out)
+    return fail(e, LIE_INVALID, "invalid steering cache scope destination");
+  unsigned char zero[32] = {0};
   if (!memcmp(steering, zero, 32)) {
     memmove(out, semantic, 32);
     return ok(e);
@@ -353,4 +496,23 @@ lie_status lie_steering_policy_cache_scope(const lie_steering_policy *source,
                 "cannot compose steering semantic scope");
   memcpy(out, result, 32);
   return ok(e);
+}
+lie_status lie_steering_policy_cache_scope(const lie_steering_policy *source,
+  const unsigned char semantic[32], unsigned char out[32], lie_error *e) {
+  if (!source)
+    return fail(e, LIE_INVALID, "invalid steering cache policy");
+  lie_steering_policy *p = (lie_steering_policy *)source;
+  unsigned char steering[32];
+  pthread_mutex_lock(&p->gate);
+  memcpy(steering, p->state.scope, 32);
+  pthread_mutex_unlock(&p->gate);
+  return compose_scope(steering, semantic, out, e);
+}
+lie_status lie_steering_update_cache_scope(const lie_steering_update *u,
+  const unsigned char semantic[32], unsigned char out[32], lie_error *e) {
+  if (!u)
+    return fail(e, LIE_INVALID, "invalid steering update scope");
+  if (!pthread_equal(u->policy->owner, pthread_self()))
+    return fail(e, LIE_WRONG_OWNER, "steering device owner violation");
+  return compose_scope(u->next.scope, semantic, out, e);
 }

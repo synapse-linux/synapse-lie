@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/state.h"
+#include "lie/steering.h"
 #include "state_internal.h"
 #include <string.h>
 static uint64_t element_bytes(uint32_t dtype) {
@@ -34,7 +35,7 @@ int lie_state_validate(const lie_state_layout *l,uint64_t *bytes) {
     if(l->format!=LIE_STATE_ALIGNED){
         if(l->model_id>255||(l->quant_bits!=2&&l->quant_bits!=4&&l->quant_bits!=5&&l->quant_bits!=6&&l->quant_bits!=8))return 0;
     }else if(l->model_id||l->quant_bits)return 0;
-    uint64_t end=0;unsigned tokens=0,logits=0,aux=0;
+    uint64_t end=0;unsigned tokens=0,logits=0,aux=0,steering=0,scopes=0;
     for(unsigned i=0;i<l->section_count;++i){const lie_state_section *s=&l->sections[i];uint64_t n;
         uint64_t next=end;
         if(l->format==LIE_STATE_ALIGNED){if(end>UINT64_MAX-7)return 0;next=(end+7)&~UINT64_C(7);}
@@ -46,11 +47,17 @@ int lie_state_validate(const lie_state_layout *l,uint64_t *bytes) {
         if(aux&&(s->role==LIE_STATE_TOKENS||s->role==LIE_STATE_LOGITS))return 0;
         if(s->role==LIE_STATE_CACHE_SCOPE&&(s->layer||s->dtype!=LIE_STATE_U8||s->rank!=1||s->bytes!=32||
            (l->format!=LIE_STATE_ALIGNED&&!aux)))return 0;
+        if(s->role==LIE_STATE_CACHE_SCOPE)++scopes;
+        if(s->role==LIE_STATE_STEERING_POLICY){
+            if(s->layer||s->dtype!=LIE_STATE_U8||s->rank!=1||s->bytes!=LIE_STEERING_STATE_BYTES||
+               (l->format!=LIE_STATE_ALIGNED&&!aux))return 0;
+            ++steering;
+        }
         if(s->role==LIE_STATE_TOKENS){++tokens;if(s->layer||s->dtype!=LIE_STATE_I32||s->rank!=1||s->shape[0]!=l->token_count||s->offset%4)return 0;}
         if(s->role==LIE_STATE_LOGITS){++logits;if(s->layer||s->dtype!=LIE_STATE_F32||s->rank!=1)return 0;}
         end=s->offset+n;
     }
-    if(tokens!=1||logits!=1||aux!=(l->format==LIE_STATE_KVC_AUX)||end>SIZE_MAX-sizeof(lie_state))return 0;
+    if(tokens!=1||logits!=1||(steering&&scopes!=1)||aux!=(l->format==LIE_STATE_KVC_AUX)||end>SIZE_MAX-sizeof(lie_state))return 0;
     *bytes=end;return 1;
 }
 int lie_state_kvc_parts(const lie_state_layout *l,uint64_t *model,uint64_t *aux){

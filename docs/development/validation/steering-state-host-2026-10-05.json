@@ -1,0 +1,457 @@
+{
+  "schema": "synapse-lie.steering-state-host.v1",
+  "date_utc": "2026-10-05",
+  "qualification": "Host protocol/lifetimes/synthetic RAM-SSD only; NOT-INFERENCE",
+  "source_base_commit": "f2c38aad4888d305f350002f9f7033b479e54a3f",
+  "branch": "feature/context-million-openai",
+  "source_files_sha256": {
+    "CMakeLists.txt": "5c9625a0ab18139725dba4b69b55b36e7391ec45a189397ee766f47ba45c8aab",
+    "include/lie/steering.h": "b7f3afa70262d51b9a638eadf2ce933a0087adee0a9d08e5b670ee9b96f9e53a",
+    "include/lie/state.h": "7b02304263c4fc1b1e8adc297f6335b2b0c503a7a005bec1393cd89117e6cb6e",
+    "src/steering_policy.c": "6cddb098664bf90fa413efcf543278bbf5c2f8dd5451da1837fcfdacac18f283",
+    "src/state_layout.c": "751f90b93e467ec138bf7bdf1e7419c1446c63f7b6115459168895d0232977f7",
+    "tests/test_steering_state.c": "deddeb17c22b0bf6c5065fb77e44b0a84fb416d0db3151634b90d12e8f9c6609"
+  },
+  "abi": {
+    "bank": 1,
+    "policy": 1,
+    "state": 2,
+    "executor": 3,
+    "request": 8,
+    "generation": 3,
+    "new_state_role": 15
+  },
+  "host": {
+    "gpu_masked": true,
+    "cpu_guard_c": 98,
+    "nvme_guard_c": 85,
+    "gpu_guard": "observe-only",
+    "peak_cpu_c": 75.0,
+    "inference_thread_count": "No inference run or added inference/HTTP/scheduling thread"
+  },
+  "checks": [
+    {
+      "directory": "evidence/steering-state-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 69.25
+        },
+        "elapsed_s": 4.081036403775215
+      },
+      "result_sha256": "b17f74b534194f023b1e3c0067e34e7921caab001b5512d6ada428fa84a947c3",
+      "log_sha256": "96bec70f9c227b054ab8f139de382159352f6a1fdf9aaf1f74318b029c063d4c",
+      "temperature_log_sha256": "796e9b6a4420b2889ef4d6b91d3dabf9dbc0542a288a14e0d8b2ed307b42d482"
+    },
+    {
+      "directory": "evidence/steering-state-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.0
+        },
+        "elapsed_s": 4.17185121960938
+      },
+      "result_sha256": "d8e45c064341bb511b305645a20f827520cda981979e71eb65416ebf5d11ec91",
+      "log_sha256": "077bd1b78600b8b49b74fe79bba4ca35a4d36dc053afb75914bc9650ae95cb5b",
+      "temperature_log_sha256": "2e2c90b8db077083fad1c6602bf5f139b3f55120deb4b1cfcd56cfc2a7ea3479"
+    },
+    {
+      "directory": "evidence/steering-state-debug-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.0
+        },
+        "elapsed_s": 1.0586215490475297
+      },
+      "result_sha256": "1f3dae19d6bfcacee6eb364c5fbfd8f8e4fb7edd1c34385b0d199faaa2338a8d",
+      "log_sha256": "7047086ea11d31806f828fa854f65ba3e0bdc1e56bb452a927134b26b544b4c7",
+      "temperature_log_sha256": "30acae625d7d8a3b254c30abf1fbfeaaf31f05b7750c57f8f06676d2d5cb5c28"
+    },
+    {
+      "directory": "evidence/steering-state-asan-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.75
+        },
+        "elapsed_s": 1.1061972370371222
+      },
+      "result_sha256": "5750a33ba50a22d3b73249597f9b79e51dee368f80aec407fa072b4a8be25cd5",
+      "log_sha256": "3e58fdfc4345815e25f28b85def2db6c8ce8bc06cb577c910e5c4bafad6a012b",
+      "temperature_log_sha256": "91e2ed5338191a52d536885e3ed1cd95dfe58a67be0969bbbf6c34c8e6f199c3"
+    },
+    {
+      "directory": "evidence/steering-state-debug-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.25
+        },
+        "elapsed_s": 1.0644191047176719
+      },
+      "result_sha256": "31a80c556aabf0d045d03fde641d40532f5c61be125bc4bd567464bd0f2c8dc9",
+      "log_sha256": "e624d06f9721ca8f4bb8865cbdf338ca0572076cefeef1a1ccd0fde295a02085",
+      "temperature_log_sha256": "4e241eb22c98a3bb895eb5b5f65430362d7197559f9decafc3266255cf572975"
+    },
+    {
+      "directory": "evidence/steering-state-asan-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.25
+        },
+        "elapsed_s": 1.0650628972798586
+      },
+      "result_sha256": "de21c837e6f698f7b83a35fc9bcf3092f162f71ef968487f14a8ee3ca0a41165",
+      "log_sha256": "b5f0155b41dcda6d30a9ca8ca09fd84169c8c4125026fdffdfc4aec4a7b6bd98",
+      "temperature_log_sha256": "d2863398efdd174abba91046111ac09c507970ecf044ce20d32441d29163497f"
+    },
+    {
+      "directory": "evidence/steering-state-debug-test-r3",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 57.25
+        },
+        "elapsed_s": 1.0830103093758225
+      },
+      "result_sha256": "e1cd7cc1907ca465146f0b53e1d83f375aab0eaa9e321785feab80ae705fb073",
+      "log_sha256": "f38b41cf0f739b04f4cf9fe096270a4ce326e64dabdd68d6f7bcc47bd763b53d",
+      "temperature_log_sha256": "1660512694ce5d824721df8da66d742ebea26a96a0dc2bc2392c3ceb00192379"
+    },
+    {
+      "directory": "evidence/steering-state-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.375
+        },
+        "elapsed_s": 1.1224952293559909
+      },
+      "result_sha256": "09b914c95d0d49b66bf46528d1f1361da7038e125ba5fec2e39d259266aefc4d",
+      "log_sha256": "9b70e7a60c89282e669d04b431aaef4fedd4ae0fec72f4bb6d365ad1286acf68",
+      "temperature_log_sha256": "dc3ec5eea7dd9f7419d4bb0599faa5c419f6153f27a03041f6e063687f1de717"
+    },
+    {
+      "directory": "evidence/steering-state-public-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-Wall",
+          "-Wextra",
+          "-Wpedantic",
+          "-Werror",
+          "-Iinclude",
+          "evidence/steering-provider-public-headers-r1.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+        },
+        "elapsed_s": 1.1052111741155386
+      },
+      "result_sha256": "671ea6eb9c5133442884d877030d992339de383852272abdf5214f0b43060f1c",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "a4cf416095e9014bd1a8a43d6bb1819c3cee5c31c42bfd646659cdf7e363ac47"
+    },
+    {
+      "directory": "evidence/steering-state-adapter-syntax-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.375
+        },
+        "elapsed_s": 2.150412737391889
+      },
+      "result_sha256": "f47f904690230908d418552d70b17fa6c1968bce4f0919e9858b768cc3a3d692",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "31f4187b0b796a5599eae412517eec3d83ca0ed89d796074184f7b6f0855cbfd"
+    }
+  ],
+  "focused_tests": {
+    "Debug": 8,
+    "ASan_UBSan_LSan": 8,
+    "leak_detection": "Default enabled; outside sandbox ptrace; no disabling options",
+    "legacy_python_tests": false,
+    "native_new_fixture": "tests/test_steering_state.c",
+    "meaning": "Known 192-byte wire/SHA oracles, corrupt and valid-checksum malformed frames, bank/geometry/capacity/frontier admission, owner/stale/discard/pins and exact restore commit; actual shared RAM/SSD envelope with synthetic model bytes"
+  },
+  "preserved_failures": [
+    {
+      "directory": "evidence/steering-state-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.5
+        },
+        "elapsed_s": 1.1340175215154886
+      },
+      "cause": "Fixture oracle text had 193/191 bytes instead of 192; corrected by independent SHA/LE reconstruction, without changing the protocol or implementation.",
+      "result_sha256": "84d924ef69dcf01d5df18d6a790828f660375b6a49ce749fd2fba29b38bfb403",
+      "log_sha256": "1e2b4d18c6b3a6773c9a2094f1b33b540c28a4bc63204549ee483c4857a59c10"
+    },
+    {
+      "directory": "evidence/steering-state-debug-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|steering-state-ram-ssd-restore|state-kvc-auxiliary|kvc-runtime-state|core-kvc-ssd-reactive|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.75
+        },
+        "elapsed_s": 1.1037165960296988
+      },
+      "cause": "Fixture prematurely unlinked the SSD FD; existing codec correctly rejects st_nlink!=1. Keep its exclusive private path until closing; production admission unchanged.",
+      "result_sha256": "18075d83f74347d9a402514d0580cc63ae665517f25c55a95271ae87877849f1",
+      "log_sha256": "a569f64d3b412120771f952425c1068cf409b11e5a184db2d370299305e1c38f"
+    }
+  ],
+  "syntax": {
+    "public_CXX_headers": 31,
+    "complete_adapter": true,
+    "new_device_objects_or_linked_device_binary": false
+  },
+  "wire": {
+    "magic": "LIESTP1 plus NUL",
+    "version": 1,
+    "bytes": 192,
+    "little_endian": true,
+    "settings": "IEEE754 binary32, finite [-100,100], canonical positive zero",
+    "checksum_domain": "synapse-lie.steering-state.v1 plus NUL",
+    "checksum_input": "domain plus first 160 bytes",
+    "history": "Opaque bounded history hash head, not full event log or independent execution proof",
+    "runtime_fields_not_serialized": [
+      "capacity",
+      "revision",
+      "resource counters"
+    ],
+    "legacy_absent_metadata": "Zero current scales only; preserves text/image cache scope"
+  },
+  "state_envelope": {
+    "format": "Existing KVC auxiliary version 2",
+    "metadata_role": "Layer-zero U8[192], requires one U8[32] cache scope",
+    "model_payload_bytes": 108,
+    "synthetic_payload": true,
+    "model_payload_and_leading_client_extension_unchanged": true,
+    "layout_checks_are_not_policy_content_checks": true,
+    "model_input_and_complete_payload_identity_remain_separate": true
+  },
+  "semantic_limits": {
+    "live_model_admission": false,
+    "live_provider_cache_wiring": false,
+    "live_scale_transitions": false,
+    "public_HTTP_bench_steering_flags": false,
+    "GPU_or_original_weight_evidence": false,
+    "Python_product_dependency_added": false,
+    "DS4_files_changed": false,
+    "frozen_GPU_receipts_changed": false
+  },
+  "point_readonly_witness": {
+    "path": "evidence/context-steering-availability-r4.json",
+    "sha256": "5eaf8dfda5b702e38bb73f13dd26d917b16cceeef4f6e6aade139483050c8324",
+    "at_utc": "2026-10-05T00:52:53.054202+00:00",
+    "kfd": [
+      {
+        "pid": 29223,
+        "start_ticks": 2470351,
+        "cgroup": "0::/user.slice/user-1000.slice/session-424.scope\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      },
+      {
+        "pid": 29377,
+        "start_ticks": 2474081,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "cpu_c": [
+      81.0
+    ],
+    "available_ram_bytes": 87629848576,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "gpu_admission": false
+  },
+  "remote_build_or_GPU_run": false,
+  "goal_complete": false,
+  "next_gates": [
+    "C17 model/session admission and explicit bank resource accounting",
+    "Bind staged policy to provider capture/restore and scoped RAM/SSD lookup",
+    "Owner-only live scale changes with graph/speculation invalidation",
+    "HTTP/native bench controls",
+    "Fresh .161 admission and original-weight absent/zero/active AR-MTP numerical/quality/cost gates",
+    "Remaining seven-item owned roadmap preserved"
+  ],
+  "receipt_generator_failure": {
+    "path": "evidence/steering-state-receipt-generator-failure-r1.json",
+    "sha256": "57ce151e377aa2c852e2d7d8c255cdda247af7eb56c9b11ed19719ed1e31bfcd",
+    "actual_exit_code": 1,
+    "scope": "Metadata generator only; corrected CTest summary spelling and separately counted all eight Passed test lines."
+  }
+}

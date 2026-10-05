@@ -22,7 +22,13 @@ zero. Bank/session references and plan resources remain shared C17 concerns;
 there is no numerical operation or transport dependency in these interfaces.
 This additive library does not change executor ABI 3 or generation ABI 3.
 The current request ABI 8 budget semantics are documented below; the bank/policy
-interfaces do not activate provider steering or KV persistence.
+interfaces do not activate live provider steering. Additive owner-only encode,
+prepare-restore and staged cache-scope functions use explicit 192-byte version-1
+metadata; they retain the existing policy ABI and structures. Captured capacity,
+revision and runtime counters are not serialized. Restore validates the matched
+bank and independently confirmed model frontier before live mutation, and requires
+an exact completed transfer to commit. Host RAM/SSD fixtures qualify this protocol;
+the actual model/session/cache binding remains open.
 See [format, policy and actual binding requirements](../development/STEERING.md).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
@@ -101,6 +107,14 @@ or enum values. Generic cache/SSD APIs gain scoped variants; existing wrappers
 continue to select text-only state. Scope extraction is nonmutating and requires
 an uncompressed U8[32] component. Generic layout validation rejects duplicate,
 misplaced or malformed scope sections. GPU qualification remains separate.
+
+`LIE_STATE_STEERING_POLICY=15` is an additive layer-zero U8[192] metadata
+component with one required U8[32] cache scope. It follows the auxiliary boundary
+in KVC and does not change any earlier role values, state ABI 2 structures,
+DS4 tensor payload or existing envelope version. The generic validator checks
+size/type/placement; the trusted provider must decode policy content and validate
+the combined scope before transfer. Legacy state with no metadata is explicitly
+unsteered and requires zero scales. [Wire and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 ## Ownership and completion
 

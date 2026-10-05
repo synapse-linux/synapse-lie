@@ -94,6 +94,29 @@ void lie_steering_policy_release(lie_steering_policy **);
  * identity and complete payload admission remain the storage owner's duty. */
 lie_status lie_steering_policy_cache_scope(const lie_steering_policy *,
   const unsigned char semantic_scope[32], unsigned char out[32], lie_error *);
+/* Fixed model-neutral metadata for RAM/SSD state bindings, never a C struct
+ * dump or a replacement for the DS4 tensor payload. Owner-only capture rejects
+ * outstanding numerical updates. Little-endian fields and SHA-256 checksum;
+ * the containing state must separately bind model/input identity and payload.
+ * Export writes exactly STATE_BYTES and preserves output on every refusal. */
+#define LIE_STEERING_STATE_BYTES 192u
+lie_status lie_steering_policy_encode(const lie_steering_policy *,
+  unsigned char *out, size_t capacity, lie_error *);
+/* Prepare before any device transfer into a pristine destination policy.
+ * completed_positions is the independently validated model-state frontier.
+ * Encoded metadata must match its bank and reconstruct its cache scope.
+ * NULL/zero bytes denotes an unsteered legacy state and requires zero scales.
+ * The plan owns its decoded metadata; no input span survives the call. Commit
+ * only the exact restored frontier after successful device transfer, or discard.
+ * No live policy is mutated during parsing/preparation. Destination capacity
+ * and revision remain its own; captured runtime counters are not serialized. */
+lie_status lie_steering_policy_prepare_restore(lie_steering_policy *,
+  const unsigned char *state, size_t bytes, uint64_t completed_positions,
+  lie_steering_update **, lie_error *);
+/* On the owner, validate a staged restore's semantic scope before device
+ * transfer. Uses the immutable prepared policy without committing live state. */
+lie_status lie_steering_update_cache_scope(const lie_steering_update *,
+  const unsigned char semantic_scope[32], unsigned char out[32], lie_error *);
 #ifdef __cplusplus
 }
 #endif

@@ -56,6 +56,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Versioned C17 steering-policy metadata and transactional restore, with a typed
+  RAM/SSD auxiliary component. Host roundtrips preserve the DS4 model payload;
+  live model/cache integration and GPU qualification remain pending.
 - Experimental directional activation operators and target scalar/batch hooks,
   selected at compilation by default. Public steering controls and GPU gates
   remain pending; active state capture/restore refuses without steering history.

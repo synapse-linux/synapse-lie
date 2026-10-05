@@ -68,6 +68,9 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    history/cache identities. Owned HIP operators and scalar/batch target hooks
    now pass six Debug/sanitizer host checks and enabled/disabled syntax checks;
    no GPU qualification or public model/session/cache wiring exists yet.
+   Its explicit metadata codec and staged restore now pass eight Debug and eight
+   sanitizer checks through synthetic RAM/SSD state, preserving the DS4 model
+   payload. The actual provider/cache binding remains open.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance

@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Steering state host work; no new GPU admission — 2026-10-05 UTC
+
+At 00:52:53.054202 UTC the read-only `.161` inspection still observes external
+PID29223/start2470351 in session-424 and restored router
+PID29377/start2474081 in both descriptor and kernel KFD inventories. CPU is
+81 C, available RAM 87,629,848,576 bytes, and the original private lease
+dev66307/inode105946405 is free. The boot, filesystem and original model stats
+are unchanged. This witness does not reserve a lease or authorize GPU work.
+
+Root completes C17 metadata/staged-restore host development and eight Debug plus
+eight ASan/UBSan/LSan checks, with local CPU maximum 75 C and GPUs masked.
+No remote build/run, model hash, conversion, restart, automatic retry, waiter,
+service mutation or foreign signal occurs. Root has no GPU ownership on `.157`
+or `.161`. Q2's separately reported `.157` window remains released; no root
+client evaluation starts there. New source leaves all frozen runtime receipts
+unchanged. [Host receipt](development/validation/steering-state-host-2026-10-05.json).
+
 ## Steering host work; no new GPU window — 2026-10-05 UTC
 
 Root continues only host activation/provider development. The read-only witness

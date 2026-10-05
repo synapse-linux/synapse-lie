@@ -21,6 +21,7 @@ typedef enum {
     LIE_STATE_HEADER, LIE_STATE_SCALAR,
     LIE_STATE_AUXILIARY, /* First section after the unchanged KVC model payload. */
     LIE_STATE_CACHE_SCOPE, /* Optional model-neutral SHA-256 semantic input key. */
+    LIE_STATE_STEERING_POLICY, /* Optional U8[192] owned policy metadata, not DS4 tensors. */
     LIE_STATE_MODEL_COMPONENT=65536
 } lie_state_role;
 typedef enum { LIE_STATE_ALIGNED=0, LIE_STATE_KVC=1, LIE_STATE_KVC_AUX=2 } lie_state_format;

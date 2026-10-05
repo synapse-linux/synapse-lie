@@ -2,10 +2,10 @@
 # Directional steering implementation
 
 The C17 shared library owns direction-bank loading, bounded host allocation,
-immutable values, session policy transactions and history/cache identities.
-The next increment writes owned HIP activation operators and target-provider
-hooks, qualified only by host contracts and syntax checks. Public HTTP/bench
-controls, live policy/cache integration and GPU qualification remain open.
+immutable values, session policy transactions, history/cache identities and
+explicit state metadata. Owned HIP activation operators and target-provider
+hooks are qualified only by host contracts and syntax checks. Public HTTP/bench
+controls, live model/session/cache integration and GPU qualification remain open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -90,9 +90,68 @@ retained work used steering. An unused on/off toggle does not invent such histor
 Inactive steering with no steered history preserves the exact existing text or
 image scope. Otherwise, nonzero steering and image scopes combine under a
 separate semantic domain. These are identity primitives: current core jobs do
-not yet attach them to RAM/SSD lookup/capture or live HTTP controls. The host
-snapshot is not a disk representation; persistence must encode and validate its
-history/scales/frontier alongside complete model state without dumping C padding.
+not yet attach them to live model RAM/SSD lookup/capture or HTTP controls.
+The metadata codec below serializes the required history/scales/frontier without
+dumping C padding; the provider must bind it to complete validated model state.
+
+## State metadata and staged restore
+
+`lie_steering_policy_encode` writes exactly 192 bytes on the device owner and
+refuses outstanding updates. The format is independent of native structure
+padding, context capacity, revision, counters and model/platform types.
+All integers and IEEE754 binary32 scales are little-endian; negative zero in
+settings has one canonical positive-zero representation.
+
+| Byte offset | Size | Field |
+| --- | --- | --- |
+| 0 | 8 | `LIESTP1` followed by NUL |
+| 8 | 4 | Format version 1 |
+| 12 | 4 | Encoded length 192 |
+| 16 | 4 | Flags: bit 0 bank present, bit 1 completed work, bit 2 steered history |
+| 20 | 4 | Reserved zero |
+| 24 | 8 | Completed retained target-forward position |
+| 32 | 8 | Completed effective scale epochs |
+| 40 | 8 | Current FFN and attention scales |
+| 48 | 8 | Last completed FFN and attention scales; current scales before any work |
+| 56 | 32 | Bank geometry/content scope |
+| 88 | 32 | History hash head; zero if no completed steered history |
+| 120 | 32 | Steering cache scope |
+| 152 | 8 | Reserved zero |
+| 160 | 32 | SHA-256 of `synapse-lie.steering-state.v1` + NUL + bytes 0–159 |
+
+The history head preserves future epoch composition without storing an unbounded
+event log. Its checksum detects corruption; it does not authenticate an arbitrary
+file or independently prove that the earlier numerical work occurred. The
+containing state still validates model/build/RoPE identity, input identity,
+complete tensor payload, layout and checksum before any device mutation.
+
+`lie_steering_policy_prepare_restore` accepts only an idle pristine destination,
+an exactly matching bank and an independently validated target frontier within
+the destination's own capacity. It validates flags, scales, history consistency
+and recomputed cache scope before allocating an owned prepared update. The
+caller may release the input bytes after preparation. The owner compares the
+staged combined image/steering scope using `lie_steering_update_cache_scope`
+before transfer, then commits **exactly** the restored frontier after completed
+model transfer, or discards. Refusals leave live metadata unchanged. Destination
+capacity and revision remain local; stale or failed post-mutation commits require
+the existing runtime poisoning rule.
+
+An absent metadata span (`NULL`, zero bytes) denotes unsteered legacy state and
+requires both current scales to be zero. It restores an unsteered completed
+frontier while preserving the exact legacy text/image scope. This path avoids
+inventing steered history for unused directions; future bindings must keep
+unsteered legacy payloads compatible rather than require new metadata everywhere.
+
+The additive `LIE_STATE_STEERING_POLICY` role (15, state ABI 2) is layer-zero
+U8[192] and requires one U8[32] `LIE_STATE_CACHE_SCOPE`. KVC stores it after the
+existing `LIE_STATE_AUXILIARY` boundary, in the already checksummed LIE extension;
+the DS4 model payload and the leading client extension bytes remain unchanged.
+The generic validator bounds the section geometry. A trusted model binding must
+also decode and validate its content and combined scope before transfer.
+
+The native host fixture exercises this protocol through the actual shared
+`lie_state` RAM capture/restore and SSD KVC envelope with synthetic model bytes.
+It is not a live model binding, original-weight continuation or GPU evidence.
 
 ## Recorded provider binding requirements
 
@@ -199,3 +258,12 @@ and are not original-weight execution. The initial sanitizer exit 8 under sandbo
 ptrace and syntax exit 1 from a missing `ENGINE_ENABLE_HIP` compile definition are
 preserved; the corrected checks pass. CPU telemetry and current `.161` occupancy
 are retained in the [provider receipt](validation/steering-provider-host-2026-10-05.json).
+
+The metadata increment passes eight Debug and eight ASan/UBSan/LSan checks.
+Independent full wire oracles, all-byte corruption, valid-checksum malformed
+frames, mixed/off history continuation, bank/geometry/frontier refusal,
+owner/pin/discard/stale transactions and RAM/SSD payload compatibility are covered.
+Public C++ headers and the complete adapter syntax pass; no device objects are
+created. The first two Debug failures are test errors (transcribed oracle length
+and an unlinked SSD fixture rejected by the codec); their exits remain recorded.
+[Metadata validation receipt](validation/steering-state-host-2026-10-05.json).

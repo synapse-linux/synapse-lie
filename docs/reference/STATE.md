@@ -69,9 +69,14 @@ unchanged. Old AR files/names retain their existing framing.
 
 The independent [C17 steering policy](../development/STEERING.md#session-policy-and-transactional-history)
 derives bank/scale/history scopes and can compose them with semantic image
-identity. It is not yet attached to these provider/cache components. Its host
-snapshot is not a KVC wire format; future integration must encode and validate
-complete retained target history without changing the existing DS4 tensor body.
+identity. Its versioned 192-byte metadata codec and staged restore are tested
+through the shared RAM/SSD envelope with synthetic host state. The optional
+layer-zero U8[192] `LIE_STATE_STEERING_POLICY` role requires a cache-scope section
+and, for KVC, resides after the auxiliary boundary. Its contents and combined
+scope must be validated before model transfer; layout validation alone is
+insufficient. The DS4 tensor body and leading client extension remain unchanged.
+The live model/cache binding remains open; active steering still refuses provider
+state transfer. See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.
 SSD indexes read only a bounded provisional scope; complete file digest/layout
