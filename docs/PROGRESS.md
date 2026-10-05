@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 raw prefetch measured: exact model, small PP increase — 2026-10-05 UTC
+
+New deferred IQ2 expansion retains compact LDS/tile geometry and original
+arithmetic. New component passes81 complete guarded outputs and reduces IQ2
+median time6.316743/4.563306/4.407492% for64/128/512 active experts. Original
+exact2048/tg128 model measures1505.152258 PP /25.15493858 TG; measured PP samples
+1505.152258 /1503.530071 /1505.315370. All21 parent files/logits and nine
+within-arm replays are byte-exact. PP is nominally+0.423859% versus parent,
++4.258540% versus fixed Q2; TG ranges overlap. Retain the new source as next
+composition base, without default/independent quality promotion. Fixed UD
+1685.777092 needs12.000436% more PP throughput; no full curve yet.
+
+R2 host gates pass25+25, all13 commands and37 artifacts verify;36 fixtures/
+four manifests and1025 provider files are frozen. Build154.256086 seconds is
+outside PP/TG; CPU/GPU maxima82.750/72 C. Release04:04:02.651364UTC retires683
+identities/538 groups, KFD empty, four original leases free and six model stats
+unchanged; exact main/remote mirrors. Core receives release; no Q2 GPU job,
+reservation/waiter/restart/cleanup remains. The initial duplicate-manifest
+launch fails locally before SSH/GPU; original plan/failure and unused closure
+remain. Named binding/new87th guard and distinct R2 plan/host resolve it. A
+separate local staging preflight's import-path failure/correction is retained.
+No qualified controls or old components rerun; nineteen original reports remain
+immutable. [All values, graphs and result](Q2-IQ2-RAW-PREFETCH.md).
+
 ## Deferred IQ2 raw prefetch prepared — 2026-10-05 UTC
 
 One new candidate uses the retained compact parent and moves unchanged IQ2
@@ -19,7 +43,7 @@ filename contains a duplicated `iq2-`. Original command/plan/staging retained;
 the unused window closes03:52:26UTC, KFD empty and original leases/stats intact.
 A distinct corrected plan uses a named binding and new87th guard; new host
 capsule passes25+25. No production arithmetic changes or qualified model/component
-reruns. R2 needs fresh handover/admission anchored to this closure.
+reruns. At that stage, R2 needed fresh handover/admission anchored to this closure.
 [Mechanism, scope and corrected frozen plan](Q2-IQ2-RAW-PREFETCH.md).
 
 ## SSM row128 measured: exact outputs, slower model — 2026-10-05 UTC

@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-iq2-raw-prefetch-staging.v1",
+  "capsule_sha256": "76667a8a35e4eaad9fa3dfdd336bae921cccdaa0b455f7a19cbb6118dfe28eec",
+  "fixture_files_verified": 36,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

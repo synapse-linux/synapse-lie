@@ -704,3 +704,11 @@ commit. Local assembly reduces next-free VGPR by5–6 in eight IQ2 bodies,
 preserves149 others and keeps LDS/private scratch unchanged. A new full-output
 fixture and the unchanged original fixed model comparison are prepared;
 no GPU performance, quality or parity claim follows from static counts.
+
+The new [IQ2 raw-prefetch result](docs/Q2-IQ2-RAW-PREFETCH.md) preserves all81
+component outputs and reduces synthetic IQ2 time4.407–6.317%. Its original
+fixed model measures1505.152258 PP /25.15493858 TG: nominally+0.423859% PP versus
+the compact parent, with all21 parent files/logits exact. Retain this new base;
+no default/independent quality promotion or full curve follows. Fixed UD still
+needs12.000436% more PP throughput. All samples/graphs and original local launch
+failures remain. The R2 GPU window is released; no qualified control is rerun.

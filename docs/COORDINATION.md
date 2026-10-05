@@ -1,7 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Latest Q2 window closes unused at2026-10-05T03:52:26.371887UTC, SHA18b0a66a...
+Latest Q2 R2 window releases04:04:02.651364UTC after one new IQ2 raw-prefetch
+component and one original exact2048/tg128 model. All13 commands/37 artifacts
+verify;81 component pairs and21 parent model files are byte-exact. PP1505.152258
+is nominally+0.423859% versus parent1498.799455; TG25.15493858 overlaps parent.
+Retain new source as composition base, without default/independent quality
+promotion or full curve. No qualified control/old component rerun. Closure
+retires683 identities/538 groups, KFD empty, four original leases free and
+six unchanged model stat tuples; main/remote canonical/active/ready exact.
+Core receives release; no Q2 GPU job/lease/waiter/reservation/restart/cleanup
+remains. Future GPU work needs a new handover/admission from this receipt.
+[Release](../config/q2-iq2-raw-prefetch-r2-window-release.json), SHA256
+`79cb509176fc2d51b9c1b285e1c4a6367fc81d2994a1f8e5122f07918ca6b8e3`.
+
+Previous Q2 window closes unused at2026-10-05T03:52:26.371887UTC, SHA18b0a66a...
 Initial IQ2 component launch fails locally before SSH/GPU from a duplicated
 manifest filename; only the host cohort exists. Closure verifies667 identities/
 525 groups absent, empty KFD, four free original leases and unchanged six model
@@ -12,12 +25,12 @@ No GPU job/build/model/client/lease/waiter/reservation/restart exists from R1.
 [Unused release](../config/q2-iq2-raw-prefetch-window-release.json),
 [corrected plan](../config/q2-iq2-raw-prefetch-plan-fixed.json).
 
-New IQ2 raw-prefetch preparation has a fresh core handover confirming no root
+Initial R1 IQ2 raw-prefetch preparation had a fresh core handover confirming no root
 job/build/eval/client/lease/waiter/reservation/restart or interleaving on .157.
 Its new host gate passes25/25 Debug and25/25 ASan/UBSan without model/GPU access.
 The frozen plan covers one new component and one original exact2048/tg128 model,
 with36 fixtures/four manifests and no qualified controls or old component rerun.
-Fresh admission must revalidate the prior SSM release below, including registry,
+At that stage, fresh admission revalidated the prior SSM release, including registry,
 retired identities/groups, original lease inodes, KFD and unchanged model stats.
 No GPU run/build or reservation is inferred from preparation or core handover.
 [Plan](../config/q2-iq2-raw-prefetch-plan.json),

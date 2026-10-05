@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Deferred IQ2 expansion with raw prefetch
 
+The new original-weight model measures1505.152258 PP /25.15493858 TG on the
+unchanged fixed input: nominally+0.423859% PP versus the compact parent and
++4.258540% versus fixed Q2. All21 parent files, including full logits, are exact.
+The candidate is retained as the next composition base, without default or
+independent quality promotion. Fixed UD1685.777092 remains unmet, requiring
+12.000436% further prefill throughput. The R2 GPU window is released.
+
 One new candidate starts from the saved compact IQ2 composition at
 1498.799455 PP / 25.16866636 TG. It changes only IQ2 paired routed prefill.
 Fetch retains the original eight-byte group and two-byte F16 header across
@@ -71,8 +78,9 @@ failure. The new host capsule again passes25/25 Debug and25/25 ASan/UBSan;
 provider and static source evidence stay unchanged. The next helper binds that
 closed unused window, rather than its own future release.
 
-GPU component/model evidence is pending fresh coordinated R2 admission. Static
-preparation establishes neither original-weight quality nor Q2/UD parity.
+At preparation, GPU component/model evidence awaited fresh coordinated R2
+admission. The completed measurements below supersede that pending status.
+Static preparation alone establishes neither original-weight quality nor parity.
 
 [Corrected frozen plan](../config/q2-iq2-raw-prefetch-plan-fixed.json),
 [source inventory](../config/q2-iq2-raw-prefetch-source.json),
@@ -80,3 +88,96 @@ preparation establishes neither original-weight quality nor Q2/UD parity.
 [patch](../experiments/q2-iq2-raw-prefetch.patch),
 [literal parent](../experiments/q2-iq2-raw-prefetch-control.inc),
 [new fixture](../tests/q2_iq2_raw_prefetch.hip).
+
+## New component completed
+
+The corrected R2 component finishes03:58:33.017569UTC with three command exits
+0/0/0; four artifacts,36 frozen fixtures and1025 provider files verify. All81
+whole output pairs are byte-exact, guards intact and every required output
+finite/written. Original inputs/weights remain immutable at fixture completion.
+This is differential operator evidence, not independent task quality.
+
+| Active experts | Literal parent median microseconds | New median microseconds | Time change |
+| ---: | ---: | ---: | ---: |
+| 64 | 3906.555176 | 3659.788132 | -6.316743% |
+| 128 | 4263.173103 | 4068.631490 | -4.563306% |
+| 512 | 5625.725428 | 5377.772013 | -4.407492% |
+
+All42 alternating samples, including two warmups per arm/shape, remain in
+[the CSV](figures/q2-iq2-raw-prefetch-component.csv) and
+[component report](../config/q2-iq2-raw-prefetch-component-results.json).
+No existing qualified component cohort or model control is rerun. Original
+fixed-input model timing is still required; component percentages cannot be
+added to model throughput.
+
+![All component samples](figures/q2-iq2-raw-prefetch-component.svg)
+
+## Completed original-weight comparison
+
+The model finishes04:03:42.869134UTC with four command exits0. All26 artifacts,
+36 frozen fixture files and1025 provider files verify. Fresh candidate build
+takes154.256086 seconds outside PP/TG timers; model load and15-second waits
+remain outside inference timers. Capacity9216/chunk2048, MTP off and the exact
+original2048-token input/128-output/127-timed-call contract are unchanged.
+
+| Arm | Sample | PP tokens/s | TG calls/s | PP seconds | TG seconds |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Fixed Q2, saved | Warmup | 1438.259006 | 25.08847266 | 1.423943804 | 5.062085753 |
+| Fixed Q2, saved | Measurement 1 | 1443.398207 | 25.10565683 | 1.418873870 | 5.058620886 |
+| Fixed Q2, saved | Measurement 2 | 1443.672867 | 25.08698337 | 1.418603928 | 5.062386263 |
+| Fixed Q2, saved | Measurement 3 | 1443.841794 | 25.09595499 | 1.418437954 | 5.060576497 |
+| Compact IQ2 parent, saved | Warmup | 1504.549005 | 25.12922091 | 1.361205247 | 5.053877335 |
+| Compact IQ2 parent, saved | Measurement 1 | 1498.754109 | 25.15414443 | 1.366468314 | 5.048869793 |
+| Compact IQ2 parent, saved | Measurement 2 | 1501.954777 | 25.16866636 | 1.363556368 | 5.045956674 |
+| Compact IQ2 parent, saved | Measurement 3 | 1498.799455 | 25.17322602 | 1.366426971 | 5.045042693 |
+| New IQ2 raw prefetch | Warmup | 1501.690147 | 25.15123490 | 1.363796655 | 5.049453854 |
+| New IQ2 raw prefetch | Measurement 1 | 1505.152258 | 25.16777240 | 1.360659687 | 5.046135906 |
+| New IQ2 raw prefetch | Measurement 2 | 1503.530071 | 25.14904438 | 1.362127728 | 5.049893669 |
+| New IQ2 raw prefetch | Measurement 3 | 1505.315370 | 25.15493858 | 1.360512249 | 5.048710399 |
+| Fixed UD, saved | Warmup | 1689.043527 | 24.34239962 | 1.212520558 | 5.217234208 |
+| Fixed UD, saved | Measurement 1 | 1686.364042 | 24.34621613 | 1.214447147 | 5.216416355 |
+| Fixed UD, saved | Measurement 2 | 1685.777092 | 24.34174251 | 1.214869991 | 5.217375049 |
+| Fixed UD, saved | Measurement 3 | 1685.400011 | 24.15102104 | 1.215141798 | 5.258576845 |
+
+| Arm | Median PP tokens/s | Median TG calls/s |
+| --- | ---: | ---: |
+| Fixed Q2, saved | 1443.672867 | 25.09595499 |
+| Compact parent, saved | 1498.799455 | 25.16866636 |
+| New raw prefetch | 1505.152258 | 25.15493858 |
+| Fixed UD, saved | 1685.777092 | 24.34174251 |
+
+Observed PP changes+0.423859% versus parent /+4.258540% versus fixed Q2,
+remaining10.714633% below UD and needing12.000436% more throughput from the
+candidate to equal it. TG differs-0.054543% versus parent with overlapping
+sample ranges. Historical controls are reused rather than rerun; no claim of
+contemporaneous repeatability or a stable incremental gain follows.
+
+All21 parent inputs, outputs and full logits remain byte-exact, with zero KL
+and all nine within-arm replays exact. All128 greedy tokens also match fixed
+Q2/UD. Eight changed Q2 full-logit files are inherited unchanged from the MoE
+composition; matched-history KL remains0.001256655237 versus Q2 and
+0.008626378682 versus UD. Differential replay is not independent task quality.
+Resident model43156012544 bytes, session376777748 bytes and deferred scratch7946240
+bytes match the saved compact parent; no allocation is added. Load takes10.97909399
+seconds outside PP/TG timers.
+
+R2 host/component/model total13 commands and37 artifacts verify. Host fixtures
+pass25/25 Debug and25/25 ASan/UBSan. Across model build/inference telemetry,
+CPU/GPU maxima are82.750/72 C. Release04:04:02.651364UTC retires683 identities/
+538 groups, verifies empty KFD, four free original lease inodes and six unchanged
+model stat tuples. Main/remote canonical/active/ready mirrors agree. Core
+receives the release; no Q2 GPU job, waiter, reservation, restart or cleanup
+remains. The first unused window and failed local staging stay retained; the
+separate local preflight's import-path exit1 is corrected before SSH/GPU.
+
+[Model report](../config/q2-iq2-raw-prefetch-model-results.json),
+[all16 model samples CSV](figures/q2-iq2-raw-prefetch-model-wrapped.csv),
+[retained decision](../config/q2-iq2-raw-prefetch-retained-update.json),
+[release](../config/q2-iq2-raw-prefetch-r2-window-release.json),
+[local staging preflight](../config/q2-iq2-raw-prefetch-staging-results.json).
+Both original and wrapped figure exports remain retained; wrapped labels
+avoid collisions. No old model/component cohort, full curve or independent
+quality run is added. Next numerical target is deferred Q2_K down unpacking
+on this new retained parent, keeping the same fixed comparison and tile geometry.
+
+![Every model sample and the saved references](figures/q2-iq2-raw-prefetch-model-wrapped.svg)

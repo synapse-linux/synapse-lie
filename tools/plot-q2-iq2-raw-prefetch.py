@@ -16,9 +16,9 @@ def main():
     arms = {key: report['references'][key] for key in ('fixed_q2', 'best_parent')}
     arms['iq2_raw_prefetch'] = report['model']
     arms['fixed_ud'] = report['references']['fixed_ud']
-    labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved compact IQ2',
-              'iq2_raw_prefetch': 'New IQ2 raw prefetch', 'fixed_ud': 'Fixed UD'}
-    output = ROOT / 'docs/figures/q2-iq2-raw-prefetch-model'
+    labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved compact\nIQ2',
+              'iq2_raw_prefetch': 'New IQ2\nraw prefetch', 'fixed_ud': 'Fixed UD'}
+    output = ROOT / 'docs/figures/q2-iq2-raw-prefetch-model-wrapped'
     if any(output.with_suffix(suffix).exists() for suffix in ('.csv', '.svg', '.png')):
         raise ValueError('Refusing to overwrite model exports')
     rows = [dict(candidate=key, historical=key != 'iq2_raw_prefetch', source=Path(arm['path']).name,
@@ -55,9 +55,9 @@ def main():
         ax.set_axisbelow(True)
         ax.grid(axis='y', alpha=.2)
         ax.legend(loc='lower left', fontsize=8)
-    fig.suptitle('IQ2 raw prefetch geometry — one new fixed model on .157')
+    fig.suptitle('IQ2 raw prefetch: one new fixed model on .157')
     fig.text(.5, .025, 'Original exact2048 input and timers; capacity9216,chunk2048,tg128,127 timed decode calls.\n'
-             'All four new and twelve saved samples shown. Qualified controls are not rerun; numerical differences remain.',
+             'All four new and twelve saved samples shown. Qualified controls are not rerun; inherited Q2/UD logit differences remain.',
              ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .10, 1, .95))
     for suffix in ('.svg', '.png'):
