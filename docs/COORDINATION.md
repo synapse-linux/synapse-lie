@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+New1KiB IQ2 sign-mask preparation follows the exact but slower fused-grid
+experiment. The new helper anchors release d0437a91 and the fresh core non-use
+handover;97 guards pass and44 fixtures/four manifests are frozen. New host
+Debug/ASan gates precede checkpoint and fresh bounded GPU admission for one
+component plus original exact2048/tg128 model. No GPU reservation is inferred
+and no Q4/qualified control/cohort, context curve or cleanup is admitted.
+[Plan](../config/q2-iq2-sign-mask-plan.json).
+New .157 host25 Debug+25 ASan/UBSan checks pass; six exits0/seven artifacts
+verify with no GPU/model access.
+
 Fused IQ2 window releases at2026-10-05T06:39:20.614047UTC after one new
 component and original exact2048/tg128 model. All13 commands exit0/39 artifacts
 verify;81 output pairs and21 parent model files are exact. PP1331.128807

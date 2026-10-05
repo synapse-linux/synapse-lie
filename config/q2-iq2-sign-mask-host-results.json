@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-sign-mask-host.v1",
+  "capsule_sha256": "c892b5beeba2d97465c02cfd1f23925d59f506a4724a87161b7c7d0e485fc7ce",
+  "archive_sha256": "8669efe363cc65a081b7ac4881311e6195734091c4817c530eff32235500e3da",
+  "fixture_files_verified": 44,
+  "source_files_verified": 1020,
+  "plan_sha256": "6a4774f4fb6093482a4ab279b45f2c6c101afccc5c275ebd3748ec5562d05e9c",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

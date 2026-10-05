@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-iq2-sign-mask-staging.v1",
+  "capsule_sha256": "a1c1e100bdf1c3ebfa1775cdb7e20bf4051d8162597f0db9744d591c09f6b1f7",
+  "fixture_files_verified": 44,
+  "provider_files_verified": 1026,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}
