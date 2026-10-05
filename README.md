@@ -2,11 +2,12 @@
 # Synapse LIE — original Q2 support for official Gufo
 
 The [new IQ2 raw/selective-Q2 composition](docs/Q2-IQ2-RAW-SELECTIVE.md)
-combines the retained PP1505.152258 base with the previously measured marginal
-48/64-row C17 down policy. All117 numerical source files remain exact to the
-best parent and all five changed files reproduce the measured selector.
-Local syntax,93 guards and40-file/1027-provider staging pass. Only the new
-original fixed model is planned; old components and Q2/UD controls are reused.
+completes on .157 at PP1503.961988/TG25.19241290. Its nominal prefill change
+is-0.079080% versus the saved IQ2 raw parent1505.152258, with overlapping
+samples; that parent remains the base. All21 parent model files and nine
+replays are exact. The marginal selector and full composition stay preserved;
+10 commands/33 artifacts verify, host Debug/ASan25/25 each pass and the GPU
+window is released. No old component or qualified control is rerun.
 
 The [ordered Q8 K16-phase candidate](docs/Q2-Q8-K16-PHASES.md) now completes66 exact
 component output pairs and its original fixed model on .157.

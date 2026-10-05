@@ -1,0 +1,43 @@
+{
+  "schema": "synapse-lie.q2-iq2-raw-selective-retained-update.v1",
+  "at": "2026-10-05T05:40:34.562637+00:00",
+  "model_result_sha256": "cd830317b8b807fd02e5658b6ee8423e9556bbdc269e513eed48955870bfdfd3",
+  "source_manifest_sha256": "e876d4335b567fcf10b7f52ddc4e814d06d0d7bee4aff8fd102f38f0b8530943",
+  "plan_sha256": "22de438a6cadfa272a01c543f5ab9eb0219f78a0a5d91c6c39a67826cfbb402e",
+  "saved_parent_model_sha256": "d5eb694387c6160e2b54750214cd0875d2977f057f4a5fcf2e1defa5135e64cd",
+  "retained_component_sha256": "28609d9923560f92570324249e3c2915d80688cbd7ca591b2bf632f65acb484c",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "candidate_prefill_tok_s": 1503.961988,
+  "candidate_decode_steps_s": 25.1924129,
+  "candidate_retained": true,
+  "candidate_selected_as_next_base": false,
+  "next_composition_base_source": ".deps/gufo-q2-iq2-raw-prefetch-run",
+  "retained_best_prefill_tok_s": 1505.152258,
+  "retained_best_decode_steps_s": 25.15493858,
+  "retained_best_prefill_increase_needed_for_original_ud_percent": 12.000436038278849,
+  "change_vs_parent_percent": {
+    "prefill_tok_s": -0.07907970729696956,
+    "decode_steps_s": 0.14897400715498943,
+    "prefill_s": 0.07914227269967267,
+    "decode_s": -0.14875238242002542
+  },
+  "change_vs_fixed_q2_percent": {
+    "prefill_tok_s": 4.176092962478606,
+    "decode_steps_s": 0.38435640340619415,
+    "prefill_s": -4.008686489411728,
+    "decode_s": -0.38288473677823287
+  },
+  "parent_model_files_exact": 21,
+  "within_arm_replays_exact": 9,
+  "qualified_controls_rerun": false,
+  "old_component_cohorts_rerun": false,
+  "original_nineteen_reports_reclassified": false,
+  "contemporaneous_bookends": false,
+  "stable_increment_established": false,
+  "independent_additive_gains_established": false,
+  "default_promoted": false,
+  "independent_model_quality_complete": false,
+  "full_curve_admitted": false,
+  "goal_met": false,
+  "limits": "New composition only; preserve candidate regardless of numerical or timing verdict. Saved references do not establish contemporaneous repeatability, independent task quality, additive gains or full-context parity."
+}

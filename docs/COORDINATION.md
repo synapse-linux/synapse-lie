@@ -1,7 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-Fresh core handover after release11ba034f confirms no root .157 job/build/
+Latest IQ2 raw/selective-Q2 window releases at2026-10-05T05:39:08.060027+00:00
+after one new original exact2048/tg128 model, with no component or qualified
+control rerun. All10 host/model commands exit zero and all33 artifacts verify.
+All21 parent model files/nine replays are exact. New PP1503.961988/TG25.19241290
+does not establish an extra gain over saved IQ2 parent1505.152258; that parent
+remains the base and the whole composition stays preserved. Closure retires727
+identities/574 groups, KFD empty, four original leases free and six unchanged
+model stat tuples. Canonical/main/remote/active/ready mirrors match. Core is
+notified; no Q2 GPU/build/job/lease/waiter/reservation/restart/cleanup remains.
+Future GPU work needs new handover/admission from
+[release](../config/q2-iq2-raw-selective-window-release.json), SHA256
+`4d34e1e62f487e2069e5503fe343bcab5c80030166a5b50f6fc644275f95fb2a`.
+
+Fresh core handover before that run after release11ba034f confirmed no root .157 job/build/
 eval/client/lease/waiter/reservation/restart/interleaving. The new IQ2 raw/
 selective-Q2 composition freezes40 fixtures/seven manifests and one original
 exact2048/tg128 model. All numerical sources remain unchanged; preserved
@@ -15,7 +28,7 @@ The new host gate passes25/25 Debug and25/25 ASan/UBSan, six command exits zero
 and seven verified artifacts, with no model/GPU access.
 [Host receipt](../config/q2-iq2-raw-selective-host-results.json).
 
-Latest Q8 K16-phase window releases at 2026-10-05T05:05:32.390541+00:00 after
+Previous Q8 K16-phase window releases at 2026-10-05T05:05:32.390541+00:00 after
 one new component and one original exact2048/tg128 model. All 13 host/component/
 model commands exit zero and all 37 artifacts verify. All 66 component output
 pairs, 21 parent model files and nine internal model replays are exact. New
