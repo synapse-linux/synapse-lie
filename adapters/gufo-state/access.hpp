@@ -11,6 +11,9 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#ifndef LIE_GUFO_DIRECTIONAL_STEERING
+#error "State binding requires the verified directional-steering provider variant"
+#endif
 #include "src/models/qwen/vision/encoder.hpp"
 #ifdef LIE_DS4_RUNTIME_CACHE
 #include "lie/kvc_state.h"
@@ -44,7 +47,7 @@ public:
   static bool Describe(Session& s,uint64_t domain,uint32_t chunk,
                        const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0,uint32_t drafts=0) {
     auto& d=*s.session_;const auto& c=s.model_->config();
-    if(!s.valid_||d.spec_tokens_||
+    if(!s.valid_||s.LieSteeringActive()||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
 #ifdef LIE_DS4_RUNTIME_CACHE
     const bool mtp=s.MtpEnabled(),vision=bool(s.image_prompt_);

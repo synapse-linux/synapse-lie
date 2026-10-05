@@ -1,0 +1,132 @@
+{
+  "schema": "synapse-lie.gufo-steering-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "LIE-owned activation launch bindings in target scalar and batch; initial immutable per-session scales only. Predictor untouched. No public controls or live/cache history integration. Rebuild required; GPU unqualified.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  std::uint32_t decode_concurrency = 1;\n};",
+      "new": "  std::uint32_t decode_concurrency = 1;\n  // Borrowed through Load only, then copied once to model-owned device memory.\n  // Append to preserve the existing option field/aggregate order.\n  std::span<const float> lie_steering_values{};\n};\n// Narrow LIE-owned hooks; rebuilt verified variant only.\n#define LIE_GUFO_DIRECTIONAL_STEERING 1"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  [[nodiscard]] std::uint32_t VocabSize() const noexcept;",
+      "new": "  [[nodiscard]] std::uint32_t VocabSize() const noexcept;\n  [[nodiscard]] std::size_t LieSteeringBytes() const noexcept;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  void Reset();\n  /// Cancellation",
+      "new": "  // Provider-private initial admission. Live changes and state/cache identity\n  // are not exposed until the C17 policy is integrated by LIE's device owner.\n  [[nodiscard]] bool LieConfigureSteering(float ffn, float attention,\n                                         std::string* error_msg);\n  [[nodiscard]] bool LieSteeringActive() const noexcept;\n  void Reset();\n  /// Cancellation"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  const Config& c = m->weights_->config;\n  if (options.max_context",
+      "new": "  const Config& c = m->weights_->config;\n  if (!options.lie_steering_values.empty()) {\n#if LIE_DIRECTIONAL_STEERING\n    if (options.lie_steering_values.size() > SIZE_MAX / sizeof(float) ||\n        options.lie_steering_values.size() !=\n            std::uint64_t{c.num_layers} * c.hidden_size ||\n        !std::ranges::all_of(options.lie_steering_values,\n                            [](float x) { return std::isfinite(x); })) {\n      AssignError(error_msg, \"invalid steering direction geometry or values\");\n      return nullptr;\n    }\n#else\n    AssignError(error_msg, \"directional steering was disabled at compilation\");\n    return nullptr;\n#endif\n  }\n  if (options.max_context"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  exec.max_speculative = exec.max_logit_rows;",
+      "new": "  exec.max_speculative = exec.max_logit_rows;\n  exec.lie_steering_values = options.lie_steering_values;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  return m;\n}\n\nstd::unique_ptr<Session> Model::CreateSession",
+      "new": "  m->options_.lie_steering_values = {}; // Never retain a borrowed host span.\n  return m;\n}\n\nstd::size_t Model::LieSteeringBytes() const noexcept {\n  return executor_ ? executor_->LieSteeringBytes() : 0;\n}\nbool Session::LieConfigureSteering(float ffn, float attention,\n                                   std::string* error_msg) {\n  if (!valid_ || !tokens_.empty()) {\n    AssignError(error_msg, \"steering configuration requires a pristine session\");\n    return false;\n  }\n  return model_->executor_->LieConfigureSteering(*session_, ffn, attention,\n                                                error_msg);\n}\nbool Session::LieSteeringActive() const noexcept {\n  return session_->LieSteeringActive();\n}\n\nstd::unique_ptr<Session> Model::CreateSession"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  if (!valid_)\n    return 0;\n  return SessionSnapshotHostBytes",
+      "new": "  if (!valid_ || LieSteeringActive())\n    return 0;\n  return SessionSnapshotHostBytes"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "    std::string* error_msg) const {\n  if (!valid_ || tokens_.empty()",
+      "new": "    std::string* error_msg) const {\n  if (LieSteeringActive()) {\n    AssignError(error_msg, \"steered snapshot requires LIE steering-history state\");\n    return nullptr;\n  }\n  if (!valid_ || tokens_.empty()"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "                              std::string* error_msg) {\n  SessionSnapshotHeader header{};",
+      "new": "                              std::string* error_msg) {\n  if (LieSteeringActive()) {\n    AssignError(error_msg, \"steered restore requires LIE steering-history state\");\n    return false;\n  }\n  SessionSnapshotHeader header{};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  [[nodiscard]] std::uint32_t position() const noexcept { return position_; }",
+      "new": "  [[nodiscard]] std::uint32_t position() const noexcept { return position_; }\n  [[nodiscard]] bool LieSteeringActive() const noexcept {\n    return lie_ffn_scale_ != 0.0f || lie_attention_scale_ != 0.0f;\n  }"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  mutable bool cancelled_{false};",
+      "new": "  // Immutable after pristine-session admission. No Control layout change or\n  // extra per-launch upload; captured graphs contain these admitted scalars.\n  float lie_ffn_scale_{0.0f}, lie_attention_scale_{0.0f};\n  mutable bool cancelled_{false};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "    std::uint32_t max_speculative{1};",
+      "new": "    std::uint32_t max_speculative{1};\n    std::span<const float> lie_steering_values{};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  [[nodiscard]] hipStream_t stream() const noexcept { return stream_; }",
+      "new": "  [[nodiscard]] hipStream_t stream() const noexcept { return stream_; }\n  [[nodiscard]] std::size_t LieSteeringBytes() const noexcept {\n    return lie_direction_bytes_;\n  }\n  [[nodiscard]] bool LieConfigureSteering(Session&, float ffn, float attention,\n                                         std::string* error_msg) const;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "private:\n  Executor() = default;",
+      "new": "private:\n  // One immutable model-owned direction bank. No allocation when absent.\n  float* lie_directions_{nullptr};\n  std::size_t lie_direction_bytes_{0};\n  bool LieSteer(const Session&, float*, std::uint32_t tokens,\n                std::uint32_t branches, std::uint32_t layer, bool ffn,\n                std::string* error_msg) const;\n  Executor() = default;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "#include \"qfn_mmq.h\"",
+      "new": "#include \"qfn_mmq.h\"\n#if LIE_DIRECTIONAL_STEERING\n#include \"hip/steering.hpp\"\n#endif"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  auto& a = e->allocations_;\n  Scratch& s = e->s_;",
+      "new": "  auto& a = e->allocations_;\n  if (!options.lie_steering_values.empty()) {\n#if LIE_DIRECTIONAL_STEERING\n    if (options.lie_steering_values.size() > SIZE_MAX / sizeof(float) ||\n        options.lie_steering_values.size() !=\n            std::uint64_t{c.num_layers} * c.hidden_size ||\n        !std::ranges::all_of(options.lie_steering_values,\n                            [](float x) { return std::isfinite(x); })) {\n      AssignError(error_msg, \"invalid steering direction geometry or values\");\n      return nullptr;\n    }\n    a.reserve(a.size() + 1); // Record the bank without a post-allocation throw.\n    e->lie_directions_ = Alloc<float>(a, options.lie_steering_values.size(),\n                                     error_msg);\n    if (!e->lie_directions_ ||\n        !Check(hipMemcpy(e->lie_directions_, options.lie_steering_values.data(),\n                         options.lie_steering_values.size_bytes(),\n                         hipMemcpyHostToDevice), \"steering bank upload\",\n               error_msg))\n      return nullptr;\n    e->lie_direction_bytes_ = options.lie_steering_values.size_bytes();\n#else\n    AssignError(error_msg, \"directional steering was disabled at compilation\");\n    return nullptr;\n#endif\n  }\n  e->options_.lie_steering_values = {};\n  Scratch& s = e->s_;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "void Executor::Combine(float* res, const float* gamma,",
+      "new": "bool Executor::LieConfigureSteering(Session& session, float ffn, float attention,\n                                     std::string* error_msg) const {\n  if (session.owner_ != this || session.position_ || session.mutation_epoch_ ||\n      session.spec_tokens_ || !session.graphs_.empty() ||\n      !session.warmed_.empty() || !std::isfinite(ffn) ||\n      !std::isfinite(attention) || ffn < -100.0f || ffn > 100.0f ||\n      attention < -100.0f || attention > 100.0f ||\n      ((ffn != 0.0f || attention != 0.0f) && !lie_directions_)) {\n    AssignError(error_msg, \"invalid steering scales or non-pristine session\");\n    return false;\n  }\n  session.lie_ffn_scale_ = ffn == 0.0f ? 0.0f : ffn;\n  session.lie_attention_scale_ = attention == 0.0f ? 0.0f : attention;\n  return true;\n}\nbool Executor::LieSteer(const Session& session, float* values,\n                        std::uint32_t tokens, std::uint32_t branches,\n                        std::uint32_t layer, bool ffn,\n                        std::string* error_msg) const {\n  const float scale = ffn ? session.lie_ffn_scale_ : session.lie_attention_scale_;\n  if (scale == 0.0f) return true;\n#if LIE_DIRECTIONAL_STEERING\n  const auto& c = config();\n  if (!lie_directions_ || layer >= c.num_layers) {\n    AssignError(error_msg, \"steering direction is not admitted\");\n    return false;\n  }\n  lie_steering_activation plan{};\n  plan.abi_version = LIE_STEERING_ACTIVATION_ABI;\n  plan.struct_bytes = sizeof(plan);\n  lie_error detail{};\n  const auto bytes = std::uint64_t{tokens} * branches * c.hidden_size * sizeof(float);\n  if (lie_steering_activation_prepare(c.hidden_size, tokens, branches, scale,\n        bytes, std::uint64_t{c.hidden_size} * sizeof(float), &plan, &detail) != LIE_OK) {\n    AssignError(error_msg, detail.message);\n    return false;\n  }\n  return Check(lie_hip_direction_remove(values,\n      lie_directions_ + std::size_t{layer} * c.hidden_size, plan, stream_),\n      \"directional steering\", error_msg);\n#else\n  (void)values; (void)tokens; (void)branches; (void)layer;\n  AssignError(error_msg, \"directional steering was disabled at compilation\");\n  return false;\n#endif\n}\n\nvoid Executor::Combine(float* res, const float* gamma,"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "    // Each combine also norms the residual for the mixer that follows it,",
+      "new": "    // DS4 attention edits the projected hidden-width block, before HC combine.\n    if (!LieSteer(session, s_.block_out, n, 1, il, false, error_msg))\n      return false;\n    // Each combine also norms the residual for the mixer that follows it,"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "    Combine(s_.res, next_norm, n);\n    normed = next_norm != nullptr;",
+      "new": "    // FFN edits every completed HC branch. A fused norm before that edit is\n    // stale: skip it, then let HcMix refresh F32 and half/Q8 input caches.\n    const bool steering_ffn = session.lie_ffn_scale_ != 0.0f;\n    Combine(s_.res, steering_ffn ? nullptr : next_norm, n);\n    if (!LieSteer(session, s_.res, n, c.hc_count, il, true, error_msg))\n      return false;\n    if (steering_ffn) { half_src_ = nullptr; q8t_src_ = nullptr; xn_half_ = false; }\n    normed = !steering_ffn && next_norm != nullptr;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "  if (rows > options_.max_batch) {\n    return Fail(error, \"decode batch exceeds executor capacity\");\n  }",
+      "new": "  if (rows > options_.max_batch) {\n    return Fail(error, \"decode batch exceeds executor capacity\");\n  }\n  const bool steering_ffn = std::ranges::any_of(items, [](const auto& item) {\n    return item.session->lie_ffn_scale_ != 0.0f;\n  });"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "      CombineBatch(base.res, l.hc_ffn.norm.f32(), rows);\n      if (!HcMixBatch(l.hc_ffn, base.res, true,",
+      "new": "      for (std::size_t i = 0; i < items.size(); ++i) {\n        if (!LieSteer(*items[i].session,\n              base.block_out + std::size_t{offsets[i]} * c.hidden_size,\n              items[i].tokens.size(), 1, il, false, error))\n          return false;\n      }\n      CombineBatch(base.res, l.hc_ffn.norm.f32(), rows);\n      if (!HcMixBatch(l.hc_ffn, base.res, true,"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "old": "      CombineBatch(base.res, next_norm, rows);\n      normed = next_norm != nullptr;",
+      "new": "      CombineBatch(base.res, steering_ffn ? nullptr : next_norm, rows);\n      for (std::size_t i = 0; i < items.size(); ++i) {\n        if (!LieSteer(*items[i].session,\n              base.res + std::size_t{offsets[i]} * c.HcDim(),\n              items[i].tokens.size(), c.hc_count, il, true, error))\n          return false;\n      }\n      if (steering_ffn) { half_src_ = nullptr; q8t_src_ = nullptr; xn_half_ = false; }\n      normed = !steering_ffn && next_norm != nullptr;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "                                      std::uint32_t hidden_rows) const {\n  SnapshotHeader h =",
+      "new": "                                      std::uint32_t hidden_rows) const {\n  if (session.LieSteeringActive()) return 0;\n  SnapshotHeader h ="
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "                            std::span<std::uint8_t> payload,\n                            std::string* error_msg) const {\n  if (session.owner_ != this) {",
+      "new": "                            std::span<std::uint8_t> payload,\n                            std::string* error_msg) const {\n  if (session.LieSteeringActive()) {\n    AssignError(error_msg, \"steered snapshot requires LIE steering-history state\");\n    return false;\n  }\n  if (session.owner_ != this) {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "                               std::uint32_t next_drafts) const {\n  if (session.owner_ != this) {",
+      "new": "                               std::uint32_t next_drafts) const {\n  if (session.LieSteeringActive()) {\n    AssignError(error_msg, \"steered restore requires LIE steering-history state\");\n    return false;\n  }\n  if (session.owner_ != this) {"
+    }
+  ]
+}

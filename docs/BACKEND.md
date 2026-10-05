@@ -65,7 +65,9 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    and bench. The [owned C17 bank loader](development/STEERING.md) passes four
    Debug and four sanitizer checks; this does not activate provider steering.
    The subsequent C17 session-policy library owns staged scale updates and
-   history/cache identities; actual session/provider/cache wiring remains open.
+   history/cache identities. Owned HIP operators and scalar/batch target hooks
+   now pass six Debug/sanitizer host checks and enabled/disabled syntax checks;
+   no GPU qualification or public model/session/cache wiring exists yet.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance

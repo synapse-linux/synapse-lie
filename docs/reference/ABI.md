@@ -25,6 +25,14 @@ The current request ABI 8 budget semantics are documented below; the bank/policy
 interfaces do not activate provider steering or KV persistence.
 See [format, policy and actual binding requirements](../development/STEERING.md).
 
+`lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
+geometry, finite scale, checked span capacities and caller-owned output. Every
+refusal preserves that output. It is not a model executor or a persisted state
+format. The owned HIP operator and private provider hooks have host/syntax
+validation only. Initial scales are immutable after numerical work; active
+steered capture/restore is refused until history-aware state wiring exists.
+Executor ABI 3, generation ABI 3, request ABI 8 and DS4 payloads are unchanged.
+
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
 encoded bytes are borrowed, lengths are exact, and BF16 output is caller-owned.
 There is no allocation or device dependency; overlap and nonfinite input are
@@ -41,7 +49,7 @@ separate; keep upstream types inside the adapter.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
 lengths, opaque handles and caller-owned error buffers. No C++ types are public.
-`adapters/gufo.cpp` compiles against upstream `f783fedb` only with the explicit
+`adapters/gufo.cpp` compiles against the pinned `f783fedb` composition only with the explicit
 `LIE_GUFO_ADAPTER_OPT_IN` definition. The following describes the experimental
 contract, not hardware qualification. `LIE_GUFO_HEADER_CHECK` remains object-only;
 `LIE_GUFO_RUNTIME` explicitly links verified private upstream archives. ABI 1

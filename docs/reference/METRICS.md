@@ -168,6 +168,9 @@ and staged bytes. The shared bank's vector bytes are separate. These are host
 policy/resource metadata, not executed-token counters, GPU timing or evidence
 that a numerical steering edit occurred. Core jobs/HTTP/benchmark metrics do not
 yet project them; [provider/cache integration remains open](../development/STEERING.md).
+The private provider `LieSteeringBytes()` reports its owned device bank allocation
+separately from model weights. No public GPU steering counters or performance
+samples are qualified by the activation descriptor or syntax checks.
 
 The native core report requires positive prefill time and call count when new
 prompt tokens are processed. Decode time and call count must agree, and confirmed

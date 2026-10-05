@@ -56,6 +56,9 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Experimental directional activation operators and target scalar/batch hooks,
+  selected at compilation by default. Public steering controls and GPU gates
+  remain pending; active state capture/restore refuses without steering history.
 - Optional original-weight output-budget qualification checks model limits and
   actual generation past 128 tokens with omitted/null limits in JSON and SSE.
   The server and native benchmark gain no Python dependency.

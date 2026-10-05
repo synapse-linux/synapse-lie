@@ -8,6 +8,32 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Directional activation operators and provider hooks — 2026-10-05 UTC
+
+The owned C17 activation descriptor validates row/branch spans, scale and byte
+arithmetic. An independently written HIP operator applies DS4's projection edit
+to the target attention block before HC combine and every FFN residual branch
+after combine, in scalar prefill/decode/verification and native batches. Active
+FFN edits invalidate fused normalization and cached F16/Q8 views. The separate
+MTP predictor is unchanged; no inference/scheduling thread is added.
+
+The provider's immutable initial bank/scales are private hooks. Public model and
+session policy admission, live transitions, history-aware cache compatibility,
+HTTP/bench controls and original-weight numerical/quality/cost gates remain open.
+Active steering refuses native/provider snapshots and LIE state transfers until
+that history is integrated. Unsteered DS4 payload formats are unchanged. The
+compile selection is on by default and requires new matching verified archives.
+
+Six Debug and six ASan/UBSan/LSan host tests pass. All 1,019 pristine source hashes
+and the exact composed changes verify. Enabled/disabled provider/adapter syntax,
+both HIP target syntax checks and all 31 public C++ headers pass without producing
+device objects. CPU maximum is 82 C. The first sanitizer run exits 8 under ptrace;
+the first executor syntax checks exit 1 on a missing actual provider define.
+Both failures remain retained; corrected checks pass without weakening oracles.
+At the read-only `.161` witness, external PID29223/start2470351 still owns KFD
+alongside the restored router; no GPU admission/build/run or reservation follows.
+[Commands, hashes and scope](development/validation/steering-provider-host-2026-10-05.json).
+
 ## Original-weight automatic AR budgets qualified; MTP interrupted — 2026-10-04 UTC
 
 The device-free `.161` r12 build verifies all 2,457 capsule files and the 1,019

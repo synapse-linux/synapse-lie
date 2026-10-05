@@ -3,9 +3,11 @@
 
 The C17 shared library owns direction-bank loading, bounded host allocation,
 immutable values, session policy transactions and history/cache identities.
-GPU activation edits and public HTTP/bench controls are **not implemented by
-these increments**. Loading a bank or advancing policy metadata is not model
-inference and does not qualify steering quality or performance.
+The next increment writes owned HIP activation operators and target-provider
+hooks, qualified only by host contracts and syntax checks. Public HTTP/bench
+controls, live policy/cache integration and GPU qualification remain open.
+Loading a bank or advancing policy metadata is not model inference and does
+not qualify steering quality or performance.
 
 ## Shared bank contract
 
@@ -113,13 +115,63 @@ proposals/correction assumptions. Define and retain the effective scale history
 when capturing RAM/SSD state; a token-only prefix must not reuse state produced
 under different steering. No extra provider/HTTP thread is introduced.
 
-Remaining work in roadmap item 5 is the actual HIP binding, shared model
+Remaining work in roadmap item 5 is qualification of the HIP binding, shared model
 admission, policy integration into sessions/cache, HTTP and native bench exposure. GPU gates on
 `.161` must prove unchanged output with steering absent/zero, malformed input
 refusal before model mutation, prompt/decode edits, scale transitions, independent
 AR/MTP checks and measured quality/cost. The user-visible naming follows DS4's
 `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn` once those
 controls are implemented; they are not available CLI flags yet.
+
+## Provider activation operators
+
+`lie/steering_activation.h` defines independent C17 activation ABI 1. It bounds
+token/branch geometry, address arithmetic and the available activation/direction
+spans before launch. Rows are token-major with one independent hidden-width
+slice per branch. This descriptor does not allocate memory or execute inference.
+
+The independently written `adapters/hip/steering.hip` operator applies:
+
+```text
+dot = sum_j(direction[j] * row[j])
+row[i] -= scale * direction[i] * dot
+```
+
+It uses one workgroup per row, a shared F32 reduction and the existing owner
+stream. It does not normalize directions. Its source disables fast-math and
+contraction explicitly; floating-point agreement with DS4 still needs numerical
+GPU oracles. A validated zero scale bypasses all GPU calls.
+
+The exact pinned-source variant adds initial immutable provider-only admission:
+direction geometry and finite values are checked before the model's first GPU
+upload, then one bank copy is owned by the executor. Borrowed host spans are
+cleared after loading. Its separate `LieSteeringBytes()` diagnostic reports bank
+bytes; public core resource/metrics projection is still pending. Absent directions
+allocate nothing. `LIE_DIRECTIONAL_STEERING=ON` is the default compile selection;
+it requires the verified state-access variant and matching application/archive
+receipts. With it disabled, nonempty direction admission refuses before upload.
+
+Target scalar prefill/decode/verification and native batches have both edit
+points described above. Batch slices retain each session's own scales and every
+HC branch. Active FFN steering skips the now-stale fused next normalization and
+invalidates cached F16/Q8 views; the following mixer recomputes from the edited
+residual. The separate MTP predictor loop is unchanged. Absent/zero steering keeps
+the existing numerical launches and normalization route; exact original-weight
+output and cost comparisons are still required.
+
+The private scale setter accepts only a pristine session with no prior mutation,
+warm shape or graph. No live scale transition is exposed. This leaves graph
+scalars immutable and introduces no worker, HTTP state or scheduling thread.
+Active steering refuses both provider snapshot APIs and the LIE state-view path
+before any capture/restore transfer, until history-aware state compatibility is
+wired. Existing unsteered DS4 payloads and their formats are unchanged. These
+private provider hooks are not a working public steering feature.
+
+`steering-edits.json` records 25 exact replacements against independently fetched
+Gufo `f783fedb`; owned kernels retain MIT markers and no DS4 source is imported.
+Every affected source hash, owned primitive file and compile selection is
+required in a new provider receipt. Old libraries cannot be accepted as this
+new composition. No remote build or GPU run was performed for this increment.
 
 ## Validation
 
@@ -137,3 +189,13 @@ mixed/off histories, stale/discarded/partial updates, wrong-owner refusal, bound
 plans, image scope composition, retained references and concurrent snapshots
 are covered. The initial compiler exit 2 from a formatting warning is retained.
 [Policy validation receipt](validation/steering-policy-host-2026-10-04.json).
+
+The provider increment passes six focused Debug checks and the same six
+ASan/UBSan/LSan checks, including activation bounds and provider inventory/drift
+refusals. The composed source verifies all 1,019 pristine files. Engine, executor,
+batch and complete-adapter syntax checks pass with the feature enabled/disabled;
+kernel syntax passes for `gfx1150` and `gfx1151`. These produce no device objects
+and are not original-weight execution. The initial sanitizer exit 8 under sandbox
+ptrace and syntax exit 1 from a missing `ENGINE_ENABLE_HIP` compile definition are
+preserved; the corrected checks pass. CPU telemetry and current `.161` occupancy
+are retained in the [provider receipt](validation/steering-provider-host-2026-10-05.json).

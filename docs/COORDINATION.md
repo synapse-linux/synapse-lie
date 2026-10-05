@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Steering host work; no new GPU window — 2026-10-05 UTC
+
+Root continues only host activation/provider development. The read-only witness
+at 2026-10-04 23:53:53.369505 UTC still observes external PID29223/start2470351 in
+session-424 and the restored router PID29377/start2474081 in both descriptor and
+kernel KFD inventories. CPU is 78.5 C, available RAM 87,978,463,232 bytes; the
+original private `.161` lease is free. This is no GPU admission. There is no
+new root build/run, retry, waiter, lease reservation, service mutation or foreign
+signal on `.161`, and no root GPU ownership on `.157`.
+
+Six Debug and six sanitizer host checks and provider/kernel syntax pass, with
+local CPU maximum 82 C and GPU masked. This writes a new unqualified source
+increment, without changing the frozen r12 AR/MTP receipts or their closure.
+[Host receipt](development/validation/steering-provider-host-2026-10-05.json).
+
 ## Automatic-budget r12 windows released — 2026-10-04 UTC
 
 Fresh admission at 22:57:20.466869 UTC verifies empty actual/kernel KFD clients
