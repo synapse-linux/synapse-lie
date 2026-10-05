@@ -42,3 +42,49 @@ one binary. The [two new retained compositions](Q2-REAUDIT-COMPOSITION.md)
 measure1451.924906 /1452.143206 PP without changing the fixed input/timers.
 Row reuse remains model-exact; added norm reproduces the previous norm logits.
 The fixed-point PP gap remains13.86%; the complete curve stays deferred.
+
+## Current remaining work — 5 October 2026
+
+This update supersedes the historical queue above. Best retained Q2 is now
+1505.152258 PP /25.15493858 TG. Original fixed Q2 remains1443.672867 and
+UD1685.777092; reaching that UD PP requires12.000436% more throughput from
+the best. The original exact2048/tg128 input/timers remain fixed. No new
+runtime work is scheduled by this inventory; Q4 remains deferred.
+
+The independent Q8 initialization race is already diagnosed and corrected.
+Raw-HC Q8 publication, row reuse, native HC-down BK256 and MoE-only deferred
+norm are already included in the measured best lineage. Routing-selective down
+tiles were measured separately and are not in the1505 base. The nineteen-report
+recovery has zero selective integrations pending.
+IQ2 half staging/high-byte representation/raw prefetch/sign masks/large table,
+Q8 grouped loads/K16 phases and large persistent F16 mirrors all have retained
+component and full-model results. Their existing cohorts need no rerun.
+
+| Priority / region | Actual remaining experiment | Current boundary |
+| --- | --- | --- |
+| High: compact IQ2 gate/up producer | Repartition fetch/decode into eight-value producers with compact staging, bounded register lives and fewer movements. | Source-backed GSQ/DS4 principles; a new kernel is still needed. Halfstage, prefetch and table changes have already been measured; this is not another label for them. |
+| High: routed Q2 down / expert consumer chain | Adapt DS4 fused SwiGLU/down or producer-Q8 consumer ideas to the active Qwen route, with logical640/stored768 tail handling and explicit activation arithmetic. | MMQ audit only. Existing fallback already shares routing/quantization and fixed2048 uses paired IQ2 WMMA instead. A real new dispatch/consumer is needed before a speed claim. |
+| High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
+| Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
+| Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
+| Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |
+| Integration: bounded reactive PLE preparation | Compose the measured two-slot lookahead with the current best provider and verify first-access/warm complete model behavior. | Earlier8K first-access gain is measured, but this best-provider composition remains unqualified. It addresses row I/O, not warmed GPU matrix time. |
+| Separate decode/concurrency: Q8 GEMV and GPU admission | Measure useful native C2/C4/C8 grouping and resource-aware ready regions, preserving live readers and C1 latency. | Existing vector quantization cache and shared/routed overlap are measured. The naive two-stream fork regresses PP; a general internal resource policy is not yet implemented/qualified. |
+| Later: sparse indexer and attention at high context | Reuse keys across query rows, distribute exact selection with deterministic ties, and compare packed K/V against direct gathers by shape. | Source-backed Halogen/GSQ hypotheses, no LIE runtime result. Selection is inactive at the fixed2048 point; these cannot close that point's gap. |
+
+The saved MoE diagnostic attributes254.797ms to IQ2 gate/up,188.349ms to Q2
+down,293.725ms to Q8/F16 dense and211.530ms to HC combine/norm/inject. It
+profiles the earlier1496.830907 provider, not a new baseline or the current
+1505 source. It prioritizes work but cannot predict additive model gains.
+
+Independent task quality remains open: Core-19 has only a partial historical
+run, not a complete matched result for the retained variants. Complete current
+PP/TG context-curve qualification remains deferred until the fixed-point gap
+closes. These are qualification tasks, not measured kernel speedups. Preserve
+safe numerical failures and run only new candidates with saved references.
+
+[MMQ adaptation audit](Q2-MMQ-REUSE-AUDIT.md),
+[shared-Q8 shape audit](Q2-DEEPSEEK-SHARED-PREFILL.md),
+[dataflow/ownership review](Q2-GPU-DATAFLOW.md),
+[saved operator attribution](Q2-FIXED-MOE-PROFILE.md),
+[latest negative mirror result](Q2-Q8-MIRROR.md).
