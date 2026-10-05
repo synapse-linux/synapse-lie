@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 compiled-schema cache with copied keys, bounded opaque values and
+  concurrent access. Compilation stays outside its lock; the default-ON
+  provider retains an OFF reference. Host cache/ownership/refusal comparisons
+  pass; matching rebuilt-runtime GPU and cost checks remain pending.
+
 - Shared C17 finite JSON value filtering/canonicalization, string/key quoting,
   ordered object/array rules and bounded character accounting. The default-ON
   provider retains an OFF reference. Host language and refusal checks pass;

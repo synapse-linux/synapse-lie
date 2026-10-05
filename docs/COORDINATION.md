@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Compiled-schema C17 host slice during the 1M window — 2026-10-05
+
+Root advances cache code/tests locally while the existing `.161` physical1M
+supervisor 53019/start 8719211 keeps its original lease and frozen `1bff953`
+runtime. Read-only observation at 18:03:12 UTC confirms 769,024 prefill tokens,
+CPU 76 C and no decode/final snapshot. This is progress, not completion or a
+lease release. No second GPU build/run is admitted during that window.
+
+The [cache host receipt](development/validation/c17-grammar-cache-host-2026-10-05.json)
+binds the C17 policy/lifetimes, 45-file inventory and 46 headers. Matching new
+provider/application GPU builds remain required; workers/events/RNG and DS4
+RAM/SSD formats do not change. Local CPU maximum is 90.875 C without tuning.
+
+Q2 separately reports checkpoint `c6ef68b` and actual `.157` release
+`88dcb8d8` at 17:50:10.710664 UTC. Root reconfirms no `.157` job/build/client/
+lease/waiter/reservation. Its future Terminal Bench CPU client remains unstarted
+and requires a fresh coordinated window; no admission is inherited from Q2.
+
 ## New Point GPU handover and integrated runtime — 2026-10-05
 
 The owner again states `.161` is available. Root recovers the already recorded

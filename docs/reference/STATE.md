@@ -41,6 +41,11 @@ profiles preserve these DS4 payload and cache identities. Their
 is wire/generation qualification with prompt cache disabled, not new original-
 weight RAM/SSD continuation, mixed-history lookup or state-fault evidence.
 
+The compiled-schema C17 cache stores opaque grammar programs and copied schema
+keys. It is independent of KV/recurrent state, prefix retention and SSD files;
+its insertion/eviction never changes model cache identity or DS4 framing. Client
+copies outlive eviction. No schema cache is persisted in model checkpoints.
+
 The C17 Unicode context owns construction-only set/input storage. It performs
 no model or checkpoint operation and changes no DS4 RAM/SSD payload or cache
 identity. Sealed grammar programs copy their runtime tables independently of

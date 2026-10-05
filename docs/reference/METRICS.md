@@ -14,6 +14,11 @@ and confirmed per-job token counts remain progress, not completion or a finished
 throughput sample. Sampled GTT/temperatures are observational resources, not
 allocation-exact or device-fault qualification.
 
+The C17 compiled-schema cache adds no HTTP metric, inference worker or timing
+claim. Its optional inspection reports resident entries and key bytes only;
+opaque handles, programs and transient insertion storage are excluded. Matching
+allocation-exact resources and cost remain separate qualification gates.
+
 The new sampler-history extraction adds no counter/timer or worker. Its selected
 source/header/glue and exact integration recipe are bound in the provider build
 receipt; this does not extend older dense-selector GPU qualification to history.
@@ -29,7 +34,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 42-file provider inventory and numeric edit recipe bind its selection;
+current 45-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -37,7 +42,7 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 42-file inventory and owned recipes bind the source selection. Vocabulary
+The 45-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
 algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
 range translation and input buffers are C17 using ICU C APIs. ICU remains the

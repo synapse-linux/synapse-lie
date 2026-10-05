@@ -161,9 +161,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    Provider container views/staging and format/binary-double multipleOf leaf
    translation remain private glue/policy. Finite-value filtering/canonicalization,
    JSON quoting and object/array construction now use C17 with bounded shared
-   counts and independent host refusal/language tests. Dispatch/reference memo
-   and compile cache still need extraction within the same task; the newer
-   finite-value slice awaits matching provider/application rebuild and GPU gates.
+   counts and independent host refusal/language tests. The compiled-schema cache now also uses C17 ordering, synchronization and
+   opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
+   Dispatch/reference memo and private composition caches still need extraction
+   within the same task. Newer finite-value/cache slices await matching
+   provider/application rebuilds and their own GPU gates.
    The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls
    in both AR and MTP, including selected grammar/tool paths, and six seeded
    native TG128 sessions. This does not close individual grammar-branch,

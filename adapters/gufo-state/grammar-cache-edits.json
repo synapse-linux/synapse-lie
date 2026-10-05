@@ -1,0 +1,16 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Move compiled-schema ordered bounded cache and synchronization into C17; opaque shared_ptr ownership stays private. Preserve original OFF body.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_values.hpp\"\n#endif",
+      "new": "#include \"gufo_schema_values.hpp\"\n#include \"gufo_grammar_cache.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  // Bounded cache; compile outside the lock so unrelated HTTP requests proceed.\n  static std::mutex mutex;\n  static std::map<std::string, std::shared_ptr<const JsonConstraint>> cache;\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(key); found != cache.end())\n      return found->second;\n  }\n  auto grammar = JsonConstraintCompiler(schema, strict).Compile(false);\n  const std::lock_guard lock(mutex);\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(key, std::move(grammar)).first->second;",
+      "new": "#if LIE_C17_SAMPLING\n  // Cache policy/serialization are C17; compilation remains outside its lock.\n  static lie_gufo::GrammarCache<JsonConstraint> cache;\n  if (auto found = cache.get(key))\n    return found;\n  auto grammar = JsonConstraintCompiler(schema, strict).Compile(false);\n  return cache.put(key, std::move(grammar));\n#else\n  // Bounded cache; compile outside the lock so unrelated HTTP requests proceed.\n  static std::mutex mutex;\n  static std::map<std::string, std::shared_ptr<const JsonConstraint>> cache;\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(key); found != cache.end())\n      return found->second;\n  }\n  auto grammar = JsonConstraintCompiler(schema, strict).Compile(false);\n  const std::lock_guard lock(mutex);\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(key, std::move(grammar)).first->second;\n#endif"
+    }
+  ]
+}

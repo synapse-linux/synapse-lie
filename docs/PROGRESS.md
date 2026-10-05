@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Compiled-schema cache in C17 — 2026-10-05
+
+The core now owns copied-key ordering, bounded insertion/eviction, synchronized
+lookup and opaque value retirement. Schema compilation remains outside the
+lock; shared-pointer/error translation stays private in the adapter. This cache
+holds compiled grammars and is separate from model KV/prefix caching.
+
+The [host receipt](development/validation/c17-grammar-cache-host-2026-10-05.json)
+binds 28,822 independent lookup/policy oracles, 23 refusal checks, 24,000
+concurrent C operations, actual private-holder allocation failure and 360
+pristine/C17/OFF compilation witnesses plus 1,600 concurrent identity checks.
+Six Debug, six sanitizer, 31 reference-project and five minimal C/ICU-OFF checks
+pass; all 15 earlier complete witnesses remain unchanged. The minimal-build
+C++ test-registration failure is preserved and corrected by registering private
+glue only after a composition enables C++. All sanitizers stay enabled.
+
+Two exact source edits, the current 45-file inventory and named cache recipe
+hash require a matching new provider/application build. The 46 public headers
+and strict C17/import checks pass; host CPU peaks at 90.875 C. The live `.161`
+1M gate remains frozen at `1bff953`, without new workers or a reactive speedup
+claim. Dispatch/reference memo, private composition/model/controller ownership
+and all six roadmap tasks remain open. No publication occurs.
+
 ## Finite values and container construction in C17 — 2026-10-05
 
 The previously preserved draft now executes finite JSON type/filter/reference/

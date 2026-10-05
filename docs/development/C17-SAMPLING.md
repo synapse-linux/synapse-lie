@@ -62,6 +62,41 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Compiled-schema cache
+
+`lie/grammar_cache.h` defines separate ABI 1; `src/grammar_cache.c` owns ordered
+copied byte keys, bounded entries, lookup/insertion, mutex synchronization and
+retirement. Defaults are 16 entries and 2 MiB per key. Values are opaque retained
+handles with caller-provided retain/copy/release hooks. The cache performs no
+schema compilation, model forward, HTTP operation or worker scheduling.
+
+The private adapter only copies `shared_ptr` handles and translates errors.
+`JsonConstraint::Compile` checks the key, queries the cache, compiles outside its
+lock and inserts the result. A hit allocates no holder. Successful insertion
+preserves the pinned Gufo policy: at capacity, evict the lexicographically
+smallest key before resolving a duplicate. A surviving duplicate returns the
+old program and leaves one fewer entry; replacing the smallest key installs the
+new program. This is ordered eviction, not an LRU policy.
+
+Allocation/hook refusal preserves published output and resident entries.
+Insertion prepares its key/holder/output before eviction; the transient footprint
+can include one extra key and value handle. Removed entries retire after unlock,
+so release hooks/allocators must support concurrent calls. Retain/copy run under
+the lock and must not throw or reenter it. Destruction requires all calls retired;
+client-owned copies remain valid across eviction. Key accounting excludes opaque
+value allocations and is not whole-process memory accounting.
+
+This is a compiled-grammar cache, separate from RAM/SSD KV and prefix retention.
+The existing default-ON `LIE_C17_SAMPLING` selects it; OFF preserves the exact
+original compilation-cache body. Two exact edits and `grammar_cache_edits_sha256`
+join the 45-file provider inventory. The
+[host receipt](validation/c17-grammar-cache-host-2026-10-05.json) binds policy,
+concurrency, real private-holder failure, C refusals and unchanged earlier
+pristine/ON/OFF witnesses. New matching provider/application GPU builds and
+original-weight continuation, resources and cost remain pending. Schema
+Visit/VisitBody/reference memo and private reasoning/tool composition caches
+remain transitional. Shared reactive execution and RNG are unchanged.
+
 ## Request history
 
 `include/lie/sampling_history.h` and `src/sampling_history.c` own the bounded
@@ -338,7 +373,7 @@ and exception translation. Syntax/assertion expansion now use C17; the Unicode
 context below preserves insertion-ordered full-set identity through ICU C APIs.
 JSON Schema compilation and provider container storage remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
-42-file provider inventory and recipes require matching archive/application
+45-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -368,7 +403,7 @@ compiler and provider container storage still need extraction. No upstream type 
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
-ON; OFF retains the original syntax/expansion implementation. The 42-file
+ON; OFF retains the original syntax/expansion implementation. The 45-file
 provider inventory and recipes require matching source/archive/application
 builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
 records independent C language/refusal/allocator tests and pristine/ON/OFF
@@ -402,7 +437,7 @@ The provider glue now supplies context RAII, a synchronous borrowed input view,
 exception and enum translation. `LIE_C17_SAMPLING` selects this path by default;
 OFF retains the pinned C++ path. `LIE_UNICODE_ICU=ON` builds the standalone C
 module by default; a minimal core can omit it with OFF. A C17 provider build
-requires ICU. The 42-file private inventory and changed compiler/parser/build
+requires ICU. The 45-file private inventory and changed compiler/parser/build
 recipes require a new matching sealed provider/application rebuild.
 
 [Host evidence](validation/c17-grammar-uset-host-2026-10-05.json) records 26 Debug,
@@ -459,7 +494,7 @@ copy/source/program-release lifetimes. All twelve earlier full witness hashes
 remain unchanged. Three minimal-core checks with ICU OFF also pass. All 42 public
 headers and strict C17/symbol checks pass; local CPU maximum is 90.5 C.
 
-The 42-file inventory and changed runtime recipe/glue require matching sealed
+The 45-file inventory and changed runtime recipe/glue require matching sealed
 provider/application rebuilds. Worker/events, RNG, request/executor/generation
 and DS4 RAM/SSD layouts remain unchanged. These synthetic tests are not new
 original-weight AR/MTP/tool/grammar continuation, GPU fault/fit, allocation-exact
@@ -492,7 +527,7 @@ inference state or add a worker.
 translation. Format expansion and binary-double `multipleOf` translation remain
 leaf policy in the provider; they do not perform C traversal or merging. The
 default-ON sampler selection uses five exact `schema-transform-edits.json`
-replacements; OFF retains original function bodies. The 42-file sealed inventory
+replacements; OFF retains original function bodies. The 45-file sealed inventory
 requires matching provider/application builds. Schema dispatch/reference memo, compile caching and model/controller storage
 remain transitional; finite-value/container algorithms now use C17 below. A conjunction helper is not full schema admission.
 
@@ -535,7 +570,7 @@ binary-double serialization. The child visitor still owns dispatch/reference
 memo and the compile cache. Nine unique pinned `schema-values-edits.json`
 replacements select the C17 algorithms under the existing default-ON switch;
 OFF retains the original bodies. Matching provider/application builds require
-the 42-file inventory and `schema_values_edits_sha256`. This adds no inference
+the 45-file inventory and `schema_values_edits_sha256`. This adds no inference
 worker, engine/event/RNG layout, model state or DS4 RAM/SSD payload field.
 
 The [host receipt](validation/c17-schema-values-host-2026-10-05.json) records

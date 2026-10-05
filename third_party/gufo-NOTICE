@@ -7,6 +7,13 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The compiled-schema cache policy in src/grammar_cache.c follows official
+  src/core/json_constraint.cpp at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  grammar-cache-edits.json records two exact default-ON/OFF replacements.
+  Ordering, bounds, mutex ownership and retirement are C17; shared_ptr copying
+  and error translation remain private glue. Compilation remains outside the
+  cache lock. No DS4 or sibling workspace source/artifact is imported.
 - The C17 finite-value and container algorithms in src/schema_values.c follow
   official src/core/json_constraint.cpp at the same independently fetched
   f783fedb pin. schema-values-edits.json records nine exact default-ON/OFF
