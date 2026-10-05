@@ -1,0 +1,95 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4288,7 +4288,8 @@
+     __half* __restrict__ out_half, std::size_t m, std::size_t k,
+     const void* __restrict__ w_up) {
+   static_assert(BM == 128 || BM == 256, "eight waves, 16-row tiles");
+-  static_assert(!kPair || BM == 128);
++  static_assert(!kPair || BM == 128 ||
++                (kType == WeightType::kIQ2_XXS && BM == 256 && BN == 64 && !kPacked));
+   static_assert(BN % 16 == 0 && BN / 16 <= 8);
+   static_assert(BK == 2, "one stage is one 32-byte Q4_K nibble group");
+   constexpr int kTokTiles = BN / 16;
+@@ -4362,11 +4363,12 @@
+ #pragma unroll
+   for (int u = 0; u < kWaveRowTiles; ++u) {
+     const int r =
+-        r_block + (kPair ? (tid >> 1) % kRows : (tid >> 1) + (u * 128));
++        r_block + (kPair ? ((tid >> 1) + u * 128) % kRows
++                         : (tid >> 1) + u * 128);
+     f_live[u] = r < m_i;
+     const std::uint8_t* weights = w_expert;
+     if constexpr (kPair) {
+-      if ((tid >> 1) >= kRows) {
++      if ((tid >> 1) + u * 128 >= kRows) {
+         weights = static_cast<const std::uint8_t*>(w_up) +
+                   static_cast<std::size_t>(expert) * m * row_bytes;
+       }
+@@ -4857,6 +4859,52 @@
+         acc[u][j] += acc_residual[u][j] * (1.0F / 4096.0F);
+   }
+ 
++  if constexpr (kPair && BM == 256) {
++    // SPDX-License-Identifier: MIT
++    // The same wave holds gate in u0 and up in u1 for its sixteen rows.
++    // Evaluate the original rounded F32 boundaries before transposing only
++    // final values. Each scratch plane has one wave and no cross-wave reader.
++    constexpr unsigned stride = 18;
++    constexpr unsigned plane = 16 * stride;
++    static_assert(8 * plane * sizeof(float) <= kLdsBytes);
++    float* scratch = reinterpret_cast<float*>(lds) + wave_id * plane;
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l) {
++        float product = acc[1][j][l] * acc[0][j][l];
++        asm volatile("" : "+v"(product));
++        float value = product * SigmoidF(acc[0][j][l]);
++        asm volatile("" : "+v"(value));
++        scratch[sub_lane * stride + 2 * l + half_id] = value;
++      }
++      __builtin_amdgcn_wave_barrier();
++#pragma unroll
++      for (int unit = 0; unit < 4; ++unit) {
++        const int flat = (unit * 32 + lane_id) * 2;
++        const int t = t_local + j * 16 + flat / 16;
++        const int r = wave_id * 16 + flat % 16;
++        if (t < bucket_rows && r_block + r < m_i) {
++          const std::int32_t dst = rows_out[bucket_begin + t];
++          if (dst >= 0) {
++            const int idx = (flat / 16) * stride + flat % 16;
++            const auto offset = static_cast<std::size_t>(dst) * m + r_block + r;
++            if (m % 2 == 0 && r_block + r + 1 < m_i) {
++              *reinterpret_cast<float2*>(out + offset) =
++                  make_float2(scratch[idx], scratch[idx + 1]);
++            } else {
++              out[offset] = scratch[idx];
++              if (r_block + r + 1 < m_i)
++                out[offset + 1] = scratch[idx + 1];
++            }
++          }
++        }
++      }
++      __builtin_amdgcn_wave_barrier();
++    }
++    return;
++  }
++
+   if constexpr (kPair) {
+     // Four waves compute gate rows and four compute the matching up rows.
+     // Pair them in the existing LDS allocation, keeping the K accumulation
+@@ -5419,9 +5467,11 @@
+                      const std::int32_t* bounds, const std::int32_t* rows_token,
+                      const std::int32_t* rows_slot, float* out, std::size_t m,
+                      std::size_t k, hipStream_t stream) {
+-  const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
++  constexpr int kBM = BN == 64 && !kPacked ? 256 : 128;
++  constexpr int kRows = kBM / 2;
++  const dim3 grid(static_cast<unsigned>((m + kRows - 1) / kRows), n_tiles);
+   hipLaunchKernelGGL(
+-      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true, kPacked>),
++      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, kBM, BN, 2, true, kPacked>),
+       grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
+       rows_slot, nullptr, out, nullptr, m, k, up);
+ }

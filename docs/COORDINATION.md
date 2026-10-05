@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+The new IQ2 wide-pair preparation has fresh root non-use handover after
+release5011dbe0: no root .157 job/build/client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving. Host27+27 passes with no GPU/model access;
+59 fixtures/four manifests/1025 provider files are frozen. Checkpoint and
+own helper admission remain required before one new component and original
+2048/tg128 model. No old controls, Q4 or full curve are rerun.
+[Plan](../config/q2-iq2-wide-pair-plan.json),
+[host](../config/q2-iq2-wide-pair-host-results.json).
+
 Latest Q2 lane-ownership window releases at2026-10-05T10:12:32.599494UTC,
 SHA2565011dbe0bde42ce6c865e0b568ac45905b9e4aa55bceae9be69cf4c4ab843c31.
 Host27+27,81 exact component pairs and one original fixed model complete;

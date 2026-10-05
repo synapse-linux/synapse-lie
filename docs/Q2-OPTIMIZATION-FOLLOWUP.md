@@ -64,7 +64,7 @@ component and full-model results. Their existing cohorts need no rerun.
 
 | Priority / region | Actual remaining experiment | Current boundary |
 | --- | --- | --- |
-| High: compact IQ2 gate/up producer | Assess BM256 only for nonpacked BN64: keep gate/up accumulators in the same wave, share activation fetches across128 logical rows and avoid cross-wave epilogue pairing. | New source/mapping audit only; accumulators double and LDS17536→26752. Four-lane commit ownership is now fully measured at1509.852296 PP, nominally+0.312263% despite0.61–2.41% slower component. Earlier8/16 commit variants remain measured negatives. No old cohort rerun. |
+| High: compact IQ2 gate/up producer | Assess BM256 only for nonpacked BN64: keep gate/up accumulators in the same wave, share activation fetches across128 logical rows and avoid cross-wave epilogue pairing. | New candidate prepared and statically checked; accumulators double and LDS17536→26752. Four-lane commit ownership is now fully measured at1509.852296 PP, nominally+0.312263% despite0.61–2.41% slower component. Earlier8/16 commit variants remain measured negatives. No old cohort rerun. |
 | Measured negative: whole short-expert tiles | BN48 for entire buckets1..48, with original128/64 elsewhere. | Completed39 exact GPU pairs and21 exact parent model files; actual192 model records retain45120 short48 descriptors. PP1493.009363 regresses0.806755% against best1505.152258. The original64 kernel already skips nonlive WMMA fragments, so this replacement does not reduce useful matrix operations for1..48. Retain evidence without promotion or rerun; exact <=16 counts remain absent. |
 | High: routed Q2 down / expert consumer chain | Adapt DS4 fused SwiGLU/down or producer-Q8 consumer ideas to the active Qwen route, with logical640/stored768 tail handling and explicit activation arithmetic. | MMQ audit only. Existing fallback already shares routing/quantization and fixed2048 uses paired IQ2 WMMA instead. A real new dispatch/consumer is needed before a speed claim. |
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
@@ -77,12 +77,17 @@ component and full-model results. Their existing cohorts need no rerun.
 | Later: sparse indexer at high context | Reuse keys across query rows and distribute exact selection with deterministic rank/tie ordering. | Source-backed Halogen/GSQ hypotheses, no LIE runtime result. Selection is inactive at the fixed2048 point and cannot close that point's gap. |
 | Later: attention K/V layout at high context | Compare packed K/V against direct gathers by actual sparse-attention shape, including packing cost. | Existing fused WMMA attention and mask-window compaction are already present. New layout/full-cycle qualification remains open; no fixed-point or high-context gain is inferred. |
 
+The next BM256/BN64 [candidate is prepared](Q2-IQ2-WIDE-PAIR.md):156 unchanged
+kernel bodies, one replacement with104→169 next-free VGPR,17536→26752 LDS,
+zero private bytes and10→2 static block barriers. Its new59-file frozen fixture
+set and host27+27 pass; runtime component/model remain pending. No speed claim.
+
 The first ownership repartition is [measured](Q2-IQ2-LANE-COMMIT.md), with81
 exact component pairs,21 exact parent model files and all13 command exits0.
 Its source is retained for the next composition; the original1505 parent stays
 available. The [next BM256 opportunity](../config/q2-iq2-wide-pair-opportunity.json)
 reduces duplicated activation staging and cross-wave epilogue traffic in theory,
-not matrix operation count. No candidate implementation or GPU gain yet.
+not matrix operation count. The implementation is prepared; no GPU gain yet.
 
 The saved MoE diagnostic attributes254.797ms to IQ2 gate/up,188.349ms to Q2
 down,293.725ms to Q8/F16 dense and211.530ms to HC combine/norm/inject. It

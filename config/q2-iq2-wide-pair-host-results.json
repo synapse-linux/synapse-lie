@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-wide-pair-host.v1",
+  "capsule_sha256": "9b86d5025bc25816068e75d91f1ec690c16b5f2d77c642ef4dc3577233d20a0e",
+  "archive_sha256": "f4f11fe2926ce9dbf9d58c781300c9e00095a0c0bb66ecb4a7b7827334880faa",
+  "fixture_files_verified": 59,
+  "source_files_verified": 1020,
+  "plan_sha256": "062aaa4a9db6c8a95f0a4ab1ff34f6b485c0004ded99d0db648b66cf01bb6451",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

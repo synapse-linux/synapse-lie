@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [IQ2 wide-pair candidate](Q2-IQ2-WIDE-PAIR.md) prepares one new BN64/F32
+geometry from retained1509. Production assembly changes one specialization,
+preserves156 bodies and has zero private bytes. Block barriers10→2 accompany
+next-free VGPR104→169 and LDS17536→26752.109 launcher guards, production and
+fixture compilation pass; local staging binds59 fixtures/1025 provider files.
+Fresh host27+27 passes, six commands exit0/seven artifacts verify. Checkpoint
+and own admission precede84 new complete output pairs and one
+original2048/tg128 model, including safe numerical/timing negatives. No old
+controls, cohorts, Q4 or full curve are rerun. No runtime gain claimed yet.
+
 The [four-lane IQ2 commit candidate](Q2-IQ2-LANE-COMMIT.md) completes from
 checkpoint56b816a. All81 complete component pairs and21 parent model files
 match exactly, with nine exact internal replays. The component slows0.61–2.41%,
