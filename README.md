@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner-requested [routed Q2 expert cache](docs/Q2-EXPERT-CACHE.md) is now
+prepared from retained1585: IQ2 gate/up and Q2_K down, six layers within32GiB,
+expected28.125GiB payload. All162 encoded kernels remain exact;12 new kernels
+are scratch-free. Host28+28 passes;98 fixtures/nine manifests are frozen.
+GPU component and original-model measurements are next. This user-requested
+cache experiment takes priority over the unmeasured compact-LDS SSM trial.
+
 The [shared-down BN64 experiment](docs/Q2-SHARED-DOWN-N64.md) completes with
 zero spills but no component gain: original Q8 236.051699us, fixed F16
 242.688258us (+2.811486% time). All numerical checks pass, nine runtime exits

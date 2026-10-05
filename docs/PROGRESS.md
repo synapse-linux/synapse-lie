@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner explicitly prioritizes enabling/testing Q2 expert caching. The
+[expert-cache candidate](Q2-EXPERT-CACHE.md) now implements upload-time IQ2 and
+Q2_K half mirrors with original prefill arithmetic and a C17 memory quota.
+Six evenly spaced layers retain all512 experts, adding30199062528 bytes;
+original encoded weights/decode remain. First compilation exit1 exposes the
+epilogue LDS/include order issues; preserved revision3 compiles with all162
+original kernels exact and12 scratch-free additions. Host28+28,142 existing
+launch checks and focused routing/parser checks pass. Two capsules verify1029
+files/98 fixtures; nine manifests freeze. The cache-answer turn was no progress;
+this turn changes source and completes host/static qualification. Compact-LDS
+is deferred by the user's new priority; no performance gain is claimed yet.
+
 The [BN64 shared-down result](Q2-SHARED-DOWN-N64.md) completes at
 23:13:05.950401UTC. Original Q8 is 236.051699us; generic F16/fixed Q8/fixed F16
 are slower 24.189110%/34.202947%/2.811486%. All 126 output pairs, 168 FP64
