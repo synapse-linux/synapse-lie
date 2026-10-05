@@ -2,10 +2,12 @@
 # Synapse LIE — original Q2 support for official Gufo
 
 The [scaled Q2 down output-reuse candidate](docs/Q2-DOWN-OUTPUT-REUSE.md)
-is prepared from the retained1509 parent. BN48 keeps its token routing while
-output-row BM128 becomesBM256. All156 other production bodies remain exact;
-next-free VGPR96→169 and LDS18560→30848 make the performance tradeoff explicit.
-The new component and unchanged fixed model still require GPU measurement.
+completes at1501.068984 PP /25.11985944 TG, a0.581733% PP regression against
+the saved1509.852296 parent. All135 component pairs and21 parent model files
+are exact. Retain the measured negative and keep the1509 base; all13 commands
+exit zero/37 artifacts verify and the GPU window is released. A source-only
+audit confirms the old IQ2 unread-store predicate can be composed with that
+base; this next composition has no new runtime result.
 
 The [IQ2 paired-row candidate](docs/Q2-IQ2-WIDE-PAIR.md) completes at
 1494.649738 PP / 25.19840692 TG, a 1.006890% PP regression against the saved

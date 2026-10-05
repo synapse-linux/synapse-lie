@@ -1,0 +1,206 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-stage-composition-opportunity.v1",
+  "parent_manifest_sha256": "9b96d0fc50542d94bb585774f8ebac4e8dc4d35e5ad5e5ad5306676329060845",
+  "parent_model_result_sha256": "e9d69b32dc28ba77dc402bc7202be8df94d2474fdfc3b4a0bbdcef7fcb7f0cb1",
+  "source": ".deps/gufo-q2-iq2-lane-commit-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "source_sha256": "ae71520e514a36ae60bf8980077ea030806a7691fed251e42e4775cab6821c60",
+  "retained_patch_sha256": "12476f4414a004a571582116fdcc5283ed7cafa0a3eb9de54c638e0a1b2f202b",
+  "retained_component_result_sha256": "8ecb318353abbc975cfed7e2652741ca3375ec31b57159f5c8f153ab3a4a9587",
+  "mechanism": "Apply the existing one-time activation-slot predicate to the measured compact/four-lane IQ2 producer; skip only complete fragments that the WMMA loop already omits.",
+  "unique_existing_anchor": true,
+  "already_in_current_parent": false,
+  "coverage": [
+    {
+      "token_width": 16,
+      "padded_rows_remaining": 0,
+      "live_fragments": 0,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "read_slots": 0,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 16,
+      "padded_rows_remaining": 16,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "read_slots": 128,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 48,
+      "padded_rows_remaining": 0,
+      "live_fragments": 0,
+      "original_slots": 384,
+      "candidate_slots": 0,
+      "read_slots": 0,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 48,
+      "padded_rows_remaining": 16,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "read_slots": 128,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 48,
+      "padded_rows_remaining": 32,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "read_slots": 256,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 48,
+      "padded_rows_remaining": 48,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "read_slots": 384,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 64,
+      "padded_rows_remaining": 0,
+      "live_fragments": 0,
+      "original_slots": 512,
+      "candidate_slots": 0,
+      "read_slots": 0,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 64,
+      "padded_rows_remaining": 16,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "read_slots": 128,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 64,
+      "padded_rows_remaining": 32,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "read_slots": 256,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 64,
+      "padded_rows_remaining": 48,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "read_slots": 384,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 64,
+      "padded_rows_remaining": 64,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "read_slots": 512,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 0,
+      "live_fragments": 0,
+      "original_slots": 1024,
+      "candidate_slots": 0,
+      "read_slots": 0,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 16,
+      "live_fragments": 1,
+      "original_slots": 1024,
+      "candidate_slots": 128,
+      "read_slots": 128,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 32,
+      "live_fragments": 2,
+      "original_slots": 1024,
+      "candidate_slots": 256,
+      "read_slots": 256,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 48,
+      "live_fragments": 3,
+      "original_slots": 1024,
+      "candidate_slots": 384,
+      "read_slots": 384,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 64,
+      "live_fragments": 4,
+      "original_slots": 1024,
+      "candidate_slots": 512,
+      "read_slots": 512,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 80,
+      "live_fragments": 5,
+      "original_slots": 1024,
+      "candidate_slots": 640,
+      "read_slots": 640,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 96,
+      "live_fragments": 6,
+      "original_slots": 1024,
+      "candidate_slots": 768,
+      "read_slots": 768,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 112,
+      "live_fragments": 7,
+      "original_slots": 1024,
+      "candidate_slots": 896,
+      "read_slots": 896,
+      "all_readers_written": true
+    },
+    {
+      "token_width": 128,
+      "padded_rows_remaining": 128,
+      "live_fragments": 8,
+      "original_slots": 1024,
+      "candidate_slots": 1024,
+      "read_slots": 1024,
+      "all_readers_written": true
+    }
+  ],
+  "retained_component_scope": "Older source has exact complete outputs and lower component medians. These are reused evidence, not new-parent qualification.",
+  "new_composition_implemented": false,
+  "new_composition_compiled": false,
+  "new_component_run": false,
+  "new_model_run": false,
+  "risks": [
+    "New compact producer can change instruction scheduling and predicate/register costs.",
+    "LDS address ownership enumeration is not GPU memory-safety or numerical/performance evidence.",
+    "Retain final live-fragment padding and all synchronization; never infer DRAM traffic from LDS-store counts."
+  ],
+  "recommended_next": "Prepare one composition from whichever measured parent remains after down-output-reuse; retain the old component cohort without rerun and test only the new model path under original exact2048/tg128.",
+  "goal_met": false
+}

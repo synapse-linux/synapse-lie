@@ -1,16 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [scaled Q2 down output-reuse candidate](Q2-DOWN-OUTPUT-REUSE.md) is prepared
-from the measured1509 parent, excluding the negative IQ2 wide-pair change.
-Only the BN48 dispatch selectsBM256; numerical template, token maps, original
-weights and logical640/stored768 arithmetic remain unchanged. Assembly changes
-one specialization and preserves156 bodies; VGPR96→169/LDS18560→30848, with
-zero private bytes. New fixture coverage is135 complete output pairs and42
-timings, followed by the original exact2048/tg128 model even after safe
-numerical/timing rejection. All111 launcher guards and local compilation pass;
-61 frozen fixtures/1025 provider files verify before the SSH boundary.
-No model speedup or GPU qualification is inferred from these checks.
+The [scaled Q2 down output-reuse candidate](Q2-DOWN-OUTPUT-REUSE.md) completes
+from checkpoint259503b, using the measured1509 parent. All135 complete GPU
+pairs and21 parent model files match exactly; nine internal replays also match.
+The component changes -2.618742%/+1.550516%/+3.811054% time at64/128/512
+experts. Original-model PP samples1503.446273/1500.058918/1501.068984 yield
+median1501.068984, -0.581733% versus saved1509.852296. TG25.11985944 changes
+-0.342741%; no scalar decode kernel changes, so this variation is not causally
+attributed to the new tile. Keep1509 as the base and preserve all new evidence.
+
+All111 launch guards,27+27 host checks and13 runtime commands pass;37 artifacts,
+61 fixtures/four manifests and1025 provider files verify. Release11:03:17.478662
+UTC retires866 identities/686 groups, KFD empty, four original leases free and
+seven model stat tuples unchanged; all mirrors agree and core is notified.
+No Q2 GPU job/reservation/waiter/restart/cleanup remains. No qualified comparator,
+Q4 or full curve is rerun. A [source-only composition audit](../config/q2-iq2-live-stage-composition-opportunity.json)
+checks the existing IQ2 live-stage predicate against the current compact/four-lane
+producer:20 slot-ownership cases preserve every reader. It is not a new GPU or
+model result. Original component evidence is retained for the next composition.
 
 The [IQ2 wide-pair candidate](Q2-IQ2-WIDE-PAIR.md) completes from checkpoint
 41e5a1d. Its PP samples are 1494.649738 / 1494.661516 / 1492.591920;

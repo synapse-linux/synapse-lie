@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Scaled Q2 down output-row reuse
 
+The completed experiment measures1501.068984 PP /25.11985944 TG. Prefill
+regresses0.581733% against the saved1509.852296 parent despite135 exact
+component output pairs and21 exact parent model files. The parent remains
+the next composition source; the wider down tile and all samples are retained
+as negative evidence. These results supersede the preparation status below.
+
 One new candidate starts from the retained nominal 1509.852296 PP parent.
 It changes only the scaled Q2 down BN48 dispatch from BM128 to BM256. The
 generic numerical template is unchanged; each wave now handles two output
@@ -72,3 +78,42 @@ Independent task quality and full PP/TG parity remain open.
 [host results](../config/q2-down-output-reuse-host-results.json),
 [local staging](../config/q2-down-output-reuse-staging-results.json),
 [original opportunity](../config/q2-down-output-reuse-opportunity.json).
+
+## Completed GPU component and original model — 2026-10-05 UTC
+
+All135 guarded output pairs are exact;42 timings cover three rotated-weight
+distributions. Positive time changes mean slower.
+
+| Distribution | Reference median us | Candidate median us | Time change |
+| --- | ---: | ---: | ---: |
+| mixed-e64 | 3236.572266 | 3151.814779 | -2.618742% |
+| mixed-e128 | 3243.545532 | 3293.837229 | +1.550516% |
+| mixed-e512 | 3808.462461 | 3953.605016 | +3.811054% |
+
+The original model benchmark runs despite component timing rejection. All three comparator columns below are saved evidence, without rebuild or rerun.
+
+| Session | Fixed Q2 PP / TG | Saved best PP / TG | New output reuse PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1512.701776 / 25.15742671 | 1505.340493 / 25.09598536 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1510.259601 / 25.20649263 | 1503.446273 / 25.10876819 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1509.852296 / 25.17944517 | 1500.058918 / 25.11985944 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1508.620907 / 25.20625148 | 1501.068984 / 25.13518725 | 1685.400011 / 24.15102104 |
+| Median measured | 1443.672867 / 25.09595499 | 1509.852296 / 25.20625148 | 1501.068984 / 25.11985944 | 1685.777092 / 24.34174251 |
+
+All21 parent model files and nine within-arm replays are exact. PP changes
+-0.581733% versus saved best; TG changes-0.342741%. Scalar decode kernels are
+unchanged, so that small historical timing difference is not attributed to the
+prefill tile. The component's improvement with64 experts is preserved, but the
+unconditional BM256 dispatch has no complete-model advantage.
+
+Resident model memory remains43,156,012,544 bytes and session memory376,777,748
+bytes. Compilation/loading stay outside PP/TG. CPU/GPU telemetry maxima are
+83.625/73C across the model cohort including compilation; no thermal stop
+occurs. Independent task quality and the context/concurrency curve remain open.
+Release at2026-10-05T11:03:17.478662 UTC verifies866 retired identities/686
+groups, empty KFD, four free original leases and seven unchanged model stat
+tuples. All37 artifacts verify across13 runtime commands; canonical/main/remote
+mirrors agree. No Q4, full curve or qualified-comparator rerun occurs.
+
+![All new and saved model samples](figures/q2-down-output-reuse-model-wrapped.png)
+[All model samples](figures/q2-down-output-reuse-model-wrapped.csv), [all component samples](figures/q2-down-output-reuse-component.csv), [final audit](../config/q2-down-output-reuse-final-audit.json).

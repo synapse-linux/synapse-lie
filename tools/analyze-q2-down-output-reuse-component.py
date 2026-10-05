@@ -71,7 +71,8 @@ def main():
         groups.append(dict(case=shape, **pair, candidate_time_change_percent=
             100*(pair['candidate']['median']/pair['reference']['median']-1)))
     report = dict(schema='synapse-lie.q2-down-output-reuse-component.v1', **capsule,
-        plan_sha256=sha(plan_path), command_exits=exits, artifact_count=len(result['artifacts']),
+        plan_sha256=sha(plan_path), source_variant=arm['variant'], device_work_safe=True,
+        command_exits=exits, artifact_count=len(result['artifacts']),
         binary_sha256=result['binary_sha256'], numerical_exact=numerical,
         replay=replay, timings=timings, summaries=groups, model_inference=False,
         original_inputs_immutable_at_fixture_completion=True,

@@ -1,16 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-The new Q2 down output-reuse preparation has fresh explicit root non-use
-handover after release73a6cae4. Root keeps its GPU work on .161; no .157
-job/build/client/KFD/lease/waiter/reservation/restart/cleanup/interleaving is
-claimed. Host27+27 passes without GPU/model access;61 fixtures, four manifests
-and1025 provider files are frozen. Own checkpoint/admission must precede the
-bounded new component and original2048/tg128 model. No reservation is inherited.
-[Plan](../config/q2-down-output-reuse-plan.json),
-[host](../config/q2-down-output-reuse-host-results.json).
+Latest Q2 down output-reuse window releases at2026-10-05T11:03:17.478662 UTC,
+SHA256 `1626b7e453101e90b13e9e6df8a52a0acf9a1360571950a6b100d93f89d255a4`.
+Fresh admission10:56:37.020983 UTC from checkpoint259503b followed root
+non-use handover and release73a6cae4. New component and original2048/tg128
+model are terminal and collected, with13 exits0/37 verified artifacts including
+the separate27+27 host cohort. Closure verifies866 retired identities/686
+groups, empty KFD, four free original lease inodes and seven unchanged model
+stat tuples. Canonical/main/remote active/ready mirrors agree and core receives
+the release. No Q2 job/build/client/lease/waiter/reservation/restart/cleanup
+remains. Future GPU work requires fresh ownership/admission; no reservation
+is inherited. No old comparator, Q4 or full curve runs.
+[Release](../config/q2-down-output-reuse-window-release.json),
+[final audit](../config/q2-down-output-reuse-final-audit.json).
 
-Latest IQ2 wide-pair window releases at 2026-10-05T10:41:18.352210 UTC,
+Previous IQ2 wide-pair window releases at 2026-10-05T10:41:18.352210 UTC,
 SHA256 `73a6cae420e59868a5ac29cb842cc45316992665d275b301ea1021d78b702e0f`.
 Fresh admission at 10:30:32.925931 UTC followed root non-use handover and
 checkpoint 41e5a1d, anchored to release 5011dbe0. The new component and original
