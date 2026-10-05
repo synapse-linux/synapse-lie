@@ -1,4 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Q2 paired-half preparation derives from checkpoint1184e1f and terminal release
+f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf at
+2026-10-05T12:25:17.460508+00:00. Root has explicitly confirmed fresh non-use.
+No reservation is inherited: the new host/component/fixed2048 window requires
+registry, retired PID/group, KFD, four original lease and seven model-stat
+checks. The plan is `config/q2-down-half-pair-plan.json`; source and evidence
+are persistent. No Q4, full curve, old comparator rerun or cleanup is scheduled.
 # Q2 workstream coordination
 
 Latest half-output storage window releases at2026-10-05T12:25:17.460508UTC, SHA256 `f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf`. Fresh admission12:15:36.698020UTC from checkpoint66cc162 follows root non-use handover/releasefa9d67ad. New component315 down/99 consumer checks and original2048/tg128 model complete; all13 exits0/37 artifacts verify including host27+27. Collection finished12:25:14.219398 before release. Closure retires910 identities/722groups, KFD empty, four original leases free/unchanged and seven model stat tuples unchanged. Canonical/main/remote active/ready mirrors agree; core receives release. No Q2 job/build/client/lease/waiter/reservation/restart/cleanup remains. Future work needs fresh ownership/admission. [Release](../config/q2-down-half-storage-window-release.json), [final audit](../config/q2-down-half-storage-final-audit.json).

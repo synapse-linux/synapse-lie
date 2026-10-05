@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
+The next [paired-half epilogue experiment](docs/Q2-DOWN-HALF-PAIR.md) is prepared
+from the measured1547 source:158 kernel bodies remain exact and three down
+epilogues change, with zero private scratch. GPU/model timing is pending;
+the original fixed comparison and inherited F16 quality boundary are retained.
+
 The [Q2 half-output storage experiment](docs/Q2-DOWN-HALF-STORAGE.md)
 completes at1547.273268 PP /25.17198641 TG, nominally+2.394022% PP versus
 saved1511.097261 and+7.176169% versus fixed Q2 1443.672867. The original

@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-down-half-pair-staging.v1",
+  "capsule_sha256": "2a52ebaf071ca6239b72596fefa98b26c76b9db9db5fa772730a48e547ba2fc8",
+  "fixture_files_verified": 66,
+  "provider_files_verified": 1026,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

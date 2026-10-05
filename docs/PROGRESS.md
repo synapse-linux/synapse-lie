@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [paired-half epilogue](Q2-DOWN-HALF-PAIR.md) is prepared from the retained
+1547.273268 provider. Local gfx1151 assembly and host/device syntax pass,
+as do119 launcher guards. Only three half-down bodies change;158 stay exact,
+with unchanged LDS and no private scratch. The new513-output/99-consumer
+fixture times the literal half-parent and new half-pair across168 samples.
+Real GPU and fixed2048 model results remain pending; no previous cohort rerun
+or quality promotion is implied. Source and failures remain persistent.
+
 The [scaled Q2 down output-reuse candidate](Q2-DOWN-OUTPUT-REUSE.md) completes
 from checkpoint259503b, using the measured1509 parent. All135 complete GPU
 pairs and21 parent model files match exactly; nine internal replays also match.

@@ -45,6 +45,12 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
+Next prepared experiment: [paired-half down epilogue](Q2-DOWN-HALF-PAIR.md)
+retains the1547 half-storage arithmetic, restores/rounds in registers and
+transposes halves before paired stores. Local assembly changes only three
+bodies;513 guarded output pairs and99 consumers are prepared. No GPU result
+is available yet; no inherited F16 quality gap is closed by preparation.
+
 Latest update: [half expert-output storage](Q2-DOWN-HALF-STORAGE.md) completes
 at1547.273268 PP /25.17198641 TG, nominal+2.394022%/+0.099966% against retained
 1511.097261 /25.14684805.315 rounding checks and99 consumer checks pass.
