@@ -15,7 +15,13 @@ candidate removing row/K bounds already implied by the unchanged launcher.
 Source manifests bind the parent, patches, literal control, fixture and oracle.
 Assembly comparisons preserve161 other kernel instruction/operand/resource
 bodies. The producer-fusion audit is source analysis only and adds no upstream
-code. All three investigations remain local; no GPU correctness, throughput,
-quality or full-model acceptance is inferred from compilation.
+code. Compilation alone does not establish GPU correctness, throughput,
+quality or full-model acceptance.
+
+The subsequent fixed-M/K GPU campaign passes30 complete output pairs,
+60 sampled FP64 checks and21 parent model files. Original-model prefill is
+1582.845143 versus saved1580.226725, a nominal +0.165699%; both sources are
+retained. Fixed bounds and producer fusion remain unmeasured. Independent
+model task quality and full context/concurrency parity remain open.
 
 See [mechanisms and evidence](../../docs/Q2-SSM-FIXED-SHAPE.md).

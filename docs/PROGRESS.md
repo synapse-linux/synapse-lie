@@ -1,13 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The next fixed-M/K SSM campaign binds the existing 1027-file candidate and
-unchanged runtime to 90 fixtures/12 manifests. The prior pingpong turn made
-concrete progress by measuring a negative variant; retained1580 is unchanged.
-Host27+27 is explicitly reused after raw artifact and fixture verification.
-No qualified model control is rebuilt or rerun. Fresh 22:24:16 UTC observation
-confirms release22289680 still latest, Core processes/groups absent, its original
-CPU lease free and KFD empty. Only one new component and original2048/tg128
-model are planned; new four-lease admission is required before GPU work.
+The [fixed-M/K SSM campaign](Q2-SSM-FIXED-SHAPE.md) completes on .157 at
+22:30:47 UTC: 1582.845143 PP /25.11696030 TG, nominal +0.165699%/+0.051154%
+versus saved1580.226725/25.10411864. Retain this small prefill improvement as
+the next composition candidate and preserve the parent. All three measured
+PP samples (1582.793699,1583.044462,1582.845143) exceed the saved parent's
+three values; this is a historical comparison, not a causal confidence bound.
+Decode ranges overlap. All 21 parent files and nine internal replays are exact;
+inherited fixed-Q2/UD logit differences remain unchanged.
+
+The component median changes4936.565081→4884.353638us (-1.057647%), with
+30 exact output pairs/60 passing sampled FP64 checks. Static instructions
+4027→3882 coexist with the original staging geometry and 161 exact other kernel
+bodies. All 90 fixtures/12 manifests/1027 provider files verify. Qualified
+host27+27 is reused after raw artifact and byte verification; seven new runtime
+commands exit0 and30 new artifacts verify, separately from six earlier host
+commands/seven artifacts. Six charts/CSVs retain every sample. Build154.752054s
+and load10.73189422s are outside PP/TG; model CPU/GPU peaks80.5/73C.
+
+Admission22:25:10UTC from94331f2 follows persistent Core non-use and fresh
+release22289680 verification. Release22:31:03.357917UTC retires1140 identities/
+909 groups with empty KFD, four free original leases and seven unchanged model
+stat tuples. Main/remote/canonical mirrors agree and Core is notified. No Q2
+job, reservation, waiter, restart or cleanup remains. The previous turn made
+progress through measured pingpong rejection; this turn retains a marginal
+improvement. Next fixed-bounds must compare against saved1582 as well as the
+unchanged fixed1443/UD references. Remaining fixed-point PP gain is6.502970%;
+full-curve and independent task-quality acceptance remain open.
 
 The [SSM pingpong campaign](Q2-SSM-PINGPONG.md) completes on .157:
 1554.624652 PP /25.17458636 TG against saved1580.226725/25.10411864,

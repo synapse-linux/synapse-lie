@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-down-register-scatter-model-r1,0,True,2048,128,127,1.297178708,5.063357039,1578.81099,25.08217355
+best_parent,True,q2-down-register-scatter-model-r1,1,False,2048,128,127,1.295486041,5.057373249,1580.873846,25.11185031
+best_parent,True,q2-down-register-scatter-model-r1,2,False,2048,128,127,1.296016557,5.06107208,1580.226725,25.09349758
+best_parent,True,q2-down-register-scatter-model-r1,3,False,2048,128,127,1.296513428,5.058930841,1579.621125,25.10411864
+ssm_fixed_shape,False,q2-ssm-fixed-shape-model-r1,0,True,2048,128,127,1.291807484,5.057716369,1585.37555,25.1101467
+ssm_fixed_shape,False,q2-ssm-fixed-shape-model-r1,1,False,2048,128,127,1.293914678,5.053499558,1582.793699,25.13109946
+ssm_fixed_shape,False,q2-ssm-fixed-shape-model-r1,2,False,2048,128,127,1.293709715,5.061002006,1583.044462,25.09384502
+ssm_fixed_shape,False,q2-ssm-fixed-shape-model-r1,3,False,2048,128,127,1.293872625,5.056344337,1582.845143,25.1169603
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

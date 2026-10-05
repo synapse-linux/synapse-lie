@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Fixed-M/K SSM releases .157 at2026-10-05T22:31:03.357917UTC, SHA256
+`81d7fcbbe2aea754bbd4bc8acdc044a03275406f15099e2d057695a1333d805a`.
+Admission22:25:10UTC from94331f2 follows fresh release22289680 and persistent
+Core non-use. Host27+27 is reused with90 byte-identical fixtures, verified raw
+artifacts and remote result hash. New component/model terminate and collect:
+seven new exits0/30 new artifacts, separate from earlier host evidence.
+Release verifies1140 retired identities/909 groups, empty KFD, four unchanged
+original lease inodes free and seven model stat tuples unchanged. Canonical/
+main/remote release-active-ready mirrors agree; Core receives the closure.
+No Q2 job/build/client/lease/waiter/reservation, restart or cleanup remains.
+Any following candidate requires new admission.
+[Release](../config/q2-ssm-fixed-shape-window-release.json),
+[final audit](../config/q2-ssm-fixed-shape-final-audit.json).
+
 SSM pingpong releases .157 at2026-10-05T22:17:43.200520UTC,SHA256
 `22289680bc658145644a707475f43b42c819fe4f9a6c5181a65699cc0eff4078`.
 Admission22:11:58UTC fromc75e03e follows verified Core CPU closure/non-use and

@@ -1,25 +1,124 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Fixed-shape SSM compilation experiments
+# Fixed-shape SSM experiments
 
-## Fixed-M/K runtime campaign
+The fixed-M/K candidate completes on .157 at 22:30:47 UTC on 5 October 2026.
+Original-model prefill is **1582.845143 tokens/s**, versus saved 1580.226725:
+a nominal **+0.165699%**, or 2.618418 tokens/s. Retain this small improvement
+as the next composition candidate, together with the previous source and all
+its evidence. Decode is 25.11696030 versus 25.10411864 calls/s (+0.051154%);
+those ranges overlap and the scalar decode path is unchanged.
 
-After the completed row-group and alternating-buffer trials, the fixed-M/K
-candidate has its own frozen plan: 90 unchanged fixtures, 12 manifests and a
-separate admission helper. All 1027 provider files verify. The previous
-27 Debug and 27 ASan/UBSan host tests are reused after validating their raw
-artifacts and byte-identical fixtures; they are not rerun. Only the new
-component and original exact2048/tg128 model will execute. Fresh .157 checks
-at 22:24:16 UTC verify the previous release22289680, retired Core processes,
-free original CPU lease and empty KFD. GPU admission remains separate.
+All 30 component output pairs, 60 sampled FP64 checks, 21 parent model files
+and nine internal model replays pass. Parent logits remain byte-identical.
+Inherited differences from fixed Q2/UD remain, with maximum matched-history
+KL 0.001297699631 / 0.008794906721. This does not resolve independent task
+quality or full context/concurrency qualification.
+
+The fixed UD target remains 1685.777092 PP. The new candidate still requires
+**6.502970%** additional prefill performance at the fixed diagnostic. No Q4
+run or full-curve expansion is admitted by this marginal improvement.
+
+## Complete original-model samples
+
+The original exact2048 input, capacity9216, chunk2048, tg128, 127 timed decode
+calls, greedy C1, MTP off, one warmup/three measured sessions and 15-second
+cooldowns outside timers remain unchanged. Only the new candidate is built
+and run. Fixed Q2, saved1580 and fixed UD are saved results, without recompiling
+or rerunning their model binaries. PP means prefill tokens/s; TG means decode
+forward calls/s.
+
+| Session | Fixed Q2 PP / TG | Saved1580 PP / TG | Fixed-M/K PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1578.810990 / 25.08217355 | 1585.375550 / 25.11014670 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1580.873846 / 25.11185031 | 1582.793699 / 25.13109946 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1580.226725 / 25.09349758 | 1583.044462 / 25.09384502 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1579.621125 / 25.10411864 | 1582.845143 / 25.11696030 | 1685.400011 / 24.15102104 |
+| Median | 1443.672867 / 25.09595499 | 1580.226725 / 25.10411864 | 1582.845143 / 25.11696030 | 1685.777092 / 24.34174251 |
+
+| New session | Prefill seconds | Decode seconds |
+| --- | ---: | ---: |
+| Warmup | 1.291807484 | 5.057716369 |
+| Measured 1 | 1.293914678 | 5.053499558 |
+| Measured 2 | 1.293709715 | 5.061002006 |
+| Measured 3 | 1.293872625 | 5.056344337 |
+
+All three new measured prefill values exceed all three saved-parent values.
+The warmup is reported separately and is not part of the median. Historical
+samples are not contemporaneous bookends, so the small difference remains a
+nominal comparison rather than an isolated causal estimate. The candidate is
+retained as requested; no extra control repetitions are started.
+
+![All new and saved model samples](figures/q2-ssm-fixed-shape-model-wrapped.png)
+[Complete model CSV](figures/q2-ssm-fixed-shape-model-wrapped.csv),
+[SVG](figures/q2-ssm-fixed-shape-model-wrapped.svg),
+[model report](../config/q2-ssm-fixed-shape-model-results.json).
+
+## Component and instruction evidence
+
+The component completes at 22:25:57 UTC. All 30 complete output pairs are
+exact and all 60 sampled FP64 checks pass across the same five aligned/ragged
+shapes. Maximum relative RMS/scaled errors are 1.067383973e-5 / 1.108062891e-5
+against the unchanged 0.002 limit. Guards, required stores and input
+immutability pass. All three command exits are zero.
+
+Complete projection/convolution time changes from 4936.565081 to 4884.353638
+microseconds: 1.057647% less time. Every measured candidate sample is below
+every control sample. Three rotating weight sets exceed 32 MiB; all 14 timing
+records, including two warmups per arm, are retained. Only the original 2048
+shape is timed, with allocation/copy/validation excluded.
+
+Static instructions decrease from 4027 to 3882. For example, the compiler
+removes 22 vector integer multiplies and 148 vector moves, while redistributing
+other operations, including dual-issued arithmetic. Static count reduction is
+not an executed-instruction or hardware-counter measurement. The original
+49152-byte LDS layout, launch grid and ordered K16 arithmetic remain; 161 other
+kernel bodies/resources are unchanged in the saved assembly comparison. This
+experiment adds no cache, stream or reactive scheduling change.
+
+[All component samples](figures/q2-ssm-fixed-shape-component.csv),
+[component chart](figures/q2-ssm-fixed-shape-component.svg),
+[complete numerical report](../config/q2-ssm-fixed-shape-component-results.json).
+
+## Reused host gates and verified closure
+
+The frozen plan binds 90 unchanged fixtures, 12 manifests and 1027 provider
+files. Qualified host27/27 Debug and27/27 ASan/UBSan are explicitly reused:
+their raw artifacts, source capsule and byte-identical fixtures are revalidated,
+and the remote helper checks the original result hash. No host tests are rerun.
+There are **seven new runtime command exits, all zero, and 30 new artifacts**;
+the six earlier host commands/seven host artifacts are accounted separately.
+All six new CSV/SVG/PNG exports retain complete model and component samples.
+
+Candidate compilation 154.752054s and loading 10.73189422s are outside PP/TG.
+Resident memory is unchanged at 43,156,012,544 bytes, with 7,946,240 deferred
+scratch bytes and 376,777,748 session bytes. Model CPU/GPU peaks are 80.5/73.0
+Celsius; no thermal stop occurs.
+
+Admission at 22:25:10 UTC from checkpoint94331f2 follows fresh release22289680
+verification and Core's persistent non-use. Release at 22:31:03.357917 UTC
+verifies 1140 retired process identities/909 groups, empty KFD, four free
+original lease inodes and seven unchanged model stat tuples. Canonical/main/
+remote release-active-ready mirrors agree and Core receives the release.
+No Q2 workload, reservation, waiter, restart or .157 cleanup remains.
+
+Next is the prepared fixed-bounds variant, which retains these constant
+dimensions and removes proven row/K checks. It has 3864 static instructions
+but 24 additional LDS loads, so another gain is not presumed. Its next result
+must also compare against this saved1582 result; the fixed1443/UD references
+and original benchmark stay unchanged. The fixed-bounds source itself remains
+unmeasured, as do compact LDS and the small shared-down mirror alternatives.
 
 [Frozen plan](../config/q2-ssm-fixed-shape-plan.json),
-[reused host evidence](../config/q2-ssm-fixed-shape-host-results.json).
+[reused host report](../config/q2-ssm-fixed-shape-host-results.json),
+[final audit](../config/q2-ssm-fixed-shape-final-audit.json),
+[disposition](../config/q2-ssm-fixed-shape-disposition.json),
+[release](../config/q2-ssm-fixed-shape-window-release.json).
 
-## Original preparation
+## Original preparation and the separate bounds candidate
 
 Both candidates derive from retained original exact2048/tg128 Q2
-1580.226725 PP /25.10411864 TG. They have only local compilation evidence;
-neither has GPU numerical or throughput results. The fixed UD comparator
+1580.226725 PP /25.10411864 TG. At preparation time both had only local compilation evidence. The fixed-M/K
+GPU results above now supersede that status; fixed bounds remains unmeasured. The fixed UD comparator
 remains1685.777092 PP, with another6.679444% required from the retained Q2.
 
 The existing SSM launch already requires M16384/K2560, channels10240 and
@@ -70,8 +169,7 @@ analyzer records the extra LDS work and opcode substitution, and fixes a loop
 variable that shadowed the variant name. The candidate source and assembly
 were unchanged. This was an analysis-tool failure, not a numerical result.
 
-Next: finish the already frozen row-group GPU campaign after actual Core-19
-CPU closure and fresh .157 handover. Qualify these variants separately with
+The original plan was to finish row-group before qualifying these variants with
 the existing complete-output, sampled FP64, guard and full-cycle timing scope;
 then run only the new candidate on the original model point. Safe numerical
 rejection retains timing; memory/write failures stop dependent device work.

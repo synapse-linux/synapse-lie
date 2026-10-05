@@ -1,14 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Runtime wiring for the SSM follow-ups
 
+Fixed-M/K now completes at1582.845143 PP, nominal +0.165699% versus saved1580,
+with exact parent outputs and no fixture/runtime changes. The90 identical
+fixtures permit reusing qualified host27+27; only the new component and model
+run. Fixed bounds and compact LDS remain unmeasured. Both completed follow-up
+windows are released. [Fixed-M/K results](Q2-SSM-FIXED-SHAPE.md).
+
 The patch is applied at checkpoint `c75e03e`, after the original row-group
 campaign completed. Six applicable integrated tests,142 existing launcher
 tests and11 analyzer tests pass against the applied files. A separate90-fixture,
 ten-manifest pingpong plan passes27 Debug and27 ASan/UBSan host checks. Its
 component completes with exact outputs but12.434211% longer cycle time; the
 model measures1554.624652 PP,1.620152% below saved1580. The window is released.
-The other three prepared variants remain
-unmeasured. [Current pingpong evidence](Q2-SSM-PINGPONG.md).
+At that closure the other three prepared variants remained unmeasured;
+fixed-M/K is subsequently completed above. [Pingpong evidence](Q2-SSM-PINGPONG.md).
 
 The following section records the original unapplied preparation; its receipts
 are preserved unchanged and are superseded for runtime state by the

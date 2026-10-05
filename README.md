@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed-M/K SSM candidate](docs/Q2-SSM-FIXED-SHAPE.md) measures
+**1582.845143 PP / 25.11696030 TG** on the original exact2048/tg128 benchmark,
+nominally +0.165699% PP versus saved1580.226725. Retain this marginal gain and
+the previous source. All 30 component pairs/60 FP64 checks and 21 parent model
+files pass; component time decreases 1.057647%. Seven new command exits and
+30 new artifacts verify, with byte-identical host27+27 evidence reused.
+Full samples/charts are available and .157 is released. Fixed UD still needs
+6.502970% additional PP; fixed bounds is next and remains unmeasured.
+
 The [alternating-buffer SSM campaign](docs/Q2-SSM-PINGPONG.md) completes:
 model prefill1554.624652 is1.620152% below saved1580.226725. All30 component
 pairs,60 FP64 checks and21 parent model files pass, but component cycle time
