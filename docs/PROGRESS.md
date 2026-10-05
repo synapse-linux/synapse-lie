@@ -1,15 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
-The [new1KiB IQ2 sign-mask candidate](Q2-IQ2-SIGN-MASK.md) retains the saved
-best1505.152258 parent and its2KiB magnitude grid. New table128 entries removes
-14 static instructions in all eight IQ2 bodies;149 unrelated kernels are exact
-and VGPR/LDS/private storage unchanged. All262144 independent scalar checks,
-97 launch guards and host/device compilation pass. The frozen44-fixture plan
-admits one new exhaustive-format/whole-output component and original fixed
-model after checkpoint/fresh admission. No Q4/control/cohort or full curve.
-New .157 host25 Debug+25 ASan/UBSan checks pass; six exits0/seven artifacts
-verify with no GPU/model access.
+The [1KiB IQ2 sign-mask candidate](Q2-IQ2-SIGN-MASK.md) completes its new
+component and original fixed model. Component times fall0.371712–1.121926%;
+PP1504.885103/TG25.17103717 changes-0.017749%/+0.063998% versus saved best
+1505.152258/25.15493858. PP samples overlap, so retain the marginal source
+without an additional model gain; the1505 parent stays the base. All81
+component pairs/21 parent model files/nine replays are exact. All13 commands/
+39 artifacts verify,97 guards and host25+25 pass; the GPU window is released.
+Q4, qualified controls/cohorts and the full curve are not rerun.
 
 The [fused IQ2 sign/code table](Q2-IQ2-FUSED-GRID.md) completes on .157:
 PP1331.128807/TG25.11415619. Prefill regresses11.561850% against saved best

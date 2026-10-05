@@ -1,12 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
-The [new1KiB IQ2 sign-mask candidate](docs/Q2-IQ2-SIGN-MASK.md) is prepared
-from the retained1505.152258 parent after the large-table regression. It removes
-14 static instructions in eight IQ2 bodies with149 others exact and unchanged
-registers/LDS. Independent format262144 checks and97 launch guards pass; no
-model gain is inferred. New44-fixture component/model qualification follows
-the same fixed comparison without Q4 or old-cohort reruns.
+The [1KiB IQ2 sign-mask candidate](docs/Q2-IQ2-SIGN-MASK.md) completes on .157
+at PP1504.885103/TG25.17103717. Prefill differs-0.017749% from saved best
+1505.152258 with overlapping ranges; retain the marginal candidate while
+keeping that parent as the base. All81 component outputs and21 parent model
+files are exact; the small component gain adds no established model speedup.
+All13 commands/39 artifacts verify,97 guards and25 Debug/25 ASan pass.
+The window is released; Q4 stays deferred and the fixed comparison stays unchanged.
 
 The [new fused IQ2 table](docs/Q2-IQ2-FUSED-GRID.md) completes on .157 at
 PP1331.128807/TG25.11415619, an11.561850% prefill regression against saved

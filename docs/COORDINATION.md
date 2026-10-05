@@ -1,15 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
-New1KiB IQ2 sign-mask preparation follows the exact but slower fused-grid
-experiment. The new helper anchors release d0437a91 and the fresh core non-use
-handover;97 guards pass and44 fixtures/four manifests are frozen. New host
-Debug/ASan gates precede checkpoint and fresh bounded GPU admission for one
-component plus original exact2048/tg128 model. No GPU reservation is inferred
-and no Q4/qualified control/cohort, context curve or cleanup is admitted.
-[Plan](../config/q2-iq2-sign-mask-plan.json).
-New .157 host25 Debug+25 ASan/UBSan checks pass; six exits0/seven artifacts
-verify with no GPU/model access.
+IQ2 sign-mask window releases at2026-10-05T06:58:48.219732UTC after one new
+component and original exact2048/tg128 model. All13 commands exit0/39 artifacts
+verify;81 output pairs and21 parent model files are exact. PP1504.885103 has
+overlapping samples with saved best1505.152258, which remains the base;
+retain the marginal candidate. Closure retires761 identities/601 groups,
+KFD empty, four unchanged original leases free and seven unchanged model stat
+tuples. Canonical/main/remote/active/ready mirrors match and core is notified.
+No Q2 job/build/GPU/lease/reservation/waiter/restart/cleanup remains. Core owns
+next window; future GPU work needs fresh handover/admission anchored to
+[release](../config/q2-iq2-sign-mask-window-release.json), SHA
+effb3e6f046de261e8b89cce5d94cbc9aa8c12882d539965c43a57bc5b1f3b05.
+Q4 stays deferred; no old control/cohort or full-curve rerun.
 
 Fused IQ2 window releases at2026-10-05T06:39:20.614047UTC after one new
 component and original exact2048/tg128 model. All13 commands exit0/39 artifacts
