@@ -683,3 +683,12 @@ a 25.622913% PP regression versus the compact parent, with all 21 parent replay
 files exact. The lookup is retained as a measured rejection; the best composition
 remains 1498.799455 PP. Qualified controls and the full curve are not rerun.
 All samples and a comparison graph are saved; the `.157` window is released.
+
+A new [SSM row128 projection](docs/Q2-SSM-ROW128.md) starts from the retained
+compact IQ2 source, halves accumulator values per thread and explicitly sizes
+the existing convolution transpose to36KiB. The row grid doubles, so lower
+static counts are not a speedup claim. Local compilation preserves156 other
+kernel bodies; the new fixture verifies all required raw SSM values and full
+convolution outputs at1024/1025/1057/2048 tokens. Only its new component/model
+are planned with unchanged saved comparisons. GPU/model performance remains
+pending fresh coordinated admission; no qualified control or curve is rerun.

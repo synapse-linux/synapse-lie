@@ -38,6 +38,8 @@ HC_BK_MANIFESTS = {v: 'config/q2-hc-bn64-source.json' if v.startswith('hc-bn64-'
                      else 'config/q2-hc-bk256-run-source.json' for v in HC_BK_VARIANTS}
 DEFERRED_SOURCES = {'q2-counting-hc-moe-deferred': 'hc-moe-deferred'}
 FIXED_PROFILE_MODE = 'q2-fixed-moe-profile'
+SSM_ROW128_MODE = 'ssm-row128-check'
+SSM_ROW128_SOURCES = {'q2-counting-ssm-row128': 'ssm-row128'}
 Q8_HALFPAIR_MODE = 'q8-halfpair-check'
 Q8_HALFPAIR_SOURCES = {'q2-counting-q8-halfpair': 'q8-halfpair'}
 Q8_GROUPED_MODE = 'q8-grouped-check'
@@ -58,7 +60,7 @@ COUNTING_SOURCES = {'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-norm-fixed': 'norm-fixed-shape',
                     'q2-counting-shared-q8': 'shared-q8-producer',
                     **REAUDIT_SOURCES, **HC_BK_COUNTING, **DEFERRED_SOURCES, **Q8_GROUPED_SOURCES,
-                    **SCALED_SELECTIVE_SOURCES, **IQ2_HALFSTAGE_SOURCES, **IQ2_HALFBYTE_SOURCES, **Q8_HALFPAIR_SOURCES,
+                    **SCALED_SELECTIVE_SOURCES, **IQ2_HALFSTAGE_SOURCES, **IQ2_HALFBYTE_SOURCES, **Q8_HALFPAIR_SOURCES, **SSM_ROW128_SOURCES,
                     'ud-counting-legacy': 'qualified'}
 COUNTING_CURVES = {'q2-counting-iq2': 'q2-curve-iq2',
                    'q2-counting-iq2-mixed': 'q2-curve-iq2-mixed'}
@@ -96,7 +98,7 @@ def collection_receipt(archive):
     # telemetry samples instead of silently dropping them after a short-run cap.
     # The ragged HC fixture retains 2040/2047-row norm/half/down pairs as well
     # as small cases: 1,106,304,168 bytes in the first complete archive.
-    limits = {Q8_HALFPAIR_MODE: 2 * 1024**3, IQ2_HALFSTAGE_MODE: 2 * 1024**3, **{mode: 384000000 for mode in MIXED_TILE_MODES}, 'iq2-live-epilogue-check': 384000000, 'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3, 'hc-norm-ragged-bench': 1120000000, 'shared-q8-producer-check': 384000000}
+    limits = {SSM_ROW128_MODE: 4 * 1024**3, Q8_HALFPAIR_MODE: 2 * 1024**3, IQ2_HALFSTAGE_MODE: 2 * 1024**3, **{mode: 384000000 for mode in MIXED_TILE_MODES}, 'iq2-live-epilogue-check': 384000000, 'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3, 'hc-norm-ragged-bench': 1120000000, 'shared-q8-producer-check': 384000000}
     limit = limits.get(receipt.get('mode'), 128000000)
     if sum(member.size for member in members) > limit:
         raise ValueError('Oversized collection')
@@ -105,9 +107,9 @@ def collection_receipt(archive):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=[Q8_HALFPAIR_MODE, IQ2_HALFBYTE_MODE, IQ2_HALFSTAGE_MODE, Q8_GROUPED_MODE, FIXED_PROFILE_MODE, HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=[SSM_ROW128_MODE, Q8_HALFPAIR_MODE, IQ2_HALFBYTE_MODE, IQ2_HALFSTAGE_MODE, Q8_GROUPED_MODE, FIXED_PROFILE_MODE, HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
-    p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values(), *Q8_GROUPED_SOURCES.values(), *SCALED_SELECTIVE_SOURCES.values(), *IQ2_HALFSTAGE_SOURCES.values(), *IQ2_HALFBYTE_SOURCES.values(), *Q8_HALFPAIR_SOURCES.values()],
+    p.add_argument('--source-variant', choices=['iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values(), *Q8_GROUPED_SOURCES.values(), *SCALED_SELECTIVE_SOURCES.values(), *IQ2_HALFSTAGE_SOURCES.values(), *IQ2_HALFBYTE_SOURCES.values(), *Q8_HALFPAIR_SOURCES.values(), *SSM_ROW128_SOURCES.values()],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
     p.add_argument('--point-only', action='store_true', help='One canonical d0 point, one warmup and three measured repetitions; native client only')
     p.add_argument('--native-curve', action='store_true', help='Use the frozen native C canonical benchmark; no Python curve fallback')
@@ -157,6 +159,13 @@ def main():
         if SCALED_SELECTIVE_SOURCES.get(args.mode) != args.source_variant:
             p.error('Historical counting requires its matched provider' if args.mode in COUNTING_SOURCES
                     else 'Selective scaled tiles require their matched historical counting provider')
+    if args.source_variant in SSM_ROW128_SOURCES.values() or args.mode == SSM_ROW128_MODE:
+        if args.mode == SSM_ROW128_MODE and args.source_variant == 'ssm-row128':
+            if args.rebuild_mmq:
+                p.error('SSM row128 component builds its numerical kernels directly')
+        elif SSM_ROW128_SOURCES.get(args.mode) != args.source_variant:
+            p.error('Historical counting requires its matched provider' if args.mode in COUNTING_SOURCES
+                    else 'SSM row128 requires its component or matched historical counting provider')
     if args.source_variant in Q8_HALFPAIR_SOURCES.values() or args.mode == Q8_HALFPAIR_MODE:
         if args.mode == Q8_HALFPAIR_MODE and args.source_variant == 'q8-halfpair':
             if args.rebuild_mmq:
@@ -363,7 +372,7 @@ def main():
         p.error('Stack changes executor/header; explicitly rebuild MMQ')
     if args.source_variant in ('hc', 'hc-prefill') and args.mode not in ('hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'q2-bench', 'q2-bench2k', 'q2-profile', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'terminal-cpu'):
         p.error('HC source requires HC checks or Q2 benchmark/profile')
-    if args.source_variant not in ('iq2-mixed', 'qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values(), *Q8_GROUPED_SOURCES.values(), *SCALED_SELECTIVE_SOURCES.values(), *IQ2_HALFSTAGE_SOURCES.values(), *IQ2_HALFBYTE_SOURCES.values(), *Q8_HALFPAIR_SOURCES.values()) and args.mode != 'q2-bench':
+    if args.source_variant not in ('iq2-mixed', 'qualified', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values(), *Q8_GROUPED_SOURCES.values(), *SCALED_SELECTIVE_SOURCES.values(), *IQ2_HALFSTAGE_SOURCES.values(), *IQ2_HALFBYTE_SOURCES.values(), *Q8_HALFPAIR_SOURCES.values(), *SSM_ROW128_SOURCES.values()) and args.mode != 'q2-bench':
         p.error('MMQ-changing source selection requires q2-bench')
     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
         p.error('Label must start with q2- and contain lowercase letters/digits/hyphens')
@@ -470,6 +479,17 @@ def main():
                       for f in (ROOT/source).rglob('*') if f.is_file()}
             if actual != variant['files']:
                 p.error('Q8 grouped provider inventory changed')
+        if args.source_variant in SSM_ROW128_SOURCES.values():
+            info = json.loads((ROOT/'config/q2-ssm-row128-source.json').read_text())
+            variant = info['variants'][args.source_variant]
+            for key in ('parent_manifest', 'measured_parent', 'control_include', 'patch'):
+                if file_sha256(ROOT/variant[key]) != variant[key+'_sha256']:
+                    p.error('SSM row128 measured source reference changed')
+            source = variant['source']
+            actual = {str(f.relative_to(ROOT/source)): file_sha256(f)
+                      for f in (ROOT/source).rglob('*') if f.is_file()}
+            if actual != variant['files']:
+                p.error('SSM row128 provider inventory changed')
         if args.source_variant in Q8_HALFPAIR_SOURCES.values():
             info = json.loads((ROOT/'config/q2-q8-halfpair-source.json').read_text())
             variant = info['variants'][args.source_variant]

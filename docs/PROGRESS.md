@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## SSM row128 candidate prepared — 2026-10-05 UTC
+
+The new candidate starts from retained compact IQ2 PP1498.799455 and changes
+only fused SSM geometry, BM256/BN128/BK2/WM8/WN1 to BM128/BN128/BK2/WM4/WN2.
+Accumulator values per thread halve128→64; explicit convolution transpose
+storage makes LDS49152→36864. Original Q8 half arithmetic, ordered K16 WMMA,
+32-token convolution/live-output mask and all other dispatches remain intact.
+The grid doubles and repeats activation reads, so static reduction is no gain
+claim. Local assembly replaces one body, preserves156 exactly, has zero private
+scratch and next-free-VGPR241→217, instructions4027→2102 per block.
+
+New fixture plans24 guarded full-buffer pairs over1024/1025/1057/2048 tokens,
+including all required raw values and every convolution value. Unused raw
+cells must remain poisoned, correcting the previous fixture contract without
+rewriting its failure. Only2048 is timed,14 alternating samples with133693440
+rotated weight bytes. The new fixed model follows any safe numerical/timing
+verdict; Q2/compact-parent/UD controls stay saved and no full curve is admitted.
+
+All85 scope guards, production/fixture compilation and new-file formatting
+pass. Shared formatter exit1 remains for nine unchanged inherited files;
+an initial local wrapper-path exit2 is retained separately. New `.157` host
+fixtures pass25/25 Debug and25/25 ASan/UBSan, no model/GPU access. Plan freezes
+four manifests and34 fixtures. Performance remains pending fresh admission.
+[Mechanism, coverage and scope](Q2-SSM-ROW128.md).
+
 ## Exact Q8 pair lookup measured: false coverage flag, strong regression — 2026-10-05 UTC
 
 The new candidate starts from compact IQ2 PP1498.799455 and changes only the
