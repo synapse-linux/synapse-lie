@@ -52,17 +52,18 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema compilation, regex syntax/property parsing and vector snapshot
-marshalling; its new
-private layout requires a matching source/archive/application rebuild.
+supplies schema compilation, Unicode-set/property identity, input decoding and
+vector snapshot marshalling. Its private layout requires a matching source,
+archive and application rebuild.
 Original-weight grammar/correction/cache continuation remains pending.
 
 C17 numeric policies own their copied canonical bounds and multiple, including
 integer-grid reduction. Prefix checks own and retire private arithmetic scratch;
 refusal changes neither the policy nor the caller's match/value outputs. These
 policies are not serialized in DS4 model-prefix payloads and change no cache
-identity. The JSON value bridge and remaining schema/regex compiler are still
-transitional; host exact-decimal checks do not qualify GPU continuation or cost.
+identity. The JSON value bridge, JSON Schema compiler and Unicode-set/property
+identity remain transitional; host exact-decimal checks do not qualify GPU
+continuation or cost.
 
 C17 string state retains exactly the five native uint32 fields used by the
 provider: DFA/count/value/extra/mode. It keeps partial UTF8/escape/surrogate state
@@ -85,8 +86,10 @@ derivative memo tables and temporary Unicode partition/BFS graphs. A sealed
 program deep-copies its data and survives compiler release; refusal preserves
 published output and programs. Internal successful memo entries may remain after
 a refused construction call. No compiler tables enter DS4 RAM/SSD checkpoints
-or change model-prefix scope or the reactive frontier. Syntax/property parsing,
-assertion expansion and JSON Schema compilation remain transitional.
+or change model-prefix scope or the reactive frontier. Parser AST and iterative
+assertion expansion scratch are now owned and retired in C17; UTF16 input and
+opaque set callbacks are borrowed for one synchronous call. Unicode-set/property
+identity, input decoding and JSON Schema compilation remain transitional.
 
 ## MTP development boundary
 

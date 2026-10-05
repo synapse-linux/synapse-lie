@@ -135,6 +135,7 @@ public:
     regex_compile_check(lie_regex_seal(compiler_.get(), root, &out));
     return std::shared_ptr<const lie_regex_program>(out, lie_regex_release);
   }
+  lie_regex_compiler *Compiler() const { return compiler_.get(); }
 
 private:
   std::unique_ptr<lie_regex_compiler, decltype(&lie_regex_compiler_release)>

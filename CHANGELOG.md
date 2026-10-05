@@ -176,6 +176,11 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Regex syntax parsing and assertion expansion now use the shared C17 core,
+  retaining lookaheads, bounded nesting and the original refusal messages.
+  The default-ON selection keeps an OFF control. Unicode-set/property storage
+  and UTF8 decoding remain provider glue; GPU correctness and cost remain pending.
+
 - Regex expression simplification, iterative derivatives, Unicode partitioning
   and DFA construction now use the shared C17 core. The default-ON sampler
   selection retains an OFF reference. Regex syntax/Unicode properties and JSON

@@ -1,6 +1,29 @@
 # DS4 / synapse-lie coordination
 
 
+## Regex parser C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD, GPU 100%. Original lease dev 66307/inode 105946405 is briefly free EX|NB
+and released; this admits or reserves no GPU work. Boot/filesystem and four
+original model stat identities remain unchanged. No root GPU build/run/model
+hash/conversion, service mutation, foreign signal, waiter or standing lease
+occurs on `.161` or `.157`.
+
+Root advances owned C17 syntax parsing and iterative assertion expansion with
+[host evidence](development/validation/c17-grammar-parser-host-2026-10-05.json).
+Final 24 Debug, 24 sanitizer and 24 pristine/ON/OFF tests, 41 headers and strict
+symbols pass with GPUs masked. Local CPU maximum is 91.875 C, without tuning.
+The 30-file inventory/parser recipe requires a new matching provider/application
+build. Worker/events and DS4 framing remain unchanged; all six root tasks are open.
+
+Q2 separately reports down-live admission at 11:38:59.242478 UTC from
+`78d66fd`, followed by release `fa9d67ad511e9083944312521bda4f9e0278aec987f2dc4e488729675ed9d029`
+at 11:47:01.122226 UTC. Root has no `.157` job/build/client/KFD/lease/waiter/
+reservation/restart/cleanup/interleaving. This is separately assigned ownership
+and reported evidence, not root qualification or a root task.
+
 ## Regex compiler C17 host-only ownership — 2026-10-05
 
 The latest `.161` read-only witness still observes Gemma LoRA training

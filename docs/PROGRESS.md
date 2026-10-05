@@ -2,6 +2,33 @@
 # Development progress
 
 
+## Regex syntax/assertion-expansion C17 host slice — 2026-10-05
+
+From checkpoint `57a551c`, C17 now owns regex syntax parsing, bounded AST
+lifetimes and iterative assertion expansion into the owned expression compiler.
+Groups, alternatives, repeats, anchors, lookaheads, word boundaries, character
+classes and escapes retain the pinned behavior. Input/group bounds remain
+16,384 bytes/32 levels; AST/work budgets are 65,536 nodes/32 million units.
+UTF8 decoding and Unicode-set storage/property/full-set identity remain provider
+glue, along with JSON Schema compilation and snapshot marshalling.
+
+The [source-bound host receipt](development/validation/c17-grammar-parser-host-2026-10-05.json)
+records 24 Debug, 24 ASan/UBSan/LeakSanitizer and 24 pristine/ON/OFF tests,
+41 public headers and strict C17/symbol checks. Independent C tests cover
+10,930 finite-language queries and 55 allocation refusal points, with all
+temporary handles/AST/expansion memory retired. The source-pinned comparison
+covers 2,138 patterns at three bounds, 1,155 compilations, 5,259 exact syntax
+refusals, 139,755 full prefix states and 2,515,590 scalar transitions.
+All ten earlier complete witness hashes remain unchanged. Local CPU maximum
+is 91.875 C. These are synthetic host checks, not numerical GPU or cost evidence.
+
+Two exact edits and the 30-file provider inventory require matching sealed
+provider/application rebuilds. Worker/events and DS4 framing remain unchanged.
+Fresh `.161` observation still finds Gemma training/router in actual/kernel KFD
+with GPU 100%; no root GPU build/run/hash/conversion, service change, foreign
+signal, waiter or standing lease occurs. All six owned queue items remain open;
+remaining Unicode/input/schema/marshalling work can proceed locally.
+
 ## Regex expression/derivative/DFA compiler C17 host slice — 2026-10-05
 
 From checkpoint `afdeaea`, C17 now owns normalized expression DAGs, minimum

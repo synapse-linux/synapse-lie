@@ -41,7 +41,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
 deep copies, deferred draws, entropy acquisition, JSON Schema compilation,
-regex syntax/property parsing, provider snapshot marshalling, model/session and
+Unicode set/property identity and input decoding, provider snapshot marshalling, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -74,7 +74,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema compilation, regex syntax/property parsing, provider snapshot marshalling
+schema compilation, Unicode set/property identity and input decoding, provider snapshot marshalling
 and speculative model/controller
 state remain transitional.
 
@@ -162,7 +162,7 @@ completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
 Storage/error/predicate translation stays in `gufo_grammar.hpp`.
 
 This is a byte-runtime extraction, not a complete C grammar compiler. JSON
-Schema compilation, regex syntax/property parsing and assertion expansion remain
+Schema compilation, Unicode set/property identity and input decoding remain
 delegated. Vocabulary/transition/cache and expression/DFA compiler ownership are
 described in their sections below.
 The provider still marshals snapshots between vector storage and C state. Those
@@ -204,8 +204,8 @@ Resource/work refusal preserves output ownership and matches. The header declare
 explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
 to this component. JSON library numeric conversion/representability and exception
-translation remain in `gufo_grammar_number.hpp`. Schema compilation, regex syntax/
-property parsing, assertion expansion and provider snapshot marshalling still
+translation remain in `gufo_grammar_number.hpp`. Schema compilation, Unicode set/property identity, input decoding and provider
+snapshot marshalling still
 need extraction within the same identified task.
 
 The four exact `grammar-number-edits.json` edits select C17 by the existing
@@ -228,7 +228,7 @@ classes, raw DFA tables and accepting flags. C17 builds sorted unique successor
 and predecessor graphs, computes shortest accepting distances, prunes unreachable
 edges and derives maximum suffix. Runtime range lookup, exact length reachability
 and Brent cycle skipping are C17. This is a real DFA runtime extraction; the
-regex syntax parser and Unicode property sets remain C++/ICU. Expression
+Unicode property sets and input decoding remain C++/ICU. Syntax, expression
 derivatives and class partitioning now use the C17 compiler described below.
 Default budgets retain 4096 states and 262144 transitions/ranges; 256 million
 counted work units explicitly bound construction and queries. Constructor scratch
@@ -259,7 +259,7 @@ source-bound provider build; frozen GPU receipts do not qualify this increment.
 compares every encoded state and canonical key across pristine/ON/OFF, alongside
 independent finite-language and Unicode spelling oracles, allocator/budget faults,
 malformed states and existing complete numerical/grammar witnesses. These checks
-perform no model forward. Remaining schema/syntax/property compilation and
+perform no model forward. Remaining schema/set/property compilation and
 snapshot marshalling, original-weight AR/MTP/tool continuation, allocation-exact
 resources and matched cost remain open on `.161`.
 
@@ -298,7 +298,7 @@ cover independent byte languages, every allocation refusal, direct/cached/full
 interning, 4096-byte paths, cache order/races and retained snapshots. Pristine,
 ON and OFF arms compare every token mask and accepted encoded state, including
 Unicode fragments, numeric and tool/reasoning branches. These are synthetic
-host checks. Remaining schema/syntax/property compilation and provider snapshot
+host checks. Remaining schema/set/property compilation and provider snapshot
 marshalling, new
 original-weight AR/MTP continuation, allocation-exact resources and matched GPU
 cost remain open on `.161`.
@@ -321,13 +321,14 @@ remain after a refused operation. Paired fresh aligned allocator hooks outlive
 the compiler and published programs. Construction is caller-synchronized and
 creates no inference thread, RNG, device call or HTTP operation.
 
-`gufo_grammar_regex_compile.hpp` retains syntax parsing/assertion expansion and
-ICU property resolution/full-set identity. It translates normalized operations
-into the C contract and preserves insertion-ordered scalar classes. These
+`gufo_grammar_regex_compile.hpp` retains ICU set operations, property resolution
+and full-set identity. Syntax/assertion expansion now use C17. It translates
+normalized operations into the C contract and preserves insertion-ordered scalar
+classes. These
 remaining C++ responsibilities and JSON Schema compilation still require
 extraction. The three exact `grammar-compiler-edits.json` edits select the C
-compiler with default ON; OFF keeps the entire original compiler. The 27-file
-private provider inventory and recipe require matching archive/application
+compiler with default ON; OFF keeps the entire original compiler. The current
+30-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -337,12 +338,40 @@ witnesses compare state IDs, Unicode transitions, acceptance, length queries,
 suffix bounds and refusals. These checks do not establish original-weight
 continuation, GPU memory fit, allocation-exact provider cost or a speedup.
 
+## Regex syntax and assertion expansion
+
+`lie/grammar_regex_parse.h` and `src/grammar_regex_parse.c` own parser ABI 1.
+The C17 implementation parses groups, alternatives, repetitions, anchors,
+lookaheads, word boundaries, character classes and escapes. It builds a bounded
+AST and expands assertions into the owned expression compiler with an explicit
+heap stack. Group parsing retains the source's 32-level bound; input retains
+the 16,384-byte limit. Default AST/work budgets are 65,536 nodes and 32 million
+counted units. Refusals preserve the root and published programs; successful
+internal expression entries may remain after a refused parse.
+
+UTF16 input and model-neutral opaque Unicode-set callbacks are borrowed for one
+synchronous call. Fresh set handles and all AST/expansion storage retire on
+every path. `gufo_grammar_regex_parse.hpp` keeps ICU UTF8 decoding, typed input
+copying, Unicode-set storage/property/full-set identity and exception translation.
+Those remaining C++ responsibilities and the JSON Schema compiler still need
+extraction. No upstream type enters the public C header. No inference worker,
+RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
+
+Two exact `grammar-parser-edits.json` edits select the C17 parser with default
+ON; OFF retains the original syntax/expansion implementation. The 30-file
+provider inventory and recipes require matching source/archive/application
+builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
+records independent C language/refusal/allocator tests and pristine/ON/OFF
+syntax/state witnesses are host evidence, without a model. Original-weight
+AR/MTP/tool continuation, fault/fit, allocation-exact resources and cost remain
+separate GPU gates.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
 and compact/speculative probability arithmetic, byte-grammar runtime, numeric/Unicode
-predicates, vocabulary/cache algorithms and regex expression/derivative/DFA
+predicates, vocabulary/cache algorithms and regex syntax/assertion/expression/derivative/DFA
 construction. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
