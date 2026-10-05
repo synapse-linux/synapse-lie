@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Expert-order window releases2026-10-05T17:11:36.064569UTC, SHA256
+13ba43fc1b39ae5906d62f36515a3f6061059912f76c9bfa9dd41b99a4360571.
+Fresh admission55c0bfbb from23bce68 followed root non-use and release6abd77bc.
+Host/component/model terminal and collected:251artifacts,214full arrays,13
+exits (component strict signed-zero1,twelve0).1051identities/837groups retired,
+KFD empty,four original leases free,seven model stat tuples unchanged. Main/
+canonical/remote release-active-ready mirrors match; core notified. No Q2
+job/build/client/lease/waiter/reservation/restart/cleanup remains. New ownership
+needs fresh admission. Keep1574 parent; no full curve or quality promotion.
+[Release](../config/q2-scaled-expert-order-window-release.json).
+
+
 Expert-order preparation follows534decd and release6abd77bc. Root freshly
 confirms no .157 GPU/CPU job,build,client,lease,waiter or reservation; its1M
 work is on .161. No ownership is inherited. New host/component/model work

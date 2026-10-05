@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-scaled-expert-order-final.v1",
+  "plan_sha256": "c9c54a6f86ab3b6935cb92a182d8dea635b3bad38e4f6cfeaf512c3eacbcba31",
+  "model_result_sha256": "69786f4f9f66a4d76cc08dbae673aeec6b66ad3acbb47d9c9b87a656bb25d1f5",
+  "component_result_sha256": "053566c6d0c2f2d3f7888a904e49d7daa2f78f3515dc4ac01b7d8413b2672478",
+  "release_sha256": "13ba43fc1b39ae5906d62f36515a3f6061059912f76c9bfa9dd41b99a4360571",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "standard_artifacts_verified": 251,
+  "complete_output_arrays_verified": 214,
+  "frozen_fixtures_verified": 79,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1028,
+  "retired_identities": 1051,
+  "retired_groups": 837,
+  "figures": {
+    "docs/figures/q2-scaled-expert-order-component.csv": "b939bf50f401f0e9b7a9850d7df55c22ac1a1b31ab7c9a1f00e4776363aaf865",
+    "docs/figures/q2-scaled-expert-order-component.svg": "622c7fcea1080b46f63b1f5eff245446f6543af5d32d4efba2fa728a23755237",
+    "docs/figures/q2-scaled-expert-order-component.png": "707b53dfe2dfe03a096032aefcc0e75c51c43d278965cc798153ecc72944214c",
+    "docs/figures/q2-scaled-expert-order-model-wrapped.csv": "304ddde8f5221eed83ba75a46f38bfadf7405a3a90d4e48e9106853f3054a476",
+    "docs/figures/q2-scaled-expert-order-model-wrapped.svg": "1a4f693a7532d2f027fd2a4275c3658773270f3bd454940e8d5d4883176e2338",
+    "docs/figures/q2-scaled-expert-order-model-wrapped.png": "3ca0de0318166d1bf871558f0f8205a8e5e5d26a3effcf2d76430f2e8ababa20"
+  },
+  "preserved_nonzero_exits": {
+    "fixture-device-command.json": 1,
+    "fixture-host-command.json": 1,
+    "shared-format-command.json": 1,
+    "changed-format-command.json": 1,
+    "component-command.json": 1
+  },
+  "all107_component_pairs_exact": true,
+  "strict_oracle_pass": false,
+  "reported_oracle_errors_signed_zero_only": true,
+  "all28_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "thermal_max_c": {
+    "q2-scaled-expert-order-host-r1": {
+      "amdgpu": 40.0,
+      "k10temp": 67.125
+    },
+    "q2-scaled-expert-order-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 66.0
+    },
+    "q2-scaled-expert-order-model-r1": {
+      "amdgpu": 77.0,
+      "k10temp": 80.25
+    }
+  },
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "synapse-lie.q2-scaled-expert-order-disposition.v1",
+  "decision": "RETAIN_EXPERIMENT_AND_KEEP_SAVED1574",
+  "next_composition_variant": "scaled-wave-pack",
+  "source_manifest": "config/q2-scaled-expert-order-source.json",
+  "retained_parent_manifest": "config/q2-scaled-wave-pack-source.json",
+  "model_result_sha256": "69786f4f9f66a4d76cc08dbae673aeec6b66ad3acbb47d9c9b87a656bb25d1f5",
+  "component_result_sha256": "053566c6d0c2f2d3f7888a904e49d7daa2f78f3515dc4ac01b7d8413b2672478",
+  "final_audit_sha256": "866121f3032b54266bacfe36c00301bea46987b88a41a9498862d0384f822ff0",
+  "release_sha256": "13ba43fc1b39ae5906d62f36515a3f6061059912f76c9bfa9dd41b99a4360571",
+  "prefill_tok_s": 1571.009498,
+  "decode_steps_s": 25.18779712,
+  "nominal_pp_gain_percent": -0.22203378463797607,
+  "nominal_decode_change_percent": 0.047295686449499996,
+  "absolute_pp_gain": -3.495934000000034,
+  "observed_historical_pp_ranges_overlap": false,
+  "required_pp_increase_to_fixed_ud_percent": 7.305340556254247,
+  "component_cycle_time_changes_percent": {
+    "pack": 20.551430056599983,
+    "pack_down": -4.745115978596049
+  },
+  "all21_parent_files_exact": true,
+  "all107_component_pairs_exact": true,
+  "strict_oracle_pass": false,
+  "reported_oracle_errors_signed_zero_only": true,
+  "inherited_quality_record": "config/q2-down-half-storage-disposition.json",
+  "thermal_max_c": {
+    "q2-scaled-expert-order-host-r1": {
+      "amdgpu": 40.0,
+      "k10temp": 67.125
+    },
+    "q2-scaled-expert-order-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 66.0
+    },
+    "q2-scaled-expert-order-model-r1": {
+      "amdgpu": 77.0,
+      "k10temp": 80.25
+    }
+  },
+  "independent_quality": false,
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "Saved historical model comparators; scalar decode unchanged and observed TG differences not causally assigned. Packing and down component gain is separate, not additive. Preserve actual strict-oracle exit1 in both arms; inherited F16 task quality and full context/concurrency parity remain open."
+}

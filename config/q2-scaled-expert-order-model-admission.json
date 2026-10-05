@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q2-scaled-expert-order-model-admission.v1",
+  "at": "2026-10-05T17:06:31.367804+00:00",
+  "component_result_sha256": "053566c6d0c2f2d3f7888a904e49d7daa2f78f3515dc4ac01b7d8413b2672478",
+  "plan_sha256": "c9c54a6f86ab3b6935cb92a182d8dea635b3bad38e4f6cfeaf512c3eacbcba31",
+  "safe_component_complete": true,
+  "actual_component_exits": [
+    0,
+    0,
+    1
+  ],
+  "all107_layout_scale_down_comparisons_exact": true,
+  "strict_oracle_failure_preserved": true,
+  "only_reported_oracle_errors_signed_zero_in_both_arms": true,
+  "model_scope": "One new original exact2048/tg128; qualified comparators reused",
+  "quality_accepted": false,
+  "goal_met": false
+}
