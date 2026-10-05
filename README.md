@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [cooperative aligned Q8 fetch](docs/Q2-Q8-ALIGNED-PAIR.md) is prepared from saved1571. Three dense bodies change;158 remain exact, with unchanged VGPR/LDS and no spills. Component/full-model evidence remains pending.
+
 The [saved1571 diagnostic](docs/Q2-CURRENT-BEST-PROFILE.md) completes without GPU rebuild or Q2/UD reruns. Current PP kernel costs are293.227ms Q8/F16 dense,239.500ms IQ2 gate/up,186.168ms HC combine/norm and161.558ms Q2 down. The unprofiled1571.716479 PP result remains unchanged; a distinct aligned-pair Q8 fetch hypothesis follows. GPU released; quality/curve parity remain open.
 
 The [fixed-width half consumer](docs/Q2-HALF-FIXED-WIDTH.md) completes at1569.533792 PP /25.16043516 TG, nominal-0.138873% PP against saved1571.716479. Keep the1571 parent. The38% instruction reduction yields only a small component change; normalization and eight model logit files differ. Tokens match; independent quality remains open.

@@ -389,6 +389,34 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_q8_aligned_pair_manifest_binding(self):
+        self.assertEqual(remote.Q8_ALIGNED_PAIR_MANIFEST,
+                         'config/q2-q8-aligned-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.Q8_ALIGNED_PAIR_MANIFEST).is_file())
+
+    def test_q8_aligned_pair_new_component_or_matched_counting_only(self):
+        variant = 'q8-aligned-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 aligned pair requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_ALIGNED_PAIR_MODE, 'q2-fixture'], 'Q8 aligned pair requires')
+        base = [remote.Q8_ALIGNED_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 aligned pair component builds')
+        for mode in (remote.Q8_ALIGNED_PAIR_MODE, 'q2-counting-q8-aligned-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_q8_k16_phases_manifest_binding(self):
         self.assertEqual(remote.Q8_K16_PHASES_MANIFEST,
                          'config/q2-q8-k16-phases-source.json')
