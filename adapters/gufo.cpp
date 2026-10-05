@@ -483,7 +483,9 @@ extern "C" lie_status lie_sequence_change_steering(lie_sequence *s,const lie_ste
     return guarded(s->runtime,e,[&]{
         if(!s->steering)return error(e,LIE_UNSUPPORTED,"direction bank is not admitted");
         if(s->stopped||s->cancelled.load())return error(e,LIE_CANCELLED,"sequence steering is stopped");
-        lie_steering_policy_info current{.abi_version=LIE_STEERING_POLICY_ABI,.struct_bytes=sizeof(current)};
+        lie_steering_policy_info current{};
+        current.abi_version=LIE_STEERING_POLICY_ABI;
+        current.struct_bytes=sizeof(current);
         auto rc=lie_steering_policy_snapshot(s->steering,&current,e);if(rc!=LIE_OK)return rc;
         if(current.completed_positions!=s->session->Position())
             return failed(s->runtime,e,"live steering retained frontier divergence");
