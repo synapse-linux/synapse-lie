@@ -57,7 +57,7 @@ def main():
         ax.legend(loc='lower left', fontsize=8)
     fig.suptitle('Q2 half-output storage: one new fixed model on .157')
     fig.text(.5, .025, 'Original exact2048 input and timers; capacity9216,chunk2048,tg128,127 timed decode calls.\n'
-             'All four new and twelve saved samples shown. Qualified controls are not rerun; inherited Q2/UD logit differences remain.',
+             'All four new and twelve saved samples shown. Saved controls are reused; new F16 rounding requires separate quality evidence.',
              ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .10, 1, .95))
     for suffix in ('.svg', '.png'):

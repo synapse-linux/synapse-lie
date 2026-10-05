@@ -1,11 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
-Current measured best remains1511.097261 PP /25.14684805 TG. The new
-[Q2 half-output storage experiment](docs/Q2-DOWN-HALF-STORAGE.md) is prepared
-to halve the logical expert-output payload while retaining allocation capacity.
-Its explicit F16 rounding needs separate model/quality measurement. Local
-production ISA and separate .157 host27+27 checks pass; GPU results are pending.
+The [Q2 half-output storage experiment](docs/Q2-DOWN-HALF-STORAGE.md)
+completes at1547.273268 PP /25.17198641 TG, nominally+2.394022% PP versus
+saved1511.097261 and+7.176169% versus fixed Q2 1443.672867. The original
+exact2048/tg128 comparator is unchanged; UD1685.777092 needs another8.951478%.
+The F16 output payload halves200→100MiB while allocation capacity stays fixed.
+All315 rounding/99 consumer checks pass; model tokens match but eight logit
+files differ (max parent KL0.00269324). Retain both sources; independent quality
+and full-curve parity remain open. All13 commands exit0/37 artifacts verify,
+the GPU window is released, and no runtime default is promoted.
 
 The earlier scaled-down live-store result is retained at1506.753016 PP and
 does not replace the1511 parent. Historical entries below retain their dates

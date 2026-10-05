@@ -45,13 +45,23 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
-This update supersedes the historical queue above. Best retained nominal Q2
-prefill is now1511.097261 PP /25.14684805 TG from the live-stage composition,
+Latest update: [half expert-output storage](Q2-DOWN-HALF-STORAGE.md) completes
+at1547.273268 PP /25.17198641 TG, nominal+2.394022%/+0.099966% against retained
+1511.097261 /25.14684805.315 rounding checks and99 consumer checks pass.
+All model tokens match but eight logits differ; max parentKL0.002693241666.
+This is a faster numerically different experiment, with independent task quality
+still open. Keep both sources; no production promotion. Fixed Q2/UD/input/timers
+stay unchanged and the remaining throughput increase to UD is8.951478%.
+
+
+This update supersedes the historical queue above. Before the half-storage experiment, best retained nominal Q2
+prefill was1511.097261 PP /25.14684805 TG from the live-stage composition,
 compared with its saved1509.852296 /25.20625148 four-lane parent. The new
 comparison is+0.082456% PP/-0.235669% TG with overlapping historical PP ranges;
 it does not establish a stable causal gain. Both sources remain available.
-Original fixed Q2 remains1443.672867 and UD1685.777092; reaching that UD PP
-requires11.559801% more throughput. The original exact2048/tg128 input/timers
+Original fixed Q2 remains1443.672867 and UD1685.777092. From that1511 parent,
+reaching UD required11.559801% more throughput; the newer1547 result above
+reduces the remaining requirement to8.951478%. The original exact2048/tg128 input/timers
 remain fixed. No new runtime work is scheduled by this inventory; Q4 stays deferred.
 
 The independent Q8 initialization race is already diagnosed and corrected.
@@ -73,7 +83,7 @@ component and full-model results. Their existing cohorts need no rerun.
 | High: encoded Q8 dense loads | Diagnose load scheduling and compact weight layout for SSM/plain/attention, preserving native accumulation and original decode. | Grouped and K16 changes are measured; expanded F16 mirrors are exact but lose2.164926% model PP. Hardware bandwidth/cache/occupancy contributions remain unisolated. A new compact loader would be a new implementation. |
 | Measured marginal: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [New composition](Q2-IQ2-LIVE-COMPOSE.md) completes at1511.097261 PP /25.14684805 TG,+0.082456%/-0.235669% against saved1509.852296 /25.20625148. All21 parent files are exact. The old component's318 artifacts are reused without rerun. Preserve both sources and the marginal result; this model test is no longer pending. |
 | Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
-| Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination. A [new F16-storage candidate](Q2-DOWN-HALF-STORAGE.md) is now prepared from1511 with a direct half-input ordered combine,157 unchanged original ISA bodies and separate host27+27. GPU/model results and independent quality remain pending; it is not a qualified replacement. Logical bytes are not measured DRAM traffic or a promised gain. |
+| Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination. The [F16-storage candidate](Q2-DOWN-HALF-STORAGE.md) is now measured at1547.273268 PP:315 rounding checks,99 consumer checks and original model complete. Eight parent logits differ despite exact generated tokens; independent quality remains open. A direct ordered consumer that avoids the materialization entirely is still unimplemented. Logical bytes are not measured DRAM traffic or a promised gain. |
 | Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
 | Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |
 | Integration: bounded reactive PLE preparation | Compose the measured two-slot lookahead with the current best provider and verify first-access/warm complete model behavior. | Earlier8K first-access gain is measured, but this best-provider composition remains unqualified. It addresses row I/O, not warmed GPU matrix time. |
