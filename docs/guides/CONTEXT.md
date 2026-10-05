@@ -68,8 +68,10 @@ The canonical HTTP conversation curve is documented in the
 CPU operator tests cover scaling frequencies through position 1,048,575.
 A shared-core fixture prefills 1,048,575 physical tokens and emits one token;
 neither test loads weights or proves GPU fit, throughput or recall quality.
-Original-weight Strix Point measurements currently qualify native context
-through near 256K. Extended-context GPU tests use fresh coordinated admissions.
+Original-weight Strix Point measurements qualify native context through near
+256K. A separate frozen `1bff953` YaRN4 C1 run completes physical PP1,048,448
+and fixed TG128 at capacity 1,048,576; long-context recall remains pending.
+Extended-context GPU tests use fresh coordinated admissions.
 Short original-weight native/YaRN2/YaRN4 gates pass at capacity 4096; they
 qualify profile integration without reaching extended physical positions.
 
@@ -155,13 +157,25 @@ gate passes with 7.98 GiB minimum available RAM and the same 32 output IDs as th
 about 266 token/s in the smaller-capacity gates. This slowdown needs investigation;
 short prompts do not establish physical 1M throughput or recall quality.
 
-The separate physical C1 AR YaRN4 chunk256 run completes 1,048,448 prefill
+The earlier physical C1 AR YaRN4 chunk256 run completes 1,048,448 prefill
 tokens in 7,398.225 s (141.72 token/s), then stops naturally after 43 output
 tokens. Its benchmark exits 0, while the required TG128 supervisor/controller
 gate correctly fails with exit 1. Eleven artifacts and ownership closure verify;
 minimum available RAM is 6.03 GiB and CPU/GPU/NVMe peaks are 78.625/79/66.85 C.
 This is one stress sample using repeated tokenizer IDs, not recall quality or
 matched performance. Do not use the partial output as a passing TG128 sample.
+
+The subsequent explicitly declared `--ignore-eos` run completes the same
+1,048,448 physical prefill tokens and all 128 output tokens. Its frozen
+`1bff953` runtime records PP 140.642 tok/s over 7,454.744 s and TG 7.741 tok/s
+over 16.535 s. One cold C1 AR sample, YaRN4, chunk256 and no retained cache
+qualify capacity and fixed generation; repeated IDs still do not establish
+recall quality. GTT peaks at 109.183 GiB, available RAM bottoms at 5.379 GiB
+and CPU/GPU/NVMe maxima are 78/79/66.85 C. Actual process, model, service and
+lease closure plus raw reproduction files are recorded in the
+[fixed-TG128 receipt](../development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+and [model/platform results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#physical-1m-context-and-fixed-generation).
+The natural-EOS failure above remains retained separately.
 
 Every physical 1M window still needs fresh RAM/GTT admission. Host buffers and
 an admitted operating-system margin must fit. MTP adds predictor and draft
