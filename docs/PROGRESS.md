@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Local [SSM row-group preparation](Q2-SSM-ROW-GROUP.md) selects the existing
+group4 mapping for the fused projection, changing exactly two source fragments.
+Saved-parent assembly comparison preserves161 other bodies/resources; SSM
+uses222 actual VGPRs/241 descriptor reservation,49152 LDS bytes and zero scratch
+in both arms. The changed body adds ten static instructions.1292 integer grid
+shapes preserve tile ownership and convolution masks. The new30-pair/60-sampled-
+oracle fixture passes host/device syntax, without GPU execution or launcher
+wiring.85 register-scatter fixtures/four manifests stay frozen. Best1574 and
+fixed UD1685.777092 remain; no speedup or quality acceptance is inferred.
+
 The [Q2 half-output register transpose](Q2-DOWN-REGISTER-SCATTER.md) is prepared from saved1574:
 two half-wave word exchanges bypass the aligned epilogue LDS round trip.
 Local checks preserve159 other kernels and all register/LDS capacities;140

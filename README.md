@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+An independent [SSM row-group experiment](docs/Q2-SSM-ROW-GROUP.md) is prepared
+locally from saved1574. It changes grid traversal, retaining161 other kernels,
+register/LDS capacities and arithmetic source. The new guarded fixture passes
+host/device syntax checks; no GPU or model result exists. The existing
+register-scatter campaign and fixed Q2/UD comparison stay unchanged.
+
 The [Q2 half-output register transpose](docs/Q2-DOWN-REGISTER-SCATTER.md) is prepared from saved1574:
 two half-wave word exchanges bypass the aligned epilogue LDS round trip.
 Local checks preserve159 other kernels and all register/LDS capacities;140
