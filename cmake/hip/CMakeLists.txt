@@ -238,6 +238,17 @@ target_include_directories(q2_iq2_fused_grid PRIVATE "${GUFO_SOURCE}" "${Q2_FIXT
 target_include_directories(q2_iq2_fused_grid SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_iq2_fused_grid PRIVATE hip::host OpenSSL::Crypto)
 
+# Q2 down unread-store suppression; literal live-compose parent control.
+add_executable(q2_down_live_stage EXCLUDE_FROM_ALL ../../tests/q2_down_live_stage.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_down_live_stage PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_down_live_stage PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_down_live_stage PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_down_live_stage SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_down_live_stage PRIVATE hip::host OpenSSL::Crypto)
+
 # Q2 down output-row reuse; literal lane parent control.
 add_executable(q2_down_output_reuse EXCLUDE_FROM_ALL ../../tests/q2_down_output_reuse.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
