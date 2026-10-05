@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Original-weight Strix Point 1M capacity/function qualification: complete
+  physical prefill and fixed 128-token generation, with raw evidence, phase
+  durations, memory and reproduction instructions. Recall and matched
+  long-context performance comparisons remain pending.
+
 - Shared C17 compiled-schema cache with copied keys, bounded opaque values and
   concurrent access. Compilation stays outside its lock; the default-ON
   provider retains an OFF reference. Host cache/ownership/refusal comparisons

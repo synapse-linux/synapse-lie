@@ -164,6 +164,42 @@ The pre-integration binary at source checkpoint `1877b03` has no newly added
 prefill/decode phase clocks. The two samples per point show observed variation,
 not a broad confidence interval or a new-runtime speed claim.
 
+## Physical 1M context and fixed generation
+
+The `1bff953` runtime completes a fresh **1,048,448-token physical prompt plus
+128 output tokens** at capacity 1,048,576, using YaRN4, AR, chunk256, C1,
+zero warmups and one measured repetition. RAM/SSD prefix caching is off.
+`--ignore-eos` explicitly continues generation to the fixed budget. The earlier
+natural-EOS run ended after 43 tokens and remains a failed TG128 gate.
+
+| Physical prompt | Output | Prefill tok/s | Prefill seconds | Decode tok/s | Decode seconds | First output seconds | Complete wall seconds |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1,048,448 | 128 | 140.642 | 7,454.744 | 7.741 | 16.535 | 7,462.251 | 7,478.560 |
+
+GPU GTT peaks at **109.183 GiB**; minimum sampled available RAM is **5.379 GiB**.
+CPU/GPU/NVMe maxima are **78 / 79 / 66.85 C**. All child/controller exits are
+zero, the owned GPU processes retire, original weights stay unchanged and the
+router and original lease are restored/released. Process thread counts were
+not recorded for this window; C1 identifies one client. This is a capacity and
+functional result. Recall quality, repetitions and matched Gufo/Halogen results
+at 1M remain pending. Its chunk size, YaRN profile and runtime differ from the
+earlier 128K/256K tables, so they do not form a controlled speed comparison.
+
+The [complete CSV](charts/physical1m-fixed-r15.csv),
+[validation receipt](../../../../development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+and [portable raw archive](data/rocm10-physical1m-fixed-r15.tar.gz) contain the
+physical input/output IDs, timings, all progress snapshots, telemetry and
+closure evidence. After checking `data/archives.sha256`, extract its `tokens.json`
+to reproduce the physical workload with a matching GPU build and fresh admission:
+
+```sh
+synapse-lie-bench --suite core --model /path/to/model-00001-of-00004.gguf \
+  --tokens-file /path/to/extracted/tokens.json --output run/physical1m.jsonl \
+  --context 1048576 --rope-scaling yarn4 --chunk 256 --users 1 --tg 128 \
+  --ignore-eos --kv-cache-ram-mb 0 --kv-cache-policy ds4 \
+  --warmups 0 --repetitions 1 --timeout-ms 86400000 --progress-ms 10000
+```
+
 ## Modern C17 core MTP vs AR on the GPU
 
 The `rocm10-point-modern-r3` build uses LIE source `9b109998`, Gufo pin
@@ -346,7 +382,8 @@ All profiles use seed 123, top-p 1, top-k 0 and no frequency/presence penalty;
 greedy min-p is 0. MTP drafts 228 and accepts 124 tokens across its two sessions.
 The five completed r15 windows have CPU/GPU/NVMe maxima 71.125/71/67.85 C,
 verified model/process/service/lease closure and 67 SHA-verified artifacts.
-The new physical1M fixed-TG128 gate is running separately; it has no result yet.
+The separate [physical1M fixed-TG128 gate](#physical-1m-context-and-fixed-generation)
+also passes; recall and matched long-context comparisons remain open.
 
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly

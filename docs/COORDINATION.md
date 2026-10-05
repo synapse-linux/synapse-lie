@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## Physical1M closure and fresh r16 window — 2026-10-05
+
+The frozen `1bff953` physical1M supervisor53019/start8719211 completes the
+declared PP1,048,448/TG128 run and actually retires. Collection verifies eleven
+files, supervisor/owned children absent, original lease free, unchanged model
+stats and router restored. The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+records release at 18:42:53.125145 UTC. The previous EOS43 failure is retained.
+
+The Point thread supplies fresh non-use with no `.161` job/client/lease/waiter/
+reservation. Root then stages sealed source `2359488`, code `5bdd405`, in its
+own r16 root. The new GPU-device-free build supervisor56982/start9482399
+acquires the original lease dev66307/inode105946405 and follows fresh actual
+KFD/resource/CPU98/NVMe85 admission plus the already authorized named router
+stop/restore. This build is separate from original-weight qualification.
+
+Q2 reports `.157` terminal release `b52d7308` at 18:39:19.580005 UTC and fresh
+non-use for the root CPU-only external Terminal client. Root verifies that
+release SHA and existing Harbor0.20/Docker29.7.2/Compose5.5/source prerequisites
+read-only. No root `.157` GPU job/build/model access, installation, foreign
+signal or Q2 environment/cache change occurs. The future own CPU client needs
+its fresh admission; no job or task score has started at this record.
+
 ## Compiled-schema C17 host slice during the 1M window — 2026-10-05
 
 Root advances cache code/tests locally while the existing `.161` physical1M

@@ -51,14 +51,15 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    evidence for r12. The unchanged smoke source/client and its cached task image
    are ready; Core-19 currently has 4/19 cached task images. No task score exists
    yet. [Current GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
-3. **Close full 1M context acceptance.** The `.161` physical gate completes all
-   1,048,448 prefill tokens but stops naturally after 43 output tokens; the
-   required TG128 gate remains failed. Require full physical prefill and all
-   128 output tokens in a newly declared run, then long-context recall checks.
-   The native core bench now has an explicit `--ignore-eos` method matching
-   Gufo's fixed-token TG completion policy. A new `1bff953` physical1M/TG128
-   `.161` window is running with that policy; it has no completion verdict yet.
-   Exercise the native progress client without treating snapshots as completion.
+3. **Close full 1M context acceptance.** The newly declared `1bff953` `.161`
+   run completes all **1,048,448 physical prefill tokens and 128 output tokens**
+   with explicit YaRN4 and `--ignore-eos`. The
+   [capacity/function receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+   verifies actual retirement, collection, model identities and service/lease
+   closure. The older natural-EOS43 failure remains unchanged. Long-context
+   recall checks still need completion; this single run is not a matched
+   performance comparison. Native live progress also reaches its confirmed
+   final snapshot, separately from process and lease retirement.
 4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
    work, cache policy, output length, repetitions and server lifecycle. Retain

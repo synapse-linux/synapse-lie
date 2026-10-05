@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Physical 1M prefill and fixed TG128 pass — 2026-10-05 UTC
+
+The newly declared `.161` `1bff953` C1 AR run completes **1,048,448 physical
+prefill tokens and 128 output tokens** at YaRN4 capacity 1,048,576, chunk256,
+zero warmups, one repetition and no retained prefix cache. Explicit
+`--ignore-eos` implements the declared fixed-output policy. Prefill is
+140.642 tok/s over 7,454.744 s; decode is 7.741 tok/s over 16.535 s.
+The older natural-EOS43 failure remains unchanged.
+
+The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+binds eleven SHA-verified artifacts and the portable raw archive. Supervisor,
+child and controller exit zero; the GPU process/kernel KFD retire before
+restoring the initially active router. Original lease dev66307/inode105946405
+releases at 18:42:53.125145 UTC; four original shard stats remain unchanged.
+CPU/GPU/NVMe peaks are 78/79/66.85 C, GTT peaks at 109.183 GiB and available
+RAM bottoms at 5.379 GiB. Process thread counts are not recorded for this run.
+The live progress client has a confirmed final snapshot, distinct from actual
+process and lease closure. Full timings and instructions are in the
+[model/platform benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#physical-1m-context-and-fixed-generation).
+
+This closes physical capacity plus fixed generation for the frozen source;
+1M recall quality and matched repeated comparisons remain open. All six
+owned roadmap tasks remain active. The newer finite-value/cache C17 source
+`2359488` (code checkpoint `5bdd405`) is independently sealed for a fresh
+device-free `.161` build after this window; no GPU qualification is inherited.
+Terminal Bench's CPU client has fresh Q2 release/non-use coordination and
+read-only existing prerequisites on `.157`; no task reward exists yet.
+
 ## Compiled-schema cache in C17 — 2026-10-05
 
 The core now owns copied-key ordering, bounded insertion/eviction, synchronized
