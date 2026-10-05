@@ -66,6 +66,7 @@ control rerun or context-curve expansion follows this update.
 | HC combine/norm consumers | Remove additional buffer passes through a real producer/consumer fusion, potentially with a deferred-Q8 consumer. | New design needed; high. Ordinary deferred normalization already lost10.292% complete-cycle time; only MoE deferred norm is retained. |
 | Encoded Q8 dense loading | Change compact load/staging dataflow for SSM/plain/attention after attributing transactions, cache and wave occupancy. | Open investigation; high. The aligned-pair trial is now complete and negative, not pending. |
 | Fused SSM grid traversal | Group four output-row blocks per token tile using the existing HC mapping; preserve geometry, K order and convolution boundaries. | [Composed locally with retained1580](Q2-SSM-ROW-GROUP.md):161 other kernels and inherited register-scatter exact; launcher142/analysis8 pass,88-fixture plan and both capsules verified. Host .157 and GPU/component/original-model execution remain pending after fresh core handover. Standalone1574 evidence is preserved. |
+| SSM fixed dimensions and bounds | Propagate the existing M16384/K2560 guard, then separately remove only proven full-row/K predicates. | [Two local candidates](Q2-SSM-FIXED-SHAPE.md):4027→3882/3864 static instructions,161 other kernels exact, zero scratch. The latter adds24 LDS loads. GPU/operator/model qualification pending; row-group campaign remains first and frozen. |
 | Measured marginal: wide shared-Q8 gate/up | Pair corresponding gate/up row tiles inside each wave and emit rounded SwiGLU directly at M640/N2048/K2560. | Completed:43 component pairs/24 sampled FP64 checks/21 parent model files pass. Component cycle time-3.309%; original model1573.621201 PP is nominal+0.121187% with overlapping ranges. Retain both sources; this trial is no longer pending. No reduction of total activation tile fetches is claimed. |
 | Small shared-down | Shape-specific native/library path at M2560/N2048/K640; any GPU F16 mirror is bounded to150MiB across48 layers. | Source proposal; lower. This shape was excluded from the failed large-mirror trial. |
 | IQ2 component candidates | Selectively compose live-epilogue or prefill codebook-LDS variants with the current provider. | Components already tested with mixed/marginal timings; current full-model composition unqualified. No blanket rerun. |
@@ -78,6 +79,13 @@ control rerun or context-curve expansion follows this update.
 | Long-context attention | Compare packed K/V with direct gathers including packing cost. | Unqualified new layout; after fixed-point parity. Fused WMMA attention and mask-window compaction already exist. |
 | Diagnosis and source organization | Isolate hardware bandwidth/cache/active-wave limits; further separate decode, staging, arithmetic and buffer ownership without changing instruction bodies. | Current stage trace complete; hardware attribution and further organization remain. Neither is a measured throughput gain. |
 | Acceptance | Complete independent Core-19 quality, then qualify the retained provider over the requested PP/TG context curve after the point gate. | Open qualification, not kernel optimization. F16 lineage differences remain. |
+
+The [producer-fusion boundary audit](Q2-SSM-FIXED-SHAPE.md#producerconsumer-fusion-boundary)
+finds ten gate/up producer blocks per640-value row and20 consuming down tiles.
+The present scale needs the whole row. Fusing a fresh F32 read into every down
+tile increases logical demand625→1050MiB/layer before cache/padding; true
+producer fusion needs changed ownership or a qualified compact representation.
+This is source analysis, not a measured traffic result or rejection of fusion.
 
 The [saved1571 current profile](Q2-CURRENT-BEST-PROFILE.md) now completes with
 zero GPU builds/control reruns and exact saved prefill logits/first16 tokens.

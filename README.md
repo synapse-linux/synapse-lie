@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Two additional [SSM specializations](docs/Q2-SSM-FIXED-SHAPE.md) reduce static
+instruction counts4027→3882/3864 while preserving161 other kernel bodies.
+The second adds24 LDS loads; neither has GPU timing or numerical acceptance.
+The existing row-group campaign remains frozen and first in the runtime queue.
+Retained measured throughput remains1580.226725 PP /25.10411864 TG.
+
 The [SSM row-group experiment](docs/Q2-SSM-ROW-GROUP.md) is now composed locally
 with retained1580.226725 PP, preserving its register-scatter kernels and161
 other kernel bodies/resources. Launcher and analysis checks pass142+8; both

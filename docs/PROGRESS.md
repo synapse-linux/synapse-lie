@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Local [SSM fixed-shape/bounds experiments](Q2-SSM-FIXED-SHAPE.md) preserve
+161 other kernels and reduce SSM static instructions4027→3882/3864. Both host
+and device fixture compilations pass, with zero scratch and unchanged static
+occupancy. Bounds specialization adds24 LDS loads; no speedup is inferred.
+Its initial analyzer exit1 is preserved and corrected without candidate changes.
+The separate producer audit identifies ten producer blocks per640-value row;
+naive F32 consumption in every down tile raises logical payload625→1050MiB/layer.
+Whole-row fusion remains open. Neither candidate has GPU/model results or
+runtime admission. The row-group88-fixture/five-manifest plan remains unchanged.
+Read-only20:32:11UTC observation confirms the same Core-19 supervisor/runner
+still alive on .157; Q2 has no host/build/client/lease/reservation. Saved1580
+and the fixed Q2/UD benchmark remain unchanged.
+
 The SSM experiment is now composed with retained1580.226725/25.10411864,
 without recompiling the saved parent. Its inherited register-scatter bodies
 and161 other kernel bodies/resources match; only the SSM row-group changes.

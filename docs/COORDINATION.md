@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Read-only observation2026-10-05T20:32:11.934070UTC confirms Core-19
+supervisor20794/start179631020 and runner20860/start179631128 still alive in
+their original groups; KFD remains empty. Q2 fixed-shape/bounds compilation
+and producer audit are local only, with no .157 host/build/client/lease/waiter/
+reservation. Actual CPU closure and fresh handover remain required. Evidence:
+`evidence/q2-ssm-row-group-compose-preparation/core-full-observation-r3-*`.
+
 SSM composition preparation follows releaseb9e05fd2 and checkpointd4ba5ac.
 Core starts full19 CPU .157 at20:08:35.909805UTC, with GPU work on .161.
 Read-only observation at20:11:40.671811UTC verifies supervisor20794/start179631020
