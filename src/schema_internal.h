@@ -3,6 +3,9 @@
 #ifndef LIE_SCHEMA_INTERNAL_H
 #define LIE_SCHEMA_INTERNAL_H
 #include "lie/schema_transform.h"
+#include "lie/grammar_builder.h"
+lie_schema_status lie_schema_internal_builder_error(lie_builder_status,
+                                                    lie_schema_error *);
 typedef struct {
   const lie_schema_transform_description *d;
   size_t work;

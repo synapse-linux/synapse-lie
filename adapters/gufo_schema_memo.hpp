@@ -30,6 +30,7 @@ public:
   ~SchemaMemo() { lie_schema_memo_release(memo_); }
   SchemaMemo(const SchemaMemo &) = delete;
   SchemaMemo &operator=(const SchemaMemo &) = delete;
+  lie_schema_memo *handle() const { return memo_; }
   std::optional<uint32_t> get(const void *key) const {
     uint32_t value = 0;
     bool hit = false;

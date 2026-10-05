@@ -83,21 +83,6 @@ lie_schema_status lie_schema_dispatch_types(
   }
   *out=p; return LIE_SCHEMA_OK;
 }
-static lie_schema_status builder_error(lie_builder_status rc, lie_schema_error *e) {
-  const char *message="invalid C17 grammar construction";
-  lie_schema_status status=LIE_SCHEMA_INVALID;
-  switch (rc) {
-  case LIE_BUILDER_OK: return LIE_SCHEMA_OK;
-  case LIE_BUILDER_RESOURCE: status=LIE_SCHEMA_RESOURCE; break;
-  case LIE_BUILDER_RULE_LIMIT: message="compiled grammar exceeds the rule limit"; break;
-  case LIE_BUILDER_CYCLE: message="reference cycle does not consume input"; break;
-  case LIE_BUILDER_EMPTY: status=LIE_SCHEMA_EMPTY; message="schema has no finite value"; break;
-  case LIE_BUILDER_WORK_LIMIT: status=LIE_SCHEMA_WORK_LIMIT; message="construction work limit exceeded"; break;
-  default: break;
-  }
-  if (e) *e=(lie_schema_error){message,{NULL,0},""};
-  return status;
-}
 lie_schema_status lie_schema_dispatch_rules(
     const lie_schema_dispatch_plan *p, lie_schema_node schema, size_t depth,
     lie_grammar_builder *b, lie_schema_rule_access access, uint32_t *out,
@@ -113,6 +98,6 @@ lie_schema_status lie_schema_dispatch_rules(
     if (rc) { if (e) *e=(lie_schema_error){0}; return rc; }
   }
   uint32_t result;
-  TRY(builder_error(lie_builder_alternatives(b,rules,p->count,&result),e));
+  TRY(lie_schema_internal_builder_error(lie_builder_alternatives(b,rules,p->count,&result),e));
   *out=result; return LIE_SCHEMA_OK;
 }

@@ -9,6 +9,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 recursive schema Visit sequencing, including identity hits,
+  placeholder publication and empty branches. Default-ON and original OFF
+  paths retain host grammar behavior; matching GPU qualification is pending.
+
 - Shared C17 JSON Schema type/nullable/keyword validation and ordered branch
   dispatch. The default-ON provider retains original OFF bodies; host language
   and refusal comparisons cover nested schemas. GPU qualification is pending.

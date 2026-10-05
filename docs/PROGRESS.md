@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Recursive schema Visit sequencing moves to C17 — 2026-10-05 UTC
+
+The C17 core now owns identity-first Visit lookup, rule reservation, recursive
+placeholder publication, body invocation, successful/empty rule commitment and
+result publication. The body retains schema-specific recursion and diagnostics;
+private glue translates borrowed JSON views and exceptions. Failure retires
+the whole compilation pair. Remaining VisitBody definitions/reference/anyOf/
+finite-choice policy, binary-double leaves and model/controller/composition
+remain C++. Default-ON retains the exact original OFF body; reactive worker,
+event/RNG and DS4 RAM/SSD contracts are unchanged. No thread is added.
+
+The [host receipt](development/validation/c17-schema-visit-host-2026-10-05.json)
+records 9 focused Debug, 9 ASan/UBSan/LeakSanitizer and 34 pristine/ON/OFF checks.
+Independent C fixtures cover 1,376 oracles, 68 body refusals and all 28 selected
+construction-allocation sites. Four C++ callback exception paths are checked.
+The 112 three-arm cases produce 61 compilations, 156 accepted values and 7,503
+identical transitions; all eighteen prior complete witness hashes stay unchanged.
+The provider binds 54 owned files and two exact recipe edits; 49 public headers
+compile as C17/C++17. The visitor adds no separate allocator. Local CPU peak
+is 94.125 C under CPU98/NVMe85/lower guards with GPUs masked; no tuning occurs.
+The first focused selection omitted the standalone builder contract; the
+corrected selection includes it and both 9-test suites pass. Upstream fixture
+warnings remain recorded; no new/changed owned source emits a warning. The
+older native-bench SIGABRT remains undiagnosed.
+
+This source has no matching GPU rebuild or original-weight qualification.
+The owner-stopped Core-19 run used frozen `2359488` and includes none of this
+Visit, dispatch or memo code. Terminal Bench stays deferred until functional
+modifications and qualification finish; there is no restart or reservation.
+All six owned roadmap tasks remain open. No publication occurs.
+
 ## Terminal Bench stopped and deferred — 2026-10-05 UTC
 
 The owner stops the full Core-19 evaluation at 21:42 UTC and defers it until

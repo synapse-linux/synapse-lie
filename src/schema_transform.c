@@ -404,3 +404,19 @@ lie_schema_status lie_schema_internal_clone(context *c,lie_schema_node n,lie_sch
 lie_schema_status lie_schema_internal_create(context *c,lie_schema_value n,lie_schema_node *v) { return create(c,n,v); }
 lie_schema_status lie_schema_internal_put(context *c,lie_schema_node n,lie_schema_bytes k,lie_schema_node v) { return put(c,n,k,v); }
 lie_schema_status lie_schema_internal_append(context *c,lie_schema_node n,lie_schema_node v) { return append(c,n,v); }
+
+lie_schema_status lie_schema_internal_builder_error(lie_builder_status rc, lie_schema_error *e) {
+  const char *message="invalid C17 grammar construction";
+  lie_schema_status status=LIE_SCHEMA_INVALID;
+  switch (rc) {
+  case LIE_BUILDER_OK: return LIE_SCHEMA_OK;
+  case LIE_BUILDER_RESOURCE: status=LIE_SCHEMA_RESOURCE; break;
+  case LIE_BUILDER_RULE_LIMIT: message="compiled grammar exceeds the rule limit"; break;
+  case LIE_BUILDER_CYCLE: message="reference cycle does not consume input"; break;
+  case LIE_BUILDER_EMPTY: status=LIE_SCHEMA_EMPTY; message="schema has no finite value"; break;
+  case LIE_BUILDER_WORK_LIMIT: status=LIE_SCHEMA_WORK_LIMIT; message="construction work limit exceeded"; break;
+  default: break;
+  }
+  if (e) *e=(lie_schema_error){message,{NULL,0},""};
+  return status;
+}

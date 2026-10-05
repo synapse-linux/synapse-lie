@@ -82,11 +82,12 @@ and destruction follows retirement. `inspect` reports live C allocation bytes,
 excluding borrowed JSON/rule storage and private provider allocations.
 
 `gufo_schema_memo.hpp` only translates opaque identities, rule IDs and status/
-exceptions. Three exact `schema-memo-edits.json` replacements join the current
+exceptions. Three exact `schema-memo-edits.json` replacements joined the
 48-file provider inventory and `schema_memo_edits_sha256` build binding under
 default-ON `LIE_C17_SAMPLING`; OFF keeps the original `std::map` body. The
-visitor and its empty-branch behavior retain their order; main Visit/VisitBody
-orchestration, binary-double leaf policy and private composition/model/controller
+visitor and its empty-branch behavior retain their order. Visit sequencing now
+uses the separate C17 module below; remaining VisitBody orchestration,
+binary-double leaf policy and private composition/model/controller
 storage remain transitional. Shared worker/event/RNG and DS4 persisted formats
 are unchanged.
 
@@ -96,8 +97,9 @@ sites, 32 complete recursive-reference cases / 1,706 transitions, seven Debug
 and seven sanitizer contracts, plus 32 pristine/ON/OFF tests. All sixteen prior
 complete witness hashes stay unchanged. All 47 public headers compile as both
 C17 and C++17. Matching new provider/application GPU builds and original-weight
-branch/fault/resource/cost gates remain pending. The ongoing Core-19 GPU run
-retains frozen source `2359488` and does not include this memo slice.
+branch/fault/resource/cost gates remain pending. The stopped Core-19 GPU run
+used frozen source `2359488` and did not include this memo slice. Terminal Bench
+is deferred until functional modifications and their qualification finish.
 
 ## Schema type and ordered branch dispatch
 
@@ -116,14 +118,14 @@ the shared builder. Successful callbacks write IDs in that same private builder;
 they do not retain views or throw. Earlier successful child/builder mutations
 may remain after refusal, so retire staging rather than reuse it. The adapter
 translates borrowed JSON views, selected route callbacks and exceptions.
-Visit/VisitBody definitions, references, anyOf and finite-choice orchestration,
+VisitBody definitions, references, anyOf and finite-choice orchestration,
 binary-double leaf policy and private composition remain transitional.
 
 Three exact `schema-dispatch-edits.json` replacements join the 51-file owned
 provider inventory and `schema_dispatch_edits_sha256` binding. The existing
 default-ON `LIE_C17_SAMPLING` retains the exact original OFF bodies. No worker,
-event, RNG, engine or DS4 RAM/SSD layout changes. The ongoing Core-19 GPU run
-retains frozen `2359488` and includes neither this dispatch nor the newer memo.
+event, RNG, engine or DS4 RAM/SSD layout changes. The stopped Core-19 GPU run
+used frozen `2359488` and included neither this dispatch nor the newer memo.
 Matching sealed GPU builds, original-weight branch/fault/resource/cost and
 broader autonomous sampler acceptance remain pending.
 
@@ -134,6 +136,41 @@ OFF. The corrected fixture nests its tested types in a valid object root and
 checks real compilation/acceptance counts; the weak initial root-only witness
 is preserved as inadequate evidence. All prior complete witness hashes stay
 unchanged; 48 public headers compile as C17 and C++17.
+
+## Recursive Visit sequencing
+
+`lie/schema_visit.h` defines ABI 1 for a caller-owned memo/builder pair and a
+synchronous body callback. The C17 sequence first checks opaque identity. A hit
+returns the existing rule without invoking the body or checking schema depth.
+A miss reserves a rule and publishes its placeholder before visiting children,
+preserving recursive references. A successful body supplies a builder symbol;
+an EMPTY body commits an empty rule and returns its ID. Shared finalization
+decides productivity and cycles. The visitor allocates through the existing
+memo and builder and introduces no separate allocation, thread or device call.
+
+Body callbacks retain schema-specific recursion, depth/work policy and borrowed
+diagnostics. Failure leaves the result unchanged but can leave private
+placeholders or children; retire the entire compilation pair after refusal.
+Calls are serialized; node identities stay immutable and alive throughout
+compilation, and destruction waits for callbacks to finish. Callback exceptions
+remain in `gufo_schema_visit.hpp`: ordinary exceptions are rethrown after the
+C return, while `JsonSchemaEmpty` becomes the intentional empty-body status.
+Failure committing that empty body still propagates from the builder.
+
+Two exact `schema-visit-edits.json` replacements and the build receipt's
+`schema_visit_edits_sha256` bind the default-ON path and exact original OFF
+body. The owned provider inventory now has 54 files; 49 public headers compile
+as C17 and C++17. Worker/event/RNG, model and DS4 RAM/SSD contracts are unchanged.
+Definitions, references, anyOf and finite-choice policy in VisitBody,
+binary-double leaves and private model/controller/composition remain C++.
+
+The [host receipt](validation/c17-schema-visit-host-2026-10-05.json) records
+independent publication, recursion, empty/cycle, identity-hit and refusal
+oracles. Its 112 three-arm cases include first visits at invalid depth and hits
+at depth17/SIZE_MAX: 61 compilations, 156 accepted values and 7,503 complete
+transitions agree. All eighteen prior witness hashes remain unchanged.
+Matching new provider/application GPU builds and original-weight branch,
+fault/resource/cost qualification remain pending. Terminal Bench stays deferred.
 
 ## Compiled-schema cache
 
@@ -170,8 +207,8 @@ passes selected original-weight AR37/MTP37 controls
 ([GPU receipt](validation/c17-finite-cache-point-gpu-2026-10-05.json)).
 Individual branches, faults, allocation-exact resources and matched cost remain
 pending. That frozen build excludes the newer reference memo. Schema
-Visit/VisitBody and private reasoning/tool composition caches remain
-transitional; the per-compilation reference memo now uses the C17 module above.
+VisitBody and private reasoning/tool composition caches remain
+transitional; the per-compilation memo and Visit sequencing use C17 above.
 Shared reactive execution and RNG are unchanged.
 
 ## Request history

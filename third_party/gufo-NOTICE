@@ -7,6 +7,14 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The recursive Visit sequencing in src/schema_visit.c follows official
+  JsonConstraintCompiler::Visit at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  Identity hit, new-rule reservation, placeholder publication, body/empty-rule
+  commitment and result publication use C17. Body-specific VisitBody policy,
+  borrowed JSON views and exception translation remain private.
+  schema-visit-edits.json records two exact default-ON/OFF replacements.
+  No DS4 or sibling source/artifact is imported.
 - The type/nullable/keyword compatibility and ordered route policy in
   src/schema_dispatch.c follows official JsonConstraintCompiler::VisitBody at
   independently fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e

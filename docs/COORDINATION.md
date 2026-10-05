@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Local C17 Visit qualification after eval retirement — 2026-10-05
+
+The [Visit host receipt](development/validation/c17-schema-visit-host-2026-10-05.json)
+records 9 Debug/9 sanitizer/34 pristine-ON-OFF checks, 54 owned provider files,
+49 public headers and CPU peak 94.125 C with GPU devices masked. It adds no
+thread, model call or runtime deployment. Its new source still needs a matching
+sealed provider/application build and original-weight gates in a fresh `.161`
+window. The earlier GPU source `2359488` does not include it.
+
+Terminal Bench remains stopped and deferred by the owner; root starts no
+client, server, migration, GPU build/run, waiter or standing reservation on
+`.157` or `.161` for this host slice. Q2 receives the verified `.157` CPU
+handover and separately reports its next collected GPU release at 21:55 UTC.
+That separate assignment is not root ownership or numerical qualification.
+
 ## Operator stop; Terminal Bench deferred — 2026-10-05
 
 The owner's immediate-stop request is applied to the exact CPU/GPU supervisors

@@ -187,7 +187,10 @@ client/server restart or machine reservation is queued in the meantime.
    qualification remains pending. Type/nullable/keyword compatibility, branch
    selection and ordered rule composition now also use C17, with
    [host witnesses](development/validation/c17-schema-dispatch-host-2026-10-05.json).
-   Remaining Visit/VisitBody reference/anyOf/finite-choice orchestration and
+   Identity-first Visit sequencing, recursive placeholder publication and
+   successful/empty body commitment now also use C17, with
+   [host witnesses](development/validation/c17-schema-visit-host-2026-10-05.json).
+   Remaining VisitBody reference/anyOf/finite-choice orchestration and
    private composition caches need extraction within the same task. Newer finite-value/cache slices have a matching
    provider/application rebuild and pass their own AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).
