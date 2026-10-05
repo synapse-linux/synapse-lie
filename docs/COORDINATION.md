@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## C17 sampler-history host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 06:24:10.934843 UTC observes the external
+training PID29223/start2470351 and router PID29377/start2474081 in actual/kernel
+KFD inventories. CPU is 91.625 C, available RAM 86,383,816,704 bytes. The original
+lease dev66307/inode105946405 is free; boot/filesystem/four shard stats are
+unchanged. The brief nonblocking probe reserves nothing and does not admit GPU work.
+
+Root extracts sampler-history bookkeeping into C17 and preserves the original
+inference owner. Seventeen Debug, seventeen sanitizer, fifteen reference-project
+checks and 33 public headers pass with GPUs masked. Local CPU peak is 90.875 C;
+[commands, witnesses and failures](development/validation/c17-history-host-2026-10-05.json)
+are retained. Original-weight continuation, resources and cost remain pending.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs; root GPU work remains assigned to `.161`.
+
+Root's fresh `.157` handovers confirm no job/build/eval client/lease/waiter/
+reservation/restart or interleaving. Q2 separately reports the attempted Q4 gate
+failed before Upload/Forward and was released at 06:09:10.187334 UTC, release
+f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424.
+It reports a separately admitted Q2 fused-grid window at source00b38d0 after
+that release. These are agent reports, not root qualification or a root task;
+its ownership/admission/release are separate from the six tasks here.
+
 ## HTTP plan/choice host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 05:43:05.088403 UTC observes external

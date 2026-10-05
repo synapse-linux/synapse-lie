@@ -14,6 +14,14 @@ ownership independently of request ABI 8 and generation ABI 3.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+`lie/sampling_history.h` adds separate model-neutral history ABI 1: tagged options,
+caller-owned token/penalty storage and growth callbacks. Reset counts prompt tokens
+only for repetition; accept counts all committed generated tokens independently
+of the repetition window. Refusal preserves logical state; capacities/scratch may
+change. Independent copy leaves RNG and grammar to their owners. The transitional
+provider keeps its ON/OFF vector layout, with storage/exception glue only. No
+executor, request, generation or persisted-state layout changes.
+
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,
 confirmed retained-target history and locked metadata snapshots. Its scope hashes

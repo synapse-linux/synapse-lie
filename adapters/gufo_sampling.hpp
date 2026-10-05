@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Transitional glue only: grammar/history/container ownership still upstream.
+// Transitional dense glue; C17 history has separate storage-only glue.
 #ifndef LIE_GUFO_SAMPLING_HPP
 #define LIE_GUFO_SAMPLING_HPP
 #include "lie/sampling.h"

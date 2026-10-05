@@ -101,7 +101,7 @@ cmake --build build/core -j2
 | `LIE_SYSTEM_LIBUV` | `OFF` | Select system libuv instead of the bundled static library. |
 | `LIE_GUFO_RUNTIME` | `OFF` | Link the explicitly selected HIP provider. |
 | `LIE_GUFO_STATE_ACCESS` | `OFF` | Enable the verified provider state-access variant. |
-| `LIE_C17_SAMPLING` | `ON` | Use owned C dense selection; OFF selects the provider control. Provider and application builds must agree. |
+| `LIE_C17_SAMPLING` | `ON` | Use owned C dense selection and request history; OFF selects the provider control. Provider and application builds must agree. |
 | `LIE_VISION_WEIGHT_DECODE` | `ON` | Decode F16/Q8_0 projector weights once for the BF16 GPU encoder. OFF accepts BF16 dense weights only; provider and application builds must agree. |
 | `LIE_DIRECTIONAL_STEERING` | `ON` | Build experimental activation operators; requires the verified state-access provider variant and matching archive selection. Public controls/GPU qualification remain pending. |
 | `LIE_CORE_ONLY` | `OFF` | Build the engine without HTTP or provider integration. |

@@ -42,7 +42,7 @@ foreach(arm IN ITEMS reference candidate fallback)
   if(arm STREQUAL "reference")
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
-    list(APPEND sources "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c")
+    list(APPEND sources "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -74,6 +74,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   endforeach()
   add_executable(${arm}-probe "${REPO}/tests/sampling/probe.cpp")
   target_link_libraries(${arm}-probe PRIVATE ${arm})
+  add_executable(${arm}-history "${REPO}/tests/sampling/history.cpp")
+  target_link_libraries(${arm}-history PRIVATE ${arm})
   add_executable(${arm}-vocabulary "${REPO}/tests/sampling/vocabulary.cpp")
   target_link_libraries(${arm}-vocabulary PRIVATE ${arm})
   if(LIE_SAMPLING_PERFORMANCE)
@@ -115,3 +117,10 @@ add_test(NAME full-vocabulary-sampling-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/vocabulary-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(full-vocabulary-sampling-parity PROPERTIES TIMEOUT 120)
+add_test(NAME sampling-history-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-history>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-history>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-history>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/history-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(sampling-history-reference-parity PROPERTIES TIMEOUT 120)

@@ -49,5 +49,10 @@ The native canonical benchmark workload/protocol port in tools/native/gufo_workl
 and tools/native/http_curve.c uses the same independently fetched pin and license.
 gufo-bench-source.json records its source hash, scope and offline test goldens.
 adapters/gufo-state/dense-sampling-edits.json identifies the conditional provider
-integration. C17 owns dense selection and random draws; grammar, history and
-compact speculative distributions remain transitional Gufo responsibilities.
+integration. C17 owns dense selection and random draws.
+The request-history implementation in src/sampling_history.c follows the same
+independently pinned Gufo semantics for prompt repetition and committed-token
+counts, with this notice and license retained. The exact conditional integration
+is recorded in adapters/gufo-state/history-sampling-edits.json. C17 owns this
+bookkeeping; vector storage/deep copies, grammar, deferred draws and compact
+speculative distributions remain transitional Gufo responsibilities.

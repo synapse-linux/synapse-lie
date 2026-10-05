@@ -56,6 +56,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 sampler history for prompt-tail repetition and full committed-token
+  frequency/presence counts, with independent copying and transactional refusals.
+  The default-ON sampler option selects it in the provider; OFF retains Gufo
+  bookkeeping. Host/reference checks pass; GPU correctness and cost remain open.
+
 - Experimental initial directional-steering controls shared by server and native
   core bench: `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn`.
   Admission and bank resources stay in the C17 core; reports refuse matched

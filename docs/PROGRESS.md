@@ -8,6 +8,29 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## C17 sampler history; host checks only — 2026-10-05 UTC
+
+Prompt-tail repetition and committed generated-token counts now use the owned
+C17 history contract, selected with the existing default-ON sampler option.
+Construction/reset/acceptance/free-distribution bookkeeping is wired through
+storage-only provider glue; OFF retains Gufo. Inputs are borrowed, growth is
+caller-controlled and refusals preserve published state. The owner/reactive
+path and DS4 prefix framing remain unchanged.
+
+Seventeen Debug and seventeen ASan/UBSan/LeakSanitizer checks pass, plus fifteen
+pristine/ON/OFF sanitizer checks and 33 public C++ headers. The independent
+FIFO/count oracle covers 14,400 transitions; complete history witnesses cover
+1,728 transitions and 48 profiles. The failed sandbox run and unsupported root
+schema fixture remain in the [host receipt](development/validation/c17-history-host-2026-10-05.json).
+Local CPU peak is 90.875 C; no thermal guard trips or tuning occurs. The older
+closed-stderr abort remains unexplained.
+
+History GPU continuation and cost are still unqualified. Grammar/masking and
+compact speculative distributions remain delegated. The fresh `.161` witness
+at 06:24:10.934843 UTC observes the external training PID29223 and router PID29377
+in descriptor/kernel KFD. No remote build/run/hash, service change, waiter or
+reservation starts. All six owned roadmap tasks remain open.
+
 ## HTTP steering plans and independent choices — 2026-10-05 UTC
 
 Both HTTP APIs now accept `dir_steering_plan`, copied into the shared C17 core

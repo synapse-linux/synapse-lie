@@ -35,6 +35,12 @@ complete raw index retention and eager pooled keys. Source/build hashes identify
 this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
+Request-local [C17 sampler history](../development/C17-SAMPLING.md#request-history)
+tracks prompt repetition and committed generated counts. It is rebuilt for each
+request and is not serialized into DS4 model-prefix payloads. Model RAM/SSD cache
+identity, predictor state and tensor framing remain unchanged. Copies retain
+independent history; RNG/deferred draws and grammar keep their existing owners.
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw

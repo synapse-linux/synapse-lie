@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# C17 dense sampling extraction
+# C17 sampling and request history
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -38,9 +38,10 @@ and retains no input pointer. Failed builds publish a zero result count;
 invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
-Gufo still owns history/generated-count maintenance, cloning/deferred draws,
-entropy acquisition, grammar compilation/masking and compact speculative
-distributions/residual construction. Their random draws and dense target
+The separate `adapters/gufo_history.hpp` supplies vector storage and exception
+translation for C17 history bookkeeping. Gufo still supplies vector deep-copy
+storage, deferred draws, entropy acquisition, grammar compilation/masking and
+compact speculative distributions/residual construction. Their random draws and dense target
 distributions use C. Reporting logits still use the provider transform before
 the existing C probability normalizer. These remaining dependencies must be
 extracted in later slices; the sampler as a whole is not yet autonomous C.
@@ -51,10 +52,45 @@ verification are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Request history
+
+`include/lie/sampling_history.h` and `src/sampling_history.c` own the bounded
+prompt tail, sorted unique penalties, boolean repetition flags and committed
+generated-token counts. Prompt tokens never increase frequency/presence counts;
+accepted generated tokens count even after leaving the repetition window.
+Reset clears those counts, and independent copying changes neither RNG nor grammar.
+
+The caller owns storage and enforces growth budgets. Options remain fixed until
+reset; borrowed inputs must be disjoint from workspace allocations. Refusals,
+including overflow and growth failure, preserve published entries/counts, while
+capacity and unpublished scratch may grow. Single-token acceptance stages no
+scratch. Bulk generation stages at most the input count; repetition-only input
+stages just the retained tail. No memory allocation, device call, retained input
+pointer or inference thread belongs to the C module.
+
+The provider's `SamplerState` keeps the same vector layout in ON/OFF builds.
+The exact `history-sampling-edits.json` recipe routes construction, reset,
+acceptance and free-distribution history through C; its glue only grows live
+vector entries, shrinks unpublished scratch and translates errors. Grammar is
+staged before acceptance and published after C success. Free distributions do
+not acquire entropy merely to construct penalty counts. Numerical forward,
+grammar algorithms, compact distributions and speculative correction ownership
+remain transitional.
+
+Host qualification passes 14,400 independent FIFO/count transitions, refusal,
+copy and overflow fixtures, 1,728 complete history transitions across 48 profiles,
+and the existing complete numerical/MTP/grammar witnesses against pristine Gufo
+and OFF. Seventeen Debug and seventeen sanitizer shared-contract checks, fifteen
+sanitizer reference-project checks and 33 public C++ headers pass. The unsupported
+root-schema fixture and the sandbox LeakSanitizer failures are retained in the
+[receipt](validation/c17-history-host-2026-10-05.json). Original-weight GPU
+continuation, allocation-exact resources and matched cost remain unqualified;
+earlier dense-selector GPU receipts do not cover this source increment.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
-An explicit OFF build retains the legacy provider selection. Use the same
+An explicit OFF build retains legacy provider selection and history bookkeeping. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:
@@ -218,8 +254,9 @@ layer control. GPU-kernel replacement has its separate C++ removal gate.
 
 The C numerical algorithm is an attributed port of official Gufo
 `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`, acquired independently in this
-worktree. `dense-sampling-edits.json` records exact conditional integration
-replacements; the build receipt binds that manifest, the C source/header, glue,
+worktree. `dense-sampling-edits.json` and `history-sampling-edits.json` record exact
+conditional integration replacements; the build receipt binds both manifests,
+all six C source/header and adapter glue files,
 provider source inventory, compile selection and archive hashes. No DS4 project
 code, sibling checkout artifact, model conversion or weight payload is imported.
 Retain [Gufo's MIT notice](../../third_party/gufo-NOTICE) and

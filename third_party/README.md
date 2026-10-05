@@ -3,6 +3,11 @@
 First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
 owned dense sampler is an attributed C17 port of independently fetched official
 Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
+The request-history C17 component implements the same pinned Gufo semantics
+against independently fetched source. `history-sampling-edits.json` records exact
+integration; `gufo_history.hpp` only adapts vector storage and exceptions. Provider
+receipts bind all six owned sampler source/header/glue files and both numerical
+and history recipes. Gufo notices remain applicable; no DS4 cache code is copied.
 The native Gufo conversation benchmark port has its own
 [pinned source and fixture provenance](gufo-bench-source.json).
 No sibling DS4/CachyOS project sources, recipes,

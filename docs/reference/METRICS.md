@@ -4,6 +4,11 @@
 not a timer, counter or proof of GPU execution. Values distinguish the owned
 C17 dense selector, Gufo control, unavailable backend and synthetic fixture.
 It changes no inference-worker count or existing timing/count semantics.
+The new sampler-history extraction adds no counter/timer or worker. Its selected
+source/header/glue and exact integration recipe are bound in the provider build
+receipt; this does not extend older dense-selector GPU qualification to history.
+Caller storage includes transient bulk scratch; allocation-exact provider cost
+remains a separate gate.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source
