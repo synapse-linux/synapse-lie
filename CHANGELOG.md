@@ -63,8 +63,10 @@ stable release is declared. Detailed validation history is in
   quality/performance qualification remains pending.
 - Native `--dir-steering-plan` changes at exact retained physical positions,
   prefill/MTP boundary enforcement and strict applied-plan report identity.
-  Stored single-choice requests expose asynchronous HTTP `/steering` controls
-  with admission tickets and confirmed policy snapshots. Host qualification only.
+  HTTP requests accept `dir_steering_plan`; stored requests expose asynchronous
+  `/steering` controls with admission tickets, confirmed policy and plan results.
+  `/steering/{choice}` controls independent choices and retains charged snapshots.
+  Host qualification only.
 - Asynchronous per-job steering changes in the shared C17 core, with bounded
   admission, completion tickets and mixed-history RAM/SSD scopes. The provider
   source invalidates graphs and MTP controller/proposal scratch while preserving

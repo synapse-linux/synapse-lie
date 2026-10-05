@@ -45,7 +45,7 @@ Additive job steering ABI 1 admits one copied asynchronous change and exposes
 ticket completion and owner-confirmed policy snapshots. The owner-only direct
 live operation preserves the retained frontier and sampled correction while
 invalidating private graphs/controller state. Existing request/generation/state
-and core option/info layouts remain unchanged. Stored single-choice HTTP controls
+and core option/info layouts remain unchanged. Stored-request HTTP controls
 project this asynchronous API. Original-weight GPU qualification remains open.
 Additive schedule ABI 1 admits 1–64 copied, strictly increasing physical
 position/scale steps through `lie_core_submit_steering`, without changing request
@@ -55,6 +55,11 @@ Scheduled jobs refuse unscheduled changes; NULL schedule preserves normal submit
 Only planned jobs allocate the bounded schedule record, included in retention
 accounting. The original device owner splits prefill and caps each row's AR/MTP
 advance; no callback, thread or client polling chooses an application boundary.
+`lie_core_submit_choices_steering` copies the same optional plan into independent
+child jobs, preserving seed offsets and rollback. HTTP `dir_steering_plan` is
+normalized before admission; JSON does not enter core contracts. Per-choice
+controls and retained snapshots use the same job APIs, with extra retained bytes
+charged only when a bank is present. Existing public layouts are unchanged.
 See [direct binding](../development/STEERING.md#direct-modelsession-binding).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row

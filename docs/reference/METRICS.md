@@ -170,7 +170,12 @@ that a numerical steering edit occurred. `lie_job_steering_snapshot` projects th
 latest owner-confirmed policy, submitted/completed tickets, pending status,
 application status and retained application position. The semantic image scope
 is separate from the combined scope. The retained-request HTTP `/steering`
-extension projects these snapshots without waiting for inference. Native core
+extension projects these snapshots without waiting for inference. Its optional
+`/{choice}` suffix identifies one independent child. `schedule` reports a
+creation-time plan's declared scales, attempted/applied status, actual positions
+and terminal completion; an unreached step has a cancellation status and null
+actual position. Extra stored-choice retention is charged to the record budget
+only with an admitted bank. Native core
 identity carries the complete binary32 scale schedule; every planned job reports
 attempted/applied steps, actual positions, final scales and confirmed history/scope.
 Optional progress includes the same schedule snapshot. Reports refuse unfulfilled
@@ -193,7 +198,7 @@ it does not restore source revision, capacity, allocation or executed-token
 counters. A restore uses the destination's capacity and advances its own local
 revision once. Typed policy/scope tails use ordinary retained RAM/SSD accounting;
 the source binding adds no tensor scratch copy or runtime thread. Shared-worker
-HTTP/bench live-policy projection and GPU continuation remain pending. Host state
+HTTP/bench live-policy projection is wired; GPU continuation remains pending. Host state
 roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new

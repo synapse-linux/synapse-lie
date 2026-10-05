@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## HTTP plan/choice host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 05:43:05.088403 UTC observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 80.375 C, available RAM 87,005,990,912 bytes. Original lease
+dev66307/inode105946405 is free; boot, filesystem and original model stats remain
+unchanged. The brief nonblocking probe is neither a reservation nor admission.
+
+Root completes local HTTP creation-time steering plans and individual stored
+choice controls through the same C17 inference owner. Final 24 Debug, 24
+sanitizer, three build-off tests and 32 public headers pass with GPUs masked;
+local CPU peak is 71.875 C. Failures and limits are retained in the
+[receipt](development/validation/steering-http-plan-host-2026-10-05.json).
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. Root GPU work remains assigned to `.161`.
+
+After root's fresh `.157` non-use handover, Q2 separately reports admission of
+source e1decdb and closure of its composition window at 05:39:08.060027 UTC,
+release 4d34e1e62f487e2069e5503fe343bcab5c80030166a5b50f6fc644275f95fb2a.
+Root has no `.157` job/build/eval client/lease/waiter/reservation/restart or
+interleaving. Q2's reported artifacts are not root qualification; every further
+window requires fresh ownership/admission.
+
 ## Scheduled steering host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 05:01:54.702189 UTC observes external

@@ -2,6 +2,7 @@
 /* Shared-owner admission and real RAM/SSD protocol with synthetic frontiers.
  * No model weights, numerical steering, GPU allocation or performance proof. */
 #include "lie/core.h"
+#include "lie/choices.h"
 #include "../src/prefix_cache.h"
 #include "fake_executor.h"
 #include "vision_fixture.h"
@@ -308,6 +309,27 @@ static void scheduled_bounds(const char *bank){
   c=lie_core_create(&o);assert(c);wait_state(c,LIE_READY);j=NULL;
   assert(lie_core_submit_steering(c,&r,&plan,&j)==3&&!j);stop(c);
 }
+static void scheduled_choices(const char *bank){
+  lie_core_options o=options(NULL,LIE_MTP!=0);o.prefix_cache_bytes=0;
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=4;
+  r.generation.seed=INT64_MAX;
+  lie_steering_step steps[2]={{.position=3},{.position=9}};
+  for(unsigned i=0;i<2;++i){lie_steering_settings_init(&steps[i].settings,true);steps[i].settings.ffn=i?-2:2;}
+  lie_steering_schedule plan={LIE_STEERING_SCHEDULE_ABI,sizeof(plan),2,steps};lie_choices *choices=NULL;
+  assert(lie_core_submit_choices_steering(c,&r,2,&plan,&choices)==3&&!choices);
+  r.generation.seed=100;
+  lie_steering_schedule invalid=plan;invalid.count=0;
+  assert(lie_core_submit_choices_steering(c,&r,2,&invalid,&choices)==3&&!choices);
+  fake_barrier_arm_phase(FAKE_PREFILL);assert(!lie_core_submit_choices_steering(c,&r,2,&plan,&choices));fake_barrier_wait();
+  memset(steps,0,sizeof(steps));fake_barrier_release();assert(lie_choices_count(choices)==2);
+  for(unsigned i=0;i<2;++i){lie_job *j=lie_choices_job(choices,i);assert(drain_job(j,true).output_tokens==4);
+    lie_steering_schedule_info info=plan_snapshot(j);assert(info.count==2&&info.applied==2&&info.terminal);
+    assert(info.steps[0].settings.ffn==2&&info.results[0].actual_position==3&&info.steps[1].settings.ffn==-2&&info.results[1].actual_position==9);
+  }
+  lie_choices_release(choices);stop(c);
+}
 int main(int argc,char **argv){
   if(argc==6){
     bool bank=strcmp(argv[1],"none")!=0,mtp=!strcmp(argv[5],"mtp")||!strcmp(argv[5],"mtp-vision"),
@@ -367,7 +389,7 @@ int main(int argc,char **argv){
   scheduled_case(a,NULL,LIE_MTP!=0,false,0,true);
   scheduled_case(a,NULL,false,false,1,false);
   scheduled_case(a,NULL,LIE_MTP!=0,false,2,false);
-  scheduled_peers(a);scheduled_bounds(a);
+  scheduled_peers(a);scheduled_bounds(a);scheduled_choices(a);
   assert(fake_calls_snapshot().create==fake_calls_snapshot().close);
   lie_steering_model_options_init(&so);so.file=a;so.vector_budget_bytes=15;
   c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_FAILED);stop(c);

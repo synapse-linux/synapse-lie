@@ -9,8 +9,8 @@ with an owned [C17 dense sampler](docs/development/C17-SAMPLING.md).
 Sampler correctness checks pass; performance qualification remains open.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
-changes and live updates to stored single-choice HTTP requests. Numerical GPU
-qualification remains pending.
+changes, HTTP creation-time plans and live updates to individual stored choices.
+Numerical GPU qualification remains pending.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports

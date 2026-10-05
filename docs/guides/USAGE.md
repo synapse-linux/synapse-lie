@@ -74,16 +74,41 @@ curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering \
 curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering
 ```
 
-For Chat Completions, use `/v1/chat/completions/CHAT_ID/steering` and `n:1`.
+For Chat Completions, use `/v1/chat/completions/CHAT_ID/steering`. With `n > 1`,
+append the zero-based choice index, for example `/steering/1`; both GET and POST
+then target that choice only. Omitting the index on a multi-choice request
+returns **409**. Each choice has independent tickets, history and cache scope.
 POST returns **202** with an admission `ticket`; GET reports `pending`,
 `completed`, `last_result` and the last confirmed `policy`. Wait for
 `completed == ticket` and status `0` before treating the change as applied.
 `applied_position` is the retained physical boundary actually used. An already
 selected call can finish first; this API does not promise the next output-token
-index. A pending change, finished job or multi-choice request returns **409**;
-an absent bank returns **501**. Both scales are required. Past state and sampled
+index. A pending change or finished job returns **409**; an absent bank returns
+**501** on POST. Both scales are required. Past state and sampled
 corrections remain intact. Use a sufficiently long running request to exercise
 the control before retirement.
+
+To declare exact boundaries at creation, both APIs accept the LIE extension
+`dir_steering_plan` with the same array as the native benchmark:
+
+```json
+{
+  "dir_steering_plan": [
+    {"position":0,"ffn":1,"attention":0},
+    {"position":1024,"ffn":-1,"attention":0.25}
+  ]
+}
+```
+
+Positions count retained physical prompt/generated tokens. Supply 1–64 strictly
+increasing integer positions and both finite scales in [-100,100]. The server
+must have a direction bank. Each choice copies the plan and applies it through
+the shared inference owner. The last position must precede the prepared prompt
+length plus resolved output budget. GET `/steering` (or `/steering/{choice}`) returns the
+declared plan, attempted/applied steps, actual positions and terminal status.
+Early EOS can leave unapplied steps; inspect these results before treating the
+plan as complete. A planned job refuses additional live changes. Plans also work
+with `store:false`, but those requests have no retained control endpoint.
 
 The native core bench also accepts `--dir-steering-plan FILE.json` for changes
 at exact declared physical positions; see

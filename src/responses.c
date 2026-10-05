@@ -164,7 +164,8 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
                                  "service_tier",
                                  "top_logprobs",
                                  "include",
-                                 "truncation"};
+                                 "truncation",
+                                 "dir_steering_plan"};
   json_object *chat = json_object_new_object(),
               *messages = json_object_new_array();
   json_object_object_add(chat, "messages", messages);
@@ -185,12 +186,13 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
   const char *keys[] = {"model",       "temperature", "top_p", "top_k", "min_p",
                         "stream",      "store",       "parallel_tool_calls",
                         "metadata",    "user",        "safety_identifier",
-                        "service_tier"};
+                        "service_tier", "dir_steering_plan"};
   for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
     /* Candidate filters have the same strict types as the chat contract;
      * preserve explicit null so that normalization cannot silently disable them. */
     if (json_object_object_get_ex(root, keys[i], &v) &&
-        (v || !strcmp(keys[i], "top_k") || !strcmp(keys[i], "min_p")))
+        (v || !strcmp(keys[i], "top_k") || !strcmp(keys[i], "min_p") ||
+         !strcmp(keys[i], "dir_steering_plan")))
       json_object_object_add(chat, keys[i], json_object_get(v));
   if ((v = get(root, "instructions"))) {
     if (!json_object_is_type(v, json_type_string))

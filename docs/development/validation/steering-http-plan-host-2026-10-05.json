@@ -1,0 +1,296 @@
+{
+  "schema": "synapse-lie.steering-http-plan-host-qualification.v1",
+  "at_utc": "2026-10-05T05:44:23.419652+00:00",
+  "baseline_checkpoint": "f0b62ba9aa107a8e6be81ee04cf429be6417dbee",
+  "scope": "Executed C17 choices admission, HTTP parser/control/projection and lifetime contracts with synthetic model frontiers. NOT-INFERENCE; no original-weight GPU numerical, quality or performance qualification.",
+  "implementation": [
+    "Additive lie_core_submit_choices_steering copies one optional immutable schedule into each child through the existing owner; old entry point, public layouts, seed offsets and rollback are preserved.",
+    "Both HTTP creation routes accept dir_steering_plan with 1..64 ascending physical position/FFN/attention steps. Duplicate keys and malformed types/geometry are refused before client admission; protocol JSON does not enter the core.",
+    "GET/POST /steering/{choice} selects one canonical zero-based stored child. Admission remains asynchronous, with independent tickets, confirmed policy/history and image/combined cache scopes.",
+    "GET preserves declared schedule, completed/applied counts, attempted status, actual attempted positions and terminal unattempted outcomes after foreground retirement.",
+    "Extra stored-choice references are charged before attachment only when a direction bank is present, then released on record disposal. No inference thread, Python product/default-test dependency, numerical-provider edit or DS4 tensor/framing change."
+  ],
+  "coverage": [
+    "Shared-core AR/MTP planned choices copy caller memory, refuse overflowing seed offsets and malformed plans, and reach declared prompt/decode frontiers independently.",
+    "Both HTTP APIs exercise creation-time plans, exact positions, final scales/history, malformed/duplicate arrays and early-EOS unreached cancellation; Chat also exercises copied plans for two choices.",
+    "Owned streaming Chat and Responses requests admit live changes; multi-choice Chat verifies selected-child confirmation and an unchanged peer with a different combined scope.",
+    "Malformed/overflow/ambiguous choice indices refuse; finished jobs reject changes; DELETE retires stored control routes and releases retained children.",
+    "Existing no-bank multi-choice retirement, OpenAI AR/MTP state, semantic HTTP, native multi-client/report/cache and host admission fixtures pass. Test children use a PATH without Python and private ephemeral loopback ports; GPUs masked.",
+    "Final 24 Debug and 24 ASan/UBSan/LeakSanitizer CTest checks, 3 build-off checks and 32 C++ public headers pass. No assertion or sanitizer option is disabled."
+  ],
+  "sources": [
+    {
+      "path": "include/lie/choices.h",
+      "sha256": "f7ee9270485bdf70aa790367cb4b0b6b37e0dfab21ace036424dd27bd5327e06"
+    },
+    {
+      "path": "src/choices.c",
+      "sha256": "dbe25d93adcb76692f41ff8d38d4eaa9e93b37dad87dc3f66e1fd70eda6b2de2"
+    },
+    {
+      "path": "src/chat.c",
+      "sha256": "d04f99fdc9bfaab103245c33acc10d6473db08393304a4522befefd459583824"
+    },
+    {
+      "path": "src/responses.c",
+      "sha256": "277382bd5b7e43d3e93d5d8f154a76ead7d5ce57ce391a1bbf28621b3269b98f"
+    },
+    {
+      "path": "src/server.c",
+      "sha256": "b96c3e9b0650f9b3b3b655f1fa929925b81f9693629ba67aee3f7b3301b90efe"
+    },
+    {
+      "path": "tests/test_steering_core.c",
+      "sha256": "daa037ba42d8b5ed1a239619b068b70cb61b5c3f8dd03a2b60ddd581e381fbb2"
+    },
+    {
+      "path": "tests/test_native_bench.c",
+      "sha256": "e3df96ebac8965a1cc53af6fe1918640f838db6822eac51c1e78e25f21e4f5ca"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "9a77d47b7976e49d29a5c7f59857d360dadf0889ffcfcaf8b5b7fb2579576b83"
+    },
+    {
+      "path": "src/worker.c",
+      "sha256": "07bcc8e8cb3bcc190aca92b8b5466bd168ac0fe06f8bc1741569f37c6199a0d8"
+    },
+    {
+      "path": "src/output_json.c",
+      "sha256": "ecab6537052e7a5eafd89d57b0209491ac96c44e5872b59f9a2011fc8b783f11"
+    },
+    {
+      "path": "src/chat_tools.c",
+      "sha256": "fff44f99eecf2d1e4fde23205ed33fa479f2e8ef7d1ad1df401d8344bc2bac3d"
+    },
+    {
+      "path": "tests/fake_executor.c",
+      "sha256": "740f5b1acb594b413936494337f6232606fb86fa6954f2e83344b5ddf0c227e4"
+    },
+    {
+      "path": "adapters/gufo.cpp",
+      "sha256": "f18846eb97b4590cd488053926f483bc4f6b12cfa904706f88043a9ae7f3d441"
+    },
+    {
+      "path": "adapters/gufo-state/steering-edits.json",
+      "sha256": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/steering-http-plan-debug-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 67.75,
+      "result_sha256": "e9145810bbaad6372e6aaad9809ee61cd3c17f768a297f43b4136e05dcf11406",
+      "log_sha256": "9a3b3ee14039a445a5175a829c795a73f5cf1ae06d69b2b493f43a79b8dc38b6",
+      "temperature_log_sha256": "6940a0c3f6f597e99e5a58c14d1b72f3974c68f57f570991923d3d5e2dc092c2"
+    },
+    {
+      "directory": "evidence/steering-http-plan-asan-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 67.75,
+      "result_sha256": "9587740f422d466fbc3f393846b9d5e2af0b55dc81d479b3e6b7e83a70bc493c",
+      "log_sha256": "d6e41239d09b2a0d7f6d095a4591dc138e7d7e632f292c31abd9ca9ed4e627c4",
+      "temperature_log_sha256": "3175ef16107683b1b153f116e0e98db62eadca17f74d62c894622b0f187a7b7a"
+    },
+    {
+      "directory": "evidence/steering-http-plan-off-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/steering-core-off",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 67.875,
+      "result_sha256": "95b14c74b3917b2dc5c5bba0d04ec65ca4b915bee1ad66ac2ced43a35221206b",
+      "log_sha256": "a7260f24e598ea0de0a06f8ed4445f53750a72d500149993fb5ebc365bd9459d",
+      "temperature_log_sha256": "d5f09c4bd22ea7ff18765400e6a286489eb632b81a9b606760603b305e07ccdc"
+    },
+    {
+      "directory": "evidence/steering-http-plan-debug-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract|chat-parser-wire|native-http-multi-contract|core-headless-lifecycle)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 58.625,
+      "result_sha256": "a6ad9c40a8391cbb947ba9b31ddb6de0b6ec6f1c9336eeb1279134c3b9797853",
+      "log_sha256": "433ac6743558cce7bced1d01e92b5f884f3b30093b0ea895f905115ab4ebd2d4",
+      "temperature_log_sha256": "d0a2ea22b558803f6510e335b228877157d320a5e0c0022626d6cf0b3a6caf2d"
+    },
+    {
+      "directory": "evidence/steering-http-plan-asan-test-r3",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract|chat-parser-wire|native-http-multi-contract|core-headless-lifecycle)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 57.75,
+      "result_sha256": "2e90c1f01bfa83a7b3bd93689a122d336cf0525b70ced135a9250e13f03f4a00",
+      "log_sha256": "a439936340258121e4581a41d20d7081ba00b749e3fa2e9d7c7277af512cb845",
+      "temperature_log_sha256": "adc3f0b7583fe1b11bdc462473e6d25cd40ffc384a5732647a3a8d09ac7145ef"
+    },
+    {
+      "directory": "evidence/steering-http-plan-off-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/steering-core-off",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-core-.*|context-million-admission-lifecycle)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 58.25,
+      "result_sha256": "dc3232b6d48a4a33485db046e72fa7089a81c1903913a39ccec4ebeed902665d",
+      "log_sha256": "759a9f6d8ec7a638a5c52be8c88c64425a618a7d0103c53122354e401bf38962",
+      "temperature_log_sha256": "9c97e4c5c48a8b0176c0bba225cae7fb044974cb4fb0d43079ace99a4c07cb21"
+    },
+    {
+      "directory": "evidence/steering-http-plan-public-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "evidence/steering-binding-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "cpu_max_c": 67.875,
+      "result_sha256": "2b0c1a6f2bac9a74c833ed3d5ef8ce88ca871bf07ab5f02308f6a6efdb34437b",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "0d8bb2e436e1c77bc27c617d2002cf8afd044e5fd4486df59524708d589dd7be"
+    }
+  ],
+  "retained_failed_checks": [
+    {
+      "directory": "evidence/steering-http-plan-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract|chat-parser-wire|native-http-multi-contract|core-headless-lifecycle)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "cpu_max_c": 61.75,
+      "result_sha256": "21bc2031cb8ea55fb248feb3320dd362f7e0e81c41fe54b20cb33801d29dc389",
+      "log_sha256": "c22ffe05d048a60a156b7f849866d87221768acf9f762b436f0642c7c983d6b1",
+      "temperature_log_sha256": "fc607f73f18603a9807e90deb4129b6fc9c86ba0e4be43c10d6706fccfaa75df"
+    },
+    {
+      "directory": "evidence/steering-http-plan-asan-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract|core-semantic-events|openai-generation-state.*|semantic-http-contract|semantic-mtp-http-contract|chat-parser-wire|native-http-multi-contract|core-headless-lifecycle)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "cpu_max_c": 63.375,
+      "result_sha256": "2b771333a75ff6542848553756ed355551e859c8a607018b248a16f8f76554c6",
+      "log_sha256": "bec95b2c3ddf34e6357e89ac60653cb95d971f21a7f0f4c41bfa50d41c891346",
+      "temperature_log_sha256": "d62b292685b4bc789af471fdb81e90196bd06abc797c288bf9bbd0a9c30dc0cd"
+    }
+  ],
+  "failure_resolution": [
+    "Initial Debug and sanitizer suites each failed the two existing OpenAI AR/MTP tests. UBSan identifies member access through a null lie_job at release: no-bank extra choices have no retained steering reference. Guarding release of optional references fixes the regression; unchanged checks pass.",
+    "Intermediate successful builds/full suites remain local. Final current-source suites include the later explicit actual-attempted-position projection.",
+    "The older live-steering closed-stderr child abort remains unexplained in steering-live-host-2026-10-05.json; this turn makes no claim to have established or fixed its cause."
+  ],
+  "local_cpu_max_c": 71.875,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only",
+    "tuning": false
+  },
+  "latest_readonly_gpu_witness": {
+    "path": "evidence/context-steering-availability-r16.json",
+    "sha256": "829e34f6d28a7d41101e05344a2ba9bd97a685673cb5dd71edf000e2de63aca5",
+    "at_utc": "2026-10-05T05:43:05.088403+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "external_pid": 29223,
+    "router_pid": 29377,
+    "cpu_c": 80.375,
+    "available_ram_bytes": 87005990912,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "limits": [
+    "Original-weight absent/zero/active steering, graph rebuild, retained correction distribution, AR/MTP/image continuation, quality, faults and cost remain unqualified on .161.",
+    "Live controls require a retained request and an explicit child for n>1. Creation-time plans are immutable; asynchronous extra changes are refused. Unstored requests have no retained control endpoint.",
+    "Scheduled lookup does not seek later mixed-history cached states by replaying a declared plan; initial reuse remains limited to the first unapplied boundary.",
+    "No remote GPU build/run, heavyweight model hash, conversion, service mutation, foreign signal, waiter, standing lease, dependency installation or publication."
+  ],
+  "owned_open_task_count": 6,
+  "all_goal_requirements_verified": false
+}

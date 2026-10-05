@@ -60,7 +60,7 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
         strcmp(name, "logprobs") && strcmp(name, "top_logprobs") &&
         strcmp(name, "response_format") && strcmp(name, "metadata") &&
         strcmp(name, "user") && strcmp(name, "safety_identifier") &&
-        strcmp(name, "service_tier"))
+        strcmp(name, "service_tier") && strcmp(name, "dir_steering_plan"))
       goto fail;
   }
   json_object *v;

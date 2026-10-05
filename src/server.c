@@ -112,6 +112,7 @@ struct server {
   bool worker_poll_initialized;
   uint64_t request_counter, generated_seen, inference_timeout_ns;
   unsigned max_active;
+  bool steering_enabled;
   lie_meter rejected_capacity, rejected_invalid, tool_errors;
 };
 struct stored_request {
@@ -125,6 +126,7 @@ struct stored_request {
   uint64_t started;
   connection *foreground;
   unsigned choices;
+  lie_job *steering_choices[LIE_CORE_JOBS]; /* Retained extra choices; record owns 0. */
 };
 static void close_connection(connection *c);
 static void pump_job(connection *c);
@@ -362,11 +364,43 @@ static stored_request *stored_find(server *s, const char *id, bool responses) {
   }
   return NULL;
 }
-/* Optional LIE extension for a retained single-generation request. Admission
+static bool steering_plan_parse(connection *c,json_object *root,
+                                lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX],
+                                lie_steering_schedule *plan){
+  json_object *array=NULL;
+  if(!json_object_object_get_ex(root,"dir_steering_plan",&array))return true;
+  /* Reject duplicate keys before json-c normalization, including the field itself. */
+  oj_node *unique=oj_parse(c->body,c->body_size);if(!unique)return false;oj_free(unique);
+  if(!json_object_is_type(array,json_type_array))return false;
+  size_t count=json_object_array_length(array);
+  if(!count||count>LIE_STEERING_SCHEDULE_MAX)return false;
+  lie_worker_info wi;lie_worker_snapshot(c->owner->worker,&wi);
+  for(size_t i=0;i<count;++i){
+    json_object *row=json_object_array_get_idx(array,i),*position=NULL;
+    if(!json_object_is_type(row,json_type_object)||json_object_object_length(row)!=3||
+       !json_object_object_get_ex(row,"position",&position)||!json_object_is_type(position,json_type_int)||
+       json_object_get_int64(position)<0)return false;
+    steps[i].position=json_object_get_uint64(position);
+    if(steps[i].position>=wi.model.context_tokens||(i&&steps[i-1].position>=steps[i].position))return false;
+    lie_steering_settings_init(&steps[i].settings,true);
+    const char *keys[]={"ffn","attention"};float *values[]={&steps[i].settings.ffn,&steps[i].settings.attention};
+    for(unsigned k=0;k<2;++k){json_object *v=NULL;
+      if(!json_object_object_get_ex(row,keys[k],&v)||
+         (!json_object_is_type(v,json_type_int)&&!json_object_is_type(v,json_type_double)))return false;
+      double x=json_object_get_double(v);if(!isfinite(x)||fabs(x)>100)return false;
+      *values[k]=(float)(x==0?0:x);
+    }
+  }
+  *plan=(lie_steering_schedule){LIE_STEERING_SCHEDULE_ABI,sizeof(*plan),count,steps};return true;
+}
+/* Optional LIE extension for a retained generation/choice. Admission
  * and snapshots only: this libuv thread never runs or waits for inference. */
-static void stored_steering(connection *c,stored_request *r,const char *id){
-  lie_job *job=lie_record_job(r->record);
-  if(r->choices>1){error_response(c,409,"steering_requires_single_choice");return;}
+static void stored_steering(connection *c,stored_request *r,const char *id,
+                            unsigned choice,bool explicit_choice){
+  if(r->choices>1&&!explicit_choice){error_response(c,409,"steering_choice_required");return;}
+  if(choice>=r->choices){error_response(c,400,"invalid_steering_choice");return;}
+  if(choice&&!c->owner->steering_enabled){error_response(c,501,"steering_unavailable");return;}
+  lie_job *job=choice?r->steering_choices[choice]:lie_record_job(r->record);
   if(!job){error_response(c,409,"steering_job_unavailable");return;}
   uint64_t ticket=0;
   if(c->parser.method==HTTP_POST){
@@ -392,6 +426,7 @@ static void stored_steering(connection *c,stored_request *r,const char *id){
   json_object *out=json_object_new_object(),*policy=NULL,*last=NULL;
   json_object_object_add(out,"object",json_object_new_string("synapse-lie.steering"));
   json_object_object_add(out,"id",json_object_new_string(id));
+  json_object_object_add(out,"choice",json_object_new_int64(choice));
   if(ticket)json_object_object_add(out,"ticket",json_object_new_uint64(ticket));
   json_object_object_add(out,"pending",json_object_new_boolean(info.pending));
   json_object_object_add(out,"submitted",json_object_new_uint64(info.submitted));
@@ -419,10 +454,35 @@ static void stored_steering(connection *c,stored_request *r,const char *id){
     json_object_object_add(policy,"image_scope_sha256",json_object_new_string(image));
   }
   json_object_object_add(out,"policy",policy);
+  lie_steering_schedule_info planned={.abi_version=LIE_STEERING_SCHEDULE_ABI,.struct_bytes=sizeof(planned)};
+  if(lie_job_steering_schedule_snapshot(job,&planned,NULL)!=LIE_OK){json_object_put(out);error_response(c,500,"steering_snapshot_unavailable");return;}
+  json_object *schedule=NULL;
+  if(planned.count){schedule=json_object_new_object();json_object *steps=json_object_new_array();
+    json_object_object_add(schedule,"count",json_object_new_uint64(planned.count));
+    json_object_object_add(schedule,"completed",json_object_new_uint64(planned.completed));
+    json_object_object_add(schedule,"applied",json_object_new_uint64(planned.applied));
+    json_object_object_add(schedule,"terminal",json_object_new_boolean(planned.terminal));
+    for(size_t i=0;i<planned.count;++i){json_object *row=json_object_new_object();
+      json_object_object_add(row,"position",json_object_new_uint64(planned.steps[i].position));
+      json_object_object_add(row,"ffn",json_object_new_double(planned.steps[i].settings.ffn));
+      json_object_object_add(row,"attention",json_object_new_double(planned.steps[i].settings.attention));
+      json_object_object_add(row,"attempted",json_object_new_boolean(planned.results[i].attempted));
+      json_object_object_add(row,"applied",json_object_new_boolean(planned.results[i].applied));
+      json_object_object_add(row,"status",planned.results[i].attempted||planned.terminal?json_object_new_int(planned.results[i].status):NULL);
+      json_object_object_add(row,"actual_position",planned.results[i].attempted?json_object_new_uint64(planned.results[i].actual_position):NULL);
+      json_object_array_add(steps,row);
+    }
+    json_object_object_add(schedule,"steps",steps);
+  }
+  json_object_object_add(out,"schedule",schedule);
   char *body=json_text(out);respond(c,ticket?202:200,"application/json",body);free(body);
+}
+static void stored_release_choices(stored_request *r){
+  for(unsigned i=1;i<r->choices;++i){if(r->steering_choices[i])lie_job_release(r->steering_choices[i]);r->steering_choices[i]=NULL;}
 }
 static void stored_closed(uv_handle_t *h) {
   stored_request *r = h->data;
+  stored_release_choices(r);
   lie_record_release(r->record);
   json_object_put(r->options);
   json_object_put(r->completion);
@@ -441,6 +501,7 @@ static void stored_dispose(stored_request *r) {
     uv_poll_stop(&r->poll);
     uv_close((uv_handle_t *)&r->poll, stored_closed);
   } else {
+    stored_release_choices(r);
     lie_record_release(r->record);
     json_object_put(r->options);
     json_object_put(r->completion);
@@ -1293,6 +1354,12 @@ static void submit_chat(connection *c) {
     error_response(c, 400, error);
     return;
   }
+  lie_steering_step steering_steps[LIE_STEERING_SCHEDULE_MAX]={0};
+  lie_steering_schedule steering_plan={0};
+  if(!steering_plan_parse(c,request.json_owner,steering_steps,&steering_plan)){
+    lie_chat_free(&request);lie_counter_add(s->metrics,s->rejected_invalid,1);
+    error_response(c,400,"invalid_steering_plan");return;
+  }
   c->streaming = request.stream;
   c->include_usage = request.include_usage;
   c->logprobs = request.generation.logprobs != 0;
@@ -1368,9 +1435,11 @@ static void submit_chat(connection *c) {
     c->record = lie_records_get(s->records, c->request_id, c->created);
   }
   int result = c->choice_count > 1
-                   ? lie_core_submit_choices(s->worker, &input, c->choice_count,
+                   ? lie_core_submit_choices_steering(s->worker, &input, c->choice_count,
+                                             steering_plan.count?&steering_plan:NULL,
                                              &c->choices)
-                   : lie_core_submit(s->worker, &input, &c->job);
+                   : lie_core_submit_steering(s->worker, &input,
+                                             steering_plan.count?&steering_plan:NULL,&c->job);
   lie_chat_free(&request);
   if (!result && c->choices)
     c->job = lie_choices_job(c->choices, 0);
@@ -1396,7 +1465,13 @@ static void submit_chat(connection *c) {
   if (stored) {
     if (c->choices)
       lie_job_retain(c->job);
-    if (!lie_record_attach(stored->record, c->job)) {
+    size_t extra_charge=0;
+    for(unsigned i=1;s->steering_enabled&&c->choices&&i<c->choice_count;++i){
+      size_t bytes=lie_job_retention_bytes(lie_choices_job(c->choices,i));
+      if(bytes>SIZE_MAX-extra_charge){extra_charge=SIZE_MAX;break;}
+      extra_charge+=bytes;
+    }
+    if (!lie_record_charge(stored->record,extra_charge)||!lie_record_attach(stored->record, c->job)) {
       if (c->choices)
         lie_job_release(c->job);
       lie_job_cancel(c->job);
@@ -1414,6 +1489,10 @@ static void submit_chat(connection *c) {
       c->record = NULL;
       error_response(c, 429, "response_store_full");
       return;
+    }
+    for(unsigned i=1;s->steering_enabled&&c->choices&&i<c->choice_count;++i){
+      stored->steering_choices[i]=lie_choices_job(c->choices,i);
+      lie_job_retain(stored->steering_choices[i]);
     }
   }
   if (c->choices) {
@@ -1744,8 +1823,14 @@ static void route(connection *c) {
         return;
       }
       const char *tail = prefix + n;
-      if(!strcmp(tail,"/steering")&&!query&&(c->parser.method==HTTP_GET||c->parser.method==HTTP_POST)){
-        stored_steering(c,r,id);return;
+      if((!strcmp(tail,"/steering")||!strncmp(tail,"/steering/",10))&&!query&&(c->parser.method==HTTP_GET||c->parser.method==HTTP_POST)){
+        unsigned choice=0;bool explicit_choice=tail[9]=='/';
+        if(explicit_choice){const char *p=tail+10;
+          if(!*p||(p[0]=='0'&&p[1])){error_response(c,400,"invalid_steering_choice");return;}
+          for(;*p;++p){if(*p<'0'||*p>'9'||choice>LIE_CORE_JOBS/10){error_response(c,400,"invalid_steering_choice");return;}
+            choice=choice*10+(unsigned)(*p-'0');if(choice>=LIE_CORE_JOBS){error_response(c,400,"invalid_steering_choice");return;}}
+        }
+        stored_steering(c,r,id,choice,explicit_choice);return;
       }
       if (!*tail && c->parser.method == HTTP_GET && (responses || !query)) {
         bool stream = false;
@@ -2518,6 +2603,7 @@ int main(int argc, char **argv) {
   s.terminate.data = &s;
   uv_signal_start(&s.terminate, shutdown_server, SIGTERM);
   if (options.model_path) {
+    s.steering_enabled=steering.file!=NULL;
     s.worker = steering.file?lie_worker_create_steered(&options,&steering):lie_worker_create(&options);
     rc = s.worker
              ? uv_poll_init(&s.loop, &s.worker_poll, lie_worker_fd(s.worker))

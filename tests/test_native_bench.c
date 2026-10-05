@@ -825,11 +825,12 @@ static size_t steering_collect(char *data,size_t size,size_t count,void *arg){
   char *p=realloc(b->data,b->bytes+bytes+1);if(!p)return 0;
   b->data=p;memcpy(p+b->bytes,data,bytes);b->bytes+=bytes;p[b->bytes]=0;return bytes;
 }
-static json_object *steering_exchange(const char *url,const char *payload,long expected){
+static json_object *steering_exchange_as(const char *url,const char *payload,long expected,const char *method){
   CURL *curl=curl_easy_init();require(curl!=NULL,"steering control curl");steering_buffer body={0};
   struct curl_slist *headers=curl_slist_append(NULL,"Content-Type: application/json");require(headers!=NULL,"control headers");
   curl_easy_setopt(curl,CURLOPT_URL,url);curl_easy_setopt(curl,CURLOPT_HTTPHEADER,headers);
   if(payload)curl_easy_setopt(curl,CURLOPT_POSTFIELDS,payload);
+  if(method)curl_easy_setopt(curl,CURLOPT_CUSTOMREQUEST,method);
   curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,steering_collect);curl_easy_setopt(curl,CURLOPT_WRITEDATA,&body);
   curl_easy_setopt(curl,CURLOPT_TIMEOUT_MS,5000L);require(curl_easy_perform(curl)==CURLE_OK,"steering control HTTP");
   long status=0;curl_easy_getinfo(curl,CURLINFO_RESPONSE_CODE,&status);curl_slist_free_all(headers);curl_easy_cleanup(curl);
@@ -837,10 +838,13 @@ static json_object *steering_exchange(const char *url,const char *payload,long e
   require(status==expected,"steering HTTP status");nb_error error={0};json_object *out=nb_parse(body.data,body.bytes,&error);free(body.data);
   require(out!=NULL,error.message);return out;
 }
-static void steering_http_live(const char *api,bool responses){
+static json_object *steering_exchange(const char *url,const char *payload,long expected){
+  return steering_exchange_as(url,payload,expected,NULL);
+}
+static void steering_http_live(const char *api,bool responses,unsigned choices){
   char url[256],payload[512];snprintf(url,sizeof(url),"%s/%s",api,responses?"responses":"chat/completions");
-  snprintf(payload,sizeof(payload),"{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"SLOW-PREFILL\"}],\"%s\":4,\"store\":true,\"stream\":true}",
-    responses?"input":"messages",responses?"max_output_tokens":"max_tokens");
+  snprintf(payload,sizeof(payload),"{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"SLOW-PREFILL\"}],\"%s\":4,\"store\":true,\"stream\":true%s}",
+    responses?"input":"messages",responses?"max_output_tokens":"max_tokens",choices>1?",\"n\":2":"");
   CURL *curl=curl_easy_init();CURLM *multi=curl_multi_init();require(curl&&multi,"live steering stream curl");
   steering_buffer buffer={0};struct curl_slist *headers=curl_slist_append(NULL,"Content-Type: application/json");require(headers!=NULL,"stream headers");
   curl_easy_setopt(curl,CURLOPT_URL,url);curl_easy_setopt(curl,CURLOPT_HTTPHEADER,headers);curl_easy_setopt(curl,CURLOPT_POSTFIELDS,payload);
@@ -856,6 +860,12 @@ static void steering_http_live(const char *api,bool responses){
     require(running,"stream ended before control identity");int events=0;require(curl_multi_poll(multi,NULL,0,10,&events)==CURLM_OK,"live stream poll");
   }
   snprintf(url,sizeof(url),"%s/%s/%s/steering",api,responses?"responses":"chat/completions",id);
+  if(choices>1){json_object *refused=steering_exchange(url,"{\"ffn\":-3,\"attention\":0.5}",409);json_object_put(refused);
+    const char *bad[]={"/2","/01","/-1","/1x","/99999999999999"};char bad_url[300];
+    for(size_t i=0;i<sizeof(bad)/sizeof(*bad);++i){snprintf(bad_url,sizeof(bad_url),"%s%s",url,bad[i]);
+      refused=steering_exchange(bad_url,NULL,400);json_object_put(refused);}
+    size_t bytes=strlen(url);memcpy(url+bytes,"/1",3);
+  }
   json_object *invalid=steering_exchange(url,"{\"ffn\":1,\"ffn\":2,\"attention\":0}",400);json_object_put(invalid);
   invalid=steering_exchange(url,"{\"ffn\":101,\"attention\":0}",400);json_object_put(invalid);
   json_object *accepted=steering_exchange(url,"{\"ffn\":-3,\"attention\":0.5}",202);
@@ -869,8 +879,63 @@ static void steering_http_live(const char *api,bool responses){
     if(nb_number(final,"completed")==ticket)break;
     json_object_put(final);final=NULL;pause_ms(1);}
   require(final&&nb_number(nb_get(final,"last_result"),"status")==0&&!json_object_get_boolean(nb_get(final,"pending"))&&
-    json_object_get_double(nb_get(nb_get(final,"policy"),"ffn"))==-3&&json_object_get_double(nb_get(nb_get(final,"policy"),"attention"))==.5,"live steering owner confirmation");json_object_put(final);
+    json_object_get_double(nb_get(nb_get(final,"policy"),"ffn"))==-3&&json_object_get_double(nb_get(nb_get(final,"policy"),"attention"))==.5&&
+    nb_number(final,"choice")==choices-1,"live steering owner confirmation");
+  if(choices>1){char other[256];snprintf(other,sizeof(other),"%s/chat/completions/%s/steering/0",api,id);
+    json_object *peer=steering_exchange(other,NULL,200);
+    require(!nb_number(peer,"submitted")&&json_object_get_double(nb_get(nb_get(peer,"policy"),"ffn"))==-2&&
+      json_object_get_double(nb_get(nb_get(peer,"policy"),"attention"))==.25&&
+      strcmp(nb_string(nb_get(final,"policy"),"combined_scope_sha256"),nb_string(nb_get(peer,"policy"),"combined_scope_sha256")),"multi-choice steering leaked to peer");
+    json_object_put(peer);
+  }
+  json_object_put(final);
   invalid=steering_exchange(url,"{\"ffn\":0,\"attention\":0}",409);json_object_put(invalid);
+  snprintf(url,sizeof(url),"%s/%s/%s",api,responses?"responses":"chat/completions",id);
+  invalid=steering_exchange_as(url,NULL,200,"DELETE");json_object_put(invalid);
+  invalid=steering_exchange(url,NULL,404);json_object_put(invalid);
+}
+static void steering_http_plan(const char *api,bool responses,unsigned choices){
+  char url[300],payload[1600];snprintf(url,sizeof(url),"%s/%s",api,responses?"responses":"chat/completions");
+  const char *plan="[{\"position\":0,\"ffn\":1,\"attention\":0},{\"position\":3,\"ffn\":2,\"attention\":0},{\"position\":5,\"ffn\":0,\"attention\":0.25}]";
+  snprintf(payload,sizeof(payload),"{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"hello\"}],\"%s\":4,\"store\":true,\"dir_steering_plan\":%s%s}",
+    responses?"input":"messages",responses?"max_output_tokens":"max_tokens",plan,choices>1?",\"n\":2":"");
+  json_object *result=steering_exchange(url,payload,200);char id[129];const char *name=nb_string(result,"id");
+  require(*name&&strlen(name)<sizeof(id),"planned request ID");memcpy(id,name,strlen(name)+1);json_object_put(result);
+  for(unsigned i=0;i<choices;++i){snprintf(url,sizeof(url),"%s/%s/%s/steering/%u",api,responses?"responses":"chat/completions",id,i);
+    result=steering_exchange(url,NULL,200);json_object *schedule=nb_get(result,"schedule"),*steps=nb_get(schedule,"steps");
+    require(nb_number(result,"choice")==i&&nb_number(schedule,"count")==3&&nb_number(schedule,"completed")==3&&
+      nb_number(schedule,"applied")==3&&json_object_get_boolean(nb_get(schedule,"terminal"))&&json_object_array_length(steps)==3,"HTTP plan incomplete");
+    const unsigned positions[]={0,3,5};
+    for(unsigned k=0;k<3;++k){json_object *step=json_object_array_get_idx(steps,k);
+      require(json_object_get_boolean(nb_get(step,"attempted"))&&json_object_get_boolean(nb_get(step,"applied"))&&
+        !nb_number(step,"status")&&nb_number(step,"position")==positions[k]&&nb_number(step,"actual_position")==positions[k],"HTTP plan boundary drift");}
+    require(json_object_get_double(nb_get(nb_get(result,"policy"),"ffn"))==0&&nb_number(nb_get(result,"policy"),"history_epochs")==3,"HTTP plan final policy");
+    json_object_put(result);
+  }
+  snprintf(url,sizeof(url),"%s/%s/%s",api,responses?"responses":"chat/completions",id);
+  result=steering_exchange_as(url,NULL,200,"DELETE");json_object_put(result);
+  snprintf(url,sizeof(url),"%s/%s",api,responses?"responses":"chat/completions");
+  const char *bad[]={"null","[]","[{\"position\":0,\"ffn\":1,\"ffn\":2,\"attention\":0}]",
+    "[{\"position\":0,\"ffn\":1,\"attention\":0},{\"position\":0,\"ffn\":2,\"attention\":0}]",
+    "[{\"position\":true,\"ffn\":1,\"attention\":0}]","[{\"position\":128,\"ffn\":1,\"attention\":0}]",
+    "[{\"position\":0,\"ffn\":101,\"attention\":0}]","[{\"position\":0,\"ffn\":1,\"attention\":0,\"extra\":0}]",
+    "[{\"position\":0,\"ffn\":\"1\",\"attention\":0}]","[{\"position\":8,\"ffn\":1,\"attention\":0}]"};
+  for(size_t i=0;i<sizeof(bad)/sizeof(*bad);++i){snprintf(payload,sizeof(payload),"{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"hello\"}],\"%s\":4,\"dir_steering_plan\":%s}",
+    responses?"input":"messages",responses?"max_output_tokens":"max_tokens",bad[i]);
+    result=steering_exchange(url,payload,400);json_object_put(result);
+  }
+  snprintf(payload,sizeof(payload),"{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"EMPTY\"}],\"%s\":4,\"store\":true,\"dir_steering_plan\":[{\"position\":0,\"ffn\":1,\"attention\":0},{\"position\":5,\"ffn\":2,\"attention\":0}]}",
+    responses?"input":"messages",responses?"max_output_tokens":"max_tokens");
+  result=steering_exchange(url,payload,200);name=nb_string(result,"id");require(*name&&strlen(name)<sizeof(id),"early EOS planned ID");
+  memcpy(id,name,strlen(name)+1);json_object_put(result);
+  snprintf(url,sizeof(url),"%s/%s/%s/steering",api,responses?"responses":"chat/completions",id);
+  result=steering_exchange(url,NULL,200);json_object *schedule=nb_get(result,"schedule"),*unreached=json_object_array_get_idx(nb_get(schedule,"steps"),1);
+  require(nb_number(schedule,"count")==2&&nb_number(schedule,"completed")==1&&nb_number(schedule,"applied")==1&&
+    json_object_get_boolean(nb_get(schedule,"terminal"))&&!json_object_get_boolean(nb_get(unreached,"attempted"))&&
+    !json_object_get_boolean(nb_get(unreached,"applied"))&&nb_number(unreached,"status")!=0&&!nb_get(unreached,"actual_position"),"unreached HTTP plan reported successful");
+  json_object_put(result);
+  snprintf(url,sizeof(url),"%s/%s/%s",api,responses?"responses":"chat/completions",id);
+  result=steering_exchange_as(url,NULL,200,"DELETE");json_object_put(result);
 }
 static void steering_contract(char *server,char *bench){
   const char *invalid[]={"nan","inf","101","-101","1x"," 1","1,5"};
@@ -929,7 +994,8 @@ static void steering_contract(char *server,char *bench){
           nb_number(s,"device_vector_bytes")==0&&json_object_get_double(nb_get(s,"ffn"))==-2&&json_object_get_double(nb_get(s,"attention"))==.25,
           "HTTP admission projection differs from the core");json_object_put(info);
   require(!unlink(bank),"bank release after model admission");
-  steering_http_live(api,false);steering_http_live(api,true);
+  steering_http_live(api,false,1);steering_http_live(api,true,1);steering_http_live(api,false,2);
+  steering_http_plan(api,false,1);steering_http_plan(api,true,1);steering_http_plan(api,false,2);
   for(unsigned responses=0;responses<2;++responses)for(unsigned stream=0;stream<2;++stream){
     char body[512];snprintf(body,sizeof(body),
       "{\"model\":\"cpu-test-fixture\",\"%s\":[{\"role\":\"user\",\"content\":\"LONG\"}],\"%s\":4,\"stream\":%s%s}",

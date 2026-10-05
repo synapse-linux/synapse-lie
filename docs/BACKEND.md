@@ -71,16 +71,18 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    retained frontier. The provider source now binds policy metadata to model
    capture/restore, retaining DS4 framing and validating combined semantic scope
    before transfer. Shared-worker admission/resource projection, scoped text
-   lookup and initial server/native core bench controls are wired. Twenty-one Debug
-   and twenty-one sanitizer host checks pass, including synthetic AR/MTP/vision
+   lookup and initial server/native core bench controls are wired. Twenty-four Debug
+   and twenty-four sanitizer host checks pass, including synthetic AR/MTP/vision
    RAM/SSD process restart and both HTTP APIs. Asynchronous shared-core job
    changes now preserve past state, update mixed-history scopes and isolate
    concurrent policies in host tests. The direct provider's graph/controller
    invalidation passes syntax checks. Copied native benchmark schedules now
    split prefill and cap each AR/MTP row at exact physical boundaries. Stored
-   single-choice HTTP requests have asynchronous live controls and confirmed
-   snapshots. Host tests cover cache-boundary limits and full plan identity;
-   original-weight GPU qualification and multi-choice HTTP live controls remain open.
+   requests have asynchronous live controls and confirmed snapshots, with an
+   explicit index for independent multi-choice controls. Both HTTP APIs accept
+   copied creation-time plans and report exact application/unreached steps.
+   Host tests cover cache-boundary limits, full plan identity and charged retained
+   choice lifetimes; original-weight GPU qualification remains open.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the
    same core used by server and bench.

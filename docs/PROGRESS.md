@@ -8,6 +8,33 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## HTTP steering plans and independent choices — 2026-10-05 UTC
+
+Both HTTP APIs now accept `dir_steering_plan`, copied into the shared C17 core
+before protocol storage is freed. Multi-choice admission gives every child an
+independent plan with existing seed offsets and rollback. Stored controls use
+`/steering/{choice}` for one selected child; GET retains tickets, actual policy
+and attempted/applied plan steps after the foreground closes. Additional stored
+choice references are charged only with a direction bank and released on disposal.
+The network loop still performs admission/snapshots only; no inference thread,
+JSON dependency in core contracts or Python product/default-test dependency is added.
+
+Final 24 Debug and 24 ASan/UBSan/LeakSanitizer checks pass, with three build-off
+tests and 32 public C++ headers. Coverage includes concurrent AR/MTP schedules,
+both creation routes, exact prompt/decode positions, malformed/duplicate plans,
+early-EOS unreached steps, live choice isolation, deletion and no-bank retirement.
+The initial suites exposed release of a null extra-choice reference when the
+bank was absent; the guard fixes that regression without changing assertions.
+Both failed exit-8 commands remain in the
+[host receipt](development/validation/steering-http-plan-host-2026-10-05.json).
+Local CPU peak is 71.875 C. The older closed-stderr abort remains unexplained.
+
+Original-weight GPU continuation, quality and cost remain pending. The fresh
+read-only `.161` witness at 05:43:05.088403 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. No remote build/run/hash, service mutation, waiter or reservation
+starts. The six open tasks and frozen GPU/task-evaluation evidence remain.
+
 ## Scheduled steering and HTTP controls — 2026-10-05 UTC
 
 The shared C17 core now copies an immutable steering plan and applies it at

@@ -6,8 +6,9 @@ struct lie_choices {
   unsigned count;
   lie_job *jobs[LIE_CORE_JOBS];
 };
-int lie_core_submit_choices(lie_core *core, const lie_core_request *request,
-                            unsigned count, lie_choices **out) {
+int lie_core_submit_choices_steering(lie_core *core, const lie_core_request *request,
+                            unsigned count, const lie_steering_schedule *schedule,
+                            lie_choices **out) {
   if (!core || !request || !out || *out || !count || count > LIE_CORE_JOBS ||
       (request->generation.seed >= 0 &&
        request->generation.seed > INT64_MAX - (int64_t)(count - 1)))
@@ -20,7 +21,7 @@ int lie_core_submit_choices(lie_core *core, const lie_core_request *request,
     lie_core_request input = *request;
     if (input.generation.seed >= 0)
       input.generation.seed += (int64_t)i;
-    result = lie_core_submit(core, &input, &choices->jobs[i]);
+    result = lie_core_submit_steering(core, &input, schedule, &choices->jobs[i]);
     if (result)
       break;
     ++choices->count;
@@ -32,6 +33,10 @@ int lie_core_submit_choices(lie_core *core, const lie_core_request *request,
   }
   *out = choices;
   return 0;
+}
+int lie_core_submit_choices(lie_core *core,const lie_core_request *request,
+                            unsigned count,lie_choices **out){
+  return lie_core_submit_choices_steering(core,request,count,NULL,out);
 }
 unsigned lie_choices_count(lie_choices *c) { return c ? c->count : 0; }
 lie_job *lie_choices_job(lie_choices *c, unsigned i) {

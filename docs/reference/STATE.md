@@ -93,6 +93,11 @@ mixed-history scopes. The initial lookup does not yet seek a mixed-history
 checkpoint beyond that first boundary. No state framing or DS4 tensor body
 changes for schedule metadata, which is a copied client control rather than
 model state.
+HTTP creation-time plans and the shared choices factory use these same rules.
+Each child has independent model state, steering history and cache scope;
+changing one choice does not change another or relabel its completed prefix.
+Stored choice references preserve control snapshots after the foreground closes,
+with retention charged to the record budget when a direction bank is present.
 See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.

@@ -8,7 +8,8 @@ hooks are qualified only by host contracts and syntax checks. Direct C model and
 session/model-state binding is present in provider and shared-worker source.
 Server/native core bench share initial model-wide controls and scoped RAM/SSD
 lookup. The shared core supports asynchronous live job changes, native benchmark
-schedules and stored single-choice HTTP controls. GPU qualification remains open.
+schedules, HTTP creation-time plans and individual stored-choice controls.
+GPU qualification remains open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -358,11 +359,19 @@ The native bench accepts `--dir-steering-plan`, records canonical binary32
 settings and actual results, and refuses mismatched/unfulfilled plan comparisons.
 The HTTP GET/POST `/v1/responses/{id}/steering` and
 `/v1/chat/completions/{id}/steering` routes are LIE extensions for retained
-single-choice requests. POST returns 202 admission, GET projects the confirmed
-ticket/policy, and finished/multi-choice requests refuse controls. This
+requests. Multi-choice requests require `/steering/{choice}`, with a canonical
+zero-based integer index. POST returns 202 admission; GET projects the confirmed
+ticket/policy and any immutable schedule. Finished jobs refuse further changes. This
 asynchronous path promises an available retained boundary rather than an exact
 output index. All numerical work remains on the shared owner.
-[Host receipt](validation/steering-schedule-host-2026-10-05.json) ·
+Both HTTP creation routes accept `dir_steering_plan`. Parsing validates the full
+array and duplicate keys before admission; the additive shared choices factory
+copies one plan into each independent child, preserving seed offsets and existing
+rollback on admission failure. Protocol JSON never enters the core. Stored extra
+choice references exist only with an admitted bank; their retained bytes are
+charged before attachment and released on disposal. Snapshots survive foreground
+connection retirement without keeping that connection or creating a thread.
+[Host receipt](validation/steering-http-plan-host-2026-10-05.json) ·
 [Commands](../guides/BENCHMARKS.md#scheduled-steering).
 
 ## Model-state cache binding
