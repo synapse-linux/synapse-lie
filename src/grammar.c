@@ -274,6 +274,41 @@ static int compare(const frame *a, const frame *b) {
     return c;
   return (a->bytes > b->bytes) - (a->bytes < b->bytes);
 }
+int lie_grammar_state_compare(const lie_grammar_state *a,
+                               const lie_grammar_state *b) {
+  if (!a || !b)
+    return (a != NULL) - (b != NULL);
+  size_t n = a->count < b->count ? a->count : b->count;
+  for (size_t i = 0; i < n; ++i) {
+    int c = compare(a->frames + i, b->frames + i);
+    if (c)
+      return c;
+  }
+  return (a->count > b->count) - (a->count < b->count);
+}
+static uint64_t hash_word(uint64_t h, uint64_t n) {
+  for (unsigned i = 0; i < 8; ++i) {
+    h = (h ^ (uint8_t)n) * UINT64_C(1099511628211);
+    n >>= 8;
+  }
+  return h;
+}
+uint64_t lie_grammar_state_hash(const lie_grammar_state *s) {
+  uint64_t h = UINT64_C(14695981039346656037);
+  if (!s)
+    return h;
+  h = hash_word(h, s->count);
+  for (size_t i = 0; i < s->count; ++i) {
+    const frame *f = s->frames + i;
+    h = hash_word(h, f->count);
+    for (size_t j = 0; j < f->count; ++j)
+      h = hash_word(h, f->symbols[j]);
+    h = hash_word(h, f->bytes);
+    for (size_t j = 0; j < f->bytes; ++j)
+      h = (h ^ f->lexeme[j]) * UINT64_C(1099511628211);
+  }
+  return h;
+}
 static void swap(frame *a, frame *b) {
   frame f = *a;
   *a = *b;
@@ -406,6 +441,11 @@ static lie_grammar_status copy_state(const lie_grammar_program *p,
   }
   *out = s;
   return LIE_GRAMMAR_OK;
+}
+lie_grammar_status lie_grammar_state_clone(const lie_grammar_program *p,
+                                          const lie_grammar_state *input,
+                                          lie_grammar_state **out) {
+  return copy_state(p, input, out);
 }
 lie_grammar_status lie_grammar_expand(const lie_grammar_program *p,
                                       const lie_grammar_state *input,

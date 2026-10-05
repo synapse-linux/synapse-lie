@@ -1,6 +1,47 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+
+## Vocabulary trie/transition/mask-cache C17 host slice — 2026-10-05
+
+From clean checkpoint `c803cd2`, C17 now owns copied vocabulary bytes/trie,
+iterative traversal, exact state interning, token acceptance and canonical-key
+mask-cache lookup/eviction/publication. Storage is model-neutral; the adapter
+retains vector/shared_ptr, mutex and exception translation. Hash buckets grow
+with occupancy, and full/noncacheable state caches use the direct path without
+changing the language. Provider temporary Piece/trie vectors retire after seal.
+Ten exact edits and the 24-file private inventory require matching provider and
+application rebuild. The inline vocabulary getter is option-independent;
+two opposite-option header-consumer controls pass.
+
+[Source-bound commands and complete witnesses](development/validation/c17-grammar-vocabulary-host-2026-10-05.json)
+retain 22/22 Debug, 22/22 ASan/UBSan/LeakSanitizer and 22/22 pristine/ON/OFF
+reference-project checks, plus final two Debug/two sanitizer provider/cache
+rechecks, 39 public headers and strict C17/symbol checks. Independent token
+oracles cover 1,718,772 cases; all 52 vocabulary allocation-refusal points and
+separate cache constructor/key-clone faults preserve outputs/ownership. The
+small fixture's requested-payload peak is 3676 bytes, excluding allocator helper
+headers and real provider/process/GPU cost. A 4096-byte copied path uses bounded
+iterative depth; no inference thread is added.
+
+Complete witnesses retain 11 grammars, 283 pieces, 950 masks, 84,352 accepted
+encoded states and 260,360 token-by-token checks. Four host caller threads
+exercise 384 cache queries and 24 retained snapshots. Eight previous complete
+witness hashes are unchanged. Initial source-location `rg` failure (exit 2) is
+retained; no failed build/test command occurs. Upstream initializer warnings and
+the older unresolved closed-stderr benchmark abort remain recorded.
+
+Local CPU maximum is 92.125 C; no thermal trip/tuning occurs. Fresh readonly
+`.161` at 10:32:59.150260 UTC still observes training PID 29223/start 2470351
+and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%, CPU 89.25 C.
+Lease, boot/filesystem and original four model stat identities are unchanged.
+There is no root GPU build/run/hash/conversion, service mutation, foreign signal,
+waiter or reservation. GPU work remains `.161` only after fresh admission.
+All six root tasks remain open. Regex derivative/schema/Unicode partition
+compilers, provider snapshot marshalling and new original-weight continuation,
+fault/fit/actual resources/matched cost remain unqualified; no GPU speedup or
+complete autonomous C executor is claimed.
+
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-05-utc) records completed
 r11 OpenAI AR/MTP controls and six open tasks: Terminal Bench, full 1M acceptance, requested
 benchmark methods, DS4 directional steering and sampling temperatures, and the

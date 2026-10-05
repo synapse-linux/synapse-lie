@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# C17 sampling and byte-grammar runtime
+# C17 sampling and grammar runtime
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -40,7 +40,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema/regex compilation, vocabulary trie/mask cache, model/session and
+deep copies, deferred draws, entropy acquisition, schema/regex compilation, provider snapshot marshalling, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -73,7 +73,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema/regex compilation, vocabulary mask cache and speculative model/controller
+schema/regex compilation, provider snapshot marshalling and speculative model/controller
 state remain transitional.
 
 Host qualification passes 14,400 independent FIFO/count transitions, refusal,
@@ -258,11 +258,51 @@ perform no model forward. Schema/regex compiler and vocabulary trie/transition/
 cache extraction, original-weight AR/MTP/tool continuation, allocation-exact
 resources and matched cost remain open on `.161`.
 
+## Vocabulary trie, transition interning and mask cache
+
+`lie/grammar_vocabulary.h` adds model-neutral ABI 1. C17 owns copied token bytes,
+stop flags and an insertion-ordered immutable trie. Empty and stop pieces never
+enter the trie. Limits retain 1,048,576 tokens, 64 MiB total text, 4096 bytes per
+non-stop token and four million nodes. The provider retires temporary C++ pieces
+and trie vectors once C storage is sealed.
+
+Mask traversal is iterative, with scratch depth bounded by token length. Exact
+C snapshot hashing/comparison interns reached states; hash buckets grow with
+actual occupancy, and 256-entry transition tables allocate only when used.
+The 8192-state limit bounds an optimization, not the language: new states beyond
+it take the direct path. Noncacheable numeric predicates also take that path.
+A query can disable interning without changing masks. The work budget counts
+at most two million visited trie nodes; allocation/work refusals preserve output
+and stats. Token acceptance operates on owned C byte pieces and C snapshots.
+
+The shared cache owns copied canonical C state keys and opaque retained mask
+snapshots. The provider supplies mutex and vector/shared_ptr lifetime translation;
+C owns lookup, duplicate publication and lexical eviction. Its 16-entry policy
+preserves the reference's eviction-before-insertion behavior, including raced
+duplicates. Mask computation happens outside the lock. Publishing consumes the
+incoming snapshot only on success; a refused key copy changes neither cache nor
+caller ownership. Live request counts are never reduced by key canonicalization.
+
+Ten exact provider edits use the existing default-ON/OFF selection. The strict
+receipt binds 24 C source/header/glue files and the new vocabulary recipe; both
+provider archive and application must rebuild together. No model geometry,
+thread, device, RNG, HTTP or persisted KV format enters this module.
+
+[Complete host commands and witnesses](validation/c17-grammar-vocabulary-host-2026-10-05.json)
+cover independent byte languages, every allocation refusal, direct/cached/full
+interning, 4096-byte paths, cache order/races and retained snapshots. Pristine,
+ON and OFF arms compare every token mask and accepted encoded state, including
+Unicode fragments, numeric and tool/reasoning branches. These are synthetic
+host checks. Schema/regex compilation and provider snapshot marshalling, new
+original-weight AR/MTP continuation, allocation-exact resources and matched GPU
+cost remain open on `.161`.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
-and compact/speculative probability arithmetic, byte-grammar runtime and numeric/Unicode predicates. Use the same
+and compact/speculative probability arithmetic, byte-grammar runtime, numeric/Unicode
+predicates and vocabulary/cache algorithms. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:

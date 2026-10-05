@@ -92,3 +92,16 @@ queries, Brent cycle skipping, string UTF8/JSON escape/surrogate/pending/count
 runtime, mask-key canonicalization and bounded whitespace. JSON/regex compilation
 and vocabulary trie/transition/cache remain upstream; storage/exception glue
 in gufo_grammar_regex.hpp and gufo_grammar_string.hpp performs no runtime algorithm.
+
+The attributed C17 src/grammar_vocabulary.c trie/masking/cache port follows
+src/core/json_constraint.cpp and .hpp from the same independently acquired
+immutable official Gufo f783fedb pin under MIT (retained gufo-LICENSE).
+Exact integration is in adapters/gufo-state/grammar-vocabulary-edits.json.
+C17 owns copied token/trie storage, bounded iterative traversal, exact state
+interning and canonical-state mask-cache lookup/eviction/publication. Snapshot
+clone/comparison/hash are in the attributed src/grammar.c port. Provider piece,
+state, vector/shared_ptr lifetime, mutex and exception translation stay in
+adapters/gufo_grammar_vocabulary.hpp and exact glue edits. Schema/regex compiler,
+Unicode class partitioning and provider snapshot marshalling remain upstream.
+No sibling CachyOS artifact or DS4 source is imported; host witnesses are not
+new numerical GPU/performance qualification.

@@ -7,53 +7,6 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
-### Fixed
-
-- Omitting an HTTP output limit, or passing null, now uses the remaining context
-  up to the existing 4,096-token engine ceiling instead of silently defaulting
-  to 128. Explicit positive budgets remain exact. Models advertise their context
-  and output limits; responses retain the resolved budget. Request ABI 8 callers
-  must rebuild; executor and generation ABI 3 are unchanged.
-
-- Native core benchmarks can explicitly continue past EOS with `--ignore-eos`
-  for fixed-token measurements. Results retain the EOS policy, refuse unmatched
-  policies and reject incomplete fixed-budget output. Normal serving keeps EOS.
-
-- Retained background responses accept closed output demand while numerical
-  teardown is pending, preserving generation after a stream disconnect instead
-  of cancelling at the final token.
-- Optional qualification staging can explicitly verify a filesystem device
-  renumbering after reboot against boot ID and filesystem UUID, preserving
-  pinned model receipts and all other file identity checks.
-- Strict JSON function frames now stream exact argument fragments once the
-  complete function name is known, including nested and escaped JSON values.
-- Explicit smaller prefill chunks now bound provider scratch allocation while
-  preserving space for admitted decode and MTP rows. The default stays 2,048.
-
-- The Point GPU supervisor recognizes an already observed owned process while
-  its `/proc/fd` entry retires before the kernel KFD list, checking PID start
-  tick and container cgroup before allowing the short retirement gap.
-
-- The direct-core reactive probe waits for aggregate retirement counters after
-  job completion, avoiding a race between independently published snapshots.
-
-- Shared-core benchmark reports refuse zero-time executed phases, inconsistent
-  dispatch counts and phase durations outside the job's wall time, including warmups.
-
-- Benchmark comparisons keep both series visible in every category when their
-  values coincide; data and vertical scales are unchanged.
-
-- Qualification supervisors apply temperature stops to the CPU and SSD;
-  GPU temperatures remain recorded without a software temperature stop.
-- Removed the retired LZ4 checkpoint codec and its build/link dependency;
-  current compressed checkpoints use Zstandard. Historical reports retain
-  their original codec label as provenance.
-
-- Combined benchmark CSV duration columns now explicitly use seconds.
-
-- Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
-  when the trunk GGUF metadata has no embedded predictor block.
-
 ### Added
 
 - Shared C17 string/Unicode-DFA runtime: UTF8, JSON escapes, surrogate pairs,
@@ -223,6 +176,11 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Token vocabulary tries, grammar mask traversal, transition interning and shared
+  mask-cache policy now use the model-neutral C17 core. Matching provider and
+  application rebuilds are required. Default selection remains ON, with the
+  provider control available at compile time; GPU cost qualification is pending.
+
 - Retired the LZ4 checkpoint reader and dependency. Raw checkpoints, Zstandard
   compression and the exact DS4 runtime payload format remain supported.
 
@@ -250,6 +208,51 @@ stable release is declared. Detailed validation history is in
   technical contracts and historical development records.
 
 ### Fixed
+
+- Omitting an HTTP output limit, or passing null, now uses the remaining context
+  up to the existing 4,096-token engine ceiling instead of silently defaulting
+  to 128. Explicit positive budgets remain exact. Models advertise their context
+  and output limits; responses retain the resolved budget. Request ABI 8 callers
+  must rebuild; executor and generation ABI 3 are unchanged.
+
+- Native core benchmarks can explicitly continue past EOS with `--ignore-eos`
+  for fixed-token measurements. Results retain the EOS policy, refuse unmatched
+  policies and reject incomplete fixed-budget output. Normal serving keeps EOS.
+
+- Retained background responses accept closed output demand while numerical
+  teardown is pending, preserving generation after a stream disconnect instead
+  of cancelling at the final token.
+- Optional qualification staging can explicitly verify a filesystem device
+  renumbering after reboot against boot ID and filesystem UUID, preserving
+  pinned model receipts and all other file identity checks.
+- Strict JSON function frames now stream exact argument fragments once the
+  complete function name is known, including nested and escaped JSON values.
+- Explicit smaller prefill chunks now bound provider scratch allocation while
+  preserving space for admitted decode and MTP rows. The default stays 2,048.
+
+- The Point GPU supervisor recognizes an already observed owned process while
+  its `/proc/fd` entry retires before the kernel KFD list, checking PID start
+  tick and container cgroup before allowing the short retirement gap.
+
+- The direct-core reactive probe waits for aggregate retirement counters after
+  job completion, avoiding a race between independently published snapshots.
+
+- Shared-core benchmark reports refuse zero-time executed phases, inconsistent
+  dispatch counts and phase durations outside the job's wall time, including warmups.
+
+- Benchmark comparisons keep both series visible in every category when their
+  values coincide; data and vertical scales are unchanged.
+
+- Qualification supervisors apply temperature stops to the CPU and SSD;
+  GPU temperatures remain recorded without a software temperature stop.
+- Removed the retired LZ4 checkpoint codec and its build/link dependency;
+  current compressed checkpoints use Zstandard. Historical reports retain
+  their original codec label as provenance.
+
+- Combined benchmark CSV duration columns now explicitly use seconds.
+
+- Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
+  when the trunk GGUF metadata has no embedded predictor block.
 
 - MTP text output uses a UTF-8 buffer sized for the admitted burst, including
   full-size token pieces, rather than a single-token HTTP buffer.

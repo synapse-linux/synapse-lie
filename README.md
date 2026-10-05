@@ -7,9 +7,10 @@ scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, history and grammar runtime](docs/development/C17-SAMPLING.md).
 Dense sampling has recorded GPU checks; the new history, speculative probability
-and byte/numeric/Unicode grammar extractions have host checks and still require GPU
-correctness and performance qualification. Schema/regex compilation and
-vocabulary trie/cache algorithms remain transitional.
+and byte/numeric/Unicode/vocabulary grammar extractions have host checks and still
+require GPU correctness and performance qualification. Trie traversal, transition
+interning and canonical-state mask cache policy are C17; schema/regex compilation
+and provider snapshot marshalling remain transitional.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

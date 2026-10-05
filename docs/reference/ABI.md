@@ -55,6 +55,16 @@ header. JSON numeric representability checks stay in the adapter. Each call
 owns a bounded workspace and adds no inference worker or persisted state.
 See [numeric ownership](../development/C17-SAMPLING.md#exact-decimal-numeric-grammar).
 
+`lie/grammar_vocabulary.h` adds vocabulary ABI 1: copied byte pieces/trie,
+iterative token masking/acceptance and exact transition interning. Grammar ABI 1
+adds snapshot clone, lexical comparison and internal hashing plus distinct
+vocabulary/no-token/mask-work refusal codes without changing existing layouts.
+A caller-synchronized bounded mask cache owns C snapshot keys and opaque retained
+payloads; successful publication consumes incoming ownership, refusal consumes
+nothing. Provider private vocabulary/cache layouts change in both ON/OFF arms;
+matching archive/application rebuild and the 24-file source-bound receipt are
+required. No executor/request/generation or DS4 persisted layout changes.
+
 `lie/grammar_regex.h` adds separate Unicode-DFA ABI 1: tagged descriptions,
 immutable copied scalar-class/transition/acceptance tables, owned successor
 construction, accepting distances and bounded reachability/cycle queries.
@@ -65,7 +75,7 @@ predicates and copied mask-key canonicalization are C17. Refusals preserve live
 state/matches; caller-owned policies/allocator contexts outlive calls. See
 [ownership and budgets](../development/C17-SAMPLING.md#string-and-unicode-dfa-runtime).
 Private provider construction layout/source requires matching builds and the
-21-file receipt; executor/request/generation/DS4 persisted layouts do not change.
+24-file receipt; executor/request/generation/DS4 persisted layouts do not change.
 
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,
@@ -647,8 +657,9 @@ log-probability reporting and adds top-k/min-p. Request ABI 6 retains ABI 5's
 neutral JSON/schema controls, stop sequences and optional complete-turn
 truncation, with the expanded generation options.
 All borrowed strings and bias entries are copied at admission. Executor ABI 3
-and DS4 state payloads retain their existing layouts. Constraints and vocabulary
-tries stay inside the explicitly selected transitional provider.
+and DS4 state payloads retain their existing layouts. Schema/regex compilation
+stays inside the explicitly selected transitional provider; byte predicates, token trie and mask-cache policy use the shared C17
+grammar module. Provider snapshot marshalling remains transitional.
 
 `lie_core_submit_choices` owns independently seeded jobs on the same device
 worker. Failure cancels and releases its own admitted children. `lie_records`

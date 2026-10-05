@@ -52,7 +52,7 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema/regex compilation and vector/trie/cache storage; its new
+supplies schema/regex compilation and vector snapshot marshalling; its new
 private layout requires a matching source/archive/application rebuild.
 Original-weight grammar/correction/cache continuation remains pending.
 
@@ -70,6 +70,14 @@ not change the live character count. Programs deep-copy DFA tables, derive and
 prune their own graph, and release query scratch on all paths. Schema/regex
 construction vectors are retired after sealing. Refusal leaves request state
 and match unchanged. These transient objects are not DS4 model-prefix payloads.
+
+The C17 vocabulary slice owns copied immutable bytes/trie and per-query interned
+snapshot/transition storage. Query scratch retires on success and refusal.
+Caller-synchronized shared mask caches own cloned canonical C state keys and
+opaque retained payloads. Vector/shared_ptr projection remains adapter glue;
+retained snapshots survive cache eviction. Canonical keys never mutate live
+request counters. Hashes are internal accelerators, not DS4 RAM/SSD identities.
+No model state serialization or reactive frontier changes in this slice.
 
 ## MTP development boundary
 

@@ -1,5 +1,31 @@
 # DS4 / synapse-lie coordination
 
+
+## Vocabulary C17 host-only ownership — 2026-10-05
+
+Fresh readonly `.161` witness at 10:32:59.150260 UTC still observes foreign
+Gemma training PID 29223/start 2470351 and router PID 29377/start 2474081 in
+actual/kernel KFD, GPU 100%, CPU 89.25 C and available RAM 85,969,305,600 bytes.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB; this is not a
+reservation or GPU admission. Boot/filesystem and four model stat identities
+are unchanged. No root GPU build/run/model hash/conversion, service mutation,
+foreign signal, waiter or standing lease occurs on `.161` or `.157`.
+
+Root advances only the owned C17 vocabulary/trie/transition/mask-cache slice,
+with source-bound [host evidence](development/validation/c17-grammar-vocabulary-host-2026-10-05.json).
+Final 22 Debug, 22 ASan/UBSan/LeakSanitizer and 22 pristine/ON/OFF checks, 39 public
+headers and strict symbols pass. Local CPU maximum is 92.125 C, with no tuning.
+These synthetic tests are not numerical GPU or performance qualification. The
+24-file provider private inventory/new exact recipe requires a new verified
+archive/application rebuild. Events/worker count and DS4 framing stay unchanged;
+all six root tasks remain open and GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving after Q2 reported release `5011dbe0`. Q2 separately
+reports wide-pair admission at 10:30:32.925931 UTC from `41e5a1d`, receipt
+`61f42f167d9e528740babc58ad63a999e8103c1adbafd213b2d2cc8394397a85`.
+This is its own ownership, not root qualification, reservation or task.
+
 ## C17 Unicode host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 09:34:11.650086 UTC observes foreign Gemma

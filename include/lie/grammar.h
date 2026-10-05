@@ -18,7 +18,10 @@ typedef enum {
   LIE_GRAMMAR_STATE_LIMIT,
   LIE_GRAMMAR_STACK_LIMIT,
   LIE_GRAMMAR_WORK_LIMIT,
-  LIE_GRAMMAR_PREDICATE
+  LIE_GRAMMAR_PREDICATE,
+  LIE_GRAMMAR_NO_TOKEN,
+  LIE_GRAMMAR_VOCABULARY_LIMIT,
+  LIE_GRAMMAR_MASK_WORK_LIMIT
 } lie_grammar_status;
 typedef struct {
   void *context;
@@ -84,6 +87,14 @@ size_t lie_grammar_state_count(const lie_grammar_state *);
 /* Exported pointers are borrowed until state release and never mutable. */
 lie_grammar_status lie_grammar_state_frame(const lie_grammar_state *, size_t,
                                           lie_grammar_frame *);
+/* Snapshot identity is ordered by symbols, unsigned lexeme bytes and frames.
+ * Hashes are internal accelerators, not persistence or protocol identities.
+ * NULL precedes every actual state. Clone refuses incompatible frames. */
+int lie_grammar_state_compare(const lie_grammar_state *, const lie_grammar_state *);
+uint64_t lie_grammar_state_hash(const lie_grammar_state *);
+lie_grammar_status lie_grammar_state_clone(const lie_grammar_program *,
+                                          const lie_grammar_state *,
+                                          lie_grammar_state **);
 lie_grammar_status lie_grammar_expand(const lie_grammar_program *,
                                       const lie_grammar_state *,
                                       lie_grammar_state **output);
