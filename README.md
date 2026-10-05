@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [shared-down four-arm component](docs/Q2-SHARED-DOWN-MIRROR.md) now
+completes with126 exact output pairs,168 passing FP64 checks and 42 exact mirror
+checks. Original Q8 is 228.576839us; generic F16/fixed Q8/fixed F16 are slower
+34.258%/13.453%/11.309%. Keep measured model 1585.308983 PP. All nine runtime
+exits0/11 artifacts verify and .157 is released. A separate64-token prototype
+eliminates compiler spills while preserving 164 other kernels; it remains
+unmeasured and outside model dispatch. Full timings and graphs are retained.
+
 The [small shared-down component](docs/Q2-SHARED-DOWN-MIRROR.md) is now wired
 for a four-arm Q8/F16 and generic/fixed-shape comparison. Six focused launcher
 checks, 142 existing checks and three analyzer checks pass. New .157 host gates

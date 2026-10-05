@@ -1,5 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [shared-down component](Q2-SHARED-DOWN-MIRROR.md) completes at 22:59:42UTC:
+original Q8 228.576839us, generic F16 306.882997us (+34.258133%), fixed
+Q8 259.328286us (+13.453440%), fixed F16 254.426618us (+11.309011%). All 126
+output pairs,168 sampled FP64 and 42 format checks pass. The result rejects
+these implementations as component improvements without asserting a model
+regression; the original model benchmark remains untouched at1585.308983 PP.
+
+The next local 64-token prototype removes 68-byte/thread spills in both fixed
+paths, reduces VGPR 256 to 194/218 and LDS 24576 to 20480. Static instructions
+812/690 become 567/439, with 164 other kernels exact and complete source
+reconstruction verified. This also reduces weight reuse and needs GPU evidence;
+it is not wired or reserved. Both 1028-file providers and the measured failures
+remain. No kernel is discarded on static/numerical flags alone.
+
+New host 27+27 plus component give nine exit0 commands/11 verified artifacts.
+The 92 fixtures/eight manifests/helper and three exports bind; all 28 timing
+samples remain. The initial local test-label failure is preserved/classified.
+Release 22:59:58.189609UTC SHA c4efdddb retires 1160 identities/925 groups,
+KFD empty, four original leases free and seven unchanged model stat tuples.
+Mirrors agree and Core is notified. No Q2 work/reservation/cleanup remains.
+This goal turn provides measured rejection plus a concrete spill-free follow-up;
+fixed-point UD still requires 6.337447% additional PP, with full parity open.
+
 The next [shared-down component](Q2-SHARED-DOWN-MIRROR.md) now has direct HIP
 build/launch routing, immutable provider checks and complete four-arm analysis.
 Six focused and 142 existing launcher checks pass; three analyzer checks keep

@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Shared-down component releases .157 at 2026-10-05T22:59:58.189609UTC, SHA256
+`c4efdddb7bad7a90977ef0d4fe09a70dc18f8916a81562156126a3a945179122`.
+Admission 22:58:57.751850UTC from 677bba9 follows fresh prior release fc00b067,
+persistent Core non-use and new host 27+27 completion. Host/component are
+terminal and collected: nine exits 0 / 11 verified artifacts. Release verifies
+1160 retired identities/925 groups, empty KFD, four unchanged original leases
+free and seven unchanged model stat tuples. Main/remote/canonical release-active-
+ready mirrors agree and Core receives closure. No Q2 job/build/client/lease/
+waiter/reservation, restart or cleanup remains. The next 64-token source is
+local preparation only and grants no future admission.
+[Release](../config/q2-shared-down-component-window-release.json),
+[final audit](../config/q2-shared-down-component-final-audit.json).
+
 Fixed-bounds SSM releases .157 at2026-10-05T22:47:04.899994UTC, SHA256
 `fc00b067802482077ab97819fc02547a1fdbd055ea5066dbfe58c5c4391c08cd`.
 Admission22:39:22.358626UTC from72b4473 follows previousrelease81d7fcbb and
