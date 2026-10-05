@@ -1,6 +1,32 @@
 # DS4 / synapse-lie coordination
 
 
+## Unicode-set/input C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training PID 29223/start
+2470351 and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB and released;
+this is neither GPU admission nor reservation. Boot/filesystem/four original
+model stat identities remain unchanged. No root GPU build/run/model hash/
+conversion, service mutation, foreign signal, waiter or standing lease occurs.
+
+Root advances C17 Unicode registry/input storage through public ICU C APIs;
+ICU remains the actual property/set/conversion dependency. The
+[host receipt](development/validation/c17-grammar-uset-host-2026-10-05.json)
+records 26 Debug, 26 sanitizer, 25 pristine/ON/OFF and 5 minimal-core OFF checks,
+42 headers and strict C17/symbol checks. CPU maximum is 89.875 C, without tuning.
+The 32-file inventory and corrected source-list recipe require matching new
+provider/application builds. ICU internal faults and all new GPU gates remain
+open. Worker/events and DS4 framing are unchanged; all six root tasks are open.
+
+Q2 separately reports half-storage source `66cc162`, then terminal release
+`f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf`
+at 12:25:17.460508 UTC: 13 exits zero/37 artifacts, 910 identities/722 groups
+retired, KFD empty, four original leases free and seven model stat tuples
+unchanged. Root sends a fresh non-use handover and has no `.157` job/build/client/
+KFD/lease/waiter/reservation/restart/cleanup/interleaving. These are separately
+reported ownership/results, not root tasks or root numerical qualification.
+
 ## Regex parser C17 host-only ownership — 2026-10-05
 
 Fresh `.161` read-only witness still observes Gemma training

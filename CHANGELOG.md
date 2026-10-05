@@ -9,6 +9,12 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Reusable C17 Unicode-set registry and UTF8 input handling through public ICU
+  C APIs. The default-ON module preserves full-set identity, supplementary/NUL
+  input and replacement decoding. ICU remains the set/property/conversion
+  dependency; minimal core builds can omit the module. Host comparisons pass;
+  original-weight resources/cost and ICU internal faults remain unqualified.
+
 - Shared C17 string/Unicode-DFA runtime: UTF8, JSON escapes, surrogate pairs,
   pending ranges, length reachability, cycle skipping, copied mask keys and
   bounded whitespace. Temporary compiler tables are retired after C sealing.

@@ -22,7 +22,8 @@ manager. Package names vary; CMake checks the dependencies below.
 | libpng | Native benchmark PNG exports and provider components. | Full build. |
 | libuv 1.52.1 | Event loop and network lifecycle. | Bundled by default; no system package required. |
 | C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS and hipCUB/rocPRIM | Transitional GPU provider. | `LIE_GUFO_RUNTIME=ON`. |
-| ICU and JPEG | Coupled provider components. | GPU provider build. |
+| ICU `uc` | Reusable C17 Unicode-set registry and UTF8 input decoding. | `LIE_UNICODE_ICU=ON` (default). |
+| ICU `i18n` and JPEG | Coupled provider components. | GPU provider build. |
 
 `libsynapse-core` is not currently a dependency. Source/archive verification
 uses CMake. All benchmark clients, CSV/JSON reports and SVG/PNG exports use C17.
@@ -101,7 +102,8 @@ cmake --build build/core -j2
 | `LIE_SYSTEM_LIBUV` | `OFF` | Select system libuv instead of the bundled static library. |
 | `LIE_GUFO_RUNTIME` | `OFF` | Link the explicitly selected HIP provider. |
 | `LIE_GUFO_STATE_ACCESS` | `OFF` | Enable the verified provider state-access variant. |
-| `LIE_C17_SAMPLING` | `ON` | Use owned C selection/history, speculative probabilities, grammar runtimes and regex syntax/assertion/expression/derivative/DFA construction; OFF selects the provider control. Provider and application builds must agree. |
+| `LIE_UNICODE_ICU` | `ON` | Build `lie_grammar_unicode`, using public ICU C APIs. OFF omits it for a minimal core; C17 provider sampling requires ON. ICU remains a third-party dependency. |
+| `LIE_C17_SAMPLING` | `ON` | Use owned C selection/history, speculative probabilities, grammar runtimes, regex syntax/assertion/expression/derivative/DFA construction and Unicode-set/input handling; OFF selects the provider control. Provider and application builds must agree. |
 | `LIE_VISION_WEIGHT_DECODE` | `ON` | Decode F16/Q8_0 projector weights once for the BF16 GPU encoder. OFF accepts BF16 dense weights only; provider and application builds must agree. |
 | `LIE_DIRECTIONAL_STEERING` | `ON` | Build experimental activation operators; requires the verified state-access provider variant and matching archive selection. Public controls/GPU qualification remain pending. |
 | `LIE_CORE_ONLY` | `OFF` | Build the engine without HTTP or provider integration. |

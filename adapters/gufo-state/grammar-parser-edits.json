@@ -2,7 +2,7 @@
   "schema": "synapse-lie.gufo-regex-parser.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
   "license": "MIT",
-  "scope": "C17 owns regex syntax/AST storage and iterative assertion expansion. UnicodeSet storage/property/full-set identity and UTF8 input decoding remain provider glue. DefaultON/OFF and reactive/model ownership preserved; no GPU/performance qualification.",
+  "scope": "C17 owns regex syntax/AST lifetimes/iterative assertion expansion, Unicode-set registry/range translation and replacement UTF8 input decoding through public ICU C API. Adapter retains C context RAII, borrowed input and status/enum translation. ICU set/property/conversion algorithms remain external. Two exact edits/defaultON/OFF retained; full JSON Schema compiler/provider snapshots and original-weight qualification remain open.",
   "edits": [
     {
       "path": "src/core/json_schema_regex.cpp",

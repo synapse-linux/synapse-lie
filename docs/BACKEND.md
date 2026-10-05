@@ -136,8 +136,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    Syntax parsing and iterative assertion expansion now also use model-neutral
    C17 contracts with bounded AST/work budgets
    ([host witnesses](development/validation/c17-grammar-parser-host-2026-10-05.json)).
-   Unicode set/property identity and UTF8 input decoding, JSON Schema compilation and
-   provider snapshot marshalling still need extraction within the same grammar task;
+   Unicode-set registry, range translation and UTF8 input buffers now use a
+   reusable C17 context through ICU C APIs
+   ([host witnesses](development/validation/c17-grammar-uset-host-2026-10-05.json)).
+   ICU remains the property/set/conversion dependency. JSON Schema compilation
+   and provider snapshot marshalling still need extraction within the same task;
    original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in
@@ -158,7 +161,7 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; corrected r11 AR and MTP pass all 34 HTTP/function/control checks, including disconnected background completion. | Full agent task evaluation, newer output-budget qualification and performance. |
-| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; new owned history and compact/speculative probabilities have host checks only. Grammar runtime, vocabulary/cache and regex syntax/expression/DFA construction have host checks only. Unicode set/property identity, UTF8 input decoding, JSON Schema compiler, snapshot marshalling and model/controller state remain delegated. |
+| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; new owned history and compact/speculative probabilities have host checks only. Grammar runtime, vocabulary/cache and regex syntax/expression/DFA construction have host checks only. C17 Unicode registry/input handling has host checks only; ICU remains the property/set/conversion dependency. JSON Schema compiler, snapshot marshalling and model/controller state remain delegated. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. Physical PP1,048,448 completes with 43 output tokens. | The declared TG128 gate fails on natural EOS; extended quality and matched performance remain open. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,

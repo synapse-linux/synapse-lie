@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: MIT
-// ICU set/parser and exception translation; expression/derivative/DFA
-// algorithms are C17.
+// C17 context RAII and exception/enum translation only.
 #ifndef LIE_GUFO_GRAMMAR_REGEX_COMPILE_HPP
 #define LIE_GUFO_GRAMMAR_REGEX_COMPILE_HPP
 #include "gufo_grammar_regex.hpp"
-#include "lie/grammar_regex_compile.h"
-#include <algorithm>
-#include <unicode/uniset.h>
+#include "lie/grammar_unicode.h"
 namespace lie_gufo {
 inline void regex_compile_check(lie_regex_compile_status rc) {
   const char *reason = nullptr;
@@ -42,58 +39,24 @@ inline void regex_compile_check(lie_regex_compile_status rc) {
 class RegexExpressions {
 public:
   uint32_t empty{}, epsilon{}, start{}, any{}, all{UINT32_MAX};
-  std::vector<icu::UnicodeSet> classes;
   explicit RegexExpressions(uint32_t maximum) {
-    lie_regex_compiler_description d;
-    lie_regex_compiler_description_init(&d);
-    d.maximum_length = maximum;
-    lie_regex_compiler *raw = nullptr;
-    regex_compile_check(lie_regex_compiler_create(&d, &raw));
-    compiler_.reset(raw);
+    lie_grammar_unicode_description d;
+    lie_grammar_unicode_description_init(&d);
+    d.compiler.maximum_length = maximum;
+    lie_grammar_unicode *raw = nullptr;
+    regex_compile_check(lie_grammar_unicode_create(&d, &raw));
+    unicode_.reset(raw);
     lie_regex_bases bases{};
-    regex_compile_check(lie_regex_compiler_bases(raw, &bases));
+    regex_compile_check(lie_regex_compiler_bases(Compiler(), &bases));
     empty = bases.empty;
     epsilon = bases.epsilon;
     start = bases.start;
     any = bases.any;
     all = bases.all;
-    icu::UnicodeSet scalars(0, 0x10ffff);
-    scalars.remove(0xd800, 0xdfff);
-    classes.push_back(std::move(scalars));
-  }
-  uint32_t Chars(icu::UnicodeSet set) {
-    set.remove(0xd800, 0xdfff);
-    if (set.isEmpty())
-      return empty;
-    auto found = std::ranges::find(classes, set);
-    uint32_t id = static_cast<uint32_t>(found - classes.begin());
-    if (found == classes.end()) {
-      std::vector<lie_unicode_range> ranges;
-      for (int32_t i = 0; i < set.getRangeCount(); ++i)
-        ranges.push_back({static_cast<uint32_t>(set.getRangeStart(i)),
-                          static_cast<uint32_t>(set.getRangeEnd(i))});
-      uint32_t copied;
-      regex_compile_check(lie_regex_class_add(compiler_.get(), ranges.data(),
-                                              ranges.size(), &copied));
-      if (copied != id)
-        throw std::logic_error("C17 regex class translation mismatch");
-      classes.push_back(std::move(set));
-    }
-    uint32_t out;
-    regex_compile_check(lie_regex_chars(compiler_.get(), id, &out));
-    return out;
-  }
-  uint32_t Boundary(bool positive) {
-    icu::UnicodeSet words('a', 'z');
-    words.add('A', 'Z').add('0', '9').add('_');
-    (void)Chars(std::move(words));
-    uint32_t out;
-    regex_compile_check(lie_regex_boundary(compiler_.get(), positive, &out));
-    return out;
   }
   uint32_t Not(uint32_t child) {
     uint32_t out;
-    regex_compile_check(lie_regex_not(compiler_.get(), child, &out));
+    regex_compile_check(lie_regex_not(Compiler(), child, &out));
     return out;
   }
   template <class Kind>
@@ -106,40 +69,41 @@ public:
                            : value == 6 ? LIE_REGEX_INTERSECTION
                                         : LIE_REGEX_CONCATENATION;
     uint32_t out;
-    regex_compile_check(lie_regex_combine(compiler_.get(), operation,
-                                          parts.data(), parts.size(), &out));
+    regex_compile_check(lie_regex_combine(Compiler(), operation, parts.data(),
+                                          parts.size(), &out));
     return out;
   }
   uint32_t Repeat(uint32_t child, uint32_t low, uint32_t high) {
     uint32_t out;
-    regex_compile_check(
-        lie_regex_repeat(compiler_.get(), child, low, high, &out));
+    regex_compile_check(lie_regex_repeat(Compiler(), child, low, high, &out));
     return out;
   }
   bool Nullable(uint32_t id, bool at_start, bool previous = false,
                 bool next = false) const {
     bool out;
-    regex_compile_check(lie_regex_nullable(compiler_.get(), id, at_start,
-                                           previous, next, &out));
+    regex_compile_check(
+        lie_regex_nullable(Compiler(), id, at_start, previous, next, &out));
     return out;
   }
-  uint32_t Derive(uint32_t id, UChar32 cp, bool at_start, bool previous) {
+  uint32_t Derive(uint32_t id, int32_t cp, bool at_start, bool previous) {
     uint32_t out;
-    regex_compile_check(lie_regex_derive(compiler_.get(), id,
-                                         static_cast<uint32_t>(cp), at_start,
-                                         previous, &out));
+    regex_compile_check(lie_regex_derive(
+        Compiler(), id, static_cast<uint32_t>(cp), at_start, previous, &out));
     return out;
   }
   std::shared_ptr<const lie_regex_program> Seal(uint32_t root) {
     lie_regex_program *out = nullptr;
-    regex_compile_check(lie_regex_seal(compiler_.get(), root, &out));
+    regex_compile_check(lie_regex_seal(Compiler(), root, &out));
     return std::shared_ptr<const lie_regex_program>(out, lie_regex_release);
   }
-  lie_regex_compiler *Compiler() const { return compiler_.get(); }
+  lie_regex_compiler *Compiler() const {
+    return lie_grammar_unicode_compiler(unicode_.get());
+  }
+  lie_grammar_unicode *Unicode() const { return unicode_.get(); }
 
 private:
-  std::unique_ptr<lie_regex_compiler, decltype(&lie_regex_compiler_release)>
-      compiler_{nullptr, lie_regex_compiler_release};
+  std::unique_ptr<lie_grammar_unicode, decltype(&lie_grammar_unicode_release)>
+      unicode_{nullptr, lie_grammar_unicode_release};
 };
 } // namespace lie_gufo
 #endif

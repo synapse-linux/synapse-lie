@@ -2,6 +2,31 @@
 # Development progress
 
 
+## Unicode-set registry/input C17 host slice — 2026-10-05
+
+From `65d7edb`, the reusable C17 Unicode context owns full-set identity, private
+copies, scalar-range translations, handles and replacement UTF8/UTF16 input
+buffers through ICU C APIs. ICU remains the property/set/conversion dependency,
+including its C/C++ implementation. Provider glue is context RAII, borrowed input
+and enum/error translation. JSON Schema compilation and snapshot marshalling
+remain open; this does not complete the autonomous model executor.
+
+The [source-bound host receipt](development/validation/c17-grammar-uset-host-2026-10-05.json)
+records 26 Debug, 26 sanitizer, 25 pristine/ON/OFF and 5 minimal-core OFF checks,
+42 public headers and strict C17/symbol checks. There are 84 language oracles,
+123 owned allocation refusals, 1,181,953 complete decodings and 38 set operations.
+All eleven prior complete witness hashes are unchanged. ICU internal allocation
+faults are unqualified. Two initial surrogate-fixture failures are retained and
+corrected without weakening implementation checks. Local CPU maximum is 89.875 C.
+
+The 32-file private inventory and changed recipes require matching provider/
+application rebuilds. A previously combined compiler/parser source filename is
+fixed and covered by source-path validation; no GPU build is claimed. Worker/
+events and DS4 framing are unchanged. Fresh `.161` still has Gemma/router in
+actual/kernel KFD, GPU 100%; no root GPU build/run/hash/conversion, service change,
+foreign signal, waiter or reservation occurs. All six owned queue items remain
+open. The next local slice is JSON Schema compilation or snapshot marshalling.
+
 ## Regex syntax/assertion-expansion C17 host slice — 2026-10-05
 
 From checkpoint `57a551c`, C17 now owns regex syntax parsing, bounded AST

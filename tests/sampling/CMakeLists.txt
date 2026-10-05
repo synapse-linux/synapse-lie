@@ -43,7 +43,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -83,6 +83,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-unicode-probe PRIVATE ${arm})
   add_executable(${arm}-compiler-probe "${REPO}/tests/sampling/compiler.cpp")
   target_link_libraries(${arm}-compiler-probe PRIVATE ${arm})
+  add_executable(${arm}-uset-probe "${REPO}/tests/sampling/uset.cpp")
+  target_link_libraries(${arm}-uset-probe PRIVATE ${arm})
   add_executable(${arm}-parser-probe "${REPO}/tests/sampling/parser.cpp")
   target_link_libraries(${arm}-parser-probe PRIVATE ${arm})
   add_executable(${arm}-number-probe "${REPO}/tests/sampling/number.cpp")
@@ -204,3 +206,11 @@ add_test(NAME parser-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/parser-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(parser-grammar-reference-parity PROPERTIES TIMEOUT 300)
+
+add_test(NAME uset-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-uset-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-uset-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-uset-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/uset-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(uset-grammar-reference-parity PROPERTIES TIMEOUT 300)

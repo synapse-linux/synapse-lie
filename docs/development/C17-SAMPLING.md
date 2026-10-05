@@ -41,7 +41,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
 deep copies, deferred draws, entropy acquisition, JSON Schema compilation,
-Unicode set/property identity and input decoding, provider snapshot marshalling, model/session and
+provider snapshot marshalling, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -74,7 +74,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema compilation, Unicode set/property identity and input decoding, provider snapshot marshalling
+schema compilation, provider snapshot marshalling
 and speculative model/controller
 state remain transitional.
 
@@ -162,8 +162,8 @@ completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
 Storage/error/predicate translation stays in `gufo_grammar.hpp`.
 
 This is a byte-runtime extraction, not a complete C grammar compiler. JSON
-Schema compilation, Unicode set/property identity and input decoding remain
-delegated. Vocabulary/transition/cache and expression/DFA compiler ownership are
+JSON Schema compilation remains delegated; the later Unicode-context section
+describes the C17 set registry/input buffers and retained ICU dependency. Vocabulary/transition/cache and expression/DFA compiler ownership are
 described in their sections below.
 The provider still marshals snapshots between vector storage and C state. Those
 algorithms/storage and their cost remain explicit work in the same grammar task.
@@ -204,9 +204,9 @@ Resource/work refusal preserves output ownership and matches. The header declare
 explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
 to this component. JSON library numeric conversion/representability and exception
-translation remain in `gufo_grammar_number.hpp`. Schema compilation, Unicode set/property identity, input decoding and provider
-snapshot marshalling still
-need extraction within the same identified task.
+translation remain in `gufo_grammar_number.hpp`. JSON Schema compilation and
+provider snapshot marshalling still need extraction within the same task. The
+Unicode registry/input context below now uses public ICU C APIs.
 
 The four exact `grammar-number-edits.json` edits select C17 by the existing
 `LIE_C17_SAMPLING=ON` default and retain the legacy numeric implementation with
@@ -228,7 +228,8 @@ classes, raw DFA tables and accepting flags. C17 builds sorted unique successor
 and predecessor graphs, computes shortest accepting distances, prunes unreachable
 edges and derives maximum suffix. Runtime range lookup, exact length reachability
 and Brent cycle skipping are C17. This is a real DFA runtime extraction; the
-Unicode property sets and input decoding remain C++/ICU. Syntax, expression
+Unicode property/set/conversion semantics remain supplied by ICU; the C17
+context described below owns the registry/input storage through its C API. Syntax, expression
 derivatives and class partitioning now use the C17 compiler described below.
 Default budgets retain 4096 states and 262144 transitions/ranges; 256 million
 counted work units explicitly bound construction and queries. Constructor scratch
@@ -321,14 +322,12 @@ remain after a refused operation. Paired fresh aligned allocator hooks outlive
 the compiler and published programs. Construction is caller-synchronized and
 creates no inference thread, RNG, device call or HTTP operation.
 
-`gufo_grammar_regex_compile.hpp` retains ICU set operations, property resolution
-and full-set identity. Syntax/assertion expansion now use C17. It translates
-normalized operations into the C contract and preserves insertion-ordered scalar
-classes. These
-remaining C++ responsibilities and JSON Schema compilation still require
-extraction. The three exact `grammar-compiler-edits.json` edits select the C
+`gufo_grammar_regex_compile.hpp` retains C context RAII, normalized operation
+and exception translation. Syntax/assertion expansion now use C17; the Unicode
+context below preserves insertion-ordered full-set identity through ICU C APIs.
+JSON Schema compilation and provider snapshot marshalling remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
-30-file provider inventory and recipes require matching archive/application
+32-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -351,14 +350,14 @@ internal expression entries may remain after a refused parse.
 
 UTF16 input and model-neutral opaque Unicode-set callbacks are borrowed for one
 synchronous call. Fresh set handles and all AST/expansion storage retire on
-every path. `gufo_grammar_regex_parse.hpp` keeps ICU UTF8 decoding, typed input
-copying, Unicode-set storage/property/full-set identity and exception translation.
-Those remaining C++ responsibilities and the JSON Schema compiler still need
-extraction. No upstream type enters the public C header. No inference worker,
+every path. `gufo_grammar_regex_parse.hpp` now keeps a synchronous borrowed
+input view and status-to-exception translation. The C17 Unicode context below
+owns decoding buffers and full-set registry through ICU C APIs. The JSON Schema
+compiler and provider snapshot marshalling still need extraction. No upstream type enters the public C header. No inference worker,
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
-ON; OFF retains the original syntax/expansion implementation. The 30-file
+ON; OFF retains the original syntax/expansion implementation. The 32-file
 provider inventory and recipes require matching source/archive/application
 builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
 records independent C language/refusal/allocator tests and pristine/ON/OFF
@@ -366,13 +365,61 @@ syntax/state witnesses are host evidence, without a model. Original-weight
 AR/MTP/tool continuation, fault/fit, allocation-exact resources and cost remain
 separate GPU gates.
 
+## Unicode-set registry and input
+
+`lie/grammar_unicode.h` and `src/grammar_unicode.c` add a reusable C17 context,
+with no ICU or provider type in its public header. The context owns its compiler,
+insertion-ordered full-set registry, private copied sets, scalar-range translation,
+temporary handles and UTF8/UTF16 input storage. Full set identity includes string
+members even when two sets have identical scalar ranges; scalar publication
+removes surrogate ranges. Sealed programs survive context release. Only the
+context publishes compiler classes; callers may build expressions, query and seal
+through the borrowed compiler. Construction is synchronous and caller-serialized.
+
+The implementation calls the public [ICU set API](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/uset_8h.html)
+and [replacement conversion API](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ustring_8h.html).
+ICU remains the actual property/set/conversion dependency with its C/C++
+implementation. These algorithms and databases have not been reimplemented or
+removed. Input keeps the 16,384-byte limit, explicit NUL lengths and U+FFFD
+replacement behavior. Capacity/overlap/input refusals preserve destination and
+length. Own allocator hooks cover context, handles, registry arrays, range/input
+buffers and compiler storage; parser hooks independently govern AST storage.
+They do not cover ICU's internal allocator. C set mutators do not expose complete
+internal OOM detection, so ICU-internal fault qualification remains open.
+
+The provider glue now supplies context RAII, a synchronous borrowed input view,
+exception and enum translation. `LIE_C17_SAMPLING` selects this path by default;
+OFF retains the pinned C++ path. `LIE_UNICODE_ICU=ON` builds the standalone C
+module by default; a minimal core can omit it with OFF. A C17 provider build
+requires ICU. The 32-file private inventory and changed compiler/parser/build
+recipes require a new matching sealed provider/application rebuild.
+
+[Host evidence](validation/c17-grammar-uset-host-2026-10-05.json) records 26 Debug,
+26 ASan/UBSan/LeakSanitizer, 25 pristine/ON/OFF and 5 minimal-core OFF checks,
+42 public headers and strict C17/symbol checks. There are 84 explicit language
+oracles and 123 owned allocator refusal points. The requested-payload fixture
+peak is 15,042 bytes, excluding allocator headers and ICU/provider/GPU storage.
+The complete comparison records 1,181,953 decodings: every scalar, every one/two
+byte sequence, empty input and 4,096 deterministic arbitrary byte strings.
+It also records 38 full-set mutation/identity operations. All eleven previous
+complete witness hashes remain unchanged. Two initial fixture failures are
+retained: an isolated surrogate escape was incorrectly expected to compile;
+the final fixture checks its refusal and uses the supported braced form for the
+empty scalar class. No implementation refusal or assertion was removed.
+
+The provider source-list check also detects the previously combined compiler/
+parser filename; that recipe is corrected, without claiming a GPU build.
+JSON Schema compilation and provider snapshot marshalling remain open, as do
+original-weight continuation/fault/fit, allocation-exact resources and matched
+cost. This adds no inference worker or metric and changes no DS4 RAM/SSD format.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
 and compact/speculative probability arithmetic, byte-grammar runtime, numeric/Unicode
 predicates, vocabulary/cache algorithms and regex syntax/assertion/expression/derivative/DFA
-construction. Use the same
+construction and Unicode registry/input handling. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:

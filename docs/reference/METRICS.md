@@ -19,7 +19,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 30-file provider inventory and numeric edit recipe bind its selection;
+current 32-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -27,11 +27,12 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 30-file inventory and owned recipes bind the source selection. Vocabulary
+The 32-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
-algorithms and regex syntax/assertion expansion are now C17. Unicode-set/property
-identity, input decoding, JSON Schema compilation and
-provider snapshot marshalling remain delegated.
+algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
+range translation and input buffers are C17 using ICU C APIs. ICU remains the
+property/set/conversion dependency; JSON Schema compilation and provider snapshot
+marshalling remain delegated.
 
 Vocabulary queries expose optional local counters for visited nodes, advances,
 interned states (including dead/input slots), direct nodes, transition hits and
@@ -48,8 +49,8 @@ whole-process and GPU allocations; original-weight resources and cost remain
 separate gates.
 
 Parser AST/expansion vectors are bounded C17 transient allocations and are retired
-on success/refusal. The copied UTF16 input and opaque Unicode-set storage remain
-provider allocations. Counted work and fixture peaks do not establish whole-process
+on success/refusal. The Unicode context owns UTF16 input, handles and registry arrays; ICU
+allocates its own set internals. Own allocator hooks exclude ICU allocations. Counted work and fixture peaks do not establish whole-process
 cost, GPU fit or speedup. No HTTP metric or inference worker is introduced.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring

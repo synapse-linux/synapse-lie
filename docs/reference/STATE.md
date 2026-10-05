@@ -35,6 +35,11 @@ complete raw index retention and eager pooled keys. Source/build hashes identify
 this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
 
+The C17 Unicode context owns construction-only set/input storage. It performs
+no model or checkpoint operation and changes no DS4 RAM/SSD payload or cache
+identity. Sealed grammar programs copy their runtime tables independently of
+that context. ICU/Unicode version diagnostics are not persisted model IDs.
+
 Request-local [C17 sampler history](../development/C17-SAMPLING.md#request-history)
 tracks prompt repetition and committed generated counts. It is rebuilt for each
 request and is not serialized into DS4 model-prefix payloads. Model RAM/SSD cache
@@ -88,8 +93,10 @@ published output and programs. Internal successful memo entries may remain after
 a refused construction call. No compiler tables enter DS4 RAM/SSD checkpoints
 or change model-prefix scope or the reactive frontier. Parser AST and iterative
 assertion expansion scratch are now owned and retired in C17; UTF16 input and
-opaque set callbacks are borrowed for one synchronous call. Unicode-set/property
-identity, input decoding and JSON Schema compilation remain transitional.
+opaque set callbacks are borrowed for one synchronous call. The Unicode context
+owns full-set registry, range translations and UTF8 buffers through ICU C APIs;
+ICU remains the property/set/conversion dependency. JSON Schema compilation and
+provider snapshot marshalling remain transitional.
 
 ## MTP development boundary
 

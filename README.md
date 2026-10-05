@@ -11,9 +11,10 @@ and byte/numeric/Unicode/vocabulary grammar extractions have host checks and sti
 require GPU correctness and performance qualification. Trie traversal, transition
 interning and canonical-state mask cache policy are C17, together with regex
 syntax parsing, assertion expansion, expression simplification, derivatives,
-Unicode partitioning and DFA construction. Unicode set/property identity, UTF8
-input decoding, JSON Schema compilation and provider snapshot marshalling remain
-transitional.
+Unicode partitioning and DFA construction. A reusable C17 module also owns the
+Unicode-set registry and UTF8 input buffers through ICU’s C API. ICU remains the
+set/property/conversion dependency; JSON Schema compilation and provider snapshot
+marshalling remain transitional.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

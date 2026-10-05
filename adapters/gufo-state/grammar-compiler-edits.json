@@ -2,7 +2,7 @@
   "schema": "synapse-lie.gufo-regex-compiler.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
   "license": "MIT",
-  "scope": "C17 owns normalized expression DAG, minimum/nullability/derivatives, scalar partition and BFS state interning; syntax parsing/expansion, ICU property-set identity and scalar-range translation remain adapter. Existing defaultON/OFF and model/reactive ownership retained; not a full C regex/schema parser or numerical qualification.",
+  "scope": "C17 owns normalized expression DAG, minimum/nullability/derivatives, scalar partition and BFS state interning. C17 Unicode context owns full-set registry, scalar-range translation and UTF8 buffers through public ICU C API. ICU remains the property/set/conversion dependency. Existing defaultON/OFF and model/reactive ownership retained; JSON Schema compiler/model executor and GPU numerical qualification remain open.",
   "edits": [
     {
       "path": "src/core/json_schema_regex.cpp",

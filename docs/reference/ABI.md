@@ -42,7 +42,7 @@ C17. Advance supports exact input/output alias in predicate scratch; mask
 application supports exact in-place logits but refuses other overlap. Refusal
 preserves output ownership; empty snapshots are valid dead language prefixes.
 Private provider grammar layout/source changes require matching archive/application
-rebuilds and the current 30-file receipt. Executor/request/generation and DS4 payload
+rebuilds and the current 32-file receipt. Executor/request/generation and DS4 payload
 ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
 
 `lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
@@ -62,7 +62,7 @@ vocabulary/no-token/mask-work refusal codes without changing existing layouts.
 A caller-synchronized bounded mask cache owns C snapshot keys and opaque retained
 payloads; successful publication consumes incoming ownership, refusal consumes
 nothing. Provider private vocabulary/cache layouts change in both ON/OFF arms;
-matching archive/application rebuild and the 30-file source-bound receipt are
+matching archive/application rebuild and the 32-file source-bound receipt are
 required. No executor/request/generation or DS4 persisted layout changes.
 
 `lie/grammar_regex.h` adds separate Unicode-DFA ABI 1: tagged descriptions,
@@ -75,7 +75,7 @@ predicates and copied mask-key canonicalization are C17. Refusals preserve live
 state/matches; caller-owned policies/allocator contexts outlive calls. See
 [ownership and budgets](../development/C17-SAMPLING.md#string-and-unicode-dfa-runtime).
 Private provider construction layout/source requires matching builds and the
-30-file receipt; executor/request/generation/DS4 persisted layouts do not change.
+32-file receipt; executor/request/generation/DS4 persisted layouts do not change.
 
 `lie/grammar_regex_compile.h` adds separate compiler ABI 1. A mutable,
 caller-synchronized construction context owns copied scalar classes, normalized
@@ -84,22 +84,37 @@ builds the Unicode partition and BFS graph, copies an immutable runtime program
 and retires temporary tables. Explicit expression/derivative/state/range/work
 budgets refuse without publishing outputs; successful internal memo entries can
 remain after a refused operation. Published programs never change. Syntax parsing
-and assertion expansion now use C17; Unicode properties and input decoding
-remain adapter-owned. This adds no executor/request/generation or persisted-state
+and assertion expansion now use C17. The Unicode context owns registry/input
+storage using ICU C APIs; ICU remains the actual set/property/conversion dependency. This adds no executor/request/generation or persisted-state
 layout; matching provider/application
-builds and the 30-file inventory plus compiler recipe are required.
+builds and the 32-file inventory plus compiler recipe are required.
 
 `lie/grammar_regex_parse.h` adds separate parser ABI 1. It borrows UTF16 units
 and a model-neutral opaque Unicode-set callback table for one synchronous call.
 C17 owns syntax parsing, bounded AST lifetimes and iterative assertion expansion.
 Fresh set handles retire on every path; no callback exception may cross the C ABI.
-UTF8 decoding and set storage/property/full-set identity remain provider glue.
+The reusable `lie/grammar_unicode.h` context supplies UTF8 decoding and set
+storage/full-set identity using ICU C APIs; ICU owns the actual property, set
+and conversion semantics.
 Syntax refusals have deterministic English reasons; resource/work/node/compiler
 refusals preserve root and published programs. Successful compiler entries may
 remain after a refused parse. Default AST/work limits are 65,536 nodes and
 32 million work units; original 16,384-byte and 32-level group limits remain.
-Matching provider/application builds and the 30-file inventory/parser recipe
+Matching provider/application builds and the 32-file inventory/parser recipe
 are required; no executor/request/generation or persisted-state layout changes.
+
+`lie/grammar_unicode.h` adds separate Unicode-context ABI 1. The context owns
+its compiler, private copied full sets, range translations and temporary handles.
+Its borrowed compiler permits expression construction/query/sealing; only the
+context publishes classes. Calls are synchronous and caller-serialized. No ICU
+or upstream type enters the public header. UTF8 replacement decoding preserves
+explicit NUL lengths, with disjoint buffers/length output and a 16,384-byte limit.
+Paired allocator hooks cover owned C storage, not ICU's internal allocations;
+ICU C mutators do not expose complete internal OOM detection. The context retires
+outstanding handles and compiler storage; sealed programs have independent
+storage and retain the allocator-context lifetime. Diagnostic ICU/Unicode versions
+are not model/cache identities. See
+[Unicode-set and input ownership](../development/C17-SAMPLING.md#unicode-set-registry-and-input).
 
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,

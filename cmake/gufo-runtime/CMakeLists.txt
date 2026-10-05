@@ -55,7 +55,7 @@ set(CORE
   src/models/qwen/hip/kernels/hipblaslt_gemm.hip
   src/models/qwen/hip/kernels/sample.hip)
 list(TRANSFORM CORE PREPEND "${GUFO_SOURCE}/")
-list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c" "${LIE_ROOT}/src/sampling_distribution.c" "${LIE_ROOT}/src/grammar.c" "${LIE_ROOT}/src/grammar_number.c" "${LIE_ROOT}/src/grammar_regex.c" "${LIE_ROOT}/src/grammar_string.c" "${LIE_ROOT}/src/grammar_vocabulary.c" "${LIE_ROOT}/src/grammar_regex_compile.c src/grammar_regex_parse.c")
+list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c" "${LIE_ROOT}/src/sampling_distribution.c" "${LIE_ROOT}/src/grammar.c" "${LIE_ROOT}/src/grammar_number.c" "${LIE_ROOT}/src/grammar_regex.c" "${LIE_ROOT}/src/grammar_string.c" "${LIE_ROOT}/src/grammar_vocabulary.c" "${LIE_ROOT}/src/grammar_regex_compile.c" "${LIE_ROOT}/src/grammar_regex_parse.c" "${LIE_ROOT}/src/grammar_unicode.c")
 list(APPEND CORE "${LIE_ROOT}/src/weight_decode.c")
 list(APPEND CORE "${LIE_ROOT}/src/steering_activation.c")
 add_library(gufo_core STATIC ${CORE})

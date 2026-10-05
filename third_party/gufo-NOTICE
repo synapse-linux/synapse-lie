@@ -131,3 +131,16 @@ storage/property/full-set identity, UTF8 input decoding and exception translatio
 remain provider glue; JSON Schema compilation remains upstream. No sibling
 CachyOS or DS4 code/artifact is imported. Synthetic host comparisons are not
 new original-weight GPU correctness/resources/performance qualification.
+
+Unicode-set registry and UTF8 input extraction
+--------------------------------------------
+src/grammar_unicode.c and include/lie/grammar_unicode.h own a reusable C17
+context attributed to independently fetched official Gufo f783fedb's registry,
+full-set identity and range translation. ICU public C APIs supply actual set,
+property and replacement conversion semantics; no ICU algorithm/source/database
+is copied or claimed reimplemented. ICU retains its third-party license and
+C/C++ implementation. Provider headers now retain context RAII, borrowed input
+and error/enum translation. Earlier descriptions of delegated registry/input
+storage refer to their historical slices. JSON Schema compilation and provider
+snapshot marshalling remain transitional. Own allocator fault injection does
+not cover ICU internal allocations/OOM. No DS4 or sibling CachyOS code is imported.
