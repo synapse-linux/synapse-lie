@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-current-best-profile-opportunity.v1",
+  "measured_parent": "config/q2-half-consumer-eight-model-results.json",
+  "measured_parent_sha256": "929b9f47797975380e492c44b959dc45bac92f668cac4cb16a6ca404d3b9a89f",
+  "source_manifest": "config/q2-half-consumer-eight-source.json",
+  "source_manifest_sha256": "b6629adf4c66ebe1eb2594b9f133e2fefae6e9e0b8105d4d98dc5a2a42fbb269",
+  "saved_label": "q2-half-consumer-eight-model-r1",
+  "receipt": "evidence/q2-half-consumer-eight-model-r1/results/result.json",
+  "receipt_sha256": "7d9f07a4090e0252f1e17a4f6c726dfee7f220f313076b11b6c07907cdb83e4c",
+  "saved_binary_sha256": "05d3c316539eff6442bcb91bf5cc3dd18f25def42d39410f8cbd4b21d7044385",
+  "runtime_library_count": 51,
+  "current_pp": 1571.716479,
+  "current_tg": 25.20732109,
+  "reason": "Half-consumer instruction-only specialization removes38% static instructions but changes full consumer time by only-0.193375% at10experts and regresses model PP0.138873%. The previous full trace profiles1496, before the changed down output/consumer lineage.",
+  "proposal": "Use a new isolated diagnostic mode on the retained1571 binary, verify provider/receipt/fixture/marker/runtime hashes, then use existing builtin profile on exact2048 input/capacity9216/chunk2048, one16-output warmup and one marked16-output request. No binary rebuild and no Q2/UD comparator rerun. Keep rates diagnostic and original2048/tg128 headline untouched. Attribute current expert chain, Q8 dense and HC/materialization before selecting the next dataflow fusion.",
+  "existing_tooling": "tools/q2_binary_replay.py and q2-fixed-moe-profile support the older1496 binary only. New manifest/mode binding and guards must be implemented; existing whitelist is not bypassed.",
+  "limits": "A kernel trace isolates stage time, not hardware bandwidth/cache/occupancy. No new diagnostic implementation, GPU admission/run or throughput/quality claim yet.",
+  "implementation_prepared": false,
+  "gpu_run": false,
+  "goal_met": false
+}

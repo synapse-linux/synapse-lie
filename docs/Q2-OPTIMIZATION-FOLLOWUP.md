@@ -45,12 +45,26 @@ The fixed-point PP gap remains13.86%; the complete curve stays deferred.
 
 ## Current remaining work — 5 October 2026
 
-Latest completed experiment: [eight-value half consumer](Q2-HALF-CONSUMER-EIGHT.md)
+Latest completed experiment: [fixed-width half consumer](Q2-HALF-FIXED-WIDTH.md)
+measures1569.533792 PP /25.16043516 TG, nominal-0.138873% PP against saved1571.716479.
+The candidate is preserved and1571 remains the base.105 residual outputs are
+exact,93 scale/61 normalized-half outputs differ (max2/1ULP); generated model
+tokens match while eight logits change, max parentKL0.007411541178. All42
+component timings and model performance are retained despite numerical failure.
+This experiment is complete. A38% static instruction reduction does not improve
+the complete model; prioritize changed data movement over further generic
+index simplification. [New saved-best diagnostic proposal](../config/q2-current-best-profile-opportunity.json)
+would profile the retained1571 executable without rebuilding it or rerunning
+Q2/UD comparators, before choosing the next expert-chain/Q8/HC fusion. Existing
+1496 stage costs are historical, not a current profile or a throughput baseline.
+
+
+Previous completed experiment: [eight-value half consumer](Q2-HALF-CONSUMER-EIGHT.md)
 measures1571.716479 PP /25.20732109 TG, nominal+0.102547% against saved1570.106384.
 Historical sample ranges overlap; preserve both sources and the marginal result.
 All105 component comparisons and21 parent model files are exact. Reaching fixed
 UD still requires7.257073% more PP. The consumer experiment is no longer pending;
-a separate fixed-width integer-indexing proposal is now source-audited below.
+the separate fixed-width experiment is now completed above.
 
 
 Previous completed experiment: [eight-half output stores](Q2-DOWN-HALF-VECTOR.md)
@@ -107,7 +121,7 @@ component and full-model results. Their existing cohorts need no rerun.
 | Measured marginal: IQ2 live-stage store suppression | Compose the existing omission of unread activation-fragment stores with the current compact producer. | [New composition](Q2-IQ2-LIVE-COMPOSE.md) completes at1511.097261 PP /25.14684805 TG,+0.082456%/-0.235669% against saved1509.852296 /25.20625148. All21 parent files are exact. The old component's318 artifacts are reused without rerun. Preserve both sources and the marginal result; this model test is no longer pending. |
 | Medium: HC combine/norm/materialization | Remove additional full-buffer passes or connect a consumer directly to a producer while preserving rounded feedback and per-chain accumulations. | Existing row reuse, F32 combine, deferred MoE norm and BK256 are already measured. Further fusion/lifetime changes require new complete-cycle checks. |
 | Measured marginal: half-input MoE consumer | Process eight hidden values per lane with two independent ordered F32 accumulation vectors, then preserve the existing shared row and all HC/norm arithmetic. | [Retained ISA review](../config/q2-half-consumer-vector-opportunity.json) confirms the current four-value consumer already uses64-bit expert loads. Eight-value ownership would reduce outer passes from three to two and may permit128-bit loads; Local compilation preserves VGPR84/LDS10368 and160 other kernels exactly.105 component comparisons and21 parent model files are exact; original-model1571.716479 PP is nominal+0.102547% with overlapping ranges. Preserve both sources; this model test is complete. |
-| New source proposal: fixed-width half consumer | Make the existing wrapper-only hidden2560 contract explicit inside the kernel to simplify integer indexing and bounds. | [Current source/ISA review](../config/q2-half-consumer-fixed-width-opportunity.json) retains generic divisions despite the fixed wrapper. The [new isolated candidate](Q2-HALF-FIXED-WIDTH.md) compiles with1763 to1093 static instructions,VGPR84 to91 and zero private bytes. Floating normalization divisor remains runtime. New GPU/model evidence is pending. |
+| Measured negative: fixed-width half consumer | Make the existing wrapper-only hidden2560 contract explicit inside the kernel to simplify integer indexing and bounds. | [Current source/ISA review](../config/q2-half-consumer-fixed-width-opportunity.json) retains generic divisions despite the fixed wrapper. The [new candidate](Q2-HALF-FIXED-WIDTH.md) completes with1763 to1093 static instructions but1569.533792 PP (-0.138873%). Scale/half outputs and eight model logits differ despite matching tokens. Preserve all evidence and keep1571 parent; no rerun queued. |
 | Exploratory: expert-output representation | Reduce or avoid the F32 per-expert output materialization before weighted combine. | The [saved buffer audit](Q2-GPU-DATAFLOW.md) identifies200MiB at the fixed shape. A direct consumer would need ordered combination. The [F16-storage candidate](Q2-DOWN-HALF-STORAGE.md) is now measured at1547.273268 PP:315 rounding checks,99 consumer checks and original model complete. Eight parent logits differ despite exact generated tokens; independent quality remains open. A direct ordered consumer that avoids the materialization entirely is still unimplemented. Logical bytes are not measured DRAM traffic or a promised gain. |
 | Medium: wide shared-Q8 gate/up | Share one activation tile between both projections and emit the existing rounded SwiGLU output directly at M640/N2048/K2560. | Not implemented. Input quantization is already shared and raw-HC publishes its Q8 tile. DeepSeek's small-batch pair is not a working2048 implementation. |
 | Lower: shared-down specialization | Test the actual M2560/N2048/K640 consumer with a shape-specific native/library path; any GPU-only mirror would cover only150MiB across48 layers. | Source proposal only. This small shape was excluded from the just-completed large-projection mirror experiment; a benefit is not presumed. |

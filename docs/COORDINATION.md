@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 half-fixed-width terminal release at2026-10-05T14:11:27.395434+00:00 has SHA256
+a8e0d9f6a30c8f0d10d6c4ed5896dc84c521ee28e9f682db223c982293cc59a4.
+Model collection finishes2026-10-05T14:11:14.088325+00:00 before release.
+974 identities/774groups retired,KFD empty,four original leases free,seven
+model stat tuples unchanged; canonical/main/remote release-active-ready mirrors
+match and core notified.13 runtime commands preserve the component numeric
+exit1 and all other exits0;874 artifacts verify. No Q2 GPU job/build/client/
+lease/waiter/reservation/restart/cleanup remains. Future work requires fresh
+admission. Preparation request was followed by explicit fresh core non-use
+and admission9eb12987 at13:59:41.350671UTC from a831c87.
+
 Q2 half-fixed-width preparation follows566faa9 and terminal releasebc66783c. Fresh core non-use handover requested; local preparation and host-only checks create no GPU reservation. Plan freezes72fixtures/4manifests for one new consumer component and original fixed model. Full registry/PID/group/KFD/original-lease/model-stat admission remains required. No Q4/full curve/cleanup.
 
 Q2 half-consumer-eight terminal release at2026-10-05T13:49:16.626977+00:00 has SHA256
