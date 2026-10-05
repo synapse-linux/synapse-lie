@@ -415,7 +415,8 @@ if(LIE_GUFO_RUNTIME)
     endif()
   endif()
   target_compile_features(lie_gufo PRIVATE cxx_std_20)
-  target_include_directories(lie_gufo PRIVATE include "${GUFO_SOURCE}")
+  # State-access headers also expose the private C17 sampling bridge headers.
+  target_include_directories(lie_gufo PRIVATE include adapters "${GUFO_SOURCE}")
   target_link_libraries(lie_gufo PUBLIC lie_rope lie_vision lie_steering_state
     lie_qwen_state lie_store
     "-Wl,--start-group"
